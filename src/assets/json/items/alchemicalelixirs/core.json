@@ -118,7 +118,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "Elixirs of life accelerate the body's natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
+        "desc": "Elixirs of life accelerate a living creature's natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
         "inputRequired": "Upon drinking this elixir, you regain the listed number of Hit Points.",
         "subType": "Minor",
         "subTypeDesc": "The elixir restores 1d6 Hit Points, and the bonus is +1.",
@@ -398,7 +398,7 @@
                 "value": "-Level * 2"
             }
         ],
-        "benefit": "You gain an item bonus to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and ranged attack rolls, and you gain the listed status bonus to your Speed.",
+        "benefit": "You gain an item bonus to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and Dexterity-based attack rolls, and you gain the listed status bonus to your Speed.",
         "drawback": "You take damage equal to twice your level; you can't recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves."
     },
     {
@@ -876,7 +876,7 @@
                 "value": "-Level * 2"
             }
         ],
-        "benefit": "You gain an item bonus to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and ranged attack rolls, and you gain the listed status bonus to your Speed.",
+        "benefit": "You gain an item bonus to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and Dexterity-based attack rolls, and you gain the listed status bonus to your Speed.",
         "drawback": "You take damage equal to twice your level; you can't recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves."
     },
     {
@@ -1298,7 +1298,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "Elixirs of life accelerate the body's natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
+        "desc": "Elixirs of life accelerate a living creature's natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
         "inputRequired": "Upon drinking this elixir, you regain the listed number of Hit Points.",
         "subType": "Lesser",
         "subTypeDesc": "The elixir restores 3d6+6 Hit Points and the bonus is +1.",
@@ -1520,7 +1520,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "Elixirs of life accelerate the body's natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
+        "desc": "Elixirs of life accelerate a living creature's natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
         "inputRequired": "Upon drinking this elixir, you regain the listed number of Hit Points.",
         "subType": "Moderate",
         "subTypeDesc": "The elixir restores 5d6+12 Hit Points, and the bonus is +2.",
@@ -1887,7 +1887,7 @@
                 "value": "-Level * 2"
             }
         ],
-        "benefit": "You gain an item bonus to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and ranged attack rolls, and you gain the listed status bonus to your Speed.",
+        "benefit": "You gain an item bonus to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and Dexterity-based attack rolls, and you gain the listed status bonus to your Speed.",
         "drawback": "You take damage equal to twice your level; you can't recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves."
     },
     {
@@ -2148,7 +2148,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "Elixirs of life accelerate the body's natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
+        "desc": "Elixirs of life accelerate a living creature's natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
         "inputRequired": "Upon drinking this elixir, you regain the listed number of Hit Points.",
         "subType": "Greater",
         "subTypeDesc": "The elixir restores 7d6+18 Hit Points, and the bonus is +2.",
@@ -2349,7 +2349,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "Elixirs of life accelerate the body's natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
+        "desc": "Elixirs of life accelerate a living creature's natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
         "inputRequired": "Upon drinking this elixir, you regain the listed number of Hit Points.",
         "subType": "Major",
         "subTypeDesc": "The elixir restores 8d6+21 Hit Points, and the bonus is +3.",
@@ -2658,7 +2658,7 @@
                 "value": "-Level * 2"
             }
         ],
-        "benefit": "You gain an item bonus to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and ranged attack rolls, and you gain the listed status bonus to your Speed.",
+        "benefit": "You gain an item bonus to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and Dexterity-based attack rolls, and you gain the listed status bonus to your Speed.",
         "drawback": "You take damage equal to twice your level; you can't recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves."
     },
     {
@@ -2797,13 +2797,13 @@
         "name": "Elixir of Life (True)",
         "_className": "AlchemicalElixir",
         "level": 19,
-        "price": 300000,
+        "price": 800000,
         "bulk": "L",
         "id": "eee1c900-a916-11ea-bb37-0242ac130002",
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "Elixirs of life accelerate the body's natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
+        "desc": "Elixirs of life accelerate a living creature's natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
         "inputRequired": "Upon drinking this elixir, you regain the listed number of Hit Points.",
         "subType": "TRUE",
         "subTypeDesc": "The elixir restores 10d6+27 Hit Points, and the bonus is +4.",

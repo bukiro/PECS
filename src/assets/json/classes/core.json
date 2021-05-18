@@ -45,7 +45,7 @@
             },
             {
                 "name": "Defenses",
-                "value": "Trained in light armor\nTrained in unarmored defense"
+                "value": "Trained in light and medium armor\nTrained in unarmored defense"
             },
             {
                 "name": "Class DC",
@@ -235,6 +235,13 @@
                             {
                                 "locked": true,
                                 "maxRank": 2,
+                                "name": "Medium Armor",
+                                "source": "Class",
+                                "sourceId": "1-Any-Class-0"
+                            },
+                            {
+                                "locked": true,
+                                "maxRank": 2,
                                 "name": "Unarmored Defense",
                                 "source": "Class",
                                 "sourceId": "1-Any-Class-0"
@@ -387,6 +394,12 @@
                             {
                                 "locked": true,
                                 "name": "Field Discovery",
+                                "source": "Alchemist",
+                                "sourceId": "5-Feature-Alchemist-1"
+                            },
+                            {
+                                "locked": true,
+                                "name": "Powerful Alchemy",
                                 "source": "Alchemist",
                                 "sourceId": "5-Feature-Alchemist-1"
                             }
@@ -809,7 +822,7 @@
                             },
                             {
                                 "locked": true,
-                                "name": "Light Armor Expertise",
+                                "name": "Medium Armor Expertise",
                                 "source": "Alchemist",
                                 "sourceId": "13-Feature-Alchemist-0"
                             },
@@ -836,25 +849,32 @@
                 "skillChoices": [
                     {
                         "_className": "SkillChoice",
-                        "id": "13-Armor Proficiency-Light Armor Expertise-0",
+                        "id": "13-Armor Proficiency-Medium Armor Expertise-0",
                         "increases": [
                             {
                                 "locked": true,
                                 "maxRank": 4,
                                 "name": "Light Armor",
-                                "source": "Light Armor Expertise",
-                                "sourceId": "13-Armor Proficiency-Light Armor Expertise-0"
+                                "source": "Medium Armor Expertise",
+                                "sourceId": "13-Armor Proficiency-Medium Armor Expertise-0"
+                            },
+                            {
+                                "locked": true,
+                                "maxRank": 4,
+                                "name": "Medium Armor",
+                                "source": "Medium Armor Expertise",
+                                "sourceId": "13-Armor Proficiency-Medium Armor Expertise-0"
                             },
                             {
                                 "locked": true,
                                 "maxRank": 4,
                                 "name": "Unarmored Defense",
-                                "source": "Light Armor Expertise",
-                                "sourceId": "13-Armor Proficiency-Light Armor Expertise-0"
+                                "source": "Medium Armor Expertise",
+                                "sourceId": "13-Armor Proficiency-Medium Armor Expertise-0"
                             }
                         ],
                         "maxRank": 4,
-                        "source": "Light Armor Expertise",
+                        "source": "Medium Armor Expertise",
                         "type": "Armor Proficiency"
                     },
                     {
@@ -1109,7 +1129,7 @@
                         "feats": [
                             {
                                 "locked": true,
-                                "name": "Light Armor Mastery",
+                                "name": "Medium Armor Mastery",
                                 "source": "Alchemist",
                                 "sourceId": "19-Feature-Alchemist-0"
                             }
@@ -1130,25 +1150,32 @@
                 "skillChoices": [
                     {
                         "_className": "SkillChoice",
-                        "id": "19-Armor Proficiency-Light Armor Mastery-1",
+                        "id": "19-Armor Proficiency-Medium Armor Mastery-1",
                         "increases": [
                             {
                                 "locked": true,
                                 "maxRank": 6,
                                 "name": "Light Armor",
-                                "source": "Light Armor Mastery",
-                                "sourceId": "19-Armor Proficiency-Light Armor Mastery-1"
+                                "source": "Medium Armor Mastery",
+                                "sourceId": "19-Armor Proficiency-Medium Armor Mastery-1"
+                            },
+                            {
+                                "locked": true,
+                                "maxRank": 6,
+                                "name": "Medium Armor",
+                                "source": "Medium Armor Mastery",
+                                "sourceId": "19-Armor Proficiency-Medium Armor Mastery-1"
                             },
                             {
                                 "locked": true,
                                 "maxRank": 6,
                                 "name": "Unarmored Defense",
-                                "source": "Light Armor Mastery",
-                                "sourceId": "19-Armor Proficiency-Light Armor Mastery-1"
+                                "source": "Medium Armor Mastery",
+                                "sourceId": "19-Armor Proficiency-Medium Armor Mastery-1"
                             }
                         ],
                         "maxRank": 6,
-                        "source": "Light Armor Mastery",
+                        "source": "Medium Armor Mastery",
                         "type": "Armor Proficiency"
                     },
                     {

@@ -162,31 +162,31 @@
                 {{activity.requirements}}
             </span>
         </div>
-        <div class="newrow left-aligned" *ngFor="let desc of activity.desc.split('\n\n'); trackBy:trackByIndex;">
-            <app-diceText [text]="desc"></app-diceText>
+        <div class="newrow left-aligned" *ngFor="let desc of get_HeightenedDescription().split('\n\n'); trackBy:trackByIndex;">
+            <app-description [text]="desc"></app-description>
         </div>
         <div class="newrow left-aligned" *ngIf="activity.critsuccess">
             <span>
                 <strong>Critical Success</strong>
-                <app-diceText [text]="activity.critsuccess" [oneLiner]="true"></app-diceText>
+                <app-description [text]="activity.critsuccess" [oneLiner]="true"></app-description>
             </span>
         </div>
         <div class="newrow left-aligned" *ngIf="activity.success">
             <span>
                 <strong>Success</strong>
-                <app-diceText [text]="activity.success" [oneLiner]="true"></app-diceText>
+                <app-description [text]="activity.success" [oneLiner]="true"></app-description>
             </span>
         </div>
         <div class="newrow left-aligned" *ngIf="activity.failure">
             <span>
                 <strong>Failure</strong>
-                <app-diceText [text]="activity.failure" [oneLiner]="true"></app-diceText>
+                <app-description [text]="activity.failure" [oneLiner]="true"></app-description>
             </span>
         </div>
         <div class="newrow left-aligned" *ngIf="activity.critfailure">
             <span>
                 <strong>Critical Failure</strong>
-                <app-diceText [text]="activity.critfailure" [oneLiner]="true"></app-diceText>
+                <app-description [text]="activity.critfailure" [oneLiner]="true"></app-description>
             </span>
         </div>
         <div class="newrow left-aligned" *ngIf="activity.specialdesc">
@@ -253,7 +253,7 @@
                     [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
             </div>
             <div class="newrow left-aligned" *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
-                <app-diceText [text]="desc"></app-diceText>
+                <app-description [text]="desc"></app-description>
             </div>
         </div>
         <div class="newrow left-aligned"
@@ -261,7 +261,7 @@
             <header class="spellHeader">{{conditionSet.condition.name}}</header>
             <div class="newrow left-aligned"
                 *ngFor="let desc of conditionSet.condition.get_Heightened(conditionSet.condition.desc, conditionSet.gain.heightened).split('\n\n'); trackBy:trackByIndex;">
-                <app-diceText [text]="desc"></app-diceText>
+                <app-description [text]="desc"></app-description>
             </div>
         </div>
         <ng-container *ngIf="allowActivate">

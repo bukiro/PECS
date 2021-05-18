@@ -252,7 +252,7 @@
         ],
         "hints": [
             {
-                "desc": "One weapon you're wielding deals an extra 1d6 damage of a type depending on the school of the spell you just cast.\n\nAbjuration: force damage\nConjuration or Transmutation: the same type as the weapon\nDivination, Enchantment, or Illusion: mental damage\nEvocation: a type the spell dealt, or force damage if the spell didn't deal damage\nNecromancy: negative damage",
+                "desc": "One weapon you're wielding deals an extra |dice=1d6| 1d6 damage of a type depending on the school of the spell you just cast.\n\nAbjuration: force damage\nConjuration or Transmutation: the same type as the weapon\nDivination, Enchantment, or Illusion: mental damage\nEvocation: a type the spell dealt, or force damage if the spell didn't deal damage\nNecromancy: negative damage",
                 "showon": "Attacks"
             }
         ],
@@ -1514,7 +1514,7 @@
         "inputRequired": "After a fangs Strike hits and deals damage, or critically fails, remove the condition.",
         "hints": [
             {
-                "desc": "If the next fangs Strike you make before the end of your next turn hits and deals damage, the Strike deals an additional 1d6 poison damage. On a critical failure, the poison is wasted as normal.",
+                "desc": "If the next fangs Strike you make before the end of your next turn hits and deals damage, the Strike deals an additional |dice=1d6 Poison| 1d6 poison damage. On a critical failure, the poison is wasted as normal.",
                 "showon": "Attacks, Lizardfolk Fangs"
             }
         ]
@@ -2529,7 +2529,7 @@
         ],
         "hints": [
             {
-                "desc": "Each time a creature touches you, hits you with an unarmed attack, or hits you with a melee weapon attack while adjacent to you, that creature takes 1d6 piercing damage. Increase the damage to 2d6 if the polymorph spell is 8th level or higher, or to 3d6 if it's 10th level.\n\nWhen an adjacent creature damages you with piercing or slashing damage, it must succeed at a Fortitude save against your class DC or become stupefied 1 (or stupefied 2 on a critical failure) until the end of its next turn.",
+                "desc": "Each time a creature touches you, hits you with an unarmed attack, or hits you with a melee weapon attack while adjacent to you, that creature takes |dice=1d6 P| 1d6 piercing damage. Increase the damage to |dice=2d6 P| 2d6 if the polymorph spell is 8th level or higher, or to |dice=3d6 P| 3d6 if it's 10th level.\n\nWhen an adjacent creature damages you with piercing or slashing damage, it must succeed at a Fortitude save against your class DC or become stupefied 1 (or stupefied 2 on a critical failure) until the end of its next turn.",
                 "showon": "Defense"
             }
         ]
@@ -3732,8 +3732,12 @@
         "inputRequired": "When you extinguish the fire, remove this condition.",
         "hints": [
             {
-                "desc": "As long as you are suffering persistent fire damage, all your melee attacks against adjacent creatures deal an additional 1 fire damage per weapon damage die. Any creature that successfully Grapples, Shoves, or Trips you takes 1d6 fire damage; if it uses a weapon for that action, the weapon takes the damage instead.",
-                "showon": "Attacks, Fortitude, Reflex"
+                "desc": "As long as you are suffering persistent fire damage, all your melee attacks against adjacent creatures deal an additional |dice=1 Fire| 1 fire damage per weapon damage die.",
+                "showon": "Attacks"
+            },
+            {
+                "desc": "As long as you are suffering persistent fire damage, any creature that successfully Grapples, Shoves, or Trips you takes |dice=1d6 Fire| 1d6 fire damage; if it uses a weapon for that action, the weapon takes the damage instead.",
+                "showon": "Fortitude, Reflex"
             }
         ],
         "gainConditions": [
@@ -4066,7 +4070,7 @@
     },
     {
         "name": "Ghoul Fever",
-        "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<strong>Stage 1</strong> carrier with no ill effects (1 day)\n<strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day)\n<strong>Stage 3</strong> as stage 2 (1 day)\n<strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day)\n<strong>Stage 5</strong> as stage 4 (1 day)\n<strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
+        "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<strong>Stage 1</strong> carrier with no ill effects (1 day)\n<strong>Stage 2</strong> 3d8 negative damage and you regain half as many Hit Points from all healing (1 day)\n<strong>Stage 3</strong> as stage 2 (1 day)\n<strong>Stage 4</strong> 3d8 negative damage and you gain no benefit from healing (1 day)\n<strong>Stage 5</strong> as stage 4 (1 day)\n<strong>Stage 6</strong> you die and rise as a ghoul at the next midnight",
         "type": "afflictions",
         "defaultDurations": [
             {
@@ -4076,8 +4080,24 @@
         "inputRequired": "Every time you reach the affliction onset, take negative damage appropriate to the new stage.",
         "hints": [
             {
+                "desc": "You gain half as many Hit Points from all healing.",
+                "showon": "Health",
+                "conditionChoiceFilter": "Stage 2"
+            },
+            {
+                "desc": "You gain half as many Hit Points from all healing.",
+                "showon": "Health",
+                "conditionChoiceFilter": "Stage 3"
+            },
+            {
                 "desc": "From stage 2 on, you gain half as many Hit Points from all healing.\n\nFrom stage 4 on, you gain no benefit from healing.",
-                "showon": "Health"
+                "showon": "Health",
+                "conditionChoiceFilter": "Stage 4"
+            },
+            {
+                "desc": "You gain no benefit from healing.",
+                "showon": "Health",
+                "conditionChoiceFilter": "Stage 5"
             }
         ],
         "choice": "Stage 1",
@@ -5277,7 +5297,7 @@
         ],
         "hints": [
             {
-                "desc": "Whenever you score a hit with a melee weapon, add 1d6 acid damage. You can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 2d6 acid damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=1d6 Acid| 1d6 acid damage. You can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals |dice=2d6 Acid| 2d6 acid damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
                 "showon": "Attacks"
             }
         ],
@@ -5323,7 +5343,7 @@
         ],
         "hints": [
             {
-                "desc": "Whenever you score a hit with a melee weapon, add 1 point of acid damage.",
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=1 Acid| 1 point of acid damage.",
                 "showon": "Attacks"
             }
         ],
@@ -5358,7 +5378,7 @@
         ],
         "hints": [
             {
-                "desc": "Whenever you score a hit with a melee weapon, add 2d6 acid damage. You can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 3d6 acid damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=2d6 Acid| 2d6 acid damage. You can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals |dice=3d6 Acid| 3d6 acid damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
                 "showon": "Attacks"
             }
         ],
@@ -5405,7 +5425,7 @@
         ],
         "hints": [
             {
-                "desc": "Whenever you score a hit with a melee weapon, add 1d4 acid damage.",
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=1d4 Acid| 1d4 acid damage.",
                 "showon": "Attacks"
             }
         ],
@@ -5443,7 +5463,7 @@
         ],
         "hints": [
             {
-                "desc": "Whenever you score a hit with a melee weapon, add 1d6 cold damage. You can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 2d6 cold damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=1d6 Cold| 1d6 cold damage. You can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals |dice=2d6 Cold| 2d6 cold damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
                 "showon": "Attacks"
             }
         ],
@@ -5489,7 +5509,7 @@
         ],
         "hints": [
             {
-                "desc": "Whenever you score a hit with a melee weapon, add 1 point of cold damage.",
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=1 Cold| 1 point of cold damage.",
                 "showon": "Attacks"
             }
         ],
@@ -5524,7 +5544,7 @@
         ],
         "hints": [
             {
-                "desc": "Whenever you score a hit with a melee weapon, add 2d6 cold damage. You can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 3d6 cold damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=2d6 Cold| 2d6 cold damage. You can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals |dice=3d6 Cold| 3d6 cold damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
                 "showon": "Attacks"
             }
         ],
@@ -5571,7 +5591,7 @@
         ],
         "hints": [
             {
-                "desc": "Whenever you score a hit with a melee weapon, add 1d4 cold damage.",
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=1d4 Cold| 1d4 cold damage.",
                 "showon": "Attacks"
             }
         ],
@@ -5609,7 +5629,7 @@
         ],
         "hints": [
             {
-                "desc": "Whenever you score a hit with a melee weapon, add 1d6 electricity damage. You can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 2d6 electricity damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=1d6 Electricity| 1d6 electricity damage. You can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals |dice=2d6 Electricity| 2d6 electricity damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
                 "showon": "Attacks"
             }
         ],
@@ -5655,7 +5675,7 @@
         ],
         "hints": [
             {
-                "desc": "Whenever you score a hit with a melee weapon, add 1 point of electricity damage.",
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=1 Electricity| 1 point of electricity damage.",
                 "showon": "Attacks"
             }
         ],
@@ -5690,7 +5710,7 @@
         ],
         "hints": [
             {
-                "desc": "Whenever you score a hit with a melee weapon, add 2d6 electricity damage. You can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 3d6 electricity damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=2d6 Electricity| 2d6 electricity damage. You can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals |dice=3d6 Electricity| 3d6 electricity damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
                 "showon": "Attacks"
             }
         ],
@@ -5737,7 +5757,7 @@
         ],
         "hints": [
             {
-                "desc": "Whenever you score a hit with a melee weapon, add 1d4 electricity damage.",
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=1d4 Electricity| 1d4 electricity damage.",
                 "showon": "Attacks"
             }
         ],
@@ -5775,7 +5795,7 @@
         ],
         "hints": [
             {
-                "desc": "Whenever you score a hit with a melee weapon, add 1d6 fire damage. You can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 2d6 fire damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=1d6 Fire| 1d6 fire damage. You can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals |dice=2d6 Fire| 2d6 fire damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
                 "showon": "Attacks"
             }
         ],
@@ -5821,7 +5841,7 @@
         ],
         "hints": [
             {
-                "desc": "Whenever you score a hit with a melee weapon, add 1 point of fire damage.",
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=1 Fire| 1 point of fire damage.",
                 "showon": "Attacks"
             }
         ],
@@ -5856,7 +5876,7 @@
         ],
         "hints": [
             {
-                "desc": "Whenever you score a hit with a melee weapon, add 2d6 fire damage. You can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 3d6 fire damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=2d6 Fire| 2d6 fire damage. You can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals |dice=3d6 Fire| 3d6 fire damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
                 "showon": "Attacks"
             }
         ],
@@ -5903,7 +5923,7 @@
         ],
         "hints": [
             {
-                "desc": "Whenever you score a hit with a melee weapon, add 1d4 fire damage.",
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=1d4 Fire| 1d4 fire damage.",
                 "showon": "Attacks"
             }
         ],
@@ -6361,7 +6381,7 @@
                 "value": "Value"
             },
             {
-                "affected": "Ranged Attack Rolls",
+                "affected": "Dexterity-based Attack Rolls",
                 "type": "item",
                 "value": "Value"
             },
@@ -7147,6 +7167,7 @@
         "name": "Aberrant Blood Magic",
         "desc": "Aberrant whispers shield one target's mind or your own, granting a +2 status bonus to Will saving throws for 1 round.",
         "type": "bloodmagic",
+        "minLevel": 1,
         "buff": true,
         "defaultDurations": [
             {
@@ -7175,6 +7196,7 @@
         "name": "Aberrant Blood Magic (Target)",
         "desc": "Aberrant whispers shield your mind, granting a +2 status bonus to Will saving throws for 1 round.",
         "type": "bloodmagic",
+        "minLevel": 1,
         "buff": true,
         "defaultDurations": [
             {
@@ -7193,6 +7215,7 @@
         "name": "Angelic Blood Magic",
         "desc": "An angelic aura protects you or one target, granting a +1 status bonus to saving throws for 1 round.",
         "type": "bloodmagic",
+        "minLevel": 1,
         "buff": true,
         "defaultDurations": [
             {
@@ -7221,6 +7244,7 @@
         "name": "Angelic Blood Magic (Target)",
         "desc": "An angelic aura protects you, granting a +1 status bonus to saving throws for 1 round.",
         "type": "bloodmagic",
+        "minLevel": 1,
         "buff": true,
         "defaultDurations": [
             {
@@ -7239,6 +7263,7 @@
         "name": "Demonic Blood Magic",
         "desc": "The corruption of sin weakens a target's defenses or makes you more imposing. Either a target takes a -1 status penalty to AC for 1 round, or you gain a +1 status bonus to Intimidation checks for 1 round.",
         "type": "bloodmagic",
+        "minLevel": 1,
         "buff": true,
         "defaultDurations": [
             {
@@ -7267,6 +7292,7 @@
         "name": "Demonic Blood Magic (Target)",
         "desc": "The corruption of sin weakens your defenses. You take a -1 status penalty to AC for the duration.",
         "type": "bloodmagic",
+        "minLevel": 1,
         "defaultDurations": [
             {
                 "duration": 10
@@ -7282,8 +7308,9 @@
     },
     {
         "name": "Diabolic Blood Magic",
-        "desc": "Hellfire scorches a target or fills your tongue with lies. Either a target takes 1 fire damage per spell level (if the spell already deals initial fire damage, combine this with the spell's initial damage before determining weaknesses and resistances), or you gain a +1 status bonus to Deception checks for 1 round.",
+        "desc": "Hellfire scorches a target or fills your tongue with lies. Either a target takes |dice=var1 Fire| <var>var1</var> fire damage (if the spell already deals initial fire damage, combine this with the spell's initial damage before determining weaknesses and resistances), or you gain a +1 status bonus to Deception checks for 1 round.",
         "type": "bloodmagic",
+        "minLevel": 1,
         "buff": true,
         "defaultDurations": [
             {
@@ -7297,12 +7324,105 @@
                 "type": "status",
                 "value": "1"
             }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 1,
+                "descs": [
+                    {
+                        "value": "1",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 2,
+                "descs": [
+                    {
+                        "value": "2",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 3,
+                "descs": [
+                    {
+                        "value": "3",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 4,
+                "descs": [
+                    {
+                        "value": "4",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 5,
+                "descs": [
+                    {
+                        "value": "5",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "7",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "8",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "9",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "10",
+                        "variable": "var1"
+                    }
+                ]
+            }
         ]
     },
     {
         "name": "Draconic Blood Magic",
         "desc": "Draconic scales grow briefly on you or one target, granting a +1 status bonus to AC for 1 round.",
         "type": "bloodmagic",
+        "minLevel": 1,
         "buff": true,
         "defaultDurations": [
             {
@@ -7331,6 +7451,7 @@
         "name": "Draconic Blood Magic (Target)",
         "desc": "Draconic scales grow briefly on you, granting a +1 status bonus to AC for 1 round.",
         "type": "bloodmagic",
+        "minLevel": 1,
         "buff": true,
         "defaultDurations": [
             {
@@ -7347,8 +7468,9 @@
     },
     {
         "name": "Elemental Blood Magic",
-        "desc": "Elemental energy surrounds you or a target. Either you gain a +1 status bonus to Intimidation checks for 1 round, or a target takes 1 damage per spell level. The damage is bludgeoning or fire, according to your elemental type (fire for fire, or else bludgeoning). If the spell already deals that kind of damage, combine it with the spell's initial damage before determining weaknesses and resistances.",
+        "desc": "Elemental energy surrounds you or a target. Either you gain a +1 status bonus to Intimidation checks for 1 round, or a target takes |dice=var1| <var>var1</var> damage. The damage is bludgeoning or fire, according to your elemental type (fire for fire, or else bludgeoning). If the spell already deals that kind of damage, combine it with the spell's initial damage before determining weaknesses and resistances.",
         "type": "bloodmagic",
+        "minLevel": 1,
         "buff": true,
         "defaultDurations": [
             {
@@ -7362,12 +7484,105 @@
                 "type": "status",
                 "value": "1"
             }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 1,
+                "descs": [
+                    {
+                        "value": "1",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 2,
+                "descs": [
+                    {
+                        "value": "2",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 3,
+                "descs": [
+                    {
+                        "value": "3",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 4,
+                "descs": [
+                    {
+                        "value": "4",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 5,
+                "descs": [
+                    {
+                        "value": "5",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "7",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "8",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "9",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "10",
+                        "variable": "var1"
+                    }
+                ]
+            }
         ]
     },
     {
         "name": "Fey Blood Magic",
         "desc": "Colorful fey glamours dance around you or one target, causing them to be concealed for 1 round. Such obvious concealment can't be used to Hide.",
         "type": "bloodmagic",
+        "minLevel": 1,
         "buff": true,
         "defaultDurations": [
             {
@@ -7395,6 +7610,7 @@
         "name": "Fey Blood Magic (Target)",
         "desc": "Colorful fey glamours dance around you, causing you to be concealed for 1 round. Such obvious concealment can't be used to Hide.",
         "type": "bloodmagic",
+        "minLevel": 1,
         "buff": true,
         "defaultDurations": [
             {
@@ -7409,8 +7625,9 @@
     },
     {
         "name": "Hag Blood Magic",
-        "desc": "Spiteful curses punish your foes. The first creature that deals damage to you before the end of your next turn takes 2 mental damage per spell level and must attempt a basic Will save.",
+        "desc": "Spiteful curses punish your foes. The first creature that deals damage to you before the end of your next turn takes |dice=var1 Mental| <var>var1</var> mental damage and must attempt a basic Will save.",
         "type": "bloodmagic",
+        "minLevel": 1,
         "buff": true,
         "defaultDurations": [
             {
@@ -7420,8 +7637,192 @@
         "inputRequired": "Remove the condition after a creature deals damage to you.",
         "hints": [
             {
-                "desc": "The first creature that deals damage to you before the end of your next turn takes 2 mental damage per spell level and must attempt a basic Will save.",
-                "showon": "Defense"
+                "desc": "The first creature that deals damage to you before the end of your next turn takes |dice=var1 Mental| <var>var1</var> mental damage and must attempt a basic Will save.",
+                "showon": "Defense",
+                "heightenedDescs": [
+                    {
+                        "level": 1,
+                        "desc": [
+                            {
+                                "value": "2",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 2,
+                        "desc": [
+                            {
+                                "value": "4",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 3,
+                        "desc": [
+                            {
+                                "value": "6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 4,
+                        "desc": [
+                            {
+                                "value": "8",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 5,
+                        "desc": [
+                            {
+                                "value": "10",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 6,
+                        "desc": [
+                            {
+                                "value": "12",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 7,
+                        "desc": [
+                            {
+                                "value": "14",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 8,
+                        "desc": [
+                            {
+                                "value": "16",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 9,
+                        "desc": [
+                            {
+                                "value": "18",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 10,
+                        "desc": [
+                            {
+                                "value": "20",
+                                "variable": "var1"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 1,
+                "descs": [
+                    {
+                        "value": "2",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 2,
+                "descs": [
+                    {
+                        "value": "4",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 3,
+                "descs": [
+                    {
+                        "value": "6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 4,
+                "descs": [
+                    {
+                        "value": "8",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 5,
+                "descs": [
+                    {
+                        "value": "10",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "12",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "14",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "16",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "18",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "20",
+                        "variable": "var1"
+                    }
+                ]
             }
         ]
     },
@@ -7429,6 +7830,7 @@
         "name": "Imperial Blood Magic",
         "desc": "A surge of ancestral memories grants you or one target a +1 status bonus to skill checks for 1 round.",
         "type": "bloodmagic",
+        "minLevel": 1,
         "buff": true,
         "defaultDurations": [
             {
@@ -7457,6 +7859,7 @@
         "name": "Imperial Blood Magic (Target)",
         "desc": "A surge of ancestral memories grants you a +1 status bonus to skill checks for 1 round.",
         "type": "bloodmagic",
+        "minLevel": 1,
         "buff": true,
         "defaultDurations": [
             {
@@ -7473,8 +7876,9 @@
     },
     {
         "name": "Undead Blood Magic",
-        "desc": "Necromantic energy flows through you or one target. Either you gain temporary Hit Points equal to the spell's level for 1 round, or a target takes 1 negative damage per spell level (if the spell already deals initial negative damage, combine this with the spell's initial damage before determining weaknesses and resistances).",
+        "desc": "Necromantic energy flows through you or one target. Either you gain <var>var1</var> temporary Hit Points for 1 round, or a target takes |dice=var1 Negative| <var>var1</var> negative damage (if the spell already deals initial negative damage, combine this with the spell's initial damage before determining weaknesses and resistances).",
         "type": "bloodmagic",
+        "minLevel": 1,
         "buff": true,
         "defaultDurations": [
             {
@@ -7492,6 +7896,98 @@
             {
                 "affected": "Temporary HP",
                 "value": "-Temporary_HP('',effect.sourceId)"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 1,
+                "descs": [
+                    {
+                        "value": "1",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 2,
+                "descs": [
+                    {
+                        "value": "2",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 3,
+                "descs": [
+                    {
+                        "value": "3",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 4,
+                "descs": [
+                    {
+                        "value": "4",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 5,
+                "descs": [
+                    {
+                        "value": "5",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "7",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "8",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "9",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "10",
+                        "variable": "var1"
+                    }
+                ]
             }
         ]
     },
@@ -7988,7 +8484,7 @@
     },
     {
         "name": "Fatigued",
-        "desc": "You're tired and can't summon much energy. You take a -1 status penalty to AC and saving throws. While exploring, you can't choose an exploration activity.\n\nYou recover from fatigue after a full night's rest.",
+        "desc": "You're tired and can't summon much energy. You take a -1 status penalty to AC and saving throws. You can't use exploration activities performed while traveling, such as those on pages 479�480.\n\nYou recover from fatigue after a full night's rest.",
         "type": "generic",
         "persistent": true,
         "hints": [
@@ -8265,7 +8761,7 @@
     },
     {
         "name": "Prone",
-        "desc": "You're lying on the ground. You are flat-footed and take a -2 circumstance penalty to attack rolls. The only move actions you can use while you're prone are Crawl and Stand. Standing up ends the prone condition. You can Take Cover while prone to hunker down and gain cover against ranged attacks, even if you don't have an object to get behind, gaining a +4 circumstance bonus to AC against ranged attacks (but you remain flat-footed).\n\nIf you would be knocked prone while you're Climbing or Flying, you fall (see pages 463-464 for the rules on falling). You can't be knocked prone when Swimming.",
+        "desc": "You're lying on the ground. You are flat-footed and take a -2 circumstance penalty to attack rolls. The only move actions you can use while you're prone are Crawl and Stand. Standing up ends the prone condition. You can Take Cover while prone to hunker down and gain Greater Cover against ranged attacks, even if you don't have an object to get behind, gaining a +4 circumstance bonus to AC against ranged attacks (but you remain flat-footed).\n\nIf you would be knocked prone while you're Climbing or Flying, you fall (see pages 463-464 for the rules on falling). You can't be knocked prone when Swimming.",
         "type": "generic",
         "persistent": true,
         "hints": [
@@ -11452,7 +11948,7 @@
     },
     {
         "name": "Disrupting Weapons",
-        "desc": "The targeted weapons are infused with positive energy. Attacks with these weapons deal an extra <var>var2</var> positive damage to undead.",
+        "desc": "The targeted weapons are infused with positive energy. Attacks with these weapons deal an extra |dice=var2 Positive| <var>var2</var> positive damage to undead.",
         "type": "spells",
         "minLevel": 1,
         "buff": true,
@@ -11463,8 +11959,37 @@
         ],
         "hints": [
             {
-                "desc": "Up to two of your weapons (up to three on 5th level) are infused with positive energy. Attacks with these weapons deal an extra 1d4 positive damage to undead (2d4 on 3rd level and 3d4 on 5th).",
-                "showon": "Attacks"
+                "desc": "The targeted weapons are infused with positive energy. Attacks with these weapons deal an extra |dice=<var>var2</var> Positive| <var>var2</var> positive damage to undead.",
+                "showon": "Attacks",
+                "heightenedDescs": [
+                    {
+                        "level": 1,
+                        "desc": [
+                            {
+                                "value": "1d4",
+                                "variable": "var2"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 3,
+                        "desc": [
+                            {
+                                "value": "2d4",
+                                "variable": "var2"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 5,
+                        "desc": [
+                            {
+                                "value": "3d4",
+                                "variable": "var2"
+                            }
+                        ]
+                    }
+                ]
             }
         ],
         "heightenedDescs": [
@@ -13111,7 +13636,7 @@
     },
     {
         "name": "Jealous Hex",
-        "desc": "A hag's innate jealousy denies you your greatest attribute. You are cursed with an adverse condition depending on your highest ability modifier: Strength (enfeebled); Dexterity (clumsy); Constitution (drained); or Intelligence, Wisdom, or Charisma (stupefied). On a tie, you decide which of the conditions associated with the tied ability modifiers to take. The value depends on your Will save:\n\n<strong>Success</strong> You are unaffected.\n<strong>Failure</strong> The condition's value is 1.\n<strong>Critical Failure</strong> The condition's value is 2.\n\nYou can attempt another Will save at the start of each of the caster's turns, ending the effect on a success.",
+        "desc": "A hag's innate jealousy denies you your greatest attribute. This is a curse and can be removed only by effects that specifically target curses. You gain an adverse condition depending on your highest ability modifier: Strength (enfeebled); Dexterity (clumsy); Constitution (drained); or Intelligence, Wisdom, or Charisma (stupefied). On a tie, you decide which of the conditions associated with the tied ability modifiers to take. The value depends on your Will save:\n\n<strong>Success</strong> You are unaffected.\n<strong>Failure</strong> The condition's value is 1.\n<strong>Critical Failure</strong> The condition's value is 2.\n\nYou can attempt another Will save at the start of each of the caster's turns, ending the effect on a success.",
         "type": "spells",
         "minLevel": 1,
         "defaultDurations": [
@@ -13192,7 +13717,7 @@
     },
     {
         "name": "Jealous Hex (Caster)",
-        "desc": "You have drawn forth a hag's innate jealousy to deny a target its greatest attribute. The target is cursed with an adverse condition depending on its highest ability modifier: Strength (enfeebled); Dexterity (clumsy); Constitution (drained); or Intelligence, Wisdom, or Charisma (stupefied). On a tie, the creature decides which of the conditions associated with the tied ability modifiers to take. The value depends on the target's Will save:\n\n<strong>Success</strong> The target is unaffected.\n<strong>Failure</strong> The condition's value is 1.\n<strong>Critical Failure</strong> The condition's value is 2.\n\nAt the start of each of your turns, the target can attempt another Will save, ending the effect on a success.",
+        "desc": "You have drawn forth a hag's innate jealousy to deny a target its greatest attribute. This is a curse and can be removed only by effects that specifically target curses. The target gains an adverse condition depending on its highest ability modifier: Strength (enfeebled); Dexterity (clumsy); Constitution (drained); or Intelligence, Wisdom, or Charisma (stupefied). On a tie, the creature decides which of the conditions associated with the tied ability modifiers to take. The value depends on the target's Will save:\n\n<strong>Success</strong> The target is unaffected.\n<strong>Failure</strong> The condition's value is 1.\n<strong>Critical Failure</strong> The condition's value is 2.\n\nAt the start of each of your turns, the target can attempt another Will save, ending the effect on a success.",
         "type": "spells",
         "minLevel": 1,
         "buff": true,
@@ -21519,7 +22044,7 @@
     },
     {
         "name": "Spiritual Weapon",
-        "desc": "A weapon made of pure magical force attacks foes you designate within range. This weapon has a ghostly appearance and manifests as your deity's favored weapon.\n\nWhen you cast the spell, the weapon appears next to a foe you choose within range and makes a Strike against it. Each time you Sustain the Spell, you can move the weapon to a new target within range (if needed) and Strike with it. The spiritual weapon uses and contributes to your multiple attack penalty.\n\nThe weapon's Strikes are melee spell attacks. Regardless of its appearance, the weapon deals force damage equal to <var>var1</var> plus your spellcasting ability modifier. You can deal damage of the type normally dealt by the weapon instead of force damage (or any of the available damage types for a versatile weapon). No other statistics or traits of the weapon apply, and even a ranged weapon attacks adjacent creatures only. Despite making a spell attack, the spiritual weapon is a weapon for purposes of triggers, resistances, and so forth.\n\nThe weapon doesn't take up space, grant flanking, or have any other attributes a creature would. The weapon can't make any attack other than its Strike, and feats or spells that affect weapons do not apply to it.",
+        "desc": "A weapon made of pure magical force attacks foes you designate within range. This weapon has a ghostly appearance and manifests as a club, a dagger or your deity's favored weapon.\n\nWhen you cast the spell, the weapon appears next to a foe you choose within range and makes a Strike against it. Each time you Sustain the Spell, you can move the weapon to a new target within range (if needed) and Strike with it. The spiritual weapon uses and contributes to your multiple attack penalty.\n\nThe weapon's Strikes are melee spell attacks. Regardless of its appearance, the weapon deals force damage equal to <var>var1</var> plus your spellcasting ability modifier. You can deal damage of the type normally dealt by the weapon instead of force damage (or any of the available damage types for a versatile weapon). No other statistics or traits of the weapon apply, and even a ranged weapon attacks adjacent creatures only. Despite making a spell attack, the spiritual weapon is a weapon for purposes of triggers, resistances, and so forth.\n\nThe weapon doesn't take up space, grant flanking, or have any other attributes a creature would. The weapon can't make any attack other than its Strike, and feats or spells that affect weapons do not apply to it.",
         "type": "spells",
         "minLevel": 2,
         "buff": true,
@@ -27672,6 +28197,7 @@
             }
         ],
         "notes": "Damage prevented: ",
+        "inputRequired": "The scales store up energy as they protect you. Keep track of how much damage the scales have prevented.",
         "hints": [
             {
                 "desc": "The scales store up energy as they protect you. Keep track of how much damage the scales have prevented.",
@@ -28870,7 +29396,7 @@
     },
     {
         "name": "Abyssal Plague (Caster)",
-        "desc": "Your touch afflicts the target with Abyssal plague, which siphons fragments of their soul away to empower the Abyss. The effect is based on the target's Fortitude save.\n\n<strong>Abyssal Plague</strong> (disease); <strong>Level</strong> 9. The target can't recover from the drained condition from Abyssal plague until the disease is cured. <strong>Stage 1</strong> drained 1 (1 day); <strong>Stage 2</strong> drained increases by 2 (1 day).\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target takes 2 evil damage per spell level, and takes a -2 status penalty to saves against Abyssal plague for 1 day or until the target contracts it, whichever comes first.\n<strong>Failure</strong> The target is afflicted with Abyssal plague at stage 1.\n<strong>Critical Failure</strong> The target is afflicted with Abyssal plague at stage 2.",
+        "desc": "Your touch afflicts the target with Abyssal plague, which siphons fragments of their soul away to empower the Abyss. The effect is based on the target's Fortitude save.\n\n<strong>Abyssal Plague</strong> (disease); <strong>Level</strong> 9. The target can't recover from the drained condition from Abyssal plague until the disease is cured. <strong>Stage 1</strong> drained 1 (1 day); <strong>Stage 2</strong> drained increases by 2 (1 day).\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target takes |dice=var1 Evil| <var>var1</var> evil damage, and takes a -2 status penalty to saves against Abyssal plague for 1 day or until the target contracts it, whichever comes first.\n<strong>Failure</strong> The target is afflicted with Abyssal plague at stage 1.\n<strong>Critical Failure</strong> The target is afflicted with Abyssal plague at stage 2.",
         "type": "spells",
         "minLevel": 5,
         "buff": true,
@@ -28900,6 +29426,62 @@
             {
                 "name": "Critical Failure",
                 "defaultDuration": -1
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 5,
+                "descs": [
+                    {
+                        "value": "10",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "12",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "14",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "16",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "18",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "20",
+                        "variable": "var1"
+                    }
+                ]
             }
         ]
     },
@@ -29227,7 +29809,7 @@
     },
     {
         "name": "Celestial Brand",
-        "desc": "A blazing symbol has appeared on you, cursing you to face divine justice. Your foes receive a +1 status bonus to their attack rolls and skill checks against you. Anytime a good creature damages you, it deals an additional |dice=var1| <var>var1</var> good damage. After the duration, you are temporarily immune for 1 minute.",
+        "desc": "A blazing symbol has appeared on you, marking you to face divine justice. This is a curse and can be removed only by effects that specifically target curses. Your foes receive a +1 status bonus to their attack rolls and skill checks against you. Anytime a good creature damages you, it deals an additional |dice=var1| <var>var1</var> good damage. After the duration, you are temporarily immune for 1 minute.",
         "type": "spells",
         "minLevel": 5,
         "defaultDurations": [
@@ -29306,7 +29888,7 @@
     },
     {
         "name": "Celestial Brand (Caster and allies)",
-        "desc": "A blazing symbol has appeared on the target, cursing it to face divine justice. You and your allies receive a +1 status bonus to your attack rolls and skill checks against it. Anytime a good creature damages it, the good creature deals an additional |dice=var1| <var>var1</var> good damage.",
+        "desc": "A blazing symbol has appeared on the target, marking it to face divine justice. This is a curse and can be removed only by effects that specifically target curses. You and your allies receive a +1 status bonus to your attack rolls and skill checks against it. Anytime a good creature damages it, the good creature deals an additional |dice=var1| <var>var1</var> good damage.",
         "type": "spells",
         "minLevel": 5,
         "buff": true,
@@ -29394,7 +29976,7 @@
     },
     {
         "name": "Celestial Brand Immunity",
-        "desc": "You can't be cursed with the celestial brand for the duration.",
+        "desc": "You can't be marked with the celestial brand for the duration.",
         "type": "spells",
         "minLevel": 5,
         "buff": true,
@@ -33520,7 +34102,7 @@
     },
     {
         "name": "Primal Summons",
-        "desc": "You enhance a summoned creature with the power of the elements. If your next action is to cast either summon animal or summon plant or fungus, choose air, earth, fire, or water, and the creature you summon gains the corresponding abilities.\n\n<strong>Air</strong> The creature gains a fly Speed of 60 feet.\n<strong>Earth</strong> The creature gains a burrow Speed of 20 feet, reduces its land Speed by 10 feet (minimum 5 feet), and gains resistance 5 to physical damage.\n<strong>Fire</strong> The creature's attacks deal 1d6 extra fire damage, and it gains resistance 10 to fire and weakness 5 to cold and water.\n<strong>Water</strong> The creature gains a swim Speed of 60 feet, can spend 1 action after a melee attack to attempt a Shove (ignoring multiple attack penalty), and gains resistance 5 to fire.",
+        "desc": "You enhance a summoned creature with the power of the elements. If your next action is to cast either summon animal or summon plant or fungus, choose air, earth, fire, or water, and the creature you summon gains the corresponding abilities.\n\n<strong>Air</strong> The creature gains a fly Speed of 60 feet.\n<strong>Earth</strong> The creature gains a burrow Speed of 20 feet, reduces its land Speed by 10 feet (minimum 5 feet), and gains resistance 5 to physical damage.\n<strong>Fire</strong> The creature's attacks deal |dice=1d6 Fire| 1d6 extra fire damage, and it gains resistance 10 to fire and weakness 5 to cold and water.\n<strong>Water</strong> The creature gains a swim Speed of 60 feet, can spend 1 action after a melee attack to attempt a Shove (ignoring multiple attack penalty), and gains resistance 5 to fire.",
         "type": "spells",
         "minLevel": 6,
         "buff": true,
@@ -33535,7 +34117,7 @@
         ],
         "hints": [
             {
-                "desc": "The summoned creature gains the abilities corresponding to the chosen element.\n\nAir: The creature gains a fly Speed of 60 feet.\nEarth: The creature gains a burrow Speed of 20 feet, reduces its land Speed by 10 feet (minimum 5 feet), and gains resistance 5 to physical damage.\nFire: The creature's attacks deal 1d6 extra fire damage, and it gains resistance 10 to fire and weakness 5 to cold and water.\nWater: The creature gains a swim Speed of 60 feet, can spend 1 action after a melee attack to attempt a Shove (ignoring multiple attack penalty), and gains resistance 5 to fire.",
+                "desc": "The summoned creature gains the abilities corresponding to the chosen element.\n\nAir: The creature gains a fly Speed of 60 feet.\nEarth: The creature gains a burrow Speed of 20 feet, reduces its land Speed by 10 feet (minimum 5 feet), and gains resistance 5 to physical damage.\nFire: The creature's attacks deal |dice=1d6 Fire| 1d6 extra fire damage, and it gains resistance 10 to fire and weakness 5 to cold and water.\nWater: The creature gains a swim Speed of 60 feet, can spend 1 action after a melee attack to attempt a Shove (ignoring multiple attack penalty), and gains resistance 5 to fire.",
                 "showon": "Spellbook"
             }
         ],
@@ -34410,7 +34992,7 @@
         ],
         "hints": [
             {
-                "desc": "Your attack gains the deadly d12 trait:\n\nOn a critical hit, the attack adds a d12 damage. Roll this after doubling the attack's damage. An ability that changes the size of the attack's normal damage dice doesn't change the size of its deadly die.",
+                "desc": "Your attack gains the deadly d12 trait:\n\nOn a critical hit, the attack adds a |dice=d12| d12 damage. Roll this after doubling the attack's damage. An ability that changes the size of the attack's normal damage dice doesn't change the size of its deadly die.",
                 "showon": "Attacks"
             },
             {

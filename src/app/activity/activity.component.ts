@@ -312,6 +312,10 @@ export class ActivityComponent implements OnInit {
         return conditionSets;
     }
 
+    get_HeightenedDescription() {
+        return this.activity.get_Heightened(this.activity.desc, this.get_Character().level);
+    }
+
     on_EffectChoiceChange() {
         this.characterService.set_ToChange(this.creature, "inventory");
         this.characterService.set_ToChange(this.creature, "activities");

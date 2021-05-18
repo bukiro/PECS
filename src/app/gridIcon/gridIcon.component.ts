@@ -55,8 +55,8 @@ export class GridIconComponent implements OnInit {
 
     get_IconSubTitle() {
         let subTitle = this.subTitle;
-        if (subTitle.includes("noparse")) {
-            return subTitle.replace("noparse", "");
+        if (subTitle.includes("noparse|")) {
+            return subTitle.replace("noparse|", "");
         }
         if (this.condition?.duration || this.effect?.duration) {
             let duration = this.condition?.duration || this.effect?.duration || 0;
@@ -143,8 +143,8 @@ export class GridIconComponent implements OnInit {
 
     get_IconTitle() {
         let iconTitle: string = this.title;
-        if (iconTitle.includes("noparse")) {
-            return iconTitle.replace("noparse", "");
+        if (iconTitle.includes("noparse|")) {
+            return iconTitle.replace("noparse|", "");
         }
         if (this.feat) {
             if (this.feat.subType) {
@@ -181,8 +181,8 @@ export class GridIconComponent implements OnInit {
 
     get_IconDetail() {
         let iconDetail: string = this.detail;
-        if (iconDetail.includes("noparse")) {
-            return iconDetail.replace("noparse", "");
+        if (iconDetail.includes("noparse|")) {
+            return iconDetail.replace("noparse|", "");
         }
         if (this.feat && !iconDetail) {
             if (this.feat.subType) {
@@ -211,8 +211,8 @@ export class GridIconComponent implements OnInit {
 
     get_IconSuperTitle() {
         let superTitle: string = this.superTitle;
-        if (superTitle.includes("noparse")) {
-            return superTitle.replace("noparse", "");
+        if (superTitle.includes("noparse|")) {
+            return superTitle.replace("noparse|", "");
         }
         //Convert icon- names into a <i> with that icon. Icons can be separated with |.
         // There should only be one icon, ideally.

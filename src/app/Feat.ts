@@ -228,7 +228,9 @@ export class Feat {
             if (
                 this.heritagereq.split(" or ").find(heritage =>
                     characterService.get_Character().class?.heritage?.name.toLowerCase() == heritage.toLowerCase() ||
-                    characterService.get_Character().class?.additionalHeritages.find(extraHeritage => extraHeritage.name.toLowerCase() == heritage.toLowerCase())
+                    characterService.get_Character().class?.heritage?.superType.toLowerCase() == heritage.toLowerCase() ||
+                    characterService.get_Character().class?.additionalHeritages.find(extraHeritage => extraHeritage.name.toLowerCase() == heritage.toLowerCase()) ||
+                    characterService.get_Character().class?.additionalHeritages.find(extraHeritage => extraHeritage.superType.toLowerCase() == heritage.toLowerCase())
                 )
             ) {
                 result.push({ met: true, desc: this.heritagereq });

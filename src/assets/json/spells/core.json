@@ -1638,7 +1638,7 @@
         "target": "other",
         "singleTarget": true,
         "duration": "up to 1 minute",
-        "desc": "You draw forth a hag's innate jealousy to deny a target its greatest attribute. The target is cursed with an adverse condition depending on its highest ability modifier: Strength (enfeebled); Dexterity (clumsy); Constitution (drained); or Intelligence, Wisdom, or Charisma (stupefied). On a tie, the creature decides which of the conditions associated with the tied ability modifiers to take. The target must attempt a Will save.\n\n<strong>Success</strong> The target is unaffected.\n<strong>Failure</strong> The condition's value is 1.\n<strong>Critical Failure</strong> The condition's value is 2.\n\nAt the start of each of your turns, the target can attempt another Will save, ending the effect on a success.",
+        "desc": "You draw forth a hag's innate jealousy to deny a target its greatest attribute. This is a curse and can be removed only by effects that specifically target curses. The target gains an adverse condition depending on its highest ability modifier: Strength (enfeebled); Dexterity (clumsy); Constitution (drained); or Intelligence, Wisdom, or Charisma (stupefied). On a tie, the creature decides which of the conditions associated with the tied ability modifiers to take. The target must attempt a Will save.\n\n<strong>Success</strong> The target is unaffected.\n<strong>Failure</strong> The condition's value is 1.\n<strong>Critical Failure</strong> The condition's value is 2.\n\nAt the start of each of your turns, the target can attempt another Will save, ending the effect on a success.",
         "savingThrow": "Will",
         "gainConditions": [
             {
@@ -2782,7 +2782,7 @@
                 "level": 1,
                 "descs": [
                     {
-                        "value": "+2",
+                        "value": "2",
                         "variable": "var1"
                     }
                 ]
@@ -2791,7 +2791,7 @@
                 "level": 2,
                 "descs": [
                     {
-                        "value": "+4",
+                        "value": "4",
                         "variable": "var1"
                     }
                 ]
@@ -2800,7 +2800,7 @@
                 "level": 3,
                 "descs": [
                     {
-                        "value": "+6",
+                        "value": "6",
                         "variable": "var1"
                     }
                 ]
@@ -2809,7 +2809,7 @@
                 "level": 4,
                 "descs": [
                     {
-                        "value": "+8",
+                        "value": "8",
                         "variable": "var1"
                     }
                 ]
@@ -2818,7 +2818,7 @@
                 "level": 5,
                 "descs": [
                     {
-                        "value": "+10",
+                        "value": "10",
                         "variable": "var1"
                     }
                 ]
@@ -2827,7 +2827,7 @@
                 "level": 6,
                 "descs": [
                     {
-                        "value": "+12",
+                        "value": "12",
                         "variable": "var1"
                     }
                 ]
@@ -2836,7 +2836,7 @@
                 "level": 7,
                 "descs": [
                     {
-                        "value": "+14",
+                        "value": "14",
                         "variable": "var1"
                     }
                 ]
@@ -2845,7 +2845,7 @@
                 "level": 8,
                 "descs": [
                     {
-                        "value": "+16",
+                        "value": "16",
                         "variable": "var1"
                     }
                 ]
@@ -2854,7 +2854,7 @@
                 "level": 9,
                 "descs": [
                     {
-                        "value": "+18",
+                        "value": "18",
                         "variable": "var1"
                     }
                 ]
@@ -2863,7 +2863,7 @@
                 "level": 10,
                 "descs": [
                     {
-                        "value": "+20",
+                        "value": "20",
                         "variable": "var1"
                     }
                 ]
@@ -6129,7 +6129,7 @@
         "target": "other",
         "singleTarget": true,
         "duration": "1 round",
-        "desc": "A blazing symbol appears on the target, cursing it to face divine justice. You and your allies receive a +1 status bonus to your attack rolls and skill checks against it. Anytime a good creature damages it, the good creature deals an additional |dice=var1| <var>var1</var> good damage. The target is then temporarily immune for 1 minute.",
+        "desc": "A blazing symbol appears on the target, marking it to face divine justice. This is a curse and can be removed only by effects that specifically target curses. You and your allies receive a +1 status bonus to your attack rolls and skill checks against it. Anytime a good creature damages it, the good creature deals an additional |dice=var1| <var>var1</var> good damage. The target is then temporarily immune for 1 minute.",
         "heightened": [
             {
                 "desc": "The good damage increases by 1.",
@@ -8311,7 +8311,8 @@
                 "minLevel": 4
             },
             {
-                "number": 5
+                "number": 6,
+                "minLevel": 5
             },
             {
                 "number": 7,
@@ -12578,7 +12579,7 @@
             "Transmutation"
         ],
         "range": "touch",
-        "targets": "1 non-magical weapon that is unattended or wielded by you or a willing ally",
+        "targets": "1 weapon that is unattended or wielded by you or a willing ally",
         "target": "ally",
         "singleTarget": true,
         "duration": "1 minute",
@@ -15860,11 +15861,11 @@
                         "variable": "var3"
                     },
                     {
-                        "value": "+9",
+                        "value": "9",
                         "variable": "var4"
                     },
                     {
-                        "value": "+1",
+                        "value": "1",
                         "variable": "var5"
                     },
                     {
@@ -15900,11 +15901,11 @@
                         "variable": "var3"
                     },
                     {
-                        "value": 14,
+                        "value": "14",
                         "variable": "var4"
                     },
                     {
-                        "value": 5,
+                        "value": "5",
                         "variable": "var5"
                     },
                     {
@@ -15912,11 +15913,11 @@
                         "variable": "var6"
                     },
                     {
-                        "value": 2,
+                        "value": "2",
                         "variable": "var7"
                     },
                     {
-                        "value": 1,
+                        "value": "1",
                         "variable": "var8"
                     },
                     {
@@ -15940,7 +15941,7 @@
                         "variable": "var3"
                     },
                     {
-                        "value": "+16",
+                        "value": "16",
                         "variable": "var4"
                     },
                     {
@@ -15981,7 +15982,7 @@
                         "variable": "var3"
                     },
                     {
-                        "value": "+18",
+                        "value": "18",
                         "variable": "var4"
                     },
                     {
@@ -15997,7 +15998,7 @@
                         "variable": "var7"
                     },
                     {
-                        "value": "2",
+                        "value": 2,
                         "variable": "var8"
                     },
                     {
@@ -19689,7 +19690,7 @@
         "critsuccess": "The creature is unaffected.",
         "success": "The creature takes half damage.",
         "failure": "The creature takes full damage and is deafened for 1 round.",
-        "critfailure": "The creature takes double damage and is deafened for 1 minute, and stunned 1.",
+        "critfailure": "The creature takes double damage, is deafened for 1 minute, and stunned 1.",
         "heightened": [
             {
                 "desc": "The damage increases by 1d10.",
@@ -19892,7 +19893,7 @@
         "requirements": "You have a deity.",
         "sustained": 100,
         "duration": "sustained up to 1 minute",
-        "desc": "A weapon made of pure magical force materializes and attacks foes you designate within range. This weapon has a ghostly appearance and manifests as your deity's favored weapon.\n\nWhen you cast the spell, the weapon appears next to a foe you choose within range and makes a Strike against it. Each time you Sustain the Spell, you can move the weapon to a new target within range (if needed) and Strike with it. The spiritual weapon uses and contributes to your multiple attack penalty.\n\nThe weapon's Strikes are melee spell attacks. Regardless of its appearance, the weapon deals force damage equal to |dice=var1 + spellmod Force| <var>var1</var> plus your spellcasting ability modifier. You can deal damage of the type normally dealt by the weapon instead of force damage (or any of the available damage types for a versatile weapon). No other statistics or traits of the weapon apply, and even a ranged weapon attacks adjacent creatures only. Despite making a spell attack, the spiritual weapon is a weapon for purposes of triggers, resistances, and so forth.\n\nThe weapon doesn't take up space, grant flanking, or have any other attributes a creature would. The weapon can't make any attack other than its Strike, and feats or spells that affect weapons do not apply to it.",
+        "desc": "A weapon made of pure magical force materializes and attacks foes you designate within range. This weapon has a ghostly appearance and manifests as a club, a dagger or your deity's favored weapon.\n\nWhen you cast the spell, the weapon appears next to a foe you choose within range and makes a Strike against it. Each time you Sustain the Spell, you can move the weapon to a new target within range (if needed) and Strike with it. The spiritual weapon uses and contributes to your multiple attack penalty.\n\nThe weapon's Strikes are melee spell attacks. Regardless of its appearance, the weapon deals force damage equal to |dice=var1 + spellmod Force| <var>var1</var> plus your spellcasting ability modifier. You can deal damage of the type normally dealt by the weapon instead of force damage (or any of the available damage types for a versatile weapon). No other statistics or traits of the weapon apply, and even a ranged weapon attacks adjacent creatures only. Despite making a spell attack, the spiritual weapon is a weapon for purposes of triggers, resistances, and so forth.\n\nThe weapon doesn't take up space, grant flanking, or have any other attributes a creature would. The weapon can't make any attack other than its Strike, and feats or spells that affect weapons do not apply to it.",
         "heightened": [
             {
                 "desc": "The weapon's damage increases by 1d8.",
@@ -21670,7 +21671,7 @@
                 "level": 3,
                 "descs": [
                     {
-                        "value": "+1",
+                        "value": "1",
                         "variable": "var1"
                     }
                 ]
@@ -21679,7 +21680,7 @@
                 "level": 6,
                 "descs": [
                     {
-                        "value": "+2",
+                        "value": "2",
                         "variable": "var1"
                     }
                 ]
@@ -21688,7 +21689,7 @@
                 "level": 9,
                 "descs": [
                     {
-                        "value": "+3",
+                        "value": "3",
                         "variable": "var1"
                     }
                 ]
@@ -21792,15 +21793,15 @@
                         "variable": "var2"
                     },
                     {
-                        "value": "+13",
+                        "value": "13",
                         "variable": "var3"
                     },
                     {
-                        "value": 2,
+                        "value": "2",
                         "variable": "var4"
                     },
                     {
-                        "value": 13,
+                        "value": "13",
                         "variable": "var5"
                     },
                     {
@@ -21825,7 +21826,7 @@
                         "variable": "var2"
                     },
                     {
-                        "value": "+16",
+                        "value": "16",
                         "variable": "var3"
                     },
                     {
@@ -21833,7 +21834,7 @@
                         "variable": "var4"
                     },
                     {
-                        "value": "+16",
+                        "value": "16",
                         "variable": "var5"
                     },
                     {
@@ -21841,7 +21842,7 @@
                         "variable": "var6"
                     },
                     {
-                        "value": 1,
+                        "value": "1",
                         "variable": "var7"
                     },
                     {
@@ -21862,7 +21863,7 @@
                         "variable": "var2"
                     },
                     {
-                        "value": "+18",
+                        "value": "18",
                         "variable": "var3"
                     },
                     {
@@ -21870,7 +21871,7 @@
                         "variable": "var4"
                     },
                     {
-                        "value": "+20",
+                        "value": "20",
                         "variable": "var5"
                     },
                     {
@@ -23448,11 +23449,11 @@
                         "variable": "var3"
                     },
                     {
-                        "value": "+16",
+                        "value": "16",
                         "variable": "var4"
                     },
                     {
-                        "value": "+5",
+                        "value": "5",
                         "variable": "var5"
                     },
                     {
@@ -23464,11 +23465,11 @@
                         "variable": "var7"
                     },
                     {
-                        "value": "1",
+                        "value": 1,
                         "variable": "var8"
                     },
                     {
-                        "value": "3",
+                        "value": 3,
                         "variable": "var9"
                     },
                     {
@@ -23495,11 +23496,11 @@
                         "variable": "var3"
                     },
                     {
-                        "value": "+18",
+                        "value": "18",
                         "variable": "var4"
                     },
                     {
-                        "value": "+8",
+                        "value": "8",
                         "variable": "var5"
                     },
                     {
@@ -23507,7 +23508,7 @@
                         "variable": "var6"
                     },
                     {
-                        "value": 2,
+                        "value": "2",
                         "variable": "var7"
                     },
                     {
@@ -23544,7 +23545,7 @@
                         "variable": "var3"
                     },
                     {
-                        "value": "+21",
+                        "value": "21",
                         "variable": "var4"
                     },
                     {
@@ -23560,7 +23561,7 @@
                         "variable": "var7"
                     },
                     {
-                        "value": 2,
+                        "value": "2",
                         "variable": "var8"
                     },
                     {
@@ -24246,11 +24247,11 @@
                         "variable": "var_temphp"
                     },
                     {
-                        "value": "+16",
+                        "value": "16",
                         "variable": "var_attack"
                     },
                     {
-                        "value": "+9",
+                        "value": "9",
                         "variable": "var_dmgbonus"
                     },
                     {
@@ -24262,11 +24263,11 @@
                         "variable": "var_reach10"
                     },
                     {
-                        "value": "15",
+                        "value": 15,
                         "variable": "var_reach15"
                     },
                     {
-                        "value": "1",
+                        "value": 1,
                         "variable": "var_dice1"
                     },
                     {
@@ -24297,7 +24298,7 @@
                         "variable": "var_temphp"
                     },
                     {
-                        "value": "+18",
+                        "value": "18",
                         "variable": "var_attack"
                     },
                     {
@@ -24309,7 +24310,7 @@
                         "variable": "var_athletics"
                     },
                     {
-                        "value": 15,
+                        "value": "15",
                         "variable": "var_reach10"
                     },
                     {
@@ -24350,7 +24351,7 @@
                         "variable": "var_temphp"
                     },
                     {
-                        "value": "+25",
+                        "value": "25",
                         "variable": "var_attack"
                     },
                     {
@@ -24366,7 +24367,7 @@
                         "variable": "var_reach10"
                     },
                     {
-                        "value": 25,
+                        "value": "25",
                         "variable": "var_reach15"
                     },
                     {
@@ -24374,7 +24375,7 @@
                         "variable": "var_dice1"
                     },
                     {
-                        "value": 4,
+                        "value": "4",
                         "variable": "var_dice2"
                     },
                     {
@@ -27796,11 +27797,11 @@
                         "variable": "var_temphp"
                     },
                     {
-                        "value": "+18",
+                        "value": "18",
                         "variable": "var_attack"
                     },
                     {
-                        "value": "+9",
+                        "value": "9",
                         "variable": "var_dmgbonus"
                     },
                     {
@@ -27812,7 +27813,7 @@
                         "variable": "var_dice1"
                     },
                     {
-                        "value": "2",
+                        "value": 2,
                         "variable": "var_dice2"
                     },
                     {
@@ -27836,7 +27837,7 @@
                         "variable": "var_temphp"
                     },
                     {
-                        "value": "+23",
+                        "value": "23",
                         "variable": "var_attack"
                     },
                     {
@@ -27848,11 +27849,11 @@
                         "variable": "var_athletics"
                     },
                     {
-                        "value": 1,
+                        "value": "1",
                         "variable": "var_dice1"
                     },
                     {
-                        "value": 2,
+                        "value": "2",
                         "variable": "var_dice2"
                     },
                     {
@@ -27877,7 +27878,7 @@
                         "variable": "var_temphp"
                     },
                     {
-                        "value": "+25",
+                        "value": "25",
                         "variable": "var_attack"
                     },
                     {
@@ -27893,7 +27894,7 @@
                         "variable": "var_dice1"
                     },
                     {
-                        "value": 4,
+                        "value": "4",
                         "variable": "var_dice2"
                     },
                     {
@@ -28602,11 +28603,11 @@
                         "variable": "var_temphp"
                     },
                     {
-                        "value": "+17",
+                        "value": "17",
                         "variable": "var_attack"
                     },
                     {
-                        "value": "+11",
+                        "value": "11",
                         "variable": "var_dmgbonus"
                     },
                     {
@@ -28618,7 +28619,7 @@
                         "variable": "var_reach10"
                     },
                     {
-                        "value": "15",
+                        "value": 15,
                         "variable": "var_reach15"
                     },
                     {
@@ -28642,7 +28643,7 @@
                         "variable": "var_temphp"
                     },
                     {
-                        "value": "+21",
+                        "value": "21",
                         "variable": "var_attack"
                     },
                     {
@@ -28654,11 +28655,11 @@
                         "variable": "var_athletics"
                     },
                     {
-                        "value": 15,
+                        "value": "15",
                         "variable": "var_reach10"
                     },
                     {
-                        "value": 20,
+                        "value": "20",
                         "variable": "var_reach15"
                     },
                     {
@@ -30314,11 +30315,11 @@
                         "variable": "var_temphp"
                     },
                     {
-                        "value": "+22",
+                        "value": "22",
                         "variable": "var_attack"
                     },
                     {
-                        "value": "+6",
+                        "value": "6",
                         "variable": "var_dmgbonus"
                     },
                     {
@@ -30359,11 +30360,11 @@
                         "variable": "var_temphp"
                     },
                     {
-                        "value": "+28",
+                        "value": "28",
                         "variable": "var_attack"
                     },
                     {
-                        "value": 12,
+                        "value": "12",
                         "variable": "var_dmgbonus"
                     },
                     {
@@ -30375,7 +30376,7 @@
                         "variable": "var_breathbonus"
                     },
                     {
-                        "value": 15,
+                        "value": "15",
                         "variable": "var_reach10"
                     },
                     {
@@ -31594,15 +31595,15 @@
                         "variable": "var_temphp"
                     },
                     {
-                        "value": "+28",
+                        "value": "28",
                         "variable": "var_attack"
                     },
                     {
-                        "value": "+30",
+                        "value": "30",
                         "variable": "var_athletics"
                     },
                     {
-                        "value": 2,
+                        "value": "2",
                         "variable": "var_dice2"
                     },
                     {
@@ -31623,15 +31624,15 @@
                         "variable": "var_temphp"
                     },
                     {
-                        "value": "+31",
+                        "value": "31",
                         "variable": "var_attack"
                     },
                     {
-                        "value": "+33",
+                        "value": "33",
                         "variable": "var_athletics"
                     },
                     {
-                        "value": 3,
+                        "value": "3",
                         "variable": "var_dice2"
                     },
                     {

@@ -265,7 +265,7 @@ export class Weapon extends Equipment {
         let absolutes: { value: number, setValue: string, source: string, penalty: boolean, type: string }[] = [];
         //Calculate dexterity and strength penalties for the decision on which to use. They are not immediately applied.
         //The Clumsy condition affects all Dexterity attacks.
-        let dexEffects = effectsService.get_RelativesOnThis(creature, "Dexterity-based Checks and DCs");
+        let dexEffects = effectsService.get_RelativesOnThese(creature, ["Dexterity-based Checks and DCs", "Dexterity-based Attack Rolls"]);
         let dexPenalty: { value: number, setValue: string, source: string, penalty: boolean }[] = [];
         let dexPenaltySum: number = 0;
         dexEffects.forEach(effect => {
@@ -273,7 +273,7 @@ export class Weapon extends Equipment {
             dexPenaltySum += parseInt(effect.value);
         });
         //The Enfeebled condition affects all Strength attacks
-        let strEffects = effectsService.get_RelativesOnThis(creature, "Strength-based Checks and DCs");
+        let strEffects = effectsService.get_RelativesOnThese(creature, ["Strength-based Checks and DCs", "Strength-based Attack Rolls"]);
         let strPenalty: { value: number, setValue: string, source: string, penalty: boolean }[] = [];
         let strPenaltySum: number = 0;
         strEffects.forEach(effect => {
@@ -340,7 +340,9 @@ export class Weapon extends Equipment {
             //"Melee Attack Rolls", "Ranged Attack Rolls"
             range + " Attack Rolls",
             //"Strength-based Checks and DCs"
-            abilityName + "-based Checks and DCs"
+            abilityName + "-based Checks and DCs",
+            //"Strength-based Checks and DCs"
+            abilityName + "-based Attack Rolls"
         ];
         let traits = this.get_Traits(characterService, creature);
         traits.forEach(trait => {
@@ -776,6 +778,7 @@ export class Weapon extends Equipment {
         }
         //"Strength-based Checks and DCs"
         list.push(abilityName + "-based Checks and DCs");
+        //Proficiency-based damage
         switch (profLevel) {
             case 2:
                 list.push("Trained Proficiency Attack Damage")

@@ -235,6 +235,6 @@
 </ng-container>
 <div [ngbCollapse]="fullDisplay && get_ShowItem()!=conditionGain.id+'description'">
     <div class="newrow lower left-aligned" *ngFor="let desc of get_HeightenedDescription().split('\n\n'); trackBy:trackByIndex;">
-        <app-diceText [text]="desc"></app-diceText>
+        <app-description [text]="desc"></app-description>
     </div>
 </div>

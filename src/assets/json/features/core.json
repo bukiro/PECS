@@ -208,6 +208,11 @@
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
+        "name": "Medium Armor Mastery",
+        "desc": "Your skill with medium armor improves, increasing your ability to dodge blows. Your proficiency ranks for light armor, medium armor, and unarmored defense increase to master.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
         "name": "Metal Strikes",
         "desc": "You can adjust your body to make unarmed attacks infused with the mystic energy of rare metals. Your unarmed attacks are treated as cold iron and silver. This allows you to deal more damage to a variety of supernatural creatures, such as demons, devils, and fey.",
         "hints": [
@@ -406,10 +411,10 @@
     },
     {
         "name": "Alchemical Alacrity",
-        "desc": "Your comfort in concocting items is such that you can create three at a time. When using the Quick Alchemy action, you can spend up to three batches of infused reagents to make up to three alchemical items as described in that action. These items do not have to be the same.",
+        "desc": "Your comfort in concocting items is such that you can create three at a time. When using the Quick Alchemy action, you can spend up to three batches of infused reagents to make up to three alchemical items as described in that action. These items do not have to be the same, and you automatically stow one of these new items as you create them.",
         "hints": [
             {
-                "desc": "When using the Quick Alchemy action, you can spend up to three batches of infused reagents to make up to three alchemical items as described in that action. These items do not have to be the same.",
+                "desc": "When using the Quick Alchemy action, you can spend up to three batches of infused reagents to make up to three alchemical items as described in that action. These items do not have to be the same, and you automatically stow one of these new items as you create them.",
                 "showon": "Quick Alchemy"
             }
         ]
@@ -486,6 +491,11 @@
         "name": "Perpetual Potency",
         "desc": "Your perpetual infusions improve, allowing you to use Quick Alchemy to create more powerful items with no cost. The items you can select depend on your research field and must be in your formula book.",
         "internalNote": "##### Not yet implemented - will be implemented in the research field objects #####"
+    },
+    {
+        "name": "Powerful Alchemy",
+        "desc": "Alchemical items you create on the fly are particularly potent. When you use Quick Alchemy to create an infused alchemical item that allows a saving throw, you can change its DC to your class DC.",
+        "internalNote": "##### Not yet implemented #####"
     },
     {
         "name": "Quick Alchemy",

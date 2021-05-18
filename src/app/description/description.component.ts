@@ -2,11 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { SpellCasting } from '../SpellCasting';
 
 @Component({
-    selector: 'app-diceText',
-    templateUrl: './diceText.component.html',
-    styleUrls: ['./diceText.component.scss']
+    selector: 'app-description',
+    templateUrl: './description.component.html',
+    styleUrls: ['./description.component.scss']
 })
-export class DiceTextComponent implements OnInit {
+export class DescriptionComponent implements OnInit {
 
     @Input()
     text: string = "";

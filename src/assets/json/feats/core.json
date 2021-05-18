@@ -1523,8 +1523,8 @@
                 "effects": [
                     {
                         "affected": "Survival",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     }
                 ]
             }
@@ -1598,8 +1598,8 @@
                 "effects": [
                     {
                         "affected": "Saving Throws",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             },
@@ -2027,7 +2027,7 @@
         "desc": "Like a powerful constrictor, you crush targets in your unyielding grasp. When you successfully Grapple a creature, you can deal bludgeoning damage to that creature equal to your Strength modifier. You can make this attack nonlethal with no penalty.",
         "hints": [
             {
-                "desc": "When you successfully Grapple a creature, you can deal bludgeoning damage to that creature equal to your Strength modifier. You can make this attack nonlethal with no penalty.",
+                "desc": "When you successfully Grapple a creature, you can deal |dice=strmod B| bludgeoning damage to that creature equal to your Strength modifier. You can make this attack nonlethal with no penalty.",
                 "showon": "Athletics"
             }
         ],
@@ -2122,8 +2122,8 @@
                 "effects": [
                     {
                         "affected": "Saving Throws",
-                        "value": "1",
-                        "type": "status"
+                        "type": "status",
+                        "value": "1"
                     }
                 ]
             }
@@ -2160,8 +2160,8 @@
                 "effects": [
                     {
                         "affected": "Deception",
-                        "value": "4",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "4"
                     }
                 ]
             }
@@ -2381,8 +2381,8 @@
                 "effects": [
                     {
                         "affected": "Will",
-                        "value": "2",
-                        "type": "status"
+                        "type": "status",
+                        "value": "2"
                     }
                 ]
             }
@@ -2406,8 +2406,8 @@
                 "effects": [
                     {
                         "affected": "Diplomacy",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -3006,8 +3006,8 @@
                 "effects": [
                     {
                         "affected": "AC",
-                        "value": "4",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "4"
                     }
                 ]
             }
@@ -3159,7 +3159,7 @@
         "desc": "When you successfully Shove a creature, increase both the distance you can push the creature and the distance you can move to follow along with the target by 5 feet on a success or 10 feet on a critical success. If you push the target into an obstacle, it takes bludgeoning damage equal to 6 plus your Strength modifier, or 8 plus your Strength modifier if you have legendary proficiency in Athletics.",
         "hints": [
             {
-                "desc": "When you successfully Shove a creature, increase both the distance you can push the creature and the distance you can move to follow along with the target by 5 feet on a success or 10 feet on a critical success. If you push the target into an obstacle, it takes bludgeoning damage equal to 6 plus your Strength modifier, or 8 plus your Strength modifier if you have legendary proficiency in Athletics.",
+                "desc": "When you successfully Shove a creature, increase both the distance you can push the creature and the distance you can move to follow along with the target by 5 feet on a success or 10 feet on a critical success. If you push the target into an obstacle, it takes bludgeoning damage equal to |dice=6 + strmod B| 6 plus your Strength modifier, or |dice=8 + strmod B| 8 plus your Strength modifier if you have legendary proficiency in Athletics.",
                 "showon": "Athletics"
             }
         ],
@@ -3185,13 +3185,13 @@
                 "effects": [
                     {
                         "affected": "Perception",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     },
                     {
                         "affected": "Skill Checks",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     }
                 ]
             }
@@ -3255,8 +3255,8 @@
                 "effects": [
                     {
                         "affected": "Intimidation",
-                        "value": "(Skill_Level('Intimidation') >= 6 && Ability('Strength') >= 20) ? 2 : 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "(Skill_Level('Intimidation') >= 6 && Ability('Strength') >= 20) ? 2 : 1"
                     }
                 ]
             }
@@ -3400,8 +3400,8 @@
                 "effects": [
                     {
                         "affected": "Perception",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     }
                 ]
             },
@@ -4147,8 +4147,8 @@
                 "effects": [
                     {
                         "affected": "Nature",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     }
                 ]
             }
@@ -4191,6 +4191,7 @@
     {
         "name": "Nomadic Halfling",
         "desc": "Your ancestors have traveled from place to place for generations, never content to settle down. You gain two additional languages of your choice, chosen from among the common and uncommon languages available to you, and every time you take the Multilingual feat, you gain another new language.",
+        "internalNote": "The bonus from the Multilingual feat is coded into the Multilingual feat.",
         "shortdesc": "Your ancestors have traveled from place to place for generations, never content to settle down.",
         "effects": [
             {
@@ -4204,7 +4205,7 @@
         "desc": "Your past has left you numb to death's call. The first time each day that you regain Hit Points while you are dying, you regain additional Hit Points equal to your level, and you neither gain the wounded condition nor increase the value of this condition.",
         "hints": [
             {
-                "desc": "The first time each day that you regain Hit Points while you are dying, you regain additional Hit Points equal to your level, and you neither gain the wounded condition nor increase the value of this condition. You can apply this effect with the related button, and should use it before the triggering Healing.",
+                "desc": "The first time each day that you regain Hit Points while you are dying, you regain additional Hit Points equal to your level, and you neither gain the wounded condition nor increase the value of this condition. You can apply this effect with a button in the health area, and should use it before the triggering Healing.",
                 "showon": "Max Dying"
             }
         ],
@@ -4231,8 +4232,8 @@
                 "effects": [
                     {
                         "affected": "Deception",
-                        "value": "-4",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "-4"
                     }
                 ]
             },
@@ -4242,8 +4243,8 @@
                 "effects": [
                     {
                         "affected": "Diplomacy",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     }
                 ]
             },
@@ -4253,8 +4254,8 @@
                 "effects": [
                     {
                         "affected": "Perception",
-                        "value": 1,
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": 1
                     }
                 ]
             }
@@ -4271,8 +4272,8 @@
                 "effects": [
                     {
                         "affected": "Perception",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -4289,8 +4290,8 @@
                 "effects": [
                     {
                         "affected": "Occultism",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     }
                 ]
             }
@@ -4319,28 +4320,28 @@
                     {
                         "affected": "Recall Knowledge Checks",
                         "show": true,
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     },
                     {
                         "affected": "Deception",
-                        "value": "(Has_Feat(Creature.type,'Masterful Hunter: Outwit') && Skill_Level('Deception') >= 6) ? 4 : 2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "(Has_Feat(Creature.type,'Masterful Hunter: Outwit') && Skill_Level('Deception') >= 6) ? 4 : 2"
                     },
                     {
                         "affected": "Intimidation",
-                        "value": "(Has_Feat(Creature.type,'Masterful Hunter: Outwit') && Skill_Level('Intimidation') >= 6) ? 4 : 2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "(Has_Feat(Creature.type,'Masterful Hunter: Outwit') && Skill_Level('Intimidation') >= 6) ? 4 : 2"
                     },
                     {
                         "affected": "Stealth",
-                        "value": "(Has_Feat(Creature.type,'Masterful Hunter: Outwit') && Skill_Level('Stealth') >= 6) ? 4 : 2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "(Has_Feat(Creature.type,'Masterful Hunter: Outwit') && Skill_Level('Stealth') >= 6) ? 4 : 2"
                     },
                     {
                         "affected": "Master Recall Knowledge Checks",
-                        "value": "Has_Feat(Creature.type,'Masterful Hunter: Outwit') ? 4 : 0",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Has_Feat(Creature.type,'Masterful Hunter: Outwit') ? 4 : 0"
                     }
                 ]
             },
@@ -4350,8 +4351,8 @@
                 "effects": [
                     {
                         "affected": "AC",
-                        "value": "(Has_Feat(Creature.type,'Masterful Hunter: Outwit') && Skill_Level(Armor().get_Proficiency()) >= 6) ? 2 : 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "(Has_Feat(Creature.type,'Masterful Hunter: Outwit') && Skill_Level(Armor().get_Proficiency()) >= 6) ? 2 : 1"
                     }
                 ]
             },
@@ -5010,13 +5011,13 @@
                 "effects": [
                     {
                         "affected": "Fortitude",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     },
                     {
                         "affected": "Reflex",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     }
                 ]
             }
@@ -5264,23 +5265,23 @@
                 "effects": [
                     {
                         "affected": "Arcana",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     },
                     {
                         "affected": "Nature",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     },
                     {
                         "affected": "Occultism",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     },
                     {
                         "affected": "Religion",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -5297,8 +5298,8 @@
                 "effects": [
                     {
                         "affected": "Perception",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     }
                 ]
             }
@@ -5537,8 +5538,8 @@
                 "effects": [
                     {
                         "affected": "Crafting",
-                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1"
                     }
                 ]
             }
@@ -5571,8 +5572,8 @@
                 "effects": [
                     {
                         "affected": "Crafting",
-                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1"
                     }
                 ]
             }
@@ -5602,8 +5603,8 @@
                 "effects": [
                     {
                         "affected": "Crafting",
-                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1"
                     }
                 ]
             }
@@ -5633,8 +5634,8 @@
                 "effects": [
                     {
                         "affected": "Crafting",
-                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1"
                     }
                 ]
             }
@@ -5664,8 +5665,8 @@
                 "effects": [
                     {
                         "affected": "Crafting",
-                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1"
                     }
                 ]
             }
@@ -5695,8 +5696,8 @@
                 "effects": [
                     {
                         "affected": "Crafting",
-                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1"
                     }
                 ]
             }
@@ -5726,8 +5727,8 @@
                 "effects": [
                     {
                         "affected": "Crafting",
-                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1"
                     }
                 ]
             }
@@ -5757,8 +5758,8 @@
                 "effects": [
                     {
                         "affected": "Crafting",
-                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1"
                     }
                 ]
             }
@@ -5788,8 +5789,8 @@
                 "effects": [
                     {
                         "affected": "Crafting",
-                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1"
                     }
                 ]
             }
@@ -5819,8 +5820,8 @@
                 "effects": [
                     {
                         "affected": "Crafting",
-                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1"
                     }
                 ]
             }
@@ -5850,8 +5851,8 @@
                 "effects": [
                     {
                         "affected": "Crafting",
-                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1"
                     }
                 ]
             }
@@ -5881,8 +5882,8 @@
                 "effects": [
                     {
                         "affected": "Crafting",
-                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Crafting') >= 6 ? 2 : 1"
                     }
                 ]
             }
@@ -6119,8 +6120,8 @@
                 "effects": [
                     {
                         "affected": "Athletics",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     }
                 ]
             }
@@ -6184,8 +6185,8 @@
                 "effects": [
                     {
                         "affected": "Survival",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -6215,8 +6216,8 @@
                 "effects": [
                     {
                         "affected": "Survival",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -6246,8 +6247,8 @@
                 "effects": [
                     {
                         "affected": "Survival",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -6277,8 +6278,8 @@
                 "effects": [
                     {
                         "affected": "Survival",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -6308,8 +6309,8 @@
                 "effects": [
                     {
                         "affected": "Survival",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -6339,8 +6340,8 @@
                 "effects": [
                     {
                         "affected": "Survival",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -6370,8 +6371,8 @@
                 "effects": [
                     {
                         "affected": "Survival",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -6401,8 +6402,8 @@
                 "effects": [
                     {
                         "affected": "Survival",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -6432,8 +6433,8 @@
                 "effects": [
                     {
                         "affected": "Survival",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -6463,8 +6464,8 @@
                 "effects": [
                     {
                         "affected": "Survival",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -6637,8 +6638,8 @@
                 "effects": [
                     {
                         "affected": "Saving Throws",
-                        "value": "2",
-                        "type": "status"
+                        "type": "status",
+                        "value": "2"
                     }
                 ]
             },
@@ -6749,13 +6750,13 @@
                 "effects": [
                     {
                         "affected": "Stealth",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     },
                     {
                         "affected": "Survival",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     }
                 ]
             }
@@ -6959,8 +6960,8 @@
                 "effects": [
                     {
                         "affected": "Performance",
-                        "value": "Skill_Level('Performance') >= 6 ? 2: 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Performance') >= 6 ? 2: 1"
                     }
                 ]
             }
@@ -6990,8 +6991,8 @@
                 "effects": [
                     {
                         "affected": "Performance",
-                        "value": "Skill_Level('Performance') >= 6 ? 2: 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Performance') >= 6 ? 2: 1"
                     }
                 ]
             }
@@ -7021,8 +7022,8 @@
                 "effects": [
                     {
                         "affected": "Performance",
-                        "value": "Skill_Level('Performance') >= 6 ? 2: 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Performance') >= 6 ? 2: 1"
                     }
                 ]
             }
@@ -7052,8 +7053,8 @@
                 "effects": [
                     {
                         "affected": "Performance",
-                        "value": "Skill_Level('Performance') >= 6 ? 2: 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Performance') >= 6 ? 2: 1"
                     }
                 ]
             }
@@ -7083,8 +7084,8 @@
                 "effects": [
                     {
                         "affected": "Performance",
-                        "value": "Skill_Level('Performance') >= 6 ? 2: 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Performance') >= 6 ? 2: 1"
                     }
                 ]
             }
@@ -7114,8 +7115,8 @@
                 "effects": [
                     {
                         "affected": "Performance",
-                        "value": "Skill_Level('Performance') >= 6 ? 2: 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Performance') >= 6 ? 2: 1"
                     }
                 ]
             }
@@ -7145,8 +7146,8 @@
                 "effects": [
                     {
                         "affected": "Performance",
-                        "value": "Skill_Level('Performance') >= 6 ? 2: 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Performance') >= 6 ? 2: 1"
                     }
                 ]
             }
@@ -7176,8 +7177,8 @@
                 "effects": [
                     {
                         "affected": "Performance",
-                        "value": "Skill_Level('Performance') >= 6 ? 2: 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Performance') >= 6 ? 2: 1"
                     }
                 ]
             }
@@ -7207,8 +7208,8 @@
                 "effects": [
                     {
                         "affected": "Performance",
-                        "value": "Skill_Level('Performance') >= 6 ? 2: 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Performance') >= 6 ? 2: 1"
                     }
                 ]
             }
@@ -7345,13 +7346,13 @@
                 "effects": [
                     {
                         "affected": "AC",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     },
                     {
                         "affected": "Saving Throws",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     }
                 ]
             }
@@ -7530,8 +7531,8 @@
                 "effects": [
                     {
                         "affected": "Perception",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     }
                 ]
             }
@@ -9727,7 +9728,7 @@
         "desc": "A guilty conscience assails foes who spurn your Glimpse of Redemption. A foe that responds to your Glimpse of Redemption by dealing damage takes persistent good damage equal to your Charisma modifier.",
         "hints": [
             {
-                "desc": "A foe that responds to your Glimpse of Redemption by dealing damage takes persistent good damage equal to your Charisma modifier.",
+                "desc": "A foe that responds to your Glimpse of Redemption by dealing damage takes |dice=chamod Persistent Good| persistent good damage equal to your Charisma modifier.",
                 "showon": "Glimpse of Redemption"
             }
         ],
@@ -9855,7 +9856,7 @@
         "desc": "You punish those who ensnare your allies in bondage. If the triggering enemy was using any effects to make your ally grabbed, restrained, immobilized, or paralyzed when you used Liberating Step, that enemy takes persistent good damage equal to your Charisma modifier.",
         "hints": [
             {
-                "desc": "If the triggering enemy was using any effects to make your ally grabbed, restrained, immobilized, or paralyzed when you used Liberating Step, that enemy takes persistent good damage equal to your Charisma modifier.",
+                "desc": "If the triggering enemy was using any effects to make your ally grabbed, restrained, immobilized, or paralyzed when you used Liberating Step, that enemy takes |dice=chamod Persistent Good| persistent good damage equal to your Charisma modifier.",
                 "showon": "Liberating Step"
             }
         ],
@@ -13528,9 +13529,7 @@
                 "type": "Save"
             }
         ]
-    }
-    
-    ,
+    },
     {
         "name": "Aberrant Bloodline",
         "desc": "Something speaks to you from beyond the stars or below the earth. Ancient and unknowable, this alien influence presses against your mind.\n\n<strong>Spell List</strong> occult\n<strong>Bloodline Skills</strong> Intimidation, Occultism\n<strong>Granted Spells</strong> cantrip: daze, 1st: spider sting, 2nd: touch of idiocy, 3rd: vampiric touch, 4th: confusion, 5th: black tentacles, 6th: feeblemind, 7th: warp mind, 8th: uncontrollable dance, 9th: unfathomable song\n<strong>Bloodline Spells</strong> initial: tentacular limbs, advanced: aberrant whispers, greater: unusual anatomy\n<strong>Blood Magic</strong> Aberrant whispers shield one target's mind or your own, granting a +2 status bonus to Will saving throws for 1 round.",
@@ -20841,7 +20840,7 @@
                 "showon": "Aggressive Block, Brutish Shove"
             },
             {
-                "desc": "When a creature you Shove has to stop moving because it would hit an object, it takes damage equal to your Strength modifier (minimum 1). This happens regardless of how you Shoved the creature.",
+                "desc": "When a creature you Shove has to stop moving because it would hit an object, it takes |dice=strmod| damage equal to your Strength modifier (minimum 1). This happens regardless of how you Shoved the creature.",
                 "showon": "Athletics"
             }
         ],
@@ -22892,8 +22891,8 @@
                 "effects": [
                     {
                         "affected": "Crossbow Damage",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     },
                     {
                         "affected": "Simple Crossbow Dice Size",
@@ -22931,8 +22930,8 @@
                 "effects": [
                     {
                         "affected": "Attack Rolls",
-                        "value": "Has_Feat(Creature.type, 'Legendary Monster Hunter') ? 2 : 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Has_Feat(Creature.type, 'Legendary Monster Hunter') ? 2 : 1"
                     }
                 ]
             }
@@ -22977,8 +22976,8 @@
                     {
                         "affected": "Swim Speed",
                         "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Swim Speed').concat(effectsService.get_RelativesOnThis(creature, 'Swim Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null",
-                        "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Swim Speed').concat(effectsService.get_RelativesOnThis(creature, 'Swim Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0",
-                        "type": "status"
+                        "type": "status",
+                        "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Swim Speed').concat(effectsService.get_RelativesOnThis(creature, 'Swim Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0"
                     }
                 ]
             }
@@ -23052,8 +23051,8 @@
                     {
                         "affected": "Climb Speed",
                         "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null",
-                        "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0",
-                        "type": "status"
+                        "type": "status",
+                        "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0"
                     }
                 ]
             }
@@ -23077,8 +23076,8 @@
                     {
                         "affected": "Climb Speed",
                         "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null",
-                        "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0",
-                        "type": "status"
+                        "type": "status",
+                        "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0"
                     }
                 ]
             }
@@ -23101,8 +23100,8 @@
                 "effects": [
                     {
                         "affected": "Land Speed",
-                        "value": "Has_Feat(Creature.type, 'Wild Stride') ? +10 : 0",
-                        "type": "status"
+                        "type": "status",
+                        "value": "Has_Feat(Creature.type, 'Wild Stride') ? +10 : 0"
                     }
                 ]
             }
@@ -23125,8 +23124,8 @@
                 "effects": [
                     {
                         "affected": "Fly Speed",
-                        "value": "Has_Feat(Creature.type, 'Wild Stride') && Speed('Fly Speed') ? +10 : 0",
-                        "type": "status"
+                        "type": "status",
+                        "value": "Has_Feat(Creature.type, 'Wild Stride') && Speed('Fly Speed') ? +10 : 0"
                     }
                 ]
             }
@@ -23167,8 +23166,8 @@
                     {
                         "affected": "Climb Speed",
                         "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null",
-                        "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0",
-                        "type": "status"
+                        "type": "status",
+                        "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0"
                     }
                 ]
             }
@@ -23204,13 +23203,13 @@
                 "effects": [
                     {
                         "affected": "Saving Throws",
-                        "value": "Has_Feat(Creature.type, 'Legendary Monster Hunter') ? 2 : 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Has_Feat(Creature.type, 'Legendary Monster Hunter') ? 2 : 1"
                     },
                     {
                         "affected": "AC",
-                        "value": "Has_Feat(Creature.type, 'Legendary Monster Hunter') ? 2 : 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Has_Feat(Creature.type, 'Legendary Monster Hunter') ? 2 : 1"
                     }
                 ]
             }
@@ -23269,8 +23268,9 @@
             "Ranger"
         ],
         "levelreq": 4,
-        "specialreq": "characterService.get_CompanionAvailable()",
-        "specialreqdesc": "an animal companion"
+        "featreq": [
+            "Animal Companion"
+        ]
     },
     {
         "name": "Disrupt Prey",
@@ -23529,18 +23529,18 @@
                 "effects": [
                     {
                         "affected": "Perception",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     },
                     {
                         "affected": "AC",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     },
                     {
                         "affected": "Saving Throws",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -23826,8 +23826,9 @@
             "Ranger"
         ],
         "levelreq": 12,
-        "specialreq": "characterService.get_CompanionAvailable()",
-        "specialreqdesc": "an animal companion"
+        "featreq": [
+            "Animal Companion"
+        ]
     },
     {
         "name": "Shared Prey",
@@ -27780,7 +27781,7 @@
     },
     {
         "name": "Arcane Breadth",
-        "desc": "You can cast more arcane spells each day. Increase the spell slots you gain from wizard archetype feats by 1 for each spell level other than your two highest spell levels.",
+        "desc": "You can cast more arcane spells each day. Increase the spell slots you gain from wizard archetype feats by 1 for each spell level other than your two highest wizard spell slots.",
         "internalNote": "The effect is hardcoded in the spellchoice component.",
         "shortdesc": "You can cast more arcane spells each day.",
         "archetype": "Wizard",
@@ -28133,18 +28134,18 @@
                 "effects": [
                     {
                         "affected": "Perception",
-                        "value": "Skill_Level('Thievery') >= 6 ? 2 : 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Thievery') >= 6 ? 2 : 1"
                     },
                     {
                         "affected": "AC",
-                        "value": "Skill_Level('Thievery') >= 6 ? 2 : 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Thievery') >= 6 ? 2 : 1"
                     },
                     {
                         "affected": "Saving Throws",
-                        "value": "Skill_Level('Thievery') >= 6 ? 2 : 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Skill_Level('Thievery') >= 6 ? 2 : 1"
                     }
                 ]
             },
@@ -28687,7 +28688,7 @@
         "desc": "You deliver poisons in ways that maximize their harmful effects. When you apply a simple poison with Poison Weapon, the poison deals 2d4 poison damage instead of 1d4 poison damage. You don't waste a poison you apply with Poison Weapon on a critically failed attack roll.",
         "hints": [
             {
-                "desc": "When you apply a simple poison with Poison Weapon, the poison deals 2d4 poison damage instead of 1d4 poison damage. You don't waste a poison you apply with Poison Weapon on a critically failed attack roll.",
+                "desc": "When you apply a simple poison with Poison Weapon, the poison deals |dice=2d4 Poison| 2d4 poison damage instead of 1d4 poison damage. You don't waste a poison you apply with Poison Weapon on a critically failed attack roll.",
                 "showon": "Poison Weapon, Rogue Poison"
             }
         ],
@@ -28747,7 +28748,7 @@
         "desc": "Your attacks deal more damage, even against creatures that aren't flat-footed. When you succeed or critically succeed at a Strike against a creature that isn't flat-footed, you also deal 1d6 precision damage. This applies only if you're using a weapon or unarmed attack you could deal sneak attack damage with. At 14th level, if you would normally deal 3d6 or more sneak attack damage to flat-footed creatures, you deal 2d6 precision damage to creatures that aren't flat-footed.",
         "hints": [
             {
-                "desc": "When you succeed or critically succeed at a Strike against a creature that isn't flat-footed, you also deal 1d6 precision damage. This applies only if you're using a weapon or unarmed attack you could deal sneak attack damage with. At 14th level, if you would normally deal 3d6 or more sneak attack damage to flat-footed creatures, you deal 2d6 precision damage to creatures that aren't flat-footed.",
+                "desc": "When you succeed or critically succeed at a Strike against a creature that isn't flat-footed, you also deal |dice=1d6 Precision| 1d6 precision damage. This applies only if you're using a weapon or unarmed attack you could deal sneak attack damage with. At 14th level, if you would normally deal 3d6 or more sneak attack damage to flat-footed creatures, you deal |dice=2d6 Precision| 2d6 precision damage to creatures that aren't flat-footed.",
                 "showon": "Attacks"
             }
         ],
@@ -28765,7 +28766,7 @@
         "desc": "You carefully aim and gracefully deliver your debilitations. Add the following debilitations to the list you can choose from when you use Debilitating Strike.\n\n<strong>Debilitation</strong> The target takes an additional 2d6 precision damage from your attacks.\n<strong>Debilitation</strong> The target becomes flat-footed.",
         "hints": [
             {
-                "desc": "Add the following debilitations to the list you can choose from when you use Debilitating Strike.\n\nDebilitation: The target takes an additional 2d6 precision damage from your attacks.\nDebilitation: The target becomes flat-footed.",
+                "desc": "Add the following debilitations to the list you can choose from when you use Debilitating Strike.\n\nDebilitation: The target takes an additional |dice=2d6 Precision| 2d6 precision damage from your attacks.\nDebilitation: The target becomes flat-footed.",
                 "showon": "Debilitating Strike"
             }
         ],
@@ -28862,7 +28863,7 @@
         "desc": "Your poisons are devastatingly potent. When you apply a simple poison with Poison Weapon, the poison deals 4d4 poison damage instead of 1d4 poison damage. When you apply an injury poison to your weapon, the DC to resist that poison increases by 2, to a maximum of your class DC.",
         "hints": [
             {
-                "desc": "When you apply a simple poison with Poison Weapon, the poison deals 4d4 poison damage instead of 1d4 poison damage. When you apply an injury poison to your weapon, the DC to resist that poison increases by 2, to a maximum of your class DC.",
+                "desc": "When you apply a simple poison with Poison Weapon, the poison deals |dice=4d4 Poison| 4d4 poison damage instead of 1d4 poison damage. When you apply an injury poison to your weapon, the DC to resist that poison increases by 2, to a maximum of your class DC.",
                 "showon": "Poison Weapon, Rogue Poison"
             }
         ],
@@ -29338,7 +29339,7 @@
         "desc": "You gain the sneak attack class feature, except it deals 1d4 damage, increasing to 1d6 at 6th level. You don't increase the number of dice as you gain levels.",
         "hints": [
             {
-                "desc": "If you Strike a creature that has the flat-footed condition with an agile or finesse melee weapon, an agile or finesse unarmed attack, or a ranged weapon attack, you deal an extra 1d4 precision damage. Increase the damage to 1d6 at 6th level. For a ranged attack with a thrown melee weapon, that weapon must also be agile or finesse.",
+                "desc": "If you Strike a creature that has the flat-footed condition with an agile or finesse melee weapon, an agile or finesse unarmed attack, or a ranged weapon attack, you deal an extra |dice=1d4 Precision| 1d4 precision damage. Increase the damage to |dice=1d6 Precision| 1d6 at 6th level. For a ranged attack with a thrown melee weapon, that weapon must also be agile or finesse.",
                 "showon": "Attacks"
             }
         ],
@@ -29631,8 +29632,6 @@
         "featreq": [
             "Maestro Muse"
         ],
-        "specialreq": "character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.spellChoices.length).length",
-        "specialreqdesc": "focus pool",
         "effects": [
             {
                 "affected": "Focus Pool",
@@ -29773,8 +29772,6 @@
         "featreq": [
             "Enigma Muse"
         ],
-        "specialreq": "character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.spellChoices.length).length",
-        "specialreqdesc": "focus pool",
         "effects": [
             {
                 "affected": "Focus Pool",
@@ -30067,8 +30064,6 @@
         "featreq": [
             "Maestro Muse"
         ],
-        "specialreq": "character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.spellChoices.length).length",
-        "specialreqdesc": "focus pool",
         "effects": [
             {
                 "affected": "Focus Pool",
@@ -30260,8 +30255,6 @@
             "Bard"
         ],
         "levelreq": 14,
-        "specialreq": "character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.spellChoices.length).length",
-        "specialreqdesc": "focus pool",
         "effects": [
             {
                 "affected": "Focus Pool",
@@ -30519,8 +30512,6 @@
             "Bard"
         ],
         "levelreq": 20,
-        "specialreq": "character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.spellChoices.length).length",
-        "specialreqdesc": "focus pool",
         "effects": [
             {
                 "affected": "Focus Pool",
@@ -30594,8 +30585,6 @@
             "Bard"
         ],
         "levelreq": 20,
-        "specialreq": "character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.spellChoices.length).length",
-        "specialreqdesc": "focus pool",
         "effects": [
             {
                 "affected": "Focus Pool",
@@ -30920,7 +30909,7 @@
     },
     {
         "name": "Occult Breadth",
-        "desc": "Your repertoire expands, and you can cast more occult spells each day. Increase the number of spells in your repertoire and the number of spell slots you gain from bard archetype feats by 1 for each spell level other than your two highest spell levels.",
+        "desc": "Your repertoire expands, and you can cast more occult spells each day. Increase the number of spells in your repertoire and the number of spell slots you gain from bard archetype feats by 1 for each spell level other than your two highest bard spell slots.",
         "internalNote": "The effect is hardcoded in the spellchoice component.",
         "shortdesc": "Your repertoire expands, and you can cast more occult spells each day.",
         "archetype": "Bard",
@@ -31090,8 +31079,8 @@
                 "effects": [
                     {
                         "affected": "Acrobatics",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     }
                 ]
             }
@@ -31148,13 +31137,13 @@
                 "effects": [
                     {
                         "affected": "Acrobatics",
-                        "value": "Has_Heritage('Irongut Goblin') ? 2 : 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Has_Heritage('Irongut Goblin') ? 2 : 1"
                     },
                     {
                         "affected": "Acrobatics",
-                        "value": "Has_Heritage('Irongut Goblin') ? 2 : 1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "Has_Heritage('Irongut Goblin') ? 2 : 1"
                     }
                 ]
             }
@@ -31383,8 +31372,8 @@
                 "effects": [
                     {
                         "affected": "Nature",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -32117,13 +32106,13 @@
                 "effects": [
                     {
                         "affected": "Skill Checks",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     },
                     {
                         "affected": "Attack Rolls",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     }
                 ]
             }
@@ -32183,8 +32172,8 @@
                 "effects": [
                     {
                         "affected": "Skill Checks",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -32231,13 +32220,13 @@
                 "effects": [
                     {
                         "affected": "Perception",
-                        "value": "object.active ? 2 : 0 ",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "object.active ? 2 : 0 "
                     },
                     {
                         "affected": "Perception",
-                        "value": "object.active2 ? -2 : 0 ",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "object.active2 ? -2 : 0 "
                     }
                 ],
                 "extraActivations": 1
@@ -32588,13 +32577,13 @@
                 "effects": [
                     {
                         "affected": "Untrained Skill Checks",
-                        "value": "Level",
-                        "type": "proficiency"
+                        "type": "proficiency",
+                        "value": "Level"
                     },
                     {
                         "affected": "Untrained Skill Checks",
-                        "value": "4",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "4"
                     }
                 ]
             }
@@ -33149,13 +33138,13 @@
                 "effects": [
                     {
                         "affected": "Skill Checks",
-                        "value": "4",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "4"
                     },
                     {
                         "affected": "Attack Rolls",
-                        "value": "4",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "4"
                     }
                 ]
             }
@@ -33193,13 +33182,13 @@
                 "effects": [
                     {
                         "affected": "Perception",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     },
                     {
                         "affected": "Saving Throws",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     }
                 ]
             },
@@ -34056,8 +34045,8 @@
                 "effects": [
                     {
                         "affected": "Saving Throws",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -34896,8 +34885,8 @@
                 "effects": [
                     {
                         "affected": "Acrobatics",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     }
                 ]
             },
@@ -34907,8 +34896,8 @@
                 "effects": [
                     {
                         "affected": "Fly Speed",
-                        "value": "Speed('Fly Speed') ? 5 : 0",
-                        "type": "status"
+                        "type": "status",
+                        "value": "Speed('Fly Speed') ? 5 : 0"
                     }
                 ]
             }
@@ -35275,8 +35264,8 @@
                 "effects": [
                     {
                         "affected": "Saving Throws",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -35371,8 +35360,8 @@
                 "effects": [
                     {
                         "affected": "Saving Throws",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -35522,13 +35511,13 @@
                 "effects": [
                     {
                         "affected": "Perception",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     },
                     {
                         "affected": "Skill Checks",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     }
                 ]
             }
@@ -35566,8 +35555,8 @@
                 "effects": [
                     {
                         "affected": "Perception",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     }
                 ]
             }
@@ -35919,8 +35908,8 @@
                 "effects": [
                     {
                         "affected": "Saving Throws",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             },
@@ -36177,8 +36166,8 @@
                 "effects": [
                     {
                         "affected": "Deception",
-                        "value": "4",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "4"
                     }
                 ]
             }
@@ -36306,8 +36295,8 @@
                 "effects": [
                     {
                         "affected": "Diplomacy",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             },
@@ -36317,8 +36306,8 @@
                 "effects": [
                     {
                         "affected": "Perception",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -36428,8 +36417,8 @@
                 "effects": [
                     {
                         "affected": "Deception",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     }
                 ]
             }
@@ -36525,8 +36514,8 @@
                 "effects": [
                     {
                         "affected": "Saving Throws",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -38429,13 +38418,13 @@
                 "effects": [
                     {
                         "affected": "Resting HP Multiplier",
-                        "setValue": 2
+                        "setValue": "2"
                     }
                 ]
             }
         ],
         "access": "underground dwarf ethnicity",
-        "internalNote": "The Doomed reduction is hardcoded in ConditionsService.rest()",
+        "internalNote": "The Drained reduction is hardcoded in ConditionsService.rest()",
         "shortdesc": "Your unusual rest cycle allows you to recover faster.",
         "sourceBook": "Character Guide",
         "traits": [
@@ -38473,8 +38462,8 @@
                 "effects": [
                     {
                         "affected": "Perception",
-                        "value": "object.active2 ?  -2 : (object.active ? 2 : 0)",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "object.active2 ?  -2 : (object.active ? 2 : 0)"
                     }
                 ],
                 "extraActivations": 1
@@ -38573,13 +38562,13 @@
                 "effects": [
                     {
                         "affected": "Unarmed Damage per Die",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     },
                     {
                         "affected": "Weapon Damage per Die",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -38605,13 +38594,13 @@
                 "effects": [
                     {
                         "affected": "Unarmed Damage per Die",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     },
                     {
                         "affected": "Weapon Damage per Die",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -38637,13 +38626,13 @@
                 "effects": [
                     {
                         "affected": "Unarmed Damage per Die",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     },
                     {
                         "affected": "Weapon Damage per Die",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -38669,13 +38658,13 @@
                 "effects": [
                     {
                         "affected": "Unarmed Damage per Die",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     },
                     {
                         "affected": "Weapon Damage per Die",
-                        "value": "1",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "1"
                     }
                 ]
             }
@@ -38758,8 +38747,8 @@
                 "effects": [
                     {
                         "affected": "AC",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     }
                 ]
             }
@@ -38820,8 +38809,118 @@
         "desc": "Energy runs through your blood more powerfully. When you use Energy Emanation, you can create an emanation of 5 feet, 10 feet, or 15 feet. The damage increases to 6d6 plus an additional 1d6 for every level you have above 9th, instead of 1d6 plus an additional 1d6 for every 2 levels above 1st.",
         "hints": [
             {
-                "desc": "When you use Energy Emanation, you can create an emanation of 5 feet, 10 feet, or 15 feet. The damage increases to 6d6 plus an additional 1d6 for every level you have above 9th, instead of 1d6 plus an additional 1d6 for every 2 levels above 1st.",
-                "showon": "Energy Emanation"
+                "desc": "When you use Energy Emanation, you can create an emanation of 5 feet, 10 feet, or 15 feet. The damage increases to |dice=var1| 6d6 plus an additional 1d6 for every level you have above 9th, instead of 1d6 plus an additional 1d6 for every 2 levels above 1st.",
+                "showon": "Energy Emanation",
+                "heightenedDescs": [
+                    {
+                        "level": 1,
+                        "descs": [
+                            {
+                                "value": "6d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 10,
+                        "descs": [
+                            {
+                                "value": "7d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 11,
+                        "descs": [
+                            {
+                                "value": "8d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 12,
+                        "descs": [
+                            {
+                                "value": "9d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 13,
+                        "descs": [
+                            {
+                                "value": "10d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 14,
+                        "descs": [
+                            {
+                                "value": "11d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 15,
+                        "descs": [
+                            {
+                                "value": "12d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 16,
+                        "descs": [
+                            {
+                                "value": "13d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 17,
+                        "descs": [
+                            {
+                                "value": "14d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 18,
+                        "descs": [
+                            {
+                                "value": "15d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 19,
+                        "descs": [
+                            {
+                                "value": "16d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 20,
+                        "descs": [
+                            {
+                                "value": "17d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    }
+                ]
             }
         ],
         "shortdesc": "Energy runs through your blood more powerfully.",
@@ -38830,7 +38929,7 @@
             "Dwarf"
         ],
         "levelreq": 9,
-        "heritagereq": "elemental heart dwarf (acid) or elemental heart dwarf (cold) or elemental heart dwarf (electricity) or elemental heart dwarf (fire)"
+        "heritagereq": "elemental heart dwarf"
     },
     {
         "name": "Heroes' Call",
@@ -39251,7 +39350,7 @@
         "desc": "You push your foes around and leave bruises. While raging, when you successfully Disarm, Grapple, Shove, or Trip a foe, you deal that foe bludgeoning damage equal to your Strength modifier; add this to the damage from a critical success to Trip.",
         "hints": [
             {
-                "desc": "While raging, when you successfully Disarm, Grapple, Shove, or Trip a foe, you deal that foe bludgeoning damage equal to your Strength modifier; add this to the damage from a critical success to Trip.",
+                "desc": "While raging, when you successfully Disarm, Grapple, Shove, or Trip a foe, you deal that foe |dice=strmod B| bludgeoning damage equal to your Strength modifier; add this to the damage from a critical success to Trip.",
                 "showon": "Athletics, Rage"
             }
         ],
@@ -40261,8 +40360,8 @@
                 "effects": [
                     {
                         "affected": "Saving Throws",
-                        "value": "1",
-                        "type": "status"
+                        "type": "status",
+                        "value": "1"
                     }
                 ]
             }
@@ -40325,7 +40424,7 @@
         "effects": [
             {
                 "affected": "Companion:Unarmed Dice Number",
-                "setValue": 2
+                "setValue": "2"
             }
         ],
         "gainAnimalCompanion": 2
@@ -40511,8 +40610,8 @@
                 "effects": [
                     {
                         "affected": "Diplomacy",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     }
                 ]
             }
@@ -40584,7 +40683,7 @@
             {
                 "affected": "Athletics",
                 "type": "status",
-                "value": "(Has_Condition('Wild Shape') && characterService.get_AppliedConditions(creature, '', '', true).some(conditionGain => ['Pest Form','Animal Form','Insect Form','Elemental Form','Plant Form','Dragon Form','Monstrosity Form'].includes(conditionGain.name) && !['Air','Fire'].includes(conditionGain.choice))) ? 1 : 0"
+                "value": "(Has_Condition('Wild Shape') && characterService.get_AppliedConditions(creature, '', '', true).some(conditionGain => ['Pest Form','Animal Form','Insect Form','Dinosaur Form','Elemental Form','Plant Form','Dragon Form','Monstrosity Form'].includes(conditionGain.name) && !['Air','Fire'].includes(conditionGain.choice))) ? 1 : 0"
             }
         ]
     },
@@ -40700,7 +40799,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -40942,7 +41041,7 @@
         "effects": [
             {
                 "affected": "Refocus Bonus Points",
-                "setValue": 2
+                "setValue": "2"
             }
         ]
     },
@@ -40990,7 +41089,7 @@
         "effects": [
             {
                 "affected": "Companion:Unarmed Dice Number",
-                "setValue": 3
+                "setValue": "3"
             }
         ],
         "gainAnimalCompanion": 6
@@ -41005,8 +41104,8 @@
                 "effects": [
                     {
                         "affected": "Saving Throws",
-                        "value": "2",
-                        "type": "status"
+                        "type": "status",
+                        "value": "2"
                     }
                 ]
             },
@@ -41073,7 +41172,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -41131,7 +41230,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -41195,7 +41294,7 @@
         "effects": [
             {
                 "affected": "Refocus Bonus Points",
-                "setValue": 3
+                "setValue": "3"
             }
         ]
     },
@@ -41222,7 +41321,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -41330,7 +41429,7 @@
         ],
         "gainLanguages": [
             {
-                "name": "Druidic language",
+                "name": "Druidic Language",
                 "locked": true,
                 "source": "Druid Dedication"
             }
@@ -41523,7 +41622,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -41567,7 +41666,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -41611,7 +41710,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -41655,7 +41754,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -42076,7 +42175,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -42120,7 +42219,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -42164,7 +42263,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -42208,7 +42307,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -42252,7 +42351,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -42296,7 +42395,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -42340,7 +42439,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -42384,7 +42483,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -42428,7 +42527,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -42472,7 +42571,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -42502,8 +42601,8 @@
                 "effects": [
                     {
                         "affected": "Saving Throws",
-                        "value": 1,
-                        "type": "status"
+                        "type": "status",
+                        "value": "1"
                     }
                 ]
             }
@@ -42566,7 +42665,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -42610,7 +42709,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -42654,7 +42753,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -42698,7 +42797,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -42742,7 +42841,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -42786,7 +42885,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -42830,7 +42929,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -42874,7 +42973,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -42918,7 +43017,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -42962,7 +43061,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -43001,19 +43100,19 @@
         "effects": [
             {
                 "affected": "Refocus Bonus Points",
-                "setValue": 2
+                "setValue": "2"
             }
         ]
     },
     {
         "name": "Interweave Dispel",
         "desc": "You weave dispelling energy into a spell, sending both effects at a foe.",
+        "internalNote": "Updating feats when you remove Dispel Magic is hardcoded in the spellchoice component.",
         "shortdesc": "You weave dispelling energy into a spell, sending both effects at a foe.",
         "traits": [
             "Sorcerer",
             "Metamagic"
         ],
-        "internalNote": "Losing the feat when you remove Dispel Magic is hardcoded in the spellchoice component.",
         "levelreq": 14,
         "specialreq": "character.get_SpellsTaken(characterService, 1, charLevel, -1, 'Dispel Magic', undefined, 'Sorcerer', '', 'Spontaneous').length",
         "specialreqdesc": "dispel magic in your spell repertoire",
@@ -43158,7 +43257,7 @@
         "effects": [
             {
                 "affected": "Refocus Bonus Points",
-                "setValue": 3
+                "setValue": "3"
             }
         ]
     },
@@ -43340,7 +43439,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -43384,7 +43483,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -43428,7 +43527,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -43472,7 +43571,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -43516,7 +43615,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -43560,7 +43659,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -43604,7 +43703,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -43648,7 +43747,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -43692,7 +43791,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -43736,7 +43835,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [

@@ -18,6 +18,7 @@ export class Heritage {
     public sourceBook: string = "";
     public spellChoices: SpellChoice[] = [];
     public subType: string = "";
+    public superType: string = "";
     public subTypes: Heritage[] = [];
     public traits: string[] = [];
 }

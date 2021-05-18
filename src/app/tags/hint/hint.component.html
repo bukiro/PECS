@@ -2,13 +2,13 @@
     <ng-template #SimpleHintContent>
         <ng-container
             *ngFor="let text of (hint.desc ? get_HeightenedHint(hint) : object.desc).split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
-            <app-diceText [text]="text"></app-diceText>
+            <app-description [text]="text"></app-description>
         </ng-container>
     </ng-template>
     <ng-template #HintContent>
         <ng-container
             *ngFor="let text of (hint.desc ? get_HeightenedHint(hint) : object.desc).split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
-            <app-diceText [text]="text"></app-diceText>
+            <app-description [text]="text"></app-description>
         </ng-container>
         <div class="list-item" *ngIf="get_HintsShowMore() && get_ObjectType()">
             <header class="spellHeader" *ngIf="object.name">{{object.name}}</header>
@@ -20,7 +20,7 @@
             </app-activity>
             <app-item *ngIf="get_ObjectType()=='Item'" [allowActivate]="false" [item]="object"></app-item>
             <div class="newrow left-aligned" *ngIf="get_ObjectType()=='DescOnly'">
-                <app-diceText [text]="object.desc"></app-diceText>
+                <app-description [text]="object.desc"></app-description>
             </div>
         </div>
     </ng-template>

@@ -100,7 +100,7 @@
                     </span>
                 </div>
                 <div class="newrow" *ngIf="calculatedHealth.dying > 0 && creature == 'Character'"
-                    [ngbTooltip]="'Use all your hero points to stabilize with 0 HP'">
+                    [ngbTooltip]="get_Character().heroPoints ? 'Use all your hero points to stabilize with 0 HP, without raising your wounded value.' : 'You don\'t have any hero points to use for a heroic recovery.'">
                     <button class="center-aligned" (click)="on_HeroPointRecover()"
                         [disabled]="!get_Character().heroPoints">
                         Heroic Recovery

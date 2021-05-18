@@ -6,6 +6,8 @@ import { Hint } from './Hint';
 import { CharacterService } from './character.service';
 import { Creature } from './Creature';
 import { SpellTargetNumber } from './SpellTargetNumber';
+import { HeightenedDescSet } from './HeightenedDescSet';
+import { HeightenedDesc } from './HeightenedDesc';
 
 export class Activity {
     public actions: string = "1A";
@@ -27,6 +29,7 @@ export class Activity {
     private charges: number = 0;
     public critfailure: string = "";
     public critsuccess: string = "";
+    public heightenedDescs: HeightenedDescSet[] = [];
     public desc: string = "";
     public failure: string = "";
     public frequency: string = "";
@@ -142,5 +145,25 @@ export class Activity {
             })
         }
         return cooldown;
+    }
+    get_DescriptionSet(levelNumber: number) {
+        //This descends from levelnumber downwards and returns the first description set with a matching level.
+        //A description set contains variable names and the text to replace them with.
+        if (this.heightenedDescs.length) {
+            for (levelNumber; levelNumber > 0; levelNumber--) {
+                if (this.heightenedDescs.some(descSet => descSet.level == levelNumber)) {
+                    return this.heightenedDescs.find(descSet => descSet.level == levelNumber);
+                }
+            }
+        }
+        return new HeightenedDescSet();
+    }
+    get_Heightened(text: string, levelNumber: number) {
+        //For an arbitrary text (usually the spell description or the saving throw result descriptions), retrieve the appropriate description set for this level and replace the variables with the included strings.
+        this.get_DescriptionSet(levelNumber).descs.forEach((descVar: HeightenedDesc) => {
+            let regex = new RegExp(descVar.variable, "g")
+            text = text.replace(regex, (descVar.value || ""));
+        })
+        return text;
     }
 }

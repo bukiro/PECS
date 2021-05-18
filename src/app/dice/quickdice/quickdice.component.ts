@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, DefaultIterableDiffer, Input, OnInit } from '@angular/core';
 import { CharacterService } from 'src/app/character.service';
 import { DiceService } from 'src/app/dice.service';
 import { IntegrationsService } from 'src/app/integrations.service';
@@ -42,6 +42,48 @@ export class QuickdiceComponent implements OnInit {
         return this.characterService.abilitiesService.get_Abilities(ability)?.[0]?.mod(character, this.characterService, this.characterService.effectsService, character.level).result || 0;
     }
 
+    replace_AbilityModifiers(diceString: string) {
+        //If any ability modifiers are named in this dicestring, replace them with the real modifier.
+        return diceString.split(" ").map(part => {
+            if (part.toLowerCase().includes("mod")) {
+                let abilityName = "";
+                switch (part.toLowerCase()) {
+                    case "strmod":
+                        abilityName = "Strength";
+                        break;
+                    case "dexmod":
+                        abilityName = "Dexterity";
+                        break;
+                    case "conmod":
+                        abilityName = "Constitution";
+                        break;
+                    case "intmod":
+                        abilityName = "Intelligence";
+                        break;
+                    case "wismod":
+                        abilityName = "Wisdom";
+                        break;
+                    case "chamod":
+                        abilityName = "Charisma";
+                        break;
+                    case "spellmod":
+                        abilityName = this.casting?.ability || "Charisma";
+                        break;
+                    default:
+                        return part;
+                }
+                if (abilityName) {
+                    let character = this.characterService.get_Character();
+                    return this.characterService.abilitiesService.get_Abilities(abilityName)?.[0]?.mod(character, this.characterService, this.characterService.effectsService, character.level).result.toString() || "0";
+                } else {
+                    return "0";
+                }
+            } else {
+                return part;
+            }
+        }).join(" ");
+    }
+
     roll(forceLocal: boolean = false) {
         if (!forceLocal && this.get_FoundryVTTRollDirectly()) {
             //If the roll is to be made in a Foundry VTT session, build a formula here, then send it to Foundry.
@@ -58,11 +100,12 @@ export class QuickdiceComponent implements OnInit {
                 this.integrationsService.send_RollToFoundry(this.creature, formula, [], this.characterService, this);
             } else if (this.diceString) {
                 //For an existing diceString, we need to make sure there is no flavor text included. Only #d#, #, + or - are kept and sent to Foundry.
-                let diceString = this.diceString.replace("\n", " ");
+                let diceString = this.diceString.split("\n").join(" ");
                 //Insert spaces between the arithmetic symbols.
-                diceString = diceString.replace("+", " + ").replace("-", " - ").replace("  ", " ");
-                if (diceString.toLowerCase().includes("spellmod")) {
-                    diceString = diceString.replace("spellmod", this.get_SpellCastingModifier().toString());
+                diceString = diceString.split("+").join(" + ").split("-").join(" - ").split("  ").join(" ");
+                //Replace modifiers
+                if (diceString.toLowerCase().includes("mod")) {
+                    diceString = this.replace_AbilityModifiers(diceString);
                 }
                 let formulaParts: string[] = [];
                 diceString.split(" ").map(part => part.trim()).forEach(dicePart => {
@@ -76,11 +119,11 @@ export class QuickdiceComponent implements OnInit {
             if (this.diceNum && this.diceSize) {
                 this.diceService.roll(this.diceNum, this.diceSize, this.bonus, this.characterService, true, (this.type ? " " + this.type : ""));
             } else if (this.diceString) {
-                let diceString = this.diceString.replace("\n", " ");
+                let diceString = this.diceString.split("\n").join(" ");
                 //Insert spaces between the arithmetic symbols.
-                diceString = diceString.replace("+", " + ").replace("-", " - ").replace("  ", " ");
-                if (diceString.toLowerCase().includes("spellmod")) {
-                    diceString = diceString.replace("spellmod", this.get_SpellCastingModifier().toString());
+                diceString = diceString.split("+").join(" + ").split("-").join(" - ").split("  ").join(" ");
+                if (diceString.toLowerCase().includes("mod")) {
+                    diceString = this.replace_AbilityModifiers(diceString);
                 }
                 let diceRolls: { diceNum: number, diceSize: number, bonus: number, type: string }[] = [];
                 let index = 0;
@@ -95,11 +138,13 @@ export class QuickdiceComponent implements OnInit {
                     } else if (dicePart == "+" || dicePart == "-") {
                         arithmetic = dicePart;
                     } else if (dicePart.match("^[0-9]+$")) {
-                        if (diceRolls.length == 0 || diceRolls[index].bonus || diceRolls[index].type) {
+                        //Bonuses accumulate on the current roll until a type is given. If no roll exists yet, create one.
+                        //That means that 5 + 1d6 + 5 Fire + 5 Force will create two rolls: (1d6 + 10) Fire and 5 Force.
+                        if (diceRolls.length == 0 || diceRolls[index].type) {
                             index = diceRolls.push({ diceNum: 0, diceSize: 0, bonus: 0, type: "" }) - 1;
                         }
                         if (arithmetic) {
-                            diceRolls[index].bonus = parseInt(arithmetic + dicePart);
+                            diceRolls[index].bonus += parseInt(arithmetic + dicePart);
                             arithmetic = "";
                         } else {
                             diceRolls[index].bonus = parseInt(dicePart);
@@ -120,11 +165,11 @@ export class QuickdiceComponent implements OnInit {
 
     get_Description() {
         if (this.diceString) {
-            let diceString = this.diceString.replace("\n", " ");
+            let diceString = this.diceString.split("\n").join(" ");
             //Insert spaces between the arithmetic symbols.
-            diceString = diceString.replace("+", " + ").replace("-", " - ").replace("  ", " ");
-            if (diceString.toLowerCase().includes("spellmod")) {
-                diceString = diceString.replace("spellmod", this.get_SpellCastingModifier().toString());
+            diceString = diceString.split("+").join(" + ").split("-").join(" - ").split("  ").join(" ");
+            if (diceString.toLowerCase().includes("mod")) {
+                diceString = this.replace_AbilityModifiers(diceString);
             }
             return diceString;
         } else if (this.diceNum && this.diceSize) {

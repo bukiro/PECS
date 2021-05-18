@@ -1806,13 +1806,11 @@ export class CharacterService {
                     this.get_Character().class.focusPoints = Math.min(this.get_Character().class.focusPoints, this.get_MaxFocusPoints());
                     //We intentionally add the point after we set the limit. This allows us to gain focus points with feats and raise the current points
                     // before the limit is increased. The focus points are automatically limited in the spellbook component, where they are displayed, and when casting focus spells.
-                    let diff = Math.min(value, this.get_MaxFocusPoints() - this.get_Character().class.focusPoints);
-                    (creature as Character).class.focusPoints += diff;
-
-                    if (diff >= 0) {
-                        this.toastService.show("You gained " + diff + " focus point" + (diff == 1 ? "" : "s") + ".", [], this);
+                    (creature as Character).class.focusPoints += value;
+                    if (value >= 0) {
+                        this.toastService.show("You gained " + value + " focus point" + (value == 1 ? "" : "s") + ".", [], this);
                     } else {
-                        this.toastService.show("You lost " + diff * -1 + " focus point" + (diff == 1 ? "" : "s") + ".", [], this);
+                        this.toastService.show("You lost " + value * -1 + " focus point" + (value == 1 ? "" : "s") + ".", [], this);
                     }
                     this.set_ToChange("Character", "spellbook");
                 }

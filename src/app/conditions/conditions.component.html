@@ -206,7 +206,7 @@
                                             </ng-container>
                                             <ng-container
                                                 *ngFor="let desc of get_HeightenedDescription(condition).split('\n\n'); trackBy:trackByIndex;">
-                                                <app-diceText [text]="desc"></app-diceText>
+                                                <app-description [text]="desc"></app-description>
                                             </ng-container>
                                             <div class="newrow" *ngIf="condition.inputRequired">
                                                 <div class="list-item lower">

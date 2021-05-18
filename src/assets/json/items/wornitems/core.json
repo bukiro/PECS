@@ -986,7 +986,7 @@
                 "activationType": "Interact",
                 "cooldown": 144000,
                 "target": "ally",
-                "desc": "You can soothe a willing, adjacent creature's wounds, restoring 2d6+7 Hit Points to that creature. This is a positive healing effect. You can't harm undead with this healing.",
+                "desc": "You can soothe the wounds of a willing, living, adjacent creature, restoring 2d6+7 Hit Points to that creature. This is a positive healing effect. You can't harm undead with this healing.",
                 "frequency": "once per day",
                 "name": "Healer's Gloves",
                 "traits": [
@@ -1026,7 +1026,7 @@
                 "actions": "1A",
                 "activationType": "Interact",
                 "cooldown": 144000,
-                "desc": "You can soothe a willing, adjacent creature's wounds, restoring 2d6+7 Hit Points to that creature. This is a positive healing effect. You can't harm undead with this healing.",
+                "desc": "You can soothe the wounds of a willing, living, adjacent creature, restoring 2d6+7 Hit Points to that creature. This is a positive healing effect. You can't harm undead with this healing.",
                 "target": "ally",
                 "frequency": "once per day",
                 "name": "Healer's Gloves (Greater)",

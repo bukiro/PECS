@@ -75,28 +75,32 @@
                     "Energy Emanation"
                 ],
                 "name": "Elemental Heart Dwarf (Acid)",
-                "subType": "Acid"
+                "subType": "Acid",
+                "superType": "Elemental Heart Dwarf"
             },
             {
                 "gainActivities": [
                     "Energy Emanation"
                 ],
                 "name": "Elemental Heart Dwarf (Cold)",
-                "subType": "Cold"
+                "subType": "Cold",
+                "superType": "Elemental Heart Dwarf"
             },
             {
                 "gainActivities": [
                     "Energy Emanation"
                 ],
                 "name": "Elemental Heart Dwarf (Electricity)",
-                "subType": "Electricity"
+                "subType": "Electricity",
+                "superType": "Elemental Heart Dwarf"
             },
             {
                 "gainActivities": [
                     "Energy Emanation"
                 ],
                 "name": "Elemental Heart Dwarf (Fire)",
-                "subType": "Fire"
+                "subType": "Fire",
+                "superType": "Elemental Heart Dwarf"
             }
         ]
     },
@@ -425,6 +429,7 @@
             {
                 "name": "Wellspring Gnome (Arcane)",
                 "subType": "Arcane",
+                "superType": "Wellspring Gnome",
                 "spellChoices": [
                     {
                         "className": "Innate",
@@ -441,6 +446,7 @@
             {
                 "name": "Wellspring Gnome (Divine)",
                 "subType": "Divine",
+                "superType": "Wellspring Gnome",
                 "spellChoices": [
                     {
                         "className": "Innate",
@@ -457,6 +463,7 @@
             {
                 "name": "Wellspring Gnome (Occult)",
                 "subType": "Occult",
+                "superType": "Wellspring Gnome",
                 "spellChoices": [
                     {
                         "className": "Innate",

@@ -1,56 +1,5 @@
 [
     {
-        "name": "Slick",
-        "id": "9caa4c72-aa4a-11ea-bb37-0242ac130002",
-        "level": 3,
-        "price": 4500,
-        "_className": "ArmorRune",
-        "usage": "etched onto armor",
-        "desc": "This property makes armor slippery, as though it were coated with a thin film of oil. You gain a +1 item bonus to Acrobatics checks to Escape and Squeeze.",
-        "traits": [
-            "Magical",
-            "Transmutation"
-        ],
-        "hints": [
-            {
-                "desc": "You gain a +1 item bonus to Acrobatics checks to Escape and Squeeze.",
-                "showon": "Acrobatics",
-                "effects": [
-                    {
-                        "affected": "Acrobatics",
-                        "value": "1",
-                        "type": "item"
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "name": "Shadow",
-        "id": "9caa4ec0-aa4a-11ea-bb37-0242ac130002",
-        "level": 3,
-        "price": 5500,
-        "_className": "ArmorRune",
-        "usage": "etched onto light or medium nonmetallic armor",
-        "profreq": [
-            "Light Armor",
-            "Medium Armor"
-        ],
-        "nonmetallic": true,
-        "desc": "Armor with this rune becomes hazy black. You gain a +1 item bonus to Stealth checks while wearing the armor. ",
-        "traits": [
-            "Magical",
-            "Transmutation"
-        ],
-        "effects": [
-            {
-                "affected": "Stealth",
-                "type": "item",
-                "value": 1
-            }
-        ]
-    },
-    {
         "name": "Armor Potency (+1)",
         "id": "89bf31c1-8e09-11ea-9fab-e92c63c14723",
         "level": 5,
@@ -97,6 +46,57 @@
                     "Illusion",
                     "Magical"
                 ]
+            }
+        ]
+    },
+    {
+        "name": "Slick",
+        "id": "9caa4c72-aa4a-11ea-bb37-0242ac130002",
+        "level": 5,
+        "price": 4500,
+        "_className": "ArmorRune",
+        "usage": "etched onto armor",
+        "desc": "This property makes armor slippery, as though it were coated with a thin film of oil. You gain a +1 item bonus to Acrobatics checks to Escape and Squeeze.",
+        "traits": [
+            "Magical",
+            "Transmutation"
+        ],
+        "hints": [
+            {
+                "desc": "You gain a +1 item bonus to Acrobatics checks to Escape and Squeeze.",
+                "showon": "Acrobatics",
+                "effects": [
+                    {
+                        "affected": "Acrobatics",
+                        "value": "1",
+                        "type": "item"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Shadow",
+        "id": "9caa4ec0-aa4a-11ea-bb37-0242ac130002",
+        "level": 5,
+        "price": 5500,
+        "_className": "ArmorRune",
+        "usage": "etched onto light or medium nonmetallic armor",
+        "profreq": [
+            "Light Armor",
+            "Medium Armor"
+        ],
+        "nonmetallic": true,
+        "desc": "Armor with this rune becomes hazy black. You gain a +1 item bonus to Stealth checks while wearing the armor. ",
+        "traits": [
+            "Magical",
+            "Transmutation"
+        ],
+        "effects": [
+            {
+                "affected": "Stealth",
+                "type": "item",
+                "value": 1
             }
         ]
     },

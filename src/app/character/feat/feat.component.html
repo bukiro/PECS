@@ -22,7 +22,7 @@
             </p>
         </ng-container>
         <ng-container *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
-            <app-diceText [text]="desc"></app-diceText>
+            <app-description [text]="desc"></app-description>
         </ng-container>
         <p *ngIf="feat.specialdesc.length">
             <strong>Special</strong> {{feat.specialdesc}}

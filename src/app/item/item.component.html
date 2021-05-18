@@ -143,7 +143,7 @@
 <div class="newrow left-aligned">
     <hr class="newrow">
     <ng-container *ngFor="let desc of item.desc.split('\n\n'); trackBy:trackByIndex;">
-        <app-diceText [text]="desc"></app-diceText>
+        <app-description [text]="desc"></app-description>
     </ng-container>
     <ng-container *ngIf="item.name == 'Grievous'">
         <p *ngFor="let data of item.data; trackBy:trackByIndex;">
@@ -264,7 +264,7 @@
 <div class="list-item left-aligned" *ngFor="let material of item.material; trackBy:trackByIndex;">
     <header class="spellHeader">{{material.name}}</header>
     <ng-container *ngFor="let desc of material.desc.split('\n\n'); trackBy:trackByIndex;">
-        <app-diceText [text]="desc"></app-diceText>
+        <app-description [text]="desc"></app-description>
     </ng-container>
 </div>
 <div class="list-item left-aligned" *ngIf="armoredSkirt">

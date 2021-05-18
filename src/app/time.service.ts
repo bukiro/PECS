@@ -38,17 +38,20 @@ export class TimeService {
 
         //Apply Fast Healing.
         let fastHealing: number = 0;
-        characterService.get_Creatures().forEach(creature => {
-            effectsService.get_AbsolutesOnThis(creature, "Fast Healing").forEach((effect: Effect) => {
-                fastHealing = parseInt(effect.setValue);
+        if (!characterService.get_Character().settings.manualMode) {
+            characterService.get_Creatures().forEach(creature => {
+                effectsService.get_AbsolutesOnThis(creature, "Fast Healing").forEach((effect: Effect) => {
+                    fastHealing = parseInt(effect.setValue);
+                })
+                effectsService.get_RelativesOnThis(creature, "Fast Healing").forEach((effect: Effect) => {
+                    fastHealing += parseInt(effect.value);
+                })
+                if (fastHealing && creature.health.currentHP(creature, characterService, effectsService).result > 0) {
+                    creature.health.heal(creature, characterService, effectsService, fastHealing);
+                    this.toastService.show((creature.type == "Character" ? "You" : (creature.name ? creature.name : "Your " + creature.type.toLowerCase())) + " gained " + (fastHealing).toString() + " HP from fast healing.", [], characterService)
+                }
             })
-            effectsService.get_RelativesOnThis(creature, "Fast Healing").forEach((effect: Effect) => {
-                fastHealing += parseInt(effect.value);
-            })
-            if (fastHealing && creature.health.currentHP(creature, characterService, effectsService).result > 0) {
-                creature.health.heal(creature, characterService, effectsService, fastHealing);
-            }
-        })
+        }
         
         this.tick(characterService, conditionsService, itemsService, spellsService, 5);
 

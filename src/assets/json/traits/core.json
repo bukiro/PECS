@@ -176,7 +176,7 @@
   },
   {
     "name": "Chaotic",
-    "desc": "Chaotic effects often manipulate energy from chaos-aligned Outer Planes and are anathema to lawful divine servants or divine servants of lawful deities. A creature with this trait is chaotic in alignment. An ability with this trait can be selected or used only by chaotic creatures."
+    "desc": "Chaotic effects often manipulate energy from chaos-aligned Outer Planes and are anathema to lawful divine servants or divine servants of lawful deities. A creature with this trait is chaotic in alignment."
   },
   {
     "name": "Charau-ka"
@@ -237,7 +237,8 @@
     "name": "Contact"
   },
   {
-    "name": "Curse"
+    "name": "Curse",
+    "desc": "A curse is an effect that places some long-term affliction on a creature. Curses are always magical and are typically the result of a spell or trap. Effects with this trait can be removed only by effects that specifically target curses.\n\nAfflictions with this trait are manifestations of potent ill will. A curse either lasts a specified amount of time or can be removed only by certain actions a character must perform or conditions they must meet. A curse with stages follows the rules for afflictions. (Gamemastery Guide pg. 251)"
   },
   {
     "name": "Cursed"
@@ -603,7 +604,7 @@
   },
   {
     "name": "Lawful",
-    "desc": "Lawful effects often manipulate energy from law-aligned Outer Planes and are antithetical to chaotic divine servants or divine servants of chaotic deities. A creature with this trait is lawful in alignment. An ability with this trait can be selected or used by lawful creatures only."
+    "desc": "Lawful effects often manipulate energy from law-aligned Outer Planes and are antithetical to chaotic divine servants or divine servants of chaotic deities. A creature with this trait is lawful in alignment."
   },
   {
     "name": "LE"
@@ -1017,7 +1018,8 @@
     "name": "Subjective Gravity"
   },
   {
-    "name": "Summoned"
+    "name": "Summoned",
+    "desc": "A creature called by a conjuration spell or effect gains the summoned trait. A summoned creature can't summon other creatures, create things of value, or cast spells that require a cost. It has the minion trait. If it tries to cast a spell of equal or higher level than the spell that summoned it, it overpowers the summoning magic, causing the summoned creature's spell to fail and the summon spell to end. Otherwise, the summoned creature uses the standard abilities for a creature of its kind. It generally attacks your enemies to the best of its abilities. If you can communicate with it, you can attempt to command it, but the GM determines the degree to which it follows your commands.\n\nImmediately when you finish Casting the Spell, the summoned creature uses its 2 actions for that turn. Summoned creatures can be banished by various spells and effects. They are automatically banished if reduced to 0 Hit Points or if the spell that called them ends. A summoned creature can't control any spawn or other creatures generated from it, and such creatures return to their unaltered state (usually a corpse in the case of spawn) once the summoned creature is gone. If it's unclear what this state would be, the GM decides."
   },
   {
     "name": "Swarm"

@@ -191,7 +191,7 @@
         ],
         "requirements": "You are in Dragon Stance.",
         "target": "area",
-        "desc": "You bellow, instilling fear in your enemies. Enemies within a 15-foot emanation must succeed at a Will save against your Intimidation DC or be frightened 1 (frightened 2 on a critical failure). When a creature frightened by the roar begins its turn adjacent to you, it can't reduce its frightened value below 1 on that turn. Your first attack that hits a frightened creature after you roar and before the end of your next turn gains a +4 circumstance bonus to damage.\n\nAfter you use Dragon Roar, you can't use it again for 1d4 rounds. Its effects end immediately if you leave Dragon Stance. Creatures in the area of your roar are then temporarily immune for 1 minute."
+        "desc": "You bellow, instilling fear in your enemies. Enemies within a 15-foot emanation must succeed at a Will save against your Intimidation DC or be frightened 1 (frightened 2 on a critical failure). When a creature frightened by the roar begins its turn adjacent to you, it can't reduce its frightened value below 1 on that turn. Your first attack that hits a frightened creature after you roar and before the end of your next turn gains a +4 circumstance bonus to damage.\n\nAfter you use Dragon Roar, you can't use it again for |dice=1d4| 1d4 rounds. Its effects end immediately if you leave Dragon Stance. Creatures in the area of your roar are then temporarily immune for 1 minute."
     },
     {
         "name": "Mountain Stronghold",
@@ -228,7 +228,7 @@
         ],
         "requirements": "You have a creature grabbed or restrained.",
         "target": "other",
-        "desc": "You propel your grabbed or restrained foe a great distance. You can throw the creature any distance up to 10 feet, plus 5 feet * your Strength modifier. If you successfully throw the creature, it takes bludgeoning damage equal to your Strength modifier plus 1d6 per 10 feet you threw it.\n\nAttempt an Athletics check against the foe's Fortitude DC. You take a -2 circumstance penalty to your check if the target is one size larger than you and a -4 circumstance penalty if it's larger than that. You gain a +2 circumstance bonus to your check if the target is one size smaller than you and a +4 circumstance bonus if it's smaller than that.",
+        "desc": "You propel your grabbed or restrained foe a great distance. You can throw the creature any distance up to 10 feet, plus 5 feet * your Strength modifier. If you successfully throw the creature, it takes bludgeoning damage equal to |dice=strmod B| your Strength modifier plus |dice=1d6 B| 1d6 per 10 feet you threw it.\n\nAttempt an Athletics check against the foe's Fortitude DC. You take a -2 circumstance penalty to your check if the target is one size larger than you and a -4 circumstance penalty if it's larger than that. You gain a +2 circumstance bonus to your check if the target is one size smaller than you and a +4 circumstance bonus if it's smaller than that.",
         "critsuccess": "You throw the creature the desired distance and it lands prone.",
         "success": "You throw the creature the desired distance.",
         "failure": "You don't throw the creature.",
@@ -341,7 +341,7 @@
             "Negative"
         ],
         "target": "other",
-        "desc": "Make an unarmed Strike. If it deals damage to a living creature, you block that creature's inner life force. The creature takes 2d6 persistent negative damage and is enfeebled 1 until the persistent damage ends. If you're 18th level or higher, this deals 3d6 persistent negative damage instead."
+        "desc": "Make an unarmed Strike. If it deals damage to a living creature, you block that creature's inner life force. The creature takes |dice=2d6 Persistent Negative| 2d6 persistent negative damage and is enfeebled 1 until the persistent damage ends. If you're 18th level or higher, this deals |dice=3d6 Persistent Negative| 3d6 persistent negative damage instead."
     },
     {
         "name": "Stance Savant (Monk)",
@@ -378,7 +378,7 @@
         ],
         "requirements": "You are in Mountain Stance.",
         "target": "area",
-        "desc": "You stomp, shaking the earth beneath you. Creatures on the ground within a 20-foot emanation take damage equal to your Strength modifier (minimum 0), which they can resist with a basic Fortitude save. On a failure, they also fall prone. After you use this action, you can't use it again for 1d4 rounds."
+        "desc": "You stomp, shaking the earth beneath you. Creatures on the ground within a 20-foot emanation take |dice=strmod| damage equal to your Strength modifier (minimum 0), which they can resist with a basic Fortitude save. On a failure, they also fall prone. After you use this action, you can't use it again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Tangled Forest Rake",
@@ -541,7 +541,99 @@
         "frequency": "once per day",
         "cooldown": 144000,
         "target": "area",
-        "desc": "Energy bursts forth from your body. You deal 1d6 damage of your chosen type to all adjacent creatures (basic Reflex save using your class DC or spell DC, whichever is higher). At 3rd level, and every 2 levels thereafter, this damage increases by 1d6."
+        "desc": "Energy bursts forth from your body. You deal |dice=var1| 1d6 damage of your chosen type to all adjacent creatures (basic Reflex save using your class DC or spell DC, whichever is higher). At 3rd level, and every 2 levels thereafter, this damage increases by 1d6.",
+        "heightenedDescs": [
+            {
+                "level": 1,
+                "descs": [
+                    {
+                        "value": "1d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 3,
+                "descs": [
+                    {
+                        "value": "2d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 5,
+                "descs": [
+                    {
+                        "value": "3d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "4d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "5d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 11,
+                "descs": [
+                    {
+                        "value": "6d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 13,
+                "descs": [
+                    {
+                        "value": "7d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 15,
+                "descs": [
+                    {
+                        "value": "8d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 17,
+                "descs": [
+                    {
+                        "value": "9d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 19,
+                "descs": [
+                    {
+                        "value": "10d6",
+                        "variable": "var1"
+                    }
+                ]
+            }
+        ]
     },
     {
         "name": "Battle Medicine",
@@ -765,7 +857,7 @@
         ],
         "target": "other",
         "desc": "Calling out to your deity, you recite scripture to harm a foe. Attempt a Religion check against the Will DC of a foe within 30 feet. The foe is then temporarily immune to Battle Prayers from your deity for 1 day.",
-        "critsuccess": "You deal 2d6 damage of the chosen alignment type, or 6d6 damage if you have legendary proficiency in Religion.",
+        "critsuccess": "You deal |dice=2d6| 2d6 damage of the chosen alignment type, or |dice=6d6| 6d6 damage if you have legendary proficiency in Religion.",
         "success": "You deal 1d6 damage of the chosen alignment type, or 3d6 damage if you have legendary proficiency in Religion.",
         "failure": "There is no effect.",
         "critfailure": "The backlash of your foe's will against your prayer prevents you from using Battle Prayer again for 10 minutes."
@@ -1025,7 +1117,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 30-foot line of acid. The breath does 4d6 acid damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 30-foot line of acid. The breath does |dice=4d6 Acid| 4d6 acid damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Copper Dragon's Breath Potion (Young)",
@@ -1039,7 +1131,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 30-foot line of acid. The breath does 4d6 acid damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 30-foot line of acid. The breath does |dice=4d6 Acid| 4d6 acid damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Blue Dragon's Breath Potion (Young)",
@@ -1053,7 +1145,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 30-foot line of electricity. The breath does 4d6 electricity damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 30-foot line of electricity. The breath does |dice=4d6 Electricity| 4d6 electricity damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Bronze Dragon's Breath Potion (Young)",
@@ -1067,7 +1159,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 30-foot line of electricity. The breath does 4d6 electricity damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 30-foot line of electricity. The breath does |dice=4d6 Electricity| 4d6 electricity damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Brass Dragon's Breath Potion (Young)",
@@ -1081,7 +1173,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 30-foot line of fire. The breath does 4d6 fire damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 30-foot line of fire. The breath does |dice=4d6 Fire| 4d6 fire damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Green Dragon's Breath Potion (Young)",
@@ -1095,7 +1187,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 15-foot cone of poison. The breath does 4d6 poison damage, and each creature in the area must attempt a DC 23 basic Fortitude save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 15-foot cone of poison. The breath does |dice=4d6 Poison| 4d6 poison damage, and each creature in the area must attempt a DC 23 basic Fortitude save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Gold Dragon's Breath Potion (Young)",
@@ -1109,7 +1201,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 15-foot cone of fire. The breath does 4d6 fire damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 15-foot cone of fire. The breath does |dice=4d6 Fire| 4d6 fire damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Red Dragon's Breath Potion (Young)",
@@ -1123,7 +1215,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 15-foot cone of fire. The breath does 4d6 fire damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 15-foot cone of fire. The breath does |dice=4d6 Fire| 4d6 fire damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Silver Dragon's Breath Potion (Young)",
@@ -1137,7 +1229,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 15-foot cone of cold. The breath does 4d6 cold damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 15-foot cone of cold. The breath does |dice=4d6 Cold| 4d6 cold damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "White Dragon's Breath Potion (Young)",
@@ -1151,7 +1243,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 15-foot cone of cold. The breath does 4d6 cold damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 15-foot cone of cold. The breath does |dice=4d6 Cold| 4d6 cold damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Black Dragon's Breath Potion (Adult)",
@@ -1165,7 +1257,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 30-foot line of acid. The breath does 6d6 acid damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 30-foot line of acid. The breath does |dice=6d6 Acid| 6d6 acid damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Copper Dragon's Breath Potion (Adult)",
@@ -1180,7 +1272,7 @@
         ],
         "cooldown": 10,
         "target": "self",
-        "desc": "You unleash dragon's breath in a 30-foot line of acid. The breath does 6d6 acid damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 30-foot line of acid. The breath does |dice=6d6 Acid| 6d6 acid damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Blue Dragon's Breath Potion (Adult)",
@@ -1194,7 +1286,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 30-foot line of electricity. The breath does 6d6 electricity damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 30-foot line of electricity. The breath does |dice=6d6 Electricity| 6d6 electricity damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Bronze Dragon's Breath Potion (Adult)",
@@ -1208,7 +1300,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 30-foot line of electricity. The breath does 6d6 electricity damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 30-foot line of electricity. The breath does |dice=6d6 Electricity| 6d6 electricity damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Brass Dragon's Breath Potion (Adult)",
@@ -1222,7 +1314,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 30-foot line of fire. The breath does 6d6 fire damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 30-foot line of fire. The breath does |dice=6d6 Fire| 6d6 fire damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Green Dragon's Breath Potion (Adult)",
@@ -1236,7 +1328,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 15-foot cone of poison. The breath does 6d6 poison damage, and each creature in the area must attempt a DC 29 basic Fortitude save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 15-foot cone of poison. The breath does |dice=6d6 Poison| 6d6 poison damage, and each creature in the area must attempt a DC 29 basic Fortitude save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Gold Dragon's Breath Potion (Adult)",
@@ -1250,7 +1342,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 15-foot cone of fire. The breath does 6d6 fire damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 15-foot cone of fire. The breath does |dice=6d6 Fire| 6d6 fire damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Red Dragon's Breath Potion (Adult)",
@@ -1264,7 +1356,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 15-foot cone of fire. The breath does 6d6 fire damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 15-foot cone of fire. The breath does |dice=6d6 Fire| 6d6 fire damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Silver Dragon's Breath Potion (Adult)",
@@ -1278,7 +1370,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 15-foot cone of cold. The breath does 6d6 cold damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 15-foot cone of cold. The breath does |dice=6d6 Cold| 6d6 cold damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "White Dragon's Breath Potion (Adult)",
@@ -1292,7 +1384,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 15-foot cone of cold. The breath does 6d6 cold damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 15-foot cone of cold. The breath does |dice=6d6 Cold| 6d6 cold damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Black Dragon's Breath Potion (Wyrm)",
@@ -1306,7 +1398,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 30-foot line of acid. The breath does 10d6 acid damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 30-foot line of acid. The breath does |dice=10d6 Acid| 10d6 acid damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Copper Dragon's Breath Potion (Wyrm)",
@@ -1320,7 +1412,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 30-foot line of acid. The breath does 10d6 acid damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 30-foot line of acid. The breath does |dice=10d6 Acid| 10d6 acid damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Blue Dragon's Breath Potion (Wyrm)",
@@ -1334,7 +1426,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 30-foot line of electricity. The breath does 10d6 electricity damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 30-foot line of electricity. The breath does |dice=10d6 Electricity| 10d6 electricity damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Bronze Dragon's Breath Potion (Wyrm)",
@@ -1348,7 +1440,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 30-foot line of electricity. The breath does 10d6 electricity damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 30-foot line of electricity. The breath does |dice=10d6 Electricity| 10d6 electricity damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Brass Dragon's Breath Potion (Wyrm)",
@@ -1362,7 +1454,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 30-foot line of fire. The breath does 10d6 fire damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 30-foot line of fire. The breath does |dice=10d6 Fire| 10d6 fire damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Green Dragon's Breath Potion (Wyrm)",
@@ -1376,7 +1468,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 15-foot cone of poison. The breath does 10d6 poison damage, and each creature in the area must attempt a DC 37 basic Fortitude save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 15-foot cone of poison. The breath does |dice=10d6 Poison| poison damage, and each creature in the area must attempt a DC 37 basic Fortitude save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Gold Dragon's Breath Potion (Wyrm)",
@@ -1390,7 +1482,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 15-foot cone of fire. The breath does 10d6 fire damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 15-foot cone of fire. The breath does |dice=10d6 Fire| 10d6 fire damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Red Dragon's Breath Potion (Wyrm)",
@@ -1404,7 +1496,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 15-foot cone of fire. The breath does 10d6 fire damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 15-foot cone of fire. The breath does |dice=10d6 Fire| 10d6 fire damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Silver Dragon's Breath Potion (Wyrm)",
@@ -1418,7 +1510,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 15-foot cone of cold. The breath does 10d6 cold damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 15-foot cone of cold. The breath does |dice=10d6 Cold| 10d6 cold damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "White Dragon's Breath Potion (Wyrm)",
@@ -1432,7 +1524,7 @@
             "Potion"
         ],
         "target": "self",
-        "desc": "You unleash dragon's breath in a 15-foot cone of cold. The breath does 10d6 cold damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can't do so again for 1d4 rounds."
+        "desc": "You unleash dragon's breath in a 15-foot cone of cold. The breath does |dice=10d6 Cold| 10d6 cold damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can't do so again for |dice=1d4| 1d4 rounds."
     },
     {
         "name": "Energy Mutagen (Acid, Greater)",
@@ -1444,7 +1536,7 @@
             "Polymorph"
         ],
         "target": "area",
-        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals 2d6 acid damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
+        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals |dice=2d6 Acid| 2d6 acid damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
         "gainConditions": [
             {
                 "duration": 0,
@@ -1464,7 +1556,7 @@
             "Polymorph"
         ],
         "target": "area",
-        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals 2d6 cold damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
+        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals |dice=2d6 Cold| 2d6 cold damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
         "gainConditions": [
             {
                 "duration": 0,
@@ -1484,7 +1576,7 @@
             "Polymorph"
         ],
         "target": "area",
-        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals 2d6 electricity damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
+        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals |dice=2d6 Electricity| 2d6 electricity damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
         "gainConditions": [
             {
                 "duration": 0,
@@ -1504,7 +1596,7 @@
             "Polymorph"
         ],
         "target": "area",
-        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals 2d6 fire damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
+        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals |dice=2d6 Fire| 2d6 fire damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
         "gainConditions": [
             {
                 "duration": 0,
@@ -1524,7 +1616,7 @@
             "Polymorph"
         ],
         "target": "area",
-        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals 3d6 acid damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
+        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals |dice=3d6 Acid| 3d6 acid damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
         "gainConditions": [
             {
                 "duration": 0,
@@ -1544,7 +1636,7 @@
             "Polymorph"
         ],
         "target": "area",
-        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals 3d6 cold damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
+        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals |dice=3d6 Cold| 3d6 cold damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
         "gainConditions": [
             {
                 "duration": 0,
@@ -1564,7 +1656,7 @@
             "Polymorph"
         ],
         "target": "area",
-        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals 3d6 electricity damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
+        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals |dice=3d6 Electricity| 3d6 electricity damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
         "gainConditions": [
             {
                 "duration": 0,
@@ -1584,7 +1676,7 @@
             "Polymorph"
         ],
         "target": "area",
-        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals 3d6 fire damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
+        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals |dice=3d6 Fire| 3d6 fire damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
         "gainConditions": [
             {
                 "duration": 0,
@@ -1724,6 +1816,7 @@
         ],
         "requirements": "You are wielding a ranged weapon.",
         "target": "ally",
+        "cannotTargetCaster": true,
         "desc": "With a quick shot, you interfere with a foe in combat. Make a Strike with a ranged weapon. If the Strike hits, the next creature other than you to attack the same target before the start of your next turn gains a +1 circumstance bonus to their roll, or a +2 circumstance bonus if your Strike was a critical hit.",
         "targetNumbers": [
             {
@@ -1934,6 +2027,7 @@
         "requirements": "You are wielding a single one-handed melee weapon and have your other hand or hands free.",
         "trigger": "An ally within your melee reach is hit by an attack, you can see the attacker, and the ally gaining a +2 circumstance bonus to AC would turn the critical hit into a hit or the hit into a miss.",
         "target": "ally",
+        "cannotTargetCaster": true,
         "desc": "You use your weapon to deflect the attack against your ally, granting a +2 circumstance bonus to their Armor Class against the triggering attack. This turns the triggering critical hit into a hit, or the triggering hit into a miss.",
         "gainConditions": [
             {
@@ -2469,6 +2563,7 @@
         ],
         "trigger": "You are about to roll a Perception or Survival check for initiative.",
         "target": "ally",
+        "cannotTargetCaster": true,
         "desc": "You visually or audibly warn your allies of danger, granting them each a +1 circumstance bonus to their initiative rolls. Depending on whether you use gestures or call out, this action gains either the visual or auditory trait, respectively.",
         "targetNumbers": [
             {
@@ -2536,6 +2631,7 @@
         ],
         "durationDependsOnTarget": true,
         "target": "ally",
+        "cannotTargetCaster": true,
         "desc": "By pointing out vulnerabilities, you grant the benefits listed in Hunt Prey and your hunter's edge benefit to an ally until the end of their next turn. Depending on whether you call out or use gestures, this action gains either the auditory or visual trait.",
         "gainConditions": [
             {
@@ -2665,7 +2761,7 @@
         ],
         "toggle": true,
         "target": "self",
-        "desc": "You've learned every possible edge to use against your foes. When you use Hunt Prey, you gain the precision hunter's edge benefit instead of the one you selected at 1st level. The first time you hit your hunted prey in a round, you also deal 1d8 additional precision damage. (Precision damage increases the damage you already deal, using the same type, but is ineffective against creatures that lack vital organs or weak points.) At 11th level, the extra damage increases to 2d8 precision damage, and at 19th level, the extra damage increases to 3d8 precision damage. You don't gain the additional benefit from masterful hunter.\n\nYou designate a single creature as your prey and focus your attacks against that creature. You must be able to see or hear the prey, or you must be tracking the prey during exploration.\n\nYou gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYou can have only one creature designated as your prey at a time. If you use Hunt Prey against a creature when you already have a creature designated, the prior creature loses the designation and the new prey gains the designation. Your designation lasts until your next daily preparations.",
+        "desc": "You've learned every possible edge to use against your foes. When you use Hunt Prey, you gain the precision hunter's edge benefit instead of the one you selected at 1st level. The first time you hit your hunted prey in a round, you also deal |dice=1d8 Precision| 1d8 additional precision damage. (Precision damage increases the damage you already deal, using the same type, but is ineffective against creatures that lack vital organs or weak points.) At 11th level, the extra damage increases to |dice=2d8 Precision| 2d8 precision damage, and at 19th level, the extra damage increases to |dice=3d8 Precision| 3d8 precision damage. You don't gain the additional benefit from masterful hunter.\n\nYou designate a single creature as your prey and focus your attacks against that creature. You must be able to see or hear the prey, or you must be tracking the prey during exploration.\n\nYou gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYou can have only one creature designated as your prey at a time. If you use Hunt Prey against a creature when you already have a creature designated, the prior creature loses the designation and the new prey gains the designation. Your designation lasts until your next daily preparations.",
         "gainConditions": [
             {
                 "duration": -1,
@@ -2773,7 +2869,7 @@
         ],
         "requirements": "The animal companion's last action was a successful jaws Strike.",
         "target": "other",
-        "desc": "The Strike's target takes 1d6 persistent bleed damage and takes a -10-foot status penalty to its Speed until it removes the bleed damage. If the hyena is a specialized animal companion, the persistent bleed damage increases to 2d6."
+        "desc": "The Strike's target takes |dice=1d6 Persistent Bleed| 1d6 persistent bleed damage and takes a -10-foot status penalty to its Speed until it removes the bleed damage. If the hyena is a specialized animal companion, the persistent bleed damage increases to |dice=2d6 Persistent Bleed| 2d6."
     },
     {
         "name": "Lurching Rush",
@@ -2844,7 +2940,7 @@
         "frequency": "once per turn",
         "cooldown": 10,
         "target": "self",
-        "desc": "You siphon the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 damage of a type depending on the school of the spell you just cast.\n\n<strong>Abjuration</strong> force damage\n<strong>Conjuration or Transmutation</strong> the same type as the weapon\n<strong>Divination, Enchantment, or Illusion</strong> mental damage\n<strong>Evocation</strong> a type the spell dealt, or force damage if the spell didn't deal damage\n<strong>Necromancy</strong> negative damage",
+        "desc": "You siphon the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra |dice=1d6| 1d6 damage of a type depending on the school of the spell you just cast.\n\n<strong>Abjuration</strong> force damage\n<strong>Conjuration or Transmutation</strong> the same type as the weapon\n<strong>Divination, Enchantment, or Illusion</strong> mental damage\n<strong>Evocation</strong> a type the spell dealt, or force damage if the spell didn't deal damage\n<strong>Necromancy</strong> negative damage",
         "gainConditions": [
             {
                 "duration": 5,
@@ -2910,7 +3006,7 @@
         "frequency": "once per day",
         "cooldown": 144000,
         "target": "self",
-        "desc": "If your next action is to cast a cantrip or a spell that is at least 2 levels lower than the highest level spell you can cast, reduce the number of actions to cast it by 1 (minimum 1 action).",
+        "desc": "If your next action is to cast a cantrip of the class that gave you Quickened Casting or a spell that is at least 2 levels lower than the highest level spell of that class, reduce the number of actions to cast it by 1 (minimum 1 action).",
         "specialdesc": "This can only be used on a cantrip or spell from the class matching the one you gained this feat from."
     },
     {
@@ -3195,7 +3291,7 @@
             "Rogue"
         ],
         "target": "other",
-        "desc": "Your sneak attack slices through the threads binding magic to a target. Make a Strike against a flat-footed creature (your choice). If your Strike deals sneak attack damage, you attempt to counteract a single spell active on the target. Your counteract level is half your level (rounded up), and your counteract check modifier is equal to your class DC - 10."
+        "desc": "Your sneak attack slices through the threads binding magic to a target. Make a Strike against a flat-footed creature (your choice). If your Strike deals sneak attack damage, you attempt to counteract a single spell active on the target. Your counteract level is equal to half your level (rounded up), and your counteract check modifier is equal to your class DC - 10."
     },
     {
         "name": "Perfect Distraction",
@@ -3215,7 +3311,7 @@
         ],
         "showSpells": [
             {
-                "level": 6,
+                "level": "6",
                 "name": "Mislead"
             }
         ]
@@ -3375,6 +3471,7 @@
         "trigger": "An ally's turn begins.",
         "durationDependsOnTarget": true,
         "target": "ally",
+        "cannotTargetCaster": true,
         "desc": "You announce the triggering ally with a litany of their legendary achievements, spurring them to action. The target is quickened this turn and can spend the extra action to Stride, Strike, Demoralize, Feint, or Perform.",
         "gainConditions": [
             {
@@ -3458,7 +3555,7 @@
         ],
         "toggle": true,
         "target": "self",
-        "desc": "You've spent enough time on fire that you know how to use it to your advantage. You can light yourself thoroughly on fire with a held torch, a bottle of alchemist's fire, or a similar incendiary, dealing yourself 1d6 persistent fire damage. As long as you are suffering persistent fire damage, all your melee attacks against adjacent creatures deal an additional 1 fire damage per weapon damage die. Any creature that successfully Grapples, Shoves, or Trips you takes 1d6 fire damage; if it uses a weapon for that action, the weapon takes the damage instead. You must still attempt the flat check to remove the persistent fire damage each round, as normal.",
+        "desc": "You've spent enough time on fire that you know how to use it to your advantage. You can light yourself thoroughly on fire with a held torch, a bottle of alchemist's fire, or a similar incendiary, dealing yourself 1d6 persistent fire damage. As long as you are suffering persistent fire damage, all your melee attacks against adjacent creatures deal an additional 1 fire damage per weapon damage die. Any creature that successfully Grapples, Shoves, or Trips you takes |dice=1d6 Fire| 1d6 fire damage; if it uses a weapon for that action, the weapon takes the damage instead. You must still attempt the flat check to remove the persistent fire damage each round, as normal.",
         "gainConditions": [
             {
                 "name": "Torch Goblin",
@@ -3523,6 +3620,7 @@
         ],
         "trigger": "An enemy damages your ally, and both are within 15 feet of you.",
         "target": "ally",
+        "cannotTargetCaster": true,
         "desc": "You protect your ally and strike your foe. The ally gains resistance to all damage against the triggering damage equal to 2 + your level. If the foe is within reach, make a melee Strike against it.",
         "gainConditions": [
             {
@@ -3546,6 +3644,7 @@
         ],
         "trigger": "An enemy damages your ally, and both are within 15 feet of you.",
         "target": "ally",
+        "cannotTargetCaster": true,
         "desc": "Your foe hesitates under the weight of sin as visions of redemption play in their mind's eye. The foe must choose one of the following options:\n\nThe ally is unharmed by the triggering damage.\nThe ally gains resistance to all damage against the triggering damage equal to 2 + your level. After the damaging effect is applied, the enemy becomes enfeebled 2 until the end of its next turn.",
         "gainConditions": [
             {
@@ -3570,6 +3669,7 @@
         ],
         "trigger": "An enemy damages, Grabs, or Grapples your ally, and both are within 15 feet of you.",
         "target": "ally",
+        "cannotTargetCaster": true,
         "desc": "You free an ally from restraint. If the trigger was an ally taking damage, the ally gains resistance to all damage against the triggering damage equal to 2 + your level. The ally can attempt to break free of effects grabbing, restraining, immobilizing, or paralyzing them. They either attempt a new save against one such effect that allows a save, or attempt to Escape from one effect as a free action. If they can move, the ally can Step as a free action, even if they didn't need to escape.",
         "gainConditions": [
             {
@@ -3593,7 +3693,7 @@
             "Manipulate"
         ],
         "target": "area",
-        "desc": "The reflective scales store up energy as they protect you. Keep track of how much damage the scales have prevented. You explode your scales outward in a 20-foot radius around you, dealing 1d6 damage of the chosen type to all creatures in the area for every 10 damage the scales have prevented, to a maximum of 10d6 damage (plus 5d6 for every 2 levels after 4th) after preventing 100 damage (plus 50 for every 2 levels after 4th). Once you do so, the spell ends.",
+        "desc": "The reflective scales store up energy as they protect you. Keep track of how much damage the scales have prevented. You explode your scales outward in a 20-foot radius around you, dealing |dice=1d6| 1d6 damage of the chosen type to all creatures in the area for every 10 damage the scales have prevented, to a maximum of 10d6 damage (plus 5d6 for every 2 levels after 4th) after preventing 100 damage (plus 50 for every 2 levels after 4th). Once you do so, the spell ends.",
         "gainConditions": [
             {
                 "duration": 0,
@@ -3693,6 +3793,7 @@
     {
         "name": "Shadow Pact",
         "actions": "1 minute",
+        "inputRequired": "You take 1 damage automatically when you activate Shadow Pact.",
         "traits": [
             "Human"
         ],
@@ -3707,7 +3808,7 @@
         ],
         "showSpells": [
             {
-                "level": 5,
+                "level": "5",
                 "name": "Creation"
             }
         ]
@@ -3843,7 +3944,7 @@
         "frequency": "a number of times per day equal to your level",
         "cooldown": 144000,
         "target": "self",
-        "desc": "You envenom your fangs. If the next fangs Strike you make before the end of your next turn hits and deals damage, the Strike deals an additional 1d6 poison damage. On a critical failure, the poison is wasted as normal.",
+        "desc": "You envenom your fangs. If the next fangs Strike you make before the end of your next turn hits and deals damage, the Strike deals an additional |dice=1d6 Poison| 1d6 poison damage. On a critical failure, the poison is wasted as normal.",
         "gainConditions": [
             {
                 "duration": 15,
@@ -4071,7 +4172,7 @@
         ],
         "requirements": "You haven't used this ability since you last Raged.",
         "target": "area",
-        "desc": "You breathe deeply and exhale powerful energy in a 30-foot cone or 60-foot line, dealing 1d6 damage per level. The area and damage type match those of your dragon (see Table 3-4). If you used this ability in the last hour, the area and the damage are halved (15-foot cone or 30-foot line; 1d6 damage for every 2 levels). Each creature in the area must attempt a basic Reflex save.\n\n<strong>Black</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Line of acid.\n<strong>Blue</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Line of electricity.\n<strong>Green</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Cone of poison.\n<strong>Red</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Cone of fire.\n<strong>White</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Cone of cold.\n<strong>Brass</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Line of fire.\n<strong>Bronze</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Line of electricity.\n<strong>Copper</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Line of acid.\n<strong>Gold</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Cone of fire.\n<strong>Silver</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Cold of cold.",
+        "desc": "You breathe deeply and exhale powerful energy in a 30-foot cone or 60-foot line, dealing |dice=var1| 1d6 damage per level. The area and damage type match those of your dragon (see Table 3-4). If you used this ability in the last hour, the area and the damage are halved (15-foot cone or 30-foot line; |dice=var2| 1d6 damage for every 2 levels). Each creature in the area must attempt a basic Reflex save.\n\n<strong>Black</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Line of acid.\n<strong>Blue</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Line of electricity.\n<strong>Green</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Cone of poison.\n<strong>Red</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Cone of fire.\n<strong>White</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Cone of cold.\n<strong>Brass</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Line of fire.\n<strong>Bronze</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Line of electricity.\n<strong>Copper</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Line of acid.\n<strong>Gold</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Cone of fire.\n<strong>Silver</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Cold of cold.",
         "gainConditions": [
             {
                 "duration": 6000,
@@ -4083,6 +4184,203 @@
                 "name": "Dragon's Rage Breath Cooldown",
                 "source": "Dragon's Rage Breath",
                 "targetFilter": "caster"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "6d6",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "3d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "7d6",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "3d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "8d6",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "4d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "9d6",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "4d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "10d6",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "5d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 11,
+                "descs": [
+                    {
+                        "value": "11d6",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "5d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 12,
+                "descs": [
+                    {
+                        "value": "12d6",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "6d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 13,
+                "descs": [
+                    {
+                        "value": "13d6",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "6d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 14,
+                "descs": [
+                    {
+                        "value": "14d6",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "7d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 15,
+                "descs": [
+                    {
+                        "value": "15d6",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "7d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 16,
+                "Descs": [
+                    {
+                        "value": "8d6",
+                        "variable": "var2"
+                    },
+                    {
+                        "value": "16d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 17,
+                "Descs": [
+                    {
+                        "value": "8d6",
+                        "variable": "var2"
+                    },
+                    {
+                        "value": "17d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 18,
+                "Descs": [
+                    {
+                        "value": "9d6",
+                        "variable": "var2"
+                    },
+                    {
+                        "value": "18d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 19,
+                "Descs": [
+                    {
+                        "value": "9d6",
+                        "variable": "var2"
+                    },
+                    {
+                        "value": "19d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 20,
+                "Descs": [
+                    {
+                        "value": "10d6",
+                        "variable": "var2"
+                    },
+                    {
+                        "value": "20d6",
+                        "variable": "var1"
+                    }
+                ]
             }
         ]
     },
@@ -4148,14 +4446,14 @@
             {
                 "choiceBySubType": "Animal Instinct",
                 "duration": 100,
-                "hideChoices": true,
+                "hideChoices": "TRUE",
                 "name": "Animal Rage",
                 "source": "Animal Rage"
             }
         ],
         "showSpells": [
             {
-                "level": 3,
+                "level": "3",
                 "name": "Animal Form"
             }
         ]
@@ -4188,6 +4486,7 @@
         ],
         "requirements": "You haven't used this ability since you last Raged.",
         "target": "ally",
+        "cannotTargetCaster": true,
         "desc": "You stoke an ally's fury. While you are raging, one willing creature within 30 feet gains the effects of the Rage action, except it can still use concentrate actions.",
         "gainConditions": [
             {
@@ -4326,7 +4625,7 @@
             "Rage"
         ],
         "target": "other",
-        "desc": "You call forth an ephemeral apparition, typically the ghost of an ancestor or a nature spirit, which takes the form of a wisp. The spirit wisp makes a melee wisp rush unarmed attack against an enemy within 120 feet of you. The wisp's attack modifier is equal to your proficiency bonus for martial weapons plus your Strength modifier plus a +2 item bonus, and it applies the same circumstance and status bonuses and penalties that you have. On a hit, the wisp deals damage equal to 4d8 plus your Constitution modifier. The damage is your choice of negative or positive damage; don't apply your Rage damage or your weapon specialization damage, but circumstance and status bonuses and penalties that would also affect the wisp's damage apply. If your wisp's Strike is a critical hit, the target becomes frightened 1. This attack uses and counts toward your multiple attack penalty as if you were the one attacking."
+        "desc": "You call forth an ephemeral apparition, typically the ghost of an ancestor or a nature spirit, which takes the form of a wisp. The spirit wisp makes a melee wisp rush unarmed attack against an enemy within 120 feet of you. The wisp's attack modifier is equal to your proficiency bonus for martial weapons plus your Strength modifier plus a +2 item bonus, and it applies the same circumstance and status bonuses and penalties that you have. On a hit, the wisp deals damage equal to |dice=4d8 + conmod| 4d8 plus your Constitution modifier. The damage is your choice of negative or positive damage; don't apply your Rage damage or your weapon specialization damage, but circumstance and status bonuses and penalties that would also affect the wisp's damage apply. If your wisp's Strike is a critical hit, the target becomes frightened 1. This attack uses and counts toward your multiple attack penalty as if you were the one attacking."
     },
     {
         "name": "Giant's Lunge",
@@ -4384,7 +4683,7 @@
         ],
         "showSpells": [
             {
-                "level": 6,
+                "level": "6",
                 "name": "Dragon Form"
             }
         ]
@@ -4398,7 +4697,7 @@
             "Evocation"
         ],
         "target": "area",
-        "desc": "The shape, damage, and damage type of your breath weapon depend on your specific dragon form (see below). A creature in the area attempts a basic save against your spell DC. This is a Reflex save unless stated otherwise in the special ability description for your specific dragon form. Once activated, your breath weapon can't be used again for 1d4 rounds. Your breath weapon has the trait corresponding to the type of damage it deals.\n\nOn 8th spell level, you gain a +14 status bonus to the breath weapon's damage.\n\n<strong>Black</strong> 60-foot line, 11d6 acid.\n<strong>Blue</strong> 80-foot line, 6d12 electricity.\n<strong>Brass</strong> 60-foot line, 15d4 fire.\n<strong>Bronze</strong> 80-foot line, 6d12 electricity.\n<strong>Copper</strong> 60-foot line, 10d6 acid.\n<strong>Gold</strong> 30-foot cone, 6d10 fire.\n<strong>Green</strong> 30-foot cone, 10d6 poison (Fortitude save instead of Reflex).\n<strong>Red</strong> 30-foot cone, 10d6 fire.\n<strong>Silver</strong> 30-foot cone, 8d8 cold.\n<strong>White</strong> 30-foot cone, 10d6 cold.",
+        "desc": "The shape, damage, and damage type of your breath weapon depend on your specific dragon form (see below). A creature in the area attempts a basic save against your spell DC. This is a Reflex save unless stated otherwise in the special ability description for your specific dragon form. Once activated, your breath weapon can't be used again for |dice=1d4| 1d4 rounds. Your breath weapon has the trait corresponding to the type of damage it deals.\n\nOn 8th spell level, you gain a +14 status bonus to the breath weapon's damage.\n\n<strong>Black</strong> 60-foot line, |dice=11d6 Acid| |dice=11d6 + 14 Acid|  11d6 acid.\n<strong>Blue</strong> 80-foot line, |dice=6d12 Electricity| |dice=6d12 + 14 Electricity| 6d12 electricity.\n<strong>Brass</strong> 60-foot line, |dice=15d4 Fire| |dice=15d4 + 14 Fire| 15d4 fire.\n<strong>Bronze</strong> 80-foot line, |dice=6d12 Electricity| |dice=6d12 + 14 Electricity| 6d12 electricity.\n<strong>Copper</strong> 60-foot line, |dice=10d6 Acid| |dice=10d6 + 14 Acid| 10d6 acid.\n<strong>Gold</strong> 30-foot cone, |dice=10d6 Fire| |dice=10d6 + 14 Fire|  6d10 fire.\n<strong>Green</strong> 30-foot cone, |dice=10d6 Poison| |dice=10d6 + 14 Poison| 10d6 poison (Fortitude save instead of Reflex).\n<strong>Red</strong> 30-foot cone, |dice=10d6 Fire| |dice=10d6 + 14 Fire| 10d6 fire.\n<strong>Silver</strong> 30-foot cone, |dice=8d8 Cold| |dice=8d8 + 14 Cold| 8d8 cold.\n<strong>White</strong> 30-foot cone, |dice=10d6 Cold| |dice=10d6 + 14 Cold| 10d6 cold.",
         "gainConditions": [
             {
                 "duration": -5,
@@ -4568,7 +4867,7 @@
         ],
         "toggle": true,
         "target": "self",
-        "desc": "(Phoenix form only) You gain a 20 feet aura of fire that extends out from you. A creature that enters or ends its turn within the aura takes 2d6 fire damage (3d6 on 9th level monstrosity form). A creature can take this damage only once per turn. You can use a single action, which has the concentrate trait, to activate or deactivate this aura.",
+        "desc": "(Phoenix form only) You gain a 20 feet aura of fire that extends out from you. A creature that enters or ends its turn within the aura takes |dice=2d6 Fire| 2d6 fire damage (|dice=3d6 Fire| 3d6 on 9th level monstrosity form). A creature can take this damage only once per turn. You can use a single action, which has the concentrate trait, to activate or deactivate this aura.",
         "gainConditions": [
             {
                 "name": "Shroud of Flame",
@@ -4583,13 +4882,13 @@
             "Move"
         ],
         "target": "area",
-        "desc": "(Sea serpent form only) You extend your spines and Swim or Stride. Each creature you're adjacent to at any point during your movement takes 4d8+10 slashing damage (5d8+10 on 9th level monstrosity form) (basic Reflex against your spell DC)."
+        "desc": "(Sea serpent form only) You extend your spines and Swim or Stride. Each creature you're adjacent to at any point during your movement takes |dice=4d8 + 10 S| 4d8+10 slashing damage (|dice=5d8 + 10 S| 5d8+10 on 9th level monstrosity form) (basic Reflex against your spell DC)."
     },
     {
         "name": "Trample",
         "actions": "3A",
         "target": "area",
-        "desc": "(Kaiju form only) You move up to double your Speed and move through the spaces of Huge or smaller creatures, trampling each creature whose space you enter. A trampled creature takes foot damage with a basic Reflex save against your spell DC."
+        "desc": "(Kaiju form only) You move up to double your Speed and move through the spaces of Huge or smaller creatures, trampling each creature whose space you enter. A trampled creature takes foot damage (|dice=6d6 + 10 B| 6d6+10 bludgeoning) with a basic Reflex save against your spell DC."
     },
     {
         "name": "Healing Transformation",
@@ -4600,7 +4899,7 @@
             "Metamagic"
         ],
         "target": "self",
-        "desc": "You can take advantage of shapechanging magic to close wounds and patch injuries. If your next action is to cast a non-cantrip polymorph spell that targets only one creature, your polymorph spell also restores 1d6 Hit Points per spell level to that creature. This is a healing effect."
+        "desc": "You can take advantage of shapechanging magic to close wounds and patch injuries. If your next action is to cast a non-cantrip polymorph spell that targets only one creature, your polymorph spell also restores |dice=1d6| 1d6 Hit Points per spell level to that creature. This is a healing effect."
     },
     {
         "name": "Pesh Skin",
@@ -4612,7 +4911,7 @@
         ],
         "requirements": "You are transformed into a plant by a polymorph spell.",
         "target": "self",
-        "desc": "Your plant form sprouts hundreds of spines, and your blood causes mild hallucinations in creatures exposed to it. Each time a creature touches you, hits you with an unarmed attack, or hits you with a melee weapon attack while adjacent to you, that creature takes 1d6 piercing damage. Increase the damage to 2d6 if the polymorph spell is 8th level or higher, or to 3d6 if it's 10th level.\n\nWhen an adjacent creature damages you with piercing or slashing damage, it must succeed at a Fortitude save against your class DC or become stupefied 1 (or stupefied 2 on a critical failure) until the end of its next turn.\n\nThese benefits last until you're no longer polymorphed into a plant.",
+        "desc": "Your plant form sprouts hundreds of spines, and your blood causes mild hallucinations in creatures exposed to it. Each time a creature touches you, hits you with an unarmed attack, or hits you with a melee weapon attack while adjacent to you, that creature takes |dice=1d6 P| 1d6 piercing damage. Increase the damage to |dice=2d6 P| 2d6 if the polymorph spell is 8th level or higher, or to |dice=3d6 P| 3d6 if it's 10th level.\n\nWhen an adjacent creature damages you with piercing or slashing damage, it must succeed at a Fortitude save against your class DC or become stupefied 1 (or stupefied 2 on a critical failure) until the end of its next turn.\n\nThese benefits last until you're no longer polymorphed into a plant.",
         "gainConditions": [
             {
                 "duration": -1,
@@ -4647,7 +4946,7 @@
         "frequency": "once per round",
         "cooldown": 10,
         "target": "other",
-        "desc": "Once per round, you can direct the briars to impale any target in the area (or flying up to 20 feet above the area) that you can see by using a single action, which has the concentrate and manipulate traits. Make a spell attack roll. On a success, the target takes 10d6 piercing damage and takes a -10-foot circumstance penalty to all Speeds for 1 round; on a critical success, the target is immobilized for 1 round unless it Escapes."
+        "desc": "Once per round, you can direct the briars to impale any target in the area (or flying up to 20 feet above the area) that you can see by using a single action, which has the concentrate and manipulate traits. Make a spell attack roll. On a success, the target takes |dice=10d6| 10d6 piercing damage and takes a -10-foot circumstance penalty to all Speeds for 1 round; on a critical success, the target is immobilized for 1 round unless it Escapes."
     },
     {
         "name": "Leyline Conduit",
@@ -4703,7 +5002,7 @@
         ],
         "showSpells": [
             {
-                "level": 10,
+                "level": "10",
                 "name": "Nature Incarnate"
             }
         ]
