@@ -717,19 +717,9 @@ export class CharacterService {
         character.class.on_ChangeAncestry(this);
         character.class.on_ChangeBackground(this);
         character.class.on_ChangeClass(this);
-        character.class = new Class();
         character.class = Object.assign(new Class(), JSON.parse(JSON.stringify($class)));
         character.class = this.reassign(character.class);
         character.class.on_NewClass(this, this.itemsService);
-        //After the class change, process all immediate effects from feats (or rather features) that you get from the class - like gaining the Druidic language.
-        this.get_FeatsAndFeatures()
-            .filter(feat => feat.onceEffects.length && feat.have(character, this, character.level))
-            .forEach(feat => {
-                feat.onceEffects.forEach(effect => {
-                    this.process_OnceEffect(character, effect);
-                })
-            })
-        //Update everything because the class changes everything.
         this.set_Changed();
     }
 

@@ -9,14 +9,14 @@
                     [fullDisplay]="fullDisplay"></app-condition>
             </ng-template>
             <div [ngbPopover]="conditionContent" triggers="click" *ngIf="!fullDisplay" style="display:flex;">
-                <app-gridIcon class="condition" [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}"
+                <app-gridIcon [updateId]="conditionGain.id" class="condition" [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}"
                     placement="right bottom top" [condition]="conditionGain" [originalCondition]="condition"
                     [superTitle]="get_IsInformationalCondition(conditionGain, condition) ? 'icon-bi-info-circle' : ''"
                     [ngbTooltip]="conditionGain.name" openDelay=0>
                 </app-gridIcon>
             </div>
             <div class="list-item gridicon-fullsizebox" *ngIf="fullDisplay">
-                <app-gridIcon class="condition" [condition]="conditionGain" [originalCondition]="condition"
+                <app-gridIcon [updateId]="conditionGain.id" class="condition" [condition]="conditionGain" [originalCondition]="condition"
                     [superTitle]="get_IsInformationalCondition(conditionGain, condition) ? 'icon-bi-info-circle' : ''"
                     [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}">
                 </app-gridIcon>

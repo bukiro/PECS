@@ -108,27 +108,27 @@
             <div class="newrow list-item">
                 <strong>Change Duration</strong>
                 <div class="newrow">
-                    <button (click)="set_ConditionDuration(conditionGain, condition, -1)">Permanent</button>
-                    <button (click)="set_ConditionDuration(conditionGain, condition, -2)">Until rest</button>
-                    <button (click)="set_ConditionDuration(conditionGain, condition, -3)">Until refocus</button>
+                    <button (click)="set_ConditionDuration(conditionGain, -1)">Permanent</button>
+                    <button (click)="set_ConditionDuration(conditionGain, -2)">Until rest</button>
+                    <button (click)="set_ConditionDuration(conditionGain, -3)">Until refocus</button>
                 </div>
                 <div class="newrow" *ngIf="conditionGain.duration < 0">
-                    <button (click)="set_ConditionDuration(conditionGain, condition, 10)">1 turn</button>
-                    <button (click)="set_ConditionDuration(conditionGain, condition, 100)">1 min.</button>
-                    <button (click)="set_ConditionDuration(conditionGain, condition, 1000)">10 min.</button>
-                    <button (click)="set_ConditionDuration(conditionGain, condition, 6000)">1 hour</button>
+                    <button (click)="set_ConditionDuration(conditionGain, 10)">1 turn</button>
+                    <button (click)="set_ConditionDuration(conditionGain, 100)">1 min.</button>
+                    <button (click)="set_ConditionDuration(conditionGain, 1000)">10 min.</button>
+                    <button (click)="set_ConditionDuration(conditionGain, 6000)">1 hour</button>
                 </div>
                 <div class="newrow" *ngIf="conditionGain.duration > 0">
-                    <button (click)="change_ConditionDuration(conditionGain, condition, 10)">+ 1 turn</button>
-                    <button (click)="change_ConditionDuration(conditionGain, condition, 100)">+ 1 min.</button>
-                    <button (click)="change_ConditionDuration(conditionGain, condition, 1000)">+ 10 min.</button>
-                    <button (click)="change_ConditionDuration(conditionGain, condition, 6000)">+ 1 hour</button>
+                    <button (click)="change_ConditionDuration(conditionGain, 10)">+ 1 turn</button>
+                    <button (click)="change_ConditionDuration(conditionGain, 100)">+ 1 min.</button>
+                    <button (click)="change_ConditionDuration(conditionGain, 1000)">+ 10 min.</button>
+                    <button (click)="change_ConditionDuration(conditionGain, 6000)">+ 1 hour</button>
                 </div>
                 <div class="newrow" *ngIf="conditionGain.duration > 0">
-                    <button (click)="change_ConditionDuration(conditionGain, condition, -10)" [disabled]="conditionGain.duration <= 11">- 1 turn</button>
-                    <button (click)="change_ConditionDuration(conditionGain, condition, -100)" [disabled]="conditionGain.duration <= 101">- 1 min.</button>
-                    <button (click)="change_ConditionDuration(conditionGain, condition, -1000)" [disabled]="conditionGain.duration <= 1001">- 10 min.</button>
-                    <button (click)="change_ConditionDuration(conditionGain, condition, -6000)" [disabled]="conditionGain.duration <= 6001">- 1 hour</button>
+                    <button (click)="change_ConditionDuration(conditionGain, -10)" [disabled]="conditionGain.duration <= 11">- 1 turn</button>
+                    <button (click)="change_ConditionDuration(conditionGain, -100)" [disabled]="conditionGain.duration <= 101">- 1 min.</button>
+                    <button (click)="change_ConditionDuration(conditionGain, -1000)" [disabled]="conditionGain.duration <= 1001">- 10 min.</button>
+                    <button (click)="change_ConditionDuration(conditionGain, -6000)" [disabled]="conditionGain.duration <= 6001">- 1 hour</button>
                 </div>
             </div>
         </div>

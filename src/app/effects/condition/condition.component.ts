@@ -73,24 +73,20 @@ export class ConditionComponent implements OnInit {
         return this.condition.get_IsInformationalCondition(this.get_Creature(), this.characterService, this.conditionGain);
     }
 
-    set_ConditionDuration(gain: ConditionGain, condition: Condition, turns: number) {
+    set_ConditionDuration(gain: ConditionGain, turns: number) {
         gain.duration = turns;
         gain.maxDuration = gain.duration;
-        //Conditions who use their own duration in their effects need to update effects after changing duration.
-        if (condition?.effects.some(effect => effect.setValue?.includes("parentcondition.duration") || effect.value?.includes("parentcondition.duration"))) {
-            this.characterService.set_ToChange(this.creature, "effects");
-            this.characterService.process_ToChange();
-        }
+        this.characterService.set_ToChange(this.creature, "effects");
+        this.characterService.process_ToChange();
+        this.update_Condition();
     }
 
-    change_ConditionDuration(gain: ConditionGain, condition: Condition, turns: number) {
+    change_ConditionDuration(gain: ConditionGain, turns: number) {
         gain.duration += turns;
         gain.maxDuration = gain.duration;
-        //Conditions who use their own duration in their effects need to update effects after changing duration.
-        if (condition?.effects.some(effect => effect.setValue?.includes("parentcondition.duration") || effect.value?.includes("parentcondition.duration"))) {
-            this.characterService.set_ToChange(this.creature, "effects");
-            this.characterService.process_ToChange();
-        }
+        this.characterService.set_ToChange(this.creature, "effects");
+        this.characterService.process_ToChange();
+        this.update_Condition();
     }
 
     change_ConditionValue(gain: ConditionGain, oldValue: number, change: number = 0) {
@@ -108,6 +104,7 @@ export class ConditionComponent implements OnInit {
         gain.showValue = false;
         this.characterService.set_ToChange(this.creature, "effects");
         this.characterService.process_ToChange();
+        this.update_Condition();
     }
 
     change_ConditionRadius(gain: ConditionGain, change: number) {
@@ -179,6 +176,7 @@ export class ConditionComponent implements OnInit {
         gain.showChoices = false;
         this.characterService.set_HintsToChange(this.creature, this.condition.hints);
         this.characterService.process_ToChange();
+        this.update_Condition();
     }
 
     change_ConditionStage(gain: ConditionGain, condition: Condition, choices: string[], change: number) {
@@ -202,6 +200,7 @@ export class ConditionComponent implements OnInit {
             }
         }
         this.characterService.process_ToChange();
+        this.update_Condition();
     }
 
     get_HeightenedDescription() {
@@ -238,6 +237,13 @@ export class ConditionComponent implements OnInit {
                     }
                 });
             return true;
+        }
+    }
+
+    update_Condition() {
+        //This updates any gridicon that has this condition gain's id set as its update id.
+        if (this.conditionGain.id) {
+            this.characterService.set_Changed(this.conditionGain.id);
         }
     }
 

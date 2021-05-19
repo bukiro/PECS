@@ -2,12 +2,12 @@
     <ng-container *ngIf="iconValueResult.includes('<'); then InnerHtmlDivTemplate; else TextDivTemplate">
     </ng-container>
     <ng-template #InnerHtmlDivTemplate>
-        <span class="iconValue disable-text-selection" [ngStyle]="{'color': effect ? 'inherit' : 'var(--textcolor)'}"
+        <span class="iconValue disable-text-selection" [ngStyle]="{'color': effect ? 'inherit' : ''}"
             [innerHtml]="iconValueResult"></span>
     </ng-template>
     <ng-template #TextDivTemplate>
         <span class="iconValue disable-text-selection"
-            [ngStyle]="{'color': effect ? 'inherit' : 'var(--textcolor)'}">{{iconValueResult}}</span>
+            [ngStyle]="{'color': effect ? 'inherit' : ''}">{{iconValueResult}}</span>
     </ng-template>
 </ng-container>
 <ng-container *ngFor="let iconDetailResult of [get_IconDetail()]; trackBy:trackByIndex">

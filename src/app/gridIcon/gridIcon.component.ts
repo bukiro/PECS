@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ConditionGain } from '../ConditionGain';
 import { Feat } from '../Feat';
 import { Effect } from '../Effect';
@@ -10,11 +10,13 @@ import { Weapon } from '../Weapon';
 import { Armor } from '../Armor';
 import { Consumable } from '../Consumable';
 import { Activity } from '../Activity';
+import { CharacterService } from '../character.service';
 
 @Component({
     selector: 'app-gridIcon',
     templateUrl: './gridIcon.component.html',
-    styleUrls: ['./gridIcon.component.scss']
+    styleUrls: ['./gridIcon.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GridIconComponent implements OnInit {
 
@@ -46,8 +48,14 @@ export class GridIconComponent implements OnInit {
     activity: Activity = null;
     @Input()
     item: Item = null;
+    //The gridicon will refresh if this ID is updated by CharacterService.set_Changed().
+    @Input()
+    updateId: string;
 
-    constructor() { }
+    constructor(
+        private characterService: CharacterService,
+        private changeDetector: ChangeDetectorRef
+    ) { }
 
     trackByIndex(index: number, obj: any): any {
         return index;
@@ -360,7 +368,19 @@ export class GridIconComponent implements OnInit {
         }
     }
 
+    finish_Loading() {
+        if (this.updateId) {
+            this.characterService.get_Changed()
+                .subscribe((target) => {
+                    if (target == this.updateId) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
+        }
+    }
+
     ngOnInit() {
+        this.finish_Loading();
     }
 
 }

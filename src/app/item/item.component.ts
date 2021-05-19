@@ -212,6 +212,11 @@ export class ItemComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
+    update_Item() {
+        //This updates any gridicon that has this item's id set as its update id.
+        this.characterService.set_Changed(this.item.id);
+    }
+
     ngOnInit() {
         if (["weaponrunes", "armorrunes", "oils"].includes(this.item.type) && !this.isSubItem) {
             this.allowActivate = false;

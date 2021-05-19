@@ -141,15 +141,15 @@ export class ItemRunesComponent implements OnInit {
             })
         }
         return Array.from(new Set(runes))
-        .sort(function (a, b) {
-            if (a.potency > b.potency) {
-                return 1;
-            }
-            if (a.potency < b.potency) {
-                return -1;
-            }
-            return 0;
-        });
+            .sort(function (a, b) {
+                if (a.potency > b.potency) {
+                    return 1;
+                }
+                if (a.potency < b.potency) {
+                    return -1;
+                }
+                return 0;
+            });
     }
 
     get_StrikingRunes() {
@@ -188,15 +188,15 @@ export class ItemRunesComponent implements OnInit {
             })
         }
         return Array.from(new Set(runes))
-        .sort(function (a, b) {
-            if (a.striking > b.striking) {
-                return 1;
-            }
-            if (a.striking < b.striking) {
-                return -1;
-            }
-            return 0;
-        });
+            .sort(function (a, b) {
+                if (a.striking > b.striking) {
+                    return 1;
+                }
+                if (a.striking < b.striking) {
+                    return -1;
+                }
+                return 0;
+            });
     }
 
     get_ResilientRunes() {
@@ -235,15 +235,15 @@ export class ItemRunesComponent implements OnInit {
             })
         }
         return Array.from(new Set(runes))
-        .sort(function (a, b) {
-            if (a.resilient > b.resilient) {
-                return 1;
-            }
-            if (a.resilient < b.resilient) {
-                return -1;
-            }
-            return 0;
-        });
+            .sort(function (a, b) {
+                if (a.resilient > b.resilient) {
+                    return 1;
+                }
+                if (a.resilient < b.resilient) {
+                    return -1;
+                }
+                return 0;
+            });
     }
 
     get_PropertyRunes() {
@@ -529,6 +529,7 @@ export class ItemRunesComponent implements OnInit {
             this.characterService.set_ToChange("Character", "attacks");
         }
         this.characterService.process_ToChange();
+        this.update_Item();
     }
 
     on_ArmorRuneChange(runeType: string, previousRune: number) {
@@ -582,6 +583,7 @@ export class ItemRunesComponent implements OnInit {
             this.characterService.set_ToChange("Character", "defense");
         }
         this.characterService.process_ToChange();
+        this.update_Item();
     }
 
     add_WeaponPropertyRune(index: number) {
@@ -618,6 +620,7 @@ export class ItemRunesComponent implements OnInit {
         this.characterService.set_ToChange("Character", "attacks");
         this.set_PropertyRuneNames();
         this.characterService.process_ToChange();
+        this.update_Item();
     }
 
     remove_WeaponPropertyRune(index: number) {
@@ -632,6 +635,7 @@ export class ItemRunesComponent implements OnInit {
         if (oldRune.loreChoices.length) {
             this.characterService.remove_RuneLore(oldRune);
         }
+        this.update_Item();
     }
 
     add_ArmorPropertyRune(index: number) {
@@ -665,6 +669,7 @@ export class ItemRunesComponent implements OnInit {
         this.set_ToChange(rune as ArmorRune);
         this.set_PropertyRuneNames();
         this.characterService.process_ToChange();
+        this.update_Item();
     }
 
     remove_ArmorPropertyRune(index: number) {
@@ -676,6 +681,7 @@ export class ItemRunesComponent implements OnInit {
             this.activitiesService.activate_Activity(this.get_Character(), "Character", this.characterService, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
         })
         this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], oldRune, false, false, false, 1);
+        this.update_Item();
     }
 
     get_Title(rune: Rune) {
@@ -734,6 +740,10 @@ export class ItemRunesComponent implements OnInit {
         this.newPropertyRune.filter(rune => rune.rune.name == "New Item").forEach(rune => {
             rune.rune.name = "";
         });
+    }
+
+    update_Item() {
+        this.characterService.set_Changed(this.item.id);
     }
 
     ngOnInit() {

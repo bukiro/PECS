@@ -147,6 +147,7 @@ export class ItemMaterialComponent implements OnInit {
         }
         this.set_MaterialNames();
         this.characterService.process_ToChange();
+        this.update_Item();
     }
 
     get_InitialShieldMaterials() {
@@ -233,6 +234,7 @@ export class ItemMaterialComponent implements OnInit {
         }
         this.set_MaterialNames();
         this.characterService.process_ToChange();
+        this.update_Item();
     }
 
     get_InitialWeaponMaterials() {
@@ -333,6 +335,7 @@ export class ItemMaterialComponent implements OnInit {
         }
         this.set_MaterialNames();
         this.characterService.process_ToChange();
+        this.update_Item();
     }
 
     get_Title(material: Material) {
@@ -394,6 +397,10 @@ export class ItemMaterialComponent implements OnInit {
                     (this.item.material[0] ? { material: this.item.material[0] } : { material: new ShieldMaterial() })
                 ] : [{ material: new ShieldMaterial() }])
         }
+    }
+
+    update_Item() {
+        this.characterService.set_Changed(this.item.id);
     }
 
     ngOnInit() {

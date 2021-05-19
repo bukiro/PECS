@@ -403,6 +403,7 @@ export class InventoryComponent implements OnInit {
     onItemChange(item: Item) {
         this.characterService.set_ItemViewChanges(this.get_Creature(), item);
         this.characterService.process_ToChange();
+        this.update_Item(item);
     }
 
     onAmountChange(item: Consumable, amount: number, pay: boolean = false) {
@@ -416,6 +417,7 @@ export class InventoryComponent implements OnInit {
         }
         this.characterService.set_ItemViewChanges(this.get_Creature(), item);
         this.characterService.process_ToChange();
+        this.update_Item(item);
     }
 
     get_InventoryName(inventory: ItemCollection) {
@@ -677,6 +679,10 @@ export class InventoryComponent implements OnInit {
             }
         }
         return true;
+    }
+
+    update_Item(item: Item) {
+        this.characterService.set_Changed(item.id);
     }
 
     finish_Loading() {

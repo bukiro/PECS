@@ -341,7 +341,7 @@
                                                                 <button [ngbPopover]="ItemTemplate" triggers="click"
                                                                     [ngClass]="{'fancy-button':get_ShowPurpose()=='formulas' && get_ShowCreature()=='Character' && get_FormulasLearned(item.id).length, 'penalty': canUse == false, 'bonus': canUse}"
                                                                     (click)="toggle_Item()">
-                                                                    <app-gridIcon
+                                                                    <app-gridIcon [updateId]="item.id"
                                                                         [ngClass]="{'fancy-button':get_ShowPurpose()=='formulas' && get_ShowCreature()=='Character' && get_FormulasLearned(item.id).length, 'penalty': canUse == false, 'bonus': canUse}"
                                                                         [ngbTooltip]="ItemTooltipTemplate"
                                                                         [title]="item.displayName || item.name"
