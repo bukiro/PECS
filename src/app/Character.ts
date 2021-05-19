@@ -33,6 +33,7 @@ export class Character extends Creature {
     public appVersionMajor: number = 0;
     public appVersion: number = 0;
     public appVersionMinor: number = 0;
+    public ignoredMessages: { id: string, ttl: number }[] = []
     public partyName: string = "";
     public alignment: string = "";
     public baseValues: { name: string, baseValue: number }[] = [];

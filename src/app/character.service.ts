@@ -113,7 +113,7 @@ export class CharacterService {
         public animalCompanionsService: AnimalCompanionsService,
         public familiarsService: FamiliarsService,
         private messageService: MessageService,
-        private toastService: ToastService,
+        public toastService: ToastService,
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig,
     ) {
@@ -1688,8 +1688,8 @@ export class CharacterService {
     }
 
     apply_MessageConditions(messages: PlayerMessage[]) {
-        //Don't receive messages in GM mode or manual mode.
-        if (this.get_GMMode() || this.get_ManualMode()) {
+        //Don't receive messages in manual mode.
+        if (this.get_ManualMode()) {
             return false;
         }
         //Iterate through all messages that have a gainCondition (only one per message will be applied) and either add or remove the appropriate conditions.
@@ -1729,19 +1729,13 @@ export class CharacterService {
                     }
                 }
             }
+            this.messageService.mark_MessageAsIgnored(this, message);
         })
-        //Delete all non turn change messages addressed to this player.
-        this.messageService.delete_MyMessagesFromDB(this.get_Character().id, false).subscribe((result) => {
-
-        }, (error) => {
-            this.toastService.show("An error occurred while deleting effects. See console for more information.", [], this);
-            console.log('Error deleting effect messages from database: ' + error.message);
-        });
     }
 
     apply_TurnChangeMessage(messages: PlayerMessage[]) {
         //Don't receive messages in GM mode or manual mode.
-        if (this.get_GMMode() || this.get_ManualMode()) {
+        if (this.get_ManualMode()) {
             return false;
         }
         //For each senderId that you have a turnChange message from, remove all conditions that came from this sender and have duration 2.
@@ -1762,13 +1756,9 @@ export class CharacterService {
                     });
             })
         })
-        //Delete all turn change messages addressed to this player.
-        this.messageService.delete_MyMessagesFromDB(this.get_Character().id, true).subscribe((result) => {
-
-        }, (error) => {
-            this.toastService.show("An error occurred while deleting effects. See console for more information.", [], this);
-            console.log('Error deleting effect messages from database: ' + error.message);
-        });
+        messages.forEach(message => {
+            this.messageService.mark_MessageAsIgnored(this, message);
+        })
     }
 
     process_OnceEffect(creature: Creature, effectGain: EffectGain, conditionValue: number = 0, conditionHeightened: number = 0, conditionChoice: string = "", conditionSpellCastingAbility: string = "") {
@@ -2354,6 +2344,7 @@ export class CharacterService {
         this.animalCompanionsService.initialize();
         this.familiarsService.initialize();
         this.savegameService.initialize(this);
+        this.messageService.initialize(this);
         if (id) {
             this.me = new Character();
             this.load_CharacterFromDB(id)
@@ -2435,10 +2426,6 @@ export class CharacterService {
             //Update everything once.
             this.set_Changed();
             this.set_ToChange("Character", "effects");
-            //Check for messages once, also triggering the automatic loop if it's enabled.
-            if (!this.get_GMMode()) {
-                this.set_ToChange("Character", "check-messages");
-            }
             this.process_ToChange();
         }
     }

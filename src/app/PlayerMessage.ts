@@ -18,4 +18,5 @@ export class PlayerMessage {
     public selected: boolean = true;
     public deleted: boolean = false;
     public turnChange: boolean = false;
+    public ttl: number = 600;
 }

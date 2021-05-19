@@ -227,13 +227,7 @@ export class CharacterComponent implements OnInit {
         this.characterService.reset_Character();
     }
 
-    on_ManualMode(checked: boolean) {
-        if (!checked) {
-            if (this.get_Character().settings.checkMessagesAutomatically) {
-                //Resume automatic checking of messages.
-                this.characterService.set_ToChange("Character", "check-messages");
-            }
-        }
+    on_ManualMode() {
         //Manual mode changes some buttons on some components, so we need to refresh these.
         this.characterService.set_ToChange("Character", "activities");
         this.characterService.set_ToChange("Companion", "activities");
@@ -246,13 +240,6 @@ export class CharacterComponent implements OnInit {
         this.characterService.set_ToChange("Character", "spellbook");
         this.characterService.set_ToChange("Character", "top-bar");
         this.characterService.process_ToChange();
-    }
-
-    on_CheckMessagesAutomaticallyChange(checked: boolean) {
-        if (checked) {
-            this.characterService.set_ToChange("Character", "check-messages");
-            this.characterService.process_ToChange();
-        }
     }
 
     on_RetryDatabaseConnection() {

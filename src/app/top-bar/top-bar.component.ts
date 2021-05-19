@@ -16,10 +16,7 @@ import { ToastService } from '../toast.service';
 export class TopBarComponent implements OnInit {
 
     public newMessages: PlayerMessage[] = [];
-    private loading_messages: boolean = false;
     public modalOpen: boolean = false;
-    public reOpenModalTimeout: number = 5000;
-    private reOpenModalTimeoutRunning: boolean = false;
     @ViewChild('NewMessagesModal', { static: false })
     private newMessagesModal;
 
@@ -47,7 +44,7 @@ export class TopBarComponent implements OnInit {
     }
 
     get_NewConditionMessages() {
-        return this.newMessages.filter(message => message.gainCondition.length);
+        return this.messageService.get_NewMessages(this.characterService);
     }
 
     get_SavegamesInitializing() {
@@ -159,112 +156,34 @@ export class TopBarComponent implements OnInit {
         this.characterService.save_Character();
     }
 
-    get_Messages(automaticCheck: boolean = false) {
-        if (this.get_GMMode() || this.get_ManualMode()) {
-            //Don't check effects in GM mode or manual mode.
+    get_Messages() {
+        if (this.get_ManualMode()) {
+            //Don't check effects in manual mode.
             return false;
-        }
-        this.loading_messages;
-        if (!this.get_Character().partyName) {
-            //Don't check for messages if you don't have a party, because nobody could have sent any messages for you (and we don't want the characters without a party to send messages to each other).
-            //Still schedule the next check, in case the party changes.
-            this.on_AutoCheckMessages();
-            return;
         }
         if (this.modalOpen) {
             //Don't check for messages if you are currently selecting messages from a previous check.
-            //Still schedule the next check, so the automatism isn't broken.
-            this.on_AutoCheckMessages();
             return;
         };
-        //Before getting messages, clean up old messages.
-        this.messageService.cleanup_OldMessages().subscribe((results) => {
-            this.messageService.load_Messages(this.get_Character().id)
+        //Clean up old messages, then check for new messages, then open the dialog if any are found.
+        this.messageService.cleanup_OldMessages().subscribe(() => {
+            this.messageService.load_Messages(this.characterService.get_Character().id)
                 .subscribe((results: string[]) => {
-                    let loader = results;
-                    let oldLength = this.newMessages.length;
-                    this.newMessages = this.messageService.finish_loading(loader).sort((a, b) => {
-                        if (!a.activated && b.activated) {
-                            return 1;
-                        }
-                        if (a.activated && !b.activated) {
-                            return -1;
-                        }
-                        return 0;
-                    });
-                    this.remove_InvalidMessages();
-                    if (!automaticCheck) {
-                        //Turn change messages are applied automatically even in manual mode, and then removed from the messages.
-                        if (this.newMessages.length) {
-                            this.apply_TurnChangeMessages();
-                        }
-                        //If any new messages are left, open the modal for the selection.
-                        if (this.newMessages.length) {
-                            this.open_NewMessagesModal();
-                        } else {
-                            this.toastService.show("No new effects found.", [], this.characterService)
-                        }
+                    let newMessages = this.messageService.process_Messages(this.characterService, results)
+                    this.messageService.add_NewMessages(newMessages);
+                    if (this.messageService.get_NewMessages(this.characterService).length) {
+                        this.open_NewMessagesModal();
                     } else {
-                        //Turn change messages are applied automatically, and then removed from the messages.
-                        if (this.newMessages.length) {
-                            this.apply_TurnChangeMessages();
-                        }
-                        //If any messages are left, apply them automatically if applyMessagesAutomatically is set, otherwise only announce that messages are available, then update the component to show the number on the button.
-                        if (this.newMessages.length && this.get_Character().settings.checkMessagesAutomatically && this.get_Character().settings.applyMessagesAutomatically) {
-                            this.on_ApplyMessagesAutomatically();
-                        } else if (this.newMessages.length && this.newMessages.length != oldLength) {
-                            this.toastService.show("<strong>" + this.newMessages.length +
-                                "</strong> new effect" + (this.newMessages.length != 1 ? "s are" : " is") +
-                                " available.",
-                                { onClickCreature: "character", onClickAction: "check-messages-manually" },
-                                this.characterService)
-                            this.changeDetector.detectChanges();
-                        } else if (!this.newMessages.length && oldLength) {
-                            this.changeDetector.detectChanges();
-                        }
+                        this.toastService.show("No new effects are available.", [], this.characterService);
                     }
-                    //After checking for messages, find out if a new check needs to be scheduled.
-                    this.on_AutoCheckMessages();
                 }, (error) => {
-                    let text = "An error occurred while searching for new effects. See console for more information.";
-                    if (this.get_Character().settings.checkMessagesAutomatically) {
-                        text += " Automatic checks have been disabled.";
-                        this.get_Character().settings.checkMessagesAutomatically = false;
-                    }
-                    this.toastService.show(text, [], this.characterService)
+                    this.toastService.show("An error occurred while searching for new effects. See console for more information.", [], this.characterService)
                     console.log('Error loading messages from database: ' + error.message);
                 });
-        }, (error) => {
-            let text = "An error occurred while searching for new effects. See console for more information.";
-            if (this.get_Character().settings.checkMessagesAutomatically) {
-                text += " Automatic checks have been disabled.";
-                this.get_Character().settings.checkMessagesAutomatically = false;
-            }
-            this.toastService.show(text, [], this.characterService)
-            console.log('Error loading messages from database: ' + error.message);
-        });;
-    }
-
-    remove_InvalidMessages() {
-        this.newMessages.forEach(message => {
-            if (message.gainCondition.length) {
-                if (!this.get_MessageCreature(message)) {
-                    this.messageService.delete_MessageFromDB(message);
-                    message.deleted = true;
-                }
-            }
+        }, error => {
+            this.toastService.show("An error occurred while cleaning up messages. See console for more information.", [], this.characterService)
+            console.log('Error cleaning up messages: ' + error.message);
         })
-        this.newMessages = this.newMessages.filter(message => !message.deleted);
-    }
-
-    apply_TurnChangeMessages() {
-        this.characterService.apply_TurnChangeMessage(this.newMessages.filter(message => message.turnChange));
-        this.newMessages = this.newMessages.filter(message => !message.turnChange);
-        this.characterService.process_ToChange();
-    }
-
-    still_loadingMessages() {
-        return this.loading_messages;
     }
 
     get_MessageCreature(message: PlayerMessage) {
@@ -277,6 +196,8 @@ export class TopBarComponent implements OnInit {
 
     open_NewMessagesModal() {
         this.modalOpen = true;
+        //Freeze the new messages by cloning them so that the modal doesn't change while it's open.
+        this.newMessages = this.get_NewConditionMessages().map(message => Object.assign(new PlayerMessage(), JSON.parse(JSON.stringify(message))));
         this.modalService.open(this.newMessagesModal, { centered: true, ariaLabelledBy: 'modal-title' }).result.then((result) => {
             if (result == "Apply click") {
                 //Prepare to refresh the effects of all affected creatures;
@@ -290,42 +211,11 @@ export class TopBarComponent implements OnInit {
                 this.characterService.set_ToChange("Character", "top-bar");
                 this.characterService.process_ToChange();
                 this.modalOpen = false;
-                //After checking for messages, find out if a new check needs to be scheduled.
-                this.on_AutoCheckMessages();
             }
         }, (reason) => {
             //Do nothing if cancelled.
             this.modalOpen = false;
-            this.on_AutoCheckMessages();
         });
-    }
-
-    on_AutoCheckMessages(immediately: boolean = false) {
-        //Don't run in GM mode or manual mode.
-        //If checkMessagesAutomatically is set, no modal is currently open and no other timeout is already running, start a timeout to check for new messages again.
-        if (!this.get_GMMode() && !this.get_ManualMode() && this.get_Character().settings.checkMessagesAutomatically && !this.modalOpen && !this.reOpenModalTimeoutRunning) {
-            this.reOpenModalTimeoutRunning = true;
-            if (immediately) {
-                this.reOpenModalTimeoutRunning = false;
-                this.get_Messages(true);
-            } else {
-                setTimeout(() => {
-                    this.reOpenModalTimeoutRunning = false;
-                    this.get_Messages(true);
-                }, this.reOpenModalTimeout);
-            }
-        }
-    }
-
-    on_ApplyMessagesAutomatically() {
-        this.newMessages.forEach(message => {
-            message.selected = true;
-        })
-        this.characterService.apply_MessageConditions(this.newMessages.filter(message => message.gainCondition.length));
-        this.newMessages.length = 0;
-        this.characterService.set_ToChange("Character", "top-bar");
-        this.characterService.process_ToChange();
-        this.on_AutoCheckMessages();
     }
 
     on_SelectAllMessages(checked: boolean) {
@@ -360,9 +250,6 @@ export class TopBarComponent implements OnInit {
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "character" && ["top-bar", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
-                    }
-                    if (view.creature.toLowerCase() == "character" && view.target.toLowerCase() == "check-messages") {
-                        this.get_Messages(true);
                     }
                     if (view.creature.toLowerCase() == "character" && view.target.toLowerCase() == "check-messages-manually") {
                         this.get_Messages();

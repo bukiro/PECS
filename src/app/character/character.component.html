@@ -871,7 +871,7 @@
                                 </strong>
                             </label>
                             <i class="bi-question-circle"
-                                [ngbPopover]="'Open the character in a read-only mode where it can\'t be saved and can\'t send or receive effects to or from other players.'"></i>
+                                [ngbPopover]="'Open the character in a read-only mode where it can\'t be saved and can\'t send effects to other players.'"></i>
                         </span>
                     </div>
                     <ng-container
@@ -1235,7 +1235,7 @@
                         <div class="list-item gridicon-fullsizebox">
                             <input class="character-choice" id="manualMode" type="checkbox"
                                 [(ngModel)]="get_Character().settings.manualMode"
-                                (change)="on_ManualMode($event.target.checked)">
+                                (change)="on_ManualMode()">
                             <span>
                                 <label for="manualMode">
                                     <strong>
@@ -1254,11 +1254,10 @@
                         <div class="fullwidth vlist" [ngbCollapse]="get_Character().settings.manualMode">
                             <div class="list-item gridicon-fullsizebox">
                                 <input class="character-choice" id="checkMessagesAutomatically" type="checkbox"
-                                    [(ngModel)]="get_Character().settings.checkMessagesAutomatically"
-                                    (change)="on_CheckMessagesAutomaticallyChange($event.target.checked)">
+                                    [(ngModel)]="get_Character().settings.checkMessagesAutomatically">
                                 <label for="checkMessagesAutomatically">
                                     <strong>
-                                        Check for new effects from other party members every 5 seconds
+                                        Automatically check for new effects from other party members
                                     </strong>
                                 </label>
                             </div>
@@ -1269,11 +1268,11 @@
                                     <span>
                                         <label for="applyMessagesAutomatically">
                                             <strong>
-                                                Automatically apply new effects
+                                                Apply all new effects automatically
                                             </strong>
                                         </label>
                                         <i class="bi-question-circle"
-                                            [ngbPopover]="'While automatically checking for new effects, all found effects are immediately applied. You will not be able to select which effects to keep.'"></i>
+                                            [ngbPopover]="'While automatically checking for new effects, all new effects are immediately applied. You will not be able to select which effects to keep.'"></i>
                                     </span>
                                 </div>
                             </div>

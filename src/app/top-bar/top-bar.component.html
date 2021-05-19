@@ -12,12 +12,14 @@
         <button [ngClass]="{'fancy-button':get_ConditionsMenuState()=='out'}" (click)="toggle_Menu('conditions')">Conditions</button>
         <button [ngClass]="{'fancy-button':get_DiceMenuState()=='out'}" [ngbTooltip]="'Dice'" (click)="toggle_Menu('dice')"><app-diceIcons_D20></app-diceIcons_D20></button>
         <span *ngIf="get_SavegamesInitializing()" style="flex-grow: initial" [ngbTooltip]="'Connecting to database...'"><button class="fancy-button loading" disabled><i class="bi-file-earmark-arrow-up"></i></button></span>
-        <button class="inactive-button no-animation" *ngIf="get_GMMode()" [ngbTooltip]="'In GM mode, the character can\'t be saved and can\'t send or receive effects to or from other players.'">GM Mode</button>
-        <ng-container *ngIf="!get_SavegamesInitializing() && !get_GMMode()">
+        <button class="inactive-button no-animation" *ngIf="get_GMMode()" [ngbTooltip]="'In GM mode, the character can\'t be saved and can\'t send effects to other players.'">GM Mode</button>
+        <ng-container *ngIf="!get_SavegamesInitializing()">
             <span *ngIf="!get_Savegames()" style="flex-grow: initial" [ngbTooltip]="'Database connection failed.'"><button class="fancy-button" disabled><i class="bi-file-earmark-arrow-up"></i></button></span>
             <ng-container *ngIf="get_Savegames()">
-                <span *ngIf="get_IsBlankCharacter()" style="flex-grow: initial" [ngbTooltip]="'No changes to character yet.'"><button class="fancy-button" disabled><i class="bi-file-earmark-arrow-up"></i></button></span>
-                <span *ngIf="!get_IsBlankCharacter()" style="flex-grow: initial" [ngbTooltip]="'Save Character'"><button class="fancy-button" (click)="save()"><i class="bi-file-earmark-arrow-up"></i></button></span>
+                <ng-container *ngIf="!get_GMMode()">
+                    <span *ngIf="get_IsBlankCharacter()" style="flex-grow: initial" [ngbTooltip]="'No changes to character yet.'"><button class="fancy-button" disabled><i class="bi-file-earmark-arrow-up"></i></button></span>
+                    <span *ngIf="!get_IsBlankCharacter()" style="flex-grow: initial" [ngbTooltip]="'Save Character'"><button class="fancy-button" (click)="save()"><i class="bi-file-earmark-arrow-up"></i></button></span>
+                </ng-container>
                 <span *ngIf="!get_IsBlankCharacter() && !get_ManualMode()" style="flex-grow: initial" [ngbTooltip]="get_Character().partyName ? 'Check for new effects' : 'You can only receive effects in a party.'">
                     <button class="fancy-button" (click)="get_Messages()" [disabled]="!get_Character().partyName">
                         <i class="ra ra-player-thunder-struck"></i>
@@ -48,7 +50,7 @@
             </label>
         </div>
         <div class="fullsize-scroll-box vlist" style="max-height: 50vh;">
-            <ng-container *ngFor="let message of get_NewConditionMessages(); trackBy:trackByIndex">
+            <ng-container *ngFor="let message of newMessages; trackBy:trackByIndex">
                 <ng-container *ngFor="let creature of [get_MessageCreature(message)]; trackBy:trackByIndex">
                     <ng-container *ngFor="let sender of [get_MessageSender(message)]; trackBy:trackByIndex">
                         <ng-container *ngIf="creature && message.gainCondition.length">
@@ -79,7 +81,7 @@
         </div>
         <div class="newrow left-aligned">
             <input id="checkMessagesAutomatically" type="checkbox" [(ngModel)]="get_Character().settings.checkMessagesAutomatically">
-            <label for="checkMessagesAutomatically">&nbsp;Keep checking every {{reOpenModalTimeout / 1000}} seconds (can be turned off in settings)</label>
+            <label for="checkMessagesAutomatically">&nbsp;Keep checking automatically (can be turned off in settings)</label>
         </div>
     </div>
     <div class="modal-footer">

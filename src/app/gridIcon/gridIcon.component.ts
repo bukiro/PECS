@@ -372,7 +372,13 @@ export class GridIconComponent implements OnInit {
         if (this.updateId) {
             this.characterService.get_Changed()
                 .subscribe((target) => {
-                    if (target == this.updateId) {
+                    if (target == this.updateId || (target == "effects" && this.condition)) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
+            this.characterService.get_ViewChanged()
+                .subscribe((view) => {
+                    if (view.target == this.updateId || (view.target.toLowerCase() == "effects" && this.condition)) {
                         this.changeDetector.detectChanges();
                     }
                 });
