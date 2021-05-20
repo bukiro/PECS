@@ -144,7 +144,7 @@
         ],
         "usage": "etched onto a piercing or slashing melee weapon",
         "_className": "WeaponRune",
-        "criticalHint": "The weapon deals 1d12 persistent bleed damage instead of 1d6.",
+        "criticalHint": "The weapon deals |dice=1d12 Persistent Bleed| 1d12 persistent bleed damage instead of 1d6.",
         "damagereq": "PS",
         "extraDamage": "+1d6 persistent bleed",
         "rangereq": "melee"
@@ -184,7 +184,7 @@
         ],
         "usage": "etched onto a weapon",
         "_className": "WeaponRune",
-        "criticalHint": "The target's armor takes 3d6 acid damage before applying Hardness; if the target has a shield raised, the shield takes this damage instead.",
+        "criticalHint": "The target's armor takes |dice=3d6 Acid| 3d6 acid damage before applying Hardness; if the target has a shield raised, the shield takes this damage instead.",
         "extraDamage": "+1d6 Acid"
     },
     {
@@ -200,7 +200,7 @@
         ],
         "usage": "etched onto a weapon",
         "_className": "WeaponRune",
-        "criticalHint": "The weapon deals 1d10 persistent fire damage.",
+        "criticalHint": "The weapon deals |dice=1d19 Persistent Fire| 1d10 persistent fire damage.",
         "extraDamage": "+1d6 Fire"
     },
     {
@@ -232,7 +232,7 @@
         ],
         "usage": "etched onto a weapon",
         "_className": "WeaponRune",
-        "criticalHint": "Electricity arcs out to deal an equal amount of electricity damage to up to two other creatures of your choice within 10 feet of the weapon target.",
+        "criticalHint": "Electricity arcs out to deal |dice=1d6 Electricity| 1d6 electricity damage to up to two other creatures of your choice within 10 feet of the weapon target.",
         "extraDamage": "+1d6 Electricity"
     },
     {
@@ -355,7 +355,7 @@
         "activities": [
             {
                 "activationType": "Interact",
-                "desc": "You brandish the weapon and focus its power, causing the serrated shards to buzz as they spin at a dizzying speed. On your next hit with the weapon this turn that deals slashing damage, the serrating rune adds an additional 1d12 damage instead of the additional 1d4 damage, and then the shards return to their usual speed.",
+                "desc": "You brandish the weapon and focus its power, causing the serrated shards to buzz as they spin at a dizzying speed. On your next hit with the weapon this turn that deals slashing damage, the serrating rune adds an additional |dice=1d12 S| 1d12 damage instead of the additional 1d4 damage, and then the shards return to their usual speed.",
                 "name": "Serrating Rune",
                 "traits": [
                     "Uncommon",
@@ -387,7 +387,7 @@
         "usage": "etched onto a weapon without an axiomatic rune",
         "_className": "WeaponRune",
         "alignmentPenalty": "Lawful",
-        "criticalHint": "On a critical hit against a lawful creature, roll 1d6. On a 1 or 2, you deal double minimum damage; on a 3 or 4, double your damage normally; on a 5 or 6, you deal double maximum damage.",
+        "criticalHint": "On a critical hit against a lawful creature, roll |dice=1d6| 1d6. On a 1 or 2, you deal double minimum damage; on a 3 or 4, double your damage normally; on a 5 or 6, you deal double maximum damage.",
         "extraDamage": "+1d6 Chaotic\n(against lawful)",
         "runeblock": "Axiomatic"
     },
@@ -664,7 +664,7 @@
         ],
         "usage": "etched onto a weapon",
         "_className": "WeaponRune",
-        "criticalHint": "The target's armor takes 6d6 acid damage before applying Hardness; if the target has a shield raised, the shield takes this damage instead.",
+        "criticalHint": "The target's armor takes |dice=6d6 Acid| 6d6 acid damage before applying Hardness; if the target has a shield raised, the shield takes this damage instead.",
         "extraDamage": "+1d6 Acid\n(ignores acid resistance)"
     },
     {
@@ -682,7 +682,7 @@
         ],
         "usage": "etched onto a weapon",
         "_className": "WeaponRune",
-        "criticalHint": "The weapon deals 2d10 persistent fire damage, ignoring fire resistance..",
+        "criticalHint": "The weapon deals |dice=2d10 persistent Fire| 2d10 persistent fire damage, ignoring fire resistance.",
         "extraDamage": "+1d6 Fire\n(ignores fire resistance)"
     },
     {

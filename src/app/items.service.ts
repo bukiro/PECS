@@ -357,11 +357,37 @@ export class ItemsService {
             })
             newItem.propertyRunes = newRunes;
         }
-        //Disable any active hint effects when loading an item.
-        item.hints = (item as Equipment).hints?.map(hint => Object.assign(new Hint(), hint));
-        (item as Equipment).hints?.forEach(hint => {
-            hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-        })
+        //Recast and disable all hints.
+        if ((newItem as Equipment).hints?.length) {
+            newItem.hints = (newItem as Equipment).hints.map(hint => Object.assign(new Hint(), hint));
+            (newItem as Equipment).hints.forEach(hint => {
+                hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
+            })
+        }
+        if ((newItem as Equipment).propertyRunes?.length) {
+            (newItem as Equipment).propertyRunes.forEach(rune => {
+                rune.hints = rune.hints.map(hint => Object.assign(new Hint(), hint));
+                rune.hints.forEach(hint => {
+                    hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
+                })
+            })
+        }
+        if ((newItem as Equipment).oilsApplied?.length) {
+            (newItem as Equipment).oilsApplied.forEach(oil => {
+                oil.hints = oil.hints.map(hint => Object.assign(new Hint(), hint));
+                oil.hints.forEach(hint => {
+                    hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
+                })
+            })
+        }
+        if ((newItem as Equipment).material?.length) {
+            (newItem as Equipment).material.forEach(material => {
+                material.hints = material.hints.map(hint => Object.assign(new Hint(), hint));
+                material.hints.forEach(hint => {
+                    hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
+                })
+            })
+        }
 
         return newItem;
     }
@@ -633,6 +659,12 @@ export class ItemsService {
             this.cleanItems = new ItemCollection();
             this.craftingItems = new ItemCollection();
 
+            //Runes need to load before other items, because they are loaded into the items.
+            this.load(json_armorrunes, "armorrunes", ArmorRune, "item");
+            this.load(json_weaponrunes, "weaponrunes", WeaponRune, "item");
+            //Oils need to load after WeaponRunes, because they have to copy some of them.
+            this.load(json_oils, "oils", Oil, "item");
+
             this.load(json_weapons, "weapons", Weapon, "item");
             this.load(json_armors, "armors", Armor, "item");
             this.load(json_shields, "shields", Shield, "item");
@@ -644,11 +676,6 @@ export class ItemsService {
             this.load(json_otherconsumables, "otherconsumables", OtherConsumable, "item");
             this.load(json_otherconsumablesbombs, "otherconsumablesbombs", OtherConsumableBomb, "item");
             this.load(json_adventuringgear, "adventuringgear", AdventuringGear, "item");
-            this.load(json_armorrunes, "armorrunes", ArmorRune, "item");
-            this.load(json_weaponrunes, "weaponrunes", WeaponRune, "item");
-
-            //Oils need to load after WeaponRunes, because they have to copy some of them.
-            this.load(json_oils, "oils", Oil, "item");
             this.load(json_scrolls, "scrolls", Scroll, "item");
             this.load(json_talismans, "talismans", Talisman, "item");
             this.load(json_alchemicalbombs, "alchemicalbombs", AlchemicalBomb, "item");

@@ -112,7 +112,7 @@
         "name": "Wand of Smoldering Fireballs (3rd-Level Spell)",
         "displayName": "Wand of Smoldering Fireballs (3rd-Level Spell)",
         "craftingRequirement": "Supply a casting of fireball of the appropriate level.",
-        "effect": "You cast fireball of the indicated level. Each creature that fails its save takes persistent fire damage.",
+        "effect": "You cast fireball of the indicated level. Each creature that fails its save takes |dice=1d6 Persistent Fire| persistent fire damage.",
         "activationType": "Cast a Spell",
         "storedSpells":[
             {
@@ -230,7 +230,7 @@
         "name": "Wand of Smoldering Fireballs (5th-Level Spell)",
         "displayName": "Wand of Smoldering Fireballs (5th-Level Spell)",
         "craftingRequirement": "Supply a casting of fireball of the appropriate level.",
-        "effect": "You cast fireball of the indicated level. Each creature that fails its save takes persistent fire damage.",
+        "effect": "You cast fireball of the indicated level. Each creature that fails its save takes |dice=2d6 Persistent Fire| persistent fire damage.",
         "activationType": "Cast a Spell",
         "storedSpells":[
             {
@@ -348,7 +348,7 @@
         "name": "Wand of Smoldering Fireballs (7th-Level Spell)",
         "displayName": "Wand of Smoldering Fireballs (7th-Level Spell)",
         "craftingRequirement": "Supply a casting of fireball of the appropriate level.",
-        "effect": "You cast fireball of the indicated level. Each creature that fails its save takes persistent fire damage.",
+        "effect": "You cast fireball of the indicated level. Each creature that fails its save takes |dice=3d6 Persistent Fire| persistent fire damage.",
         "activationType": "Cast a Spell",
         "storedSpells":[
             {
@@ -466,7 +466,7 @@
         "name": "Wand of Smoldering Fireballs (9th-Level Spell)",
         "displayName": "Wand of Smoldering Fireballs (9th-Level Spell)",
         "craftingRequirement": "Supply a casting of fireball of the appropriate level.",
-        "effect": "You cast fireball of the indicated level. Each creature that fails its save takes persistent fire damage.",
+        "effect": "You cast fireball of the indicated level. Each creature that fails its save takes |dice=4d6 Persistent Fire| persistent fire damage.",
         "activationType": "Cast a Spell",
         "storedSpells":[
             {

@@ -71,6 +71,7 @@ import { Wand } from './Wand';
 import { Equipment } from './Equipment';
 import { ConfigService } from './config.service';
 import { default as package_json } from '../../package.json';
+import { Hint } from './Hint';
 
 @Injectable({
     providedIn: 'root'
@@ -166,7 +167,7 @@ export class SavegameService {
             //Monks below version 1.0.2 will lose their Path to Perfection skill increases and gain the feat choices instead.
             //The matching feats will be added in stage 2.
             if (character.class.name == "Monk" && character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 2) {
-                
+
                 //Delete the feats that give you the old feature, if they.
                 let oldFirstPathChoice = character.class?.levels?.[7]?.featChoices?.find(choice => choice.id == "7-Feature-Monk-0") || null;
                 if (oldFirstPathChoice) {
@@ -227,6 +228,46 @@ export class SavegameService {
                 }
             }
 
+            //Characters before version 1.0.3 need their item hints reassigned.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 3) {
+                if (character.inventories.length) {
+                    character.inventories.forEach(inventory => {
+                        Object.keys(inventory).forEach(key => {
+                            if (Array.isArray(inventory[key])) {
+                                inventory[key].forEach(item => {
+                                    //For each inventory, for each array property, recast all hints of the listed items.
+                                    if (item.hints?.length) {
+                                        item.hints = item.hints.map(hint => Object.assign(new Hint(), hint));
+                                    }
+                                    if (item.propertyRunes?.length) {
+                                        item.propertyRunes.forEach(rune => {
+                                            if (rune.hints?.length) {
+                                                rune.hints = rune.hints.map(hint => Object.assign(new Hint(), hint));
+                                            }
+                                        })
+                                    }
+                                    if (item.oilsApplied?.length) {
+                                        item.oilsApplied.forEach(oil => {
+                                            if (oil.hints?.length) {
+                                                oil.hints = oil.hints.map(hint => Object.assign(new Hint(), hint));
+                                            }
+                                        })
+                                    }
+                                    if (item.material?.length) {
+                                        item.material.forEach(material => {
+                                            if (material.hints?.length) {
+                                                material.hints = material.hints.map(hint => Object.assign(new Hint(), hint));
+                                            }
+                                        })
+                                    }
+                                })
+                            }
+                        })
+                    })
+
+                }
+            }
+
         }
 
         // STAGE 2
@@ -275,13 +316,9 @@ export class SavegameService {
                         }
                     }
                 }
-
             }
 
-
         }
-
-
 
         return character;
 
@@ -321,6 +358,7 @@ export class SavegameService {
             case "Health": return Object.assign(new Health(), obj);
             case "HeldItem": return Object.assign(new HeldItem(), obj);
             case "Heritage": return Object.assign(new Heritage(), obj);
+            case "Hint": return Object.assign(new Hint(), obj);
             case "InventoryGain": return Object.assign(new InventoryGain(), obj);
             case "Item": return Object.assign(new Item(), obj);
             case "ItemActivity": return Object.assign(new ItemActivity(), obj);

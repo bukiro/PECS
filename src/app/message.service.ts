@@ -217,6 +217,7 @@ export class MessageService {
                 minuteTimer--
                 if (minuteTimer <= 0) {
                     //Every minute, let the database connector clean up messages that are older than 10 minutes.
+                    //The timer starts at 0 so this happens immediately upon activating automatic checking (or loading a character with it.)
                     this.cleanup_OldMessages().subscribe(() => { }, error => {
                         this.toastService.show("An error occurred while cleaning up messages. See console for more information.", [], characterService)
                         console.log('Error cleaning up messages: ' + error.message);

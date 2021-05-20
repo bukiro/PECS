@@ -29,7 +29,7 @@
         "hands": 1
     },
     {
-        "desc": "You can use oil to fuel lanterns, but you can also set a pint of oil aflame and throw it. You must first spend an Interact action preparing the oil, then throw it with another action as a ranged attack. If you hit, it splatters on the creature or in a single 5-foot square you target. You must succeed at a DC 10 flat check for the oil to ignite successfully when it hits. If the oil ignites, the target takes 1d6 fire damage. ",
+        "desc": "You can use oil to fuel lanterns, but you can also set a pint of oil aflame and throw it. You must first spend an Interact action preparing the oil, then throw it with another action as a ranged attack. If you hit, it splatters on the creature or in a single 5-foot square you target. You must succeed at a DC 10 flat check for the oil to ignite successfully when it hits. If the oil ignites, the target takes |dice=1d6 Fire| 1d6 fire damage. ",
         "id": "89c6d2ee-8e09-11ea-9fab-e92c63c14723",
         "name": "Oil",
         "price": 1,
@@ -80,7 +80,7 @@
     },
     {
         "bulk": "L",
-        "desc": "A torch sheds bright light in a 20-foot radius (and dim light to the next 20 feet). It can be used as an improvised weapon that deals 1d4 bludgeoning damage plus 1 fire damage. ",
+        "desc": "A torch sheds bright light in a 20-foot radius (and dim light to the next 20 feet). It can be used as an improvised weapon that deals |dice=1d4 + 1 Fire| 1d4 bludgeoning damage plus 1 fire damage. ",
         "id": "89c6f9f3-8e09-11ea-9fab-e92c63c14723",
         "name": "Torch",
         "price": 1,
@@ -264,7 +264,7 @@
     },
     {
         "bulk": "L",
-        "desc": "These four-pronged metal spikes can cause damage to a creature's feet. You can scatter caltrops in an empty square adjacent to you with an Interact action. The first creature that moves into that square must succeed at a DC 14 Acrobatics check or take 1d4 piercing damage and 1 persistent bleed damage. A creature taking persistent bleed damage from caltrops takes a -5-foot penalty to its Speed. Spending an Interact action to pluck the caltrops free reduces the DC to stop the bleeding. Once a creature takes damage from caltrops, enough caltrops are ruined that other creatures moving into the square are safe.\n\nDeployed caltrops can be salvaged and reused if no creatures took damage from them. Otherwise, enough caltrops are ruined that they can't be salvaged.",
+        "desc": "These four-pronged metal spikes can cause damage to a creature's feet. You can scatter caltrops in an empty square adjacent to you with an Interact action. The first creature that moves into that square must succeed at a DC 14 Acrobatics check or take |dice=1d4 P + 1 Persistent Bleed| 1d4 piercing damage and 1 persistent bleed damage. A creature taking persistent bleed damage from caltrops takes a -5-foot penalty to its Speed. Spending an Interact action to pluck the caltrops free reduces the DC to stop the bleeding. Once a creature takes damage from caltrops, enough caltrops are ruined that other creatures moving into the square are safe.\n\nDeployed caltrops can be salvaged and reused if no creatures took damage from them. Otherwise, enough caltrops are ruined that they can't be salvaged.",
         "id": "89c72113-8e09-11ea-9fab-e92c63c14723",
         "name": "Caltrops",
         "price": 30,
@@ -303,7 +303,7 @@
     },
     {
         "bulk": "L",
-        "desc": "This entry is a catchall for basic hand tools that don't have a specific adventuring purpose. A hand drill, ice hook, or trowel is a short tool. A tool can usually be used as an improvised weapon, dealing 1d4 damage for a short tool or 1d6 for a long tool. The GM determines the damage type that's appropriate or adjusts the damage if needed.",
+        "desc": "This entry is a catchall for basic hand tools that don't have a specific adventuring purpose. A hand drill, ice hook, or trowel is a short tool. A tool can usually be used as an improvised weapon, dealing |dice=1d4| 1d4 damage for a short tool or |dice=1d6| 1d6 for a long tool. The GM determines the damage type that's appropriate or adjusts the damage if needed.",
         "id": "89c7211c-8e09-11ea-9fab-e92c63c14723",
         "name": "Tool (Short)",
         "price": 40,
@@ -541,7 +541,7 @@
     },
     {
         "bulk": "1",
-        "desc": "This entry is a catchall for basic hand tools that don't have a specific adventuring purpose. A hoe, shovel, or sledgehammer is a long tool. A tool can usually be used as an improvised weapon, dealing 1d4 damage for a short tool or 1d6 for a long tool. The GM determines the damage type that's appropriate or adjusts the damage if needed.",
+        "desc": "This entry is a catchall for basic hand tools that don't have a specific adventuring purpose. A hoe, shovel, or sledgehammer is a long tool. A tool can usually be used as an improvised weapon, dealing |dice=1d4| 1d4 damage for a short tool or |dice=1d6| 1d6 for a long tool. The GM determines the damage type that's appropriate or adjusts the damage if needed.",
         "id": "89c74836-8e09-11ea-9fab-e92c63c14723",
         "name": "Tool (Long)",
         "price": 100,

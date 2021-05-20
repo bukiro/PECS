@@ -96,7 +96,8 @@
                     <span style="flex-basis:auto">
                         Attack
                         <span>
-                            <app-quickdice [creature]="creature" [diceNum]="1" [diceSize]="20" [bonus]="attack[1]" [type]="'(Attack)'">
+                            <app-quickdice [creature]="creature" [diceNum]="1" [diceSize]="20" [bonus]="attack[1]"
+                                [type]="'(Attack)'">
                             </app-quickdice>
                             <div class="value" [ngbPopover]="attack[2]"
                                 [ngClass]="{'penalty':attack[4].length, 'bonus':attack[5].length, 'absolute':attack[6].length}">
@@ -170,7 +171,7 @@
                     </button>
                     <div class="list-item sublist fancy-list" *ngIf="get_ShowItem()==weapon.id+attack[0]+'hiteffects'">
                         <div class="list-item lower newrow left-aligned">
-                            {{weapon.hitEffect}}
+                            <app-description [text]="weapon.hitEffect" [oneLiner]="true"></app-description>
                         </div>
                     </div>
                 </div>
@@ -184,7 +185,7 @@
                             *ngIf="get_ShowItem()==weapon.id+attack[0]+'criticalHints'">
                             <div class="list-item lower newrow left-aligned"
                                 *ngFor="let critEffect of critEffects; trackBy:trackByIndex">
-                                {{critEffect}}
+                                <app-description [text]="critEffect" [oneLiner]="true"></app-description>
                             </div>
                         </div>
                     </div>
@@ -199,7 +200,7 @@
                             *ngIf="get_ShowItem()==weapon.id+attack[0]+'criteffects'">
                             <div class="list-item lower newrow left-aligned"
                                 *ngFor="let spec of specs; trackBy:trackByIndex;">
-                                {{spec.desc}}
+                                <app-description [text]="spec.desc" [oneLiner]="true"></app-description>
                             </div>
                         </div>
                     </div>
@@ -214,21 +215,25 @@
                         <div class="list-item sublist fancy-list left-aligned"
                             *ngIf="get_ShowItem()==weapon.id+attack[0]+'criticalHint'">
                             <div class="list-item lower newrow left-aligned">
-                                <span>
-                                    {{rune.criticalHint}}
-                                    <span *ngIf="rune.name=='Grievous'">{{get_GrievousData(weapon, rune)}}</span>
-                                </span>
+                                <app-description [text]="rune.criticalHint" [oneLiner]="true"></app-description>
+                                <app-description *ngIf="rune.name=='Grievous'" [text]="get_GrievousData(weapon, rune)"
+                                    [oneLiner]="true">
+                                </app-description>
                                 <div class="newrow left-aligned" *ngIf="rune.critsuccess">
-                                    <strong>Critical Success</strong>&nbsp;{{rune.critsuccess}}
+                                    <strong>Critical Success</strong>
+                                    <app-description [text]="rune.critsuccess" [oneLiner]="true"></app-description>
                                 </div>
                                 <div class="newrow left-aligned" *ngIf="rune.success">
-                                    <strong>Success</strong>&nbsp;{{rune.success}}
+                                    <strong>Success</strong>
+                                    <app-description [text]="rune.success" [oneLiner]="true"></app-description>
                                 </div>
                                 <div class="newrow left-aligned" *ngIf="rune.failure">
-                                    <strong>Failure</strong>&nbsp;{{rune.failure}}
+                                    <strong>Failure</strong>
+                                    <app-description [text]="rune.failure" [oneLiner]="true"></app-description>
                                 </div>
                                 <div class="newrow left-aligned" *ngIf="rune.critfailure">
-                                    <strong>Critical Failure</strong>&nbsp;{{rune.critfailure}}
+                                    <strong>Critical Failure</strong>
+                                    <app-description [text]="rune.critfailure" [oneLiner]="true"></app-description>
                                 </div>
                             </div>
                         </div>
@@ -263,17 +268,46 @@
             <header class="sectionHeader box-header">Deployed Snares</header>
             <app-tags [creature]="creature" [objectName]="'Snares'" [showTraits]=true [showFeats]=true [showItems]=true
                 [showActivities]=true [showConditions]=true></app-tags>
-            <div class="list-item" *ngFor="let snare of get_Snares(); let snareIndex = index; trackBy:trackByIndex;">
-                <button class="newrow sublist-toggle" (click)="toggle_Item(snare.item.id+snareIndex)">
-                    {{snare.item.get_Name()}}
-                </button>
-                <div class="list-item sublist lower" *ngIf="get_ShowItem()==snare.item.id+snareIndex">
-                    <button class="newrow center-aligned" [disabled]="!snare.item.amount"
-                        (click)="on_ConsumableUse(snare.item, snare.inventory)">
-                        <span>Trigger/Remove</span>
-                    </button>
-                    <app-item [item]=snare.item [itemStore]=true></app-item>
-                </div>
+            <div [ngClass]="{'icon-list':get_InventoryTileMode(), 'vlist':!get_InventoryTileMode()}">
+                <ng-container *ngFor="let snare of get_Snares(); let snareIndex = index; trackBy:trackByIndex;">
+                    <ng-template #SnareTitleTemplate>
+                        <span>
+                            {{snare.item.get_Name()}}
+                        </span>
+                    </ng-template>
+                    <ng-template #SnareTemplate>
+                        <header class="spellHeader newrow" *ngIf="get_InventoryTileMode()">
+                            <ng-container *ngTemplateOutlet="SnareTitleTemplate">
+                            </ng-container>
+                        </header>
+                        <button class="newrow center-aligned" [disabled]="!snare.item.amount"
+                            (click)="on_ConsumableUse(snare.item, snare.inventory)">
+                            <span>Trigger/Remove</span>
+                        </button>
+                        <app-item [item]=snare.item [itemStore]=true></app-item>
+                    </ng-template>
+                    <ng-container *ngIf="!get_InventoryTileMode()">
+                        <div class="list-item">
+                            <button class="newrow sublist-toggle" (click)="toggle_Item(snare.item.id+snareIndex)">
+                                <ng-container *ngTemplateOutlet="SnareTitleTemplate">
+                                </ng-container>
+                            </button>
+                            <div class="list-item sublist lower" *ngIf="get_ShowItem()==snare.item.id+snareIndex">
+                                <ng-container *ngTemplateOutlet="SnareTemplate">
+                                </ng-container>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="get_InventoryTileMode()">
+                        <button [ngbPopover]="SnareTemplate" triggers="click" (click)="toggle_Item()">
+                            <app-gridIcon [updateId]="snare.item.id"
+                                [ngbTooltip]="SnareTitleTemplate" [title]="snare.item.displayName || snare.item.name"
+                                [detail]="'noparse|' + (snare.item.traits.includes('Rare') ? 'R' : (snare.item.traits.includes('Uncommon') ? 'U' : '')) + (snare.item.level ? snare.item.level.toString() : '')"
+                                [item]="snare.item">
+                            </app-gridIcon>
+                        </button>
+                    </ng-container>
+                </ng-container>
             </div>
         </ng-container>
         <header class="sectionHeader fullsize-only box-header" *ngIf="!still_loading()">Weapon Proficiencies</header>

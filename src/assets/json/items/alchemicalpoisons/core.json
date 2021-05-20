@@ -9,7 +9,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 2 hands",
-        "desc": "These poisons deal 1d4 poison damage. Only you can apply these poisons properly, and they expire the next time you prepare.",
+        "desc": "These poisons deal |dice=1d4 Poison| 1d4 poison damage. Only you can apply these poisons properly, and they expire the next time you prepare.",
         "traits": [
             "Alchemical",
             "Consumable",

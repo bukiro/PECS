@@ -98,6 +98,7 @@
                 "_className": "ItemActivity",
                 "name": "Lion's Shield",
                 "desc": "You animate the lion's head. You Raise the Shield and make a melee Strike with it as part of the same action. The shield's biting maw is a martial melee weapon that deals 2d6 piercing damage and has the deadly 1d6 trait; it can't be enhanced by runes. The shield remains animated for 1 minute, during which time you can Strike with it each time you Raise the Shield, as well as with a Strike action.",
+                "inputRequired": "You gain the lion's shield biting maw weapon and can make attacks with it.",
                 "traits": [
                     "Conjuration",
                     "Magical"
@@ -149,6 +150,7 @@
                 "_className": "ItemActivity",
                 "name": "Spined Shield",
                 "desc": "You shoot one of the shield's spines at a target. A fired spine uses the spikes' statistics, but it is a martial ranged weapon with a range increment of 120 feet.",
+                "inputRequired": "Make an attack with the spined shield spikes weapon.",
                 "traits": [
                     "Evocation",
                     "Magical"
@@ -164,12 +166,11 @@
             {
                 "_className": "ItemActivity",
                 "name": "Spined Shield: Snap Off Spine",
-                "desc": "",
+                "desc": "When the shield would take damage (after applying Hardness), snaps off one spine per 6 damage, reducing the damage by 6. The shield takes any remaining damage. When there are no spines left, the shield takes damage as normal.",
                 "traits": [
                     "Evocation",
                     "Magical"
                 ],
-                "inputRequired": "When the shield would take damage (after applying Hardness), snaps off one spine per 6 damage, reducing the damage by 6. The shield takes any remaining damage. When there are no spines left, the shield takes damage as normal.",
                 "actions": "",
                 "activationType": "",
                 "cooldown": 144000,

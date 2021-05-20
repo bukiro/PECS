@@ -110,29 +110,21 @@
         {{item.reload}}
     </span>
 </div>
-<div class="newrow left-aligned">
-    <p *ngIf="(item.activationType || (item.actions && item.actions != ' ')) && (!item.trigger && !item.requirements)">
-        <strong>Activate</strong>
-        <app-actionIcons *ngIf="item.actions" [actionString]="item.actions">
-        </app-actionIcons>
-        {{item.activationType}}
-        <span *ngIf="item.trigger">
-            <strong>Trigger</strong>
-            {{item.trigger}}
-        </span>
-        <span *ngIf="item.requirements">
-            <strong>Requirements</strong>
-            {{item.requirements}}
-        </span>
-        <span *ngIf="item.frequency">
-            <strong>Frequency</strong>
-            {{item.frequency}}
-        </span>
-        <span *ngIf="item.effect">
-            <strong>Effect</strong>
-            {{item.effect}}
-        </span>
-    </p>
+<!--Activation text for activated standalone items, such as wands (identified by not having a trigger or requirements)-->
+<div class="newrow left-aligned"
+    *ngIf="(item.activationType || (item.actions && item.actions != ' ')) && (!item.trigger && !item.requirements)">
+    <strong>Activate</strong>
+    <app-actionIcons *ngIf="item.actions" [actionString]="item.actions">
+    </app-actionIcons>
+    {{item.activationType}}
+    <span *ngIf="item.frequency">
+        <strong>Frequency</strong>
+        {{item.frequency}}
+    </span>
+    <span *ngIf="item.effect">
+        <strong>Effect</strong>
+        <app-description [text]="item.effect" [oneLiner]="true"></app-description>
+    </span>
 </div>
 <div class="newrow left-aligned">
     <span *ngIf="item.ammunition">
@@ -145,19 +137,17 @@
     <ng-container *ngFor="let desc of item.desc.split('\n\n'); trackBy:trackByIndex;">
         <app-description [text]="desc"></app-description>
     </ng-container>
-    <ng-container *ngIf="item.name == 'Grievous'">
-        <p *ngFor="let data of item.data; trackBy:trackByIndex;">
-            <strong>{{data.name}}</strong>
-            {{data.value}}
-        </p>
-    </ng-container>
+    <p *ngFor="let data of item.data; trackBy:trackByIndex;">
+        <strong>{{data.name}}</strong>
+        <app-description [text]="data.value" [oneLiner]="true"></app-description>
+    </p>
     <p *ngIf="item.benefit">
         <strong>Benefit</strong>
-        {{item.benefit}}
+        <app-description [text]="item.benefit" [oneLiner]="true"></app-description>
     </p>
     <p *ngIf="item.drawback">
         <strong>Drawback</strong>
-        {{item.drawback}}
+        <app-description [text]="item.drawback" [oneLiner]="true"></app-description>
     </p>
     <p *ngIf="item.savingThrow || item.maxDuration || item.stages?.length">
         <span *ngIf="item.savingThrow">
@@ -179,6 +169,7 @@
             </span>
         </ng-container>
     </p>
+    <!--Activation text for talismans (identified by having a trigger or requirements, but no effect)-->
     <p *ngIf="(item.activationType || (item.actions && item.actions != ' ')) && (item.trigger || item.requirements)">
         <strong>Activate</strong>
         <app-actionIcons *ngIf="item.actions" [actionString]="item.actions">
@@ -202,16 +193,20 @@
     <ng-container *ngIf="item.critsuccess || item.success || item.failure || item.critfailure">
         <ul>
             <li *ngIf="item.critsuccess">
-                <strong>Critical Success</strong> {{item.critsuccess}}
+                <strong>Critical Success</strong>
+                <app-description [text]="item.critsuccess" [oneLiner]="true"></app-description>
             </li>
             <li *ngIf="item.success">
-                <strong>Success</strong> {{item.success}}
+                <strong>Success</strong>
+                <app-description [text]="item.success" [oneLiner]="true"></app-description>
             </li>
             <li *ngIf="item.failure">
-                <strong>Failure</strong> {{item.failure}}
+                <strong>Failure</strong>
+                <app-description [text]="item.failure" [oneLiner]="true"></app-description>
             </li>
             <li *ngIf="item.critfailure">
-                <strong>Critical Failure</strong> {{item.critfailure}}
+                <strong>Critical Failure</strong>
+                <app-description [text]="item.critfailure" [oneLiner]="true"></app-description>
             </li>
         </ul>
     </ng-container>

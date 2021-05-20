@@ -13,7 +13,6 @@ import { Rune } from './Rune';
 import { ArmorRune } from './ArmorRune';
 import { Potion } from './Potion';
 import { OtherItem } from './OtherItem';
-import { ItemsService } from './items.service';
 import { Item } from './Item';
 import { Ammunition } from './Ammunition';
 import { Scroll } from './Scroll';
@@ -29,16 +28,16 @@ import { Wand } from './Wand';
 
 export class ItemCollection {
     public readonly _className: string = this.constructor.name;
+    //This is the amount of bulk that can be ignored when weighing this inventory.
+    public bulkReduction: number = 0;
+    //If an item grants an inventory, this is the item's ID.
+    public itemId: string = "";
     public adventuringgear: AdventuringGear[] = [];
     public ammunition: Ammunition[] = [];
     public alchemicalelixirs: AlchemicalElixir[] = [];
     public armorrunes: ArmorRune[] = [];
     public armors: Armor[] = [];
-    //This is the amount of bulk that can be ignored when weighing this inventory.
-    public bulkReduction: number = 0;
     public helditems: HeldItem[] = [];
-    //If an item grants an inventory, this is the item's ID.
-    public itemId: string = "";
     public otherconsumables: OtherConsumable[] = [];
     public otherconsumablesbombs: OtherConsumableBomb[] = [];
     public otheritems: OtherItem[] = [];
@@ -56,29 +55,29 @@ export class ItemCollection {
     public snares: Snare[] = [];
     public wands: Wand[] = [];
     //You cannot add any items to an inventory that would break its bulk limit.
-    constructor (public bulkLimit: number = 0) {};
-    public readonly names: {name: string, key: string}[] = [
-        {name:"Weapons",key:"weapons"},
-        {name:"Armors",key:"armors"},
-        {name:"Shields",key:"shields"},
-        {name:"Alchemical Bombs",key:"alchemicalbombs"},
-        {name:"Worn Items",key:"wornitems"},
-        {name:"Held Items",key:"helditems"},
-        {name:"Adventuring Gear",key:"adventuringgear"},
-        {name:"Alchemical Tools",key:"alchemicaltools"},
-        {name:"Weapon Runes",key:"weaponrunes"},
-        {name:"Armor Runes",key:"armorrunes"},
-        {name:"Scrolls",key:"scrolls"},
-        {name:"Alchemical Elixirs",key:"alchemicalelixirs"},
-        {name:"Potions",key:"potions"},
-        {name:"Alchemical Poisons",key:"alchemicalpoisons"},
-        {name:"Oils",key:"oils"},
-        {name:"Talismans",key:"talismans"},
-        {name:"Snares",key:"snares"},
-        {name:"Ammunition",key:"ammunition"},
-        {name:"Other Consumables",key:"otherconsumables"},
-        {name:"Other Consumables (Bombs)",key:"otherconsumablesbombs"},
-        {name:"Wands", key:"wands"}
+    constructor(public bulkLimit: number = 0) { };
+    public readonly names: { name: string, key: string }[] = [
+        { name: "Weapons", key: "weapons" },
+        { name: "Armors", key: "armors" },
+        { name: "Shields", key: "shields" },
+        { name: "Alchemical Bombs", key: "alchemicalbombs" },
+        { name: "Worn Items", key: "wornitems" },
+        { name: "Held Items", key: "helditems" },
+        { name: "Adventuring Gear", key: "adventuringgear" },
+        { name: "Alchemical Tools", key: "alchemicaltools" },
+        { name: "Weapon Runes", key: "weaponrunes" },
+        { name: "Armor Runes", key: "armorrunes" },
+        { name: "Scrolls", key: "scrolls" },
+        { name: "Alchemical Elixirs", key: "alchemicalelixirs" },
+        { name: "Potions", key: "potions" },
+        { name: "Alchemical Poisons", key: "alchemicalpoisons" },
+        { name: "Oils", key: "oils" },
+        { name: "Talismans", key: "talismans" },
+        { name: "Snares", key: "snares" },
+        { name: "Ammunition", key: "ammunition" },
+        { name: "Other Consumables", key: "otherconsumables" },
+        { name: "Other Consumables (Bombs)", key: "otherconsumablesbombs" },
+        { name: "Wands", key: "wands" }
     ]
     allEquipment() {
         let items: Equipment[] = [];
@@ -124,7 +123,7 @@ export class ItemCollection {
         //All bulk gets calculated at *10 to avoid rounding issues with decimals,
         //Then returned at /10
         let sum: number = 0;
-        function addup(item: Item|OtherItem) {
+        function addup(item: Item | OtherItem) {
             let bulk = item instanceof OtherItem ? item.bulk : (item as Item).get_Bulk();
             if ((item as Equipment).carryingBulk && !(item as Equipment).equipped) {
                 bulk = (item as Equipment).carryingBulk;
@@ -136,7 +135,7 @@ export class ItemCollection {
                     break;
                 case "L":
                     if (item.amount) {
-                        sum += Math.floor(item.amount / ((item as Consumable).stack ? (item as Consumable).stack : 1)) ;
+                        sum += Math.floor(item.amount / ((item as Consumable).stack ? (item as Consumable).stack : 1));
                     } else {
                         sum += 1;
                     }

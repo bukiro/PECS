@@ -165,25 +165,37 @@ export class TopBarComponent implements OnInit {
             //Don't check for messages if you are currently selecting messages from a previous check.
             return;
         };
-        //Clean up old messages, then check for new messages, then open the dialog if any are found.
-        this.messageService.cleanup_OldMessages().subscribe(() => {
-            this.messageService.load_Messages(this.characterService.get_Character().id)
-                .subscribe((results: string[]) => {
-                    let newMessages = this.messageService.process_Messages(this.characterService, results)
-                    this.messageService.add_NewMessages(newMessages);
-                    if (this.messageService.get_NewMessages(this.characterService).length) {
-                        this.open_NewMessagesModal();
-                    } else {
-                        this.toastService.show("No new effects are available.", [], this.characterService);
-                    }
-                }, (error) => {
-                    this.toastService.show("An error occurred while searching for new effects. See console for more information.", [], this.characterService)
-                    console.log('Error loading messages from database: ' + error.message);
-                });
-        }, error => {
-            this.toastService.show("An error occurred while cleaning up messages. See console for more information.", [], this.characterService)
-            console.log('Error cleaning up messages: ' + error.message);
-        })
+        if (this.get_Character().settings.checkMessagesAutomatically) {
+            //If the app checks for messages automatically, you don't need to check again manually. Just open the Dialog if messages exist, or let us know if not.
+            if (this.messageService.get_NewMessages(this.characterService).length) {
+                this.open_NewMessagesModal();
+            } else {
+                this.toastService.show("No new effects are available.", [], this.characterService);
+            }
+        } else {
+            //Clean up old messages, then check for new messages, then open the dialog if any are found.
+            this.messageService.cleanup_OldMessages().subscribe(() => {
+                this.messageService.load_Messages(this.characterService.get_Character().id)
+                    .subscribe((results: string[]) => {
+                        //Get any new messages.
+                        let newMessages = this.messageService.process_Messages(this.characterService, results)
+                        //Add them to the list of new messages.
+                        this.messageService.add_NewMessages(newMessages);
+                        //If any exist, start the dialog. Otherwise give an appropriate response.
+                        if (this.messageService.get_NewMessages(this.characterService).length) {
+                            this.open_NewMessagesModal();
+                        } else {
+                            this.toastService.show("No new effects are available.", [], this.characterService);
+                        }
+                    }, (error) => {
+                        this.toastService.show("An error occurred while searching for new effects. See console for more information.", [], this.characterService)
+                        console.log('Error loading messages from database: ' + error.message);
+                    });
+            }, error => {
+                this.toastService.show("An error occurred while cleaning up messages. See console for more information.", [], this.characterService)
+                console.log('Error cleaning up messages: ' + error.message);
+            })
+        }
     }
 
     get_MessageCreature(message: PlayerMessage) {

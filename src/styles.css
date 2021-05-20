@@ -1950,6 +1950,12 @@ SPECIFIC STYLE MODIFIERS
     align-items: center;
 }
 
+.vlist:empty,
+.hlist:empty,
+.newrow:empty {
+    display: none;
+}
+
 .disable-text-selection {
     -ms-user-select:none;
     -moz-user-select:none;

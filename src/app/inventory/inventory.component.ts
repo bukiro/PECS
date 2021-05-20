@@ -117,6 +117,9 @@ export class InventoryComponent implements OnInit {
     toggle_TileMode() {
         this.get_Character().settings.inventoryTileMode = !this.get_Character().settings.inventoryTileMode;
         this.characterService.set_ToChange("Character", "inventory");
+        this.characterService.set_ToChange("Companion", "inventory");
+        //Inventory Tile Mode affects snares on the attacks component.
+        this.characterService.set_ToChange("Character", "attacks");
         this.characterService.process_ToChange();
     }
 

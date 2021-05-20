@@ -197,7 +197,7 @@
         "name": "Green Gut",
         "id": "01b81996-ab63-11ea-bb37-0242ac130002",
         "bulk": "L",
-        "desc": "This watery, mint-green emetic of xulgath design is often carried in a delicate obsidian vial or other fragile container. In the unfortunate circumstance that a creature has been Swallowed Whole by another creature, the swallowed creature can break open a vial of greengut to immediately induce vomiting. The swallower must succeed at a DC 40 Fortitude save or take 18d6 poison damage and possibly vomit the contents of its stomach.",
+        "desc": "This watery, mint-green emetic of xulgath design is often carried in a delicate obsidian vial or other fragile container. In the unfortunate circumstance that a creature has been Swallowed Whole by another creature, the swallowed creature can break open a vial of greengut to immediately induce vomiting. The swallower must succeed at a DC 40 Fortitude save or |dice=18d6 Poison| take 18d6 poison damage and possibly vomit the contents of its stomach.",
         "level": 17,
         "price": 250000,
         "traits": [

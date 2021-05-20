@@ -72,6 +72,10 @@ export class AttacksComponent implements OnInit {
         return this.characterService.get_Creature(type) as Character | AnimalCompanion;
     }
 
+    get_InventoryTileMode() {
+        return this.get_Character().settings.inventoryTileMode;
+    }
+
     trackByIndex(index: number, obj: any): any {
         return index;
     }
@@ -88,7 +92,7 @@ export class AttacksComponent implements OnInit {
         return this.showList;
     }
 
-    toggle_Item(id: string) {
+    toggle_Item(id: string = "") {
         if (this.showItem == id) {
             this.showItem = "";
         } else {

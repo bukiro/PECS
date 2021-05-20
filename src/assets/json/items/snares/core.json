@@ -80,7 +80,7 @@
         "name": "Spike Snare",
         "level": 1,
         "price": 300,
-        "desc": "This basic snare consists of hidden spikes that rely on a creature's momentum to lacerate or potentially impale it as it enters the snare's square, dealing 2d8 piercing damage. The creature must attempt a DC 17 basic Reflex saving throw.",
+        "desc": "This basic snare consists of hidden spikes that rely on a creature's momentum to lacerate or potentially impale it as it enters the snare's square, dealing |dice=2d8 P| 2d8 piercing damage. The creature must attempt a DC 17 basic Reflex saving throw.",
         "traits": [
             "Consumable",
             "Mechanical",
@@ -116,8 +116,8 @@
         "desc": "The snare makes a thunderous noise when a creature enters the snare's square, which can be heard up to 1,000 feet away. The creature must attempt a DC 18 Fortitude saving throw.",
         "critsuccess": "The target is unaffected.",
         "success": "The target is deafened until the end of its next turn.",
-        "failure": "As success, and the target also takes 1 sonic damage.",
-        "critfailure": "As success, and the target also takes 1d4 sonic damage.",
+        "failure": "As success, and the target also takes |dice=1 Sonic| 1 sonic damage.",
+        "critfailure": "As success, and the target also takes |dice=1d4 Sonic| 1d4 sonic damage.",
         "craftRequirement": "1 lesser thunderstone",
         "traits": [
             "Consumable",
@@ -134,9 +134,9 @@
         "price": 900,
         "desc": "You rig tree branches, thin strands of bark, or other plant matter to close in on a creature that enters the snare's square. The first creature to enter the square must attempt a DC 19 Reflex saving throw.",
         "critsuccess": "The target is unaffected.",
-        "success": "The target takes 1d4 slashing damage.",
+        "success": "The target takes |dice=1d4 S| 1d4 slashing damage.",
         "failure": "As success, plus the target is flat-footed.",
-        "critfailure": "The target takes 2d4 slashing damage and is immobilized until it destroys the snare (AC 16, HP 25) or Escapes (DC 19).",
+        "critfailure": "The target takes |dice=2d4 S| 2d4 slashing damage and is immobilized until it destroys the snare (AC 16, HP 25) or Escapes (DC 19).",
         "traits": [
             "Uncommon",
             "Consumable",
@@ -171,7 +171,7 @@
         "name": "Biting Snare",
         "level": 4,
         "price": 1500,
-        "desc": "The snare's jaws shut on the leg of a creature that steps on it. The snare deals 5d6 piercing damage to the first creature that enters its square; that creature must attempt a DC 18 Reflex save.",
+        "desc": "The snare's jaws shut on the leg of a creature that steps on it. The snare deals |dice=5d6 P| 5d6 piercing damage to the first creature that enters its square; that creature must attempt a DC 18 Reflex save.",
         "critsuccess": "The target is unaffected.",
         "success": "The creature takes half damage.",
         "failure": "The creature takes full damage.",
@@ -231,7 +231,7 @@
         "critsuccess": "The target is unaffected.",
         "success": "The creature is flat-footed until the start of its next turn.",
         "failure": "The creature falls prone.",
-        "critfailure": "The creature falls prone and takes 1d6 bludgeoning damage.",
+        "critfailure": "The creature falls prone and takes |dice=1d6 B| 1d6 bludgeoning damage.",
         "traits": [
             "Consumable",
             "Mechanical",
@@ -262,8 +262,8 @@
         "price": 1500,
         "desc": "You set snake fangs, poison stingers, or other venomous animal parts in the ground where they can be touched or stepped on by a creature that enters the snare's square. The first creature to enter the square must attempt a DC 20 Reflex saving throw.",
         "success": "The target is unaffected.",
-        "failure": "The target takes 1 piercing damage and 2d8 poison damage.",
-        "critfailure": "The target takes 2 piercing damage and 4d8 poison damage.",
+        "failure": "The target takes |dice=1 P + 2d8 Poison| 1 piercing damage and 2d8 poison damage.",
+        "critfailure": "The target takes |dice=2 P + 4d8 Poison| 2 piercing damage and 4d8 poison damage.",
         "traits": [
             "Uncommon",
             "Consumable",
@@ -317,7 +317,7 @@
         "name": "Striking Snare",
         "level": 8,
         "price": 7500,
-        "desc": "You affix a trip line or other trigger to a group of either stones or wooden stakes to strike a creature that enters the snare's square. The creature must attempt a DC 26 basic Reflex saving throw. If you choose stones, the snare deals 9d8 bludgeoning damage; if you choose spikes, it deals 9d8 piercing damage.",
+        "desc": "You affix a trip line or other trigger to a group of either stones or wooden stakes to strike a creature that enters the snare's square. The creature must attempt a DC 26 basic Reflex saving throw. If you choose stones, the snare deals |dice=9d8 B| 9d8 bludgeoning damage; if you choose spikes, it deals |dice=9d8 P| 9d8 piercing damage.",
         "traits": [
             "Consumable",
             "Mechanical",
@@ -331,7 +331,7 @@
         "name": "Bleeding Spines Snare",
         "level": 12,
         "price": 32000,
-        "desc": "When a creature enters the square, spines covered in numerous jagged thorns protrude out to stab it, dealing 8d8 piercing damage and 2d8 persistent bleed damage. The creature must attempt a DC 31 basic Reflex saving throw. After the initial trigger, the spines retract and protrude again repeatedly for 1 minute, forcing any creature that enters the space or ends its turn in the space to attempt a Reflex save against the spines' damage.",
+        "desc": "When a creature enters the square, spines covered in numerous jagged thorns protrude out to stab it, dealing |dice=8d8 P + 2d8 Persistent Bleed| 8d8 piercing damage and 2d8 persistent bleed damage. The creature must attempt a DC 31 basic Reflex saving throw. After the initial trigger, the spines retract and protrude again repeatedly for 1 minute, forcing any creature that enters the space or ends its turn in the space to attempt a Reflex save against the spines' damage.",
         "traits": [
             "Consumable",
             "Mechanical",
@@ -345,7 +345,7 @@
         "name": "Bleeding Spines Snare",
         "level": 12,
         "price": 32000,
-        "desc": "This snare sends a powerful series of scything blades to slice through a creature entering the snare's square, dealing 14d8 slashing damage (DC 31 basic Reflex).",
+        "desc": "This snare sends a powerful series of scything blades to slice through a creature entering the snare's square, dealing |dice=14d8 S| 14d8 slashing damage (DC 31 basic Reflex).",
         "traits": [
             "Consumable",
             "Mechanical",
@@ -359,7 +359,7 @@
         "name": "Stunning Snare",
         "level": 12,
         "price": 32000,
-        "desc": "You rig a snare to disorient a creature with a quick bash, leaving it with little ability to defend itself. The trap deals 6d6 bludgeoning damage to the first creature to enter its square; that creature must attempt a DC 31 Reflex save.",
+        "desc": "You rig a snare to disorient a creature with a quick bash, leaving it with little ability to defend itself. The trap deals |dice=6d6 B| 6d6 bludgeoning damage to the first creature to enter its square; that creature must attempt a DC 31 Reflex save.",
         "critsuccess": "The target is unaffected.",
         "success": "The creature takes half damage and is flat-footed for 1 round and stunned 1.",
         "failure": "The creature takes full damage and is flat-footed for 1 round and stunned 2.",
@@ -377,7 +377,7 @@
         "name": "Hail of Arrows Snare",
         "level": 16,
         "price": 150000,
-        "desc": "When a creature enters the snare's square, it releases hundreds upon hundreds of carefully prepared arrows, blanketing a 20-foot radius around the snare's square with massive arrow fire that deals 18d6 piercing damage. Creatures in the area must attempt a DC 37 basic Reflex saving throw.",
+        "desc": "When a creature enters the snare's square, it releases hundreds upon hundreds of carefully prepared arrows, blanketing a 20-foot radius around the snare's square with massive arrow fire that deals |dice=18d6 P| 18d6 piercing damage. Creatures in the area must attempt a DC 37 basic Reflex saving throw.",
         "traits": [
             "Consumable",
             "Mechanical",
@@ -391,7 +391,7 @@
         "name": "Omnidirectional Spear Snare",
         "level": 16,
         "price": 150000,
-        "desc": "As soon as a creature enters the snare's square, the snare unleashes wickedly powerful spears at the creature from all directions, dealing 19d8 piercing damage (DC 37 basic Reflex).",
+        "desc": "As soon as a creature enters the snare's square, the snare unleashes wickedly powerful spears at the creature from all directions, dealing |dice=19d8 P| 19d8 piercing damage (DC 37 basic Reflex).",
         "traits": [
             "Consumable",
             "Mechanical",
@@ -405,7 +405,7 @@
         "name": "Flying Blade Wheel Snare",
         "level": 20,
         "price": 1000000,
-        "desc": "When a creature enters the square, a deadly flying wheel of spinning blades launches at it, making a Strike with an attack modifier of +33 and dealing 8d8 slashing damage. Once on each of your turns, you can use an Interact action within 120 feet of the wheel to cause it to Fly up to 60 feet toward the creature it's chasing and make another Strike if it's within 5 feet of its target after it moves. After 1 minute, the spinning ceases and the wheel falls to the ground. Creatures can destroy the wheel to stop it (AC 37, Fort +29, Ref +20, HP 200, Hardness 10, object immunities).",
+        "desc": "When a creature enters the square, a deadly flying wheel of spinning blades launches at it, making a Strike with an attack modifier of +33 and dealing |dice=8d8 S| 8d8 slashing damage. Once on each of your turns, you can use an Interact action within 120 feet of the wheel to cause it to Fly up to 60 feet toward the creature it's chasing and make another Strike if it's within 5 feet of its target after it moves. After 1 minute, the spinning ceases and the wheel falls to the ground. Creatures can destroy the wheel to stop it (AC 37, Fort +29, Ref +20, HP 200, Hardness 10, object immunities).",
         "traits": [
             "Consumable",
             "Mechanical",
@@ -419,7 +419,7 @@
         "name": "Instant Evisceration Snare",
         "level": 20,
         "price": 1000000,
-        "desc": "When a creature enters the snare's square, the snare releases an unbelievable arsenal of blades, dealing 24d8 piercing damage (DC 45 basic Reflex).",
+        "desc": "When a creature enters the snare's square, the snare releases an unbelievable arsenal of blades, dealing |dice=24d8 P| 24d8 piercing damage (DC 45 basic Reflex).",
         "traits": [
             "Consumable",
             "Mechanical",
