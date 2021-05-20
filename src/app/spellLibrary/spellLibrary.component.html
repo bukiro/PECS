@@ -83,7 +83,7 @@
                                     <div class="list-item" *ngIf="descblock.length">
                                         <ng-container
                                             *ngFor="let desc of descblock.split('\n\n'); trackBy:trackByIndex;">
-                                            <app-description [text]="desc"></app-description>
+                                            <app-description class="newrow" [text]="desc"></app-description>
                                         </ng-container>
                                     </div>
                                 </ng-container>
@@ -92,7 +92,7 @@
                                     <div class="list-item" *ngIf="descblock.length">
                                         <ng-container
                                             *ngFor="let desc of descblock.split('\n\n'); trackBy:trackByIndex;">
-                                            <app-description [text]="desc"></app-description>
+                                            <app-description class="newrow" [text]="desc"></app-description>
                                         </ng-container>
                                     </div>
                                 </ng-container>

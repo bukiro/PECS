@@ -1443,6 +1443,7 @@ ngb-popover-window.list-item.sublist {
 .popover {
     white-space: pre-line;
     max-width: 40rem;
+    font-size: 1rem;
     background-color: #E0E0E0;
 }
 

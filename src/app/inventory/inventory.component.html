@@ -171,7 +171,7 @@
             <app-tags [creature]="creature" [objectName]="'Max Invested'" [showTraits]=true [showFeats]=true
                 [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         </div>
-        <div class="list-item" [ngClass]="{'fullsize-only':inventoryIndex != 0}"
+        <div class="list-item" [ngClass]="{'fullsize-only':inventoryIndex > 1}"
             *ngFor="let inventory of get_Inventories(creature, true, true); let inventoryIndex = index; trackBy:trackByIndex;">
             <header class="sectionHeader fullsize-only newrow">{{get_InventoryName(inventory)}}
                 <span *ngIf="inventory.bulkLimit && inventory.bulkLimit % 1 == 0">&nbsp;{{"("+inventory.get_Bulk()+" /

@@ -854,7 +854,7 @@ export class CharacterService {
                 existing.name == newInventoryItem.name && newInventoryItem.can_Stack() && !item.expiration
             );
         }
-        //If any existing, stackable items are found, try parsing the amount and set it to 1 if failed, then raise the amount on the first of the existing items.
+        //If any existing, stackable items are found, try parsing the amount (set it to 1 if failed), then raise the amount on the first of the existing items.
         //The amount must be parsed because it could be set to anything during custom item creation.
         //If no items are found, add the new item to the inventory.
         //Set returnedInventoryItem to either the found or the new item for further processing.
@@ -917,7 +917,7 @@ export class CharacterService {
         }
         //Add all Items that you get from being granted this one
         if (returnedInventoryItem.gainItems && returnedInventoryItem.gainItems.length) {
-            returnedInventoryItem.gainItems.filter((gainItem: ItemGain) => gainItem.on == "grant").forEach(gainItem => {
+            returnedInventoryItem.gainItems.filter((gainItem: ItemGain) => gainItem.on == "grant" && gainItem.amount > 0).forEach(gainItem => {
                 let newItem: Item = this.get_CleanItems()[gainItem.type].filter((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase())[0];
                 if (newItem.can_Stack()) {
                     this.grant_InventoryItem(creature, inventory, newItem, true, false, false, gainItem.amount + (gainItem.amountPerLevel * creature.level));
@@ -959,10 +959,17 @@ export class CharacterService {
         if (changeAfter) {
             this.process_ToChange();
         }
+        //Update gridicons of the new or expanded item.
+        this.set_Changed(returnedInventoryItem.id);
         return returnedInventoryItem;
     }
 
     drop_InventoryItem(creature: Character | AnimalCompanion, inventory: ItemCollection, item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true, including: boolean = true, amount: number = 1) {
+        //Don't handle items that are already being dropped.
+        if (item.markedForDeletion) {
+            return false;
+        }
+        item.markedForDeletion = true;
         this.set_ToChange(creature.type, "inventory");
         if (item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb || item instanceof Ammunition || item instanceof Snare) {
             this.set_ToChange(creature.type, "attacks");
@@ -1003,8 +1010,13 @@ export class CharacterService {
                     }
                 })
             }
-            if (item["gainInventory"]) {
-                creature.inventories = creature.inventories.filter(inventory => inventory.itemId != item.id);
+            if (item["gainInventory"]?.length) {
+                creature.inventories.filter(existingInventory => existingInventory.itemId == item.id).forEach(gainedInventory => {
+                    gainedInventory.allItems().forEach(inventoryItem => {
+                        this.drop_InventoryItem(creature, gainedInventory, inventoryItem, false, false, including);
+                    })
+                });
+                creature.inventories = creature.inventories.filter(existingInventory => existingInventory.itemId != item.id);
             }
             if (including && item["gainItems"] && item["gainItems"].length) {
                 item["gainItems"].filter((gainItem: ItemGain) => gainItem.on == "grant").forEach(gainItem => {
@@ -1016,6 +1028,8 @@ export class CharacterService {
                 this.equip_BasicItems(creature);
             }
         }
+        //If the item still exists at this point, unmark it for deletion, so it doesn't become un-droppable.
+        item.markedForDeletion = false;
         if (changeAfter) {
             this.process_ToChange()
         }
@@ -1291,31 +1305,19 @@ export class CharacterService {
     }
 
     lose_GainedItem(creature: Character | AnimalCompanion, gainedItem: ItemGain) {
-        if (this.itemsService.get_CleanItems()[gainedItem.type].concat(...creature.inventories.map(inventory => inventory[gainedItem.type])).filter((item: Item) => item.name.toLowerCase() == gainedItem.name.toLowerCase())[0]?.can_Stack()) {
-            let amountToDrop = gainedItem.amount || 1;
-            creature.inventories.forEach(inventory => {
-                let items: Item[] = inventory[gainedItem.type].filter((libraryItem: Item) => libraryItem.name == gainedItem.name);
-                items.forEach(item => {
-                    if (amountToDrop) {
-                        if (item.amount < amountToDrop) {
-                            this.drop_InventoryItem(creature, inventory, item, false, false, true, gainedItem.amount - amountToDrop);
-                            amountToDrop -= gainedItem.amount;
-                        } else {
-                            this.drop_InventoryItem(creature, inventory, item, false, false, true, gainedItem.amount);
-                            amountToDrop = 0;
-                        }
-                    }
-                });
-            });
-        } else {
-            creature.inventories.forEach(inventory => {
-                let items: Item[] = inventory[gainedItem.type].filter((libraryItem: Item) => libraryItem.id == gainedItem.id);
-                items.forEach(item => {
-                    this.drop_InventoryItem(creature, inventory, item, false, false, true);
-                });
-            });
-            gainedItem.id = "";
-        }
+        let toDrop: number = gainedItem.amount;
+        creature.inventories.forEach(inventory => {
+            //Find items that either have this ItemGain's id or, if stackable, its name.
+            //Then drop as many of them as the amount demands.
+            inventory[gainedItem.type].filter(invItem => invItem.id == gainedItem.id || (invItem.can_Stack() && invItem.name == gainedItem.name)).forEach(invItem => {
+                if (toDrop) {
+                    let dropped = Math.min(toDrop, invItem.amount);
+                    toDrop -= dropped;
+                    this.drop_InventoryItem(creature, inventory, invItem, false, false, true, dropped);
+                }
+            })
+        })
+        gainedItem.id = "";
     }
 
     on_Invest(creature: Character | AnimalCompanion, inventory: ItemCollection, item: Equipment, invested: boolean = true, changeAfter: boolean = true) {

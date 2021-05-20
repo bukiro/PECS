@@ -31,7 +31,7 @@ export class Item {
     public hide: boolean = false;
     //List ItemGain for every Item that you receive when you get, equip or use this item (specified in the ItemGain)
     public gainItems: ItemGain[] = [];
-    //Set only if the item is granted via an ItemGain
+    //Descriptive text, set only if the item is granted via an ItemGain.
     public grantedBy: string = "";
     //Every item gets an ID to reference in activities or other items.
     public id = uuidv4();
@@ -69,6 +69,8 @@ export class Item {
     public type: string;
     //For items with the same id (from different source files for example), higher overridePriority wins. If two have the same priority, the first in the list wins.
     public overridePriority: number = 0;
+    //If markedForDeletion is set, the item isn't recursively dropped during drop_InventoryItem, thus avoiding loops stemming from gained items and gained inventories. 
+    public markedForDeletion: boolean = false;
     get_Bulk() {
         //Return either the bulk set by an oil, or else the actual bulk of the item.
         let oilBulk: string = "";

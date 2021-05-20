@@ -824,6 +824,124 @@
         ]
     },
     {
+        "name": "Debilitation",
+        "desc": "Debilitations apply conditions and other negative effects. When you are affected by a new debilitation, any previous one you were affected by ends.\n\nMultiple debiltations can be applied simultaneously under certain circumstances. In that case, removing one removes both.",
+        "type": "activities",
+        "defaultDurations": [
+            {
+                "duration": 17
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You can't use reactions.",
+                "showon": "Activities",
+                "conditionChoiceFilter": "No Reactions"
+            },
+            {
+                "desc": "You can't flank or contribute to allies' flanking.",
+                "showon": "Attacks",
+                "conditionChoiceFilter": "No Flanking"
+            },
+            {
+                "desc": "You take an additional |dice=2d6 Precision| damage from the attacks of the debilitation's originator.",
+                "showon": "Defense, Health",
+                "conditionChoiceFilter": "Extra Damage"
+            }
+        ],
+        "choice": "Clumsy",
+        "choices": [
+            {
+                "name": "Clumsy"
+            },
+            {
+                "name": "Enfeebled"
+            },
+            {
+                "name": "Extra Damage"
+            },
+            {
+                "name": "Flat-Footed"
+            },
+            {
+                "name": "No Flanking"
+            },
+            {
+                "name": "No Reactions"
+            },
+            {
+                "name": "Paralyzed"
+            },
+            {
+                "name": "Slowed 1"
+            },
+            {
+                "name": "Slowed 2"
+            },
+            {
+                "name": "Speed Penalty"
+            },
+            {
+                "name": "Bludgeoning Damage Weakness"
+            },
+            {
+                "name": "Piercing Damage Weakness"
+            },
+            {
+                "name": "Slashing Damage Weakness"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Speed",
+                "type": "status",
+                "value": "Choice == 'Speed Penalty' ? -10 : 0"
+            },
+            {
+                "affected": "Bludgeoning Damage Resistance",
+                "value": "Choice == 'Bludgeoning Damage Weakness' ? -5 : 0"
+            },
+            {
+                "affected": "Piercing Damage Resistance",
+                "value": "Choice == 'Piercing Damage Weakness' ? -5 : 0"
+            },
+            {
+                "affected": "Slashing Damage Resistance",
+                "value": "Choice == 'Slashing Damage Weakness' ? -5 : 0"
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": "Clumsy",
+                "name": "Clumsy",
+                "value": "1"
+            },
+            {
+                "conditionChoiceFilter": "Enfeebled",
+                "name": "Enfeebled",
+                "value": "1"
+            },
+            {
+                "conditionChoiceFilter": "Flat-Footed",
+                "name": "Flat-Footed"
+            },
+            {
+                "conditionChoiceFilter": "Paralyzed",
+                "name": "Paralyzed"
+            },
+            {
+                "conditionChoiceFilter": "Slowed 1",
+                "name": "Slowed",
+                "value": "1"
+            },
+            {
+                "conditionChoiceFilter": "Slowed 2",
+                "name": "Slowed",
+                "value": "2"
+            }
+        ]
+    },
+    {
         "name": "Deflect Arrows",
         "desc": "You gain a +4 circumstance bonus to AC against the triggering ranged attack. If the attack misses, you have deflected it.",
         "type": "activities",
@@ -4069,6 +4187,37 @@
         ]
     },
     {
+        "name": "Blessed Alchemical Poison",
+        "desc": "A blessed alchemical poison is an alchemical poison that was Crafted by a character with the Bless Toxin feat. When you are afflicted with a blessed alchemical poison, for 1 round, any Hit Points you would regain from a positive effect are reduced by 5, or by 10 if the Crafter is legendary in Crafting.",
+        "type": "afflictions",
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Any Hit Points you would regain from a positive effect are reduced by 5.",
+                "showon": "Health",
+                "conditionChoiceFilter": "-"
+            },
+            {
+                "desc": "Any Hit Points you would regain from a positive effect are reduced by 10.",
+                "showon": "Health",
+                "conditionChoiceFilter": "Legendary Crafter"
+            }
+        ],
+        "choice": "",
+        "choices": [
+            {
+                "name": "-"
+            },
+            {
+                "name": "Legendary Crafter"
+            }
+        ]
+    },
+    {
         "name": "Ghoul Fever",
         "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<strong>Stage 1</strong> carrier with no ill effects (1 day)\n<strong>Stage 2</strong> 3d8 negative damage and you regain half as many Hit Points from all healing (1 day)\n<strong>Stage 3</strong> as stage 2 (1 day)\n<strong>Stage 4</strong> 3d8 negative damage and you gain no benefit from healing (1 day)\n<strong>Stage 5</strong> as stage 4 (1 day)\n<strong>Stage 6</strong> you die and rise as a ghoul at the next midnight",
         "type": "afflictions",
@@ -4517,6 +4666,32 @@
             {
                 "affected": "Legendary Bestial Mutagen Claw (Major) Damage",
                 "value": "Value == 4 && !Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 4 : 0"
+            }
+        ]
+    },
+    {
+        "name": "Blessed Alchemical Item",
+        "desc": "A blessed alchemical item is an alchemical item that restores hit points and was Crafted by a character with the Bless Tonic feat. After you regained Hit Points using a blessed alchemical item, the overflowing energy grants you negative resistance 5 for 1 round, or negative resistance 10 if the crafter is legendary in Crafting.",
+        "type": "alchemicalelixirs",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "choice": "",
+        "choices": [
+            {
+                "name": "-"
+            },
+            {
+                "name": "Legendary Crafter"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Negative Resistance",
+                "value": "Choice == 'Legendary Crafter' ? 10 : 5"
             }
         ]
     },

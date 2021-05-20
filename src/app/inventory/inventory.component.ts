@@ -189,33 +189,52 @@ export class InventoryComponent implements OnInit {
         }
     }
 
+    get_ContainedBulk(creature: Character | AnimalCompanion, item: Item, targetInventory: ItemCollection) {
+        //Sum up all the bulk of an item, including items granted by it and inventories it contains (or they contain).
+        //If this item has granted other items, sum up the bulk of each of them.
+        //If a targetInventory is given, don't count items in that inventory, as we want to figure out if the whole package will fit into that inventory.
+        let bulk = 0;
+        item.gainItems?.forEach(itemGain => {
+            let found: number = 0;
+            let stackBulk = 0;
+            let stackSize = 1;
+            creature.inventories.filter(inventory => !targetInventory || inventory !== targetInventory).forEach(inventory => {
+                //Count how many items you have that either have this ItemGain's id or, if stackable, its name.
+                inventory[itemGain.type].filter(invItem => invItem.id == itemGain.id || (invItem.can_Stack() && invItem.name == itemGain.name)).forEach(invItem => {
+                    if (invItem.can_Stack()) {
+                        found += invItem.amount;
+                        stackBulk = invItem.carryingBulk || invItem.bulk;
+                        stackSize = invItem.stack || 1;
+                    } else {
+                        bulk += this.itemsService.get_RealBulk(invItem, true);
+                        //If the granted item includes more items, add their bulk as well.
+                        bulk += this.get_ContainedBulk(creature, invItem, targetInventory);
+                    }
+                })
+            })
+            if (found && stackBulk && stackSize) {
+                //If one ore more stacked items were found, calculate the stack bulk accordingly.
+                let testItem = new Consumable();
+                testItem.bulk = stackBulk.toString();
+                testItem.amount = Math.min(itemGain.amount, found);
+                testItem.stack = stackSize;
+                bulk += this.itemsService.get_RealBulk(testItem, false);
+            }
+        })
+        //If the item adds an inventory, add the sum bulk of that inventory, unless it's the target inventory. The item will not be moved into the inventory in that case (handled during the move).
+        if ((item as Equipment).gainInventory) {
+            bulk += creature.inventories.find(inventory => inventory !== targetInventory && inventory.itemId == item.id)?.get_Bulk() || 0;
+        }
+        return bulk;
+    }
+
     can_Fit(item: Item, targetInventory: ItemCollection, sourceInventory: ItemCollection) {
         if (targetInventory.itemId == item.id || targetInventory === sourceInventory) {
             return false;
         } else if (targetInventory.bulkLimit) {
-            let itemBulk = 0;
-            //Moving items will always unequip them. If the item has a carrying bulk, use that for the check.
-            switch ((item as Equipment).carryingBulk ? (item as Equipment).carryingBulk : item.get_Bulk()) {
-                case "":
-                    break;
-                case "-":
-                    break;
-                case "L":
-                    if (item.amount) {
-                        itemBulk += 0.1 * Math.floor(item.amount / (item["stack"] ? item["stack"] : 1));
-                    } else {
-                        itemBulk += 0.1;
-                    }
-                    break;
-                default:
-                    if (item.amount) {
-                        itemBulk += parseInt(item.get_Bulk()) * Math.floor(item.amount / (item["stack"] ? item["stack"] : 1));
-                    } else {
-                        itemBulk += parseInt(item.get_Bulk());
-                    }
-                    break;
-            }
-            return (targetInventory.get_Bulk(false) + itemBulk <= targetInventory.bulkLimit)
+            let itemBulk = this.itemsService.get_RealBulk(item, true);
+            let containedBulk = this.get_ContainedBulk(this.get_Creature(), item, targetInventory);
+            return (targetInventory.get_Bulk(false) + itemBulk + containedBulk <= targetInventory.bulkLimit)
         } else {
             return true;
         }
@@ -270,8 +289,8 @@ export class InventoryComponent implements OnInit {
         if (pay) {
             if (this.get_Price(item)) {
                 let price = this.get_Price(item);
-                if (item["stack"]) {
-                    price *= Math.floor(item.amount / item["stack"]);
+                if ((item as Consumable).stack) {
+                    price *= Math.floor(item.amount / (item as Consumable).stack);
                 } else {
                     price *= item.amount;
                 }

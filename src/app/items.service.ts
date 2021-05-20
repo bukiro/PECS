@@ -70,6 +70,8 @@ import { ToastService } from './toast.service';
 import { ArmorMaterial } from './ArmorMaterial';
 import { ShieldMaterial } from './ShieldMaterial';
 import { Hint } from './Hint';
+import { InventoryComponent } from './inventory/inventory.component';
+import { NewItemPropertyComponent } from './items/newItemProperty/newItemProperty.component';
 
 @Injectable({
     providedIn: 'root'
@@ -392,23 +394,115 @@ export class ItemsService {
         return newItem;
     }
 
-    move_InventoryItem(creature: Character | AnimalCompanion, item: Item, targetInventory: ItemCollection, inventory: ItemCollection, characterService: CharacterService) {
-        if (targetInventory && targetInventory != inventory) {
+    get_RealBulk(item: Item, carrying: boolean = false) {
+        //All bulk gets calculated at *10 to avoid rounding issues with decimals,
+        //Then returned at /10
+        let itemBulk = 0;
+        //Use the item's carrying bulk if carrying is true.
+        let bulkString = (carrying && (item as Equipment).carryingBulk) ? (item as Equipment).carryingBulk : item.get_Bulk()
+        switch (bulkString) {
+            case "":
+                    break;
+                case "-":
+                    break;
+                case "L":
+                    if (item.amount) {
+                        itemBulk += Math.floor(item.amount / ((item as Consumable).stack ? (item as Consumable).stack : 1));
+                    } else {
+                        itemBulk += 1;
+                    }
+                    break;
+                default:
+                    if (item.amount) {
+                        itemBulk += parseInt(bulkString) * 10 * Math.floor(item.amount / ((item as Consumable).stack ? (item as Consumable).stack : 1));
+                    } else {
+                        itemBulk += parseInt(bulkString) * 10;
+                    }
+                    break;
+        }
+        itemBulk = Math.floor(itemBulk) / 10;
+        return itemBulk;
+    }
+
+    update_GrantingItem(creature: Character | AnimalCompanion, item: Item) {
+        //If this item has granted other items, check how many of those still exist, and update the item's granting list.
+        item.gainItems?.forEach(itemGain => {
+            let found: number = 0;
+            creature.inventories.forEach(inventory => {
+                //Count how many items you have that either have this ItemGain's id or, if stackable, its name.
+                inventory[itemGain.type].filter(invItem => invItem.id == itemGain.id || (invItem.can_Stack() && invItem.name == itemGain.name)).forEach(invItem => {
+                    found += invItem.amount;
+                    //Take the opportunity to update this item as well, in case it grants further items.
+                    //Ideally, the granting items should not contain the same kind of stackable items, or the numbers will be wrong.
+                    this.update_GrantingItem(creature, invItem);
+                })
+            })
+            if (found < itemGain.amount) {
+                itemGain.amount = found;
+            }
+        })
+        return item;
+    }
+
+    move_GrantedItems(creature: Character | AnimalCompanion, item: Item, targetInventory: ItemCollection, inventory: ItemCollection, characterService: CharacterService) {
+        //If you are moving an item that grants other items, move those as well.
+        //Only move items from inventories other than the target inventory, and start from the same inventory that the granting item is in.
+        //If any of the contained items contain the the target inventory, that should be caught in move_InventoryItem.
+        item.gainItems?.forEach(itemGain => {
+            let toMove: number = itemGain.amount;
+            [inventory].concat(creature.inventories.filter(inv => inv !== targetInventory && inv !== inventory)).forEach(inv => {
+                //Find items that either have this ItemGain's id or, if stackable, its name.
+                //Then move as many of them into the new inventory as the amount demands.
+                inv[itemGain.type].filter(invItem => invItem.id == itemGain.id || (invItem.can_Stack() && invItem.name == itemGain.name)).forEach(invItem => {
+                    if (toMove) {
+                        let moved = Math.min(toMove, invItem.amount);
+                        toMove -= moved;
+                        this.move_InventoryItem(creature, invItem, targetInventory, inv, characterService, moved);
+                    }
+                })
+            })
+        })
+    }
+
+    move_InventoryItem(creature: Character | AnimalCompanion, item: Item, targetInventory: ItemCollection, inventory: ItemCollection, characterService: CharacterService, amount: number = 0) {
+        if (targetInventory && targetInventory != inventory && targetInventory.itemId != item.id) {
+            item = this.update_GrantingItem(creature, item);
             let fromCreature = characterService.get_Creatures().find(creature => creature.inventories.find(inv => inv === inventory)) as Character | AnimalCompanion;
             let toCreature = characterService.get_Creatures().find(creature => creature.inventories.find(inv => inv === targetInventory)) as Character | AnimalCompanion;
-            if ((item as Equipment).gainInventory && (item as Equipment).gainInventory.length && fromCreature == toCreature) {
-                //If this item is a container and is moved between inventories of the same creature, you don't need to drop it explicitly.
+            if (!amount) {
+                amount = item.amount;
+            }
+            if (fromCreature == toCreature) {
+                //If this item is moved between inventories of the same creature, you don't need to drop it explicitly.
                 //Just push it to the new inventory and remove it from the old, but unequip it either way.
                 let movedItem = JSON.parse(JSON.stringify(item));
                 movedItem = characterService.reassign(movedItem);
-                targetInventory[item.type].push(movedItem);
-                inventory[item.type] = inventory[item.type].filter((inventoryItem: Item) => inventoryItem !== item)
+                //If the item is stackable, and a stack already exists in the target inventory, just add the amount to the stack.
+                if (movedItem.can_Stack()) {
+                    let targetItem = targetInventory[item.type].find(invItem => invItem.name == movedItem.name)
+                    if (targetItem) {
+                        targetItem.amount += amount;
+                    } else {
+                        targetInventory[item.type].push(movedItem);
+                    }
+                } else {
+                    targetInventory[item.type].push(movedItem);
+                }
+                //If the amount is higher or exactly the same, remove the item from the old inventory. If not, reduce the amount on the old item, then set that amount on the new item.
+                if (amount >= item.amount) {
+                    inventory[item.type] = inventory[item.type].filter((inventoryItem: Item) => inventoryItem !== item)
+                } else {
+                    movedItem.amount = amount;
+                    item.amount -= amount;
+                }
                 if ((movedItem as Equipment).equipped) {
                     characterService.onEquip(creature, inventory, movedItem as Equipment, false)
                 }
                 if ((movedItem as Equipment).invested) {
                     characterService.on_Invest(creature, inventory, movedItem as Equipment, false)
                 }
+                //Move all granted items as well.
+                this.move_GrantedItems(creature, movedItem, targetInventory, inventory, characterService);
             } else {
                 let movedItem = JSON.parse(JSON.stringify(item));
                 let movedInventories: ItemCollection[]
@@ -417,9 +511,9 @@ export class ItemsService {
                 // we need to first save the inventory, then recreate it and remove the new ones after moving the item.
                 //Here, we save the inventories and take care of any containers within the container.
                 if ((item as Equipment).gainInventory && (item as Equipment).gainInventory.length) {
-                    //First, move all inventory items within this inventory item to the same target. They get 
+                    //First, move all inventory granting items within this inventory granting item to the same target.
                     fromCreature.inventories.filter(inv => inv.itemId == item.id).forEach(inv => {
-                        inv.allItems().filter(invItem => (invItem as Equipment).gainInventory && (invItem as Equipment).gainInventory.length).forEach(invItem => {
+                        inv.allItems().filter(invItem => (invItem as Equipment).gainInventory?.length).forEach(invItem => {
                             this.move_InventoryItem(creature, invItem, targetInventory, inv, characterService);
                         });
                     });
@@ -445,6 +539,8 @@ export class ItemsService {
             }
 
         }
+        //Update any gridicons that have changed.
+        characterService.set_Changed(item.id);
 
     }
 

@@ -1375,7 +1375,7 @@
                                             *ngFor="let text of desc.value.split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
                                             <header class="featureHeader" *ngIf="textIndex == 0">{{desc.name}}
                                             </header>
-                                            <app-description [text]="text"></app-description>
+                                            <app-description class="newrow" [text]="text"></app-description>
                                         </ng-container>
                                     </div>
                                 </ng-template>
@@ -1440,7 +1440,7 @@
                                             <header class="featureHeader" *ngIf="textIndex == 0">
                                                 {{desc.name}}
                                             </header>
-                                            <app-description [text]="text"></app-description>
+                                            <app-description class="newrow" [text]="text"></app-description>
                                         </ng-container>
                                     </div>
                                 </ng-template>
@@ -1511,7 +1511,7 @@
                                         <div class="newrow left-aligned">
                                             <ng-container
                                                 *ngFor="let desc of heritage.desc.split('\n\n'); trackBy:trackByIndex;">
-                                                <app-description [text]="desc"></app-description>
+                                                <app-description class="newrow" [text]="desc"></app-description>
                                             </ng-container>
                                         </div>
                                         <ng-container
@@ -1683,7 +1683,7 @@
                                     <div class="newrow left-aligned">
                                         <ng-container
                                             *ngFor="let desc of background.desc.split('\n\n'); trackBy:trackByIndex;">
-                                            <app-description [text]="desc"></app-description>
+                                            <app-description class="newrow" [text]="desc"></app-description>
                                         </ng-container>
                                     </div>
                                     <div class="list-item lower newrow problem" *ngIf="background.inputRequired">
@@ -2086,7 +2086,7 @@
                                             </div>
                                             <ng-container
                                                 *ngFor="let desc of type.desc.split('\n\n'); trackBy:trackByIndex;">
-                                                <app-description [text]="desc"></app-description>
+                                                <app-description class="newrow" [text]="desc"></app-description>
                                             </ng-container>
                                             <p>
                                                 <strong>Size</strong> {{size(type.size)}}
@@ -2368,7 +2368,7 @@
                                                 <ng-container
                                                     *ngFor="let desc of background.desc.split('\n\n'); let index = index; trackBy:trackByIndex;">
                                                     <ng-container *ngIf="index == 0">
-                                                        <app-description [text]="desc"></app-description>
+                                                        <app-description class="newrow" [text]="desc"></app-description>
                                                     </ng-container>
                                                 </ng-container>
                                                 <ng-container *ngIf="background.loreChoices[0]?.loreName != ''">
@@ -2607,7 +2607,7 @@
                                                     <div class="newrow left-aligned">
                                                         <ng-container
                                                             *ngFor="let desc of heritage.desc.split('\n\n'); trackBy:trackByIndex;">
-                                                            <app-description [text]="desc"></app-description>
+                                                            <app-description class="newrow" [text]="desc"></app-description>
                                                         </ng-container>
                                                     </div>
                                                     <ng-container

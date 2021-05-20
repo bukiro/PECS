@@ -163,7 +163,7 @@
             </span>
         </div>
         <div class="newrow left-aligned" *ngFor="let desc of get_HeightenedDescription().split('\n\n'); trackBy:trackByIndex;">
-            <app-description [text]="desc"></app-description>
+            <app-description class="newrow" [text]="desc"></app-description>
         </div>
         <div class="newrow left-aligned" *ngIf="activity.critsuccess">
             <span>
@@ -253,7 +253,7 @@
                     [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
             </div>
             <div class="newrow left-aligned" *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
-                <app-description [text]="desc"></app-description>
+                <app-description class="newrow" [text]="desc"></app-description>
             </div>
         </div>
         <div class="newrow left-aligned"
@@ -261,7 +261,7 @@
             <header class="spellHeader">{{conditionSet.condition.name}}</header>
             <div class="newrow left-aligned"
                 *ngFor="let desc of conditionSet.condition.get_Heightened(conditionSet.condition.desc, conditionSet.gain.heightened).split('\n\n'); trackBy:trackByIndex;">
-                <app-description [text]="desc"></app-description>
+                <app-description class="newrow" [text]="desc"></app-description>
             </div>
         </div>
         <ng-container *ngIf="allowActivate">

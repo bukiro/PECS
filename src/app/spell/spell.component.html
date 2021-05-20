@@ -76,7 +76,7 @@
     </div>
     <div class="newrow left-aligned"
         *ngFor="let desc of get_Heightened(spell.desc).split('\n\n'); trackBy:trackByIndex;">
-        <app-description [text]="desc"></app-description>
+        <app-description class="newrow" [text]="desc"></app-description>
     </div>
     <div class="newrow lower left-aligned" *ngIf="spell.critsuccess">
         <strong>Critical Success</strong>
@@ -107,7 +107,7 @@
                 [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
         </div>
         <div class="newrow left-aligned" *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
-            <app-description [text]="desc"></app-description>
+            <app-description class="newrow" [text]="desc"></app-description>
         </div>
     </div>
     <div class="list-item left-aligned" *ngFor="let shownSpellSet of spell.showSpells; trackBy:trackByIndex;">
