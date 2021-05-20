@@ -126,32 +126,32 @@ export class GeneralComponent implements OnInit {
 
     get_ClassChoices() {
         //Get the basic decisions for your class and all archetypes.
-        // These decisions are feat choices identified by being .specialChoice, having exactly one feat, and having the class name (or the dedication feat name) as its type.
-        let results: { name: string, choice: string }[] = [];
+        // These decisions are feat choices identified by being .specialChoice==true, having exactly one feat, and having the class name (or the dedication feat name) as its source.
+        let results: { name: string, choice: string, subChoice: boolean }[] = [];
         let character = this.get_Character();
         let featChoices: FeatChoice[] = [];
         let className = character.class?.name || "";
         if (className) {
-            results.push({ name: "Class", choice: className });
+            results.push({ name: "Class", choice: className, subChoice: false });
             character.class.levels.forEach(level => {
                 featChoices.push(...level.featChoices.filter(choice => choice.specialChoice && choice.feats.length == 1 && choice.available == 1));
             })
+            //Find specialchoices that have this class as their source.
             featChoices.filter(choice => choice.source == className).forEach(choice => {
                 let choiceName = choice.feats[0].name;
                 if (choiceName.includes(choice.type)) {
                     choiceName = choiceName.split(" " + choice.type).join("");
                 }
-                results.push({ name: className + " " + choice.type, choice: choiceName })
+                results.push({ name: choice.type, choice: choiceName, subChoice: true })
             })
+            //Archetypes are identified by you having a dedication feat.
             let archetypes = this.characterService.get_FeatsAndFeatures().filter(feat => feat.traits.includes("Dedication") && feat.have(this.get_Character(), this.characterService));
             archetypes.forEach(archetype => {
-                results.push({ name: "Archetype", choice: archetype.archetype });
-                featChoices.filter(choice => choice.source == "Feat: " + archetype.name).forEach(choice => {
+                results.push({ name: "Archetype", choice: archetype.archetype, subChoice: false });
+                //Find specialchoices that have this dedication feat as their source.
+                featChoices.filter(choice => choice.specialChoice && choice.feats.length == 1 && choice.source == "Feat: " + archetype.name).forEach(choice => {
                     let choiceName = choice.feats[0].name;
-                    if (choiceName.includes(choice.type)) {
-                        choiceName = choiceName.split(" " + choice.type).join("");
-                    }
-                    results.push({ name: archetype.archetype + " " + choice.type, choice: choiceName })
+                    results.push({ name: choice.type, choice: choiceName, subChoice: true })
                 })
             })
         }

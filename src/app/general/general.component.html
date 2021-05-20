@@ -44,7 +44,7 @@
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Character().class.name">
                 <div class="newrow" *ngFor="let specialization of get_ClassChoices(); trackBy:trackByIndex;">
-                    <strong>{{specialization.name}}</strong>
+                    <strong [ngStyle]="{'margin-left': specialization.subChoice ? '1em' : ''}">{{specialization.name}}</strong>
                     <span>{{specialization.choice}}</span>
                 </div>
             </div>

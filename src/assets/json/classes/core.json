@@ -115,6 +115,12 @@
                                 "name": "Alchemical Crafting",
                                 "source": "Alchemist",
                                 "sourceId": "1-Feature-Alchemist-0"
+                            },
+                            {
+                                "locked": true,
+                                "name": "Research Field",
+                                "source": "Alchemist",
+                                "sourceId": "1-Feature-Alchemist-0"
                             }
                         ],
                         "id": "1-Feature-Alchemist-0",
@@ -1342,6 +1348,12 @@
                             {
                                 "locked": true,
                                 "name": "Rage",
+                                "source": "Barbarian",
+                                "sourceId": "1-Feature-Barbarian-0"
+                            },
+                            {
+                                "locked": true,
+                                "name": "Instinct",
                                 "source": "Barbarian",
                                 "sourceId": "1-Feature-Barbarian-0"
                             }
@@ -5669,6 +5681,18 @@
                             {
                                 "locked": true,
                                 "name": "Anathema (Cleric)",
+                                "source": "Cleric",
+                                "sourceId": "1-Feature-Cleric-0"
+                            },
+                            {
+                                "locked": true,
+                                "name": "Deity (Cleric)",
+                                "source": "Cleric",
+                                "sourceId": "1-Feature-Cleric-0"
+                            },
+                            {
+                                "locked": true,
+                                "name": "Doctrine",
                                 "source": "Cleric",
                                 "sourceId": "1-Feature-Cleric-0"
                             }
@@ -12115,6 +12139,12 @@
                                 "name": "Surprise Attack",
                                 "source": "Rogue",
                                 "sourceId": "1-Feature-Rogue-0"
+                            },
+                            {
+                                "locked": true,
+                                "name": "Rogue's Racket",
+                                "source": "Rogue",
+                                "sourceId": "1-Feature-Rogue-0"
                             }
                         ],
                         "id": "1-Feature-Rogue-0",
@@ -12129,10 +12159,10 @@
                             "Scoundrel Racket",
                             "Thief Racket"
                         ],
-                        "id": "1-Racket-Rogue-1",
+                        "id": "1-Rogue's Racket-Rogue-1",
                         "source": "Rogue",
                         "specialChoice": true,
-                        "type": "Racket"
+                        "type": "Rogue's Racket"
                     },
                     {
                         "_className": "FeatChoice",

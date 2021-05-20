@@ -16,7 +16,7 @@
                     <app-gridIcon [ngbTooltip]="buttonTitle" [superTitle]="availableFeats.toString()"
                         [title]="(availableFeats == 1 && choice.feats.length) ? choice.feats[0].name : ((availableFeats > 1 && choice.feats.length > 0) ? choice.feats.length.toString() : '')"
                         [ngClass]="{'fancy-button':(availableFeats == choice.feats.length), 'featchoice':!choice.specialChoice, 'specialchoice':choice.specialChoice}"
-                        [subTitle]="choice.feats.length ? '' : choice.type.split(' ')[0].substr(0,8)">
+                        [subTitle]="choice.feats.length ? '' : choice.type.split(' ')[choice.type.split(' ').length-1].substr(0,8)">
                     </app-gridIcon>
                 </button>
                 <!--Choice title shows above content in content only mode-->

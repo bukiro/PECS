@@ -899,14 +899,21 @@ export class FeatsService {
             //Some hardcoded effects change depending on feats. There is no good way to resolve this, so we calculate the effects whenever we take a feat.
             characterService.set_ToChange(creature.type, "effects");
 
-            //Condition choices can be dependent on feats, so we need to update spellbook and activities;
+            //Condition choices can be dependent on feats, so we need to update spellbook and activities.
             characterService.set_ToChange(creature.type, "spellbook");
             characterService.set_ToChange(creature.type, "activities");
 
+            //Class choices update general.
+            if (level.number == 1 && choice.specialChoice) {
+                characterService.set_ToChange(creature.type, "general");
+            }
+
+            //Update the areas where feat choices can be made.
             if (creature.type == "Familiar") {
                 characterService.set_ToChange("Familiar", "familiarabilities");
             } else {
                 characterService.set_ToChange("Character", "charactersheet");
+                characterService.set_ToChange("Character", "activities");
             }
 
         }

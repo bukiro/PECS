@@ -264,7 +264,15 @@ export class SavegameService {
                             }
                         })
                     })
+                }
+            }
 
+            //Rogues before version 1.0.3 need to rename their class choice type.
+            if (character.class?.name == "Rogue" && character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 3) {
+                let racketChoice = character.class?.levels?.[1]?.featChoices?.find(choice => choice.id == "1-Racket-Rogue-1") || null;
+                if (racketChoice) {
+                    racketChoice.id = "1-Rogue's Racket-Rogue-1";
+                    racketChoice.type = "Rogue's Racket";
                 }
             }
 
@@ -316,6 +324,20 @@ export class SavegameService {
                         }
                     }
                 }
+            }
+
+            //Characters with Druid dedication before version 1.0.3 need to change their Druidic Order choice and ID.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 3) {
+                character.class.levels.forEach(level => {
+                    let choice = level.featChoices.find(choice => choice.specialChoice && choice.type == "Order" && choice.source == "Feat: Druid Dedication");
+                    if (choice) {
+                        choice.type = "Druidic Order";
+                        choice.id = choice.id.replace("-Order-", "-Druidic Order-");
+                        choice.feats.forEach(feat => {
+                            feat.sourceId = feat.sourceId.replace("-Order-", "-Druidic Order-");
+                        })
+                    }
+                })
             }
 
         }

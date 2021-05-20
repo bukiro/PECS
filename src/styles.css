@@ -1952,7 +1952,7 @@ SPECIFIC STYLE MODIFIERS
 
 .vlist:empty,
 .hlist:empty,
-.newrow:empty {
+div.newrow:empty {
     display: none;
 }
 
