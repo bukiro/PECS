@@ -146,9 +146,9 @@ export class SpellsService {
                             if (conditionGain.copyChoiceFrom && gain.effectChoices.length) {
                                 //If the gain has copyChoiceFrom set, use the choice from the designated condition. If there are multiple conditions with the same name, the first is taken.
                                 newConditionGain.choice = gain.effectChoices.find(choice => choice.condition == conditionGain.copyChoiceFrom)?.choice || condition.choice;
-                            } else if (gain.overrideChoices.length && gain.overrideChoices.some(overrideChoice => overrideChoice.condition == condition.name && condition.$choices.includes(overrideChoice.choice))) {
+                            } else if (gain.overrideChoices.length && gain.overrideChoices.some(overrideChoice => overrideChoice.condition == condition.name && condition._choices.includes(overrideChoice.choice))) {
                                 //If the gain has an override choice prepared that matches this condition and is allowed for it, that choice is used.
-                                newConditionGain.choice = gain.overrideChoices.find(overrideChoice => overrideChoice.condition == condition.name && condition.$choices.includes(overrideChoice.choice)).choice;
+                                newConditionGain.choice = gain.overrideChoices.find(overrideChoice => overrideChoice.condition == condition.name && condition._choices.includes(overrideChoice.choice)).choice;
                             } else if (newConditionGain.choiceBySubType) {
                                 //If there is a choiceBySubType value, and you have a feat with superType == choiceBySubType, set the choice to that feat's subType as long as it's a valid choice for the condition.
                                 let subType = (characterService.get_FeatsAndFeatures(newConditionGain.choiceBySubType, "", true, true).find(feat => feat.superType == newConditionGain.choiceBySubType && feat.have(creature, characterService, creature.level, false)));
@@ -158,7 +158,7 @@ export class SpellsService {
                             } else if (gain.effectChoices.length) {
                                 //If this condition has choices, and the spellGain has choices prepared, apply the choice from the gain.
                                 //The order of gain.effectChoices maps directly onto the order of the conditions, no matter if they have choices.
-                                if (condition.$choices.includes(gain.effectChoices[conditionIndex].choice)) {
+                                if (condition._choices.includes(gain.effectChoices[conditionIndex].choice)) {
                                     newConditionGain.choice = gain.effectChoices[conditionIndex].choice;
                                 }
                             }

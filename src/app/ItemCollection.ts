@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { Weapon } from './Weapon';
 import { Armor } from './Armor';
 import { Shield } from './Shield';
@@ -9,7 +10,6 @@ import { HeldItem } from './HeldItem';
 import { AdventuringGear } from './AdventuringGear';
 import { Equipment } from './Equipment';
 import { WeaponRune } from './WeaponRune';
-import { Rune } from './Rune';
 import { ArmorRune } from './ArmorRune';
 import { Potion } from './Potion';
 import { OtherItem } from './OtherItem';
@@ -30,6 +30,7 @@ export class ItemCollection {
     public readonly _className: string = this.constructor.name;
     //This is the amount of bulk that can be ignored when weighing this inventory.
     public bulkReduction: number = 0;
+    public id = uuidv4();
     //If an item grants an inventory, this is the item's ID.
     public itemId: string = "";
     public adventuringgear: AdventuringGear[] = [];

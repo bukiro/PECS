@@ -402,23 +402,23 @@ export class ItemsService {
         let bulkString = (carrying && (item as Equipment).carryingBulk) ? (item as Equipment).carryingBulk : item.get_Bulk()
         switch (bulkString) {
             case "":
-                    break;
-                case "-":
-                    break;
-                case "L":
-                    if (item.amount) {
-                        itemBulk += Math.floor(item.amount / ((item as Consumable).stack ? (item as Consumable).stack : 1));
-                    } else {
-                        itemBulk += 1;
-                    }
-                    break;
-                default:
-                    if (item.amount) {
-                        itemBulk += parseInt(bulkString) * 10 * Math.floor(item.amount / ((item as Consumable).stack ? (item as Consumable).stack : 1));
-                    } else {
-                        itemBulk += parseInt(bulkString) * 10;
-                    }
-                    break;
+                break;
+            case "-":
+                break;
+            case "L":
+                if (item.amount) {
+                    itemBulk += Math.floor(item.amount / ((item as Consumable).stack ? (item as Consumable).stack : 1));
+                } else {
+                    itemBulk += 1;
+                }
+                break;
+            default:
+                if (item.amount) {
+                    itemBulk += parseInt(bulkString) * 10 * Math.floor(item.amount / ((item as Consumable).stack ? (item as Consumable).stack : 1));
+                } else {
+                    itemBulk += parseInt(bulkString) * 10;
+                }
+                break;
         }
         itemBulk = Math.floor(itemBulk) / 10;
         return itemBulk;
@@ -442,6 +442,58 @@ export class ItemsService {
             }
         })
         return item;
+    }
+
+    pack_GrantingItem(creature: Character | AnimalCompanion, item: Item, primaryItem: Item) {
+        //Collect all items and inventories granted by an item, including inventories contained in its granted items.
+        let items: Item[] = [];
+        let inventories: ItemCollection[] = [];
+
+        item.gainItems?.forEach(itemGain => {
+            let toPack: number = itemGain.amount;
+            creature.inventories.forEach(inventory => {
+                //Find items that either have this ItemGain's id or, if stackable, its name.
+                //Then add as many of them into the package as the amount demands, and pack their contents as well.
+                inventory[itemGain.type].filter(invItem => invItem.id == itemGain.id || (invItem.can_Stack() && invItem.name == itemGain.name)).forEach(invItem => {
+                    if (toPack) {
+                        let moved = Math.min(toPack, invItem.amount);
+                        toPack -= moved;
+                        let newItem = Object.assign(new Item(), JSON.parse(JSON.stringify(invItem)));
+                        newItem.amount = moved;
+                        items.push(newItem);
+                        let included = this.pack_GrantingItem(creature, invItem, primaryItem);
+                        items.push(...included.items);
+                        inventories.push(...included.inventories);
+                    }
+                })
+            })
+        })
+
+        //If the item adds inventories, add a copy of them to the inventory list.
+        if ((item as Equipment).gainInventory?.length) {
+            inventories.push(...creature.inventories.filter(inventory => inventory.itemId == item.id).map(inventory => Object.assign(new ItemCollection(), JSON.parse(JSON.stringify(inventory)))));
+        }
+
+        //If an inventory contains any items that grant more inventories, add those to the list as well, unless they are already in it.
+        inventories.forEach(inv => {
+            inv.allEquipment().filter(invItem => invItem.gainInventory.length).forEach(invItem => {
+                inventories.push(
+                    ...creature.inventories
+                        .filter(inventory => !inventories.some(inv => inv.id == inventory.id) && inventory.itemId == invItem.id)
+                        .map(inventory => Object.assign(new ItemCollection(), JSON.parse(JSON.stringify(inventory)))));
+            })
+        })
+        //If any of the items are already in any of the inventories, remove them from the items list. Also remove the primary Item from the items list.
+        items.filter(item => inventories.some(inv => inv[item.type].some(invItem => invItem.id == item.id))).forEach(item => {
+            item.id = "DELETE";
+        })
+        items = items.filter(item => item.id != "DELETE" && item.id != primaryItem.id);
+        //If the primary item is in one of the inventories, remove it from inventory.
+        inventories.filter(inv => inv[primaryItem.type].some(invItem => invItem.id == primaryItem.id)).forEach(inv => {
+            inv[primaryItem.type] = inv[primaryItem.type].filter(invItem => invItem.id != primaryItem.id);
+        });
+
+        return { items: items, inventories: inventories };
     }
 
     move_GrantedItems(creature: Character | AnimalCompanion, item: Item, targetInventory: ItemCollection, inventory: ItemCollection, characterService: CharacterService) {

@@ -51,8 +51,8 @@ export class Condition {
     public notes: string = "";
     //List choices you can make for this condition. The first choice must never have a featreq.
     public choices: ConditionChoice[] = [];
-    //$choices is a temporary value that stores the filtered name list produced by get_Choices();
-    public $choices: string[] = [];
+    //_choices is a temporary value that stores the filtered name list produced by get_Choices();
+    public _choices: string[] = [];
     //This property is only used to select a default choice before adding the condition. It is not read when evaluating the condition.
     public choice: string = "";
     public unlimited: boolean = false;
@@ -136,8 +136,8 @@ export class Condition {
                 }
             };
         })
-        this.$choices = choices;
-        return this.$choices;
+        this._choices = choices;
+        return this._choices;
     }
     get_ChoiceNextStage(choiceName: string) {
         return this.choices.find(choice => choice.name == choiceName)?.nextStage || 0;

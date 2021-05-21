@@ -283,11 +283,11 @@
                 <ng-container
                     *ngFor="let conditionSet of get_SpellConditions(spell, choice.level, taken); let conditionSetIndex = index; trackBy:trackByIndex">
                     <div class="newrow list-item left-aligned"
-                        *ngIf="conditionSet.condition.$choices.length && !conditionSet.gain.choiceBySubType && !conditionSet.gain.choiceLocked && !conditionSet.gain.copyChoiceFrom && !conditionSet.gain.hideChoices">
+                        *ngIf="conditionSet.condition._choices.length && !conditionSet.gain.choiceBySubType && !conditionSet.gain.choiceLocked && !conditionSet.gain.copyChoiceFrom && !conditionSet.gain.hideChoices">
                         <span>{{conditionSet.condition.name}}
                             effect selection:
                             <select [(ngModel)]="taken.effectChoices[conditionSetIndex].choice">
-                                <option *ngFor="let choice of conditionSet.condition.$choices; trackBy:trackByIndex;"
+                                <option *ngFor="let choice of conditionSet.condition._choices; trackBy:trackByIndex;"
                                     [ngValue]="choice">
                                     {{choice}}
                                 </option>

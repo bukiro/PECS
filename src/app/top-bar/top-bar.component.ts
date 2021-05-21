@@ -206,6 +206,20 @@ export class TopBarComponent implements OnInit {
         return this.characterService.get_MessageSender(message);
     }
 
+    get_ItemMessageIncluded(message: PlayerMessage) {
+        let included: string[] = [];
+        if (message.includedItems.length) {
+            included.push(message.includedItems.length + " extra items");
+        }
+        if (message.includedInventories.length) {
+            included.push(message.includedInventories.length + " containers");
+        }
+        if (included.length) {
+            return "Includes " + included.join(" and ");
+        }
+        return "";
+    }
+
     open_NewMessagesModal() {
         this.modalOpen = true;
         //Freeze the new messages by cloning them so that the modal doesn't change while it's open.
@@ -219,6 +233,7 @@ export class TopBarComponent implements OnInit {
                     }
                 })
                 this.characterService.apply_MessageConditions(this.newMessages.filter(message => message.gainCondition.length));
+                this.characterService.apply_MessageItems(this.newMessages.filter(message => message.offeredItem.length));
                 this.newMessages.length = 0;
                 this.characterService.set_ToChange("Character", "top-bar");
                 this.characterService.process_ToChange();

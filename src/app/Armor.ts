@@ -13,9 +13,9 @@ export class Armor extends Equipment {
     readonly type = "armors";
     //For certain medium and light armors, set 1 if an "Armored Skirt" is equipped; For certain heavy armors, set -1 instead
     //This value influences acbonus, skillpenalty, dexcap and strength
-    public $affectedByArmoredSkirt: -1 | 0 | 1 = 0;
+    public _affectedByArmoredSkirt: -1 | 0 | 1 = 0;
     //Shoddy armors give a penalty of -2 unless you have the Junk Tinker feat.
-    public $shoddy: -2 | 0 = 0;
+    public _shoddy: -2 | 0 = 0;
     //The armor's inherent bonus to AC
     private acbonus: number = 0;
     //What kind of armor is this based on? Needed for armor proficiencies for specific magical items.
@@ -60,51 +60,51 @@ export class Armor extends Equipment {
         if (["Breastplate", "Chain Shirt", "Chain Mail", "Scale Mail"].includes(this.name)) {
             let armoredSkirt = characterService.get_Inventories(creature).map(inventory => inventory.adventuringgear).find(gear => gear.find(item => item.isArmoredSkirt && item.equipped));
             if (armoredSkirt?.length) {
-                this.$affectedByArmoredSkirt = 1;
+                this._affectedByArmoredSkirt = 1;
                 return armoredSkirt[0];
             } else {
-                this.$affectedByArmoredSkirt = 0;
+                this._affectedByArmoredSkirt = 0;
                 return null;
             }
         } else if (["Half Plate", "Full Plate", "Hellknight Plate"].includes(this.name)) {
             let armoredSkirt = characterService.get_Inventories(creature).map(inventory => inventory.adventuringgear).find(gear => gear.find(item => item.isArmoredSkirt && item.equipped));
             if (armoredSkirt?.length) {
-                this.$affectedByArmoredSkirt = -1;
+                this._affectedByArmoredSkirt = -1;
                 return armoredSkirt[0];
             } else {
-                this.$affectedByArmoredSkirt = 0;
+                this._affectedByArmoredSkirt = 0;
                 return null;
             }
         } else {
-            this.$affectedByArmoredSkirt = 0;
+            this._affectedByArmoredSkirt = 0;
             return null;
         }
     }
     get_Shoddy(creature: Creature, characterService: CharacterService) {
         //Shoddy items have a -2 penalty to AC, unless you have the Junk Tinker feat and have crafted the item yourself.
         if (this.shoddy && characterService.get_Feats("Junk Tinker")[0]?.have(creature, characterService) && this.crafted) {
-            this.$shoddy = 0;
+            this._shoddy = 0;
             return 0;
         } else if (this.shoddy) {
-            this.$shoddy = -2;
+            this._shoddy = -2;
             return -2;
         } else {
-            this.$shoddy = 0;
+            this._shoddy = 0;
             return 0;
         }
     }
     get_ACBonus() {
-        return this.acbonus + this.$affectedByArmoredSkirt + this.$shoddy;
+        return this.acbonus + this._affectedByArmoredSkirt + this._shoddy;
     }
     get_SkillPenalty() {
-        return Math.min(0, this.skillpenalty - this.$affectedByArmoredSkirt + this.$shoddy + this.material.map(material => (material as ArmorMaterial).skillPenaltyModifier).reduce((a,b) => a + b, 0));
+        return Math.min(0, this.skillpenalty - this._affectedByArmoredSkirt + this._shoddy + this.material.map(material => (material as ArmorMaterial).skillPenaltyModifier).reduce((a,b) => a + b, 0));
     }
     get_SpeedPenalty() {
         return Math.min(0, this.speedpenalty + this.material.map(material => (material as ArmorMaterial).speedPenaltyModifier).reduce((a,b) => a + b, 0));
     }
     get_DexCap() {
         if (this.dexcap != -1) {
-            return this.dexcap - this.$affectedByArmoredSkirt;
+            return this.dexcap - this._affectedByArmoredSkirt;
         } else {
             return this.dexcap;
         }
@@ -115,11 +115,11 @@ export class Armor extends Equipment {
         let fortification = this.propertyRunes.filter(rune => rune.name.includes("Fortification")).length ? 2 : 0;
         //Some materials lower the required strength
         let material = this.material.map(material => (material as ArmorMaterial).strengthScoreModifier).reduce((a,b) => a + b, 0);
-        return this.strength + (this.$affectedByArmoredSkirt * 2) + fortification + material;
+        return this.strength + (this._affectedByArmoredSkirt * 2) + fortification + material;
     }
     get_Proficiency(creature: Creature = null, characterService: CharacterService = null) {
         //creature and characterService are not needed for armors, but for weapons.
-        if (this.$affectedByArmoredSkirt == 1) {
+        if (this._affectedByArmoredSkirt == 1) {
             switch (this.prof) {
                 case "Light Armor":
                     return "Medium Armor";
@@ -133,7 +133,7 @@ export class Armor extends Equipment {
     get_Traits(characterService: CharacterService, creature: Creature) {
         //characterService and creature are not needed for armors, but for other types of item.
         let traits = this.traits.filter(trait => !this.material.some(material => material.removeTraits.includes(trait)));
-        if (this.$affectedByArmoredSkirt != 0) {
+        if (this._affectedByArmoredSkirt != 0) {
             //An armored skirt makes your armor noisy if it isn't already.
             if (!traits.includes("Noisy")) {
                 return traits.concat("Noisy");

@@ -193,7 +193,7 @@ export class ItemComponent implements OnInit {
                 while (!gain.effectChoices.length || gain.effectChoices.length < index - 1) {
                     gain.effectChoices.push({ condition: conditionSet.condition.name, choice: conditionSet.condition.choice });
                 }
-                if (!conditionSet.condition.$choices.includes(gain.effectChoices?.[index]?.choice)) {
+                if (!conditionSet.condition._choices.includes(gain.effectChoices?.[index]?.choice)) {
                     gain.effectChoices[index] = { condition: conditionSet.condition.name, choice: conditionSet.condition.choice };
                 }
             })

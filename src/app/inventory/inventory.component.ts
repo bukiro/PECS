@@ -258,6 +258,8 @@ export class InventoryComponent implements OnInit {
         if (target instanceof ItemCollection) {
             this.targetInventory = target;
             this.move_InventoryItemLocally(item, inventory, amount, including);
+        } else if (target instanceof SpellTarget) {
+            this.characterService.send_ItemsToPlayer(this.get_Creature(), target, item, amount);
         }
     }
 

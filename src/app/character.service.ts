@@ -1033,6 +1033,7 @@ export class CharacterService {
         if (changeAfter) {
             this.process_ToChange()
         }
+        this.set_Changed(item.id);
     }
 
     add_RuneLore(rune: Rune) {
@@ -1647,6 +1648,34 @@ export class CharacterService {
         });
     }
 
+    apply_TurnChangeMessage(messages: PlayerMessage[]) {
+        //Don't receive messages in manual mode.
+        if (this.get_ManualMode()) {
+            return false;
+        }
+        //For each senderId that you have a turnChange message from, remove all conditions that came from this sender and have duration 2.
+        Array.from(new Set(messages.filter(message => message.selected).map(message => message.senderId))).forEach(senderId => {
+            let removed: boolean = false;
+            this.get_Creatures().forEach(creature => {
+                this.get_AppliedConditions(creature)
+                    .filter(existingConditionGain => existingConditionGain.foreignPlayerId == senderId && existingConditionGain.duration == 2)
+                    .forEach(existingConditionGain => {
+                        removed = this.remove_Condition(creature, existingConditionGain, false);
+                        if (removed) {
+                            let senderName = this.savegameService.get_Savegames().find(savegame => savegame.id == senderId)?.name || "Unknown";
+                            this.toastService.show("Automatically removed <strong>" +
+                                existingConditionGain.name + (existingConditionGain.choice ? ": " + existingConditionGain.choice : "") + "</strong> condition from <strong>" +
+                                (creature.name || creature.type) + "</strong> on turn of <strong>" + senderName + "</strong>", [], this);
+                            this.set_ToChange(creature.type, "effects");
+                        }
+                    });
+            })
+        })
+        messages.forEach(message => {
+            this.messageService.mark_MessageAsIgnored(this, message);
+        })
+    }
+
     send_ConditionToPlayers(targets: SpellTarget[], conditionGain: ConditionGain, activate: boolean = true) {
         //Don't send messages in GM mode or manual mode.
         if (this.get_GMMode() || this.get_ManualMode()) {
@@ -1674,7 +1703,7 @@ export class CharacterService {
                     if (message.gainCondition.length) {
                         message.gainCondition[0].foreignPlayerId = message.senderId;
                     }
-                    message.activate = activate;
+                    message.activateCondition = activate;
                     messages.push(message);
                 }
             })
@@ -1702,8 +1731,8 @@ export class CharacterService {
         //The ConditionGains have a foreignPlayerId that allows us to recognize that they came from this player.
         messages.forEach(message => {
             if (message.selected) {
-                if (message.activate) {
-                    let targetCreature = this.get_MessageCreature(message);
+                let targetCreature = this.get_MessageCreature(message);
+                if (message.activateCondition) {
                     if (targetCreature && message.gainCondition.length) {
                         let conditionGain: ConditionGain = message.gainCondition[0];
                         let newLength = this.add_Condition(targetCreature, conditionGain, false, null)
@@ -1716,7 +1745,6 @@ export class CharacterService {
                         }
                     }
                 } else {
-                    let targetCreature = this.get_Creatures().find(creature => creature.id == message.targetId)
                     if (targetCreature && message.gainCondition.length) {
                         let conditionGain: ConditionGain = message.gainCondition[0];
                         let removed: boolean = false
@@ -1739,32 +1767,238 @@ export class CharacterService {
         })
     }
 
-    apply_TurnChangeMessage(messages: PlayerMessage[]) {
-        //Don't receive messages in GM mode or manual mode.
+    send_ItemsToPlayer(sender: Character | AnimalCompanion, target: SpellTarget, item: Item, amount: number = 0) {
+        //Don't send messages in GM mode or manual mode.
+        if (this.get_GMMode() || this.get_ManualMode()) {
+            return false;
+        }
+        if (!amount) {
+            amount == item.amount;
+        }
+        item = this.itemsService.update_GrantingItem(sender, item);
+        let included: { items: Item[], inventories: ItemCollection[] } = this.itemsService.pack_GrantingItem(sender, item, item);
+        let timeStamp: number = 0;
+        this.messageService.get_Time().subscribe((result: string[]) => {
+            timeStamp = result["time"];
+            //Build a message to the correct player and creature, with the timestamp just received from the database connector.
+            let message = new PlayerMessage();
+            message.recipientId = target.playerId;
+            message.senderId = this.get_Character().id;
+            message.targetId = target.id;
+            let date = new Date();
+            message.time = date.getHours() + ":" + date.getMinutes();
+            message.timeStamp = timeStamp;
+            message.offeredItem.push(Object.assign(new Item(), JSON.parse(JSON.stringify(item))));
+            message.itemAmount = amount;
+            message.includedItems = included.items;
+            message.includedInventories = included.inventories;
+            this.messageService.send_Messages([message]).subscribe((result) => {
+                //If the message was sent, send a summary toast.
+                this.toastService.show("Sent item offer to <strong>" + target.name + "</strong>.", [], this);
+            }, (error) => {
+                this.toastService.show("An error occurred while sending item. See console for more information.", [], this);
+                console.log('Error saving item message to database: ' + error.message);
+            });;
+        }, (error) => {
+            this.toastService.show("An error occurred while sending item. See console for more information.", [], this);
+            console.log('Error saving item message to database: ' + error.message);
+        });
+    }
+
+    apply_MessageItems(messages: PlayerMessage[]) {
+        //Don't receive messages in manual mode.
         if (this.get_ManualMode()) {
             return false;
         }
-        //For each senderId that you have a turnChange message from, remove all conditions that came from this sender and have duration 2.
-        Array.from(new Set(messages.filter(message => message.selected).map(message => message.senderId))).forEach(senderId => {
-            let removed: boolean = false;
-            this.get_Creatures().forEach(creature => {
-                this.get_AppliedConditions(creature)
-                    .filter(existingConditionGain => existingConditionGain.foreignPlayerId == senderId && existingConditionGain.duration == 2)
-                    .forEach(existingConditionGain => {
-                        removed = this.remove_Condition(creature, existingConditionGain, false);
-                        if (removed) {
-                            let senderName = this.savegameService.get_Savegames().find(savegame => savegame.id == senderId)?.name || "Unknown";
-                            this.toastService.show("Automatically removed <strong>" +
-                                existingConditionGain.name + (existingConditionGain.choice ? ": " + existingConditionGain.choice : "") + "</strong> condition from <strong>" +
-                                (creature.name || creature.type) + "</strong> on turn of <strong>" + senderName + "</strong>", [], this);
-                            this.set_ToChange(creature.type, "effects");
-                        }
-                    });
-            })
-        })
+        //Iterate through all messages that have an offeredItem (only one per message will be applied) and add the items.
         messages.forEach(message => {
+            let targetCreature = this.get_MessageCreature(message);
+            if (message.selected) {
+                let sender = this.get_MessageSender(message);
+                if (targetCreature && message.offeredItem.length) {
+                    //We can't use grant_InventoryItem, because these items are initialized and possibly bringing their own inventories and gained items.
+                    //We have to process the item directly here.
+                    if (targetCreature instanceof Character || targetCreature instanceof AnimalCompanion) {
+                        let targetInventory = targetCreature.inventories[0];
+                        let addedPrimaryItem: Item;
+                        message.offeredItem.concat(message.includedItems).forEach(item => {
+                            if (item === message.offeredItem[0]) {
+                                item.amount = message.itemAmount;
+                            }
+                            let existingItems = targetInventory[item.type].filter((existing: Item) => existing.name == item.name && existing.can_Stack() && !item.expiration);
+                            //If any existing, stackable items are found, add this item's amount on top and finish.
+                            //If no items are found, add the new item to the inventory.
+                            if (existingItems.length) {
+                                existingItems[0].amount += item.amount;
+                                if (item.id === message.offeredItem[0].id) {
+                                    addedPrimaryItem = existingItems[0];
+                                }
+                                this.set_ToChange(targetCreature.type, "inventory");
+                                this.set_Changed(existingItems[0].id);
+                            } else {
+                                item = this.reassign(item);
+                                let newLength = targetInventory[item.type].push(item);
+                                let addedItem = targetInventory[item.type][newLength - 1];
+                                this.set_ToChange(targetCreature.type, "inventory");
+                                if (item.id === message.offeredItem[0].id) {
+                                    addedPrimaryItem = addedItem;
+                                }
+                                if (Object.keys(addedItem).includes("equipped") && item.equippable) {
+                                    this.onEquip(targetCreature as Character, targetInventory, addedItem, true, false);
+                                }
+                                if (!item.equippable && (item["gainActivities"]?.length || item["activities"]?.length)) {
+                                    this.set_ToChange(targetCreature.type, "activities");
+                                }
+                                if (addedItem["prof"] == "Advanced Weapons") {
+                                    this.create_WeaponFeats([addedItem]);
+                                }
+                                if (addedItem["propertyRunes"] && addedItem["propertyRunes"].length) {
+                                    addedItem["propertyRunes"].filter((rune: Rune) => rune["loreChoices"]).forEach((rune: Rune) => {
+                                        this.add_RuneLore(rune as Rune);
+                                    });
+                                }
+                                if (addedItem.gainActivities) {
+                                    (addedItem as Equipment).gainActivities.forEach((gain: ActivityGain) => {
+                                        gain.active = false;
+                                    });
+                                }
+                                if (addedItem.activities) {
+                                    (addedItem as Equipment).activities.forEach((activity: ItemActivity) => {
+                                        activity.active = false;
+                                    });
+                                }
+                                if (addedItem instanceof AlchemicalBomb || addedItem instanceof OtherConsumableBomb || addedItem instanceof Ammunition || addedItem instanceof Snare) {
+                                    this.set_ToChange(targetCreature.type, "attacks");
+                                }
+                                addedItem["activities"]?.forEach((activity: ItemActivity) => {
+                                    activity.hints?.forEach((hint: Hint) => {
+                                        this.set_TagsToChange(targetCreature.type, hint.showon);
+                                    })
+                                });
+                                if (addedItem["showon"]) {
+                                    this.set_TagsToChange(targetCreature.type, item["showon"]);
+                                }
+                            }
+                        })
+                        message.includedInventories.forEach(inventory => {
+                            inventory = this.reassign(inventory)
+                            targetCreature.inventories.push(inventory);
+                        })
+                        if (addedPrimaryItem) {
+                            //Build a toast and send it.
+                            let text = "Received <strong>";
+                            if (message.itemAmount > 1) {
+                                text += message.itemAmount + " ";
+                            }
+                            text += addedPrimaryItem.get_Name();
+                            if (sender) {
+                                text += "</strong> from <strong>" + sender + "</strong>";
+                            }
+                            if (message.includedItems.length || message.includedInventories.length) {
+                                text += ", including ";
+                                let includedText: string[] = [];
+                                if (message.includedItems.length) {
+                                    includedText.push(message.includedItems.length + " extra items")
+                                }
+                                if (message.includedInventories.length) {
+                                    includedText.push(message.includedInventories.length + " containers")
+                                }
+                                text += includedText.join(" and ");
+                            }
+                            text += ".";
+                            this.toastService.show(text, [], this);
+                            //Build a response message that lets the other player know that the item has been accepted.
+                            this.send_ItemAcceptedMessage(message);
+                        }
+                    }
+                }
+            } else {
+                //Build a response message that lets the other player know that the item has been rejected.
+                this.send_ItemAcceptedMessage(message, false);
+            }
             this.messageService.mark_MessageAsIgnored(this, message);
         })
+    }
+
+    send_ItemAcceptedMessage(message: PlayerMessage, accepted: boolean = true) {
+        //Don't send messages in GM mode or manual mode.
+        if (this.get_GMMode() || this.get_ManualMode()) {
+            return false;
+        }
+        let timeStamp: number = 0;
+        this.messageService.get_Time().subscribe((result: string[]) => {
+            timeStamp = result["time"];
+            //Build a message to the correct player and creature, with the timestamp just received from the database connector.
+            let response = new PlayerMessage();
+            response.recipientId = message.senderId;
+            response.senderId = this.get_Character().id
+            response.targetId = message.senderId;
+            let target = this.get_MessageSender(message) || "sender";
+            let date = new Date();
+            response.time = date.getHours() + ":" + date.getMinutes();
+            response.timeStamp = timeStamp;
+            response.itemAmount = message.itemAmount;
+            if (accepted) {
+                response.acceptedItem = message.offeredItem[0].id;
+            } else {
+                response.rejectedItem = message.offeredItem[0].id;
+            }
+            this.messageService.send_Messages([response]).subscribe((result) => {
+                //If the message was sent, send a summary toast.
+                if (accepted) {
+                    this.toastService.show("Sent acceptance response to <strong>" + target + "</strong>.", [], this);
+                } else {
+                    this.toastService.show("Sent rejection response to <strong>" + target + "</strong>.", [], this);
+                }
+            }, (error) => {
+                this.toastService.show("An error occurred while sending response. See console for more information.", [], this);
+                console.log('Error saving response message to database: ' + error.message);
+            });;
+        }, (error) => {
+            this.toastService.show("An error occurred while sending response. See console for more information.", [], this);
+            console.log('Error saving response message to database: ' + error.message);
+        });
+    }
+
+    apply_ItemAcceptedMessages(messages: PlayerMessage[]) {
+        //Don't receive messages in manual mode.
+        if (this.get_ManualMode()) {
+            return false;
+        }
+        //Iterate through all messages that have an offeredItem (only one per message will be applied) and add the items.
+        messages.forEach(message => {
+            let sender = this.get_MessageSender(message) || "The player ";
+            if (message.acceptedItem || message.rejectedItem) {
+                let foundItem: Item;
+                let foundInventory: ItemCollection;
+                let foundCreature: Creature;
+                let itemName = "item";
+                this.get_Creatures().filter(creature => !(creature instanceof Familiar)).forEach(creature => {
+                    if (!(creature instanceof Familiar)) {
+                        creature.inventories.forEach(inventory => {
+                            if (!foundItem) {
+                                foundItem = inventory.allItems().find(invItem => invItem.id == (message.acceptedItem || message.rejectedItem));
+                                foundInventory = inventory;
+                                foundCreature = creature;
+                            }
+                        })
+                    }
+                })
+                if (foundItem) {
+                    itemName = foundItem.get_Name();
+                }
+                if (message.acceptedItem) {
+                    this.toastService.show("<strong>" + sender + "</strong> has accepted the <strong>" + itemName + "</strong>. The item is dropped from your inventory.", [], this);
+                    if (foundItem) {
+                        this.drop_InventoryItem(foundCreature as Character | AnimalCompanion, foundInventory, foundItem, false, true, true, message.itemAmount);
+                    }
+                } else if (message.rejectedItem) {
+                    this.toastService.show("<strong>" + sender + "</strong> has rejected the <strong>" + itemName + "</strong>. The item will remain in your inventory.", [], this);
+                }
+            }
+            this.messageService.mark_MessageAsIgnored(this, message);
+        })
+        this.process_ToChange();
     }
 
     process_OnceEffect(creature: Creature, effectGain: EffectGain, conditionValue: number = 0, conditionHeightened: number = 0, conditionChoice: string = "", conditionSpellCastingAbility: string = "") {

@@ -223,7 +223,7 @@ export class ActivitiesService {
                             } else if (gain.effectChoices.length) {
                                 //If this condition has choices, and the activityGain has choices prepared, apply the choice from the gain.
                                 //The order of gain.effectChoices maps directly onto the order of the conditions, no matter if they have choices.
-                                if (condition.$choices.includes(gain.effectChoices[conditionIndex].choice)) {
+                                if (condition._choices.includes(gain.effectChoices[conditionIndex].choice)) {
                                     newConditionGain.choice = gain.effectChoices[conditionIndex].choice;
                                 }
                             }

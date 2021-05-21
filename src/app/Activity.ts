@@ -61,14 +61,14 @@ export class Activity {
     //This is needed for emanations (where the activity should give the caster the correct condition in the first place)
     // and activities that exclusively target a different creature (in case of "you and [...]", the caster condition should take care of the caster's part.").
     public cannotTargetCaster: boolean = false;
-    //$cooldown is a calculated cooldown that it set by get_Cooldown() so that it can be used by can_Activate() without passing parameters.
-    public $cooldown: number = 0;
+    //_cooldown is a calculated cooldown that it set by get_Cooldown() so that it can be used by can_Activate() without passing parameters.
+    public _cooldown: number = 0;
     //Set displayOnly if the activity should not be used, but displayed for information, e.g. for ammunition
     public displayOnly: boolean = false;
     can_Activate() {
         //Test any circumstance under which this can be activated
         let isStance: boolean = (this.traits.includes("Stance"))
-        return isStance || this.gainItems.length || this.castSpells.length || this.gainConditions.length || this.cooldown || this.$cooldown || this.toggle || this.onceEffects.length;
+        return isStance || this.gainItems.length || this.castSpells.length || this.gainConditions.length || this.cooldown || this._cooldown || this.toggle || this.onceEffects.length;
     }
     get_IsHostile() {
         //Return whether an activity is meant to be applied on enemies. This is usually the case if the activity target is "other", or if the target is "area" and the activity has no target conditions.
@@ -138,7 +138,7 @@ export class Activity {
                 cooldown += parseInt(effect.value);
             })
         //If the cooldown has changed from the original, update all activity gains that refer to this condition to lower their cooldown if necessary.
-        this.$cooldown = cooldown;
+        this._cooldown = cooldown;
         if (this.cooldown != cooldown) {
             characterService.get_OwnedActivities(creature, 20, true).filter(gain => gain.name == this.name).forEach(gain => {
                 gain.activeCooldown = Math.min(gain.activeCooldown, cooldown);

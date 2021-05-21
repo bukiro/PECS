@@ -208,7 +208,7 @@ export class AC {
             }
             //Explain the Armor Bonus
             let armorItemBonus = armor.get_ACBonus();
-            let shoddy = armor.$shoddy;
+            let shoddy = armor._shoddy;
             if (armorItemBonus || shoddy) {
                 explain += "\nArmor Bonus: " + (armorItemBonus + (shoddy ? 2 : 0));
             }

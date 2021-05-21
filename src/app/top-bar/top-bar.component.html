@@ -2,39 +2,64 @@
     <header class="mainHeader" [ngbTooltip]="'Pathfinder Excessive Character Sheet'">P.E.C.S.</header>
     <button class="fancy-button loading" *ngIf="still_loading()">Loading</button>
     <ng-container *ngIf="!still_loading()">
-        <button [ngClass]="{'fancy-button':get_CharacterMenuState()=='out'}" (click)="toggle_Menu('character')">{{get_Character().name || "Character"}}&nbsp;<i class="bi-gear"></i></button>
-        <button [ngClass]="{'fancy-button':get_CompanionMenuState()=='out'}" (click)="toggle_Menu('companion')" *ngIf="get_CompanionAvailable()">{{get_Companion().name || "Animal Companion"}}</button>
-        <button [ngClass]="{'fancy-button':get_FamiliarMenuState()=='out'}" (click)="toggle_Menu('familiar')" *ngIf="get_FamiliarAvailable()">{{get_Familiar().name || "Familiar"}}</button>
+        <button [ngClass]="{'fancy-button':get_CharacterMenuState()=='out'}"
+            (click)="toggle_Menu('character')">{{get_Character().name || "Character"}}&nbsp;<i
+                class="bi-gear"></i></button>
+        <button [ngClass]="{'fancy-button':get_CompanionMenuState()=='out'}" (click)="toggle_Menu('companion')"
+            *ngIf="get_CompanionAvailable()">{{get_Companion().name || "Animal Companion"}}</button>
+        <button [ngClass]="{'fancy-button':get_FamiliarMenuState()=='out'}" (click)="toggle_Menu('familiar')"
+            *ngIf="get_FamiliarAvailable()">{{get_Familiar().name || "Familiar"}}</button>
         <button [ngClass]="{'fancy-button':get_ItemsMenuState()=='out'}" (click)="toggle_Menu('items')">Items</button>
-        <button [ngClass]="{'fancy-button':get_CraftingMenuState()=='out'}" (click)="toggle_Menu('crafting')">Crafting</button>
-        <button [ngClass]="{'fancy-button':get_SpellsMenuState()=='out'}" (click)="toggle_Menu('spells')" *ngIf="get_HasSpells()">Spellbook</button>
-        <button [ngClass]="{'fancy-button':get_SpellLibraryMenuState()=='out'}" (click)="toggle_Menu('spelllibrary')">Spell Library</button>
-        <button [ngClass]="{'fancy-button':get_ConditionsMenuState()=='out'}" (click)="toggle_Menu('conditions')">Conditions</button>
-        <button [ngClass]="{'fancy-button':get_DiceMenuState()=='out'}" [ngbTooltip]="'Dice'" (click)="toggle_Menu('dice')"><app-diceIcons_D20></app-diceIcons_D20></button>
-        <span *ngIf="get_SavegamesInitializing()" style="flex-grow: initial" [ngbTooltip]="'Connecting to database...'"><button class="fancy-button loading" disabled><i class="bi-file-earmark-arrow-up"></i></button></span>
-        <button class="inactive-button no-animation" *ngIf="get_GMMode()" [ngbTooltip]="'In GM mode, the character can\'t be saved and can\'t send effects to other players.'">GM Mode</button>
+        <button [ngClass]="{'fancy-button':get_CraftingMenuState()=='out'}"
+            (click)="toggle_Menu('crafting')">Crafting</button>
+        <button [ngClass]="{'fancy-button':get_SpellsMenuState()=='out'}" (click)="toggle_Menu('spells')"
+            *ngIf="get_HasSpells()">Spellbook</button>
+        <button [ngClass]="{'fancy-button':get_SpellLibraryMenuState()=='out'}"
+            (click)="toggle_Menu('spelllibrary')">Spell Library</button>
+        <button [ngClass]="{'fancy-button':get_ConditionsMenuState()=='out'}"
+            (click)="toggle_Menu('conditions')">Conditions</button>
+        <button [ngClass]="{'fancy-button':get_DiceMenuState()=='out'}" [ngbTooltip]="'Dice'"
+            (click)="toggle_Menu('dice')">
+            <app-diceIcons_D20></app-diceIcons_D20>
+        </button>
+        <span *ngIf="get_SavegamesInitializing()" style="flex-grow: initial"
+            [ngbTooltip]="'Connecting to database...'"><button class="fancy-button loading" disabled><i
+                    class="bi-file-earmark-arrow-up"></i></button></span>
+        <button class="inactive-button no-animation" *ngIf="get_GMMode()"
+            [ngbTooltip]="'In GM mode, the character can\'t be saved and can\'t send effects to other players.'">GM
+            Mode</button>
         <ng-container *ngIf="!get_SavegamesInitializing()">
-            <span *ngIf="!get_Savegames()" style="flex-grow: initial" [ngbTooltip]="'Database connection failed.'"><button class="fancy-button" disabled><i class="bi-file-earmark-arrow-up"></i></button></span>
+            <span *ngIf="!get_Savegames()" style="flex-grow: initial"
+                [ngbTooltip]="'Database connection failed.'"><button class="fancy-button" disabled><i
+                        class="bi-file-earmark-arrow-up"></i></button></span>
             <ng-container *ngIf="get_Savegames()">
                 <ng-container *ngIf="!get_GMMode()">
-                    <span *ngIf="get_IsBlankCharacter()" style="flex-grow: initial" [ngbTooltip]="'No changes to character yet.'"><button class="fancy-button" disabled><i class="bi-file-earmark-arrow-up"></i></button></span>
-                    <span *ngIf="!get_IsBlankCharacter()" style="flex-grow: initial" [ngbTooltip]="'Save Character'"><button class="fancy-button" (click)="save()"><i class="bi-file-earmark-arrow-up"></i></button></span>
+                    <span *ngIf="get_IsBlankCharacter()" style="flex-grow: initial"
+                        [ngbTooltip]="'No changes to character yet.'"><button class="fancy-button" disabled><i
+                                class="bi-file-earmark-arrow-up"></i></button></span>
+                    <span *ngIf="!get_IsBlankCharacter()" style="flex-grow: initial"
+                        [ngbTooltip]="'Save Character'"><button class="fancy-button" (click)="save()"><i
+                                class="bi-file-earmark-arrow-up"></i></button></span>
                 </ng-container>
-                <span *ngIf="!get_IsBlankCharacter() && !get_ManualMode()" style="flex-grow: initial" [ngbTooltip]="get_Character().partyName ? 'Check for new effects' : 'You can only receive effects in a party.'">
+                <span *ngIf="!get_IsBlankCharacter() && !get_ManualMode()" style="flex-grow: initial"
+                    [ngbTooltip]="get_Character().partyName ? 'Check for new effects' : 'You can only receive effects in a party.'">
                     <button class="fancy-button" (click)="get_Messages()" [disabled]="!get_Character().partyName">
                         <i class="ra ra-player-thunder-struck"></i>
-                        <div class="window-button-container" *ngIf="get_NewConditionMessages().length && !modalOpen">{{get_NewConditionMessages().length}}</div>
+                        <div class="window-button-container" *ngIf="get_NewConditionMessages().length && !modalOpen">
+                            {{get_NewConditionMessages().length}}</div>
                     </button>
                 </span>
             </ng-container>
         </ng-container>
-        <span style="flex-grow: initial" [ngbTooltip]="'Refresh all'"><button class="fancy-button" (click)="set_Changed()"><i class="ra ra-cycle"></i></button></span>
+        <span style="flex-grow: initial" [ngbTooltip]="'Refresh all'"><button class="fancy-button"
+                (click)="set_Changed()"><i class="ra ra-cycle"></i></button></span>
     </ng-container>
 </div>
 <!-- New Effects Dialog -->
 <ng-template #NewMessagesModal let-modal>
     <div class="modal-header">
-        <header class="sectionHeader modal-title" id="modal-title">{{newMessages.length}} New Effect{{newMessages.length > 1 ? "s" : ""}}
+        <header class="sectionHeader modal-title" id="modal-title">{{newMessages.length}} New Effect{{newMessages.length
+            > 1 ? "s" : ""}}
         </header>
         <button type="button" class="close" aria-label="close" (click)="modal.dismiss('Cross click')" ngbAutofocus>
             <span aria-hidden="true">&times;</span>
@@ -53,21 +78,36 @@
             <ng-container *ngFor="let message of newMessages; trackBy:trackByIndex">
                 <ng-container *ngFor="let creature of [get_MessageCreature(message)]; trackBy:trackByIndex">
                     <ng-container *ngFor="let sender of [get_MessageSender(message)]; trackBy:trackByIndex">
-                        <ng-container *ngIf="creature && message.gainCondition.length">
+                        <ng-container *ngIf="creature && (message.gainCondition.length || message.offeredItem.length)">
                             <div class="list-item gridicon-fullsizebox">
                                 <input id="message{{message.id}}" class="character-choice" type="checkbox"
                                     [(ngModel)]="message.selected">
                                 <label for="message{{message.id}}">
                                     <div class="newrow left-aligned">
-                                        <i class="bi-plus-circle" *ngIf="message.activate"></i>
-                                        <i class="bi-minus-circle" *ngIf="!message.activate"></i>
+                                        <i class="ra ra-sword" *ngIf="message.offeredItem.length"></i>
+                                        <i class="ra ra-splash" *ngIf="message.gainCondition.length"></i>
+                                        <i class="bi-play-circle" *ngIf="message.gainCondition.length && message.activateCondition"></i>
+                                        <i class="bi-stop-circle" *ngIf="message.gainCondition.length && !message.activateCondition"></i>
                                         <i class="ra ra-player" *ngIf="creature.type=='Character'"
                                             style="line-height: 1.5;"></i>
                                         <i class="ra ra-wolf-howl" *ngIf="creature.type=='Companion'"
                                             style="line-height: 1.5;"></i>
-                                        <i class="ra ra-raven" *ngIf="creature.type=='Familiar'" style="line-height: 1.5;"></i>
-                                        <strong>{{message.gainCondition[0].name}}{{message.gainCondition[0].choice ? ": " + message.gainCondition[0].choice : ""}}</strong>
+                                        <i class="ra ra-raven" *ngIf="creature.type=='Familiar'"
+                                            style="line-height: 1.5;"></i>
+                                        <ng-container *ngIf="message.gainCondition.length">
+                                            <strong>
+                                                {{message.gainCondition[0].name}}{{message.gainCondition[0].choice ? ":
+                                                " + message.gainCondition[0].choice : ""}}
+                                            </strong>
                                             {{[get_Duration(message.gainCondition[0].duration)]}}
+                                        </ng-container>
+                                        <ng-container *ngIf="message.offeredItem.length">
+                                            <strong>
+                                                {{message.itemAmount != 1 ? message.itemAmount + " " :
+                                                ""}}{{message.offeredItem[0].name}}
+                                            </strong>
+                                            {{get_ItemMessageIncluded(message)}}
+                                        </ng-container>
                                     </div>
                                     <div class="newrow lower">
                                         Sent{{sender ? " by " + sender : ""}} at {{message.time}}
@@ -80,8 +120,10 @@
             </ng-container>
         </div>
         <div class="newrow left-aligned">
-            <input id="checkMessagesAutomatically" type="checkbox" [(ngModel)]="get_Character().settings.checkMessagesAutomatically">
-            <label for="checkMessagesAutomatically">&nbsp;Keep checking automatically (can be turned off in settings)</label>
+            <input id="checkMessagesAutomatically" type="checkbox"
+                [(ngModel)]="get_Character().settings.checkMessagesAutomatically">
+            <label for="checkMessagesAutomatically">&nbsp;Keep checking automatically (can be turned off in
+                settings)</label>
         </div>
     </div>
     <div class="modal-footer">

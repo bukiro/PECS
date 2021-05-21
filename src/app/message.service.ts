@@ -91,7 +91,7 @@ export class MessageService {
                 } else if (newMessages.length) {
                     this.add_NewMessages(newMessages);
                     this.toastService.show("<strong>" + newMessages.length +
-                        "</strong> new effect" + (newMessages.length != 1 ? "s are" : " is") +
+                        "</strong> new message" + (newMessages.length != 1 ? "s are" : " is") +
                         " available.",
                         { onClickCreature: "character", onClickAction: "check-messages-manually" },
                         characterService)
@@ -99,7 +99,7 @@ export class MessageService {
                 characterService.set_ToChange("Character", "top-bar");
                 characterService.process_ToChange();
             }, (error) => {
-                let text = "An error occurred while searching for new effects. See console for more information.";
+                let text = "An error occurred while searching for new messages. See console for more information.";
                 if (characterService.get_Character().settings.checkMessagesAutomatically) {
                     text += " Automatic checks have been disabled.";
                     characterService.get_Character().settings.checkMessagesAutomatically = false;
@@ -141,11 +141,12 @@ export class MessageService {
         //Apply turn change messages automatically, then invalidate these messages and return the rest.
         if (newMessages.length) {
             characterService.apply_TurnChangeMessage(newMessages.filter(message => message.turnChange));
+            characterService.apply_ItemAcceptedMessages(newMessages.filter(message => message.acceptedItem || message.rejectedItem));
             characterService.process_ToChange();
             newMessages.filter(message => message.turnChange).forEach(message => {
                 this.mark_MessageAsIgnored(characterService, message);
             })
-            newMessages = newMessages.filter(message => !message.turnChange);
+            newMessages = newMessages.filter(message => !message.turnChange && !message.acceptedItem && !message.rejectedItem);
         }
         return newMessages;
     }
@@ -159,6 +160,7 @@ export class MessageService {
             message.selected = true;
         })
         characterService.apply_MessageConditions(messages.filter(message => message.gainCondition.length));
+        characterService.apply_MessageItems(messages.filter(message => message.offeredItem.length));
         messages.forEach(message => {
             this.mark_MessageAsIgnored(characterService, message);
         })

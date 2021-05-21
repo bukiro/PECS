@@ -651,14 +651,14 @@ export class EffectsService {
             //Initialize shoddy values and shield ally for all shields.
             creature.inventories.forEach(inv => {
                 inv.shields.forEach(shield => {
-                    let oldShoddy = shield.$shoddy;
+                    let oldShoddy = shield._shoddy;
                     shield.get_Shoddy((creature as AnimalCompanion | Character), characterService);
-                    if (oldShoddy != shield.$shoddy) {
+                    if (oldShoddy != shield._shoddy) {
                         characterService.set_ToChange(creature.type, "inventory");
                     }
-                    let oldShieldAlly = shield.$shieldAlly;
+                    let oldShieldAlly = shield._shieldAlly;
                     shield.get_ShieldAlly((creature as AnimalCompanion | Character), characterService);
-                    if (oldShieldAlly != shield.$shieldAlly) {
+                    if (oldShieldAlly != shield._shieldAlly) {
                         characterService.set_ToChange(creature.type, "inventory");
                     }
                 })
@@ -678,11 +678,11 @@ export class EffectsService {
             //Initialize armored skirt and shoddy values for all armor.
             creature.inventories.forEach(inv => {
                 inv.armors.forEach(armor => {
-                    let oldArmoredSkirt = armor.$affectedByArmoredSkirt;
-                    let oldShoddy = armor.$shoddy;
+                    let oldArmoredSkirt = armor._affectedByArmoredSkirt;
+                    let oldShoddy = armor._shoddy;
                     armor.get_ArmoredSkirt((creature as AnimalCompanion | Character), characterService);
                     armor.get_Shoddy((creature as AnimalCompanion | Character), characterService);
-                    if (oldArmoredSkirt != armor.$affectedByArmoredSkirt || oldShoddy != armor.$shoddy) {
+                    if (oldArmoredSkirt != armor._affectedByArmoredSkirt || oldShoddy != armor._shoddy) {
                         characterService.set_ToChange(creature.type, "inventory");
                     }
                 })
