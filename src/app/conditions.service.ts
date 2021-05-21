@@ -587,11 +587,15 @@ export class ConditionsService {
         Object.keys(json_conditions).forEach(key => {
             this.conditions.push(...json_conditions[key].map(obj => Object.assign(new Condition(), obj)));
         });
-        //Blank choices are saved with "name":"-" for easier managing; These need to be blanked here.
         this.conditions.forEach(condition => {
             condition.choices.forEach(choice => {
+                //Blank choices are saved with "name":"-" for easier managing; These need to be blanked here.
                 if (choice.name == "-") {
                     choice.name = "";
+                }
+                //If a choice name has turned into a number, turn it back into a string.
+                if (!isNaN(Number(choice.name))) {
+                    choice.name = parseInt(choice.name).toString();
                 }
             })
             if (condition.choices.length && !condition.choice) {

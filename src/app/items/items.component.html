@@ -161,7 +161,7 @@
                                                         (click)="unprepare_Scroll(scroll, casting)">
                                                         Deselect from daily creation
                                                     </button>
-                                                    <app-item [item]=scroll [itemStore]=true></app-item>
+                                                    <app-item class="lower" [item]=scroll [itemStore]=true></app-item>
                                                 </div>
                                             </div>
                                         </ng-container>
@@ -316,7 +316,8 @@
                                                                     {{get_LearnedFormulaSource(learned.source)}}
                                                                 </button>
                                                             </ng-container>
-                                                            <app-item [item]=item [itemStore]=true></app-item>
+                                                            <app-item class="lower" [item]=item [itemStore]=true>
+                                                            </app-item>
                                                         </ng-template>
                                                         <ng-container
                                                             *ngFor="let inventoryID of [listID+item.id]; trackBy:trackByIndex;">

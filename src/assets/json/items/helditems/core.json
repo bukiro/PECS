@@ -414,7 +414,7 @@
             "Magical",
             "Water"
         ],
-        "usage": "held in 2 hand",
+        "usage": "held in 2 hands",
         "_className": "HeldItem",
         "activities": [
             {
@@ -465,6 +465,105 @@
                     "Conjuration",
                     "Magical",
                     "Water"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Rod of Wonder",
+        "id": "ed7078eb-03aa-4de3-8409-90e82b7b5fb3",
+        "level": 8,
+        "price": 46500,
+        "bulk": "L",
+        "desc": "This peculiar rod is strange and unpredictable. Each time it is activated, it produces one of a variety of effects at random.",
+        "traits": [
+            "Rare",
+            "Chaotic",
+            "Evocation",
+            "Magical"
+        ],
+        "usage": "held in 1 hand",
+        "_className": "HeldItem",
+        "activities": [
+            {
+                "_className": "ItemActivity",
+                "actions": "2A",
+                "activationType": "Command, Interact",
+                "target": "ally",
+                "cannotTargetCaster": true,
+                "gainConditions": [
+                    {
+                        "duration": -5,
+                        "name": "Rod of Wonder Cooldown",
+                        "targetFilter": "caster"
+                    },
+                    {
+                        "duration": -5,
+                        "name": "Rod of Wonder (Originator)",
+                        "targetFilter": "caster"
+                    },
+                    {
+                        "copyChoiceFrom": "Rod of Wonder (Originator)",
+                        "duration": -5,
+                        "name": "Rod of Wonder",
+                        "targetFilter": "target"
+                    }
+                ],
+                "showSpells": [
+                    {
+                        "name": "Darkness"
+                    },
+                    {
+                        "name": "Lightning Bolt"
+                    },
+                    {
+                        "name": "Stinking Cloud"
+                    },
+                    {
+                        "name": "Vibrant Pattern"
+                    },
+                    {
+                        "name": "Mirror Image"
+                    },
+                    {
+                        "name": "Gust of Wind"
+                    },
+                    {
+                        "name": "Slow"
+                    },
+                    {
+                        "name": "Pest Form"
+                    },
+                    {
+                        "name": "Sleep"
+                    },
+                    {
+                        "name": "Fireball"
+                    },
+                    {
+                        "name": "Mind Reading"
+                    },
+                    {
+                        "name": "Enlarge"
+                    },
+                    {
+                        "name": "Faerie Fire"
+                    },
+                    {
+                        "name": "Invisibility"
+                    },
+                    {
+                        "name": "Shrink"
+                    }
+                ],
+                "desc": "Choose a creature within 60 feet and roll d% on the table below to determine the rods effect. If an entry lists only a spell name, the rod casts that spell at its lowest level. You make any decisions for a spell cast by the rod unless otherwise indicated, except that it must target the creature you chose, or the creature you chose must be the center of the spells area, if it has an area but no targets. If the spells range is less than 60 feet, increase the range to 60 feet.\n\nAny spell DC required is DC 27, and any spell attack roll required is +17. If the rod casts a spell on you, you don't get a saving throw or other defense against it.\n\nOnce activated, the rod can't be activated again for 1d4 hours.\n\n<strong>1-3</strong> Leaves grow from the target; they last 24 hours\n<strong>4-8</strong> Darkness\n<strong>9</strong> Summon a giant stag beetle (5th-level summon animal)\n<strong>10-13</strong> A stream of 600 large and colorful butterflies pours forth, fluttering in a 20-foot burst for 2 rounds; creatures are blinded while in the cloud of butterflies\n<strong>14-15</strong> All the target's weapons animate with the effects of the dancing rune\n<strong>16-25</strong> Lightning bolt\n<strong>26-29</strong> Grass grows in a 60-foot cone in front of the rod, or existing grass grows at 10 * normal rate\n<strong>30</strong> Target turns blue, green, or purple with an unlimited duration\n<strong>31</strong> Summon an elephant (6th-level summon animal)\n<strong>32-34</strong> Heavy rain falls in a 60-foot radius around you for 1 round\n<strong>35-38</strong> Stinking cloud\n<strong>39</strong> Summon an ineffective mouse (1st-level summon animal)\n<strong>40-42</strong> Vibrant pattern, with a 1-round duration\n<strong>43-44</strong> The rod casts mirror image on you\n<strong>45-46</strong> Gust of wind\n<strong>47-48</strong> The non-living, unattended object closest to the target (up to 30 cubic feet in size) turns ethereal for an unlimited duration\n<strong>49-53</strong> Slow\n<strong>54</strong> You turn blue, green, or purple with an unlimited duration\n<strong>55-59</strong> The rod casts pest form on you, lasting 1d4 rounds\n<strong>60-61</strong> 1d4 * 10 gems, each worth 1 sp, shoot from the rod, dealing 1 piercing damage to each creature in a 15-foot cone\n<strong>62</strong> Sleep, with a 100-foot burst\n<strong>63-72</strong> Fireball\n<strong>73-77</strong> Mind reading\n<strong>78-80</strong> Roll again; the target believes you created the effect of the second roll\n<strong>81-84</strong> Enlarge\n<strong>85-87</strong> Target is coated in nectar, making it clumsy 1 for 1 round\n<strong>88-92</strong> Faerie fire\n<strong>93-97</strong> The rod casts invisibility on you\n<strong>98-100</strong> The rod casts shrink on you, lasting 1 day",
+                "name": "Rod of Wonder",
+                "source": "ed7078eb-03aa-4de3-8409-90e82b7b5fb3",
+                "traits": [
+                    "Rare",
+                    "Chaotic",
+                    "Evocation",
+                    "Magical"
                 ]
             }
         ]

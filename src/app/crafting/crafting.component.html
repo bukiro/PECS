@@ -101,7 +101,7 @@
                                                             </button>
                                                             Prepare for quick deployment
                                                         </span>
-                                                        <app-item [item]=item [itemStore]=true></app-item>
+                                                        <app-item class="lower" [item]=item [itemStore]=true></app-item>
                                                     </ng-template>
                                                     <ng-container *ngIf="!get_TileMode()">
                                                         <div class="list-item"
@@ -236,7 +236,7 @@
                                                         [(ngModel)]="item.shoddy">
                                                     <label for="{{item.id}}shoddy">Shoddy</label>
                                                 </div>
-                                                <app-item [item]=item [itemStore]=true></app-item>
+                                                <app-item class="lower" [item]=item [itemStore]=true></app-item>
                                             </ng-template>
                                             <ng-container *ngIf="!get_TileMode()">
                                                 <div class="list-item"

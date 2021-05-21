@@ -13,6 +13,7 @@ import {
 
 import { DOCUMENT } from '@angular/common';
 import { NgbPopover, NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
+import { CharacterService } from './character.service';
 @Directive({
     // tslint:disable-next-line:directive-selector
     selector: '[stickyPopover]',
@@ -26,12 +27,13 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDest
     //Another issue is caused when a popover is opened within another popover.
     //A stickyPopover cannot close while an element with the class "popover-keepalive" exists.
     //CAUTION: To avoid a popover keeping itself open, never create a popover that contains an element with the "popover-keepalive" class.
-    
+
     @Input() stickyPopover: TemplateRef<any>;
-    
+
     ngpPopover: TemplateRef<any>;
 
     constructor(
+        private characterService: CharacterService,
         private _elRef: ElementRef,
         private _render: Renderer2,
         injector: Injector,
@@ -45,9 +47,25 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDest
         super(_elRef, _render, injector, componentFactoryResolver, viewContainerRef, config, ngZone, _document, changeRef, applicationRef);
     }
 
+    finish_Loading() {
+        this.characterService.get_Changed()
+            .subscribe((target) => {
+                if (target == "close-popovers") {
+                    super.close()
+                }
+            });
+        this.characterService.get_ViewChanged()
+            .subscribe((view) => {
+                if (view.target == "close-popovers") {
+                    super.close()
+                }
+            });
+    }
+
     ngOnInit(): void {
         super.ngOnInit();
         this.ngbPopover = this.stickyPopover;
+        this.finish_Loading()
     }
 
     close() {

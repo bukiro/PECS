@@ -65,7 +65,9 @@
                         </button>
                     </div>
                     <div class="modal-body vlist">
-                        <p *ngIf="parameters.targetNumber > 0">Select up to {{parameters.targetNumber}} targets for this
+                        <p *ngIf="parameters.targetNumber == 1">Select a target for this
+                            {{spell ? "spell" : "activity"}}.</p>
+                        <p *ngIf="parameters.targetNumber > 1">Select up to {{parameters.targetNumber}} targets for this
                             {{spell ? "spell" : "activity"}}.</p>
                         <p *ngIf="parameters.targetNumber == -1">Select any number of targets for this {{spell ? "spell"
                             :

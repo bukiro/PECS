@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { TraitsService } from '../traits.service';
 import { ActivitiesService } from '../activities.service';
 import { AdventuringGear } from '../AdventuringGear';
@@ -20,7 +20,8 @@ import { ConditionsService } from '../conditions.service';
 @Component({
     selector: 'app-item',
     templateUrl: './item.component.html',
-    styleUrls: ['./item.component.css']
+    styleUrls: ['./item.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemComponent implements OnInit {
 
@@ -38,6 +39,7 @@ export class ItemComponent implements OnInit {
     isSubItem: boolean = false;
 
     constructor(
+        private changeDetector: ChangeDetectorRef,
         private traitsService: TraitsService,
         private activitiesService: ActivitiesService,
         public characterService: CharacterService,
@@ -94,12 +96,17 @@ export class ItemComponent implements OnInit {
     }
 
     get_BulkDifference(item: Item) {
-        if (!isNaN(+item.get_Bulk()) && !isNaN(+item.bulk)) {
+        let bulk = +item.get_Bulk();
+        if (!isNaN(bulk) && !isNaN(+item.bulk)) {
             return parseInt(item.get_Bulk()) - parseInt(item.bulk)
-        } else if (!isNaN(+item.get_Bulk()) && isNaN(+item.bulk)) {
+        } else if (!isNaN(bulk) && isNaN(+item.bulk)) {
             return 1
-        } else if (isNaN(+item.get_Bulk()) && !isNaN(+item.bulk)) {
-            return -1
+        } else if (isNaN(bulk) && !isNaN(+item.bulk)) {
+            if (item.get_Bulk() == "L" && +item.bulk == 0) {
+                return 1;
+            } else {
+                return -1
+            }
         }
     }
 
@@ -217,10 +224,28 @@ export class ItemComponent implements OnInit {
         this.characterService.set_Changed(this.item.id);
     }
 
+    finish_Loading() {
+        if (this.item.id) {
+            this.characterService.get_Changed()
+                .subscribe((target) => {
+                    if (target == this.item.id) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
+            this.characterService.get_ViewChanged()
+                .subscribe((view) => {
+                    if (view.target == this.item.id) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
+        }
+    }
+
     ngOnInit() {
         if (["weaponrunes", "armorrunes", "oils"].includes(this.item.type) && !this.isSubItem) {
             this.allowActivate = false;
         }
+        this.finish_Loading();
     }
 
 }

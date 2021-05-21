@@ -6,6 +6,7 @@ This log tracks only major changes, as well as changes that need characters to b
 
 - First published PECS in a way that presupposes that other people could want to use it - with a readme and a version number and all, and without development files included.
 - App is fully functional, but with core content missing.
+- Communication between party members consists of sending conditions and turn start events (that can end conditions).
 
 ## 1.0.1
 

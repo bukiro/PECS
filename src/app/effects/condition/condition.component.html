@@ -43,9 +43,9 @@
                                 [(ngModel)]="conditionGain.showValue">
                             <label for="{{conditionGain.id+'value'}}" [ngbTooltip]="'Change value'"
                                 style="text-shadow: none">
-                                <i class='bi-gear-fill'></i>&nbsp;
+                                <i class='bi-gear-fill'></i>
+                                {{!conditionGain.showValue ? conditionGain.value : ""}}
                             </label>
-                            {{!conditionGain.showValue ? conditionGain.value : ""}}
                             <ng-container *ngIf="conditionGain.showValue">
                                 <span *ngFor="let oldValue of [conditionGain.value]; trackBy:trackByIndex;">
                                     <span><button (click)="change_ConditionValue(conditionGain, oldValue, -1)"
@@ -125,10 +125,14 @@
                     <button (click)="change_ConditionDuration(conditionGain, 6000)">+ 1 hour</button>
                 </div>
                 <div class="newrow" *ngIf="conditionGain.duration > 0">
-                    <button (click)="change_ConditionDuration(conditionGain, -10)" [disabled]="conditionGain.duration <= 11">- 1 turn</button>
-                    <button (click)="change_ConditionDuration(conditionGain, -100)" [disabled]="conditionGain.duration <= 101">- 1 min.</button>
-                    <button (click)="change_ConditionDuration(conditionGain, -1000)" [disabled]="conditionGain.duration <= 1001">- 10 min.</button>
-                    <button (click)="change_ConditionDuration(conditionGain, -6000)" [disabled]="conditionGain.duration <= 6001">- 1 hour</button>
+                    <button (click)="change_ConditionDuration(conditionGain, -10)"
+                        [disabled]="conditionGain.duration <= 11">- 1 turn</button>
+                    <button (click)="change_ConditionDuration(conditionGain, -100)"
+                        [disabled]="conditionGain.duration <= 101">- 1 min.</button>
+                    <button (click)="change_ConditionDuration(conditionGain, -1000)"
+                        [disabled]="conditionGain.duration <= 1001">- 10 min.</button>
+                    <button (click)="change_ConditionDuration(conditionGain, -6000)"
+                        [disabled]="conditionGain.duration <= 6001">- 1 hour</button>
                 </div>
             </div>
         </div>
@@ -234,7 +238,8 @@
     </ng-container>
 </ng-container>
 <div [ngbCollapse]="fullDisplay && get_ShowItem()!=conditionGain.id+'description'">
-    <div class="newrow lower left-aligned" *ngFor="let desc of get_HeightenedDescription().split('\n\n'); trackBy:trackByIndex;">
+    <div class="newrow lower left-aligned"
+        *ngFor="let desc of get_HeightenedDescription().split('\n\n'); trackBy:trackByIndex;">
         <app-description class="newrow" [text]="desc"></app-description>
     </div>
 </div>

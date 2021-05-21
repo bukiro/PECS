@@ -1,0 +1,84 @@
+<ng-container *ngFor="let targets of [get_ItemTargets()]; trackBy:trackByIndex">
+    <ng-template #ItemTargetModal let-modal>
+        <div class="modal-header">
+            <header class="sectionHeader modal-title" id="modal-title">Move item
+            </header>
+            <button type="button" class="close" aria-label="close" (click)="modal.dismiss('Cross click')" ngbAutofocus>
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body vlist">
+            <div class="fullsize-scroll-box vlist" style="max-height: 50vh;">
+                <div class="list-item newrow left-aligned" *ngIf="get_IsContainer()">
+                    <i class="ra ra-hive-emblem"></i>
+                    This item contains {{get_ContainedItems()}} items with a total bulk of {{get_InventoryBulk()}}.
+                </div>
+                <div class="list-item newrow left-aligned" *ngIf="get_GrantsItems()">
+                    <i class="ra ra-hive-emblem"></i>
+                    This item has additional parts with a total bulk of {{get_ContainedBulk(item)}}.
+                    <div class="newrow left-aligned">
+                        <input id="including" type="checkbox" [(ngModel)]="excluding">
+                        <label for="including">
+                            <strong>Move without parts (local only)</strong>
+                        </label>
+                    </div>
+                </div>
+                <div class="list-item newrow" *ngIf="get_CanSplit()">
+                    <strong>Split stack</strong>
+                    <span>
+                        Move
+                        <span class="value">
+                            <button (click)="on_Split(-1)" [disabled]="selectedAmount<=0">
+                                -
+                            </button>
+                            {{selectedAmount}}
+                            <button (click)="on_Split(1)" [disabled]="selectedAmount>=item.amount">
+                                +
+                            </button>
+                        </span>
+                    </span>
+                    <span>
+                        Keep
+                        <span class="value">
+                            {{item.amount - selectedAmount}}
+                        </span>
+                    </span>
+                </div>
+                <ng-container *ngFor="let target of targets; trackBy:trackByIndex">
+                    <div class="list-item newrow gridicon-fullsizebox">
+                        <span class="hlist" style="font-size: 1.5em;">
+                            <i class="ra ra-hive-emblem" *ngIf="get_TargetType(target)=='Inventory'"
+                                style="line-height: 1.5;"></i>
+                            <i class="ra ra-wolf-howl" *ngIf="get_TargetType(target)=='Companion'"
+                                style="line-height: 1.5;"></i>
+                            <i class="ra ra-player" *ngIf="get_TargetType(target)=='Character'"
+                                style="line-height: 1.5;"></i>
+                            <strong>{{get_TargetName(target)}}</strong>
+                            <span>{{get_ContainerBulk(target)}}</span>
+                        </span>
+                        <span style="flex-grow:0"
+                            *ngFor="let cannotMove of [get_CannotMove(target)]; trackBy:trackByIndex"
+                            [ngbTooltip]="cannotMove">
+                            <button class="btn inactive-button" *ngIf="get_IsSameInventory(target)"
+                                disabled>Current</button>
+                            <button class="btn btn-primary" *ngIf="!get_IsSameInventory(target)"
+                                style="background-color: rgb(var(--accent))"
+                                (click)="set_Target(target); modal.close('Move click')" [disabled]="cannotMove">
+                                <span *ngIf="get_TargetType(target)=='Inventory'">Move</span>
+                                <span *ngIf="get_TargetType(target)=='Companion'">Give</span>
+                                <span *ngIf="get_TargetType(target)=='Character'">Offer</span>
+                            </button>
+                        </span>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary"
+                (click)="modal.dismiss('Cancel click')">Cancel</button>
+        </div>
+    </ng-template>
+    <button class="center-aligned" (click)="open_ItemTargetModal(ItemTargetModal)">
+        Move...
+    </button>
+</ng-container>

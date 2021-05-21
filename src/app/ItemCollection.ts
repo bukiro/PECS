@@ -80,46 +80,19 @@ export class ItemCollection {
         { name: "Wands", key: "wands" }
     ]
     allEquipment() {
-        let items: Equipment[] = [];
-        items.push(...this.adventuringgear);
-        items.push(...this.alchemicalbombs);
-        items.push(...this.otherconsumablesbombs);
-        items.push(...this.armors);
-        items.push(...this.helditems);
-        items.push(...this.shields);
-        items.push(...this.weapons);
-        items.push(...this.wornitems);
-        items.push(...this.wands);
-        return items;
+        return [].concat(this.adventuringgear, this.alchemicalbombs, this.otherconsumablesbombs, this.armors, this.helditems, this.shields, this.weapons, this.wornitems, this.wands);
+        
     }
     allConsumables() {
-        let items: Consumable[] = [];
-        items.push(...this.alchemicalelixirs);
-        items.push(...this.alchemicaltools);
-        items.push(...this.ammunition);
-        items.push(...this.oils);
-        items.push(...this.otherconsumables);
-        items.push(...this.potions);
-        items.push(...this.scrolls);
-        items.push(...this.talismans);
-        items.push(...this.snares);
-        items.push(...this.alchemicalpoisons);
-        return items;
+        return [].concat(this.alchemicalelixirs, this.alchemicaltools, this.ammunition, this.oils, this.otherconsumables, this.potions, this.scrolls, this.talismans, this.snares, this.alchemicalpoisons);
     }
     allRunes() {
-        let items: Rune[] = [];
-        items.push(...this.armorrunes);
-        items.push(...this.weaponrunes);
-        return items;
+        return [].concat(this.armorrunes, this.weaponrunes);
     }
     allItems() {
-        let items: Item[] = [];
-        items.push(...this.allConsumables());
-        items.push(...this.allEquipment());
-        items.push(...this.allRunes());
-        return items;
+        return [].concat(this.allConsumables(), this.allEquipment(), this.allRunes());
     }
-    get_Bulk(rounded: boolean = true) {
+    get_Bulk(rounded: boolean = true, reduced: boolean = false) {
         //All bulk gets calculated at *10 to avoid rounding issues with decimals,
         //Then returned at /10
         let sum: number = 0;
@@ -161,6 +134,9 @@ export class ItemCollection {
             sum = Math.floor(sum / 10);
         } else {
             sum = Math.floor(sum) / 10;
+        }
+        if (reduced) {
+            sum = Math.max(0, sum - this.bulkReduction);
         }
         return sum;
     }

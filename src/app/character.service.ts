@@ -1441,6 +1441,10 @@ export class CharacterService {
                 }
             }
             if (activate) {
+                //If the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
+                if (conditionGain.duration == -5) {
+                    conditionGain.duration = originalCondition.get_DefaultDuration(conditionGain.choice, conditionGain.heightened).duration;
+                }
                 //If there are choices, and the choice is not set by the gain, take the default or the first choice.
                 if (originalCondition.choices.length && !conditionGain.choice) {
                     conditionGain.choice = originalCondition.choice || originalCondition.choices[0].name;
@@ -2348,18 +2352,22 @@ export class CharacterService {
         this.savegameService.initialize(this);
         this.messageService.initialize(this);
         if (id) {
-            this.me = new Character();
             this.load_CharacterFromDB(id)
                 .subscribe((results: string[]) => {
                     this.loader = results;
-                    this.finish_loading(loadAsGM)
+                    if (this.loader) {
+                        this.finish_Loading(loadAsGM)
+                    } else {
+                        this.toastService.show("The character could not be found in the database.", [], this);
+                        this.cancel_Loading();
+                    }
                 }, (error) => {
                     this.toastService.show("An error occurred while loading the character. See console for more information.", [], this);
                     console.log('Error loading character from database: ' + error.message);
                 });
         } else {
             this.me = new Character();
-            this.finish_loading();
+            this.finish_Loading();
         }
     }
 
@@ -2381,13 +2389,19 @@ export class CharacterService {
         return this.savegameService.reassign(object, "", this.itemsService);
     }
 
-    finish_loading(loadAsGM: boolean = false) {
+    finish_Loading(loadAsGM: boolean = false) {
         if (this.loader) {
             this.me = Object.assign(new Character(), JSON.parse(JSON.stringify(this.loader)));
             this.me.GMMode = loadAsGM;
             this.loader = [];
             this.finalize_Character();
         }
+    }
+
+    cancel_Loading() {
+        this.loader = [];
+        if (this.loading) { this.loading = false; }
+        this.trigger_FinalChange();
     }
 
     finalize_Character() {

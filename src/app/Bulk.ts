@@ -45,7 +45,7 @@ export class Bulk {
         if (characterService.still_loading()) { return result; }
         inventories.forEach(inventory => {
             //To avoid decimal issues, the bulk is rounded to one decimal.
-            let bulk = Math.floor(Math.max(inventory.get_Bulk(false) - inventory.bulkReduction, 0) * 10) / 10;
+            let bulk = Math.floor(Math.max(0, inventory.get_Bulk(false, true)) * 10) / 10;
             result.value += bulk;
             result.explain += "\n" + inventory.get_Name(characterService) + ": " + bulk;
         })

@@ -342,8 +342,8 @@ export class CharacterComponent implements OnInit {
             !character.experiencePoints &&
             !character.alignment &&
             !character.baseValues.length &&
-            character.inventories.length == 1 &&
-            character.inventories[0].allItems().length <= 2
+            character.inventories.length <= 2 &&
+            !character.inventories.some(inv => inv.allItems().length > 2)
         )
     }
 

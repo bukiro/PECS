@@ -67,9 +67,10 @@ import { SpellTargetComponent } from './spellTarget/spellTarget.component';
 import { StickyPopoverDirective } from './StickyPopover.directive';
 import { ObjectEffectsComponent } from './objectEffects/objectEffects.component';
 import { DescriptionComponent } from './description/description.component';
+import { ItemTargetComponent } from './itemTarget/itemTarget.component';
 
 @NgModule({
-   declarations: [				 
+   declarations: [						 
       AppComponent,
       AbilitiesComponent,
       TopBarComponent,
@@ -128,7 +129,8 @@ import { DescriptionComponent } from './description/description.component';
       SpellTargetComponent,
       StickyPopoverDirective,
       ObjectEffectsComponent,
-      DescriptionComponent
+      DescriptionComponent,
+      ItemTargetComponent
    ],
    imports: [
       BrowserModule,

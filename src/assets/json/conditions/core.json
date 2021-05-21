@@ -9175,6 +9175,477 @@
         ]
     },
     {
+        "name": "Rod of Wonder",
+        "desc": "The rod of wonder has been activated on you,  with the originator rolling d% on the table below to determine the rods effect. If an entry lists only a spell name, the rod casts that spell at its lowest level.\n\n<strong>1-3</strong> Leaves grow from you; they last 24 hours\n<strong>4-8</strong> Darkness\n<strong>9</strong> Summon a giant stag beetle (5th-level summon animal)\n<strong>10-13</strong> A stream of 600 large and colorful butterflies pours forth, fluttering in a 20-foot burst for 2 rounds; creatures are blinded while in the cloud of butterflies\n<strong>14-15</strong> All your weapons animate with the effects of the dancing rune\n<strong>16-25</strong> Lightning bolt\n<strong>26-29</strong> Grass grows in a 60-foot cone in front of the rod, or existing grass grows at 10 * normal rate\n<strong>30</strong> You turn blue, green, or purple with an unlimited duration\n<strong>31</strong> Summon an elephant (6th-level summon animal)\n<strong>32-34</strong> Heavy rain falls in a 60-foot radius around the originator for 1 round\n<strong>35-38</strong> Stinking cloud\n<strong>39</strong> Summon an ineffective mouse (1st-level summon animal)\n<strong>40-42</strong> Vibrant pattern, with a 1-round duration\n<strong>43-44</strong> The rod casts mirror image on the originator\n<strong>45-46</strong> Gust of wind\n<strong>47-48</strong> The non-living, unattended object closest to you (up to 30 cubic feet in size) turns ethereal for an unlimited duration\n<strong>49-53</strong> Slow\n<strong>54</strong> The originator turns blue, green, or purple with an unlimited duration\n<strong>55-59</strong> The rod casts pest form on the originator, lasting 1d4 rounds\n<strong>60-61</strong> 1d4 * 10 gems, each worth 1 sp, shoot from the rod, dealing 1 piercing damage to each creature in a 15-foot cone\n<strong>62</strong> Sleep, with a 100-foot burst\n<strong>63-72</strong> Fireball\n<strong>73-77</strong> Mind reading\n<strong>78-80</strong> The originator must roll again, and you believe they created the effect of the second roll\n<strong>81-84</strong> Enlarge\n<strong>85-87</strong> You are coated in nectar, making you clumsy 1 for 1 round\n<strong>88-92</strong> Faerie fire\n<strong>93-97</strong> The rod casts invisibility on the originator\n<strong>98-100</strong> The rod casts shrink on the originator, lasting 1 day",
+        "type": "helditems",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "hints": [
+            {
+                "desc": "A stream of 600 large and colorful butterflies are fluttering in the area; creatures are blinded while in the cloud of butterflies.",
+                "showon": "Perception",
+                "conditionChoiceFilter": "10-13"
+            },
+            {
+                "desc": "All your weapons animate with the effect of the dancing rune:\n\nYou Release the weapon and it dances through the air, fighting on its own against the last enemy you attacked, or the nearest enemy to it if your target has been defeated. At the end of your turn each round, the weapon can Fly up to its fly Speed of 40 feet, and then can either Fly again or Strike one creature within its reach.\n\nThe weapon has a space of 5 feet, but it doesn't block or impede enemies attempting to move though that space, nor does it benefit from or provide flanking. The weapon can't move through an enemy's space. The weapon can't use reactions, and its Fly actions don't trigger reactions.\n\nWhile it's activated, a dancing weapon makes Strikes with an attack modifier of +24 plus its item bonus to attack rolls. It uses the weapon's normal damage but has a +0 Strength modifier. The weapon's abilities that automatically trigger on a hit or critical hit still function, but the weapon can't be activated or benefit from any of your abilities while dancing.\n\nEach round, when the weapon is finished using its actions, attempt a DC 6 flat check. On a failure, the activation ends and the weapon falls to the ground. You can't activate the item again for 10 minutes.",
+                "showon": "Attacks",
+                "conditionChoiceFilter": "14-15"
+            },
+            {
+                "desc": "Heavy rain falls in a 60-foot radius around the caster.",
+                "showon": "Perception",
+                "conditionChoiceFilter": "32-34"
+            },
+            {
+                "desc": "You have turned blue, green or purple.",
+                "showon": "Health",
+                "conditionChoiceFilter": "30"
+            },
+            {
+                "desc": "The non-living, unattended object closest to you (up to 30 cubic feet in size) has turned ethereal.",
+                "showon": "Perception, Activities",
+                "conditionChoiceFilter": "47-48"
+            }
+        ],
+        "choice": "1-3",
+        "choices": [
+            {
+                "name": "1-3",
+                "defaultDuration": 144000
+            },
+            {
+                "name": "4-8",
+                "defaultDuration": 100
+            },
+            {
+                "name": "9",
+                "defaultDuration": 1
+            },
+            {
+                "name": "10-13",
+                "defaultDuration": 20
+            },
+            {
+                "name": "14-15",
+                "defaultDuration": -1
+            },
+            {
+                "name": "16-25",
+                "defaultDuration": 1
+            },
+            {
+                "name": "26-29",
+                "defaultDuration": 1
+            },
+            {
+                "name": "30",
+                "defaultDuration": -1
+            },
+            {
+                "name": "31",
+                "defaultDuration": 1
+            },
+            {
+                "name": "32-34",
+                "defaultDuration": 10
+            },
+            {
+                "name": "35-38",
+                "defaultDuration": 100
+            },
+            {
+                "name": "39",
+                "defaultDuration": 1
+            },
+            {
+                "name": "40-42",
+                "defaultDuration": 10
+            },
+            {
+                "name": "43-44",
+                "defaultDuration": 1
+            },
+            {
+                "name": "45-46",
+                "defaultDuration": 1
+            },
+            {
+                "name": "47-48",
+                "defaultDuration": -1
+            },
+            {
+                "name": "49-53",
+                "defaultDuration": 100
+            },
+            {
+                "name": "54",
+                "defaultDuration": 1
+            },
+            {
+                "name": "55-59",
+                "defaultDuration": 1
+            },
+            {
+                "name": "60-61",
+                "defaultDuration": 1
+            },
+            {
+                "name": "62",
+                "defaultDuration": 1
+            },
+            {
+                "name": "63-72",
+                "defaultDuration": 1
+            },
+            {
+                "name": "73-77",
+                "defaultDuration": 100
+            },
+            {
+                "name": "78-80",
+                "defaultDuration": 1
+            },
+            {
+                "name": "81-84",
+                "defaultDuration": 500
+            },
+            {
+                "name": "85-87",
+                "defaultDuration": 10
+            },
+            {
+                "name": "88-92",
+                "defaultDuration": 500
+            },
+            {
+                "name": "93-97",
+                "defaultDuration": 1
+            },
+            {
+                "name": "98-100",
+                "defaultDuration": 1
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": "4-8",
+                "name": "Darkness"
+            },
+            {
+                "conditionChoiceFilter": "10-13",
+                "name": "Blinded"
+            },
+            {
+                "conditionChoiceFilter": "35-38",
+                "name": "Stinking Cloud"
+            },
+            {
+                "conditionChoiceFilter": "85-87",
+                "name": "Clumsy",
+                "value": 1
+            },
+            {
+                "conditionChoiceFilter": "40-42",
+                "name": "Vibrant Pattern"
+            },
+            {
+                "conditionChoiceFilter": "49-53",
+                "duration": -5,
+                "name": "Slow"
+            },
+            {
+                "conditionChoiceFilter": "62",
+                "duration": -5,
+                "persistent": true,
+                "name": "Sleep"
+            },
+            {
+                "conditionChoiceFilter": "73-77",
+                "name": "Mind Reading"
+            },
+            {
+                "conditionChoiceFilter": "81-84",
+                "name": "Enlarge"
+            },
+            {
+                "conditionChoiceFilter": "88-92",
+                "name": "Faerie Fire"
+            }
+        ]
+    },
+    {
+        "name": "Rod of Wonder (Originator)",
+        "desc": "You have activated the rod of wonder on a creature within 60 feet, rolling d% on the table below to determine the rods effect. If an entry lists only a spell name, the rod casts that spell at its lowest level. You make any decisions for a spell cast by the rod unless otherwise indicated, except that it must target the creature you chose, or the creature you chose must be the center of the spells area, if it has an area but no targets. If the spells range is less than 60 feet, increase the range to 60 feet.\n\nAny spell DC required is DC 27, and any spell attack roll required is +17. If the rod casts a spell on you, you dont get a saving throw or other defense against it.\n\n<strong>1-3</strong> Leaves grow from the target; they last 24 hours\n<strong>4-8</strong> Darkness\n<strong>9</strong> Summon a giant stag beetle (5th-level summon animal)\n<strong>10-13</strong> A stream of 600 large and colorful butterflies pours forth, fluttering in a 20-foot burst for 2 rounds; creatures are blinded while in the cloud of butterflies\n<strong>14-15</strong> All the target's weapons animate with the effects of the dancing rune\n<strong>16-25</strong> Lightning bolt\n<strong>26-29</strong> Grass grows in a 60-foot cone in front of the rod, or existing grass grows at 10 * normal rate\n<strong>30</strong> Target turns blue, green, or purple with an unlimited duration\n<strong>31</strong> Summon an elephant (6th-level summon animal)\n<strong>32-34</strong> Heavy rain falls in a 60-foot radius around you for 1 round\n<strong>35-38</strong> Stinking cloud\n<strong>39</strong> Summon an ineffective mouse (1st-level summon animal)\n<strong>40-42</strong> Vibrant pattern, with a 1-round duration\n<strong>43-44</strong> The rod casts mirror image on you\n<strong>45-46</strong> Gust of wind\n<strong>47-48</strong> The non-living, unattended object closest to the target (up to 30 cubic feet in size) turns ethereal for an unlimited duration\n<strong>49-53</strong> Slow\n<strong>54</strong> You turn blue, green, or purple with an unlimited duration\n<strong>55-59</strong> The rod casts pest form on you, lasting 1d4 rounds\n<strong>60-61</strong> 1d4 * 10 gems, each worth 1 sp, shoot from the rod, dealing 1 piercing damage to each creature in a 15-foot cone\n<strong>62</strong> Sleep, with a 100-foot burst\n<strong>63-72</strong> Fireball\n<strong>73-77</strong> Mind reading\n<strong>78-80</strong> Roll again; the target believes you created the effect of the second roll\n<strong>81-84</strong> Enlarge\n<strong>85-87</strong> Target is coated in nectar, making it clumsy 1 for 1 round\n<strong>88-92</strong> Faerie fire\n<strong>93-97</strong> The rod casts invisibility on you\n<strong>98-100</strong> The rod casts shrink on you, lasting 1 day",
+        "type": "helditems",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "inputRequired": "On result 55-59, change the duration to 1d4 turns.",
+        "hints": [
+            {
+                "desc": "A stream of 600 large and colorful butterflies are fluttering in the area; creatures are blinded while in the cloud of butterflies.",
+                "showon": "Perception",
+                "conditionChoiceFilter": "10-13"
+            },
+            {
+                "desc": "Heavy rain falls in a 60-foot radius around you.",
+                "showon": "Perception",
+                "conditionChoiceFilter": "32-34"
+            },
+            {
+                "desc": "You have turned blue, green or purple.",
+                "showon": "Health",
+                "conditionChoiceFilter": "54"
+            },
+            {
+                "desc": "The non-living, unattended object closest to the target (up to 30 cubic feet in size) has turned ethereal.",
+                "showon": "Perception, Activities",
+                "conditionChoiceFilter": "47-48"
+            }
+        ],
+        "choice": "1-3",
+        "choices": [
+            {
+                "name": "1-3",
+                "defaultDuration": 144000
+            },
+            {
+                "name": "4-8",
+                "defaultDuration": 100
+            },
+            {
+                "name": "9",
+                "defaultDuration": 100
+            },
+            {
+                "name": "10-13",
+                "defaultDuration": 20
+            },
+            {
+                "name": "14-15",
+                "defaultDuration": 1
+            },
+            {
+                "name": "16-25",
+                "defaultDuration": 1
+            },
+            {
+                "name": "26-29",
+                "defaultDuration": 1
+            },
+            {
+                "name": "30",
+                "defaultDuration": -1
+            },
+            {
+                "name": "31",
+                "defaultDuration": 100
+            },
+            {
+                "name": "32-34",
+                "defaultDuration": 10
+            },
+            {
+                "name": "35-38",
+                "defaultDuration": 100
+            },
+            {
+                "name": "39",
+                "defaultDuration": 100
+            },
+            {
+                "name": "40-42",
+                "defaultDuration": 10
+            },
+            {
+                "name": "43-44",
+                "defaultDuration": 100
+            },
+            {
+                "name": "45-46",
+                "defaultDuration": 10
+            },
+            {
+                "name": "47-48",
+                "defaultDuration": -1
+            },
+            {
+                "name": "49-53",
+                "defaultDuration": 100
+            },
+            {
+                "name": "54",
+                "defaultDuration": -1
+            },
+            {
+                "name": "55-59",
+                "defaultDuration": 40
+            },
+            {
+                "name": "60-61",
+                "defaultDuration": 1
+            },
+            {
+                "name": "62",
+                "defaultDuration": 6000
+            },
+            {
+                "name": "63-72",
+                "defaultDuration": 1
+            },
+            {
+                "name": "73-77",
+                "defaultDuration": 100
+            },
+            {
+                "name": "78-80",
+                "defaultDuration": 1
+            },
+            {
+                "name": "81-84",
+                "defaultDuration": 500
+            },
+            {
+                "name": "85-87",
+                "defaultDuration": 10
+            },
+            {
+                "name": "88-92",
+                "defaultDuration": 500
+            },
+            {
+                "name": "93-97",
+                "defaultDuration": 1000
+            },
+            {
+                "name": "98-100",
+                "defaultDuration": 144000
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": "4-8",
+                "name": "Darkness"
+            },
+            {
+                "conditionChoiceFilter": "9",
+                "heightened": 5,
+                "name": "Summon Animal"
+            },
+            {
+                "conditionChoiceFilter": "31",
+                "heightened": 6,
+                "name": "Summon Animal"
+            },
+            {
+                "conditionChoiceFilter": "35-38",
+                "name": "Stinking Cloud (Caster)"
+            },
+            {
+                "conditionChoiceFilter": "39",
+                "heightened": 1,
+                "name": "Summon Animal"
+            },
+            {
+                "conditionChoiceFilter": "40-42",
+                "name": "Vibrant Pattern (Caster)"
+            },
+            {
+                "conditionChoiceFilter": "43-44",
+                "name": "Mirror Image",
+                "value": 3
+            },
+            {
+                "conditionChoiceFilter": "45-46",
+                "name": "Gust of Wind"
+            },
+            {
+                "conditionChoiceFilter": "49-53",
+                "name": "Slow (Caster)"
+            },
+            {
+                "conditionChoiceFilter": "55-59",
+                "name": "Pest Form"
+            },
+            {
+                "conditionChoiceFilter": "62",
+                "name": "Sleep (Caster)"
+            },
+            {
+                "conditionChoiceFilter": "73-77",
+                "name": "Mind Reading (Caster)"
+            },
+            {
+                "conditionChoiceFilter": "81-84",
+                "name": "Enlarge (Caster)"
+            },
+            {
+                "conditionChoiceFilter": "88-92",
+                "name": "Faerie Fire"
+            },
+            {
+                "conditionChoiceFilter": "93-97",
+                "name": "Invisibility"
+            },
+            {
+                "conditionChoiceFilter": "98-100",
+                "name": "Shrink"
+            }
+        ]
+    },
+    {
+        "name": "Rod of Wonder Cooldown",
+        "desc": "The rod of wonder can't be activated again for the duration.",
+        "type": "helditems",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 6000
+            },
+            {
+                "duration": 12000
+            },
+            {
+                "duration": 18000
+            },
+            {
+                "duration": 24000
+            }
+        ],
+        "choice": "1 hour",
+        "choices": [
+            {
+                "name": "1 hour",
+                "defaultDuration": 6000
+            },
+            {
+                "name": "2 hours",
+                "defaultDuration": 12000
+            },
+            {
+                "name": "3 hours",
+                "defaultDuration": 18000
+            },
+            {
+                "name": "4 hours",
+                "defaultDuration": 24000
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Rod of Wonder disabled",
+                "toggle": true
+            }
+        ]
+    },
+    {
         "name": "Thurible of Revelation",
         "desc": "As long you are holding the thurible, you gain an item bonus equal to the value to Religion checks, and any critical failure you roll when you Decipher Writing of a religious nature is a failure instead.",
         "type": "helditems",
@@ -13502,7 +13973,7 @@
     },
     {
         "name": "Gust of Wind",
-        "desc": "A violent wind issues forth from your palm, blowing from the point where you are when you cast the spell to the line's opposite end. The wind extinguishes small non-magical fires, disperses fog and mist, blows objects of light Bulk or less around, and pushes larger objects. Large or smaller creatures in the area must attempt a Fortitude save. Large or smaller creatures that later move into the gust must attempt the save on entering.\n\n<strong>Critical Success</strong> The creature is unaffected.\n<strong>Success</strong> The creature can't move against the wind.\n<strong>Failure</strong> The creature is knocked prone. If it was flying, it suffers the effects of critical failure instead.\n<strong>Critical Failure</strong> The creature is pushed 30 feet in the wind's direction, knocked prone, and takes 2d6 bludgeoning damage.",
+        "desc": "A violent wind issues forth from your palm, blowing from the point where you are when you cast the spell to the line's opposite end. The wind extinguishes small non-magical fires, disperses fog and mist, blows objects of light Bulk or less around, and pushes larger objects. Large or smaller creatures in the area must attempt a Fortitude save. Large or smaller creatures that later move into the gust must attempt the save on entering.\n\n<strong>Critical Success</strong> The creature is unaffected.\n<strong>Success</strong> The creature can't move against the wind.\n<strong>Failure</strong> The creature is knocked prone. If it was flying, it suffers the effects of critical failure instead.\n<strong>Critical Failure</strong> The creature is pushed 30 feet in the wind's direction, knocked prone, and takes |dice=2d6 B| 2d6 bludgeoning damage.",
         "type": "spells",
         "minLevel": 1,
         "buff": true,
@@ -21541,7 +22012,7 @@
     },
     {
         "name": "Mirror Image",
-        "desc": "Three illusory images of you swirl about your space, potentially causing those who attack you to hit one of the images instead of you. Any attack that would hit you has a random chance of hitting one of your images instead of you. If all three images remain, there is a 1 in 4 chance of hitting you (1 on 1d4). With two images remaining, there is a 1 in 3 chance of hitting you (1-2 on 1d6). With only one image, the chances are 1 in 2 (1-3 on 1d6).\n\nOnce an image is hit, it is destroyed. If an attack roll fails to hit your AC but doesn't critically fail, it destroys an image but has no additional effect (even if the attack would normally have an effect on a failure). If an attack roll is a critical success and would hit one of the images, one of the images is destroyed and the attack roll becomes a success against you. Once all the images are destroyed, the spell ends.",
+        "desc": "Three illusory images of you swirl about your space, potentially causing those who attack you to hit one of the images instead of you. Any attack that would hit you has a random chance of hitting one of your images instead of you. If all three images remain, there is a 1 in 4 chance of hitting you (1 on |dice=1d4| 1d4). With two images remaining, there is a 1 in 3 chance of hitting you (1-2 on |dice=1d6| 1d6). With only one image, the chances are 1 in 2 (1-3 on |dice=1d6| 1d6).\n\nOnce an image is hit, it is destroyed. If an attack roll fails to hit your AC but doesn't critically fail, it destroys an image but has no additional effect (even if the attack would normally have an effect on a failure). If an attack roll is a critical success and would hit one of the images, one of the images is destroyed and the attack roll becomes a success against you. Once all the images are destroyed, the spell ends.",
         "type": "spells",
         "minLevel": 2,
         "buff": true,
@@ -34340,6 +34811,57 @@
             {
                 "desc": "You see things within 60 feet as they actually are. The GM rolls a secret counteract check against any illusion or transmutation in the area, but only for the purpose of determining whether you see through it (for instance, if the check succeeds against a polymorph spell, you can see the creature's true form, but you don't end the polymorph spell).",
                 "showon": "Perception"
+            }
+        ]
+    },
+    {
+        "name": "Vibrant Pattern",
+        "desc": "A pattern of lights pulses with intensity in the area. Creatures are dazzled while inside the pattern.\n\nIn addition, you must attempt a Will saving throw if you are inside the pattern when it was cast, enter the pattern, end your turn within the pattern, or use a Seek or Interact action on the pattern. A creature currently blinded by the pattern doesn't need to attempt new saving throws.\n\n<strong>Success</strong> You are unaffected.\n<strong>Failure</strong> You are blinded by the pattern. If you exit the pattern, you can attempt a new save to recover from the blinded condition at the end of each of your turns, to a maximum duration of 1 minute.\n<strong>Critical Failure</strong> You are blinded for 1 minute.",
+        "minLevel": 6,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Failure"
+            },
+            {
+                "name": "Critical Failure"
+            },
+            {
+                "name": "Dazzled"
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": "Dazzled",
+                "name": "Dazzled"
+            },
+            {
+                "conditionChoiceFilter": "Failure",
+                "name": "Blinded"
+            },
+            {
+                "conditionChoiceFilter": "Critical Failure",
+                "name": "Blinded"
+            }
+        ]
+    },
+    {
+        "name": "Vibrant Pattern (Caster)",
+        "desc": "You have created a pattern of lights that pulses with intensity. Creatures are dazzled while inside the pattern.\n\nIn addition, a creature must attempt a Will saving throw if it's inside the pattern when you cast it, enters the pattern, ends its turn within the pattern, or uses a Seek or Interact action on the pattern. A creature currently blinded by the pattern doesn't need to attempt new saving throws.\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature is blinded by the pattern. If it exits the pattern, it can attempt a new save to recover from the blinded condition at the end of each of its turns, to a maximum duration of 1 minute.\n<strong>Critical Failure</strong> The creature is blinded for 1 minute.",
+        "minLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
             }
         ]
     },

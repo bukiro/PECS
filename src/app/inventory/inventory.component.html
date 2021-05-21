@@ -382,6 +382,11 @@
                                             &nbsp;
                                             <!-- This span is a placeholder that appears if no other button is valid on the left side of the Sell button -->
                                         </span>
+                                        <span *ngIf="can_Drop(item)">
+                                            <app-itemTarget [item]="item" [inventory]="inventory" [creature]="creature"
+                                                (moveMessage)="move_InventoryItem(item, inventory, $event.target, $event.amount, $event.including)">
+                                            </app-itemTarget>
+                                        </span>
                                         <span>
                                             <span [ngbTooltip]="'Sell at half price'">
                                                 <button (click)="drop_InventoryItem(item, inventory, true)"
@@ -389,21 +394,6 @@
                                                     Sell {{can_DropAll(item) ? " with all parts" : ""}}
                                                 </button>
                                             </span>
-                                        </span>
-                                    </div>
-                                    <div class="list-item" *ngIf=can_Drop(item)>
-                                        <strong>Move to container</strong>
-                                        <span>
-                                            <select [(ngModel)]="targetInventory"
-                                                (ngModelChange)="move_InventoryItem(item, inventory)">
-                                                <option [ngValue]="null"></option>
-                                                <option
-                                                    *ngFor="let newTargetInventory of get_TargetInventories(item); trackBy:trackByIndex;"
-                                                    [ngValue]="newTargetInventory"
-                                                    [disabled]="!can_Fit(item, newTargetInventory, inventory)">
-                                                    {{get_InventoryName(newTargetInventory)}}
-                                                </option>
-                                            </select>
                                         </span>
                                     </div>
                                     <div class="list-item newrow left-aligned">
@@ -591,7 +581,7 @@
                                                 <ng-container *ngTemplateOutlet="ItemTitleTemplate">
                                                 </ng-container>
                                             </button>
-                                            <div class="list-item sublist lower"
+                                            <div class="list-item sublist"
                                                 [ngClass]="{'fancy-list':((item.equippable && item.equipped) || (item.can_Invest() && item.invested)), 'problem':item.broken}"
                                                 *ngIf="get_ShowItem()==inventoryID">
                                                 <ng-container *ngTemplateOutlet="ItemTemplate"></ng-container>

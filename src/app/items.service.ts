@@ -464,7 +464,7 @@ export class ItemsService {
         })
     }
 
-    move_InventoryItem(creature: Character | AnimalCompanion, item: Item, targetInventory: ItemCollection, inventory: ItemCollection, characterService: CharacterService, amount: number = 0) {
+    move_InventoryItem(creature: Character | AnimalCompanion, item: Item, targetInventory: ItemCollection, inventory: ItemCollection, characterService: CharacterService, amount: number = 0, including: boolean = true) {
         if (targetInventory && targetInventory != inventory && targetInventory.itemId != item.id) {
             item = this.update_GrantingItem(creature, item);
             let fromCreature = characterService.get_Creatures().find(creature => creature.inventories.find(inv => inv === inventory)) as Character | AnimalCompanion;
@@ -502,7 +502,9 @@ export class ItemsService {
                     characterService.on_Invest(creature, inventory, movedItem as Equipment, false)
                 }
                 //Move all granted items as well.
-                this.move_GrantedItems(creature, movedItem, targetInventory, inventory, characterService);
+                if (including) {
+                    this.move_GrantedItems(creature, movedItem, targetInventory, inventory, characterService);
+                }
             } else {
                 let movedItem = JSON.parse(JSON.stringify(item));
                 let movedInventories: ItemCollection[]
@@ -539,7 +541,8 @@ export class ItemsService {
             }
 
         }
-        //Update any gridicons that have changed.
+        //Close any popovers and update any gridicons that have changed.
+        characterService.set_Changed("close-popovers");
         characterService.set_Changed(item.id);
 
     }

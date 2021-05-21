@@ -24,6 +24,7 @@ import { Armor } from '../Armor';
 import { ToastService } from '../toast.service';
 import { AlchemicalBomb } from '../AlchemicalBomb';
 import { OtherConsumableBomb } from '../OtherConsumableBomb';
+import { SpellTarget } from '../SpellTarget';
 
 @Component({
     selector: 'app-inventory',
@@ -176,7 +177,7 @@ export class InventoryComponent implements OnInit {
         //Add up the number of items in each inventory with this item's id
         //We have to sum up the items in each inventory, and then sum up those sums.
         //Return a number
-        if (item.id && item["gainInventory"] && item["gainInventory"].length && this.get_Creature().inventories.length > 1) {
+        if (item.id && (item as Equipment).gainInventory?.length) {
             return this.get_Creature().inventories
                 .filter(inventory =>
                     inventory.itemId == item.id
@@ -186,57 +187,6 @@ export class InventoryComponent implements OnInit {
                 ).reduce((a, b) => a + b, 0);
         } else {
             return 0
-        }
-    }
-
-    get_ContainedBulk(creature: Character | AnimalCompanion, item: Item, targetInventory: ItemCollection) {
-        //Sum up all the bulk of an item, including items granted by it and inventories it contains (or they contain).
-        //If this item has granted other items, sum up the bulk of each of them.
-        //If a targetInventory is given, don't count items in that inventory, as we want to figure out if the whole package will fit into that inventory.
-        let bulk = 0;
-        item.gainItems?.forEach(itemGain => {
-            let found: number = 0;
-            let stackBulk = 0;
-            let stackSize = 1;
-            creature.inventories.filter(inventory => !targetInventory || inventory !== targetInventory).forEach(inventory => {
-                //Count how many items you have that either have this ItemGain's id or, if stackable, its name.
-                inventory[itemGain.type].filter(invItem => invItem.id == itemGain.id || (invItem.can_Stack() && invItem.name == itemGain.name)).forEach(invItem => {
-                    if (invItem.can_Stack()) {
-                        found += invItem.amount;
-                        stackBulk = invItem.carryingBulk || invItem.bulk;
-                        stackSize = invItem.stack || 1;
-                    } else {
-                        bulk += this.itemsService.get_RealBulk(invItem, true);
-                        //If the granted item includes more items, add their bulk as well.
-                        bulk += this.get_ContainedBulk(creature, invItem, targetInventory);
-                    }
-                })
-            })
-            if (found && stackBulk && stackSize) {
-                //If one ore more stacked items were found, calculate the stack bulk accordingly.
-                let testItem = new Consumable();
-                testItem.bulk = stackBulk.toString();
-                testItem.amount = Math.min(itemGain.amount, found);
-                testItem.stack = stackSize;
-                bulk += this.itemsService.get_RealBulk(testItem, false);
-            }
-        })
-        //If the item adds an inventory, add the sum bulk of that inventory, unless it's the target inventory. The item will not be moved into the inventory in that case (handled during the move).
-        if ((item as Equipment).gainInventory) {
-            bulk += creature.inventories.find(inventory => inventory !== targetInventory && inventory.itemId == item.id)?.get_Bulk() || 0;
-        }
-        return bulk;
-    }
-
-    can_Fit(item: Item, targetInventory: ItemCollection, sourceInventory: ItemCollection) {
-        if (targetInventory.itemId == item.id || targetInventory === sourceInventory) {
-            return false;
-        } else if (targetInventory.bulkLimit) {
-            let itemBulk = this.itemsService.get_RealBulk(item, true);
-            let containedBulk = this.get_ContainedBulk(this.get_Creature(), item, targetInventory);
-            return (targetInventory.get_Bulk(false) + itemBulk + containedBulk <= targetInventory.bulkLimit)
-        } else {
-            return true;
         }
     }
 
@@ -304,13 +254,18 @@ export class InventoryComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    move_InventoryItem(item: Item, inventory: ItemCollection, changeafter: boolean = true) {
-        this.itemsService.move_InventoryItem(this.get_Creature(), item, this.targetInventory, inventory, this.characterService)
-        if (changeafter) {
-            this.targetInventory = null;
-            this.characterService.set_ToChange(this.creature, "inventory");
-            this.characterService.process_ToChange();
+    move_InventoryItem(item: Item, inventory: ItemCollection, target: ItemCollection | SpellTarget, amount: number, including: boolean) {
+        if (target instanceof ItemCollection) {
+            this.targetInventory = target;
+            this.move_InventoryItemLocally(item, inventory, amount, including);
         }
+    }
+
+    move_InventoryItemLocally(item: Item, inventory: ItemCollection, amount: number = 0, including: boolean = true) {
+        this.itemsService.move_InventoryItem(this.get_Creature(), item, this.targetInventory, inventory, this.characterService, amount, including);
+        this.targetInventory = null;
+        this.characterService.set_ToChange(this.creature, "inventory");
+        this.characterService.process_ToChange();
     }
 
     drop_ContainerOnly(item: Item, inventory: ItemCollection) {
