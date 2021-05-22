@@ -148,7 +148,7 @@ export class ActivitiesComponent implements OnInit {
 
     get_FuseStanceName() {
         let fuseStance = this.characterService.get_Character().customFeats.filter(feat => feat.name == "Fuse Stance");
-        if (fuseStance.length && fuseStance[0].data && fuseStance[0].data["name"]) {
+        if (fuseStance.length && fuseStance[0].data?.["name"]) {
             return fuseStance[0].data["name"];
         } else {
             return "Fused Stance";

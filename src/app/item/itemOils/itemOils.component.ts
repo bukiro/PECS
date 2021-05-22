@@ -80,11 +80,12 @@ export class ItemOilsComponent implements OnInit {
                     ) && (
                         oil.oil.damagereq ?
                             (
-                                (item as Weapon).dmgType &&
+                                item instanceof Weapon &&
+                                item.dmgType &&
                                 (
                                     oil.oil.damagereq.split("")
-                                        .filter(req => item["dmgType"].includes(req)).length ||
-                                    (item as Weapon).dmgType == "modular"
+                                        .filter(req => item instanceof Weapon && item.dmgType.includes(req)).length ||
+                                    item.dmgType == "modular"
                                 )
                             )
                             : true

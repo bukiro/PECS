@@ -7,6 +7,9 @@ import { Weapon } from '../Weapon';
 import { Armor } from '../Armor';
 import { AlchemicalBomb } from '../AlchemicalBomb';
 import { OtherConsumableBomb } from '../OtherConsumableBomb';
+import { Equipment } from '../Equipment';
+import { AdventuringGear } from '../AdventuringGear';
+import { Consumable } from '../Consumable';
 
 @Component({
     selector: 'app-crafting',
@@ -114,6 +117,10 @@ export class CraftingComponent implements OnInit {
         }
         return true;
     }
+    
+    get_IsEquipment(item: Item) {
+        return (item instanceof Equipment);
+    }
 
     get_CanUse(item: Item) {
         let canUse = undefined;
@@ -142,8 +149,8 @@ export class CraftingComponent implements OnInit {
     }
 
     get_Price(item: Item) {
-        if (item["get_Price"]) {
-            return item["get_Price"](this.itemsService);
+        if (item instanceof Equipment) {
+            return item.get_Price(this.itemsService);
         } else {
             return item.price;
         }
@@ -233,8 +240,8 @@ export class CraftingComponent implements OnInit {
 
     grant_Item(item: Item) {
         let amount = 1;
-        if (item["stack"]) {
-            amount = item["stack"];
+        if (item instanceof AdventuringGear || item instanceof Consumable) {
+            amount = item.stack;
         }
         item.crafted = true;
         this.characterService.grant_InventoryItem(this.characterService.get_Character(), this.characterService.get_Character().inventories[0], item, false, true, true, amount);

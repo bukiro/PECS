@@ -72,6 +72,7 @@ import { ShieldMaterial } from './ShieldMaterial';
 import { Hint } from './Hint';
 import { InventoryComponent } from './inventory/inventory.component';
 import { NewItemPropertyComponent } from './items/newItemProperty/newItemProperty.component';
+import { SpellTarget } from './SpellTarget';
 
 @Injectable({
     providedIn: 'root'
@@ -444,8 +445,12 @@ export class ItemsService {
         return item;
     }
 
-    pack_GrantingItem(creature: Character | AnimalCompanion, item: Item, primaryItem: Item) {
+    pack_GrantingItem(creature: Character | AnimalCompanion, item: Item, primaryItem: Item = null) {
+        if (!primaryItem) {
+            primaryItem = item;
+        }
         //Collect all items and inventories granted by an item, including inventories contained in its granted items.
+        //Does NOT and should not include the primary item itself.
         let items: Item[] = [];
         let inventories: ItemCollection[] = [];
 
@@ -474,24 +479,39 @@ export class ItemsService {
             inventories.push(...creature.inventories.filter(inventory => inventory.itemId == item.id).map(inventory => Object.assign(new ItemCollection(), JSON.parse(JSON.stringify(inventory)))));
         }
 
-        //If an inventory contains any items that grant more inventories, add those to the list as well, unless they are already in it.
-        inventories.forEach(inv => {
-            inv.allEquipment().filter(invItem => invItem.gainInventory.length).forEach(invItem => {
-                inventories.push(
-                    ...creature.inventories
-                        .filter(inventory => !inventories.some(inv => inv.id == inventory.id) && inventory.itemId == invItem.id)
-                        .map(inventory => Object.assign(new ItemCollection(), JSON.parse(JSON.stringify(inventory)))));
+        //At this point, if this is the primary item, all nested items and inventories have been added. We can now clean up the stacks:
+        if (item === primaryItem) {
+            //If an inventory contains any items that grant more inventories, add those to the list as well, unless they are already in it.
+            //In case of nested inventories, repeat until no new iventories are found.
+            //We don't pack items granted by items in inventories.
+            if (inventories.length) {
+                let newInventoriesFound = true;
+                while (newInventoriesFound) {
+                    newInventoriesFound = false;
+                    inventories.forEach(inv => {
+                        inv.allEquipment().filter(invItem => invItem.gainInventory.length).forEach(invItem => {
+                            let newInventories = creature.inventories.filter(inventory => !inventories.some(inv => inv.id == inventory.id) && inventory.itemId == invItem.id);
+                            if (newInventories.length) {
+                                newInventoriesFound = true;
+                                inventories.push(
+                                    ...newInventories.map(inventory => Object.assign(new ItemCollection(), JSON.parse(JSON.stringify(inventory)))));
+                            }
+                        })
+                    })
+                }
+            }
+
+            //If any of the items are already in any of the inventories, remove them from the items list. Also remove the primary item from the items list.
+            items.filter(item => inventories.some(inv => inv[item.type].some(invItem => invItem.id == item.id))).forEach(item => {
+                item.id = "DELETE";
             })
-        })
-        //If any of the items are already in any of the inventories, remove them from the items list. Also remove the primary Item from the items list.
-        items.filter(item => inventories.some(inv => inv[item.type].some(invItem => invItem.id == item.id))).forEach(item => {
-            item.id = "DELETE";
-        })
-        items = items.filter(item => item.id != "DELETE" && item.id != primaryItem.id);
-        //If the primary item is in one of the inventories, remove it from inventory.
-        inventories.filter(inv => inv[primaryItem.type].some(invItem => invItem.id == primaryItem.id)).forEach(inv => {
-            inv[primaryItem.type] = inv[primaryItem.type].filter(invItem => invItem.id != primaryItem.id);
-        });
+            items = items.filter(item => item.id != "DELETE" && item.id != primaryItem.id);
+
+            //If the primary item is in one of the inventories, remove it from inventory. It will be moved to the main inventory of the target creature instead.
+            inventories.filter(inv => inv[primaryItem.type].some(invItem => invItem.id == primaryItem.id)).forEach(inv => {
+                inv[primaryItem.type] = inv[primaryItem.type].filter(invItem => invItem.id != primaryItem.id);
+            });
+        }
 
         return { items: items, inventories: inventories };
     }
@@ -509,22 +529,21 @@ export class ItemsService {
                     if (toMove) {
                         let moved = Math.min(toMove, invItem.amount);
                         toMove -= moved;
-                        this.move_InventoryItem(creature, invItem, targetInventory, inv, characterService, moved);
+                        this.move_InventoryItemLocally(creature, invItem, targetInventory, inv, characterService, moved);
                     }
                 })
             })
         })
     }
 
-    move_InventoryItem(creature: Character | AnimalCompanion, item: Item, targetInventory: ItemCollection, inventory: ItemCollection, characterService: CharacterService, amount: number = 0, including: boolean = true) {
+    move_InventoryItemLocally(creature: Character | AnimalCompanion, item: Item, targetInventory: ItemCollection, inventory: ItemCollection, characterService: CharacterService, amount: number = 0, including: boolean = true) {
         if (targetInventory && targetInventory != inventory && targetInventory.itemId != item.id) {
             item = this.update_GrantingItem(creature, item);
-            let fromCreature = characterService.get_Creatures().find(creature => creature.inventories.find(inv => inv === inventory)) as Character | AnimalCompanion;
-            let toCreature = characterService.get_Creatures().find(creature => creature.inventories.find(inv => inv === targetInventory)) as Character | AnimalCompanion;
             if (!amount) {
                 amount = item.amount;
             }
-            if (fromCreature == toCreature) {
+            //Only move the item locally if the item still exists in the inventory.
+            if (inventory?.[item.type]?.some(invItem => invItem === item)) {
                 //If this item is moved between inventories of the same creature, you don't need to drop it explicitly.
                 //Just push it to the new inventory and remove it from the old, but unequip it either way.
                 let movedItem = JSON.parse(JSON.stringify(item));
@@ -557,46 +576,57 @@ export class ItemsService {
                 if (including) {
                     this.move_GrantedItems(creature, movedItem, targetInventory, inventory, characterService);
                 }
-            } else {
-                let movedItem = JSON.parse(JSON.stringify(item));
-                let movedInventories: ItemCollection[]
-                //If this item is a container and is moved between creatures, the attached inventories need to be moved as well.
-                //Because we lose the inventory when we drop the item, but automatically gain one when we grant the item to the other creature,
-                // we need to first save the inventory, then recreate it and remove the new ones after moving the item.
-                //Here, we save the inventories and take care of any containers within the container.
-                if ((item as Equipment).gainInventory && (item as Equipment).gainInventory.length) {
-                    //First, move all inventory granting items within this inventory granting item to the same target.
-                    fromCreature.inventories.filter(inv => inv.itemId == item.id).forEach(inv => {
-                        inv.allItems().filter(invItem => (invItem as Equipment).gainInventory?.length).forEach(invItem => {
-                            this.move_InventoryItem(creature, invItem, targetInventory, inv, characterService);
-                        });
-                    });
-                    movedInventories = fromCreature.inventories.filter(inv => inv.itemId == item.id).map(inv => JSON.parse(JSON.stringify(inv)))
-                    movedInventories = movedInventories.map(inv => characterService.reassign(inv));
-                }
-                let newItem = characterService.grant_InventoryItem(toCreature, targetInventory, movedItem, false, false, false, movedItem.amount, false);
-                characterService.drop_InventoryItem(fromCreature, inventory, item, false, true, true, item.amount);
-                //Below, we reinsert the saved inventories and remove any newly created ones.
-                if ((item as Equipment).gainInventory && (item as Equipment).gainInventory.length) {
-                    toCreature.inventories = toCreature.inventories.filter(inv => inv.itemId != newItem.id);
-                    let newLength = toCreature.inventories.push(...movedInventories);
-                    toCreature.inventories.slice(newLength - movedInventories.length, newLength).forEach(inv => {
-                        inv.itemId = newItem.id;
-                    })
-                }
-                if ((newItem as Equipment).equipped) {
-                    characterService.onEquip(creature, targetInventory, newItem as Equipment, false)
-                }
-                if ((newItem as Equipment).invested) {
-                    characterService.on_Invest(creature, targetInventory, newItem as Equipment, false)
-                }
             }
-
         }
-        //Close any popovers and update any gridicons that have changed.
-        characterService.set_Changed("close-popovers");
-        characterService.set_Changed(item.id);
+    }
 
+    move_InventoryItemToCreature(creature: Character | AnimalCompanion, targetCreature: SpellTarget, item: Item, inventory: ItemCollection, characterService: CharacterService, amount: number = 0) {
+        if (creature.type != targetCreature.type) {
+            item = this.update_GrantingItem(creature, item);
+            if (!amount) {
+                amount = item.amount;
+            }
+            let included = this.pack_GrantingItem(creature, item)
+            let toCreature = characterService.get_Creature(targetCreature.type);
+            let targetInventory = toCreature.inventories[0];
+            //Iterate through the main item and all its granted items and inventories.
+            [item].concat(included.items).forEach(includedItem => {
+                //If any existing, stackable items are found, add this item's amount on top and finish.
+                //If no items are found, add the new item and its included items to the inventory.
+                let existingItems: Item[] = [];
+                if (!includedItem.expiration && includedItem.can_Stack()) {
+                    existingItems = targetInventory[includedItem.type].filter((existing: Item) => existing.name == includedItem.name && existing.can_Stack() && !includedItem.expiration);
+                }
+                if (existingItems.length) {
+                    existingItems[0].amount += includedItem.amount;
+                    //Update the item's gridicon to reflect its changed amount.
+                    characterService.set_Changed(existingItems[0].id);
+                } else {
+                    let movedItem = JSON.parse(JSON.stringify(includedItem));
+                    movedItem = characterService.reassign(movedItem);
+                    let newLength = targetInventory[includedItem.type].push(movedItem);
+                    let newItem = targetInventory[includedItem.type][newLength - 1];
+                    newItem = characterService.process_GrantedItem(toCreature as Character | AnimalCompanion, newItem, targetInventory, true, false, true, true);
+                }
+            })
+            //Add included inventories and process all items inside them.
+            included.inventories.forEach(inventory => {
+                inventory = characterService.reassign(inventory)
+                let newLength = toCreature.inventories.push(inventory);
+                let newInventory = toCreature.inventories[newLength - 1];
+                newInventory.allItems().forEach(invItem => {
+                    invItem = characterService.process_GrantedItem((toCreature as Character | AnimalCompanion), invItem, newInventory, true, false, true, true);
+                })
+            })
+            //If the item still exists on the inventory, drop it with all its contents.
+            if (inventory?.[item.type]?.some(invItem => invItem === item)) {
+                characterService.drop_InventoryItem(creature as Character | AnimalCompanion, inventory, item, false, true, true, amount);
+            }
+            characterService.set_ToChange(toCreature.type, "inventory");
+            characterService.set_ToChange(creature.type, "inventory");
+            characterService.set_ToChange(toCreature.type, "effects");
+            characterService.set_ToChange(creature.type, "effects");
+        }
     }
 
     process_Consumable(creature: Creature, characterService: CharacterService, itemsService: ItemsService, conditionsService: ConditionsService, spellsService: SpellsService, item: Consumable) {
@@ -612,16 +642,14 @@ export class ItemsService {
             }
 
             //Apply conditions
-            if (item["gainConditions"]) {
-                item["gainConditions"].forEach(gain => {
-                    let newConditionGain = Object.assign(new ConditionGain(), gain);
-                    characterService.add_Condition(creature, newConditionGain, false);
-                });
-            }
+            item.gainConditions.forEach(gain => {
+                let newConditionGain = Object.assign(new ConditionGain(), gain);
+                characterService.add_Condition(creature, newConditionGain, false);
+            });
 
             //Cast Spells
-            if (item["castSpells"]) {
-                item["castSpells"].forEach((cast: SpellCast) => {
+            if (item instanceof Oil) {
+                item.castSpells.forEach((cast: SpellCast) => {
                     cast.spellGain.duration = cast.duration;
                     let librarySpell = spellsService.get_Spells(cast.name)[0];
                     if (librarySpell) {
@@ -746,11 +774,11 @@ export class ItemsService {
                 item.expiration -= turns;
                 if (item.expiration <= 0) {
                     item.name = "DELETE";
-                    if ((item as Equipment).baseType == "Equipment" && (item as Equipment).gainInventory.length) {
+                    if (item instanceof Equipment && item.gainInventory.length) {
                         //If a temporary container is destroyed, return all contained items to the main inventory.
                         creature.inventories.filter(inv => inv.itemId == item.id).forEach(inv => {
                             inv.allItems().forEach(invItem => {
-                                this.move_InventoryItem(creature, invItem, creature.inventories[0], inv, characterService);
+                                this.move_InventoryItemLocally(creature, invItem, creature.inventories[0], inv, characterService);
                             });
                         });
                     }

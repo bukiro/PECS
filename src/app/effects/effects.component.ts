@@ -8,6 +8,8 @@ import { Effect } from '../Effect';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { Condition } from '../Condition';
+import { Rune } from '../Rune';
+import { WeaponRune } from '../WeaponRune';
 
 @Component({
     selector: 'app-effects',
@@ -200,12 +202,12 @@ export class EffectsComponent implements OnInit {
         if (this.creature != "Familiar" && !this.get_ManualMode()) {
             this.get_Creature().inventories.forEach(inventory => {
                 inventory.allEquipment().forEach(item => {
-                    item.propertyRunes.forEach(rune => {
+                    item.propertyRunes.forEach((rune: Rune) => {
                         if (rune.name == "Speed" && (item.equipped || (item.can_Invest() && item.invested))) {
                             speedRune = true;
                         }
-                        if (rune["alignmentPenalty"]) {
-                            if (this.characterService.get_Character().alignment.includes(rune["alignmentPenalty"])) {
+                        if (rune instanceof WeaponRune && rune.alignmentPenalty) {
+                            if (this.characterService.get_Character().alignment.includes(rune.alignmentPenalty)) {
                                 enfeebledRune = true;
                             }
                         }

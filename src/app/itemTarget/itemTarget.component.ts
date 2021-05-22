@@ -1,3 +1,4 @@
+import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AnimalCompanion } from '../AnimalCompanion';
@@ -143,11 +144,26 @@ export class ItemTargetComponent implements OnInit {
 
     get_IsCircularContainer(target: ItemCollection | SpellTarget) {
         //Check if the target inventory is contained in this item.
-        return (
-            target instanceof ItemCollection &&
-            (this.item as Equipment).gainInventory?.length &&
-            this.get_Creature().inventories.some(inv => inv.itemId == this.item.id && inv.allItems().some(item => item.id == target.itemId))
-        )
+        let found = false;
+        if (target instanceof ItemCollection) {
+            if (this.item instanceof Equipment && this.item.gainInventory?.length) {
+                found = this.get_ItemContainsInventory(this.item, target);
+            }
+        }
+        return found;
+    }
+
+    get_ItemContainsInventory(item: Equipment, inventory: ItemCollection) {
+        let found = false;
+        if (item.gainInventory?.length) {
+            found = this.get_Creature().inventories.filter(inv => inv.itemId == item.id).some(inv => {
+                return inv.allEquipment().some(invItem => invItem.id == inventory.itemId) ||
+                    inv.allEquipment().filter(invItem => invItem.gainInventory.length).some(invItem => {
+                        return this.get_ItemContainsInventory(invItem, inventory);
+                    })
+            })
+        }
+        return found;
     }
 
     get_CannotMove(target: ItemCollection | SpellTarget) {

@@ -63,6 +63,18 @@ export class HintComponent implements OnInit {
             )
     }
 
+    get_HintDescription(hint: Hint) {
+        if (hint.desc) {
+            return this.get_HeightenedHint(hint);
+        } else {
+            if (this.object instanceof ConditionSet) {
+                return this.object.condition.get_Heightened(this.object.condition.desc, this.object.gain.heightened);
+            } else {
+                return this.object.desc || "";
+            }
+        }
+    }
+
     get_HeightenedHint(hint: Hint) {
         //Spell conditions have their hints heightened to their spell level, everything else is heightened to the character level.
         if (this.object instanceof ConditionSet && this.object.condition.minLevel) {

@@ -846,10 +846,10 @@ export class CharacterService {
         if (!newInventoryItem.refId) {
             newInventoryItem.refId = item.id;
         }
-        let returnedInventoryItem;
+        let returnedItem: Item;
         //Check if this item already exists in the inventory, and if it is stackable and doesn't expire. Don't make that check if this item expires.
         let existingItems: Item[] = [];
-        if (!expiration) {
+        if (expiration && newInventoryItem.can_Stack()) {
             existingItems = inventory[item.type].filter((existing: Item) =>
                 existing.name == newInventoryItem.name && newInventoryItem.can_Stack() && !item.expiration
             );
@@ -866,102 +866,101 @@ export class CharacterService {
                 intAmount = 1
             }
             existingItems[0].amount += intAmount;
-            returnedInventoryItem = existingItems[0];
+            returnedItem = existingItems[0];
+            //Update gridicons of the expanded item.
+            this.set_ToChange("Character", returnedItem.id);
         } else {
-            let newInventoryLength = inventory[item.type].push(newInventoryItem);
-            let createdInventoryItem = inventory[item.type][newInventoryLength - 1];
-            if (createdInventoryItem.amount && amount > 1) {
-                createdInventoryItem.amount = amount;
+            let newInventoryLength = inventory[newInventoryItem.type].push(newInventoryItem);
+            let newItem = inventory[newInventoryItem.type][newInventoryLength - 1];
+            if (amount > 1) {
+                newItem.amount = amount;
             }
-            if (equipAfter && Object.keys(createdInventoryItem).includes("equipped") && item.equippable) {
-                this.onEquip(creature, inventory, createdInventoryItem, true, false);
+            if (expiration) {
+                newItem.expiration = expiration;
             }
-            if (!item.equippable && (item["gainActivities"]?.length || item["activities"]?.length)) {
-                this.set_ToChange(creature.type, "activities");
-            }
-            returnedInventoryItem = createdInventoryItem;
-            if (returnedInventoryItem["prof"] == "Advanced Weapons") {
-                this.create_WeaponFeats([returnedInventoryItem]);
-            }
-            if (resetRunes && returnedInventoryItem["moddable"]) {
-                if (returnedInventoryItem["potencyRune"]) {
-                    returnedInventoryItem["potencyRune"] = 0;
-                }
-                if (returnedInventoryItem["strikingRune"]) {
-                    returnedInventoryItem["strikingRune"] = 0;
-                }
-                if (returnedInventoryItem["resilientRune"]) {
-                    returnedInventoryItem["resilientRune"] = 0;
-                }
-                if (returnedInventoryItem["propertyRunes"]) {
-                    returnedInventoryItem["propertyRunes"].length = 0;
-                }
-            }
-            if (returnedInventoryItem["propertyRunes"] && returnedInventoryItem["propertyRunes"].length) {
-                returnedInventoryItem["propertyRunes"].filter((rune: Rune) => rune["loreChoices"]).forEach((rune: Rune) => {
-                    this.add_RuneLore(rune as Rune);
-                });
-            }
-        }
-        if (returnedInventoryItem["gainInventory"]) {
-            returnedInventoryItem["gainInventory"].forEach((gain: InventoryGain) => {
-                let newLength = creature.inventories.push(new ItemCollection());
-                let newInventory = creature.inventories[newLength - 1];
-                newInventory.itemId = returnedInventoryItem.id;
-                newInventory.bulkLimit = gain.bulkLimit;
-                newInventory.bulkReduction = gain.bulkReduction;
-            })
-        }
-        if (expiration) {
-            returnedInventoryItem.expiration = expiration;
-        }
-        //Add all Items that you get from being granted this one
-        if (returnedInventoryItem.gainItems && returnedInventoryItem.gainItems.length) {
-            returnedInventoryItem.gainItems.filter((gainItem: ItemGain) => gainItem.on == "grant" && gainItem.amount > 0).forEach(gainItem => {
-                let newItem: Item = this.get_CleanItems()[gainItem.type].filter((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase())[0];
-                if (newItem.can_Stack()) {
-                    this.grant_InventoryItem(creature, inventory, newItem, true, false, false, gainItem.amount + (gainItem.amountPerLevel * creature.level));
-                } else {
-                    let equip = true;
-                    //Don't equip the new item if it's a shield or armor and this one is too - only one shield or armor can be equipped
-                    if ((returnedInventoryItem instanceof Armor || returnedInventoryItem instanceof Shield) && newItem instanceof returnedInventoryItem.constructor) {
-                        equip = false;
-                    }
-                    let grantedItem = this.grant_InventoryItem(creature, inventory, newItem, true, false, equip);
-                    gainItem.id = grantedItem.id;
-                    if (grantedItem.get_Name) {
-                        grantedItem.grantedBy = "(Granted by " + returnedInventoryItem.name + ")";
-                    };
-                }
-            });
-        }
-        if (returnedInventoryItem.gainActivities) {
-            (returnedInventoryItem as Equipment).gainActivities.forEach((gain: ActivityGain) => {
-                gain.active = false;
-            });
-        }
-        if (returnedInventoryItem.activities) {
-            (returnedInventoryItem as Equipment).activities.forEach((activity: ItemActivity) => {
-                activity.active = false;
-            });
-        }
-        if (returnedInventoryItem instanceof AlchemicalBomb || returnedInventoryItem instanceof OtherConsumableBomb || returnedInventoryItem instanceof Ammunition || returnedInventoryItem instanceof Snare) {
-            this.set_ToChange(creature.type, "attacks");
-        }
-        returnedInventoryItem["activities"]?.forEach((activity: ItemActivity) => {
-            activity.hints?.forEach((hint: Hint) => {
-                this.set_TagsToChange(creature.type, hint.showon);
-            })
-        });
-        if (returnedInventoryItem["showon"]) {
-            this.set_TagsToChange(creature.type, item["showon"]);
+            returnedItem = this.process_GrantedItem(creature, newItem, inventory, equipAfter, resetRunes)
         }
         if (changeAfter) {
             this.process_ToChange();
         }
-        //Update gridicons of the new or expanded item.
-        this.set_Changed(returnedInventoryItem.id);
-        return returnedInventoryItem;
+        return returnedItem;
+    }
+
+    process_GrantedItem(creature: Character | AnimalCompanion, item: Item, inventory: ItemCollection, equip: boolean = true, resetRunes: boolean = true, skipGrantedItems: boolean = false, skipGainedInventories: boolean = false) {
+        this.set_ToChange(creature.type, "inventory");
+        //Disable and refresh activities on equipment and runes.
+        if (((item instanceof Equipment) || (item instanceof Rune)) && item.activities?.length) {
+            item.activities.forEach(activity => {
+                activity.active = false;
+                activity.hints?.forEach((hint: Hint) => {
+                    this.set_TagsToChange(creature.type, hint.showon);
+                })
+            });
+            this.set_ToChange(creature.type, "activities");
+        }
+        if ((item instanceof Equipment) || (item instanceof Rune) || (item instanceof Oil)) {
+            item.hints.forEach((hint: Hint) => {
+                this.set_TagsToChange(creature.type, hint.showon);
+            })
+        }
+        if (item instanceof Equipment) {
+            if (item.gainActivities?.length) {
+                item.gainActivities.forEach(gain => {
+                    gain.active = false;
+                });
+                this.set_ToChange(creature.type, "activities");
+            }
+            if (equip && Object.keys(item).includes("equipped") && item.equippable) {
+                this.onEquip(creature, inventory, item, true, false);
+            }
+            if (item instanceof Weapon && item.prof == "Advanced Weapons") {
+                this.create_WeaponFeats([item]);
+            }
+            if (resetRunes && item.moddable && item.moddable != "-") {
+                item.potencyRune = item.strikingRune = item.resilientRune = item.propertyRunes.length = 0;
+            }
+            item.propertyRunes.filter(rune => rune.loreChoices?.length).forEach(rune => {
+                this.add_RuneLore(rune);
+            });
+            if (!skipGainedInventories) {
+                //Add all Inventories that you get from this item.
+                if (item.gainInventory) {
+                    item.gainInventory.forEach(gain => {
+                        let newLength = creature.inventories.push(new ItemCollection());
+                        let newInventory = creature.inventories[newLength - 1];
+                        newInventory.itemId = item.id;
+                        newInventory.bulkLimit = gain.bulkLimit;
+                        newInventory.bulkReduction = gain.bulkReduction;
+                    })
+                }
+            }
+            if (!skipGrantedItems) {
+                //Add all Items that you get from being granted this one
+                if (item.gainItems.length) {
+                    item.gainItems.filter(gainItem => gainItem.on == "grant" && gainItem.amount > 0).forEach(gainItem => {
+                        let extraItem: Item = this.get_CleanItems()[gainItem.type].filter((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase())[0];
+                        if (extraItem.can_Stack()) {
+                            this.grant_InventoryItem(creature, inventory, extraItem, true, false, false, gainItem.amount + (gainItem.amountPerLevel * creature.level));
+                        } else {
+                            let equip = true;
+                            //Don't equip the new item if it's a shield or armor and this one is too - only one shield or armor can be equipped
+                            if ((extraItem instanceof Armor || extraItem instanceof Shield) && extraItem instanceof item.constructor) {
+                                equip = false;
+                            }
+                            extraItem = this.grant_InventoryItem(creature, inventory, extraItem, true, false, equip);
+                            gainItem.id = extraItem.id;
+                            if (!extraItem.can_Stack()) {
+                                extraItem.grantedBy = "(Granted by " + item.name + ")";
+                            };
+                        }
+                    });
+                }
+            }
+        }
+        if (item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb || item instanceof Ammunition || item instanceof Snare) {
+            this.set_ToChange(creature.type, "attacks");
+        }
+        return item;
     }
 
     drop_InventoryItem(creature: Character | AnimalCompanion, inventory: ItemCollection, item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true, including: boolean = true, amount: number = 1) {
@@ -971,58 +970,59 @@ export class CharacterService {
         }
         item.markedForDeletion = true;
         this.set_ToChange(creature.type, "inventory");
-        if (item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb || item instanceof Ammunition || item instanceof Snare) {
-            this.set_ToChange(creature.type, "attacks");
-        }
-        if (item["showon"]) {
-            this.set_TagsToChange(creature.type, item["showon"]);
-        }
         this.set_ItemViewChanges(creature, item);
         if (amount < item.amount) {
             item.amount -= amount;
+            this.set_ToChange("Character", item.id);
         } else {
-            if (item["equipped"]) {
-                this.onEquip(creature, inventory, item as Equipment, false, false);
-            } else if (item["invested"] && item.can_Invest()) {
-                this.on_Invest(creature, inventory, item as Equipment, false, false);
-            }
-            if (item["propertyRunes"]) {
-                item["propertyRunes"].filter((rune: Rune) => rune.loreChoices.length).forEach((rune: Rune) => {
-                    this.remove_RuneLore(rune);
+            if ((item instanceof Equipment) || (item instanceof Rune) || (item instanceof Oil)) {
+                item.hints?.forEach((hint: Hint) => {
+                    this.set_TagsToChange(creature.type, hint.showon);
                 })
             }
-            if (item["appliedOils"]) {
-                item["appliedOils"].filter((oil: Oil) => oil.runeEffect.loreChoices.length).forEach((oil: Oil) => {
-                    this.remove_RuneLore(oil.runeEffect);
-                })
-            }
-            if (item["activities"]) {
-                item["activities"].forEach(activity => {
+            if ((item instanceof Equipment) || (item instanceof Rune)) {
+                item.activities.forEach(activity => {
                     if (activity.active) {
                         this.activitiesService.activate_Activity(creature, "", this, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
                     }
                 })
             }
-            if (item["gainActivities"]) {
-                item["gainActivities"].forEach(gain => {
-                    if (gain.active) {
-                        this.activitiesService.activate_Activity(creature, "", this, this.conditionsService, this.itemsService, this.spellsService, gain, this.activitiesService.get_Activities(gain.name)[0], false);
-                    }
-                })
-            }
-            if (item["gainInventory"]?.length) {
-                creature.inventories.filter(existingInventory => existingInventory.itemId == item.id).forEach(gainedInventory => {
-                    gainedInventory.allItems().forEach(inventoryItem => {
-                        this.drop_InventoryItem(creature, gainedInventory, inventoryItem, false, false, including);
+            if (item instanceof Equipment) {
+                if (item.equipped) {
+                    this.onEquip(creature, inventory, item as Equipment, false, false);
+                } else if (item.invested && item.can_Invest()) {
+                    this.on_Invest(creature, inventory, item as Equipment, false, false);
+                }
+                if (item.propertyRunes) {
+                    item.propertyRunes.filter((rune: Rune) => rune.loreChoices.length).forEach((rune: Rune) => {
+                        this.remove_RuneLore(rune);
                     })
-                });
-                creature.inventories = creature.inventories.filter(existingInventory => existingInventory.itemId != item.id);
+                }
+                if (item.gainActivities) {
+                    item.gainActivities.forEach(gain => {
+                        if (gain.active) {
+                            this.activitiesService.activate_Activity(creature, "", this, this.conditionsService, this.itemsService, this.spellsService, gain, this.activitiesService.get_Activities(gain.name)[0], false);
+                        }
+                    })
+                }
+                if (item.gainInventory?.length) {
+                    creature.inventories.filter(existingInventory => existingInventory.itemId == item.id).forEach(gainedInventory => {
+                        gainedInventory.allItems().forEach(inventoryItem => {
+                            this.drop_InventoryItem(creature, gainedInventory, inventoryItem, false, false, including);
+                        })
+                    });
+                    creature.inventories = creature.inventories.filter(existingInventory => existingInventory.itemId != item.id);
+                }
+                if (including) {
+                    item.gainItems.filter((gainItem: ItemGain) => gainItem.on == "grant").forEach(gainItem => {
+                        this.lose_GainedItem(creature, gainItem);
+                    });
+                }
             }
-            if (including && item["gainItems"] && item["gainItems"].length) {
-                item["gainItems"].filter((gainItem: ItemGain) => gainItem.on == "grant").forEach(gainItem => {
-                    this.lose_GainedItem(creature, gainItem);
-                });
-            }
+            item.oilsApplied.filter((oil: Oil) => oil.runeEffect.loreChoices.length).forEach((oil: Oil) => {
+                this.remove_RuneLore(oil.runeEffect);
+            })
+
             inventory[item.type] = inventory[item.type].filter((any_item: Item) => any_item !== item);
             if (equipBasicItems) {
                 this.equip_BasicItems(creature);
@@ -1030,6 +1030,9 @@ export class CharacterService {
         }
         //If the item still exists at this point, unmark it for deletion, so it doesn't become un-droppable.
         item.markedForDeletion = false;
+        if (item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb || item instanceof Ammunition || item instanceof Snare) {
+            this.set_ToChange(creature.type, "attacks");
+        }
         if (changeAfter) {
             this.process_ToChange()
         }
@@ -1143,13 +1146,20 @@ export class CharacterService {
         if (item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb || item instanceof AlchemicalPoison || item instanceof Ammunition || item instanceof Snare) {
             this.set_ToChange(creature.type, "attacks");
         }
-        if (item["showon"]) {
-            this.set_TagsToChange(creature.type, item["showon"]);
+        if (item instanceof Equipment || item instanceof Rune || item instanceof Oil) {
+            item.hints?.forEach((hint: Hint) => {
+                this.set_TagsToChange(creature.type, hint.showon);
+                if (hint.effects.length) {
+                    this.set_ToChange(creature.type, "effects");
+                }
+            })
         }
-        if (item["effects"]?.length) {
-            this.set_ToChange(creature.type, "effects");
+        if (item instanceof Equipment || item instanceof ArmorRune) {
+            if (item.effects?.length) {
+                this.set_ToChange(creature.type, "effects");
+            }
         }
-        if ((item as Equipment).baseType == "Equipment") {
+        if (item instanceof Equipment) {
             this.set_EquipmentViewChanges(this.get_Character(), item as Equipment);
         }
     }
@@ -1176,7 +1186,7 @@ export class CharacterService {
                 this.set_TagsToChange(creature.type, hint.showon);
             })
         })
-        if (item.effects?.length ||
+        if (item.effects.length ||
             item instanceof Armor && item.get_Strength()) {
             this.set_ToChange(creature.type, "effects");
         }
@@ -1193,7 +1203,7 @@ export class CharacterService {
         if (item.gainActivities?.length) {
             this.set_ToChange(creature.type, "activities");
         }
-        item.propertyRunes?.forEach((rune: Rune) => {
+        item.propertyRunes.forEach((rune: Rune) => {
             if (item.moddable == "armor" && rune.hints?.length) {
                 rune.hints.forEach(hint => {
                     this.set_TagsToChange(creature.type, hint.showon);
@@ -1225,83 +1235,86 @@ export class CharacterService {
     }
 
     onEquip(creature: Character | AnimalCompanion, inventory: ItemCollection, item: Equipment, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
-        //Only allow equipping or unequipping for items that the creature can wear.
-        if ((creature.type == "Character" && !item.traits.includes("Companion")) || (creature.type == "Companion" && item.traits.includes("Companion")) || item.name == "Unarmored") {
+        //Only allow equipping or unequipping for items that the creature can wear. Only allow equipping items in inventories that aren't containers.
+        //Unequip any item that lands here and can't be equipped.
+        let oldequipped = item.equipped;
+        if ((creature.type == "Character" && !item.traits.includes("Companion")) || (creature.type == "Companion" && item.traits.includes("Companion")) || item.name == "Unarmored" && !inventory.itemId) {
             item.equipped = equipped;
-            this.set_ToChange(creature.type, "inventory");
-            this.set_EquipmentViewChanges(creature, item);
-            if (item.equipped) {
-                if (item instanceof Armor || item instanceof Shield) {
-                    let allOfType = inventory[item.type];
-                    //If you equip a shield that is already raised, preserve that status (e.g. for the Shield spell).
-                    let raised = false;
-                    if (item instanceof Shield && item.raised) {
-                        raised = true;
-                    }
-                    allOfType.forEach(typeItem => {
-                        this.onEquip(creature, inventory, typeItem, false, false, false);
-                    });
-                    item.equipped = true;
-                    if (item instanceof Shield) {
-                        item.raised = raised;
-                    }
+        } else {
+            item.equipped = false;
+        }
+        this.set_ToChange(creature.type, "inventory");
+        this.set_EquipmentViewChanges(creature, item);
+        if (!oldequipped && item.equipped) {
+            if (item instanceof Armor || item instanceof Shield) {
+                let allOfType = inventory[item.type];
+                //If you equip a shield that is already raised, preserve that status (e.g. for the Shield spell).
+                let raised = false;
+                if (item instanceof Shield && item.raised) {
+                    raised = true;
                 }
-
-                //If you get an Activity from an item that doesn't need to be invested, immediately invest it in secret so the Activity is gained
-                if ((item.gainActivities || item.activities) && !item.can_Invest()) {
-                    this.on_Invest(creature, inventory, item, true, false);
-                }
-                //Add all Items that you get from equipping this one
-                if (item.gainItems && item.gainItems.length) {
-                    item.gainItems.filter((gainItem: ItemGain) => gainItem.on == "equip").forEach(gainItem => {
-                        let newItem: Item = this.itemsService.get_Items()[gainItem.type].filter((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase())[0]
-                        if (newItem.can_Stack()) {
-                            this.grant_InventoryItem(creature, inventory, newItem, false, false, false, gainItem.amount + (gainItem.amountPerLevel * creature.level));
-                        } else {
-                            let equip = true;
-                            //Don't equip the new item if it's a shield or armor and this one is too - only one shield or armor can be equipped
-                            if ((item instanceof Armor || item instanceof Shield) && newItem.type == item.type) {
-                                equip = false;
-                            }
-                            let grantedItem = this.grant_InventoryItem(creature, inventory, newItem, false, false, equip);
-                            gainItem.id = grantedItem.id;
-                            if (grantedItem.get_Name) {
-                                grantedItem.grantedBy = "(Granted by " + item.name + ")"
-                            };
-                        }
-                    });
-                }
-            } else {
-                if (equipBasicItems) {
-                    this.equip_BasicItems(creature);
-                }
-                //If you are unequipping a shield, you should also be lowering it and losing cover
+                allOfType.forEach(typeItem => {
+                    this.onEquip(creature, inventory, typeItem, false, false, false);
+                });
+                item.equipped = true;
                 if (item instanceof Shield) {
-                    if (item.takingCover) {
-                        this.get_AC().set_Cover(creature, 0, item, this, this.conditionsService);
-                        item.takingCover = false;
+                    item.raised = raised;
+                }
+            }
+            //If you get an Activity from an item that doesn't need to be invested, immediately invest it in secret so the Activity is gained
+            if ((item.gainActivities || item.activities) && !item.can_Invest()) {
+                this.on_Invest(creature, inventory, item, true, false);
+            }
+            //Add all Items that you get from equipping this one
+            if (item.gainItems && item.gainItems.length) {
+                item.gainItems.filter((gainItem: ItemGain) => gainItem.on == "equip").forEach(gainItem => {
+                    let newItem: Item = this.itemsService.get_Items()[gainItem.type].filter((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase())[0]
+                    if (newItem.can_Stack()) {
+                        this.grant_InventoryItem(creature, inventory, newItem, false, false, false, gainItem.amount + (gainItem.amountPerLevel * creature.level));
+                    } else {
+                        let equip = true;
+                        //Don't equip the new item if it's a shield or armor and this one is too - only one shield or armor can be equipped
+                        if ((item instanceof Armor || item instanceof Shield) && newItem.type == item.type) {
+                            equip = false;
+                        }
+                        let grantedItem = this.grant_InventoryItem(creature, inventory, newItem, false, false, equip);
+                        gainItem.id = grantedItem.id;
+                        if (grantedItem.get_Name) {
+                            grantedItem.grantedBy = "(Granted by " + item.name + ")"
+                        };
                     }
-                    item.raised = false;
+                });
+            }
+        } else if (oldequipped && !item.equipped) {
+            if (equipBasicItems) {
+                this.equip_BasicItems(creature);
+            }
+            //If you are unequipping a shield, you should also be lowering it and losing cover
+            if (item instanceof Shield) {
+                if (item.takingCover) {
+                    this.get_AC().set_Cover(creature, 0, item, this, this.conditionsService);
+                    item.takingCover = false;
                 }
-                //If the item was invested, it isn't now.
-                if (item.invested) {
-                    this.on_Invest(creature, inventory, item, false, false);
-                }
-                if (item.gainItems?.length) {
-                    item.gainItems.filter((gainItem: ItemGain) => gainItem.on == "equip").forEach(gainItem => {
-                        this.lose_GainedItem(creature, gainItem);
-                    });
-                }
-                item.propertyRunes?.forEach(rune => {
-                    //Deactivate any active toggled activities of inserted runes.
-                    rune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
-                        this.activitiesService.activate_Activity(this.get_Character(), "Character", this, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
-                    })
+                item.raised = false;
+            }
+            //If the item was invested, it isn't now.
+            if (item.invested) {
+                this.on_Invest(creature, inventory, item, false, false);
+            }
+            if (item.gainItems?.length) {
+                item.gainItems.filter((gainItem: ItemGain) => gainItem.on == "equip").forEach(gainItem => {
+                    this.lose_GainedItem(creature, gainItem);
+                });
+            }
+            item.propertyRunes?.forEach(rune => {
+                //Deactivate any active toggled activities of inserted runes.
+                rune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
+                    this.activitiesService.activate_Activity(this.get_Character(), "Character", this, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
                 })
-            }
-            if (changeAfter) {
-                this.process_ToChange();
-            }
+            })
+        }
+        if (changeAfter) {
+            this.process_ToChange();
         }
     }
 
@@ -1776,7 +1789,7 @@ export class CharacterService {
             amount == item.amount;
         }
         item = this.itemsService.update_GrantingItem(sender, item);
-        let included: { items: Item[], inventories: ItemCollection[] } = this.itemsService.pack_GrantingItem(sender, item, item);
+        let included: { items: Item[], inventories: ItemCollection[] } = this.itemsService.pack_GrantingItem(sender, item);
         let timeStamp: number = 0;
         this.messageService.get_Time().subscribe((result: string[]) => {
             timeStamp = result["time"];
@@ -1827,7 +1840,7 @@ export class CharacterService {
                             }
                             let existingItems = targetInventory[item.type].filter((existing: Item) => existing.name == item.name && existing.can_Stack() && !item.expiration);
                             //If any existing, stackable items are found, add this item's amount on top and finish.
-                            //If no items are found, add the new item to the inventory.
+                            //If no items are found, add the new item to the inventory and process it as a new item (skipping gained items and gained inventories).
                             if (existingItems.length) {
                                 existingItems[0].amount += item.amount;
                                 if (item.id === message.offeredItem[0].id) {
@@ -1843,49 +1856,20 @@ export class CharacterService {
                                 if (item.id === message.offeredItem[0].id) {
                                     addedPrimaryItem = addedItem;
                                 }
-                                if (Object.keys(addedItem).includes("equipped") && item.equippable) {
-                                    this.onEquip(targetCreature as Character, targetInventory, addedItem, true, false);
-                                }
-                                if (!item.equippable && (item["gainActivities"]?.length || item["activities"]?.length)) {
-                                    this.set_ToChange(targetCreature.type, "activities");
-                                }
-                                if (addedItem["prof"] == "Advanced Weapons") {
-                                    this.create_WeaponFeats([addedItem]);
-                                }
-                                if (addedItem["propertyRunes"] && addedItem["propertyRunes"].length) {
-                                    addedItem["propertyRunes"].filter((rune: Rune) => rune["loreChoices"]).forEach((rune: Rune) => {
-                                        this.add_RuneLore(rune as Rune);
-                                    });
-                                }
-                                if (addedItem.gainActivities) {
-                                    (addedItem as Equipment).gainActivities.forEach((gain: ActivityGain) => {
-                                        gain.active = false;
-                                    });
-                                }
-                                if (addedItem.activities) {
-                                    (addedItem as Equipment).activities.forEach((activity: ItemActivity) => {
-                                        activity.active = false;
-                                    });
-                                }
-                                if (addedItem instanceof AlchemicalBomb || addedItem instanceof OtherConsumableBomb || addedItem instanceof Ammunition || addedItem instanceof Snare) {
-                                    this.set_ToChange(targetCreature.type, "attacks");
-                                }
-                                addedItem["activities"]?.forEach((activity: ItemActivity) => {
-                                    activity.hints?.forEach((hint: Hint) => {
-                                        this.set_TagsToChange(targetCreature.type, hint.showon);
-                                    })
-                                });
-                                if (addedItem["showon"]) {
-                                    this.set_TagsToChange(targetCreature.type, item["showon"]);
-                                }
+                                addedItem = this.process_GrantedItem((targetCreature as Character | AnimalCompanion), addedItem, targetInventory, true, false, true, true);
                             }
                         })
+                        //Add included inventories and process all items inside them.
                         message.includedInventories.forEach(inventory => {
                             inventory = this.reassign(inventory)
-                            targetCreature.inventories.push(inventory);
+                            let newLength = targetCreature.inventories.push(inventory);
+                            let newInventory = targetCreature.inventories[newLength - 1];
+                            newInventory.allItems().forEach(invItem => {
+                                invItem = this.process_GrantedItem((targetCreature as Character | AnimalCompanion), invItem, newInventory, true, false, true, true);
+                            })
                         })
                         if (addedPrimaryItem) {
-                            //Build a toast and send it.
+                            //Build a toast message and send it.
                             let text = "Received <strong>";
                             if (message.itemAmount > 1) {
                                 text += message.itemAmount + " ";
@@ -2392,7 +2376,7 @@ export class CharacterService {
                             });
                         }
                         //Get activities from runes
-                        if (item.bladeAllyRunes && item["bladeAlly"]) {
+                        if ((item instanceof Weapon || item instanceof WornItem) && item.bladeAllyRunes && item.bladeAlly) {
                             item.bladeAllyRunes.filter(rune => rune.activities.length).forEach(rune => {
                                 activities.push(...rune.activities);
                             });

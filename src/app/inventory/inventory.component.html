@@ -1,5 +1,5 @@
 <div class="window-button-container">
-    <button class="minimizebutton lower"
+    <button *ngIf="creature == 'Character'" class="minimizebutton lower"
         [ngbTooltip]="get_Minimized() ? 'Click to show all choices and information.' : 'Click to hide finished choices and show compact information.'"
         [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()">
         <i class='bi-arrows-collapse' *ngIf="get_Minimized()"></i>
@@ -414,7 +414,7 @@
                                             </label>
                                         </span>
                                         <span
-                                            *ngIf="!['Fist','Unarmored'].includes(item.name) && item.baseType == 'Equipment'">
+                                            *ngIf="!['Fist','Unarmored'].includes(item.name) && get_IsEquipment(item)">
                                             <input class="invisible" id="{{item.id}}showstatus" type="checkbox"
                                                 [(ngModel)]="item.showStatus">
                                             <label for="{{item.id}}showstatus">
@@ -448,7 +448,7 @@
                                     <!--Changing Status-->
                                     <div class="fullwidth"
                                         [ngbCollapse]="!(item.showStatus || item.broken || item.shoddy)"
-                                        *ngIf="!['Fist','Unarmored'].includes(item.name) && item.baseType == 'Equipment'">
+                                        *ngIf="!['Fist','Unarmored'].includes(item.name) && get_IsEquipment(item)">
                                         <div class="list-item newrow left-aligned">
                                             <span>Status</span>
                                             <div class="newrow">

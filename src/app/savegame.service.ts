@@ -276,6 +276,15 @@ export class SavegameService {
                 }
             }
 
+            //Some held items before version 1.0.3 have _ClassName="WornItem" and will be corrected.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 3) {
+                character.inventories.forEach(inv => {
+                    inv.helditems.filter(invItem => invItem._className != "HeldItem").forEach((invItem: any) => {
+                        invItem._className = "HeldItem";
+                    })
+                })
+            }
+
         }
 
         // STAGE 2
@@ -457,7 +466,7 @@ export class SavegameService {
                 let blank;
                 //For items with a refId, don't compare them with blank items, but with their reference item if it exists.
                 //If none can be found, the reference item is a blank item of the same class.
-                if (object["refId"]) {
+                if (object.refId) {
                     blank = itemsService.get_CleanItemByID(object.refId);
                 }
                 if (!blank) {
@@ -465,10 +474,10 @@ export class SavegameService {
                 }
                 Object.keys(object).forEach(key => {
                     //Delete attributes that are in the "neversave" list, if it exists.
-                    if (object["neversave"] && object["neversave"].includes(key)) {
+                    if (object.neversave?.includes(key)) {
                         delete object[key];
                         //Don't cleanup the "_className" or any attributes that are in the "save" list or start with "_" (which is done further down).
-                    } else if (!object["save"]?.includes(key) && (key != "_className") && (key.substr(0, 1) != "_")) {
+                    } else if (!object.save?.includes(key) && (key != "_className") && (key.substr(0, 1) != "_")) {
                         //If the attribute has the same value as the default, delete it from the object.
                         if (JSON.stringify(object[key]) == JSON.stringify(blank[key])) {
                             delete object[key];
@@ -481,8 +490,8 @@ export class SavegameService {
                     }
                 })
                 //Delete the "save" list last so it can be referenced during the cleanup, but still updated when loading.
-                if (object["save"]) {
-                    delete object["save"];
+                if (object.save) {
+                    delete object.save;
                 }
             }
         }

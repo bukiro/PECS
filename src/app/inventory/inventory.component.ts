@@ -25,6 +25,7 @@ import { ToastService } from '../toast.service';
 import { AlchemicalBomb } from '../AlchemicalBomb';
 import { OtherConsumableBomb } from '../OtherConsumableBomb';
 import { SpellTarget } from '../SpellTarget';
+import { AdventuringGear } from '../AdventuringGear';
 
 @Component({
     selector: 'app-inventory',
@@ -44,7 +45,6 @@ export class InventoryComponent implements OnInit {
     private showItem: number = 0;
     private showList: string = "";
     public shieldDamage: number = 0;
-    public targetInventory = null;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -214,6 +214,10 @@ export class InventoryComponent implements OnInit {
             return 0;
         });
     }
+    
+    get_IsEquipment(item: Item) {
+        return (item instanceof Equipment);
+    }
 
     can_Equip(item: Item, inventoryIndex: number) {
         return (inventoryIndex == 0 && item.equippable && this.creature == "Character" && (!(item as Equipment).broken || item instanceof Armor) && !item.traits.includes("Companion")) || (item.traits.includes("Companion") && this.creature == "Companion") || item.name == "Unarmored"
@@ -256,22 +260,24 @@ export class InventoryComponent implements OnInit {
 
     move_InventoryItem(item: Item, inventory: ItemCollection, target: ItemCollection | SpellTarget, amount: number, including: boolean) {
         if (target instanceof ItemCollection) {
-            this.targetInventory = target;
-            this.move_InventoryItemLocally(item, inventory, amount, including);
+            this.itemsService.move_InventoryItemLocally(this.get_Creature(), item, target, inventory, this.characterService, amount, including);
         } else if (target instanceof SpellTarget) {
-            this.characterService.send_ItemsToPlayer(this.get_Creature(), target, item, amount);
+            if (this.get_Creatures().some(creature => creature.id == target.id)) {
+                this.itemsService.move_InventoryItemToCreature(this.get_Creature(), target, item, inventory, this.characterService, amount);
+            } else {
+                this.characterService.send_ItemsToPlayer(this.get_Creature(), target, item, amount);
+            }
+            this.toggle_Item();
         }
-    }
-
-    move_InventoryItemLocally(item: Item, inventory: ItemCollection, amount: number = 0, including: boolean = true) {
-        this.itemsService.move_InventoryItem(this.get_Creature(), item, this.targetInventory, inventory, this.characterService, amount, including);
-        this.targetInventory = null;
+        this.characterService.set_Changed("close-popovers");
+        this.characterService.set_Changed(item.id);
         this.characterService.set_ToChange(this.creature, "inventory");
+        this.characterService.set_ToChange(this.creature, "effects");
         this.characterService.process_ToChange();
     }
 
     drop_ContainerOnly(item: Item, inventory: ItemCollection) {
-        this.showItem = 0;
+        this.toggle_Item();
         this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, false, true, false, item.amount);
         this.characterService.process_ToChange();
     }
@@ -538,8 +544,8 @@ export class InventoryComponent implements OnInit {
 
     craft_Item(item: Item, learned: FormulaLearned, type: string) {
         let amount = 1;
-        if (item["stack"]) {
-            amount = item["stack"];
+        if (item instanceof AdventuringGear || item instanceof Consumable) {
+            amount = item.stack;
         }
         this.characterService.grant_InventoryItem(this.characterService.get_Character(), this.characterService.get_Character().inventories[0], item, false, true, true, amount);
         if (type == "snarespecialist") {

@@ -231,7 +231,7 @@
                                                 <app-itemMaterial class="newrow" [item]=item [craftingStation]="true">
                                                 </app-itemMaterial>
                                                 <div class="newrow list-item left-aligned"
-                                                    *ngIf="item.baseType=='Equipment'">
+                                                    *ngIf="get_IsEquipment(item)">
                                                     <input id="{{item.id}}shoddy" type="checkbox"
                                                         [(ngModel)]="item.shoddy">
                                                     <label for="{{item.id}}shoddy">Shoddy</label>

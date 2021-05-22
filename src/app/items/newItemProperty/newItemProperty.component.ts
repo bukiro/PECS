@@ -174,14 +174,8 @@ export class NewItemPropertyComponent implements OnInit {
                 }
             }
         } else if (this.propertyKey == "moddable") {
-            if (this.newItem["potencyRune"]) {
-                this.newItem["potencyRune"] = 0;
-            }
-            if (this.newItem["strikingRune"]) {
-                this.newItem["strikingRune"] = 0;
-            }
-            if (this.newItem["propertyRunes"]) {
-                this.newItem["propertyRunes"].length = 0;
+            if (this.newItem instanceof Equipment) {
+                this.newItem.potencyRune = this.newItem.strikingRune = this.newItem.resilientRune = this.newItem.propertyRunes.length = 0;
             }
         } else if (this.propertyKey == "bulk" || this.propertyKey == "carryingBulk") {
             if (parseInt(value) || parseInt(value) == 0 || value == "L" || value == "") {

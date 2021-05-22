@@ -11,6 +11,7 @@
             "Light",
             "Magical"
         ],
+        "_className": "HeldItem",
         "usage": "held in 1 hand"
     },
     {
@@ -34,7 +35,7 @@
                 "bulkReduction": 25
             }
         ],
-        "_className": "WornItem",
+        "_className": "HeldItem",
         "usage": "held in 2 hands"
     },
     {
@@ -159,7 +160,7 @@
                 "bulkReduction": 50
             }
         ],
-        "_className": "WornItem",
+        "_className": "HeldItem",
         "usage": "held in 2 hands"
     },
     {
@@ -183,7 +184,7 @@
                 "bulkReduction": 100
             }
         ],
-        "_className": "WornItem",
+        "_className": "HeldItem",
         "usage": "held in 2 hands"
     },
     {
@@ -350,7 +351,7 @@
                 "bulkReduction": 150
             }
         ],
-        "_className": "WornItem",
+        "_className": "HeldItem",
         "usage": "held in 2 hands"
     },
     {

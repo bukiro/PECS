@@ -210,8 +210,8 @@ export class ItemsComponent implements OnInit {
     }
 
     get_Price(item: Item) {
-        if (item["get_Price"]) {
-            return item["get_Price"](this.itemsService);
+        if (item instanceof Equipment) {
+            return item.get_Price(this.itemsService);
         } else {
             return item.price;
         }
@@ -344,12 +344,12 @@ export class ItemsComponent implements OnInit {
     }
 
     grant_Item(creature: string = "Character", item: Item, pay: boolean = false) {
-        if (pay && (item["get_Price"] ? item["get_Price"](this.itemsService) : item.price)) {
+        if (pay && (item instanceof Equipment ? item.get_Price(this.itemsService) : item.price)) {
             this.change_Cash(-1, item.price);
         }
         let amount = 1;
-        if (item["stack"]) {
-            amount = item["stack"];
+        if (item instanceof AdventuringGear || item instanceof Consumable) {
+            amount = item.stack;
         }
         if (creature == "Character") {
             this.characterService.grant_InventoryItem(this.characterService.get_Character(), this.characterService.get_Character().inventories[0], item, false, true, true, amount);

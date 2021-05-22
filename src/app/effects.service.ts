@@ -503,11 +503,11 @@ export class EffectsService {
 
         //Character and Companion Items
         if (!familiar) {
-            characterService.get_Inventories(creature)[0]?.allEquipment().filter(item => item.invested && !item.broken && item.effects?.length && item.type != "armorrunes").forEach(item => {
+            characterService.get_Inventories(creature)[0]?.allEquipment().filter(item => item.invested && !item.broken && item.effects?.length && !(item instanceof ArmorRune)).forEach(item => {
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, item));
             });
             characterService.get_Inventories(creature)[0]?.allEquipment().filter(item => item.equipped && !item.broken && item.propertyRunes?.length).forEach(item => {
-                item.propertyRunes.filter(rune => rune["effects"]?.length).forEach(rune => {
+                item.propertyRunes.filter(rune => rune instanceof ArmorRune && rune.effects?.length).forEach(rune => {
                     simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, rune));
                 })
             });

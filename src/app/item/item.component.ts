@@ -16,6 +16,7 @@ import { Spell } from '../Spell';
 import { ConditionGain } from '../ConditionGain';
 import { Condition } from '../Condition';
 import { ConditionsService } from '../conditions.service';
+import { Equipment } from '../Equipment';
 
 @Component({
     selector: 'app-item',
@@ -61,8 +62,8 @@ export class ItemComponent implements OnInit {
     }
 
     get_FullPrice(item: Item) {
-        if (item["get_Price"]) {
-            return item["get_Price"](this.itemsService);
+        if (item instanceof Equipment) {
+            return item.get_Price(this.itemsService);
         } else {
             return item.price;
         }

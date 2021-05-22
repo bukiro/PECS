@@ -440,7 +440,7 @@ export class ConditionsService {
                     //If a temporary container is destroyed, return all contained items to the main inventory.
                     creature.inventories.filter(inv => inv.itemId == item.id).forEach(inv => {
                         inv.allItems().forEach(invItem => {
-                            itemsService.move_InventoryItem(creature, invItem, creature.inventories[0], inv, characterService);
+                            itemsService.move_InventoryItemLocally(creature, invItem, creature.inventories[0], inv, characterService);
                         });
                     });
                 }

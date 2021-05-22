@@ -228,13 +228,13 @@ export class MessageService {
                 }
 
                 this.check_Messages(characterService);
+
+                //Ignored messages get deleted from the database after 1 minute.
+                this.cleanup_IgnoredMessages(characterService);
+
+                //New messages get deleted after 10 minutes.
+                this.cleanup_NewMessages(characterService);
             }
-
-            //Ignored messages get deleted from the database after 1 minute.
-            this.cleanup_IgnoredMessages(characterService);
-
-            //New messages get deleted after 10 minutes.
-            this.cleanup_NewMessages(characterService);
 
         }, 1000)
     }

@@ -10,7 +10,6 @@ import { Material } from './Material';
 import { Hint } from './Hint';
 
 export class Equipment extends Item {
-    public readonly baseType = "Equipment";
     //Allow changing of "equippable" by custom item creation
     allowEquippable = true;
     //Equipment can normally be equipped.
