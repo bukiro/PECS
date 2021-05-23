@@ -296,8 +296,9 @@
                                     *ngFor="let crossbloodedEvolutionAllowed of [get_CrossbloodedEvolutionAllowed()]; trackBy: trackByIndex">
                                     <ng-container *ngIf="crossbloodedEvolutionAllowed">
                                         <div class="list-item">
-                                            <strong><i class='ra ra-zigzag-leaf'></i>&nbsp;Crossblooded
-                                                Evolution</strong>
+                                            <strong><i class='ra ra-zigzag-leaf'></i>&nbsp;
+                                                Crossblooded Evolution
+                                            </strong>
                                             <div class="newrow"
                                                 *ngIf="get_CrossbloodedEvolutionUnlocked(choice.level) && !choice.crossbloodedEvolution">
                                                 A Crossblooded Evolution spell has already been assigned for this level.
@@ -379,8 +380,9 @@
                                                                 <strong>
                                                                     {{taken}} prepared
                                                                     <span
-                                                                        *ngIf="choice.spellCombination && (!choice.spells.length || choice.spells[0].name == spell.name)">&nbsp;as
-                                                                        first spell combination spell</span>
+                                                                        *ngIf="choice.spellCombination && (!choice.spells.length || choice.spells[0].name == spell.name)">
+                                                                        &nbsp;as first spell combination spell
+                                                                    </span>
                                                                 </strong>
                                                             </div>
                                                             <!--Prepared and spell combination: plus/minus buttons-->
@@ -416,7 +418,7 @@
                                                             (change)="on_SpellTaken(spell.name, $event.target.checked, false)"
                                                             [checked]="checked"
                                                             [disabled]="spontaneousDisabled || get_LockedSpellTakenByThis(spell.name) || (checked && !taken)">
-                                                        <!--Prepared and no spell combination: plus/minus buttons-->
+                                                        <!--Prepared and no spell combination or spell combination 1: plus/minus buttons-->
                                                         <span
                                                             *ngIf="spellCasting?.castingType == 'Prepared' && (!choice.spellCombination || (choice.spellCombination && (!choice.spells.length || choice.spells[0].name == spell.name)))">
                                                             <span
@@ -430,7 +432,7 @@
                                                                 [disabled]="cannotTake.length || choice.spells.length >= available || (taken && choice.level == 0 && !choice.dynamicLevel)"
                                                                 *ngIf="spellCasting?.castingType=='Prepared'">+</button>
                                                         </span>
-                                                        <!--Prepared and spell combination: plus/minus buttons-->
+                                                        <!--Prepared and spell combination 2: plus/minus buttons-->
                                                         <span
                                                             *ngIf="spellCasting?.castingType == 'Prepared' && choice.spellCombination && choice.spells.length && choice.spells[0].name != spell.name && (!choice.spells[0].combinationSpellName || choice.spells[0].combinationSpellName == spell.name)">
                                                             <span
@@ -465,10 +467,8 @@
                                                                                 [disabled]="reason != ''">
                                                                             <label
                                                                                 for="{{choice.id+spell.name}}signaturespell">
-                                                                                &nbsp;
                                                                                 <i class='bi-stars'></i>
-                                                                                &nbsp;Choose this spell as a Signature
-                                                                                Spell
+                                                                                Choose this spell as a Signature Spell
                                                                             </label>
                                                                         </span>
                                                                     </div>
@@ -478,7 +478,7 @@
                                                                     [ngbTooltip]="(!SpellChoiceDetailPopover.isOpen()) ? spell.shortDesc : ''"
                                                                     triggers="hover" openDelay=100>
                                                                     {{(spellCasting?.castingType == 'Prepared' && taken)
-                                                                    ? " " + taken + " " : ""}}{{spell.name}}&nbsp;
+                                                                    ? " " + taken + " " : ""}}{{spell.name}}
                                                                 </span>
                                                                 <cite>Level {{spell.levelreq}}</cite>
                                                                 <cite class="trait"

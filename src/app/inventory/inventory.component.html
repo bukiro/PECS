@@ -189,38 +189,43 @@
                         <ng-container *ngFor="let item of sort_ItemSet(inventory[itemSet.key]); trackBy:trackByItemID;">
                             <ng-container *ngFor="let canUse of [get_CanUse(item)]; trackBy:trackByIndex">
                                 <ng-template #ItemTitleTemplate>
-                                    <span>
-                                        <i class="value bi-x penalty" *ngIf="!get_TileMode() && canUse == false"
-                                            [ngbTooltip]="'You are not trained with this item.'"></i>
-                                        <i class="value bi-check2 bonus" *ngIf="!get_TileMode() && canUse"
-                                            [ngbTooltip]="'You are trained with this item.'"></i>
+                                    <span class="hlist left-aligned">
+                                        <span>
+                                            <i class="value bi-x penalty" *ngIf="!get_TileMode() && canUse == false"
+                                                [ngbTooltip]="'You are not trained with this item.'"></i>
+                                            <i class="value bi-check2 bonus" *ngIf="!get_TileMode() && canUse"
+                                                [ngbTooltip]="'You are trained with this item.'"></i>
+                                        </span>
+                                        <span [ngbTooltip]="item.material[0]?.name" *ngIf="item.material?.length">
+                                            <i class='ra ra-diamond'></i>
+                                        </span>
+                                        <span [ngbTooltip]="'Broken'" *ngIf="item.broken">
+                                            <i class='ra ra-broken-shield'></i>
+                                        </span>
+                                        <span [ngbTooltip]="'Shoddy'" *ngIf="item.shoddy"><i
+                                                class='ra ra-broken-bottle'></i>
+                                        </span>
+                                        <span [ngbTooltip]="'Temporary Item'" *ngIf="item.expiration">
+                                            <i class='ra ra-clockwork'></i>
+                                        </span>
+                                        <span [ngbTooltip]="'Large Weapon'" *ngIf="item.large">
+                                            <i class='ra ra-large-hammer'></i>
+                                        </span>
+                                        <span [ngbTooltip]="'Blade Ally'" *ngIf="item.bladeAlly">
+                                            <i class='ra ra-fireball-sword'></i>
+                                        </span>
+                                        <span [ngbTooltip]="'Battleforged'" *ngIf="item.battleforged">
+                                            <i class='ra ra-anvil'></i>
+                                        </span>
+                                        {{(item.amount != undefined && item.amount != 1) ? item.amount+" " : ""}}
+                                        {{(item['get_Name']) ? item.get_Name() : item.name}}
+                                        <span class="lower"
+                                            *ngFor="let containedItems of [get_ContainedItems(item)]; trackBy:trackByIndex;">
+                                            {{containedItems ? "contains "+containedItems+" items" : ""}}
+                                        </span>
                                     </span>
-                                    <span [ngbTooltip]="item.material[0]?.name" *ngIf="item.material?.length">
-                                        <i class='ra ra-diamond'></i>
-                                    </span>
-                                    <span [ngbTooltip]="'Broken'" *ngIf="item.broken">
-                                        <i class='ra ra-broken-shield'></i>
-                                    </span>
-                                    <span [ngbTooltip]="'Shoddy'" *ngIf="item.shoddy"><i
-                                            class='ra ra-broken-bottle'></i>
-                                    </span>
-                                    <span [ngbTooltip]="'Temporary Item'" *ngIf="item.expiration">
-                                        <i class='ra ra-clockwork'></i>
-                                    </span>
-                                    <span [ngbTooltip]="'Large Weapon'" *ngIf="item.large">
-                                        <i class='ra ra-large-hammer'></i>
-                                    </span>
-                                    <span [ngbTooltip]="'Blade Ally'" *ngIf="item.bladeAlly">
-                                        <i class='ra ra-fireball-sword'></i>
-                                    </span>
-                                    <span [ngbTooltip]="'Battleforged'" *ngIf="item.battleforged">
-                                        <i class='ra ra-anvil'></i>
-                                    </span>
-                                    {{(item.amount != undefined && item.amount != 1) ? item.amount+" " : ""}}
-                                    {{(item['get_Name']) ? item.get_Name() : item.name}}
-                                    <span class="lower"
-                                        *ngFor="let containedItems of [get_ContainedItems(item)]; trackBy:trackByIndex;">
-                                        {{containedItems ? "contains "+containedItems+" items" : ""}}
+                                    <span *ngIf="item.level" style="flex-basis:auto;flex-grow:0">
+                                        Level {{item.level}}
                                     </span>
                                 </ng-template>
                                 <ng-template #ItemTooltipTemplate>
@@ -250,7 +255,7 @@
                                     </span>
                                 </ng-template>
                                 <ng-template #ItemTemplate>
-                                    <header class="spellHeader left-aligned newrow" *ngIf="get_TileMode()">
+                                    <header class="spellHeader newrow" *ngIf="get_TileMode()">
                                         <ng-container *ngTemplateOutlet="ItemTitleTemplate">
                                         </ng-container>
                                     </header>
@@ -607,15 +612,15 @@
                     </div>
                 </ng-container>
             </ng-container>
-            <!--Other Items-->
+            <!--Miscellaneous Items-->
             <header class="subsectionHeader fullsize-only">Miscellaneous Items</header>
             <button class="fullsize-only newrow center-aligned" (click)="add_NewOtherItem(inventory)">Add</button>
             <div class="fullsize-only list-item"
                 *ngFor="let item of inventory.otheritems; let index = index; trackBy:trackByIndex;">
                 <strong>Name</strong>
-                <input id="miscellaneousItemName{{inventory.itemId}}{{index}}" type="text" [(ngModel)]="item.name">
+                <input id="miscellaneousItemName{{inventoryIndex}}_{{index}}" type="text" [(ngModel)]="item.name">
                 <strong>Bulk</strong>
-                <input id="miscellaneousItemBulk{{inventory.itemId}}{{index}}" class="number2" [(ngModel)]="item.bulk"
+                <input id="miscellaneousItemBulk{{inventoryIndex}}_{{index}}" class="number2" [(ngModel)]="item.bulk"
                     (blur)="validate_Bulk(item)" (keypress)="bulkOnly($event)">
                 <button (click)="remove_OtherItem(item, inventory)">Drop</button>
             </div>

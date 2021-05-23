@@ -26,7 +26,7 @@
     },
     {
         "name": "Dart",
-        "desc": "The target takes 1d6 persistent bleed damage. You gain an item bonus to this bleed damage equal to the weapon's item bonus to attack rolls.",
+        "desc": "The target takes |dice=1d6 Persistent Bleed| 1d6 persistent bleed damage. You gain an item bonus to this bleed damage equal to the weapon's item bonus to attack rolls.",
         "type": "weapons"
     },
     {
@@ -41,7 +41,7 @@
     },
     {
         "name": "Knife",
-        "desc": "The target takes 1d6 persistent bleed damage. You gain an item bonus to this bleed damage equal to the weapon's item bonus to attack rolls.",
+        "desc": "The target takes |dice=1d6 Persistent Bleed| 1d6 persistent bleed damage. You gain an item bonus to this bleed damage equal to the weapon's item bonus to attack rolls.",
         "type": "weapons"
     },
     {

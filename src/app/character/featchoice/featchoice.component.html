@@ -110,7 +110,7 @@
                                                         {{reason.reason}}
                                                     </cite>
                                                 </div>
-                                                <app-feat [feat]="featSet.feat" [choice]="choice"
+                                                <app-feat class="newrow" [feat]="featSet.feat" [choice]="choice"
                                                     [levelNumber]="levelNumber" [featLevel]="featLevel"></app-feat>
                                                 <!--Subfeats-->
                                                 <ng-container
@@ -165,7 +165,8 @@
                                                                                         {{reason.reason}}
                                                                                     </cite>
                                                                                 </div>
-                                                                                <app-feat [feat]="subfeatSet.subfeat"
+                                                                                <app-feat class="newrow"
+                                                                                    [feat]="subfeatSet.subfeat"
                                                                                     [choice]="choice"
                                                                                     [levelNumber]="levelNumber"
                                                                                     [featLevel]="featLevel">
@@ -201,7 +202,7 @@
                                                         {{["General", "Skill"].includes(choice.type) &&
                                                         featSet.feat.skillreq.length == 1 ? "(" +
                                                         featSet.feat.skillreq[0].skill + ") " :
-                                                        ""}}{{featSet.feat.name}}&nbsp;
+                                                        ""}}{{featSet.feat.name}}
                                                     </span>
                                                     <cite *ngIf="featSet.feat.levelreq">Level
                                                         {{featSet.feat.levelreq}}</cite>

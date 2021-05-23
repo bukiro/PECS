@@ -1301,6 +1301,7 @@
                         "level": 4
                     }
                 ],
+                "target": "self",
                 "traits": [
                     "Invested",
                     "Magical",
@@ -1349,6 +1350,7 @@
                         "target": "self"
                     }
                 ],
+                "target": "self",
                 "traits": [
                     "Invested",
                     "Magical",
@@ -1474,6 +1476,7 @@
                         "level": 4
                     }
                 ],
+                "target": "self",
                 "traits": [
                     "Invested",
                     "Magical",
@@ -1647,6 +1650,7 @@
                         "target": "self"
                     }
                 ],
+                "target": "self",
                 "toggle": true,
                 "maxDuration": 1000,
                 "traits": [
@@ -1744,6 +1748,7 @@
                         "target": "self"
                     }
                 ],
+                "target": "self",
                 "toggle": true,
                 "maxDuration": 100,
                 "traits": [
@@ -2419,6 +2424,7 @@
                         "target": "self"
                     }
                 ],
+                "target": "self",
                 "toggle": true,
                 "maxDuration": 6000,
                 "traits": [
@@ -2486,6 +2492,7 @@
                         "target": "self"
                     }
                 ],
+                "target": "self",
                 "toggle": true,
                 "maxDuration": 48000,
                 "traits": [

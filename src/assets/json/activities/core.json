@@ -329,7 +329,7 @@
             "Monk"
         ],
         "frequency": "once per round",
-        "cooldown": 5,
+        "cooldown": 10,
         "target": "self",
         "desc": "Any journey consists of more than simply reaching your destination. You use two of the following actions in any order: Stand, Step, and Stride. You can't use the same action twice."
     },
@@ -2488,6 +2488,7 @@
         ],
         "requirements": "You are wielding a ranged weapon with reload 0.",
         "frequency": "once per round",
+        "cooldown": 10,
         "target": "other",
         "desc": "You take two quick shots against the one you hunt. Make two Strikes against your prey with the required weapon. If both hit the same creature, combine their damage for the purpose of resistances and weaknesses. Apply your multiple attack penalty to each Strike normally."
     },
@@ -2500,6 +2501,7 @@
         ],
         "requirements": "You are wielding two melee weapons, each in a different hand.",
         "frequency": "once per round",
+        "cooldown": 10,
         "target": "other",
         "desc": "You swiftly attack your hunted prey with both weapons. Make two Strikes against your hunted prey, one with each of the required weapons. If both hit the same hunted prey, combine their damage for the purpose of its resistances and weaknesses. Apply your multiple attack penalty to each Strike normally."
     },
@@ -3969,6 +3971,26 @@
                 "duration": 1008000,
                 "name": "Shed Tail",
                 "source": "Shed Tail"
+            }
+        ]
+    },
+    {
+        "name": "Guided by the Stars",
+        "actions": "Free",
+        "traits": [
+            "Fortune",
+            "Lizardfolk"
+        ],
+        "trigger": "You are about to attempt a skill check or saving throw.",
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "target": "self",
+        "desc": "The stars grant you insights that guide your actions. You roll twice and take the better result. If it's night and you can see the stars, you gain a +1 circumstance bonus to the triggering roll.",
+        "gainConditions": [
+            {
+                "duration": 1,
+                "name": "Guided by the Stars",
+                "source": "Guided by the Stars"
             }
         ]
     },

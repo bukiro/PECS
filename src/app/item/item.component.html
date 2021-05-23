@@ -13,7 +13,7 @@
 <div class="newrow left-aligned" *ngIf="item.sourceBook">
     <span>
         <strong>Source</strong>
-        <i>{{item.sourceBook}}</i>
+        <i> {{item.sourceBook}}</i>
     </span>
 </div>
 <div class="newrow left-aligned">
@@ -246,6 +246,41 @@
     </div>
 </div>
 <app-itemAeonStones class="list-item" [item]=item [itemStore]=itemStore *ngIf="item.isWayfinder"></app-itemAeonStones>
+<div class="list-item left-aligned" *ngFor="let activity of item.activities; trackBy:trackByIndex;">
+    <header class="spellHeader" *ngIf="activity.name">
+        {{activity.name}}
+        <app-actionIcons *ngIf="activity.actions" [actionString]="activity.actions">
+        </app-actionIcons>
+        {{(activity.activationType) ? activity.activationType : ""}}
+    </header>
+    <app-activity [creature]="creature" [activity]=activity [gain]=activity
+        [allowActivate]="allowActivate && !item.broken && (activity.resonant ? isSubItem : true)" [isSubItem]=isSubItem>
+    </app-activity>
+</div>
+<ng-container *ngFor="let gain of item.gainActivities; trackBy:trackByIndex;">
+    <div class="list-item left-aligned" *ngFor="let activity of get_Activities(gain.name); trackBy:trackByIndex;">
+        <header class="spellHeader">
+            {{activity.name}}
+            <app-actionIcons *ngIf="activity.actions" [actionString]="activity.actions">
+            </app-actionIcons>
+            {{(activity.activationType) ? activity.activationType : ""}}
+        </header>
+        <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]=allowActivate
+            [isSubItem]=isSubItem></app-activity>
+    </div>
+</ng-container>
+<ng-container *ngFor="let activityName of item.showActivities; trackBy:trackByIndex;">
+    <div class="list-item left-aligned" *ngFor="let activity of get_Activities(activityName); trackBy:trackByIndex;">
+        <header class="spellHeader">
+            {{activity.name}}
+            <app-actionIcons *ngIf="activity.actions" [actionString]="activity.actions">
+            </app-actionIcons>
+            {{(activity.activationType) ? activity.activationType : ""}}
+        </header>
+        <app-activity [creature]="creature" [activity]=activity [gain]=null [allowActivate]=false [isSubItem]=isSubItem>
+        </app-activity>
+    </div>
+</ng-container>
 <div class="list-item left-aligned" *ngFor="let cast of item.castSpells; trackBy:trackByIndex;">
     <div *ngFor="let spell of get_Spells(cast.name); trackBy:trackByIndex;">
         <header class="spellHeader">{{spell.name}}
@@ -301,41 +336,6 @@
         </div>
     </ng-container>
 </div>
-<div class="list-item left-aligned" *ngFor="let activity of item.activities; trackBy:trackByIndex;">
-    <header class="spellHeader" *ngIf="activity.name">
-        {{activity.name}}
-        <app-actionIcons *ngIf="activity.actions" [actionString]="activity.actions">
-        </app-actionIcons>
-        {{(activity.activationType) ? activity.activationType : ""}}
-    </header>
-    <app-activity [creature]="creature" [activity]=activity [gain]=activity
-        [allowActivate]="allowActivate && !item.broken && (activity.resonant ? isSubItem : true)" [isSubItem]=isSubItem>
-    </app-activity>
-</div>
-<ng-container *ngFor="let gain of item.gainActivities; trackBy:trackByIndex;">
-    <div class="list-item left-aligned" *ngFor="let activity of get_Activities(gain.name); trackBy:trackByIndex;">
-        <header class="spellHeader">
-            {{activity.name}}
-            <app-actionIcons *ngIf="activity.actions" [actionString]="activity.actions">
-            </app-actionIcons>
-            {{(activity.activationType) ? activity.activationType : ""}}
-        </header>
-        <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]=allowActivate
-            [isSubItem]=isSubItem></app-activity>
-    </div>
-</ng-container>
-<ng-container *ngFor="let activityName of item.showActivities; trackBy:trackByIndex;">
-    <div class="list-item left-aligned" *ngFor="let activity of get_Activities(activityName); trackBy:trackByIndex;">
-        <header class="spellHeader">
-            {{activity.name}}
-            <app-actionIcons *ngIf="activity.actions" [actionString]="activity.actions">
-            </app-actionIcons>
-            {{(activity.activationType) ? activity.activationType : ""}}
-        </header>
-        <app-activity [creature]="creature" [activity]=activity [gain]=null [allowActivate]=false [isSubItem]=isSubItem>
-        </app-activity>
-    </div>
-</ng-container>
 <div class="list-item left-aligned" *ngFor="let oil of item.oilsApplied; trackBy:trackByIndex;">
     <header class="spellHeader">{{oil.get_Name()}}</header>
     <app-item [creature]="creature" [item]=oil [allowActivate]=allowActivate [isSubItem]=true></app-item>

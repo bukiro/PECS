@@ -123,10 +123,11 @@
             <ng-container *ngIf="!still_loading() && get_CharacterMenuState() == 'in'">
                 <div class="list-item">
                     <strong>Experience Points</strong>
-                    <span>
+                    <span class="hlist">
                         <button (click)="on_LevelUp()"
-                            *ngIf="get_Character().experiencePoints >= 1000 && get_Character().level < 20">Level
-                            Up</button>
+                            *ngIf="get_Character().experiencePoints >= 1000 && get_Character().level < 20">
+                            Level Up
+                        </button>
                         <input type="number" class="number4" id="experiencePoints"
                             [(ngModel)]="get_Character().experiencePoints" (keypress)="numbersOnly($event)"
                             maxLength="4"
@@ -1234,8 +1235,7 @@
                         </ng-template>
                         <div class="list-item gridicon-fullsizebox">
                             <input class="character-choice" id="manualMode" type="checkbox"
-                                [(ngModel)]="get_Character().settings.manualMode"
-                                (change)="on_ManualMode()">
+                                [(ngModel)]="get_Character().settings.manualMode" (change)="on_ManualMode()">
                             <span>
                                 <label for="manualMode">
                                     <strong>
@@ -2607,7 +2607,8 @@
                                                     <div class="newrow left-aligned">
                                                         <ng-container
                                                             *ngFor="let desc of heritage.desc.split('\n\n'); trackBy:trackByIndex;">
-                                                            <app-description class="newrow" [text]="desc"></app-description>
+                                                            <app-description class="newrow" [text]="desc">
+                                                            </app-description>
                                                         </ng-container>
                                                     </div>
                                                     <ng-container

@@ -73,6 +73,7 @@ import { Hint } from './Hint';
 import { InventoryComponent } from './inventory/inventory.component';
 import { NewItemPropertyComponent } from './items/newItemProperty/newItemProperty.component';
 import { SpellTarget } from './SpellTarget';
+import { ActivitiesComponent } from './activities/activities.component';
 
 @Injectable({
     providedIn: 'root'
@@ -322,6 +323,10 @@ export class ItemsService {
         if (newItem.activities) {
             (newItem as Equipment).activities.forEach((activity: ItemActivity) => {
                 activity.source = newItem.id;
+                activity.gainConditions = activity.gainConditions.map(gain => Object.assign(new ConditionGain(), gain));
+                activity.gainConditions.forEach(conditionGain => {
+                    conditionGain.source = activity.name;
+                })
             });
         }
         if (newItem.storedSpells) {
@@ -359,6 +364,27 @@ export class ItemsService {
                 }
             })
             newItem.propertyRunes = newRunes;
+        }
+        //For base items that come with material with name only, load the material into the item here.
+        if (resetPropertyRunes && newItem instanceof Weapon && newItem.material?.length) {
+            let newMaterials: WeaponMaterial[] = [];
+            newItem.material.forEach((material: WeaponMaterial) => {
+                let libraryItem = this.weaponMaterials.find(newMaterial => newMaterial.name == material.name)
+                if (libraryItem) {
+                    newMaterials.push(this.savegameService.merge(libraryItem, material))
+                }
+            })
+            newItem.material = newMaterials;
+        }
+        if (resetPropertyRunes && newItem instanceof Armor && newItem.material?.length) {
+            let newMaterials: ArmorMaterial[] = [];
+            newItem.material.forEach((material: ArmorMaterial) => {
+                let libraryItem = this.armorMaterials.find(newMaterial => newMaterial.name == material.name)
+                if (libraryItem) {
+                    newMaterials.push(this.savegameService.merge(libraryItem, material))
+                }
+            })
+            newItem.material = newMaterials;
         }
         //Recast and disable all hints.
         if ((newItem as Equipment).hints?.length) {
@@ -539,6 +565,7 @@ export class ItemsService {
     move_InventoryItemLocally(creature: Character | AnimalCompanion, item: Item, targetInventory: ItemCollection, inventory: ItemCollection, characterService: CharacterService, amount: number = 0, including: boolean = true) {
         if (targetInventory && targetInventory != inventory && targetInventory.itemId != item.id) {
             item = this.update_GrantingItem(creature, item);
+            characterService.set_ToChange("Character", item.id);
             if (!amount) {
                 amount = item.amount;
             }

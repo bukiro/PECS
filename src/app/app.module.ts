@@ -68,6 +68,7 @@ import { StickyPopoverDirective } from './StickyPopover.directive';
 import { ObjectEffectsComponent } from './objectEffects/objectEffects.component';
 import { DescriptionComponent } from './description/description.component';
 import { ItemTargetComponent } from './itemTarget/itemTarget.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
    declarations: [						 
@@ -133,6 +134,7 @@ import { ItemTargetComponent } from './itemTarget/itemTarget.component';
       ItemTargetComponent
    ],
    imports: [
+      CommonModule,
       BrowserModule,
       BrowserAnimationsModule,
       FormsModule,

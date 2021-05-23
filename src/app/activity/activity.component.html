@@ -11,7 +11,7 @@
                         <app-spellTarget class="newrow vlist" [creature]="creature" [spell]="activitySpell.spell"
                             [phrase]="'Activate' + (maxCharges ? ' (' + (maxCharges - gain.chargesUsed) + ' of ' + maxCharges + ' charges)' : '') + ' and cast'"
                             [gain]="activitySpell.gain" [parentActivityGain]="gain"
-                            [cannotCast]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
+                            [cannotCast]="(gain.activeCooldown && (gain.chargesUsed >= maxCharges)) ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
                             [effectiveSpellLevel]="activitySpell.cast.level || activitySpell.spell.levelreq"
                             [showDismiss]="true" [dismissPhrase]="activity.sustained ? 'Stop Sustaining' : 'Deactivate'"
                             (castMessage)="on_Activate(gain, activity, $event.activated, $event.target)">
@@ -22,7 +22,7 @@
                         <app-spellTarget class="newrow vlist" [creature]="creature" [activity]="activity"
                             [phrase]="'Activate' + (maxCharges ? ' (' + (maxCharges - gain.chargesUsed) + ' of ' + maxCharges + ' charges)' : '')"
                             [gain]="gain"
-                            [cannotCast]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
+                            [cannotCast]="(gain.activeCooldown && (gain.chargesUsed >= maxCharges)) ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
                             [effectiveSpellLevel]="get_Character().level" [showDismiss]="true"
                             [dismissPhrase]="activity.sustained ? 'Stop Sustaining' : 'Deactivate'"
                             (castMessage)="on_Activate(gain, activity, $event.activated, $event.target)">

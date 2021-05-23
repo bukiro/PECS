@@ -131,7 +131,7 @@
                                                                 [ngbTooltip]="(preparedAmount ? preparedAmount + ' ' : '') + (item.get_Name ? item.get_Name() : item.name) + (item.level ? ' (Level ' + item.level + ')' : '')"
                                                                 [subTitle]="preparedAmount"
                                                                 [title]="item.displayName || item.name"
-                                                                [detail]="(item.traits.includes('Rare') ? 'R' : (item.traits.includes('Uncommon') ? 'U' : '')) + (item.level || '')"
+                                                                [detail]="(item.traits.includes('Rare') ? 'R' : (item.traits.includes('Uncommon') ? 'U' : (item.traits.includes('Unique') ? 'Q' : ''))) + (item.level || '')"
                                                                 [item]="item">
                                                             </app-gridIcon>
                                                         </button>
@@ -262,7 +262,7 @@
                                                         [ngClass]="{'penalty': canUse == false, 'bonus': canUse}"
                                                         [ngbTooltip]="ItemTooltipTemplate"
                                                         [title]="item.displayName || item.name"
-                                                        [detail]="(item.traits.includes('Rare') ? 'R' : (item.traits.includes('Uncommon') ? 'U' : '')) + (item.level || '')"
+                                                        [detail]="(item.traits.includes('Rare') ? 'R' : (item.traits.includes('Uncommon') ? 'U' : (item.traits.includes('Unique') ? 'Q' : ''))) + (item.level || '')"
                                                         [item]="item">
                                                     </app-gridIcon>
                                                 </button>

@@ -7328,7 +7328,7 @@
         "targets": "1 creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "You splash a glob of acid that splatters creatures and objects alike. Make a spell attack. If you hit, you deal |dice=var1 Acid + var2 Acid Splash| <var>var1</var> acid damage plus <var>var2</var> splash acid damage. On a critical success, the target also takes <var>var3</var> persistent acid damage.",
+        "desc": "You splash a glob of acid that splatters creatures and objects alike. Make a spell attack. If you hit, you deal |dice=var4 Acid + var2 Acid Splash| <var>var1</var> acid damage plus <var>var2</var> splash acid damage. On a critical success, the target also takes <var>var3</var> persistent acid damage.",
         "heightened": [
             {
                 "desc": "The initial damage increases to 1d6 + your spellcasting ability modifier, and the persistent damage increases to 2.",
@@ -7362,6 +7362,10 @@
                     {
                         "value": "1",
                         "variable": "var3"
+                    },
+                    {
+                        "value": "1d6",
+                        "variable": "var4"
                     }
                 ]
             },
@@ -7379,6 +7383,10 @@
                     {
                         "value": "1",
                         "variable": "var3"
+                    },
+                    {
+                        "value": "1d6 + spellmod",
+                        "variable": "var4"
                     }
                 ]
             },
@@ -7396,6 +7404,10 @@
                     {
                         "value": "2",
                         "variable": "var3"
+                    },
+                    {
+                        "value": "2d6 + spellmod",
+                        "variable": "var4"
                     }
                 ]
             },
@@ -7413,6 +7425,10 @@
                     {
                         "value": "3",
                         "variable": "var3"
+                    },
+                    {
+                        "value": "3d6 + spellmod",
+                        "variable": "var4"
                     }
                 ]
             },
@@ -7430,6 +7446,10 @@
                     {
                         "value": "4",
                         "variable": "var3"
+                    },
+                    {
+                        "value": "4d6 + spellmod",
+                        "variable": "var4"
                     }
                 ]
             }
@@ -28703,7 +28723,7 @@
     {
         "name": "Ravening Maw",
         "id": "3b18ba66-8e33-11eb-8dcd-0242ac130003",
-        "shortDesc": "You evoke Zevgavizeb�s unceasing hunger and inflict it upon your target.",
+        "shortDesc": "You evoke Zevgavizeb's unceasing hunger and inflict it upon your target.",
         "actions": "2A",
         "castType": "somatic, verbal",
         "sourceBook": "Pathfinder #153: Life's Long Shadow",

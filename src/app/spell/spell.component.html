@@ -16,13 +16,13 @@
     <div class="newrow left-aligned" *ngIf="spell.sourceBook">
         <span>
             <strong>Source</strong>
-            <i>&nbsp;{{spell.sourceBook}}</i>
+            <i> {{spell.sourceBook}}</i>
         </span>
     </div>
     <div class="newrow left-aligned" *ngIf="spell.PFSnote">
         <span>
             <strong>PFS Note</strong>
-            <i>&nbsp;{{spell.PFSnote}}</i>
+            <i> {{spell.PFSnote}}</i>
         </span>
     </div>
     <div class="newrow left-aligned" *ngIf="spell.traditions && !spell.traditions.includes('Focus')">
@@ -53,11 +53,11 @@
     <div class="newrow left-aligned" *ngIf="spell.range || spell.area || spell.targets">
         <span *ngIf="spell.range">
             <strong>Range</strong>
-            {{spell.range}}&nbsp;
+            {{spell.range}}
         </span>
         <span *ngIf="spell.area">
             <strong>Area</strong>
-            {{spell.area}}&nbsp;
+            {{spell.area}}
         </span>
         <span *ngIf="spell.targets">
             <strong>Targets</strong>
@@ -67,7 +67,7 @@
     <div class="newrow left-aligned" *ngIf="spell.savingThrow || spell.duration">
         <span *ngIf="spell.savingThrow">
             <strong>Saving Throw</strong>
-            {{spell.savingThrow}}&nbsp;
+            {{spell.savingThrow}}
         </span>
         <span *ngIf="spell.duration">
             <strong>Duration</strong>
@@ -76,23 +76,23 @@
     </div>
     <div class="newrow left-aligned"
         *ngFor="let desc of get_Heightened(spell.desc).split('\n\n'); trackBy:trackByIndex;">
-        <app-description class="newrow" [text]="desc"></app-description>
+        <app-description class="newrow" [text]="desc" [casting]="casting"></app-description>
     </div>
     <div class="newrow lower left-aligned" *ngIf="spell.critsuccess">
         <strong>Critical Success</strong>
-        <app-description [text]="spell.critsuccess" [oneLiner]="true"></app-description>
+        <app-description [text]="get_Heightened(spell.critsuccess)" [casting]="casting" [oneLiner]="true"></app-description>
     </div>
     <div class="newrow lower left-aligned" *ngIf="spell.success">
         <strong>Success</strong>
-        <app-description [text]="spell.success" [oneLiner]="true"></app-description>
+        <app-description [text]="get_Heightened(spell.success)" [casting]="casting" [oneLiner]="true"></app-description>
     </div>
     <div class="newrow lower left-aligned" *ngIf="spell.failure">
         <strong>Failure</strong>
-        <app-description [text]="spell.failure" [oneLiner]="true"></app-description>
+        <app-description [text]="get_Heightened(spell.failure)" [casting]="casting" [oneLiner]="true"></app-description>
     </div>
     <div class="newrow lower left-aligned" *ngIf="spell.critfailure">
         <strong>Critical Failure</strong>
-        <app-description [text]="spell.critfailure" [oneLiner]="true"></app-description>
+        <app-description [text]="get_Heightened(spell.critfailure)" [casting]="casting" [oneLiner]="true"></app-description>
     </div>
     <div class="newrow left-aligned" *ngFor="let heightened of spell.heightened; trackBy:trackByIndex;">
         <span>
@@ -118,7 +118,7 @@
                 </app-actionIcons>
                 {{shownSpell.castType.toString()}}
             </header>
-            <app-spell [spell]=shownSpell [spellLevel]="shownSpellSet.level || spellLevel || 0"></app-spell>
+            <app-spell [spell]=shownSpell [spellLevel]="shownSpellSet.level || spellLevel || 0" [casting]="casting"></app-spell>
         </div>
     </div>
 </div>

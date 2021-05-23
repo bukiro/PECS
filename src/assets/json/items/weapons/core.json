@@ -1053,6 +1053,7 @@
       "desc": "This sharp-taloned +1 striking spiked gauntlet appears to have been crafted from dragon scales, with claws built from iron. In addition to the typical weapon traits, a Cinderclaw gauntlet has the versatile S trait.\n\nOn a critical hit, the Cinderclaw gauntlet deals an additional 1d6 fire damage.",
       "id": "b8d39cb3-40c3-4d00-84c7-082a1c3b658b",
       "name": "Cinderclaw Gauntlet",
+      "sourceBook": "Pathfinder #146: Cult of Cinders",
       "displayName": "Cinderclaw Gauntlet",
       "level": 5,
       "criticalHint": "On a critical hit, the Cinderclaw gauntlet deals an additional |dice=1d6 Fire| 1d6 fire damage.",
@@ -1082,7 +1083,7 @@
             "activationType": "Command",
             "target": "other",
             "desc": "The creature you hit must succeed at a DC 19 Fortitude save or be sickened 1 by the gauntlet's acrid smoke. Creatures that don't need to breathe are immune.",
-            "trigger": "Your attack roll with the Cinderclaw gauntlet is a critical success.",
+            "trigger": "Your attack roll with the Cinderclaw gauntlet is a critical success",
             "name": "Cinderclaw Gauntlet",
             "traits": [
                "Uncommon",
@@ -1091,6 +1092,105 @@
             ],
             "_className": "ItemActivity",
             "source": "b8d39cb3-40c3-4d00-84c7-082a1c3b658b"
+         }
+      ]
+   },
+   {
+      "bulk": "L",
+      "desc": "This +1 returning striking cold iron starknife has an ornate central grip that depicts a silver dragon, the neck, wings, and tail of which wrap over and around the handle in knots to support the weapon's four cold iron blades. While the handle is polished to a mirrorlike shine, the blades of Eclipse are a flat black and entirely unreflective. Eclipse is also the portal key required to activate Dreamgate at Alseta's Ring.\n\nWhenever you score a critical hit with Eclipse, the target creature's eyes are plunged into darkness; if that creature doesn't have darkvision, it is blinded for 1 round.",
+      "id": "cbf47381-ba5c-4cd5-9a8b-fd35ad01d0a2",
+      "name": "Eclipse",
+      "sourceBook": "Pathfinder #146: Cult of Cinders",
+      "displayName": "Eclipse",
+      "level": 8,
+      "criticalHint": "Whenever you score a critical hit with Eclipse, the target creature's eyes are plunged into darkness; if that creature doesn't have darkvision, it is blinded for 1 round.",
+      "moddable": "-",
+      "price": 45000,
+      "traits": [
+         "Unique",
+         "Agile",
+         "Deadly D6",
+         "Evocation",
+         "Finesse",
+         "Light",
+         "Magical",
+         "Thrown 20 ft.",
+         "Versatile S"
+      ],
+      "_className": "Weapon",
+      "weaponBase": "Starknife",
+      "potencyRune": 1,
+      "strikingRune": 1,
+      "propertyRunes": [
+         {
+            "name": "Returning"
+         }
+      ],
+      "material": [
+         {
+            "name": "Cold Iron (Low-Grade)"
+         }
+      ],
+      "dicesize": 4,
+      "dmgType": "P/S",
+      "group": "Knife",
+      "hands": "1",
+      "usage": "held in 1 hand",
+      "melee": 5,
+      "ranged": 20,
+      "prof": "Martial Weapons",
+      "activities": [
+         {
+            "actions": "1A",
+            "activationType": "Command",
+            "target": "object",
+            "desc": "Eclipse's blades glow like starlit night sky, causing it to shed light as a torch until you deactivate it as a single action, which has the concentrate trait.",
+            "toggle": true,
+            "frequency": "once per day",
+            "cooldown": 144000,
+            "name": "Eclipse: Light",
+            "gainConditions": [
+               {
+                  "name": "Eclipse: Light",
+                  "source": "Eclipse: Light",
+                  "duration": -1,
+                  "targetFilter": "caster"
+               }
+            ],
+            "traits": [
+               "Unique",
+               "Evocation",
+               "Light",
+               "Magical"
+            ],
+            "_className": "ItemActivity",
+            "source": "cbf47381-ba5c-4cd5-9a8b-fd35ad01d0a2"
+         },
+         {
+            "actions": "Reaction",
+            "activationType": "Envision",
+            "target": "self",
+            "desc": "You absorb light, gaining a +2 status bonus to the Stealth check.",
+            "trigger": "You attempt a Stealth check to Hide or Sneak, but you haven’t rolled yet",
+            "frequency": "three times per day",
+            "charges": 3,
+            "cooldown": 144000,
+            "name": "Eclipse: Stealth",
+            "gainConditions": [
+               {
+                  "name": "Eclipse: Stealth",
+                  "source": "Eclipse: Stealth",
+                  "duration": 1
+               }
+            ],
+            "traits": [
+               "Unique",
+               "Evocation",
+               "Light",
+               "Magical"
+            ],
+            "_className": "ItemActivity",
+            "source": "cbf47381-ba5c-4cd5-9a8b-fd35ad01d0a2"
          }
       ]
    },
@@ -5021,7 +5121,7 @@
       "dicenum": 1,
       "dicesize": 4,
       "dmgType": "S",
-      "extraDamage":"+1d6 Acid",
+      "extraDamage": "+1d6 Acid",
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"
@@ -5041,7 +5141,7 @@
       "dicenum": 1,
       "dicesize": 4,
       "dmgType": "S",
-      "extraDamage":"+1d6 Electricity",
+      "extraDamage": "+1d6 Electricity",
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"
@@ -5061,7 +5161,7 @@
       "dicenum": 1,
       "dicesize": 4,
       "dmgType": "S",
-      "extraDamage":"+1d6 Fire",
+      "extraDamage": "+1d6 Fire",
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"
@@ -5081,7 +5181,7 @@
       "dicenum": 1,
       "dicesize": 4,
       "dmgType": "S",
-      "extraDamage":"+1d6 Poison",
+      "extraDamage": "+1d6 Poison",
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"
@@ -5101,7 +5201,7 @@
       "dicenum": 1,
       "dicesize": 4,
       "dmgType": "S",
-      "extraDamage":"+1d6 Cold",
+      "extraDamage": "+1d6 Cold",
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"
@@ -5121,7 +5221,7 @@
       "dicenum": 1,
       "dicesize": 4,
       "dmgType": "S",
-      "extraDamage":"+2d6 Acid",
+      "extraDamage": "+2d6 Acid",
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"
@@ -5141,7 +5241,7 @@
       "dicenum": 1,
       "dicesize": 4,
       "dmgType": "S",
-      "extraDamage":"+2d6 Electricity",
+      "extraDamage": "+2d6 Electricity",
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"
@@ -5161,7 +5261,7 @@
       "dicenum": 1,
       "dicesize": 4,
       "dmgType": "S",
-      "extraDamage":"+2d6 Fire",
+      "extraDamage": "+2d6 Fire",
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"
@@ -5181,7 +5281,7 @@
       "dicenum": 1,
       "dicesize": 4,
       "dmgType": "S",
-      "extraDamage":"+2d6 Poison",
+      "extraDamage": "+2d6 Poison",
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"
@@ -5201,7 +5301,7 @@
       "dicenum": 1,
       "dicesize": 4,
       "dmgType": "S",
-      "extraDamage":"+2d6 Cold",
+      "extraDamage": "+2d6 Cold",
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"
@@ -5221,7 +5321,7 @@
       "dicenum": 1,
       "dicesize": 4,
       "dmgType": "S",
-      "extraDamage":"+3d6 Acid",
+      "extraDamage": "+3d6 Acid",
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"
@@ -5241,7 +5341,7 @@
       "dicenum": 1,
       "dicesize": 4,
       "dmgType": "S",
-      "extraDamage":"+3d6 Electricity",
+      "extraDamage": "+3d6 Electricity",
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"
@@ -5261,7 +5361,7 @@
       "dicenum": 1,
       "dicesize": 4,
       "dmgType": "S",
-      "extraDamage":"+3d6 Fire",
+      "extraDamage": "+3d6 Fire",
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"
@@ -5281,7 +5381,7 @@
       "dicenum": 1,
       "dicesize": 4,
       "dmgType": "S",
-      "extraDamage":"+3d6 Poison",
+      "extraDamage": "+3d6 Poison",
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"
@@ -5301,7 +5401,7 @@
       "dicenum": 1,
       "dicesize": 4,
       "dmgType": "S",
-      "extraDamage":"+3d6 Cold",
+      "extraDamage": "+3d6 Cold",
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"

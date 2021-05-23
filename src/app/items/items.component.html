@@ -346,7 +346,7 @@
                                                                         [ngClass]="{'fancy-button':get_ShowPurpose()=='formulas' && get_ShowCreature()=='Character' && get_FormulasLearned(item.id).length, 'penalty': canUse == false, 'bonus': canUse}"
                                                                         [ngbTooltip]="ItemTooltipTemplate"
                                                                         [title]="item.displayName || item.name"
-                                                                        [detail]="'noparse|' + (item.traits.includes('Rare') ? 'R' : (item.traits.includes('Uncommon') ? 'U' : '')) + (item.level ? item.level.toString() : '')"
+                                                                        [detail]="'noparse|' + (item.traits.includes('Rare') ? 'R' : (item.traits.includes('Uncommon') ? 'U' : (item.traits.includes('Unique') ? 'Q' : ''))) + (item.level ? item.level.toString() : '')"
                                                                         [item]="item">
                                                                     </app-gridIcon>
                                                                 </button>

@@ -3541,6 +3541,35 @@
         ]
     },
     {
+        "name": "Guided by the Stars",
+        "desc": "The stars grant you insights that guide your actions. You roll twice and take the better result. If it's night and you can see the stars, you gain a +1 circumstance bonus to the triggering roll.",
+        "type": "activities",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "hints": [
+            {
+                "desc": "If it's night and you can see the stars, you gain a +1 circumstance bonus to the triggering roll.",
+                "showon": "Skills, Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Skill Checks",
+                        "type": "circumstance",
+                        "value": "1"
+                    },
+                    {
+                        "affected": "Saving Throws",
+                        "type": "circumstance",
+                        "value": "1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "name": "Shroud of Flame",
         "desc": "You gain a 20 feet aura of fire that extends out from you. A creature that enters or ends its turn within the aura takes 2d6 fire damage (3d6 on 9th level monstrosity form). A creature can take this damage only once per turn. You can use a single action, which has the concentrate trait, to activate or deactivate this aura.",
         "type": "activities",
@@ -8659,7 +8688,7 @@
     },
     {
         "name": "Fatigued",
-        "desc": "You're tired and can't summon much energy. You take a -1 status penalty to AC and saving throws. You can't use exploration activities performed while traveling, such as those on pages 479�480.\n\nYou recover from fatigue after a full night's rest.",
+        "desc": "You're tired and can't summon much energy. You take a -1 status penalty to AC and saving throws. You can't use exploration activities performed while traveling, such as those on pages 479-480.\n\nYou recover from fatigue after a full night's rest.",
         "type": "generic",
         "persistent": true,
         "hints": [
@@ -10962,6 +10991,41 @@
             {
                 "desc": "The weapon that the tiger menuki is affixed to gains the sweep trait for the triggering attack and all other attacks for the duration.",
                 "showon": "Attacks"
+            }
+        ]
+    },
+    {
+        "name": "Eclipse: Light",
+        "desc": "Eclipse's blades glow like starlit night sky, causing it to shed light as a torch until you deactivate it as a single action, which has the concentrate trait.",
+        "type": "wornitems",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Eclipse's blades glow like starlit night sky, causing it to shed light as a torch.",
+                "showon": "Perception"
+            }
+        ]
+    },
+    {
+        "name": "Eclipse: Stealth",
+        "desc": "You absorb light, gaining a +2 status bonus to the triggering Stealth check.",
+        "type": "wornitems",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Stealth",
+                "type": "status",
+                "value": 2
             }
         ]
     },
@@ -21296,7 +21360,7 @@
                 "level": 4,
                 "descs": [
                     {
-                        "value": "You can control plants in the area to a small degree, allowing you to make Strikes with tree branches, exposed roots, or similarly solid plants. To do so, you use a Strike action, but you can Strike any creature you can detect with your tremorsense. These are melee spell attacks that deal 2d8 bludgeoning damage plus your spellcasting ability modifier. Unusual plants, such as thorny vines, might deal a different type of damage at the GM's discretion. You can't make any other attacks through these plants, or take any other actions through them, other than these Strikes. ",
+                        "value": "You can control plants in the area to a small degree, allowing you to make Strikes with tree branches, exposed roots, or similarly solid plants. To do so, you use a Strike action, but you can Strike any creature you can detect with your tremorsense. These are melee spell attacks that deal |dice=2d8 + spellmod B| 2d8 bludgeoning damage plus your spellcasting ability modifier. Unusual plants, such as thorny vines, might deal a different type of damage at the GM's discretion. You can't make any other attacks through these plants, or take any other actions through them, other than these Strikes. ",
                         "variable": "var1"
                     }
                 ]
@@ -21305,7 +21369,7 @@
                 "level": 6,
                 "descs": [
                     {
-                        "value": "You can control plants in the area to a small degree, allowing you to make Strikes with tree branches, exposed roots, or similarly solid plants. To do so, you use a Strike action, but you can Strike any creature you can detect with your tremorsense. These are melee spell attacks that deal 2d8 bludgeoning damage plus your spellcasting ability modifier. Unusual plants, such as thorny vines, might deal a different type of damage at the GM's discretion. You can't make any other attacks through these plants than these Strikes. You can use other simple manipulate actions through the plants, including having a branch pick an object up or open a door, though more complex actions, such as picking a lock or disabling a trap, remain impossible.",
+                        "value": "You can control plants in the area to a small degree, allowing you to make Strikes with tree branches, exposed roots, or similarly solid plants. To do so, you use a Strike action, but you can Strike any creature you can detect with your tremorsense. These are melee spell attacks that deal |dice=2d8 + spellmod B| 2d8 bludgeoning damage plus your spellcasting ability modifier. Unusual plants, such as thorny vines, might deal a different type of damage at the GM's discretion. You can't make any other attacks through these plants than these Strikes. You can use other simple manipulate actions through the plants, including having a branch pick an object up or open a door, though more complex actions, such as picking a lock or disabling a trap, remain impossible.",
                         "variable": "var1"
                     }
                 ]

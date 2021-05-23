@@ -529,7 +529,7 @@ export class ItemsComponent implements OnInit {
             if (this.have_Feat("Alchemical Crafting")) {
                 available += 4;
             }
-            return item.level == 1 && available > learned && !item.traits.includes("Uncommon") && !item.traits.includes("Rare");
+            return item.level == 1 && available > learned && !item.traits.includes("Uncommon") && !item.traits.includes("Rare") && !item.traits.includes("Unique");
         }
         if (source == "magicalcrafting") {
             let learned: number = this.get_FormulasLearned("", 'magicalcrafting').length;
@@ -537,7 +537,7 @@ export class ItemsComponent implements OnInit {
             if (this.have_Feat("Magical Crafting")) {
                 available += 4;
             }
-            return item.level <= 2 && available > learned && !item.traits.includes("Uncommon") && !item.traits.includes("Rare");
+            return item.level <= 2 && available > learned && !item.traits.includes("Uncommon") && !item.traits.includes("Rare") && !item.traits.includes("Unique");
         }
         if (source == "snarecrafting") {
             let learned: number = this.get_FormulasLearned("", 'snarecrafting').length;
@@ -545,7 +545,7 @@ export class ItemsComponent implements OnInit {
             if (this.have_Feat("Snare Crafting")) {
                 available += 4;
             }
-            return available > learned && !item.traits.includes("Uncommon") && !item.traits.includes("Rare");
+            return available > learned && !item.traits.includes("Uncommon") && !item.traits.includes("Rare") && !item.traits.includes("Unique");
         }
         if (source == "snarespecialist") {
             let learned: number = this.get_FormulasLearned("", 'snarespecialist').length;
@@ -563,7 +563,7 @@ export class ItemsComponent implements OnInit {
                     available += 3;
                 }
             }
-            return available > learned && !item.traits.includes("Rare");
+            return available > learned && !item.traits.includes("Rare") && !item.traits.includes("Unique");
         }
     }
 

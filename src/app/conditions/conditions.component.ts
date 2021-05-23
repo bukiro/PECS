@@ -213,6 +213,9 @@ export class ConditionsComponent implements OnInit {
             case "Talismans":
                 typeKey = "talismans";
                 break;
+            case "Weapons":
+                typeKey = "weapons";
+                break;
             case "Worn Items":
                 typeKey = "wornitems";
                 break;
@@ -585,7 +588,7 @@ export class ConditionsComponent implements OnInit {
                 return 0;
             });;
     }
-    
+
     get_BonusTypes() {
         return this.effectsService.get_BonusTypes().map(type => type == "untyped" ? "" : type);
     }

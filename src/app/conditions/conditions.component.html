@@ -81,7 +81,7 @@
                             </span>
                         </div>
                         <ng-container
-                            *ngFor="let set of ['Generic','Activities','Afflictions','Alchemical Elixirs','Alchemical Tools','Ammunition','Blood Magic','Feats','Held Items','Other Consumables','Potions','Spells','Talismans','Worn Items']; trackBy:trackByIndex;">
+                            *ngFor="let set of ['Generic','Activities','Afflictions','Alchemical Elixirs','Alchemical Tools','Ammunition','Blood Magic','Feats','Held Items','Other Consumables','Potions','Spells','Talismans','Weapons','Worn Items']; trackBy:trackByIndex;">
                             <ng-container
                                 *ngFor="let visibleConditions of [get_VisibleConditionsSet(set)]; trackBy:trackByIndex;">
                                 <button class="list-item" (click)="toggle_List(set)"

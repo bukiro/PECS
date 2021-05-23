@@ -204,6 +204,7 @@ export class ActivitiesService {
                     //Do the target and the caster get the same condition?
                     let sameCondition: boolean = hasTargetCondition && hasCasterCondition && Array.from(new Set(conditions.map(conditionGain => conditionGain.name))).length == 1;
                     conditions.forEach((conditionGain, conditionIndex) => {
+                        conditionGain.source = activity.name;
                         let newConditionGain = Object.assign(new ConditionGain(), conditionGain);
                         let condition = conditionsService.get_Conditions(conditionGain.name)[0]
                         if (!newConditionGain.source) {

@@ -7,18 +7,21 @@
     </div>
     <div class="newrow left-aligned">
         <div class="newrow left-aligned" *ngIf="feat.sourceBook">
-            <strong>Source</strong><i>&nbsp;{{feat.sourceBook}}</i>
+            <strong>Source</strong>
+            <i>{{feat.sourceBook}}</i>
         </div>
         <div class="newrow left-aligned" *ngIf="feat.access">
-            <strong>Access</strong>&nbsp;{{feat.access}}
+            <strong>Access</strong>
+            {{feat.access}}
         </div>
         <ng-container *ngFor="let reqs of [get_FeatRequirements(choice, feat)]; trackBy:trackByIndex;">
             <p *ngIf="reqs.length">
-                <strong>Requirements&nbsp;</strong>
+                <strong>Requirements</strong>
                 <span [ngClass]="{'problem':(!req.met), 'disabled':(req.ignored)}"
                     [ngbPopover]="req.ignored ? 'This requirement is ignored.' : ''"
-                    *ngFor="let req of reqs; trackBy:trackByIndex;">{{req.ignored ? "(" : ''}}{{req.desc}}{{req.ignored
-                    ? ")" : ''}}</span>
+                    *ngFor="let req of reqs; trackBy:trackByIndex;">
+                    {{req.ignored ? "(" : ''}}{{req.desc}}{{req.ignored ? ")" : ''}}
+                </span>
             </p>
         </ng-container>
         <ng-container *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">

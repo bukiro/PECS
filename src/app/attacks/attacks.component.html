@@ -302,7 +302,7 @@
                         <button [ngbPopover]="SnareTemplate" triggers="click" (click)="toggle_Item()">
                             <app-gridIcon [updateId]="snare.item.id"
                                 [ngbTooltip]="SnareTitleTemplate" [title]="snare.item.displayName || snare.item.name"
-                                [detail]="'noparse|' + (snare.item.traits.includes('Rare') ? 'R' : (snare.item.traits.includes('Uncommon') ? 'U' : '')) + (snare.item.level ? snare.item.level.toString() : '')"
+                                [detail]="'noparse|' + (snare.item.traits.includes('Rare') ? 'R' : (snare.item.traits.includes('Uncommon') ? 'U' : (snare.item.traits.includes('Unique') ? 'Q' : ''))) + (snare.item.level ? snare.item.level.toString() : '')"
                                 [item]="snare.item">
                             </app-gridIcon>
                         </button>
