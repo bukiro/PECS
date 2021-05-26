@@ -63,7 +63,7 @@
                                 disabled>Current</button>
                             <button class="btn btn-primary" *ngIf="!get_IsSameInventory(target)"
                                 style="background-color: rgb(var(--accent))"
-                                (click)="set_Target(target); modal.close('Move click')" [disabled]="cannotMove">
+                                (click)="set_Target(target); modal.close('Move click')" [disabled]="cannotMove || (item.amount && !selectedAmount)">
                                 <span *ngIf="get_TargetType(target)=='Inventory'">Move</span>
                                 <span *ngIf="get_TargetType(target)=='Companion'">Give</span>
                                 <span *ngIf="get_TargetType(target)=='Character'">Offer</span>

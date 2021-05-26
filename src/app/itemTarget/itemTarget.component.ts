@@ -190,44 +190,7 @@ export class ItemTargetComponent implements OnInit {
     }
 
     get_ContainedBulk(item: Item, targetInventory: ItemCollection = null, including: boolean = true) {
-        //Sum up all the bulk of an item, including items granted by it and inventories it contains (or they contain).
-        //If this item has granted other items, sum up the bulk of each of them.
-        //If a targetInventory is given, don't count items in that inventory, as we want to figure out if the whole package will fit into that inventory.
-        let bulk = 0;
-        if (including) {
-            item.gainItems?.forEach(itemGain => {
-                let found: number = 0;
-                let stackBulk = 0;
-                let stackSize = 1;
-                this.get_Creature().inventories.filter(inventory => !targetInventory || inventory !== targetInventory).forEach(inventory => {
-                    //Count how many items you have that either have this ItemGain's id or, if stackable, its name.
-                    inventory[itemGain.type].filter(invItem => invItem.id == itemGain.id || (invItem.can_Stack() && invItem.name == itemGain.name)).forEach(invItem => {
-                        if (invItem.can_Stack()) {
-                            found += invItem.amount;
-                            stackBulk = invItem.carryingBulk || invItem.bulk;
-                            stackSize = invItem.stack || 1;
-                        } else {
-                            bulk += this.itemsService.get_RealBulk(invItem, true);
-                            //If the granted item includes more items, add their bulk as well.
-                            bulk += this.get_ContainedBulk(invItem, targetInventory);
-                        }
-                    })
-                })
-                if (found && stackBulk && stackSize) {
-                    //If one ore more stacked items were found, calculate the stack bulk accordingly.
-                    let testItem = new Consumable();
-                    testItem.bulk = stackBulk.toString();
-                    testItem.amount = Math.min(itemGain.amount, found);
-                    testItem.stack = stackSize;
-                    bulk += this.itemsService.get_RealBulk(testItem, false);
-                }
-            })
-        }
-        //If the item adds an inventory, add the sum bulk of that inventory, unless it's the target inventory. The item will not be moved into the inventory in that case (handled during the move).
-        if ((item as Equipment).gainInventory) {
-            bulk += this.get_Creature().inventories.find(inventory => inventory !== targetInventory && inventory.itemId == item.id)?.get_Bulk(false, true) || 0;
-        }
-        return bulk;
+        return this.itemsService.get_ContainedBulk(this.get_Creature(), item, targetInventory, including);
     }
 
     get_InventoryBulk() {

@@ -69,6 +69,7 @@ import { ObjectEffectsComponent } from './objectEffects/objectEffects.component'
 import { DescriptionComponent } from './description/description.component';
 import { ItemTargetComponent } from './itemTarget/itemTarget.component';
 import { CommonModule } from '@angular/common';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
    declarations: [						 
@@ -141,7 +142,8 @@ import { CommonModule } from '@angular/common';
       ReactiveFormsModule,
       AppRoutingModule,
       HttpClientModule,
-      NgbModule
+      NgbModule,
+      DragDropModule
    ],
    providers: [
       NgbActiveModal

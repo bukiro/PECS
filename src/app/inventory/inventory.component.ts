@@ -26,6 +26,7 @@ import { AlchemicalBomb } from '../AlchemicalBomb';
 import { OtherConsumableBomb } from '../OtherConsumableBomb';
 import { SpellTarget } from '../SpellTarget';
 import { AdventuringGear } from '../AdventuringGear';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 @Component({
     selector: 'app-inventory',
@@ -41,7 +42,6 @@ export class InventoryComponent implements OnInit {
     public sheetSide: string = "left";
     @Input()
     public itemStore: boolean = false;
-    private id: number = 0;
     private showItem: number = 0;
     private showList: string = "";
     public shieldDamage: number = 0;
@@ -152,25 +152,12 @@ export class InventoryComponent implements OnInit {
         return this.characterService.get_Creatures();
     }
 
-    get_Inventories(creature: string = this.creature, newID: boolean = false, calculate: boolean = false) {
-        if (newID) {
-            this.id = 0;
-        }
+    get_Inventories(creature: string = this.creature) {
         return this.get_Creature(creature).inventories;
     }
 
-    get_TargetInventories(item: Item) {
-        //Return your inventories and your companion's main inventory (or the character's if called by the companion)
-        switch (this.creature) {
-            case "Character":
-                if (this.characterService.get_CompanionAvailable()) {
-                    return this.get_Creature().inventories.concat(this.get_Creature("Companion").inventories[0]);
-                } else {
-                    return this.get_Creature().inventories;
-                }
-            case "Companion":
-                return this.get_Creature().inventories.concat(this.get_Creature("Character").inventories[0]);
-        }
+    get_IsEmptyInventory(inv: ItemCollection) {
+        return !inv.allItems().length
     }
 
     get_ContainedItems(item: Item) {
@@ -194,16 +181,11 @@ export class InventoryComponent implements OnInit {
         this.characterService.sort_Cash();
     }
 
-    get_ID() {
-        this.id++;
-        return this.id;
-    }
-
     get_Items() {
         return this.itemsService.get_Items();
     }
 
-    sort_ItemSet(itemSet) {
+    sort_ItemSet(itemSet: Item[]) {
         return itemSet.sort((a, b) => {
             if (a.name > b.name) {
                 return 1;
@@ -214,7 +196,7 @@ export class InventoryComponent implements OnInit {
             return 0;
         });
     }
-    
+
     get_IsEquipment(item: Item) {
         return (item instanceof Equipment);
     }
@@ -274,6 +256,77 @@ export class InventoryComponent implements OnInit {
         this.characterService.set_ToChange(this.creature, "inventory");
         this.characterService.set_ToChange(this.creature, "effects");
         this.characterService.process_ToChange();
+    }
+
+    dragdrop_InventoryItem(event: CdkDragDrop<string[]>) {
+        if (event.previousContainer === event.container) {
+
+        } else {
+            let sourceID = event.previousContainer.id.split("|")[0];
+            let source = this.get_Creature().inventories.find(inv => inv.id == sourceID);
+            let targetId = event.container.id.split("|")[0];
+            let target = this.get_Creature().inventories.find(inv => inv.id == targetId);
+            let itemKey = event.previousContainer.id.split("|")[1];
+            let item = source[itemKey][event.previousIndex];
+            if (source && target && item && this.can_Drop(item)) {
+                let cannotMove = this.get_CannotMove(item, target)
+                if (cannotMove) {
+                    this.toastService.show(cannotMove + " The item was not moved.", [], this.characterService)
+                } else {
+                    this.itemsService.move_InventoryItemLocally(this.get_Creature(), item, target, source, this.characterService, item.amount, true);
+                }
+            }
+        }
+    }
+
+    get_IsCircularContainer(item: Item, target: ItemCollection) {
+        //Check if the target inventory is contained in this item.
+        let found = false;
+        if (item instanceof Equipment && item.gainInventory?.length) {
+            found = this.get_ItemContainsInventory(item, target);
+        }
+        return found;
+    }
+
+    get_ItemContainsInventory(item: Equipment, inventory: ItemCollection) {
+        let found = false;
+        if (item.gainInventory?.length) {
+            found = this.get_Creature().inventories.filter(inv => inv.itemId == item.id).some(inv => {
+                return inv.allEquipment().some(invItem => invItem.id == inventory.itemId) ||
+                    inv.allEquipment().filter(invItem => invItem.gainInventory.length).some(invItem => {
+                        return this.get_ItemContainsInventory(invItem, inventory);
+                    })
+            })
+        }
+        return found;
+    }
+
+    get_CannotMove(item: Item, target: ItemCollection) {
+        if (target.itemId == item.id) {
+            return "The selected container is part of this item's content."
+        }
+        if (this.get_CannotFit(item, target)) {
+            return "The selected container does not have enough room for the item."
+        }
+        if (this.get_IsCircularContainer(item, target)) {
+            return "The selected container is part of this item's content."
+        }
+        return "";
+    }
+
+    get_CannotFit(item: Item, target: ItemCollection) {
+        if (target instanceof ItemCollection) {
+            if (target.bulkLimit) {
+                let itemBulk = this.itemsService.get_RealBulk(item, true);
+                let containedBulk = this.itemsService.get_ContainedBulk(this.get_Creature(), item, target, true);
+                return (target.get_Bulk(false) + itemBulk + containedBulk > target.bulkLimit)
+            }
+        }
+        return false;
+    }
+
+    get_ItemIDs(itemList: Item[]) {
+        return itemList.map(item => item.id);
     }
 
     drop_ContainerOnly(item: Item, inventory: ItemCollection) {
@@ -380,7 +433,7 @@ export class InventoryComponent implements OnInit {
         if (item.broken) {
             if (!this.can_Equip(item, 0) && item.equipped) {
                 this.characterService.onEquip(this.get_Creature() as Character | AnimalCompanion, this.get_Creature().inventories[0], item, false, false, true)
-                this.toastService.show("Your <strong>" + item.get_Name() + "</strong> was unequipped because it is broken.", [], this.characterService)
+                this.toastService.show("Your <strong>" + item.get_Name() + "</strong> was unequipped because it is broken.", [], this.characterService);
             }
         }
     }
