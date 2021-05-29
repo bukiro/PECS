@@ -1,4 +1,4 @@
-<ng-container *ngIf="oneLiner">
+<ng-container *ngIf="oneLiner && text">
     <ng-container *ngFor="let split of text.split('|'); trackBy:trackByIndex;">
         <app-quickdice *ngIf="split.includes('dice=')" [diceString]="split.replace('dice=','')" [casting]="casting">
         </app-quickdice>
@@ -6,7 +6,7 @@
         <span *ngIf="!split.includes('dice=') && !split.includes('<')">{{split}}</span>
     </ng-container>
 </ng-container>
-<ng-container *ngIf="!oneLiner">
+<ng-container *ngIf="!oneLiner && text">
     <p *ngIf="text.split('\n').length == 1">
         <ng-container *ngFor="let split of text.split('|'); trackBy:trackByIndex;">
             <app-quickdice *ngIf="split.includes('dice=')" [diceString]="split.replace('dice=','')" [casting]="casting">

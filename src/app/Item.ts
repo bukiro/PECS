@@ -18,7 +18,7 @@ export class Item {
     //Some items need certain requirements to be crafted.
     public craftRequirement: string = "";
     //Some items need to store data - selected runes, spells, etc...
-    public data: { name: string, value: any }[] = [];
+    public data: { name: string, value: any, show: boolean }[] = [];
     //Full description of the item, ideally unchanged from the source material
     public desc: string = "";
     //For summoned items or infused reagents, the expiration ticks down, and the item is then dropped or the amount reduced. Expiration is turns * 10.

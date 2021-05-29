@@ -249,6 +249,62 @@
         "usage": "worn mask"
     },
     {
+        "desc": "This dusty coat is made of mangy brown-and-gray coyote fur. You gain a +1 item bonus to Survival checks. If you critically succeed at your Survival check to Subsist, you can feed twice as many additional creatures.",
+        "id": "825c4ba2-616f-4f74-9148-c740e14544a6",
+        "hints": [
+            {
+                "desc": "If you critically succeed at your Survival check to Subsist, you can feed twice as many additional creatures.",
+                "showon": "Survival"
+            }
+        ],
+        "level": 3,
+        "name": "Coyote Cloak",
+        "price": 6000,
+        "traits": [
+            "Divination",
+            "Invested",
+            "Magical"
+        ],
+        "effects": [
+            {
+                "affected": "Survival",
+                "value": "+1",
+                "type": "item"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn cloak"
+    },
+    {
+        "desc": "This dusty coat is made of mangy brown-and-gray coyote fur. You gain a +1 item bonus to Survival checks. If you critically succeed at your Survival check to Subsist, you can feed twice as many additional creatures.",
+        "id": "da870b3d-9d59-4476-85c8-fa0ea2d8b9e2",
+        "hints": [
+            {
+                "desc": "If you critically succeed at your Survival check to Subsist, you can feed four times as many additional creatures.",
+                "showon": "Survival"
+            }
+        ],
+        "level": 9,
+        "name": "Coyote Cloak (Greater)",
+        "subType": "Greater",
+        "subTypeDesc": "The cloak grants a +2 item bonus, and if you critically succeed at a Survival check to Subsist, you can feed four times as many additional creatures.",
+        "price": 65000,
+        "traits": [
+            "Divination",
+            "Invested",
+            "Magical"
+        ],
+        "effects": [
+            {
+                "affected": "Survival",
+                "value": "+2",
+                "type": "item"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn cloak"
+    },
+    {
         "desc": "This silver signet ring changes to match the insignia of a lord or organization you serve (or your own face, if you serve no one else). It grants you a +2 item bonus to Diplomacy checks and lets you cast message as an arcane innate spell at will.",
         "id": "462510ac-d2fc-4f29-aa7c-dcc7272ebfcf",
         "level": 9,
@@ -781,15 +837,18 @@
         "data": [
             {
                 "name": "gold",
-                "value": ""
+                "value": "",
+                "show": false
             },
             {
                 "name": "iron",
-                "value": ""
+                "value": "",
+                "show": false
             },
             {
                 "name": "propertyRunes",
-                "value": false
+                "value": false,
+                "show": false
             }
         ],
         "desc": "This item consists of two magically linked rings: an intricate, gleaming golden ring with a square-cut ruby, and a thick, plain iron ring. When you wield a melee weapon in the hand wearing the golden ring, the weapon's fundamental runes are replicated onto any melee weapon you wield in the hand wearing the iron ring. (The fundamental runes are weapon potency and striking, which add an item bonus to attack rolls and extra weapon damage dice, respectively.) Any fundamental runes on the weapon in the hand wearing the iron ring are suppressed.\n\nThe replication functions only if you wear both rings, and it ends as soon as you cease wielding a melee weapon in one of your hands. Consequently, the benefit doesn't apply to thrown attacks or if you're holding a weapon but not wielding it (such as holding in one hand a weapon that requires two hands to wield).",
@@ -810,15 +869,18 @@
         "data": [
             {
                 "name": "gold",
-                "value": ""
+                "value": "",
+                "show": false
             },
             {
                 "name": "iron",
-                "value": ""
+                "value": "",
+                "show": false
             },
             {
                 "name": "propertyRunes",
-                "value": false
+                "value": false,
+                "show": false
             }
         ],
         "desc": "This item consists of two magically linked rings: an intricate, gleaming golden ring with a square-cut ruby, and a thick, plain iron ring. When you wield a melee weapon in the hand wearing the golden ring, the weapon's fundamental runes are replicated onto any melee weapon you wield in the hand wearing the iron ring. (The fundamental runes are weapon potency and striking, which add an item bonus to attack rolls and extra weapon damage dice, respectively.) Any fundamental runes on the weapon in the hand wearing the iron ring are suppressed.\n\nThe replication functions only if you wear both rings, and it ends as soon as you cease wielding a melee weapon in one of your hands. Consequently, the benefit doesn't apply to thrown attacks or if you're holding a weapon but not wielding it (such as holding in one hand a weapon that requires two hands to wield).",

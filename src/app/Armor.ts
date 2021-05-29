@@ -26,7 +26,7 @@ export class Armor extends Equipment {
     //The armor group, needed for critical specialization effects
     public group: string = "";
     //Armor are usually moddable like armor. Armor that cannot be modded should be set to "-"
-    moddable = "armor" as "" | "-" | "weapon" | "armor" | "shield";
+    moddable: "" | "-" | "weapon" | "armor" | "shield" = "armor";
     //What proficiency is used? "Light Armor", "Medium Armor"?
     private prof: string = "Light Armor";
     //The penalty to certain skills if your strength is lower than the armors requirement

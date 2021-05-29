@@ -145,7 +145,7 @@ export class ItemComponent implements OnInit {
             case "gold":
                 return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.melee && weapon.potencyRune);
             case "iron":
-                return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.melee && weapon.moddable == "weapon");
+                return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.melee && (weapon.moddable == "weapon" || weapon.moddable == "-"));
         }
     }
 
@@ -154,6 +154,7 @@ export class ItemComponent implements OnInit {
         let ironItem = this.get_DoublingRingsOptions("iron").find(weapon => weapon.id == this.item.data[0].value);
         if (ironItem && this.item.invested) {
             this.characterService.set_ToChange(this.creature, "attacks");
+            this.characterService.set_ToChange(this.creature, ironItem.id);
             this.characterService.set_EquipmentViewChanges(this.get_Creature(), ironItem);
         }
         this.characterService.process_ToChange();

@@ -137,10 +137,12 @@
     <ng-container *ngFor="let desc of item.desc.split('\n\n'); trackBy:trackByIndex;">
         <app-description class="newrow" [text]="desc"></app-description>
     </ng-container>
-    <p *ngFor="let data of item.data; trackBy:trackByIndex;">
-        <strong>{{data.name}}</strong>
-        <app-description [text]="data.value" [oneLiner]="true"></app-description>
-    </p>
+    <ng-container *ngFor="let data of item.data; trackBy:trackByIndex;">
+        <p *ngIf="data.show">
+            <strong>{{data.name}}</strong>
+            <app-description [text]="data.value" [oneLiner]="true"></app-description>
+        </p>
+    </ng-container>
     <p *ngIf="item.benefit">
         <strong>Benefit</strong>
         <app-description [text]="item.benefit" [oneLiner]="true"></app-description>

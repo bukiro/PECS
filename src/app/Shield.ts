@@ -8,7 +8,7 @@ export class Shield extends Equipment {
     //Shields should be type "shields" to be found in the database
     readonly type = "shields";
     //Shields are usually moddable as shield, which means they get material but no runes
-    moddable = "shield" as "" | "-" | "weapon" | "armor" | "shield";
+    moddable: "" | "-" | "weapon" | "armor" | "shield" = "shield";
     //The shield's AC bonus received when raising it
     public acbonus: number = 0;
     //Is the shield currently raised in order to deflect damage?

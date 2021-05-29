@@ -19,7 +19,7 @@ export class Weapon extends Equipment {
     //Weapons should be type "weapons" to be found in the database
     public type = "weapons";
     //Weapons are usually moddable like a weapon. Weapons that cannot be modded should be set to "-"
-    moddable = "weapon" as "" | "-" | "weapon" | "armor" | "shield";
+    moddable: "" | "-" | "weapon" | "armor" | "shield" = "weapon";
     //What type of ammo is used? (Bolts, arrows...)
     public ammunition: string = "";
     //What happens on a critical hit with this weapon?
@@ -72,11 +72,10 @@ export class Weapon extends Equipment {
                 runeSource = [handwraps[0], handwraps[0], handwraps[0]];
             }
         }
-        //Specific items (not moddable) don't profit from doubling rings.
-        if (!this.moddable || this.moddable == "-") {
+        if (!this.moddable) {
             return runeSource;
         }
-        if (range == "melee" && this.moddable == "weapon") {
+        if (range == "melee" && ["weapon", "-"].includes(this.moddable)) {
             let doublingRings = creature.inventories[0].wornitems.filter(item => item.isDoublingRings && item.data[1].value == this.id && item.invested);
             if (doublingRings.length) {
                 if (doublingRings[0].data[0].value) {

@@ -328,13 +328,13 @@ export class GridIconComponent implements OnInit {
                     let resilient = (this.item as Equipment).get_ResilientRune();
                     switch (resilient) {
                         case 1:
-                            value += "S"
+                            value += "R"
                             break;
                         case 2:
-                            value += "GS"
+                            value += "GR"
                             break;
                         case 1:
-                            value += "MS"
+                            value += "MR"
                             break;
                     }
                 }
