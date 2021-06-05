@@ -744,6 +744,18 @@ export class ItemRunesComponent implements OnInit {
         });
     }
 
+    get_IsRuneItem() {
+        return this.get_IsArmorRuneItem() || this.get_IsWeaponRuneItem();
+    }
+
+    get_IsArmorRuneItem() {
+        return (this.item instanceof Armor);
+    }
+
+    get_IsWeaponRuneItem() {
+        return (this.item instanceof Weapon || (this.item instanceof WornItem && this.item.isHandwrapsOfMightyBlows));
+    }
+
     update_Item() {
         this.characterService.set_Changed(this.item.id);
     }

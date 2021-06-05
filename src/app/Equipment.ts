@@ -55,8 +55,8 @@ export class Equipment extends Item {
     //Is the item currently invested - items without the Invested trait are always invested and don't count against the limit
     public invested: boolean = false;
     public material: Material[] = [];
-    //What kind of runes and material can be applied to this item? Some items that are not weapons can be modded like weapons, some weapons cannot be modded, etc.
-    public moddable: "" | "-" | "weapon" | "armor" | "shield" = "";
+    //Can runes and material be applied to this item? Armor, shields, weapons and handwraps of mighty blows can usually be modded, but other equipment and specific magic versions of them should not.
+    public moddable: boolean = false;
     //Potency Rune level for weapons and armor
     public potencyRune: number = 0;
     //Property Runes for weapons and armor
@@ -131,7 +131,7 @@ export class Equipment extends Item {
         }
     }
     get_ResilientRune() {
-        //Return the highest value of your striking rune or any oils that emulate one
+        //Return the highest value of your resilient rune or any oils that emulate one
         return Math.max(...this.oilsApplied.map(oil => oil.resilientEffect), this.resilientRune);
     }
     get_Resilient(resilient: number) {
@@ -157,9 +157,9 @@ export class Equipment extends Item {
             }
             let secondary: string = "";
             let properties: string[] = [];
-            if (this.moddable == "weapon" || (this.moddable == "-" && this.type == "weapons")) {
+            if (this.type == "weapons" || this["isHandwrapsOfMightyBlows"]) {
                 secondary = this.get_Striking(this.get_StrikingRune());
-            } else if (this.moddable == "armor" || (this.moddable == "-" && this.type == "armors")) {
+            } else if (this.type == "armors") {
                 secondary = this.get_Resilient(this.get_ResilientRune());
             }
             if (secondary) {
@@ -206,44 +206,6 @@ export class Equipment extends Item {
         }
     }
     get_Price(itemsService: ItemsService) {
-        let price = this.price;
-        if (this.moddable == "weapon") {
-            if (this.potencyRune) {
-                price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.potency == this.potencyRune).price;
-            }
-            if (this.strikingRune) {
-                price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.striking == this.strikingRune).price;
-            }
-            this.propertyRunes.forEach(rune => {
-                let cleanRune = itemsService.get_CleanItems().weaponrunes.find(weaponRune => weaponRune.name.toLowerCase() == rune.name.toLowerCase());
-                if (cleanRune) {
-                    if (cleanRune.name == "Speed" && this.material?.[0]?.name.includes("Orichalcum")) {
-                        price += Math.floor(cleanRune.price / 2);
-                    } else {
-                        price += cleanRune.price;
-                    }
-                }
-            })
-        } else if (this.moddable == "armor") {
-            if (this.potencyRune) {
-                price += itemsService.get_CleanItems().armorrunes.find(rune => rune.potency == this.potencyRune).price;
-            }
-            if (this.resilientRune) {
-                price += itemsService.get_CleanItems().armorrunes.find(rune => rune.resilient == this.resilientRune).price;
-            }
-            this.propertyRunes.forEach(rune => {
-                price += itemsService.get_CleanItems().armorrunes.find(armorRune => armorRune.name.toLowerCase() == rune.name.toLowerCase()).price;
-            })
-        }
-        this.material.forEach(mat => {
-            price += mat.price;
-            if (parseInt(this.bulk)) {
-                price += (mat.bulkPrice * parseInt(this.bulk));
-            }
-        })
-        this.talismans.forEach(talisman => {
-            price += itemsService.get_CleanItems().talismans.find(cleanTalisman => cleanTalisman.name.toLowerCase() == talisman.name.toLowerCase()).price;
-        })
-        return price;
+        return this.price;
     }
 }

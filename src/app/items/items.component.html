@@ -409,12 +409,12 @@
                                         </ng-container>
                                     </ng-container>
                                     <div class="list-item newrow"
-                                        *ngIf="newItem['moddable'] && can_ChangeMaterial(newItem)">
+                                        *ngIf="can_ChangeMaterial(newItem)">
                                         <strong>Material</strong>
                                         <app-itemMaterial class="newrow" [item]="newItem" [craftingStation]="false"
                                             [customItemStore]="true"></app-itemMaterial>
                                     </div>
-                                    <div class="list-item newrow" *ngIf="newItem['moddable']">
+                                    <div class="list-item newrow" *ngIf="can_ChangeRunes(newItem)">>
                                         <strong>Runes</strong>
                                         <app-itemRunes class="newrow" [item]="newItem" [itemStore]="true"
                                             [customItemStore]="true">

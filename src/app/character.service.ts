@@ -916,7 +916,7 @@ export class CharacterService {
             if (item instanceof Weapon && item.prof == "Advanced Weapons") {
                 this.create_WeaponFeats([item]);
             }
-            if (resetRunes && item.moddable && item.moddable != "-") {
+            if (resetRunes && item.moddable) {
                 item.potencyRune = item.strikingRune = item.resilientRune = item.propertyRunes.length = 0;
             }
             item.propertyRunes.filter(rune => rune.loreChoices?.length).forEach(rune => {
@@ -1199,13 +1199,13 @@ export class CharacterService {
             this.set_ToChange(creature.type, "activities");
         }
         item.propertyRunes.forEach((rune: Rune) => {
-            if (item.moddable == "armor" && rune.hints?.length) {
-                rune.hints.forEach(hint => {
+            if (item instanceof Armor) {
+                rune.hints?.forEach(hint => {
                     this.set_TagsToChange(creature.type, hint.showon);
                 })
-            }
-            if (item.moddable == "armor" && (rune as ArmorRune).effects?.length) {
-                this.set_ToChange(creature.type, "effects");
+                if ((rune as ArmorRune).effects?.length) {
+                    this.set_ToChange(creature.type, "effects");
+                }
             }
             if (rune.activities?.length) {
                 this.set_ToChange(creature.type, "activities");
@@ -2465,12 +2465,12 @@ export class CharacterService {
                         get_Hints(stone, true);
                     });
                 }
-                if (item.moddable == "weapon" && (item as Equipment).propertyRunes) {
-                    (item as Equipment).propertyRunes.forEach(rune => {
+                if ((item instanceof Weapon || (item instanceof WornItem && item.isHandwrapsOfMightyBlows)) && item.propertyRunes) {
+                    item.propertyRunes.forEach(rune => {
                         get_Hints(rune as WeaponRune, false);
                     });
                 }
-                if (item.moddable == "armor" && (item as Equipment).propertyRunes) {
+                if (item instanceof Armor && item.propertyRunes) {
                     (item as Equipment).propertyRunes.forEach(rune => {
                         get_Hints(rune as ArmorRune, false);
                     });

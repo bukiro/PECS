@@ -126,9 +126,9 @@
         "key": "moddable",
         "priority": "04",
         "group": "3-Usage",
-        "name": "Modification type",
-        "desc": "The modification type decides what, if any, runes and materials can be applied to this item in the inventory. Set - for no modifications (you can still modify the item before transferring it to the character) or nothing for the default for this item type. This option is only useful to restrict items and for special items like the Handwraps of Mighty Blows. Applying a resilient rune on a weapon, for example, will not grant any benefits. If the modification type is anything other than -, the cost of materials and runes will be added to the finished item.",
-        "locked": true
+        "name": "Allow changing runes",
+        "desc": "This decides if the runes on this item can be changed in the inventory. You can still modify the item before finishing it even if modifications are not allowed. If the item can be modified, the cost of materials and runes will be added to price of the finished item.",
+        "type": "checkbox"
     },
     {
         "key": "gainInventory",

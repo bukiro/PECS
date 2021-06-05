@@ -156,7 +156,7 @@ export class ItemComponent implements OnInit {
             case "gold":
                 return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.melee && weapon.potencyRune);
             case "iron":
-                return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.melee && (weapon.moddable == "weapon" || weapon.moddable == "-"));
+                return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.melee);
         }
     }
 

@@ -6,6 +6,7 @@ import { SpecializationGain } from './SpecializationGain';
 import { Specialization } from './Specialization';
 import { ArmorMaterial } from './ArmorMaterial';
 import { Creature } from './Creature';
+import { ItemsService } from './items.service';
 
 export class Armor extends Equipment {
     public readonly _className: string = this.constructor.name;
@@ -16,29 +17,94 @@ export class Armor extends Equipment {
     public _affectedByArmoredSkirt: -1 | 0 | 1 = 0;
     //Shoddy armors give a penalty of -2 unless you have the Junk Tinker feat.
     public _shoddy: -2 | 0 = 0;
-    //The armor's inherent bonus to AC
+    //The armor's inherent bonus to AC.
     private acbonus: number = 0;
     //What kind of armor is this based on? Needed for armor proficiencies for specific magical items.
     public armorBase: string = ""
     //The highest dex bonus to AC you can get while wearing this armor.
     //-1 is unlimited.
     public dexcap: number = -1;
-    //The armor group, needed for critical specialization effects
+    //The armor group, needed for critical specialization effects.
     public group: string = "";
-    //Armor are usually moddable like armor. Armor that cannot be modded should be set to "-"
-    moddable: "" | "-" | "weapon" | "armor" | "shield" = "armor";
+    //Armor is usually moddable.
+    moddable = true;
     //What proficiency is used? "Light Armor", "Medium Armor"?
     private prof: string = "Light Armor";
-    //The penalty to certain skills if your strength is lower than the armors requirement
+    //The penalty to certain skills if your strength is lower than the armors requirement.
     //Should be a negative number
     private skillpenalty: number = 0;
-    //The penalty to all speeds if your strength is lower than the armors requirement
-    //Should be a negative number and a multiple of -5
+    //The penalty to all speeds if your strength is lower than the armors requirement.
+    //Should be a negative number and a multiple of -5.
     public speedpenalty: number = 0;
-    //The strength requirement (strength, not STR) to overcome skill and speed penalties
+    //The strength requirement (strength, not STR) to overcome skill and speed penalties.
     private strength: number = 0;
     //A Dwarf with the Battleforger feat can polish armor to grant the effect of a +1 potency rune.
     public battleforged: boolean = false;
+    get_Name() {
+        if (this.displayName.length) {
+            return this.displayName;
+        } else {
+            let words: string[] = [];
+            let potency = this.get_Potency(this.get_PotencyRune());
+            if (potency) {
+                words.push(potency);
+            }
+            let secondary: string = "";
+            secondary = this.get_Resilient(this.get_ResilientRune());
+            if (secondary) {
+                words.push(secondary);
+            }
+            this.propertyRunes.forEach(rune => {
+                let name: string = rune.name;
+                if (rune.name.includes("(Greater)")) {
+                    name = "Greater " + rune.name.substr(0, rune.name.indexOf("(Greater)"));
+                } else if (rune.name.includes(", Greater)")) {
+                    name = "Greater " + rune.name.substr(0, rune.name.indexOf(", Greater)")) + ")";
+                }
+                words.push(name);
+            })
+            this.material.forEach(mat => {
+                words.push(mat.get_Name());
+            })
+            //If you have any material in the name of the item, and it has a material applied, remove the original material. This list may grow.
+            let materials = [
+                "Wooden ",
+                "Steel "
+            ]
+            if (this.material.length && materials.some(mat => this.name.toLowerCase().includes(mat.toLowerCase()))) {
+                let name = this.name;
+                materials.forEach(mat => {
+                    name = name.replace(mat, "");
+                })
+                words.push(name);
+            } else {
+                words.push(this.name)
+            }
+            return words.join(" ");
+        }
+    }
+    get_Price(itemsService: ItemsService) {
+        let price = this.price;
+        if (this.potencyRune) {
+            price += itemsService.get_CleanItems().armorrunes.find(rune => rune.potency == this.potencyRune).price;
+        }
+        if (this.resilientRune) {
+            price += itemsService.get_CleanItems().armorrunes.find(rune => rune.resilient == this.resilientRune).price;
+        }
+        this.propertyRunes.forEach(rune => {
+            price += itemsService.get_CleanItems().armorrunes.find(armorRune => armorRune.name.toLowerCase() == rune.name.toLowerCase()).price;
+        })
+        this.material.forEach(mat => {
+            price += mat.price;
+            if (parseInt(this.bulk)) {
+                price += (mat.bulkPrice * parseInt(this.bulk));
+            }
+        })
+        this.talismans.forEach(talisman => {
+            price += itemsService.get_CleanItems().talismans.find(cleanTalisman => cleanTalisman.name.toLowerCase() == talisman.name.toLowerCase()).price;
+        })
+        return price;
+    }
     get_Bulk() {
         //Return either the bulk set by an oil, or else the actual bulk of the item.
         let oilBulk: string = "";
@@ -97,10 +163,10 @@ export class Armor extends Equipment {
         return this.acbonus + this._affectedByArmoredSkirt + this._shoddy;
     }
     get_SkillPenalty() {
-        return Math.min(0, this.skillpenalty - this._affectedByArmoredSkirt + this._shoddy + this.material.map(material => (material as ArmorMaterial).skillPenaltyModifier).reduce((a,b) => a + b, 0));
+        return Math.min(0, this.skillpenalty - this._affectedByArmoredSkirt + this._shoddy + this.material.map(material => (material as ArmorMaterial).skillPenaltyModifier).reduce((a, b) => a + b, 0));
     }
     get_SpeedPenalty() {
-        return Math.min(0, this.speedpenalty + this.material.map(material => (material as ArmorMaterial).speedPenaltyModifier).reduce((a,b) => a + b, 0));
+        return Math.min(0, this.speedpenalty + this.material.map(material => (material as ArmorMaterial).speedPenaltyModifier).reduce((a, b) => a + b, 0));
     }
     get_DexCap() {
         if (this.dexcap != -1) {
@@ -114,7 +180,7 @@ export class Armor extends Equipment {
         //Fortification Runes raise the required strength
         let fortification = this.propertyRunes.filter(rune => rune.name.includes("Fortification")).length ? 2 : 0;
         //Some materials lower the required strength
-        let material = this.material.map(material => (material as ArmorMaterial).strengthScoreModifier).reduce((a,b) => a + b, 0);
+        let material = this.material.map(material => (material as ArmorMaterial).strengthScoreModifier).reduce((a, b) => a + b, 0);
         return this.strength + (this._affectedByArmoredSkirt * 2) + fortification + material;
     }
     get_Proficiency(creature: Creature = null, characterService: CharacterService = null) {

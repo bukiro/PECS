@@ -357,7 +357,7 @@ export class ItemsService {
             }
         }
         //For base items that come with property Runes with name only, load the rune into the item here.
-        if (resetPropertyRunes && (newItem instanceof Weapon || newItem.moddable == "weapon") && newItem.propertyRunes?.length) {
+        if (resetPropertyRunes && (newItem instanceof Weapon || (newItem instanceof WornItem && newItem.isHandwrapsOfMightyBlows)) && newItem.propertyRunes?.length) {
             let newRunes: WeaponRune[] = [];
             newItem.propertyRunes.forEach((rune: WeaponRune) => {
                 let libraryItem = this.cleanItems.weaponrunes.find(newrune => newrune.name == rune.name)
@@ -367,7 +367,7 @@ export class ItemsService {
             })
             newItem.propertyRunes = newRunes;
         }
-        if (resetPropertyRunes && (newItem instanceof Armor || newItem.moddable == "armor") && newItem.propertyRunes?.length) {
+        if (resetPropertyRunes && newItem instanceof Armor && newItem.propertyRunes?.length) {
             let newRunes: ArmorRune[] = [];
             newItem.propertyRunes.forEach((rune: ArmorRune) => {
                 let libraryItem = this.cleanItems.armorrunes.find(newrune => newrune.name == rune.name)

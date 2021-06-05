@@ -2,7 +2,7 @@
     {
         "id": "89c1a2c2-8e09-11ea-9fab-e92c63c14723",
         "name": "Unarmored",
-        "moddable": "-",
+        "moddable": false,
         "_className": "Armor",
         "prof": "Unarmored Defense",
         "craftable": false
@@ -16,7 +16,7 @@
         "traits": [
             "Companion"
         ],
-        "moddable": "-",
+        "moddable": false,
         "_className": "Armor",
         "acbonus": 1,
         "dexcap": 5,
@@ -34,7 +34,7 @@
         "traits": [
             "Companion"
         ],
-        "moddable": "-",
+        "moddable": false,
         "_className": "Armor",
         "acbonus": 1,
         "dexcap": 5,
@@ -52,7 +52,7 @@
         "traits": [
             "Companion"
         ],
-        "moddable": "-",
+        "moddable": false,
         "_className": "Armor",
         "acbonus": 3,
         "dexcap": 3,
@@ -70,7 +70,7 @@
         "traits": [
             "Companion"
         ],
-        "moddable": "-",
+        "moddable": false,
         "_className": "Armor",
         "acbonus": 3,
         "dexcap": 3,
@@ -331,7 +331,7 @@
         "id": "b936f378-1fcb-4d29-a4b8-57cbe0dab245",
         "name": "Mage Armor (1st Level)",
         "displayName": "Mage Armor",
-        "moddable": "-",
+        "moddable": false,
         "_className": "Armor",
         "acbonus": 0,
         "potencyRune": 1,
@@ -344,7 +344,7 @@
         "id": "5571d980-072e-40df-8228-bbce52245fe5",
         "name": "Mage Armor (4th Level)",
         "displayName": "Mage Armor",
-        "moddable": "-",
+        "moddable": false,
         "_className": "Armor",
         "acbonus": 0,
         "potencyRune": 1,
@@ -358,7 +358,7 @@
         "id": "b2838fa8-a5b4-11ea-bb37-0242ac130002",
         "name": "Mage Armor (6th Level)",
         "displayName": "Mage Armor",
-        "moddable": "-",
+        "moddable": false,
         "_className": "Armor",
         "acbonus": 0,
         "potencyRune": 2,
@@ -372,7 +372,7 @@
         "id": "b2839412-a5b4-11ea-bb37-0242ac130002",
         "name": "Mage Armor (8th Level)",
         "displayName": "Mage Armor",
-        "moddable": "-",
+        "moddable": false,
         "_className": "Armor",
         "acbonus": 0,
         "potencyRune": 2,
@@ -386,7 +386,7 @@
         "id": "b2839548-a5b4-11ea-bb37-0242ac130002",
         "name": "Mage Armor (10th Level)",
         "displayName": "Mage Armor",
-        "moddable": "-",
+        "moddable": false,
         "_className": "Armor",
         "acbonus": 0,
         "potencyRune": 1,

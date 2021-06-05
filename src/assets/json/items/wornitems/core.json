@@ -161,7 +161,7 @@
         ],
         "usage": "worn gloves",
         "isHandwrapsOfMightyBlows": true,
-        "moddable": "weapon",
+        "moddable": true,
         "potencyRune": 1
     },
     {
@@ -1251,7 +1251,7 @@
         ],
         "usage": "worn gloves",
         "isHandwrapsOfMightyBlows": true,
-        "moddable": "weapon",
+        "moddable": true,
         "potencyRune": 1,
         "strikingRune": 1
     },
@@ -3461,7 +3461,7 @@
         ],
         "usage": "worn gloves",
         "isHandwrapsOfMightyBlows": true,
-        "moddable": "weapon",
+        "moddable": true,
         "potencyRune": 2,
         "strikingRune": 2
     },
@@ -3673,7 +3673,7 @@
         ],
         "usage": "worn gloves",
         "isHandwrapsOfMightyBlows": true,
-        "moddable": "weapon",
+        "moddable": true,
         "potencyRune": 3,
         "strikingRune": 2
     },

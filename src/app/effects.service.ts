@@ -725,17 +725,17 @@ export class EffectsService {
                             add_HintEffects(stone, this);
                         });
                     }
-                    if ((item.moddable == "armor" || item instanceof Armor) && (item as Equipment).propertyRunes) {
-                        (item as Equipment).propertyRunes.forEach(rune => {
+                    if (item instanceof Armor && item.propertyRunes) {
+                        item.propertyRunes.forEach(rune => {
                             add_HintEffects(rune as ArmorRune, this);
                         });
                     }
-                    if ((item.moddable == "shield" || item instanceof Shield) && (item as Equipment).propertyRunes) {
-                        (item as Equipment).propertyRunes.forEach(rune => {
+                    if (item instanceof Shield && item.propertyRunes) {
+                        item.propertyRunes.forEach(rune => {
                             add_HintEffects(rune as ArmorRune, this);
                         });
                     }
-                    if ((item as Equipment).material) {
+                    if (item instanceof Equipment && item.material) {
                         (item as Equipment).material.forEach(material => {
                             add_HintEffects(material, this);
                         });

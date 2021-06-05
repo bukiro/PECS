@@ -339,6 +339,10 @@ export class ItemsComponent implements OnInit {
         return (item instanceof Armor || item instanceof Shield || item instanceof Weapon);
     }
 
+    can_ChangeRunes(item: Item) {
+        return (item instanceof Armor || item instanceof Weapon || (item instanceof WornItem && item.isHandwrapsOfMightyBlows));
+    }
+
     can_ChangeMaterial(item: Item) {
         return (item instanceof Armor || item instanceof Shield || item instanceof Weapon);
     }

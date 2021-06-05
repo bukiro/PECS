@@ -97,7 +97,6 @@ import { ItemTalismanCordsComponent } from './item/itemTalismanCords/itemTalisma
       ActivityComponent,
       ItemComponent,
       SpellComponent,
-      TagsComponent,
       NewItemPropertyComponent,
       ItemRunesComponent,
       AnimalCompanionComponent,
@@ -133,8 +132,9 @@ import { ItemTalismanCordsComponent } from './item/itemTalismanCords/itemTalisma
       ObjectEffectsComponent,
       DescriptionComponent,
       ItemTargetComponent,
+      ItemTalismanCordsComponent,
       HintComponent,
-      ItemTalismanCordsComponent
+      TagsComponent,
    ],
    imports: [
       CommonModule,

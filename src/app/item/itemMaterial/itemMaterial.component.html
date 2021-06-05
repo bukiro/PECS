@@ -1,7 +1,7 @@
 <!--Changing Weapon Material-->
-<div class="list-item" *ngIf="(['weapon', 'armor', 'shield'].includes(item.moddable) && !get_IsUnarmored(item)) || customItemStore">
+<div class="list-item" *ngIf="(item.moddable && !get_IsUnarmored(item)) || customItemStore">
     <ng-container
-        *ngIf="item.material && ((item.moddable=='armor' && item.constructor.name == 'Armor') || (customItemStore && item.moddable=='-' && item.constructor.name == 'Armor'))">
+        *ngIf="item.material && item.constructor.name == 'Armor'">
         <div class="newrow">
             <strong>Material</strong>
             <select [(ngModel)]="newArmorMaterial[0]" (ngModelChange)="add_ArmorMaterial()">
@@ -36,7 +36,7 @@
         </ng-container>
     </ng-container>
     <ng-container
-        *ngIf="item.material && ((item.moddable=='shield' && item.constructor.name == 'Shield') || (customItemStore && item.moddable=='-' && item.constructor.name == 'Shield'))">
+        *ngIf="item.material && item.constructor.name == 'Shield'">
         <div class="newrow">
             <strong>Material</strong>
             <select [(ngModel)]="newShieldMaterial[0]" (ngModelChange)="add_ShieldMaterial()">
@@ -71,7 +71,7 @@
         </ng-container>
     </ng-container>
     <ng-container
-        *ngIf="item.material && ((item.moddable=='weapon' && item.constructor.name == 'Weapon') || (customItemStore && item.moddable=='-' && item.constructor.name == 'Weapon'))">
+        *ngIf="item.material && item.constructor.name == 'Weapon'">
         <div class="newrow">
             <strong>Material</strong>
             <select [(ngModel)]="newWeaponMaterial[0]" (ngModelChange)="add_WeaponMaterial()">

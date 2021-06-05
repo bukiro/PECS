@@ -13,37 +13,38 @@ import { ProficiencyChange } from './ProficiencyChange';
 import { Effect } from './Effect';
 import { Creature } from './Creature';
 import { Skill } from './Skill';
+import { ItemsService } from './items.service';
 
 export class Weapon extends Equipment {
     public readonly _className: string = this.constructor.name;
     //Weapons should be type "weapons" to be found in the database
     public type = "weapons";
-    //Weapons are usually moddable like a weapon. Weapons that cannot be modded should be set to "-"
-    moddable: "" | "-" | "weapon" | "armor" | "shield" = "weapon";
+    //Weapons are usually moddable.
+    moddable = true;
     //What type of ammo is used? (Bolts, arrows...)
     public ammunition: string = "";
     //What happens on a critical hit with this weapon?
     public criticalHint: string = ""
     //Number of dice for Damage: usually 1 for an unmodified weapon. Use 0 to notate exactly <dicesize> damage (e.g. 1 damage = 0d1).
     public dicenum: number = 1;
-    //Size of the damage dice: usually 4-12
+    //Size of the damage dice: usually 4-12.
     public dicesize: number = 6;
-    //What is the damage type? Usually S, B or P, but may include combinations"
+    //What is the damage type? Usually S, B or P, but may include combinations".
     public dmgType: string = "";
     //Some weapons add additional damage like +1d4F. Use get_ExtraDamage() to read.
     private extraDamage: string = ""
-    //The weapon group, needed for critical specialization effects
+    //The weapon group, needed for critical specialization effects.
     public group: string = "";
     //How many hands are needed to wield this weapon?
     public hands: string = "";
-    //Melee range in ft: 5 or 10 for weapons with Reach trait
+    //Melee range in ft: 5 or 10 for weapons with Reach trait.
     public melee: number = 0;
     //Store any poisons applied to this item. There should be only one poison at a time.
     public poisonsApplied: AlchemicalPoison[] = [];
     //What proficiency is used? "Simple Weapons", "Unarmed Attacks", etc.? Use get_Proficiency() to get the proficiency for numbers and effects.
     public prof: "Unarmed Attacks" | "Simple Weapons" | "Martial Weapons" | "Advanced Weapons" = "Simple Weapons";
-    //Ranged range in ft - also add for thrown weapons
-    //Weapons can have a melee and a ranged value, e.g. Daggers that can thrown
+    //Ranged range in ft - also add for thrown weapons.
+    //Weapons can have a melee and a ranged value, e.g. Daggers that can thrown.
     public ranged: number = 0;
     //How many actions to reload this ranged weapon?
     public reload: string = "";
@@ -61,21 +62,102 @@ export class Weapon extends Equipment {
     public dexterityBased: boolean = false;
     //If useHighestAttackProficiency is true, the proficiency level will be copied from your highest unarmed or weapon proficiency.
     public useHighestAttackProficiency: boolean = false;
+    get_Name() {
+        if (this.displayName.length) {
+            return this.displayName;
+        } else {
+            let words: string[] = [];
+            let potency = this.get_Potency(this.get_PotencyRune());
+            if (potency) {
+                words.push(potency);
+            }
+            let secondary: string = "";
+            secondary = this.get_Striking(this.get_StrikingRune());
+            if (secondary) {
+                words.push(secondary);
+            }
+            this.propertyRunes.forEach(rune => {
+                let name: string = rune.name;
+                if (rune.name.includes("(Greater)")) {
+                    name = "Greater " + rune.name.substr(0, rune.name.indexOf("(Greater)"));
+                } else if (rune.name.includes(", Greater)")) {
+                    name = "Greater " + rune.name.substr(0, rune.name.indexOf(", Greater)")) + ")";
+                }
+                words.push(name);
+            })
+            if (this.bladeAlly) {
+                this.bladeAllyRunes.forEach(rune => {
+                    let name: string = rune.name;
+                    if (rune.name.includes("(Greater)")) {
+                        name = "Greater " + rune.name.substr(0, rune.name.indexOf("(Greater)"));
+                    } else if (rune.name.includes(", Greater)")) {
+                        name = "Greater " + rune.name.substr(0, rune.name.indexOf(", Greater)")) + ")";
+                    }
+                    words.push(name);
+                })
+            }
+            this.material.forEach(mat => {
+                words.push(mat.get_Name());
+            })
+            //If you have any material in the name of the item, and it has a material applied, remove the original material. This list may grow.
+            let materials = [
+                "Wooden ",
+                "Steel "
+            ]
+            if (this.material.length && materials.some(mat => this.name.toLowerCase().includes(mat.toLowerCase()))) {
+                let name = this.name;
+                materials.forEach(mat => {
+                    name = name.replace(mat, "");
+                })
+                words.push(name);
+            } else {
+                words.push(this.name)
+            }
+            return words.join(" ");
+        }
+    }
+    get_Price(itemsService: ItemsService) {
+        let price = this.price;
+        if (this.potencyRune) {
+            price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.potency == this.potencyRune).price;
+        }
+        if (this.strikingRune) {
+            price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.striking == this.strikingRune).price;
+        }
+        this.propertyRunes.forEach(rune => {
+            let cleanRune = itemsService.get_CleanItems().weaponrunes.find(weaponRune => weaponRune.name.toLowerCase() == rune.name.toLowerCase());
+            if (cleanRune) {
+                if (cleanRune.name == "Speed" && this.material?.[0]?.name.includes("Orichalcum")) {
+                    price += Math.floor(cleanRune.price / 2);
+                } else {
+                    price += cleanRune.price;
+                }
+            }
+        })
+        this.material.forEach(mat => {
+            price += mat.price;
+            if (parseInt(this.bulk)) {
+                price += (mat.bulkPrice * parseInt(this.bulk));
+            }
+        })
+        this.talismans.forEach(talisman => {
+            price += itemsService.get_CleanItems().talismans.find(cleanTalisman => cleanTalisman.name.toLowerCase() == talisman.name.toLowerCase()).price;
+        })
+        return price;
+    }
     get_RuneSource(creature: Creature, range: string) {
         //Under certain circumstances, other items' runes are applied when calculating attack bonus or damage.
         //[0] is the item whose fundamental runes will count, [1] is the item whose property runes will count, and [2] is the item that causes this change.
         let runeSource: (Weapon | WornItem)[] = [this, this];
-        //For unarmed attacks, return Handwraps of Mighty Blows if invested;
+        //For unarmed attacks, return Handwraps of Mighty Blows if invested.
         if (this.prof == "Unarmed Attacks") {
             let handwraps = creature.inventories[0].wornitems.filter(item => item.isHandwrapsOfMightyBlows && item.invested)
             if (handwraps.length) {
                 runeSource = [handwraps[0], handwraps[0], handwraps[0]];
             }
         }
-        if (!this.moddable) {
-            return runeSource;
-        }
-        if (range == "melee" && ["weapon", "-"].includes(this.moddable)) {
+        //Apply doubling rings to return a different item's runes if needed.
+        if (range == "melee") {
             let doublingRings = creature.inventories[0].wornitems.filter(item => item.isDoublingRings && item.data[1].value == this.id && item.invested);
             if (doublingRings.length) {
                 if (doublingRings[0].data[0].value) {

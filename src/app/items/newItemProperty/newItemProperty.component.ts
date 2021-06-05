@@ -173,10 +173,6 @@ export class NewItemPropertyComponent implements OnInit {
                     this.validationResult = "";
                 }
             }
-        } else if (this.propertyKey == "moddable") {
-            if (this.newItem instanceof Equipment) {
-                this.newItem.potencyRune = this.newItem.strikingRune = this.newItem.resilientRune = this.newItem.propertyRunes.length = 0;
-            }
         } else if (this.propertyKey == "bulk" || this.propertyKey == "carryingBulk") {
             if (parseInt(value) || parseInt(value) == 0 || value == "L" || value == "") {
 

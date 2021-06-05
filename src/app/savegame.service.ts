@@ -285,9 +285,10 @@ export class SavegameService {
                 })
             }
 
-            //Some worn items before version 1.0.3 have activities that grant innate spells. Innate spells are now granted differently, and activities do not update well, so the activities need to be removed.
-            //Another activity has been renamed and can be updated at this point.
+            //Some worn items before version 1.0.4 have activities that grant innate spells. Innate spells are now granted differently, and activities do not update well, so the activities need to be removed.
+            //The activity and Condition of the Bracelet of Dashing have been renamed and can be updated at this point.
             //Slotted aeon stones now reflect that information on their own, for better detection of resonant hints and effects.
+            //The moddable property has changed from string to boolean and needs to be updated on all items.
             if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 4) {
                 character.inventories?.forEach(inv => {
                     inv.wornitems?.forEach(invItem => {
@@ -313,6 +314,21 @@ export class SavegameService {
                         invItem.aeonStones?.filter(aeonStone => aeonStone.refId == "046845de-4cb0-411a-9f6e-85a669e5e12b" && aeonStone.activities).forEach(aeonStone => {
                             aeonStone.activities = aeonStone.activities.filter(activity => !(activity.castSpells.length && activity.actions == ""));
                         })
+                    })
+                })
+                character.inventories?.forEach(inv => {
+                    Object.keys(inv).forEach(key => {
+                        if (Array.isArray(inv[key])) {
+                            inv[key].forEach(item => {
+                                if (Object.keys(item).includes("moddable")) {
+                                    if (item.moddable == "-") {
+                                        item.moddable = false;
+                                    } else if (item.moddable != false) {
+                                        item.moddable = true;
+                                    }
+                                }
+                            })
+                        }
                     })
                 })
             }

@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Trait } from './Trait';
 import { CharacterService } from './character.service';
-import { Character } from './Character';
-import { AnimalCompanion } from './AnimalCompanion';
-import { Familiar } from './Familiar';
 import * as json_traits from '../assets/json/traits';
 import { Creature } from './Creature';
 
@@ -25,7 +22,7 @@ export class TraitsService {
                     traitName == "" ||
                     trait.name == traitName ||
                     (
-                        traitName.includes(trait.name) &&
+                        traitName.includes(trait.name + " ") &&
                         trait.dynamic
                     )
                 )

@@ -450,7 +450,7 @@
                                                     </label>
                                                 </span>
                                                 <span
-                                                    *ngIf="item.moddable && item.moddable != '-' && item.type != 'shield'">
+                                                    *ngIf="item.moddable && item.constructor.name != 'Shield'">
                                                     <input class="invisible" id="{{item.id}}showrunes" type="checkbox"
                                                         [(ngModel)]="item.showRunes">
                                                     <label for="{{item.id}}showrunes">
@@ -558,7 +558,7 @@
                                                 </span>
                                             </div>
                                             <div class="fullwidth" [ngbCollapse]="!item.showRunes"
-                                                *ngIf="item.moddable && item.moddable != '-' && item.type != 'shield'">
+                                                *ngIf="item.moddable && item.constructor.name != 'Shield'">
                                                 <app-itemRunes class="newrow" [item]=item [itemStore]=false>
                                                 </app-itemRunes>
                                             </div>
