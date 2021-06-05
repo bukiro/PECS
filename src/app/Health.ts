@@ -56,7 +56,7 @@ export class Health {
             effectsSum += parseInt(effect.value);
             explain += "\n" + effect.source + ": " + effect.value;
         });
-        let result = baseHP + effectsSum;
+        let result = Math.max(0, baseHP + effectsSum);
         return { result: result, explain: explain.trim() }
     }
     currentHP(creature: Creature, characterService: CharacterService, effectsService: EffectsService) {
@@ -66,15 +66,15 @@ export class Health {
         if (this.temporaryHP[0].amount) {
             explain += "\nTemporary HP: " + this.temporaryHP[0].amount;
         }
-        explain += "\nDamage taken: " + (this.damage);
         //You can never get under 0 HP. If you do (because you just took damage), that gets corrected here,
         // and the health component gets reloaded in case we need to process new conditions.
         if (sum < 0) {
-            this.damage += sum;
+            this.damage = Math.max(0, this.damage + sum);
             sum = 0;
             characterService.set_ToChange(creature.type, "health");
             characterService.process_ToChange();
         }
+        explain += "\nDamage taken: " + (this.damage);
         return { result: sum, explain: explain };
     }
     wounded(creature: Creature, characterService: CharacterService) {

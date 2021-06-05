@@ -1,4 +1,3 @@
-import { ThrowStmt } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 import { Activity } from 'src/app/Activity';
 import { CharacterService } from 'src/app/character.service';
@@ -6,6 +5,7 @@ import { ConditionSet } from 'src/app/ConditionSet';
 import { Feat } from 'src/app/Feat';
 import { Hint } from 'src/app/Hint';
 import { Item } from 'src/app/Item';
+import { WornItem } from 'src/app/WornItem';
 
 @Component({
     selector: 'app-hint',
@@ -37,18 +37,28 @@ export class HintComponent implements OnInit {
 
     get_Hints() {
         let isConditionSet = this.object instanceof ConditionSet;
+        let isAeonStone = this.object instanceof WornItem && this.object.isAeonStone;
         return (isConditionSet ? this.object.condition.hints : this.object.hints)
             .filter((hint: Hint) =>
-                isConditionSet ?
-                    (
+                (
+                    isConditionSet ?
                         (
-                            hint.conditionChoiceFilter ?
-                                (hint.conditionChoiceFilter == "-" && this.object.gain.choice == "") ||
-                                (this.object.gain.choice == hint.conditionChoiceFilter) :
-                                true
-                        )
-                    ) :
-                    true
+                            (
+                                hint.conditionChoiceFilter ?
+                                    (hint.conditionChoiceFilter == "-" && this.object.gain.choice == "") ||
+                                    (this.object.gain.choice == hint.conditionChoiceFilter) :
+                                    true
+                            )
+                        ) :
+                        true
+                ) &&
+                (
+                    isAeonStone ?
+                        (
+                            hint.resonant ? this.object.isSlottedAeonStone : true
+                        ) :
+                        true
+                )
             )
             .filter((hint: Hint) =>
                 hint.showon.split(",")

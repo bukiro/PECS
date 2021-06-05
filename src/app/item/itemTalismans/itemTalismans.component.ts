@@ -128,6 +128,7 @@ export class ItemTalismansComponent implements OnInit {
             this.characterService.set_ToChange("Character", "defense");
         }
         this.set_TalismanNames();
+        this.characterService.set_ToChange("Character", this.item.id);
         this.characterService.process_ToChange();
     }
 

@@ -25,4 +25,6 @@ export class EffectGain {
     public spellSource: string = "";
     //If the effect is typed, cumulative lists all effect sources (of the same type) that it is cumulative with.
     public cumulative: string[] = [];
+    //A resonant effect only applies if the carrying item is slotted into a wayfinder.
+    public resonant: boolean = false;
 }

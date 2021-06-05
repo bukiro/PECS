@@ -433,8 +433,8 @@
         "key": "resonant",
         "priority": "24",
         "group": "",
-        "name": "Resonant activity",
-        "desc": "Check this box if the activity is only supposed to be used when the item is slotted into a Wayfinder. This should only be used for Aeon Stones.",
+        "name": "Resonant power",
+        "desc": "Check this box if the activity is only unlocked when the item is slotted into a Wayfinder. This applies only to aeon stones.",
         "type": "checkbox"
     },
     {
@@ -492,8 +492,17 @@
     },
     {
         "parent": "hints",
-        "key": "effects",
+        "key": "resonant",
         "priority": "02",
+        "group": "",
+        "name": "Resonant power",
+        "desc": "Check this box if the hint is only shown when the item is slotted into a Wayfinder.",
+        "type": "checkbox"
+    },
+    {
+        "parent": "hints",
+        "key": "effects",
+        "priority": "03",
         "group": "",
         "name": "Numeral effects",
         "desc": "These bonuses or penalties will be applied when the hint is activated."
@@ -550,6 +559,13 @@
         "desc": "Items usually grant 'item' type bonuses. Bonuses and penalties of the same type do not stack, except for untyped effects. Keep the field blank to have an untyped bonus.",
         "locked": true,
         "examples": "effects type"
+    },
+    {
+        "key": "gainConditions",
+        "priority": "04",
+        "group": "5-Influence",
+        "name": "Cause conditions",
+        "desc": "Add known conditions that will be caused by equipping, investing or consuming this item."
     },
     {
         "key": "gainItems",
@@ -613,7 +629,7 @@
         "priority": "06",
         "group": "5-Influence",
         "name": "Store Spells",
-        "desc": "Allow this item to store spells. (See unique actions or activities for casting included spells)."
+        "desc": "Allow this item to store spells that you can choose and cast repeatedly. (Use unique actions or activities to cast fixed spells)."
     },
     {
         "parent": "storedSpells",
@@ -657,46 +673,120 @@
         "examples": "spelltargets"
     },
     {
-        "key": "isArmoredSkirt",
+        "key": "gainSpells",
         "priority": "07",
         "group": "5-Influence",
+        "name": "Gain Spells",
+        "desc": "Allow this item to grant you innate spells."
+    },
+    {
+        "parent": "gainSpells",
+        "key": "level",
+        "priority": "01",
+        "group": "",
+        "name": "Spell level of the included spells",
+        "desc": "0 for Cantrips, or 1-10 for spell levels.",
+        "type": "number",
+        "locked": true,
+        "examples": "storedspelllevel"
+    },
+    {
+        "parent": "gainSpells",
+        "key": "cooldown",
+        "priority": "02",
+        "group": "",
+        "name": "Cooldown",
+        "desc": "How long you have to wait to cast these spells again after you cast one of them, in turns * 10. (1 hour is 6000, 1 day is 144000.)",
+        "type": "number",
+        "validation": "0plus",
+        "examples": "activity"
+    },
+    {
+        "parent": "gainSpells",
+        "key": "frequency",
+        "priority": "03",
+        "group": "",
+        "name": "Frequency",
+        "desc": "A description of how often you can use these spells, as defined by the cooldown. Typically 'at will' or 'once per day'.",
+        "examples": "activity"
+    },
+    {
+        "parent": "gainSpells",
+        "key": "resonant",
+        "priority": "04",
+        "group": "",
+        "name": "Resonant power",
+        "desc": "Set if these spells are only granted as a when the item is slotted into a wayfinder.",
+        "type": "checkbox"
+    },
+    {
+        "parent": "gainSpells",
+        "key": "spells",
+        "priority": "05",
+        "group": "",
+        "name": "Spells",
+        "desc": "List the spells that are granted by this item."
+    },
+    {
+        "parent": "spells",
+        "key": "name",
+        "priority": "00",
+        "group": "",
+        "name": "Spell name",
+        "examples": "spellname",
+        "locked": true
+    },
+    {
+        "key": "isArmoredSkirt",
+        "priority": "08",
+        "group": "5-Influence",
         "name": "Act as Armored Skirt",
-        "desc": "Set if this item uses the 'Armored Skirt' functionality to change the effectiveness and weight of certain armors.",
+        "desc": "Set if this item changes the effectiveness and weight of certain armors, like an armored skirt.",
         "type": "checkbox"
     },
     {
         "key": "isDoublingRings",
-        "priority": "08",
+        "priority": "09",
         "group": "5-Influence",
         "name": "Act as Doubling Rings",
-        "desc": "Set if this item uses the 'Doubling Rings' functionality to copy runes from one item to the other.",
+        "desc": "Set if this item can be used to copy runes from one weapon to the other, like a doubling ring.",
         "locked": true,
         "examples":"isdoublingrings"
     },
     {
         "key": "isHandwrapsOfMightyBlows",
-        "priority": "09",
+        "priority": "10",
         "group": "5-Influence",
         "name": "Act as Handwraps of Mighty Blows",
         "desc": "Set if this item uses the 'Handwraps of Mighty Blows' functionality to enhance unarmed attacks with its own runes. The item's modification type will be set to 'weapon' automatically.",
         "type": "checkbox"
     },
     {
+        "key": "isTalismanCord",
+        "priority": "11",
+        "group": "5-Influence",
+        "name": "Act as Talisman Cord",
+        "desc": "Set if this item is attached to an item that can bear affixed talismans in order to preserve the talisman on use. Set to the number of schools to which it can be attuned.",
+        "type": "number",
+        "locked": true,
+        "examples":"istalismancord"
+    },
+    {
         "key": "isWayfinder",
-        "priority": "09",
+        "priority": "12",
         "group": "5-Influence",
         "name": "Act as Wayfinder",
-        "desc": "Set if this item uses the 'Wayfinder' functionality slot Aeon Stones and unlock their resonant abilities. Set to the number of Aeon Stones allowed in this Wayfinder.",
+        "desc": "Set if this item slots aeon stones to unlock their resonant abilities. Set to the number of aeon stones allowed in this wayfinder.",
         "type": "number",
         "locked": true,
         "examples":"iswayfinder"
     },
     {
         "key": "isAeonStone",
-        "priority": "09",
+        "priority": "13",
         "group": "5-Influence",
         "name": "Act as Aeon Stone",
-        "desc": "Set if this item should be treated as an Aeon Stone and allowed to slot into a Wayfinder. See unique activities and the 'resonant activity' option to set which abilities should be locked until the item is slotted.",
+        "desc": "Set if this item should be treated as an aeon stone and allowed to slot into a wayfinder. See unique activities, gained spells and hints can all set to activate only in a slotted aeon stone.",
         "type": "checkbox"
     },
     {
@@ -803,7 +893,7 @@
         "group": "8-Weapons",
         "name": "Base weapon type",
         "desc": "If this weapon is based on another weapon, the base weapon should be named here. This allows applying a specific weapon proficiency and critical specialization effect to the item even if it is not named after the weapon. Example: If you are creating a magical Longsword named Sunblade, and you have master proficiency in Longswords, but trained proficiency in martial weapons, setting this to 'Longsword' will allow you to apply that master proficiency.",
-        "examples": "weaponBase"
+        "examples": "weaponbase"
     },
     {
         "key": "dicenum",
@@ -924,13 +1014,6 @@
         "examples": "inputRequired"
     },
     {
-        "key": "gainConditions",
-        "priority": "04",
-        "group": "9-Consumables",
-        "name": "Cause condition",
-        "desc": "Add known conditions that will be caused by using this item."
-    },
-    {
         "key": "critsuccess",
         "priority": "05",
         "group": "9-Consumables",
@@ -1021,8 +1104,18 @@
     },
     {
         "parent": "gainConditions",
-        "key": "source",
+        "key": "alignmentFilter",
         "priority": "06",
+        "group": "",
+        "name": "Alignment filter",
+        "desc": "If this filter is set, the condition will only apply if your alignment matches, or doesn't match, the filter. For example, a filter of \"evil\" will apply the condition if your alignment is evil, and \"!evil\" will apply the condition if your alignment is anything other than evil.",
+        "locked": true,
+        "examples": "gaincondition alignmentfilter"
+    },
+    {
+        "parent": "gainConditions",
+        "key": "source",
+        "priority": "07",
         "group": "",
         "name": "Condition source",
         "desc": "The condition will show this as its source. Should usually be the item name."

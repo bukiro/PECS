@@ -70,10 +70,8 @@ import { ToastService } from './toast.service';
 import { ArmorMaterial } from './ArmorMaterial';
 import { ShieldMaterial } from './ShieldMaterial';
 import { Hint } from './Hint';
-import { InventoryComponent } from './inventory/inventory.component';
-import { NewItemPropertyComponent } from './items/newItemProperty/newItemProperty.component';
 import { SpellTarget } from './SpellTarget';
-import { ActivitiesComponent } from './activities/activities.component';
+import { SpellGain } from './SpellGain';
 
 @Injectable({
     providedIn: 'root'
@@ -313,8 +311,22 @@ export class ItemsService {
                     }
                 })
             })
+            newItem.gainSpells?.forEach((choice: SpellChoice) => {
+                choice.id = uuidv4();
+            })
         }
         newItem = this.savegameService.reassign(newItem, "", this);
+        if (newItem.gainSpells) {
+            (newItem as Equipment).gainSpells.forEach((choice: SpellChoice) => {
+                choice.castingType = "Innate";
+                choice.source = newItem.name;
+                choice.available = 0;
+                choice.spells.forEach((gain: SpellGain) => {
+                    gain.locked = true;
+                    gain.sourceId = choice.id;
+                })
+            })
+        }
         if (newItem.gainActivities) {
             (newItem as Equipment).gainActivities.forEach((gain: ActivityGain) => {
                 gain.source = newItem.id;
@@ -421,7 +433,7 @@ export class ItemsService {
         return newItem;
     }
 
-    
+
 
     get_ContainedBulk(creature: Creature, item: Item, targetInventory: ItemCollection = null, including: boolean = true) {
         //Sum up all the bulk of an item, including items granted by it and inventories it contains (or they contain).

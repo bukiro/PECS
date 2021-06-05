@@ -285,6 +285,38 @@ export class SavegameService {
                 })
             }
 
+            //Some worn items before version 1.0.3 have activities that grant innate spells. Innate spells are now granted differently, and activities do not update well, so the activities need to be removed.
+            //Another activity has been renamed and can be updated at this point.
+            //Slotted aeon stones now reflect that information on their own, for better detection of resonant hints and effects.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 4) {
+                character.inventories?.forEach(inv => {
+                    inv.wornitems?.forEach(invItem => {
+                        if ([
+                            "b0a0fc41-b6cc-4dba-870c-efdd0468e448",
+                            "df38a8cc-49f9-41d2-97b8-101a5cf020be",
+                            "462510ac-d2fc-4f29-aa7c-dcc7272ebfcf",
+                            "046845de-4cb0-411a-9f6e-85a669e5e12b"
+                        ].includes(invItem.refId) && invItem.activities) {
+                            invItem.activities = invItem.activities.filter(activity => !(activity.castSpells.length && activity.actions == ""));
+                        }
+                        if (invItem.refId == "88de530a-913b-11ea-bb37-0242ac130002") {
+                            invItem.activities?.forEach(activity => {
+                                activity.name = activity.name.replace("Bracelets", "Bracelet");
+                                activity.gainConditions?.forEach(gain => {
+                                    gain.name = gain.name.replace("Bracelets", "Bracelet");
+                                })
+                            })
+                        }
+                        invItem.aeonStones?.forEach(aeonStone => {
+                            aeonStone.isSlottedAeonStone = true;
+                        })
+                        invItem.aeonStones?.filter(aeonStone => aeonStone.refId == "046845de-4cb0-411a-9f6e-85a669e5e12b" && aeonStone.activities).forEach(aeonStone => {
+                            aeonStone.activities = aeonStone.activities.filter(activity => !(activity.castSpells.length && activity.actions == ""));
+                        })
+                    })
+                })
+            }
+
         }
 
         // STAGE 2

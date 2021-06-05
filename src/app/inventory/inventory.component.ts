@@ -474,6 +474,7 @@ export class InventoryComponent implements OnInit {
                 if (item.cooldown) {
                     if (item.overcharged) {
                         this.drop_InventoryItem(item, inventory, false);
+                        this.toastService.show("The <strong>" + item.get_Name() + "</strong> was destroyed because it was overcharged too much. The spell was not cast.", [], this.characterService);
                     } else {
                         item.overcharged = true;
                         item.broken = true;
@@ -505,6 +506,14 @@ export class InventoryComponent implements OnInit {
             (
                 (item as Equipment).talismans.length ||
                 this.get_Creature().inventories.some(inv => inv.talismans.some(talisman => talisman.targets.includes(item.type)))
+            )
+    }
+
+    can_ApplyTalismanCords(item: Item) {
+        return (["armors", "shields", "weapons"].includes(item.type)) &&
+            (
+                (item as Equipment).talismanCords.length ||
+                this.get_Creature().inventories.some(inv => inv.wornitems.some(wornitem => wornitem.isTalismanCord))
             )
     }
 

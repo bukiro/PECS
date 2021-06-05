@@ -70,6 +70,7 @@ import { DescriptionComponent } from './description/description.component';
 import { ItemTargetComponent } from './itemTarget/itemTarget.component';
 import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ItemTalismanCordsComponent } from './item/itemTalismanCords/itemTalismanCords.component';
 
 @NgModule({
    declarations: [						 
@@ -122,7 +123,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
       DiceIcons_D20Component,
       SkillchoiceComponent,
       ItemBladeAllyComponent,
-      HintComponent,
       ConditionComponent,
       GridIconComponent,
       QuickdiceComponent,
@@ -132,7 +132,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
       StickyPopoverDirective,
       ObjectEffectsComponent,
       DescriptionComponent,
-      ItemTargetComponent
+      ItemTargetComponent,
+      HintComponent,
+      ItemTalismanCordsComponent
    ],
    imports: [
       CommonModule,

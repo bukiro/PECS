@@ -172,8 +172,13 @@ export class AttacksComponent implements OnInit {
             })
     }
 
-    get_TalismanTitle(talisman: Talisman) {
-        return (talisman.trigger ? "Trigger: " + talisman.trigger + "\n\n" : "") + talisman.desc;
+    get_TalismanTitle(talisman: Talisman, withCord: boolean = false) {
+        return (talisman.trigger ? "Trigger: " + talisman.trigger + "\n\n" : "") + talisman.desc +
+            (withCord ? "\n\nWhen you activate a talisman threaded through a cord with the same magic school trait that's also the cord's level or lower, attempt a DC 16 flat check. On a success, that talisman is not consumed and can be used again." : "");
+    }
+
+    get_HaveMatchingTalismanCord(weapon: Weapon, talisman: Talisman) {
+        return weapon.talismanCords.some(cord => cord.level <= talisman.level && cord.data.some(data => talisman.traits.includes(data.value)));
     }
 
     get_PoisonTitle(poison: AlchemicalPoison) {
@@ -189,10 +194,12 @@ export class AttacksComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    on_TalismanUse(weapon: Weapon, talisman: Talisman, index: number) {
+    on_TalismanUse(weapon: Weapon, talisman: Talisman, index: number, preserve: boolean = false) {
         this.characterService.set_ToChange(this.creature, "attacks");
-        this.characterService.on_ConsumableUse(this.get_Creature(), talisman);
-        weapon.talismans.splice(index, 1)
+        this.characterService.on_ConsumableUse(this.get_Creature(), talisman, preserve);
+        if (!preserve) {
+            weapon.talismans.splice(index, 1);
+        }
         this.characterService.process_ToChange();
     }
 

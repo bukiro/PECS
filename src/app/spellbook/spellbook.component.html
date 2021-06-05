@@ -34,9 +34,10 @@
         </ng-template>
         <ng-container *ngFor="let skill of get_SpellDCs(); let index = index; trackBy:trackByIndex;">
             <header class="sectionHeader fullsize-only" *ngIf="index == 0">
-                <span class="fullsize-only" [ngbPopover]="SpellAttacksEffectsPopoverContent" #SpellAttacksEffectsPopover="ngbPopover"
-                    triggers="click">
-                    <i [ngbTooltip]="!SpellAttacksEffectsPopover.isOpen() ? 'Edit effects' : ''" class='bi-lightning-charge'></i>
+                <span class="fullsize-only" [ngbPopover]="SpellAttacksEffectsPopoverContent"
+                    #SpellAttacksEffectsPopover="ngbPopover" triggers="click">
+                    <i [ngbTooltip]="!SpellAttacksEffectsPopover.isOpen() ? 'Edit effects' : ''"
+                        class='bi-lightning-charge'></i>
                 </span>
                 Spell Attacks & DCs
             </header>
@@ -238,6 +239,10 @@
                                                                                     </app-actionIcons>
                                                                                     {{spell.castType}}
                                                                                 </ng-container>
+                                                                                {{(casting.tradition !=
+                                                                                spellTaken.choice.tradition &&
+                                                                                spellTaken.choice.tradition) ? "(" +
+                                                                                spellTaken.choice.tradition + ")" : ""}}
                                                                                 {{spellTaken.gain.frequency ?
                                                                                 spellTaken.gain.frequency : ""}}
                                                                             </ng-template>
@@ -274,6 +279,10 @@
                                                                                     </app-actionIcons>
                                                                                     {{spell.castType}}
                                                                                 </ng-container>
+                                                                                {{(casting.tradition !=
+                                                                                spellTaken.choice.tradition &&
+                                                                                spellTaken.choice.tradition) ? "(" +
+                                                                                spellTaken.choice.tradition + ")" : ""}}
                                                                                 {{spellTaken.gain.frequency ?
                                                                                 spellTaken.gain.frequency : ""}}
                                                                             </ng-template>

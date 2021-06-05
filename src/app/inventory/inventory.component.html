@@ -203,7 +203,7 @@
                                     <ng-container *ngFor="let canUse of [get_CanUse(item)]; trackBy:trackByIndex">
                                         <ng-template #ItemTitleTemplate>
                                             <span class="hlist left-aligned">
-                                                <span>
+                                                <span *ngIf="canUse != undefined">
                                                     <i class="value bi-x penalty"
                                                         *ngIf="!get_TileMode() && canUse == false"
                                                         [ngbTooltip]="'You are not trained with this item.'"></i>
@@ -570,6 +570,9 @@
                                             <app-itemTalismans [item]=item [itemStore]=false
                                                 *ngIf="can_ApplyTalismans(item)">
                                             </app-itemTalismans>
+                                            <app-itemTalismanCords [item]=item
+                                                *ngIf="can_ApplyTalismanCords(item)">
+                                            </app-itemTalismanCords>
                                             <ng-container *ngIf="item.type=='shields'">
                                                 <div class="list-item newrow">
                                                     <strong>HP</strong>
@@ -613,7 +616,7 @@
                                             <ng-container *ngIf="!get_TileMode()">
                                                 <div class="list-item" cdkDrag [cdkDragData]="item"
                                                     [cdkDragDisabled]="!can_Drop(item)">
-                                                    <button class="newrow left-aligned sublist-toggle"
+                                                    <button class="newrow sublist-toggle"
                                                         [ngClass]="{'fancy-button':((item.equippable && item.equipped) || (item.can_Invest() && item.invested)), 'problem':item.broken}"
                                                         (click)="toggle_Item(inventoryID)">
                                                         <ng-container *ngTemplateOutlet="ItemTitleTemplate">

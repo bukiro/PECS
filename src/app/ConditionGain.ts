@@ -45,6 +45,8 @@ export class ConditionGain {
     //Spells choose from multiple conditions those that match their level.
     //For example, if a spell has a ConditionGain with heightenedFilter 1 and one with heightenedFilter 2, and the spell is cast at 2nd level, only the heightenedFilter 2 ConditionGain is used.
     public heightenedFilter: number = 0;
+    //Some conditions are given depending on the character's alignment. Examples can be "evil", "!evil", "lawful evil" or "!lawful evil" (but not "evil lawful" or "evil !lawful").
+    public alignmentFilter: string = "";
     //When casting a spell, the spell level is inserted here so it can be used for calculations.
     public heightened: number = 0;
     //When casting a spell, a different radius for a condition may be wanted.

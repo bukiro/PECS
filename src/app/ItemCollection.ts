@@ -25,6 +25,7 @@ import { AlchemicalPoison } from './AlchemicalPoison';
 import { Snare } from './Snare';
 import { OtherConsumableBomb } from './OtherConsumableBomb';
 import { Wand } from './Wand';
+import { Rune } from './Rune';
 
 export class ItemCollection {
     public readonly _className: string = this.constructor.name;
@@ -80,17 +81,17 @@ export class ItemCollection {
         { name: "Other Consumables (Bombs)", key: "otherconsumablesbombs" },
         { name: "Wands", key: "wands" }
     ]
-    allEquipment() {
+    allEquipment(): Equipment[] {
         return [].concat(this.adventuringgear, this.alchemicalbombs, this.otherconsumablesbombs, this.armors, this.helditems, this.shields, this.weapons, this.wornitems, this.wands);
         
     }
-    allConsumables() {
+    allConsumables(): Consumable[] {
         return [].concat(this.alchemicalelixirs, this.alchemicaltools, this.ammunition, this.oils, this.otherconsumables, this.potions, this.scrolls, this.talismans, this.snares, this.alchemicalpoisons);
     }
-    allRunes() {
+    allRunes(): Rune[] {
         return [].concat(this.armorrunes, this.weaponrunes);
     }
-    allItems() {
+    allItems(): Item[] {
         return [].concat(this.allConsumables(), this.allEquipment(), this.allRunes());
     }
     get_Bulk(rounded: boolean = true, reduced: boolean = false) {

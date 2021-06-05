@@ -525,6 +525,7 @@ export class ItemRunesComponent implements OnInit {
                 }
                 break;
         }
+        this.characterService.set_ToChange("Character", this.item.id);
         if (this.item.equipped) {
             this.characterService.set_ToChange("Character", "attacks");
         }
@@ -727,6 +728,7 @@ export class ItemRunesComponent implements OnInit {
         if (rune.activities?.length) {
             this.characterService.set_ToChange("Character", "activities");
         }
+        this.characterService.set_ToChange("Character", this.item.id);
     }
 
     set_PropertyRuneNames() {

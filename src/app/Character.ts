@@ -26,6 +26,7 @@ import { Item } from './Item';
 import { FormulaLearned } from './FormulaLearned';
 import { ConditionsService } from './conditions.service';
 import { ItemCollection } from './ItemCollection';
+import { WornItem } from './WornItem';
 
 export class Character extends Creature {
     public readonly _className: string = this.constructor.name;
@@ -225,9 +226,9 @@ export class Character extends Creature {
             //If the choice has a charLevelAvailable lower than the current level, you could choose spells before you officially get this choice.
             //So we raise the charLevelAvailable to either the current level or the original value, whichever is higher.
             choice.charLevelAvailable = Math.max(choice.charLevelAvailable, levelNumber);
-            //If the spellcasting was not available so far, it is now.
+            //If the spellcasting was not available so far, it is now available at your earliest spell choice.
             if (!spellCasting.charLevelAvailable) {
-                spellCasting.charLevelAvailable = choice.charLevelAvailable;
+                spellCasting.charLevelAvailable = Math.max(1, Math.min(...spellCasting.spellChoices.map(choice => choice.charLevelAvailable)));
             }
             characterService.set_ToChange("Character", "spells");
             characterService.set_ToChange("Character", "spellbook");
@@ -547,7 +548,7 @@ export class Character extends Creature {
                     choice.feats.filter((feat: FeatTaken) =>
                         (excludeTemporary ? !choice.showOnSheet : true) &&
                         (
-                            (featName == "") || 
+                            (featName == "") ||
                             (feat.name.toLowerCase() == featName.toLowerCase()) ||
                             (includeCountAs && (feat.countAsFeat?.toLowerCase() == featName.toLowerCase() || false))
                         ) &&
@@ -628,8 +629,58 @@ export class Character extends Creature {
                         }
                     })
                 })
+            //For your innate spellcasting, or for all spells, also collect innate spells gained from worn items.
+            if (spellCasting == undefined || spellCasting.castingType == "Innate") {
+                spellsTaken.push(...this.get_EquipmentSpellsGranted(characterService, spellLevel, spellName, source, sourceId, locked, cantripAllowed));
+            }
             return spellsTaken;
         }
+    }
+    get_EquipmentSpellsGranted(characterService: CharacterService, spellLevel: number = -1, spellName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, cantripAllowed: boolean = true) {
+        let spellsGranted: { choice: SpellChoice, gain: SpellGain }[] = [];
+        //Collect innate spells gained from worn items.
+            this.inventories[0].allEquipment().filter(equipment => equipment.can_Invest() ? equipment.invested : equipment.equipped).forEach(equipment => {
+                equipment.gainSpells.forEach(choice => {
+                    if (
+                        (
+                            spellLevel == -1 ||
+                            choice.level == spellLevel
+                        ) &&
+                        !choice.resonant
+                    ) {
+                        choice.spells.filter(gain =>
+                            (gain.name == spellName || spellName == "") &&
+                            (choice.source == source || source == "") &&
+                            (gain.sourceId == sourceId || sourceId == "") &&
+                            (gain.locked == locked || locked == undefined) &&
+                            (cantripAllowed || (!characterService.spellsService.get_Spells(gain.name)[0]?.traits.includes("Cantrip")))
+                        ).forEach(gain => {
+                            spellsGranted.push({ choice: choice, gain: gain });
+                        })
+                    }
+                })
+                if (equipment instanceof WornItem) {
+                    equipment.aeonStones.filter(stone => stone.gainSpells.length).forEach(stone => {
+                        stone.gainSpells.forEach(choice => {
+                            if (
+                                spellLevel == -1 ||
+                                choice.level == spellLevel
+                            ) {
+                                choice.spells.filter(gain =>
+                                    (gain.name == spellName || spellName == "") &&
+                                    (choice.source == source || source == "") &&
+                                    (gain.sourceId == sourceId || sourceId == "") &&
+                                    (gain.locked == locked || locked == undefined) &&
+                                    (cantripAllowed || (!characterService.spellsService.get_Spells(gain.name)[0]?.traits.includes("Cantrip")))
+                                ).forEach(gain => {
+                                    spellsGranted.push({ choice: choice, gain: gain });
+                                })
+                            }
+                        })
+                    })
+                }
+            })
+        return spellsGranted;
     }
     take_Spell(characterService: CharacterService, spellName: string, taken: boolean, choice: SpellChoice, locked: boolean, prepared: boolean = false) {
         if (taken) {

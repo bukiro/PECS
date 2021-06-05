@@ -1,8 +1,5 @@
 import { Consumable } from './Consumable';
 import { CharacterService } from './character.service';
-import { Character } from './Character';
-import { AnimalCompanion } from './AnimalCompanion';
-import { Familiar } from './Familiar';
 import { Creature } from './Creature';
 
 export class Scroll extends Consumable {

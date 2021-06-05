@@ -172,7 +172,7 @@
         </ng-container>
     </p>
     <!--Activation text for talismans (identified by having a trigger or requirements, but no effect)-->
-    <p *ngIf="(item.activationType || (item.actions && item.actions != ' ')) && (item.trigger || item.requirements)">
+    <div class="newrow left-aligned" *ngIf="(item.activationType || (item.actions && item.actions != ' ')) && (item.trigger || item.requirements)">
         <strong>Activate</strong>
         <app-actionIcons *ngIf="item.actions" [actionString]="item.actions">
         </app-actionIcons>
@@ -185,7 +185,7 @@
             <strong>Requirements</strong>
             {{item.requirements}}
         </span>
-    </p>
+    </div>
     <p *ngIf="item.subType">
         <strong>{{item.subType}}</strong> {{item.subTypeDesc}}
     </p>
@@ -221,7 +221,7 @@
         </div>
     </div>
 </div>
-<div class="newrow" *ngIf="item.isDoublingRings && !itemStore">
+<div class="newrow" *ngIf="item.isDoublingRings && !item.isTalismanCord && !itemStore">
     <header class="spellHeader">Doubling Rings</header>
     <div class="newrow">
         <strong>Weapon wielded in the gold ring hand</strong>
@@ -246,6 +246,23 @@
             (ngModelChange)="on_DoublingRingsChange()">
         <label for="{{item.id}}doublingRingsApplyPropertyRunes">Apply property runes</label>
     </div>
+</div>
+<div class="newrow" *ngIf="item.isTalismanCord && !item.isDoublingRings">
+    <header class="spellHeader">Talisman Cord</header>
+    <ng-container *ngFor="let talismanCordIndex of [0, 1, 2]; trackBy:trackByIndex;">
+        <div class="newrow" *ngIf="item.isTalismanCord > talismanCordIndex && item.data[talismanCordIndex]">
+            <strong>{{item.data[talismanCordIndex].name}}</strong>
+            <span *ngIf="!itemStore">
+                {{item.data[talismanCordIndex].value}}
+            </span>
+            <select *ngIf="itemStore" [(ngModel)]="item.data[talismanCordIndex].value">
+                <option *ngFor="let school of get_TalismanCordOptions(item, talismanCordIndex); trackBy:trackByIndex;"
+                    [ngValue]="school">
+                    {{school}}
+                </option>
+            </select>
+        </div>
+    </ng-container>
 </div>
 <app-itemAeonStones class="list-item" [item]=item [itemStore]=itemStore *ngIf="item.isWayfinder"></app-itemAeonStones>
 <div class="list-item left-aligned" *ngFor="let activity of item.activities; trackBy:trackByIndex;">
@@ -290,9 +307,21 @@
             </app-actionIcons>
             {{spell.castType.toString()}}
         </header>
-        <app-spell [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0"></app-spell>
+        <app-spell [spell]=spell [spellLevel]="cast.level ? cast.level : 0"></app-spell>
     </div>
 </div>
+<ng-container *ngFor="let choice of item.gainSpells; trackBy:trackByIndex;">
+    <div class="list-item left-aligned" *ngFor="let gain of choice.spells; trackBy:trackByIndex;">
+        <div *ngFor="let spell of get_Spells(gain.name); trackBy:trackByIndex;">
+            <header class="spellHeader">{{spell.name}}
+                <app-actionIcons *ngIf="spell.actions" [actionString]="spell.actions">
+                </app-actionIcons>
+                {{spell.castType.toString()}}
+            </header>
+            <app-spell [spell]=spell [spellLevel]="choice.level ? choice.level : 0"></app-spell>
+        </div>
+    </div>
+</ng-container>
 <div class="list-item left-aligned" *ngFor="let material of item.material; trackBy:trackByIndex;">
     <header class="spellHeader">{{material.name}}</header>
     <ng-container *ngFor="let desc of material.desc.split('\n\n'); trackBy:trackByIndex;">
@@ -377,11 +406,34 @@
     <header class="spellHeader">{{stone.name}}</header>
     <app-item [creature]="creature" [item]=stone [allowActivate]=allowActivate [isSubItem]=true></app-item>
 </div>
+<div class="list-item left-aligned lower" *ngFor="let cord of item.talismanCords; trackBy:trackByIndex;">
+    <header class="spellHeader">{{cord.name}}</header>
+    <p>
+        When you activate a talisman threaded through a cord with the same magic school trait that's also the cord's
+        level or lower, attempt a <app-quickdice [diceString]="'1d20'"></app-quickdice> DC 16 flat check. On a success,
+        that talisman is not consumed and can be used again.
+    </p>
+    <ng-container *ngFor="let talismanCordIndex of [0, 1, 2]; trackBy:trackByIndex;">
+        <div class="newrow" *ngIf="cord.isTalismanCord > talismanCordIndex && cord.data[talismanCordIndex]">
+            <strong>{{cord.data[talismanCordIndex].name}}</strong>
+            {{cord.data[talismanCordIndex].value}}
+        </div>
+    </ng-container>
+</div>
 <div class="list-item left-aligned" *ngFor="let talisman of item.talismans; let index = index; trackBy:trackByIndex;">
     <header class="spellHeader">{{talisman.name}}</header>
     <button class="newrow left-aligned" (click)="on_TalismanUse(talisman, index)" *ngIf="allowActivate">
         <span>
             Activate
+            <app-actionIcons *ngIf="talisman.actions" [actionString]="talisman.actions">
+            </app-actionIcons>
+            {{(talisman.activationType) ? talisman.activationType : ""}}
+        </span>
+    </button>
+    <button class="newrow left-aligned" (click)="on_TalismanUse(talisman, index, true)"
+        *ngIf="allowActivate && get_HaveMatchingTalismanCord(talisman)">
+        <span>
+            Activate and preserve with talisman cord
             <app-actionIcons *ngIf="talisman.actions" [actionString]="talisman.actions">
             </app-actionIcons>
             {{(talisman.activationType) ? talisman.activationType : ""}}

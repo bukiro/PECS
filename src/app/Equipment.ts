@@ -8,6 +8,9 @@ import { InventoryGain } from './InventoryGain';
 import { Talisman } from './Talisman';
 import { Material } from './Material';
 import { Hint } from './Hint';
+import { ConditionGain } from './ConditionGain';
+import { SpellChoice } from './SpellChoice';
+import { WornItem } from './WornItem';
 
 export class Equipment extends Item {
     //Allow changing of "equippable" by custom item creation
@@ -42,6 +45,10 @@ export class Equipment extends Item {
     public gainActivities: ActivityGain[] = [];
     //If this is a container, list whether it has a limit and a bulk reduction.
     public gainInventory: InventoryGain[] = [];
+    //These conditions are applied whenever the item is equipped or invested respectively. They should be used sparingly.
+    public gainConditions: ConditionGain[] = [];
+    //Equipment can allow you to cast a spell as an innate spell. These are listed in gainSpells, and are always innate and always locked, with no choices available.
+    public gainSpells: SpellChoice[] = [];
     //What hint should show up for this item? This allows to be more concise and not use the entire description.
     //If no hint is set, desc will show instead
     public hints: Hint[] = [];
@@ -64,6 +71,8 @@ export class Equipment extends Item {
     public strikingRune: number = 0;
     //Store any talismans attached to this item.
     public talismans: Talisman[] = [];
+    //List any Talisman Cords attached to this item.
+    public talismanCords: WornItem[] = [];
     can_Stack() {
         //Additionally to the usual considerations, equipment can't stack if it adds an inventory or any activities.
         return (

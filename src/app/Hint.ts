@@ -24,6 +24,9 @@ export class Hint {
     //If extraActivations is 1 through 4, one or two more activation boxes are shown.
     public extraActivations: number = 0;
     public conditionChoiceFilter: string = "";
+    //On an aeon stone, hints can be resonant powers. These only get shown if the aeon stone is slotted in a wayfinder.
+    //NOTE: At this point, if any hint is not resonant, all hints are shown even if the aeon stone is not slotted in a wayfinder.
+    public resonant: boolean = false;
     get_DescriptionSet(levelNumber: number) {
         //This descends from levelnumber downwards and returns the first description set with a matching level.
         //A description set contains variable names and the text to replace them with.

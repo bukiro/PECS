@@ -24,8 +24,8 @@ import { WeaponRune } from './WeaponRune';
 import * as json_effectproperties from '../assets/json/effectproperties';
 import { Armor } from './Armor';
 import { Material } from './Material';
-import { Weapon } from './Weapon';
 import { Shield } from './Shield';
+import { Rune } from './Rune';
 
 @Injectable({
     providedIn: 'root'
@@ -237,6 +237,104 @@ export class EffectsService {
         return this.effectProperties;
     }
 
+    calculate_InventoryEffects(creature: Creature, characterService: CharacterService) {
+        //Conditions caused by equipment are not calculated for Familiars (who don't have an inventory) or in manual mode.
+        if (!(creature instanceof Familiar) && !characterService.get_ManualMode()) {
+            let speedRune: boolean = false;
+            let enfeebledRune: boolean = false;
+            creature.inventories.forEach(inventory => {
+                inventory.allEquipment().forEach(item => {
+                    item.propertyRunes.forEach((rune: Rune) => {
+                        if (rune.name == "Speed" && (item.can_Invest() ? item.invested : item.equipped)) {
+                            speedRune = true;
+                        }
+                        if (rune instanceof WeaponRune && rune.alignmentPenalty) {
+                            if (characterService.get_Character().alignment.toLowerCase().includes(rune.alignmentPenalty.toLowerCase())) {
+                                enfeebledRune = true;
+                            }
+                        }
+                    });
+                    item.oilsApplied.forEach(oil => {
+                        if (oil.runeEffect && oil.runeEffect.name == "Speed" && (item.equipped || (item.can_Invest() && item.invested))) {
+                            speedRune = true;
+                        }
+                        if (oil.runeEffect && oil.runeEffect.alignmentPenalty) {
+                            if (characterService.get_Character().alignment.toLowerCase().includes(oil.runeEffect.alignmentPenalty.toLowerCase())) {
+                                enfeebledRune = true;
+                            }
+                        }
+                    });
+                });
+            })
+            if (creature.inventories[0].weapons.find(weapon => weapon.large && weapon.equipped) && (characterService.get_AppliedConditions(creature, "Clumsy", "Large Weapon", true).length == 0)) {
+                characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Clumsy", value: 1, source: "Large Weapon", apply: true }), false)
+            } else if (!creature.inventories[0].weapons.find(weapon => weapon.large && weapon.equipped) && (characterService.get_AppliedConditions(creature, "Clumsy", "Large Weapon", true).length > 0)) {
+                characterService.remove_Condition(creature, Object.assign(new ConditionGain, { name: "Clumsy", value: 1, source: "Large Weapon", apply: true }), false)
+            }
+            if (speedRune && characterService.get_AppliedConditions(creature, "Quickened", "Speed Rune", true).length == 0) {
+                characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Quickened", value: 0, source: "Speed Rune", apply: true }), false)
+            } else if (!speedRune && characterService.get_AppliedConditions(creature, "Quickened", "Speed Rune", true).length > 0) {
+                characterService.remove_Condition(creature, Object.assign(new ConditionGain, { name: "Quickened", value: 0, source: "Speed Rune", apply: true }), false)
+            }
+            if (enfeebledRune && characterService.get_AppliedConditions(creature, "Enfeebled", "Alignment Rune", true).length == 0) {
+                characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Enfeebled", value: 2, source: "Alignment Rune", apply: true }), false)
+            } else if (!enfeebledRune && characterService.get_AppliedConditions(creature, "Enfeebled", "Alignment Rune", true).length > 0) {
+                characterService.remove_Condition(creature, Object.assign(new ConditionGain, { name: "Enfeebled", value: 2, source: "Alignment Rune", apply: true }), false)
+            }
+            //Any items that grant permanent conditions need to check if these are still applicable. 
+            creature.inventories[0].allEquipment().filter(item => item.gainConditions.length).forEach(item => {
+                item.gainConditions.forEach(gain => {
+                    //We test alignmentFilter here, but activationPrerequisite is only tested if the condition exists and might need to be removed.
+                    //This is because add_Condition includes its own test of activationPrerequisite.
+                    let activate = false;
+                    if (item.can_Invest() ? item.invested : item.equipped) {
+                        if (gain.alignmentFilter && creature instanceof Character) {
+                            if (gain.alignmentFilter.includes("!") ? !creature.alignment.toLowerCase().includes(gain.alignmentFilter.toLowerCase().replace("!", "")) : creature.alignment.toLowerCase().includes(gain.alignmentFilter.toLowerCase())) {
+                                activate = true;
+                            }
+                        } else {
+                            activate = true;
+                        }
+                    }
+                    if (characterService.get_AppliedConditions(creature, gain.name, gain.source, true).length) {
+                        if (!activate) {
+                            characterService.remove_Condition(creature, gain, false);
+                        } else {
+                            if (gain.activationPrerequisite) {
+                                let testConditionGain: any = Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(gain)));
+                                let testEffectGain: EffectGain = new EffectGain();
+                                testEffectGain.value = gain.activationPrerequisite;
+                                testConditionGain.effects = [testEffectGain];
+                                let effects = this.get_SimpleEffects(creature, characterService, testConditionGain, "", null);
+                                if (effects?.[0]?.value == "0" || !(parseInt(effects?.[0]?.value))) {
+                                    characterService.remove_Condition(creature, gain, false);
+                                }
+                            }
+                        }
+                    } else {
+                        if (activate) {
+                            characterService.add_Condition(creature, gain, false);
+                        }
+                    }
+                })
+            });
+        }
+    }
+
+    calculate_Bulk(creature: Creature, characterService: CharacterService) {
+        //Encumbered conditions are not calculated for Familiars (who don't have an inventory) or in manual mode.
+        if (!(creature instanceof Familiar) && !characterService.get_ManualMode()) {
+            let bulk = creature.bulk;
+            let calculatedBulk = bulk.calculate((creature as Character | AnimalCompanion), characterService, this);
+            if (calculatedBulk.current.value > calculatedBulk.encumbered.value && characterService.get_AppliedConditions(creature, "Encumbered", "Bulk").length == 0) {
+                characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Encumbered", value: 0, source: "Bulk", apply: true }), true)
+            }
+            if (calculatedBulk.current.value <= calculatedBulk.encumbered.value && characterService.get_AppliedConditions(creature, "Encumbered", "Bulk").length > 0) {
+                characterService.remove_Condition(creature, Object.assign(new ConditionGain, { name: "Encumbered", value: 0, source: "Bulk", apply: true }), true)
+            }
+        }
+    }
+
     get_IgnoredEffect(creature: Creature, effect: Effect) {
         return creature.ignoredEffects.some(ignoredEffect =>
             ignoredEffect.creature == effect.creature &&
@@ -396,9 +494,10 @@ export class EffectsService {
             return characterService.get_Character().class?.heritage?.name.toLowerCase() == name.toLowerCase() ||
                 characterService.get_Character().class?.additionalHeritages.find(extraHeritage => extraHeritage.name.toLowerCase() == name.toLowerCase())
         }
-        //effects come as {affected, value} where value is a string that contains a statement.
-        //This statement is eval'd here. The statement can use characterService to check level, skills, abilities etc.
-        object.effects.forEach((effect: EffectGain) => {
+        //Effects come as {affected, value, setValue, toggle} where value/setValue is a string that contains a statement.
+        //This statement is eval'd here. The statement can use the above functions to check level, skills, abilities etc., but also access a lot of information via characterService.
+        //If an effect is resonant, the object needs to be a slotted aeon stone.
+        object.effects.filter((effect: EffectGain) => effect.resonant ? object.isSlottedAeonStone : true).forEach((effect: EffectGain) => {
             let show: boolean = false;
             let type: string = "untyped";
             let penalty: boolean = false;
@@ -491,6 +590,10 @@ export class EffectsService {
         let familiar: Familiar = (creature.type == "Familiar") ? creature as Familiar : null;
         let creatureIndex: number = this.get_CalculatedIndex(creatureType)
 
+        //Add or remove conditions depending on your equipment.
+        this.calculate_Bulk(creature, characterService);
+        this.calculate_InventoryEffects(creature, characterService);
+
         //Fetch any effects from the other creatures that apply to this.
         let foreignEffects: Effect[] = [];
         [0, 1, 2].filter(otherCreatureIndex => otherCreatureIndex != creatureIndex).forEach(otherCreatureIndex => {
@@ -503,13 +606,16 @@ export class EffectsService {
 
         //Character and Companion Items
         if (!familiar) {
-            characterService.get_Inventories(creature)[0]?.allEquipment().filter(item => item.invested && !item.broken && item.effects?.length && !(item instanceof ArmorRune)).forEach(item => {
+            characterService.get_Inventories(creature)[0]?.allEquipment().filter(item => item.invested && !item.broken && (item.effects?.length || item.propertyRunes?.length || (item instanceof WornItem && item.isWayfinder)) && !(item instanceof ArmorRune)).forEach(item => {
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, item));
-            });
-            characterService.get_Inventories(creature)[0]?.allEquipment().filter(item => item.equipped && !item.broken && item.propertyRunes?.length).forEach(item => {
-                item.propertyRunes.filter(rune => rune instanceof ArmorRune && rune.effects?.length).forEach(rune => {
+                item.propertyRunes?.filter(rune => rune instanceof ArmorRune && rune.effects?.length).forEach(rune => {
                     simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, rune));
                 })
+                if (item instanceof WornItem) {
+                    item.aeonStones?.filter(stone => stone.effects.length).forEach(stone => {
+                        simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, stone));
+                    })
+                }
             });
         }
 
@@ -601,9 +707,12 @@ export class EffectsService {
         //Active hints of equipped items
         if (!familiar) {
             function add_HintEffects(item: Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material, effectsService: EffectsService) {
-                item.hints?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
-                    hintEffects = hintEffects.concat(effectsService.get_SimpleEffects(character, characterService, hint, "conditional, " + (item.get_Name ? item.get_Name() : item.name)));
-                })
+                item.hints
+                    ?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length)
+                    .filter(hint => hint.resonant ? (item instanceof WornItem && item.isSlottedAeonStone) : true)
+                    .forEach(hint => {
+                        hintEffects = hintEffects.concat(effectsService.get_SimpleEffects(character, characterService, hint, "conditional, " + (item.get_Name ? item.get_Name() : item.name)));
+                    })
             }
             creature.inventories.forEach(inventory => {
                 inventory.allEquipment().filter(item => (item.equippable ? item.equipped : true) && item.amount && !item.broken && (item.can_Invest() ? item.invested : true)).forEach(item => {

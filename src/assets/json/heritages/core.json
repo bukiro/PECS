@@ -290,7 +290,8 @@
                     }
                 ],
                 "source": "Seer Elf",
-                "castingType": "Innate"
+                "castingType": "Innate",
+                "tradition": "Arcane"
             }
         ]
     },

@@ -165,6 +165,7 @@ import { ConditionsService } from 'src/app/conditions.service';
         }
         this.characterService.set_ToChange("Character", "inventory");
         this.characterService.set_ToChange("Character", "attacks");
+        this.characterService.set_ToChange("Character", this.item.id);
         if (rune.activities?.length) {
             this.characterService.set_ToChange("Character", "activities");
         }

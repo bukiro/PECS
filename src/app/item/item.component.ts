@@ -17,6 +17,9 @@ import { ConditionGain } from '../ConditionGain';
 import { Condition } from '../Condition';
 import { ConditionsService } from '../conditions.service';
 import { Equipment } from '../Equipment';
+import { WornItem } from '../WornItem';
+import { Shield } from '../Shield';
+import { Armor } from '../Armor';
 
 @Component({
     selector: 'app-item',
@@ -119,10 +122,18 @@ export class ItemComponent implements OnInit {
         return this.spellsService.get_Spells(name, type, tradition);
     }
 
-    on_TalismanUse(talisman: Talisman, index: number) {
-        this.characterService.on_ConsumableUse(this.get_Creature(), talisman);
-        this.item.talismans.splice(index, 1)
-        if (["armors", "shields"].includes(this.item.type)) {
+    get_HaveMatchingTalismanCord(talisman: Talisman) {
+        if (this.item instanceof Equipment) {
+            return this.item.talismanCords?.some(cord => cord.level <= talisman.level && cord.data.some(data => talisman.traits.includes(data.value)));
+        }
+    }
+
+    on_TalismanUse(talisman: Talisman, index: number, preserve: boolean = false) {
+        this.characterService.on_ConsumableUse(this.get_Creature(), talisman, preserve);
+        if (!preserve) {
+            this.item.talismans.splice(index, 1)
+        }
+        if (this.item instanceof Armor || this.item instanceof Shield) {
             this.characterService.set_ToChange(this.creature, "defense");
         }
         if (this.item instanceof Weapon) {
@@ -158,6 +169,20 @@ export class ItemComponent implements OnInit {
             this.characterService.set_EquipmentViewChanges(this.get_Creature(), ironItem);
         }
         this.characterService.process_ToChange();
+    }
+
+    get_TalismanCordOptions(item: WornItem, index: number) {
+        return [
+            "no school attuned",
+            "Abjuration",
+            "Conjuration",
+            "Divination",
+            "Enchantment",
+            "Evocation",
+            "Illusion",
+            "Necromancy",
+            "Transmutation"
+        ].filter(school => school == "no school attuned" || item.data[index].value == school || !item.data.some((data, dataIndex) => dataIndex <= item.isTalismanCord && data.value == school));
     }
 
     get_ItemSpell(item: Item) {

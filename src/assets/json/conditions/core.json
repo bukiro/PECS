@@ -11071,7 +11071,7 @@
         ]
     },
     {
-        "name": "Bracelets of Dashing",
+        "name": "Bracelet of Dashing",
         "desc": "You gain a +10-foot status bonus to Speed.",
         "type": "wornitems",
         "buff": true,
@@ -11241,6 +11241,41 @@
         ]
     },
     {
+        "name": "Diplomat's Badge",
+        "desc": "You have attempted a DC 20 check to Recall Knowledge about people of a human ethnicity, a non-human ancestry, or some other type of creature. If you succeeded, the badge's bonus increases to +2 for Diplomacy checks with creatures of that group for the rest of the day.",
+        "type": "wornitems",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 144000
+            }
+        ],
+        "hints": [
+            {
+                "desc": "The Diplomat's badge's bonus increases to +2 for Diplomacy checks with creatures of the chosen group for the rest of the day.",
+                "showon": "Diplomacy",
+                "effects": [
+                    {
+                        "affected": "Diplomacy",
+                        "type": "item",
+                        "value": "2"
+                    }
+                ]
+            }
+        ],
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Success",
+                "defaultDuration": 144000
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 0
+            }
+        ]
+    },
+    {
         "name": "Goggles of Night",
         "desc": "You gain darkvision for the duration.",
         "type": "wornitems",
@@ -11282,6 +11317,98 @@
         "senses": [
             {
                 "name": "Greater Darkvision"
+            }
+        ]
+    },
+    {
+        "name": "Golden Legion Epaulet",
+        "desc": "If you follow the issued order, you gain a +1 status bonus to attack rolls, damage rolls, and saving throws against fear for the duration.",
+        "type": "wornitems",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "hints": [
+            {
+                "desc": "If you follow the issued order, you gain a +1 status bonus to attack rolls and damage rolls.",
+                "showon": "Attacks",
+                "effects": [
+                    {
+                        "affected": "Attack Rolls",
+                        "type": "status",
+                        "value": "1"
+                    },
+                    {
+                        "affected": "Damage Rolls",
+                        "type": "status",
+                        "value": "1"
+                    }
+                ]
+            },
+            {
+                "desc": "If you follow the issued order, you gain a +1 status bonus to saving throws against fear.",
+                "showon": "Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Will",
+                        "type": "status",
+                        "value": "1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Hunter's Brooch",
+        "desc": "By touching a weapon you wield to the symbol and uttering a plea for Erastil's steadying hand, you have granted that weapon the deadly d12 trait. Against undead, the weapon has instead gained the fatal d12 trait. This blessing lasts for 1 minute, until you score a critical hit with the weapon, or until you aren't wielding the weapon.",
+        "type": "wornitems",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "inputRequired": "Remove the condition if you score a critical hit with the weapon or stop wielding the weapon.",
+        "hints": [
+            {
+                "desc": "One weapon you wield gains the deadly d12 trait. Against undead, the weapon instead gains the fatal d12 trait. This blessing lasts for 1 minute, until you score a critical hit with the weapon, or until you aren't wielding the weapon.",
+                "showon": "Attacks"
+            }
+        ]
+    },
+    {
+        "name": "Manacles of Persuasion",
+        "desc": "While the manacles are locked around your wrists and you are immobilized, they begin to sap the life out of you, dealing 2 negative damage per hour until you fall unconscious. The effect is nonlethal, so the damage doesn't cause you become dying. While you are unconscious, the manacles deal no damage and allow you to recover Hit Points normally to a maximum of 10 Hit Points, at which point the manacles begin to deal damage once more. The manacles have no effect on a creature that is not immobilized.",
+        "type": "wornitems",
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ],
+        "inputRequired": "Take 2 nonlethal negative damage every hour until you are unconscious. While you are unconscious, recover Hit Points normally to a maximum of 10 Hit Points, at which point the manacles begin to deal damage again.",
+        "hints": [
+            {
+                "desc": "While the manacles are locked around your wrists and you are immobilized, they deal 2 negative damage per hour until you fall unconscious. While you are unconscious, the manacles deal no damage and allow you to recover Hit Points normally to a maximum of 10 Hit Points, at which point the manacles begin to deal damage once more. The manacles have no effect on a creature that is not immobilized.",
+                "showon": "Health"
+            }
+        ]
+    },
+    {
+        "name": "Secret-Keeper's Mask (Reaper of Reputation)",
+        "desc": "For the duration, any normal speech you utter can, at your discretion, be inaudible to all creatures except the target creature, who can hear you clearly regardless of ambient sound so long as it is within 1 mile. This ability doesn't silence magical words, such as the verbal component of spellcasting or commands to activate magic items.",
+        "type": "wornitems",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Any normal speech you utter can, at your discretion, be inaudible to all creatures except the target creature, who can hear you clearly regardless of ambient sound so long as it is within 1 mile. This ability doesn't silence magical words, such as the verbal component of spellcasting or commands to activate magic items.",
+                "showon": "Languages"
             }
         ]
     },

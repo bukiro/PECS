@@ -338,7 +338,7 @@ export class NewItemPropertyComponent implements OnInit {
                         break;
                 }
                 break;
-            case "weaponBase":
+            case "weaponbase":
                 examples.push(...this.get_Items().weapons.map(item => item.weaponBase))
                 break;
             case "traits":
@@ -349,6 +349,9 @@ export class NewItemPropertyComponent implements OnInit {
                 break;
             case "iswayfinder":
                 examples = [0, 1, 2];
+                break;
+            case "istalismancord":
+                examples = [0, 1, 2, 3];
                 break;
             case "activity":
                 examples.push(...this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables()))
@@ -537,6 +540,9 @@ export class NewItemPropertyComponent implements OnInit {
                 break;
             case "gaincondition name":
                 examples.push(...this.characterService.get_Conditions().map((condition: Condition) => condition.name));
+                break;
+            case "gaincondition alignmentfilter":
+                examples.push("Chaotic", "Chaotic Evil", "Chaotic Good", "Evil", "Good", "Lawful", "Lawful Evil", "Lawful Good", "Neutral", "Neutral Evil", "Neutral Good", "!Chaotic", "!Chaotic Evil", "!Chaotic Good", "!Evil", "!Good", "!Lawful", "!Lawful Evil", "!Lawful Good", "!Neutral", "!Neutral Evil", "!Neutral Good");
                 break;
             case "gainitems name":
                 examples = this.itemsService.get_Items()[this.get_Parent()["type"]].map((item: Item) => item.name);

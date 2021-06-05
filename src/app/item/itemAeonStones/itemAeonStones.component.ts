@@ -58,7 +58,7 @@ export class ItemAeonStonesComponent implements OnInit {
         //Start with one empty stone to select nothing.
         let allStones: { aeonStone: WornItem, inv: ItemCollection }[] = [{ aeonStone: new WornItem(), inv: null }];
         allStones[0].aeonStone.name = "";
-        //Add the current choice, if the item has a rune at that index.
+        //Add the current choice, if the item has a stone at that index.
         if (item.aeonStones[index]) {
             allStones.push(this.newAeonStone[index] as { aeonStone: WornItem, inv: ItemCollection });
         }
@@ -102,6 +102,7 @@ export class ItemAeonStonesComponent implements OnInit {
                 item.aeonStones[newLength - 1] = this.characterService.reassign(item.aeonStones[newLength - 1]);
                 let newStone = item.aeonStones[newLength - 1];
                 newStone.amount = 1;
+                newStone.isSlottedAeonStone = true;
                 //If we are not in the item store, remove the inserted Aeon Stone from the inventory, either by decreasing the amount or by dropping the item.
                 if (!this.itemStore) {
                     this.characterService.drop_InventoryItem(this.get_Character(), inv, stone, false, false, false, 1);
@@ -116,6 +117,7 @@ export class ItemAeonStonesComponent implements OnInit {
     remove_AeonStone(index: number) {
         let item: WornItem = this.item;
         let oldStone: WornItem = item.aeonStones[index];
+        oldStone.isSlottedAeonStone = false;
         this.set_ToChange(oldStone);
         //Add the extracted stone to the inventory, either on an existing stack or as a new item.
         this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], oldStone, false, false, false, 1);
@@ -131,6 +133,10 @@ export class ItemAeonStonesComponent implements OnInit {
         if (stone.activities.length) {
             this.characterService.set_ToChange("Character", "activities");
         }
+        if (stone.gainSpells.length) {
+            this.characterService.set_ToChange("Character", "spellbook");
+        }
+        this.characterService.set_ToChange("Character", this.item.id);
     }
 
     get_Title(stone: WornItem) {

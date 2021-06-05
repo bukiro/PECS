@@ -438,6 +438,7 @@ export class CharacterComponent implements OnInit {
         this.characterService.set_ToChange("Character", "general");
         this.characterService.set_ToChange("Character", "charactersheet");
         this.characterService.set_ToChange("Character", "featchoices");
+        this.characterService.set_ToChange("Character", "effects");
         this.characterService.process_ToChange();
     }
 

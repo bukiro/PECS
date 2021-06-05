@@ -82,13 +82,49 @@
                     <app-tags [creature]="creature" [objectName]="armor.name" [showItems]=true></app-tags>
                     <div class="fullsize-only lower newrow left-aligned"
                         *ngFor="let talisman of armor.talismans; let index = index; trackBy:trackByIndex;">
-                        <button [ngbTooltip]="get_TalismanTitle(talisman)"
-                            (click)="on_TalismanUse(armor, talisman, index)">
+                        <ng-template #TalismanTemplate>
+                            <div class="list-item left-aligned lower"
+                                *ngFor="let cord of armor.talismanCords; trackBy:trackByIndex;">
+                                <header class="spellHeader">{{cord.name}}</header>
+                                <p>When you activate a talisman threaded through a cord with the same magic school trait
+                                    that's also the cord's level or lower, attempt a <app-quickdice
+                                        [diceString]="'1d20'"> </app-quickdice> DC 16 flat check. On a success, that
+                                    talisman is not consumed and can be used again.
+                                </p>
+                                <ng-container *ngFor="let talismanCordIndex of [0, 1, 2]; trackBy:trackByIndex;">
+                                    <div class="newrow"
+                                        *ngIf="cord.isTalismanCord > talismanCordIndex && cord.data[talismanCordIndex]">
+                                        <strong>{{cord.data[talismanCordIndex].name}}</strong>
+                                        {{cord.data[talismanCordIndex].value}}
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <header class="spellHeader">{{talisman.name}}</header>
+                            <button class="newrow left-aligned" (click)="on_TalismanUse(armor, talisman, index)">
+                                <span>
+                                    Activate
+                                    <app-actionIcons *ngIf="talisman.actions" [actionString]="talisman.actions">
+                                    </app-actionIcons>
+                                    {{(talisman.activationType) ? talisman.activationType : ""}}
+                                </span>
+                            </button>
+                            <button class="newrow left-aligned" (click)="on_TalismanUse(armor, talisman, index, true)"
+                                *ngIf="get_HaveMatchingTalismanCord(armor, talisman)">
+                                <span>
+                                    Activate and preserve with talisman cord
+                                    <app-actionIcons *ngIf="talisman.actions" [actionString]="talisman.actions">
+                                    </app-actionIcons>
+                                    {{(talisman.activationType) ? talisman.activationType : ""}}
+                                </span>
+                            </button>
+                            <app-item [creature]="creature" [item]=talisman [allowActivate]=true [isSubItem]=true>
+                            </app-item>
+                        </ng-template>
+                        <button [ngbPopover]="TalismanTemplate" triggers="click">
                             <span>
-                                Activate {{talisman.name}}
-                                <app-actionIcons *ngIf="talisman.actions" [actionString]="talisman.actions">
-                                </app-actionIcons>
-                                {{(talisman.activationType) ? talisman.activationType : ""}}
+                                {{talisman.name}}
+                                {{get_HaveMatchingTalismanCord(armor, talisman) ? "(matching talisman cord attached)" :
+                                ""}}
                             </span>
                         </button>
                     </div>
@@ -99,69 +135,107 @@
                 </div>
                 <ng-container *ngFor="let shield of get_EquippedShield(); trackBy:trackByIndex;">
                     <header class="subsectionHeader fullsize-only">Shield</header>
-                    <div class="newrow list-item">
-                        <div>{{shield.get_Name()}} AC <div class="value">{{shield.get_ACBonus()}}</div>
-                            Hardness: <div class="value">{{shield.get_Hardness()}}</div>
-                            <div class="fullsize-only newrow left-aligned" *ngIf="shield.traits.length">
-                                <cite class="trait" *ngFor="let trait of shield.traits; trackBy:trackByIndex;"
-                                    [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
-                            </div>
-                            <app-tags [creature]="creature" [objectName]="'Shield'" [showTraits]=true [showFeats]=true
-                                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true>
-                            </app-tags>
-                            <div class="newrow">
-                                <button class="center-aligned" *ngIf="!shield.raised"
-                                    (click)="raise_Shield(true, shield)">Raise shield</button>
-                                <button class="center-aligned fancy-button" *ngIf="shield.raised"
-                                    (click)="raise_Shield(false, shield)">Lower
-                                    shield</button>
-                                <button class="center-aligned"
-                                    *ngIf="shield.raised && shield.coverbonus && !shield.takingCover"
-                                    (click)="set_Cover(4, shield)">Take cover</button>
-                                <button class="center-aligned fancy-button"
-                                    *ngIf="shield.raised && shield.coverbonus && shield.takingCover"
-                                    (click)="set_Cover(0, shield)">End cover</button>
-                            </div>
-                            <div class="list-item newrow">
-                                <strong>HP</strong>
-                                <div class="value">{{shield.get_HitPoints()}}</div>
-                                <strong>Max HP</strong>
-                                <div class="value">{{shield.get_MaxHP()}}</div>
-                                <strong>BT</strong>
-                                <div class="value">{{shield.get_BrokenThreshold()}}</div>
-                            </div>
-                            <div class="list-item newrow">
-                                <ng-template #DamageSliderTemplate>
-                                    <div class="slider-container" [style.--name]="'\'Damage\''" style="width:30rem;">
-                                        <input class="slider" type="range" min="0" max="{{shield.get_MaxHP()}}"
-                                            [(ngModel)]="shieldDamage">
-                                    </div>
-                                </ng-template>
-                                <span>
-                                    <button [disabled]="shieldDamage == 0"
-                                        (click)="on_ShieldHPChange(shield, shieldDamage)">Damage</button>
-                                </span>
-                                <span class="hlist center-aligned">
-                                    <input [ngbPopover]="DamageSliderTemplate" #DamagePopover="ngbPopover"
-                                        triggers="manual" (focus)="DamagePopover.open()" class="number3" type="number"
-                                        [(ngModel)]="shieldDamage" maxLength="3" min="0" max="{{shield.get_MaxHP()}}">
-                                </span>
-                                <span class="right-aligned">
-                                    <button [disabled]="shieldDamage == 0"
-                                        (click)="on_ShieldHPChange(shield, -shieldDamage)">Repair</button>
-                                </span>
-                            </div>
-                            <div class="fullsize-only lower newrow left-aligned"
-                                *ngFor="let talisman of shield.talismans; let index = index; trackBy:trackByIndex;">
-                                <button [ngbTooltip]="get_TalismanTitle(talisman)"
-                                    (click)="on_TalismanUse(shield, talisman, index)">
-                                    <span>Activate {{talisman.name}}
+                    <div class="vlist list-item">
+                        <div class="newrow left-aligned">{{shield.get_Name()}} AC <span class="value">{{shield.get_ACBonus()}}</span>
+                            Hardness: <span class="value">{{shield.get_Hardness()}}</span>
+                        </div>
+                        <div class="fullsize-only newrow left-aligned" *ngIf="shield.traits.length">
+                            <cite class="trait" *ngFor="let trait of shield.traits; trackBy:trackByIndex;"
+                                [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+                        </div>
+                        <app-tags [creature]="creature" [objectName]="'Shield'" [showTraits]=true [showFeats]=true
+                            [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true>
+                        </app-tags>
+                        <div class="newrow">
+                            <button class="center-aligned" *ngIf="!shield.raised"
+                                (click)="raise_Shield(true, shield)">Raise shield</button>
+                            <button class="center-aligned fancy-button" *ngIf="shield.raised"
+                                (click)="raise_Shield(false, shield)">Lower
+                                shield</button>
+                            <button class="center-aligned"
+                                *ngIf="shield.raised && shield.coverbonus && !shield.takingCover"
+                                (click)="set_Cover(4, shield)">Take cover</button>
+                            <button class="center-aligned fancy-button"
+                                *ngIf="shield.raised && shield.coverbonus && shield.takingCover"
+                                (click)="set_Cover(0, shield)">End cover</button>
+                        </div>
+                        <div class="list-item newrow">
+                            <strong>HP</strong>
+                            <div class="value">{{shield.get_HitPoints()}}</div>
+                            <strong>Max HP</strong>
+                            <div class="value">{{shield.get_MaxHP()}}</div>
+                            <strong>BT</strong>
+                            <div class="value">{{shield.get_BrokenThreshold()}}</div>
+                        </div>
+                        <div class="list-item newrow">
+                            <ng-template #DamageSliderTemplate>
+                                <div class="slider-container" [style.--name]="'\'Damage\''" style="width:30rem;">
+                                    <input class="slider" type="range" min="0" max="{{shield.get_MaxHP()}}"
+                                        [(ngModel)]="shieldDamage">
+                                </div>
+                            </ng-template>
+                            <span>
+                                <button [disabled]="shieldDamage == 0"
+                                    (click)="on_ShieldHPChange(shield, shieldDamage)">Damage</button>
+                            </span>
+                            <span class="hlist center-aligned">
+                                <input [ngbPopover]="DamageSliderTemplate" #DamagePopover="ngbPopover" triggers="manual"
+                                    (focus)="DamagePopover.open()" class="number3" type="number"
+                                    [(ngModel)]="shieldDamage" maxLength="3" min="0" max="{{shield.get_MaxHP()}}">
+                            </span>
+                            <span class="right-aligned">
+                                <button [disabled]="shieldDamage == 0"
+                                    (click)="on_ShieldHPChange(shield, -shieldDamage)">Repair</button>
+                            </span>
+                        </div>
+                        <div class="fullsize-only lower newrow left-aligned"
+                            *ngFor="let talisman of shield.talismans; let index = index; trackBy:trackByIndex;">
+                            <ng-template #TalismanTemplate>
+                                <div class="list-item left-aligned lower"
+                                    *ngFor="let cord of shield.talismanCords; trackBy:trackByIndex;">
+                                    <header class="spellHeader">{{cord.name}}</header>
+                                    <p>When you activate a talisman threaded through a cord with the same magic
+                                        school trait that's also the cord's level or lower, attempt a <app-quickdice
+                                            [diceString]="'1d20'"> </app-quickdice> DC 16 flat check. On a success,
+                                        that talisman is not consumed and can be used again.
+                                    </p>
+                                    <ng-container *ngFor="let talismanCordIndex of [0, 1, 2]; trackBy:trackByIndex;">
+                                        <div class="newrow"
+                                            *ngIf="cord.isTalismanCord > talismanCordIndex && cord.data[talismanCordIndex]">
+                                            <strong>{{cord.data[talismanCordIndex].name}}</strong>
+                                            {{cord.data[talismanCordIndex].value}}
+                                        </div>
+                                    </ng-container>
+                                </div>
+                                <header class="spellHeader">{{talisman.name}}</header>
+                                <button class="newrow left-aligned" (click)="on_TalismanUse(shield, talisman, index)">
+                                    <span>
+                                        Activate
                                         <app-actionIcons *ngIf="talisman.actions" [actionString]="talisman.actions">
                                         </app-actionIcons>
                                         {{(talisman.activationType) ? talisman.activationType : ""}}
                                     </span>
                                 </button>
-                            </div>
+                                <button class="newrow left-aligned"
+                                    (click)="on_TalismanUse(shield, talisman, index, true)"
+                                    *ngIf="get_HaveMatchingTalismanCord(shield, talisman)">
+                                    <span>
+                                        Activate and preserve with talisman cord
+                                        <app-actionIcons *ngIf="talisman.actions" [actionString]="talisman.actions">
+                                        </app-actionIcons>
+                                        {{(talisman.activationType) ? talisman.activationType : ""}}
+                                    </span>
+                                </button>
+                                <app-item [creature]="creature" [item]=talisman [allowActivate]=true [isSubItem]=true>
+                                </app-item>
+                            </ng-template>
+                            <button [ngbPopover]="TalismanTemplate" triggers="click">
+                                <span>
+                                    {{talisman.name}}
+                                    {{get_HaveMatchingTalismanCord(shield, talisman) ? "(matching talisman cord
+                                    attached)" : ""}}
+                                </span>
+                            </button>
                         </div>
                     </div>
                 </ng-container>

@@ -207,10 +207,16 @@ export class DefenseComponent implements OnInit {
         return (talisman.trigger ? "Trigger: " + talisman.trigger + "\n\n" : "") + talisman.desc;
     }
 
-    on_TalismanUse(item: Armor | Shield, talisman: Talisman, index: number) {
+    get_HaveMatchingTalismanCord(item: Armor | Shield, talisman: Talisman) {
+        return item.talismanCords.some(cord => cord.level <= talisman.level && cord.data.some(data => talisman.traits.includes(data.value)));
+    }
+
+    on_TalismanUse(item: Armor | Shield, talisman: Talisman, index: number, preserve: boolean = false) {
         this.characterService.set_ToChange(this.creature, "defense");
-        this.characterService.on_ConsumableUse(this.get_Creature() as Character | AnimalCompanion, talisman);
-        item.talismans.splice(index, 1)
+        this.characterService.on_ConsumableUse(this.get_Creature() as Character | AnimalCompanion, talisman, preserve);
+        if (!preserve) {
+            item.talismans.splice(index, 1)
+        }
         this.characterService.process_ToChange();
     }
 

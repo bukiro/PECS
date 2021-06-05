@@ -163,40 +163,50 @@ export class SpellbookComponent implements OnInit {
 
     get_SpellCastings() {
         let character = this.get_Character();
-        return character.class.spellCasting.filter(casting => casting.charLevelAvailable && casting.charLevelAvailable <= character.level)
-            .sort(function (a, b) {
-                if (a.tradition > b.tradition) {
-                    return 1;
-                }
-                if (a.tradition < b.tradition) {
-                    return -1;
-                }
-                return 0;
-            }).sort(function (a, b) {
-                if (a.className > b.className) {
-                    return 1;
-                }
-                if (a.className < b.className) {
-                    return -1;
-                }
-                return 0;
-            }).sort(function (a, b) {
-                if (a.castingType > b.castingType || (b.castingType == "Innate" ? a.castingType != "Innate" : false)) {
-                    return 1;
-                }
-                if (a.castingType < b.castingType || (a.castingType == "Innate" ? b.castingType != "Innate" : false)) {
-                    return -1;
-                }
-                return 0;
-            })
+        //Return all spellcastings that have spells available, and the Innate spellcasting if any items grant you innate spells.
+        return character.class.spellCasting.filter(casting =>
+            (
+                casting.charLevelAvailable && casting.charLevelAvailable <= character.level
+            ) || (
+                casting.castingType == "Innate" && character.get_EquipmentSpellsGranted(this.characterService, -1, "", "", "", undefined, true).length
+            )
+        ).sort(function (a, b) {
+            if (a.tradition > b.tradition) {
+                return 1;
+            }
+            if (a.tradition < b.tradition) {
+                return -1;
+            }
+            return 0;
+        }).sort(function (a, b) {
+            if (a.className > b.className) {
+                return 1;
+            }
+            if (a.className < b.className) {
+                return -1;
+            }
+            return 0;
+        }).sort(function (a, b) {
+            if (a.castingType > b.castingType || (b.castingType == "Innate" ? a.castingType != "Innate" : false)) {
+                return 1;
+            }
+            if (a.castingType < b.castingType || (a.castingType == "Innate" ? b.castingType != "Innate" : false)) {
+                return -1;
+            }
+            return 0;
+        })
     }
 
     get_MaxSpellLevel(casting: SpellCasting) {
         //Get the available spell level of this casting. This is the highest spell level of the spell choices that are available at your character level.
         //Focus spells are heightened to half your level rounded up.
         //Dynamic spell levels need to be evaluated.
+        //Innate spellcasting needs to consider spells granted by items.
         if (casting.castingType == "Focus") {
             return this.get_Character().get_SpellLevel();
+        }
+        if (casting.castingType == "Innate") {
+            return Math.max(...this.get_Character().get_EquipmentSpellsGranted(this.characterService, -1, "", "", "", undefined, true).map(spellChoice => spellChoice.choice.dynamicLevel ? this.get_DynamicLevel(casting, spellChoice.choice) : spellChoice.choice.level), ...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= this.get_Character().level).map(spellChoice => spellChoice.dynamicLevel ? this.get_DynamicLevel(casting, spellChoice) : spellChoice.level), 0);
         }
         return Math.max(...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= this.get_Character().level).map(spellChoice => spellChoice.dynamicLevel ? this.get_DynamicLevel(casting, spellChoice) : spellChoice.level), 0);
     }

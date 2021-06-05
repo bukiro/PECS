@@ -154,13 +154,49 @@
                 </div>
                 <div class="fullsize-only lower newrow left-aligned"
                     *ngFor="let talisman of weapon.talismans; let index = index; trackBy:trackByIndex;">
-                    <button [ngbTooltip]="get_TalismanTitle(talisman)"
-                        (click)="on_TalismanUse(weapon, talisman, index)">
+                    <ng-template #TalismanTemplate>
+                        <div class="list-item left-aligned lower"
+                            *ngFor="let cord of weapon.talismanCords; trackBy:trackByIndex;">
+                            <header class="spellHeader">{{cord.name}}</header>
+                            <p>When you activate a talisman threaded through a cord with the same magic school trait
+                                that's also the cord's level or lower, attempt a <app-quickdice [diceString]="'1d20'">
+                                </app-quickdice> DC 16 flat check. On a success, that talisman is not consumed and can
+                                be used again.
+                            </p>
+                            <ng-container *ngFor="let talismanCordIndex of [0, 1, 2]; trackBy:trackByIndex;">
+                                <div class="newrow"
+                                    *ngIf="cord.isTalismanCord > talismanCordIndex && cord.data[talismanCordIndex]">
+                                    <strong>{{cord.data[talismanCordIndex].name}}</strong>
+                                    {{cord.data[talismanCordIndex].value}}
+                                </div>
+                            </ng-container>
+                        </div>
+                        <header class="spellHeader">{{talisman.name}}</header>
+                        <button class="newrow left-aligned" (click)="on_TalismanUse(weapon, talisman, index)">
+                            <span>
+                                Activate
+                                <app-actionIcons *ngIf="talisman.actions" [actionString]="talisman.actions">
+                                </app-actionIcons>
+                                {{(talisman.activationType) ? talisman.activationType : ""}}
+                            </span>
+                        </button>
+                        <button class="newrow left-aligned" (click)="on_TalismanUse(weapon, talisman, index, true)"
+                            *ngIf="get_HaveMatchingTalismanCord(weapon, talisman)">
+                            <span>
+                                Activate and preserve with talisman cord
+                                <app-actionIcons *ngIf="talisman.actions" [actionString]="talisman.actions">
+                                </app-actionIcons>
+                                {{(talisman.activationType) ? talisman.activationType : ""}}
+                            </span>
+                        </button>
+                        <app-item [creature]="creature" [item]=talisman [allowActivate]=true [isSubItem]=true>
+                        </app-item>
+                    </ng-template>
+                    <button [ngbPopover]="TalismanTemplate" triggers="click">
                         <span>
-                            Activate {{talisman.name}}
-                            <app-actionIcons *ngIf="talisman.actions" [actionString]="talisman.actions">
-                            </app-actionIcons>
-                            {{(talisman.activationType) ? talisman.activationType : ""}}
+                            {{talisman.name}}
+                            {{get_HaveMatchingTalismanCord(weapon, talisman) ? "(matching talisman cord attached)" :
+                            ""}}
                         </span>
                     </button>
                 </div>
@@ -300,8 +336,8 @@
                     </ng-container>
                     <ng-container *ngIf="get_InventoryTileMode()">
                         <button [ngbPopover]="SnareTemplate" triggers="click" (click)="toggle_Item()">
-                            <app-gridIcon [updateId]="snare.item.id"
-                                [ngbTooltip]="SnareTitleTemplate" [title]="snare.item.displayName || snare.item.name"
+                            <app-gridIcon [updateId]="snare.item.id" [ngbTooltip]="SnareTitleTemplate"
+                                [title]="snare.item.displayName || snare.item.name"
                                 [detail]="'noparse|' + (snare.item.traits.includes('Rare') ? 'R' : (snare.item.traits.includes('Uncommon') ? 'U' : (snare.item.traits.includes('Unique') ? 'Q' : ''))) + (snare.item.level ? snare.item.level.toString() : '')"
                                 [item]="snare.item">
                             </app-gridIcon>

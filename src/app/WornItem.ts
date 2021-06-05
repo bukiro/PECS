@@ -4,13 +4,13 @@ import { ItemsService } from './items.service';
 
 export class WornItem extends Equipment {
     public readonly _className: string = this.constructor.name;
-    //Allow changing of "equippable" by custom item creation
+    //Allow changing of "equippable" by custom item creation.
     readonly allowEquippable = false;
-    //Worn Items cannot be equipped or unequipped, but can be invested
+    //Worn Items cannot be equipped or unequipped, but can be invested.
     readonly equippable = false;
-    //Worn Items should be type "wornitems" to be found in the database
+    //Worn Items should be type "wornitems" to be found in the database.
     readonly type = "wornitems";
-    //List any Aeon Stones equipped in this item (only for Wayfinders)
+    //List any Aeon Stones equipped in this item (only for Wayfinders).
     public aeonStones: WornItem[] = [];
     //Does this item use the Doubling Rings functionality, and on which level?
     public isDoublingRings: ""|"Doubling Rings"|"Doubling Rings (Greater)" = "";
@@ -22,6 +22,10 @@ export class WornItem extends Equipment {
     public isWayfinder: number = 0;
     //Is this an Aeon Stone and can be stored in a Wayfinder?
     public isAeonStone: boolean = false;
+    //Is this Aeon Stone slotted in a Wayfinder?
+    public isSlottedAeonStone: boolean = false;
+    //Is this a Talisman Cord and can be affixed to weapons, shields or armor, and how many schools is it attuned to?
+    public isTalismanCord: number = 0;
     //How is this item worn? Example: "worn belt"
     public usage: string = "";
     //A Dwarf with the Battleforger feat can sharpen a weapon to grant the effect of a +1 potency rune. This applies to Handwraps of Mighty Blows only.

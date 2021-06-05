@@ -1,4 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
 import { CharacterSheetComponent } from './character-sheet/character-sheet.component';
 
@@ -8,6 +10,8 @@ const routes: Routes = [
 
 @NgModule({
    imports: [
+      CommonModule,
+      BrowserModule,
       RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
    ],
    exports: [

@@ -302,7 +302,8 @@
                         "locked": true,
                         "name": "Detect Magic"
                     }
-                ]
+                ],
+                "tradition": "Arcane"
             }
         ]
     },
@@ -35108,7 +35109,8 @@
                         "locked": true,
                         "name": "Acid Splash"
                     }
-                ]
+                ],
+                "tradition": "Primal"
             }
         ]
     },
@@ -35141,7 +35143,8 @@
                         "locked": true,
                         "name": "Acid Splash"
                     }
-                ]
+                ],
+                "tradition": "Primal"
             }
         ]
     },
@@ -35174,7 +35177,8 @@
                         "locked": true,
                         "name": "Acid Splash"
                     }
-                ]
+                ],
+                "tradition": "Primal"
             }
         ]
     },
@@ -35207,7 +35211,8 @@
                         "locked": true,
                         "name": "Acid Splash"
                     }
-                ]
+                ],
+                "tradition": "Primal"
             }
         ]
     },
