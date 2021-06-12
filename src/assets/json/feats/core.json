@@ -1316,7 +1316,7 @@
     },
     {
         "name": "Battle Prayer: Chaos",
-        "desc": "Calling out to your deity, you recite scripture to harm a foe.",
+        "desc": "Calling out to your deity, you recite scripture to harm a foe. This action has the chaotic trait and deals Chaotic damage.",
         "hints": [
             {
                 "desc": "Battle Prayer deals Chaotic damage.",
@@ -1347,7 +1347,7 @@
     },
     {
         "name": "Battle Prayer: Evil",
-        "desc": "Calling out to your deity, you recite scripture to harm a foe.",
+        "desc": "Calling out to your deity, you recite scripture to harm a foe. This action has the evil trait and deals Evil damage.",
         "hints": [
             {
                 "desc": "Battle Prayer deals Evil damage.",
@@ -1378,7 +1378,7 @@
     },
     {
         "name": "Battle Prayer: Good",
-        "desc": "Calling out to your deity, you recite scripture to harm a foe.",
+        "desc": "Calling out to your deity, you recite scripture to harm a foe. This action has the good trait and deals Good damage.",
         "hints": [
             {
                 "desc": "Battle Prayer deals Good damage.",
@@ -1409,7 +1409,7 @@
     },
     {
         "name": "Battle Prayer: Law",
-        "desc": "Calling out to your deity, you recite scripture to harm a foe.",
+        "desc": "Calling out to your deity, you recite scripture to harm a foe. This action has the lawful trait and deals Lawful damage.",
         "hints": [
             {
                 "desc": "Battle Prayer deals Lawful damage.",

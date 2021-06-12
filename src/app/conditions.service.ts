@@ -594,7 +594,7 @@ export class ConditionsService {
                     choice.name = "";
                 }
                 //If a choice name has turned into a number, turn it back into a string.
-                if (!isNaN(Number(choice.name))) {
+                if (choice.name != "" && !isNaN(Number(choice.name))) {
                     choice.name = parseInt(choice.name).toString();
                 }
             })

@@ -23413,7 +23413,14 @@
             {
                 "duration": 1000,
                 "name": "Zone of Truth (Caster)",
-                "source": "Zone of Truth"
+                "source": "Zone of Truth",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 1000,
+                "name": "Zone of Truth",
+                "source": "Zone of Truth",
+                "targetFilter": "target"
             }
         ]
     },

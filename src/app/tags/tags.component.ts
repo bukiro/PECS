@@ -33,8 +33,10 @@ export class TagsComponent implements OnInit {
     @Input()
     specialNames: string[] = [];
     @Input()
-    specialEffects: Effect[] = []
-
+    specialEffects: Effect[] = [];
+    @Input()
+    parentHints: string[] = [];
+    
     public parseInt = parseInt;
 
     constructor(

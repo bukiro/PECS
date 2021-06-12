@@ -26746,6 +26746,7 @@
         "type": "spells",
         "minLevel": 3,
         "buff": true,
+        "alwaysApplyCasterCondition": true,
         "defaultDurations": [
             {
                 "duration": 1000

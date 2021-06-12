@@ -12,13 +12,16 @@
         </ng-container>
         <div class="list-item" *ngIf="get_HintsShowMore() && get_ObjectType()">
             <header class="spellHeader" *ngIf="object.name">{{object.name}}</header>
-            <app-feat *ngIf="get_ObjectType()=='Feat'" [feat]="object"></app-feat>
+            <app-feat *ngIf="get_ObjectType()=='Feat'" [feat]="object" [parentHints]="parentHints.concat(objectName)">
+            </app-feat>
             <app-condition *ngIf="get_ObjectType()=='ConditionSet'" [condition]="object.condition"
-                [conditionGain]="object.gain">
+                [conditionGain]="object.gain" [parentHints]="parentHints.concat(objectName)">
             </app-condition>
-            <app-activity *ngIf="get_ObjectType()=='Activity'" [allowActivate]="false" [activity]="object">
+            <app-activity *ngIf="get_ObjectType()=='Activity'" [allowActivate]="false" [activity]="object"
+                [parentHints]="parentHints.concat(objectName)">
             </app-activity>
-            <app-item *ngIf="get_ObjectType()=='Item'" [allowActivate]="false" [item]="object"></app-item>
+            <app-item *ngIf="get_ObjectType()=='Item'" [allowActivate]="false" [item]="object"
+                [parentHints]="parentHints.concat(objectName)"></app-item>
             <div class="newrow left-aligned" *ngIf="get_ObjectType()=='DescOnly'">
                 <app-description class="newrow" [text]="object.desc"></app-description>
             </div>

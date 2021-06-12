@@ -35,6 +35,8 @@ export class Condition {
     public gainItems: ItemGain[] = [];
     public overrideConditions: string[] = [];
     public endConditions: string[] = [];
+    //If alwaysApplyCasterCondition is true and this is a caster condition, it is applied even when it is informational and the caster is already getting the target condition.
+    public alwaysApplyCasterCondition: boolean = false;
     //Remove this condition if any of the endsWithConditions is removed.
     public endsWithConditions: string[] = [];
     public attackRestrictions: AttackRestriction[] = [];

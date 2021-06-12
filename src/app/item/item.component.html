@@ -8,7 +8,7 @@
 
 <div class="newrow left-aligned tags">
     <app-tags [creature]="creature" [objectName]="item.name" [showTraits]=true [showFeats]=true [showItems]=true
-        [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+        [showActivities]=true [showConditions]=true [showEffects]=true [parentHints]="parentHints"></app-tags>
 </div>
 <div class="newrow left-aligned" *ngIf="item.sourceBook">
     <span>
@@ -111,7 +111,7 @@
     </span>
 </div>
 <!--Activation text for activated standalone items, such as wands (identified by not having a trigger or requirements)-->
-<div class="newrow left-aligned"
+<div class="newrow gap-text left-aligned"
     *ngIf="(item.activationType || (item.actions && item.actions != ' ')) && (!item.trigger && !item.requirements)">
     <strong>Activate</strong>
     <app-actionIcons *ngIf="item.actions" [actionString]="item.actions">
@@ -172,7 +172,8 @@
         </ng-container>
     </p>
     <!--Activation text for talismans (identified by having a trigger or requirements, but no effect)-->
-    <div class="newrow left-aligned" *ngIf="(item.activationType || (item.actions && item.actions != ' ')) && (item.trigger || item.requirements)">
+    <div class="newrow left-aligned"
+        *ngIf="(item.activationType || (item.actions && item.actions != ' ')) && (item.trigger || item.requirements)">
         <strong>Activate</strong>
         <app-actionIcons *ngIf="item.actions" [actionString]="item.actions">
         </app-actionIcons>
@@ -273,7 +274,8 @@
         {{(activity.activationType) ? activity.activationType : ""}}
     </header>
     <app-activity [creature]="creature" [activity]=activity [gain]=activity
-        [allowActivate]="allowActivate && !item.broken && (activity.resonant ? isSubItem : true)" [isSubItem]=isSubItem>
+        [allowActivate]="allowActivate && !item.broken && (activity.resonant ? isSubItem : true)" [isSubItem]=isSubItem
+        [parentHints]="parentHints">
     </app-activity>
 </div>
 <ng-container *ngFor="let gain of item.gainActivities; trackBy:trackByIndex;">
@@ -285,7 +287,7 @@
             {{(activity.activationType) ? activity.activationType : ""}}
         </header>
         <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]=allowActivate
-            [isSubItem]=isSubItem></app-activity>
+            [isSubItem]=isSubItem [parentHints]="parentHints"></app-activity>
     </div>
 </ng-container>
 <ng-container *ngFor="let activityName of item.showActivities; trackBy:trackByIndex;">
@@ -296,7 +298,8 @@
             </app-actionIcons>
             {{(activity.activationType) ? activity.activationType : ""}}
         </header>
-        <app-activity [creature]="creature" [activity]=activity [gain]=null [allowActivate]=false [isSubItem]=isSubItem>
+        <app-activity [creature]="creature" [activity]=activity [gain]=null [allowActivate]=false [isSubItem]=isSubItem
+            [parentHints]="parentHints">
         </app-activity>
     </div>
 </ng-container>

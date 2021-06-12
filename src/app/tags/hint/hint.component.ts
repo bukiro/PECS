@@ -22,6 +22,8 @@ export class HintComponent implements OnInit {
     objectName: string = "";
     @Input()
     description: string = "";
+    @Input()
+    parentHints: string[] = [];
 
     constructor(
         private characterService: CharacterService

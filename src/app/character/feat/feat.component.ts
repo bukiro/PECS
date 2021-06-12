@@ -14,13 +14,15 @@ import { TraitsService } from 'src/app/traits.service';
 export class FeatComponent implements OnInit {
 
     @Input()
-    feat: Feat
+    feat: Feat;
     @Input()
-    choice: FeatChoice
+    choice: FeatChoice;
     @Input()
-    levelNumber: number
+    levelNumber: number;
     @Input()
-    featLevel: number
+    featLevel: number;
+    @Input()
+    parentHints: string[] = [];
 
     constructor(
         public characterService: CharacterService,

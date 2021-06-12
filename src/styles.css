@@ -432,7 +432,7 @@ button.specialchoice:not(.fancy-button),
 .slider-container {
     background-color: white;
     position: relative;
-    height: 1.9em;
+    height: 1.8em;
     border-radius: .15rem;
     border: 1px solid #BDBDBD;
 }
@@ -447,7 +447,7 @@ button.specialchoice:not(.fancy-button),
     width: 100%;
     font-weight: bold;
     font-size: 1em;
-    line-height: 1.4rem;
+    line-height: 1.8rem;
     text-align: center;
     z-index: 0
 }
@@ -467,6 +467,10 @@ button.specialchoice:not(.fancy-button),
 
 .slider:hover {
     opacity: .8;
+}
+
+.slider-container > .slider {
+    height: 100%;
 }
 
 /* -webkit-slider-thumb and -moz-range-thumb need separate definitions */
@@ -1936,6 +1940,16 @@ SPECIFIC STYLE MODIFIERS
 
 .fullwidth {
     width: 100%;
+}
+
+    /* gap-text works as a running, wrapping text with a gap between the elements */
+
+.gap-text {
+    display: inline;
+}
+
+.gap-text > *:not(:last-child) {
+    margin-right: .3rem;
 }
 
 .vlist {

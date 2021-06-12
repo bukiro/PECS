@@ -1,64 +1,73 @@
 <div class="fullsize-only newrow left-aligned">
     <ng-container *ngFor="let trait of get_TraitsForThis(objectName); trackBy:trackByIndex;">
-        <app-hint [creature]="creature" [ngClass]="'trait'" [object]="trait" [objectName]="objectName"
+        <app-hint *ngIf="!parentHints.includes(objectName)" [creature]="creature" [ngClass]="'trait'" [object]="trait"
+            [objectName]="objectName"
             [description]="trait.name +' ('+ trait.haveOn(get_Creature(), this.characterService, true) + ')'">
         </app-hint>
     </ng-container>
     <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
         <ng-container *ngFor="let trait of get_TraitsForThis(specialName); trackBy:trackByIndex;">
-            <app-hint [creature]="creature" [ngClass]="'trait'" [object]="trait" [objectName]="specialName"
+            <app-hint *ngIf="!parentHints.includes(specialName)" [creature]="creature" [ngClass]="'trait'"
+                [object]="trait" [objectName]="specialName"
                 [description]="trait.name +' ('+ trait.haveOn(get_Creature(), this.characterService, true) + ')'">
             </app-hint>
         </ng-container>
     </ng-container>
     <ng-container *ngFor="let feat of get_FeatsShowingOn(objectName, showFeats); trackBy:trackByIndex;">
-        <app-hint [creature]="creature" [ngClass]="'feat'" [object]="feat" [objectName]="objectName"
-            [description]="feat.name"></app-hint>
+        <app-hint *ngIf="!parentHints.includes(objectName)" [creature]="creature" [ngClass]="'feat'" [object]="feat"
+            [objectName]="objectName" [description]="feat.name" [parentHints]="parentHints"></app-hint>
     </ng-container>
     <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
         <ng-container *ngFor="let feat of get_FeatsShowingOn(specialName, true); trackBy:trackByIndex;">
-            <app-hint [creature]="creature" [ngClass]="'feat'" [object]="feat" [objectName]="specialName"
-                [description]="feat.name"></app-hint>
+            <app-hint *ngIf="!parentHints.includes(specialName)" [creature]="creature" [ngClass]="'feat'"
+                [object]="feat" [objectName]="specialName" [description]="feat.name" [parentHints]="parentHints">
+            </app-hint>
         </ng-container>
     </ng-container>
     <ng-container *ngFor="let item of get_ItemsShowingOn(objectName); trackBy:trackByIndex;">
-        <app-hint [creature]="creature" [ngClass]="'item'" [object]="item" [objectName]="objectName"
-            [description]="item.name"></app-hint>
+        <app-hint *ngIf="!parentHints.includes(objectName)" [creature]="creature" [ngClass]="'item'" [object]="item"
+            [objectName]="objectName" [description]="item.name" [parentHints]="parentHints"></app-hint>
     </ng-container>
     <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
         <ng-container *ngFor="let item of get_ItemsShowingOn(specialName); trackBy:trackByIndex;">
-            <app-hint [creature]="creature" [ngClass]="'item'" [object]="item" [objectName]="specialName"
-                [description]="item.name"></app-hint>
+            <app-hint *ngIf="!parentHints.includes(specialName)" [creature]="creature" [ngClass]="'item'"
+                [object]="item" [objectName]="specialName" [description]="item.name" [parentHints]="parentHints">
+            </app-hint>
         </ng-container>
     </ng-container>
     <ng-container *ngFor="let spec of get_SpecializationsShowingOn(objectName); trackBy:trackByIndex;">
-        <app-hint [creature]="creature" [ngClass]="'item'" [object]="spec" [objectName]="objectName"
-            [description]="spec.name"></app-hint>
+        <app-hint *ngIf="!parentHints.includes(objectName)" t [creature]="creature" [ngClass]="'item'" [object]="spec"
+            [objectName]="objectName" [description]="spec.name" [parentHints]="parentHints"></app-hint>
     </ng-container>
     <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
         <ng-container *ngFor="let spec of get_SpecializationsShowingOn(specialName); trackBy:trackByIndex;">
-            <app-hint [creature]="creature" [ngClass]="'item'" [object]="spec" [objectName]="specialName"
-                [description]="spec.name"></app-hint>
+            <app-hint *ngIf="!parentHints.includes(specialName)" [creature]="creature" [ngClass]="'item'"
+                [object]="spec" [objectName]="specialName" [description]="spec.name" [parentHints]="parentHints">
+            </app-hint>
         </ng-container>
     </ng-container>
     <ng-container *ngFor="let activity of get_ActivitiesShowingOn(objectName); trackBy:trackByIndex;">
-        <app-hint [creature]="creature" [ngClass]="'activity'" [object]="activity" [objectName]="objectName"
-            [description]="activity.name"></app-hint>
+        <app-hint *ngIf="!parentHints.includes(objectName)" [creature]="creature" [ngClass]="'activity'"
+            [object]="activity" [objectName]="objectName" [description]="activity.name" [parentHints]="parentHints">
+        </app-hint>
     </ng-container>
     <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
         <ng-container *ngFor="let activity of get_ActivitiesShowingOn(specialName); trackBy:trackByIndex;">
-            <app-hint [creature]="creature" [ngClass]="'activity'" [object]="activity" [objectName]="specialName"
-                [description]="activity.name"></app-hint>
+            <app-hint *ngIf="!parentHints.includes(specialName)" [creature]="creature" [ngClass]="'activity'"
+                [object]="activity" [objectName]="specialName" [description]="activity.name"
+                [parentHints]="parentHints"></app-hint>
         </ng-container>
     </ng-container>
     <ng-container *ngFor="let conditionSet of get_ConditionsShowingOn(objectName); trackBy:trackByIndex;">
-        <app-hint [creature]="creature" [ngClass]="'condition'" [object]="conditionSet" [objectName]="objectName"
-            [description]="conditionSet.condition.name"></app-hint>
+        <app-hint *ngIf="!parentHints.includes(objectName)" [creature]="creature" [ngClass]="'condition'"
+            [object]="conditionSet" [objectName]="objectName" [description]="conditionSet.condition.name"
+            [parentHints]="parentHints"></app-hint>
     </ng-container>
     <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
         <ng-container *ngFor="let conditionSet of get_ConditionsShowingOn(specialName); trackBy:trackByIndex;">
-            <app-hint [creature]="creature" [ngClass]="'condition'" [object]="conditionSet" [objectName]="specialName"
-                [description]="conditionSet.condition.name"></app-hint>
+            <app-hint *ngIf="!parentHints.includes(specialName)" [creature]="creature" [ngClass]="'condition'"
+                [object]="conditionSet" [objectName]="specialName" [description]="conditionSet.condition.name"
+                [parentHints]="parentHints"></app-hint>
         </ng-container>
     </ng-container>
     <ng-template #effectTemplate let-effect="effect">
@@ -80,10 +89,12 @@
             </span>
         </div>
         <div class="newrow">
-            <span><strong>Source&nbsp;</strong>{{effect.source.includes('conditional, ') ? effect.source.substr(13) : effect.source}}</span>
+            <span><strong>Source&nbsp;</strong>{{effect.source.includes('conditional, ') ? effect.source.substr(13) :
+                effect.source}}</span>
         </div>
         <div class="newrow" *ngIf="effect.source.includes('conditional, ')">
-            <span><strong>Conditional&nbsp;</strong>This effect only applies for certain actions or under specific circumstances.</span>
+            <span><strong>Conditional&nbsp;</strong>This effect only applies for certain actions or under specific
+                circumstances.</span>
         </div>
     </ng-template>
     <ng-container *ngFor="let effect of get_EffectsOnThis(objectName); trackBy:trackByIndex;">

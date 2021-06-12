@@ -16,12 +16,11 @@
         </div>
         <ng-container *ngFor="let reqs of [get_FeatRequirements(choice, feat)]; trackBy:trackByIndex;">
             <p *ngIf="reqs.length">
-                <strong>Requirements</strong>
+                <strong>Requirements&nbsp;</strong>
                 <span [ngClass]="{'problem':(!req.met), 'disabled':(req.ignored)}"
                     [ngbPopover]="req.ignored ? 'This requirement is ignored.' : ''"
-                    *ngFor="let req of reqs; trackBy:trackByIndex;">
-                    {{req.ignored ? "(" : ''}}{{req.desc}}{{req.ignored ? ")" : ''}}
-                </span>
+                    *ngFor="let req of reqs; trackBy:trackByIndex;">{{req.ignored ? "(" : ''}}{{req.desc}}{{req.ignored
+                    ? ")" : ''}}</span>
             </p>
         </ng-container>
         <ng-container *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
@@ -31,7 +30,7 @@
             <strong>Special</strong> {{feat.specialdesc}}
         </p>
         <p *ngIf="feat.usageNote.length">
-            <strong>Usage note</strong>&nbsp;
+            <strong>Usage note&nbsp;</strong>
             <span class="problem">{{feat.usageNote}}</span>
         </p>
     </div>
@@ -42,7 +41,7 @@
                 <app-actionIcons *ngIf="activity.actions" [actionString]="activity.actions"></app-actionIcons>
                 {{(activity.activationType) ? activity.activationType : ""}}
             </header>
-            <app-activity class="newrow" [activity]=activity [allowActivate]=false>
+            <app-activity class="newrow" [activity]=activity [allowActivate]=false [parentHints]="parentHints">
             </app-activity>
         </div>
     </ng-container>

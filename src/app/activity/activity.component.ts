@@ -35,6 +35,8 @@ export class ActivityComponent implements OnInit {
     allowActivate: boolean = false;
     @Input()
     isSubItem: boolean = false;
+    @Input()
+    parentHints: string[] = [];
 
     constructor(
         private changeDetector: ChangeDetectorRef,

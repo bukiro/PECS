@@ -255,19 +255,19 @@
                                 <app-description *ngIf="rune.name=='Grievous'" [text]="get_GrievousData(weapon, rune)"
                                     [oneLiner]="true">
                                 </app-description>
-                                <div class="newrow left-aligned" *ngIf="rune.critsuccess">
+                                <div class="newrow gap-text left-aligned" *ngIf="rune.critsuccess">
                                     <strong>Critical Success</strong>
                                     <app-description [text]="rune.critsuccess" [oneLiner]="true"></app-description>
                                 </div>
-                                <div class="newrow left-aligned" *ngIf="rune.success">
+                                <div class="newrow gap-text left-aligned" *ngIf="rune.success">
                                     <strong>Success</strong>
                                     <app-description [text]="rune.success" [oneLiner]="true"></app-description>
                                 </div>
-                                <div class="newrow left-aligned" *ngIf="rune.failure">
+                                <div class="newrow gap-text left-aligned" *ngIf="rune.failure">
                                     <strong>Failure</strong>
                                     <app-description [text]="rune.failure" [oneLiner]="true"></app-description>
                                 </div>
-                                <div class="newrow left-aligned" *ngIf="rune.critfailure">
+                                <div class="newrow gap-text left-aligned" *ngIf="rune.critfailure">
                                     <strong>Critical Failure</strong>
                                     <app-description [text]="rune.critfailure" [oneLiner]="true"></app-description>
                                 </div>

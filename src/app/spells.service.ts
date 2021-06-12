@@ -165,7 +165,7 @@ export class SpellsService {
                         }
                         //Under certain circumstances, don't grant caster conditions:
                         // - If there is a target condition, the caster is also a target, and the caster and the targets get the same condition.
-                        // - If there is a target condition, the caster is also a target, and the caster condition is purely informational.
+                        // - If there is a target condition, the caster is also a target, and the caster condition is purely informational. This can be overriden by setting alwaysApplyCasterCondition on the condition.
                         // - If the spell is hostile, hostile caster conditions are disabled, the caster condition is purely informational, and the spell allows targeting the caster (which is always the case for hostile spells because they don't have target conditions).
                         // - If the spell is friendly, friendly caster conditions are disabled, the caster condition is purely informational, and the spell allows targeting the caster (otherwise, it must be assumed that the caster condition is necessary).
                         if (
@@ -178,6 +178,7 @@ export class SpellsService {
                                         (
                                             sameCondition ||
                                             (
+                                                !condition.alwaysApplyCasterCondition &&
                                                 !condition.get_HasEffects() &&
                                                 !condition.get_IsChangeable()
                                             )

@@ -96,7 +96,8 @@
             <cite class="trait" *ngFor="let trait of get_ActivationTraits(activity); trackBy:trackByIndex;"
                 [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
             <app-tags [creature]="creature" [objectName]="activity.name" [showTraits]=true [showFeats]=true
-                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true
+                [parentHints]="parentHints"></app-tags>
         </div>
         <ng-container
             *ngFor="let conditionSet of get_ActivityConditions(); let conditionSetIndex = index; trackBy:trackByIndex">
@@ -167,35 +168,25 @@
                 *ngFor="let desc of get_HeightenedDescription().split('\n\n'); trackBy:trackByIndex;">
                 <app-description class="newrow" [text]="desc"></app-description>
             </div>
-            <div class="newrow left-aligned" *ngIf="activity.critsuccess">
-                <span>
-                    <strong>Critical Success</strong>
-                    <app-description [text]="activity.critsuccess" [oneLiner]="true"></app-description>
-                </span>
+            <div class="newrow gap-text left-aligned" *ngIf="activity.critsuccess">
+                <strong>Critical Success</strong>
+                <app-description [text]="activity.critsuccess" [oneLiner]="true"></app-description>
             </div>
-            <div class="newrow left-aligned" *ngIf="activity.success">
-                <span>
-                    <strong>Success</strong>
-                    <app-description [text]="activity.success" [oneLiner]="true"></app-description>
-                </span>
+            <div class="newrow gap-text left-aligned" *ngIf="activity.success">
+                <strong>Success</strong>
+                <app-description [text]="activity.success" [oneLiner]="true"></app-description>
             </div>
-            <div class="newrow left-aligned" *ngIf="activity.failure">
-                <span>
-                    <strong>Failure</strong>
-                    <app-description [text]="activity.failure" [oneLiner]="true"></app-description>
-                </span>
+            <div class="newrow gap-text left-aligned" *ngIf="activity.failure">
+                <strong>Failure</strong>
+                <app-description [text]="activity.failure" [oneLiner]="true"></app-description>
             </div>
-            <div class="newrow left-aligned" *ngIf="activity.critfailure">
-                <span>
-                    <strong>Critical Failure</strong>
-                    <app-description [text]="activity.critfailure" [oneLiner]="true"></app-description>
-                </span>
+            <div class="newrow gap-text left-aligned" *ngIf="activity.critfailure">
+                <strong>Critical Failure</strong>
+                <app-description [text]="activity.critfailure" [oneLiner]="true"></app-description>
             </div>
-            <div class="newrow left-aligned" *ngIf="activity.specialdesc">
-                <span>
-                    <strong>Special</strong>
-                    {{activity.specialdesc}}
-                </span>
+            <div class="newrow gap-text left-aligned" *ngIf="activity.specialdesc">
+                <strong>Special</strong>
+                {{activity.specialdesc}}
             </div>
             <div class="list-item left-aligned"
                 *ngFor="let shownActivityName of activity.showActivities; trackBy:trackByIndex;">
@@ -206,7 +197,8 @@
                         </app-actionIcons>
                         {{shownActivity.activationType.toString()}}
                     </header>
-                    <app-activity [activity]=shownActivity [allowActivate]="false"></app-activity>
+                    <app-activity [activity]=shownActivity [allowActivate]="false" [parentHints]="parentHints">
+                    </app-activity>
                 </div>
             </div>
             <div class="list-item newrow left-aligned"
@@ -280,7 +272,7 @@
                             {{(related_activity.activationType) ? related_activity.activationType : ""}}
                         </header>
                         <app-activity [creature]="creature" [activity]=related_activity [gain]=related_gain
-                            [allowActivate]=true></app-activity>
+                            [allowActivate]=true [parentHints]="parentHints"></app-activity>
                     </div>
                 </ng-container>
                 <ng-container *ngIf="gain.name == 'Fused Stance'">
@@ -295,7 +287,7 @@
                                 {{(related_activity.activationType) ? related_activity.activationType : ""}}
                             </header>
                             <app-activity [creature]="creature" [activity]=related_activity [gain]=gain
-                                [allowActivate]=false>
+                                [allowActivate]=false [parentHints]="parentHints">
                             </app-activity>
                         </div>
                     </ng-container>

@@ -41,6 +41,8 @@ export class ItemComponent implements OnInit {
     itemStore: boolean = false;
     @Input()
     isSubItem: boolean = false;
+    @Input()
+    parentHints: string[] = [];
 
     constructor(
         private changeDetector: ChangeDetectorRef,
