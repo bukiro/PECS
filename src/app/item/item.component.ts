@@ -1,25 +1,25 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { TraitsService } from '../traits.service';
-import { ActivitiesService } from '../activities.service';
-import { AdventuringGear } from '../AdventuringGear';
-import { CharacterService } from '../character.service';
-import { ItemsService } from '../items.service';
-import { Item } from '../Item';
-import { Character } from '../Character';
-import { AnimalCompanion } from '../AnimalCompanion';
-import { SpellsService } from '../spells.service';
-import { Talisman } from '../Talisman';
-import { SpellGain } from '../SpellGain';
-import { AlchemicalPoison } from '../AlchemicalPoison';
-import { Weapon } from '../Weapon';
-import { Spell } from '../Spell';
-import { ConditionGain } from '../ConditionGain';
-import { Condition } from '../Condition';
-import { ConditionsService } from '../conditions.service';
-import { Equipment } from '../Equipment';
-import { WornItem } from '../WornItem';
-import { Shield } from '../Shield';
-import { Armor } from '../Armor';
+import { TraitsService } from 'src/app/traits.service';
+import { ActivitiesService } from 'src/app/activities.service';
+import { AdventuringGear } from 'src/app/AdventuringGear';
+import { CharacterService } from 'src/app/character.service';
+import { ItemsService } from 'src/app/items.service';
+import { Item } from 'src/app/Item';
+import { Character } from 'src/app/Character';
+import { AnimalCompanion } from 'src/app/AnimalCompanion';
+import { SpellsService } from 'src/app/spells.service';
+import { Talisman } from 'src/app/Talisman';
+import { SpellGain } from 'src/app/SpellGain';
+import { AlchemicalPoison } from 'src/app/AlchemicalPoison';
+import { Weapon } from 'src/app/Weapon';
+import { Spell } from 'src/app/Spell';
+import { ConditionGain } from 'src/app/ConditionGain';
+import { Condition } from 'src/app/Condition';
+import { ConditionsService } from 'src/app/conditions.service';
+import { Equipment } from 'src/app/Equipment';
+import { WornItem } from 'src/app/WornItem';
+import { Shield } from 'src/app/Shield';
+import { Armor } from 'src/app/Armor';
 
 @Component({
     selector: 'app-item',
@@ -41,8 +41,6 @@ export class ItemComponent implements OnInit {
     itemStore: boolean = false;
     @Input()
     isSubItem: boolean = false;
-    @Input()
-    parentHints: string[] = [];
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -64,56 +62,6 @@ export class ItemComponent implements OnInit {
 
     get_Traits(name: string = "") {
         return this.traitsService.get_Traits(name);
-    }
-
-    get_FullPrice(item: Item) {
-        if (item instanceof Equipment) {
-            return item.get_Price(this.itemsService);
-        } else {
-            return item.price;
-        }
-    }
-
-    get_Price(item: Item) {
-        if (this.get_FullPrice(item)) {
-            if (item.price == 0) {
-                return "";
-            } else {
-                let price: number = this.get_FullPrice(item);
-                let priceString: string = "";
-                if (price >= 100) {
-                    priceString += Math.floor(price / 100) + "gp";
-                    price %= 100;
-                    if (price >= 10) { priceString += " "; }
-                }
-                if (price >= 10) {
-                    priceString += Math.floor(price / 10) + "sp";
-                    price %= 10;
-                    if (price >= 1) { priceString += " "; }
-                }
-                if (price >= 1) {
-                    priceString += price + "cp";
-                }
-                return priceString;
-            }
-        } else {
-            return ""
-        }
-    }
-
-    get_BulkDifference(item: Item) {
-        let bulk = +item.get_Bulk();
-        if (!isNaN(bulk) && !isNaN(+item.bulk)) {
-            return parseInt(item.get_Bulk()) - parseInt(item.bulk)
-        } else if (!isNaN(bulk) && isNaN(+item.bulk)) {
-            return 1
-        } else if (isNaN(bulk) && !isNaN(+item.bulk)) {
-            if (item.get_Bulk() == "L" && +item.bulk == 0) {
-                return 1;
-            } else {
-                return -1
-            }
-        }
     }
 
     get_Activities(name: string = "") {

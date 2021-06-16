@@ -1,16 +1,17 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Spell } from 'src/app/Spell';
-import { TraitsService } from 'src/app/traits.service';
 import { CharacterService } from 'src/app/character.service';
 import { SpellCasting } from 'src/app/SpellCasting';
+import { SpellsService } from 'src/app/spells.service';
+import { TraitsService } from 'src/app/traits.service';
 
 @Component({
-    selector: 'app-spell',
-    templateUrl: './spell.component.html',
-    styleUrls: ['./spell.component.css'],
+    selector: 'app-spellContent',
+    templateUrl: './spellContent.component.html',
+    styleUrls: ['./spellContent.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SpellComponent implements OnInit {
+export class SpellContentComponent implements OnInit {
 
     @Input()
     spell: Spell
@@ -22,7 +23,8 @@ export class SpellComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
-        private traitsService: TraitsService
+        private traitsService: TraitsService,
+        private spellsService: SpellsService
     ) { }
 
     trackByIndex(index: number, obj: any): any {
@@ -33,8 +35,18 @@ export class SpellComponent implements OnInit {
         return this.traitsService.get_Traits(name);
     }
 
-    get_FeatsShowingOn(spellName: string) {
-        return this.characterService.get_FeatsShowingOn(spellName);
+    get_Heightened(desc: string) {
+        let levelNumber = this.spellLevel;
+        if (!levelNumber || levelNumber == -1) {
+            levelNumber = this.characterService.get_Character().get_SpellLevel();
+        } else if (this.spell.levelreq && levelNumber < this.spell.levelreq) {
+            levelNumber = this.spell.levelreq;
+        }
+        return this.spell.get_Heightened(desc, levelNumber)
+    }
+
+    get_Spells(name: string) {
+        return this.spellsService.get_Spells(name);
     }
 
     finish_Loading() {

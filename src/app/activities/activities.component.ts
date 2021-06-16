@@ -1,11 +1,11 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input } from '@angular/core';
-import { CharacterService } from '../character.service';
-import { ActivitiesService } from '../activities.service';
-import { ActivityGain } from '../ActivityGain';
-import { Character } from '../Character';
-import { AnimalCompanion } from '../AnimalCompanion';
-import { FeatChoice } from '../FeatChoice';
-import { ItemActivity } from '../ItemActivity';
+import { CharacterService } from 'src/app/character.service';
+import { ActivitiesService } from 'src/app/activities.service';
+import { ActivityGain } from 'src/app/ActivityGain';
+import { Character } from 'src/app/Character';
+import { AnimalCompanion } from 'src/app/AnimalCompanion';
+import { FeatChoice } from 'src/app/FeatChoice';
+import { ItemActivity } from 'src/app/ItemActivity';
 
 @Component({
     selector: 'app-activities',

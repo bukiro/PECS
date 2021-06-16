@@ -21,8 +21,6 @@ export class FeatComponent implements OnInit {
     levelNumber: number;
     @Input()
     featLevel: number;
-    @Input()
-    parentHints: string[] = [];
 
     constructor(
         public characterService: CharacterService,

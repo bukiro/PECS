@@ -65,6 +65,18 @@ export class Activity {
     public _cooldown: number = 0;
     //Set displayOnly if the activity should not be used, but displayed for information, e.g. for ammunition
     public displayOnly: boolean = false;
+    get_ActivationTraits() {
+        switch (this.activationType) {
+            case "Command":
+                return ["Auditory", "Concentrate"];
+            case "Envision":
+                return ["Concentrate"];
+            case "Interact":
+                return ["Manipulate"];
+            default:
+                return [];
+        }
+    }
     can_Activate() {
         //Test any circumstance under which this can be activated
         let isStance: boolean = (this.traits.includes("Stance"))

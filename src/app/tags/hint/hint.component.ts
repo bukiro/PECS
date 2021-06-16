@@ -5,6 +5,7 @@ import { ConditionSet } from 'src/app/ConditionSet';
 import { Feat } from 'src/app/Feat';
 import { Hint } from 'src/app/Hint';
 import { Item } from 'src/app/Item';
+import { TraitsService } from 'src/app/traits.service';
 import { WornItem } from 'src/app/WornItem';
 
 @Component({
@@ -22,11 +23,10 @@ export class HintComponent implements OnInit {
     objectName: string = "";
     @Input()
     description: string = "";
-    @Input()
-    parentHints: string[] = [];
 
     constructor(
-        private characterService: CharacterService
+        private characterService: CharacterService,
+        private traitsService: TraitsService
     ) { }
 
     trackByIndex(index: number, obj: any): any {
@@ -107,6 +107,10 @@ export class HintComponent implements OnInit {
     on_ActivateEffect() {
         this.characterService.set_ToChange(this.creature, "effects");
         this.characterService.process_ToChange();
+    }
+
+    get_Traits(traitName: string = "") {
+        return this.traitsService.get_Traits(traitName);
     }
 
     get_ObjectType() {

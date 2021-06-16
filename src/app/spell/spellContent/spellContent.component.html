@@ -1,0 +1,109 @@
+<div class="list-item lower newrow problem" *ngIf="spell.inputRequired">
+    <strong>Player input required:</strong>
+    <div class="newrow left-aligned">
+        <p *ngFor="let inputRequired of spell.inputRequired.split('\n'); trackBy:trackByIndex;">
+            {{inputRequired}}
+        </p>
+    </div>
+</div>
+<div class="newrow left-aligned" *ngIf="spell.sourceBook">
+    <span>
+        <strong>Source</strong>
+        <i> {{spell.sourceBook}}</i>
+    </span>
+</div>
+<div class="newrow left-aligned" *ngIf="spell.PFSnote">
+    <span>
+        <strong>PFS Note</strong>
+        <i> {{spell.PFSnote}}</i>
+    </span>
+</div>
+<div class="newrow left-aligned" *ngIf="spell.traditions && !spell.traditions.includes('Focus')">
+    <span>
+        <strong>Traditions</strong>
+        {{spell.traditions.join(', ')}}
+    </span>
+</div>
+<div class="newrow left-aligned" *ngIf="spell.castType || spell.cost">
+    <ng-container *ngIf="spell.castType">
+        <strong>Cast</strong>
+        <app-actionIcons *ngIf="spell.actions" [actionString]="spell.actions"></app-actionIcons>
+        <span>
+            {{spell.castType}}
+        </span>
+    </ng-container>
+    <ng-container *ngIf="spell.cost">
+        <strong>Cost</strong>
+        {{spell.cost}}
+    </ng-container>
+</div>
+<div class="newrow left-aligned" *ngIf="spell.trigger">
+    <span>
+        <strong>Trigger</strong>
+        {{spell.trigger}}
+    </span>
+</div>
+<div class="newrow left-aligned" *ngIf="spell.range || spell.area || spell.targets">
+    <span *ngIf="spell.range">
+        <strong>Range</strong>
+        {{spell.range}}
+    </span>
+    <span *ngIf="spell.area">
+        <strong>Area</strong>
+        {{spell.area}}
+    </span>
+    <span *ngIf="spell.targets">
+        <strong>Targets</strong>
+        {{spell.targets}}
+    </span>
+</div>
+<div class="newrow left-aligned" *ngIf="spell.savingThrow || spell.duration">
+    <span *ngIf="spell.savingThrow">
+        <strong>Saving Throw</strong>
+        {{spell.savingThrow}}
+    </span>
+    <span *ngIf="spell.duration">
+        <strong>Duration</strong>
+        {{spell.duration}}
+    </span>
+</div>
+<div class="newrow left-aligned" *ngFor="let desc of get_Heightened(spell.desc).split('\n\n'); trackBy:trackByIndex;">
+    <app-description class="newrow" [text]="desc" [casting]="casting"></app-description>
+</div>
+<div class="newrow gap-text lower left-aligned" *ngIf="spell.critsuccess">
+    <strong>Critical Success</strong>
+    <app-description [text]="get_Heightened(spell.critsuccess)" [casting]="casting" [oneLiner]="true"></app-description>
+</div>
+<div class="newrow gap-text lower left-aligned" *ngIf="spell.success">
+    <strong>Success</strong>
+    <app-description [text]="get_Heightened(spell.success)" [casting]="casting" [oneLiner]="true"></app-description>
+</div>
+<div class="newrow gap-text lower left-aligned" *ngIf="spell.failure">
+    <strong>Failure</strong>
+    <app-description [text]="get_Heightened(spell.failure)" [casting]="casting" [oneLiner]="true"></app-description>
+</div>
+<div class="newrow gap-text lower left-aligned" *ngIf="spell.critfailure">
+    <strong>Critical Failure</strong>
+    <app-description [text]="get_Heightened(spell.critfailure)" [casting]="casting" [oneLiner]="true"></app-description>
+</div>
+<div class="newrow left-aligned" *ngFor="let heightened of spell.heightened; trackBy:trackByIndex;">
+    <span>
+        <strong>Heightened {{heightened.level}}</strong>
+        {{heightened.desc}}
+    </span>
+</div>
+<div class="list-item left-aligned" *ngFor="let shownSpellSet of spell.showSpells; trackBy:trackByIndex;">
+    <div *ngFor="let shownSpell of get_Spells(shownSpellSet.name); trackBy:trackByIndex;">
+        <header class="spellHeader left-aligned">
+            {{shownSpell.name}}
+            <app-actionIcons *ngIf="shownSpell.actions" [actionString]="shownSpell.actions">
+            </app-actionIcons>
+            {{shownSpell.castType.toString()}}
+        </header>
+        <div class="newrow left-aligned">
+            <cite class="trait" *ngFor="let trait of shownSpell.traits; trackBy:trackByIndex;"
+                [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+        </div>
+        <app-spellContent [spell]=shownSpell [spellLevel]="shownSpellSet.level || spellLevel || 0" [casting]="casting"></app-spellContent>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+<ng-container
+    *ngFor="let traits of [(item.get_Traits ? item.get_Traits(characterService, get_Creature()) : item.traits)]; trackBy:trackByIndex">
+    <div class="newrow left-aligned tags" *ngIf="traits.length">
+        <cite class="trait" *ngFor="let trait of traits; trackBy:trackByIndex;"
+            [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+    </div>
+</ng-container>
+<app-itemContent [item]="item"></app-itemContent>
+<!-- Item activities -->
+<div class="list-item left-aligned" *ngFor="let activity of item.activities; trackBy:trackByIndex;">
+    <header class="spellHeader" *ngIf="activity.name">
+        {{activity.name}}
+        <app-actionIcons *ngIf="activity.actions" [actionString]="activity.actions">
+        </app-actionIcons>
+        {{(activity.activationType) ? activity.activationType : ""}}
+    </header>
+    <div class="newrow left-aligned">
+        <cite class="trait" *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
+            [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+        <cite class="trait" *ngFor="let trait of activity.get_ActivationTraits(); trackBy:trackByIndex;"
+            [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+    </div>
+    <app-activityContent [creature]="creature" [activity]=activity [gain]=activity [allowActivate]="false">
+    </app-activityContent>
+</div>
+<!-- Common activities -->
+<ng-container *ngFor="let gain of item.gainActivities; trackBy:trackByIndex;">
+    <div class="list-item left-aligned" *ngFor="let activity of get_Activities(gain.name); trackBy:trackByIndex;">
+        <header class="spellHeader">
+            {{activity.name}}
+            <app-actionIcons *ngIf="activity.actions" [actionString]="activity.actions">
+            </app-actionIcons>
+            {{(activity.activationType) ? activity.activationType : ""}}
+        </header>
+        <div class="newrow left-aligned">
+            <cite class="trait" *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
+                [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+            <cite class="trait" *ngFor="let trait of activity.get_ActivationTraits(); trackBy:trackByIndex;"
+                [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+        </div>
+        <app-activityContent [creature]="creature" [activity]=activity [gain]=gain [allowActivate]="false">
+        </app-activityContent>
+    </div>
+</ng-container>

@@ -28,8 +28,6 @@ export class ConditionComponent implements OnInit {
     creature: string = "Character"
     @Input()
     fullDisplay: boolean = false;
-    @Input()
-    parentHints: string[] = [];
     @Output()
     showItemMessage = new EventEmitter<string>();
 

@@ -1,21 +1,20 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { Activity } from '../Activity';
-import { TraitsService } from '../traits.service';
-import { SpellsService } from '../spells.service';
-import { CharacterService } from '../character.service';
-import { ActivitiesService } from '../activities.service';
-import { TimeService } from '../time.service';
-import { ItemsService } from '../items.service';
-import { ActivityGain } from '../ActivityGain';
-import { ItemActivity } from '../ItemActivity';
-import { Feat } from '../Feat';
-import { Character } from '../Character';
-import { ConditionsService } from '../conditions.service';
-import { Condition } from '../Condition';
-import { SpellCast } from '../SpellCast';
-import { Creature } from '../Creature';
-import { EffectsService } from '../effects.service';
-import { ConditionGain } from '../ConditionGain';
+import { Activity } from 'src/app/Activity';
+import { TraitsService } from 'src/app/traits.service';
+import { SpellsService } from 'src/app/spells.service';
+import { CharacterService } from 'src/app/character.service';
+import { ActivitiesService } from 'src/app/activities.service';
+import { TimeService } from 'src/app/time.service';
+import { ItemsService } from 'src/app/items.service';
+import { ActivityGain } from 'src/app/ActivityGain';
+import { ItemActivity } from 'src/app/ItemActivity';
+import { Feat } from 'src/app/Feat';
+import { Character } from 'src/app/Character';
+import { ConditionsService } from 'src/app/conditions.service';
+import { Condition } from 'src/app/Condition';
+import { Creature } from 'src/app/Creature';
+import { EffectsService } from 'src/app/effects.service';
+import { ConditionGain } from 'src/app/ConditionGain';
 
 @Component({
     selector: 'app-activity',
@@ -35,9 +34,7 @@ export class ActivityComponent implements OnInit {
     allowActivate: boolean = false;
     @Input()
     isSubItem: boolean = false;
-    @Input()
-    parentHints: string[] = [];
-
+    
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
@@ -72,19 +69,6 @@ export class ActivityComponent implements OnInit {
 
     get_FamiliarAvailable() {
         return this.characterService.get_FamiliarAvailable();
-    }
-
-    get_ActivationTraits(activity: Activity) {
-        switch (activity.activationType) {
-            case "Command":
-                return ["Auditory", "Concentrate"];
-            case "Envision":
-                return ["Concentrate"];
-            case "Interact":
-                return ["Manipulate"];
-            default:
-                return [];
-        }
     }
 
     get_Resonant() {
@@ -158,7 +142,6 @@ export class ActivityComponent implements OnInit {
             return []
         }
     }
-
 
     get_ConditionsShowingOn(activityName: string) {
         if (activityName) {
@@ -243,24 +226,6 @@ export class ActivityComponent implements OnInit {
         return this.spellsService.get_Spells(name, type, tradition);
     }
 
-    get_SpellTarget() {
-        if (this.activity.castSpells.length) {
-            //The SpellCast may limit the spell targets. If not, get the available targets from the Spell, or return "" for non-allies.
-            return this.activity.castSpells[0].target || this.get_Spells(this.activity.castSpells[0].name)[0]?.target || "";
-        } else {
-            return "no spell";
-        }
-    }
-
-    get_SpellCasts() {
-        if (this.gain) {
-            while (this.gain.spellEffectChoices.length < this.activity.castSpells.length) {
-                this.gain.spellEffectChoices.push([]);
-            }
-        }
-        return this.activity.castSpells;
-    }
-
     get_ActivityConditions() {
         //For all conditions that are included with this activity, create an effectChoice on the gain and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
         let conditionSets: { gain: ConditionGain, condition: Condition }[] = [];
@@ -285,39 +250,6 @@ export class ActivityComponent implements OnInit {
         return conditionSets;
     }
 
-    get_SpellConditions(spellCast: SpellCast, spellCastIndex: number) {
-        //For all conditions that are included with this spell on this level, create an effectChoice on the gain at the index of this spellCast and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
-        let conditionSets: { gain: ConditionGain, condition: Condition }[] = [];
-        let gain = this.gain;
-        //Setup the spellEffectChoice collection for this SpellCast.
-        while (!gain.spellEffectChoices.length || gain.spellEffectChoices.length < spellCastIndex - 1) {
-            gain.spellEffectChoices.push([]);
-        }
-        if (gain) {
-            let spell = this.spellsService.get_Spells(spellCast.name)[0];
-            spell.get_HeightenedConditions(spellCast.level)
-                .map(conditionGain => { return { gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] } })
-                .forEach((conditionSet, index) => {
-                    //Create the temporary list of currently available choices.
-                    conditionSet.condition?.get_Choices(this.characterService, true, spellCast.level);
-                    //Add the condition to the selection list. Conditions with no choices or with automatic choices will not be displayed.
-                    conditionSets.push(conditionSet);
-                    //Then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.
-                    while (!gain.spellEffectChoices[spellCastIndex].length || gain.spellEffectChoices[spellCastIndex].length < index - 1) {
-                        gain.spellEffectChoices[spellCastIndex].push({ condition: conditionSet.condition.name, choice: conditionSet.condition.choice });
-                    }
-                    if (!conditionSet.condition._choices.includes(gain.spellEffectChoices[spellCastIndex]?.[index]?.choice)) {
-                        gain.spellEffectChoices[spellCastIndex][index] = { condition: conditionSet.condition.name, choice: conditionSet.condition.choice };
-                    }
-                })
-        }
-        return conditionSets;
-    }
-
-    get_HeightenedDescription() {
-        return this.activity.get_Heightened(this.activity.desc, this.get_Character().level);
-    }
-
     on_EffectChoiceChange() {
         this.characterService.set_ToChange(this.creature, "inventory");
         this.characterService.set_ToChange(this.creature, "activities");
@@ -327,7 +259,7 @@ export class ActivityComponent implements OnInit {
     finish_Loading() {
         this.characterService.get_Changed()
             .subscribe((target) => {
-                if (target == "activities" || target == "all" || target.toLowerCase() == this.creature.toLowerCase()) {
+                if (["activities", "all", this.creature.toLowerCase()].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });

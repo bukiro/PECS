@@ -71,6 +71,10 @@ import { ItemTargetComponent } from './itemTarget/itemTarget.component';
 import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ItemTalismanCordsComponent } from './item/itemTalismanCords/itemTalismanCords.component';
+import { ActivityContentComponent } from './activity/activityContent/activityContent.component';
+import { ItemContentComponent } from './item/itemContent/itemContent.component';
+import { HintItemComponent } from './tags/hint/hintItem/hintItem.component';
+import { SpellContentComponent } from './spell/spellContent/spellContent.component';
 
 @NgModule({
    declarations: [						 
@@ -135,6 +139,10 @@ import { ItemTalismanCordsComponent } from './item/itemTalismanCords/itemTalisma
       ItemTalismanCordsComponent,
       HintComponent,
       TagsComponent,
+      ActivityContentComponent,
+      ItemContentComponent,
+      HintItemComponent,
+      SpellContentComponent
    ],
    imports: [
       CommonModule,

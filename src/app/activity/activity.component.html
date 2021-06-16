@@ -93,11 +93,10 @@
         <div class="newrow left-aligned">
             <cite class="trait" *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
                 [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
-            <cite class="trait" *ngFor="let trait of get_ActivationTraits(activity); trackBy:trackByIndex;"
+            <cite class="trait" *ngFor="let trait of activity.get_ActivationTraits(); trackBy:trackByIndex;"
                 [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
             <app-tags [creature]="creature" [objectName]="activity.name" [showTraits]=true [showFeats]=true
-                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true
-                [parentHints]="parentHints"></app-tags>
+                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         </div>
         <ng-container
             *ngFor="let conditionSet of get_ActivityConditions(); let conditionSetIndex = index; trackBy:trackByIndex">
@@ -116,151 +115,31 @@
             </div>
         </ng-container>
         <div class="vlist lower">
-            <div class="list-item lower newrow problem" *ngIf="activity.inputRequired">
-                <strong>Player input required:</strong>
-                <div class="newrow left-aligned">
-                    <p *ngFor="let inputRequired of activity.inputRequired.split('\n'); trackBy:trackByIndex;">
-                        {{inputRequired}}
-                    </p>
-                </div>
-            </div>
-            <div class="newrow left-aligned"
-                *ngIf="activity.frequency || ((cooldown != activity.cooldown) && !activity.cooldownAfterEnd)">
-                <span>
-                    <strong>Frequency</strong>
-                    <span *ngIf="cooldown == activity.cooldown">&nbsp;{{activity.frequency}}</span>
-                    <span class="absolute" *ngIf="cooldown != activity.cooldown">&nbsp;{{maxCharges ? maxCharges + "
-                        times every " : "once every "}}{{get_Duration(cooldown, false, false)}}</span>
-                </span>
-            </div>
-            <div class="newrow left-aligned" *ngIf="cooldown && activity.cooldownAfterEnd">
-                <span>
-                    <strong>Cooldown after use</strong>
-                    <span [ngClass]="{'absolute':cooldown != activity.cooldown}">&nbsp;{{get_Duration(cooldown, false,
-                        false)}}</span>
-                </span>
-            </div>
-            <div class="newrow left-aligned" *ngIf="activity.cost">
-                <span>
-                    <strong>Cost</strong>
-                    {{activity.cost}}
-                </span>
-            </div>
-            <div class="newrow left-aligned" *ngIf="activity.trigger">
-                <span>
-                    <strong>Trigger</strong>
-                    {{activity.trigger}}
-                </span>
-            </div>
-            <ng-container *ngIf="allowActivate && gain?.data">
-                <div class="newrow left-aligned" *ngFor="let data of gain.data; trackBy:trackByIndex">
-                    <strong>{{data.name}}</strong>
-                    <input class="newrow" type="text" [(ngModel)]="data.value">
-                </div>
-            </ng-container>
-            <div class="newrow left-aligned" *ngIf="activity.requirements">
-                <span>
-                    <strong>Requirements</strong>
-                    {{activity.requirements}}
-                </span>
-            </div>
-            <div class="newrow left-aligned"
-                *ngFor="let desc of get_HeightenedDescription().split('\n\n'); trackBy:trackByIndex;">
-                <app-description class="newrow" [text]="desc"></app-description>
-            </div>
-            <div class="newrow gap-text left-aligned" *ngIf="activity.critsuccess">
-                <strong>Critical Success</strong>
-                <app-description [text]="activity.critsuccess" [oneLiner]="true"></app-description>
-            </div>
-            <div class="newrow gap-text left-aligned" *ngIf="activity.success">
-                <strong>Success</strong>
-                <app-description [text]="activity.success" [oneLiner]="true"></app-description>
-            </div>
-            <div class="newrow gap-text left-aligned" *ngIf="activity.failure">
-                <strong>Failure</strong>
-                <app-description [text]="activity.failure" [oneLiner]="true"></app-description>
-            </div>
-            <div class="newrow gap-text left-aligned" *ngIf="activity.critfailure">
-                <strong>Critical Failure</strong>
-                <app-description [text]="activity.critfailure" [oneLiner]="true"></app-description>
-            </div>
-            <div class="newrow gap-text left-aligned" *ngIf="activity.specialdesc">
-                <strong>Special</strong>
-                {{activity.specialdesc}}
-            </div>
-            <div class="list-item left-aligned"
-                *ngFor="let shownActivityName of activity.showActivities; trackBy:trackByIndex;">
-                <div *ngFor="let shownActivity of get_Activities(shownActivityName); trackBy:trackByIndex;">
-                    <header class="spellHeader">
-                        {{shownActivity.name}}
-                        <app-actionIcons *ngIf="shownActivity.actions" [actionString]="shownActivity.actions">
-                        </app-actionIcons>
-                        {{shownActivity.activationType.toString()}}
-                    </header>
-                    <app-activity [activity]=shownActivity [allowActivate]="false" [parentHints]="parentHints">
-                    </app-activity>
-                </div>
-            </div>
-            <div class="list-item newrow left-aligned"
-                *ngFor="let cast of get_SpellCasts(); let spellCastIndex = index; trackBy:trackByIndex;">
-                <div *ngFor="let spell of get_Spells(cast.name); trackBy:trackByIndex;">
-                    <header class="spellHeader">
-                        {{spell.name}}
-                        <app-actionIcons *ngIf="spell.actions" [actionString]="spell.actions">
-                        </app-actionIcons>
-                        {{spell.castType.toString()}}
-                    </header>
-                    <ng-container
-                        *ngFor="let conditionSet of get_SpellConditions(cast, spellCastIndex); let conditionSetIndex = index; trackBy:trackByIndex">
-                        <div class="newrow list-item left-aligned"
-                            *ngIf="allowActivate && !cast.hideChoices.includes(conditionSet.condition.name) && conditionSet.condition._choices.length && !conditionSet.gain.choiceBySubType && !conditionSet.gain.choiceLocked && !conditionSet.gain.copyChoiceFrom && !conditionSet.gain.hideChoices">
-                            <span>{{conditionSet.condition.name}} effect selection:
-                                <select [(ngModel)]="gain.spellEffectChoices[spellCastIndex][conditionSetIndex].choice"
-                                    (ngModelChange)="on_EffectChoiceChange()">
-                                    <option
-                                        *ngFor="let choice of conditionSet.condition._choices; trackBy:trackByIndex;"
-                                        [ngValue]="choice">
-                                        {{choice}}
-                                    </option>
-                                </select>
-                            </span>
-                        </div>
-                    </ng-container>
-                    <app-spell class="fullwidth" [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0"></app-spell>
-                </div>
-            </div>
-            <div class="list-item left-aligned"
-                *ngFor="let shownSpellSet of activity.showSpells; trackBy:trackByIndex;">
-                <div *ngFor="let shownSpell of get_Spells(shownSpellSet.name); trackBy:trackByIndex;">
-                    <header class="spellHeader">
-                        {{shownSpell.name}}
-                        <app-actionIcons *ngIf="shownSpell.actions" [actionString]="shownSpell.actions">
-                        </app-actionIcons>
-                        {{shownSpell.castType.toString()}}
-                    </header>
-                    <app-spell class="fullwidth" [spell]=shownSpell [spellLevel]="shownSpellSet.level || 0"></app-spell>
-                </div>
-            </div>
-            <div class="list-item newrow left-aligned"
-                *ngFor="let feat of get_FeatsShowingOn(activity.name); trackBy:trackByIndex;">
-                <header class="spellHeader">{{feat.name}}</header>
-                <div class="newrow left-aligned">
-                    <cite class="trait" *ngFor="let trait of feat.traits; trackBy:trackByIndex;"
-                        [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
-                </div>
-                <div class="newrow left-aligned" *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
-                    <app-description class="newrow" [text]="desc"></app-description>
-                </div>
-            </div>
-            <div class="newrow left-aligned"
-                *ngFor="let conditionSet of get_ConditionsShowingOn(activity.name); trackBy:trackByIndex;">
-                <header class="spellHeader">{{conditionSet.condition.name}}</header>
-                <div class="newrow left-aligned"
-                    *ngFor="let desc of conditionSet.condition.get_Heightened(conditionSet.condition.desc, conditionSet.gain.heightened).split('\n\n'); trackBy:trackByIndex;">
-                    <app-description class="newrow" [text]="desc"></app-description>
-                </div>
-            </div>
+            <app-activityContent class="vlist fullwidth" [creature]="creature" [activity]="activity" [gain]="gain"
+                [allowActivate]="allowActivate" [cooldown]="cooldown" [maxCharges]="maxCharges">
+            </app-activityContent>
+            <!--Only show related feats and conditions if this activity is not currently being shown on another object - that is, if it's allowed to be activated.-->
             <ng-container *ngIf="allowActivate">
+                <div class="list-item newrow left-aligned"
+                    *ngFor="let feat of get_FeatsShowingOn(activity.name); trackBy:trackByIndex;">
+                    <header class="spellHeader">{{feat.name}}</header>
+                    <div class="newrow left-aligned">
+                        <cite class="trait" *ngFor="let trait of feat.traits; trackBy:trackByIndex;"
+                            [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+                    </div>
+                    <div class="newrow left-aligned"
+                        *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
+                        <app-description class="newrow" [text]="desc"></app-description>
+                    </div>
+                </div>
+                <div class="newrow left-aligned"
+                    *ngFor="let conditionSet of get_ConditionsShowingOn(activity.name); trackBy:trackByIndex;">
+                    <header class="spellHeader">{{conditionSet.condition.name}}</header>
+                    <div class="newrow left-aligned"
+                        *ngFor="let desc of conditionSet.condition.get_Heightened(conditionSet.condition.desc, conditionSet.gain.heightened).split('\n\n'); trackBy:trackByIndex;">
+                        <app-description class="newrow" [text]="desc"></app-description>
+                    </div>
+                </div>
                 <ng-container
                     *ngFor="let related_gain of get_ActivityGainsShowingOn(activity.name); trackBy:trackByIndex;">
                     <div class="list-item newrow left-aligned"
@@ -272,7 +151,7 @@
                             {{(related_activity.activationType) ? related_activity.activationType : ""}}
                         </header>
                         <app-activity [creature]="creature" [activity]=related_activity [gain]=related_gain
-                            [allowActivate]=true [parentHints]="parentHints"></app-activity>
+                            [allowActivate]=true></app-activity>
                     </div>
                 </ng-container>
                 <ng-container *ngIf="gain.name == 'Fused Stance'">
@@ -287,7 +166,7 @@
                                 {{(related_activity.activationType) ? related_activity.activationType : ""}}
                             </header>
                             <app-activity [creature]="creature" [activity]=related_activity [gain]=gain
-                                [allowActivate]=false [parentHints]="parentHints">
+                                [allowActivate]=false>
                             </app-activity>
                         </div>
                     </ng-container>

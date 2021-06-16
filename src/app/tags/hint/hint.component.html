@@ -12,16 +12,23 @@
         </ng-container>
         <div class="list-item" *ngIf="get_HintsShowMore() && get_ObjectType()">
             <header class="spellHeader" *ngIf="object.name">{{object.name}}</header>
-            <app-feat *ngIf="get_ObjectType()=='Feat'" [feat]="object" [parentHints]="parentHints.concat(objectName)">
+            <app-feat *ngIf="get_ObjectType()=='Feat'" [feat]="object">
             </app-feat>
             <app-condition *ngIf="get_ObjectType()=='ConditionSet'" [condition]="object.condition"
-                [conditionGain]="object.gain" [parentHints]="parentHints.concat(objectName)">
+                [conditionGain]="object.gain">
             </app-condition>
-            <app-activity *ngIf="get_ObjectType()=='Activity'" [allowActivate]="false" [activity]="object"
-                [parentHints]="parentHints.concat(objectName)">
-            </app-activity>
-            <app-item *ngIf="get_ObjectType()=='Item'" [allowActivate]="false" [item]="object"
-                [parentHints]="parentHints.concat(objectName)"></app-item>
+            <ng-container *ngIf="get_ObjectType()=='Activity'">
+                <div class="newrow left-aligned">
+                    <cite class="trait" *ngFor="let trait of object.traits; trackBy:trackByIndex;"
+                        [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+                    <cite class="trait" *ngFor="let trait of object.get_ActivationTraits(); trackBy:trackByIndex;"
+                        [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+                </div>
+                <app-activityContent class="fullwidth vlist lower" [creature]="creature" [allowActivate]="false"
+                    [activity]="object">
+                </app-activityContent>
+            </ng-container>
+            <app-hintItem *ngIf="get_ObjectType()=='Item'" [item]="object"></app-hintItem>
             <div class="newrow left-aligned" *ngIf="get_ObjectType()=='DescOnly'">
                 <app-description class="newrow" [text]="object.desc"></app-description>
             </div>
