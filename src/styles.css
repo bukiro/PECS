@@ -359,6 +359,15 @@ button.problem,
     background-color: grey;
 }
 
+    /* "Locked" button (not actually locked) (For locked spells, skills etc.) */
+
+.locked-button,
+.darkmode .locker-button,
+.fancy-button.locked-button,
+.darkmode .fancy-button.locked-button {
+    background-color: lightgrey;
+}
+
     /* Colorful buttons for character development choices */
 
 button.abilityboost:not(.fancy-button),

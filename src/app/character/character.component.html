@@ -402,9 +402,10 @@
                                                         *ngIf="fixedAbilityBoosts.length + fixedSkillIncreases.length + fixedFeatures.length + fixedFeats.length > 0">
                                                         <!--Fixed information list mode-->
                                                         <div class="fullsize-only list-item" *ngIf="!get_TileMode()">
-                                                            <button class="newrow sublist-toggle fancy-button"
-                                                                (click)="toggle_List('fixedchanges', level.number, {abilityBoosts:fixedAbilityBoosts, skillIncreases:fixedSkillIncreases, features:fixedFeatures, feats:fixedFeats})"
-                                                                [ngClass]="{'activechoice':get_ShowList()=='fixedchanges' && get_ShowContentLevelNumber()==level.number}">
+                                                            <button class="newrow fancy-button left-aligned"
+                                                                (click)="toggle_FixedChangesLevelNumber(level.number)"
+                                                                [ngClass]="{'locked-button':get_ShowFixedChangesLevelNumber()!=level.number}">
+                                                                <i class="bi-lock-fill"></i>
                                                                 Show fixed changes
                                                             </button>
                                                         </div>
@@ -429,6 +430,35 @@
                                 <!--Ability boosts-->
                                 <div id="abilityboosts"
                                     [ngClass]="{'icon-list vertical':get_TileMode(), 'vlist':!get_TileMode()}">
+                                    <!--List mode fixed ability boosts-->
+                                    <ng-container
+                                        *ngIf="!get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
+                                        <ng-container
+                                            *ngFor="let boost of get_AbilityBoosts(level.number, level.number, '', '', '', '', true); trackBy:trackByIndex;">
+                                            <div class="list-item fullsize-only">
+                                                <ng-template #FixedAbilityBoostContent>
+                                                    <div class="newrow left-aligned">
+                                                        <strong>{{boost.type == 'Flaw' ? 'Flaw' :
+                                                            'Boost'}}</strong>
+                                                        {{boost.name}}
+                                                    </div>
+                                                    <div class="newrow left-aligned">
+                                                        <strong>Source</strong>
+                                                        {{boost.source}}
+                                                    </div>
+                                                </ng-template>
+                                                <button class="newrow left-aligned fancy-button abilityboost"
+                                                    #FixedAbilityPopover="ngbPopover"
+                                                    [ngbPopover]="FixedAbilityBoostContent" triggers="click">
+                                                    <span
+                                                        [ngbTooltip]="'Fixed ' + (boost.type == 'Flaw' ? 'flaw' : 'boost')">
+                                                        <i class="bi-lock-fill"></i>
+                                                    </span>
+                                                    Ability {{boost.type == 'Flaw' ? 'Flaw' : 'Boost'}}: {{boost.name}}
+                                                </button>
+                                            </div>
+                                        </ng-container>
+                                    </ng-container>
                                     <!--Tile mode fixed ability boosts-->
                                     <ng-container
                                         *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
@@ -462,7 +492,7 @@
                                             <!--List mode ability boost buttons-->
                                             <div class="list-item" *ngIf="maxAvailable && !get_TileMode()"
                                                 [ngClass]="{'problem':(choice.boosts.length > maxAvailable || someAbilitiesIllegal(choice, level.number)), 'fullsize-only':choice.boosts.length == maxAvailable}">
-                                                <button class="newrow sublist-toggle abilityboost"
+                                                <button class="newrow abilityboost"
                                                     [ngClass]="{'fancy-button choicecleared':choice.boosts.length == maxAvailable, 'activechoice':get_ShowList()==choice.id}"
                                                     (click)="toggle_List(choice.id, level.number, choice)">
                                                     {{get_AbilityChoiceTitle(choice)}}
@@ -485,6 +515,33 @@
                                 <!--Skill Increases-->
                                 <div id="skillincreases"
                                     [ngClass]="{'icon-list vertical':get_TileMode(), 'vlist':!get_TileMode()}">
+                                    <!--List mode fixed skill increases -->
+                                    <ng-container
+                                        *ngIf="!get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
+                                        <ng-container
+                                            *ngFor="let skillIncrease of get_SkillIncreases(level.number, level.number, '', '', '', true); trackBy:trackByIndex;">
+                                            <div class="list-item fullsize-only">
+                                                <ng-template #FixedSkillIncreaseContent>
+                                                    <div class="newrow left-aligned">
+                                                        <strong>{{skillIncrease.name}}</strong>
+                                                    </div>
+                                                    <div class="newrow left-aligned">
+                                                        <strong>Source</strong>
+                                                        {{skillIncrease.source}}
+                                                    </div>
+                                                </ng-template>
+                                                <button
+                                                    class="newrow left-aligned fancy-button skillincrease"
+                                                    #FixedSkillPopover="ngbPopover"
+                                                    [ngbPopover]="FixedSkillIncreaseContent" triggers="click">
+                                                    <span [ngbTooltip]="'Fixed increase'">
+                                                        <i class="bi-lock-fill"></i>
+                                                    </span>
+                                                    Skill Increase: {{skillIncrease.name}}
+                                                </button>
+                                            </div>
+                                        </ng-container>
+                                    </ng-container>
                                     <!--Tile mode fixed skill increases -->
                                     <ng-container
                                         *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
@@ -521,6 +578,34 @@
                                 <!--Feat choices-->
                                 <div id="featchoices"
                                     [ngClass]="{'icon-list vertical':get_TileMode(), 'vlist':!get_TileMode()}">
+                                    <!--List mode fixed feats-->
+                                    <ng-container
+                                        *ngIf="!get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
+                                        <ng-container
+                                            *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feat'); trackBy:trackByIndex;">
+                                            <div class="list-item fullsize-only">
+                                                <ng-template #FixedFeatContent>
+                                                    <header class="spellHeader">{{feat.name}}</header>
+                                                    <div class="newrow left-aligned">
+                                                        <strong>Source</strong>
+                                                        {{feat.source}}
+                                                    </div>
+                                                    <app-feat [feat]="get_FeatsAndFeatures(feat.name)[0]" [choice]="null"
+                                                        [levelNumber]="level.number">
+                                                    </app-feat>
+                                                </ng-template>
+                                                <button
+                                                    class="newrow left-aligned fancy-button featchoice"
+                                                    #FixedFeatPopover="ngbPopover"
+                                                    [ngbPopover]="FixedFeatContent" triggers="click">
+                                                    <span [ngbTooltip]="'Fixed feat'">
+                                                        <i class="bi-lock-fill"></i>
+                                                    </span>
+                                                    {{feat.name}}
+                                                </button>
+                                            </div>
+                                        </ng-container>
+                                    </ng-container>
                                     <!--Tile mode fixed feats-->
                                     <ng-container
                                         *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
@@ -563,6 +648,34 @@
                                 <!--Special choices-->
                                 <div id="specialchoices"
                                     [ngClass]="{'icon-list vertical':get_TileMode(), 'vlist':!get_TileMode()}">
+                                    <!--List mode fixed features-->
+                                    <ng-container
+                                        *ngIf="!get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
+                                        <ng-container
+                                            *ngFor="let feature of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feature'); trackBy:trackByIndex;">
+                                            <div class="list-item fullsize-only">
+                                                <ng-template #FixedFeatureContent>
+                                                    <header class="spellHeader">{{feature.name}}</header>
+                                                    <div class="newrow left-aligned">
+                                                        <strong>Source</strong>
+                                                        {{feature.source}}
+                                                    </div>
+                                                    <app-feat [feat]="get_FeatsAndFeatures(feature.name)[0]" [choice]="null"
+                                                        [levelNumber]="level.number">
+                                                    </app-feat>
+                                                </ng-template>
+                                                <button
+                                                    class="newrow left-aligned fancy-button specialchoice"
+                                                    #FixedFeaturePopover="ngbPopover"
+                                                    [ngbPopover]="FixedFeatureContent" triggers="click">
+                                                    <span [ngbTooltip]="'Fixed ability'">
+                                                        <i class="bi-lock-fill"></i>
+                                                    </span>
+                                                    {{feature.name}}
+                                                </button>
+                                            </div>
+                                        </ng-container>
+                                    </ng-container>
                                     <!--Tile mode fixed features-->
                                     <ng-container
                                         *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
@@ -635,7 +748,7 @@
                                         <ng-container *ngFor="let companion of [get_Companion()]; trackBy:trackByIndex">
                                             <div class="list-item" *ngIf="!get_TileMode()"
                                                 [ngClass]="{'fullsize-only':(companion.name && companion.species && companion.class.ancestry.name)}">
-                                                <button class="newrow sublist-toggle specialchoice"
+                                                <button class="newrow specialchoice"
                                                     [ngClass]="{'fancy-button choicecleared':(companion.name && companion.species && companion.class.ancestry.name), 'activechoice':get_ShowList()=='animalcompanion' && get_ShowContentLevelNumber()==level.number}"
                                                     (click)="toggle_List('animalcompanion', level.number)">
                                                     Animal Companion{{(companion.class.ancestry.name) ? ": "+
@@ -662,7 +775,7 @@
                                                 *ngFor="let takenSpecializations of [get_TakenCompanionSpecializations(level.number)]; trackBy:trackByIndex">
                                                 <div class="list-item" *ngIf="!get_TileMode()"
                                                     [ngClass]="{'fullsize-only':takenSpecializations.length == available}">
-                                                    <button class="newrow sublist-toggle specialchoice"
+                                                    <button class="newrow specialchoice"
                                                         [ngClass]="{'fancy-button choicecleared':(takenSpecializations.length == available), 'activechoice':get_ShowList()=='companionspecialization' && get_ShowContentLevelNumber()==level.number}"
                                                         (click)="toggle_List('companionspecialization', level.number)">
                                                         Animal Companion Specialization{{available > 1 ? ": "+
@@ -690,7 +803,7 @@
                                             *ngFor="let finished of [get_Familiar().name && get_Familiar().species]; trackBy:trackByIndex;">
                                             <div class="list-item" *ngIf="!get_TileMode()"
                                                 [ngClass]="{'fullsize-only':finished}">
-                                                <button class="newrow sublist-toggle specialchoice"
+                                                <button class="newrow specialchoice"
                                                     [ngClass]="{'fancy-button choicecleared':finished, 'activechoice':get_ShowList()=='familiar' && get_ShowContentLevelNumber()==level.number}"
                                                     (click)="toggle_List('familiar', level.number)">
                                                     Familiar
@@ -714,7 +827,7 @@
                                             <!--Different Worlds-->
                                             <div class="list-item" *ngIf="!get_TileMode()"
                                                 [ngClass]="{'fullsize-only':finished}">
-                                                <button class="newrow sublist-toggle specialchoice"
+                                                <button class="newrow specialchoice"
                                                     [ngClass]="{'fancy-button choicecleared':finished, 'activechoice':get_ShowList()=='differentworlds' && get_ShowContentLevelNumber()==level.number}"
                                                     (click)="toggle_List('differentworlds', level.number)">
                                                     Different Worlds{{(differentWorldsFeat.data.background) ? ": " +
@@ -741,7 +854,7 @@
                                                 *ngFor="let finished of [blessedBloodSpells >= 3]; trackBy:trackByIndex;">
                                                 <div class="list-item" *ngIf="!get_TileMode()"
                                                     [ngClass]="{'fullsize-only':finished}">
-                                                    <button class="newrow sublist-toggle specialchoice"
+                                                    <button class="newrow specialchoice"
                                                         [ngClass]="{'fancy-button choicecleared':finished, 'activechoice':get_ShowList()=='blessedblood' && get_ShowContentLevelNumber()==level.number}"
                                                         (click)="toggle_List('blessedblood', level.number)">
                                                         Blessed Blood Deity Spells: {{blessedBloodSpells}}/3
@@ -769,7 +882,7 @@
                                                 *ngFor="let finished of [get_Character().class.additionalHeritages[heritageIndex].name]; trackBy:trackByIndex">
                                                 <div class="list-item" *ngIf="!get_TileMode()"
                                                     [ngClass]="{'fullsize-only':finished}">
-                                                    <button class="newrow sublist-toggle specialchoice"
+                                                    <button class="newrow specialchoice"
                                                         [ngClass]="{'fancy-button choicecleared':get_Character().class.additionalHeritages[heritageIndex].name, 'activechoice':get_ShowList()=='additionalheritage' && get_ShowContentLevelNumber()==level.number && this.get_ShowContent()?.id==heritageGain.source}"
                                                         (click)="toggle_List('additionalheritages', level.number, {id: 'additionalheritage'+level.number+heritageGain.source, source: heritageGain.source})">
                                                         Heritage
@@ -798,7 +911,7 @@
                                             *ngFor="let finished of [feat.data.stances.length == 2 && feat.data.name]; trackBy:trackByIndex">
                                             <div class="list-item" *ngIf="!get_TileMode()"
                                                 [ngClass]="{'fullsize-only':finished}">
-                                                <button class="newrow sublist-toggle specialchoice"
+                                                <button class="newrow specialchoice"
                                                     [ngClass]="{'fancy-button choicecleared':finished, 'activechoice':get_ShowList()=='fusestance' && get_ShowContentLevelNumber()==level.number}"
                                                     (click)="toggle_List('fusestance', level.number)">
                                                     Fuse Stance{{(finished) ? ": "+
@@ -822,7 +935,7 @@
                                     <ng-container *ngFor="let choice of level.loreChoices; trackBy:trackByIndex;">
                                         <div class="list-item" *ngIf="choice.available && !get_TileMode()"
                                             [ngClass]="{'problem':(choice.increases.length > choice.available), 'fullsize-only':choice.increases.length == choice.available}">
-                                            <button class="newrow sublist-toggle specialchoice"
+                                            <button class="newrow specialchoice"
                                                 [ngClass]="{'fancy-button choicecleared':choice.increases.length == choice.available, 'activechoice':get_ShowList()==choice.id}"
                                                 (click)="toggle_List(choice.id, level.number, choice)">
                                                 Lore Training
@@ -1820,106 +1933,6 @@
                 </div>
             </ng-container>
             <!--Level content-->
-            <!--Fixed content template (list mode only)-->
-            <ng-container *ngIf="get_ShowList()=='fixedchanges'">
-                <div class="newrow list-item padding-8 center-aligned">
-                    <header class="box-header sectionHeader">
-                        Level {{this.get_ShowContentLevelNumber()}} fixed changes
-                    </header>
-                </div>
-                <div id="choiceArea" class="list-item">
-                    <!--Fixed Ability boosts-->
-                    <header class="sectionHeader center-aligned" *ngIf="this.get_ShowContent()?.abilityBoosts?.length">
-                        Ability Boosts
-                    </header>
-                    <ng-container *ngFor="let boost of this.get_ShowContent().abilityBoosts; trackBy:trackByIndex;">
-                        <div class="list-item abilityboost">
-                            <div>
-                                <span>
-                                    <strong>
-                                        {{(boost.type == 'Flaw') ? 'Flaw' : 'Boost'}}
-                                    </strong>
-                                    {{boost.name}}
-                                </span>
-                                <span class="newrow left-aligned">
-                                    <strong>
-                                        Source
-                                    </strong>
-                                    {{boost.source}}
-                                </span>
-                            </div>
-                        </div>
-                    </ng-container>
-                    <!--Fixed Skill Increases-->
-                    <header class="sectionHeader center-aligned" *ngIf="this.get_ShowContent()?.skillIncreases?.length">
-                        Skill Increases
-                    </header>
-                    <ng-container
-                        *ngFor="let skillIncrease of this.get_ShowContent().skillIncreases; trackBy:trackByIndex;">
-                        <div class="list-item skillincrease">
-                            <div>
-                                <strong>
-                                    {{skillIncrease.name}}
-                                </strong>
-                                <span class="newrow left-aligned">
-                                    <strong>
-                                        Source
-                                    </strong>
-                                    {{skillIncrease.source}}
-                                </span>
-                            </div>
-                        </div>
-                    </ng-container>
-                    <!--Fixed Feats-->
-                    <header class="sectionHeader center-aligned" *ngIf="this.get_ShowContent()?.feats?.length">
-                        Feats
-                    </header>
-                    <ng-container *ngFor="let feat of this.get_ShowContent().feats; trackBy:trackByIndex;">
-                        <ng-template #FixedFeatDetail>
-                            <header class="spellHeader">{{feat.name}}</header>
-                            <app-feat [feat]="get_FeatsAndFeatures(feat.name)[0]" [choice]="null"
-                                [levelNumber]="this.get_ShowContentLevelNumber()">
-                            </app-feat>
-                        </ng-template>
-                        <div class="list-item featchoice">
-                            <strong>
-                                {{feat.name}}
-                            </strong>
-                            <i class="bi-question-circle" [ngbPopover]="FixedFeatDetail"></i>
-                            <span class="newrow left-aligned">
-                                <strong>
-                                    Source
-                                </strong>
-                                {{feat.source}}
-                            </span>
-                        </div>
-                    </ng-container>
-                    <!--Fixed Features-->
-                    <header class="sectionHeader center-aligned" *ngIf="this.get_ShowContent()?.features?.length">
-                        Features
-                    </header>
-                    <ng-container *ngFor="let feature of this.get_ShowContent().features; trackBy:trackByIndex;">
-                        <ng-template #FixedFeatureDetail>
-                            <header class="spellHeader">{{feature.name}}</header>
-                            <app-feat [feat]="get_FeatsAndFeatures(feature.name)[0]" [choice]="null"
-                                [levelNumber]="this.get_ShowContentLevelNumber()">
-                            </app-feat>
-                        </ng-template>
-                        <div class="list-item specialchoice">
-                            <strong>
-                                {{feature.name}}
-                            </strong>
-                            <i class="bi-question-circle" [ngbPopover]="FixedFeatureDetail"></i>
-                            <span class="newrow left-aligned">
-                                <strong>
-                                    Source
-                                </strong>
-                                {{feature.source}}
-                            </span>
-                        </div>
-                    </ng-container>
-                </div>
-            </ng-container>
             <!--Ability Choice Content-->
             <ng-container *ngFor="let abilityContent of get_ActiveChoiceContent('AbilityChoice'); trackBy:trackByID">
                 <div class="newrow list-item padding-8 center-aligned">

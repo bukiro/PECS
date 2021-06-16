@@ -27,7 +27,7 @@
                         <!--List mode button-->
                         <button class="newrow left-aligned sublist-toggle"
                             *ngIf="showTitle && (!get_TileMode() || showContent)"
-                            [ngClass]="{'fancy-button choicecleared':(available == choice.spells.length), 'activechoice': get_ShowChoice()==listID && (choice.showOnSheet && !itemSpell)}"
+                            [ngClass]="{'fancy-button choicecleared':(available == choice.spells.length), 'activechoice': get_ShowChoice()==listID && (!choice.showOnSheet && !itemSpell)}"
                             (click)="toggle_Choice(listID)">
                             <ng-container *ngTemplateOutlet="ButtonTitleTemplate"></ng-container>
                         </button>

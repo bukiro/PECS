@@ -99,7 +99,8 @@
                                                 <ng-template #FixedSpellContent>
                                                     <header class="spellHeader left-aligned" *ngIf="get_TileMode()">
                                                         {{spellTaken.gain.name}}
-                                                        <app-actionIcons *ngIf="spell.actions" [actionString]="spell.actions">
+                                                        <app-actionIcons *ngIf="spell.actions"
+                                                            [actionString]="spell.actions">
                                                         </app-actionIcons>
                                                     </header>
                                                     <div class="newrow left-aligned"
@@ -114,20 +115,17 @@
                                                 <ng-container *ngIf="!get_TileMode()">
                                                     <div class="list-item fullsize-only"
                                                         *ngFor="let spellID of ['showFixedSpell'+spellTaken.choice.id+spellTaken.gain.name]; trackBy:trackByIndex;">
-                                                        <button class="newrow sublist-toggle fancy-button left-aligned"
-                                                            (click)="toggle_Choice(spellID)">
+                                                        <button
+                                                            class="newrow sublist-toggle fancy-button left-aligned"
+                                                            [ngbPopover]="FixedSpellContent" triggers="click">
                                                             <span [ngbTooltip]="'Fixed spell'">
                                                                 <i class="bi-lock-fill"></i>
                                                             </span>
                                                             {{spellTaken.gain.name}}
-                                                            <app-actionIcons *ngIf="spell.actions" [actionString]="spell.actions">
+                                                            <app-actionIcons *ngIf="spell.actions"
+                                                                [actionString]="spell.actions">
                                                             </app-actionIcons>
                                                         </button>
-                                                        <div class="list-item sublist fancy-list"
-                                                            *ngIf="get_ShowChoice()==spellID">
-                                                            <ng-container *ngTemplateOutlet="FixedSpellContent">
-                                                            </ng-container>
-                                                        </div>
                                                     </div>
                                                 </ng-container>
                                                 <ng-container *ngIf="get_TileMode()">
@@ -150,7 +148,7 @@
                                                 (showSpellMessage)="receive_SpellMessage($event)"
                                                 [spellCasting]="casting" [choice]="choice"
                                                 [showHeightened]="get_Character().settings.showHeightenedSpells"
-                                                [allowBorrow]="allowBorrow" [showChoice]="showChoice"
+                                                [allowBorrow]="allowBorrow" [showChoice]="get_ShowChoice()"
                                                 [showSpell]="showSpell" [level]="level" [prepared]="prepared"
                                                 [spellbook]="true" [showContent]="false" [tileMode]="get_TileMode()">
                                             </app-spellchoice>
