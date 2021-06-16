@@ -1,16 +1,16 @@
+<div class="window-button-container">
+    <button class="tilemodebutton" [ngClass]="{'fancy-button':get_TileMode()}" (click)="toggle_TileMode()"
+        [ngbTooltip]="get_TileMode() ? 'Click to enable list layout' : 'Click to enable tiled layout'">
+        <!--Content is css only-->
+        <div>
+            <div> </div>
+            <div> </div>
+            <div> </div>
+            <div> </div>
+        </div>
+    </button>
+</div>
 <div id="crafting" class="itembox vlist">
-    <div class="window-button-container">
-        <button class="tilemodebutton" [ngClass]="{'fancy-button':get_TileMode()}" (click)="toggle_TileMode()"
-            [ngbTooltip]="get_TileMode() ? 'Click to enable list layout' : 'Click to enable tiled layout'">
-            <!--Content is css only-->
-            <div>
-                <div> </div>
-                <div> </div>
-                <div> </div>
-                <div> </div>
-            </div>
-        </button>
-    </div>
     <button class="list-item center-aligned" (click)="toggleCraftingMenu()">
         <header class="sectionHeader">Close</header>
     </button>
