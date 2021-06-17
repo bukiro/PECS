@@ -149,7 +149,7 @@ export class FeatsService {
                             }
                             if (a.length) {
                                 //You might have taken this feat multiple times on the same level, so we are only removing one instance of each of its featChoices.
-                                let b: FeatChoice = a.filter(choice => choice.source == oldFeatChoice.source)[0];
+                                let b: FeatChoice = a.find(choice => choice.source == oldFeatChoice.source);
                                 //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
                                 if (b) {
                                     b?.feats.forEach(feat => {

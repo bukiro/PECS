@@ -24,6 +24,14 @@
                     <header class="box-header sectionHeader">
                         {{buttonTitle}}
                     </header>
+                    <div class="newrow center-aligned">
+                        <span>
+                            <button class="center-aligned" *ngIf="choice.bonus"
+                                (click)="remove_BonusFeatChoice(choice)">
+                                Remove bonus feat choice
+                            </button>
+                        </span>
+                    </div>
                 </div>
                 <!--Choice content shows in content mode-->
                 <div id="{{!showTitle ? 'choiceArea' : ''}}" class="list-item"

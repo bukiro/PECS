@@ -69,8 +69,8 @@ export class FeatchoiceComponent implements OnInit {
         this.showFeatMessage.emit(this.showFeat);
     }
 
-    toggle_List(name: string) {
-        if (this.showChoice == name) {
+    toggle_List(name: string = "") {
+        if (this.showChoice == name || name == "") {
             this.showChoice = "";
             this.showFeatChoiceMessage.emit({ name: this.showChoice, levelNumber: 0, choice: null });
         } else {
@@ -639,6 +639,20 @@ export class FeatchoiceComponent implements OnInit {
         this.get_Character().take_Feat(this.get_Creature(), this.characterService, feat, feat.name, taken, choice, locked);
         this.characterService.set_ToChange("Character", "charactersheet");
         this.characterService.set_ToChange("Character", "featchoices");
+        this.characterService.process_ToChange();
+    }
+
+    remove_BonusFeatChoice(choice: FeatChoice) {
+        let level = this.get_Character().class.levels[this.levelNumber];
+        let oldChoice: FeatChoice = level.featChoices.find(existingChoice => existingChoice.id == choice.id);
+        //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
+        if (oldChoice) {
+            oldChoice.feats.forEach(feat => {
+                this.get_Character().take_Feat(this.get_Character(), this.characterService, undefined, feat.name, false, oldChoice, false);
+            });
+            level.featChoices.splice(level.featChoices.indexOf(oldChoice), 1);
+        }
+        this.toggle_List("");
         this.characterService.process_ToChange();
     }
 

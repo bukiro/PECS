@@ -112,7 +112,7 @@ export class Character extends Creature {
         }
     }
     boost_Ability(characterService: CharacterService, abilityName: string, boost: boolean, choice: AbilityChoice, locked: boolean) {
-        let type: string = choice.infoOnly ? "Info" : "Boost";
+        let type: string = choice.infoOnly ? "Info" : choice.type;
         if (boost) {
             choice.boosts.push({ "name": abilityName, "type": type, "source": choice.source, "locked": locked, "sourceId": choice.id });
         } else {

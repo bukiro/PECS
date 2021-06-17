@@ -30,4 +30,5 @@ export class FeatChoice {
     //You can add requirements to the ignore list. These get evaluated and must result in: "levelreq", "abilityreq", "featreq", "skillreq", "heritagereq", "dedicationlimit" to do anything.
     public ignoreRequirements: string[] = [];
     public type: string = "";
+    public bonus: boolean = false;
 }

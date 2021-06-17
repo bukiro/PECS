@@ -24,4 +24,5 @@ export class SkillChoice {
     public showOnSheet: boolean = false;
     public source: string = "";
     public type: string = "";
+    public bonus: boolean = false;
 }

@@ -11,6 +11,8 @@ export class AbilityChoice {
     public id: string = "";
     public infoOnly: boolean = false;
     public source: string = "";
+    public type: "Boost"|"Flaw" = "Boost";
+    public bonus: boolean = false;
     maxAvailable(character: Character) {
         let lost = 0;
         if (character.baseValues.length > 0) {

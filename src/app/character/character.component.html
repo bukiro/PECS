@@ -386,10 +386,62 @@
                     <ng-container *ngFor="let level of get_Character().class.levels; trackBy:trackByIndex;">
                         <div
                             [ngClass]="{'invisible':!(level.number > 0 && [0,level.number].includes(get_ShowLevel())), 'vlist':!get_TileMode()}">
-                            <header class="sectionHeader levelHeader" *ngIf="level.number > 0">Level
-                                {{level.number}}</header>
+                            <!--Bonuses templates mode-->
+                            <ng-template #AddBonusesTemplate>
+                                <header class="subsectionHeader">
+                                    Add bonuses
+                                </header>
+                                <span>
+                                    Source
+                                    <input type="text" id="bonusSource_{{level.number}}"
+                                        [(ngModel)]="bonusSource" maxLength="30">
+                                </span>
+                                <div class="newrow center-aligned">
+                                    <button class="abilityboost center-aligned" (click)="add_BonusAbilityChoice(level, 'Boost')">
+                                        Ability<br>Boost
+                                    </button>
+                                    <button class="abilityboost center-aligned" (click)="add_BonusAbilityChoice(level, 'Flaw')">
+                                        Ability<br>Flaw
+                                    </button>
+                                </div>
+                                <div class="newrow center-aligned">
+                                    <button class="skillincrease center-aligned" (click)="add_BonusSkillChoice(level, 'Perception')">
+                                        Perception<br>Increase
+                                    </button>
+                                    <button class="skillincrease center-aligned" (click)="add_BonusSkillChoice(level, 'Save')">
+                                        Saving&nbsp;Throw<br>Increase
+                                    </button>
+                                    <button class="skillincrease center-aligned" (click)="add_BonusSkillChoice(level, 'Skill')">
+                                        Skill<br>Increase
+                                    </button>
+                                </div>
+                                <div class="newrow center-aligned">
+                                    <button class="featchoice center-aligned" (click)="add_BonusFeatChoice(level, 'Ancestry')"
+                                        [disabled]="!this.get_Character().class.ancestry?.name">
+                                        Ancestry<br>Feat
+                                    </button>
+                                    <button class="featchoice center-aligned" (click)="add_BonusFeatChoice(level, 'Class')">
+                                        Class<br>Feat
+                                    </button>
+                                    <button class="featchoice center-aligned" (click)="add_BonusFeatChoice(level, 'General')">
+                                        General<br>Feat
+                                    </button>
+                                    <button class="featchoice center-aligned" (click)="add_BonusFeatChoice(level, 'Skill')">
+                                        Skill<br>Feat
+                                    </button>
+                                </div>
+                            </ng-template>
+                            <header class="sectionHeader levelHeader" *ngIf="level.number > 0">
+                                <span class="fullsize-only" [ngbPopover]="AddBonusesTemplate"
+                                    #AddBonusesPopover="ngbPopover" triggers="click">
+                                    <i [ngbTooltip]="!AddBonusesPopover.isOpen() ? 'Add bonus abilities, skills or feats' : ''"
+                                        class='bi-patch-plus'></i>
+                                </span>
+                                Level {{level.number}}
+                            </header>
                             <div [ngClass]="{'character-choice-grid':get_TileMode(), 'vlist':!get_TileMode()}">
-                                <div [ngClass]="{'icon-list vertical':get_TileMode()}">
+                                <div id="bonuses"
+                                    [ngClass]="{'icon-list vertical':get_TileMode(), 'vlist':!get_TileMode()}">
                                     <ng-container
                                         *ngFor="let fixedAbilityBoosts of [get_AbilityBoosts(level.number, level.number, '', '', '', '', true)]; trackBy:trackByIndex;">
                                         <ng-container
@@ -402,9 +454,9 @@
                                                         *ngIf="fixedAbilityBoosts.length + fixedSkillIncreases.length + fixedFeatures.length + fixedFeats.length > 0">
                                                         <!--Fixed information list mode-->
                                                         <div class="fullsize-only list-item" *ngIf="!get_TileMode()">
-                                                            <button class="newrow fancy-button left-aligned"
+                                                            <button class="newrow left-aligned"
                                                                 (click)="toggle_FixedChangesLevelNumber(level.number)"
-                                                                [ngClass]="{'locked-button':get_ShowFixedChangesLevelNumber()!=level.number}">
+                                                                [ngClass]="{'fancy-button':get_ShowFixedChangesLevelNumber()==level.number}">
                                                                 <i class="bi-lock-fill"></i>
                                                                 Show fixed changes
                                                             </button>
@@ -530,8 +582,7 @@
                                                         {{skillIncrease.source}}
                                                     </div>
                                                 </ng-template>
-                                                <button
-                                                    class="newrow left-aligned fancy-button skillincrease"
+                                                <button class="newrow left-aligned fancy-button skillincrease"
                                                     #FixedSkillPopover="ngbPopover"
                                                     [ngbPopover]="FixedSkillIncreaseContent" triggers="click">
                                                     <span [ngbTooltip]="'Fixed increase'">
@@ -590,14 +641,13 @@
                                                         <strong>Source</strong>
                                                         {{feat.source}}
                                                     </div>
-                                                    <app-feat [feat]="get_FeatsAndFeatures(feat.name)[0]" [choice]="null"
-                                                        [levelNumber]="level.number">
+                                                    <app-feat [feat]="get_FeatsAndFeatures(feat.name)[0]"
+                                                        [choice]="null" [levelNumber]="level.number">
                                                     </app-feat>
                                                 </ng-template>
-                                                <button
-                                                    class="newrow left-aligned fancy-button featchoice"
-                                                    #FixedFeatPopover="ngbPopover"
-                                                    [ngbPopover]="FixedFeatContent" triggers="click">
+                                                <button class="newrow left-aligned fancy-button featchoice"
+                                                    #FixedFeatPopover="ngbPopover" [ngbPopover]="FixedFeatContent"
+                                                    triggers="click">
                                                     <span [ngbTooltip]="'Fixed feat'">
                                                         <i class="bi-lock-fill"></i>
                                                     </span>
@@ -660,14 +710,13 @@
                                                         <strong>Source</strong>
                                                         {{feature.source}}
                                                     </div>
-                                                    <app-feat [feat]="get_FeatsAndFeatures(feature.name)[0]" [choice]="null"
-                                                        [levelNumber]="level.number">
+                                                    <app-feat [feat]="get_FeatsAndFeatures(feature.name)[0]"
+                                                        [choice]="null" [levelNumber]="level.number">
                                                     </app-feat>
                                                 </ng-template>
-                                                <button
-                                                    class="newrow left-aligned fancy-button specialchoice"
-                                                    #FixedFeaturePopover="ngbPopover"
-                                                    [ngbPopover]="FixedFeatureContent" triggers="click">
+                                                <button class="newrow left-aligned fancy-button specialchoice"
+                                                    #FixedFeaturePopover="ngbPopover" [ngbPopover]="FixedFeatureContent"
+                                                    triggers="click">
                                                     <span [ngbTooltip]="'Fixed ability'">
                                                         <i class="bi-lock-fill"></i>
                                                     </span>
@@ -1939,6 +1988,14 @@
                     <header class="box-header sectionHeader">
                         {{get_AbilityChoiceTitle(abilityContent.choice)}}
                     </header>
+                    <div class="newrow center-aligned">
+                        <span>
+                            <button class="center-aligned" *ngIf="abilityContent.choice.bonus"
+                                (click)="remove_BonusAbilityChoice(abilityContent.choice)">
+                                Remove bonus ability choice
+                            </button>
+                        </span>
+                    </div>
                 </div>
                 <div id="choiceArea" class="list-item">
                     <ng-container

@@ -33,8 +33,8 @@ export class SkillchoiceComponent implements OnInit {
         public characterService: CharacterService
     ) { }
 
-    toggle_List(name: string) {
-        if (this.showChoice == name) {
+    toggle_List(name: string = "") {
+        if (this.showChoice == name || name == "") {
             this.showChoice = "";
             this.showSkillChoiceMessage.emit({ name: this.showChoice, levelNumber: 0, choice: null });
         } else {
@@ -242,6 +242,15 @@ export class SkillchoiceComponent implements OnInit {
     on_SkillIncrease(skillName: string, boost: boolean, choice: SkillChoice, locked: boolean = false, maxAvailable: number) {
         if (boost && this.get_Character().settings.autoCloseChoices && (choice.increases.length == maxAvailable - 1)) { this.toggle_List(""); }
         this.get_Character().increase_Skill(this.characterService, skillName, boost, choice, locked);
+        this.characterService.process_ToChange();
+    }
+
+    remove_BonusSkillChoice(choice: SkillChoice) {
+        choice.increases.forEach(increase => {
+            this.get_Character().increase_Skill(this.characterService, increase.name, false, choice, false);
+        })
+        this.get_Character().remove_SkillChoice(choice);
+        this.toggle_List("");
         this.characterService.process_ToChange();
     }
 

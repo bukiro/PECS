@@ -58,6 +58,7 @@ export class CharacterComponent implements OnInit {
     public regionalBackgrounds: boolean = true;
     public loadAsGM: boolean = false;
     public blankCharacter: Character = new Character();
+    public bonusSource: string = "Bonus";
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -400,22 +401,7 @@ export class CharacterComponent implements OnInit {
     }
 
     on_AbilityChange(name: string) {
-        this.characterService.set_ToChange("Character", "abilities");
-        this.characterService.set_ToChange("Character", "individualskills", name);
-        this.characterService.set_ToChange("Character", "charactersheet");
-        this.characterService.set_ToChange("Character", "effects");
-        if (name == "Strength") {
-            this.characterService.set_ToChange("Character", "inventory");
-            this.characterService.set_ToChange("Character", "attacks");
-        }
-        if (name == "Dexterity") {
-            this.characterService.set_ToChange("Character", "defense");
-            this.characterService.set_ToChange("Character", "attacks");
-        }
-        if (name == "Constitution") {
-            this.characterService.set_ToChange("Character", "health");
-        }
-        this.characterService.process_ToChange();
+        this.characterService.set_AbilityToChange("Character", name);
     }
 
     set_Changed(target: string = "") {
@@ -606,7 +592,7 @@ export class CharacterComponent implements OnInit {
 
     get_AbilityChoiceTitle(choice: AbilityChoice) {
         let maxAvailable = this.get_MaxAvailable(choice);
-        let title = "Ability " + (choice.infoOnly ? "Choice (no Boost)" : "Boost");
+        let title = "Ability " + (choice.infoOnly ? "Choice (no Boost)" : choice.type);
         if (maxAvailable > 1) {
             title += "s";
         }
@@ -622,7 +608,7 @@ export class CharacterComponent implements OnInit {
     }
 
     get_AbilityTakenByThis(ability: Ability, choice: AbilityChoice, levelNumber: number) {
-        return this.get_AbilityBoosts(levelNumber, levelNumber, ability.name, (choice.infoOnly ? 'Info' : 'Boost'), choice.source).length
+        return this.get_AbilityBoosts(levelNumber, levelNumber, ability.name, (choice.infoOnly ? 'Info' : choice.type), choice.source).length
     }
 
     get_Abilities(name: string = "") {
@@ -683,8 +669,8 @@ export class CharacterComponent implements OnInit {
         //Info only choices that don't grant a boost (like for the key ability for archetypes) don't need to be checked.
         if (choice.infoOnly) { return [] };
         let reasons: string[] = [];
-        let sameBoostsThisLevel = this.get_AbilityBoosts(levelNumber, levelNumber, ability.name, "Boost", choice.source);
-        if (sameBoostsThisLevel.length > 0 && sameBoostsThisLevel[0].source == choice.source) {
+        let sameBoostsThisLevel = this.get_AbilityBoosts(levelNumber, levelNumber, ability.name, choice.type, choice.source).filter(boost => boost.source == choice.source);
+        if (sameBoostsThisLevel.length > 0) {
             //The ability may have been boosted by the same source, but as a fixed rule (e.g. fixed ancestry boosts vs. free ancestry boosts).
             //This does not apply to flaws - you can boost a flawed ability.
             if (sameBoostsThisLevel[0].locked) {
@@ -1342,6 +1328,43 @@ export class CharacterComponent implements OnInit {
         })
         abilities.shift();
         return abilities;
+    }
+
+    add_BonusAbilityChoice(level: Level, type: "Boost" | "Flaw") {
+        let newChoice = new AbilityChoice();
+        newChoice.available = 1;
+        newChoice.type = type;
+        newChoice.source = this.bonusSource || "Bonus";
+        newChoice.bonus = true;
+        this.get_Character().add_AbilityChoice(level, newChoice);
+    }
+
+    remove_BonusAbilityChoice(choice: AbilityChoice) {
+        choice.boosts.forEach(boost => {
+            this.get_Character().boost_Ability(this.characterService, boost.name, false, choice, false);
+            this.characterService.set_AbilityToChange("Character", boost.name);
+        })
+        this.get_Character().remove_AbilityChoice(choice);
+        this.toggle_List("");
+        this.characterService.process_ToChange();
+    }
+
+    add_BonusSkillChoice(level: Level, type: "Perception" | "Save" | "Skill") {
+        let newChoice = new SkillChoice();
+        newChoice.available = 1;
+        newChoice.type = type;
+        newChoice.source = this.bonusSource || "Bonus";
+        newChoice.bonus = true;
+        this.get_Character().add_SkillChoice(level, newChoice);
+    }
+
+    add_BonusFeatChoice(level: Level, type: "Ancestry" | "Class" | "General" | "Skill") {
+        let newChoice = new FeatChoice();
+        newChoice.available = 1;
+        newChoice.type = type;
+        newChoice.source = this.bonusSource || "Bonus";
+        newChoice.bonus = true;
+        this.get_Character().add_FeatChoice(level, newChoice);
     }
 
     still_loading() {
