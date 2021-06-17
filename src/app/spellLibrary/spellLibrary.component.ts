@@ -23,6 +23,7 @@ export class SpellLibraryComponent implements OnInit {
     public traditionFilter: string = "";
     public spellSource: string = "spell library";
     public showLevel: number = 0;
+    public range: number = 0;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -31,12 +32,17 @@ export class SpellLibraryComponent implements OnInit {
         private traitsService: TraitsService
     ) { }
 
+    set_Range(amount: number) {
+        this.range += amount;
+    }
+
     toggle_List(level: number) {
         if (this.showList == level) {
             this.showList = -1;
         } else {
             this.showList = level;
         }
+        this.range = 0;
     }
 
     get_ShowList() {

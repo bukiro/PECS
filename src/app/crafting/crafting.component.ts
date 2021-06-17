@@ -29,6 +29,7 @@ export class CraftingComponent implements OnInit {
     public cashG: number = 0;
     public cashS: number = 0;
     public cashC: number = 0;
+    public range: number = 0;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -36,12 +37,17 @@ export class CraftingComponent implements OnInit {
         private characterService: CharacterService
     ) { }
 
+    set_Range(amount: number) {
+        this.range += amount;
+    }
+
     toggle_List(type: string) {
         if (this.showList == type) {
             this.showList = "";
         } else {
             this.showList = type;
         }
+        this.range = 0;
     }
 
     get_ShowList() {

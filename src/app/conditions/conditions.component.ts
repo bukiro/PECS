@@ -45,6 +45,7 @@ export class ConditionsComponent implements OnInit {
     public validationError: string[] = [];
     public validationResult: string[] = [];
     public parseInt = parseInt;
+    public range: number = 0;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -57,12 +58,17 @@ export class ConditionsComponent implements OnInit {
         private traitsService: TraitsService
     ) { }
 
+    set_Range(amount: number) {
+        this.range += amount;
+    }
+
     toggle_List(type) {
         if (this.showList == type) {
             this.showList = "";
         } else {
             this.showList = type;
         }
+        this.range = 0;
     }
 
     get_ShowList() {

@@ -162,114 +162,152 @@
                         </div>
                         <ng-container *ngFor="let itemSet of items.names; let index = index; trackBy:trackByIndex;">
                             <ng-container *ngFor="let listID of [(index*1000+1000)]; trackBy:trackByIndex;">
-                                <button class="list-item"
-                                    [ngStyle]="{'display':!get_VisibleItems(items[itemSet.key]).length ? 'none' : 'flex' }"
-                                    (click)="toggle_List(listID)">
-                                    <header class="sectionHeader">{{itemSet.name}}</header>
-                                </button>
-                                <div [ngClass]="{'icon-list':get_TileMode(), 'list-item':!get_TileMode()}"
-                                    [ngStyle]="{'display':!get_VisibleItems(items[itemSet.key]).length ? 'none' : 'flex' }"
-                                    *ngIf="get_ShowList()==listID||get_ShowList()=='All'">
-                                    <ng-container
-                                        *ngFor="let item of get_VisibleItems(items[itemSet.key]); trackBy:trackByIndex;">
-                                        <ng-container *ngFor="let canUse of [get_CanUse(item)]; trackBy:trackByIndex">
-                                            <ng-template #ItemTitleTemplate>
-                                                <span>
-                                                    <i class="value bi-x penalty"
-                                                        *ngIf="!get_TileMode() && canUse == false"
-                                                        [ngbTooltip]="'You are not trained with this item.'"></i>
-                                                    <i class="value bi-check2 bonus" *ngIf="!get_TileMode() && canUse"
-                                                        [ngbTooltip]="'You are trained with this item.'"></i>
-                                                    {{(item.get_Name) ? item.get_Name() : item.name}}
-                                                </span>
-                                                <span *ngIf="item.type == 'armors'">
-                                                    {{(["Light Barding", "Heavy Barding"] .includes(item.prof)) ?
-                                                    item.prof : item.prof.split(" ")[0]}}
-                                                    {{item.group}}{{(item.type=="armors" && (!["Unarmored
-                                                    Defense","Light Barding", "Heavy Barding"].includes(item.prof))) ? "
-                                                    Armor" : ""}}
-                                                </span>
-                                                <span *ngIf="item.type == 'weapons'">
-                                                    {{(item.prof == 'Unarmed Attacks') ? item.prof : item.prof.substr(0,
-                                                    item.prof.length - 8)}} {{item.group}}
-                                                </span>
-                                                <span>
-                                                    {{(item.level) ? "Level "+item.level :
-                                                    "&nbsp;"}}
-                                                </span>
-                                            </ng-template>
-                                            <ng-template #ItemTooltipTemplate>
-                                                <span>
-                                                    {{(item.get_Name) ? item.get_Name() : item.name}}
-                                                </span>
-                                                <span *ngIf="item.type == 'armors'">
-                                                    ({{(item.level) ? "Level "+item.level+" " : ""}}{{(["Light Barding",
-                                                    "Heavy Barding"].includes(item.prof)) ? item.prof :
-                                                    item.prof.split(" ")[0]}}{{item.group ? " " + item.group :
-                                                    ""}}{{(item.type=="armors" && (!["Unarmored Defense","Light
-                                                    Barding", "Heavy Barding"].includes(item.prof))) ? " Armor" : ""}})
-                                                </span>
-                                                <span *ngIf="item.type == 'weapons'">
-                                                    ({{(item.level) ? "Level "+item.level+" " :""}}{{(item.prof ==
-                                                    'Unarmed Attacks') ? item.prof : item.prof.substr(0,
-                                                    item.prof.length - 8)}} {{item.group}})
-                                                </span>
-                                            </ng-template>
-                                            <ng-template #ItemTemplate>
-                                                <header class="spellHeader newrow" *ngIf="get_TileMode()">
-                                                    <ng-container *ngTemplateOutlet="ItemTitleTemplate">
+                                <ng-container
+                                    *ngFor="let visibleItems of [get_VisibleItems(items[itemSet.key])]; trackBy:trackByIndex;">
+                                    <button class="list-item"
+                                        [ngStyle]="{'display':!visibleItems.length ? 'none' : 'flex' }"
+                                        (click)="toggle_List(listID)">
+                                        <header class="sectionHeader">{{itemSet.name}}</header>
+                                    </button>
+                                    <div [ngClass]="{'icon-list':get_TileMode(), 'list-item':!get_TileMode()}"
+                                        [ngStyle]="{'display':!visibleItems.length ? 'none' : 'flex' }"
+                                        *ngIf="get_ShowList()==listID||get_ShowList()=='All'">
+                                        <div class="newrow list-item"
+                                            *ngIf="visibleItems.length >= 80 && get_ShowList()!='All'"
+                                            (click)="set_Range(-1)">
+                                            <button class="center-aligned" [disabled]="range <= 0">
+                                                Previous 40
+                                            </button>
+                                            <header class="newrow subsectionHeader center-aligned">
+                                                Showing {{(range * 40) + 1}}-{{(((range + 1) * 40) >=
+                                                visibleItems.length) ? visibleItems.length : ((range + 1) *
+                                                40)}} of {{visibleItems.length}}
+                                            </header>
+                                        </div>
+                                        <ng-container
+                                            *ngFor="let item of visibleItems; let itemIndex = index; trackBy:trackByIndex;">
+                                            <ng-container
+                                                *ngIf="visibleItems.length < 80 || get_ShowList()=='All' || (itemIndex >= (range * 40) && itemIndex < ((range + 1) * 40 ))">
+                                                <ng-container
+                                                    *ngFor="let canUse of [get_CanUse(item)]; trackBy:trackByIndex">
+                                                    <ng-template #ItemTitleTemplate>
+                                                        <span>
+                                                            <i class="value bi-x penalty"
+                                                                *ngIf="!get_TileMode() && canUse == false"
+                                                                [ngbTooltip]="'You are not trained with this item.'"></i>
+                                                            <i class="value bi-check2 bonus"
+                                                                *ngIf="!get_TileMode() && canUse"
+                                                                [ngbTooltip]="'You are trained with this item.'"></i>
+                                                            {{(item.get_Name) ? item.get_Name() : item.name}}
+                                                        </span>
+                                                        <span>
+                                                            {{(item.level) ? "Level "+item.level :
+                                                            "&nbsp;"}}
+                                                            <span *ngIf="item.type == 'armors'">
+                                                                {{(["Light Barding", "Heavy
+                                                                Barding"].includes(item.prof)) ? item.prof :
+                                                                item.prof.split(" ")[0]}}
+                                                                {{item.group}}{{(item.type=="armors" && (!["Unarmored
+                                                                Defense","Light Barding", "Heavy
+                                                                Barding"].includes(item.prof))) ? " Armor" : ""}}
+                                                            </span>
+                                                            <span *ngIf="item.type == 'weapons'">
+                                                                {{(item.prof == 'Unarmed Attacks') ? item.prof :
+                                                                item.prof.substr(0, item.prof.length - 8)}}
+                                                                {{item.group}}
+                                                            </span>
+                                                        </span>
+                                                    </ng-template>
+                                                    <ng-template #ItemTooltipTemplate>
+                                                        <span>
+                                                            {{(item.get_Name) ? item.get_Name() : item.name}}
+                                                        </span>
+                                                        <span>
+                                                            {{(item.level) ? "Level "+item.level :
+                                                            "&nbsp;"}}
+                                                            <span *ngIf="item.type == 'armors'">
+                                                                {{(["Light Barding", "Heavy
+                                                                Barding"].includes(item.prof)) ? item.prof :
+                                                                item.prof.split(" ")[0]}}
+                                                                {{item.group}}{{(item.type=="armors" && (!["Unarmored
+                                                                Defense","Light Barding", "Heavy
+                                                                Barding"].includes(item.prof))) ? " Armor" : ""}}
+                                                            </span>
+                                                            <span *ngIf="item.type == 'weapons'">
+                                                                {{(item.prof == 'Unarmed Attacks') ? item.prof :
+                                                                item.prof.substr(0, item.prof.length - 8)}}
+                                                                {{item.group}}
+                                                            </span>
+                                                        </span>
+                                                    </ng-template>
+                                                    <ng-template #ItemTemplate>
+                                                        <header class="spellHeader newrow" *ngIf="get_TileMode()">
+                                                            <ng-container *ngTemplateOutlet="ItemTitleTemplate">
+                                                            </ng-container>
+                                                        </header>
+                                                        <ng-container>
+                                                            <div class="newrow"
+                                                                [ngbTooltip]="cannot_Craft(item).join('\n')">
+                                                                <button class="newrow center-aligned"
+                                                                    (click)="grant_Item(item)"
+                                                                    [disabled]="cannot_Craft(item).length">
+                                                                    Craft using Craft activity
+                                                                </button>
+                                                            </div>
+                                                        </ng-container>
+                                                        <app-itemMaterial class="newrow" [item]=item
+                                                            [craftingStation]="true">
+                                                        </app-itemMaterial>
+                                                        <div class="newrow list-item left-aligned"
+                                                            *ngIf="get_IsEquipment(item)">
+                                                            <input id="{{item.id}}shoddy" type="checkbox"
+                                                                [(ngModel)]="item.shoddy">
+                                                            <label for="{{item.id}}shoddy">Shoddy</label>
+                                                        </div>
+                                                        <app-item class="lower" [item]=item [itemStore]=true></app-item>
+                                                    </ng-template>
+                                                    <ng-container *ngIf="!get_TileMode()">
+                                                        <div class="list-item"
+                                                            *ngFor="let inventoryID of [listID+item.id]; trackBy:trackByIndex;">
+                                                            <ng-container *ngIf="!get_TileMode()"></ng-container>
+                                                            <button class="newrow sublist-toggle"
+                                                                (click)="toggle_Item(inventoryID)">
+                                                                <ng-container *ngTemplateOutlet="ItemTitleTemplate">
+                                                                </ng-container>
+                                                            </button>
+                                                            <div class="list-item sublist lower"
+                                                                *ngIf="get_ShowItem()==inventoryID">
+                                                                <ng-container *ngTemplateOutlet="ItemTemplate">
+                                                                </ng-container>
+                                                            </div>
+                                                        </div>
                                                     </ng-container>
-                                                </header>
-                                                <ng-container>
-                                                    <div class="newrow" [ngbTooltip]="cannot_Craft(item).join('\n')">
-                                                        <button class="newrow center-aligned" (click)="grant_Item(item)"
-                                                            [disabled]="cannot_Craft(item).length">
-                                                            Craft using Craft activity
+                                                    <ng-container *ngIf="get_TileMode()">
+                                                        <button [ngbPopover]="ItemTemplate" triggers="click"
+                                                            [ngClass]="{'penalty': canUse == false, 'bonus': canUse}"
+                                                            (click)="toggle_Item()">
+                                                            <app-gridIcon [updateId]="item.id"
+                                                                [ngClass]="{'penalty': canUse == false, 'bonus': canUse}"
+                                                                [ngbTooltip]="ItemTooltipTemplate"
+                                                                [title]="item.displayName || item.name"
+                                                                [detail]="(item.traits.includes('Rare') ? 'R' : (item.traits.includes('Uncommon') ? 'U' : (item.traits.includes('Unique') ? 'Q' : ''))) + (item.level || '')"
+                                                                [item]="item">
+                                                            </app-gridIcon>
                                                         </button>
-                                                    </div>
+                                                    </ng-container>
                                                 </ng-container>
-                                                <app-itemMaterial class="newrow" [item]=item [craftingStation]="true">
-                                                </app-itemMaterial>
-                                                <div class="newrow list-item left-aligned"
-                                                    *ngIf="get_IsEquipment(item)">
-                                                    <input id="{{item.id}}shoddy" type="checkbox"
-                                                        [(ngModel)]="item.shoddy">
-                                                    <label for="{{item.id}}shoddy">Shoddy</label>
-                                                </div>
-                                                <app-item class="lower" [item]=item [itemStore]=true></app-item>
-                                            </ng-template>
-                                            <ng-container *ngIf="!get_TileMode()">
-                                                <div class="list-item"
-                                                    *ngFor="let inventoryID of [listID+item.id]; trackBy:trackByIndex;">
-                                                    <ng-container *ngIf="!get_TileMode()"></ng-container>
-                                                    <button class="newrow sublist-toggle"
-                                                        (click)="toggle_Item(inventoryID)">
-                                                        <ng-container *ngTemplateOutlet="ItemTitleTemplate">
-                                                        </ng-container>
-                                                    </button>
-                                                    <div class="list-item sublist lower"
-                                                        *ngIf="get_ShowItem()==inventoryID">
-                                                        <ng-container *ngTemplateOutlet="ItemTemplate">
-                                                        </ng-container>
-                                                    </div>
-                                                </div>
-                                            </ng-container>
-                                            <ng-container *ngIf="get_TileMode()">
-                                                <button [ngbPopover]="ItemTemplate" triggers="click"
-                                                    [ngClass]="{'penalty': canUse == false, 'bonus': canUse}"
-                                                    (click)="toggle_Item()">
-                                                    <app-gridIcon [updateId]="item.id"
-                                                        [ngClass]="{'penalty': canUse == false, 'bonus': canUse}"
-                                                        [ngbTooltip]="ItemTooltipTemplate"
-                                                        [title]="item.displayName || item.name"
-                                                        [detail]="(item.traits.includes('Rare') ? 'R' : (item.traits.includes('Uncommon') ? 'U' : (item.traits.includes('Unique') ? 'Q' : ''))) + (item.level || '')"
-                                                        [item]="item">
-                                                    </app-gridIcon>
-                                                </button>
                                             </ng-container>
                                         </ng-container>
-                                    </ng-container>
-                                </div>
+                                        <div class="newrow list-item"
+                                            *ngIf="visibleItems.length >= 80 && get_ShowList()!='All'">
+                                            <button class="center-aligned"
+                                                [disabled]="(range + 1) * 40 >= visibleItems.length"
+                                                (click)="set_Range(1)">
+                                                Next 40
+                                            </button>
+                                        </div>
+                                    </div>
+                                </ng-container>
                             </ng-container>
                         </ng-container>
                     </ng-container>
