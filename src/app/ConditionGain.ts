@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 export class ConditionGain {
     public readonly _className: string = this.constructor.name;
     public addValue: number = 0;
+    public addValueUpperLimit: number = 0;
+    public addValueLowerLimit: number = 0;
     public id = uuidv4();
     public foreignPlayerId: string = "";
     public apply: boolean = true;

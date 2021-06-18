@@ -1,5 +1,35 @@
 [
     {
+        "name": "Emergency Disguise",
+        "_className": "Talisman",
+        "id": "6bf295c5-209b-4a4b-8767-fa22076ba918",
+        "level": 1,
+        "price": 300,
+        "sourceBook": "Pathfinder Society Guide",
+        "traits": [
+            "Uncommon",
+            "Conjuration",
+            "Consumable",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armor"
+        ],
+        "actions": "1A",
+        "activationType": "Envision",
+        "requirements": "You're trained in Deception.",
+        "desc": "In Woodsedge Lodge, this thin red ribbon, typically worn around the neck, symbolizes the reach of Galt's soul-trapping guillotines, the infamous final blades. Each of these talismans stores a specific disguise, chosen at the time of its creation. When activated, the talisman applies a disguise to its wearer, allowing them to Impersonate without taking the time to assemble a convincing disguise first. The components the disguise creates can appear to be worth up to 3 gp total. The instant nature of the disguise leaves a few traces of its haphazard nature, imposing a -2 circumstance penalty on checks to Impersonate using the disguise. Wearers with the Quick Disguise feat don't take this penalty. Any objects created as a part of the disguise disappear after 24 hours or after you remove them.",
+        "gainConditions": [
+            {
+                "duration": 144000,
+                "name": "Emergency Disguise",
+                "source": "Emergency Disguise"
+            }
+        ]
+    },
+    {
         "name": "Owlbear Claw",
         "_className": "Talisman",
         "id": "a0d7cc62-c9b6-11ea-87d0-0242ac130003",
@@ -69,6 +99,30 @@
         "trigger": "You successfully Trip a foe",
         "requirements": "You are trained in Athletics",
         "desc": "This wolf canine is bound in a strip of leather and tied to a buckle or strap of a suit of armor. When you activate the fang, you deal |dice=strmod B| bludgeoning damage equal to your Strength modifier to the target of your Trip. If your Trip would already deal physical damage that doesn't include an ability modifier, add your Strength modifier to that damage."
+    },
+    {
+        "name": "Slippery Ribbon",
+        "_className": "Talisman",
+        "id": "a761a174-7e7f-434a-8c29-5cc4f0b09793",
+        "level": 1,
+        "price": 1200,
+        "sourceBook": "The Slithering",
+        "traits": [
+            "Uncommon",
+            "Consumable",
+            "Magical",
+            "Talisman",
+            "Transmutation"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armor"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You succeed at an Acrobatics check to Tumble Through, but you don't have enough Speed to move all the way through the enemy's space",
+        "requirements": "You are an expert in Acrobatics.",
+        "desc": "This ribbon is constantly greasy to the touch and stains the armor it's affixed to. When you activate the slippery ribbon, your Speed increases by an amount necessary for you to move all the way through the enemy's space."
     },
     {
         "name": "Hunter's Bane",
@@ -541,6 +595,37 @@
         "desc": "This metal grasshopper studded with emeralds is usually clasped to the legs of a suit of armor. When you activate it, if you succeed at the Athletics check, you Leap up to 50 feet vertically and up to 10 feet horizontally. If you critically succeed, you can Leap up to 75 feet vertically and 20 feet horizontally. If you don't end your jump on solid ground, you flutter in the air until the end of your turn, then fall harmlessly at a rate of 60 feet per round until you reach the ground."
     },
     {
+        "name": "Oily Button",
+        "_className": "Talisman",
+        "id": "8fddaa03-3211-4f19-b591-c603d6b9194e",
+        "level": 5,
+        "price": 3000,
+        "sourceBook": "The Slithering",
+        "traits": [
+            "Uncommon",
+            "Conjuration",
+            "Consumable",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You succeed at an Athletics check to Disarm",
+        "requirements": "You are an expert in Athletics.",
+        "desc": "A thin sheen of slick oil covers this gaudy button. When you activate the oily button, your attempts to Disarm your opponent of an item before the start of the opponent's next turn gain a +4 circumstance bonus instead of +2, and the –2 circumstance penalty to attacks with the item or other checks requiring a firm grasp on the item lasts until the end of its next turn or until it uses an Interact action to adjust its grip.",
+        "gainConditions": [
+            {
+                "duration": 7,
+                "name": "Oily Button",
+                "source": "Oily Button"
+            }
+        ]
+    },
+    {
         "name": "Tiger Menuki",
         "_className": "Talisman",
         "id": "a0d7e3b4-c9b6-11ea-87d0-0242ac130003",
@@ -613,6 +698,55 @@
         "trigger": "You attempt an Intimidation check to Coerce or Demoralize, but you haven't rolled yet",
         "requirements": "You are an expert in Intimidation",
         "desc": "This talisman comes in many forms, most often a severed piece of a humanoid creature displayed in some gruesome manner. When you activate the trophy, select two targets and compare your Intimidation check result to both of their DCs."
+    },
+    {
+        "name": "Whisper Briolette",
+        "_className": "Talisman",
+        "id": "e28a3f38-5eb9-4f54-b454-96845218eed6",
+        "level": 7,
+        "price": 5500,
+        "sourceBook": "Pathfinder #160: Assault on Hunting Lodge Seven",
+        "traits": [
+            "Uncommon",
+            "Consumable",
+            "Divination",
+            "Magical",
+            "Mental",
+            "Talisman"
+        ],
+        "usage": "affixed to armor or to an outfit if a character has no armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "2A",
+        "activationType": "Envision",
+        "trigger": "You succeed at an Athletics check to Disarm",
+        "requirements": "You are an expert in Stealth.",
+        "desc": "This teardrop-shaped gemstone has triangular facets and looks suitable for fancy attire, although close inspection shows that it's hollow. When it's activated, you can instantly impart up to 1 minute of speech (roughly 150 words) telepathically to any creatures you choose within 100 feet. You can impart this instantaneous telepathic message to creatures that you perceive and creatures hidden to you, but you can't do so to undetected creatures. Once used, the whisper briolette becomes unusable and subtly vanishes within the next few minutes, rather than crumbling to dust."
+    },
+    {
+        "name": "Putrescent Glob",
+        "_className": "Talisman",
+        "id": "8a7c666c-bc67-4973-8ce8-7989d46e098e",
+        "level": 7,
+        "price": 6500,
+        "sourceBook": "The Slithering",
+        "traits": [
+            "Uncommon",
+            "Conjuration",
+            "Consumable",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to a weapon",
+        "targets": [
+            "weapons"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You damage a creature that is sickened 1 with a Strike using the affixed weapon",
+        "requirements": "You are an expert with the affixed weapon.",
+        "desc": "This repulsive, hairy glob dangles from the end of your weapon. When you activate the putrescent glob, the creature you damaged must succeed at a DC 23 Fortitude save or its sickened condition increases to sickened 2, and it can't reduce its sickened condition until the end of its next turn. On a critical failure, it's also slowed 1 until the end of its next turn."
     },
     {
         "name": "Murderer's Knot",
@@ -708,6 +842,29 @@
                 "source": "Jade Bauble"
             }
         ]
+    },
+    {
+        "name": "Basilisk Eye",
+        "_className": "Talisman",
+        "id": "2abb21c5-0597-447f-a8eb-1924184fe7b4",
+        "level": 9,
+        "price": 15000,
+        "sourceBook": "Advanced Player's Guide",
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Talisman",
+            "Transmutation",
+            "Visual"
+        ],
+        "usage": "affixed to a shield",
+        "targets": [
+            "shields"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "Trigger": "You Shield Block a melee attack with the affixed shield.",
+        "desc": "This slimy green stone glows with a strong light whenever the shield it adorns blocks a melee attack. When the eye is activated, the attacker must succeed at a DC 25 Fortitude save or become slowed 1 for 1 minute as its body slowly stiffens in partial petrification."
     },
     {
         "name": "Vanishing Coin",
@@ -849,6 +1006,29 @@
                 "source": "Fade Band"
             }
         ]
+    },
+    {
+        "name": "Balisse Feather",
+        "_className": "Talisman",
+        "id": "583487b7-c381-43b4-bc1c-dbe0d800285d",
+        "level": 12,
+        "price": 40000,
+        "sourceBook": "Advanced Player's Guide",
+        "traits": [
+            "Consumable",
+            "Divine",
+            "Evocation",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to a weapon",
+        "targets": [
+            "weapons"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "Trigger": "You deal damage using the affixed weapon to a creature you have seen commit an evil act.",
+        "desc": "This long, fire-red feather seems to catch flame every time the weapon it adorns strikes a purveyor of evil. When you activate the feather, the creature you damaged burns with holy light. The creature must succeed at a DC 29 Will save or take a –2 status penalty to AC and saving throws and reduce its resistances by 5. These effects last until the end of your next turn."
     },
     {
         "name": "Eye of Apprehension",

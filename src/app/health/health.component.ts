@@ -24,7 +24,7 @@ export class HealthComponent implements OnInit {
     public sheetSide: string = "left";
 
     public damageSliderMax: number = 1;
-    
+
     public damage: number = 0;
     public nonlethal: boolean = false;
     public setTempHP: number = 0;
@@ -224,24 +224,30 @@ export class HealthComponent implements OnInit {
             effect.creature == this.get_Creature().id && (effect.target.toLowerCase().includes("resistance") ||
                 effect.target.toLowerCase().includes("hardness")) && effect.apply && !effect.ignored);
         let resistances: { target: string, value: number, source: string }[] = [];
-        effects.forEach(effect => {
+        //Build a list of all resistances other than "Resistances" and add up their respective value.
+        effects.filter(effect => effect.target.toLowerCase() != "resistances").forEach(effect => {
             let value = effect.value || effect.setValue;
             let resistance = resistances.find(res => res.target == effect.target);
             if (resistance) {
                 resistance.value += parseInt(value);
-                resistance.source += "\n" + effect.source;
+                resistance.source += "\n" + effect.source + ': ' + parseInt(value);
             } else {
-                resistances.push({ target: effect.target, value: parseInt(value), source: effect.source });
+                resistances.push({ target: effect.target, value: parseInt(value), source: effect.source + ': ' + parseInt(value) });
             }
         });
+        //Globally apply any effects on "Resistances".
+        effects.filter(effect => effect.target.toLowerCase() == "resistances").forEach(effect => {
+            let value = effect.value || effect.setValue;
+            resistances.forEach(resistance => {
+                resistance.value += parseInt(value);
+                resistance.source += "\n" + effect.source + ': ' + parseInt(value);
+            })
+        })
         resistances.forEach((res: { target: string, value: number, source: string }) => {
             if (res.value < 0) {
                 res.target = res.target.toLowerCase().replace("resistance", "weakness");
             }
             res.target = res.target.split(" ").map(word => word[0].toUpperCase() + word.substr(1).toLowerCase()).join(" ");
-            if (res.source.includes("\n")) {
-                res.source = "\n" + res.source;
-            }
         });
         return resistances;
     }

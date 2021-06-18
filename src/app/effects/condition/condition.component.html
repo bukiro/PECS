@@ -69,7 +69,7 @@
                     </strong>
                 </span>
             </div>
-            <span *ngIf="!(conditionGain.lockedByParent && conditionGain.parentID)"
+            <span *ngIf="!((conditionGain.lockedByParent || conditionGain.valueLockedByParent) && conditionGain.parentID)"
                 [ngbTooltip]="conditionGain.source.includes('Feat: ') ? 'Conditions gained from feats cannot be removed.' : ''">
                 <button (click)="remove_Condition(conditionGain)" [disabled]="conditionGain.source.includes('Feat: ')"
                     *ngIf="conditionGain.duration != 1">

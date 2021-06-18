@@ -68,7 +68,12 @@ export class ObjectEffectsComponent implements OnInit {
     }
 
     get_IsFormula(value: string) {
-        return isNaN(parseInt(value));
+        if (isNaN(parseInt(value))) {
+            if (!value.match("^[0-9-]*$").length) {
+                return true;
+            }
+        }
+        return false;
     }
 
     get_EffectValue(effect: EffectGain) {

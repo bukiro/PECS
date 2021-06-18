@@ -1490,6 +1490,12 @@ export class CharacterService {
                     if (existingConditions.length) {
                         existingConditions.forEach(gain => {
                             gain.value += conditionGain.addValue;
+                            if (conditionGain.addValueUpperLimit) {
+                                gain.value = Math.min(gain.value, conditionGain.addValueUpperLimit);
+                            }
+                            if (conditionGain.addValueLowerLimit) {
+                                gain.value = Math.max(gain.value, conditionGain.addValueLowerLimit);
+                            }
                             //If this condition gain has both locked properties and addValue, transfer these properties and change the parentID to this one, but only if the existing gain does not have them.
                             if (conditionGain.lockedByParent && !gain.lockedByParent) {
                                 gain.lockedByParent = true;
@@ -1507,6 +1513,12 @@ export class CharacterService {
                     } else {
                         if (!conditionGain.value) {
                             conditionGain.value = conditionGain.addValue;
+                            if (conditionGain.addValueUpperLimit) {
+                                conditionGain.value = Math.min(conditionGain.value, conditionGain.addValueUpperLimit);
+                            }
+                            if (conditionGain.addValueLowerLimit) {
+                                conditionGain.value = Math.max(conditionGain.value, conditionGain.addValueLowerLimit);
+                            }
                         }
                         if (conditionGain.value > 0) {
                             newLength = creature.conditions.push(conditionGain);

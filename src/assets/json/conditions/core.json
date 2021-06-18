@@ -4236,7 +4236,6 @@
                 "conditionChoiceFilter": "Legendary Crafter"
             }
         ],
-        "choice": "",
         "choices": [
             {
                 "name": "-"
@@ -4708,7 +4707,6 @@
                 "duration": 10
             }
         ],
-        "choice": "",
         "choices": [
             {
                 "name": "-"
@@ -10769,6 +10767,71 @@
         ]
     },
     {
+        "name": "Balisse Feather",
+        "desc": "After being damaged with a weapon with the balisse feather affixed, you burn with holy light. You must succeed at a DC 29 Will save or take a -2 status penalty to AC and saving throws and reduce your resistances by 5. These effects last until the end of the attacker's next turn.",
+        "type": "talismans",
+        "defaultDurations": [
+            {
+                "duration": 12
+            }
+        ],
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 12
+            }
+        ],
+        "effects": [
+            {
+                "affected": "AC",
+                "type": "status",
+                "value": "Choice == 'Failure' ? -2 : 0"
+            },
+            {
+                "affected": "Saving Throws",
+                "type": "status",
+                "value": "Choice == 'Failure' ? -2 : 0"
+            },
+            {
+                "affected": "Resistances",
+                "value": "Choice == 'Failure' ? -5 : 0"
+            }
+        ]
+    },
+    {
+        "name": "Basilisk Eye",
+        "desc": "After your attack was blocked by a shield with the basilisk eye affixed, you must succeed at a DC 25 Fortitude save or become slowed 1 for 1 minute as your body slowly stiffens in partial petrification.",
+        "type": "talismans",
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 100
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": "Failure",
+                "name": "Slowed",
+                "value": 1
+            }
+        ]
+    },
+    {
         "name": "Dragon Turtle Scale",
         "desc": "You gain a swim Speed equal to half your land Speed.",
         "type": "talismans",
@@ -10799,6 +10862,30 @@
             {
                 "desc": "You can move across water and other liquids as if they were solid ground. If you Stride or Step over a weight-sensitive pressure plate, you don't cause the plate to depress, which prevents you from triggering any device or hazard attached to the pressure plate. When the effect ends, you sink, fall, break through flimsy ground, or land on pressure plates as normal for your current location.",
                 "showon": "Movement"
+            }
+        ]
+    },
+    {
+        "name": "Emergency Disguise",
+        "desc": "The emergency disguise talisman has applied a disguise to you, allowing you to Impersonate without taking the time to assemble a convincing disguise first. The components the disguise creates can appear to be worth up to 3 gp total. The instant nature of the disguise leaves a few traces of its haphazard nature, imposing a -2 circumstance penalty on checks to Impersonate using the disguise. Wearers with the Quick Disguise feat don't take this penalty. Any objects created as a part of the disguise disappear after 24 hours or after you remove them.",
+        "type": "talismans",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 144000
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You take a -2 circumstance penalty on checks to Impersonate using the emergency disguise. Wearers with the Quick Disguise feat don't take this penalty.",
+                "showon": "Deception",
+                "effects": [
+                    {
+                        "affected": "Deception",
+                        "type": "circumstance",
+                        "value": "Has_Feat(Creature.type, 'Quick Disguise') ? 0 : -2"
+                    }
+                ]
             }
         ]
     },
@@ -10895,6 +10982,30 @@
         ]
     },
     {
+        "name": "Oily Button",
+        "desc": "After you succeeded at an Athletics check to Disarm and activated the oily button, your attempts to Disarm your opponent of an item before the start of the opponent's next turn gain a +4 circumstance bonus instead of +2, and the -2 circumstance penalty to attacks with the item or other checks requiring a firm grasp on the item lasts until the end of its next turn or until it uses an Interact action to adjust its grip.",
+        "type": "talismans",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 7
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Your attempts to Disarm your opponent of an item before the start of the opponent's next turn gain a +4 circumstance bonus instead of +2.",
+                "showon": "Athletics",
+                "effects": [
+                    {
+                        "affected": "Athletics",
+                        "type": "circumstance",
+                        "value": "4"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "name": "Onyx Panther",
         "desc": "You can move your full Speed (instead of half) whenever you Sneak for the duration.",
         "type": "talismans",
@@ -10940,6 +11051,54 @@
         ]
     },
     {
+        "name": "Putrescent Glob",
+        "desc": "After being damaged with a weapon with the putrescent glob affixed, you must succeed at a DC 23 Fortitude save or your sickened condition increases to sickened 2, and you can't reduce you sickened condition until the end of your next turn. On a critical failure, you are also slowed 1 until the end of your next turn.",
+        "type": "talismans",
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 10
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": 10
+            }
+        ],
+        "gainConditions": [
+            {
+                "addValue": 1,
+                "addValueUpperLimit": 2,
+                "addValueLowerLimit": 2,
+                "conditionChoiceFilter": "Failure",
+                "valueLockedByParent": true,
+                "name": "Sickened"
+            },
+            {
+                "addValue": 1,
+                "addValueUpperLimit": 2,
+                "addValueLowerLimit": 2,
+                "conditionChoiceFilter": "Critical Failure",
+                "valueLockedByParent": true,
+                "name": "Sickened"
+            },
+            {
+                "conditionChoiceFilter": "Critical Failure",
+                "name": "Slowed",
+                "value": 1
+            }
+        ]
+    },
+    {
         "name": "Snapleaf",
         "desc": "You gain the benefits of feather fall and a 2nd-level invisibility spell for the duration or until you stop falling, whichever comes first.",
         "type": "talismans",
@@ -10952,7 +11111,7 @@
         "inputRequired": "Remove this condition when you stop falling.",
         "gainConditions": [
             {
-                "ignorePersistent": "2",
+                "heightened": 2,
                 "name": "Invisibility"
             },
             {
@@ -30224,6 +30383,7 @@
             },
             {
                 "addValue": 2,
+                "conditionChoiceFilter": "Stage 2",
                 "lockedByParent": true,
                 "name": "Drained"
             }
