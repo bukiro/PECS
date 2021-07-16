@@ -63,7 +63,7 @@
                     <cite class="trait" *ngFor="let trait of spell.traits; trackBy:trackByIndex;"
                         [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
                 </div>
-                <app-spellContent class="newrow left-aligned" [spell]=spell [spellLevel]="get_SpellLevel(levelNumber)">
+                <app-spellContent class="vlist fullwidth" [spell]=spell [spellLevel]="get_SpellLevel(levelNumber)">
                 </app-spellContent>
             </ng-container>
         </ng-container>
@@ -78,7 +78,7 @@
                 <cite class="trait" *ngFor="let trait of spell.traits; trackBy:trackByIndex;"
                     [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
             </div>
-            <app-spellContent class="newrow left-aligned" [spell]=spell [spellLevel]="get_SpellLevel(levelNumber)">
+            <app-spellContent class="vlist fullwidth" [spell]=spell [spellLevel]="get_SpellLevel(levelNumber)">
             </app-spellContent>
         </ng-container>
     </ng-container>

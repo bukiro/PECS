@@ -104,6 +104,6 @@
             <cite class="trait" *ngFor="let trait of shownSpell.traits; trackBy:trackByIndex;"
                 [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
         </div>
-        <app-spellContent class="left-aligned" [spell]=shownSpell [spellLevel]="shownSpellSet.level || spellLevel || 0" [casting]="casting"></app-spellContent>
+        <app-spellContent class="vlist fullwidth" [spell]=shownSpell [spellLevel]="shownSpellSet.level || spellLevel || 0" [casting]="casting"></app-spellContent>
     </div>
 </div>

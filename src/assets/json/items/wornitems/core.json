@@ -3074,6 +3074,51 @@
         ]
     },
     {
+        "name": "Ring of Lies",
+        "id": "0de44cf9-5fa2-4baa-8275-c1fa71868761",
+        "desc": "This plain silver ring has an almost oily sheen. While wearing the ring, you gain a +2 item bonus to Deception checks.",
+        "_className": "WornItem",
+        "level": 10,
+        "price": 85000,
+        "traits": [
+            "Uncommon",
+            "Enchantment",
+            "Invested",
+            "Magical"
+        ],
+        "usage": "worn",
+        "effects": [
+            {
+                "_className": "EffectGain",
+                "affected": "Deception",
+                "type": "item",
+                "value": "2"
+            }
+        ],
+        "activities": [
+            {
+                "_className": "ItemActivity",
+                "name": "Ring of Lies",
+                "source": "0de44cf9-5fa2-4baa-8275-c1fa71868761",
+                "actions": "2A",
+                "activationType": "Interact",
+                "desc": "Snapping your fingers on the hand that wears the ring causes the ring to cast glibness on you with no visual manifestations of a spell being cast.",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "name": "Glibness"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Enchantment",
+                    "Invested",
+                    "Magical"
+                ]
+            }
+        ]
+    },
+    {
         "name": "Winged Boots",
         "id": "b45d0723-ade2-4ffe-a220-5bfaaa66b890",
         "desc": "Made from soft leather, with delicate white wings attached to the heel, these boots are ensorcelled with powerful air magic. Whenever you fall while wearing these boots, the boots automatically cast feather fall on you. This benefit can't trigger again for 10 minutes.",
