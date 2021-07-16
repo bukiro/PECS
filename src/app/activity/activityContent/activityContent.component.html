@@ -117,7 +117,7 @@
             <cite class="trait" *ngFor="let trait of spell.traits; trackBy:trackByIndex;"
                 [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
         </div>
-        <app-spellContent class="fullwidth" [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0"></app-spellContent>
+        <app-spellContent class="fullwidth left-aligned" [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0"></app-spellContent>
     </div>
 </div>
 <div class="list-item left-aligned" *ngFor="let shownSpellSet of activity.showSpells; trackBy:trackByIndex;">
@@ -132,6 +132,6 @@
             <cite class="trait" *ngFor="let trait of shownSpell.traits; trackBy:trackByIndex;"
                 [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
         </div>
-        <app-spellContent class="fullwidth" [spell]=shownSpell [spellLevel]="shownSpellSet.level || 0"></app-spellContent>
+        <app-spellContent class="fullwidth left-aligned" [spell]=shownSpell [spellLevel]="shownSpellSet.level || 0"></app-spellContent>
     </div>
 </div>

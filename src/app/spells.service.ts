@@ -267,16 +267,23 @@ export class SpellsService {
                                     newConditionGain.duration += 2;
                                 }
                             }
-                            conditionTargets.filter(target => target.constructor != SpellTarget).forEach(target => {
+                            //Apply to any targets that are your own creatures.
+                            conditionTargets.filter(target => !(target instanceof SpellTarget)).forEach(target => {
                                 characterService.add_Condition(target as Creature, newConditionGain, false);
                             })
+                            //Apply to any non-creature targets whose ID matches your own creatures.
+                            let creatures = characterService.get_Creatures();            
+                            conditionTargets.filter(target => target instanceof SpellTarget && creatures.some(creature => creature.id == target.id)).forEach(target => {
+                                characterService.add_Condition(characterService.get_Creature(target.type), newConditionGain, false);
+                            })
+                            //Send conditions to non-creature targets that aren't your own creatures.
                             if (conditionGain.targetFilter != "caster" && conditionTargets.some(target => target instanceof SpellTarget)) {
                                 //For foreign targets (whose turns don't end when the caster's turn ends), if the spell is not durationDependsOnTarget, and it doesn't have a duration of X+1, add 2 for "until another character's turn".
                                 // This allows the condition to persist until after the target's last turn, simulating that it hasn't been the caster's last turn yet.
                                 if (!spell.durationDependsOnTarget && newConditionGain.duration >= 0 && newConditionGain.duration % 5 == 0) {
                                     newConditionGain.duration += 2;
                                 }
-                                characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget) as SpellTarget[], newConditionGain);
+                                characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget && !creatures.some(creature => creature.id == target.id)) as SpellTarget[], newConditionGain);
                             }
                         }
                     });

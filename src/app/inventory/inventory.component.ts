@@ -274,6 +274,11 @@ export class InventoryComponent implements OnInit {
                     this.toastService.show(cannotMove + " The item was not moved.", [], this.characterService)
                 } else {
                     this.itemsService.move_InventoryItemLocally(this.get_Creature(), item, target, source, this.characterService, item.amount, true);
+                    this.characterService.set_Changed("close-popovers");
+                    this.characterService.set_Changed(item.id);
+                    this.characterService.set_ToChange(this.creature, "inventory");
+                    this.characterService.set_ToChange(this.creature, "effects");
+                    this.characterService.process_ToChange();
                 }
             }
         }

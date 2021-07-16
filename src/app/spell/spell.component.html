@@ -5,7 +5,7 @@
         <app-tags [creature]="'Character'" [objectName]="spell.name" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
     </div>
-    <app-spellContent [spell]="spell" [spellLevel]="spellLevel" [casting]="casting"></app-spellContent>
+    <app-spellContent class="left-aligned" [spell]="spell" [spellLevel]="spellLevel" [casting]="casting"></app-spellContent>
     <div class="newrow left-aligned" *ngFor="let feat of get_FeatsShowingOn(spell.name); trackBy:trackByIndex;">
         <header class="spellHeader">{{feat.name}}</header>
         <div class="newrow left-aligned" *ngIf="feat.traits.lenght">

@@ -849,7 +849,7 @@ export class CharacterService {
         let returnedItem: Item;
         //Check if this item already exists in the inventory, and if it is stackable and doesn't expire. Don't make that check if this item expires.
         let existingItems: Item[] = [];
-        if (expiration && newInventoryItem.can_Stack()) {
+        if (!expiration && newInventoryItem.can_Stack()) {
             existingItems = inventory[item.type].filter((existing: Item) =>
                 existing.name == newInventoryItem.name && newInventoryItem.can_Stack() && !item.expiration
             );

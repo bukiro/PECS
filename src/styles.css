@@ -1113,7 +1113,7 @@ header.featureHeader {
     text-align: left;
 }
 
-.newrow:not(.left-aligned):not(.center-aligned)>*:last-child:not(:first-child):not(.center-aligned) {
+.newrow:not(.left-aligned):not(.center-aligned)>*:last-child:not(:first-child):not(.left-aligned):not(.center-aligned) {
     text-align: right;
     flex-grow: 1;
 }
