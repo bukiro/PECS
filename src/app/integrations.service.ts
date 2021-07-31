@@ -75,6 +75,10 @@ export class IntegrationsService {
 
     send_RollToFoundry(creature: string, diceString: string = "", diceResults: DiceResult[] = [], characterService: CharacterService, quickDiceComponent: QuickdiceComponent = null) {
         let foundryVTTUrl = characterService.get_Character().settings.foundryVTTUrl;
+        //Remove trailing slashes.
+        while (foundryVTTUrl[foundryVTTUrl.length - 1] == "/") {
+            foundryVTTUrl = foundryVTTUrl.substr(0, foundryVTTUrl.length - 1);
+        }
         if (foundryVTTUrl) {
             function prepareAndSend(integrationsService: IntegrationsService) {
                 let roll = integrationsService.prepare_RollForFoundry(diceString, diceResults);

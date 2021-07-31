@@ -80,6 +80,14 @@
                     <app-tags [creature]="creature" [objectName]="'Armor'" [showTraits]=true [showFeats]=true
                         [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
                     <app-tags [creature]="creature" [objectName]="armor.name" [showItems]=true></app-tags>
+                    <div class="fullsize-only newrow left-aligned"
+                        *ngFor="let runes of [get_HintRunes(armor)]; trackBy:trackByIndex;"
+                        style="margin-top:initial">
+                        <ng-container *ngFor="let rune of runes; trackBy:trackByIndex;">
+                            <cite class="rune" *ngFor="let hint of rune.hints; trackBy:trackByIndex;"
+                                [ngbPopover]="get_HeightenedHint(hint)">{{rune.name}}</cite>
+                        </ng-container>
+                    </div>
                     <div class="fullsize-only lower newrow left-aligned"
                         *ngFor="let talisman of armor.talismans; let index = index; trackBy:trackByIndex;">
                         <ng-template #TalismanTemplate>
@@ -136,7 +144,8 @@
                 <ng-container *ngFor="let shield of get_EquippedShield(); trackBy:trackByIndex;">
                     <header class="subsectionHeader fullsize-only">Shield</header>
                     <div class="vlist list-item">
-                        <div class="newrow left-aligned">{{shield.get_Name()}} AC <span class="value">{{shield.get_ACBonus()}}</span>
+                        <div class="newrow left-aligned">{{shield.get_Name()}} AC <span
+                                class="value">{{shield.get_ACBonus()}}</span>
                             Hardness: <span class="value">{{shield.get_Hardness()}}</span>
                         </div>
                         <div class="fullsize-only newrow left-aligned" *ngIf="shield.traits.length">

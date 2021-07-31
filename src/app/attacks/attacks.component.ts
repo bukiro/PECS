@@ -105,7 +105,7 @@ export class AttacksComponent implements OnInit {
     }
 
     get_HeightenedHint(hint: Hint) {
-        hint.get_Heightened(hint.desc, this.get_Character().level);
+        return hint.get_Heightened(hint.desc, this.get_Character().level);
     }
 
     get_CriticalHints(weapon: Weapon) {

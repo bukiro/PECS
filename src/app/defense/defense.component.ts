@@ -12,6 +12,8 @@ import { Shield } from '../Shield';
 import { ConditionGain } from '../ConditionGain';
 import { ConditionsService } from '../conditions.service';
 import { ToastService } from '../toast.service';
+import { Hint } from '../Hint';
+import { ArmorRune } from '../ArmorRune';
 
 @Component({
     selector: 'app-defense',
@@ -76,6 +78,10 @@ export class DefenseComponent implements OnInit {
 
     get_ArmorSpecialization(armor: Armor) {
         return armor.get_ArmorSpecialization(this.get_Creature(), this.characterService);
+    }
+
+    get_Character() {
+        return this.characterService.get_Character();
     }
 
     get_Creature() {
@@ -166,6 +172,17 @@ export class DefenseComponent implements OnInit {
 
     get_EquippedArmor() {
         return this.defenseService.get_EquippedArmor(this.get_Creature() as Character | AnimalCompanion);
+    }
+
+    get_HintRunes(armor: Armor) {
+        //Return all runes and rune-emulating oil effects that have a hint to show
+        let runes: ArmorRune[] = [];
+        runes.push(...armor.propertyRunes.filter((rune: ArmorRune) => rune.hints.length) as ArmorRune[]);
+        return runes;
+    }
+
+    get_HeightenedHint(hint: Hint) {
+        return hint.get_Heightened(hint.desc, this.get_Character().level);
     }
 
     get_EquippedShield() {
