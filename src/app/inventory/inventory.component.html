@@ -562,9 +562,9 @@
                                                 <app-itemRunes class="newrow" [item]=item [itemStore]=false>
                                                 </app-itemRunes>
                                             </div>
-                                            <app-itemOils [item]=item [itemStore]=false *ngIf="item.type != 'oils'">
+                                            <app-itemOils class="hide-empty" [item]=item [itemStore]=false *ngIf="item.type != 'oils'">
                                             </app-itemOils>
-                                            <app-itemPoisons [item]=item [itemStore]=false
+                                            <app-itemPoisons class="hide-empty" [item]=item [itemStore]=false
                                                 *ngIf="item.type == 'weapons'">
                                             </app-itemPoisons>
                                             <app-itemTalismans [item]=item [itemStore]=false

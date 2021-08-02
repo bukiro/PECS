@@ -1623,7 +1623,7 @@ GRIDICONS
     padding: 3px;
 }
 
-/* Container for a gridicon on the left and max-width content on the right */
+/* Container for a big icon or checkbox on the left and max-width content on the right */
 
 .gridicon-fullsizebox, .list-item.gridicon-fullsizebox {
     display: flex;
@@ -1974,9 +1974,11 @@ SPECIFIC STYLE MODIFIERS
     align-items: center;
 }
 
+.hide-empty:empty,
 .vlist:empty,
 .hlist:empty,
-div.newrow:empty {
+div.newrow:empty,
+app-tags:empty {
     display: none;
 }
 

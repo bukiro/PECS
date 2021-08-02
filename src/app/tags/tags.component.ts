@@ -4,7 +4,6 @@ import { TraitsService } from '../traits.service';
 import { EffectsService } from '../effects.service';
 import { Effect } from '../Effect';
 import { TimeService } from '../time.service';
-import { ConditionGain } from '../ConditionGain';
 import { ConditionSet } from '../ConditionSet';
 
 @Component({
@@ -34,7 +33,7 @@ export class TagsComponent implements OnInit {
     specialNames: string[] = [];
     @Input()
     specialEffects: Effect[] = [];
-    
+
     public parseInt = parseInt;
 
     constructor(
@@ -55,6 +54,46 @@ export class TagsComponent implements OnInit {
 
     get_Creature() {
         return this.characterService.get_Creature(this.creature);
+    }
+
+    get_AllTags() {
+        let allTags = {
+            count: 0,
+            traits: [],
+            feats: [],
+            items: [],
+            specializations: [],
+            activities: [],
+            conditions: [],
+            effects: []
+        }
+        allTags.traits = [this.objectName].concat(this.specialNames).map(name => {
+            return { setName: name, traits: this.get_TraitsForThis(name) };
+        })
+        allTags.feats = [this.objectName].concat(this.specialNames).map((name, index) => {
+            return { setName: name, feats: this.get_FeatsShowingOn(name, index == 0 ? this.showFeats : true) };
+        })
+        allTags.items = [this.objectName].concat(this.specialNames).map(name => {
+            return { setName: name, items: this.get_ItemsShowingOn(name) };
+        })
+        allTags.specializations = [this.objectName].concat(this.specialNames).map(name => {
+            return { setName: name, specializations: this.get_SpecializationsShowingOn(name) };
+        })
+        allTags.activities = [this.objectName].concat(this.specialNames).map(name => {
+            return { setName: name, activities: this.get_ActivitiesShowingOn(name) };
+        })
+        allTags.conditions = [this.objectName].concat(this.specialNames).map(name => {
+            return { setName: name, conditionSets: this.get_ConditionsShowingOn(name) };
+        })
+        allTags.effects = this.get_EffectsOnThis(this.objectName).concat(this.specialEffects);
+        allTags.count = allTags.traits.reduce((a, b) => a + b.traits.length, 0) +
+            allTags.feats.reduce((a, b) => a + b.feats.length, 0) +
+            allTags.items.reduce((a, b) => a + b.items.length, 0) +
+            allTags.specializations.reduce((a, b) => a + b.specializations.length, 0) +
+            allTags.activities.reduce((a, b) => a + b.activities.length, 0) +
+            allTags.conditions.reduce((a, b) => a + b.conditionSets.length, 0) +
+            allTags.effects.length
+        return allTags;
     }
 
     get_Duration(duration: number) {

@@ -238,22 +238,28 @@
                                                                 <span>
                                                                     {{(item.get_Name) ? item.get_Name() : item.name}}
                                                                 </span>
-                                                                <span>
-                                                                    {{(item.level) ? "Level "+item.level : "&nbsp;"}}
-                                                                    <span *ngIf="item.type == 'armors'">
-                                                                        {{(["Light Barding", "Heavy
-                                                                        Barding"].includes(item.prof)) ? item.prof :
-                                                                        item.prof.split(" ")[0]}}
-                                                                        {{item.group}}{{(item.type=="armors" &&
-                                                                        (!["Unarmored Defense","Light Barding", "Heavy
-                                                                        Barding"].includes(item.prof))) ? " Armor" :
-                                                                        ""}}
-                                                                    </span>
-                                                                    <span *ngIf="item.type == 'weapons'">
-                                                                        {{(item.prof == 'Unarmed Attacks') ? item.prof :
-                                                                        item.prof.substr(0, item.prof.length - 8)}}
-                                                                        {{item.group}}
-                                                                    </span>
+                                                                <span *ngIf="item.level">
+                                                                    |
+                                                                </span>
+                                                                <span *ngIf="item.level">
+                                                                    {{"Level "+item.level}}
+                                                                </span>
+                                                                <span *ngIf="['weapons','armors'].includes(item.type)">
+                                                                    |
+                                                                </span>
+                                                                <span class= *ngIf="item.type == 'armors'"> 
+                                                                    {{(["Light Barding", "Heavy
+                                                                    Barding"].includes(item.prof)) ? item.prof :
+                                                                    item.prof.split(" ")[0]}}
+                                                                    {{item.group}}{{(item.type=="armors" &&
+                                                                    (!["Unarmored Defense","Light Barding", "Heavy
+                                                                    Barding"].includes(item.prof))) ? " Armor" :
+                                                                    ""}}
+                                                                </span>
+                                                                <span *ngIf="item.type == 'weapons'"> 
+                                                                    {{(item.prof == 'Unarmed Attacks') ? item.prof :
+                                                                    item.prof.substr(0, item.prof.length - 8)}}
+                                                                    {{item.group}}
                                                                 </span>
                                                             </ng-template>
                                                             <ng-template #ItemTemplate>
