@@ -31,8 +31,8 @@
             *ngIf="creature != 'Familiar'">
         </app-proficiency-form>
         <span *ngIf="showValue">
-            <app-quickdice [creature]="creature" *ngIf="!isDC" [diceNum]="1" [diceSize]="20" [bonus]="calculatedSkill.value.result"
-                [type]="'('+get_Name(skill)+')'">
+            <app-quickdice [creature]="creature" *ngIf="!isDC" [diceNum]="1" [diceSize]="20"
+                [bonus]="calculatedSkill.value.result" [type]="'('+get_Name(skill)+')'">
             </app-quickdice>
             <div class="value" [ngbPopover]="((isDC) ? 'DC basis: 10\n' : '')+calculatedSkill.value.explain"
                 [ngClass]="{'penalty':calculatedSkill.penalties, 'bonus':calculatedSkill.bonuses, 'absolute':calculatedSkill.absolutes.length}">
@@ -51,5 +51,64 @@
                 <input id="{{skill.name}}Notes" type="textarea" class="fullwidth" [(ngModel)]="get_Notes(skill).notes">
             </span>
         </div>
+    </div>
+    <div class="fullwidth" *ngIf="relatedActivityGains.length" [ngClass]="{'icon-list':get_TileMode(), 'vlist':!get_TileMode()}">
+        <ng-container *ngFor="let gain of relatedActivityGains; let activityIndex = index; trackBy:trackByIndex;">
+            <ng-container
+                *ngFor="let activity of (gain.isActivity ? [gain] : get_Activities(gain.name)); trackBy:trackByIndex;">
+                <ng-container
+                    *ngFor="let maxCharges of [activity.maxCharges(get_Creature(), characterService)]; trackBy:trackByIndex;">
+                    <ng-container
+                        *ngFor="let cannotActivate of [((gain.activeCooldown ? (maxCharges == gain.chargesUsed) : false) && !gain.active)]; trackBy:trackByIndex;">
+                        <ng-template #ActivityTitleTemplate>
+                            <span *ngIf="!get_TileMode()">
+                                <i class="value bi-patch-plus bonus" *ngIf="!activity.get_IsHostile()"
+                                    [ngbTooltip]="'Beneficial activity'"></i>
+                                <i class="value bi-patch-minus-fill penalty" *ngIf="activity.get_IsHostile()"
+                                    [ngbTooltip]="'Hostile activity'"></i>
+                            </span>
+                            <span *ngIf="activity.name == 'Fused Stance'">{{get_FuseStanceName()}}</span>
+                            <span *ngIf="activity.name != 'Fused Stance'">{{activity.name}}</span>
+                            <app-actionIcons *ngIf="activity.actions" [actionString]="activity.actions">
+                            </app-actionIcons>
+                            {{(activity.activationType) ? activity.activationType : ""}}
+                        </ng-template>
+                        <ng-template #ActivityTemplate>
+                            <header class="spellHeader" *ngIf="get_TileMode()">
+                                <ng-container *ngTemplateOutlet="ActivityTitleTemplate"></ng-container>
+                            </header>
+                            <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]="true">
+                            </app-activity>
+                        </ng-template>
+                        <ng-container *ngIf="!get_TileMode()">
+                            <div class="list-item"
+                                *ngFor="let activityID of [skill.name+activityIndex]; trackBy:trackByIndex;">
+                                <button class="newrow left-aligned sublist-toggle"
+                                    [ngClass]="{'fancy-button':gain.active, 'inactive-button':((gain.activeCooldown ? (maxCharges == gain.chargesUsed) : false) && !gain.active)}"
+                                    (click)="toggle_Action(activityID)">
+                                    <ng-container *ngTemplateOutlet="ActivityTitleTemplate"></ng-container>
+                                </button>
+                                <div class="list-item sublist lower"
+                                    [ngClass]="{'fancy-list':gain.active, 'inactive-list':((gain.activeCooldown ? (maxCharges == gain.chargesUsed) : false) && !gain.active)}"
+                                    *ngIf="get_ShowAction()==activityID">
+                                    <ng-container *ngTemplateOutlet="ActivityTemplate"></ng-container>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="get_TileMode()">
+                            <button [stickyPopover]="ActivityTemplate" triggers="click"
+                                [ngClass]="{'fancy-button':gain.active, 'inactive-button':cannotActivate, 'penalty':!cannotActivate && activity.get_IsHostile(), 'bonus':!cannotActivate && !activity.get_IsHostile()}">
+                                <app-gridIcon
+                                    [ngClass]="{'fancy-button':gain.active, 'inactive-button':cannotActivate, 'penalty':!cannotActivate && activity.get_IsHostile(), 'bonus':!cannotActivate && !activity.get_IsHostile()}"
+                                    [ngbTooltip]="ActivityTitleTemplate"
+                                    [title]="activity.name == 'Fused Stance' ? get_FuseStanceName() : activity.name"
+                                    [activity]="activity">
+                                </app-gridIcon>
+                            </button>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </ng-container>
     </div>
 </div>

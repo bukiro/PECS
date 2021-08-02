@@ -36,8 +36,10 @@ export class Settings {
     sendTurnEndMessage: boolean = false;
     sendTurnStartMessage: boolean = false;
     showHeightenedSpells: boolean = false;
+    showSkillActivities: boolean = false;
     showOtherOptions: boolean = true;
     skillsMinimized: boolean = false;
+    skillsTileMode: boolean = true;
     spellLibraryTileMode: boolean = true;
     spellbookMinimized: boolean = false;
     spellbookTileMode: boolean = true;

@@ -6,6 +6,9 @@ import { Character } from '../Character';
 import { SkillChoice } from '../SkillChoice';
 import { EffectsService } from '../effects.service';
 import { Speed } from '../Speed';
+import { ActivityGain } from '../ActivityGain';
+import { ItemActivity } from '../ItemActivity';
+import { ActivitiesService } from '../activities.service';
 
 @Component({
     selector: 'app-skills',
@@ -20,13 +23,15 @@ export class SkillsComponent implements OnInit {
     @Input()
     public sheetSide: string = "left";
     private showList: string = "";
+    private showAction: string = "";
 
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
         public skillsService: SkillsService,
         public featsService: FeatsService,
-        public effectsService: EffectsService
+        public effectsService: EffectsService,
+        private activitiesService: ActivitiesService
     ) { }
 
     minimize() {
@@ -56,8 +61,34 @@ export class SkillsComponent implements OnInit {
         return this.showList;
     }
 
+    toggle_Action(id: string) {
+        if (this.showAction == id) {
+            this.showAction = "";
+        } else {
+            this.showAction = id;
+        }
+    }
+
+    get_ShowAction() {
+        return this.showAction;
+    }
+
+    receive_ActionMessage(id: string) {
+        this.toggle_Action(id);
+    }
+
     receive_ChoiceMessage(message: { name: string, levelNumber: number, choice: SkillChoice }) {
         this.toggle_List(message.name);
+    }
+    
+    toggle_TileMode() {
+        this.get_Character().settings.skillsTileMode = !this.get_Character().settings.skillsTileMode;
+        this.characterService.set_ToChange("Character", "skills");
+        this.characterService.process_ToChange();
+    }
+
+    get_TileMode() {
+        return this.get_Character().settings.skillsTileMode;
     }
 
     get_Skills(name: string = "", type: string = "") {
@@ -82,12 +113,44 @@ export class SkillsComponent implements OnInit {
         return index;
     }
 
+    get_Character() {
+        return this.characterService.get_Character();
+    }
+
     get_Creature() {
         return this.characterService.get_Creature(this.creature);
     }
 
     have_Feat(name: string) {
         return this.characterService.get_Character().get_FeatsTaken(1, this.characterService.get_Character().level, name).length;
+    }
+    
+    get_Activities(name: string = "") {
+        return this.activitiesService.get_Activities(name);
+    }
+
+    get_OwnedActivities() {
+        let activities: (ActivityGain|ItemActivity)[] = [];
+        let unique: string[] = [];
+        if (this.get_Character().settings.showSkillActivities) {
+            this.characterService.get_OwnedActivities(this.get_Creature()).forEach(activity => {
+                if (activity instanceof ItemActivity) {
+                    activity.get_Cooldown(this.get_Creature(), this.characterService)
+                } else {
+                    this.get_Activities(activity.name).forEach(actualActivity => {actualActivity.get_Cooldown(this.get_Creature(), this.characterService)})
+                }
+                if (!unique.includes(activity.name)) {
+                    unique.push(activity.name);
+                    activities.push(activity);
+                }
+            })
+        }
+        return activities;
+    }
+
+    get_SkillActivities(activities: (ActivityGain|ItemActivity)[], skillName: string) {
+        //Filter activities whose showonSkill or whose original activity's showonSkill includes this skill's name.
+        return activities.filter(activity => (activity instanceof ItemActivity ? activity.showonSkill : (this.get_Activities(activity.name)[0]?.showonSkill || "")).toLowerCase().includes(skillName.toLowerCase()));
     }
 
     get_Senses() {

@@ -1185,13 +1185,26 @@
                         </div>
                     </div>
                     <div class="list-item">
+                        <strong>Activities</strong>
+                        <div class="list-item gridicon-fullsizebox">
+                            <input class="character-choice" id="showSkillActivities" type="checkbox"
+                                [(ngModel)]="get_Character().settings.showSkillActivities"
+                                (ngModelChange)="on_UpdateSkills()">
+                            <label for="showSkillActivities">
+                                <strong>
+                                    Show related activities on skills and perception
+                                </strong>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="list-item">
                         <strong>Spells</strong>
                         <div class="list-item gridicon-fullsizebox">
                             <input class="character-choice" id="showHeightenedSpells" type="checkbox"
                                 [(ngModel)]="get_Character().settings.showHeightenedSpells">
                             <label for="showHeightenedSpells">
                                 <strong>
-                                    Show heightened spells in spell choices
+                                    Show heightened lower-level spells in spell choices
                                 </strong>
                             </label>
                         </div>
@@ -1210,21 +1223,19 @@
                                     [ngbPopover]="'When casting targeted spells with a duration, the caster will receive a condition that gives information about the effect and tracks the duration. This option will disable these caster conditions for friendly spells if they have no effect on the caster.'"></i>
                             </span>
                         </div>
-                        <div class="fullwidth" [ngbCollapse]="!get_Character().settings.unavailableFeats">
-                            <div class="list-item gridicon-fullsizebox">
-                                <input class="character-choice" id="noHostileCasterConditions" type="checkbox"
-                                    [(ngModel)]="get_Character().settings.noHostileCasterConditions"
-                                    (ngModelChange)="on_UpdateSpellbook()">
-                                <span>
-                                    <label for="noHostileCasterConditions">
-                                        <strong>
-                                            Avoid informational caster conditions for hostile spells
-                                        </strong>
-                                    </label>
-                                    <i class="bi-question-circle"
-                                        [ngbPopover]="'When casting targeted spells with a duration, the caster will receive a condition that gives information about the effect and tracks the duration. This option will disable these caster conditions for hostile spells if they have no effect on the caster.'"></i>
-                                </span>
-                            </div>
+                        <div class="list-item gridicon-fullsizebox">
+                            <input class="character-choice" id="noHostileCasterConditions" type="checkbox"
+                                [(ngModel)]="get_Character().settings.noHostileCasterConditions"
+                                (ngModelChange)="on_UpdateSpellbook()">
+                            <span>
+                                <label for="noHostileCasterConditions">
+                                    <strong>
+                                        Avoid informational caster conditions for hostile spells
+                                    </strong>
+                                </label>
+                                <i class="bi-question-circle"
+                                    [ngbPopover]="'When casting targeted spells with a duration, the caster will receive a condition that gives information about the effect and tracks the duration. This option will disable these caster conditions for hostile spells if they have no effect on the caster.'"></i>
+                            </span>
                         </div>
                     </div>
                     <div class="list-item">

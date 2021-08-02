@@ -549,6 +549,11 @@ export class CharacterComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
+    on_UpdateSkills() {
+        this.characterService.set_ToChange("Character", "skills");
+        this.characterService.process_ToChange();
+    }
+
     on_UpdateSpellbook() {
         this.characterService.set_ToChange("Character", "spellbook");
         this.characterService.process_ToChange();
@@ -688,7 +693,7 @@ export class CharacterComponent implements OnInit {
         //This is only relevant if you haven't boosted the ability on this level yet.
         //If you have, we don't want to hear that it couldn't be boosted again right away.
         let cannotBoostHigher = "";
-        if (levelNumber == 1 && ability.baseValue(this.get_Character(), this.characterService, levelNumber).result > 16 && sameBoostsThisLevel.length == 0) {
+        if (choice.type == "Boost" && levelNumber == 1 && ability.baseValue(this.get_Character(), this.characterService, levelNumber).result > 16 && sameBoostsThisLevel.length == 0) {
             cannotBoostHigher = "Cannot boost above 18 on level 1.";
             reasons.push(cannotBoostHigher);
         }

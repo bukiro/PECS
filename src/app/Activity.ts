@@ -10,6 +10,7 @@ import { HeightenedDescSet } from './HeightenedDescSet';
 import { HeightenedDesc } from './HeightenedDesc';
 
 export class Activity {
+    public readonly isActivity: boolean = true;
     public actions: string = "1A";
     public activationType: string = "";
     //When activated, the activity will cast this spell. Multiple spells must have the same target or targets.
@@ -41,6 +42,7 @@ export class Activity {
     public onceEffects: EffectGain[] = [];
     public requirements: string = "";
     public showActivities: string[] = [];
+    public showonSkill: string = "";
     public showSpells: string[] = [];
     public specialdesc: string = "";
     public success: string = "";

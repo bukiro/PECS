@@ -191,6 +191,7 @@
         ],
         "requirements": "You are in Dragon Stance.",
         "target": "area",
+        "showonSkill": "Intimidation",
         "desc": "You bellow, instilling fear in your enemies. Enemies within a 15-foot emanation must succeed at a Will save against your Intimidation DC or be frightened 1 (frightened 2 on a critical failure). When a creature frightened by the roar begins its turn adjacent to you, it can't reduce its frightened value below 1 on that turn. Your first attack that hits a frightened creature after you roar and before the end of your next turn gains a +4 circumstance bonus to damage.\n\nAfter you use Dragon Roar, you can't use it again for |dice=1d4| 1d4 rounds. Its effects end immediately if you leave Dragon Stance. Creatures in the area of your roar are then temporarily immune for 1 minute."
     },
     {
@@ -228,6 +229,7 @@
         ],
         "requirements": "You have a creature grabbed or restrained.",
         "target": "other",
+        "showonSkill": "Athletics",
         "desc": "You propel your grabbed or restrained foe a great distance. You can throw the creature any distance up to 10 feet, plus 5 feet * your Strength modifier. If you successfully throw the creature, it takes bludgeoning damage equal to |dice=strmod B| your Strength modifier plus |dice=1d6 B| 1d6 per 10 feet you threw it.\n\nAttempt an Athletics check against the foe's Fortitude DC. You take a -2 circumstance penalty to your check if the target is one size larger than you and a -4 circumstance penalty if it's larger than that. You gain a +2 circumstance bonus to your check if the target is one size smaller than you and a +4 circumstance bonus if it's smaller than that.",
         "critsuccess": "You throw the creature the desired distance and it lands prone.",
         "success": "You throw the creature the desired distance.",
@@ -307,6 +309,7 @@
             "Monk"
         ],
         "target": "other",
+        "showonSkill": "Athletics",
         "desc": "You focus your strength into a blow powerful enough to push an enemy away from you. Make an unarmed Strike. If you hit, attempt an Athletics check to Shove the target. This attack uses the same multiple attack penalty as your Strike, and doesn't count toward your multiple attack penalty."
     },
     {
@@ -318,6 +321,7 @@
         ],
         "requirements": "You have a creature grabbed or restrained.",
         "target": "other",
+        "showonSkill": "Athletics",
         "desc": "You pinch crucial points of your target's nervous system, impeding its ability to function. Attempt an Athletics check to Grapple the creature, with the following success and critical success effects instead of the usual effects.",
         "critsuccess": "The target falls unconscious for 1 minute, though it remains standing and doesn't drop what it holds.",
         "success": "The target is clumsy 1 until the end of its next turn."
@@ -646,6 +650,7 @@
         ],
         "requirements": "You are holding or wearing healer's tools.",
         "target": "ally",
+        "showonSkill": "Medicine",
         "desc": "You can patch up yourself or an adjacent ally, even in combat. Attempt a Medicine check with the same DC as for Treat Wounds, and restore a corresponding amount of Hit Points; this does not remove the wounded condition. As with Treat Wounds, you can attempt checks against higher DCs if you have the minimum proficiency rank. The target is then temporarily immune to your Battle Medicine for 1 day."
     },
     {
@@ -712,6 +717,7 @@
             "Skill"
         ],
         "target": "other",
+        "showonSkill": "Diplomacy",
         "desc": "You can negotiate incredibly quickly in adverse situations. You attempt to Make an Impression and then Request your opponent cease their current activity and engage in negotiations. You take a -5 penalty to your Diplomacy check. The GM sets the DC of the Request based on the circumstances - it's generally at least a very hard DC of the creature's level. Some creatures might simply refuse, and even those who agree to parley might ultimately find your arguments lacking and return to violence."
     },
     {
@@ -724,6 +730,7 @@
         ],
         "trigger": "A creature within line of sight casts a spell that you don't have prepared or in your spell repertoire, or a trap or similar object casts such a spell. You must be aware of the casting.",
         "target": "self",
+        "showonSkill": "Arcana, Nature, Occultism, Religion",
         "desc": "If you are trained in the appropriate skill for the spell's tradition and it's a common spell of 2nd level or lower, you automatically identify it (you still roll to attempt to get a critical success, but can't get a worse result than success). The highest level of spell you automatically identify increases to 4 if you're an expert, 6 if you're a master, and 10 if you're legendary. The GM rolls a secret Arcana, Nature, Occultism, or Religion check, whichever corresponds to the tradition of the spell being cast. If you're not trained in the skill, you can't get a result better than failure.",
         "critsuccess": "You correctly recognize the spell and gain a +1 circumstance bonus to your saving throw or your AC against it.",
         "success": "You correctly recognize the spell.",
@@ -739,6 +746,7 @@
             "Skill"
         ],
         "target": "other",
+        "showonSkill": "Deception",
         "desc": "You reveal that you played a minor but recurring role in another humanoid's life - or at least convince them that's the case. Attempt a Deception check against the target's Will DC. On a success, the revelation makes them frightened 2, and on a critical success they are frightened 3. In addition, you gain information about the subject as though you had attempted to Recall Knowledge about them using an appropriate skill and received the same result on your roll. You can't use this ability against the same humanoid again until 1 day has passed and you've also successfully disguised yourself as a different person."
     },
     {
@@ -753,6 +761,7 @@
         "frequency": "once per hour",
         "cooldown": 6000,
         "target": "self",
+        "showonSkill": "Religion",
         "desc": "You call upon your deity to grant you their protective blessing. Attempt a DC 30 Religion check. If you have legendary proficiency in Religion, you can instead attempt a DC 40 Religion check to increase the temporary Hit Points you gain on a successful check to 15 (25 on a critical success).",
         "critsuccess": "You gain 10 temporary Hit Points. You lose any remaining temporary Hit Points after 1 minute.",
         "success": "You gain 5 temporary Hit Points. You lose any remaining temporary Hit Points after 1 minute.",
@@ -780,6 +789,7 @@
             "Skill"
         ],
         "target": "other",
+        "showonSkill": "Intimidation",
         "desc": "You can frighten foes so much, they might die. Attempt an Intimidation check against the Will DC of a living creature within 30 feet of you that you sense or observe and who can sense or observe you. If the target can't hear you or doesn't understand the language you are speaking, you take a -4 circumstance penalty. The creature is temporarily immune for 1 minute.",
         "critsuccess": "The target must succeed at a Fortitude save against your Intimidation DC or die. If the target succeeds at its save, it becomes frightened 2 and is fleeing for 1 round; it suffers no effect on a critical success.",
         "success": "The target becomes frightened 2.",
@@ -813,6 +823,7 @@
             "Skill"
         ],
         "target": "other",
+        "showonSkill": "Deception",
         "desc": "You spread rumors, which may or may not be true, about a specific subject. If the subject of your rumor is not currently the subject of any contradictory rumors, this takes as long as it would normally take you to Gather Information (typically 2 hours), at the end of which the GM rolls a secret Deception check to see how well you spread the rumor. If your rumor matches any current rumors about the subject, it takes less time to spread the rumor, and if you are attempting to overtake a particularly popular and contradictory rumor, it takes much longer or may be impossible. The DC similarly increases or decreases depending on how plausible your rumor is.",
         "critsuccess": "Your rumor spreads like wildfire. Anyone who succeeds at a check to Gather Information on the specific subject learns your rumor in preference to other rumors about the subject. Your rumor persists for 1 month.",
         "success": "You successfully spread the rumor. Anyone who succeeds at a check to Gather Information on the specific subject adds your rumor to the list of rumors they could learn about the subject. Your rumor persists for 1 week.",
@@ -829,6 +840,7 @@
             "Skill"
         ],
         "target": "minion",
+        "showonSkill": "Nature",
         "desc": "You spend time teaching an animal to do a certain action. You can either select a basic action the animal already knows how to do (typically those listed in the Command an Animal action) or attempt to teach the animal a new basic action. The GM determines the DC of any check required and the amount of time the training takes (usually at least a week). It's usually impossible to teach an animal a trick that uses critical thinking. If you're expert, master, or legendary in Nature, you might be able to train more unusual creatures, at the GM's discretion.",
         "success": "The animal learns the action. If it was an action the animal already knew, you can Command the Animal to take that action without attempting a Nature check. If it was a new basic action, add that action to the actions the animal can take when Commanded, but you must still roll.",
         "failure": "The animal doesn't learn the trick."
@@ -842,6 +854,7 @@
             "Skill"
         ],
         "target": "object",
+        "showonSkill": "Arcana, Nature, Occultism, Religion",
         "desc": "You examine a magic item you normally couldn't use in an effort to fool it and activate it temporarily. For example, this might allow a fighter to cast a spell from a wand or allow a wizard to cast a spell that's not on the arcane list using a scroll. You must know what activating the item does, or you can't attempt to trick it.\n\nAttempt a check using the skill matching the item's magic tradition, or matching a tradition that has the spell on its list, if you're trying to cast a spell from the item. The relevant skills are Arcana for arcane, Nature for primal, Occultism for occult, Religion for divine, or any of the four for an item that has the magical trait and not a tradition trait. The GM determines the DC based on the item's level (possibly adjusted depending on the item or situation).\n\nIf you activate a magic item that requires a spell attack roll or spell DC and you don't have the ability to cast spells of the relevant tradition, use your level as your proficiency bonus and the highest of your Intelligence, Wisdom, or Charisma modifiers. If you're a master in the appropriate skill for the item's tradition, you instead use the trained proficiency bonus, and if you're legendary, you instead use the expert proficiency bonus.",
         "success": "For the rest of the current turn, you can spend actions to activate the item as if you could normally use it.",
         "failure": "You can't use the item or try to trick it again this turn, but you can try again on subsequent turns.",
@@ -856,6 +869,7 @@
             "Skill"
         ],
         "target": "other",
+        "showonSkill": "Religion",
         "desc": "Calling out to your deity, you recite scripture to harm a foe. Attempt a Religion check against the Will DC of a foe within 30 feet. The foe is then temporarily immune to Battle Prayers from your deity for 1 day.",
         "critsuccess": "You deal |dice=2d6| 2d6 damage of the chosen alignment type, or |dice=6d6| 6d6 damage if you have legendary proficiency in Religion.",
         "success": "You deal 1d6 damage of the chosen alignment type, or 3d6 damage if you have legendary proficiency in Religion.",
@@ -873,6 +887,7 @@
             "Skill"
         ],
         "target": "other",
+        "showonSkill": "Diplomacy",
         "desc": "You point out a detail that incontrovertibly supports your faith, causing a listener's mind to whirl. Attempt a Diplomacy check and compare the result to the Will DC of a single target that can hear you and understands your language; that target is then temporarily immune to Evangelize with respect to your deity or philosophy for 1 day. A creature that already agrees with you is unaffected, and at the GM's discretion, a target that genuinely changes its perspective to support your faith as a result of the argument is also otherwise unaffected.",
         "critsuccess": "The target is stupefied 2 for 1 round.",
         "success": "The target is stupefied 1 for 1 round.",
@@ -974,6 +989,7 @@
         "requirements": "You have alchemist's tools, the formula for the alchemical item you're creating, and a free hand.",
         "cost": "1 batch of infused reagents",
         "target": "self",
+        "showonSkill": "Crafting",
         "desc": "You swiftly mix up a short-lived alchemical item to use at a moment's notice. You create a single alchemical item of your advanced alchemy level or lower that's in your formula book without having to spend the normal monetary cost in alchemical reagents or needing to attempt a Crafting check. This item has the infused trait, but it remains potent only until the start of your next turn."
     },
     {
@@ -1945,6 +1961,7 @@
             "Flourish"
         ],
         "target": "other",
+        "showonSkill": "Athletics",
         "desc": "You make an attack to knock a foe off balance, then follow up immediately with a sweep to topple them. Make a melee Strike. If it hits and deals damage, you can attempt an Athletics check to Trip the creature you hit. If you're wielding a two-handed melee weapon, you can ignore Trip's requirement that you have a hand free. Both attacks count toward your multiple attack penalty, but the penalty doesn't increase until after you've made both of them."
     },
     {
@@ -2837,6 +2854,7 @@
             "Attack"
         ],
         "target": "other",
+        "showonSkill": "Athletics",
         "desc": "The cave gecko snaps out its tongue, attempting to pull a foe within 10 feet toward it. The gecko attempts an Athletics check against the foe's Fortitude DC. On a success, the cave gecko pulls the foe next to it. This movement is forced movement. On a critical success, the foe is also grabbed until the beginning of your next turn."
     },
     {
@@ -2929,6 +2947,7 @@
             "Metamagic"
         ],
         "target": "self",
+        "showonSkill": "Deception, Stealth",
         "desc": "Hiding your gestures and incantations within other speech and movement, you attempt to conceal the fact that you are Casting a Spell. If the next action you use is to Cast a Spell, attempt a Stealth check against one or more observers' Perception DCs; if the spell has verbal components, you must also attempt a Deception check against the observers' Perception DC. If you succeed at your check (or checks) against an observer's DC, that observer doesn't notice you're casting a spell, even though material, somatic, and verbal components are usually noticeable and spells normally have sensory manifestations that would make spellcasting obvious to those nearby.\n\nThis ability hides only the spell's spellcasting actions and manifestations, not its effects, so an observer might still see a ray streak out from you or see you vanish into thin air."
     },
     {
@@ -3108,6 +3127,7 @@
         ],
         "trigger": "You reduce an enemy to 0 hit points.",
         "target": "other",
+        "showonSkill": "Intimidation",
         "desc": "After downing a foe, you menacingly remind another foe that you're coming after them next. Attempt an Intimidation check with a +2 circumstance bonus to Demoralize a single creature that you can see and that can see you. If you have legendary proficiency in Intimidation, you can use this as a free action with the same trigger."
     },
     {
@@ -3118,6 +3138,7 @@
             "Secret"
         ],
         "target": "other",
+        "showonSkill": "Perception",
         "desc": "With careful observation during battle, you identify an enemy's strengths and weaknesses. The GM rolls a secret Perception check for you against the Deception or Stealth DC (whichever is higher) of an enemy of your choice who is not concealed from you, hidden from you, or undetected by you, and who is engaged in combat. The GM might apply a penalty for the distance between you and the enemy. The enemy is then temporarily immune to your Battle Assessment for 1 day.",
         "critsuccess": "The GM chooses two of the following pieces of information about the enemy to tell you: which of the enemy's weaknesses is highest, which of the enemy's saving throws has the lowest modifier, one immunity the enemy has, or which of the enemy's resistances is highest. If the event of a tie, the GM should pick one at random.",
         "success": "The GM chooses one piece of information from the above list to tell you about the enemy.",
@@ -3154,6 +3175,7 @@
         ],
         "requirements": "You have a free hand.",
         "target": "other",
+        "showonSkill": "Thievery",
         "desc": "You subtly damage others' equipment. Choose one item that a creature within your reach wields or carries. The item must have moving parts that you could possibly sabotage (a shortbow could be sabotaged, but a longsword could not). Attempt a Thievery check against the Reflex DC of the creature. Damage dealt by Sabotage can't take the item below its Break Threshold.",
         "critsuccess": "You deal damage equal to four times your Thievery proficiency bonus.",
         "success": "You deal damage equal to double your Thievery proficiency bonus.",
@@ -3177,6 +3199,7 @@
         ],
         "trigger": "A trap within your reach is triggered.",
         "target": "object",
+        "showonSkill": "Thievery",
         "desc": "You can jam the workings of a trap to delay its effects. Attempt a Thievery check to Disable a Device on the trap; the DC to do so is increased by 5, and the effects are as follows.",
         "critsuccess": "You prevent the trap from being triggered, or you delay the activation until the start or end of your next turn (your choice).",
         "success": "You prevent the trap from being triggered, or you delay the activation until the end of your next turn (whichever is worse for you; GM's choice).",
@@ -3313,7 +3336,7 @@
         ],
         "showSpells": [
             {
-                "level": "6",
+                "level": 6,
                 "name": "Mislead"
             }
         ]
@@ -3421,6 +3444,7 @@
             "Metamagic"
         ],
         "target": "self",
+        "showonSkill": "Performance",
         "desc": "You subtly weave your spellcasting into your performance. If the next action you take is to Cast a Spell, attempt a Performance check against all observers' Perception DCs. If your Performance check is successful against an observer's Perception DC, that observer doesn't notice that you are Casting a Spell, even though normally spells have sensory manifestations that would make spellcasting obvious to those around you, and verbal, somatic, and material components are extremely overt. You hide all of these as part of an ordinary performance.\n\nThis hides only the spell's spellcasting actions and manifestations, not its effects, so an observer might still see a ray streak out from you or see you vanish."
     },
     {
@@ -3501,6 +3525,7 @@
         "requirements": "You're in a settlement or community, and you haven't used Courteous Comeback in this settlement or community within the past month.",
         "trigger": "You critically fail a Diplomacy check.",
         "target": "self",
+        "showonSkill": "Diplomacy",
         "desc": "You grew up in the proud Padishah Empire, where even insults have a certain poetic wit. Reroll the triggering Diplomacy check, using the second result."
     },
     {
@@ -3520,6 +3545,7 @@
             "Goblin"
         ],
         "target": "area",
+        "showonSkill": "Performance",
         "desc": "You sing annoying goblin songs, distracting your foes with silly and repetitive lyrics. Attempt a Performance check against the Will DC of a single enemy within 30 feet. This has all the usual traits and restrictions of a Performance check. You can affect up to two targets within range if you have expert proficiency in Performance, four if you have master proficiency, and eight if you have legendary proficiency.",
         "critsuccess": "The target takes a -1 status penalty to Perception checks and Will saves for 1 minute.",
         "success": "The target takes a -1 status penalty to Perception checks and Will saves for 1 round.",
@@ -3542,6 +3568,7 @@
             "Goblin"
         ],
         "target": "other",
+        "showonSkill": "Athletics",
         "desc": "You excel at using your tail as a weapon to upend your foes. Attempt a single Athletics check to Trip up to two adjacent creatures. If you roll a success against a target, you get a critical success against that target instead.",
         "targetNumbers": [
             {
@@ -3572,6 +3599,7 @@
             "Goblin"
         ],
         "target": "other",
+        "showonSkill": "Athletics",
         "desc": "You are no rime hag or Jadwiga, but the magic of the north has still left a mark on you. Frigid ice runs through your veins, and you can expel frost from your body to freeze your foes. Attempt an Athletics check against the Fortitude DC of an adjacent foe. If you have master proficiency in Athletics, you can affect up to two adjacent foes, rolling one Athletics check against each foe.",
         "critsuccess": "The target becomes clumsy 2 for 1 round.",
         "success": "The target becomes clumsy 1 for 1 round.",
@@ -3714,6 +3742,7 @@
         ],
         "trigger": "You are affected by an emotion effect.",
         "target": "area",
+        "showonSkill": "Deception",
         "desc": "Taldan pride means you never show weakness. Roll a Deception check and compare the result to any observing creatures' Perception DCs. On a success, that creature believes you were unaffected by the emotion effect. A creature tricked in this manner can't benefit from the emotion effect and can't use abilities that require you to be under this emotion effect; for example, if you successfully use this ability to trick a will-o'-wisp into believing you aren't under a fear effect, it can't use its Feed on Fear ability on you."
     },
     {
@@ -3810,7 +3839,7 @@
         ],
         "showSpells": [
             {
-                "level": "5",
+                "level": 5,
                 "name": "Creation"
             }
         ]
@@ -4468,14 +4497,14 @@
             {
                 "choiceBySubType": "Animal Instinct",
                 "duration": 100,
-                "hideChoices": "TRUE",
+                "hideChoices": true,
                 "name": "Animal Rage",
                 "source": "Animal Rage"
             }
         ],
         "showSpells": [
             {
-                "level": "3",
+                "level": 3,
                 "name": "Animal Form"
             }
         ]
@@ -4705,7 +4734,7 @@
         ],
         "showSpells": [
             {
-                "level": "6",
+                "level": 6,
                 "name": "Dragon Form"
             }
         ]
@@ -5024,7 +5053,7 @@
         ],
         "showSpells": [
             {
-                "level": "10",
+                "level": 10,
                 "name": "Nature Incarnate"
             }
         ]

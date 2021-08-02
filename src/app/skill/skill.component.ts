@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { SkillsService } from '../skills.service';
 import { CharacterService } from '../character.service';
 import { TraitsService } from '../traits.service';
@@ -6,6 +6,9 @@ import { AbilitiesService } from '../abilities.service';
 import { EffectsService } from '../effects.service';
 import { Skill } from '../Skill';
 import { DiceService } from '../dice.service';
+import { ItemActivity } from '../ItemActivity';
+import { ActivityGain } from '../ActivityGain';
+import { ActivitiesService } from '../activities.service';
 
 @Component({
     selector: 'app-skill',
@@ -23,6 +26,12 @@ export class SkillComponent implements OnInit {
     showValue: boolean = true;
     @Input()
     isDC: boolean = false;
+    @Input()
+    relatedActivityGains: (ActivityGain|ItemActivity)[] = [];
+    @Input()
+    showAction: string = "";
+    @Output()
+    showActionMessage = new EventEmitter<string>();
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -31,7 +40,8 @@ export class SkillComponent implements OnInit {
         public abilitiesService: AbilitiesService,
         public skillsService: SkillsService,
         public traitsService: TraitsService,
-        public effectsService: EffectsService
+        public effectsService: EffectsService,
+        private activitiesService: ActivitiesService
     ) { }
 
     get_Skills(name: string = "", type: string = "") {
@@ -42,12 +52,29 @@ export class SkillComponent implements OnInit {
         return index;
     }
 
+    toggle_Action(id: string) {
+        if (this.showAction == id) {
+            this.showAction = "";
+        } else {
+            this.showAction = id;
+        }
+        this.showActionMessage.emit(this.showAction);
+    }
+
+    get_ShowAction() {
+        return this.showAction;
+    }
+
     get_Character() {
         return this.characterService.get_Character();
     }
 
     get_Creature() {
         return this.characterService.get_Creature(this.creature);
+    }
+
+    get_TileMode() {
+        return this.get_Character().settings.skillsTileMode;
     }
 
     get_Name(skill: Skill) {
@@ -68,6 +95,19 @@ export class SkillComponent implements OnInit {
                 this.get_Creature().skillNotes.push({ name: skill.name, showNotes: false, notes: "" });
                 return this.get_Creature().skillNotes.find(note => note.name == skill.name);
             }
+        }
+    }
+    
+    get_Activities(name: string = "") {
+        return this.activitiesService.get_Activities(name);
+    }
+
+    get_FuseStanceName() {
+        let fuseStance = this.characterService.get_Character().customFeats.filter(feat => feat.name == "Fuse Stance");
+        if (fuseStance.length && fuseStance[0].data?.["name"]) {
+            return fuseStance[0].data["name"];
+        } else {
+            return "Fused Stance";
         }
     }
 

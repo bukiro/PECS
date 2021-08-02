@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 //ItemActivity combines Activity and ActivityGain, so that an item can have its own contained activity.
 export class ItemActivity extends Activity {
     public readonly _className: string = this.constructor.name;
+    public readonly isActivity: boolean = true;
     public active: boolean = false;
     public activeCooldown: number = 0;
     public chargesUsed: number = 0;
@@ -17,10 +18,11 @@ export class ItemActivity extends Activity {
     public duration: number = 0;
     public level: number = 0;
     public source: string = "";
+    public showonSkill: string = "";
     //Resonant item activities are only available when the item is slotted into a wayfinder.
     public resonant: boolean = false;
     public data: { name: string, value: any }[] = [];
-    //We copy the activities castSpells here whenever we activate it, so we can store the item ID.
+    //We copy the activity's castSpells here whenever we activate it, so we can store the item ID.
     public castSpells: SpellCast[] = [];
     //If the activity causes a condition, in order to select a choice from the activity beforehand, the choice is saved here for each condition.
     public effectChoices: { condition: string, choice: string }[] = [];

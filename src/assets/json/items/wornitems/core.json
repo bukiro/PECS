@@ -726,17 +726,12 @@
             "Invested"
         ],
         "usage": "worn headwear",
-        "hints": [
+        "effects": [
             {
-                "desc": "The hat  grants you a +1 item bonus to Arcana checks.",
-                "showon": "Arcana",
-                "effects": [
-                    {
-                        "affected": "Arcana",
-                        "type": "item",
-                        "value": "1"
-                    }
-                ]
+                "_className": "EffectGain",
+                "affected": "Arcana",
+                "type": "item",
+                "value": 1
             }
         ],
         "gainSpells": [
@@ -1182,6 +1177,7 @@
                 "activationType": "Command",
                 "frequency": "once per day",
                 "cooldown": 144000,
+                "showonSkill": "Diplomacy",
                 "desc": "You wield your great stature to make a Request of a creature. If you roll a success on the check, you get a critical success instead.",
                 "traits": [
                     "Enchantment",
