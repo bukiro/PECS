@@ -390,6 +390,11 @@ export class ConditionsService {
             characterService.set_ToChange(creature.type, "health");
         }
 
+        //Update Attacks when Hunt Prey or Flurry changes.
+        if (["Hunt Prey", "Hunt Prey: Flurry"].includes(condition.name)) {
+            characterService.set_ToChange(creature.type, "attacks");
+        }
+
         //Update Attacks if attack restrictions apply.
         if (condition.attackRestrictions.length) {
             characterService.set_ToChange(creature.type, "attacks");

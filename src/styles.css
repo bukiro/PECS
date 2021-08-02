@@ -2024,6 +2024,17 @@ app-tags:empty {
     gap: .15rem;
 }
 
+.bigger {
+    font-size: 120%;
+    margin-top: auto;
+    margin-bottom: auto;
+    gap: .5rem;
+}
+
+button.bigger, .button.bigger {
+    height: 2em;
+}
+
 .notapplied {
     opacity: 0.5;
 }

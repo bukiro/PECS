@@ -30,42 +30,43 @@
             </app-tags>
             <app-tags [creature]="creature" [objectName]="'Defense'" [showTraits]=true [showFeats]=true [showItems]=true
                 [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-            <div class="list-item">
-                <button class="newrow sublist-toggle center-aligned" (click)="toggle_List('QuickStatus')">
-                    Quick Status
-                </button>
-                <div class="list-item sublist" *ngIf="get_ShowList()=='QuickStatus'">
-                    <div class="list-item newrow">
-                        <button class="center-aligned" *ngIf="!get_FlatFooted()"
-                            (click)="set_FlatFooted(true)">Flat-Footed</button>
-                        <button class="center-aligned fancy-button" *ngIf="get_FlatFooted()"
-                            (click)="set_FlatFooted(false)">Disable
-                            Flat-Footed</button>
-                    </div>
-                    <div class="list-item newrow">
-                        <button class="center-aligned" *ngIf="get_Cover() != 1" (click)="set_Cover(1)">Lesser
-                            Cover</button>
-                        <button class="center-aligned fancy-button" *ngIf="get_Cover() == 1" (click)="set_Cover(0)">End
-                            Cover</button>
-                    </div>
-                    <div class="list-item newrow">
-                        <button class="center-aligned" *ngIf="get_Cover() != 2" (click)="set_Cover(2)">Standard
-                            Cover</button>
-                        <button class="center-aligned fancy-button" *ngIf="get_Cover() == 2" (click)="set_Cover(0)">End
-                            Cover</button>
-                    </div>
-                    <div class="list-item newrow">
-                        <button class="center-aligned" *ngIf="get_Cover() != 4" (click)="set_Cover(4)">Greater
-                            Cover</button>
-                        <button class="center-aligned fancy-button" *ngIf="get_Cover() == 4" (click)="set_Cover(0)">End
-                            Cover</button>
-                    </div>
-                    <div class="list-item newrow">
-                        <button class="center-aligned" *ngIf="!get_Hidden()" (click)="set_Hidden(true)">Hidden</button>
-                        <button class="center-aligned fancy-button" *ngIf="get_Hidden()"
-                            (click)="set_Hidden(false)">Disable Hidden</button>
-                    </div>
-                </div>
+            <div class="list-item newrow">
+                <strong>Quick Status</strong>
+                <span class="hlist left-aligned">
+                    <ng-container *ngFor="let flatFooted of [get_FlatFooted()]; trackBy:trackByIndex;">
+                        <button class="center-aligned bigger" [ngClass]="{'fancy-button': flatFooted}"
+                            [ngbTooltip]="flatFooted ? 'Disable Flat-Footed' : 'Flat-Footed'"
+                            (click)="set_FlatFooted(!flatFooted)">
+                            <i class="ra ra-footprint"></i>
+                        </button>
+                    </ng-container>
+                    <ng-container *ngFor="let hidden of [get_Hidden()]; trackBy:trackByIndex;">
+                        <button class="center-aligned bigger" [ngClass]="{'fancy-button': hidden}"
+                            [ngbTooltip]="hidden ? 'Disable Hidden' : 'Hidden'" (click)="set_Hidden(!hidden)">
+                            <i class="ra ra-player-dodge"></i>
+                        </button>
+                    </ng-container>
+                </span>
+                <ng-container *ngFor="let cover of [get_Cover()]; trackBy:trackByIndex;">
+                    <strong>Cover</strong>
+                    <span class="hlist right-aligned">
+                        <button class="center-aligned bigger" [ngClass]="{'fancy-button': cover == 1}"
+                            [ngbTooltip]="cover == 1 ? 'End Lesser Cover' : 'Lesser Cover'"
+                            (click)="set_Cover(cover == 1 ? 0 : 1)">
+                            <i class="ra ra-player"></i>
+                        </button>
+                        <button class="center-aligned bigger" [ngClass]="{'fancy-button': cover == 2}"
+                            [ngbTooltip]="cover == 2 ? 'End Standard Cover' : 'Standard Cover'"
+                            (click)="set_Cover(cover == 2 ? 0 : 2)">
+                            <i class="ra ra-metal-gate"></i>
+                        </button>
+                        <button class="center-aligned bigger" [ngClass]="{'fancy-button': cover == 4}"
+                            [ngbTooltip]="cover == 4 ? 'End Greater Cover' : 'Greater Cover'"
+                            (click)="set_Cover(cover == 4 ? 0 : 4)">
+                            <i class="ra ra-tower"></i>
+                        </button>
+                    </span>
+                </ng-container>
             </div>
             <ng-container *ngIf="creature != 'Familiar'">
                 <header class="subsectionHeader fullsize-only">Armor</header>
@@ -81,8 +82,7 @@
                         [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
                     <app-tags [creature]="creature" [objectName]="armor.name" [showItems]=true></app-tags>
                     <div class="fullsize-only newrow left-aligned"
-                        *ngFor="let runes of [get_HintRunes(armor)]; trackBy:trackByIndex;"
-                        style="margin-top:initial">
+                        *ngFor="let runes of [get_HintRunes(armor)]; trackBy:trackByIndex;" style="margin-top:initial">
                         <ng-container *ngFor="let rune of runes; trackBy:trackByIndex;">
                             <cite class="rune" *ngFor="let hint of rune.hints; trackBy:trackByIndex;"
                                 [ngbPopover]="get_HeightenedHint(hint)">{{rune.name}}</cite>
@@ -163,10 +163,10 @@
                                 shield</button>
                             <button class="center-aligned"
                                 *ngIf="shield.raised && shield.coverbonus && !shield.takingCover"
-                                (click)="set_Cover(4, shield)">Take cover</button>
+                                (click)="set_Cover(4, shield)">Take cover behind shield</button>
                             <button class="center-aligned fancy-button"
                                 *ngIf="shield.raised && shield.coverbonus && shield.takingCover"
-                                (click)="set_Cover(0, shield)">End cover</button>
+                                (click)="set_Cover(0, shield)">Leave cover behind shield</button>
                         </div>
                         <div class="list-item newrow">
                             <strong>HP</strong>
