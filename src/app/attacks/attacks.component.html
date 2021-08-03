@@ -55,6 +55,38 @@
                 </ng-container>
             </ng-container>
         </div>
+        <div class="list-item newrow">
+            <strong>Range Penalty</strong>
+            <ng-container *ngFor="let rap of [get_RangePenalty()]; trackBy:trackByIndex;">
+                <span class="hlist left-aligned">
+                    <button class="center-aligned bigger" [ngClass]="{'fancy-button': rap == '2'}"
+                        [ngbTooltip]="rap == '2' ? 'End Range Penalty' : 'Second Range Increment'"
+                        (click)="set_RangePenalty(rap == '2' ? '1' : '2')">
+                        <i class="ra ra-dice-two"></i>
+                    </button>
+                    <button class="center-aligned bigger" [ngClass]="{'fancy-button': rap == '3'}"
+                        [ngbTooltip]="rap == '3' ? 'End Range Penalty' : 'Third Range Increment'"
+                        (click)="set_RangePenalty(rap == '3' ? '1' : '3')">
+                        <i class="ra ra-dice-three"></i>
+                    </button>
+                    <button class="center-aligned bigger" [ngClass]="{'fancy-button': rap == '4'}"
+                        [ngbTooltip]="rap == '4' ? 'End Range Penalty' : 'Fourth Range Increment'"
+                        (click)="set_RangePenalty(rap == '4' ? '1' : '4')">
+                        <i class="ra ra-dice-four"></i>
+                    </button>
+                    <button class="center-aligned bigger" [ngClass]="{'fancy-button': rap == '5'}"
+                        [ngbTooltip]="rap == '5' ? 'End Range Penalty' : 'Fifth Range Increment'"
+                        (click)="set_RangePenalty(rap == '5' ? '1' : '5')">
+                        <i class="ra ra-dice-five"></i>
+                    </button>
+                    <button class="center-aligned bigger" [ngClass]="{'fancy-button': rap == '6'}"
+                        [ngbTooltip]="rap == '6' ? 'End Range Penalty' : 'Sixth Range Increment'"
+                        (click)="set_RangePenalty(rap == '6' ? '1' : '6')">
+                        <i class="ra ra-dice-six"></i>
+                    </button>
+                </span>
+            </ng-container>
+        </div>
         <ng-container *ngFor="let weapon of get_EquippedWeapons(); let weaponIndex = index; trackBy:trackByIndex;">
             <div class="fullsize-only list-item"
                 *ngIf="(onlyAttacks.length || forbiddenAttacks.length) && weaponIndex == 0">

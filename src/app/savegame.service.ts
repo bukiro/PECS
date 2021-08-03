@@ -105,12 +105,14 @@ export class SavegameService {
         //Restore a lot of data from reference objects.
         //This allows us to save a lot of data at saving by removing all data from certain objects that is the same as in their original template.
 
-        //Restore Inventories
+        //Apply any new settings.
+        character.settings = Object.assign(new Settings, character.settings);
+
+        //Restore Inventories.
         character.inventories = character.inventories.map(inventory => Object.assign(new ItemCollection(), inventory));
 
         //Apply patches that need to be done before the class is restored.
-        //This is usually removing skill increases and feat choices, which can cause issues if the class doesn't have them at that index and the character still does.
-
+        //This is usually removing skill increases and feat choices, which can cause issues if the class doesn't have them at the same index as the character.
         character = this.patch(savedCharacter, character, 1, characterService);
 
         if (character.class.name) {
@@ -148,8 +150,7 @@ export class SavegameService {
             delete character['_id'];
         }
 
-        //Perform any updates between versions at this point.
-
+        //Apply any patches that need to be done after the class is restored.
         character = this.patch(savedCharacter, character, 2, characterService);
 
         return character;
@@ -347,7 +348,7 @@ export class SavegameService {
                 }
             }
 
-            //Monks below version 1.0.2 now get their lost Path to Perfection choices back.
+            //Monks below version 1.0.2 have lost their Path to Perfection skill increases and now get feat choices instead.
             if (character.class.name == "Monk" && character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 2) {
                 //Get the original choices back from the savedCharacter.
                 let firstPath: string = savedCharacter.class?.levels?.[7]?.skillChoices?.find(choice => choice.source == "Path to Perfection")?.increases?.[0]?.name || "";
@@ -383,7 +384,7 @@ export class SavegameService {
                 }
             }
 
-            //Characters with Druid dedication before version 1.0.3 need to change their Druidic Order choice and ID.
+            //Characters with Druid dedication before version 1.0.3 need to change their Druidic Order choice type and ID, since these were renamed.
             if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 3) {
                 character.class.levels.forEach(level => {
                     let choice = level.featChoices.find(choice => choice.specialChoice && choice.type == "Order" && choice.source == "Feat: Druid Dedication");

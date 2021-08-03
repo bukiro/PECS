@@ -387,17 +387,19 @@ export class AttacksComponent implements OnInit {
         let creature = this.get_Creature();
         let conditions: ConditionGain[] = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
             .filter(gain => ["Multiple Attack Penalty", "Multiple Attack Penalty (Flurry)"].includes(gain.name) && gain.source == "Quick Status");
-        if (conditions.some(gain => gain.name == "Multiple Attack Penalty (Flurry)" && gain.choice == "Third Attack")) {
-            return "3f";
-        }
-        if (conditions.some(gain => gain.name == "Multiple Attack Penalty" && gain.choice == "Third Attack")) {
-            return "3";
-        }
-        if (conditions.some(gain => gain.name == "Multiple Attack Penalty (Flurry)" && gain.choice == "Second Attack")) {
-            return "2f";
-        }
-        if (conditions.some(gain => gain.name == "Multiple Attack Penalty" && gain.choice == "Second Attack")) {
-            return "2";
+        for (let gain of conditions) {
+            if (gain.name == "Multiple Attack Penalty (Flurry)") {
+                switch (gain.choice) {
+                    case "Third Attack": return "3f";
+                    case "Second Attack": return "2f";
+                }
+            }
+            if (gain.name == "Multiple Attack Penalty") {
+                switch (gain.choice) {
+                    case "Third Attack": return "3";
+                    case "Second Attack": return "2";
+                }
+            }
         }
         return "1";
     }
@@ -452,6 +454,81 @@ export class AttacksComponent implements OnInit {
         }
         if (mapName) {
             let newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: mapName, choice: mapChoice, source: "Quick Status", duration: 5, locked: true })
+            this.characterService.add_Condition(creature, newCondition, false);
+        }
+        this.characterService.process_ToChange();
+    }
+
+    get_RangePenalty() {
+        let creature = this.get_Creature();
+        let conditions: ConditionGain[] = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
+            .filter(gain => gain.name == "Range Penalty" && gain.source == "Quick Status");
+        for (let gain of conditions) {
+            switch (gain.choice) {
+                case "Sixth Range Increment": return "6";
+                case "Fifth Range Increment": return "5";
+                case "Fourth Range Increment": return "4";
+                case "Third Range Increment": return "3";
+                case "Second Range Increment": return "2";
+            }
+        }
+        return "1";
+    }
+
+    set_RangePenalty(rap: "1" | "2" | "3" | "4" | "5" | "6") {
+        let creature = this.get_Creature();
+        let conditions: ConditionGain[] = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
+            .filter(gain => gain.name == "Range Penalty" && gain.source == "Quick Status");
+        let rap2 = conditions.find(gain => gain.choice == "Second Range Increment");
+        let rap3 = conditions.find(gain => gain.choice == "Third Range Increment");
+        let rap4 = conditions.find(gain => gain.choice == "Fourth Range Increment");
+        let rap5 = conditions.find(gain => gain.choice == "Fifth Range Increment");
+        let rap6 = conditions.find(gain => gain.choice == "Sixth Range Increment");
+        let rapChoice: string = "";
+        switch (rap) {
+            case "2":
+                if (!rap2) {
+                    rapChoice = "Second Range Increment";
+                }
+                break;
+            case "3":
+                if (!rap3) {
+                    rapChoice = "Third Range Increment";
+                }
+                break;
+            case "4":
+                if (!rap4) {
+                    rapChoice = "Fourth Range Increment";
+                }
+                break;
+            case "5":
+                if (!rap5) {
+                    rapChoice = "Fifth Range Increment";
+                }
+                break;
+            case "6":
+                if (!rap6) {
+                    rapChoice = "Sixth Range Increment";
+                }
+                break;
+        }
+        if (rap2 && rap != "2") {
+            this.characterService.remove_Condition(creature, rap2, false);
+        }
+        if (rap3 && rap != "3") {
+            this.characterService.remove_Condition(creature, rap3, false);
+        }
+        if (rap4 && rap != "4") {
+            this.characterService.remove_Condition(creature, rap4, false);
+        }
+        if (rap5 && rap != "5") {
+            this.characterService.remove_Condition(creature, rap5, false);
+        }
+        if (rap6 && rap != "6") {
+            this.characterService.remove_Condition(creature, rap6, false);
+        }
+        if (rapChoice) {
+            let newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: "Range Penalty", choice: rapChoice, source: "Quick Status", duration: 5, locked: true })
             this.characterService.add_Condition(creature, newCondition, false);
         }
         this.characterService.process_ToChange();

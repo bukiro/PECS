@@ -9002,6 +9002,41 @@
         ]
     },
     {
+        "name": "Range Penalty",
+        "desc": "Ranged and thrown weapons each have a listed range increment, and attacks with them grow less accurate against targets farther away (range and range increments are covered in depth on page 279). As long as your target is at or within the listed range increment, also called the first range increment, you take no penalty to the attack roll. If you’re attacking beyond that range increment, you take a –2 penalty for each additional increment beyond the first. You can attempt to attack with a ranged weapon or thrown weapon up to six range increments away, but the farther away you are, the harder it is to hit your target.",
+        "type": "generic",
+        "defaultDurations": [
+            {
+                "duration": 5
+            }
+        ],
+        "hide": true,
+        "choice": "Second Range Increment",
+        "choices": [
+            {
+                "name": "Second Range Increment"
+            },
+            {
+                "name": "Third Range Increment"
+            },
+            {
+                "name": "Fourth Range Increment"
+            },
+            {
+                "name": "Fifth Range Increment"
+            },
+            {
+                "name": "Sixth Range Increment"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Ranged Attack Rolls",
+                "value": "({'Sixth Range Increment':-10, 'Fifth Range Increment':-8, 'Fourth Range Increment':-6, 'Third Range Increment':-4, 'Second Range Increment':-2})[Choice] || 0"
+            }
+        ]
+    },
+    {
         "name": "Restrained",
         "desc": "You're tied up and can barely move, or a creature has you pinned. You have the flat-footed and immobilized conditions, and you can't use any actions with the attack or manipulate traits except to attempt to Escape or Force Open your bonds. Restrained overrides grabbed.",
         "type": "generic",

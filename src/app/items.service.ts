@@ -293,7 +293,7 @@ export class ItemsService {
     }
 
     initialize_Item(item: any, preassigned: boolean = false, newId: boolean = true, resetPropertyRunes: boolean = false) {
-        //Every new item has to be re-assigned its class and iterate over all its objects to reassign them as well.
+        //Every new item has to be re-assigned its class and iterate over its objects to reassign them as well.
         //Typescript does not seem to have the option to keep object properties' classes when assigning.
         let newItem: any;
         //Set preassigned if you have already given the item a Class. Otherwise it will be determined by the item's type.
@@ -302,6 +302,7 @@ export class ItemsService {
         } else {
             newItem = this.cast_ItemByType(JSON.parse(JSON.stringify(item)));
         }
+        //Optionally, a new ID is assigned and updated on the item's activities and their spell gains.
         if (newId) {
             newItem.id = uuidv4();
             newItem.activities?.forEach((activity: ItemActivity) => {
@@ -432,8 +433,6 @@ export class ItemsService {
 
         return newItem;
     }
-
-
 
     get_ContainedBulk(creature: Creature, item: Item, targetInventory: ItemCollection = null, including: boolean = true) {
         //Sum up all the bulk of an item, including items granted by it and inventories it contains (or they contain).
