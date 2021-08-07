@@ -393,40 +393,49 @@
                                 </header>
                                 <span>
                                     Source
-                                    <input type="text" id="bonusSource_{{level.number}}"
-                                        [(ngModel)]="bonusSource" maxLength="30">
+                                    <input type="text" id="bonusSource_{{level.number}}" [(ngModel)]="bonusSource"
+                                        maxLength="30">
                                 </span>
                                 <div class="newrow center-aligned">
-                                    <button class="abilityboost center-aligned" (click)="add_BonusAbilityChoice(level, 'Boost')">
+                                    <button class="abilityboost center-aligned"
+                                        (click)="add_BonusAbilityChoice(level, 'Boost')">
                                         Ability<br>Boost
                                     </button>
-                                    <button class="abilityboost center-aligned" (click)="add_BonusAbilityChoice(level, 'Flaw')">
+                                    <button class="abilityboost center-aligned"
+                                        (click)="add_BonusAbilityChoice(level, 'Flaw')">
                                         Ability<br>Flaw
                                     </button>
                                 </div>
                                 <div class="newrow center-aligned">
-                                    <button class="skillincrease center-aligned" (click)="add_BonusSkillChoice(level, 'Perception')">
+                                    <button class="skillincrease center-aligned"
+                                        (click)="add_BonusSkillChoice(level, 'Perception')">
                                         Perception<br>Increase
                                     </button>
-                                    <button class="skillincrease center-aligned" (click)="add_BonusSkillChoice(level, 'Save')">
+                                    <button class="skillincrease center-aligned"
+                                        (click)="add_BonusSkillChoice(level, 'Save')">
                                         Saving&nbsp;Throw<br>Increase
                                     </button>
-                                    <button class="skillincrease center-aligned" (click)="add_BonusSkillChoice(level, 'Skill')">
+                                    <button class="skillincrease center-aligned"
+                                        (click)="add_BonusSkillChoice(level, 'Skill')">
                                         Skill<br>Increase
                                     </button>
                                 </div>
                                 <div class="newrow center-aligned">
-                                    <button class="featchoice center-aligned" (click)="add_BonusFeatChoice(level, 'Ancestry')"
+                                    <button class="featchoice center-aligned"
+                                        (click)="add_BonusFeatChoice(level, 'Ancestry')"
                                         [disabled]="!this.get_Character().class.ancestry?.name">
                                         Ancestry<br>Feat
                                     </button>
-                                    <button class="featchoice center-aligned" (click)="add_BonusFeatChoice(level, 'Class')">
+                                    <button class="featchoice center-aligned"
+                                        (click)="add_BonusFeatChoice(level, 'Class')">
                                         Class<br>Feat
                                     </button>
-                                    <button class="featchoice center-aligned" (click)="add_BonusFeatChoice(level, 'General')">
+                                    <button class="featchoice center-aligned"
+                                        (click)="add_BonusFeatChoice(level, 'General')">
                                         General<br>Feat
                                     </button>
-                                    <button class="featchoice center-aligned" (click)="add_BonusFeatChoice(level, 'Skill')">
+                                    <button class="featchoice center-aligned"
+                                        (click)="add_BonusFeatChoice(level, 'Skill')">
                                         Skill<br>Feat
                                     </button>
                                 </div>
@@ -1536,7 +1545,9 @@
                                     </div>
                                     <div class="newrow left-aligned tags">
                                         <cite class="trait" *ngFor="let trait of class.traits; trackBy:trackByIndex;"
-                                            [ngbPopover]="get_Traits(trait)[0]?.desc" openDelay=100>{{trait}}</cite>
+                                            [ngbPopover]="get_Traits(trait)[0]?.desc" openDelay=100>
+                                            {{trait}}
+                                        </cite>
                                     </div>
                                     <div class="newrow left-aligned" *ngIf="class.sourceBook">
                                         <strong>Source</strong>
@@ -1600,7 +1611,9 @@
                                     </div>
                                     <div class="newrow left-aligned tags">
                                         <cite class="trait" *ngFor="let trait of ancestry.traits; trackBy:trackByIndex;"
-                                            [ngbPopover]="get_Traits(trait)[0]?.desc" openDelay=100>{{trait}}</cite>
+                                            [ngbPopover]="get_Traits(trait)[0]?.desc" openDelay=100>
+                                            {{trait}}
+                                        </cite>
                                     </div>
                                     <div class="newrow left-aligned" *ngIf="ancestry.sourceBook">
                                         <strong>Source</strong>
@@ -1675,7 +1688,9 @@
                                         <div class="newrow left-aligned tags">
                                             <cite class="trait"
                                                 *ngFor="let trait of heritage.traits; trackBy:trackByIndex;"
-                                                [ngbPopover]="get_Traits(trait)[0]?.desc" openDelay=100>{{trait}}</cite>
+                                                [ngbPopover]="get_Traits(trait)[0]?.desc" openDelay=100>
+                                                {{trait}}
+                                            </cite>
                                         </div>
                                         <div class="newrow left-aligned" *ngIf="heritage.sourceBook">
                                             <strong>Source</strong>
@@ -1839,7 +1854,9 @@
                                     <div class="newrow left-aligned tags">
                                         <cite class="trait"
                                             *ngFor="let trait of background.traits; trackBy:trackByIndex;"
-                                            [ngbPopover]="get_Traits(trait)[0]?.desc" openDelay=100>{{trait}}</cite>
+                                            [ngbPopover]="get_Traits(trait)[0]?.desc" openDelay=100>
+                                            {{trait}}
+                                        </cite>
                                     </div>
                                     <div class="newrow left-aligned" *ngIf="background.sourceBook">
                                         <strong>Source</strong>
@@ -2158,8 +2175,9 @@
                                             <div class="newrow left-aligned tags">
                                                 <cite class="trait"
                                                     *ngFor="let trait of type.traits; trackBy:trackByIndex;"
-                                                    [ngbPopover]="get_Traits(trait)[0]?.desc"
-                                                    openDelay=100>{{trait}}</cite>
+                                                    [ngbPopover]="get_Traits(trait)[0]?.desc" openDelay=100>
+                                                    {{trait}}
+                                                </cite>
                                             </div>
                                             <div class="newrow left-aligned" *ngIf="type.sourceBook">
                                                 <strong>Source</strong>
@@ -2430,8 +2448,9 @@
                                             <div class="newrow left-aligned tags">
                                                 <cite class="trait"
                                                     *ngFor="let trait of background.traits; trackBy:trackByIndex;"
-                                                    [ngbPopover]="get_Traits(trait)[0]?.desc"
-                                                    openDelay=100>{{trait}}</cite>
+                                                    [ngbPopover]="get_Traits(trait)[0]?.desc" openDelay=100>
+                                                    {{trait}}
+                                                </cite>
                                             </div>
                                             <div class="newrow left-aligned" *ngIf="background.sourceBook">
                                                 <strong>Source</strong>
@@ -2678,8 +2697,9 @@
                                                     <div class="newrow left-aligned tags">
                                                         <cite class="trait"
                                                             *ngFor="let trait of heritage.traits; trackBy:trackByIndex;"
-                                                            [ngbPopover]="get_Traits(trait)[0]?.desc"
-                                                            openDelay=100>{{trait}}</cite>
+                                                            [ngbPopover]="get_Traits(trait)[0]?.desc" openDelay=100>
+                                                            {{trait}}
+                                                        </cite>
                                                     </div>
                                                     <div class="newrow left-aligned" *ngIf="heritage.sourceBook">
                                                         <strong>Source</strong>

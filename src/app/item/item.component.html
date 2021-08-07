@@ -2,7 +2,9 @@
     *ngFor="let traits of [(item.get_Traits ? item.get_Traits(characterService, get_Creature()) : item.traits)]; trackBy:trackByIndex">
     <div class="newrow left-aligned tags" *ngIf="traits.length">
         <cite class="trait" *ngFor="let trait of traits; trackBy:trackByIndex;"
-            [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+            [ngbPopover]="get_Traits(trait)[0].desc">
+            {{trait}}
+        </cite>
     </div>
 </ng-container>
 <div class="newrow left-aligned tags">
@@ -56,7 +58,8 @@
     </ng-container>
 </div>
 <!-- Wayfinder Aeon Stone selection -->
-<app-itemAeonStones class="list-item hide-empty" [item]=item [itemStore]=itemStore *ngIf="item.isWayfinder"></app-itemAeonStones>
+<app-itemAeonStones class="list-item hide-empty" [item]=item [itemStore]=itemStore *ngIf="item.isWayfinder">
+</app-itemAeonStones>
 <!-- Item activities -->
 <div class="list-item left-aligned" *ngFor="let activity of item.activities; trackBy:trackByIndex;">
     <header class="spellHeader" *ngIf="activity.name">

@@ -20,9 +20,13 @@
             <ng-container *ngIf="get_ObjectType()=='Activity'">
                 <div class="newrow left-aligned">
                     <cite class="trait" *ngFor="let trait of object.traits; trackBy:trackByIndex;"
-                        [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+                        [ngbPopover]="get_Traits(trait)[0].desc">
+                        {{trait}}
+                    </cite>
                     <cite class="trait" *ngFor="let trait of object.get_ActivationTraits(); trackBy:trackByIndex;"
-                        [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+                        [ngbPopover]="get_Traits(trait)[0].desc">
+                        {{trait}}
+                    </cite>
                 </div>
                 <app-activityContent class="fullwidth vlist lower" [creature]="creature" [allowActivate]="false"
                     [activity]="object">

@@ -154,7 +154,9 @@
                     *ngFor="let traits of [weapon.get_Traits(characterService, get_Creature())]; trackBy:trackByIndex;">
                     <div class="fullsize-only newrow left-aligned tags" *ngIf="traits.length">
                         <cite class="trait" *ngFor="let trait of traits; trackBy:trackByIndex;"
-                            [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+                            [ngbPopover]="get_Traits(trait)[0].desc">
+                            {{trait}}
+                        </cite>
                     </div>
                 </ng-container>
                 <div class="list-item newrow" *ngIf="get_TwoHandedAllowed(weapon)">

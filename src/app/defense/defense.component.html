@@ -76,7 +76,9 @@
                     </div>
                     <div class="fullsize-only newrow left-aligned" *ngIf="armor.traits.length">
                         <cite class="trait" *ngFor="let trait of armor.traits; trackBy:trackByIndex;"
-                            [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+                            [ngbPopover]="get_Traits(trait)[0].desc">
+                            {{trait}}
+                        </cite>
                     </div>
                     <app-tags [creature]="creature" [objectName]="'Armor'" [showTraits]=true [showFeats]=true
                         [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
@@ -150,7 +152,9 @@
                         </div>
                         <div class="fullsize-only newrow left-aligned" *ngIf="shield.traits.length">
                             <cite class="trait" *ngFor="let trait of shield.traits; trackBy:trackByIndex;"
-                                [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+                                [ngbPopover]="get_Traits(trait)[0].desc">
+                                {{trait}}
+                            </cite>
                         </div>
                         <app-tags [creature]="creature" [objectName]="'Shield'" [showTraits]=true [showFeats]=true
                             [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true>

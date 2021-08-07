@@ -31,8 +31,9 @@
                 <span>{{get_Character().class.ancestry.name}}{{(get_Character().class.heritage.name) ? " - " +
                     get_Character().class.heritage.name : ""}}</span>
                 <div class="newrow left-aligned" *ngIf="get_Character().class.ancestry.traits.length">
-                    <cite class="trait"
-                        *ngFor="let trait of get_CharacterTraits(); trackBy:trackByIndex;">{{trait}}&nbsp;</cite>
+                    <cite class="trait" *ngFor="let trait of get_CharacterTraits(); trackBy:trackByIndex;">
+                        {{trait}}
+                    </cite>
                 </div>
                 <app-tags [creature]="creature" [objectName]="'Ancestry'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
@@ -44,7 +45,8 @@
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Character().class.name">
                 <div class="newrow" *ngFor="let specialization of get_ClassChoices(); trackBy:trackByIndex;">
-                    <strong [ngStyle]="{'margin-left': specialization.subChoice ? '1em' : ''}">{{specialization.name}}</strong>
+                    <strong
+                        [ngStyle]="{'margin-left': specialization.subChoice ? '1em' : ''}">{{specialization.name}}</strong>
                     <span>{{specialization.choice}}</span>
                 </div>
             </div>
@@ -95,7 +97,9 @@
         <ng-container *ngIf="creature=='Companion'">
             <div class="newrow left-aligned tags" *ngIf="get_Companion().class.ancestry.name">
                 <cite class="trait" *ngFor="let trait of get_Companion().class.ancestry.traits; trackBy:trackByIndex;"
-                    [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+                    [ngbPopover]="get_Traits(trait)[0].desc">
+                    {{trait}}
+                </cite>
             </div>
             <app-tags [creature]="'Character'" [objectName]="'Animal Companion'" [showTraits]=true [showFeats]=true
                 [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
@@ -125,7 +129,9 @@
         <ng-container *ngIf="creature=='Familiar'">
             <div class="newrow left-aligned tags">
                 <cite class="trait" *ngFor="let trait of get_Familiar().traits; trackBy:trackByIndex;"
-                    [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+                    [ngbPopover]="get_Traits(trait)[0].desc">
+                    {{trait}}
+                </cite>
             </div>
             <app-tags [creature]="'Character'" [objectName]="'Familiar'" [showTraits]=true [showFeats]=true
                 [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
@@ -150,7 +156,9 @@
                     <div class="newrow left-aligned tags">
                         <cite class="trait"
                             *ngFor="let trait of get_FamiliarAbilities(ability.name)[0].traits; trackBy:trackByIndex;"
-                            [ngbPopover]="get_Traits(trait).length ? get_Traits(trait)[0].desc : ''">{{trait}}</cite>
+                            [ngbPopover]="get_Traits(trait).length ? get_Traits(trait)[0].desc : ''">
+                            {{trait}}
+                        </cite>
                     </div>
                     <div class="newrow left-aligned">
                         {{get_FamiliarAbilities(ability.name)[0].desc}}
