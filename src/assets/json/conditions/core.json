@@ -522,6 +522,12 @@
             {
                 "duration": 1
             }
+        ],
+        "effects": [
+            {
+                "affected": "No-Duration Spell Slot Preservation",
+                "setValue": "5"
+            }
         ]
     },
     {
@@ -1795,7 +1801,7 @@
         "inputRequired": "Remove the condition after you rest for 10 minutes.",
         "gainConditions": [
             {
-                "ignorePersistent": "TRUE",
+                "ignorePersistent": true,
                 "name": "Fatigued"
             }
         ]
@@ -2344,6 +2350,12 @@
         "defaultDurations": [
             {
                 "duration": 1
+            }
+        ],
+        "effects": [
+            {
+                "affected": "No-Duration Spell Slot Preservation",
+                "setValue": "5"
             }
         ]
     },
@@ -8381,7 +8393,7 @@
         "inputRequired": "Remove the condition after you rest for 10 minutes.",
         "gainConditions": [
             {
-                "ignorePersistent": "TRUE",
+                "ignorePersistent": true,
                 "name": "Fatigued"
             }
         ]
@@ -9003,7 +9015,7 @@
     },
     {
         "name": "Range Penalty",
-        "desc": "Ranged and thrown weapons each have a listed range increment, and attacks with them grow less accurate against targets farther away (range and range increments are covered in depth on page 279). As long as your target is at or within the listed range increment, also called the first range increment, you take no penalty to the attack roll. If you’re attacking beyond that range increment, you take a –2 penalty for each additional increment beyond the first. You can attempt to attack with a ranged weapon or thrown weapon up to six range increments away, but the farther away you are, the harder it is to hit your target.",
+        "desc": "Ranged and thrown weapons each have a listed range increment, and attacks with them grow less accurate against targets farther away (range and range increments are covered in depth on page 279). As long as your target is at or within the listed range increment, also called the first range increment, you take no penalty to the attack roll. If you’re attacking beyond that range increment, you take a -2 penalty for each additional increment beyond the first. You can attempt to attack with a ranged weapon or thrown weapon up to six range increments away, but the farther away you are, the harder it is to hit your target.",
         "type": "generic",
         "defaultDurations": [
             {
@@ -9233,6 +9245,98 @@
                 "affected": "Fire Resistance",
                 "type": "item",
                 "value": "5"
+            }
+        ]
+    },
+    {
+        "name": "Dreamstone",
+        "desc": "If the next action you use is to Cast a Spell of 4th level or lower that has the sleep trait or is associated with dreams, the spell slot is not expended.",
+        "type": "helditems",
+        "buff": true,
+        "inputRequired": "The next spell you cast of 4th level or lower will not use a spell slot. Choose a suitable spell matching the description.",
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Spell Slot Preservation",
+                "setValue": "4"
+            }
+        ]
+    },
+    {
+        "name": "Cursed Dreamstone",
+        "desc": "You have fallen asleep or were forced to attempt a saving throw against a sleep effect while carrying a cursed dreamstone. You are affected by the curse depending on your Will save.\n\n<strong>Critical Success</strong> You resist the curse entirely and experience a vivid dream while sleeping that warns you of the nature of the cursed dreamstone.\n<strong>Success</strong> You resist the curse.\n<strong>Failure</strong> As long as you possess the stone, you are fatigued whenever you wake from sleep, whether natural or magically induced, and you take a -2 item penalty to all saving throws against sleep effects instead of gaining the normal bonus from a dreamstone.\n<strong>Critical Failure</strong> As failure, and whenever you attempt a saving throw against a sleep effect, you get the outcome that is one degree worse than the result of your saving throw.",
+        "type": "helditems",
+        "defaultDurations": [
+            {
+                "duration": -1
+            },
+            {
+                "duration": 0
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You take a -2 item penalty to all saving throws against sleep effects.",
+                "showon": "Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "type": "item",
+                        "value": "-2"
+                    }
+                ],
+                "conditionChoiceFilter": "Failure"
+            },
+            {
+                "desc": "You take a -2 item penalty to all saving throws against sleep effects. Whenever you attempt a saving throw against a sleep effect, you get the outcome that is one degree worse than the result of your saving throw.",
+                "showon": "Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "type": "item",
+                        "value": "-2"
+                    }
+                ],
+                "conditionChoiceFilter": "Critical Failure"
+            },
+            {
+                "desc": "You are fatigued whenever you wake from sleep.",
+                "showon": "Rest",
+                "conditionChoiceFilter": "Failure"
+            },
+            {
+                "desc": "You are fatigued whenever you wake from sleep.",
+                "showon": "Rest",
+                "conditionChoiceFilter": "Critical Failure"
+            }
+        ],
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": -1
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": -1
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Fatigued After Rest",
+                "toggle": true
             }
         ]
     },
@@ -14936,6 +15040,7 @@
                 "duration": 1
             }
         ],
+        "inputRequired": "The next spell you cast with a duration will last for the selected duration, unless its duration is longer. Choose a suitable spell matching the description.",
         "choice": "Success",
         "choices": [
             {
@@ -23342,7 +23447,7 @@
             },
             {
                 "affected": "Ignore proficiency bonuses and penalties",
-                "toggle": "TRUE"
+                "toggle": true
             }
         ]
     },
@@ -23382,7 +23487,7 @@
             },
             {
                 "affected": "Ignore proficiency bonuses and penalties",
-                "toggle": "TRUE"
+                "toggle": true
             }
         ]
     },
@@ -32823,7 +32928,7 @@
             },
             {
                 "affected": "Ignore Armor Penalty",
-                "setValue": "TRUE"
+                "toggle": true
             },
             {
                 "affected": "Poison Resistance",
@@ -35579,7 +35684,7 @@
             },
             {
                 "affected": "Athletics",
-                "toggle": "Skill('Athletics') >= [0,0,0,0,0,0,0,0,30,33,33][Heightened] ? null : [0,0,0,0,0,0,0,0,30,33,33][Heightened]"
+                "setValue": "Skill('Athletics') >= [0,0,0,0,0,0,0,0,30,33,33][Heightened] ? null : [0,0,0,0,0,0,0,0,30,33,33][Heightened]"
             },
             {
                 "affected": "Land Speed",
@@ -35603,7 +35708,7 @@
             },
             {
                 "affected": "Ignore Armor Penalty",
-                "setValue": "TRUE"
+                "toggle": true
             },
             {
                 "affected": "Melee Damage Dice Number",
@@ -36186,7 +36291,7 @@
             },
             {
                 "affected": "Athletics",
-                "toggle": "Skill('Athletics') >= 36 ? null : 36"
+                "setValue": "Skill('Athletics') >= 36 ? null : 36"
             },
             {
                 "affected": "Land Speed",
@@ -36202,7 +36307,7 @@
             },
             {
                 "affected": "Ignore Armor Penalty",
-                "setValue": "TRUE"
+                "toggle": true
             }
         ],
         "onceEffects": [

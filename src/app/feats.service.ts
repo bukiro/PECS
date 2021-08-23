@@ -847,6 +847,11 @@ export class FeatsService {
                 characterService.set_ToChange(creature.type, "spellbook");
             }
 
+            //Disable any hints when losing a feat
+            feat.hints.forEach(hint => {
+                hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
+            })
+
             //Familiar abilities should update the familiar's general information.
             if (creature.type == "Familiar") {
                 characterService.set_ToChange(creature.type, "general");
@@ -932,7 +937,7 @@ export class FeatsService {
             //Disable any active hint effects when loading a character.
             this.feats.forEach(feat => {
                 feat.hints.forEach(hint => {
-                    hint.active = false;
+                    hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
                 })
             })
         }
@@ -944,7 +949,7 @@ export class FeatsService {
             //Disable any active hint effects when loading a character.
             this.features.forEach(feat => {
                 feat.hints.forEach(hint => {
-                    hint.active = false;
+                    hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
                 })
             })
         }

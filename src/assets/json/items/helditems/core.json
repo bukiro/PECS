@@ -15,6 +15,44 @@
         "usage": "held in 1 hand"
     },
     {
+        "name": "Thurible of Revelation (Lesser)",
+        "id": "8de9ec6e-2417-11eb-adc1-0242ac120002",
+        "level": 3,
+        "price": 5500,
+        "bulk": "1",
+        "desc": "This brass censer dangles on a length of chain. Most thuribles of revelation are adorned with swirling Celestial text, though some are iron and feature Infernal or Abyssal text.",
+        "traits": [
+            "Divination",
+            "Divine"
+        ],
+        "usage": "held in 1 hand",
+        "_className": "HeldItem",
+        "activities": [
+            {
+                "_className": "ItemActivity",
+                "actions": "2A",
+                "activationType": "Interact",
+                "cost": "incense worth at least 5 gp",
+                "desc": "You light the incense inside the censer, and it burns for 1 hour. During that time, as long you are holding the thurible, you gain a +1 item bonus to Religion checks, and any critical failure you roll when you Decipher Writing of a religious nature is a failure instead.",
+                "maxDuration": 6000,
+                "gainConditions": [
+                    {
+                        "duration": 6000,
+                        "name": "Thurible of Revelation",
+                        "value": 1
+                    }
+                ],
+                "name": "Thurible of Revelation (Lesser)",
+                "source": "8de9ec6e-2417-11eb-adc1-0242ac120002",
+                "toggle": true,
+                "traits": [
+                    "Divination",
+                    "Divine"
+                ]
+            }
+        ]
+    },
+    {
         "desc": "Though it appears to be a cloth sack decorated with panels of richly colored silk or stylish embroidery, a bag of holding opens into an extradimensional space larger than its outside dimensions. The Bulk held inside the bag doesn't change the Bulk of the bag of holding itself. The amount of Bulk the bag's extradimensional space can hold depends on its type.\n\nYou can Interact with the bag of holding to put items in or remove them just like a mundane sack. Though the bag can hold a great amount of material, an object still needs to be able to fit through the opening of the sack to be stored inside.\n\nIf the bag is overloaded or broken, it ruptures and is ruined, causing the items inside to be lost forever. If it's turned inside out, the items inside spill out unharmed, but the bag must be put right before it can be used again. A living creature placed inside the bag has enough air for 10 minutes before it begins to suffocate, and it can attempt to Escape against a DC of 13. An item inside the bag provides no benefits unless it's retrieved first. An item in the bag can't be detected by magic that detects only things on the same plane.",
         "id": "7a2c6faf-bdf4-4901-b178-df2cd772543c",
         "bulk": "1",
@@ -1126,39 +1164,98 @@
         ]
     },
     {
-        "name": "Thurible of Revelation (Lesser)",
-        "id": "8de9ec6e-2417-11eb-adc1-0242ac120002",
-        "level": 3,
-        "price": 5500,
-        "bulk": "1",
-        "desc": "This brass censer dangles on a length of chain. Most thuribles of revelation are adorned with swirling Celestial text, though some are iron and feature Infernal or Abyssal text.",
+        "name": "Dreamstone",
+        "id": "bffaa366-579d-46b3-bd3e-56962b1521bf",
+        "level": 9,
+        "price": 70000,
+        "bulk": "L",
+        "desc": "A dreamstone is a disc-shaped object carved with imagery or words sacred to Desna - be it her religious symbol, a short prayer, or merely the shape of a single star. When you carry a dreamstone, you find it easier to fall asleep, and you gain improved effects from the resulting rest. You always fall asleep within 5 minutes of lying down with the intention of sleeping, and you require only 2 hours of sleep per day to gain the benefits of 8 hours of sleep, provided you have carried the dreamstone for at least 24 hours prior to resting. As long as you carry a dreamstone, you gain a +2 item bonus to saving throws against sleep effects.",
+        "hints": [
+            {
+                "desc": "You always fall asleep within 5 minutes of lying down with the intention of sleeping, and you require only 2 hours of sleep per day to gain the benefits of 8 hours of sleep, provided you have carried the dreamstone for at least 24 hours prior to resting.",
+                "showon": "Rest"
+            },
+            {
+                "desc": "As long as you carry a dreamstone, you gain a +2 item bonus to saving throws against sleep effects.",
+                "showon": "Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "value": "2",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
         "traits": [
-            "Divination",
-            "Divine"
+            "Uncommon",
+            "Enchantment",
+            "Magical"
         ],
         "usage": "held in 1 hand",
         "_className": "HeldItem",
         "activities": [
             {
                 "_className": "ItemActivity",
-                "actions": "2A",
-                "activationType": "Interact",
-                "cost": "incense worth at least 5 gp",
-                "desc": "You light the incense inside the censer, and it burns for 1 hour. During that time, as long you are holding the thurible, you gain a +1 item bonus to Religion checks, and any critical failure you roll when you Decipher Writing of a religious nature is a failure instead.",
-                "maxDuration": 6000,
+                "actions": "1A",
+                "activationType": "Interact (metamagic)",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "desc": "If the next action you use is to Cast a Spell of 4th level or lower that has the sleep trait or is associated with dreams, the spell slot is not expended.",
+                "inputRequired": "The next spell you cast of 4th level or lower will not use a spell slot. Choose a suitable spell matching the description.",
                 "gainConditions": [
                     {
-                        "duration": 6000,
-                        "name": "Thurible of Revelation",
-                        "value": 1
+                        "duration": 1,
+                        "name": "Dreamstone"
                     }
                 ],
-                "name": "Thurible of Revelation (Lesser)",
-                "source": "8de9ec6e-2417-11eb-adc1-0242ac120002",
-                "toggle": true,
+                "name": "Dreamstone",
+                "source": "bffaa366-579d-46b3-bd3e-56962b1521bf",
                 "traits": [
-                    "Divination",
-                    "Divine"
+                    "Uncommon",
+                    "Enchantment",
+                    "Magical"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Cursed Dreamstone",
+        "id": "6a8bd22c-33ab-4ca0-a7e1-9eb61e31ad37",
+        "level": 9,
+        "bulk": "L",
+        "desc": "A dreamstone can become cursed if left exposed to creatures that corrupt sleep, generate nightmares, or otherwise prey on sleeping or dreaming victims via supernatural methods. A cursed dreamstone seems to function as a normal dreamstone until the bearer falls asleep or is forced to attempt a saving throw against a sleep effect. At this point, the person carrying the cursed dreamstone must attempt a DC 26 Will save to resist the curse's effects.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "traits": [
+            "Uncommon",
+            "Enchantment",
+            "Magical"
+        ],
+        "usage": "held in 1 hand",
+        "_className": "HeldItem",
+        "activities": [
+            {
+                "_className": "ItemActivity",
+                "actions": "",
+                "desc": "A cursed dreamstone seems to function as a normal dreamstone until the bearer falls asleep or is forced to attempt a saving throw against a sleep effect. At this point, the person carrying the cursed dreamstone must attempt a DC 26 Will save to resist the curse's effects.",
+                "critsuccess": "The character resists the curse entirely and experiences a vivid dream while sleeping that warns them of the nature of the cursed dreamstone.",
+                "success": "The character resists the curse.",
+                "failure": "As long as the cursed character possesses the stone, they are fatigued whenever they wake from sleep, whether natural or magically induced, and they take a -2 item penalty to all saving throws against sleep effects instead of gaining the normal bonus from a dreamstone.",
+                "critfailure": "As failure, and whenever the bearer attempts a saving throw against a sleep effect, they get the outcome that is one degree worse than the result of their saving throw.",
+                "toggle": true,
+                "gainConditions": [
+                    {
+                        "duration": -5,
+                        "name": "Cursed Dreamstone"
+                    }
+                ],
+                "name": "Cursed Dreamstone",
+                "source": "6a8bd22c-33ab-4ca0-a7e1-9eb61e31ad37",
+                "traits": [
+                    "Uncommon",
+                    "Enchantment",
+                    "Magical"
                 ]
             }
         ]

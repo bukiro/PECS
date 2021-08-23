@@ -627,6 +627,7 @@ export class ItemsService {
             if (inventory?.[item.type]?.some(invItem => invItem === item)) {
                 //If this item is moved between inventories of the same creature, you don't need to drop it explicitly.
                 //Just push it to the new inventory and remove it from the old, but unequip it either way.
+                //The item does need to be copied so we don't just move a reference.
                 let movedItem = JSON.parse(JSON.stringify(item));
                 movedItem = characterService.reassign(movedItem);
                 //If the item is stackable, and a stack already exists in the target inventory, just add the amount to the stack.
@@ -657,6 +658,7 @@ export class ItemsService {
                 if (including) {
                     this.move_GrantedItems(creature, movedItem, targetInventory, inventory, characterService);
                 }
+                characterService.set_EquipmentViewChanges(creature, movedItem);
             }
         }
     }

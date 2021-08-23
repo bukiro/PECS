@@ -247,7 +247,7 @@
                                                                 <span *ngIf="['weapons','armors'].includes(item.type)">
                                                                     |
                                                                 </span>
-                                                                <span class= *ngIf="item.type == 'armors'"> 
+                                                                <span *ngIf="item.type == 'armors'"> 
                                                                     {{(["Light Barding", "Heavy
                                                                     Barding"].includes(item.prof)) ? item.prof :
                                                                     item.prof.split(" ")[0]}}

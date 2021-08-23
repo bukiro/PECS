@@ -688,7 +688,7 @@ export class EffectsService {
                 effectsObject.effects = JSON.parse(JSON.stringify(originalCondition.effects));
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, effectsObject, "", gain));
             }
-            originalCondition?.hints?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
+            originalCondition?.hints?.filter(hint => (!hint.conditionChoiceFilter || hint.conditionChoiceFilter == gain.choice) && (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
                 hintEffects = hintEffects.concat(this.get_SimpleEffects(creature, characterService, hint, "conditional, " + originalCondition.name, gain));
             })
         });

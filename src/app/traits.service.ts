@@ -3,6 +3,7 @@ import { Trait } from './Trait';
 import { CharacterService } from './character.service';
 import * as json_traits from '../assets/json/traits';
 import { Creature } from './Creature';
+import { Hint } from './Hint';
 
 @Injectable({
     providedIn: 'root'
@@ -98,6 +99,9 @@ export class TraitsService {
         this.traits = [];
         Object.keys(json_traits).forEach(key => {
             this.traits.push(...json_traits[key].map(obj => Object.assign(new Trait(), obj)));
+            this.traits.forEach(trait => {
+                trait.hints = trait.hints.map(hint => Object.assign(new Hint(), hint));
+            });
         });
     }
 

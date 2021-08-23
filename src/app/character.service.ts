@@ -841,6 +841,7 @@ export class CharacterService {
 
     grant_InventoryItem(creature: Character | AnimalCompanion, inventory: ItemCollection, item: Item, resetRunes: boolean = true, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1, newId: boolean = true, expiration: number = 0) {
         this.set_ToChange(creature.type, "inventory");
+        this.set_ToChange(creature.type, "effects");
         let newInventoryItem = this.itemsService.initialize_Item(item, false, newId);
         //Assign the library's item id as the new item's refId. This allows us to read the default information from the library later.
         if (!newInventoryItem.refId) {
@@ -970,6 +971,7 @@ export class CharacterService {
         }
         item.markedForDeletion = true;
         this.set_ToChange(creature.type, "inventory");
+        this.set_ToChange(creature.type, "effects");
         this.set_ItemViewChanges(creature, item);
         if (amount < item.amount) {
             item.amount -= amount;
@@ -1583,7 +1585,7 @@ export class CharacterService {
                     this.remove_Persistent(creature, extraCondition);
                 }
             })
-            creature.conditions.splice(creature.conditions.indexOf(oldConditionGain), 1)
+            creature.conditions.splice(creature.conditions.indexOf(oldConditionGain), 1);
             this.conditionsService.process_Condition(creature, this, this.effectsService, this.itemsService, oldConditionGain, originalCondition, false, increaseWounded, ignoreEndsWithConditions);
             if (oldConditionGain.source == "Quick Status") {
                 this.set_ToChange(creature.type, "defense");

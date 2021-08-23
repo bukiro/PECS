@@ -454,39 +454,68 @@ export class SpellbookComponent implements OnInit {
 
     on_Cast(levelNumber: number, gain: SpellGain, casting: SpellCasting, choice: SpellChoice, target: string = "", spell: Spell, activated: boolean, bloodMagicFeats: Feat[]) {
         let character = this.get_Character();
-        //Spells with a cooldown can start their cooldown, but not use any resources.
+        let highestSpellPreservationLevel = 0;
+        let highestNoDurationSpellPreservationLevel = 0;
+        //If an effect changes whether a spell resource will get used, mark this here and mark any matching condition for removal. The conditions will be removed if they have duration 1, regardless of whether the effect was used.
+        let conditionsToRemove: string[] = [];
+        this.characterService.effectsService.get_AbsolutesOnThis(character, "Spell Slot Preservation").forEach(effect => {
+            highestSpellPreservationLevel = parseInt(effect.setValue);
+            conditionsToRemove.push(effect.source);
+        })
+        this.characterService.effectsService.get_RelativesOnThis(character, "Spell Slot Preservation").forEach(effect => {
+            highestSpellPreservationLevel += parseInt(effect.value);
+            conditionsToRemove.push(effect.source);
+        })
+        this.characterService.effectsService.get_AbsolutesOnThis(character, "No-Duration Spell Slot Preservation").forEach(effect => {
+            highestNoDurationSpellPreservationLevel = parseInt(effect.setValue);
+            conditionsToRemove.push(effect.source);
+        })
+        this.characterService.effectsService.get_RelativesOnThis(character, "No-Duration Spell Slot Preservation").forEach(effect => {
+            highestNoDurationSpellPreservationLevel += parseInt(effect.value);
+            conditionsToRemove.push(effect.source);
+        })
         if (gain.cooldown) {
+            //Spells with a cooldown can start their cooldown, but don't use any resources. This happens whether they were activated or deactivated.
             gain.activeCooldown = gain.cooldown;
         } else {
-            //Focus spells cost Focus points.
-            if (casting.castingType == "Focus" && activated && choice.level == -1) {
-                character.class.focusPoints = Math.min(character.class.focusPoints, this.get_MaxFocusPoints());
-                character.class.focusPoints -= 1;
-            };
-            //Spontaneous spells use up spell slots. If you don't have spell slots of this level left, use a Studious Capacity one as a bard (0th level) or a Greater Vital Evolution one as a Sorcerer (11th and 12th level).
-            if (casting.castingType == "Spontaneous" && !spell.traits.includes("Cantrip") && activated) {
-                //With Bloodline Conduit active, prepared spells without a duration up to 5th level do not get expended.
-                if (!(levelNumber <= 5 && !spell.duration && this.conditionsService.get_AppliedConditions(character, this.characterService, character.conditions, true).some(gain => gain.name == "Bloodline Conduit"))) {
-                    if (this.get_UsedSpellSlots(levelNumber, casting) < this.get_MaxSpellSlots(levelNumber, casting)) {
-                        casting.spellSlotsUsed[levelNumber] += 1;
-                    } else if (casting.className == "Bard") {
-                        casting.spellSlotsUsed[0] += 1;
-                    } else if (casting.className == "Sorcerer") {
-                        if (casting.spellSlotsUsed[11] == 0) {
-                            casting.spellSlotsUsed[11] = levelNumber;
-                        } else if (casting.spellSlotsUsed[12] == 0) {
-                            casting.spellSlotsUsed[12] = levelNumber;
+            //Casting cantrips and deactivating spells doesn't use resources.
+            if (activated && !spell.traits.includes("Cantrip")) {
+                //Non-Cantrip Focus spells cost Focus points when activated.
+                if (casting.castingType == "Focus") {
+                    //Limit focus points to the maximum before removing one.
+                    character.class.focusPoints = Math.min(character.class.focusPoints, this.get_MaxFocusPoints());
+                    character.class.focusPoints -= 1;
+                } else {
+                    if (!((levelNumber <= highestSpellPreservationLevel) || (levelNumber <= highestNoDurationSpellPreservationLevel && !spell.duration))) {
+                        //Spontaneous spells use up spell slots. If you don't have spell slots of this level left, use a Studious Capacity one as a bard (0th level) or a Greater Vital Evolution one as a Sorcerer (11th and 12th level).
+                        if (casting.castingType == "Spontaneous" && !spell.traits.includes("Cantrip") && activated) {
+                            if (this.get_UsedSpellSlots(levelNumber, casting) < this.get_MaxSpellSlots(levelNumber, casting)) {
+                                casting.spellSlotsUsed[levelNumber] += 1;
+                            } else if (casting.className == "Bard") {
+                                casting.spellSlotsUsed[0] += 1;
+                            } else if (casting.className == "Sorcerer") {
+                                if (casting.spellSlotsUsed[11] == 0) {
+                                    casting.spellSlotsUsed[11] = levelNumber;
+                                } else if (casting.spellSlotsUsed[12] == 0) {
+                                    casting.spellSlotsUsed[12] = levelNumber;
+                                }
+                            }
+                        }
+                        //Prepared spells get locked until the next preparation.
+                        if (casting.castingType == "Prepared" && !spell.traits.includes("Cantrip") && activated) {
+                            gain.prepared = false;
                         }
                     }
-                }
+                };
             }
-            //Prepared spells get locked until the next preparation.
-            if (casting.castingType == "Prepared" && !spell.traits.includes("Cantrip") && activated) {
-                //With Leyline Conduit active, prepared spells without a duration up to 5th level do not get expended.
-                if (!(levelNumber <= 5 && !spell.duration && this.conditionsService.get_AppliedConditions(character, this.characterService, character.conditions, true).some(gain => gain.name == "Leyline Conduit"))) {
-                    gain.prepared = false;
+        }
+        //All Conditions that have affected the resource use of this spell are now removed (provided they have duration 1, so they count only for the next spell).
+        if (conditionsToRemove.length) {
+            this.characterService.get_AppliedConditions(character, "", "", true).filter(conditionGain => conditionsToRemove.includes(conditionGain.name)).forEach(conditionGain => {
+                if (conditionGain.duration == 1) {
+                    this.characterService.remove_Condition(character, conditionGain, false);
                 }
-            }
+            });
         }
         //Trigger bloodline powers for sorcerers if your main class is Sorcerer.
         //Do not process in manual mode.

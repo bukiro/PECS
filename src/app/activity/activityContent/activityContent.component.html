@@ -70,7 +70,7 @@
     {{activity.specialdesc}}
 </div>
 <div class="list-item left-aligned" *ngFor="let shownActivityName of activity.showActivities; trackBy:trackByIndex;">
-    <div *ngFor="let shownActivity of get_Activities(shownActivityName); trackBy:trackByIndex;">
+    <ng-container *ngFor="let shownActivity of get_Activities(shownActivityName); trackBy:trackByIndex;">
         <header class="spellHeader">
             {{shownActivity.name}}
             <app-actionIcons *ngIf="shownActivity.actions" [actionString]="shownActivity.actions">
@@ -89,11 +89,11 @@
         </div>
         <app-activityContent [activity]=shownActivity [allowActivate]="false">
         </app-activityContent>
-    </div>
+    </ng-container>
 </div>
 <div class="list-item newrow left-aligned"
     *ngFor="let cast of get_SpellCasts(); let spellCastIndex = index; trackBy:trackByIndex;">
-    <div *ngFor="let spell of get_Spells(cast.name); trackBy:trackByIndex;">
+    <ng-container *ngFor="let spell of get_Spells(cast.name); trackBy:trackByIndex;">
         <header class="spellHeader">
             {{spell.name}}
             <app-actionIcons *ngIf="spell.actions" [actionString]="spell.actions">
@@ -125,10 +125,10 @@
         </div>
         <app-spellContent class="vlist fullwidth" [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0">
         </app-spellContent>
-    </div>
+    </ng-container>
 </div>
 <div class="list-item left-aligned" *ngFor="let shownSpellSet of activity.showSpells; trackBy:trackByIndex;">
-    <div *ngFor="let shownSpell of get_Spells(shownSpellSet.name); trackBy:trackByIndex;">
+    <ng-container *ngFor="let shownSpell of get_Spells(shownSpellSet.name); trackBy:trackByIndex;">
         <header class="spellHeader">
             {{shownSpell.name}}
             <app-actionIcons *ngIf="shownSpell.actions" [actionString]="shownSpell.actions">
@@ -143,5 +143,5 @@
         </div>
         <app-spellContent class="vlist fullwidth" [spell]=shownSpell [spellLevel]="shownSpellSet.level || 0">
         </app-spellContent>
-    </div>
+    </ng-container>
 </div>

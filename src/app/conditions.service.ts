@@ -385,6 +385,11 @@ export class ConditionsService {
             }
         }
 
+        //Disable the condition's hints if deactivated.
+        condition.hints.forEach(hint => {
+            hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
+        })
+
         //Update Health when Wounded changes.
         if (condition.name == "Wounded") {
             characterService.set_ToChange(creature.type, "health");
@@ -560,6 +565,35 @@ export class ConditionsService {
                 }
             }
         });
+
+        //If an effect with "X After Rest" is active, the condition is added.
+        characterService.effectsService.get_Effects(creature.type).all.filter(effect => !effect.ignored && effect.apply && effect.target.toLowerCase().includes(" after rest")).forEach(effect => {
+            let regex = new RegExp(" after rest", "ig");
+            let conditionName = effect.target.replace(regex, "");
+            //Only add real conditions.
+            if (this.get_Conditions(conditionName).length) {
+                //Turn effect into condition:
+                //no value or setValue (i.e. only toggle) means the condition is added without a value
+                //setValue means the condition has a value and is only
+                //value means the value is added to an existing condition with the same name.
+                if (!creature.conditions.some(gain => gain.name == conditionName && gain.source == effect.source) || effect.value) {
+                    let newCondition = new ConditionGain();
+                    newCondition.name = conditionName;
+                    newCondition.duration = -1;
+                    if (effect.setValue) {
+                        newCondition.value = parseInt(effect.setValue);
+                    }
+                    if (parseInt(effect.value)) {
+                        newCondition.addValue = parseInt(effect.value);
+                    }
+                    newCondition.source = effect.source;
+                    characterService.add_Condition(creature, newCondition, false);
+                    characterService.toastService.show("Added <strong>" + conditionName + "</strong> condition to <strong>" + (creature.name || creature.type) +
+                        "</strong> after resting (caused by <strong>" + effect.source + "</strong>)", [], characterService);
+                };
+            }
+        });
+
     }
 
     refocus(creature: Creature, characterService: CharacterService) {

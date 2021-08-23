@@ -65,14 +65,15 @@
                     </span>
                 </div>
                 <div class="newrow">
-                    <span><strong>Source&nbsp;</strong>
+                    <span>
+                        <strong>Source</strong>
                         {{effect.source.includes('conditional, ') ?
                         effect.source.substr(13) : effect.source}}
                     </span>
                 </div>
                 <div class="newrow" *ngIf="effect.source.includes('conditional, ')">
                     <span>
-                        <strong>Conditional&nbsp;</strong>
+                        <strong>Conditional</strong>
                         This effect only applies for certain actions or under specific circumstances.
                     </span>
                 </div>
@@ -81,7 +82,7 @@
                 [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}"
                 [ngbPopover]="effectPopover">
                 {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? effect.setValue : ''}}
-                ({{effect.source}})&nbsp;
+                ({{effect.source}})
             </cite>
         </ng-container>
     </div>

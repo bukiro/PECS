@@ -1135,12 +1135,14 @@ header.featureHeader {
     padding: .3em .6em;
     border-radius: .15rem;
     background-color: #E0E0E0;
-    background-color: rgba(50, 50, 50, 0.1)
+    background-color: rgba(50, 50, 50, 0.1);
+    box-shadow: 2px 2px #AAA;
 }
 
 .darkmode .list-item {
     background-color: #404040;
-    background-color: rgba(200, 200, 200, 0.1)
+    background-color: rgba(200, 200, 200, 0.1);
+    box-shadow: 2px 2px #111;
 }
 
 .list-item>*:not(.list-item):not(header.sectionHeader):not(p) {
