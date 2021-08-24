@@ -556,8 +556,8 @@ export class FeatsService {
                 characterService.set_ToChange("Character", "top-bar");
             }
 
-            //Feats that grant an animal companion
-            if (feat.gainAnimalCompanion == 1) {
+            //Feats that grant an animal companion.
+            if (feat.gainAnimalCompanion == "Young") {
                 //Reset the animal companion
                 character.class.animalCompanion = new AnimalCompanion();
                 character.class.animalCompanion.class = new AnimalCompanionClass();
@@ -568,19 +568,21 @@ export class FeatsService {
                 characterService.set_ToChange("Character", "top-bar");
             }
 
-            //Feats that level up the animal companion to Mature, Nimble or Savage
-            if (feat.gainAnimalCompanion > 1 && feat.gainAnimalCompanion < 6 && characterService.get_Companion()) {
+            //Feats that level up the animal companion to Mature, Nimble or Savage (or another advanced option).
+            if (feat.gainAnimalCompanion && !["Young", "Specialized"].includes(feat.gainAnimalCompanion) && characterService.get_Companion()) {
                 let companion = characterService.get_Companion();
                 if (companion.class.levels.length) {
                     if (taken) {
-                        if (feat.gainAnimalCompanion > 3) {
-                            companion.class.levels[3] = Object.assign(new AnimalCompanionLevel(), companion.class.levels[feat.gainAnimalCompanion]);
+                        if (!["Young", "Specialized"].includes(feat.gainAnimalCompanion)) {
+                            companion.class.levels[3] = Object.assign(new AnimalCompanionLevel(), companion.class.levels.find(level => level.name == feat.gainAnimalCompanion));
                             companion.class.levels[3].number = 3;
+                            companion.class.name = "Placeholder";
                         }
                     } else {
-                        if (feat.gainAnimalCompanion > 3) {
+                        if (!["Young", "Specialized"].includes(feat.gainAnimalCompanion)) {
                             companion.class.levels[3] = new AnimalCompanionLevel();
                             companion.class.levels[3].number = 3;
+                            companion.class.name = "Placeholder";
                         }
                     }
                     companion.set_Level(characterService);
@@ -588,15 +590,15 @@ export class FeatsService {
                 characterService.set_ToChange("Companion", "all");
             }
 
-            //Feats that grant an animal companion specialization
-            if (feat.gainAnimalCompanion == 6) {
+            //Feats that grant an animal companion specialization.
+            if (feat.gainAnimalCompanion == "Specialized") {
                 let companion = characterService.get_Companion();
                 if (!taken) {
                     //Remove the latest specialization chosen on this level, only if all choices are taken
                     let specializations = companion.class.specializations.filter(spec => spec.level == level.number);
                     if (specializations.length) {
                         if (specializations.length >= characterService.get_FeatsAndFeatures()
-                            .filter(feat => feat.gainAnimalCompanion == 6 && character.get_FeatsTaken(level.number, level.number, feat.name)).length
+                            .filter(feat => feat.gainAnimalCompanion == "Specialized" && character.get_FeatsTaken(level.number, level.number, feat.name)).length
                         ) {
                             companion.class.specializations = companion.class.specializations.filter(spec => spec.name != specializations[specializations.length - 1].name)
                         }

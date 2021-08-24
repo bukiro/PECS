@@ -456,7 +456,7 @@ export class CharacterService {
 
     get_CompanionAvailable(charLevel: number = this.get_Character().level) {
         //Return any feat that grants an animal companion that you own.
-        return this.get_FeatsAndFeatures().find(feat => feat.gainAnimalCompanion == 1 && feat.have(this.get_Character(), this, charLevel));
+        return this.get_FeatsAndFeatures().find(feat => feat.gainAnimalCompanion == "Young" && feat.have(this.get_Character(), this, charLevel));
     }
 
     get_FamiliarAvailable(charLevel: number = this.get_Character().level) {

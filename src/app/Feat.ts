@@ -51,7 +51,7 @@ export class Feat {
     public ignoreRequirements: string[] = [];
     public gainAbilityChoice: AbilityChoice[] = [];
     public gainActivities: string[] = [];
-    public gainAnimalCompanion: number = 0;
+    public gainAnimalCompanion: string = "";
     public gainSpecialization: SpecializationGain[] = [];
     public gainFamiliar: boolean = false;
     public gainConditions: ConditionGain[] = [];

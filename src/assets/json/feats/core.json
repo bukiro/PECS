@@ -9919,7 +9919,7 @@
         "subType": "Steed Ally",
         "superType": "Divine Ally",
         "shortdesc": "You gain a young animal companion as a mount.",
-        "gainAnimalCompanion": 1
+        "gainAnimalCompanion": "Young"
     },
     {
         "name": "Divine Skill",
@@ -22880,7 +22880,7 @@
         "levelreq": 1,
         "specialreq": "!characterService.get_CompanionAvailable() || this.have(character, characterService, charLevel)",
         "specialreqdesc": "no animal companion",
-        "gainAnimalCompanion": 1
+        "gainAnimalCompanion": "Young"
     },
     {
         "name": "Crossbow Ace",
@@ -23439,7 +23439,7 @@
                 "setValue": "2"
             }
         ],
-        "gainAnimalCompanion": 2
+        "gainAnimalCompanion": "Mature"
     },
     {
         "name": "Quick Snares",
@@ -23664,9 +23664,9 @@
         "featreq": [
             "Mature Animal Companion"
         ],
-        "specialreq": "!characterService.get_FeatsAndFeatures().some(feat => feat.gainAnimalCompanion == 5 && feat.have(character, characterService, 20, false))",
-        "specialreqdesc": "no savage animal companion",
-        "gainAnimalCompanion": 4
+        "specialreq": "!characterService.get_FeatsAndFeatures().some(feat => feat.gainAnimalCompanion && !['Young', 'Mature', 'Specialized', 'Nimble'].includes(feat.gainAnimalCompanion) && feat.have(character, characterService, 20, false))",
+        "specialreqdesc": "no advanced animal companion",
+        "gainAnimalCompanion": "Nimble"
     },
     {
         "name": "Incredible Companion (Ranger): Savage",
@@ -23682,9 +23682,9 @@
         "featreq": [
             "Mature Animal Companion"
         ],
-        "specialreq": "!characterService.get_FeatsAndFeatures().some(feat => feat.gainAnimalCompanion == 4 && feat.have(character, characterService, 20, false))",
-        "specialreqdesc": "no nimble animal companion",
-        "gainAnimalCompanion": 5
+        "specialreq": "!characterService.get_FeatsAndFeatures().some(feat => feat.gainAnimalCompanion && !['Young', 'Mature', 'Specialized', 'Savage'].includes(feat.gainAnimalCompanion) == 'Nimble' && feat.have(character, characterService, 20, false))",
+        "specialreqdesc": "no advanced animal companion",
+        "gainAnimalCompanion": "Savage"
     },
     {
         "name": "Master Monster Hunter",
@@ -23985,7 +23985,7 @@
                 "setValue": "3"
             }
         ],
-        "gainAnimalCompanion": 6
+        "gainAnimalCompanion": "Specialized"
     },
     {
         "name": "Ubiquitous Snares",
@@ -40159,7 +40159,7 @@
         ],
         "specialreq": "!characterService.get_CompanionAvailable() || this.have(character, characterService, charLevel)",
         "specialreqdesc": "no animal companion",
-        "gainAnimalCompanion": 1
+        "gainAnimalCompanion": "Young"
     },
     {
         "name": "Leshy Familiar",
@@ -40446,7 +40446,7 @@
                 "setValue": "2"
             }
         ],
-        "gainAnimalCompanion": 2
+        "gainAnimalCompanion": "Mature"
     },
     {
         "name": "Order Magic",
@@ -40750,9 +40750,9 @@
         "featreq": [
             "Mature Animal Companion"
         ],
-        "specialreq": "!characterService.get_FeatsAndFeatures().some(feat => feat.gainAnimalCompanion == 5 && feat.have(character, characterService, 20, false))",
-        "specialreqdesc": "no savage animal companion",
-        "gainAnimalCompanion": 4
+        "specialreq": "!characterService.get_FeatsAndFeatures().some(feat => feat.gainAnimalCompanion && !['Young', 'Mature', 'Specialized', 'Nimble'].includes(feat.gainAnimalCompanion) && feat.have(character, characterService, 20, false))",
+        "specialreqdesc": "no advanced animal companion",
+        "gainAnimalCompanion": "Nimble"
     },
     {
         "name": "Incredible Companion (Druid): Savage",
@@ -40768,9 +40768,9 @@
         "featreq": [
             "Mature Animal Companion"
         ],
-        "specialreq": "!characterService.get_FeatsAndFeatures().some(feat => feat.gainAnimalCompanion == 4 && feat.have(character, characterService, 20, false))",
-        "specialreqdesc": "no nimble animal companion",
-        "gainAnimalCompanion": 5
+        "specialreq": "!characterService.get_FeatsAndFeatures().some(feat => feat.gainAnimalCompanion && !['Young', 'Mature', 'Specialized', 'Savage'].includes(feat.gainAnimalCompanion) && feat.have(character, characterService, 20, false))",
+        "specialreqdesc": "no advanced animal companion",
+        "gainAnimalCompanion": "Savage"
     },
     {
         "name": "Soaring Shape",
@@ -41111,7 +41111,7 @@
                 "setValue": "3"
             }
         ],
-        "gainAnimalCompanion": 6
+        "gainAnimalCompanion": "Specialized"
     },
     {
         "name": "Timeless Nature",

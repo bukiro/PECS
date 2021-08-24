@@ -12,8 +12,8 @@ export class AnimalCompanion extends Creature {
     public readonly _className: string = this.constructor.name;
     public class: AnimalCompanionClass = new AnimalCompanionClass();
     public customSkills: Skill[] = [
-        Object.assign(new Skill(), { name:"Light Barding", type:"Armor Proficiency" }),
-        Object.assign(new Skill(), { name:"Heavy Barding", type:"Armor Proficiency" })
+        Object.assign(new Skill(), { name: "Light Barding", type: "Armor Proficiency" }),
+        Object.assign(new Skill(), { name: "Heavy Barding", type: "Armor Proficiency" })
     ];
     public species: string = "";
     public readonly type = "Companion";
@@ -28,12 +28,12 @@ export class AnimalCompanion extends Creature {
     }
     get_Size(effectsService: EffectsService) {
         let size: number = this.get_BaseSize()
-        
+
         let setSizeEffects = effectsService.get_AbsolutesOnThis(this, "Size");
         if (setSizeEffects.length) {
             size = Math.max(...setSizeEffects.map(effect => parseInt(effect.setValue)));
         }
-                
+
         let sizeEffects = effectsService.get_RelativesOnThis(this, "Size");
         sizeEffects.forEach(effect => {
             size += parseInt(effect.value)
@@ -62,18 +62,18 @@ export class AnimalCompanion extends Creature {
         //  That means that level 3 is the highest we need to go, as Nimble or Savage will be placed there.
         this.level = Math.min(3, Math.max(1, ...characterService.get_FeatsAndFeatures()
             .filter(feat => feat.gainAnimalCompanion && feat.have(character, characterService, character.level))
-            .map(feat => feat.gainAnimalCompanion)));
+            .map(feat => { switch (feat.gainAnimalCompanion) { case "Young": return 1; case "Mature": return 2; default: return 3; } })));
         characterService.set_ToChange("Companion", "all");
     }
-    get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string = "", type: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined ) {
+    get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string = "", type: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
         if (this.class) {
             let boosts = [];
             //When animal companion levels are checked for ability boosts, we don't care about the character level - so we use the companion's level here.
-            let levels: (AnimalCompanionLevel|AnimalCompanionAncestry)[] = this.class.levels.filter(level => level.number >= 0 && level.number <= this.level );
+            let levels: (AnimalCompanionLevel | AnimalCompanionAncestry)[] = this.class.levels.filter(level => level.number >= 0 && level.number <= this.level);
             levels.push(this.class.ancestry);
-            levels.forEach((level: AnimalCompanionLevel|AnimalCompanionAncestry) => {
+            levels.forEach((level: AnimalCompanionLevel | AnimalCompanionAncestry) => {
                 level.abilityChoices.forEach(choice => {
-                    choice.boosts.filter(boost => 
+                    choice.boosts.filter(boost =>
                         (boost.name == abilityName || abilityName == "") &&
                         (boost.type == type || type == "") &&
                         (boost.source == source || source == "") &&
@@ -90,7 +90,7 @@ export class AnimalCompanion extends Creature {
             specializations.forEach((spec: AnimalCompanionSpecialization, index) => {
                 spec.abilityChoices.forEach(choice => {
                     if ((choice.source == "First specialization") ? index == 0 : true) {
-                        choice.boosts.filter(boost => 
+                        choice.boosts.filter(boost =>
                             (boost.name == abilityName || abilityName == "") &&
                             (boost.type == type || type == "") &&
                             (boost.source == source || source == "") &&
@@ -110,27 +110,27 @@ export class AnimalCompanion extends Creature {
             //When animal companion species and levels are checked for skill increases, we don't care about the character level - so we replace minLevelNumber and maxLevelNumber here.
             let increases = [];
             this.class.levels
-                .filter(level => level.number >= 1 && level.number <= this.level )
+                .filter(level => level.number >= 1 && level.number <= this.level)
                 .forEach(level => {
-                level.skillChoices.forEach(choice => {
-                    choice.increases.filter(increase => 
-                        (increase.name == skillName || skillName == "") &&
-                        (increase.source == source || source == "") &&
-                        (increase.sourceId == sourceId || sourceId == "") &&
-                        (increase.locked == locked || locked == undefined)
+                    level.skillChoices.forEach(choice => {
+                        choice.increases.filter(increase =>
+                            (increase.name == skillName || skillName == "") &&
+                            (increase.source == source || source == "") &&
+                            (increase.sourceId == sourceId || sourceId == "") &&
+                            (increase.locked == locked || locked == undefined)
                         ).forEach(increase => {
-                        increases.push(increase);
+                            increases.push(increase);
+                        })
                     })
                 })
-            })
             if (this.class.ancestry.name) {
                 this.class.ancestry.skillChoices.forEach(choice => {
-                    choice.increases.filter(increase => 
+                    choice.increases.filter(increase =>
                         (increase.name == skillName || skillName == "") &&
                         (increase.source == source || source == "") &&
                         (increase.sourceId == sourceId || sourceId == "") &&
                         (increase.locked == locked || locked == undefined)
-                        ).forEach(increase => {
+                    ).forEach(increase => {
                         increases.push(increase);
                     })
                 })
@@ -141,12 +141,12 @@ export class AnimalCompanion extends Creature {
             specializations.forEach((spec: AnimalCompanionSpecialization, index) => {
                 spec.skillChoices.forEach(choice => {
                     if ((choice.source == "First specialization") ? index == 0 : true) {
-                        choice.increases.filter(increase => 
+                        choice.increases.filter(increase =>
                             (increase.name == skillName || skillName == "") &&
                             (increase.source == source || source == "") &&
                             (increase.sourceId == sourceId || sourceId == "") &&
                             (increase.locked == locked || locked == undefined)
-                            ).forEach(increase => {
+                        ).forEach(increase => {
                             increases.push(increase);
                         });
                     }

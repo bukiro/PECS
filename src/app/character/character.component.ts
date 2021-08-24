@@ -1182,7 +1182,7 @@ export class CharacterComponent implements OnInit {
 
     get_CompanionAvailable(levelNumber: number) {
         //Return the number of feats taken this level that granted you an animal companion
-        return this.get_FeatsAndFeatures().filter(feat => (feat.gainAnimalCompanion == 1) && this.get_Character().get_FeatsTaken(levelNumber, levelNumber, feat.name).length).length;
+        return this.get_FeatsAndFeatures().filter(feat => (feat.gainAnimalCompanion == "Young") && this.get_Character().get_FeatsTaken(levelNumber, levelNumber, feat.name).length).length;
     }
 
     get_Companion() {
@@ -1247,7 +1247,7 @@ export class CharacterComponent implements OnInit {
 
     get_CompanionSpecializationsAvailable(levelNumber: number) {
         //Return the number of feats taken this level that granted you an animal companion specialization (i.e. gainAnimalCompanion == 6)
-        return this.characterService.get_FeatsAndFeatures().filter(feat => (feat.gainAnimalCompanion == 6) && this.get_Character().get_FeatsTaken(levelNumber, levelNumber, feat.name).length).length;
+        return this.characterService.get_FeatsAndFeatures().filter(feat => (feat.gainAnimalCompanion == "Specialized") && this.get_Character().get_FeatsTaken(levelNumber, levelNumber, feat.name).length).length;
     }
 
     get_AvailableCompanionSpecializations(levelNumber: number) {
