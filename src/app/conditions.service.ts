@@ -16,6 +16,7 @@ import { Creature } from './Creature';
 import { Activity } from './Activity';
 import { ItemActivity } from './ItemActivity';
 import { Hint } from './Hint';
+import { ExtensionsService } from './extensions.service';
 
 @Injectable({
     providedIn: 'root'
@@ -26,7 +27,9 @@ export class ConditionsService {
     private loading: boolean = false;
     private appliedConditions: ConditionGain[][] = [[], [], []];
 
-    constructor() { }
+    constructor(
+        private extensionsService: ExtensionsService
+    ) { }
 
     get_Conditions(name: string = "", type: string = "") {
         if (!this.still_loading()) {
@@ -623,8 +626,9 @@ export class ConditionsService {
 
     load_Conditions() {
         this.conditions = [];
-        Object.keys(json_conditions).forEach(key => {
-            this.conditions.push(...json_conditions[key].map(obj => Object.assign(new Condition(), obj)));
+        let data = this.extensionsService.extend(json_conditions, "conditions");
+        Object.keys(data).forEach(key => {
+            this.conditions.push(...data[key].map(obj => Object.assign(new Condition(), obj)));
         });
         this.conditions.forEach(condition => {
             condition.choices.forEach(choice => {
@@ -642,6 +646,7 @@ export class ConditionsService {
             }
             condition.hints = condition.hints.map(hint => Object.assign(new Hint(), hint));
         });
+        this.conditions = this.extensionsService.cleanup_Duplicates(this.conditions, "name", "conditions");
     }
 
 }

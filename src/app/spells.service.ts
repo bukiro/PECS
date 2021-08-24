@@ -12,6 +12,7 @@ import { Creature } from './Creature';
 import { SpellChoice } from './SpellChoice';
 import { SpellTarget } from './SpellTarget';
 import { ActivityGain } from './ActivityGain';
+import { ExtensionsService } from './extensions.service';
 
 @Injectable({
     providedIn: 'root'
@@ -21,7 +22,9 @@ export class SpellsService {
     private spells: Spell[] = [];
     private loading: boolean = false;
 
-    constructor() { }
+    constructor(
+        private extensionsService: ExtensionsService
+    ) { }
 
     get_Spells(name: string = "", type: string = "", tradition: string = "") {
         if (!this.still_loading()) {
@@ -272,7 +275,7 @@ export class SpellsService {
                                 characterService.add_Condition(target as Creature, newConditionGain, false);
                             })
                             //Apply to any non-creature targets whose ID matches your own creatures.
-                            let creatures = characterService.get_Creatures();            
+                            let creatures = characterService.get_Creatures();
                             conditionTargets.filter(target => target instanceof SpellTarget && creatures.some(creature => creature.id == target.id)).forEach(target => {
                                 characterService.add_Condition(characterService.get_Creature(target.type), newConditionGain, false);
                             })
@@ -384,9 +387,11 @@ export class SpellsService {
 
     load_Spells() {
         this.spells = [];
-        Object.keys(json_spells).forEach(key => {
-            this.spells.push(...json_spells[key].map(obj => Object.assign(new Spell(), obj)));
+        let data = this.extensionsService.extend(json_spells, "spells");
+        Object.keys(data).forEach(key => {
+            this.spells.push(...data[key].map(obj => Object.assign(new Spell(), obj)));
         });
+        this.spells = this.extensionsService.cleanup_Duplicates(this.spells, "id", "spells");
     }
 
 }

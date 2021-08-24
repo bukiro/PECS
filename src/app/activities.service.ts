@@ -19,6 +19,7 @@ import { Creature } from './Creature';
 import { ToastService } from './toast.service';
 import { SpellGain } from './SpellGain';
 import { SpellTarget } from './SpellTarget';
+import { ExtensionsService } from './extensions.service';
 
 @Injectable({
     providedIn: 'root'
@@ -29,7 +30,8 @@ export class ActivitiesService {
     private loading: boolean = false;
 
     constructor(
-        private toastService: ToastService
+        private toastService: ToastService,
+        private extensionsService: ExtensionsService
     ) { }
 
     get_Activities(name: string = "") {
@@ -516,13 +518,15 @@ export class ActivitiesService {
 
     load_Activities() {
         this.activities = []
-        Object.keys(json_activities).forEach(key => {
-            this.activities.push(...json_activities[key].map(activity => Object.assign(new Activity(), activity)));
+        let data = this.extensionsService.extend(json_activities, "activities");
+        Object.keys(data).forEach(key => {
+            this.activities.push(...data[key].map(activity => Object.assign(new Activity(), activity)));
         });
         this.activities.forEach((activity: Activity) => {
             activity.castSpells = activity.castSpells.map(cast => Object.assign(new SpellCast(), cast));
             activity.hints = activity.hints.map(hint => Object.assign(new Hint(), hint));
         });
+        this.activities = this.extensionsService.cleanup_Duplicates(this.activities, "name", "activities");
     }
 
 }

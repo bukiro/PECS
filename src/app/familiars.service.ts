@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Feat } from './Feat';
 import * as json_abilities from '../assets/json/familiarabilities';
+import { ExtensionsService } from './extensions.service';
 
 @Injectable({
     providedIn: 'root'
@@ -9,8 +10,10 @@ export class FamiliarsService {
 
     private familiarAbilities: Feat[] = [];
     private loading_familiarAbilities: boolean = false;
-    
-    constructor() { }
+
+    constructor(
+        private extensionsService: ExtensionsService
+    ) { }
 
     still_loading() {
         return (this.loading_familiarAbilities);
@@ -21,7 +24,7 @@ export class FamiliarsService {
             return this.familiarAbilities.filter(ability => ability.name.toLowerCase() == name.toLowerCase() || name == "")
         } else { return [new Feat()] }
     }
-    
+
     initialize() {
         if (!this.familiarAbilities.length) {
             this.loading_familiarAbilities = true;
@@ -39,9 +42,11 @@ export class FamiliarsService {
 
     load_Abilities() {
         this.familiarAbilities = [];
-        Object.keys(json_abilities).forEach(key => {
-            this.familiarAbilities.push(...json_abilities[key].map(obj => Object.assign(new Feat(), obj)));
+        let data = this.extensionsService.extend(json_abilities, "familiarAbilities");
+        Object.keys(data).forEach(key => {
+            this.familiarAbilities.push(...data[key].map(obj => Object.assign(new Feat(), obj)));
         });
+        this.familiarAbilities = this.extensionsService.cleanup_Duplicates(this.familiarAbilities, "name", "familiar abilities");
     }
 
 }

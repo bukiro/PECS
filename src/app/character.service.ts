@@ -66,6 +66,7 @@ import { Material } from './Material';
 import { WeaponRune } from './WeaponRune';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ConditionSet } from './ConditionSet';
+import { ExtensionsService } from './extensions.service';
 
 @Injectable({
     providedIn: 'root'
@@ -95,6 +96,7 @@ export class CharacterService {
 
     constructor(
         private configService: ConfigService,
+        private extensionsService: ExtensionsService,
         private savegameService: SavegameService,
         public abilitiesService: AbilitiesService,
         private skillsService: SkillsService,
@@ -2569,40 +2571,52 @@ export class CharacterService {
     initialize(id: string, loadAsGM: boolean = false) {
         this.set_Changed("top-bar");
         this.loading = true;
+        this.extensionsService.initialize();
         this.configService.initialize();
-        this.traitsService.initialize();
-        this.abilitiesService.initialize();
-        this.activitiesService.initialize();
-        this.featsService.initialize();
-        this.historyService.initialize();
-        this.classesService.initialize();
-        this.conditionsService.initialize();
-        this.spellsService.initialize();
-        this.skillsService.initialize()
-        this.itemsService.initialize();
-        this.effectsService.initialize(this);
-        this.deitiesService.initialize();
-        this.animalCompanionsService.initialize();
-        this.familiarsService.initialize();
-        this.savegameService.initialize(this);
-        this.messageService.initialize(this);
-        if (id) {
-            this.load_CharacterFromDB(id)
-                .subscribe((results: string[]) => {
-                    this.loader = results;
-                    if (this.loader) {
-                        this.finish_Loading(loadAsGM)
-                    } else {
-                        this.toastService.show("The character could not be found in the database.", [], this);
-                        this.cancel_Loading();
-                    }
-                }, (error) => {
-                    this.toastService.show("An error occurred while loading the character. See console for more information.", [], this);
-                    console.log('Error loading character from database: ' + error.message);
-                });
+        this.continue_Initialize(id, loadAsGM);
+    }
+
+    continue_Initialize(id: string, loadAsGM: boolean) {
+        if (this.extensionsService.still_loading() || this.configService.still_loading()) {
+            setTimeout(() => {
+                this.continue_Initialize(id, loadAsGM);
+            }, 500)
         } else {
-            this.me = new Character();
-            this.finish_Loading();
+            this.configService.initialize();
+            this.traitsService.initialize();
+            this.abilitiesService.initialize();
+            this.activitiesService.initialize();
+            this.featsService.initialize();
+            this.historyService.initialize();
+            this.classesService.initialize();
+            this.conditionsService.initialize();
+            this.spellsService.initialize();
+            this.skillsService.initialize()
+            this.itemsService.initialize();
+            this.effectsService.initialize(this);
+            this.deitiesService.initialize();
+            this.animalCompanionsService.initialize();
+            this.familiarsService.initialize();
+            this.savegameService.initialize(this);
+            this.messageService.initialize(this);
+            if (id) {
+                this.load_CharacterFromDB(id)
+                    .subscribe((results: string[]) => {
+                        this.loader = results;
+                        if (this.loader) {
+                            this.finish_Loading(loadAsGM)
+                        } else {
+                            this.toastService.show("The character could not be found in the database.", [], this);
+                            this.cancel_Loading();
+                        }
+                    }, (error) => {
+                        this.toastService.show("An error occurred while loading the character. See console for more information.", [], this);
+                        console.log('Error loading character from database: ' + error.message);
+                    });
+            } else {
+                this.me = new Character();
+                this.finish_Loading();
+            }
         }
     }
 

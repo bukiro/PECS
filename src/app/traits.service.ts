@@ -4,6 +4,7 @@ import { CharacterService } from './character.service';
 import * as json_traits from '../assets/json/traits';
 import { Creature } from './Creature';
 import { Hint } from './Hint';
+import { ExtensionsService } from './extensions.service';
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +14,9 @@ export class TraitsService {
     private traits: Trait[] = [];
     private loading: boolean = false;
 
-    constructor() { }
+    constructor(
+        private extensionsService: ExtensionsService
+    ) { }
 
     get_Traits(traitName: string = "") {
         if (!this.still_loading()) {
@@ -97,12 +100,14 @@ export class TraitsService {
 
     load_Traits() {
         this.traits = [];
-        Object.keys(json_traits).forEach(key => {
-            this.traits.push(...json_traits[key].map(obj => Object.assign(new Trait(), obj)));
-            this.traits.forEach(trait => {
-                trait.hints = trait.hints.map(hint => Object.assign(new Hint(), hint));
-            });
+        let data = this.extensionsService.extend(json_traits, "traits");
+        Object.keys(data).forEach(key => {
+            this.traits.push(...data[key].map(obj => Object.assign(new Trait(), obj)));
         });
+        this.traits.forEach(trait => {
+            trait.hints = trait.hints.map(hint => Object.assign(new Hint(), hint));
+        });
+        this.traits = this.extensionsService.cleanup_Duplicates(this.traits, "name", "traits");
     }
 
 }

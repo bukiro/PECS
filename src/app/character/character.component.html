@@ -152,13 +152,13 @@
                 <header class="subsectionHeader">Show Level</header>
                 <!--Level selection-->
                 <div class="list-item">
-                    <div id="levelBox" class="fullwidth levelBoxTop">
+                    <div class="levelBox fullwidth levelBoxTop">
                         <button class="center-aligned" (click)="toggle_Level(0)"
                             [ngClass]="{'fancy-button':get_ShowLevel()==0}">Everything</button>
                         <button class="center-aligned" (click)="toggle_Level(-1)"
                             [ngClass]="{'fancy-button':get_ShowLevel()==-1}">History</button>
                     </div>
-                    <div id="levelBox" class="fullwidth">
+                    <div class="levelBox fullwidth">
                         <button class="center-aligned"
                             *ngFor="let levelNumber of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]; trackBy:trackByIndex;"
                             (click)="toggle_Level(levelNumber)" [disabled]="!get_Character().class.name"

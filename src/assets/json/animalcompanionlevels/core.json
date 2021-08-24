@@ -273,7 +273,8 @@
     {
         "_className": "AnimalCompanionLevel",
         "number": 3,
-        "internalNote": "This level gets replaced by Nimble (4) or Savage (5) as needed"
+        "name": "Placeholder",
+        "internalNote": "This level gets replaced by Nimble (4) or Savage (5) as needed. The animal companion cannot rise above level 3."
     },
     {
         "_className": "AnimalCompanionLevel",

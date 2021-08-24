@@ -6,6 +6,7 @@ import { SavegameService } from './savegame.service';
 import * as json_ancestries from '../assets/json/ancestries';
 import * as json_backgrounds from '../assets/json/backgrounds';
 import * as json_heritages from '../assets/json/heritages';
+import { ExtensionsService } from './extensions.service';
 
 @Injectable({
     providedIn: 'root'
@@ -19,7 +20,8 @@ export class HistoryService {
     private loading_heritages: boolean = false;
     
     constructor(
-        private savegameService: SavegameService
+        private savegameService: SavegameService,
+        private extensionsService: ExtensionsService
     ) { }
 
     get_Ancestries(name: string = "") {
@@ -175,12 +177,14 @@ export class HistoryService {
 
     load(source, target: string, type) {
         this[target] = [];
-        Object.keys(source).forEach(key => {
-            this[target].push(...source[key].map(obj => Object.assign(new type(), obj)));
+        let data = this.extensionsService.extend(source, target);
+        Object.keys(data).forEach(key => {
+            this[target].push(...data[key].map(obj => Object.assign(new type(), obj)));
         });
         this[target].forEach(obj => {
             obj = this.savegameService.reassign(obj)
         });
+        this[target] = this.extensionsService.cleanup_Duplicates(this[target], "name", target);
     }
 
 }

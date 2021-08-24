@@ -8,6 +8,7 @@ import { SavegameService } from './savegame.service';
 import * as json_ancestries from '../assets/json/animalcompanions';
 import * as json_levels from '../assets/json/animalcompanionlevels';
 import * as json_specializations from '../assets/json/animalcompanionspecializations';
+import { ExtensionsService } from './extensions.service';
 
 
 @Injectable({
@@ -23,7 +24,8 @@ export class AnimalCompanionsService {
     private loading_specializations: boolean = false;
     
     constructor(
-        private savegameService: SavegameService
+        private savegameService: SavegameService,
+        private extensionsService: ExtensionsService
     ) { }
 
     get_CompanionTypes(name: string = "") {
@@ -184,6 +186,8 @@ export class AnimalCompanionsService {
         if (!this.companionLevels.length) {
             this.loading_levels = true;
             this.load(json_levels, "companionLevels", AnimalCompanionLevel);
+            //Sort levels by level number, after it may have got out of order with duplicates.
+            this.companionLevels = this.companionLevels.sort((a, b) => a.number - b.number);
             this.loading_levels = false;
         }
         if (!this.companionSpecializations.length) {
@@ -202,12 +206,14 @@ export class AnimalCompanionsService {
 
     load(source, target: string, type) {
         this[target] = [];
-        Object.keys(source).forEach(key => {
-            this[target].push(...source[key].map(obj => Object.assign(new type(), obj)));
+        let data = this.extensionsService.extend(source, target);
+        Object.keys(data).forEach(key => {
+            this[target].push(...data[key].map(obj => Object.assign(new type(), obj)));
         });
         this[target].forEach(obj => {
             obj = this.savegameService.reassign(obj)
         });
+        this[target] = this.extensionsService.cleanup_Duplicates(this[target], "name", target);
     }
 
 }

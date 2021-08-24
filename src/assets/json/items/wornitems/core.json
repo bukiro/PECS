@@ -3175,7 +3175,7 @@
     },
     {
         "name": "Crafter's Eyepiece (Greater)",
-        "id": "66c0f3c3-3922-4c0a-b368-076213a1d1e8",
+        "id": "19cde2df-4421-4d01-a898-51d57d41787c",
         "desc": "This rugged metal eyepiece etched with square patterns is designed to be worn over a single eye. Twisting the lens reveals a faint three-dimensional outline of an item you plan to build or repair, with helpful labels on the component parts. While worn, this eyepiece gives you a +1 item bonus to Crafting checks. When you Repair an item, increase the Hit Points restored by 15 per proficiency rank instead of 10.",
         "_className": "WornItem",
         "level": 11,
@@ -3206,7 +3206,7 @@
             {
                 "_className": "ItemActivity",
                 "name": "Crafter's Eyepiece (Greater)",
-                "source": "66c0f3c3-3922-4c0a-b368-076213a1d1e8",
+                "source": "19cde2df-4421-4d01-a898-51d57d41787c",
                 "actions": "1 minute",
                 "activationType": "Interact",
                 "frequency": "once per day",

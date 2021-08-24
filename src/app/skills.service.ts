@@ -1,30 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Skill } from './Skill';
 import * as json_skills from '../assets/json/skills';
+import { ExtensionsService } from './extensions.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class SkillsService {
-    private skills: Skill[] = []; 
+    private skills: Skill[] = [];
     private loading: boolean = true;
-    
-    constructor() { }
+
+    constructor(
+        private extensionsService: ExtensionsService
+    ) { }
 
     get_Skills(customSkills: Skill[], name: string = "", type: string = "", locked: boolean = undefined) {
         if (!this.still_loading()) {
             let skills: Skill[] = this.skills.concat(customSkills);
             if (name == "Lore") {
-                return skills.filter(skill => 
-                (
-                    skill.name.toLowerCase().includes(name.toLowerCase())
-                ) && (
-                    type ? skill.type.toLowerCase() == type.toLowerCase() : true
-                ) && (
-                    locked != undefined ? skill.locked == locked : true
-                ));
+                return skills.filter(skill =>
+                    (
+                        skill.name.toLowerCase().includes(name.toLowerCase())
+                    ) && (
+                        type ? skill.type.toLowerCase() == type.toLowerCase() : true
+                    ) && (
+                        locked != undefined ? skill.locked == locked : true
+                    ));
             }
-            return skills.filter(skill => 
+            return skills.filter(skill =>
                 (
                     name ? skill.name.toLowerCase() == name.toLowerCase() : true
                 ) && (
@@ -57,9 +60,11 @@ export class SkillsService {
 
     load_Skills() {
         this.skills = [];
-        Object.keys(json_skills).forEach(key => {
-            this.skills.push(...json_skills[key].map(obj => Object.assign(new Skill(), obj)));
+        let data = this.extensionsService.extend(json_skills, "skills");
+        Object.keys(data).forEach(key => {
+            this.skills.push(...data[key].map(obj => Object.assign(new Skill(), obj)));
         });
+        this.skills = this.extensionsService.cleanup_Duplicates(this.skills, "name", "skills");
     }
-    
+
 }

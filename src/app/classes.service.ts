@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Class } from './Class';
 import { SavegameService } from './savegame.service';
 import * as json_classes from '../assets/json/classes';
+import { ExtensionsService } from './extensions.service';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +13,8 @@ export class ClassesService {
     private loading: boolean = false;
     
     constructor(
-        private savegameService: SavegameService
+        private savegameService: SavegameService,
+        private extensionsService: ExtensionsService
     ) { }
 
     get_Classes(name: string = "") {
@@ -81,12 +83,14 @@ export class ClassesService {
 
     load_Classes() {
         this.classes = [];
-        Object.keys(json_classes).forEach(key => {
-            this.classes.push(...json_classes[key].map(obj => Object.assign(new Class(), obj)));
+        let data = this.extensionsService.extend(json_classes, "classes");
+        Object.keys(data).forEach(key => {
+            this.classes.push(...data[key].map(obj => Object.assign(new Class(), obj)));
         });
         this.classes.forEach(obj => {
             obj = this.savegameService.reassign(obj)
         });
+        this.classes = this.extensionsService.cleanup_Duplicates(this.classes, "name", "classes");
     }
 
 }

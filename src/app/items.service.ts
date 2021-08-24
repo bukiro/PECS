@@ -72,6 +72,7 @@ import { ShieldMaterial } from './ShieldMaterial';
 import { Hint } from './Hint';
 import { SpellTarget } from './SpellTarget';
 import { SpellGain } from './SpellGain';
+import { ExtensionsService } from './extensions.service';
 
 @Injectable({
     providedIn: 'root'
@@ -92,7 +93,8 @@ export class ItemsService {
 
     constructor(
         private savegameService: SavegameService,
-        private toastService: ToastService
+        private toastService: ToastService,
+        private extensionsService: ExtensionsService
     ) { }
 
     toggleItemsMenu(position: string = "") {
@@ -912,39 +914,44 @@ export class ItemsService {
         if (!this.items || reset) {
             this.loading = true;
             this.load(json_itemproperties, "itemProperties", ItemProperty, "meta");
+            this.itemProperties = this.extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(this.itemProperties, ["group", "parent", "key"], "custom item properties");
             this.load(json_armormaterials, "armorMaterials", ArmorMaterial, "meta");
+            this.armorMaterials = this.extensionsService.cleanup_Duplicates(this.armorMaterials, "name", "armor materials");
             this.load(json_shieldmaterials, "shieldMaterials", ShieldMaterial, "meta");
+            this.shieldMaterials = this.extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(this.shieldMaterials, ["name", "itemFilter"], "shield materials");
             this.load(json_weaponmaterials, "weaponMaterials", WeaponMaterial, "meta");
+            this.weaponMaterials = this.extensionsService.cleanup_Duplicates(this.weaponMaterials, "name", "weapon materials");
             this.load(json_specializations, "specializations", Specialization, "meta");
+            this.specializations = this.extensionsService.cleanup_Duplicates(this.specializations, "name", "armor and weapon specializations");
 
             this.items = new ItemCollection();
             this.cleanItems = new ItemCollection();
             this.craftingItems = new ItemCollection();
 
-            //Runes need to load before other items, because they are loaded into the items.
-            this.load(json_armorrunes, "armorrunes", ArmorRune, "item");
-            this.load(json_weaponrunes, "weaponrunes", WeaponRune, "item");
+            //Runes need to load before other items, because their content is copied into items that bear them.
+            this.load(json_armorrunes, "armorrunes", ArmorRune, "item", "armor runes");
+            this.load(json_weaponrunes, "weaponrunes", WeaponRune, "item", "weapon runes");
             //Oils need to load after WeaponRunes, because they have to copy some of them.
-            this.load(json_oils, "oils", Oil, "item");
+            this.load(json_oils, "oils", Oil, "item", "oils");
 
-            this.load(json_weapons, "weapons", Weapon, "item");
-            this.load(json_armors, "armors", Armor, "item");
-            this.load(json_shields, "shields", Shield, "item");
-            this.load(json_wornitems, "wornitems", WornItem, "item");
-            this.load(json_helditems, "helditems", HeldItem, "item");
-            this.load(json_ammunition, "ammunition", Ammunition, "item");
-            this.load(json_alchemicalelixirs, "alchemicalelixirs", AlchemicalElixir, "item");
-            this.load(json_potions, "potions", Potion, "item");
-            this.load(json_otherconsumables, "otherconsumables", OtherConsumable, "item");
-            this.load(json_otherconsumablesbombs, "otherconsumablesbombs", OtherConsumableBomb, "item");
-            this.load(json_adventuringgear, "adventuringgear", AdventuringGear, "item");
-            this.load(json_scrolls, "scrolls", Scroll, "item");
-            this.load(json_talismans, "talismans", Talisman, "item");
-            this.load(json_alchemicalbombs, "alchemicalbombs", AlchemicalBomb, "item");
-            this.load(json_alchemicaltools, "alchemicaltools", AlchemicalTool, "item");
-            this.load(json_snares, "snares", Snare, "item");
-            this.load(json_alchemicalpoisons, "alchemicalpoisons", AlchemicalPoison, "item");
-            this.load(json_wands, "wands", Wand, "item");
+            this.load(json_weapons, "weapons", Weapon, "item", "weapons");
+            this.load(json_armors, "armors", Armor, "item", "armors");
+            this.load(json_shields, "shields", Shield, "item", "shields");
+            this.load(json_wornitems, "wornitems", WornItem, "item", "worn items");
+            this.load(json_helditems, "helditems", HeldItem, "item", "held items");
+            this.load(json_ammunition, "ammunition", Ammunition, "item", "ammunition");
+            this.load(json_alchemicalelixirs, "alchemicalelixirs", AlchemicalElixir, "item", "alchemical elixirs");
+            this.load(json_potions, "potions", Potion, "item", "potions");
+            this.load(json_otherconsumables, "otherconsumables", OtherConsumable, "item", "other consumables");
+            this.load(json_otherconsumablesbombs, "otherconsumablesbombs", OtherConsumableBomb, "item", "other consumables (bombs)");
+            this.load(json_adventuringgear, "adventuringgear", AdventuringGear, "item", "adventuring gear");
+            this.load(json_scrolls, "scrolls", Scroll, "item", "scrolls");
+            this.load(json_talismans, "talismans", Talisman, "item", "talismans");
+            this.load(json_alchemicalbombs, "alchemicalbombs", AlchemicalBomb, "item", "alchemical bombs");
+            this.load(json_alchemicaltools, "alchemicaltools", AlchemicalTool, "item", "alchemical tools");
+            this.load(json_snares, "snares", Snare, "item", "snares");
+            this.load(json_alchemicalpoisons, "alchemicalpoisons", AlchemicalPoison, "item", "alchemical poisons");
+            this.load(json_wands, "wands", Wand, "item", "wands");
 
             /*
             this.load(json_REPLACE0, "REPLACE0", REPLACE1, "item");
@@ -962,44 +969,26 @@ export class ItemsService {
         }
     }
 
-    load(source, target: string, type, category: "item" | "meta") {
+    load(source, target: string, type, category: "item" | "meta", listName: string = "") {
+        let data;
         switch (category) {
             case "item":
                 this.items[target] = [];
                 this.cleanItems[target] = [];
                 this.craftingItems[target] = [];
-                Object.keys(source).forEach(key => {
-                    this.items[target].push(...source[key].map(obj => this.initialize_Item(Object.assign(new type(), obj), true, false, true)));
-                    this.cleanItems[target].push(...source[key].map(obj => this.initialize_Item(Object.assign(new type(), obj), true, false, true)));
-                    this.craftingItems[target].push(...source[key].map(obj => this.initialize_Item(Object.assign(new type(), obj), true, false, true)));
+                data = this.extensionsService.extend(source, "items_" + target);
+                Object.keys(data).forEach(key => {
+                    this.items[target].push(...data[key].map(obj => this.initialize_Item(Object.assign(new type(), obj), true, false, true)));
                 });
-
-                let duplicates: string[] = Array.from(new Set(
-                    this.items[target]
-                        .filter((item: Item) =>
-                            this.items[target].filter((otherItem: Item) =>
-                                otherItem.id == item.id
-                            ).length > 1
-                        ).map((item: Item) => item.id)
-                ));
-                duplicates.forEach((itemID) => {
-                    let highestPriority = Math.max(
-                        ...this.items[target]
-                            .filter((item: Item) => item.id == itemID)
-                            .map((item: Item) => item.overridePriority)
-                    );
-                    let highestItem = this.items[target].find((item: Item) => item.id == itemID && item.overridePriority == highestPriority);
-                    this.items[target] = this.items[target].filter((item: Item) => !(item.id == itemID && item !== highestItem));
-                    let highestCleanItem = this.cleanItems[target].find((item: Item) => item.id == itemID && item.overridePriority == highestPriority);
-                    this.cleanItems[target] = this.cleanItems[target].filter((item: Item) => !(item.id == itemID && item !== highestCleanItem));
-                    let highestCraftingItem = this.craftingItems[target].find((item: Item) => item.id == itemID && item.overridePriority == highestPriority);
-                    this.craftingItems[target] = this.craftingItems[target].filter((item: Item) => !(item.id == itemID && item !== highestCraftingItem));
-                })
+                this.items[target] = this.extensionsService.cleanup_Duplicates(this.items[target], "id", listName);
+                this.cleanItems[target] = this.items[target].map(obj => this.savegameService.reassign(JSON.parse(JSON.stringify(obj)), "", this));
+                this.craftingItems[target] = this.items[target].map(obj => this.savegameService.reassign(JSON.parse(JSON.stringify(obj)), "", this));
                 break;
             case "meta":
                 this[target] = [];
-                Object.keys(source).forEach(key => {
-                    this[target].push(...source[key].map(obj => Object.assign(new type(), obj)));
+                data = this.extensionsService.extend(source, target);
+                Object.keys(data).forEach(key => {
+                    this[target].push(...data[key].map(obj => Object.assign(new type(), obj)));
                 });
                 break;
         }

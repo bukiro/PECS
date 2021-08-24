@@ -23,8 +23,8 @@ import { Item } from './Item';
 import * as json_feats from '../assets/json/feats';
 import * as json_features from '../assets/json/features';
 import { LanguageGain } from './LanguageGain';
-import { SpellCast } from './SpellCast';
 import { Hint } from './Hint';
+import { ExtensionsService } from './extensions.service';
 
 @Injectable({
     providedIn: 'root'
@@ -35,7 +35,9 @@ export class FeatsService {
     private loading_feats: boolean = false;
     private loading_features: boolean = false;
 
-    constructor() { }
+    constructor(
+        private extensionsService: ExtensionsService
+    ) { }
 
     get_Feats(loreFeats: Feat[], name: string = "", type: string = "") {
         if (!this.still_loading()) {
@@ -957,8 +959,9 @@ export class FeatsService {
 
     load(source, target: string) {
         this[target] = [];
-        Object.keys(source).forEach(key => {
-            this[target].push(...source[key].map(obj => Object.assign(new Feat(), obj)));
+        let data = this.extensionsService.extend(source, target);
+        Object.keys(data).forEach(key => {
+            this[target].push(...data[key].map(obj => Object.assign(new Feat(), obj)));
         });
         this[target].forEach((feat: Feat) => {
             feat.gainFeatChoice = feat.gainFeatChoice.map(choice => Object.assign(new FeatChoice(), choice));
@@ -971,24 +974,7 @@ export class FeatsService {
             feat.gainSpellCasting = feat.gainSpellCasting.map(choice => Object.assign(new SpellCasting(choice.castingType), choice));
             feat.hints = feat.hints.map(hint => Object.assign(new Hint(), hint));
         })
-
-        let duplicates: string[] = Array.from(new Set(
-            this[target]
-                .filter((feat: Feat) =>
-                    this[target].filter((otherFeat: Feat) =>
-                        otherFeat.name == feat.name
-                    ).length > 1
-                ).map((feat: Feat) => feat.name)
-        ));
-        duplicates.forEach((featName) => {
-            let highestPriority = Math.max(
-                ...this[target]
-                    .filter((feat: Feat) => feat.name == featName)
-                    .map((feat: Feat) => feat.overridePriority)
-            );
-            let highestFeat = this[target].find((feat: Feat) => feat.name == featName && feat.overridePriority == highestPriority);
-            this[target] = this[target].filter((feat: Feat) => !(feat.name == featName && feat !== highestFeat));
-        })
+        this[target] = this.extensionsService.cleanup_Duplicates(this[target], "name", target);
     }
 
 }

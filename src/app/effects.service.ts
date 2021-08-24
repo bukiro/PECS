@@ -26,6 +26,7 @@ import { Armor } from './Armor';
 import { Material } from './Material';
 import { Shield } from './Shield';
 import { Rune } from './Rune';
+import { ExtensionsService } from './extensions.service';
 
 @Injectable({
     providedIn: 'root'
@@ -40,7 +41,8 @@ export class EffectsService {
     constructor(
         private traitsService: TraitsService,
         private abilitiesService: AbilitiesService,
-        private activitiesService: ActivitiesService
+        private activitiesService: ActivitiesService,
+        private extensionsService: ExtensionsService
     ) { }
 
     get_Effects(creature: string) {
@@ -1280,9 +1282,11 @@ export class EffectsService {
 
     load_EffectProperties() {
         this.effectProperties = [];
-        Object.keys(json_effectproperties).forEach(key => {
-            this.effectProperties.push(...json_effectproperties[key].map(obj => Object.assign(new ItemProperty(), obj)));
+        let data = this.extensionsService.extend(json_effectproperties, "effectProperties");
+        Object.keys(data).forEach(key => {
+            this.effectProperties.push(...data[key].map(obj => Object.assign(new ItemProperty(), obj)));
         });
+        this.effectProperties = this.extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(this.effectProperties, ["parent", "key"], "custom effect properties");
     }
 
 }
