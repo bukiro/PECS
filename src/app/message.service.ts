@@ -53,11 +53,6 @@ export class MessageService {
         return this.http.post<string[]>(this.configService.dbConnectionURL + '/deleteMessage', { id: message.id });
     }
 
-    delete_MyMessagesFromDB(recipientId, turnChange): Observable<string[]> {
-        //Delete all messages for this player that are/aren't a turnChange message.
-        return this.http.post<string[]>(this.configService.dbConnectionURL + '/deleteMyMessages/', { recipientId: recipientId, turnChange: turnChange });
-    }
-
     save_MessagesToDB(messages: PlayerMessage[]): Observable<string[]> {
         return this.http.post<string[]>(this.configService.dbConnectionURL + '/saveMessages/', messages);
     }

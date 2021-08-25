@@ -17,6 +17,7 @@ import { Activity } from './Activity';
 import { ItemActivity } from './ItemActivity';
 import { Hint } from './Hint';
 import { ExtensionsService } from './extensions.service';
+import { Familiar } from './Familiar';
 
 @Injectable({
     providedIn: 'root'
@@ -392,6 +393,16 @@ export class ConditionsService {
         condition.hints.forEach(hint => {
             hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
         })
+
+        //Leave cover behind shield if the Cover condition is removed (not for Familiars).
+        if (!(creature instanceof Familiar) && condition.name == "Cover" && (!taken || (gain.choice != "Greater"))) {
+            characterService.defenseService.get_EquippedShield(creature as Character | AnimalCompanion).forEach(shield => {
+                if (shield.takingCover) {
+                    shield.takingCover = false;
+                    characterService.set_ToChange(creature.type, "defense");
+                }
+            })
+        }
 
         //Update Health when Wounded changes.
         if (condition.name == "Wounded") {

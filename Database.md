@@ -24,5 +24,4 @@ Alternatively, you can use any JSON database, as long as the connector can handl
 - `GET` /loadMessages/:query - Return all messages for a single recipient, identified by `recipientID`, where :query is the recipient ID as a string.
 - `POST` /saveMessages - Save the posted content into the database in multiple entries as needed. The POST content is a JSON blob containing one or more messages.
 - `POST` /deleteMessage - Delete one message identified by `id`. The POST content is a JSON blob containing the message ID (`{"id": [...]}`).
-- `POST` /deleteMyMessages - Delete all message for a single recipient, identified by `recipientId`. The POST content is a JSON blob containing the recipient ID (`{"recipientId": [...]}`).
 - `POST` /cleanupMessages - Delete all expired messages, identified by `timeStamp` being older than the specified age limit. You need to make the calculations in the connector (or the database), and you can choose the age limit. My default is 10 minutes. Feel free to do the cleanup in the database and have this query do nothing. It is sent every time a character checks for messages, just before /loadMessages.
