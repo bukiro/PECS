@@ -335,17 +335,7 @@ export class CharacterComponent implements OnInit {
     }
 
     get_IsBlankCharacter() {
-        let character = this.get_Character();
-        return (
-            !character.class?.name &&
-            !character.name &&
-            !character.partyName &&
-            !character.experiencePoints &&
-            !character.alignment &&
-            !character.baseValues.length &&
-            character.inventories.length <= 2 &&
-            !character.inventories.some(inv => inv.allItems().length > 2)
-        )
+        return this.characterService.get_IsBlankCharacter();
     }
 
     get_Alignments() {

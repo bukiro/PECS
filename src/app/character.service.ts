@@ -78,7 +78,7 @@ export class CharacterService {
     public viewChanged$: Observable<{ creature: string, target: string, subtarget: string }>;
     private loader = [];
     private loading: boolean = false;
-    private basicItems = []
+    private basicItems: (Weapon|Armor)[] = [];
     private toChange: { creature: string, target: string, subtarget: string }[] = [];
     private changed: BehaviorSubject<string> = new BehaviorSubject<string>("");
     private viewChanged: BehaviorSubject<{ creature: string, target: string, subtarget: string }> = new BehaviorSubject<{ creature: string, target: string, subtarget: string }>({ target: "", creature: "", subtarget: "" });
@@ -444,6 +444,22 @@ export class CharacterService {
         if (!this.still_loading()) {
             return this.me;
         } else { return new Character() }
+    }
+
+    get_IsBlankCharacter() {
+        //The character is blank if textboxes haven't been used, no class and no basevalues have been chosen, and no items have been added other than the starter items.
+        let character = this.get_Character();
+        return (
+            !character.class?.name &&
+            !character.name &&
+            !character.partyName &&
+            !character.experiencePoints &&
+            !character.alignment &&
+            !character.baseValues.length &&
+            character.inventories.length <= 2 &&
+            //The character is not blank if the inventory has more than 0 items (more than 2 for the first) or if any item is not one of the basic items.
+            !character.inventories.some((inv, index) => inv.allItems().length > (index ? 0 : 2) || inv.allItems().some((item: Item) => !this.basicItems.some(basicItem => basicItem.id == item.refId)))
+        )
     }
 
     get_GMMode() {
@@ -844,6 +860,7 @@ export class CharacterService {
     grant_InventoryItem(creature: Character | AnimalCompanion, inventory: ItemCollection, item: Item, resetRunes: boolean = true, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1, newId: boolean = true, expiration: number = 0) {
         this.set_ToChange(creature.type, "inventory");
         this.set_ToChange(creature.type, "effects");
+        this.set_ToChange("Character", "top-bar");
         let newInventoryItem = this.itemsService.initialize_Item(item, false, newId);
         //Assign the library's item id as the new item's refId. This allows us to read the default information from the library later.
         if (!newInventoryItem.refId) {
@@ -974,6 +991,7 @@ export class CharacterService {
         item.markedForDeletion = true;
         this.set_ToChange(creature.type, "inventory");
         this.set_ToChange(creature.type, "effects");
+        this.set_ToChange("Character", "top-bar");
         this.set_ItemViewChanges(creature, item);
         if (amount < item.amount) {
             item.amount -= amount;
