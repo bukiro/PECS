@@ -102,17 +102,16 @@
 <div class="newrow gap-text left-aligned"
     *ngIf="(item.activationType || (item.actions && item.actions != ' ')) && (!item.trigger && !item.requirements)">
     <strong>Activate</strong>
-    <app-actionIcons *ngIf="item.actions" [actionString]="item.actions">
-    </app-actionIcons>
-    {{item.activationType}}
-    <span *ngIf="item.frequency">
+    <app-actionIcons *ngIf="item.actions" [actionString]="item.actions"></app-actionIcons>
+    <span>{{item.activationType}}</span>
+    <ng-container *ngIf="item.frequency">
         <strong>Frequency</strong>
-        {{item.frequency}}
-    </span>
-    <span *ngIf="item.effect">
-        <strong>Effect</strong>&nbsp;
+        <span>{{item.frequency}}</span>
+    </ng-container>
+    <ng-container *ngIf="item.effect">
+        <strong>Effect</strong>
         <app-description [text]="item.effect" [oneLiner]="true"></app-description>
-    </span>
+    </ng-container>
 </div>
 <div class="newrow left-aligned">
     <span *ngIf="item.ammunition">
@@ -126,16 +125,16 @@
         <app-description class="newrow" [text]="desc"></app-description>
     </ng-container>
     <ng-container *ngFor="let data of item.data; trackBy:trackByIndex;">
-        <p *ngIf="data.show">
+        <p *ngIf="data.show" class="gap-text">
             <strong>{{data.name}}</strong>
             <app-description [text]="data.value" [oneLiner]="true"></app-description>
         </p>
     </ng-container>
-    <p *ngIf="item.benefit">
+    <p *ngIf="item.benefit" class="gap-text">
         <strong>Benefit</strong>
         <app-description [text]="item.benefit" [oneLiner]="true"></app-description>
     </p>
-    <p *ngIf="item.drawback">
+    <p *ngIf="item.drawback" class="gap-text">
         <strong>Drawback</strong>
         <app-description [text]="item.drawback" [oneLiner]="true"></app-description>
     </p>
@@ -184,20 +183,28 @@
     <ng-container *ngIf="item.critsuccess || item.success || item.failure || item.critfailure">
         <ul>
             <li *ngIf="item.critsuccess">
-                <strong>Critical Success</strong>
-                <app-description [text]="item.critsuccess" [oneLiner]="true"></app-description>
+                <span class="gap-text">
+                    <strong>Critical Success</strong>
+                    <app-description [text]="item.critsuccess" [oneLiner]="true"></app-description>
+                </span>
             </li>
             <li *ngIf="item.success">
-                <strong>Success</strong>
-                <app-description [text]="item.success" [oneLiner]="true"></app-description>
+                <span class="gap-text">
+                    <strong>Success</strong>
+                    <app-description [text]="item.success" [oneLiner]="true"></app-description>
+                </span>
             </li>
             <li *ngIf="item.failure">
-                <strong>Failure</strong>
-                <app-description [text]="item.failure" [oneLiner]="true"></app-description>
+                <span class="gap-text">
+                    <strong>Failure</strong>
+                    <app-description [text]="item.failure" [oneLiner]="true"></app-description>
+                </span>
             </li>
             <li *ngIf="item.critfailure">
-                <strong>Critical Failure</strong>
-                <app-description [text]="item.critfailure" [oneLiner]="true"></app-description>
+                <span class="gap-text">
+                    <strong>Critical Failure</strong>
+                    <app-description [text]="item.critfailure" [oneLiner]="true"></app-description>
+                </span>
             </li>
         </ul>
     </ng-container>
