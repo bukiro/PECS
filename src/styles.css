@@ -968,7 +968,7 @@ CHARACTERSHEET APP INNER STYLES
     background-color: #202020;
 }
 
-.itembox > button:first-child {
+.itembox > .itembox-close-button {
     width: 90%;
     margin-left: auto;
     margin-right: auto;

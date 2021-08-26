@@ -59,6 +59,7 @@ export class CharacterComponent implements OnInit {
     public loadAsGM: boolean = false;
     public blankCharacter: Character = new Character();
     public bonusSource: string = "Bonus";
+    private firstTime: boolean = true;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -94,6 +95,7 @@ export class CharacterComponent implements OnInit {
     }
 
     toggleCharacterMenu() {
+        this.firstTime = false;
         this.characterService.toggle_Menu("character");
     }
 
@@ -332,6 +334,18 @@ export class CharacterComponent implements OnInit {
         }, (reason) => {
             //Do nothing if cancelled.
         });
+    }
+
+    get_FirstTime() {
+        return this.characterService.get_FirstTime();
+    }
+
+    get_CloseButtonTitle() {
+        if (this.get_FirstTime()) {
+            return "Go to Character Sheet";
+        } else {
+            return "Back to Character Sheet";
+        }
     }
 
     get_IsBlankCharacter() {

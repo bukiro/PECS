@@ -17,9 +17,11 @@
     </button>
 </div>
 <div id="character-height" class="itembox vlist">
-    <button class="list-item center-aligned" (click)="toggleCharacterMenu()">
-        <header class="sectionHeader">Back to Charactersheet</header>
-    </button>
+    <div class="itembox-close-button" [ngbTooltip]="get_IsBlankCharacter() ? 'Create your character first!' : ''">
+        <button class="list-item center-aligned" [disabled]="get_IsBlankCharacter()" (click)="toggleCharacterMenu()">
+            <header class="sectionHeader">{{get_CloseButtonTitle()}}</header>
+        </button>
+    </div>
     <div class="charactersheet-column-container">
         <div class="charactersheet-column">
             <div class="loading" *ngIf="still_loading()">Loading</div>

@@ -42,7 +42,6 @@ import { Familiar } from './Familiar';
 import { SavegameService } from './savegame.service';
 import { FamiliarsService } from './familiars.service';
 import { FeatChoice } from './FeatChoice';
-import { InventoryGain } from './InventoryGain';
 import { Oil } from './Oil';
 import { WornItem } from './WornItem';
 import { Savegame } from './Savegame';
@@ -82,6 +81,7 @@ export class CharacterService {
     private toChange: { creature: string, target: string, subtarget: string }[] = [];
     private changed: BehaviorSubject<string> = new BehaviorSubject<string>("");
     private viewChanged: BehaviorSubject<{ creature: string, target: string, subtarget: string }> = new BehaviorSubject<{ creature: string, target: string, subtarget: string }>({ target: "", creature: "", subtarget: "" });
+    private firstTime: boolean = true;
 
     itemsMenuState: string = 'out';
     itemsMenuTarget: string = 'Character';
@@ -269,7 +269,12 @@ export class CharacterService {
         }
     }
 
+    get_FirstTime() {
+        return this.firstTime;
+    }
+
     toggle_Menu(menu: string = "") {
+        this.firstTime = false;
         let characterMenuState = this.characterMenuState;
         let companionMenuState = this.companionMenuState;
         let familiarMenuState = this.familiarMenuState;

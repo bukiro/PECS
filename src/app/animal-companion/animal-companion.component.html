@@ -5,8 +5,8 @@
     <i class='bi-arrows-expand' *ngIf="!get_Minimized()"></i>
 </button>
 <div id="animal-companion-height" class="itembox vlist">
-    <button class="list-item center-aligned" (click)="toggleCompanionMenu()">
-        <header class="sectionHeader">Close</header>
+    <button class="itembox-close-button list-item center-aligned" (click)="toggleCompanionMenu()">
+        <header class="sectionHeader">Back to Character Sheet</header>
     </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <div class="animalcompanion-box"

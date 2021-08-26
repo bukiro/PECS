@@ -11,8 +11,8 @@
     </button>
 </div>
 <div id="crafting" class="itembox vlist">
-    <button class="list-item center-aligned" (click)="toggleCraftingMenu()">
-        <header class="sectionHeader">Close</header>
+    <button class="itembox-close-button list-item center-aligned" (click)="toggleCraftingMenu()">
+        <header class="sectionHeader">Back to Character Sheet</header>
     </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading() && get_CraftingMenuState()=='in'">
