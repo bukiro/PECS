@@ -25,12 +25,16 @@ export class HintComponent implements OnInit {
     description: string = "";
 
     constructor(
-        private characterService: CharacterService,
+        public characterService: CharacterService,
         private traitsService: TraitsService
     ) { }
 
     trackByIndex(index: number, obj: any): any {
         return index;
+    }
+
+    get_Creature() {
+        return this.characterService.get_Creature(this.creature);
     }
 
     get_HintsShowMore() {

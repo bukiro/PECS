@@ -29,7 +29,7 @@
                     </cite>
                 </div>
                 <app-activityContent class="fullwidth vlist lower" [creature]="creature" [allowActivate]="false"
-                    [activity]="object">
+                    [activity]="object" [cooldown]="object.get_Cooldown(get_Creature(), characterService)">
                 </app-activityContent>
             </ng-container>
             <app-hintItem *ngIf="get_ObjectType()=='Item'" [item]="object"></app-hintItem>

@@ -26,7 +26,8 @@
             {{trait}}
         </cite>
     </div>
-    <app-activityContent [creature]="creature" [activity]=activity [gain]=activity [allowActivate]="false">
+    <app-activityContent [creature]="creature" [activity]=activity [gain]=activity [allowActivate]="false"
+        [cooldown]="activity.get_Cooldown(get_Creature(), characterService)">
     </app-activityContent>
 </div>
 <!-- Common activities -->
