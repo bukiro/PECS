@@ -33,6 +33,7 @@
                     {
                         "locked": true,
                         "name": "Crafting",
+                        "maxRank": 2,
                         "source": "Anvil Dwarf",
                         "sourceId": "1-Skill-Anvil Dwarf-0"
                     }
