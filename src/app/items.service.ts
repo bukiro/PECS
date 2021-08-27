@@ -474,6 +474,8 @@ export class ItemsService {
         if ((item as Equipment).gainInventory) {
             bulk += creature.inventories.find(inventory => inventory !== targetInventory && inventory.itemId == item.id)?.get_Bulk(false, true) || 0;
         }
+        //Remove ugly decimal errors
+        bulk = Math.floor(bulk * 10) / 10;
         return bulk;
     }
 

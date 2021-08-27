@@ -6,7 +6,7 @@
             <ng-container *ngFor="let buttonTitle of [get_ButtonTitle(available)]; trackBy:trackByIndex;">
                 <ng-container
                     *ngFor="let signatureSpellsAllowed of [get_SignatureSpellsAllowed()]; trackBy:trackByIndex;">
-                    <div *ngIf="available || get_SpellBlendingUsed() || get_InfinitePossibilitiesUsed() || get_AdaptedCantripUsed() || get_AdaptiveAdeptUsed()"
+                    <div *ngIf="available || get_SpellBlendingUsed() || get_InfinitePossibilitiesUsed() || get_AdaptedCantripUsed() || get_AdaptiveAdeptUsed()" class="featchoice-container"
                         [ngClass]="{'list-item': showTitle && !get_TileMode(), 'vlist':!showTitle, 'problem':(choice.spells.length > available || cannotTakeSome()), 'fullsize-only':(available == choice.spells.length)}">
                         <ng-template #ButtonTitleTemplate>
                             <span [ngbTooltip]="'Combination spell'" *ngIf="choice.spellCombinationAllowed">

@@ -193,6 +193,17 @@ export class ItemTargetComponent implements OnInit {
         return this.itemsService.get_ContainedBulk(this.get_Creature(), item, targetInventory, including);
     }
 
+    get_ContainedBulkString(item: Item) {
+        let containedBulk = this.get_ContainedBulk(item);
+        let fullBulk = Math.floor(containedBulk);
+        let lightBulk = (containedBulk * 10 - fullBulk * 10);
+        if (fullBulk) {
+            return fullBulk + (lightBulk ? " + " + lightBulk + "L" : "");
+        } else {
+            return lightBulk + "L";
+        }
+    }
+
     get_InventoryBulk() {
         return this.get_Creature().inventories.find(inventory => inventory.itemId == this.item.id)?.get_Bulk() || 0;
     }

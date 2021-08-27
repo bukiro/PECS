@@ -161,8 +161,9 @@
                 </div>
             </ng-container>
         </div>
-        <div class="charactersheet-column">
+        <div class="charactersheet-column" [ngClass]="{'mobile-hide':get_ShowContent()==null}">
             <div id="spells-choiceArea-top" style="margin-top:-.3em;"></div>
+            <button (click)="toggle_Choice('')" class="choiceclosebutton" *ngIf="get_ShowContent()">Close</button>
             <!--Spell Choice content-->
             <ng-container *ngFor="let choiceContent of get_ActiveChoiceContent(); trackBy:trackByID;">
                 <app-spellchoice (showChoiceMessage)="receive_ChoiceMessage($event)"

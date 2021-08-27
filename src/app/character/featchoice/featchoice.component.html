@@ -1,7 +1,7 @@
 <ng-container *ngFor="let listID of [choice.source+choice.id]; trackBy:trackByIndex">
     <ng-container *ngFor="let availableFeats of [get_Available(choice)]; trackBy:trackByIndex">
         <ng-container *ngFor="let buttonTitle of [get_ButtonTitle(availableFeats)]; trackBy:trackByIndex">
-            <div *ngIf="availableFeats > 0"
+            <div *ngIf="availableFeats > 0" class="featchoice-container"
                 [ngClass]="{'list-item': showTitle && !get_TileMode(), 'vlist': !showTitle, 'problem':(cannotTakeSome(choice) || choice.feats.length > availableFeats), 'fullsize-only':(availableFeats == choice.feats.length)}">
                 <!--Choice button shows in title mode-->
                 <!--List mode button-->

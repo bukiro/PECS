@@ -15,7 +15,7 @@
                 </div>
                 <div class="list-item newrow left-aligned" *ngIf="get_GrantsItems()">
                     <i class="ra ra-hive-emblem"></i>
-                    This item has additional parts with a total bulk of {{get_ContainedBulk(item)}}.
+                    This item has additional parts with a total bulk of {{get_ContainedBulkString(item)}}.
                     <div class="newrow left-aligned">
                         <input id="including" type="checkbox" [(ngModel)]="excluding">
                         <label for="including">

@@ -1021,8 +1021,9 @@
                 </ng-container>
             </ng-container>
         </div>
-        <div class="charactersheet-column">
+        <div class="charactersheet-column" [ngClass]="{'mobile-hide':get_ShowList()==''}">
             <div id="character-choiceArea-top" style="margin-top:-.3em"></div>
+            <button (click)="toggle_List('')" class="choiceclosebutton" *ngIf="get_ShowList()">Close</button>
             <!--Choice content and templates-->
             <!--Load character content-->
             <ng-container *ngIf="get_ShowList()=='load'">

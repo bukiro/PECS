@@ -269,7 +269,8 @@ button.choicecleared::after,
 }
 
 button.minimizebutton,
-button.tilemodebutton {
+button.tilemodebutton,
+button.choiceclosebutton {
     position: absolute;
     padding: 0;
     top: 0;
@@ -278,6 +279,11 @@ button.tilemodebutton {
     height: 2em;
     z-index: 5;
     justify-content: center;
+}
+
+button.choiceclosebutton {
+    width: auto;
+    padding: 0 .3rem;
 }
 
 .window-button-container button.minimizebutton,
@@ -1897,6 +1903,8 @@ app-gridicon.specialchoice, .darkmode app-gridicon.specialchoice {
     font-size: 1rem;
     display: flex;
     flex-direction: column;
+    flex-wrap: nowrap;
+    overflow-y: auto;
     gap: .6rem;
 }
 
@@ -1913,6 +1921,17 @@ button.character-choice,
     width: 1em;
     padding: 0;
     justify-content: center;
+}
+
+/* Character app choice area, feat and skill choices */
+
+#character-height > .charactersheet-column-container > .charactersheet-column:not(:first-child) app-featchoice,
+#character-height > .charactersheet-column-container > .charactersheet-column:not(:first-child) app-skillchoice,
+#spells-height > .charactersheet-column-container > .charactersheet-column:not(:first-child) app-spellchoice,
+#character-height > .charactersheet-column-container > .charactersheet-column:not(:first-child) app-featchoice .featchoice-container,
+#character-height > .charactersheet-column-container > .charactersheet-column:not(:first-child) app-skillchoice .featchoice-container,
+#spells-height > .charactersheet-column-container > .charactersheet-column:not(:first-child) app-spellchoice .featchoice-container {
+    height: 100%;
 }
 
 /* Character app choice columns for tile mode */
@@ -1958,6 +1977,7 @@ SPECIFIC STYLE MODIFIERS
 
 .fullwidth {
     width: 100%;
+    flex-basis: 100%;
 }
 
     /* gap-text works as a running, wrapping text with a gap between the elements */
@@ -2276,7 +2296,70 @@ MEDIA QUERIES
 }
 @media (max-width: 992px) {
     body {
-        font-size: 1.3vw;
+        font-size: 2vw;
+    }
+
+    .charactersheet-column-container {
+        display: flex;
+        flex-direction: column;
+        overflow-y: visible;
+        position: relative;
+        width: 100%;
+    }
+
+    .charactersheet-column {
+        overflow-y: visible; 
+    }
+
+    .itembox {
+        padding: 1em 1em;
+    }
+
+    #character-height {
+        overflow: hidden;
+    }
+
+    #character-height > .charactersheet-column-container > .charactersheet-column:first-child,
+    #spells-height > .charactersheet-column-container > .charactersheet-column:first-child {
+        overflow-y: auto;
+    }
+
+    #character-height > .charactersheet-column-container > .charactersheet-column:not(:first-child),
+    #spells-height > .charactersheet-column-container > .charactersheet-column:not(:first-child) {
+        position: absolute;
+        background-color: #202020;
+        width: 100%;
+        height: 100%;
+    }
+
+    #character-height > .charactersheet-column-container > .charactersheet-column:not(:first-child) #choiceArea,
+    #spells-height > .charactersheet-column-container > .charactersheet-column:not(:first-child) #choiceArea {
+        overflow-y: auto;
+        flex-wrap: nowrap;
+    }
+
+    app-dice {
+        left: 0;
+        right: 0;
+    }
+
+    ngb-popover-window.list-item.sublist {
+        height: auto;
+        max-height: 96vh;
+        max-height: calc(100vh - 30px);
+        width: 100vw;
+        max-width: 100vw;
+        transform: none !important;
+        z-index: 1040;
+    }
+
+    .mobile-hide {
+        display: none !important;
+    }
+}
+@media (max-width: 768px) {
+    body {
+        font-size: 3vw;
     }
 }
 

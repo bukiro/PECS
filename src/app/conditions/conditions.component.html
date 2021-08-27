@@ -403,7 +403,7 @@
                     </ng-container>
                 </div>
             </div>
-            <div class="charactersheet-column">
+            <div class="charactersheet-column mobile-hide">
                 <div class="list-item newrow" *ngIf="get_CompanionAvailable() || get_FamiliarAvailable()">
                     <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowCreature()=='Character'}"
                         (click)="toggle_Creature('Character')">Character</button>

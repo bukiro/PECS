@@ -1,7 +1,7 @@
 <ng-container *ngFor="let listID of [choice.id]; trackBy:trackByIndex;">
     <ng-container *ngFor="let maxAvailable of [get_Available()]; trackBy:trackByIndex;">
         <ng-container *ngFor="let buttonTitle of [get_ButtonTitle(maxAvailable)]; trackBy:trackByIndex;">
-            <div *ngIf="maxAvailable"
+            <div *ngIf="maxAvailable" class="featchoice-container"
                 [ngClass]="{'list-item': showTitle && !get_TileMode(), 'vlist': !showTitle, 'problem':(choice.increases.length > maxAvailable || someIllegal(choice)), 'fullsize-only':(choice.increases.length == maxAvailable)}">
                 <!--Choice button shows in title mode-->
                 <!--List mode button-->

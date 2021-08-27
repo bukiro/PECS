@@ -98,10 +98,14 @@ export class SpellsComponent implements OnInit {
         return this.showChoice;
     }
 
+    get_ShowContent() {
+        return this.showContent;
+    }
+
     get_ActiveChoiceContent() {
         //Get the currently shown spell choice with levelNumber and spellcasting.
         //Also get the currently shown list name for compatibility.
-        if (this.showContent) {
+        if (this.get_ShowContent()) {
             return [{ name: this.get_ShowChoice(), levelNumber: this.showContentLevelNumber, choice: this.showContent, casting: this.showSpellCasting }];
         }
     }
