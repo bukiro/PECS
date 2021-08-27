@@ -81,7 +81,7 @@
     </div>
     <div [ngbCollapse]="!get_DiceResults().length">
         <div class="list-item center-aligned vlist">
-            <header class="sectionHeader box-header dice-result">
+            <header class="sectionHeader box-header dice-result" style="font-size: 3em;">
                 {{get_TotalSum()}}
             </header>
             <div class="newrow" *ngIf="get_FoundryVTTSendRolls()">

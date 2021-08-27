@@ -24,7 +24,13 @@
             <div *ngFor="let duration of [10, 50, 100, 500, 1000, 6000, 48000, 144000]; trackBy:trackByIndex;"
                 [ngbTooltip]="get_Waiting(duration)">
                 <button class="fancybutton" (click)="tick(duration)" [disabled]="get_Waiting(duration).length">
-                    Pass {{get_Duration(duration, false)}}
+                    <span class="hlist">
+                        <i class="bi bi-clock-history desktop-hide"></i>
+                        <span class="mobile-hide">Pass</span>
+                        <span class="mobile-hide">{{get_Duration(duration, false)}}</span>
+                        <span class="desktop-hide">{{get_Duration(duration, false, true)}}</span>
+                    </span>
+                    
                 </button>
             </div>
         </div>

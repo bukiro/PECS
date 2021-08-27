@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { EffectsService } from '../effects.service';
 import { FamiliarsService } from '../familiars.service';
@@ -10,6 +10,9 @@ import { FamiliarsService } from '../familiars.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FamiliarComponent implements OnInit {
+
+    private showMode: string = "";
+    public mobile: boolean = false;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -58,6 +61,18 @@ export class FamiliarComponent implements OnInit {
     get_Familiar() {
         return this.characterService.get_Familiar();
     }
+    
+    toggle_Mode(type: string) {
+        if (this.showMode == type) {
+            this.showMode = "";
+        } else {
+            this.showMode = type;
+        }
+    }
+
+    get_ShowMode() {
+        return this.showMode;
+    }
 
     get_FamiliarAbilitiesFinished() {
         let choice = this.get_Familiar().abilities;
@@ -92,7 +107,13 @@ export class FamiliarComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.mobile = (window.screen.width <= 992);
         this.finish_Loading();
+    }
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        this.mobile = (window.screen.width <= 992);
     }
 
 }

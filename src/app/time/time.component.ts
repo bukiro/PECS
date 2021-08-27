@@ -43,8 +43,8 @@ export class TimeComponent implements OnInit {
         return index;
     }
 
-    get_Duration(duration: number, includeTurnState: boolean = true) {
-        return this.timeService.get_Duration(duration, includeTurnState);
+    get_Duration(duration: number, includeTurnState: boolean = true, short: boolean = false) {
+        return this.timeService.get_Duration(duration, includeTurnState, false, short);
     }
 
     get_Waiting(duration: number) {

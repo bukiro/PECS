@@ -204,7 +204,7 @@ export class TimeService {
         }
     }
 
-    get_Duration(duration: number, includeTurnState: boolean = true, inASentence: boolean = false) {
+    get_Duration(duration: number, includeTurnState: boolean = true, inASentence: boolean = false, short: boolean = false) {
         if (duration == -3) {
             return inASentence ? "until you refocus" : "Until you refocus";
         } else if (duration == -2) {
@@ -230,23 +230,23 @@ export class TimeService {
             }
             returnString += inASentence ? "for " : "";
             if (duration >= 144000) {
-                returnString += Math.floor(duration / 144000) + " day";
-                if (duration / 144000 >= 2) { returnString += "s"; }
+                returnString += Math.floor(duration / 144000) + (short ? "d" : " day");
+                if (!short && duration / 144000 >= 2) { returnString += "s"; }
                 duration %= 144000;
             }
             if (duration >= 6000) {
-                returnString += " " + Math.floor(duration / 6000) + " hour";
-                if (duration / 6000 >= 2) { returnString += "s"; }
+                returnString += " " + Math.floor(duration / 6000) + (short ? "h" : " hour");
+                if (!short && duration / 6000 >= 2) { returnString += "s"; }
                 duration %= 6000;
             }
             if (duration >= 100) {
-                returnString += " " + Math.floor(duration / 100) + " minute";
-                if (duration / 100 >= 2) { returnString += "s"; }
+                returnString += " " + Math.floor(duration / 100) + (short ? "m" : " minute");
+                if (!short && duration / 100 >= 2) { returnString += "s"; }
                 duration %= 100;
             }
             if (duration >= 10) {
-                returnString += " " + Math.floor(duration / 10) + " turn";
-                if (duration / 10 >= 2) { returnString += "s"; }
+                returnString += " " + Math.floor(duration / 10) + (short ? "t" : " turn");
+                if (!short && duration / 10 >= 2) { returnString += "s"; }
                 duration %= 10;
             }
             if (includeTurnState && duration == 5 && this.get_YourTurn() == 5) {

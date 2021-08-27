@@ -178,7 +178,9 @@ export class EffectsComponent implements OnInit {
     on_IgnoreEffect(effect: Effect, ignore: boolean) {
         if (ignore) {
             this.get_Creature().ignoredEffects.push(effect);
+            effect.ignored = true;
         } else {
+            effect.ignored = false;
             this.get_Creature().ignoredEffects = this.get_Creature().ignoredEffects.filter(ignoredEffect =>
                 !(
                     ignoredEffect.creature == effect.creature &&

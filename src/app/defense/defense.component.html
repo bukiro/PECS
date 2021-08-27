@@ -182,7 +182,7 @@
                         </div>
                         <div class="list-item newrow">
                             <ng-template #DamageSliderTemplate>
-                                <div class="slider-container" [style.--name]="'\'Damage\''" style="width:30rem;">
+                                <div class="slider-container" [style.--name]="'\'Damage\''" style="width:30rem; max-width:90vw;">
                                     <input class="slider" type="range" min="0" max="{{shield.get_MaxHP()}}"
                                         [(ngModel)]="shieldDamage">
                                 </div>

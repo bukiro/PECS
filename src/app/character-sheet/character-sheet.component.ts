@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CharacterService } from '../character.service';
 
@@ -43,6 +43,7 @@ import { CharacterService } from '../character.service';
 export class CharacterSheetComponent implements OnInit {
 
     public showMode: string = "";
+    public mobile: boolean = false;
 
     constructor(
         private characterService: CharacterService,
@@ -222,7 +223,13 @@ export class CharacterSheetComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.mobile = (window.screen.width <= 992);
         this.finish_Loading();
+    }
+    
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        this.mobile = (window.screen.width <= 992);
     }
 
 }

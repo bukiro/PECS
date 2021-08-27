@@ -776,7 +776,8 @@ app-top-bar {
 }
 
 #top-bar button,
-#tabs button {
+#desktop-tabs button,
+#mobile-tabs button {
     height: 3em;
     margin-left: .35rem;
     margin-right: .35rem;
@@ -794,8 +795,13 @@ app-top-bar {
     box-shadow: none;
 }
 
+#mobile-tabs button {
+    height: 2em;
+}
+
 .darkmode #top-bar button,
-.darkmode #tabs button {
+.darkmode #desktop-tabs button,
+.darkmode #mobile-tabs button {
     border-color: #CCC;
 }
 
@@ -908,7 +914,8 @@ app-familiarabilities.charactersheet-app {
     overflow: visible;
 }
 
-#tabs {
+#desktop-tabs,
+#mobile-tabs {
     background-color: #465A8C;
     background-color: rgb(var(--accent));
     padding: .6em;
@@ -2007,7 +2014,8 @@ SPECIFIC STYLE MODIFIERS
 .vlist:empty,
 .hlist:empty,
 div.newrow:empty,
-app-tags:empty {
+app-tags:empty,
+app-skill:empty {
     display: none;
 }
 
@@ -2068,13 +2076,13 @@ button.bigger, .button.bigger {
     opacity: 0.5;
 }
 
-.minimized .fullsize-only {
-    display: none !important;
-}
-
 .minimized :not(.gridicon-fullsizebox) > header.sectionHeader,
 .minimized header.subsectionHeader {
     margin: .3rem 0 0 0;
+}
+
+.minimized .fullsize-only {
+    display: none !important;
 }
 
 .minimized input {
@@ -2283,6 +2291,10 @@ MEDIA QUERIES
     .container, .container-lg, .container-md, .container-sm {
         max-width: 960px;
     }
+
+    .desktop-hide {
+        display: none !important;
+    }
 }
 @media (min-width: 1200px) {
     .container, .container-lg, .container-md, .container-sm, .container-xl {
@@ -2299,6 +2311,29 @@ MEDIA QUERIES
         font-size: 2vw;
     }
 
+    app-dice {
+        left: 0;
+        right: 0;
+    }
+
+    ngb-popover-window.list-item.sublist {
+        max-height: 90vh;
+        min-width: 60vw;
+        max-width: 90vw;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        z-index: 1040;
+    }
+
+    .itembox {
+        padding: 1em 1em;
+    }
+    
+    .itembox > .itembox-close-button {
+        width: 80%;
+    }
+
     .charactersheet-column-container {
         display: flex;
         flex-direction: column;
@@ -2308,28 +2343,29 @@ MEDIA QUERIES
     }
 
     .charactersheet-column {
-        overflow-y: visible; 
-    }
-
-    .itembox {
-        padding: 1em 1em;
-    }
-
-    #character-height {
-        overflow: hidden;
+        overflow-y: auto; 
     }
 
     #character-height > .charactersheet-column-container > .charactersheet-column:first-child,
-    #spells-height > .charactersheet-column-container > .charactersheet-column:first-child {
+    #spells-height > .charactersheet-column-container > .charactersheet-column:first-child,
+    #charactersheet .charactersheet-column-container.desktop-hide .charactersheet-column,
+    #charactersheet .charactersheet-column.charactersheet-row,
+    #animal-companion-height .charactersheet-column-container.desktop-hide .charactersheet-column,
+    #familiar-height .charactersheet-column-container.desktop-hide .charactersheet-column {
         overflow-y: auto;
     }
 
     #character-height > .charactersheet-column-container > .charactersheet-column:not(:first-child),
     #spells-height > .charactersheet-column-container > .charactersheet-column:not(:first-child) {
         position: absolute;
-        background-color: #202020;
+        background-color: white;
         width: 100%;
         height: 100%;
+    }
+
+    .darkmode #character-height > .charactersheet-column-container > .charactersheet-column:not(:first-child),
+    .darkmode #spells-height > .charactersheet-column-container > .charactersheet-column:not(:first-child) {
+        background-color: #202020;
     }
 
     #character-height > .charactersheet-column-container > .charactersheet-column:not(:first-child) #choiceArea,
@@ -2338,28 +2374,27 @@ MEDIA QUERIES
         flex-wrap: nowrap;
     }
 
-    app-dice {
-        left: 0;
-        right: 0;
-    }
-
-    ngb-popover-window.list-item.sublist {
-        height: auto;
-        max-height: 96vh;
-        max-height: calc(100vh - 30px);
-        width: 100vw;
-        max-width: 100vw;
-        transform: none !important;
-        z-index: 1040;
-    }
-
     .mobile-hide {
         display: none !important;
+    }
+
+    .turn-indicator {
+        width: auto;
+    }
+
+    button header.sectionHeader {
+        margin-top: 0;
+        margin-bottom: 0;
     }
 }
 @media (max-width: 768px) {
     body {
         font-size: 3vw;
+    }
+
+    ngb-popover-window.list-item.sublist {
+        min-width: 70vw;
+        max-width: 100vw;
     }
 }
 

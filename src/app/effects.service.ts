@@ -1014,6 +1014,11 @@ export class EffectsService {
             effect.apply = false;
         })
 
+        //Reset ignoring all effects before processing ignored effects.
+        allEffects.forEach(effect => {
+            effect.ignored = false;
+        })
+
         //Ignore all effects that match the creature's ignoredEffects.
         allEffects.filter(effect => this.get_IgnoredEffect(creature, effect)).forEach(effect => {
             effect.ignored = true;

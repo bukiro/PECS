@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { AnimalCompanionsService } from '../animalcompanions.service';
 
@@ -11,6 +11,8 @@ import { AnimalCompanionsService } from '../animalcompanions.service';
 export class AnimalCompanionComponent implements OnInit {
 
     public hover: string = '';
+    private showMode: string = "";
+    public mobile: boolean = false;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -57,6 +59,18 @@ export class AnimalCompanionComponent implements OnInit {
     get_CompanionAvailable() {
         return this.characterService.get_CompanionAvailable();
     }
+    
+    toggle_Mode(type: string) {
+        if (this.showMode == type) {
+            this.showMode = "";
+        } else {
+            this.showMode = type;
+        }
+    }
+
+    get_ShowMode() {
+        return this.showMode;
+    }
 
     finish_Loading() {
         if (this.still_loading()) {
@@ -79,7 +93,13 @@ export class AnimalCompanionComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.mobile = (window.screen.width <= 992);
         this.finish_Loading();
+    }
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        this.mobile = (window.screen.width <= 992);
     }
 
 }

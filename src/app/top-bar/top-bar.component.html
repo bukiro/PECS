@@ -1,14 +1,28 @@
 <div id="top-bar" class="newrow">
-    <header class="mainHeader" [ngbTooltip]="'Pathfinder Excessive Character Sheet'">P.E.C.S.</header>
+    <header class="mainHeader mobile-hide" [ngbTooltip]="'Pathfinder Excessive Character Sheet'">P.E.C.S.</header>
     <button class="fancy-button loading" *ngIf="still_loading()">Loading</button>
     <ng-container *ngIf="!still_loading()">
-        <button [ngClass]="{'fancy-button':get_CharacterMenuState()=='out'}"
-            (click)="toggle_Menu('character')">{{get_Character().name || "Character"}}&nbsp;<i
-                class="bi-gear"></i></button>
+        <button [ngClass]="{'fancy-button':get_CharacterMenuState()=='out'}" (click)="toggle_Menu('character')">
+            <i class="ra ra-player"></i>
+            <div class="mobile-hide">
+                {{get_Character().name || "Character"}}&nbsp;
+            </div>
+            <i class="bi-gear"></i>
+        </button>
         <button [ngClass]="{'fancy-button':get_CompanionMenuState()=='out'}" (click)="toggle_Menu('companion')"
-            *ngIf="get_CompanionAvailable()">{{get_Companion().name || "Animal Companion"}}</button>
+            *ngIf="get_CompanionAvailable()">
+            <i class="ra ra-wolf-howl"></i>
+            <div class="mobile-hide">
+                {{get_Companion().name || "Animal Companion"}}
+            </div>
+        </button>
         <button [ngClass]="{'fancy-button':get_FamiliarMenuState()=='out'}" (click)="toggle_Menu('familiar')"
-            *ngIf="get_FamiliarAvailable()">{{get_Familiar().name || "Familiar"}}</button>
+            *ngIf="get_FamiliarAvailable()">
+            <i class="ra ra-raven"></i>
+            <div class="mobile-hide">
+                {{get_Familiar().name || "Familiar"}}
+            </div>
+        </button>
         <button [ngClass]="{'fancy-button':get_ItemsMenuState()=='out'}" (click)="toggle_Menu('items')">Items</button>
         <button [ngClass]="{'fancy-button':get_CraftingMenuState()=='out'}"
             (click)="toggle_Menu('crafting')">Crafting</button>
@@ -86,8 +100,10 @@
                                     <div class="newrow left-aligned">
                                         <i class="ra ra-sword" *ngIf="message.offeredItem.length"></i>
                                         <i class="ra ra-splash" *ngIf="message.gainCondition.length"></i>
-                                        <i class="bi-play-circle" *ngIf="message.gainCondition.length && message.activateCondition"></i>
-                                        <i class="bi-stop-circle" *ngIf="message.gainCondition.length && !message.activateCondition"></i>
+                                        <i class="bi-play-circle"
+                                            *ngIf="message.gainCondition.length && message.activateCondition"></i>
+                                        <i class="bi-stop-circle"
+                                            *ngIf="message.gainCondition.length && !message.activateCondition"></i>
                                         <i class="ra ra-player" *ngIf="creature.type=='Character'"
                                             style="line-height: 1.5;"></i>
                                         <i class="ra ra-wolf-howl" *ngIf="creature.type=='Companion'"
