@@ -98,6 +98,28 @@
       ]
    },
    {
+      "name": "Atheism",
+      "category": "Philosophies",
+      "alignment": "",
+      "divineAbility": [],
+      "divineFont": [],
+      "divineSkill": [],
+      "favoredWeapon": [],
+      "domains": [],
+      "clericSpells": [],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good",
+         "Lawful Neutral",
+         "Neutral",
+         "Chaotic Neutral",
+         "Lawful Evil",
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
       "name": "Calistria",
       "category": "Gods of the Inner Sea",
       "alignment": "Chaotic Neutral",
@@ -1595,6 +1617,29 @@
          "Chaotic Good",
          "Neutral",
          "Chaotic Neutral"
+      ]
+   },
+   {
+      "name": "Green Faith",
+      "category": "Philosophies",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [],
+      "divineSkill": [
+         "Nature"
+      ],
+      "favoredWeapon": [],
+      "domains": [],
+      "clericSpells": [],
+      "followerAlignments": [
+         "Neutral Good",
+         "Lawful Neutral",
+         "Neutral",
+         "Chaotic Neutral",
+         "Neutral Evil"
       ]
    },
    {
@@ -9133,6 +9178,156 @@
          "Neutral",
          "Lawful Evil",
          "Neutral Evil"
+      ]
+   },
+   {
+      "name": "Prophecies of Kalistrade",
+      "category": "Philosophies",
+      "alignment": "Lawful Neutral",
+      "divineAbility": [
+         "Intelligence",
+         "Charisma"
+      ],
+      "divineFont": [],
+      "divineSkill": [
+         "Diplomacy"
+      ],
+      "favoredWeapon": [],
+      "domains": [],
+      "clericSpells": [],
+      "followerAlignments": [
+         "Lawful Good",
+         "Lawful Neutral",
+         "Lawful Evil"
+      ]
+   },
+   {
+      "name": "Whispering Way",
+      "category": "Philosophies",
+      "alignment": "",
+      "divineAbility": [],
+      "divineFont": [],
+      "divineSkill": [],
+      "favoredWeapon": [],
+      "domains": [],
+      "clericSpells": [],
+      "followerAlignments": [
+         "Lawful Evil",
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Esoteric Order of the Palatine Eye",
+      "category": "Philosophies",
+      "alignment": "Lawful Neutral",
+      "divineAbility": [
+         "Intelligence",
+         "Wisdom"
+      ],
+      "divineFont": [],
+      "divineSkill": [
+         "Occultism"
+      ],
+      "favoredWeapon": [],
+      "domains": [],
+      "clericSpells": [],
+      "followerAlignments": [
+         "Lawful Good",
+         "Lawful Neutral",
+         "Neutral",
+         "Lawful Evil"
+      ]
+   },
+   {
+      "name": "God Calling",
+      "category": "Philosophies",
+      "alignment": "",
+      "divineAbility": [],
+      "divineFont": [],
+      "divineSkill": [],
+      "favoredWeapon": [],
+      "domains": [],
+      "clericSpells": [],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good",
+         "Lawful Neutral",
+         "Neutral",
+         "Chaotic Neutral",
+         "Lawful Evil",
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Laws of Mortality",
+      "category": "Philosophies",
+      "alignment": "Lawful Neutral",
+      "divineAbility": [
+         "Constitution",
+         "Intelligence"
+      ],
+      "divineFont": [],
+      "divineSkill": [
+         "Medicine"
+      ],
+      "favoredWeapon": [],
+      "domains": [],
+      "clericSpells": [],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Lawful Neutral",
+         "Neutral",
+         "Lawful Evil",
+         "Neutral Evil"
+      ]
+   },
+   {
+      "name": "Sangpotshi",
+      "category": "Philosophies",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Intelligence",
+         "Wisdom"
+      ],
+      "divineFont": [],
+      "divineSkill": [
+         "Religion"
+      ],
+      "favoredWeapon": [],
+      "domains": [],
+      "clericSpells": [],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Lawful Neutral",
+         "Neutral",
+         "Lawful Evil"
+      ]
+   },
+   {
+      "name": "Shoanti Animism",
+      "category": "Philosophies",
+      "alignment": "",
+      "divineAbility": [],
+      "divineFont": [],
+      "divineSkill": [],
+      "favoredWeapon": [],
+      "domains": [],
+      "clericSpells": [],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good",
+         "Lawful Neutral",
+         "Neutral",
+         "Chaotic Neutral",
+         "Lawful Evil",
+         "Neutral Evil",
+         "Chaotic Evil"
       ]
    }
 ]

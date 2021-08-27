@@ -1004,7 +1004,7 @@
                                             </button>
                                         </div>
                                         <button class="specialchoice" *ngIf="choice.available && get_TileMode()"
-                                            [ngClass]="{'fancy-button choicecleared fullsize-only':choice.increases.length == choice.available, 'activechoice':get_ShowList()=='choice.id'}"
+                                            [ngClass]="{'fancy-button choicecleared fullsize-only':choice.increases.length == choice.available, 'activechoice':get_ShowList()==choice.id}"
                                             (click)="toggle_List(choice.id, level.number, choice)">
                                             <app-gridIcon class="specialchoice"
                                                 [ngClass]="{'fancy-button':choice.increases.length == choice.available}"
@@ -2003,7 +2003,7 @@
                                         </app-gridIcon>
                                         <header class="sectionHeader">
                                             <span>{{deity.name}}&nbsp;</span>
-                                            <cite class="trait">{{deity.alignment}}</cite>
+                                            <cite class="trait" *ngIf="deity.alignment">{{deity.alignment}}</cite>
                                         </header>
                                     </div>
                                 </div>
