@@ -2386,6 +2386,15 @@ MEDIA QUERIES
         margin-top: 0;
         margin-bottom: 0;
     }
+
+    #dice svg {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    #dice button > i.desktop-hide {
+        font-size: 1.5em;
+    }
 }
 @media (max-width: 768px) {
     body {

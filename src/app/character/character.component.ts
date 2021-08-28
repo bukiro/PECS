@@ -1221,7 +1221,7 @@ export class CharacterComponent implements OnInit {
 
     on_CompanionTypeChange(type: AnimalCompanionAncestry, taken: boolean) {
         if (taken) {
-            if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
+            if (this.get_Character().settings.autoCloseChoices && this.get_Companion().name && this.get_Companion().species) { this.toggle_List(""); }
             this.get_Companion().class.on_ChangeAncestry(this.characterService);
             this.animalCompanionsService.change_Type(this.get_Companion(), type);
             this.get_Companion().class.on_NewAncestry(this.characterService, this.itemsService);

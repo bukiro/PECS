@@ -121,7 +121,7 @@ export class HealthComponent implements OnInit {
                 }
             }
         }
-        this.damageSliderMax = calculatedHealth.maxHP.result || 1;
+        this.damageSliderMax = (calculatedHealth.maxHP.result + (this.get_Health().temporaryHP[0]?.amount || 0)) || 1;
         return calculatedHealth;
     }
 

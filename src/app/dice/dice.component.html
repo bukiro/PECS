@@ -137,13 +137,25 @@
                 <div class="newrow center-aligned"
                     *ngFor="let creature of get_Creature(creatureType); trackBy:trackByIndex">
                     <button class="center-aligned" (click)="on_Heal(creature)">
-                        Heal {{creature.name || creatureType}}
+                        <span class="mobile-hide">Heal {{creature.name || creatureType}}</span>
+                        <i class="ra ra-health desktop-hide"></i>
+                        <i class="ra ra-player desktop-hide" *ngIf="creatureType=='Character'"></i>
+                        <i class="ra ra-wolf-howl desktop-hide" *ngIf="creatureType=='Companion'"></i>
+                        <i class="ra ra-raven desktop-hide" *ngIf="creatureType=='Familiar'"></i>
                     </button>
                     <button class="center-aligned" (click)="on_TakeDamage(creature)">
-                        Damage {{creature.name || creatureType}}
+                        <span class="mobile-hide">Damage {{creature.name || creatureType}}</span>
+                        <i class="ra ra-axe-swing desktop-hide"></i>
+                        <i class="ra ra-player desktop-hide" *ngIf="creatureType=='Character'"></i>
+                        <i class="ra ra-wolf-howl desktop-hide" *ngIf="creatureType=='Companion'"></i>
+                        <i class="ra ra-raven desktop-hide" *ngIf="creatureType=='Familiar'"></i>
                     </button>
                     <button class="center-aligned" (click)="set_TempHP(creature)">
-                        Temp HP for {{creature.name || creatureType}}
+                        <span class="mobile-hide">Temp HP for {{creature.name || creatureType}}</span>
+                        <i class="ra ra-health-increase desktop-hide"></i>
+                        <i class="ra ra-player desktop-hide" *ngIf="creatureType=='Character'"></i>
+                        <i class="ra ra-wolf-howl desktop-hide" *ngIf="creatureType=='Companion'"></i>
+                        <i class="ra ra-raven desktop-hide" *ngIf="creatureType=='Familiar'"></i>
                     </button>
                 </div>
             </ng-container>
