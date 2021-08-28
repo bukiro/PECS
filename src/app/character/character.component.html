@@ -1956,42 +1956,68 @@
                                         <label>
                                             <input type="checkbox"
                                                 (change)="on_DeityChange(deity, $event.target.checked)"
-                                                [checked]="checked" [disabled]="disabled" hidden>{{checked ?
-                                            "Remove" : "Choose"}}
+                                                [checked]="checked" [disabled]="disabled" hidden>
+                                            {{checked ? "Remove" : "Choose"}}
                                         </label>
                                     </div>
-                                    <div class="newrow left-aligned">
+                                    <header class="subsectionHeader" *ngIf="deity.nickname">{{deity.nickname}}</header>
+                                    <div class="newrow left-aligned" *ngIf="deity.sourceBook">
+                                        <strong>Source</strong>
+                                        <i>{{deity.sourceBook}}</i>
+                                    </div>
+                                    <ng-container *ngFor="let desc of deity.desc.split('\n\n'); trackBy:trackByIndex;">
+                                        <app-description class="newrow" [text]="desc"></app-description>
+                                    </ng-container>
+                                    <div class="newrow left-aligned gap-text" *ngIf="deity.edicts">
+                                        <strong>Edicts</strong>
+                                        {{deity.edicts}}
+                                    </div>
+                                    <div class="newrow left-aligned gap-text" *ngIf="deity.anathema">
+                                        <strong>Anathema</strong>
+                                        {{deity.anathema}}
+                                    </div>
+                                    <div class="newrow left-aligned gap-text" *ngIf="deity.areasOfConcern">
+                                        <strong>Areas of Concern</strong>
+                                        {{deity.areasOfConcern}}
+                                    </div>
+                                    <div class="newrow left-aligned gap-text" *ngIf="deity.followerAlignments.length">
                                         <strong>Follower Alignments</strong>
                                         {{deity.followerAlignments.join(", ")}}
                                     </div>
-                                    <div class="newrow left-aligned">
+                                    <div class="newrow left-aligned gap-text" *ngIf="deity.pantheonMembers.length">
+                                        <strong>Pantheon Members</strong>
+                                        {{deity.pantheonMembers.join(", ")}}
+                                    </div>
+                                    <div class="newrow left-aligned gap-text" *ngIf="deity.divineAbility.length">
                                         <strong>Divine Ability</strong>
                                         {{deity.divineAbility.join(" or ")}}
                                     </div>
-                                    <div class="newrow left-aligned">
+                                    <div class="newrow left-aligned gap-text" *ngIf="deity.divineFont.length">
                                         <strong>Divine Font</strong>
                                         {{deity.divineFont.join(" or ")}}
                                     </div>
-                                    <div class="newrow left-aligned">
+                                    <div class="newrow left-aligned gap-text" *ngIf="deity.divineSkill.length">
                                         <strong>Divine Skill</strong>
                                         {{deity.divineSkill.join(" or ")}}
                                     </div>
-                                    <div class="newrow left-aligned">
+                                    <div class="newrow left-aligned gap-text" *ngIf="deity.favoredWeapon.length">
                                         <strong>Favored Weapon</strong>
                                         {{deity.favoredWeapon.join(" or ")}}
                                     </div>
-                                    <div class="newrow left-aligned">
+                                    <div class="newrow left-aligned gap-text" *ngIf="deity.domains.length">
                                         <strong>Domains</strong>
                                         {{deity.domains.join(", ")}}
                                     </div>
-                                    <div class="newrow left-aligned">
-                                        <strong>Cleric Spells</strong>
-                                    </div>
-                                    <div class="list-item lower left-aligned"
-                                        *ngFor="let spell of deity.clericSpells; trackBy:trackByIndex;">
-                                        <strong>Level {{spell.level}}</strong>
-                                        {{spell.name}}{{(spell.note ? "("+spell.note+")" : "")}}
-                                    </div>
+                                    <ng-container *ngIf="deity.clericSpells.length">
+                                        <div class="newrow left-aligned">
+                                            <strong>Cleric Spells</strong>
+                                        </div>
+                                        <div class="list-item lower left-aligned"
+                                            *ngFor="let spell of deity.clericSpells; trackBy:trackByIndex;">
+                                            <strong>Level {{spell.level}}</strong>
+                                            {{spell.name}}{{(spell.note ? "("+spell.note+")" : "")}}
+                                        </div>
+                                    </ng-container>
                                 </ng-template>
                                 <div class="list-item gridicon-fullsizebox" [ngClass]="{'selected':checked}">
                                     <input id="{{deity.name}}" type="checkbox" class="character-choice"

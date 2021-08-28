@@ -1312,7 +1312,7 @@
                 "value": 6
             }
         ],
-        "specialreq": "deity",
+        "specialreq": "deity && deity.category != 'Philosophies'",
         "specialreqdesc": "you follow a deity"
     },
     {
@@ -1340,7 +1340,7 @@
                 "value": 6
             }
         ],
-        "specialreq": "deity && deity.alignment.includes('Chaotic')",
+        "specialreq": "deity && deity.category != 'Philosophies' && deity.alignment.includes('Chaotic')",
         "specialreqdesc": "you follow a chaotic deity",
         "gainActivities": [
             "Battle Prayer"
@@ -1371,7 +1371,7 @@
                 "value": 6
             }
         ],
-        "specialreq": "deity && deity.alignment.includes('Evil')",
+        "specialreq": "deity && deity.category != 'Philosophies' && deity.alignment.includes('Evil')",
         "specialreqdesc": "you follow an evil deity",
         "gainActivities": [
             "Battle Prayer"
@@ -1402,7 +1402,7 @@
                 "value": 6
             }
         ],
-        "specialreq": "deity && deity.alignment.includes('Good')",
+        "specialreq": "deity && deity.category != 'Philosophies' && deity.alignment.includes('Good')",
         "specialreqdesc": "you follow a good deity",
         "gainActivities": [
             "Battle Prayer"
@@ -1433,7 +1433,7 @@
                 "value": 6
             }
         ],
-        "specialreq": "deity && deity.alignment.includes('Lawful')",
+        "specialreq": "deity && deity.category != 'Philosophies' && deity.alignment.includes('Lawful')",
         "specialreqdesc": "you follow a lawful deity",
         "gainActivities": [
             "Battle Prayer"
@@ -2914,7 +2914,7 @@
         "featreq": [
             "Battle Medicine"
         ],
-        "specialreq": "!deity",
+        "specialreq": "!deity || (deity.category == 'Philosophies')",
         "specialreqdesc": "you can't have a patron deity"
     },
     {
@@ -5054,7 +5054,7 @@
                 "value": 6
             }
         ],
-        "specialreq": "deity",
+        "specialreq": "deity && deity.category != 'Philosophies'",
         "specialreqdesc": "you follow a deity",
         "gainActivities": [
             "Sacred Defense"
@@ -5072,7 +5072,7 @@
         "featreq": [
             "Ki Strike"
         ],
-        "specialreq": "deity",
+        "specialreq": "deity && deity.category != 'Philosophies'",
         "specialreqdesc": "you follow a deity"
     },
     {
@@ -5093,7 +5093,7 @@
         "featreq": [
             "Ki Strike"
         ],
-        "specialreq": "deity && deity.alignment.includes('Chaotic')",
+        "specialreq": "deity && deity.category != 'Philosophies' && deity.alignment.includes('Chaotic')",
         "specialreqdesc": "you follow a chaotic deity"
     },
     {
@@ -5114,7 +5114,7 @@
         "featreq": [
             "Ki Strike"
         ],
-        "specialreq": "deity && deity.alignment.includes('Evil')",
+        "specialreq": "deity && deity.category != 'Philosophies' && deity.alignment.includes('Evil')",
         "specialreqdesc": "you follow an evil deity"
     },
     {
@@ -5135,7 +5135,7 @@
         "featreq": [
             "Ki Strike"
         ],
-        "specialreq": "deity && deity.alignment.includes('Good')",
+        "specialreq": "deity && deity.category != 'Philosophies' && deity.alignment.includes('Good')",
         "specialreqdesc": "you follow a good deity"
     },
     {
@@ -5156,7 +5156,7 @@
         "featreq": [
             "Ki Strike"
         ],
-        "specialreq": "deity && deity.alignment.includes('Lawful')",
+        "specialreq": "deity && deity.category != 'Philosophies' && deity.alignment.includes('Lawful')",
         "specialreqdesc": "you follow a lawful deity"
     },
     {
@@ -5175,7 +5175,7 @@
                 "value": 6
             }
         ],
-        "specialreq": "deity && (deity.alignment.includes('Good') || deity.alignment.includes('Evil'))",
+        "specialreq": "deity && deity.category != 'Philosophies' && (deity.alignment.includes('Good') || deity.alignment.includes('Evil'))",
         "specialreqdesc": "good or evil deity",
         "gainActivities": [
             "Sanctify Water"
@@ -41966,7 +41966,7 @@
             "Sorcerer"
         ],
         "levelreq": 1,
-        "specialreq": "deity && character.class.spellCasting.some(casting => casting.className == 'Sorcerer' && casting.tradition == 'Divine')",
+        "specialreq": "deity && deity.category != 'Philosophies' && character.class.spellCasting.some(casting => casting.className == 'Sorcerer' && casting.tradition == 'Divine')",
         "specialreqdesc": "bloodline that grants divine spells, you follow a deity"
     },
     {
