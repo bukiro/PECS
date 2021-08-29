@@ -762,6 +762,7 @@ export class CharacterService {
         character.class.deity = deity.name;
         this.set_ToChange("Character", "general");
         this.set_ToChange("Character", "spellchoices");
+        this.set_ToChange("Character", "featchoices");
         this.set_ToChange("Character", "attacks");
     }
 

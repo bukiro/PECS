@@ -334,7 +334,7 @@ export class SpellbookComponent implements OnInit {
                 spellslots = 1;
             } else if (spellLevel == 0 && casting.className == "Bard" && this.have_Feat("Studious Capacity")) {
                 spellslots = 1;
-            } else if (spellLevel > 0 && spellLevel < 11) {
+            } else if (spellLevel > 0 && spellLevel <= 10) {
                 casting.spellChoices.filter(choice =>
                     choice.level == spellLevel &&
                     choice.charLevelAvailable <= this.get_Character().level &&

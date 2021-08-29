@@ -24,6 +24,9 @@ export class Class {
     public activities: ActivityGain[] = [];
     public ancestry: Ancestry = new Ancestry();
     public anathema: string[] = [];
+    public limitDeities: boolean = false;
+    public showDeityEdicts: boolean = false;
+    public showDeityAnathema: boolean = false;
     public animalCompanion: AnimalCompanion = new AnimalCompanion();
     public background: Background = new Background();
     public customSkills: Skill[] = [];
@@ -226,7 +229,7 @@ export class Class {
                 this.spellCasting.find(casting => casting.castingType == "Innate")
                     .spellChoices.filter(choice => feats.includes(choice.source.substr(6))).forEach(choice => {
                     choice.tradition = "Primal";
-                    if (choice.available) {
+                    if (choice.available || choice.dynamicAvailable) {
                         choice.spells.length = 0;
                     }
                 });
@@ -305,7 +308,7 @@ export class Class {
                 this.spellCasting.find(casting => casting.castingType == "Innate")
                     .spellChoices.filter(choice => feats.includes(choice.source.substr(6))).forEach(choice => {
                     choice.tradition = heritage.subType;
-                    if (choice.available) {
+                    if (choice.available || choice.dynamicAvailable) {
                         choice.spells.length = 0;
                     }
                 });

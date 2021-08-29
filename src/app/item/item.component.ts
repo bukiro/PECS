@@ -149,7 +149,7 @@ export class ItemComponent implements OnInit {
     }
 
     get_StoredSpells(item: Item) {
-        return item.storedSpells.filter(choice => choice.available);
+        return item.storedSpells.filter(choice => choice.available || choice.dynamicAvailable);
     }
 
     get_StoredSpellsTaken(item: Item) {

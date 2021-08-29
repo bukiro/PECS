@@ -5,8 +5,8 @@ export class Deity {
     public nickname: string = "";
     public desc: string = "";
     public sourceBook: string = "";
-    public edicts: string = "";
-    public anathema: string = "";
+    public edicts: string[] = [];
+    public anathema: string[] = [];
     public areasOfConcern: string = "";
     public category: string = "";
     public alignment: string = "";

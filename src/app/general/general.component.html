@@ -81,6 +81,14 @@
                     </ul>
                 </div>
             </div>
+            <div class="fullsize-only list-item" *ngIf="get_Edicts().length">
+                <strong>Edicts</strong>
+                <div class="newrow">
+                    <ul>
+                        <li *ngFor="let edict of get_Edicts(); trackBy:trackByIndex;">{{edict}}</li>
+                    </ul>
+                </div>
+            </div>
             <div class="fullsize-only list-item" *ngIf="get_Anathema().length">
                 <strong>Anathema</strong>
                 <div class="newrow">
@@ -89,6 +97,8 @@
                     </ul>
                 </div>
             </div>
+            <app-tags [creature]="creature" [objectName]="'Tenets'" [showTraits]=true [showFeats]=true
+                [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
             <div class="fullsize-only list-item" *ngFor="let feat of get_DifferentWorldsFeat(); trackBy:trackByIndex;">
                 <strong>Alternative Identity (Different Worlds)</strong>
                 <span>{{feat.data.name}} {{(feat.data.background) ? "("+feat.data.background+")" : ""}}</span>

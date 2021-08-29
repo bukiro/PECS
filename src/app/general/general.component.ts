@@ -20,7 +20,7 @@ export class GeneralComponent implements OnInit {
     public showMinimizeButton: boolean = true;
     @Input()
     public sheetSide: string = "left";
-    
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
@@ -101,17 +101,30 @@ export class GeneralComponent implements OnInit {
     }
 
     get_Tenets() {
+        let character = this.get_Character();
         //Collect tenets from all feats and features you have that include them.
         return [].concat(...this.characterService.get_FeatsAndFeatures()
-            .filter(feat => feat.tenets?.length && feat.have(this.get_Character(), this.characterService))
+            .filter(feat => feat.tenets?.length && feat.have(character, this.characterService))
             .map(feat => feat.tenets))
+    }
+    
+    get_Edicts() {
+        let character = this.get_Character();
+        let deity = character.class.deity ? this.characterService.get_Deities(character.class.deity)[0] : null;
+        let deityEdicts = deity ? deity.edicts.map(edict => edict[0].toUpperCase() + edict.substr(1)) : [];
+        //Collect anathema from all feats and features you have that include them.
+        return (character.class.showDeityAnathema ? deityEdicts : [])
     }
 
     get_Anathema() {
+        let character = this.get_Character();
+        let deity = character.class.deity ? this.characterService.get_Deities(character.class.deity)[0] : null;
+        let deityAnathema = deity ? deity.anathema.map(anathema => anathema[0].toUpperCase() + anathema.substr(1)) : [];
         //Collect anathema from all feats and features you have that include them.
-        return this.get_Character().class.anathema.concat(...this.characterService.get_FeatsAndFeatures()
+        return character.class.anathema.concat(...this.characterService.get_FeatsAndFeatures()
             .filter(feat => feat.anathema?.length && feat.have(this.get_Character(), this.characterService))
-            .map(feat => feat.anathema))
+            .map(feat => feat.anathema.map(anathema => anathema[0].toUpperCase() + anathema.substr(1))))
+            .concat((character.class.showDeityAnathema ? deityAnathema : []))
     }
 
     get_Languages() {
@@ -163,15 +176,15 @@ export class GeneralComponent implements OnInit {
         //Verdant Metamorphosis adds the Plant trait and removes the Humanoid, Animal or Fungus trait.
         if (character.get_FeatsTaken(1, character.level, "Verdant Metamorphosis").length) {
             return ["Plant"].concat(this.get_Character().class.ancestry.traits.filter(trait => !["Humanoid", "Animal", "Fungus"].includes(trait)))
-            .sort(function(a,b) {
-                if (a > b) {
-                    return 1;
-                }
-                if (a < b) {
-                    return -1;
-                }
-                return 0;
-            })
+                .sort(function (a, b) {
+                    if (a > b) {
+                        return 1;
+                    }
+                    if (a < b) {
+                        return -1;
+                    }
+                    return 0;
+                })
         } else {
             return this.get_Character().class.ancestry.traits
         }

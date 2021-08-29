@@ -304,7 +304,9 @@ export class CharacterComponent implements OnInit {
             if (savegame.classChoice) {
                 title += savegame.classChoice + " ";
             }
-            title += savegame.class;
+            if (!savegame.classChoice?.includes(savegame.class)) {
+                title += savegame.class;
+            }
         }
         return title;
     }
@@ -353,7 +355,6 @@ export class CharacterComponent implements OnInit {
     }
 
     get_Alignments() {
-        //Champions and Clerics need to pick an alignment matching their deity
         let deity: Deity = this.get_Character().class?.deity ? this.get_AvailableDeities(this.get_Character().class.deity)[0] : null;
         let alignments = [
             "",
@@ -367,7 +368,8 @@ export class CharacterComponent implements OnInit {
             "Neutral Evil",
             "Chaotic Evil"
         ]
-        if (deity && ["Champion", "Cleric"].includes(this.get_Character().class.name)) {
+        //Certain classes need to pick an alignment matching their deity
+        if (deity && this.get_Character().class.limitDeities) {
             return alignments.filter(alignment =>
                 !deity.followerAlignments ||
                 deity.followerAlignments.includes(alignment) ||
@@ -430,6 +432,7 @@ export class CharacterComponent implements OnInit {
         this.characterService.set_ToChange("Character", "featchoices");
         this.characterService.set_ToChange("Character", "effects");
         this.characterService.process_ToChange();
+
     }
 
     numbersOnly(event): boolean {
@@ -1050,9 +1053,9 @@ export class CharacterComponent implements OnInit {
     get_AvailableDeities(name: string = "") {
         let currentDeity = this.get_Character().class?.deity || "";
         let showOtherOptions = this.get_Character().settings.showOtherOptions;
-        //Champions and Clerics need to choose a deity matching their alignment.
-        if (!["Champion", "Cleric"].includes(this.get_Character().class.name)) {
-            return this.deitiesService.get_Deities(name).filter(deity => showOtherOptions || !currentDeity || deity.name == currentDeity)
+        //Certain classes need to choose a deity allowing their alignment.
+        if (this.get_Character().class.limitDeities) {
+            return this.deitiesService.get_Deities(name).filter((deity: Deity) => (showOtherOptions || !currentDeity || deity.name == currentDeity) && (!this.get_Character().alignment || deity.followerAlignments.includes(this.get_Character().alignment)))
                 .sort(function (a, b) {
                     if (a.name > b.name) {
                         return 1
@@ -1063,7 +1066,7 @@ export class CharacterComponent implements OnInit {
                     return 0
                 });
         } else {
-            return this.deitiesService.get_Deities(name).filter((deity: Deity) => (showOtherOptions || !currentDeity || deity.name == currentDeity) && (!this.get_Character().alignment || deity.followerAlignments.includes(this.get_Character().alignment)))
+            return this.deitiesService.get_Deities(name).filter(deity => showOtherOptions || !currentDeity || deity.name == currentDeity)
                 .sort(function (a, b) {
                     if (a.name > b.name) {
                         return 1

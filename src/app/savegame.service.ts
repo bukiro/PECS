@@ -334,6 +334,37 @@ export class SavegameService {
                 })
             }
 
+            //Clerics before 1.0.5 need to change how they get the Divine Font: Remove the locked feat and the spellchoice, then add a featchoice.
+            //They also need to remove any chosen doctrine because doctrines were blank before 1.0.5 and need to be re-selected.
+            if (character.class?.name == "Cleric" && character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 5) {
+                //Remove Divine Font from the initial feats, if it exists.
+                let divineFontfeatChoice = character.class.levels?.[1]?.featChoices?.find(choice => choice.id == "1-Feature-Cleric-0") || null;
+                if (divineFontfeatChoice) {
+                    divineFontfeatChoice.feats = divineFontfeatChoice.feats.filter(feat => feat.name != "Divine Font");
+                }
+                //Remove the selected doctrine from the doctrine feat choice, if it exists.
+                let doctrineFeatChoice = character.class.levels?.[1]?.featChoices?.find(choice => choice.id == "1-Doctrine-Cleric-1") || null;
+                if (doctrineFeatChoice?.feats) {
+                    doctrineFeatChoice.feats = [];
+                }
+                //Remove the Divine Font spell choice from the initial spell choices, if it exists.
+                let spellCasting = character.class.spellCasting?.find(casting => casting.className == "Cleric" && casting.castingType == "Prepared" && casting.tradition == "Divine") || null;
+                if (spellCasting) {
+                    spellCasting.spellChoices = spellCasting.spellChoices.filter(choice => choice.id != "8b5e3ea0-6116-4d7e-8197-a6cb787a5788");
+                }
+                //If it doesn't exist, add a new feat choice for the Divine Font at the third position, so it matches the position in the class object for merging.
+                if (!character.class.levels[1].featChoices.some(choice => choice.id == "1-Divine Font-Cleric-1")) {
+                    let newChoice = new FeatChoice();
+                    newChoice.available = 1;
+                    newChoice.source = "Cleric";
+                    newChoice.specialChoice = true;
+                    newChoice.type = "Divine Font";
+                    newChoice.id = "1-Divine Font-Cleric-1";
+                    character.class.levels[1].featChoices.splice(2, 0, newChoice);
+                }
+
+            }
+
         }
 
         // STAGE 2
@@ -395,6 +426,31 @@ export class SavegameService {
                             feat.sourceId = feat.sourceId.replace("-Order-", "-Druidic Order-");
                         })
                     }
+                })
+            }
+
+            //Characters before version 1.0.5 need to update certain spell choices to have a dynamicAvailable value.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 5) {
+                character.class.spellCasting.forEach(casting => {
+                    casting.spellChoices.forEach(choice => {
+                        if (
+                            ["Feat: Basic Wizard Spellcasting", "Feat: Expert Wizard Spellcasting", "Feat: Master Wizard Spellcasting"].includes(choice.source)
+                        ) {
+                            choice.dynamicAvailable = "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)"
+                        } else if (
+                            ["Feat: Basic Bard Spellcasting", "Feat: Expert Bard Spellcasting", "Feat: Master Bard Spellcasting"].includes(choice.source)
+                        ) {
+                            choice.dynamicAvailable = "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)"
+                        } else if (
+                            ["Feat: Basic Druid Spellcasting", "Feat: Expert Druid Spellcasting", "Feat: Master Druid Spellcasting"].includes(choice.source)
+                        ) {
+                            choice.dynamicAvailable = "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)"
+                        } else if (
+                            ["Feat: Basic Sorcerer Spellcasting", "Feat: Expert Sorcerer Spellcasting", "Feat: Master Sorcerer Spellcasting"].includes(choice.source)
+                        ) {
+                            choice.dynamicAvailable = "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)"
+                        }
+                    })
                 })
             }
 

@@ -12,6 +12,8 @@ export class SpellChoice {
         "signatureSpell"
     ];
     public available: number = 0;
+    //Dynamic Available gets evaluated in the spellchoice component instead of available if it is set.
+    public dynamicAvailable: string = "";
     //className is used to identify the proper SpellCasting to sort this into
     //If "", the main class is used.
     public className: string = "";

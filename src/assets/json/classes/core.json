@@ -4185,6 +4185,9 @@
     {
         "_className": "Class",
         "name": "Champion",
+        "limitDeities": true,
+        "showDeityAnathema": true,
+        "showDeityEdicts": true,
         "warning": "Champion feats are not implemented yet.",
         "customSkills": [
             {
@@ -5593,6 +5596,9 @@
         "_className": "Class",
         "name": "Cleric",
         "warning": "Cleric functionality and feats are not implemented yet.",
+        "limitDeities": true,
+        "showDeityAnathema": true,
+        "showDeityEdicts": true,
         "customSkills": [
             {
                 "ability": "Wisdom",
@@ -5674,12 +5680,6 @@
                         "feats": [
                             {
                                 "locked": true,
-                                "name": "Divine Font",
-                                "source": "Cleric",
-                                "sourceId": "1-Feature-Cleric-0"
-                            },
-                            {
-                                "locked": true,
                                 "name": "Anathema (Cleric)",
                                 "source": "Cleric",
                                 "sourceId": "1-Feature-Cleric-0"
@@ -5712,6 +5712,17 @@
                         "source": "Cleric",
                         "specialChoice": true,
                         "type": "Doctrine"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "filter": [
+                            "Divine Font"
+                        ],
+                        "id": "1-Divine Font-Cleric-1",
+                        "source": "Cleric",
+                        "specialChoice": true,
+                        "type": "Divine Font"
                     },
                     {
                         "_className": "FeatChoice",
@@ -6796,20 +6807,6 @@
                         "level": 10,
                         "charLevelAvailable": 19,
                         "source": "Cleric Spellcasting",
-                        "castingType": "Prepared"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 1,
-                        "className": "Cleric",
-                        "filter": [
-                            "Harm",
-                            "Heal"
-                        ],
-                        "id": "8b5e3ea0-6116-4d7e-8197-a6cb787a5788",
-                        "dynamicLevel": "highestSpellLevel",
-                        "charLevelAvailable": 1,
-                        "source": "Divine Font",
                         "castingType": "Prepared"
                     }
                 ],

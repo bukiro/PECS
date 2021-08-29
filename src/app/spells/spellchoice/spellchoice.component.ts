@@ -9,6 +9,7 @@ import { EffectsService } from 'src/app/effects.service';
 import { SpellGain } from 'src/app/SpellGain';
 import { SpellLearned } from 'src/app/SpellLearned';
 import { SignatureSpellGain } from 'src/app/SignatureSpellGain';
+import { DeitiesService } from 'src/app/deities.service';
 
 @Component({
     selector: 'app-spellchoice',
@@ -56,7 +57,8 @@ export class SpellchoiceComponent implements OnInit {
         private characterService: CharacterService,
         private spellsService: SpellsService,
         private traitsService: TraitsService,
-        private effectsService: EffectsService
+        private effectsService: EffectsService,
+        private deitiesService: DeitiesService
     ) { }
 
     toggle_Spell(name: string) {
@@ -261,6 +263,10 @@ export class SpellchoiceComponent implements OnInit {
         this.choice.spellBlending[tradeLevel] += value;
         this.characterService.set_Changed("spellchoices");
         this.characterService.process_ToChange();
+    }
+
+    is_SpellBlendingSpell() {
+        return this.choice.source == "Spell Blending";
     }
 
     get_SpellBlendingUnlocked(level: number) {
@@ -518,45 +524,49 @@ export class SpellchoiceComponent implements OnInit {
         return this.spellsService.get_DynamicSpellLevel(this.spellCasting, choice, this.characterService);
     }
 
-    get_CHA() {
-        return this.characterService.get_Abilities("Charisma")[0].mod(this.get_Character(), this.characterService, this.effectsService).result;
-    }
-
     get_Available() {
         let choice = this.choice;
         let available: number = 0;
-        if (choice.source == "Divine Font") {
-            available = Math.max(choice.available + this.get_CHA(), 0);
-        } else if (choice.source == "Spell Blending") {
-            available = Math.max(choice.available + this.get_SpellBlendingUnlocked(choice.level), 0);
-        } else if (this.is_InfinitePossibilitiesSpell()) {
-            available = Math.max(choice.available + this.get_InfinitePossibilitiesUnlocked(choice.level), 0);
-        } else if (this.is_AdaptedCantripSpell()) {
-            available = Math.max(choice.available + this.get_AdaptedCantripUnlocked(), 0);
-        } else if (this.is_AdaptiveAdeptSpell()) {
-            available = Math.max(choice.available + this.get_AdaptiveAdeptUnlocked(), 0);
-        } else if (
-            ["Feat: Basic Wizard Spellcasting", "Feat: Expert Wizard Spellcasting", "Feat: Master Wizard Spellcasting"].includes(choice.source) &&
-            choice.level <= this.get_HighestSpellLevel() - 2
-        ) {
-            available = Math.max(choice.available + this.have_Feat("Arcane Breadth") - this.get_SpellBlendingUsed() - this.get_InfinitePossibilitiesUsed(), 0);
-        } else if (
-            ["Feat: Basic Bard Spellcasting", "Feat: Expert Bard Spellcasting", "Feat: Master Bard Spellcasting"].includes(choice.source) &&
-            choice.level <= this.get_HighestSpellLevel() - 2
-        ) {
-            available = Math.max(choice.available + this.have_Feat("Occult Breadth"), 0);
-        } else if (
-            ["Feat: Basic Druid Spellcasting", "Feat: Expert Druid Spellcasting", "Feat: Master Druid Spellcasting"].includes(choice.source) &&
-            choice.level <= this.get_HighestSpellLevel() - 2
-        ) {
-            available = Math.max(choice.available + this.have_Feat("Primal Breadth"), 0);
-        } else if (
-            ["Feat: Basic Sorcerer Spellcasting", "Feat: Expert Sorcerer Spellcasting", "Feat: Master Sorcerer Spellcasting"].includes(choice.source) &&
-            choice.level <= this.get_HighestSpellLevel() - 2
-        ) {
-            available = Math.max(choice.available + this.have_Feat("Bloodline Breadth"), 0);
-        } else {
-            available = Math.max(this.choice.available - this.get_SpellBlendingUsed() - this.get_InfinitePossibilitiesUsed() - this.get_AdaptedCantripUsed() - this.get_AdaptiveAdeptUsed(), 0);
+        //Define some functions for choices with a dynamic available value.
+        //Functions don't like using 'this', so we define 'component' first.
+        let component = this;
+        function Highest_Spell_Level() {
+            return component.get_HighestSpellLevel();
+        }
+        function Modifier(name: string) {
+            return component.characterService.get_Abilities(name)[0].mod(component.get_Character(), component.characterService, component.effectsService).result;
+        }
+        function Has_Feat(name: string) {
+            return component.have_Feat(name);
+        }
+        function Used_For_Spell_Blending() {
+            return component.get_SpellBlendingUsed();
+        }
+        function Used_For_Infinite_Possibilities() {
+            return component.get_InfinitePossibilitiesUsed();
+        }
+        if (choice.dynamicAvailable) {
+            try {
+                available = eval(choice.dynamicAvailable);
+            } catch (error) {
+                available = 0;
+            };
+        }
+        if (available == 0 || isNaN(available)) {
+            if (this.is_SpellBlendingSpell()) {
+                available = Math.max(choice.available + this.get_SpellBlendingUnlocked(choice.level), 0);
+            } else if (this.is_InfinitePossibilitiesSpell()) {
+                available = Math.max(choice.available + this.get_InfinitePossibilitiesUnlocked(choice.level), 0);
+            } else if (this.is_AdaptedCantripSpell()) {
+                available = Math.max(choice.available + this.get_AdaptedCantripUnlocked(), 0);
+            } else if (this.is_AdaptiveAdeptSpell()) {
+                available = Math.max(choice.available + this.get_AdaptiveAdeptUnlocked(), 0);
+            } else {
+                available = Math.max(choice.available, 0);
+            }
+        }
+        if (available) {
+            available = Math.max(available - this.get_SpellBlendingUsed() - this.get_InfinitePossibilitiesUsed() - this.get_AdaptedCantripUsed() - this.get_AdaptiveAdeptUsed(), 0);
         }
         //If this choice has more spells than it should have (unless they are locked), remove the excess.
         if (choice.spells.length > available) {
@@ -577,96 +587,107 @@ export class SpellchoiceComponent implements OnInit {
             spellLevel = this.get_DynamicLevel();
         }
         let character = this.get_Character()
-
-        let allSpells: Spell[];
+        let allSpells: { spell: Spell, borrowed: boolean }[];
         //Get spells from your spellbook for prepared wizard spells or if the choice requires it, otherwise get all spells.
-        if ((this.spellCasting?.castingType == "Prepared" && this.spellCasting?.className == "Wizard" && !this.allowBorrow) || this.choice.spellBookOnly) {
-            allSpells = this.spellsService.get_Spells().filter(spell =>
-                character.class.spellBook.find((learned: SpellLearned) => learned.name == spell.name)
-            );
+        //If you are preparing spellbook spells, and borrowing is active, get all spells and mark all spells as borrowed that aren't in the spellbook.
+        let spellBookSpells: Spell[] = this.spellsService.get_Spells().filter(spell =>
+            character.class.spellBook.find((learned: SpellLearned) => learned.name == spell.name)
+        );
+        if (this.spellCasting?.castingType == "Prepared" && this.spellCasting?.className == "Wizard") {
+            if (this.allowBorrow) {
+                allSpells = this.spellsService.get_Spells().map(spell => { return { spell: spell, borrowed: (!spellBookSpells.some(spellBookSpell => spellBookSpell.name == spell.name)) } });
+            } else {
+                allSpells = spellBookSpells.map(spell => { return { spell: spell, borrowed: false } });
+            }
+        } else if (this.choice.spellBookOnly) {
+            allSpells = spellBookSpells.map(spell => { return { spell: spell, borrowed: false } });
         } else {
-            allSpells = this.spellsService.get_Spells();
+            allSpells = this.spellsService.get_Spells().map(spell => { return { spell: spell, borrowed: false } });
         }
         //Filter the list by the filter given in the choice.
         if (choice.filter.length) {
-            allSpells = allSpells.filter(spell => choice.filter.map(filter => filter.toLowerCase()).includes(spell.name.toLowerCase()))
+            allSpells = allSpells.filter(spell => choice.filter.map(filter => filter.toLowerCase()).includes(spell.spell.name.toLowerCase()))
         }
         //Set up another Array to save the end result to, filtered from allSpells.
-        let spells: Spell[] = [];
+        let spells: { spell: Spell, borrowed: boolean }[] = [];
         //If this is a character spellcasting choice (and not a scroll or other item), filter the spells by the spellcasting's tradition.
         //  The choice's tradition is preferred over the spellcasting's tradition, if set. If neither is set, get all spells.
         if (this.spellCasting) {
             let traditionFilter = choice.tradition || this.spellCasting.tradition || "";
             //Keep either only Focus spells (and skip the tradition filter) or exclude Focus spells as needed.
             if (this.spellCasting.castingType == "Focus") {
-                spells.push(...allSpells.filter(spell => spell.traits.includes(character.class.name) && spell.traditions.includes("Focus")));
+                spells.push(...allSpells.filter(spell => spell.spell.traits.includes(character.class.name) && spell.spell.traditions.includes("Focus")));
             } else {
-                if (choice.source == "Divine Font") {
-                    //Divine Font only allows spells listed in your deity's divine font attribute.
-                    let deity = character.class.deity ? this.characterService.get_Deities(character.class.deity)[0] : null;
-                    spells.push(...allSpells.filter(spell =>
-                        deity?.divineFont.includes(spell.name)
-                    ));
-                } else if (choice.source == "Feat: Esoteric Polymath") {
+                if (choice.source == "Feat: Esoteric Polymath") {
                     //With Impossible Polymath, you can choose spells of any tradition in the Esoteric Polymath choice so long as you are trained in the associated skill.
-                    spells.push(...allSpells.filter(spell => spell.traditions.find(tradition => this.get_EsotericPolymathAllowed(this.spellCasting, tradition)) && !spell.traditions.includes("Focus")));
+                    spells.push(...allSpells.filter(spell => spell.spell.traditions.find(tradition => this.get_EsotericPolymathAllowed(this.spellCasting, tradition)) && !spell.spell.traditions.includes("Focus")));
                 } else if (choice.source == "Feat: Adapted Cantrip") {
                     //With Adapted Cantrip, you can choose spells of any tradition except your own.
-                    spells.push(...allSpells.filter(spell => !spell.traditions.includes(this.spellCasting.tradition) && !spell.traditions.includes("Focus")));
+                    spells.push(...allSpells.filter(spell => !spell.spell.traditions.includes(this.spellCasting.tradition) && !spell.spell.traditions.includes("Focus")));
                 } else if (choice.source.includes("Feat: Adaptive Adept")) {
                     //With Adaptive Adept, you can choose spells of the same tradition(s) as with Adapted Cantrip, but not your own.
                     let adaptedcantrip = this.spellCasting.spellChoices.find(choice => choice.source == "Feat: Adapted Cantrip").spells[0];
                     if (adaptedcantrip) {
                         let originalSpell = this.spellsService.get_Spells(adaptedcantrip.name)[0];
                         if (originalSpell) {
-                            spells.push(...allSpells.filter(spell => !spell.traditions.includes(this.spellCasting.tradition) && spell.traditions.some(tradition => originalSpell.traditions.includes(tradition)) && !spell.traditions.includes("Focus")));
+                            spells.push(...allSpells.filter(spell => !spell.spell.traditions.includes(this.spellCasting.tradition) && spell.spell.traditions.some(tradition => originalSpell.traditions.includes(tradition)) && !spell.spell.traditions.includes("Focus")));
                         }
                     }
                 } else if (choice.crossbloodedEvolution && !(traditionFilter && choice.spells.some(takenSpell => !this.spellsService.get_Spells(takenSpell.name)[0]?.traditions.includes(traditionFilter)))) {
                     //With Crossblooded Evolution, you can choose spells of any tradition, unless you already have one of a different tradition than your own.
-                    spells.push(...allSpells.filter(spell => !spell.traditions.includes("Focus")));
+                    spells.push(...allSpells.filter(spell => !spell.spell.traditions.includes("Focus")));
                 } else if (traditionFilter) {
                     //If the tradition filter comes from the spellcasting, also include all spells that are on the spell list regardless of their tradition.
+                    //For (main class) clerics, include all spells that are on your deity's cleric spell list
+                    let deity = character.class.deity ? this.deitiesService.get_Deities(character.class.deity)[0] : null;
                     if (!choice.tradition && this.spellCasting.tradition) {
                         spells.push(...allSpells.filter(spell =>
                             (
-                                spell.traditions.includes(traditionFilter) ||
-                                this.get_Character().get_SpellListSpell(spell.name).length
+                                spell.spell.traditions.includes(traditionFilter) ||
+                                this.get_Character().get_SpellListSpell(spell.spell.name).length ||
+                                (
+                                    this.spellCasting.source == "Cleric Spellcasting" && (
+                                        deity?.clericSpells.some(clericSpell =>
+                                            clericSpell.name == spell.spell.name &&
+                                            clericSpell.level <= spellLevel
+                                        )
+                                    )
+                                )
                             ) &&
-                            !spell.traditions.includes("Focus")
+                            !spell.spell.traditions.includes("Focus")
                         ));
                     } else {
                         spells.push(...allSpells.filter(spell =>
-                            spell.traditions.includes(traditionFilter) &&
-                            !spell.traditions.includes("Focus")
+                            spell.spell.traditions.includes(traditionFilter) &&
+                            !spell.spell.traditions.includes("Focus")
                         ));
                     }
                 } else {
-                    spells.push(...allSpells.filter(spell => !spell.traditions.includes("Focus")));
+                    spells.push(...allSpells.filter(spell => !spell.spell.traditions.includes("Focus")));
                 }
             }
         } else {
             //If this is an item spell choice, only the choice's tradition is relevant. If it's not set, keep all spells except Focus spells.
             let traditionFilter = choice.tradition || "";
             if (traditionFilter) {
-                spells.push(...allSpells.filter(spell => spell.traditions.includes(traditionFilter) && !spell.traditions.includes("Focus")));
+                spells.push(...allSpells.filter(spell => spell.spell.traditions.includes(traditionFilter) && !spell.spell.traditions.includes("Focus")));
             } else {
-                spells.push(...allSpells.filter(spell => !spell.traditions.includes("Focus")));
+                spells.push(...allSpells.filter(spell => !spell.spell.traditions.includes("Focus")));
             }
         }
         //If a certain target is required, filter out the spells that don't match it.
         switch (choice.target) {
             case "Others":
-                spells = spells.filter(spell => spell.target != "self");
+                spells = spells.filter(spell => spell.spell.target != "self");
                 break;
             case "Allies":
-                spells = spells.filter(spell => spell.target == "ally");
+                spells = spells.filter(spell => spell.spell.target == "ally");
                 break;
             case "Caster":
-                spells = spells.filter(spell => spell.target == "self");
+                spells = spells.filter(spell => spell.spell.target == "self");
                 break;
             case "Enemies":
-                spells = spells.filter(spell => spell.target == "")
+                spells = spells.filter(spell => spell.spell.target == "")
         }
         //If a trait filter is set, keep only spells that match it, with extra handling for "Common".
         if (choice.traitFilter.length) {
@@ -675,38 +696,48 @@ export class SpellchoiceComponent implements OnInit {
             if (choice.traitFilter.includes("Common")) {
                 let traitFilter = choice.traitFilter.filter(trait => trait != "Common");
                 spells = spells.filter(spell =>
-                    !spell.traits.includes("Uncommon") &&
-                    !spell.traits.includes("Rare") &&
+                    !spell.spell.traits.includes("Uncommon") &&
+                    !spell.spell.traits.includes("Rare") &&
                     (
                         traitFilter.length ?
-                            spell.traits.find(trait => traitFilter.includes(trait))
+                            spell.spell.traits.find(trait => traitFilter.includes(trait))
                             : true
                     )
                 );
             } else {
-                spells = spells.filter(spell => spell.traits.find(trait => choice.traitFilter.includes(trait)));
+                spells = spells.filter(spell => spell.spell.traits.find(trait => choice.traitFilter.includes(trait)));
             }
         }
         //If only spells are allowed that target a single creature or object, these are filtered here.
         if (choice.singleTarget) {
-            spells = spells.filter(spell => spell.singleTarget);
+            spells = spells.filter(spell => spell.spell.singleTarget);
         }
-        //If any spells in the choice have become invalid (i.e. they aren't on the list), remove them, unless they are locked. You need to reload the spells area if this happens.
+        //If any spells in the choice have become invalid (i.e. they aren't on the list), remove them, unless they are locked or borrowed. You need to reload the spells area if this happens.
         let spellNumber = choice.spells.length;
-        choice.spells = this.choice.spells.filter(spell => spell.locked || spells.some(availableSpell => availableSpell.name == spell.name))
+        choice.spells = this.choice.spells.filter(spell => spell.locked || spell.borrowed || spells.some(availableSpell => availableSpell.spell.name == spell.name))
         if (choice.spells.length < spellNumber) {
             this.characterService.set_ToChange("Character", "spellbook");
             this.characterService.process_ToChange();
         }
-        //If any locked spells remain that aren't in the list, add them to the list.
-        spells.push(...allSpells.filter(spell => choice.spells.some(existingSpell => existingSpell.locked && existingSpell.name == spell.name) && !spells.some(addedSpell => addedSpell.name == spell.name)));
+        //If any locked or borrowed spells remain that aren't in the list, add them to the list.
+        let librarySpells = this.spellsService.get_Spells();
+        choice.spells.filter(spell =>
+            (spell.locked || spell.borrowed) &&
+            !spells.some(addedSpell =>
+                addedSpell.spell.name == spell.name
+            )).forEach(spell => {
+                spells.push(...librarySpells
+                    .filter(librarySpell =>
+                        librarySpell.name == spell.name
+                    ).map(librarySpell => { return { spell: librarySpell, borrowed: spell.borrowed } }))
+            });
         //If any spells are left after this, we apply secondary, mechanical filters.
         if (spells.length) {
             //Get only Cantrips if the spell level is 0, but keep those already taken.
             if (spellLevel == 0) {
-                spells = spells.filter(spell => spell.traits.includes("Cantrip") || this.get_SpellTakenByThis(spell.name));
+                spells = spells.filter(spell => spell.spell.traits.includes("Cantrip") || this.get_SpellTakenByThis(spell.spell.name));
             } else {
-                spells = spells.filter(spell => !spell.traits.includes("Cantrip") || this.get_SpellTakenByThis(spell.name));
+                spells = spells.filter(spell => !spell.spell.traits.includes("Cantrip") || this.get_SpellTakenByThis(spell.spell.name));
             }
             //Spell combination spell choices have special requirements, but they are also transformed from existing spell choices, so we don't want to change their properties.
             //The requirements that would usually be handled as choice properties are handled on the fly here.
@@ -716,20 +747,20 @@ export class SpellchoiceComponent implements OnInit {
             // - The second spell must have the same method of determining its success as the first - Attack trait, the same saving throw or neither.
             if (choice.spellCombination) {
                 spells = spells.filter(spell =>
-                    (spell.levelreq <= spellLevel - 2) &&
-                    (!this.showHeightened ? spell.levelreq == spellLevel - 2 : true) &&
-                    spell.singleTarget
+                    (spell.spell.levelreq <= spellLevel - 2) &&
+                    (!this.showHeightened ? spell.spell.levelreq == spellLevel - 2 : true) &&
+                    spell.spell.singleTarget
                 )
                 if (choice.spells.length) {
                     if (choice.spells[0].name && choice.spells[0].combinationSpellName) {
-                        let availableSpells: Spell[] = spells.filter(spell =>
-                            this.get_SpellTakenByThis(spell.name)
+                        let availableSpells: { spell: Spell, borrowed: boolean }[] = spells.filter(spell =>
+                            this.get_SpellTakenByThis(spell.spell.name)
                         );
                         return availableSpells.sort(function (a, b) {
-                            if (choice.spells[0].name == a.name) {
+                            if (choice.spells[0].name == a.spell.name) {
                                 return -1;
                             }
-                            if (choice.spells[0].name == b.name) {
+                            if (choice.spells[0].name == b.spell.name) {
                                 return 1;
                             }
                             return 0
@@ -737,21 +768,21 @@ export class SpellchoiceComponent implements OnInit {
                     }
                     let existingSpell = this.get_Spells(choice.spells[0].name)[0];
                     spells = spells.filter(spell =>
-                        (existingSpell.traits.includes("Attack") == spell.traits.includes("Attack")) &&
-                        (existingSpell.savingThrow.includes("Fortitude") == spell.savingThrow.includes("Fortitude")) &&
-                        (existingSpell.savingThrow.includes("Reflex") == spell.savingThrow.includes("Reflex")) &&
-                        (existingSpell.savingThrow.includes("Will") == spell.savingThrow.includes("Will"))
+                        (existingSpell.traits.includes("Attack") == spell.spell.traits.includes("Attack")) &&
+                        (existingSpell.savingThrow.includes("Fortitude") == spell.spell.savingThrow.includes("Fortitude")) &&
+                        (existingSpell.savingThrow.includes("Reflex") == spell.spell.savingThrow.includes("Reflex")) &&
+                        (existingSpell.savingThrow.includes("Will") == spell.spell.savingThrow.includes("Will"))
                     )
                 }
-                let availableSpells: Spell[] = spells.filter(spell =>
-                    this.cannotTake(spell).length == 0 || this.get_SpellTakenByThis(spell.name)
+                let availableSpells: { spell: Spell, borrowed: boolean }[] = spells.filter(spell =>
+                    this.cannotTake(spell.spell).length == 0 || this.get_SpellTakenByThis(spell.spell.name)
                 )
                 return availableSpells
                     .sort(function (a, b) {
-                        if (a.name > b.name) {
+                        if (a.spell.name > b.spell.name) {
                             return 1;
                         }
-                        if (a.name < b.name) {
+                        if (a.spell.name < b.spell.name) {
                             return -1;
                         }
                         return 0
@@ -759,35 +790,35 @@ export class SpellchoiceComponent implements OnInit {
             }
             //Don't show spells of a different level unless heightened spells are allowed. Never show spells of a different level if this is a level 0 choice.
             if (!this.showHeightened && (spellLevel > 0)) {
-                spells = spells.filter(spell => spell.levelreq == spellLevel || this.get_SpellTakenByThis(spell.name));
+                spells = spells.filter(spell => spell.spell.levelreq == spellLevel || this.get_SpellTakenByThis(spell.spell.name));
             } else if (spellLevel > 0) {
                 //Still don't show higher level non-cantrip spells even if heightened spells are allowed.
-                spells = spells.filter(spell => spell.levelreq <= spellLevel || this.get_SpellTakenByThis(spell.name));
+                spells = spells.filter(spell => spell.spell.levelreq <= spellLevel || this.get_SpellTakenByThis(spell.spell.name));
             }
             //Finally, if there are fewer spells selected than available, show all spells that individually match the requirements or that are already selected.
             // If the available spells are exhausted, only show the selected ones unless showOtherOptions is true.
             if (choice.spells.length < this.get_Available()) {
                 return spells
                     .sort(function (a, b) {
-                        if (a.name > b.name) {
+                        if (a.spell.name > b.spell.name) {
                             return 1;
                         }
-                        if (a.name < b.name) {
+                        if (a.spell.name < b.spell.name) {
                             return -1;
                         }
                         return 0
                     });
             } else {
                 let showOtherOptions = this.get_Character().settings.showOtherOptions;
-                let availableSpells: Spell[] = spells.filter(spell =>
-                    this.get_SpellTakenByThis(spell.name) || showOtherOptions
+                let availableSpells: { spell: Spell, borrowed: boolean }[] = spells.filter(spell =>
+                    this.get_SpellTakenByThis(spell.spell.name) || showOtherOptions
                 )
                 return availableSpells
                     .sort(function (a, b) {
-                        if (a.name > b.name) {
+                        if (a.spell.name > b.spell.name) {
                             return 1;
                         }
-                        if (a.name < b.name) {
+                        if (a.spell.name < b.spell.name) {
                             return -1;
                         }
                         return 0
@@ -796,9 +827,9 @@ export class SpellchoiceComponent implements OnInit {
         }
     }
 
-    cleanup_ChoiceSpells(spellList: Spell[], choice: SpellChoice) {
+    cleanup_ChoiceSpells(spellList: { spell: Spell, borrowed: boolean }[], choice: SpellChoice) {
         choice.spells.forEach(gain => {
-            if (!spellList?.map(spell => spell.name)?.includes(gain.name)) {
+            if (!spellList?.map(spell => spell.spell.name)?.includes(gain.name)) {
                 if (!gain.locked) {
                     this.get_Character().take_Spell(this.characterService, gain.name, false, choice, gain.locked);
                 }
@@ -831,14 +862,14 @@ export class SpellchoiceComponent implements OnInit {
         if (choice.dynamicLevel) {
             spellLevel = this.get_DynamicLevel(choice);
         }
-        let reasons: {reason: string, explain: string}[] = [];
+        let reasons: { reason: string, explain: string }[] = [];
         //Are the basic requirements (so far just level) not met?
         if (!spell.canChoose(this.characterService, spellLevel)) {
-            reasons.push({reason: "Requirements unmet", "explain": "The requirements are not met."});
+            reasons.push({ reason: "Requirements unmet", "explain": "The requirements are not met." });
         }
         //Has it already been taken at this level by this class, and was that not by this SpellChoice? (Only for spontaneous spellcasters.)
         if (this.get_SpellTakenThisLevel(spell, spellLevel) && !takenByThis) {
-            reasons.push({reason: "Already taken", explain: "You already have this spell on this level with this class."});
+            reasons.push({ reason: "Already taken", explain: "You already have this spell on this level with this class." });
         }
         return reasons;
     }
@@ -877,13 +908,13 @@ export class SpellchoiceComponent implements OnInit {
         return this.choice.spells.filter(takenSpell => takenSpell.locked && takenSpell.name == spellName).length;
     }
 
-    on_SpellTaken(spellName: string, taken: boolean, locked: boolean) {
+    on_SpellTaken(spellName: string, taken: boolean, locked: boolean, borrowed: boolean = false) {
         let choice = this.choice;
         //Close the menu if all slots are filled, unless it's a spell combination choice.
         if (taken && this.get_Character().settings.autoCloseChoices && !choice.spellCombination && (choice.spells.length == this.get_Available() - 1)) { this.toggle_Choice("") }
         let prepared: boolean = this.prepared;
         let character = this.get_Character();
-        character.take_Spell(this.characterService, spellName, taken, choice, locked, prepared);
+        character.take_Spell(this.characterService, spellName, taken, choice, locked, prepared, borrowed);
         //For the Esoteric Polymath feat and the Arcane Evolution feat, if you choose a spell that is in your repertoire (i.e. if other spell choices have this spell in it),
         // the choice is turned into a signature spell choice. If you drop the spell, turn signature spell off.
         if (["Feat: Esoteric Polymath", "Feat: Arcane Evolution"].includes(choice.source)) {

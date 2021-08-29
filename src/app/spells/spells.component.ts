@@ -126,11 +126,11 @@ export class SpellsComponent implements OnInit {
 
     get_HasSpellChoices() {
         let character = this.get_Character();
-        return character.class?.spellCasting.some(casting => casting.spellChoices.some(choice => choice.available && choice.charLevelAvailable <= character.level));
+        return character.class?.spellCasting.some(casting => casting.spellChoices.some(choice => (choice.available || choice.dynamicAvailable) && choice.charLevelAvailable <= character.level));
     }
 
     get_NeedSpellbook(casting: SpellCasting) {
-        return casting.castingType == "Prepared" && casting.className == "Wizard";
+        return (casting.castingType == "Prepared" && casting.className == "Wizard") || casting.spellChoices.some(choice => choice.spellBookOnly);
     }
 
     apply_SpellSubstitution(casting: SpellCasting) {

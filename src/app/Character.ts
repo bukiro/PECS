@@ -682,9 +682,9 @@ export class Character extends Creature {
             })
         return spellsGranted;
     }
-    take_Spell(characterService: CharacterService, spellName: string, taken: boolean, choice: SpellChoice, locked: boolean, prepared: boolean = false) {
+    take_Spell(characterService: CharacterService, spellName: string, taken: boolean, choice: SpellChoice, locked: boolean, prepared: boolean = false, borrowed: boolean = false) {
         if (taken) {
-            choice.spells.push(Object.assign(new SpellGain(), { name: spellName, locked: locked, sourceId: choice.id, source: choice.source, cooldown: choice.cooldown, frequency: choice.frequency, prepared: prepared }));
+            choice.spells.push(Object.assign(new SpellGain(), { name: spellName, locked: locked, sourceId: choice.id, source: choice.source, cooldown: choice.cooldown, frequency: choice.frequency, prepared: prepared, borrowed: borrowed }));
         } else {
             let oldChoice = choice.spells.find(gain => gain.name == spellName);
             choice.spells.splice(choice.spells.indexOf(oldChoice), 1);

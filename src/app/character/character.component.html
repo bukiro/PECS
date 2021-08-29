@@ -1970,11 +1970,11 @@
                                     </ng-container>
                                     <div class="newrow left-aligned gap-text" *ngIf="deity.edicts">
                                         <strong>Edicts</strong>
-                                        {{deity.edicts}}
+                                        {{deity.edicts.join(", ")}}
                                     </div>
                                     <div class="newrow left-aligned gap-text" *ngIf="deity.anathema">
                                         <strong>Anathema</strong>
-                                        {{deity.anathema}}
+                                        {{deity.anathema.join(", ")}}
                                     </div>
                                     <div class="newrow left-aligned gap-text" *ngIf="deity.areasOfConcern">
                                         <strong>Areas of Concern</strong>
