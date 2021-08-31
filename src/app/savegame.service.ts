@@ -336,6 +336,7 @@ export class SavegameService {
 
             //Clerics before 1.0.5 need to change many things as the class was reworked:
             //Remove the locked Divine Font feature and the related spellchoice, then add a featchoice to choose the right one.
+            //Add a feat choice for Divine Skill.
             //Remove any chosen doctrine because doctrines were blank before 1.0.5 and need to be re-selected.
             //Add the Favored Weapon proficiency on level 1.
             //Remove the Focus Spellcasting that was granted by the class object.
@@ -359,12 +360,25 @@ export class SavegameService {
                 if (character.class.levels[1]?.featChoices && !character.class.levels[1]?.featChoices?.some(choice => choice.id == "1-Divine Font-Cleric-1")) {
                     let newChoice = new FeatChoice();
                     newChoice.available = 1;
+                    newChoice.filter = ["Divine Font"];
                     newChoice.source = "Cleric";
                     newChoice.specialChoice = true;
                     newChoice.autoSelectIfPossible = true;
                     newChoice.type = "Divine Font";
                     newChoice.id = "1-Divine Font-Cleric-1";
                     character.class.levels[1].featChoices.splice(2, 0, newChoice);
+                }
+                //If it doesn't exist, add a new feat choice for the Divine Skill at the fourth position, so it matches the position in the class object for merging.
+                if (character.class.levels[1]?.featChoices && !character.class.levels[1]?.featChoices?.some(choice => choice.id == "1-Divine Skill-Cleric-1")) {
+                    let newChoice = new FeatChoice();
+                    newChoice.available = 1;
+                    newChoice.filter = ["Divine Skill"];
+                    newChoice.source = "Cleric";
+                    newChoice.specialChoice = true;
+                    newChoice.autoSelectIfPossible = true;
+                    newChoice.type = "Divine Skill";
+                    newChoice.id = "1-Divine Skill-Cleric-1";
+                    character.class.levels[1].featChoices.splice(3, 0, newChoice);
                 }
                 //If it doesn't exist add a skill gain for the Favored Weapon at the eighth position of the first skill choice of level 1, so it matches the class object for merging.
                 if (character.class.levels[1]?.skillChoices && !character.class.levels[1]?.skillChoices?.find(choice => choice.id == "1-Any-Class-0").increases.some(increase => increase.name == "Favored Weapon")) {

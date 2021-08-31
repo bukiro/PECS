@@ -2252,6 +2252,7 @@ export class CharacterService {
     get_FeatsShowingOn(objectName: string = "all") {
         return this.get_FeatsAndFeatures().filter(feat =>
             feat.hints.find(hint =>
+                (hint.minLevel ? this.get_Character().level >= hint.minLevel : true) &&
                 hint.showon?.split(",").find(showon =>
                     objectName.toLowerCase() == "all" ||
                     showon.trim().toLowerCase() == objectName.toLowerCase() ||
@@ -2275,6 +2276,7 @@ export class CharacterService {
                     .filter(ancestry =>
                         ancestry.hints
                             .find(hint =>
+                                (hint.minLevel ? this.get_Character().level >= hint.minLevel : true) &&
                                 hint.showon?.split(",")
                                     .find(showon =>
                                         objectName == "all" ||
@@ -2288,6 +2290,7 @@ export class CharacterService {
                     .filter(spec =>
                         spec.hints
                             .find(hint =>
+                                (hint.minLevel ? this.get_Character().level >= hint.minLevel : true) &&
                                 hint.showon?.split(",")
                                     .find(showon =>
                                         objectName == "all" ||
@@ -2306,6 +2309,7 @@ export class CharacterService {
         //Get showon elements from Familiar Abilities
         return this.familiarsService.get_FamiliarAbilities().filter(feat =>
             feat.hints.find(hint =>
+                (hint.minLevel ? this.get_Character().level >= hint.minLevel : true) &&
                 hint.showon?.split(",").find(showon =>
                     objectName.toLowerCase() == "all" ||
                     showon.trim().toLowerCase() == objectName.toLowerCase() ||
@@ -2328,6 +2332,7 @@ export class CharacterService {
             .map(conditionGain => { return Object.assign(new ConditionSet, { gain: conditionGain, condition: this.get_Conditions(conditionGain.name)[0] }) })
             .filter(conditionSet =>
                 conditionSet.condition?.hints.find(hint =>
+                    (hint.minLevel ? this.get_Character().level >= hint.minLevel : true) &&
                     hint.showon?.split(",").find(showon =>
                         objectName.trim().toLowerCase() == "all" ||
                         showon.trim().toLowerCase() == objectName.toLowerCase() ||

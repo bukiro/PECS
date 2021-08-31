@@ -41,11 +41,16 @@ export class HintComponent implements OnInit {
         return this.characterService.get_Character().settings.hintsShowMoreInformation;
     }
 
+    get_CharacterLevel() {
+        return this.characterService.get_Character().level;
+    }
+
     get_Hints() {
         let isConditionSet = this.object instanceof ConditionSet;
         let isAeonStone = this.object instanceof WornItem && this.object.isAeonStone;
         return (isConditionSet ? this.object.condition.hints : this.object.hints)
             .filter((hint: Hint) =>
+                (hint.minLevel ? this.get_CharacterLevel() >= hint.minLevel : true) &&
                 (
                     isConditionSet ?
                         (

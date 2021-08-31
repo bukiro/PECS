@@ -5732,6 +5732,18 @@
                     {
                         "_className": "FeatChoice",
                         "available": 1,
+                        "filter": [
+                            "Divine Skill"
+                        ],
+                        "id": "1-Divine Skill-Cleric-1",
+                        "source": "Cleric",
+                        "autoSelectIfPossible": true,
+                        "specialChoice": true,
+                        "type": "Divine Skill"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
                         "id": "1-Ancestry-Class-3",
                         "source": "Class",
                         "type": "Ancestry"

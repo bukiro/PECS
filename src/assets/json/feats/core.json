@@ -10339,6 +10339,7 @@
         "gainSpellChoice": [
             {
                 "_className": "SpellChoice",
+                "alwaysShowHeightened": true,
                 "available": 1,
                 "dynamicAvailable": "1 + Modifier('Charisma')",
                 "castingType": "Prepared",
@@ -10363,6 +10364,7 @@
         "gainSpellChoice": [
             {
                 "_className": "SpellChoice",
+                "alwaysShowHeightened": true,
                 "available": 1,
                 "dynamicAvailable": "1 + Modifier('Charisma')",
                 "castingType": "Prepared",
@@ -10380,6 +10382,13 @@
     {
         "name": "Cloistered Cleric",
         "desc": "You are a cleric of the cloth, focusing on divine magic and your connection to your deity's domains.\n\n<strong>First Doctrine (1st):</strong> You gain the Domain Initiate cleric feat.\n<strong>Second Doctrine (3rd):</strong> Your proficiency rank for Fortitude saves increases to expert.\n<strong>Third Doctrine (7th):</strong> Your proficiency ranks for divine spell attack rolls and spell DCs increase to expert.\n<strong>Fourth Doctrine (11th):</strong> You gain expert proficiency with your deity's favored weapon. When you critically succeed at an attack roll using that weapon, you apply the weapon's critical specialization effect; use your divine spell DC if necessary.\n<strong>Fifth Doctrine (15th):</strong> Your proficiency ranks for divine spell attack rolls and spell DCs increase to master.\n<strong>Final Doctrine (19th):</strong> Your proficiency ranks for divine spell attack rolls and spell DCs increase to legendary.",
+        "hints": [
+            {
+                "desc": "When you apply the critical specialization effect of your deity's favored weapon, use your divine spell DC if necessary.",
+                "showon": "Favored Weapon",
+                "minLevel": 11
+            }
+        ],
         "shortdesc": "You are a cleric of the cloth, focusing on divine magic and your connection to your deity's domains.",
         "gainSpecialization": [
             {
@@ -10480,6 +10489,18 @@
     {
         "name": "Warpriest",
         "desc": "You have trained in the more militant doctrine of your church, focusing on both spells and battle.\n\n<strong>First Doctrine (1st):</strong> You're trained in light and medium armor, and you have expert proficiency in Fortitude saves. You gain the Shield Block general feat, a reaction to reduce damage with a shield. If your deity's weapon is simple, you gain the Deadly Simplicity cleric feat. At 13th level, if you gain the divine defense class feature, you also gain expert proficiency in light and medium armor.\n<strong>Second Doctrine (3rd):</strong> You're trained in martial weapons.\n<strong>Third Doctrine (7th):</strong> You gain expert proficiency with your deity's favored weapon. When you critically succeed at an attack roll using that weapon, you apply the weapon's critical specialization effect; use your divine spell DC if necessary.\n<strong>Fourth Doctrine (11th):</strong> Your proficiency ranks for divine spell attack rolls and spell DCs increase to expert.\n<strong>Fifth Doctrine (15th):</strong> Your proficiency rank for Fortitude saves increases to master. When you roll a success at a Fortitude save, you get a critical success instead.\n<strong>Final Doctrine (19th):</strong> Your proficiency ranks for divine spell attack rolls and spell DCs increase to master.",
+        "hints": [
+            {
+                "desc": "When you apply the critical specialization effect of your deity's favored weapon, use your divine spell DC if necessary.",
+                "showon": "Favored Weapon",
+                "minLevel": 7
+            },
+            {
+                "desc": "When you roll a success at a Fortitude save, you get a critical success instead.",
+                "showon": "Fortitude",
+                "minLevel": 15
+            }
+        ],
         "gainSpecialization": [
             {
                 "favoredWeapon": true,

@@ -13,6 +13,7 @@ export class Hint {
         "active5"
     ];
     public desc: string = "";
+    public minLevel: number = 0;
     public heightenedDescs: HeightenedDescSet[] = [];
     public showon: string = "";
     public effects: EffectGain[] = [];

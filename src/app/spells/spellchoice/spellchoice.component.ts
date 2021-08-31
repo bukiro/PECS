@@ -748,7 +748,7 @@ export class SpellchoiceComponent implements OnInit {
             if (choice.spellCombination) {
                 spells = spells.filter(spell =>
                     (spell.spell.levelreq <= spellLevel - 2) &&
-                    (!this.showHeightened ? spell.spell.levelreq == spellLevel - 2 : true) &&
+                    (!(this.showHeightened || choice.alwaysShowHeightened) ? spell.spell.levelreq == spellLevel - 2 : true) &&
                     spell.spell.singleTarget
                 )
                 if (choice.spells.length) {
@@ -789,7 +789,7 @@ export class SpellchoiceComponent implements OnInit {
                     });
             }
             //Don't show spells of a different level unless heightened spells are allowed. Never show spells of a different level if this is a level 0 choice.
-            if (!this.showHeightened && (spellLevel > 0)) {
+            if (!(this.showHeightened || choice.alwaysShowHeightened) && (spellLevel > 0)) {
                 spells = spells.filter(spell => spell.spell.levelreq == spellLevel || this.get_SpellTakenByThis(spell.spell.name));
             } else if (spellLevel > 0) {
                 //Still don't show higher level non-cantrip spells even if heightened spells are allowed.

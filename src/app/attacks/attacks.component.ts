@@ -345,10 +345,15 @@ export class AttacksComponent implements OnInit {
 
     get_SpecialShowon(weapon: Weapon, range: string) {
         //Under certain circumstances, some Feats apply to Weapons independently of their name.
-        //Return names that get_FeatsShowingOn should run on
+        //Return names that get_FeatsShowingOn should run on.
         let specialNames: string[] = []
+        //Monks with Monastic Weaponry can apply Unarmed effects to Monk weapons.
         if (weapon.traits.includes("Monk") && this.characterService.get_Feats("Monastic Weaponry")[0].have(this.get_Creature(), this.characterService)) {
             specialNames.push("Unarmed Attacks");
+        }
+        //Deity's favored weapons get tagged as "Favored Weapon".
+        if (weapon.get_IsFavoredWeapon(this.get_Character(), this.characterService)) {
+            specialNames.push("Favored Weapon");
         }
         let creature = this.get_Creature();
         specialNames.push(weapon.get_Proficiency(creature, this.characterService, creature.level));

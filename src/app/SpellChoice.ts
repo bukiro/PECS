@@ -16,6 +16,7 @@ export class SpellChoice {
     public dynamicAvailable: string = "";
     //className is used to identify the proper SpellCasting to sort this into
     //If "", the main class is used.
+    public alwaysShowHeightened: boolean = false;
     public className: string = "";
     public cooldown: number = 0;
     public frequency: string = "";

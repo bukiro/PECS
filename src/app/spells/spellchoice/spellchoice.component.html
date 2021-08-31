@@ -53,7 +53,7 @@
                             *ngIf="showContent && get_ShowChoice()==listID">
                             <div class="list-item lower">
                                 <!-- Heightened -->
-                                <div class="list-item gridicon-fullsizebox" *ngIf="spellbook && choice.level != 0">
+                                <div class="list-item gridicon-fullsizebox" *ngIf="spellbook && choice.level != 0 && !choice.alwaysShowHeightened">
                                     <input class="character-choice" id="{{choice.id}}showHeightened" type="checkbox"
                                         [(ngModel)]="showHeightened">
                                     <label for="{{choice.id}}showHeightened">
@@ -336,7 +336,7 @@
                                         No available spell matches the requirements of this spell choice, or no spells
                                         are available.
                                     </span>
-                                    <span *ngIf="!showHeightened">
+                                    <span *ngIf="!showHeightened && !choice.alwaysShowHeightened">
                                         More spells may be found if you show heightened spells.
                                     </span>
                                 </div>
