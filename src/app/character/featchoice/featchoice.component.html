@@ -1,7 +1,7 @@
 <ng-container *ngFor="let listID of [choice.source+choice.id]; trackBy:trackByIndex">
     <ng-container *ngFor="let availableFeats of [get_Available(choice)]; trackBy:trackByIndex">
         <ng-container *ngFor="let buttonTitle of [get_ButtonTitle(availableFeats)]; trackBy:trackByIndex">
-            <div *ngIf="availableFeats > 0" class="featchoice-container"
+            <div *ngIf="availableFeats > 0 && !get_HideChoice(choice, availableFeats)" class="featchoice-container"
                 [ngClass]="{'list-item': showTitle && !get_TileMode(), 'vlist': !showTitle, 'problem':(cannotTakeSome(choice) || choice.feats.length > availableFeats), 'fullsize-only':(availableFeats == choice.feats.length)}">
                 <!--Choice button shows in title mode-->
                 <!--List mode button-->
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                     <!-- End Filter -->
-                    <ng-container *ngFor="let featSets of [get_AvailableFeats(choice)]; trackBy:trackByIndex">
+                    <ng-container *ngFor="let featSets of [get_AvailableFeats(choice, availableFeats)]; trackBy:trackByIndex">
                         <div class="list-item" *ngIf="get_AvailableFeatsCount(featSets) < availableFeats">
                             <span>There are fewer results available than you are allowed to take. This may be due to a
                                 choice with limited options, and it might be intended at this time.</span>

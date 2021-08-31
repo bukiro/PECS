@@ -20,6 +20,7 @@ import { ConditionsService } from '../conditions.service';
 import { ConditionGain } from '../ConditionGain';
 import { WeaponMaterial } from '../WeaponMaterial';
 import { Hint } from '../Hint';
+import { DeitiesService } from '../deities.service';
 
 @Component({
     selector: 'app-attacks',
@@ -42,6 +43,7 @@ export class AttacksComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private traitsService: TraitsService,
+        private deitiesService: DeitiesService,
         public characterService: CharacterService,
         public effectsService: EffectsService,
         public conditionsService: ConditionsService
@@ -532,6 +534,17 @@ export class AttacksComponent implements OnInit {
             this.characterService.add_Condition(creature, newCondition, false);
         }
         this.characterService.process_ToChange();
+    }
+
+    get_FavoredWeapons() {
+        let creature = this.get_Creature();
+        if (creature instanceof Character && creature.class?.deity && creature.class.deityFocused) {
+            let deity = this.deitiesService.get_Deities(creature.class.deity)[0];
+            if (deity && deity.favoredWeapon.length) {
+                return [deity.favoredWeapon];
+            }
+        }
+        return [];
     }
 
     finish_Loading() {

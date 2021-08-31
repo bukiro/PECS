@@ -554,7 +554,7 @@ export class Character extends Creature {
                         ) &&
                         (feat.source.toLowerCase() == source.toLowerCase() || source == "") &&
                         (feat.sourceId == sourceId || sourceId == "") &&
-                        (feat.locked == locked || locked == undefined)
+                        (feat.locked == locked || locked == undefined || (locked && choice.autoSelectIfPossible))
                     ).forEach(feat => {
                         featsTaken.push(feat);
                     })

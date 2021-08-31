@@ -17,5 +17,6 @@ export class Deity {
     public divineSkill: string[] = [];
     public favoredWeapon: string[] = [];
     public domains: string[] = [];
+    public alternateDomains: string[] = [];
     public clericSpells: SpellCast[] = [];
 }

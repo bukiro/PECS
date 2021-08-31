@@ -16,6 +16,10 @@ export class FeatChoice {
     //If showOnSheet is set, this choice is intended to be made on the character sheet instead of while building the character.
     // This is relevant for features like Combat Flexibility.
     public showOnSheet: boolean = false;
+    //If autoSelectIfPossible is set, and there are exactly as many feats available as can be taken, those feats are automatically taken.
+    // The choice is only ever displayed if there are more feats available than there are allowed to take.
+    // Should be used sparingly and only in combination with a filter to save processing power.
+    public autoSelectIfPossible: boolean = false;
     //If showOnCurrentLevel is set, this choice is always shown at the current character level. This allows it to use the current level for all its requirements.
     // This is relevant for feats like Raging Intimidation.
     public showOnCurrentLevel: boolean = false;

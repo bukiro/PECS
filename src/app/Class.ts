@@ -24,7 +24,7 @@ export class Class {
     public activities: ActivityGain[] = [];
     public ancestry: Ancestry = new Ancestry();
     public anathema: string[] = [];
-    public limitDeities: boolean = false;
+    public deityFocused: boolean = false;
     public showDeityEdicts: boolean = false;
     public showDeityAnathema: boolean = false;
     public animalCompanion: AnimalCompanion = new AnimalCompanion();

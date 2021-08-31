@@ -334,8 +334,11 @@ export class SavegameService {
                 })
             }
 
-            //Clerics before 1.0.5 need to change how they get the Divine Font: Remove the locked feat and the spellchoice, then add a featchoice.
-            //They also need to remove any chosen doctrine because doctrines were blank before 1.0.5 and need to be re-selected.
+            //Clerics before 1.0.5 need to change many things as the class was reworked:
+            //Remove the locked Divine Font feature and the related spellchoice, then add a featchoice to choose the right one.
+            //Remove any chosen doctrine because doctrines were blank before 1.0.5 and need to be re-selected.
+            //Add the Favored Weapon proficiency on level 1.
+            //Remove the Focus Spellcasting that was granted by the class object.
             if (character.class?.name == "Cleric" && character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 5) {
                 //Remove Divine Font from the initial feats, if it exists.
                 let divineFontfeatChoice = character.class.levels?.[1]?.featChoices?.find(choice => choice.id == "1-Feature-Cleric-0") || null;
@@ -353,16 +356,37 @@ export class SavegameService {
                     spellCasting.spellChoices = spellCasting.spellChoices.filter(choice => choice.id != "8b5e3ea0-6116-4d7e-8197-a6cb787a5788");
                 }
                 //If it doesn't exist, add a new feat choice for the Divine Font at the third position, so it matches the position in the class object for merging.
-                if (!character.class.levels[1].featChoices.some(choice => choice.id == "1-Divine Font-Cleric-1")) {
+                if (character.class.levels[1]?.featChoices && !character.class.levels[1]?.featChoices?.some(choice => choice.id == "1-Divine Font-Cleric-1")) {
                     let newChoice = new FeatChoice();
                     newChoice.available = 1;
                     newChoice.source = "Cleric";
                     newChoice.specialChoice = true;
+                    newChoice.autoSelectIfPossible = true;
                     newChoice.type = "Divine Font";
                     newChoice.id = "1-Divine Font-Cleric-1";
                     character.class.levels[1].featChoices.splice(2, 0, newChoice);
                 }
-
+                //If it doesn't exist add a skill gain for the Favored Weapon at the eighth position of the first skill choice of level 1, so it matches the class object for merging.
+                if (character.class.levels[1]?.skillChoices && !character.class.levels[1]?.skillChoices?.find(choice => choice.id == "1-Any-Class-0").increases.some(increase => increase.name == "Favored Weapon")) {
+                    character.class.levels[1].skillChoices.find(choice => choice.id == "1-Any-Class-0").increases.splice(7, 0, { "name": "Favored Weapon", "source": "Class", "maxRank": 2, "locked": true, "sourceId": "1-Any-Class-0" });
+                }
+                //Add the custom Favored Weapon skill if needed, both to the class and the character.
+                if (character.class.customSkills && !character.class.customSkills.some(skill => skill.name == "Favored Weapon")) {
+                    let newSkill = new Skill(undefined, "Favored Weapon", "Specific Weapon Proficiency");
+                    if (character.class.customSkills.length > 1) {
+                        character.class.customSkills.splice(1, 0, newSkill);
+                    } else {
+                        character.class.customSkills.push(newSkill);
+                    }
+                }
+                if (character.customSkills && !character.customSkills.some(skill => skill.name == "Favored Weapon")) {
+                    let newSkill = new Skill(undefined, "Favored Weapon", "Specific Weapon Proficiency");
+                    character.customSkills.push(newSkill);
+                }
+                //Remove the deprecated Focus Spell spellcasting that came with the class object.
+                if (character.class.spellCasting) {
+                    character.class.spellCasting = character.class.spellCasting.filter(spellCasting => !(spellCasting.source == "Domain Spells" && spellCasting.charLevelAvailable == 0));
+                }
             }
 
         }
@@ -430,6 +454,7 @@ export class SavegameService {
             }
 
             //Characters before version 1.0.5 need to update certain spell choices to have a dynamicAvailable value.
+            //They also need to add hideIfNoneAvailable to certain featChoices.
             if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 5) {
                 character.class.spellCasting.forEach(casting => {
                     casting.spellChoices.forEach(choice => {
@@ -450,6 +475,11 @@ export class SavegameService {
                         ) {
                             choice.dynamicAvailable = "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)"
                         }
+                    })
+                })
+                character.class.levels.forEach(level => {
+                    level.featChoices.filter(choice => ["Feat: Raging Intimidation", "Feat: Instinct Ability"].includes(choice.source) || choice.filter?.[0] == "Divine Skill").forEach(choice => {
+                        choice.autoSelectIfPossible = true;
                     })
                 })
             }

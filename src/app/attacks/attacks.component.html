@@ -386,5 +386,9 @@
         <ng-container *ngFor="let skill of get_Skills('', 'Specific Weapon Proficiency'); trackBy:trackByIndex;">
             <app-skill class="fullsize-only" [creature]="creature" [skill]=skill [showValue]=false></app-skill>
         </ng-container>
+        <div class="list-item newrow" *ngFor="let favoredWeapons of get_FavoredWeapons(); trackBy:trackByIndex;">
+            <strong>Favored Weapon</strong>
+            {{favoredWeapons.join(" or ")}}
+        </div>
     </ng-container>
 </div>

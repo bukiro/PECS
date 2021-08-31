@@ -381,6 +381,7 @@
          "Unarmed"
       ],
       "displayName": "Claw",
+      "weaponBase": "Claw",
       "moddable": false,
       "_className": "Weapon",
       "dicesize": 4,
@@ -418,6 +419,7 @@
          "Unarmed"
       ],
       "displayName": "Tail",
+      "weaponBase": "Tail",
       "moddable": false,
       "_className": "Weapon",
       "dicesize": 6,
@@ -436,6 +438,7 @@
          "Unarmed"
       ],
       "displayName": "Jaws",
+      "weaponBase": "Jaws",
       "moddable": false,
       "_className": "Weapon",
       "dicesize": 4,
@@ -455,6 +458,7 @@
          "Unarmed"
       ],
       "displayName": "Tail",
+      "weaponBase": "Tail",
       "moddable": false,
       "_className": "Weapon",
       "dicesize": 6,
@@ -474,6 +478,7 @@
          "Unarmed"
       ],
       "displayName": "Jaws",
+      "weaponBase": "Jaws",
       "moddable": false,
       "_className": "Weapon",
       "dicesize": 6,
@@ -5095,7 +5100,7 @@
          "Reach 15 feet",
          "Unarmed"
       ],
-      "displayName": "Claws",
+      "displayName": "Foot",
       "weaponBase": "Nature Incarnate Attacks",
       "moddable": false,
       "_className": "Weapon",
@@ -5415,6 +5420,7 @@
          "Unarmed"
       ],
       "displayName": "Jaws",
+      "weaponBase": "Jaws",
       "moddable": false,
       "_className": "Weapon",
       "dicenum": 1,

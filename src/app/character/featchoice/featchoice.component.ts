@@ -261,9 +261,8 @@ export class FeatchoiceComponent implements OnInit {
         return featLevel;
     }
 
-    get_AvailableFeats(choice: FeatChoice) {
+    get_AvailableFeats(choice: FeatChoice, available: number) {
         let character = this.get_Character()
-        let available = this.get_Available(choice);
         //Get all feats, but no subtype Feats (those that have the supertype attribute set) - those get built within their supertype
         let allFeats: Feat[] = this.get_Feats().filter(feat => !feat.superType && !feat.hide);
         //Get subfeats for later use
@@ -391,6 +390,50 @@ export class FeatchoiceComponent implements OnInit {
             }
         });
         return anytrue;
+    }
+
+    mustTakeSome(choice: FeatChoice, available: number) {
+        this.cannotTakeSome(choice);
+        //If autoSelectIfPossible is true, check if there are more feats available as can be taken. If so, automatically take all feats that can be taken.
+        let availableFeats = this.get_AvailableFeats(choice, available);
+        let availableFeatsNotTaken: { available: boolean, feat: Feat }[] = [];
+        //Collect all available feats that haven't been taken. If a feat has subfeats, collect its subfeats that haven't been taken instead.
+        //This collection includes subfeats that exclude each other, in order to determine if the choice could be changed, and the choice should not be hidden.
+        availableFeats.filter(featSet => featSet.available).forEach(featSet => {
+            if (featSet.available) {
+                if (!featSet.feat.subTypes && !this.get_FeatTakenByChoice(featSet.feat, choice)) {
+                    availableFeatsNotTaken.push(featSet);
+                } else if (featSet.feat.subTypes) {
+                    this.get_SubFeats(featSet.feat, choice).forEach(subFeatSet => {
+                        //Re-evaluate whether this subfeat should count, because the available value considers whether another subfeat has already been taken,
+                        // and we want to know if it would have been a valid choice in the first place.
+                        let canTake = this.cannotTake(subFeatSet.subfeat, choice).filter(cannotTake => cannotTake.reason != "Feat already taken").length == 0;
+                        if (canTake && !this.get_FeatTakenByChoice(subFeatSet.subfeat, choice)) {
+                            availableFeatsNotTaken.push({ available: subFeatSet.available, feat: subFeatSet.subfeat });
+                        }
+                    })
+                }
+            }
+        })
+        //Only consider available feats that can actually be taken, and see if those are fewer or as many as the currently allowed number of feats. If so, take all of them.
+        let featsToTake = availableFeatsNotTaken.filter(featSet => featSet.available);
+        if (featsToTake.length && featsToTake.length <= (available - choice.feats.length)) {
+            featsToTake.forEach(featSet => {
+                this.get_Character().take_Feat(this.get_Creature(), this.characterService, featSet.feat, featSet.feat.name, true, choice, false);
+            })
+            this.characterService.process_ToChange();
+        }
+        //If all available feats have been taken, and no alternative choices remain, the choice will not be displayed.
+        return !availableFeatsNotTaken.filter(featSet => !this.get_FeatTakenByChoice(featSet.feat, choice)).length;
+    }
+
+    get_HideChoice(choice: FeatChoice, available: number) {
+        if (choice.autoSelectIfPossible) {
+            //If autoSelectIfPossible is true, feats are selected and deselected at this point. The choice will only be displayed if there are more options available than the number that is allowed to take.
+            return this.mustTakeSome(choice, available);
+        } else {
+            return false;
+        }
     }
 
     create_IgnoreRequirementList(feat: Feat, choice: FeatChoice) {

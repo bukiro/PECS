@@ -304,6 +304,9 @@ export class Weapon extends Equipment {
         levels.push(characterService.get_Skills(creature, prof)[0]?.level(creature, characterService, charLevel) || 0);
         //Any traits, e.g. Monk.
         levels.push(...this.traits.map(trait => (characterService.get_Skills(creature, trait)[0] || new Skill("", trait, "Specific Weapon Proficiency")).level(creature, characterService, charLevel) || 0))
+        //Favored Weapon
+        let favoredWeaponSkill: Skill = new Skill("", this.name, "Favored Weapon");
+        levels.push(this.get_IsFavoredWeapon(creature, characterService) ? (characterService.get_Skills(creature, "Favored Weapon")[0] || favoredWeaponSkill).level(creature, characterService, charLevel) : 0);
         //Get the skill level by applying the result with the most increases, but no higher than 8.
         skillLevel = Math.min(Math.max(...levels.filter(level => level != undefined)), 8);
         //If you have an Ancestral Echoing rune on this weapon, you get to raise the item's proficiency by one level, up to the highest proficiency you have.
@@ -533,6 +536,12 @@ export class Weapon extends Equipment {
         extraDamage = extraDamage.split("-").map(part => part[0] == " " ? part.substr(1) : part).join(" - ");
         return extraDamage;
     }
+    get_IsFavoredWeapon(creature: Character | AnimalCompanion, characterService) {
+        if (creature instanceof Character && creature.class.deity) {
+            return characterService.get_Deities(creature.class.deity)[0]?.favoredWeapon.some(favoredWeapon => [this.name, this.weaponBase, this.displayName].includes(favoredWeapon));
+        }
+        return false;
+    }
     damage(creature: Character | AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, range: string) {
         //Lists the damage dice and damage bonuses for a ranged or melee attack with this weapon.
         //Returns a string in the form of "1d6+5 B\n+1d6 Fire"
@@ -643,14 +652,23 @@ export class Weapon extends Equipment {
             //Champions get increased dice size via Deific Weapon for unarmed attacks with d4 damage or simple weapons as long as they are their deity's favored weapon.
             if (((dicesize == 4 && this.prof == "Unarmed Attacks") || this.prof == "Simple Weapons") &&
                 characterService.get_Features("Deific Weapon")[0]?.have(creature, characterService)) {
-                let favoredWeapons: string[] = [];
-                if (creature.type == "Character" && (creature as Character).class.deity) {
-                    favoredWeapons = characterService.get_Deities((creature as Character).class.deity)[0]?.favoredWeapon || [];
-                }
-                if (favoredWeapons.includes(this.name) || favoredWeapons.includes(this.weaponBase)) {
+                if (this.get_IsFavoredWeapon(creature, characterService)) {
                     let newDicesize = Math.max(Math.min(dicesize + 2, 12), 6);
                     if (newDicesize > dicesize) {
                         calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Size", "", newDicesize.toString(), false, "Deific Weapon", false, true, false, 0))
+                    }
+                }
+            }
+            //Clerics get increased dice size via Deadly Simplicity for unarmed attacks with less than d6 damage or simple weapons as long as they are their deity's favored weapon.
+            if (((dicesize < 6 && this.prof == "Unarmed Attacks") || this.prof == "Simple Weapons") &&
+                characterService.get_Feats("Deadly Simplicity")[0]?.have(creature, characterService)) {
+                if (this.get_IsFavoredWeapon(creature, characterService)) {
+                    let newDicesize = Math.max(Math.min(dicesize + 2, 12), 6);
+                    if ((dicesize < 6 && this.prof == "Unarmed Attacks")) {
+                        newDicesize = 6;
+                    }
+                    if (newDicesize > dicesize) {
+                        calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Size", "", newDicesize.toString(), false, "Deadly Simplicity", false, true, false, 0))
                     }
                 }
             }
@@ -945,15 +963,17 @@ export class Weapon extends Equipment {
         let SpecializationGains: SpecializationGain[] = [];
         let specializations: Specialization[] = [];
         let prof = this.get_Proficiency((creature as AnimalCompanion | Character), characterService);
-        if (creature.type == "Character" && this.group) {
+        if (creature instanceof Character && this.group) {
             let character = creature as Character;
             let runeSource: (Weapon | WornItem)[] = this.get_RuneSource(creature, range);
-            let skillLevel = this.profLevel((creature as AnimalCompanion | Character), characterService, runeSource[1]);
+            let skillLevel = this.profLevel(creature, characterService, runeSource[1]);
             characterService.get_FeatsAndFeatures()
                 .filter(feat => feat.gainSpecialization.length && feat.have(character, characterService, character.level, false))
                 .forEach(feat => {
                     SpecializationGains.push(...feat.gainSpecialization.filter(spec =>
+                        (spec.minLevel ? creature.level >= spec.minLevel : true) &&
                         (spec.bladeAlly ? (this.bladeAlly || runeSource[1].bladeAlly) : true) &&
+                        (spec.favoredWeapon ? this.get_IsFavoredWeapon(creature, characterService) : true) &&
                         (spec.group ? (this.group && spec.group.includes(this.group)) : true) &&
                         (spec.range ? (range && spec.range.includes(range)) : true) &&
                         (spec.name ? ((this.name && spec.name.includes(this.name)) || (this.weaponBase && spec.name.includes(this.weaponBase))) : true) &&

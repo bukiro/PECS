@@ -369,7 +369,7 @@ export class CharacterComponent implements OnInit {
             "Chaotic Evil"
         ]
         //Certain classes need to pick an alignment matching their deity
-        if (deity && this.get_Character().class.limitDeities) {
+        if (deity && this.get_Character().class.deityFocused) {
             return alignments.filter(alignment =>
                 !deity.followerAlignments ||
                 deity.followerAlignments.includes(alignment) ||
@@ -1054,7 +1054,7 @@ export class CharacterComponent implements OnInit {
         let currentDeity = this.get_Character().class?.deity || "";
         let showOtherOptions = this.get_Character().settings.showOtherOptions;
         //Certain classes need to choose a deity allowing their alignment.
-        if (this.get_Character().class.limitDeities) {
+        if (this.get_Character().class.deityFocused) {
             return this.deitiesService.get_Deities(name).filter((deity: Deity) => (showOtherOptions || !currentDeity || deity.name == currentDeity) && (!this.get_Character().alignment || deity.followerAlignments.includes(this.get_Character().alignment)))
                 .sort(function (a, b) {
                     if (a.name > b.name) {

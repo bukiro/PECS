@@ -9564,6 +9564,7 @@
                 "filter": [
                     "Divine Skill"
                 ],
+                "autoSelectIfPossible": true,
                 "source": "Paladin",
                 "specialChoice": true,
                 "type": "Divine Skill"
@@ -9691,6 +9692,7 @@
                 "filter": [
                     "Divine Skill"
                 ],
+                "autoSelectIfPossible": true,
                 "source": "Redeemer",
                 "specialChoice": true,
                 "type": "Divine Skill"
@@ -9819,6 +9821,7 @@
                 "filter": [
                     "Divine Skill"
                 ],
+                "autoSelectIfPossible": true,
                 "source": "Liberator",
                 "specialChoice": true,
                 "type": "Divine Skill"
@@ -10326,7 +10329,7 @@
         "gainSpellChoice": [
             {
                 "_className": "SpellChoice",
-                "available": 0,
+                "available": 1,
                 "dynamicAvailable": "1 + Modifier('Charisma')",
                 "castingType": "Prepared",
                 "charLevelAvailable": 1,
@@ -10350,7 +10353,7 @@
         "gainSpellChoice": [
             {
                 "_className": "SpellChoice",
-                "available": 0,
+                "available": 1,
                 "dynamicAvailable": "1 + Modifier('Charisma')",
                 "castingType": "Prepared",
                 "charLevelAvailable": 1,
@@ -10365,10 +10368,277 @@
         ]
     },
     {
-        "name": "Cloistered Cleric"
+        "name": "Cloistered Cleric",
+        "desc": "You are a cleric of the cloth, focusing on divine magic and your connection to your deity's domains.\n\n<strong>First Doctrine (1st):</strong> You gain the Domain Initiate cleric feat.\n<strong>Second Doctrine (3rd):</strong> Your proficiency rank for Fortitude saves increases to expert.\n<strong>Third Doctrine (7th):</strong> Your proficiency ranks for divine spell attack rolls and spell DCs increase to expert.\n<strong>Fourth Doctrine (11th):</strong> You gain expert proficiency with your deity's favored weapon. When you critically succeed at an attack roll using that weapon, you apply the weapon's critical specialization effect; use your divine spell DC if necessary.\n<strong>Fifth Doctrine (15th):</strong> Your proficiency ranks for divine spell attack rolls and spell DCs increase to master.\n<strong>Final Doctrine (19th):</strong> Your proficiency ranks for divine spell attack rolls and spell DCs increase to legendary.",
+        "shortdesc": "You are a cleric of the cloth, focusing on divine magic and your connection to your deity's domains.",
+        "gainSpecialization": [
+            {
+                "favoredWeapon": true,
+                "minLevel": 11
+            }
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "filter": [
+                    "Domain Initiate"
+                ],
+                "level": 1,
+                "source": "Cloistered Cleric",
+                "type": "Class"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Fortitude",
+                        "source": "Cloistered Cleric"
+                    }
+                ],
+                "insertLevel": 3,
+                "maxRank": 4,
+                "source": "Cloistered Cleric",
+                "type": "Save"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Cleric Divine Spell DC",
+                        "source": "Cloistered Cleric"
+                    }
+                ],
+                "insertLevel": 7,
+                "maxRank": 4,
+                "source": "Cloistered Cleric",
+                "type": "Spell DC"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Favored Weapon",
+                        "source": "Cloistered Cleric"
+                    }
+                ],
+                "insertLevel": 11,
+                "maxRank": 4,
+                "source": "Cloistered Cleric",
+                "type": "Specific Weapon Proficiency"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Cleric Divine Spell DC",
+                        "source": "Cloistered Cleric"
+                    }
+                ],
+                "insertLevel": 15,
+                "maxRank": 6,
+                "source": "Cloistered Cleric",
+                "type": "Spell DC"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 8,
+                        "name": "Cleric Divine Spell DC",
+                        "source": "Cloistered Cleric"
+                    }
+                ],
+                "insertLevel": 19,
+                "maxRank": 8,
+                "source": "Cloistered Cleric",
+                "type": "Spell DC"
+            }
+        ]
     },
     {
-        "name": "Warpriest"
+        "name": "Warpriest",
+        "desc": "You have trained in the more militant doctrine of your church, focusing on both spells and battle.\n\n<strong>First Doctrine (1st):</strong> You're trained in light and medium armor, and you have expert proficiency in Fortitude saves. You gain the Shield Block general feat, a reaction to reduce damage with a shield. If your deity's weapon is simple, you gain the Deadly Simplicity cleric feat. At 13th level, if you gain the divine defense class feature, you also gain expert proficiency in light and medium armor.\n<strong>Second Doctrine (3rd):</strong> You're trained in martial weapons.\n<strong>Third Doctrine (7th):</strong> You gain expert proficiency with your deity's favored weapon. When you critically succeed at an attack roll using that weapon, you apply the weapon's critical specialization effect; use your divine spell DC if necessary.\n<strong>Fourth Doctrine (11th):</strong> Your proficiency ranks for divine spell attack rolls and spell DCs increase to expert.\n<strong>Fifth Doctrine (15th):</strong> Your proficiency rank for Fortitude saves increases to master. When you roll a success at a Fortitude save, you get a critical success instead.\n<strong>Final Doctrine (19th):</strong> Your proficiency ranks for divine spell attack rolls and spell DCs increase to master.",
+        "gainSpecialization": [
+            {
+                "favoredWeapon": true,
+                "minLevel": 7
+            }
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "feats": [
+                    {
+                        "name": "Deadly Simplicity"
+                    }
+                ],
+                "filter": [
+                    "Deadly Simplicity"
+                ],
+                "level": 1,
+                "autoSelectIfPossible": true,
+                "source": "Warpriest",
+                "type": "Class"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Shield Block"
+                    }
+                ],
+                "source": "Warpriest",
+                "type": "Class"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Light Armor",
+                        "source": "Warpriest"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Medium Armor",
+                        "source": "Warpriest"
+                    }
+                ],
+                "insertLevel": 1,
+                "maxRank": 2,
+                "source": "Warpriest",
+                "type": "Armor Proficiency"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Light Armor",
+                        "source": "Warpriest"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Medium Armor",
+                        "source": "Warpriest"
+                    }
+                ],
+                "insertLevel": 13,
+                "maxRank": 4,
+                "source": "Warpriest",
+                "type": "Armor Proficiency"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Fortitude",
+                        "source": "Warpriest"
+                    }
+                ],
+                "insertLevel": 1,
+                "maxRank": 4,
+                "source": "Warpriest",
+                "type": "Save"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Martial Weapons",
+                        "source": "Warpriest"
+                    }
+                ],
+                "insertLevel": 3,
+                "maxRank": 4,
+                "source": "Warpriest",
+                "type": "Weapon Proficiency"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Favored Weapon",
+                        "source": "Warpriest"
+                    }
+                ],
+                "insertLevel": 7,
+                "maxRank": 4,
+                "source": "Warpriest",
+                "type": "Specific Weapon Proficiency"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Cleric Divine Spell DC",
+                        "source": "Warpriest"
+                    }
+                ],
+                "insertLevel": 11,
+                "maxRank": 4,
+                "source": "Warpriest",
+                "type": "Spell DC"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Fortitude",
+                        "source": "Warpriest"
+                    }
+                ],
+                "insertLevel": 15,
+                "maxRank": 4,
+                "source": "Warpriest",
+                "type": "Save"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Cleric Divine Spell DC",
+                        "source": "Warpriest"
+                    }
+                ],
+                "insertLevel": 19,
+                "maxRank": 4,
+                "source": "Warpriest",
+                "type": "Spell DC"
+            }
+        ]
     },
     {
         "name": "Animal Order",
@@ -10399,7 +10669,6 @@
                     }
                 ],
                 "insertClass": "Druid",
-                "level": 1,
                 "source": "Animal Order"
             }
         ],
@@ -10466,7 +10735,6 @@
                     }
                 ],
                 "insertClass": "Druid",
-                "level": 1,
                 "source": "Leaf Order"
             }
         ],
@@ -10533,7 +10801,6 @@
                     }
                 ],
                 "insertClass": "Druid",
-                "level": 1,
                 "source": "Storm Order"
             }
         ],
@@ -10600,7 +10867,6 @@
                     }
                 ],
                 "insertClass": "Druid",
-                "level": 1,
                 "source": "Wild Order"
             }
         ],
@@ -36803,6 +37069,35 @@
         "levelreq": 1
     },
     {
+        "name": "Deity's Domain: Abomination",
+        "desc": "You embody an aspect of your deity. You gain the Abomination domain's Pushing Gust spell as a devotion spell.",
+        "subType": "Abomination",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the abomination domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "b3dccf67-786d-41c4-ab60-2327f63e58f4",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Abomination",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Lift Nature's Caul"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "name": "Deity's Domain: Air",
         "desc": "You embody an aspect of your deity. You gain the Air domain's Pushing Gust spell as a devotion spell.",
         "subType": "Air",
@@ -39307,6 +39602,7 @@
                     "Scare to Death"
                 ],
                 "showOnCurrentLevel": true,
+                "autoSelectIfPossible": true,
                 "source": "Feat: Raging Intimidation",
                 "type": "Skill"
             }
@@ -40262,6 +40558,7 @@
                     "Titan Mauler",
                     "Spirit Rage"
                 ],
+                "autoSelectIfPossible": true,
                 "source": "Feat: Instinct Ability",
                 "specialChoice": true,
                 "type": "Instinct Ability"
@@ -44376,5 +44673,3052 @@
                 "source": "Feat: Master Sorcerer Spellcasting"
             }
         ]
+    },
+    {
+        "name": "Domain Initiate",
+        "desc": "Your deity bestows a special spell related to their powers. Select one domain - a subject of particular interest to you within your religion - from your deity's list. You gain an initial domain spell for that domain, a spell unique to the domain and not available to other clerics.",
+        "specialdesc": "You can select this feat multiple times, selecting a different domain each time and gaining its domain spell.",
+        "subTypes": true,
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Domain Initiate: Abomination",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Abomination domain's Lift Nature's Caul spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Abomination",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "sourceBook": "Pathfinder #165: Eyes of Empty Death",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the abomination domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "f38d232a-8714-4f9a-a195-f2be9bfce3ed",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Abomination",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Lift Natures Caul"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Air",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Air domain's Pushing Gust spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Air",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the air domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e378a-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Air",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Pushing Gust"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Ambition",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Ambition domain's Blind Ambition spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Ambition",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the ambition domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e39ba-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Ambition",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Blind Ambition"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Change",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Change domain's Adapt Self spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Change",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the change domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e3aa0-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Change",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Adapt Self"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Cities",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Cities domain's Face in the Crowd spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Cities",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the cities domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e3b68-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Cities",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Face in the Crowd"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Cold",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Cold domain's Winter Bolt spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Cold",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the cold domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e3dac-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Cold",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Winter Bolt"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Confidence",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Confidence domain's Veil of Confidence spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Confidence",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the confidence domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e3e74-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Confidence",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Veil of Confidence"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Creation",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Creation domain's Splash of Art spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Creation",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the creation domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e3f3c-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Creation",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Splash of Art"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Darkness",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Darkness domain's Cloak of Shadow spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Darkness",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the darkness domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e3ffa-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Darkness",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Cloak of Shadow"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Death",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Death domain's Death's Call spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Death",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the death domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e40c2-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Death",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Death's Call"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Decay",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Decay domain's Withering Grasp spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Decay",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the decay domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e4176-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Decay",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Withering Grasp"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Delirium",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Delirium domain's Hyperfocus spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Delirium",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the delirium domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e422a-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Delirium",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Hyperfocus"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Destruction",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Destruction domain's Cry of Destruction spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Destruction",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the destruction domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e4428-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Destruction",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Cry of Destruction"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Dreams",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Dreams domain's Sweet Dream spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Dreams",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the dreams domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e455e-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Dreams",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Sweet Dream"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Dust",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Dust domain's Parch spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Dust",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the dust domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e4662-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Dust",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Parch"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Duty",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Duty domain's Oathkeeper's Insignia spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Duty",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the duty domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e470c-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Duty",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Oathkeeper's Insignia"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Earth",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Earth domain's Hurtling Stone spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Earth",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the earth domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e47c0-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Earth",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Hurtling Stone"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Family",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Family domain's Soothing Words spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Family",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the family domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e49be-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Family",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Soothing Words"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Fate",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Fate domain's Read Fate spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Fate",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the fate domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e4a7c-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Fate",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Read Fate"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Fire",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Fire domain's Fire Ray spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Fire",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the fire domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e4b3a-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Fire",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Fire Ray"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Freedom",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Freedom domain's Unimpeded Stride spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Freedom",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the freedom domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e4bee-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Freedom",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Unimpeded Stride"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Glyph",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Glyph domain's Redact spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Glyph",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the glyph domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e4ca2-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Glyph",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Redact"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Healing",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Healing domain's Healer's Blessing spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Healing",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the healing domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e4d56-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Healing",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Healer's Blessing"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Indulgence",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Indulgence domain's Overstuff spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Indulgence",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the indulgence domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e4e0a-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Indulgence",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Overstuff"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Knowledge",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Knowledge domain's Scholarly Recollection spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Knowledge",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the knowledge domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e5044-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Knowledge",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Scholarly Recollection"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Lightning",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Lightning domain's Charged Javelin spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Lightning",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the lightning domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e512a-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Lightning",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Charged Javelin"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Luck",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Luck domain's Bit of Luck spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Luck",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the luck domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e5210-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Luck",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Bit of Luck"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Magic",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Magic domain's Magic's Vessel spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Magic",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the magic domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e52c4-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Magic",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Magic's Vessel"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Might",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Might domain's Athletic Rush spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Might",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the might domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e5382-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Might",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Athletic Rush"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Moon",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Moon domain's Moonbeam spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Moon",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the moon domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e5562-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Moon",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Moonbeam"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Naga",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Naga domain's Split the Tongue spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Naga",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "sourceBook": "Pathfinder #161: Belly of the Black Whale",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the naga domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e5620-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Naga",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Split the Tongue"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Nature",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Nature domain's Vibrant Thorns spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Nature",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the nature domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e56d4-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Nature",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Vibrant Thorns"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Nightmares",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Nightmares domain's Waking Nightmare spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Nightmares",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the nightmares domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e5792-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Nightmares",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Waking Nightmare"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Pain",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Pain domain's Savor the Sting spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Pain",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the pain domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e5846-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Pain",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Savor the Sting"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Passion",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Passion domain's Charming Touch spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Passion",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the passion domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e58fa-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Passion",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Charming Touch"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Perfection",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Perfection domain's Perfected Mind spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Perfection",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the perfection domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e5a9e-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Perfection",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Perfected Mind"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Plague",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Plague domain's Divine Plagues spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Plague",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the plague domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e5b66-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Plague",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Divine Plagues"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Protection",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Protection domain's Protector's Sacrifice spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Protection",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the protection domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e5c10-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Protection",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Protector's Sacrifice"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Repose",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Repose domain's Share Burden spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Repose",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the repose domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e5cc4-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Repose",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Share Burden"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Secrecy",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Secrecy domain's Forced Quiet spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Secrecy",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the secrecy domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e5e2c-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Secrecy",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Forced Quiet"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Sorrow",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Sorrow domain's Lament spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Sorrow",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the sorrow domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e5eea-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Sorrow",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Lament"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Soul",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Soul domain's Eject Soul spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Soul",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the soul domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e5f9e-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Soul",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Eject Soul"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Star",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Star domain's Zenith Star spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Star",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the star domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e605c-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Star",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Zenith Star"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Sun",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Sun domain's Dazzling Flash spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Sun",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the sun domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e6106-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Sun",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Dazzling Flash"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Swarm",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Swarm domain's Swarmsense spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Swarm",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the swarm domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e62a0-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Swarm",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Swarmsense"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Time",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Time domain's Delay Consequence spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Time",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the time domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e635e-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Time",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Delay Consequence"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Toil",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Toil domain's Practice Makes Perfect spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Toil",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the toil domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e6412-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Toil",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Practice Makes Perfect"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Travel",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Travel domain's Agile Feet spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Travel",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the travel domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e64c6-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Travel",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Agile Feet"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Trickery",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Trickery domain's Sudden Shift spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Trickery",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the trickery domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e657a-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Trickery",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Sudden Shift"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Truth",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Truth domain's Word of Truth spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Truth",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the truth domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e6778-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Truth",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Word of Truth"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Tyranny",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Tyranny domain's Touch of Obedience spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Tyranny",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the tyranny domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e6836-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Tyranny",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Touch of Obedience"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Undeath",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Undeath domain's Touch of Undeath spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Undeath",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the undeath domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e68ea-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Undeath",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Touch of Undeath"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Vigil",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Vigil domain's Object Memory spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Vigil",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the vigil domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e699e-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Vigil",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Object Memory"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Void",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Void domain's Empty Inside spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Void",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the void domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e6a52-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Void",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Empty Inside"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Water",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Water domain's Tidal Surge spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Water",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the water domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e6be2-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Water",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Tidal Surge"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Wealth",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Wealth domain's Appearance of Wealth spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Wealth",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the wealth domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e6ca0-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Wealth",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Appearance of Wealth"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Wyrmkin",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Wyrmkin domain's Draconic Barrage spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Wyrmkin",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the wyrmkin domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e6d54-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Wyrmkin",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Draconic Barrage"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Domain Initiate: Zeal",
+        "desc": "Your deity bestows a special spell related to their powers. You gain the Zeal domain's Weapon Surge spell as an initial domain spell, a spell unique to the domain and not available to other clerics.",
+        "subType": "Zeal",
+        "superType": "Domain Initiate",
+        "shortdesc": "Your deity bestows a special spell related to their powers.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity with the zeal domain",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Cleric",
+                "source": "Domain Spells",
+                "tradition": "Focus"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Cleric",
+                "id": "069e6dfe-09ca-11ec-9a03-0242ac130003",
+                "level": -1,
+                "source": "Feat: Domain Initiate: Zeal",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Weapon Surge"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deadly Simplicity",
+        "desc": "Your deity's weapon is especially powerful in your hands. When you are wielding your deity's favored weapon, increase the damage die size of that weapon by one step. If your deity's favored weapon is an unarmed attack (such as a fist, if you worship Irori) and its damage die is smaller than d6, instead increase its damage die size to d6.",
+        "internalNote": "The effect is hardcoded.",
+        "shortdesc": "Your deity's weapon is especially powerful in your hands.",
+        "traits": [
+            "Cleric"
+        ],
+        "levelreq": 1,
+        "skillreq": [
+            {
+                "skill": "Favored Weapon",
+                "value": 2
+            }
+        ],
+        "specialreq": "deity && deity.favoredWeapon.some(favoredWeapon => characterService.itemsService.get_CleanItems().weapons.some(weapon => [weapon.name, weapon.weaponBase, weapon.displayName].includes(favoredWeapon) && ['Simple Weapons','Unarmed Attacks'].includes(weapon.prof)))",
+        "specialreqdesc": "deity with a simple or unarmed attack favored weapon"
     }
 ]

@@ -2008,6 +2008,10 @@
                                         <strong>Domains</strong>
                                         {{deity.domains.join(", ")}}
                                     </div>
+                                    <div class="newrow left-aligned gap-text" *ngIf="deity.alternateDomains.length">
+                                        <strong>Alternate Domains</strong>
+                                        {{deity.alternateDomains.join(", ")}}
+                                    </div>
                                     <ng-container *ngIf="deity.clericSpells.length">
                                         <div class="newrow left-aligned">
                                             <strong>Cleric Spells</strong>
