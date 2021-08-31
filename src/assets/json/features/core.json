@@ -460,12 +460,14 @@
     },
     {
         "name": "Iron Will (Alchemist)",
+        "displayName": "Iron Will",
         "desc": "Your mental defenses are an iron fortress. Your proficiency rank for Will saves increases to expert.",
         "internalNote": "Skill increases through class features are handled in the class object.",
         "countAsFeat": "Iron Will"
     },
     {
         "name": "Juggernaut (Alchemist)",
+        "displayName": "Juggernaut",
         "desc": "Your body has become accustomed to physical hazards and resistant to pathogens and ailments. Your proficiency rank for Fortitude saves increases to master. When you roll a success on a Fortitude save, you get a critical success instead.",
         "hints": [
             {
@@ -525,6 +527,7 @@
     },
     {
         "name": "Deny Advantage (Barbarian)",
+        "displayName": "Deny Advantage",
         "desc": "Your foes struggle to pass your defenses. You aren't flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
         "hints": [
             {
@@ -558,6 +561,7 @@
     },
     {
         "name": "Greater Weapon Specialization (Barbarian)",
+        "displayName": "Greater Weapon Specialization",
         "desc": "The weapons you've mastered become truly fearsome in your hands. Your damage from weapon specialization increases to 4 with weapons and unarmed attacks in which you're an expert, 6 if you're a master, and 8 if you're legendary. You gain a greater benefit from your instinct's specialization ability.",
         "countAsFeat": "Greater Weapon Specialization",
         "effects": [
@@ -640,6 +644,7 @@
     },
     {
         "name": "Weapon Specialization (Barbarian)",
+        "displayName": "Weapon Specialization",
         "desc": "Your rage helps you hit harder. You deal an additional 2 damage with weapons and unarmed attacks in which you have expert proficiency. This damage increases to 3 if you're a master, and 4 if you're legendary. You gain your instinct's specialization ability.",
         "countAsFeat": "Weapon Specialization",
         "effects": [
@@ -674,6 +679,7 @@
     },
     {
         "name": "Expert Spellcaster (Bard)",
+        "displayName": "Expert Spellcaster",
         "desc": "Your proficiency ranks for occult spell attack rolls and spell DCs increase to expert.",
         "internalNote": "Skill increases through class features are handled in the class object.",
         "countAsFeat": "Expert Spellcaster"
@@ -691,6 +697,7 @@
     },
     {
         "name": "Legendary Spellcaster (Bard)",
+        "displayName": "Legendary Spellcaster",
         "desc": "Your command of occult magic is the stuff of legends. Your proficiency ranks for occult spell attack rolls and spell DCs increase to legendary.",
         "internalNote": "Skill increases through class features are handled in the class object.",
         "countAsFeat": "Legendary Spellcaster"
@@ -702,12 +709,14 @@
     },
     {
         "name": "Master Spellcaster (Bard)",
+        "displayName": "Master Spellcaster",
         "desc": "You've mastered the occult. Your proficiency ranks for occult spell attack rolls and spell DCs increase to master.",
         "internalNote": "Skill increases through class features are handled in the class object.",
         "countAsFeat": "Master Spellcaster"
     },
     {
         "name": "Signature Spells (Bard)",
+        "displayName": "Signature Spells",
         "desc": "Experience allows you to cast some spells more flexibly. For each spell level you have access to, choose one spell of that level to be a signature spell. You don't need to learn heightened versions of signature spells separately; instead, you can heighten these spells freely. If you've learned a signature spell at a higher level than its minimum, you can also cast all its lower-level versions without learning those separately. If you swap out a signature spell, you can choose a replacement signature spell of the same spell level at which you learned the previous spell. You can also retrain specifically to change a signature spell to a different spell of that level without swapping any spells; this takes as much time as retraining a spell normally does.",
         "hints": [
             {
@@ -725,6 +734,7 @@
     },
     {
         "name": "Armor Expertise (Champion)",
+        "displayName": "Armor Expertise",
         "desc": "You have spent so much time in armor that you know how to make the most of its protection. Your proficiency ranks for light, medium, and heavy armor, as well as for unarmored defense, increase to expert. You gain the armor specialization effects of medium and heavy armor.",
         "internalNote": "Skill increases through class features are handled in the class object.",
         "gainSpecialization": [
@@ -760,6 +770,7 @@
     },
     {
         "name": "Shield Block (Champion)",
+        "displayName": "Shield Block",
         "desc": "You gain the Shield Block general feat, a reaction that lets you reduce damage with your shield."
     },
     {
@@ -844,6 +855,7 @@
     },
     {
         "name": "Anathema (Cleric)",
+        "displayName": "Anathema",
         "desc": "Acts fundamentally opposed to your deity's alignment or ideals are anathema to your faith. Learning or casting spells, committing acts, and using items that are anathema to your deity remove you from your deity's good graces.\n\nCasting spells with the evil trait is almost always anathema to good deities, and casting good spells is likewise anathema to evil deities; similarly, casting chaotic spells is anathema to lawful deities, and casting lawful spells is anathema to chaotic deities. A neutral cleric who worships a neutral deity isn't limited this way, but their alignment might change over time if they frequently cast spells or use abilities with a certain alignment. Similarly, casting spells that are anathema to the tenets or goals of your faith could interfere with your connection to your deity. For example, casting a spell to create undead would be anathema to Pharasma, the goddess of death. For borderline cases, you and your GM determine which acts are anathema.\n\nIf you perform enough acts that are anathema to your deity, or if your alignment changes to one not allowed by your deity, you lose the magical abilities that come from your connection to your deity. The class features that you lose are determined by the GM, but they likely include your divine font and all divine spellcasting. These abilities can be regained only if you demonstrate your repentance by conducting an atone ritual.",
         "hints": [
             {
@@ -866,12 +878,14 @@
     },
     {
         "name": "Alertness (Druid)",
+        "displayName": "Alertness",
         "desc": "Experience has made you increasingly aware of threats around you, and you react more quickly to danger. Your proficiency rank for Perception increases to expert.",
         "internalNote": "Skill increases through class features are handled in the class object.",
         "countAsFeat": "Alertness"
     },
     {
         "name": "Anathema (Druid)",
+        "displayName": "Anathema",
         "desc": "As stewards of the natural order, druids find affronts to nature anathema. If you perform enough acts that are anathema to nature, you lose your magical abilities that come from the druid class, including your primal spellcasting and the benefits of your order. These abilities can be regained only if you demonstrate your repentance by conducting an atone ritual.\n\nThe following acts are anathema to all druids:\n\nUsing metal armor or shields.\nDespoiling natural places.\nTeaching the Druidic language to non-druids.\n\nEach druidic order also has additional anathema acts, detailed in the order's entry.",
         "hints": [
             {
@@ -908,6 +922,7 @@
     },
     {
         "name": "Deity (Cleric)",
+        "displayName": "Deity",
         "desc": "As a cleric, you are a mortal servitor of a deity you revere above all others. The most common deities in Pathfinder are found here, along with their alignments, areas of concern, and the benefits you get for being a cleric of that deity. Your alignment must be one allowed by your deity, as listed in their entry. Your deity grants you the trained proficiency rank in one skill and with the deity's favored weapon. If the favored weapon is uncommon, you also get access to that weapon.\n\nYour deity also adds spells to your spell list. You can prepare these just like you can any spell on the divine spell list, once you can prepare spells of their level as a cleric. Some of these spells aren't normally on the divine list, but they're divine spells if you prepare them this way."
     },
     {
@@ -924,22 +939,26 @@
     },
     {
         "name": "Shield Block (Druid)",
+        "displayName": "Shield Block",
         "desc": "You gain the Shield Block general feat, a reaction that lets you reduce damage with your shield."
     },
     {
         "name": "Expert Spellcaster (Druid)",
+        "displayName": "Expert Spellcaster",
         "desc": "Your command of primal forces has deepened, empowering your spells. Your proficiency ranks for primal spell attack rolls and spell DCs increase to expert.",
         "internalNote": "Skill increases through class features are handled in the class object.",
         "countAsFeat": "Expert Spellcaster"
     },
     {
         "name": "Legendary Spellcaster (Druid)",
+        "displayName": "Legendary Spellcaster",
         "desc": "You have developed an unparalleled rapport with the magic of nature. Your proficiency ranks for primal spell attack rolls and spell DCs increase to legendary.",
         "internalNote": "Skill increases through class features are handled in the class object.",
         "countAsFeat": "Legendary Spellcaster"
     },
     {
         "name": "Master Spellcaster (Druid)",
+        "displayName": "Master Spellcaster",
         "desc": "Primal magic answers your command. Your proficiency ranks for primal spell attack rolls and spell DCs increase to master.",
         "internalNote": "Skill increases through class features are handled in the class object.",
         "countAsFeat": "Master Spellcaster"
@@ -956,6 +975,7 @@
     },
     {
         "name": "Attack of Opportunity (Fighter)",
+        "displayName": "Attack of Opportunity",
         "desc": "Ever watchful for weaknesses, you can quickly attack foes that leave an opening in their defenses. You gain the Attack of Opportunity reaction.",
         "gainActivities": [
             "Attack of Opportunity"
@@ -964,6 +984,7 @@
     },
     {
         "name": "Shield Block (Fighter)",
+        "displayName": "Shield Block",
         "desc": "You gain the Shield Block general feat, a reaction that lets you reduce damage with your shield."
     },
     {
@@ -1005,6 +1026,7 @@
     },
     {
         "name": "Armor Expertise (Fighter)",
+        "displayName": "Armor Expertise",
         "desc": "You have spent so much time wearing armor that you know how to make the most of its protection. Your proficiency rank for light, medium, and heavy armor, as well as for unarmored defense, increase to expert. You gain the armor specialization effects of medium and heavy armor.",
         "gainSpecialization": [
             {
@@ -1037,6 +1059,7 @@
     },
     {
         "name": "Deny Advantage (Rogue)",
+        "displayName": "Deny Advantage",
         "desc": "As someone who takes advantage of others' defenses, you are careful not to leave such openings yourself. You aren't flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
         "hints": [
             {
@@ -1132,24 +1155,28 @@
     },
     {
         "name": "Expert Spellcaster (Sorcerer)",
+        "displayName": "Expert Spellcaster",
         "desc": "Your inherent magic responds easily and powerfully to your command. Your proficiency ranks for spell attack rolls and spell DCs for spells of your bloodline's tradition increase to expert.",
         "internalNote": "Skill increases through class features are handled in the class object.",
         "countAsFeat": "Expert Spellcaster"
     },
     {
         "name": "Legendary Spellcaster (Sorcerer)",
+        "displayName": "Legendary Spellcaster",
         "desc": "You demonstrate prodigious talent for spellcasting. Your proficiency ranks for spell attack rolls and spell DCs for spells of your bloodline's tradition increase to legendary.",
         "internalNote": "Skill increases through class features are handled in the class object.",
         "countAsFeat": "Legendary Spellcaster"
     },
     {
         "name": "Master Spellcaster (Sorcerer)",
+        "displayName": "Master Spellcaster",
         "desc": "You have achieved mastery over the magic in your blood. Your proficiency ranks for spell attack rolls and spell DCs for spells of your bloodline's tradition increase to master.",
         "internalNote": "Skill increases through class features are handled in the class object.",
         "countAsFeat": "Master Spellcaster"
     },
     {
         "name": "Signature Spells (Sorcerer)",
+        "displayName": "Signature Spells",
         "desc": "You've learned to cast some of your spells more flexibly. For each spell level you have access to, choose one spell of that level to be a signature spell. You don't need to learn heightened versions of signature spells separately; instead, you can heighten these spells freely. If you've learned a signature spell at a higher level than its minimum, you can also cast all its lower-level versions without learning those separately. If you swap out a signature spell, you can choose a replacement signature spell of the same spell level at which you learned the previous spell. You can also retrain specifically to change a signature spell to a different spell of that level without swapping any spells; this takes as much time as retraining a spell normally does.",
         "hints": [
             {
@@ -1171,6 +1198,7 @@
     },
     {
         "name": "Weapon Specialization (Sorcerer)",
+        "displayName": "Weapon Specialization",
         "desc": "You've learned to inflict grave wounds with your practiced weapons. You deal 2 additional damage with weapons and unarmed attacks in which you are an expert. This damage increases to 3 if you're a master, and 4 if you're legendary.",
         "countAsFeat": "Weapon Specialization",
         "effects": [
@@ -1204,18 +1232,21 @@
     },
     {
         "name": "Expert Spellcaster (Wizard)",
+        "displayName": "Expert Spellcaster",
         "desc": "Extended practice of the arcane has improved your capabilities. Your proficiency ranks for arcane spell attack rolls and spell DCs increase to expert.",
         "internalNote": "Skill increases through class features are handled in the class object.",
         "countAsFeat": "Expert Spellcaster"
     },
     {
         "name": "Legendary Spellcaster (Wizard)",
+        "displayName": "Legendary Spellcaster",
         "desc": "You are a consummate spellcaster, with a comprehensive understanding of both arcane theory and practical spellcraft. Your proficiency ranks for arcane spell attack rolls and spell DCs increase to legendary.",
         "internalNote": "Skill increases through class features are handled in the class object.",
         "countAsFeat": "Legendary Spellcaster"
     },
     {
         "name": "Master Spellcaster (Wizard)",
+        "displayName": "Master Spellcaster",
         "desc": "You command superlative spellcasting ability. Your proficiency ranks for arcane spell attack rolls and spell DCs increase to master.",
         "internalNote": "Skill increases through class features are handled in the class object.",
         "countAsFeat": "Master Spellcaster"

@@ -66,6 +66,8 @@ import { WeaponRune } from './WeaponRune';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ConditionSet } from './ConditionSet';
 import { ExtensionsService } from './extensions.service';
+import { AnimalCompanionAncestry } from './AnimalCompanionAncestry';
+import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
 
 @Injectable({
     providedIn: 'root'
@@ -2297,7 +2299,7 @@ export class CharacterService {
             //Return any feats that include e.g. Companion:Athletics
             .concat(
                 this.get_FeatsShowingOn("Companion:" + objectName)
-            )
+            ) as (AnimalCompanionAncestry|AnimalCompanionSpecialization|Feat)[];
     }
 
     get_FamiliarShowingOn(objectName: string = "all") {

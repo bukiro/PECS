@@ -10,7 +10,7 @@
         <ng-container *ngFor="let featSet of allTags.feats; trackBy:trackByIndex;">
             <ng-container *ngFor="let feat of featSet.feats; trackBy:trackByIndex;">
                 <app-hint [creature]="creature" [ngClass]="'feat'" [object]="feat" [objectName]="featSet.setName"
-                    [description]="feat.name">
+                    [description]="feat.displayName || feat.name">
                 </app-hint>
             </ng-container>
         </ng-container>

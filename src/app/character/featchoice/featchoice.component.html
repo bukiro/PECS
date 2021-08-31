@@ -101,7 +101,7 @@
                                         *ngFor="let disabled of [(availableFeats <= choice.feats.length) && !taken]; trackBy:trackByIndex">
                                         <ng-template #FeatChoiceDetailTemplate>
                                             <div class="newrow">
-                                                <header class="spellHeader">{{featSet.feat.name}}</header>
+                                                <header class="spellHeader">{{featSet.feat.displayName || featSet.feat.name}}</header>
                                                 <div class="button newrow no-animation"
                                                     *ngIf="!featSet.feat.subTypes && featSet.available"
                                                     [ngClass]="{'fancy-button':taken, 'disabled':disabled}">
@@ -200,7 +200,7 @@
                                                 *ngIf="featSet.feat.subTypes">+</button>
                                             <div class="gridicon-fullsizebox" #FeatChoiceDetailPopover="ngbPopover"
                                                 [ngbPopover]="FeatChoiceDetailTemplate" triggers="click">
-                                                <app-gridIcon [title]="featSet.feat.name"
+                                                <app-gridIcon [title]="featSet.feat.displayName || featSet.feat.name"
                                                     [detail]="featSet.feat.traits.includes('Rare') ? 'Rare' : (featSet.feat.traits.includes('Uncommon') ? 'Uncommon' : '')">
                                                 </app-gridIcon>
                                                 <header class="sectionHeader">
@@ -210,7 +210,7 @@
                                                         {{["General", "Skill"].includes(choice.type) &&
                                                         featSet.feat.skillreq.length == 1 ? "(" +
                                                         featSet.feat.skillreq[0].skill + ") " :
-                                                        ""}}{{featSet.feat.name}}
+                                                        ""}}{{featSet.feat.displayName || featSet.feat.name}}
                                                     </span>
                                                     <cite *ngIf="featSet.feat.levelreq">Level
                                                         {{featSet.feat.levelreq}}</cite>

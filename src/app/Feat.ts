@@ -43,6 +43,7 @@ export class Feat {
     //Having this feat counts as fulfilling the prerequisite of having the feat named in countAsFeat. This is useful for class feats that allow you to take another of the class type choices.
     public countAsFeat: string = "";
     public data: {} = {};
+    public displayName: string = "";
     public desc: string = "";
     public effects: any[] = [];
     public featreq: string[] = [];

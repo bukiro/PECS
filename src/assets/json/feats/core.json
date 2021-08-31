@@ -5907,6 +5907,7 @@
     },
     {
         "name": "Stance Savant (Monk)",
+        "displayName": "Stance Savant",
         "desc": "You enter a stance without a thought.",
         "shortdesc": "You enter a stance without a thought.",
         "traits": [
@@ -9590,6 +9591,7 @@
     },
     {
         "name": "Champion's Reaction (Paladin)",
+        "displayName": "Champion's Reaction",
         "desc": "You gain the Retributive Strike champion's reaction.",
         "shortdesc": "You gain the Retributive Strike champion's reaction.",
         "featreq": [
@@ -9601,6 +9603,7 @@
     },
     {
         "name": "Divine Smite (Paladin)",
+        "displayName": "Divine Smite",
         "desc": "You surround evil targets in a punishing halo. If you hit with your Retributive Strike, the target takes persistent good damage equal to your Charisma modifier.",
         "hints": [
             {
@@ -9615,6 +9618,7 @@
     },
     {
         "name": "Exalt (Paladin)",
+        "displayName": "Exalt",
         "desc": "When you use Retributive Strike, each ally within 15 feet of you with the target in their melee reach can spend a reaction to Strike the target with a -5 penalty.",
         "hints": [
             {
@@ -9718,6 +9722,7 @@
     },
     {
         "name": "Champion's Reaction (Redeemer)",
+        "displayName": "Champion's Reaction",
         "desc": "You gain the Glimpse of Redemption champion's reaction.",
         "shortdesc": "You gain the Glimpse of Redemption champion's reaction.",
         "featreq": [
@@ -9729,6 +9734,7 @@
     },
     {
         "name": "Divine Smite (Redeemer)",
+        "displayName": "Divine Smite",
         "desc": "A guilty conscience assails foes who spurn your Glimpse of Redemption. A foe that responds to your Glimpse of Redemption by dealing damage takes persistent good damage equal to your Charisma modifier.",
         "hints": [
             {
@@ -9743,6 +9749,7 @@
     },
     {
         "name": "Exalt (Redeemer)",
+        "displayName": "Exalt",
         "desc": "You protect multiple allies. You can apply the resistance granted by Glimpse of Redemption to yourself and all allies within 15 feet of you, including the triggering ally, except the resistance is reduced by 2 for all.",
         "hints": [
             {
@@ -9847,6 +9854,7 @@
     },
     {
         "name": "Champion's Reaction (Liberator)",
+        "displayName": "Champion's Reaction",
         "desc": "You gain the Liberating Step champion's reaction.",
         "shortdesc": "You gain the Liberating Step champion's reaction.",
         "featreq": [
@@ -9858,6 +9866,7 @@
     },
     {
         "name": "Divine Smite (Liberator)",
+        "displayName": "Divine Smite",
         "desc": "You punish those who ensnare your allies in bondage. If the triggering enemy was using any effects to make your ally grabbed, restrained, immobilized, or paralyzed when you used Liberating Step, that enemy takes persistent good damage equal to your Charisma modifier.",
         "hints": [
             {
@@ -9872,6 +9881,7 @@
     },
     {
         "name": "Exalt (Liberator)",
+        "displayName": "Exalt",
         "desc": "You can help your whole group get into position. When you use Liberating Step, if your ally doesn't attempt to break free of an effect, you and all allies within 15 feet can Step, in addition to the triggering ally.",
         "hints": [
             {
@@ -20874,6 +20884,7 @@
     },
     {
         "name": "Shield Warden (Champion)",
+        "displayName": "Shield Warden",
         "desc": "You use your shield to protect your allies. When you have a shield raised, you can use your Shield Block reaction when an attack is made against an ally adjacent to you. If you do, the shield prevents that ally from taking damage instead of preventing you from taking damage, following the normal rules for Shield Block.",
         "hints": [
             {
@@ -21945,6 +21956,7 @@
     },
     {
         "name": "Shield Warden (Fighter)",
+        "displayName": "Shield Warden",
         "desc": "You use your shield to protect your allies. When you have a shield raised, you can use your Shield Block reaction when an attack is made against an ally adjacent to you. If you do, the shield prevents that ally from taking damage instead of preventing you from taking damage, following the normal rules for Shield Block.",
         "hints": [
             {
@@ -22429,6 +22441,7 @@
     },
     {
         "name": "Improved Twin Riposte (Fighter)",
+        "displayName": "Improved Twin Riposte",
         "desc": "Your weapons are a blur, blocking and biting at your foes. At the start of each of your turns, you gain an additional reaction that you can use only to perform a Twin Riposte. You can use this extra reaction even if you are not benefiting from Twin Parry.",
         "hints": [
             {
@@ -22447,6 +22460,7 @@
     },
     {
         "name": "Stance Savant (Fighter)",
+        "displayName": "Stance Savant",
         "desc": "When there's imminent danger, you drop into a stance with a mere thought.",
         "shortdesc": "When there's imminent danger, you drop into a stance with a mere thought.",
         "traits": [
@@ -22554,6 +22568,7 @@
     },
     {
         "name": "Impossible Volley (Fighter)",
+        "displayName": "Impossible Volley",
         "desc": "You fire a volley at all foes in an area.",
         "shortdesc": "You fire a volley at all foes in an area.",
         "traits": [
@@ -23185,6 +23200,7 @@
     },
     {
         "name": "Animal Companion (Ranger)",
+        "displayName": "Animal Companion",
         "desc": "You gain the service of a young animal companion that travels with you on your adventures and obeys any simple commands you give it to the best of its abilities. See Animal Companions on page 214 for more information.\n\nWhen you Hunt Prey, your animal companion gains the action's benefits and your hunter's edge benefit if you have one.",
         "hints": [
             {
@@ -23737,6 +23753,7 @@
     },
     {
         "name": "Mature Animal Companion (Ranger)",
+        "displayName": "Mature Animal Companion",
         "desc": "Your animal companion grows up, becoming a mature animal companion and gaining additional capabilities (page 214). If you have the Hunt Prey action, your animal companion assaults the prey even without your orders. During an encounter, even if you don't use the Command an Animal action, your animal companion can still use 1 action that round on your turn to Stride toward or Strike your prey.",
         "hints": [
             {
@@ -23958,6 +23975,7 @@
     },
     {
         "name": "Incredible Companion (Ranger)",
+        "displayName": "Incredible Companion",
         "desc": "Your animal companion continues to grow and develop. It becomes a nimble or savage animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).\n\nTo advance a mature animal companion to a nimble animal companion, increase its Dexterity modifier by 2 and its Strength, Constitution, and Wisdom modifiers by 1. It deals 2 additional damage with its unarmed attacks. Increase its proficiency ranks in Acrobatics and unarmored defense to expert. It also learns the advanced maneuver for its type. Its attacks become magical for the purpose of ignoring resistances.\n\nTo advance a mature animal companion to a savage animal companion, increase its Strength modifier by 2 and its Dexterity, Constitution, and Wisdom modifiers by 1. It deals 3 additional damage with its unarmed attacks. Increase its proficiency rank in Athletics to expert. It also learns the advanced maneuver for its type. If your companion is Medium or smaller, it grows by one size. Its attacks become magical for the purpose of ignoring resistances.",
         "subTypes": true,
         "shortdesc": "Your animal companion continues to grow and develop.",
@@ -23972,6 +23990,7 @@
     },
     {
         "name": "Incredible Companion (Ranger): Nimble",
+        "displayName": "Incredible Companion: Nimble",
         "desc": "Your animal companion continues to grow and develop. It becomes a nimble animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).\n\nTo advance a mature animal companion to a nimble animal companion, increase its Dexterity modifier by 2 and its Strength, Constitution, and Wisdom modifiers by 1. It deals 2 additional damage with its unarmed attacks. Increase its proficiency ranks in Acrobatics and unarmored defense to expert. It also learns the advanced maneuver for its type. Its attacks become magical for the purpose of ignoring resistances.",
         "subType": "Nimble",
         "superType": "Incredible Companion (Ranger)",
@@ -23990,6 +24009,7 @@
     },
     {
         "name": "Incredible Companion (Ranger): Savage",
+        "displayName": "Incredible Companion: Savage",
         "desc": "Your animal companion continues to grow and develop. It becomes a savage animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).\n\nTo advance a mature animal companion to a savage animal companion, increase its Strength modifier by 2 and its Dexterity, Constitution, and Wisdom modifiers by 1. It deals 3 additional damage with its unarmed attacks. Increase its proficiency rank in Athletics to expert. It also learns the advanced maneuver for its type. If your companion is Medium or smaller, it grows by one size. Its attacks become magical for the purpose of ignoring resistances.",
         "subType": "Savage",
         "superType": "Incredible Companion (Ranger)",
@@ -24135,6 +24155,7 @@
     },
     {
         "name": "Side by Side (Ranger)",
+        "displayName": "Side by Side",
         "desc": "You and your animal companion fight in tandem, distracting your foes and keeping them off balance. Whenever you and your animal companion are adjacent to the same foe, you are both flanking that foe with each other, regardless of your actual positions.",
         "hints": [
             {
@@ -24247,6 +24268,7 @@
     },
     {
         "name": "Improved Twin Riposte (Ranger)",
+        "displayName": "Improved Twin Riposte",
         "desc": "At the start of each of your turns, you gain an additional reaction that you can use only to perform a Twin Riposte against your hunted prey. You can use this extra reaction even if you are not benefiting from Twin Parry.",
         "hints": [
             {
@@ -24289,6 +24311,7 @@
     },
     {
         "name": "Specialized Companion (Ranger)",
+        "displayName": "Specialized Companion",
         "desc": "Your animal companion has become cunning enough to become specialized. Your animal companion gains one specialization of your choice. (See the Animal Companion section on page 214.)\n\nSpecialized animal companions are more intelligent and engage in more complex behaviors. The first time an animal gains a specialization, it gains the following: Its proficiency rank for unarmed attacks increases to expert. Its proficiency ranks for saving throws and Perception increase to master. Increase its Dexterity modifier by 1 and its Intelligence modifier by 2. Its unarmed attack damage increases from two dice to three dice, and it increases its additional damage with unarmed attacks from 2 to 4 or from 3 to 6.",
         "shortdesc": "Your animal companion has become cunning enough to become specialized.",
         "countAsFeat": "Specialized Companion",
@@ -26440,6 +26463,7 @@
     },
     {
         "name": "Counterspell (Prepared)",
+        "displayName": "Counterspell",
         "desc": "When a foe Casts a Spell and you can see its manifestations, you can use your own magic to disrupt it.",
         "internalNote": "Using a spell to counterspell is hardcoded.",
         "shortdesc": "When a foe Casts a Spell and you can see its manifestations, you can use your own magic to disrupt it.",
@@ -26568,6 +26592,7 @@
     },
     {
         "name": "Cantrip Expansion (Prepared)",
+        "displayName": "Cantrip Expansion",
         "desc": "A greater understanding of your magic broadens your range of simple spells. You can prepare two additional cantrips each day.",
         "shortdesc": "Study broadens your range of simple spells.",
         "traits": [
@@ -30099,6 +30124,7 @@
     },
     {
         "name": "Cantrip Expansion (Spontaneous)",
+        "displayName": "Cantrip Expansion",
         "desc": "A greater understanding of your magic broadens your range of simple spells. Add two additional cantrips from your spell list to your repertoire.",
         "shortdesc": "Study broadens your range of simple spells.",
         "traits": [
@@ -32120,6 +32146,7 @@
     },
     {
         "name": "Tree Climber (Goblin)",
+        "displayName": "Tree Climber",
         "desc": "Your time in forest or jungle canopies has taught you how to scramble across branches with sure feet. You gain a climb Speed of 10 feet. If you also have the Cave Climber ancestry feat, your total climb Speed increases to your land Speed when climbing trees.",
         "hints": [
             {
@@ -33048,6 +33075,7 @@
     },
     {
         "name": "Shared Luck (Halfling)",
+        "displayName": "Shared Luck",
         "desc": "You are evidence that it's lucky to travel with a halfling. You can use Halfling Luck when an ally within 30 feet fails a skill check or a saving throw to allow the ally to reroll the triggering check instead of you rerolling your own failed check. As usual, your ally must use the new result, even if it's worse than their first roll. If you have Guiding Luck, you can't use Guiding Luck's effect that applies to attack rolls and Perception checks to use Shared Luck to benefit an ally.",
         "hints": [
             {
@@ -33273,6 +33301,7 @@
     },
     {
         "name": "Incredible Luck (Halfling)",
+        "displayName": "Incredible Luck",
         "desc": "Even other halflings consider you to be particularly lucky. You can use Halfling Luck once per hour, rather than once per day. If you have Guiding Luck, you can still use Halfling Luck when you fail a Perception check or attack roll only once per day (though you can use it within the same hour that you used Halfling Luck), and if you have Helpful Halfling, you can still use Halfling Luck on an ally instead of yourself only once per day.",
         "hints": [
             {
@@ -40602,6 +40631,7 @@
     },
     {
         "name": "Animal Companion (Druid)",
+        "displayName": "Animal Companion",
         "desc": "You gain the service of a young animal companion that travels with you on your adventures and obeys any simple commands you give it to the best of its abilities. See Animal Companions on page 214 for more information.",
         "shortdesc": "You gain the service of a young animal companion that travels with you.",
         "countAsFeat": "Animal Companion",
@@ -40879,6 +40909,7 @@
     },
     {
         "name": "Mature Animal Companion (Druid)",
+        "displayName": "Mature Animal Companion",
         "desc": "Your animal companion grows up, becoming a mature animal companion, which grants it additional capabilities. See the animal companion rules for more information. Your animal companion is better trained than most. During an encounter, even if you don't use the Command an Animal action, your animal companion can still use 1 action on your turn that round to Stride or Strike.",
         "hints": [
             {
@@ -41179,6 +41210,7 @@
     },
     {
         "name": "Incredible Companion (Druid)",
+        "displayName": "Incredible Companion",
         "desc": "Your animal companion continues to grow and develop. It becomes a nimble or savage animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).\n\nTo advance a mature animal companion to a nimble animal companion, increase its Dexterity modifier by 2 and its Strength, Constitution, and Wisdom modifiers by 1. It deals 2 additional damage with its unarmed attacks. Increase its proficiency ranks in Acrobatics and unarmored defense to expert. It also learns the advanced maneuver for its type. Its attacks become magical for the purpose of ignoring resistances.\n\nTo advance a mature animal companion to a savage animal companion, increase its Strength modifier by 2 and its Dexterity, Constitution, and Wisdom modifiers by 1. It deals 3 additional damage with its unarmed attacks. Increase its proficiency rank in Athletics to expert. It also learns the advanced maneuver for its type. If your companion is Medium or smaller, it grows by one size. Its attacks become magical for the purpose of ignoring resistances.",
         "subTypes": true,
         "shortdesc": "Your animal companion continues to grow and develop.",
@@ -41193,6 +41225,7 @@
     },
     {
         "name": "Incredible Companion (Druid): Nimble",
+        "displayName": "Incredible Companion: Nimble",
         "desc": "Your animal companion continues to grow and develop. It becomes a nimble animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).\n\nTo advance a mature animal companion to a nimble animal companion, increase its Dexterity modifier by 2 and its Strength, Constitution, and Wisdom modifiers by 1. It deals 2 additional damage with its unarmed attacks. Increase its proficiency ranks in Acrobatics and unarmored defense to expert. It also learns the advanced maneuver for its type. Its attacks become magical for the purpose of ignoring resistances.",
         "subType": "Nimble",
         "superType": "Incredible Companion (Druid)",
@@ -41211,6 +41244,7 @@
     },
     {
         "name": "Incredible Companion (Druid): Savage",
+        "displayName": "Incredible Companion: Savage",
         "desc": "Your animal companion continues to grow and develop. It becomes a savage animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).\n\nTo advance a mature animal companion to a savage animal companion, increase its Strength modifier by 2 and its Dexterity, Constitution, and Wisdom modifiers by 1. It deals 3 additional damage with its unarmed attacks. Increase its proficiency rank in Athletics to expert. It also learns the advanced maneuver for its type. If your companion is Medium or smaller, it grows by one size. Its attacks become magical for the purpose of ignoring resistances.",
         "subType": "Savage",
         "superType": "Incredible Companion (Druid)",
@@ -41408,6 +41442,7 @@
     },
     {
         "name": "Side by Side (Druid)",
+        "displayName": "Side by Side",
         "desc": "You and your animal companion fight in tandem, distracting your foes and keeping them off balance. Whenever you and your animal companion are adjacent to the same foe, you are both flanking that foe with each other, regardless of your actual positions.",
         "hints": [
             {
@@ -41549,6 +41584,7 @@
     },
     {
         "name": "Specialized Companion (Druid)",
+        "displayName": "Specialized Companion",
         "desc": "Your animal companion continues to grow in power and ability, and it is now cunning enough to become specialized. Your animal companion gains one specialization of your choice.",
         "specialdesc": "You can select this feat up to three times. Each time, add a different specialization to your companion.",
         "shortdesc": "Your animal companion continues to grow in power and ability, and it is now cunning enough to become specialized.",
@@ -42433,6 +42469,7 @@
     },
     {
         "name": "Counterspell (Spontaneous)",
+        "displayName": "Counterspell",
         "desc": "When a foe Casts a Spell and you can see its manifestations, you can use your own magic to disrupt it.",
         "specialdesc": "[Sorcerer] This feat has the trait corresponding to the tradition of spells you cast (arcane, divine, occult, or primal).",
         "internalNote": "Using a spell slot to counterspell is hardcoded.",

@@ -5,6 +5,9 @@ import { EffectsService } from '../effects.service';
 import { Effect } from '../Effect';
 import { TimeService } from '../time.service';
 import { ConditionSet } from '../ConditionSet';
+import { AnimalCompanionSpecialization } from '../AnimalCompanionSpecialization';
+import { AnimalCompanionAncestry } from '../AnimalCompanionAncestry';
+import { Feat } from '../Feat';
 
 @Component({
     selector: 'app-tags',
@@ -108,7 +111,7 @@ export class TagsComponent implements OnInit {
         }
     }
 
-    get_FeatsShowingOn(name: string, show: boolean) {
+    get_FeatsShowingOn(name: string, show: boolean): (AnimalCompanionAncestry|AnimalCompanionSpecialization|Feat)[] {
         if (show && name && this.creature == "Character") {
             return this.sortByName(this.characterService.get_FeatsShowingOn(name));
         } else if (show && name && this.creature == "Companion") {

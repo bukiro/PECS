@@ -645,26 +645,31 @@
                                         *ngIf="!get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
                                         <ng-container
                                             *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feat'); trackBy:trackByIndex;">
-                                            <div class="list-item fullsize-only">
-                                                <ng-template #FixedFeatContent>
-                                                    <header class="spellHeader">{{feat.name}}</header>
-                                                    <div class="newrow left-aligned">
-                                                        <strong>Source</strong>
-                                                        {{feat.source}}
-                                                    </div>
-                                                    <app-feat [feat]="get_FeatsAndFeatures(feat.name)[0]"
-                                                        [choice]="null" [levelNumber]="level.number">
-                                                    </app-feat>
-                                                </ng-template>
-                                                <button class="newrow left-aligned fancy-button featchoice"
-                                                    #FixedFeatPopover="ngbPopover" [ngbPopover]="FixedFeatContent"
-                                                    triggers="click">
-                                                    <span [ngbTooltip]="'Fixed feat'">
-                                                        <i class="bi-lock-fill"></i>
-                                                    </span>
-                                                    {{feat.name}}
-                                                </button>
-                                            </div>
+                                            <ng-container
+                                                *ngFor="let libraryFeat of [get_FeatsAndFeatures(feat.name)[0]]; trackBy:trackByIndex;">
+                                                <div class="list-item fullsize-only">
+                                                    <ng-template #FixedFeatContent>
+                                                        <header class="spellHeader">{{libraryFeat.displayName ||
+                                                            feat.name}}
+                                                        </header>
+                                                        <div class="newrow left-aligned">
+                                                            <strong>Source</strong>
+                                                            {{feat.source}}
+                                                        </div>
+                                                        <app-feat [feat]="libraryFeat" [choice]="null"
+                                                            [levelNumber]="level.number">
+                                                        </app-feat>
+                                                    </ng-template>
+                                                    <button class="newrow left-aligned fancy-button featchoice"
+                                                        #FixedFeatPopover="ngbPopover" [ngbPopover]="FixedFeatContent"
+                                                        triggers="click">
+                                                        <span [ngbTooltip]="'Fixed feat'">
+                                                            <i class="bi-lock-fill"></i>
+                                                        </span>
+                                                        {{libraryFeat.displayName || feat.name}}
+                                                    </button>
+                                                </div>
+                                            </ng-container>
                                         </ng-container>
                                     </ng-container>
                                     <!--Tile mode fixed feats-->
@@ -672,23 +677,29 @@
                                         *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
                                         <ng-container
                                             *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feat'); trackBy:trackByIndex;">
-                                            <ng-template #FixedFeatContent>
-                                                <header class="spellHeader">{{feat.name}}</header>
-                                                <div class="newrow left-aligned">
-                                                    <strong>Source</strong>
-                                                    {{feat.source}}
-                                                </div>
-                                                <app-feat [feat]="get_FeatsAndFeatures(feat.name)[0]" [choice]="null"
-                                                    [levelNumber]="level.number">
-                                                </app-feat>
-                                            </ng-template>
-                                            <button class="fullsize-only inactive-button" #FixedFeatPopover="ngbPopover"
-                                                [ngbPopover]="FixedFeatContent" triggers="click">
-                                                <app-gridIcon class="featchoice"
-                                                    [ngbTooltip]="!FixedFeatPopover.isOpen() && feat.name"
-                                                    [title]="feat.name" [superTitle]="'icon-bi-lock-fill'">
-                                                </app-gridIcon>
-                                            </button>
+                                            <ng-container
+                                                *ngFor="let libraryFeat of [get_FeatsAndFeatures(feat.name)[0]]; trackBy:trackByIndex;">
+                                                <ng-template #FixedFeatContent>
+                                                    <header class="spellHeader">{{libraryFeat.displayName || feat.name}}
+                                                    </header>
+                                                    <div class="newrow left-aligned">
+                                                        <strong>Source</strong>
+                                                        {{feat.source}}
+                                                    </div>
+                                                    <app-feat [feat]="libraryFeat" [choice]="null"
+                                                        [levelNumber]="level.number">
+                                                    </app-feat>
+                                                </ng-template>
+                                                <button class="fullsize-only inactive-button"
+                                                    #FixedFeatPopover="ngbPopover" [ngbPopover]="FixedFeatContent"
+                                                    triggers="click">
+                                                    <app-gridIcon class="featchoice"
+                                                        [ngbTooltip]="!FixedFeatPopover.isOpen() && (libraryFeat.displayName || feat.name)"
+                                                        [title]="libraryFeat.displayName || feat.name"
+                                                        [superTitle]="'icon-bi-lock-fill'">
+                                                    </app-gridIcon>
+                                                </button>
+                                            </ng-container>
                                         </ng-container>
                                     </ng-container>
                                     <!--Feat Choices handle tile mode internally-->
@@ -714,26 +725,31 @@
                                         *ngIf="!get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
                                         <ng-container
                                             *ngFor="let feature of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feature'); trackBy:trackByIndex;">
-                                            <div class="list-item fullsize-only">
-                                                <ng-template #FixedFeatureContent>
-                                                    <header class="spellHeader">{{feature.name}}</header>
-                                                    <div class="newrow left-aligned">
-                                                        <strong>Source</strong>
-                                                        {{feature.source}}
-                                                    </div>
-                                                    <app-feat [feat]="get_FeatsAndFeatures(feature.name)[0]"
-                                                        [choice]="null" [levelNumber]="level.number">
-                                                    </app-feat>
-                                                </ng-template>
-                                                <button class="newrow left-aligned fancy-button specialchoice"
-                                                    #FixedFeaturePopover="ngbPopover" [ngbPopover]="FixedFeatureContent"
-                                                    triggers="click">
-                                                    <span [ngbTooltip]="'Fixed ability'">
-                                                        <i class="bi-lock-fill"></i>
-                                                    </span>
-                                                    {{feature.name}}
-                                                </button>
-                                            </div>
+                                            <ng-container
+                                                *ngFor="let libraryFeature of [get_FeatsAndFeatures(feature.name)[0]]; trackBy:trackByIndex;">
+                                                <div class="list-item fullsize-only">
+                                                    <ng-template #FixedFeatureContent>
+                                                        <header class="spellHeader">{{libraryFeature.displayName ||
+                                                            feature.name}}
+                                                        </header>
+                                                        <div class="newrow left-aligned">
+                                                            <strong>Source</strong>
+                                                            {{feature.source}}
+                                                        </div>
+                                                        <app-feat [feat]="libraryFeature" [choice]="null"
+                                                            [levelNumber]="level.number">
+                                                        </app-feat>
+                                                    </ng-template>
+                                                    <button class="newrow left-aligned fancy-button specialchoice"
+                                                        #FixedFeaturePopover="ngbPopover"
+                                                        [ngbPopover]="FixedFeatureContent" triggers="click">
+                                                        <span [ngbTooltip]="'Fixed ability'">
+                                                            <i class="bi-lock-fill"></i>
+                                                        </span>
+                                                        {{libraryFeature.displayName || feature.name}}
+                                                    </button>
+                                                </div>
+                                            </ng-container>
                                         </ng-container>
                                     </ng-container>
                                     <!--Tile mode fixed features-->
@@ -741,24 +757,30 @@
                                         *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
                                         <ng-container
                                             *ngFor="let feature of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feature'); trackBy:trackByIndex;">
-                                            <ng-template #FixedFeatureContent>
-                                                <header class="spellHeader">{{feature.name}}</header>
-                                                <div class="newrow left-aligned">
-                                                    <strong>Source</strong>
-                                                    {{feature.source}}
-                                                </div>
-                                                <app-feat [feat]="get_FeatsAndFeatures(feature.name)[0]" [choice]="null"
-                                                    [levelNumber]="level.number">
-                                                </app-feat>
-                                            </ng-template>
-                                            <button class="fullsize-only inactive-button"
-                                                #FixedFeaturePopover="ngbPopover" [ngbPopover]="FixedFeatureContent"
-                                                triggers="click">
-                                                <app-gridIcon class="specialchoice"
-                                                    [ngbTooltip]="!FixedFeaturePopover.isOpen() && feature.name"
-                                                    [title]="feature.name" [superTitle]="'icon-bi-lock-fill'">
-                                                </app-gridIcon>
-                                            </button>
+                                            <ng-container
+                                                *ngFor="let libraryFeature of [get_FeatsAndFeatures(feature.name)[0]]; trackBy:trackByIndex;">
+                                                <ng-template #FixedFeatureContent>
+                                                    <header class="spellHeader">{{libraryFeature.displayName ||
+                                                        feature.name}}
+                                                    </header>
+                                                    <div class="newrow left-aligned">
+                                                        <strong>Source</strong>
+                                                        {{feature.source}}
+                                                    </div>
+                                                    <app-feat [feat]="libraryFeature" [choice]="null"
+                                                        [levelNumber]="level.number">
+                                                    </app-feat>
+                                                </ng-template>
+                                                <button class="fullsize-only inactive-button"
+                                                    #FixedFeaturePopover="ngbPopover" [ngbPopover]="FixedFeatureContent"
+                                                    triggers="click">
+                                                    <app-gridIcon class="specialchoice"
+                                                        [ngbTooltip]="!FixedFeaturePopover.isOpen() && (libraryFeature.displayName || feature.name)"
+                                                        [title]="libraryFeature.displayName || feature.name"
+                                                        [superTitle]="'icon-bi-lock-fill'">
+                                                    </app-gridIcon>
+                                                </button>
+                                            </ng-container>
                                         </ng-container>
                                     </ng-container>
                                     <!--Languages - show if you have gained languages this level-->
