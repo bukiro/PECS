@@ -2,8 +2,7 @@
   "name": "@bukiro/pecs",
   "version": "1.0.6",
   "author": {
-    "name": "Arne Brandt",
-    "email": "arne.x.brandt@outlook.com"
+    "name": "Arne Brandt"
   },
   "repository": {
     "type": "git",
@@ -15,8 +14,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --disable-host-check --live-reload=false",
-    "build": "ng build --prod=true --optimization=false --outputPath=./build/docs",
+    "build": "ng build --prod=true --optimization=false --outputPath=./build",
     "build-demo": "ng build --prod=true --optimization=false --outputPath=../build/docs --baseHref=/PECS-Demo/",
+    "publish-exe": "ng build --prod=true --optimization=false --outputPath=./publish/src && cd publish && nexe ./pecs.js && cd ..",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

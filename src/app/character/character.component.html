@@ -40,25 +40,35 @@
                     </div>
                 </ng-container>
                 <ng-container *ngIf="!get_SavegamesInitializing()">
-                    <ng-container *ngIf="!get_Savegames()">
+                    <ng-container *ngIf="!get_Database()">
                         <div class="list-item">
-                            <button class="newrow" (click)="on_RetryDatabaseConnection()">
-                                Database connection failed - click to retry
+                            <button class="newrow">
+                                No database configured
                             </button>
                         </div>
                     </ng-container>
-                    <ng-container *ngIf="get_Savegames()">
-                        <div class="list-item">
-                            <button class="newrow" (click)="toggle_List('load')"
-                                [ngClass]="{'activechoice':get_ShowList()=='load'}">
-                                Load Character
-                            </button>
-                        </div>
-                        <div class="list-item" *ngIf="!get_GMMode()">
-                            <button class="newrow" (click)="save_CharacterToDB()" [disabled]="get_IsBlankCharacter()">
-                                Save Character
-                            </button>
-                        </div>
+                    <ng-container *ngIf="get_Database()">
+                        <ng-container *ngIf="!get_Savegames()">
+                            <div class="list-item">
+                                <button class="newrow" (click)="on_RetryDatabaseConnection()">
+                                    Database connection failed - click to retry
+                                </button>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="get_Savegames()">
+                            <div class="list-item">
+                                <button class="newrow" (click)="toggle_List('load')"
+                                    [ngClass]="{'activechoice':get_ShowList()=='load'}">
+                                    Load Character
+                                </button>
+                            </div>
+                            <div class="list-item" *ngIf="!get_GMMode()">
+                                <button class="newrow" (click)="save_CharacterToDB()"
+                                    [disabled]="get_IsBlankCharacter()">
+                                    Save Character
+                                </button>
+                            </div>
+                        </ng-container>
                     </ng-container>
                 </ng-container>
                 <div class="list-item">
@@ -90,26 +100,36 @@
                         </button>
                     </ng-container>
                     <ng-container *ngIf="!get_SavegamesInitializing()">
-                        <ng-container *ngIf="!get_Savegames()">
-                            <button (click)="on_RetryDatabaseConnection()">
-                                <app-gridIcon [ngbTooltip]="'Database connection failed - click to retry'"
-                                    [superTitle]="'icon-bi-arrow-repeat'">
+                        <ng-container *ngIf="!get_Database()">
+                            <button>
+                                <app-gridIcon [ngbTooltip]="'No database configured'"
+                                    [superTitle]="'icon-bi-file-earmark-x'">
                                 </app-gridIcon>
                             </button>
                         </ng-container>
-                        <ng-container *ngIf="get_Savegames()">
-                            <button (click)="toggle_List('load')" [ngClass]="{'activechoice':get_ShowList()=='load'}">
-                                <app-gridIcon [ngbTooltip]="'Load Character'" [subTitle]="'Load'"
-                                    [superTitle]="'icon-bi-file-earmark-arrow-down'">
-                                </app-gridIcon>
-                            </button>
-                            <button *ngIf="!get_GMMode()" (click)="save_CharacterToDB()"
-                                [disabled]="get_IsBlankCharacter()">
-                                <app-gridIcon
-                                    [ngbTooltip]="get_IsBlankCharacter() ? 'No changes to character yet.' : 'Save Character'"
-                                    [subTitle]="'Save'" [superTitle]="'icon-bi-file-earmark-arrow-up'">
-                                </app-gridIcon>
-                            </button>
+                        <ng-container *ngIf="get_Database()">
+                            <ng-container *ngIf="!get_Savegames()">
+                                <button (click)="on_RetryDatabaseConnection()">
+                                    <app-gridIcon [ngbTooltip]="'Database connection failed - click to retry'"
+                                        [superTitle]="'icon-bi-arrow-repeat'">
+                                    </app-gridIcon>
+                                </button>
+                            </ng-container>
+                            <ng-container *ngIf="get_Savegames()">
+                                <button (click)="toggle_List('load')"
+                                    [ngClass]="{'activechoice':get_ShowList()=='load'}">
+                                    <app-gridIcon [ngbTooltip]="'Load Character'" [subTitle]="'Load'"
+                                        [superTitle]="'icon-bi-file-earmark-arrow-down'">
+                                    </app-gridIcon>
+                                </button>
+                                <button *ngIf="!get_GMMode()" (click)="save_CharacterToDB()"
+                                    [disabled]="get_IsBlankCharacter()">
+                                    <app-gridIcon
+                                        [ngbTooltip]="get_IsBlankCharacter() ? 'No changes to character yet.' : 'Save Character'"
+                                        [subTitle]="'Save'" [superTitle]="'icon-bi-file-earmark-arrow-up'">
+                                    </app-gridIcon>
+                                </button>
+                            </ng-container>
                         </ng-container>
                     </ng-container>
                     <button (click)="toggle_List('settings')" [ngClass]="{'activechoice':get_ShowList()=='settings'}">

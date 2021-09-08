@@ -6,6 +6,7 @@ import { PlayerMessage } from '../PlayerMessage';
 import { MessageService } from '../message.service';
 import { TimeService } from '../time.service';
 import { ToastService } from '../toast.service';
+import { ConfigService } from '../config.service';
 
 @Component({
     selector: 'app-top-bar',
@@ -23,6 +24,7 @@ export class TopBarComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
+        private configService: ConfigService,
         private savegameService: SavegameService,
         private messageService: MessageService,
         private timeService: TimeService,
@@ -33,6 +35,10 @@ export class TopBarComponent implements OnInit {
 
     trackByIndex(index: number, obj: any): any {
         return index;
+    }
+
+    get_Database() {
+        return this.configService.dbConnectionURL;
     }
 
     get_Savegames() {

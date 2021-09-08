@@ -810,7 +810,8 @@ export class SavegameService {
         //At this time, the save and load buttons are disabled, and we refresh the character builder and the menu bar so that the browser knows.
         characterService.set_Changed("charactersheet");
         characterService.set_Changed("top-bar");
-        this.load_Characters()
+        if (this.configService.dbConnectionURL) {
+            this.load_Characters()
             .subscribe((results: string[]) => {
                 this.loader = results;
                 this.finish_loading(characterService)
@@ -823,7 +824,13 @@ export class SavegameService {
                 // We refresh the character builder and the menu bar to update the buttons.
                 characterService.set_Changed("charactersheet");
                 characterService.set_Changed("top-bar");
+                characterService.set_Changed();
             });
+        } else {
+            this.loading = false;
+            this.loadingError = true;
+            this.savegames = [];
+        }
     }
 
     finish_loading(characterService: CharacterService) {

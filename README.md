@@ -20,11 +20,13 @@ Before you can run the app, you need to provide a config.json with your database
 
 Run `ng serve` for a dev server, navigate to `http://localhost:4200` and never bother to go productive. Alternatively, run `ng build` to build the project, with the `--prod` flag for a production build. CAUTION: Definitely use `--optimization=false` and configure your initial budget with `"maximumError": "15mb"` in angular.json. PECS is a very complex piece of code and does not take kindly to minification.
 
+NEW: You can now download the whole package with a Windows executable that requires no knowledge of Angular.
+
 A modern computer or tablet should have no issues running PECS in a browser, but mind that it requires some processing power and has a lot of on-screen content, so the mobile version is to be enjoyed on a provisionary basis. PECS looks best in the Edge browser.
 
 # Database
 
-If you want to keep your characters, you need a database. The demo uses a mongodb database, but you can probably make it work with another product, as long as you have a connector URL that handles the necessary queries. See `Database.md` for details, or just go ahead and use [my PECS-MongoDB connector](https://github.com/bukiro/PECS-MongoDB-Connector).
+If you want to keep your characters, you need a database. The demo uses a mongodb database, but you can probably make it work with another product, as long as you have a connector URL that handles the necessary queries. See `Database.md` for details, or just go ahead and use [my PECS-MongoDB connector](https://github.com/bukiro/PECS-MongoDB-Connector). The connector is available as a Windows executable.
 
 # Integration with Foundry VTT
 

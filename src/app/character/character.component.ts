@@ -39,6 +39,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SkillChoice } from '../SkillChoice';
 import { Activity } from '../Activity';
 import { Domain } from '../Domain';
+import { ConfigService } from '../config.service';
 
 @Component({
     selector: 'app-character',
@@ -60,11 +61,11 @@ export class CharacterComponent implements OnInit {
     public loadAsGM: boolean = false;
     public blankCharacter: Character = new Character();
     public bonusSource: string = "Bonus";
-    private firstTime: boolean = true;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
+        public configService: ConfigService,
         public classesService: ClassesService,
         public abilitiesService: AbilitiesService,
         public effectsService: EffectsService,
@@ -96,7 +97,6 @@ export class CharacterComponent implements OnInit {
     }
 
     toggleCharacterMenu() {
-        this.firstTime = false;
         this.characterService.toggle_Menu("character");
     }
 
@@ -252,6 +252,10 @@ export class CharacterComponent implements OnInit {
 
     get_SavegamesInitializing() {
         return this.savegameService.still_loading();
+    }
+
+    get_Database() {
+        return this.configService.dbConnectionURL;
     }
 
     get_Savegames() {

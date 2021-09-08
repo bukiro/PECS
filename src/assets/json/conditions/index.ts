@@ -1,10 +1,13 @@
-//For custom content, create index.ts to override this file and import custom json files.
-//index.ts must include this line from index.js:
-//  export { default as core } from './core.json';
-//Example index.ts: 
+//For custom content, create extensions.json in this directory to import custom json files. These files' names should start with "custom_".
+//For updates and conflicting content, use the "overridePriority" attribute in each object (higher value overrides lower value).
+//Example extensions.json: 
 /*
-export { default as core } from './core.json';
-export { default as custom } from './custom.json';
+[
+    {
+        "name": "my_campaign",
+        "filename": "custom_my_campaign.json"
+    }
+]
 */
 
 export { default as core } from './core.json';

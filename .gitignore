@@ -48,16 +48,17 @@ Thumbs.db
 
 # private config
 /src/assets/config (demo).json
-/docs/assets/config (demo).json
 /src/assets/config (local).json
-/docs/assets/config (local).json
 /src/assets/config.json
-/docs/assets/config.json
 /src/assets/json/**/custom*.json
-/docs/assets/json/**/custom*.json
 /src/assets/json/**/extensions.json
-/docs/assets/json/**/extensions.json
 
 # working environment
 pecs.code-workspace
 work assets
+.npmrc
+
+# production files
+build
+dist
+publish

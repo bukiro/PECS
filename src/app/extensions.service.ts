@@ -135,7 +135,7 @@ export class ExtensionsService {
         })
         let newcount = data.length;
         if (oldcount != newcount) {
-            console.log("Removed " + (oldcount - newcount) + " duplicates from " + listName + ":");
+            console.log("Resolved " + (oldcount - newcount) + " duplicate" + ((oldcount - newcount > 1) ? "s" : "") + " in " + listName + ":");
             console.log(duplicates);
         }
         return data;

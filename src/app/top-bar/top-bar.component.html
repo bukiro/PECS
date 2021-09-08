@@ -43,26 +43,31 @@
             [ngbTooltip]="'In GM mode, the character can\'t be saved and can\'t send effects to other players.'">GM
             Mode</button>
         <ng-container *ngIf="!get_SavegamesInitializing()">
-            <span *ngIf="!get_Savegames()" style="flex-grow: initial"
-                [ngbTooltip]="'Database connection failed.'"><button class="fancy-button" disabled><i
-                        class="bi-file-earmark-arrow-up"></i></button></span>
-            <ng-container *ngIf="get_Savegames()">
-                <ng-container *ngIf="!get_GMMode()">
-                    <span *ngIf="get_IsBlankCharacter()" style="flex-grow: initial"
-                        [ngbTooltip]="'No changes to character yet.'"><button class="fancy-button" disabled><i
-                                class="bi-file-earmark-arrow-up"></i></button></span>
-                    <span *ngIf="!get_IsBlankCharacter()" style="flex-grow: initial"
-                        [ngbTooltip]="'Save Character'"><button class="fancy-button" (click)="save()"><i
-                                class="bi-file-earmark-arrow-up"></i></button></span>
+            <span *ngIf="!get_Database()" style="flex-grow: initial" [ngbTooltip]="'No database configured.'"><button
+                    class="fancy-button" disabled><i class="bi-file-earmark-x"></i></button></span>
+            <ng-container *ngIf="get_Database()">
+                <span *ngIf="!get_Savegames()" style="flex-grow: initial"
+                    [ngbTooltip]="'Database connection failed.'"><button class="fancy-button" disabled><i
+                            class="bi-file-earmark-arrow-up"></i></button></span>
+                <ng-container *ngIf="get_Savegames()">
+                    <ng-container *ngIf="!get_GMMode()">
+                        <span *ngIf="get_IsBlankCharacter()" style="flex-grow: initial"
+                            [ngbTooltip]="'No changes to character yet.'"><button class="fancy-button" disabled><i
+                                    class="bi-file-earmark-arrow-up"></i></button></span>
+                        <span *ngIf="!get_IsBlankCharacter()" style="flex-grow: initial"
+                            [ngbTooltip]="'Save Character'"><button class="fancy-button" (click)="save()"><i
+                                    class="bi-file-earmark-arrow-up"></i></button></span>
+                    </ng-container>
+                    <span *ngIf="!get_IsBlankCharacter() && !get_ManualMode()" style="flex-grow: initial"
+                        [ngbTooltip]="get_Character().partyName ? 'Check for new effects' : 'You can only receive effects in a party.'">
+                        <button class="fancy-button" (click)="get_Messages()" [disabled]="!get_Character().partyName">
+                            <i class="ra ra-player-thunder-struck"></i>
+                            <div class="window-button-container"
+                                *ngIf="get_NewConditionMessages().length && !modalOpen">
+                                {{get_NewConditionMessages().length}}</div>
+                        </button>
+                    </span>
                 </ng-container>
-                <span *ngIf="!get_IsBlankCharacter() && !get_ManualMode()" style="flex-grow: initial"
-                    [ngbTooltip]="get_Character().partyName ? 'Check for new effects' : 'You can only receive effects in a party.'">
-                    <button class="fancy-button" (click)="get_Messages()" [disabled]="!get_Character().partyName">
-                        <i class="ra ra-player-thunder-struck"></i>
-                        <div class="window-button-container" *ngIf="get_NewConditionMessages().length && !modalOpen">
-                            {{get_NewConditionMessages().length}}</div>
-                    </button>
-                </span>
             </ng-container>
         </ng-container>
         <span style="flex-grow: initial" [ngbTooltip]="'Refresh all'"><button class="fancy-button"
