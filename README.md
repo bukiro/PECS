@@ -20,7 +20,7 @@ Before you can run the app, you need to provide a config.json with your database
 
 Run `ng serve` for a dev server, navigate to `http://localhost:4200` and never bother to go productive. Alternatively, run `ng build` to build the project, with the `--prod` flag for a production build. CAUTION: Definitely use `--optimization=false` and configure your initial budget with `"maximumError": "15mb"` in angular.json. PECS is a very complex piece of code and does not take kindly to minification.
 
-NEW: You can now download the whole package with a Windows/Linux/MacOS executable that requires no knowledge of Angular - see [releases](https://github.com/bukiro/PECS/releases).
+NEW: You can now download the whole package with a Windows/Linux executable that requires no knowledge of Angular - see [releases](https://github.com/bukiro/PECS/releases). The Linux executable currently still needs packages installed with `npm` to work.
 
 A modern computer or tablet should have no issues running PECS in a browser, but mind that it requires some processing power and has a lot of on-screen content, so the mobile version is to be enjoyed on a provisionary basis. PECS looks best in the Edge browser.
 
@@ -30,7 +30,20 @@ If you want to keep your characters, you need a database. The demo uses a mongod
 
 # Integration with Foundry VTT
 
-You can send your dice rolls from PECS straight to your Foundry VTT session, provided you have both open in the same browser - and the FVTT server has the [External Dice Roll Connector module](https://github.com/bukiro/external-dice-roll-connector) installed.
+You can send your dice rolls from PECS straight to your Foundry VTT session, provided you have both open in the same browser - and the FVTT server has the [External Dice Roll Connector module](https://github.com/bukiro/external-dice-roll-connector) installed. Enter the URL of your FVTT session in the PECS settings, and you can choose whether the dice are rolled in PECS first or directly in Foundry.
+
+# Custom Content
+
+You can place any custom content in JSON format in the appropriate folder in /src/assets/json, and let the app know that there is content to load by also placing an extensions.json file in the same folder. The extensions.json file should have the following format, and only files listed here are used in the app. If you are updating or expanding existing content, you should use the "overridePriority" attribute in each conflicting new object - objects with a higher value override those with a lower value.
+
+```
+[
+    {
+        "name": "my_campaign",
+        "filename": "custom_my_campaign.json"
+    }
+]
+```
 
 # State of development
 

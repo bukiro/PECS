@@ -56,6 +56,7 @@ Thumbs.db
 /publish/*.crt
 /publish/*.key
 /publish/*.exe
+/publish/*.log
 /publish/pecs
 
 # working environment
