@@ -16,7 +16,7 @@
     "start": "ng serve --host 0.0.0.0 --disable-host-check --live-reload=false",
     "build": "ng build --prod=true --optimization=false --outputPath=./build",
     "build-demo": "ng build --prod=true --optimization=false --outputPath=../build/docs --baseHref=/PECS-Demo/",
-    "publish-exe": "ng build --prod=true --optimization=false --outputPath=./publish/src && cd publish && nexe ./pecs.js && cd ..",
+    "publish-exe": "ng build --prod=true --optimization=false --outputPath=./publish/src && cd publish && nexe ./pecs.js -t linux-x64 && cd ..",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -36,6 +36,7 @@
     "bootstrap": "^4.5.0",
     "bootstrap-icons": "^1.4.0",
     "concurrently": "^5.3.0",
+    "express": "^4.17.1",
     "gzip-js": "^0.3.2",
     "rpg-awesome": "^0.2.0",
     "rxjs": "^6.6.3",
