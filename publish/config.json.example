@@ -1,0 +1,7 @@
+{
+    "dbConnectionURL": "https://server:port",
+    "HTTPPort": "8080",
+    "HTTPSPort": "8443",
+    "SSLCertificatePath": "./src/server.crt",
+    "SSLPrivateKeyPath": "./src/server.key"
+}

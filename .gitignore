@@ -52,6 +52,10 @@ Thumbs.db
 /src/assets/config.json
 /src/assets/json/**/custom*.json
 /src/assets/json/**/extensions.json
+/publish/*.json
+/publish/*.crt
+/publish/*.key
+/publish/*.exe
 
 # working environment
 pecs.code-workspace
@@ -59,6 +63,6 @@ work assets
 .npmrc
 
 # production files
-build
-dist
-publish
+/build
+/dist
+/publish/src
