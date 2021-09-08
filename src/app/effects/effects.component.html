@@ -28,7 +28,7 @@
         <ng-template #effectContent>
             <div class="newrow">
                 <span>
-                    <strong
+                    <strong class="no-shadow"
                         [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}">{{effect.target}}
                         {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue : ''}}
                     </strong>
@@ -84,7 +84,7 @@
             <app-gridIcon class="effect" [effect]="effect"
                 [ngClass]="{'penalty':effect.penalty && !effect.ignored, 'bonus':!effect.penalty && !effect.setValue && !effect.ignored, 'absolute':effect.setValue && !effect.ignored, 'inactive-button':effect.ignored}">
             </app-gridIcon>
-            <div class="gridicon-sidebar">
+            <div class="gridicon-sidebar effect">
                 <ng-container *ngTemplateOutlet="effectContent"></ng-container>
             </div>
         </div>

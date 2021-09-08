@@ -740,7 +740,7 @@ export class ItemsService {
                     cast.spellGain.duration = cast.duration;
                     let librarySpell = spellsService.get_Spells(cast.name)[0];
                     if (librarySpell) {
-                        spellsService.process_Spell(creature, creature.type, characterService, itemsService, conditionsService, null, cast.spellGain, librarySpell, cast.level, true, true, false);
+                        spellsService.process_Spell(creature, creature.type, characterService, itemsService, conditionsService, null, null, cast.spellGain, librarySpell, cast.level, true, true, false);
                     }
                 })
             }
@@ -748,7 +748,7 @@ export class ItemsService {
             //Gain Items on Activation
             if (item.gainItems.length && creature.type != "Familiar") {
                 item.gainItems.forEach(gainItem => {
-                    let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase())[0];
+                    let newItem: Item = itemsService.get_CleanItems()[gainItem.type].find((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase());
                     if (newItem) {
                         let grantedItem = characterService.grant_InventoryItem(creature as Character | AnimalCompanion, creature.inventories[0], newItem, false, false, true);
                         gainItem.id = grantedItem.id;
@@ -823,7 +823,7 @@ export class ItemsService {
             }
 
             //For feats that grant you an item on rest, grant these here and set an expiration until the next rest.
-            characterService.featsService.get_All(creature.customFeats)
+            characterService.featsService.get_CharacterFeats(creature.customFeats)
                 .filter(feat => feat.gainItems.find(gain => gain.on == "rest") && feat.have(creature, characterService, creature.level))
                 .forEach(feat => {
                     feat.gainItems.filter(gain => gain.on == "rest").forEach(gainItem => {
@@ -912,8 +912,9 @@ export class ItemsService {
         return this.loading;
     }
 
-    initialize(reset: boolean = true) {
-        if (!this.items || reset) {
+    initialize() {
+        //Initialize items once, but cleanup specialization effects and reset store and crafting items everytime thereafter.
+        if (!this.items) {
             this.loading = true;
             this.load(json_itemproperties, "itemProperties", ItemProperty, "meta");
             this.itemProperties = this.extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(this.itemProperties, ["group", "parent", "key"], "custom item properties");
@@ -961,6 +962,11 @@ export class ItemsService {
             this.loading = false;
 
         } else {
+            //Reset items and crafting items from clean items.
+            this.cleanItems.names.forEach(name => {
+                this.items[name.key] = this.cleanItems[name.key].map(obj => this.savegameService.reassign(JSON.parse(JSON.stringify(obj)), "", this));
+                this.craftingItems[name.key] = this.cleanItems[name.key].map(obj => this.savegameService.reassign(JSON.parse(JSON.stringify(obj)), "", this));
+            })
             //Disable any active hint effects when loading a character, and reinitialize the hints.
             this.specializations.forEach(spec => {
                 spec.hints = spec.hints.map(hint => Object.assign(new Hint(), hint));
@@ -975,16 +981,16 @@ export class ItemsService {
         let data;
         switch (category) {
             case "item":
-                this.items[target] = [];
                 this.cleanItems[target] = [];
+                this.items[target] = [];
                 this.craftingItems[target] = [];
                 data = this.extensionsService.extend(source, "items_" + target);
                 Object.keys(data).forEach(key => {
-                    this.items[target].push(...data[key].map(obj => this.initialize_Item(Object.assign(new type(), obj), true, false, true)));
+                    this.cleanItems[target].push(...data[key].map(obj => this.initialize_Item(Object.assign(new type(), obj), true, false, true)));
                 });
-                this.items[target] = this.extensionsService.cleanup_Duplicates(this.items[target], "id", listName);
-                this.cleanItems[target] = this.items[target].map(obj => this.savegameService.reassign(JSON.parse(JSON.stringify(obj)), "", this));
-                this.craftingItems[target] = this.items[target].map(obj => this.savegameService.reassign(JSON.parse(JSON.stringify(obj)), "", this));
+                this.cleanItems[target] = this.extensionsService.cleanup_Duplicates(this.cleanItems[target], "id", listName);
+                this.items[target] = this.cleanItems[target].map(obj => this.savegameService.reassign(JSON.parse(JSON.stringify(obj)), "", this));
+                this.craftingItems[target] = this.cleanItems[target].map(obj => this.savegameService.reassign(JSON.parse(JSON.stringify(obj)), "", this));
                 break;
             case "meta":
                 this[target] = [];

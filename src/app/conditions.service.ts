@@ -27,13 +27,26 @@ export class ConditionsService {
     private conditions: Condition[] = [];
     private loading: boolean = false;
     private appliedConditions: ConditionGain[][] = [[], [], []];
+    private conditionsMap = new Map<string, Condition>();
 
     constructor(
         private extensionsService: ExtensionsService
     ) { }
 
+    get_ConditionFromName(name: string) {
+        //Returns a named condition from the map.
+        return this.conditionsMap.get(name.toLowerCase());
+    }
+
     get_Conditions(name: string = "", type: string = "") {
         if (!this.still_loading()) {
+            //If only a name is given, try to find a condition by that name in the index map. This should be much quicker.
+            if (name && !type) {
+                let condition = this.get_ConditionFromName(name);
+                if (condition) {
+                    return [condition];
+                }
+            }
             return this.conditions.filter(condition =>
                 (condition.name.toLowerCase() == name.toLowerCase() || name == "") &&
                 (condition.type.toLowerCase() == type.toLowerCase() || type == "")
@@ -369,7 +382,7 @@ export class ConditionsService {
                     //
                     let spell = characterService.spellsService.get_Spells(taken.gain.name)[0];
                     if (spell) {
-                        characterService.spellsService.process_Spell(character, taken.gain.selectedTarget, characterService, itemsService, characterService.conditionsService, null, taken.gain, spell, 0, false, false)
+                        characterService.spellsService.process_Spell(character, taken.gain.selectedTarget, characterService, itemsService, characterService.conditionsService, null, null, taken.gain, spell, 0, false, false)
                     }
                     characterService.set_ToChange("Character", "spellbook");
                 });
@@ -433,7 +446,7 @@ export class ConditionsService {
     }
 
     add_ConditionItem(creature: Character | AnimalCompanion, characterService: CharacterService, itemsService: ItemsService, gainItem: ItemGain, condition: Condition) {
-        let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter((item: Item) => item.name.toLowerCase() == gainItem.name.toLowerCase())[0];
+        let newItem: Item = itemsService.get_CleanItems()[gainItem.type].find((item: Item) => item.name.toLowerCase() == gainItem.name.toLowerCase());
         if (newItem) {
             if (newItem.can_Stack()) {
                 //For consumables, add the appropriate amount and don't track them.
@@ -450,7 +463,7 @@ export class ConditionsService {
     }
 
     remove_ConditionItem(creature: Character | AnimalCompanion, characterService: CharacterService, itemsService: ItemsService, gainItem: ItemGain) {
-        if (itemsService.get_Items()[gainItem.type].filter((item: Item) => item.name.toLowerCase() == gainItem.name.toLowerCase())[0]?.can_Stack()) {
+        if (itemsService.get_Items()[gainItem.type].find((item: Item) => item.name.toLowerCase() == gainItem.name.toLowerCase())?.can_Stack()) {
             let items: Item[] = creature.inventories[0][gainItem.type].filter((item: Item) => item.name == gainItem.name);
             //For consumables, remove the same amount as previously given. This is not ideal, but you can easily add more in the inventory.
             if (items.length) {
@@ -507,7 +520,7 @@ export class ConditionsService {
                     }
                 } else {
                     if (activeConditions.some(gain => (gain.duration > 0 && gain.choice != "Onset") || gain.nextStage > 0)) {
-                        let firstObject: ConditionGain = activeConditions.filter(gain => gain.duration > 0 || gain.nextStage > 0)[0]
+                        let firstObject: ConditionGain = activeConditions.find(gain => gain.duration > 0 || gain.nextStage > 0);
                         let durations: number[] = [];
                         if (firstObject.duration > 0 && firstObject.choice != "Onset") { durations.push(firstObject.duration); }
                         if (firstObject.nextStage > 0) { durations.push(firstObject.nextStage); }
@@ -621,9 +634,14 @@ export class ConditionsService {
     }
 
     initialize() {
+        //Initialize conditions only once, but cleanup active effects everytime thereafter.
         if (!this.conditions.length) {
             this.loading = true;
             this.load_Conditions();
+            this.conditionsMap.clear();
+            this.conditions.forEach(condition => {
+                this.conditionsMap.set(condition.name.toLowerCase(), condition);
+            })
             this.loading = false;
         } else {
             //Disable any active hint effects when loading a character.

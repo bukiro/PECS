@@ -186,10 +186,10 @@ export class SkillchoiceComponent implements OnInit {
         }
         //If this skill was trained by a feat on a higher level, it can't be raised on this level.
         //This prevents losing the feat bonus or raising the skill too high.
-        //An exception is made for Additional Lore, which can be raised on Level 3, 7 and 15 no matter when you learned it
+        //An exception is made for Additional Lore and Gnome Obsession, which can be raised on Level 2/3, 7 and 15 no matter when you learned them.
         let allIncreases = this.get_SkillIncreases(levelNumber + 1, 20, skill.name, "", "", undefined, true);
         if (allIncreases.length > 0) {
-            if (allIncreases[0].locked && allIncreases[0].source.includes("Feat: ") && allIncreases[0].source != "Feat: Additional Lore") {
+            if (allIncreases[0].locked && allIncreases[0].source.includes("Feat: ") && !["Feat: Additional Lore", "Feat: Gnome Obsession"].includes(allIncreases[0].source)) {
                 let trainedOnHigherLevelByFeat = "Trained on a higher level by " + allIncreases[0].source + ".";
                 reasons.push(trainedOnHigherLevelByFeat);
             }

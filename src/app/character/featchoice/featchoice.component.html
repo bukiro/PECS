@@ -83,7 +83,8 @@
                         </div>
                     </div>
                     <!-- End Filter -->
-                    <ng-container *ngFor="let featSets of [get_AvailableFeats(choice, availableFeats)]; trackBy:trackByIndex">
+                    <ng-container
+                        *ngFor="let featSets of [get_AvailableFeats(choice, availableFeats)]; trackBy:trackByIndex">
                         <div class="list-item" *ngIf="get_AvailableFeatsCount(featSets) < availableFeats">
                             <span>There are fewer results available than you are allowed to take. This may be due to a
                                 choice with limited options, and it might be intended at this time.</span>
@@ -96,12 +97,13 @@
                             <ng-container
                                 *ngFor="let taken of [get_FeatTakenByChoice(featSet.feat, choice)]; trackBy:trackByIndex">
                                 <ng-container
-                                    *ngFor="let checked of [taken || (!featSet.available && get_FeatTakenEver(featSet.feat))]; trackBy:trackByIndex">
+                                    *ngFor="let checked of [(taken && true) || (!featSet.available && get_FeatTakenEver(featSet.feat))]; trackBy:trackByIndex">
                                     <ng-container
-                                        *ngFor="let disabled of [(availableFeats <= choice.feats.length) && !taken]; trackBy:trackByIndex">
+                                        *ngFor="let disabled of [((availableFeats <= choice.feats.length) && !taken) || (taken && taken.automatic)]; trackBy:trackByIndex">
                                         <ng-template #FeatChoiceDetailTemplate>
                                             <div class="newrow">
-                                                <header class="spellHeader">{{featSet.feat.displayName || featSet.feat.name}}</header>
+                                                <header class="spellHeader">{{featSet.feat.displayName ||
+                                                    featSet.feat.name}}</header>
                                                 <div class="button newrow no-animation"
                                                     *ngIf="!featSet.feat.subTypes && featSet.available"
                                                     [ngClass]="{'fancy-button':taken, 'disabled':disabled}">
@@ -114,7 +116,7 @@
                                                 </div>
                                                 <div class="newrow left-aligned">
                                                     <cite [ngbPopover]="reason.explain" class="problem"
-                                                        *ngFor="let reason of cannotTake(featSet.feat, choice, true); trackBy:trackByIndex;">
+                                                        *ngFor="let reason of featSet.cannotTake; trackBy:trackByIndex;">
                                                         {{reason.reason}}
                                                     </cite>
                                                 </div>
@@ -126,11 +128,11 @@
                                                     <ng-container
                                                         *ngFor="let subFeatTaken of [get_FeatTakenByChoice(subfeatSet.subfeat, choice)]; trackBy:trackByIndex;">
                                                         <ng-container
-                                                            *ngFor="let subFeatChecked of [subFeatTaken || (!subfeatSet.available && get_FeatTakenEver(subfeatSet.subfeat))]; trackBy:trackByIndex;">
+                                                            *ngFor="let subFeatChecked of [(subFeatTaken && true) || (!subfeatSet.available && get_FeatTakenEver(subfeatSet.subfeat))]; trackBy:trackByIndex;">
                                                             <ng-container
-                                                                *ngFor="let subFeatDisabled of [(availableFeats <= choice.feats.length && !subFeatTaken)]; trackBy:trackByIndex;">
+                                                                *ngFor="let subFeatDisabled of [(availableFeats <= choice.feats.length && !subFeatTaken) || (subFeatTaken && subFeatTaken.automatic)]; trackBy:trackByIndex;">
                                                                 <div class="newrow list-item"
-                                                                    [ngClass]="{'selected':subFeatTaken, 'unavailable':(!subfeatSet.available)}"
+                                                                    [ngClass]="{'selected':(subFeatTaken && true), 'unavailable':(!subfeatSet.available)}"
                                                                     style="justify-content: flex-end;">
                                                                     <div class="newrow left-aligned"
                                                                         *ngFor="let subItemID of [choice.id+subfeatSet.subfeat.name+'desc']; trackBy:trackByIndex;">
@@ -143,7 +145,13 @@
                                                                                 [checked]="subFeatChecked"
                                                                                 [disabled]="subFeatDisabled"
                                                                                 *ngIf="subfeatSet.available">
-                                                                            <strong>{{subfeatSet.subfeat.subType}}</strong>
+                                                                            <span>
+                                                                                <strong>{{subfeatSet.subfeat.subType}}</strong>
+                                                                                <span class="lower"
+                                                                                    *ngIf="subFeatTaken && subFeatTaken.automatic">
+                                                                                    Taken automatically
+                                                                                </span>
+                                                                            </span>
                                                                         </span>
                                                                         <button (click)="toggle_SubFeat(subItemID)"
                                                                             [ngClass]="{'fancy-button':get_ShowSubFeat()==subItemID}">
@@ -169,7 +177,7 @@
                                                                                 <div class="newrow left-aligned">
                                                                                     <cite class="problem"
                                                                                         [ngbPopover]="reason.explain"
-                                                                                        *ngFor="let reason of cannotTake(subfeatSet.subfeat, choice, true); trackBy:trackByIndex;">
+                                                                                        *ngFor="let reason of subfeatSet.cannotTake; trackBy:trackByIndex;">
                                                                                         {{reason.reason}}
                                                                                     </cite>
                                                                                 </div>
@@ -211,6 +219,9 @@
                                                         featSet.feat.skillreq.length == 1 ? "(" +
                                                         featSet.feat.skillreq[0].skill + ") " :
                                                         ""}}{{featSet.feat.displayName || featSet.feat.name}}
+                                                    </span>
+                                                    <span class="lower" *ngIf="taken && taken.automatic">
+                                                        Taken automatically
                                                     </span>
                                                     <cite *ngIf="featSet.feat.levelreq">Level
                                                         {{featSet.feat.levelreq}}</cite>

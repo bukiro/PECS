@@ -1,3 +1,4 @@
+import { Character } from './Character';
 import { CharacterService } from './character.service';
 import { Creature } from './Creature';
 import { Equipment } from './Equipment';
@@ -27,6 +28,12 @@ export class Shield extends Equipment {
     //What kind of shield is this based on?
     public shieldBase: string = "";
     public _shieldAlly: boolean = false;
+    //A Cleric with the Emblazon Armament feat can give a bonus to a shield or weapon that only works for followers of the same deity.
+    // Subsequent feats can change options and restrictions of the functionality.
+    public emblazonArmament: { type: string, choice: string, deity: string, alignment: string, emblazonDivinity: boolean, source: string }[] = [];
+    public _emblazonArmament: boolean = false;
+    public _emblazonEnergy: boolean = false;
+    public _emblazonAntimagic: boolean = false;
     //Shoddy shields take a -2 penalty to AC.
     public _shoddy: number = 0;
     get_Name() {
@@ -81,15 +88,35 @@ export class Shield extends Equipment {
         }
     }
     get_ShieldAlly(creature: Creature, characterService: CharacterService) {
-        this._shieldAlly = characterService.get_Feats("Divine Ally: Shield Ally")[0]?.have(creature, characterService) && true;
+        this._shieldAlly = this.equipped && (characterService.get_CharacterFeatsAndFeatures("Divine Ally: Shield Ally")[0]?.have(creature, characterService) && true);
         return this._shieldAlly;
+    }
+    get_EmblazonArmament(creature: Creature, characterService: CharacterService) {
+        this._emblazonArmament = false;
+        this._emblazonEnergy = false;
+        this.emblazonArmament.forEach(ea => {
+            if (ea.emblazonDivinity || (creature instanceof Character && characterService.get_CharacterDeities(creature).some(deity => deity.name.toLowerCase() == ea.deity.toLowerCase()))) {
+                switch (ea.type) {
+                    case "emblazonArmament":
+                        this._emblazonArmament = true;
+                        break;
+                    case "emblazonEnergy":
+                        this._emblazonEnergy = true;
+                        break;
+                    case "emblazonAntimagic":
+                        this._emblazonAntimagic = true;
+                        break;
+                }
+            }
+        })
+        return this._emblazonArmament || this._emblazonEnergy || this._emblazonAntimagic;
     }
     get_Hardness() {
         let hardness = this.hardness;
         this.material.forEach((material: ShieldMaterial) => {
             hardness = material.hardness;
         })
-        return hardness + (this._shieldAlly ? 2 : 0);
+        return hardness + (this._shieldAlly ? 2 : 0) + (this._emblazonArmament ? 1 : 0);
     }
     get_MaxHP() {
         let hitpoints = this.hitpoints;

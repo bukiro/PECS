@@ -158,6 +158,7 @@ export class HistoryService {
     }
 
     initialize() {
+        //Initialize only once.
         if (!this.ancestries.length) {
             this.loading_ancestries = true;
             this.load(json_ancestries, "ancestries", Ancestry);

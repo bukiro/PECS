@@ -32,7 +32,7 @@ export class AnimalCompanionClass {
         if (this.ancestry.name) {
             if (this.ancestry.gainItems.length) {
                 this.ancestry.gainItems.forEach(freeItem => {
-                    let item: Equipment = itemsService.get_Items()[freeItem.type].filter((item: Equipment) => item.name.toLowerCase() == freeItem.name.toLowerCase())[0];
+                    let item: Equipment = itemsService.get_Items()[freeItem.type].find((item: Equipment) => item.name.toLowerCase() == freeItem.name.toLowerCase());
                     let grantedItem = characterService.grant_InventoryItem(characterService.get_Companion(), characterService.get_Companion().inventories[0], item, false, false, true, freeItem.amount);
                     freeItem.id = grantedItem.id;
                 });

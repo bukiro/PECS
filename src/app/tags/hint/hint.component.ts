@@ -5,6 +5,7 @@ import { ConditionSet } from 'src/app/ConditionSet';
 import { Feat } from 'src/app/Feat';
 import { Hint } from 'src/app/Hint';
 import { Item } from 'src/app/Item';
+import { Shield } from 'src/app/Shield';
 import { TraitsService } from 'src/app/traits.service';
 import { WornItem } from 'src/app/WornItem';
 
@@ -48,6 +49,7 @@ export class HintComponent implements OnInit {
     get_Hints() {
         let isConditionSet = this.object instanceof ConditionSet;
         let isAeonStone = this.object instanceof WornItem && this.object.isAeonStone;
+        let isEmblazonArmamentShield = (this.object instanceof Shield && this.object.emblazonArmament.length) ? this.object : null;
         return (isConditionSet ? this.object.condition.hints : this.object.hints)
             .filter((hint: Hint) =>
                 (hint.minLevel ? this.get_CharacterLevel() >= hint.minLevel : true) &&
@@ -79,6 +81,21 @@ export class HintComponent implements OnInit {
                         (
                             this.objectName.toLowerCase().includes("lore") &&
                             showon.trim().toLowerCase() == "lore"
+                        ) ||
+                        (
+                            //Show Emblazon Energy or Emblazon Antimagic Shield Block hint on Shield Block if the shield's blessing applies.
+                            isEmblazonArmamentShield &&
+                            (
+                                (
+                                    isEmblazonArmamentShield._emblazonEnergy &&
+                                    this.objectName == "Shield Block" &&
+                                    showon == "Emblazon Energy Shield Block"
+                                ) || (
+                                    isEmblazonArmamentShield._emblazonAntimagic &&
+                                    this.objectName == "Shield Block" &&
+                                    showon == "Emblazon Antimagic Shield Block"
+                                )
+                            )
                         )
                     )
             )
@@ -122,20 +139,33 @@ export class HintComponent implements OnInit {
         return this.traitsService.get_Traits(traitName);
     }
 
-    get_ObjectType() {
-        if (this.object instanceof Feat) {
+    get_Source(hint: Hint) {
+        if (hint.replaceSource.length) {
+            let replaceSource = hint.replaceSource[0];
+            if (replaceSource.source) {
+                switch (replaceSource.type) {
+                    case "feat":
+                        return this.characterService.get_FeatsAndFeatures(replaceSource.source)[0] || this.object;
+                }
+            }
+        }
+        return this.object;
+    }
+
+    get_ObjectType(object: any) {
+        if (object instanceof Feat) {
             return "Feat";
         }
-        if (this.object instanceof Activity) {
+        if (object instanceof Activity) {
             return "Activity";
         }
-        if (this.object instanceof ConditionSet) {
+        if (object instanceof ConditionSet) {
             return "ConditionSet";
         }
-        if (this.object instanceof Item) {
+        if (object instanceof Item) {
             return "Item";
         }
-        if (this.object?.desc) {
+        if (object?.desc) {
             return "DescOnly"
         }
         return "";

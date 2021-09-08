@@ -157,7 +157,8 @@
                             </cite>
                         </div>
                         <app-tags [creature]="creature" [objectName]="'Shield'" [showTraits]=true [showFeats]=true
-                            [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true>
+                            [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true
+                            [specialNames]="get_SpecialShowon(shield)">
                         </app-tags>
                         <div class="newrow">
                             <button class="center-aligned" *ngIf="!shield.raised"
@@ -182,7 +183,8 @@
                         </div>
                         <div class="list-item newrow">
                             <ng-template #DamageSliderTemplate>
-                                <div class="slider-container" [style.--name]="'\'Damage\''" style="width:30rem; max-width:90vw;">
+                                <div class="slider-container" [style.--name]="'\'Damage\''"
+                                    style="width:30rem; max-width:90vw;">
                                     <input class="slider" type="range" min="0" max="{{shield.get_MaxHP()}}"
                                         [(ngModel)]="shieldDamage">
                                 </div>
@@ -254,7 +256,8 @@
                 </ng-container>
                 <header class="sectionHeader fullsize-only box-header" *ngIf="!still_loading()">Saving Throws</header>
                 <app-tags [creature]="creature" [objectName]="'Saving Throws'" [showTraits]=true [showFeats]=true
-                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true
+                    [specialNames]="get_SpecialShowon(null, true)"></app-tags>
                 <ng-container *ngFor="let skill of get_Skills('', 'Save'); trackBy:trackByIndex;">
                     <app-skill [creature]="creature" [skill]=skill></app-skill>
                 </ng-container>

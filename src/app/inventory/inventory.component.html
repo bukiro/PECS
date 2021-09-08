@@ -232,6 +232,15 @@
                                                 <span [ngbTooltip]="'Battleforged'" *ngIf="item.battleforged">
                                                     <i class='ra ra-anvil'></i>
                                                 </span>
+                                                <span [ngbTooltip]="'Emblazon Armament'" *ngIf="get_ItemEmblazonArmament(item)">
+                                                    <i class='ra ra-fire-shield'></i>
+                                                </span>
+                                                <span [ngbTooltip]="'Emblazon Energy: ' + get_ItemEmblazonEnergy(item)" *ngIf="get_ItemEmblazonEnergy(item)">
+                                                    <i class='ra ra-bolt-shield'></i>
+                                                </span>
+                                                <span [ngbTooltip]="'Emblazon Antimagic'" *ngIf="get_ItemEmblazonAntimagic(item)">
+                                                    <i class='ra ra-eye-shield'></i>
+                                                </span>
                                                 {{(item.amount != undefined && item.amount != 1) ? item.amount+" " :
                                                 ""}} {{(item['get_Name']) ? item.get_Name() : item.name}}
                                                 <span class="lower"
@@ -261,6 +270,15 @@
                                             </span>
                                             <span *ngIf="item.battleforged">
                                                 <i class='ra ra-anvil'></i>
+                                            </span>
+                                            <span *ngIf="get_ItemEmblazonArmament(item)">
+                                                <i class='ra ra-fire-shield'></i>
+                                            </span>
+                                            <span *ngIf="get_ItemEmblazonEnergy(item)">
+                                                <i class='ra ra-bolt-shield'></i>
+                                            </span>
+                                            <span *ngIf="get_ItemEmblazonAntimagic(item)">
+                                                <i class='ra ra-eye-shield'></i>
                                             </span>
                                             {{(item.amount != undefined && item.amount != 1) ? item.amount+" " : ""}}
                                             {{(item['get_Name']) ? item.get_Name() : item.name}}
@@ -449,8 +467,7 @@
                                                         Status
                                                     </label>
                                                 </span>
-                                                <span
-                                                    *ngIf="item.moddable && item.constructor.name != 'Shield'">
+                                                <span *ngIf="item.moddable && item.constructor.name != 'Shield'">
                                                     <input class="invisible" id="{{item.id}}showrunes" type="checkbox"
                                                         [(ngModel)]="item.showRunes">
                                                     <label for="{{item.id}}showrunes">
@@ -523,14 +540,14 @@
                                                 </span>
                                             </div>
                                             <div class="list-item newrow"
-                                                *ngIf="get_BladeAllyAllowed(item) || item.bladeAlly">
+                                                *ngIf="item.bladeAlly || get_BladeAllyAllowed(item)">
                                                 <div class="newrow">
                                                     <span
-                                                        [ngbPopover]="(get_BladeAllyUsed() && !item.bladeAlly) ? 'Another item is already designated as your blade ally.' : ''">
+                                                        [ngbPopover]="(!item.bladeAlly && get_BladeAllyUsed()) ? 'Another item is already designated as your blade ally.' : ''">
                                                         <input id="{{item.id}}bladeally" type="checkbox"
                                                             [(ngModel)]="item.bladeAlly"
                                                             (ngModelChange)=onItemChange(item)
-                                                            [disabled]="get_BladeAllyUsed() && !item.bladeAlly">
+                                                            [disabled]="!item.bladeAlly && get_BladeAllyUsed()">
                                                         <label for="{{item.id}}bladeally">
                                                             <i class='ra ra-fireball-sword'></i>
                                                             Blade Ally
@@ -543,8 +560,11 @@
                                                     *ngIf="item.bladeAlly">
                                                 </app-itemBladeAlly>
                                             </div>
+                                            <app-itemEmblazonArmament class="fullwidth" [item]=item
+                                                *ngIf="item.emblazonArmament?.length || get_EmblazonArmamentAllowed(item)">
+                                            </app-itemEmblazonArmament>
                                             <div class="list-item newrow"
-                                                *ngIf="get_BattleforgedAllowed(item) || item.battleforged">
+                                                *ngIf="item.battleforged || get_BattleforgedAllowed(item)">
                                                 <span>
                                                     <input id="{{item.id}}battleforged" type="checkbox"
                                                         [(ngModel)]="item.battleforged"
@@ -562,7 +582,8 @@
                                                 <app-itemRunes class="newrow" [item]=item [itemStore]=false>
                                                 </app-itemRunes>
                                             </div>
-                                            <app-itemOils class="hide-empty" [item]=item [itemStore]=false *ngIf="item.type != 'oils'">
+                                            <app-itemOils class="hide-empty" [item]=item [itemStore]=false
+                                                *ngIf="item.type != 'oils'">
                                             </app-itemOils>
                                             <app-itemPoisons class="hide-empty" [item]=item [itemStore]=false
                                                 *ngIf="item.type == 'weapons'">
@@ -570,8 +591,7 @@
                                             <app-itemTalismans [item]=item [itemStore]=false
                                                 *ngIf="can_ApplyTalismans(item)">
                                             </app-itemTalismans>
-                                            <app-itemTalismanCords [item]=item
-                                                *ngIf="can_ApplyTalismanCords(item)">
+                                            <app-itemTalismanCords [item]=item *ngIf="can_ApplyTalismanCords(item)">
                                             </app-itemTalismanCords>
                                             <ng-container *ngIf="item.type=='shields'">
                                                 <div class="list-item newrow">
@@ -585,7 +605,8 @@
                                                 <div class="list-item newrow">
                                                     <ng-template #DamageSliderTemplate>
                                                         <div class="popover-keepalive slider-container"
-                                                            [style.--name]="'\'Damage\''" style="width:30rem; max-width:90vw;">
+                                                            [style.--name]="'\'Damage\''"
+                                                            style="width:30rem; max-width:90vw;">
                                                             <input class="slider" type="range" min="0"
                                                                 max="{{item.get_MaxHP()}}" [(ngModel)]="shieldDamage">
                                                         </div>

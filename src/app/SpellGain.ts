@@ -33,6 +33,8 @@ export class SpellGain {
     public selectedTarget: string = "";
     //The selected targets are saved here for applying conditions.
     public targets: SpellTarget[] = [];
+    //Don't trigger blood magic poweres when the spell is cast. Is set by the player.
+    public ignoreBloodMagicTrigger = false;
     //Condition gains save this id so they can be found and removed when the spell ends, or end the spell when the condition ends.
     public id = uuidv4();
 }

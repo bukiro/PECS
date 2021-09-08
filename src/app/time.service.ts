@@ -47,12 +47,13 @@ export class TimeService {
                     fastHealing += parseInt(effect.value);
                 })
                 if (fastHealing && creature.health.currentHP(creature, characterService, effectsService).result > 0) {
+                    characterService.set_ToChange(creature.type, "health");
                     creature.health.heal(creature, characterService, effectsService, fastHealing);
                     this.toastService.show((creature.type == "Character" ? "You" : (creature.name ? creature.name : "Your " + creature.type.toLowerCase())) + " gained " + (fastHealing).toString() + " HP from fast healing.", [], characterService)
                 }
             })
         }
-        
+
         this.tick(characterService, conditionsService, itemsService, spellsService, 5);
 
         //If the character is in a party and sendTurnStartMessage is set, send a turn end event to all your party members.
@@ -60,11 +61,13 @@ export class TimeService {
         if (character.partyName && character.settings.sendTurnStartMessage && !character.settings.sendTurnEndMessage) {
             characterService.send_TurnChangeToPlayers();
         }
+
+        characterService.process_ToChange();
     }
 
     end_Turn(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService) {
         this.tick(characterService, conditionsService, itemsService, spellsService, 5);
-        
+
         //If the character is in a party and sendTurnEndMessage is set, send a turn end event to all your party members.
         let character = characterService.get_Character();
         if (character.partyName && character.settings.sendTurnStartMessage && character.settings.sendTurnEndMessage) {
@@ -77,6 +80,7 @@ export class TimeService {
         this.tick(characterService, conditionsService, itemsService, spellsService, 48000, false);
         characterService.get_Creatures().forEach(creature => {
             characterService.set_ToChange(creature.type, "health");
+            characterService.set_ToChange(creature.type, "effects");
             let con = 1;
             if (creature.type != "Familiar") {
                 con = Math.max(characterService.abilitiesService.get_Abilities("Constitution")[0].mod((creature as AnimalCompanion | Character), characterService, characterService.effectsService).result, 1);

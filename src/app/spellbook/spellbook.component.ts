@@ -216,7 +216,7 @@ export class SpellbookComponent implements OnInit {
     }
 
     get_SignatureSpellsAllowed(casting: SpellCasting) {
-        return this.characterService.get_FeatsAndFeatures()
+        return this.characterService.get_CharacterFeatsAndFeatures()
             .some(feat => feat.allowSignatureSpells.some(gain => gain.className == casting.className) && feat.have(this.get_Character(), this.characterService))
     }
 
@@ -386,8 +386,8 @@ export class SpellbookComponent implements OnInit {
         return this.timeService.get_Duration(turns, includeTurnState, inASentence);
     }
 
-    get_ExternallyDisabled(spell: Spell) {
-        return this.effectsService.get_EffectsOnThis(this.get_Character(), spell.name + " Disabled").length;
+    get_ExternallyDisabled(spell: Spell, choice: SpellChoice) {
+        return this.effectsService.get_EffectsOnThis(this.get_Character(), spell.name + " Disabled").length + this.effectsService.get_EffectsOnThis(this.get_Character(), choice.source.replace("Feat: ", "") + " Disabled").length;
     }
 
     cannot_Cast(spell: Spell, levelNumber: number, casting: SpellCasting, choice: SpellChoice, gain: SpellGain, maxSpellSlots: number, externallyDisabled: number) {
@@ -397,9 +397,13 @@ export class SpellbookComponent implements OnInit {
         if (externallyDisabled) {
             return "Disabled by effect."
         }
+        let spellLevel = choice.level;
+        if (choice.dynamicLevel) {
+            spellLevel = this.get_DynamicLevel(casting, choice);
+        }
         switch (casting.castingType) {
             case "Focus":
-                if (choice.level == -1) {
+                if (spellLevel == -1) {
                     if (this.get_Character().class.focusPoints <= 0) {
                         return "No focus points left to cast."
                     }
@@ -437,7 +441,7 @@ export class SpellbookComponent implements OnInit {
                     return "";
                 }
             case "Prepared":
-                if (choice.level > 0 && !gain.prepared) {
+                if (spellLevel > 0 && !gain.prepared) {
                     return "Already cast today."
                 } else {
                     return "";
@@ -474,9 +478,16 @@ export class SpellbookComponent implements OnInit {
             highestNoDurationSpellPreservationLevel += parseInt(effect.value);
             conditionsToRemove.push(effect.source);
         })
-        if (gain.cooldown) {
-            //Spells with a cooldown can start their cooldown, but don't use any resources. This happens whether they were activated or deactivated.
-            gain.activeCooldown = gain.cooldown;
+        if (choice.source == "Feat: Channeled Succor") {
+            //When you use a Channeled Succor spell, you instead expend a heal spell from your divine font.
+            let divineFontSpell = character.get_SpellsTaken(this.characterService, 1, character.level, -1, 'Heal', null, '', '', '', 'Divine Font').find(taken => taken.gain.prepared);
+            if (divineFontSpell) {
+                divineFontSpell.gain.prepared = false;
+            }
+            //Update effects because Channeled Succor gets disabled after you expend all your divine font heal spells.
+            this.characterService.set_ToChange("Character", "effects");
+        } else if (gain.cooldown) {
+            //Spells with a cooldown don't use any resources. They will start their cooldown in spell processing.
         } else {
             //Casting cantrips and deactivating spells doesn't use resources.
             if (activated && !spell.traits.includes("Cantrip")) {
@@ -517,12 +528,18 @@ export class SpellbookComponent implements OnInit {
                 }
             });
         }
-        //Trigger bloodline powers for sorcerers if your main class is Sorcerer.
-        //Do not process in manual mode.
-        if (!this.get_ManualMode()) {
+        //Trigger bloodline powers or other additional effects.
+        //Do not process in manual mode or when explicitly disabled.
+        if (!this.get_ManualMode() && !gain.ignoreBloodMagicTrigger) {
             bloodMagicFeats.forEach(feat => {
                 feat.bloodMagic.forEach(bloodMagic => {
-                    if (bloodMagic.trigger.includes(spell.name)) {
+                    if (bloodMagic.trigger.includes(spell.name) ||
+                        bloodMagic.sourceTrigger.some(sourceTrigger =>
+                            [
+                                casting?.source.toLowerCase() || "",
+                                gain?.source.toLowerCase() || ""
+                            ].includes(sourceTrigger.toLowerCase())
+                        )) {
                         let conditionGain = new ConditionGain();
                         conditionGain.name = bloodMagic.condition;
                         conditionGain.duration = bloodMagic.duration;
@@ -535,23 +552,18 @@ export class SpellbookComponent implements OnInit {
                 })
             })
         }
-        this.spellsService.process_Spell(character, target, this.characterService, this.itemsService, this.conditionsService, casting, gain, spell, levelNumber, activated, true);
+        this.spellsService.process_Spell(character, target, this.characterService, this.itemsService, this.conditionsService, casting, choice, gain, spell, levelNumber, activated, true);
         if (gain.combinationSpellName) {
             let secondSpell = this.get_Spells(gain.combinationSpellName)[0];
             if (secondSpell) {
-                this.spellsService.process_Spell(character, target, this.characterService, this.itemsService, this.conditionsService, casting, gain, secondSpell, levelNumber, activated, true);
+                this.spellsService.process_Spell(character, target, this.characterService, this.itemsService, this.conditionsService, casting, choice, gain, secondSpell, levelNumber, activated, true);
             }
         }
     }
 
-    can_Counterspell(casting: SpellCasting) {
-        let character = this.get_Character();
-        if (["Prepared", "Spontaneous"].includes(casting.castingType)) {
-            return character.get_FeatsTaken(1, character.level, "Counterspell (" + casting.castingType + ")").length;
-        }
-    }
-
-    on_Counterspell(gain: SpellGain, casting: SpellCasting, choice: SpellChoice, spell: Spell, levelNumber: number = 0) {
+    on_Expend(gain: SpellGain, casting: SpellCasting, choice: SpellChoice, spell: Spell, levelNumber: number = 0) {
+        //Use the spell resource, but don't cast the spell.
+        //Channel Smite uses this function as well.
         //Focus spells cost Focus points.
         if (casting.castingType == "Focus" && choice.level == -1) {
             this.get_Character().class.focusPoints = Math.min(this.get_Character().class.focusPoints, this.get_MaxFocusPoints());
@@ -566,6 +578,29 @@ export class SpellbookComponent implements OnInit {
             gain.prepared = false;
         }
         this.characterService.process_ToChange();
+    }
+
+    can_Counterspell(casting: SpellCasting) {
+        let character = this.get_Character();
+        if (["Prepared", "Spontaneous"].includes(casting.castingType)) {
+            return character.get_FeatsTaken(1, character.level, "Counterspell (" + casting.castingType + ")").length;
+        }
+    }
+
+    can_ChannelSmite(spell: Spell) {
+        let character = this.get_Character();
+        if (["Heal", "Harm"].includes(spell.name)) {
+            return character.get_FeatsTaken(1, character.level, "Channel Smite").length;
+        }
+    }
+
+    can_SwiftBanish(casting: SpellCasting, spell: Spell, level: number) {
+        let character = this.get_Character();
+        if (["Banishment"].includes(spell.name)) {
+            return character.get_FeatsTaken(1, character.level, "Swift Banishment").length;
+        } else if (level >= 5 && casting.castingType == "Prepared") {
+            return character.get_FeatsTaken(1, character.level, "Improved Swift Banishment").length;
+        }
     }
 
     can_Restore(casting: SpellCasting, level: number) {
@@ -599,6 +634,7 @@ export class SpellbookComponent implements OnInit {
 
     on_Restore(gain: SpellGain, casting: SpellCasting, level: number) {
         let character = this.get_Character();
+        this.characterService.set_ToChange("Character", "effects");
         if (this.have_Feat("Linked Focus")) {
             this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+1" }))
         }
@@ -637,7 +673,9 @@ export class SpellbookComponent implements OnInit {
     }
 
     on_Reprepare(gain: SpellGain) {
+        this.characterService.set_ToChange("Character", "effects");
         gain.prepared = true;
+        this.characterService.process_ToChange();
     }
 
     is_SignatureSpell(casting: SpellCasting, taken: SpellGain) {

@@ -430,7 +430,7 @@ export class ItemsComponent implements OnInit {
 
     get_NewItemProperties() {
         function get_PropertyData(key: string, itemsService: ItemsService) {
-            return itemsService.get_ItemProperties().filter(property => !property.parent && property.key == key)[0];
+            return itemsService.get_ItemProperties().find(property => !property.parent && property.key == key);
         }
         return Object.keys(this.newItem).map((key) => get_PropertyData(key, this.itemsService)).filter(property => property != undefined).sort((a, b) => {
             if (a.priority > b.priority) {

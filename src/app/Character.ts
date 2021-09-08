@@ -141,7 +141,7 @@ export class Character extends Creature {
     }
     get_AbilityChoice(sourceId: string) {
         let levelNumber = parseInt(sourceId[0]);
-        return this.class.levels[levelNumber].abilityChoices.filter(choice => choice.id == sourceId)[0];
+        return this.class.levels[levelNumber].abilityChoices.find(choice => choice.id == sourceId);
     }
     add_SkillChoice(level: Level, newChoice: SkillChoice) {
         let existingChoices = level.skillChoices.filter(choice => choice.source == newChoice.source);
@@ -152,7 +152,7 @@ export class Character extends Creature {
     }
     get_SkillChoice(sourceId: string) {
         let levelNumber = parseInt(sourceId[0]);
-        return this.class.levels[levelNumber].skillChoices.filter(choice => choice.id == sourceId)[0];
+        return this.class.levels[levelNumber].skillChoices.find(choice => choice.id == sourceId);
     }
     remove_SkillChoice(oldChoice: SkillChoice) {
         let levelNumber = parseInt(oldChoice.id.split("-")[0]);
@@ -186,7 +186,7 @@ export class Character extends Creature {
     }
     get_LoreChoice(sourceId: string) {
         let levelNumber = parseInt(sourceId[0]);
-        return this.class.levels[levelNumber].loreChoices.filter(choice => choice.id == sourceId)[0];
+        return this.class.levels[levelNumber].loreChoices.find(choice => choice.id == sourceId);
     }
     add_FeatChoice(level: Level, newChoice: FeatChoice) {
         let existingChoices = level.featChoices.filter(choice => choice.source == newChoice.source);
@@ -201,7 +201,7 @@ export class Character extends Creature {
     }
     get_FeatChoice(sourceId: string) {
         let levelNumber = parseInt(sourceId[0]);
-        return this.class.levels[levelNumber].featChoices.filter(choice => choice.id == sourceId)[0];
+        return this.class.levels[levelNumber].featChoices.find(choice => choice.id == sourceId);
     }
     add_SpellChoice(characterService: CharacterService, levelNumber: number, newChoice: SpellChoice) {
         let insertChoice = Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newChoice)));
@@ -539,10 +539,10 @@ export class Character extends Creature {
             }
         }
     }
-    get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, excludeTemporary: boolean = false, includeCountAs: boolean = false) {
+    get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, excludeTemporary: boolean = false, includeCountAs: boolean = false, automatic: boolean = undefined) {
         if (this.class) {
             let featsTaken: FeatTaken[] = [];
-            let levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber);
+            let levels = this.class.levels.filter(level => level.number >= minLevelNumber && (!maxLevelNumber || level.number <= maxLevelNumber));
             levels.forEach(level => {
                 level.featChoices.forEach(choice => {
                     choice.feats.filter((feat: FeatTaken) =>
@@ -554,7 +554,7 @@ export class Character extends Creature {
                         ) &&
                         (feat.source.toLowerCase() == source.toLowerCase() || source == "") &&
                         (feat.sourceId == sourceId || sourceId == "") &&
-                        (feat.locked == locked || locked == undefined || (locked && choice.autoSelectIfPossible))
+                        (feat.locked == locked || feat.automatic == automatic || (locked == undefined && automatic == undefined))
                     ).forEach(feat => {
                         featsTaken.push(feat);
                     })
@@ -563,22 +563,22 @@ export class Character extends Creature {
             return featsTaken;
         }
     }
-    take_Feat(creature: Character | Familiar, characterService: CharacterService, feat: Feat, featName: string, taken: boolean, choice: FeatChoice, locked: boolean) {
+    take_Feat(creature: Character | Familiar, characterService: CharacterService, feat: Feat, featName: string, taken: boolean, choice: FeatChoice, locked: boolean, automatic: boolean = false) {
         let levelNumber = parseInt(choice.id.split("-")[0]);
         let level: Level = creature instanceof Character ? creature.class.levels[levelNumber] : characterService.get_Level(levelNumber);
         if (taken) {
             if (feat) {
                 featName = feat.name;
             }
-            choice.feats.push({ name: (feat?.name || featName), source: choice.source, locked: locked, sourceId: choice.id, countAsFeat: (feat?.countAsFeat || feat?.superType || "") });
+            choice.feats.push({ name: (feat?.name || featName), source: choice.source, locked: locked, automatic: automatic, sourceId: choice.id, countAsFeat: (feat?.countAsFeat || feat?.superType || "") });
             characterService.process_Feat(creature, feat, featName, choice, level, taken);
         } else {
             characterService.process_Feat(creature, feat, featName, choice, level, taken);
             let a = choice.feats;
-            a.splice(a.indexOf(a.filter(existingFeat =>
+            a.splice(a.indexOf(a.find(existingFeat =>
                 existingFeat.name == featName &&
                 existingFeat.locked == locked
-            )[0]), 1)
+            )), 1)
         }
     }
     get_SpellsTaken(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, spellLevel: number = -1, spellName: string = "", spellCasting: SpellCasting = undefined, className: string = "", tradition: string = "", castingType: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, signatureAllowed: boolean = false, cantripAllowed: boolean = true) {
@@ -639,47 +639,47 @@ export class Character extends Creature {
     get_EquipmentSpellsGranted(characterService: CharacterService, spellLevel: number = -1, spellName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, cantripAllowed: boolean = true) {
         let spellsGranted: { choice: SpellChoice, gain: SpellGain }[] = [];
         //Collect innate spells gained from worn items.
-            this.inventories[0].allEquipment().filter(equipment => equipment.can_Invest() ? equipment.invested : equipment.equipped).forEach(equipment => {
-                equipment.gainSpells.forEach(choice => {
-                    if (
-                        (
-                            spellLevel == -1 ||
-                            choice.level == spellLevel
-                        ) &&
-                        !choice.resonant
-                    ) {
-                        choice.spells.filter(gain =>
-                            (gain.name == spellName || spellName == "") &&
-                            (choice.source == source || source == "") &&
-                            (gain.sourceId == sourceId || sourceId == "") &&
-                            (gain.locked == locked || locked == undefined) &&
-                            (cantripAllowed || (!characterService.spellsService.get_Spells(gain.name)[0]?.traits.includes("Cantrip")))
-                        ).forEach(gain => {
-                            spellsGranted.push({ choice: choice, gain: gain });
-                        })
-                    }
-                })
-                if (equipment instanceof WornItem) {
-                    equipment.aeonStones.filter(stone => stone.gainSpells.length).forEach(stone => {
-                        stone.gainSpells.forEach(choice => {
-                            if (
-                                spellLevel == -1 ||
-                                choice.level == spellLevel
-                            ) {
-                                choice.spells.filter(gain =>
-                                    (gain.name == spellName || spellName == "") &&
-                                    (choice.source == source || source == "") &&
-                                    (gain.sourceId == sourceId || sourceId == "") &&
-                                    (gain.locked == locked || locked == undefined) &&
-                                    (cantripAllowed || (!characterService.spellsService.get_Spells(gain.name)[0]?.traits.includes("Cantrip")))
-                                ).forEach(gain => {
-                                    spellsGranted.push({ choice: choice, gain: gain });
-                                })
-                            }
-                        })
+        this.inventories[0].allEquipment().filter(equipment => equipment.can_Invest() ? equipment.invested : equipment.equipped).forEach(equipment => {
+            equipment.gainSpells.forEach(choice => {
+                if (
+                    (
+                        spellLevel == -1 ||
+                        choice.level == spellLevel
+                    ) &&
+                    !choice.resonant
+                ) {
+                    choice.spells.filter(gain =>
+                        (gain.name == spellName || spellName == "") &&
+                        (choice.source == source || source == "") &&
+                        (gain.sourceId == sourceId || sourceId == "") &&
+                        (gain.locked == locked || locked == undefined) &&
+                        (cantripAllowed || (!characterService.spellsService.get_Spells(gain.name)[0]?.traits.includes("Cantrip")))
+                    ).forEach(gain => {
+                        spellsGranted.push({ choice: choice, gain: gain });
                     })
                 }
             })
+            if (equipment instanceof WornItem) {
+                equipment.aeonStones.filter(stone => stone.gainSpells.length).forEach(stone => {
+                    stone.gainSpells.forEach(choice => {
+                        if (
+                            spellLevel == -1 ||
+                            choice.level == spellLevel
+                        ) {
+                            choice.spells.filter(gain =>
+                                (gain.name == spellName || spellName == "") &&
+                                (choice.source == source || source == "") &&
+                                (gain.sourceId == sourceId || sourceId == "") &&
+                                (gain.locked == locked || locked == undefined) &&
+                                (cantripAllowed || (!characterService.spellsService.get_Spells(gain.name)[0]?.traits.includes("Cantrip")))
+                            ).forEach(gain => {
+                                spellsGranted.push({ choice: choice, gain: gain });
+                            })
+                        }
+                    })
+                })
+            }
+        })
         return spellsGranted;
     }
     take_Spell(characterService: CharacterService, spellName: string, taken: boolean, choice: SpellChoice, locked: boolean, prepared: boolean = false, borrowed: boolean = false) {
@@ -740,7 +740,7 @@ export class Character extends Creature {
             characterService.get_Character().increase_Skill(characterService, 'Lore: ' + source.loreName, false, source, true)
         }
         //Go through all levels and remove skill increases for this lore from their respective sources
-        //Also remove all Skill Choices that were added for this lore (as happens with the Additional Lore Feat).
+        //Also remove all Skill Choices that were added for this lore (as happens with the Additional Lore and Gnome Obsession Feats).
         this.class.levels.forEach(level => {
             level.skillChoices.forEach(choice => {
                 choice.increases = choice.increases.filter(increase => increase.name != 'Lore: ' + source.loreName);
@@ -777,6 +777,12 @@ export class Character extends Creature {
         //The Additional Lore feat grants a skill increase on Levels 3, 7 and 15 that can only be applied to this lore.
         if (source.source == "Feat: Additional Lore") {
             this.add_SkillChoice(characterService.get_Level(3), Object.assign(new SkillChoice(), { available: 1, increases: [], filter: ['Lore: ' + source.loreName], type: "Skill", maxRank: 4, source: "Feat: Additional Lore", id: "" }))
+            this.add_SkillChoice(characterService.get_Level(7), Object.assign(new SkillChoice(), { available: 1, increases: [], filter: ['Lore: ' + source.loreName], type: "Skill", maxRank: 6, source: "Feat: Additional Lore", id: "" }))
+            this.add_SkillChoice(characterService.get_Level(15), Object.assign(new SkillChoice(), { available: 1, increases: [], filter: ['Lore: ' + source.loreName], type: "Skill", maxRank: 8, source: "Feat: Additional Lore", id: "" }))
+        }
+        //The Gnome Obsession feat grants a skill increase on Levels 2, 7 and 15 that can only be applied to this lore.
+        if (source.source == "Feat: Gnome Obsession") {
+            this.add_SkillChoice(characterService.get_Level(2), Object.assign(new SkillChoice(), { available: 1, increases: [], filter: ['Lore: ' + source.loreName], type: "Skill", maxRank: 4, source: "Feat: Additional Lore", id: "" }))
             this.add_SkillChoice(characterService.get_Level(7), Object.assign(new SkillChoice(), { available: 1, increases: [], filter: ['Lore: ' + source.loreName], type: "Skill", maxRank: 6, source: "Feat: Additional Lore", id: "" }))
             this.add_SkillChoice(characterService.get_Level(15), Object.assign(new SkillChoice(), { available: 1, increases: [], filter: ['Lore: ' + source.loreName], type: "Skill", maxRank: 8, source: "Feat: Additional Lore", id: "" }))
         }

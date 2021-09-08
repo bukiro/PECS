@@ -171,6 +171,7 @@ export class AnimalCompanionsService {
     }
   
     initialize() {
+        //Initialize only once, but cleanup active effects everytime thereafter.
         if (!this.companionAncestries.length) {
             this.loading_ancestries = true;
             this.load(json_ancestries, "companionAncestries", AnimalCompanionAncestry);

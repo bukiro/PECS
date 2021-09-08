@@ -15,54 +15,58 @@ export class ExtensionsService {
     ) { }
 
     initialize() {
-        this.extensions = new Object;
-        this.loading++;
+        //Initialize only once.
+        if (!this.extensions && !this.finishedLoading) {
+            this.extensions = new Object;
+            this.loading++;
 
-        this.load_Extensions("assets/json/abilities", "abilities");
-        this.load_Extensions("assets/json/activities", "activities");
-        this.load_Extensions("assets/json/ancestries", "ancestries");
-        this.load_Extensions("assets/json/animalcompanionlevels", "companionLevels");
-        this.load_Extensions("assets/json/animalcompanions", "companionAncestries");
-        this.load_Extensions("assets/json/animalcompanionspecializations", "companionSpecializations");
-        this.load_Extensions("assets/json/armormaterials", "armorMaterials");
-        this.load_Extensions("assets/json/backgrounds", "backgrounds");
-        this.load_Extensions("assets/json/conditions", "conditions");
-        this.load_Extensions("assets/json/deities", "deities");
-        this.load_Extensions("assets/json/effectproperties", "effectProperties");
-        this.load_Extensions("assets/json/familiarabilities", "familiarAbilities");
-        this.load_Extensions("assets/json/feats", "feats");
-        this.load_Extensions("assets/json/features", "features");
-        this.load_Extensions("assets/json/heritages", "heritages");
-        this.load_Extensions("assets/json/itemproperties", "itemProperties");
-        this.load_Extensions("assets/json/items/adventuringgear", "items_adventuringgear");
-        this.load_Extensions("assets/json/items/alchemicalbombs", "items_alchemicalbombs");
-        this.load_Extensions("assets/json/items/alchemicalelixirs", "items_alchemicalelixirs");
-        this.load_Extensions("assets/json/items/alchemicalpoisons", "items_alchemicalpoisons");
-        this.load_Extensions("assets/json/items/alchemicaltools", "items_alchemicaltools");
-        this.load_Extensions("assets/json/items/ammunition", "items_ammunition");
-        this.load_Extensions("assets/json/items/armorrunes", "items_armorrunes");
-        this.load_Extensions("assets/json/items/armors", "items_armors");
-        this.load_Extensions("assets/json/items/helditems", "items_helditems");
-        this.load_Extensions("assets/json/items/oils", "items_oils");
-        this.load_Extensions("assets/json/items/otherconsumables", "items_otherconsumables");
-        this.load_Extensions("assets/json/items/otherconsumablesbombs", "items_otherconsumablesbombs");
-        this.load_Extensions("assets/json/items/potions", "items_potions");
-        this.load_Extensions("assets/json/items/scrolls", "items_scrolls");
-        this.load_Extensions("assets/json/items/shields", "items_shields");
-        this.load_Extensions("assets/json/items/snares", "items_snares");
-        this.load_Extensions("assets/json/items/talismans", "items_talismans");
-        this.load_Extensions("assets/json/items/wands", "items_wands");
-        this.load_Extensions("assets/json/items/weaponrunes", "items_weaponrunes");
-        this.load_Extensions("assets/json/items/weapons", "items_weapons");
-        this.load_Extensions("assets/json/items/wornitems", "items_wornitems");
-        this.load_Extensions("assets/json/shieldmaterials", "shieldMaterials");
-        this.load_Extensions("assets/json/skills", "skills");
-        this.load_Extensions("assets/json/specializations", "specializations");
-        this.load_Extensions("assets/json/spells", "spells");
-        this.load_Extensions("assets/json/traits", "traits");
-        this.load_Extensions("assets/json/weaponmaterials", "weaponMaterials");
+            this.load_Extensions("assets/json/abilities", "abilities");
+            this.load_Extensions("assets/json/activities", "activities");
+            this.load_Extensions("assets/json/ancestries", "ancestries");
+            this.load_Extensions("assets/json/animalcompanionlevels", "companionLevels");
+            this.load_Extensions("assets/json/animalcompanions", "companionAncestries");
+            this.load_Extensions("assets/json/animalcompanionspecializations", "companionSpecializations");
+            this.load_Extensions("assets/json/armormaterials", "armorMaterials");
+            this.load_Extensions("assets/json/backgrounds", "backgrounds");
+            this.load_Extensions("assets/json/conditions", "conditions");
+            this.load_Extensions("assets/json/deities", "deities");
+            this.load_Extensions("assets/json/domains", "domains");
+            this.load_Extensions("assets/json/effectproperties", "effectProperties");
+            this.load_Extensions("assets/json/familiarabilities", "familiarAbilities");
+            this.load_Extensions("assets/json/feats", "feats");
+            this.load_Extensions("assets/json/features", "features");
+            this.load_Extensions("assets/json/heritages", "heritages");
+            this.load_Extensions("assets/json/itemproperties", "itemProperties");
+            this.load_Extensions("assets/json/items/adventuringgear", "items_adventuringgear");
+            this.load_Extensions("assets/json/items/alchemicalbombs", "items_alchemicalbombs");
+            this.load_Extensions("assets/json/items/alchemicalelixirs", "items_alchemicalelixirs");
+            this.load_Extensions("assets/json/items/alchemicalpoisons", "items_alchemicalpoisons");
+            this.load_Extensions("assets/json/items/alchemicaltools", "items_alchemicaltools");
+            this.load_Extensions("assets/json/items/ammunition", "items_ammunition");
+            this.load_Extensions("assets/json/items/armorrunes", "items_armorrunes");
+            this.load_Extensions("assets/json/items/armors", "items_armors");
+            this.load_Extensions("assets/json/items/helditems", "items_helditems");
+            this.load_Extensions("assets/json/items/oils", "items_oils");
+            this.load_Extensions("assets/json/items/otherconsumables", "items_otherconsumables");
+            this.load_Extensions("assets/json/items/otherconsumablesbombs", "items_otherconsumablesbombs");
+            this.load_Extensions("assets/json/items/potions", "items_potions");
+            this.load_Extensions("assets/json/items/scrolls", "items_scrolls");
+            this.load_Extensions("assets/json/items/shields", "items_shields");
+            this.load_Extensions("assets/json/items/snares", "items_snares");
+            this.load_Extensions("assets/json/items/talismans", "items_talismans");
+            this.load_Extensions("assets/json/items/wands", "items_wands");
+            this.load_Extensions("assets/json/items/weaponrunes", "items_weaponrunes");
+            this.load_Extensions("assets/json/items/weapons", "items_weapons");
+            this.load_Extensions("assets/json/items/wornitems", "items_wornitems");
+            this.load_Extensions("assets/json/shieldmaterials", "shieldMaterials");
+            this.load_Extensions("assets/json/skills", "skills");
+            this.load_Extensions("assets/json/specializations", "specializations");
+            this.load_Extensions("assets/json/spells", "spells");
+            this.load_Extensions("assets/json/traits", "traits");
+            this.load_Extensions("assets/json/weaponmaterials", "weaponMaterials");
 
-        this.finishedLoading++;
+            this.finishedLoading++;
+        }
     }
 
     still_loading() {

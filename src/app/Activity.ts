@@ -11,7 +11,9 @@ import { HeightenedDesc } from './HeightenedDesc';
 
 export class Activity {
     public readonly isActivity: boolean = true;
-    public actions: string = "1A";
+    //Changed default from "1A" to "" in 1.0.6 - there are activities with no actions,
+    // and I saw no reason to keep 1A as the default, but I might regret it!
+    public actions: string = "";
     public activationType: string = "";
     //When activated, the activity will cast this spell. Multiple spells must have the same target or targets.
     public castSpells: SpellCast[] = [];
@@ -93,22 +95,32 @@ export class Activity {
             )
         )
     }
-    get_TargetNumber(levelNumber: number) {
+    get_TargetNumber(levelNumber: number, characterService: CharacterService) {
         //You can select any number of targets for an area spell.
         if (this.target == "area") {
             return -1;
         }
-        //This descends from levelnumber downwards and returns the first available targetNumber. 1 if no targetNumbers are configured, return 1, and if none have a minLevel, return the first.
+        let character = characterService.get_Character();
+        let targetNumber: SpellTargetNumber;
+        //This descends from levelnumber downwards and returns the first available targetNumber that has the required feat (if any). Prefer targetNumbers with required feats over those without.
+        // If no targetNumbers are configured, return 1, and if none have a minLevel, return the first that has the required feat (if any). Prefer targetNumbers with required feats over those without.
         if (this.targetNumbers.length) {
             if (this.targetNumbers.some(targetNumber => targetNumber.minLevel)) {
                 for (levelNumber; levelNumber > 0; levelNumber--) {
                     if (this.targetNumbers.some(targetNumber => targetNumber.minLevel == levelNumber)) {
-                        return this.targetNumbers.find(targetNumber => targetNumber.minLevel == levelNumber).number;
+                        targetNumber = this.targetNumbers.find(targetNumber => (targetNumber.minLevel == levelNumber) && (targetNumber.featreq && character.get_FeatsTaken(1, character.level, targetNumber.featreq).length));
+                        if (!targetNumber) {
+                            targetNumber = this.targetNumbers.find(targetNumber => targetNumber.minLevel == levelNumber);
+                        }
+                        if (targetNumber) {
+                            return targetNumber.number;
+                        }
                     }
                 }
                 return this.targetNumbers[0].number;
             } else {
-                return this.targetNumbers[0].number;
+                targetNumber = this.targetNumbers.find(targetNumber => targetNumber.featreq && character.get_FeatsTaken(1, character.level, targetNumber.featreq).length);
+                return targetNumber?.number || this.targetNumbers[0].number;
             }
         } else {
             return 1;

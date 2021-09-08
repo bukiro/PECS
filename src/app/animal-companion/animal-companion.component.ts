@@ -92,14 +92,23 @@ export class AnimalCompanionComponent implements OnInit {
         }
     }
 
+    set_Mobile() {
+        this.mobile = (window.innerWidth < 992);
+    }
+
     ngOnInit() {
-        this.mobile = (window.screen.width <= 992);
+        this.set_Mobile();
         this.finish_Loading();
     }
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
-        this.mobile = (window.screen.width <= 992);
+        this.set_Mobile();
+    }
+
+    @HostListener('window:orientationchange', ['$event'])
+    onRotate(event) {
+        this.set_Mobile();
     }
 
 }

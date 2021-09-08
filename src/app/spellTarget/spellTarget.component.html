@@ -1,147 +1,162 @@
 <ng-container *ngFor="let parameters of [get_Parameters()]; trackBy:trackByIndex">
-    <ng-template #buttonText let-target="target" let-canActivate="canActivate">
-        <span>
-            {{phrase}}{{target}}
-            <span *ngIf="showActions">
-                <app-actionIcons *ngIf="(spell || activity).actions" [actionString]="(spell || activity).actions">
-                </app-actionIcons>
-                {{(spell?.castType || activity?.activationType) ? (spell?.castType || activity?.activationType) : ""}}
+    <div class="newrow list-item" *ngIf="parameters.bloodMagicTrigger && get_IsSpellGain()">
+        <strong class="gap-text">
+            <input id="ignoreBloodMagicTrigger" type="checkbox" [(ngModel)]="get_IsSpellGain().ignoreBloodMagicTrigger">
+            <label for="ignoreBloodMagicTrigger">{{"Don't trigger " + parameters.bloodMagicTrigger + " with this
+                spell"}}</label>
+        </strong>
+    </div>
+    <ng-container
+        *ngFor="let bloodMagicApplied of [parameters.bloodMagicTrigger && get_IsSpellGain() && !get_IsSpellGain().ignoreBloodMagicTrigger]; trackBy:trackByIndex">
+        <ng-template #buttonText let-target="target" let-canActivate="canActivate">
+            <span>
+                {{phrase}}{{target}}
+                <span *ngIf="showActions">
+                    <app-actionIcons *ngIf="(spell || activity).actions" [actionString]="(spell || activity).actions">
+                    </app-actionIcons>
+                    {{(spell?.castType || activity?.activationType) ? (spell?.castType || activity?.activationType) :
+                    ""}}
+                </span>
+                <i class='bi-peace' *ngIf="!canActivate"></i>
+                <i class='ra ra-droplet-splash' *ngIf="bloodMagicApplied"></i>
             </span>
-            <i class='bi-peace' *ngIf="!canActivate"></i>
-            <i class='ra ra-droplet-splash' *ngIf="parameters.isBloodMagicTrigger"></i>
-        </span>
-    </ng-template>
-    <ng-container *ngIf="!get_ManualMode()">
-        <div class="newrow"
-            *ngIf="!(parentActivityGain || gain).active && !(spell || activity).cannotTargetCaster && ['self', 'ally'].includes((spell || activity).target) && parameters.targetNumber != 0 && !(spell || activity).get_IsHostile()"
-            [ngbTooltip]="cannotCast">
-            <button class="newrow center-aligned" (click)="on_Cast('self', true)" [disabled]="cannotCast"
-                [ngbTooltip]="parameters.isBloodMagicTrigger ? 'Casting this spell will trigger your blood magic power.' : (!parameters.canActivate ? 'The ' + (spell ? 'spell' : 'activity') + ' has no automatic effects.' : '')">
-                <ng-container
-                    *ngTemplateOutlet="buttonText;context:{target:(spell || activity).target != 'self' ? ' on yourself' : '', canActivate:parameters.canActivate}">
-                </ng-container>
-            </button>
-        </div>
-        <div class="newrow"
-            *ngIf="!(parentActivityGain || gain).active && (spell || activity).target == 'ally' && parameters.targetNumber != 0 && !(spell || activity).get_IsHostile() && creature != 'Character'"
-            [ngbTooltip]="cannotCast">
-            <button class="newrow center-aligned" (click)="on_Cast('Character', true)" [disabled]="cannotCast"
-                [ngbTooltip]="parameters.isBloodMagicTrigger ? 'Casting this spell will trigger your blood magic power.' : (!parameters.canActivate ? 'The ' + (spell ? 'spell' : 'activity') + ' has no automatic effects.' : '')">
-                <ng-container
-                    *ngTemplateOutlet="buttonText;context:{target:' on ' + (get_Character().name || 'your master'), canActivate:parameters.canActivate}">
-                </ng-container>
-            </button>
-        </div>
-        <div class="newrow"
-            *ngIf="!(parentActivityGain || gain).active && (spell || activity).target == 'companion' && parameters.targetNumber != 0 && !(spell || activity).get_IsHostile() && get_CompanionAvailable() && creature != 'Companion'"
-            [ngbTooltip]="cannotCast">
-            <button class="newrow center-aligned" (click)="on_Cast('Companion', true)" [disabled]="cannotCast"
-                [ngbTooltip]="parameters.isBloodMagicTrigger ? 'Casting this spell will trigger your blood magic power.' : (!parameters.canActivate ? 'The ' + (spell ? 'spell' : 'activity') + ' has no automatic effects.' : '')">
-                <ng-container
-                    *ngTemplateOutlet="buttonText;context:{target:' on ' + (get_Companion().name || 'your animal companion'), canActivate:parameters.canActivate}">
-                </ng-container>
-            </button>
-        </div>
-        <div class="newrow"
-            *ngIf="!(parentActivityGain || gain).active && (spell || activity).target == 'familiar' && parameters.targetNumber != 0 && !(spell || activity).get_IsHostile() && get_FamiliarAvailable() && creature != 'Familiar'"
-            [ngbTooltip]="cannotCast">
-            <button class="newrow center-aligned" (click)="on_Cast('Familiar', true)" [disabled]="cannotCast"
-                [ngbTooltip]="parameters.isBloodMagicTrigger ? 'Casting this spell will trigger your blood magic power.' : (!parameters.canActivate ? 'The ' + (spell ? 'spell' : 'activity') + ' has no automatic effects.' : '')">
-                <ng-container
-                    *ngTemplateOutlet="buttonText;context:{target:' on ' + (get_Familiar().name || 'your familiar'), canActivate:parameters.canActivate}">
-                </ng-container>
-            </button>
-        </div>
-        <ng-container
-            *ngIf="!(parentActivityGain || gain).active && !(spell || activity).get_IsHostile() && ((spell || activity).target == 'area' || ((spell || activity).target == 'ally' && parameters.targetNumber != 0))">
-            <ng-container *ngFor="let targets of [get_SpellTargets()]; trackBy:trackByIndex">
-                <ng-template #SpellTargetModal let-modal>
-                    <div class="modal-header">
-                        <header class="sectionHeader modal-title" id="modal-title">{{(spell || activity).name}} targets
-                        </header>
-                        <button type="button" class="close" aria-label="close" (click)="modal.dismiss('Cross click')"
-                            ngbAutofocus>
-                            <span aria-hidden="true">&times;</span>
+        </ng-template>
+        <ng-container *ngIf="!get_ManualMode()">
+            <div class="newrow"
+                *ngIf="!(parentActivityGain || gain).active && !(spell || activity).cannotTargetCaster && ['self', 'ally'].includes((spell || activity).target) && !(spell || activity).get_IsHostile()"
+                [ngbTooltip]="cannotCast">
+                <button class="newrow center-aligned" (click)="on_Cast('self', true)" [disabled]="cannotCast"
+                    [ngbTooltip]="bloodMagicApplied ? 'Casting this spell will trigger ' + parameters.bloodMagicTrigger + '.' : (!parameters.canActivate ? 'The ' + (spell ? 'spell' : 'activity') + ' has no automatic effects.' : '')">
+                    <ng-container
+                        *ngTemplateOutlet="buttonText;context:{target:(spell || activity).target != 'self' ? ' on yourself' : '', canActivate:parameters.canActivate}">
+                    </ng-container>
+                </button>
+            </div>
+            <div class="newrow"
+                *ngIf="!(parentActivityGain || gain).active && ((spell || activity).target == 'ally' && parameters.targetNumber != 0) && !(spell || activity).get_IsHostile() && creature != 'Character'"
+                [ngbTooltip]="cannotCast">
+                <button class="newrow center-aligned" (click)="on_Cast('Character', true)" [disabled]="cannotCast"
+                    [ngbTooltip]="bloodMagicApplied ? 'Casting this spell will trigger ' + parameters.bloodMagicTrigger + '.' : (!parameters.canActivate ? 'The ' + (spell ? 'spell' : 'activity') + ' has no automatic effects.' : '')">
+                    <ng-container
+                        *ngTemplateOutlet="buttonText;context:{target:' on ' + (get_Character().name || 'your master'), canActivate:parameters.canActivate}">
+                    </ng-container>
+                </button>
+            </div>
+            <div class="newrow"
+                *ngIf="!(parentActivityGain || gain).active && (spell || activity).target == 'companion' && parameters.targetNumber != 0 && !(spell || activity).get_IsHostile() && get_CompanionAvailable() && creature != 'Companion'"
+                [ngbTooltip]="cannotCast">
+                <button class="newrow center-aligned" (click)="on_Cast('Companion', true)" [disabled]="cannotCast"
+                    [ngbTooltip]="bloodMagicApplied ? 'Casting this spell will trigger ' + parameters.bloodMagicTrigger + '.' : (!parameters.canActivate ? 'The ' + (spell ? 'spell' : 'activity') + ' has no automatic effects.' : '')">
+                    <ng-container
+                        *ngTemplateOutlet="buttonText;context:{target:' on ' + (get_Companion().name || 'your animal companion'), canActivate:parameters.canActivate}">
+                    </ng-container>
+                </button>
+            </div>
+            <div class="newrow"
+                *ngIf="!(parentActivityGain || gain).active && (spell || activity).target == 'familiar' && parameters.targetNumber != 0 && !(spell || activity).get_IsHostile() && get_FamiliarAvailable() && creature != 'Familiar'"
+                [ngbTooltip]="cannotCast">
+                <button class="newrow center-aligned" (click)="on_Cast('Familiar', true)" [disabled]="cannotCast"
+                    [ngbTooltip]="bloodMagicApplied ? 'Casting this spell will trigger ' + parameters.bloodMagicTrigger + '.' : (!parameters.canActivate ? 'The ' + (spell ? 'spell' : 'activity') + ' has no automatic effects.' : '')">
+                    <ng-container
+                        *ngTemplateOutlet="buttonText;context:{target:' on ' + (get_Familiar().name || 'your familiar'), canActivate:parameters.canActivate}">
+                    </ng-container>
+                </button>
+            </div>
+            <ng-container
+                *ngIf="!(parentActivityGain || gain).active && !(spell || activity).get_IsHostile() && ((spell || activity).target == 'area' || parameters.targetNumber != 0)">
+                <ng-container *ngFor="let targets of [get_SpellTargets()]; trackBy:trackByIndex">
+                    <ng-template #SpellTargetModal let-modal>
+                        <div class="modal-header">
+                            <header class="sectionHeader modal-title" id="modal-title">{{(spell || activity).name}}
+                                targets
+                            </header>
+                            <button type="button" class="close" aria-label="close"
+                                (click)="modal.dismiss('Cross click')" ngbAutofocus>
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body vlist">
+                            <p *ngIf="parameters.targetNumber == 1">Select a target for this
+                                {{spell ? "spell" : "activity"}}.</p>
+                            <p *ngIf="parameters.targetNumber > 1">Select up to {{parameters.targetNumber}} targets for
+                                this
+                                {{spell ? "spell" : "activity"}}.</p>
+                            <p *ngIf="parameters.targetNumber == -1">Select any number of targets for this {{spell ?
+                                "spell"
+                                :
+                                "activity"}}.</p>
+                            <div class="gridicon-fullsizebox">
+                                <input id="spelltargetSelectAll" class="character-choice" type="checkbox"
+                                    (change)="on_SelectAllTargets(parameters.targetNumber, $event.target.checked)"
+                                    [checked]="get_AllTargetsSelected(parameters.targetNumber)">
+                                <label for="spelltargetSelectAll" style="font-size: 1.5em;">
+                                    <strong>Select all</strong>
+                                </label>
+                            </div>
+                            <div class="fullsize-scroll-box vlist" style="max-height: 50vh;">
+                                <ng-container *ngFor="let target of targets; trackBy:trackByIndex">
+                                    <div class="list-item gridicon-fullsizebox">
+                                        <input id="spelltarget{{target.name}}" class="character-choice"
+                                            *ngIf="!target.isPlayer || !(spell || activity).cannotTargetCaster"
+                                            type="checkbox" [(ngModel)]="target.selected"
+                                            [disabled]="(target.isPlayer && (spell || activity).cannotTargetCaster) || (get_AllTargetsSelected(parameters.targetNumber) && !target.selected)">
+                                        <input id="spelltarget{{target.name}}AlreadySelected" class="character-choice"
+                                            *ngIf="target.isPlayer && (spell || activity).cannotTargetCaster"
+                                            type="checkbox" disabled checked>
+                                        <label for="spelltarget{{target.name}}" style="font-size: 1.5em;">
+                                            <i class="ra ra-player" *ngIf="target.type=='Character'"
+                                                style="line-height: 1.5;"></i>
+                                            <i class="ra ra-wolf-howl" *ngIf="target.type=='Companion'"
+                                                style="line-height: 1.5; margin-left: 1em;"></i>
+                                            <i class="ra ra-raven" *ngIf="target.type=='Familiar'"
+                                                style="line-height: 1.5; margin-left: 1em;"></i>
+                                            <strong>{{target.name}}</strong>
+                                        </label>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary"
+                                (click)="modal.dismiss('Cancel click')">Cancel</button>
+                            <button type="button" class="btn btn-primary" style="background-color: rgb(var(--accent));"
+                                (click)="modal.close('Cast click')">{{spell ? "Cast spell" : "Apply activity"}} on these
+                                targets</button>
+                        </div>
+                    </ng-template>
+                    <div class="newrow" [ngbTooltip]="cannotCast">
+                        <button class="newrow center-aligned" (click)="open_SpellTargetModal(SpellTargetModal)"
+                            [disabled]="cannotCast"
+                            [ngbTooltip]="bloodMagicApplied ? 'Casting this spell will trigger ' + parameters.bloodMagicTrigger + '.' : (!parameters.canActivate ? 'The ' + (spell ? 'spell' : 'activity') + ' has no automatic effects.' : '')">
+                            <ng-container
+                                *ngTemplateOutlet="buttonText;context:{target:' on...', canActivate:parameters.canActivate}">
+                            </ng-container>
                         </button>
                     </div>
-                    <div class="modal-body vlist">
-                        <p *ngIf="parameters.targetNumber == 1">Select a target for this
-                            {{spell ? "spell" : "activity"}}.</p>
-                        <p *ngIf="parameters.targetNumber > 1">Select up to {{parameters.targetNumber}} targets for this
-                            {{spell ? "spell" : "activity"}}.</p>
-                        <p *ngIf="parameters.targetNumber == -1">Select any number of targets for this {{spell ? "spell"
-                            :
-                            "activity"}}.</p>
-                        <div class="gridicon-fullsizebox">
-                            <input id="spelltargetSelectAll" class="character-choice" type="checkbox"
-                                (change)="on_SelectAllTargets(parameters.targetNumber, $event.target.checked)"
-                                [checked]="get_AllTargetsSelected(parameters.targetNumber)">
-                            <label for="spelltargetSelectAll" style="font-size: 1.5em;">
-                                <strong>Select all</strong>
-                            </label>
-                        </div>
-                        <div class="fullsize-scroll-box vlist" style="max-height: 50vh;">
-                            <ng-container *ngFor="let target of targets; trackBy:trackByIndex">
-                                <div class="list-item gridicon-fullsizebox">
-                                    <input id="spelltarget{{target.name}}" class="character-choice"
-                                        *ngIf="!target.isPlayer || !(spell || activity).cannotTargetCaster"
-                                        type="checkbox" [(ngModel)]="target.selected"
-                                        [disabled]="(target.isPlayer && (spell || activity).cannotTargetCaster) || (get_AllTargetsSelected(parameters.targetNumber) && !target.selected)">
-                                    <input id="spelltarget{{target.name}}AlreadySelected" class="character-choice"
-                                        *ngIf="target.isPlayer && (spell || activity).cannotTargetCaster"
-                                        type="checkbox" disabled checked>
-                                    <label for="spelltarget{{target.name}}" style="font-size: 1.5em;">
-                                        <i class="ra ra-player" *ngIf="target.type=='Character'"
-                                            style="line-height: 1.5;"></i>
-                                        <i class="ra ra-wolf-howl" *ngIf="target.type=='Companion'"
-                                            style="line-height: 1.5; margin-left: 1em;"></i>
-                                        <i class="ra ra-raven" *ngIf="target.type=='Familiar'"
-                                            style="line-height: 1.5; margin-left: 1em;"></i>
-                                        <strong>{{target.name}}</strong>
-                                    </label>
-                                </div>
-                            </ng-container>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary"
-                            (click)="modal.dismiss('Cancel click')">Cancel</button>
-                        <button type="button" class="btn btn-primary" style="background-color: rgb(var(--accent));"
-                            (click)="modal.close('Cast click')">{{spell ? "Cast spell" : "Apply activity"}} on these
-                            targets</button>
-                    </div>
-                </ng-template>
-                <div class="newrow" [ngbTooltip]="cannotCast">
-                    <button class="newrow center-aligned" (click)="open_SpellTargetModal(SpellTargetModal)"
-                        [disabled]="cannotCast"
-                        [ngbTooltip]="parameters.isBloodMagicTrigger ? 'Casting this spell will trigger your blood magic power.' : (!parameters.canActivate ? 'The ' + (spell ? 'spell' : 'activity') + ' has no automatic effects.' : '')">
-                        <ng-container
-                            *ngTemplateOutlet="buttonText;context:{target:' on...', canActivate:parameters.canActivate}">
-                        </ng-container>
-                    </button>
-                </div>
+                </ng-container>
             </ng-container>
+            <div class="newrow"
+                *ngIf="!(parentActivityGain || gain).active && ['ally', 'area', 'minion', 'object', 'other'].includes((spell || activity).target)"
+                [ngbTooltip]="cannotCast">
+                <button class="newrow center-aligned" (click)="on_Cast('', true)" [disabled]="cannotCast"
+                    [ngbTooltip]="bloodMagicApplied ? 'Casting this spell will trigger ' + parameters.bloodMagicTrigger + '.' : (!parameters.canActivateWithoutTarget ? 'The ' + (spell ? 'spell' : 'activity') + ' has no automatic effects.' : (spell ? 'Cast' : 'Activate') + ' with no specific target.')">
+                    <ng-container
+                        *ngTemplateOutlet="buttonText;context:{target:'', canActivate:parameters.canActivateWithoutTarget}">
+                    </ng-container>
+                </button>
+            </div>
+
         </ng-container>
-        <div class="newrow"
-            *ngIf="!(parentActivityGain || gain).active && ['ally', 'area', 'minion', 'object', 'other'].includes((spell || activity).target)"
-            [ngbTooltip]="cannotCast">
-            <button class="newrow center-aligned" (click)="on_Cast('', true)" [disabled]="cannotCast"
-                [ngbTooltip]="parameters.isBloodMagicTrigger ? 'Casting this spell will trigger your blood magic power.' : (!parameters.canActivateWithoutTarget ? 'The ' + (spell ? 'spell' : 'activity') + ' has no automatic effects.' : (spell ? 'Cast' : 'Activate') + ' with no specific target.')">
-                <ng-container
-                    *ngTemplateOutlet="buttonText;context:{target:'', canActivate:parameters.canActivateWithoutTarget}">
-                </ng-container>
-            </button>
-        </div>
-    </ng-container>
-    <!-- Manual mode: Just cast/activate without target. -->
-    <ng-container *ngIf="get_ManualMode()">
-        <div class="newrow" *ngIf="!(parentActivityGain || gain).active" [ngbTooltip]="cannotCast">
-            <button class="newrow center-aligned" (click)="on_Cast('', true)" [disabled]="cannotCast"
-                [ngbTooltip]="parameters.isBloodMagicTrigger ? 'Casting this spell will trigger your blood magic power.' : ''">
-                <ng-container *ngTemplateOutlet="buttonText;context:{target:'', canActivate:true}">
-                </ng-container>
-            </button>
-        </div>
+        <!-- Manual mode: Just cast/activate without target. -->
+        <ng-container *ngIf="get_ManualMode()">
+            <div class="newrow" *ngIf="!(parentActivityGain || gain).active" [ngbTooltip]="cannotCast">
+                <button class="newrow center-aligned" (click)="on_Cast('', true)" [disabled]="cannotCast"
+                    [ngbTooltip]="bloodMagicApplied ? 'Casting this spell will trigger ' + parameters.bloodMagicTrigger + '.' : ''">
+                    <ng-container *ngTemplateOutlet="buttonText;context:{target:'', canActivate:true}">
+                    </ng-container>
+                </button>
+            </div>
+        </ng-container>
     </ng-container>
     <div class="newrow" *ngIf="(parentActivityGain?.active || gain.active) && showDismiss">
         <button class="newrow center-aligned" (click)="on_Cast(gain.selectedTarget, false)">

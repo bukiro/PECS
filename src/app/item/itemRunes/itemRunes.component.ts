@@ -303,7 +303,7 @@ export class ItemRunesComponent implements OnInit {
         //For this purpose, we use two different "weapon"s.
         let weapon2 = this.item;
         if ((weapon as WornItem).isHandwrapsOfMightyBlows) {
-            weapon2 = this.get_CleanItems().weapons.filter(weapon => weapon.name == "Fist")[0];
+            weapon2 = this.get_CleanItems().weapons.find(weapon => weapon.name == "Fist");
         }
         let allRunes: { rune: Rune, inv: ItemCollection, disabled?: boolean }[] = [];
         //Add all runes either from the item store or from the inventories.
@@ -336,7 +336,7 @@ export class ItemRunesComponent implements OnInit {
                 ) && (
                     //Show runes that can only be applied to this item (by name).
                     rune.rune.namereq ?
-                        weapon2.name == rune.rune.namereq
+                        weapon2?.name == rune.rune.namereq
                         : true
                 ) && (
                     //Don't show runes whose opposite runes are equipped.
@@ -348,23 +348,23 @@ export class ItemRunesComponent implements OnInit {
                 ) && (
                     //Show runes that require a trait if that trait is present on the weapon.
                     rune.rune.traitreq ?
-                        weapon2.traits
+                        weapon2?.traits
                             .filter(trait => trait.includes(rune.rune.traitreq)).length
                         : true
                 ) && (
                     //Show runes that require a range if the weapon has a value for that range.
                     rune.rune.rangereq ?
-                        weapon2[rune.rune.rangereq] > 0
+                        weapon2?.[rune.rune.rangereq] > 0
                         : true
                 ) && (
                     //Show runes that require a damage type if the weapon's dmgType contains either of the letters in the requirement.
                     rune.rune.damagereq ?
                         (
-                            (weapon2 as Weapon).dmgType &&
+                            (weapon2 as Weapon)?.dmgType &&
                             (
                                 rune.rune.damagereq.split("")
                                     .filter(req => (weapon2 as Weapon).dmgType.includes(req)).length ||
-                                (weapon2 as Weapon).dmgType == "modular"
+                                (weapon2 as Weapon)?.dmgType == "modular"
                             )
                         )
                         : true
@@ -487,11 +487,11 @@ export class ItemRunesComponent implements OnInit {
                 //Don't do any of that if we're in the item store instead of the inventory.
                 if (!this.itemStore && previousRune != weapon.potencyRune) {
                     if (previousRune > 0) {
-                        let extractedRune: WeaponRune = this.get_CleanItems().weaponrunes.filter(rune => rune.potency == previousRune)[0];
+                        let extractedRune: WeaponRune = this.get_CleanItems().weaponrunes.find(rune => rune.potency == previousRune);
                         this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], extractedRune, false, false, false, 1);
                     }
                     if (weapon.potencyRune > 0) {
-                        let insertedRune: WeaponRune = this.get_Character().inventories[0].weaponrunes.filter(rune => rune.potency == weapon.potencyRune)[0];
+                        let insertedRune: WeaponRune = this.get_Character().inventories[0].weaponrunes.find(rune => rune.potency == weapon.potencyRune);
                         this.characterService.drop_InventoryItem(this.get_Character(), this.get_Character().inventories[0], insertedRune, false, false, false, 1);
                     }
                 }
@@ -515,11 +515,11 @@ export class ItemRunesComponent implements OnInit {
                 //Don't do any of that if we're in the item store instead of the inventory.
                 if (!this.itemStore && previousRune != weapon.strikingRune) {
                     if (previousRune > 0) {
-                        let extractedRune: WeaponRune = this.get_CleanItems().weaponrunes.filter(rune => rune.striking == previousRune)[0];
+                        let extractedRune: WeaponRune = this.get_CleanItems().weaponrunes.find(rune => rune.striking == previousRune);
                         this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], extractedRune, false, false, false, 1);
                     }
                     if (weapon.strikingRune > 0) {
-                        let insertedRune: WeaponRune = this.get_Character().inventories[0].weaponrunes.filter(rune => rune.striking == weapon.strikingRune)[0];
+                        let insertedRune: WeaponRune = this.get_Character().inventories[0].weaponrunes.find(rune => rune.striking == weapon.strikingRune);
                         this.characterService.drop_InventoryItem(this.get_Character(), this.get_Character().inventories[0], insertedRune, false, false, false, 1);
                     }
                 }
@@ -542,11 +542,11 @@ export class ItemRunesComponent implements OnInit {
                 //Don't do any of that if we're in the item store instead of the inventory.
                 if (!this.itemStore && previousRune != armor.potencyRune) {
                     if (previousRune > 0) {
-                        let extractedRune: ArmorRune = this.get_CleanItems().armorrunes.filter(rune => rune.potency == previousRune)[0];
+                        let extractedRune: ArmorRune = this.get_CleanItems().armorrunes.find(rune => rune.potency == previousRune);
                         this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], extractedRune, false, false, false, 1);
                     }
                     if (armor.potencyRune > 0) {
-                        let insertedRune: ArmorRune = this.get_Character().inventories[0].armorrunes.filter(rune => rune.potency == armor.potencyRune)[0];
+                        let insertedRune: ArmorRune = this.get_Character().inventories[0].armorrunes.find(rune => rune.potency == armor.potencyRune);
                         this.characterService.drop_InventoryItem(this.get_Character(), this.get_Character().inventories[0], insertedRune, false, false, false, 1);
                     }
                 }
@@ -570,11 +570,11 @@ export class ItemRunesComponent implements OnInit {
                 //Don't do any of that if we're in the item store instead of the inventory.
                 if (!this.itemStore && previousRune != armor.resilientRune) {
                     if (previousRune > 0) {
-                        let extractedRune: ArmorRune = this.get_CleanItems().armorrunes.filter(rune => rune.resilient == previousRune)[0];
+                        let extractedRune: ArmorRune = this.get_CleanItems().armorrunes.find(rune => rune.resilient == previousRune);
                         this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], extractedRune, false, false, false, 1);
                     }
                     if (armor.resilientRune > 0) {
-                        let insertedRune: ArmorRune = this.get_Character().inventories[0].armorrunes.filter(rune => rune.resilient == armor.resilientRune)[0];
+                        let insertedRune: ArmorRune = this.get_Character().inventories[0].armorrunes.find(rune => rune.resilient == armor.resilientRune);
                         this.characterService.drop_InventoryItem(this.get_Character(), this.get_Character().inventories[0], insertedRune, false, false, false, 1);
                     }
                 }

@@ -3,14 +3,11 @@ import { CharacterService } from 'src/app/character.service';
 import { ItemsService } from 'src/app/items.service';
 import { WeaponRune } from 'src/app/WeaponRune';
 import { Equipment } from 'src/app/Equipment';
-import { LoreChoice } from 'src/app/LoreChoice';
 import { Rune } from 'src/app/Rune';
-import { ArmorRune } from 'src/app/ArmorRune';
 import { ItemCollection } from 'src/app/ItemCollection';
 import { WornItem } from 'src/app/WornItem';
 import { Weapon } from 'src/app/Weapon';
 import { TimeService } from 'src/app/time.service';
-import { Armor } from 'src/app/Armor';
 import { ActivitiesService } from 'src/app/activities.service';
 import { SpellsService } from 'src/app/spells.service';
 import { ConditionsService } from 'src/app/conditions.service';
@@ -81,7 +78,7 @@ import { ConditionsService } from 'src/app/conditions.service';
         //For this purpose, we use two different "weapon"s.
         let weapon2 = this.item;
         if ((weapon as WornItem).isHandwrapsOfMightyBlows) {
-            weapon2 = this.get_CleanItems().weapons.filter(weapon => weapon.name == "Fist")[0];
+            weapon2 = this.get_CleanItems().weapons.find(weapon => weapon.name == "Fist");
         }
         let allRunes: { rune: Rune, disabled?: boolean }[] = [];
         //Add all runes either from the item store or from the inventories.
@@ -108,23 +105,23 @@ import { ConditionsService } from 'src/app/conditions.service';
                     (
                         //Show runes that require a trait if that trait is present on the weapon.
                         rune.rune.traitreq ?
-                            weapon2.traits
+                            weapon2?.traits
                                 .filter(trait => trait.includes(rune.rune.traitreq)).length
                             : true
                     ) && (
                         //Show runes that require a range if the weapon has a value for that range.
                         rune.rune.rangereq ?
-                            weapon2[rune.rune.rangereq] > 0
+                            weapon2?.[rune.rune.rangereq] > 0
                             : true
                     ) && (
                         //Show runes that require a damage type if the weapon's dmgType contains either of the letters in the requirement.
                         rune.rune.damagereq ?
                             (
-                                (weapon2 as Weapon).dmgType &&
+                                (weapon2 as Weapon)?.dmgType &&
                                 (
                                     rune.rune.damagereq.split("")
                                         .filter(req => (weapon2 as Weapon).dmgType.includes(req)).length ||
-                                    (weapon2 as Weapon).dmgType == "modular"
+                                    (weapon2 as Weapon)?.dmgType == "modular"
                                 )
                             )
                             : true

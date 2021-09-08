@@ -27,6 +27,7 @@ export class AbilitiesService {
     }
 
     initialize() {
+        //Initialize only once.
         if (!this.abilities.length) {
             this.loading = true;
             this.load_Abilities();

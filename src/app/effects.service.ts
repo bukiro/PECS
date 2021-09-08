@@ -27,6 +27,7 @@ import { Material } from './Material';
 import { Shield } from './Shield';
 import { Rune } from './Rune';
 import { ExtensionsService } from './extensions.service';
+import { Item } from './Item';
 
 @Injectable({
     providedIn: 'root'
@@ -37,6 +38,7 @@ export class EffectsService {
     //The bonus types are hardcoded. If Paizo ever adds a new bonus type, this is where we need to change them.
     private bonusTypes: string[] = ["untyped", "item", "circumstance", "status", "proficiency"];
     private effectProperties: ItemProperty[] = [];
+    private checkingActive: boolean = false;
 
     constructor(
         private traitsService: TraitsService,
@@ -349,7 +351,7 @@ export class EffectsService {
         return (new Speed(name));
     }
 
-    get_SimpleEffects(creature: Creature, characterService: CharacterService, object: any, name: string = "", parentConditionGain: ConditionGain = null) {
+    get_SimpleEffects(creature: Creature, characterService: CharacterService, object: any, name: string = "", parentConditionGain: ConditionGain = null, parentItem: Item|Material = null) {
         //If an object has a simple instruction in effects, such as "Athletics", "+2", turn it into an effect,
         // then mark the effect as a penalty if the change is negative (except for Bulk).
         //The effect can have a formula as well, for example "Max HP", "Character.level + 2", which is evaluated with the variables and functions listed here.
@@ -480,7 +482,7 @@ export class EffectsService {
             if (creature == "Familiar") {
                 return characterService.familiarsService.get_FamiliarAbilities(name).some(feat => feat.have(Familiar, characterService, Level, false));
             } else if (creature == "Character") {
-                return characterService.featsService.get_All(Character.customFeats, name, "", true, true).some(feat => feat.have(Character, characterService, Level, false));
+                return characterService.featsService.get_CharacterFeats(Character.customFeats, name, "", true, true).length != 0;
             } else {
                 return 0;
             }
@@ -495,6 +497,12 @@ export class EffectsService {
         function Has_Heritage(name: string) {
             return characterService.get_Character().class?.heritage?.name.toLowerCase() == name.toLowerCase() ||
                 characterService.get_Character().class?.additionalHeritages.find(extraHeritage => extraHeritage.name.toLowerCase() == name.toLowerCase())
+        }
+        function Deities() {
+            return characterService.get_CharacterDeities(Character);
+        }
+        function Deity() {
+            return characterService.get_CharacterDeities(Character)[0];
         }
         //Effects come as {affected, value, setValue, toggle} where value/setValue is a string that contains a statement.
         //This statement is eval'd here. The statement can use the above functions to check level, skills, abilities etc., but also access a lot of information via characterService.
@@ -636,7 +644,7 @@ export class EffectsService {
 
         //Character Feats and active hints
         if (character) {
-            characterService.get_FeatsAndFeatures()
+            characterService.get_CharacterFeatsAndFeatures()
                 .filter(feat => (feat.effects?.length || feat.hints?.length) && feat.have(character, characterService, character.level))
                 .forEach(feat => {
                     if (feat.effects?.length) {
@@ -713,7 +721,7 @@ export class EffectsService {
                     ?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length)
                     .filter(hint => hint.resonant ? (item instanceof WornItem && item.isSlottedAeonStone) : true)
                     .forEach(hint => {
-                        hintEffects = hintEffects.concat(effectsService.get_SimpleEffects(character, characterService, hint, "conditional, " + (item.get_Name ? item.get_Name() : item.name)));
+                        hintEffects = hintEffects.concat(effectsService.get_SimpleEffects(character, characterService, hint, "conditional, " + (item.get_Name ? item.get_Name() : item.name), null, item));
                     })
             }
             creature.inventories.forEach(inventory => {
@@ -759,17 +767,35 @@ export class EffectsService {
         if (!familiar) {
             let items = creature.inventories[0];
 
-            //Initialize shoddy values and shield ally for all shields.
+            //Initialize shoddy values and shield ally/emblazon armament for all shields and weapons.
             creature.inventories.forEach(inv => {
                 inv.shields.forEach(shield => {
                     let oldShoddy = shield._shoddy;
                     shield.get_Shoddy((creature as AnimalCompanion | Character), characterService);
                     if (oldShoddy != shield._shoddy) {
                         characterService.set_ToChange(creature.type, "inventory");
+                        characterService.set_ToChange(creature.type, "defense");
                     }
                     let oldShieldAlly = shield._shieldAlly;
                     shield.get_ShieldAlly((creature as AnimalCompanion | Character), characterService);
-                    if (oldShieldAlly != shield._shieldAlly) {
+                    let oldEmblazonArmament = shield._emblazonArmament;
+                    let oldEmblazonEnergy = shield._emblazonEnergy;
+                    let oldEmblazonAntimagic = shield._emblazonAntimagic;
+                    shield.get_EmblazonArmament((creature as AnimalCompanion | Character), characterService);
+                    if (oldShieldAlly != shield._shieldAlly || oldEmblazonArmament != shield._emblazonArmament || oldEmblazonEnergy != shield._emblazonEnergy || oldEmblazonAntimagic != shield._emblazonAntimagic) {
+                        characterService.set_ToChange(creature.type, shield.id);
+                        characterService.set_ToChange(creature.type, "defense");
+                        characterService.set_ToChange(creature.type, "inventory");
+                    }
+                })
+                inv.weapons.forEach(weapon => {
+                    let oldEmblazonArmament = weapon._emblazonArmament;
+                    let oldEmblazonEnergy = weapon._emblazonEnergy;
+                    let oldEmblazonAntimagic = weapon._emblazonAntimagic;
+                    weapon.get_EmblazonArmament((creature as AnimalCompanion | Character), characterService);
+                    if (oldEmblazonArmament != weapon._emblazonArmament || oldEmblazonEnergy != weapon._emblazonEnergy || oldEmblazonAntimagic != weapon._emblazonAntimagic) {
+                        characterService.set_ToChange(creature.type, weapon.id);
+                        characterService.set_ToChange(creature.type, "attacks");
                         characterService.set_ToChange(creature.type, "inventory");
                     }
                 })
@@ -931,54 +957,61 @@ export class EffectsService {
 
         //If an effect with the target "Ignore <type> bonuses and penalties" exists, all effects of that type are disabled.
         this.bonusTypes.forEach(type => {
-            if (allEffects.find(effect => effect.target.toLowerCase() == "ignore " + type + " bonuses and penalties")) {
-                allEffects.filter(effect => effect.type == type && effect.apply == undefined).forEach(effect => {
+            if (allEffects.find(effect => !effect.ignored && effect.target.toLowerCase() == "ignore " + type + " bonuses and penalties")) {
+                allEffects.filter(effect => effect.type == type).forEach(effect => {
                     effect.apply = false;
                 })
             }
         })
-        //If there is an effect that says to ignore all <type> effects, bonuses or penalties,
+        //If there is an effect that says to ignore all <type> effects, bonuses or penalties [to a target],
         // all effects (or bonuses or penalties) to that target (or all targets) with that type are disabled.
         this.bonusTypes.forEach(type => {
             allEffects
-                .filter(effect => effect.target.includes("Ignore " + type[0].toUpperCase() + type.substring(1) + " Effects"))
+                .filter(effect => !effect.ignored && effect.target.toLowerCase().includes("ignore " + type.toLowerCase() + " effects") || effect.target.toLowerCase().includes("ignore " + type.toLowerCase() + " bonuses and penalties"))
                 .forEach(ignoreeffect => {
                     let target = "all";
-                    if (ignoreeffect.target.includes(" To ")) {
-                        target = ignoreeffect.target.split(" To ")[1];
+                    if (ignoreeffect.target.toLowerCase().includes(" to ")) {
+                        target = ignoreeffect.target.toLowerCase().split(" to ")[1];
                     }
                     allEffects
-                        .filter(effect => (target == "all" || effect.target == target) && effect.type == type)
+                        .filter(effect => (target == "all" || effect.target.toLowerCase() == target) && effect.type.toLowerCase() == type.toLowerCase())
                         .forEach(effect => {
                             effect.apply = false;
                         })
                 })
             allEffects
-                .filter(effect => effect.target.includes("Ignore " + type[0].toUpperCase() + type.substring(1) + " Bonuses"))
+                .filter(effect => !effect.ignored && effect.target.toLowerCase().includes("ignore " + type.toLowerCase() + " bonuses"))
                 .forEach(ignoreeffect => {
                     let target = "all";
-                    if (ignoreeffect.target.includes(" To ")) {
-                        target = ignoreeffect.target.split(" To ")[1];
+                    if (ignoreeffect.target.toLowerCase().includes(" to ")) {
+                        target = ignoreeffect.target.toLowerCase().split(" to ")[1];
                     }
                     allEffects
-                        .filter(effect => (target == "all" || effect.target == target) && effect.type == type && !effect.penalty)
+                        .filter(effect => (target == "all" || effect.target.toLowerCase() == target) && effect.type == type && !effect.penalty)
                         .forEach(effect => {
                             effect.apply = false;
                         })
                 })
             allEffects
-                .filter(effect => effect.target.includes("Ignore " + type[0].toUpperCase() + type.substring(1) + " Penalties"))
+                .filter(effect => !effect.ignored && effect.target.toLowerCase().includes("ignore " + type.toLowerCase() + " penalties"))
                 .forEach(ignoreeffect => {
                     let target = "all";
-                    if (ignoreeffect.target.includes(" To ")) {
-                        target = ignoreeffect.target.split(" To ")[1];
+                    if (ignoreeffect.target.toLowerCase().includes(" to ")) {
+                        target = ignoreeffect.target.toLowerCase().split(" to ")[1];
                     }
                     allEffects
-                        .filter(effect => (target == "all" || effect.target == target) && effect.type == type && effect.penalty)
+                        .filter(effect => (target == "all" || effect.target.toLowerCase() == target) && effect.type == type && effect.penalty)
                         .forEach(effect => {
                             effect.apply = false;
                         })
                 })
+        })
+        //If an effect with the target "Ignore <name>" exists without a type, all effects of that name are disabled.
+        allEffects.filter(effect => !effect.ignored && effect.target.toLowerCase().includes("ignore ") && !this.bonusTypes.some(type => effect.target.toLowerCase().includes(type.toLowerCase()))).forEach(ignoreEffect => {
+            let target = ignoreEffect.target.toLowerCase().replace("ignore ", "");
+            allEffects.filter(effect => effect.target.toLowerCase() == target).forEach(effect => {
+                effect.apply = false;
+            })
         })
 
         let targets: string[] = [];
@@ -1252,36 +1285,41 @@ export class EffectsService {
     }
 
     initialize(characterService: CharacterService) {
+        //Only start subscribing to effects refreshing commands after the character has finished loading.
         if (characterService.still_loading()) {
             setTimeout(() => this.initialize(characterService), 500)
         } else {
+            //Initialize effect properties only once.
             if (!this.effectProperties.length) {
                 this.load_EffectProperties();
             }
-            characterService.get_Changed()
-                .subscribe((target) => {
-                    if (["effects", "all", "Character", "Companion", "Familiar"].includes(target)) {
-                        if (["Character", "Companion", "Familiar"].includes(target)) {
-                            this.generate_Effects(target, characterService);
-                        } else {
-                            this.generate_Effects("Character", characterService);
-                            if (characterService.get_CompanionAvailable()) {
-                                this.generate_Effects("Companion", characterService);
+            //Subscribe to updates only once.
+            if (!this.checkingActive) {
+                characterService.get_Changed()
+                    .subscribe((target) => {
+                        if (["effects", "all", "Character", "Companion", "Familiar"].includes(target)) {
+                            if (["Character", "Companion", "Familiar"].includes(target)) {
+                                this.generate_Effects(target, characterService);
+                            } else {
+                                this.generate_Effects("Character", characterService);
+                                if (characterService.get_CompanionAvailable()) {
+                                    this.generate_Effects("Companion", characterService);
+                                }
+                                if (characterService.get_FamiliarAvailable()) {
+                                    this.generate_Effects("Familiar", characterService);
+                                }
                             }
-                            if (characterService.get_FamiliarAvailable()) {
-                                this.generate_Effects("Familiar", characterService);
-                            }
-                        }
 
-                    }
-                });
-            characterService.get_ViewChanged()
-                .subscribe((target) => {
-                    if (["effects", "all"].includes(target.target)) {
-                        this.generate_Effects(target.creature, characterService);
-                    }
-                });
-            return true;
+                        }
+                    });
+                characterService.get_ViewChanged()
+                    .subscribe((target) => {
+                        if (["effects", "all"].includes(target.target)) {
+                            this.generate_Effects(target.creature, characterService);
+                        }
+                    });
+                return true;
+            }
         }
     }
 

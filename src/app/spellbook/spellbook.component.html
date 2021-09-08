@@ -190,7 +190,7 @@
                                                             <ng-container
                                                                 *ngFor="let spell of get_Spells(spellTaken.gain.name); trackBy:trackByIndex;">
                                                                 <ng-container
-                                                                    *ngFor="let externallyDisabled of [get_ExternallyDisabled(spell)]; trackBy:trackByIndex;">
+                                                                    *ngFor="let externallyDisabled of [get_ExternallyDisabled(spell, spellTaken.choice)]; trackBy:trackByIndex;">
                                                                     <ng-container
                                                                         *ngFor="let effectiveSpellLevel of [get_EffectiveSpellLevel(spell, level)]; trackBy:trackByIndex;">
                                                                         <ng-container
@@ -299,7 +299,7 @@
                                                                                     Effective spell level:
                                                                                     {{effectiveSpellLevel}}
                                                                                 </div>
-                                                                                <app-spellTarget class="newrow vlist"
+                                                                                    <app-spellTarget class="newrow vlist"
                                                                                     [creature]="'Character'"
                                                                                     [spell]="spell"
                                                                                     [gain]="spellTaken.gain"
@@ -352,7 +352,7 @@
                                                                                     </button>
                                                                                 </div>
                                                                                 <div class="newrow"
-                                                                                    *ngIf="get_ManualMode && spellTaken.gain.activeCooldown">
+                                                                                    *ngIf="get_ManualMode() && spellTaken.gain.activeCooldown">
                                                                                     <button
                                                                                         class="newrow center-aligned"
                                                                                         (click)="on_ManualEndCooldown(spellTaken.gain)">
@@ -361,16 +361,39 @@
                                                                                         </span>
                                                                                     </button>
                                                                                 </div>
-                                                                                <div class="newrow"
-                                                                                    *ngIf="can_Counterspell(casting) && !spellTaken.gain.active && level > 0"
-                                                                                    [ngbTooltip]="cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots, 0)">
-                                                                                    <button
-                                                                                        class="newrow center-aligned"
-                                                                                        (click)="on_Counterspell(spellTaken.gain, casting, spellTaken.choice, spell, level)"
-                                                                                        [disabled]="cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots, 0)">
-                                                                                        Expend to counter spell
-                                                                                    </button>
-                                                                                </div>
+                                                                                <ng-container
+                                                                                    *ngFor="let cannotExpend of [cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots, 0)]; trackBy:trackByIndex">
+                                                                                    <div class="newrow"
+                                                                                        *ngIf="can_Counterspell(casting) && !spellTaken.gain.active && level > 0"
+                                                                                        [ngbTooltip]="cannotExpend">
+                                                                                        <button
+                                                                                            class="newrow center-aligned"
+                                                                                            (click)="on_Expend(spellTaken.gain, casting, spellTaken.choice, spell, level)"
+                                                                                            [disabled]="cannotExpend">
+                                                                                            Expend to counter spell
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div class="newrow"
+                                                                                        *ngIf="can_ChannelSmite(spell) && !spellTaken.gain.active && level > 0"
+                                                                                        [ngbTooltip]="cannotExpend">
+                                                                                        <button
+                                                                                            class="newrow center-aligned"
+                                                                                            (click)="on_Expend(spellTaken.gain, casting, spellTaken.choice, spell, level)"
+                                                                                            [disabled]="cannotExpend">
+                                                                                            Expend for channel smite
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div class="newrow"
+                                                                                        *ngIf="can_SwiftBanish(casting, spell, level) && !spellTaken.gain.active && level > 0"
+                                                                                        [ngbTooltip]="cannotExpend">
+                                                                                        <button
+                                                                                            class="newrow center-aligned"
+                                                                                            (click)="on_Expend(spellTaken.gain, casting, spellTaken.choice, spell, level)"
+                                                                                            [disabled]="cannotExpend">
+                                                                                            Expend for swift banishment
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </ng-container>
                                                                                 <ng-container
                                                                                     *ngFor="let conditionSet of get_SpellConditions(spell, effectiveSpellLevel, spellTaken.gain); let conditionSetIndex = index; trackBy:trackByIndex">
                                                                                     <div class="newrow list-item left-aligned"

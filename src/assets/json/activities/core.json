@@ -2928,7 +2928,7 @@
     {
         "name": "Counterspell (Prepared)",
         "actions": "Reaction",
-        "inputRequired": "Use the triggering spell as a counterspell in your spell list.",
+        "inputRequired": "You can expend the triggering spell as a counterspell in your spell list.",
         "traits": [
             "Abjuration",
             "Arcane",
@@ -5092,7 +5092,7 @@
     {
         "name": "Counterspell (Spontaneous)",
         "actions": "Reaction",
-        "inputRequired": "You can use the triggering spell as a counterspell in your spell list.",
+        "inputRequired": "You can expend the triggering spell as a counterspell in your spell list.",
         "traits": [
             "Abjuration",
             "Sorcerer"
@@ -5160,5 +5160,442 @@
                 "value": 1
             }
         ]
+    },
+    {
+        "name": "False Faith",
+        "actions": "1 hour",
+        "toggle": true,
+        "target": "self",
+        "desc": "Droskar knows you may need to disguise yourself in societies that oppose your faith. After spending 1 hour in prayer to Droskar, you can cast spells using the religious symbol of a different deity as your divine focus, and you can address verbal prayers to that deity. Droskar intercepts your prayers and answers them without the named god knowing.\n\nThis ability applies to the religious symbol of only one god at a time - making a different religious symbol work in this fashion requires another hour of prayer and causes the old one to cease functioning. You can always use a religious symbol of Droskar without affecting this ability.",
+        "gainConditions": [
+            {
+                "name": "False Faith",
+                "source": "False Faith"
+            }
+        ]
+    },
+    {
+        "name": "Channel Smite",
+        "actions": "2A",
+        "inputRequired": "You can expend a harm or heal spell for channel smite in your spell list.",
+        "traits": [
+            "Cleric",
+            "Divine",
+            "Necromancy"
+        ],
+        "cost": "Expend a harm or heal spell.",
+        "target": "other",
+        "desc": "You siphon the destructive energies of positive or negative energy through a melee attack and into your foe. Make a melee Strike and add the spell's damage to the Strike's damage. This is negative damage if you expended a harm spell or positive damage if you expended a heal spell. The spell is expended with no effect if your Strike fails or hits a creature that isn't damaged by that energy type (such as if you hit a non-undead creature with a heal spell)."
+    },
+    {
+        "name": "Command Undead",
+        "actions": "1A",
+        "inputRequired": "Using this action applies the effect independently of the harm spell. Cast a harm spell afterwards to properly expend the spell slot.",
+        "traits": [
+            "Cleric",
+            "Concentrate",
+            "Metamagic"
+        ],
+        "target": "other",
+        "desc": "You grasp the animating force within an undead creature and bend it to your will. If the next action you use is to cast harm targeting one undead creature, you transform the effects of that harm spell. Instead of harm's normal effects, the target becomes controlled by you if its level is equal to or lower than your level - 3. It can attempt a Will saving throw to resist being controlled by you. If the target is already under someone else's command, the controlling creature also rolls a saving throw, and the undead uses the better result.",
+        "critsuccess": "The target is unaffected and is temporarily immune for 24 hours.",
+        "success": "The target is unaffected.",
+        "failure": "The undead creature becomes a minion under your control. The spell gains a duration of 1 minute, but it is dismissed if you or an ally attacks the minion undead.",
+        "critfailure": "As failure, but the duration is 1 hour.",
+        "gainConditions": [
+            {
+                "duration": -5,
+                "name": "Command Undead (Caster)",
+                "source": "Command Undead",
+                "targetFilter": "caster"
+            }
+        ]
+    },
+    {
+        "name": "Necrotic Infusion",
+        "actions": "1A",
+        "inputRequired": "Using this action applies the effect independently of the harm spell. Cast a harm spell afterwards to properly expend the spell slot.",
+        "traits": [
+            "Cleric",
+            "Concentrate",
+            "Metamagic"
+        ],
+        "durationDependsOnTarget": true,
+        "target": "ally",
+        "desc": "You pour negative energy into your undead subject to empower its attacks. If the next action you use is to cast harm to restore Hit Points to a single undead creature, the target then deals an additional 1d6 negative damage with its melee weapons and unarmed attacks until the end of its next turn. If the harm spell is at least 5th level, this damage increases to 2d6, and if the harm spell is at least 8th level, the damage increases to 3d6.",
+        "gainConditions": [
+            {
+                "duration": 10,
+                "name": "Necrotic Infusion (Caster)",
+                "source": "Necrotic Infusion",
+                "targetFilter": "caster"
+            },
+            {
+                "copyChoiceFrom": "Necrotic Infusion (Caster)",
+                "duration": 10,
+                "name": "Necrotic Infusion",
+                "source": "Necrotic Infusion",
+                "targetFilter": "target"
+            }
+        ]
+    },
+    {
+        "name": "Cast Down",
+        "actions": "1A",
+        "inputRequired": "Using this action applies the effect independently of the harm or heal spell. Cast a harm or heal spell afterwards to properly expend the spell slot.",
+        "traits": [
+            "Cleric",
+            "Concentrate",
+            "Metamagic"
+        ],
+        "target": "other",
+        "desc": "The sheer force of your faith can bring a foe crashing down. If the next action you use is to cast harm or heal to damage one creature, the target is knocked prone if it takes any damage from the spell. If the target critically fails its save against the spell, it also takes a -10-foot status penalty to its Speed for 1 minute.",
+        "gainConditions": [
+            {
+                "duration": -5,
+                "name": "Cast Down (Caster)",
+                "source": "Cast Down",
+                "targetFilter": "caster"
+            }
+        ]
+    },
+    {
+        "name": "Divine Weapon",
+        "actions": "Free",
+        "traits": [
+            "Cleric"
+        ],
+        "trigger": "You finish Casting a Spell using one of your divine spell slots on your turn.",
+        "frequency": "once per turn",
+        "cooldown": 5,
+        "target": "self",
+        "desc": "You siphon residual spell energy into a weapon you're wielding. Until the end of your turn, the weapon deals an additional 1d4 force damage. You can instead deal an additional 1d6 damage of an alignment type that matches one of your deity's alignment components. As usual for aligned damage, this can damage only creatures of the opposite alignment.",
+        "gainConditions": [
+            {
+                "duration": 5,
+                "name": "Divine Weapon",
+                "source": "Divine Weapon"
+            }
+        ]
+    },
+    {
+        "name": "Align Armament",
+        "actions": "1A",
+        "traits": [
+            "Cleric",
+            "Divine",
+            "Evocation"
+        ],
+        "frequency": "once per round",
+        "cooldown": 5,
+        "target": "ally",
+        "desc": "You bring a weapon into metaphysical concordance with your deity's beliefs. This action has the trait corresponding to the chosen alignment component.\n\nWhen you use this action, you touch a weapon. For 1 round, that weapon deals an additional 1d6 damage of the chosen type to creatures of the opposed alignment. For example, if you chose good, the weapon would deal an extra 1d6 good damage to evil creatures. If you Align an Armament again, any previously aligned armament loses its additional damage.",
+        "gainConditions": [
+            {
+                "duration": 10,
+                "name": "Align Armament (Originator)",
+                "source": "Align Armament",
+                "targetFilter": "caster"
+            },
+            {
+                "copyChoiceFrom": "Align Armament (Originator)",
+                "duration": 10,
+                "name": "Align Armament",
+                "source": "Align Armament",
+                "targetFilter": "target"
+            }
+        ]
+    },
+    {
+        "name": "Heroic Recovery",
+        "actions": "1A",
+        "inputRequired": "Using this action grants the effect to your ally independently of the heal spell. Cast a heal spell afterwards to properly expend the spell slot.",
+        "traits": [
+            "Cleric",
+            "Concentrate",
+            "Metamagic"
+        ],
+        "durationDependsOnTarget": true,
+        "target": "ally",
+        "desc": "The restorative power of your healing invigorates the recipient. If the next action you use is to cast heal targeting a single living creature and the target regains Hit Points from the spell, it also gains three bonuses until the end of its next turn: a +5-foot status bonus to its Speed, a +1 status bonus to attack rolls, and a +1 status bonus to damage rolls.",
+        "gainConditions": [
+            {
+                "duration": 10,
+                "name": "Heroic Recovery (Caster)",
+                "source": "Heroic Recovery",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 10,
+                "name": "Heroic Recovery",
+                "source": "Heroic Recovery",
+                "targetFilter": "target"
+            }
+        ]
+    },
+    {
+        "name": "Replenishment of War",
+        "inputRequired": "Until you have the Shared Replenishment feat, you should only target yourself with Replenishment of War.",
+        "traits": [
+            "Cleric"
+        ],
+        "durationDependsOnTarget": true,
+        "target": "ally",
+        "showonSkill": "Favored Weapon",
+        "desc": "Striking out against your enemies draws praise and protection from your deity. When you damage a creature with a Strike using your deity's favored weapon, you gain a number of temporary Hit Points equal to half your level, or equal to your level if the Strike was a critical hit. These temporary Hit Points last until the start of your next turn.",
+        "targetNumbers": [
+            {
+                "number": 0
+            },
+            {
+                "number": 1,
+                "featreq": "Shared Replenishment"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 15,
+                "name": "Replenishment of War (Originator)",
+                "source": "Replenishment of War",
+                "targetFilter": "caster"
+            },
+            {
+                "copyChoiceFrom": "Replenishment of War (Originator)",
+                "duration": 15,
+                "name": "Replenishment of War",
+                "source": "Replenishment of War",
+                "targetFilter": "target"
+            }
+        ]
+    },
+    {
+        "name": "Defensive Recovery",
+        "actions": "1A",
+        "inputRequired": "Using this action applies the effect independently of the harm or heal spell. Cast a harm or heal spell afterwards to properly expend the spell slot.",
+        "traits": [
+            "Cleric",
+            "Concentrate",
+            "Metamagic"
+        ],
+        "target": "ally",
+        "desc": "Your faith provides temporary protection in addition to healing. If the next action you use is to cast harm or heal on a single target and the target regains Hit Points from the spell, it also gains a +2 status bonus to AC and saving throws for 1 round.",
+        "gainConditions": [
+            {
+                "duration": 10,
+                "name": "Defensive Recovery (Caster)",
+                "source": "Defensive Recovery",
+                "targetFilter": "caster"
+            },
+            {
+                "copyChoiceFrom": "Defensive Recovery (Caster)",
+                "duration": 10,
+                "name": "Defensive Recovery",
+                "source": "Defensive Recovery",
+                "targetFilter": "target"
+            }
+        ]
+    },
+    {
+        "name": "Swift Banishment",
+        "actions": "Reaction",
+        "inputRequired": "You can expend a banishment spell for swift banishment in your spell list. Alternatively, you can just cast the spell to the same effect and treat it as though it took no actions and had no traits.\n\nIf you have Improved Swift Banishment, you can expend any prepared spell of 5th level or higher in your spell list.",
+        "traits": [
+            "Cleric"
+        ],
+        "requirements": "You have a banishment spell prepared.",
+        "trigger": "You critically hit a creature that is not on its home plane.",
+        "target": "other",
+        "desc": "The force of your blow sends your victim back to its home plane. You expend a banishment spell you have prepared, affecting the creature you critically hit without needing to cast the spell. The creature can attempt to resist the spell as normal.",
+        "gainConditions": [
+            {
+                "duration": -5,
+                "name": "Banishment (Caster)",
+                "source": "Swift Banishment",
+                "targetFilter": "caster"
+            }
+        ],
+        "showSpells": [
+            {
+                "level": 5,
+                "name": "Banishment"
+            }
+        ]
+    },
+    {
+        "name": "Dismiss Eternal Bane",
+        "actions": "1A",
+        "traits": [
+            "Concentrate"
+        ],
+        "target": "self",
+        "desc": "You're continuously surrounded by a bane spell. You can use this activity to Dismiss the spell; it will return automatically after 1 minute.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Eternal Bane Dismissed",
+                "source": "Dismiss Eternal Bane"
+            }
+        ]
+    },
+    {
+        "name": "Eternal Blessing",
+        "target": "ally",
+        "desc": "You're continuously surrounded by a bless spell. You can use this activity to grant the effect of the spell to your allies when they enter its radius.",
+        "targetNumbers": [
+            {
+                "number": -1
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Bless",
+                "source": "Eternal Blessing"
+            }
+        ]
+    },
+    {
+        "name": "Dismiss Eternal Blessing",
+        "actions": "1A",
+        "traits": [
+            "Concentrate"
+        ],
+        "target": "self",
+        "desc": "You're continuously surrounded by a bless spell. You can use this activity to Dismiss the spell; it will return automatically after 1 minute.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Eternal Blessing Dismissed",
+                "source": "Dismiss Eternal Blessing"
+            }
+        ]
+    },
+    {
+        "name": "Resurrectionist",
+        "target": "ally",
+        "desc": "You can cause a creature you bring back from the brink of death to thrive and continue healing. After restoring Hit Points to a dying creature or bringing a dead creature back to life and restoring Hit Points to it, you grant that creature fast healing 5 for 1 minute. This fast healing ends if the creature is knocked unconscious.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Resurrectionist (Originator)",
+                "source": "Resurrectionist",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 100,
+                "name": "Resurrectionist",
+                "source": "Resurrectionist",
+                "targetFilter": "target"
+            }
+        ]
+    },
+    {
+        "name": "Echoing Channel",
+        "actions": "1A",
+        "inputRequired": "In play, you can choose one additional creature to apply the effect. There is no change to the spell you cast.",
+        "traits": [
+            "Cleric",
+            "Concentrate",
+            "Metamagic"
+        ],
+        "target": "self",
+        "desc": "When you pull forth positive or negative energy, you also create a smaller pocket of that energy. If the next action you use is to cast a 2-action harm or heal to heal or damage a single creature, choose one additional creature adjacent to either you or the target. Target that creature with a 1-action version of the same spell. This spell is the same level as the 2-action harm or heal you cast and doesn't cost another spell slot."
+    },
+    {
+        "name": "Dance of Intercession",
+        "actions": "3A",
+        "traits": [
+            "Uncommon",
+            "Cleric"
+        ],
+        "charges": 3,
+        "frequency": "three times a day",
+        "cooldown": 144000,
+        "target": "self",
+        "desc": "You either performed in or stood witness to the dance used to invoke the Celestial Dragon and can harness a sliver of their power. You Stride in a dance up to half your Speed, attempting a DC 35 Performance check. You can perform this dance up to three times per day. The second time you do so in the same day, use the degree of success one worse than your actual roll on the Performance check. The third time in a day, use the degree of success two lower than your actual roll.",
+        "critsuccess": "You perform the movements of the Dance of Intercession so gracefully that you evoke a glimmer of the memory of the Celestial Dragon's awesome power. You cast the 3-action version of either 9th-level harm or heal at any point during your Stride. This does not use any spell slots.",
+        "success": "As critical success, but the spell is 7th level instead of 9th as you stumble through the movements.",
+        "failure": "As critical success, but the spell is 5th level instead of 9th as you stumble through the movements.",
+        "critfailure": "You fail to remember the steps of the dance. You gain no additional effect beyond Striding half your Speed, and you can't attempt the Dance of Intercession again until your next daily preparations.",
+        "gainConditions": [
+            {
+                "duration": -5,
+                "name": "Dance of Intercession",
+                "source": "Dance of Intercession"
+            }
+        ],
+        "showSpells": [
+            {
+                "level": 9,
+                "name": "Harm"
+            },
+            {
+                "level": 9,
+                "name": "Heal"
+            },
+            {
+                "level": 7,
+                "name": "Harm"
+            },
+            {
+                "level": 7,
+                "name": "Heal"
+            },
+            {
+                "level": 5,
+                "name": "Harm"
+            },
+            {
+                "level": 5,
+                "name": "Heal"
+            }
+        ]
+    },
+    {
+        "name": "Denier of Destruction",
+        "actions": "Reaction",
+        "inputRequired": "Cast a prepared heal spell as indicated.",
+        "traits": [
+            "Uncommon",
+            "Cleric"
+        ],
+        "requirements": "You have a heal spell prepared and you aren't flat-footed to the source of the damage.",
+        "trigger": "Any ally within 30 feet that you can heal with your heal spell would take damage from an attack or effect from a source you can observe.",
+        "target": "self",
+        "desc": "You can manipulate the same energies that the aeon orbs use to sustain life. You cast heal on the triggering target. Instead of its normal effects, the heal spell reduces the triggering damage by an amount equal to the Hit Points a 1-action heal spell of that level would have recovered. As usual, if this reduces the damage to 0, it might also remove additional effects of the triggering attack, such as injury poisons."
+    },
+    {
+        "name": "Metamagic Channel",
+        "actions": "Free",
+        "traits": [
+            "Cleric",
+            "Concentrate"
+        ],
+        "target": "self",
+        "desc": "Deep understanding of divine revelations into the nature of vital essence allows you to freely manipulate the effects of your positive or negative energy. Use 1 metamagic action that you can perform that normally takes 1 action and can be applied to the harm or heal spell. If you use it in this way, its effects apply only to a harm or heal spell."
+    },
+    {
+        "name": "Inventive Offensive",
+        "actions": "3A",
+        "inputRequired": "To apply an additional weapon trait if you have legendary proficiency in Crafting, use this ability a second time.",
+        "traits": [
+            "Gnome"
+        ],
+        "target": "self",
+        "desc": "You can jury-rig your weapons to perform in unexpected ways. When you use this ability, add one of the following weapon traits to a melee weapon you wield: deadly d6, disarm, nonlethal, shove, trip, versatile B, versatile P, or versatile S. You cannot add a trait that the weapon already has. The weapon retains this trait until you a successfully hit and deal damage with the weapon. The weapon retains this trait only while you wield it, and you can have only one weapon modified in this way at any time.\n\nIf you have expert proficiency in Crafting, you can use this feat as a 2-action activity. If you have legendary proficiency in Crafting, you can apply two weapon traits from the list when using this feat.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Inventive Offensive",
+                "source": "Inventive Offensive"
+            }
+        ]
+    },
+    {
+        "name": "Vibrant Display",
+        "frequency": "once every 10 minutes",
+        "cooldown": 1000,
+        "target": "self",
+        "desc": "Once every 10 minutes, when you use the Feint action, you can compare your Deception check result to the Perception DCs of all adjacent creatures rather than just one creature within melee reach. It's possible to get a different degree of success for each target.\n\nThese changes are imprecise and usually short-lived, so while they allow you to periodically change your appearance in unpredictable ways, they are of little use in providing camouflage or aiding a disguise."
     }
 ]

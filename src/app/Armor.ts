@@ -227,7 +227,7 @@ export class Armor extends Equipment {
         if (creature.type == "Character" && this.group) {
             let character = creature as Character;
             let skillLevel = this.profLevel(character, characterService);
-            characterService.get_FeatsAndFeatures()
+            characterService.get_CharacterFeatsAndFeatures()
                 .filter(feat => feat.gainSpecialization.length && feat.have(character, characterService, character.level))
                 .forEach(feat => {
                     SpecializationGains.push(...feat.gainSpecialization.filter(spec =>
@@ -236,7 +236,7 @@ export class Armor extends Equipment {
                         (spec.trait ? this.traits.filter(trait => trait && spec.trait.includes(trait)).length : true) &&
                         (spec.proficiency ? (prof && spec.proficiency.includes(prof)) : true) &&
                         (spec.skillLevel ? skillLevel >= spec.skillLevel : true) &&
-                        (spec.featreq ? characterService.get_FeatsAndFeatures(spec.featreq)[0]?.have(character, characterService) : true)
+                        (spec.featreq ? characterService.get_CharacterFeatsAndFeatures(spec.featreq)[0]?.have(character, characterService) : true)
                     ))
                 });
             SpecializationGains.forEach(critSpec => {

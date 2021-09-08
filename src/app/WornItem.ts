@@ -70,10 +70,10 @@ export class WornItem extends Equipment {
     get_Price(itemsService: ItemsService) {
         let price = this.price;
         if (this.potencyRune) {
-            price += itemsService.get_CleanItems().weaponrunes.filter(rune => rune.potency == this.potencyRune)[0].price;
+            price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.potency == this.potencyRune).price;
         }
         if (this.strikingRune) {
-            price += itemsService.get_CleanItems().weaponrunes.filter(rune => rune.striking == this.strikingRune)[0].price;
+            price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.striking == this.strikingRune).price;
         }
         this.propertyRunes.forEach(rune => {
             price += itemsService.get_CleanItems().weaponrunes.find(weaponRune => weaponRune.name.toLowerCase() == rune.name.toLowerCase()).price;

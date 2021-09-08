@@ -235,6 +235,7 @@ export class MessageService {
     }
 
     initialize(characterService: CharacterService) {
+        //Only start checking for effects once, but clear the new messages when the character changes.
         this.newMessages.length = 0;
         if (!this.checkingActive) {
             this.start_MessageInterval(characterService);

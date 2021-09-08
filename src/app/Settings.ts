@@ -24,6 +24,7 @@ export class Settings {
     foundryVTTTimeout: number = 500;
     generalMinimized: boolean = false;
     healthMinimized: boolean = false;
+    hiddenFeats: boolean = false;
     higherLevelFeats: boolean = true;
     hintsShowMoreInformation: boolean = true;
     itemsTileMode: boolean = true;

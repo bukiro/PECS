@@ -95,20 +95,45 @@ export class SpellTargetComponent implements OnInit {
     }
 
     get_Parameters() {
-        let isBloodMagicTrigger = this.get_IsBloodMagicTrigger();
+        let bloodMagicTrigger = this.get_BloodMagicTrigger();
         let canActivate = this.can_Activate();
         let canActivateWithoutTarget = this.can_Activate(true);
         let targetNumber = 1;
-        targetNumber = (this.spell || this.activity).get_TargetNumber(this.effectiveSpellLevel);
-        return { isBloodMagicTrigger: isBloodMagicTrigger, canActivate: canActivate, canActivateWithoutTarget: canActivateWithoutTarget, targetNumber: targetNumber }
+        targetNumber = (this.spell || this.activity).get_TargetNumber(this.effectiveSpellLevel, this.characterService);
+        return { bloodMagicTrigger: bloodMagicTrigger, canActivate: canActivate, canActivateWithoutTarget: canActivateWithoutTarget, targetNumber: targetNumber }
     }
 
-    get_IsBloodMagicTrigger() {
+    get_BloodMagicTrigger() {
         if (this.spell) {
-            return this.bloodMagicFeats.some(feat => feat.bloodMagic.some(bloodMagic => bloodMagic.trigger.includes(this.spell.name)));
+            let bloodMagicTrigger = "";
+            this.bloodMagicFeats.forEach(feat => {
+                feat.bloodMagic.forEach(bloodMagic => {
+                    if (
+                        bloodMagic.trigger.includes(this.spell.name) ||
+                        bloodMagic.sourceTrigger.some(sourceTrigger =>
+                            [
+                                this.casting?.source.toLowerCase() || "",
+                                this.parentActivityGain?.source.toLowerCase() || "",
+                                this.gain?.source.toLowerCase() || ""
+                            ].includes(sourceTrigger.toLowerCase())
+                        )
+                    ) {
+                        if (bloodMagic.neutralPhrase && !bloodMagicTrigger) {
+                            bloodMagicTrigger = "additional effects";
+                        } else if (!bloodMagic.neutralPhrase) {
+                            bloodMagicTrigger = "your blood magic power";
+                        }
+                    }
+                })
+            });
+            return bloodMagicTrigger;
         } else {
-            return false;
+            return "";
         }
+    }
+
+    get_IsSpellGain() {
+        return this.gain instanceof SpellGain ? this.gain : null;
     }
 
     can_Activate(noTarget: boolean = false) {
@@ -124,7 +149,7 @@ export class SpellTargetComponent implements OnInit {
             gainConditions = this.activity.gainConditions;
         }
         return (
-            this.get_IsBloodMagicTrigger() ||
+            this.get_BloodMagicTrigger() ||
             (
                 !noTarget &&
                 gainConditions.some(gain => gain.targetFilter != "caster")

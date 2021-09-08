@@ -1,5 +1,7 @@
 import { SpellGain } from './SpellGain';
 import { v4 as uuidv4 } from 'uuid';
+import { Creature } from './Creature';
+import { CharacterService } from './character.service';
 
 export class SpellChoice {
     public readonly _className: string = this.constructor.name;
@@ -35,7 +37,7 @@ export class SpellChoice {
     //If a feat adds a spellChoice with a lower charLevelAvailable as the level the feat was taken, it get set to the feat level instead
     public charLevelAvailable: number = 0;
     //The CastingType is mostly there to identify the proper SpellCasting to sort this into if it comes from a feat.
-    public castingType: "Focus"|"Innate"|"Spontaneous"|"Prepared"|"Default";
+    public castingType: "Focus" | "Innate" | "Spontaneous" | "Prepared" | "Default";
     //Spell Combination is for wizards and designates this spell choice as one that fits two spells in one spell slot.
     public spellCombinationAllowed: boolean = false;
     //You can choose to use a combination slot for a spell combination, which changes the available spells.
@@ -55,7 +57,7 @@ export class SpellChoice {
     // [0]: Number of spell slots traded away for cantrips
     // [1]: Number of spell slots traded away for a spell slot 1 level higher
     // [2]: Number of spell slots traded away for a spell slot 2 levels higher
-    public spellBlending: number[] = [0,0,0]
+    public spellBlending: number[] = [0, 0, 0]
     //Infinite Possibilities is for Wizards and tracks whether one of the spell slots of this choice has been traded away for an Infinite Possibilities slot.
     public infinitePossibilities: boolean = false;
     //Adapted Cantrip tracks whether one of the spell slots of this choice has been traded away for an Adapted Cantrip slot.

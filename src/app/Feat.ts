@@ -24,6 +24,7 @@ import { Creature } from './Creature';
 import { ProficiencyCopy } from './ProficiencyCopy';
 import { LanguageGain } from './LanguageGain';
 import { SignatureSpellGain } from './SignatureSpellGain';
+import { EffectGain } from './EffectGain';
 
 export class Feat {
     public readonly _className: string = this.constructor.name;
@@ -42,10 +43,13 @@ export class Feat {
     public bloodMagic: BloodMagic[] = [];
     //Having this feat counts as fulfilling the prerequisite of having the feat named in countAsFeat. This is useful for class feats that allow you to take another of the class type choices.
     public countAsFeat: string = "";
+    //The customData property causes the feat to be copied into a custom feat, and the data property to gain the listed fields.
+    // This usually goes hand in hand with feats where you need to make very specific, hardcoded choices that are saved in the data fields. 
+    public customData: { name: string, type: "string" | "number" | "stringArray" | "numberArray" }[] = [];
     public data: {} = {};
     public displayName: string = "";
     public desc: string = "";
-    public effects: any[] = [];
+    public effects: EffectGain[] = [];
     public featreq: string[] = [];
     public heritagereq: string = "";
     //You can add requirements to the ignore list. These get evaluated and must result in "levelreq", "abilityreq", "featreq", "skillreq", "heritagereq" or "dedicationlimit" to do anything.
@@ -68,6 +72,7 @@ export class Feat {
     public gainSpellListSpells: string[] = [];
     public gainSpellCasting: SpellCasting[] = [];
     public gainSpellChoice: SpellChoice[] = [];
+    public gainDomains: string[] = [];
     public hide: boolean = false;
     public hints: Hint[] = [];
     public readonly internalNote: string = ""
@@ -188,7 +193,7 @@ export class Feat {
     meetsFeatReq(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         //If the feat has a featreq, check if you meet that (or a feat that has this supertype).
         //Returns [requirement met, requirement description]
-        //Requirements like "Aggressive Block or Brutish Shove" are split in get_FeatsAndFeatures().
+        //Requirements like "Aggressive Block or Brutish Shove" are split in get_CharacterFeatsAndFeatures().
         let result: Array<{ met?: boolean, desc?: string }> = [];
         if (this.featreq.length) {
             this.featreq.forEach(featreq => {
@@ -203,7 +208,7 @@ export class Feat {
                     requiredFeat = characterService.familiarsService.get_FamiliarAbilities(testfeat);
                 } else {
                     testcreature = characterService.get_Character();
-                    requiredFeat = characterService.get_FeatsAndFeatures(testfeat, "", true, true);
+                    requiredFeat = characterService.get_CharacterFeatsAndFeatures(testfeat, "", true, true);
                 }
                 if (requiredFeat.length) {
                     if (requiredFeat.find(feat => feat.have(testcreature, characterService, charLevel))) {
@@ -258,7 +263,9 @@ export class Feat {
         //The variable is recast here so it can be used in eval().
         charLevel = charLevel;
         let familiar: Familiar = characterService.get_Familiar();
-        let deity: Deity = character.class.deity ? characterService.get_Deities(character.class.deity)[0] : null;
+        let deities: Deity[] = characterService.deitiesService.get_CharacterDeities(character, "", charLevel);
+        let deity = deities[0];
+        let secondDeity = deities[1];
         function Skill_Level(creature: string, name: string) {
             if (creature != "Familiar") {
                 return characterService.get_Skills(characterService.get_Creature(creature), name)[0]?.level(characterService.get_Creature(creature) as Character | AnimalCompanion, characterService, charLevel) || 0;
@@ -278,9 +285,9 @@ export class Feat {
             if (creature == "Familiar") {
                 return characterService.familiarsService.get_FamiliarAbilities(name).find(feat => feat.have(familiar, characterService, charLevel, false));
             } else if (creature == "Character") {
-                return characterService.get_FeatsAndFeatures(name, "", true, true).find(feat => feat.have(character, characterService, charLevel, false));
+                return characterService.get_CharacterFeatsAndFeatures(name, "", true, true).find(feat => feat.have(character, characterService, charLevel, false));
             } else {
-                return 0;
+                return null;
             }
         }
         function Has_Sense(creature: string, name: string) {
@@ -326,13 +333,18 @@ export class Feat {
         //Check the heritage reqs. True if ALL are true. (There is only one.)
         let heritagereqs = this.meetsHeritageReq(characterService, charLevel);
         let heritagereq: boolean = ignoreRequirementsList.includes("heritagereq") || heritagereqs.filter(req => req.met == false).length == 0;
-        //Check the special req. True if returns true.
-        let specialreq: boolean = ignoreRequirementsList.includes("specialreq") || this.meetsSpecialReq(characterService, charLevel).met;
-        //Return true if all are true
-        return levelreq && abilityreq && skillreq && featreq && specialreq && heritagereq;
+        //If any of the previous requirements are already not fulfilled, skip the specialreq, as it is the most performance intensive.
+        if (levelreq && levelreq && abilityreq && skillreq && featreq) {
+            //Check the special req. True if returns true.
+            let specialreq: boolean = ignoreRequirementsList.includes("specialreq") || this.meetsSpecialReq(characterService, charLevel).met;
+            //Return true if all are true
+            return specialreq;
+        } else {
+            return false;
+        }
     }
-    have(creature: Creature, characterService: CharacterService, charLevel: number = characterService.get_Character().level, excludeTemporary: boolean = false, includeCountAs: boolean = false, minLevel: number = 1) {
-        if (characterService.still_loading()) { return 0 }
+    have(creature: Creature, characterService: CharacterService, charLevel: number = (characterService?.get_Character().level || 0), excludeTemporary: boolean = false, includeCountAs: boolean = false, minLevel: number = 1) {
+        if (characterService?.still_loading()) { return 0 }
         if (creature.type == "Character") {
             return (creature as Character).get_FeatsTaken(minLevel, charLevel, this.name, "", "", undefined, excludeTemporary, includeCountAs)?.length || 0;
         } else if (creature.type == "Familiar") {

@@ -138,7 +138,7 @@ export class ActivitiesService {
                     gain.gainItems = activity.gainItems.map(gainItem => Object.assign(new ItemGain(), gainItem));
                 }
                 gain.gainItems.forEach(gainItem => {
-                    let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase())[0];
+                    let newItem: Item = itemsService.get_CleanItems()[gainItem.type].find((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase());
                     if (newItem) {
                         let grantedItem = characterService.grant_InventoryItem(creature as Character | AnimalCompanion, creature.inventories[0], newItem, false, false, true);
                         gainItem.id = grantedItem.id;
@@ -219,7 +219,7 @@ export class ActivitiesService {
                                 newConditionGain.choice = gain.effectChoices.find(choice => choice.condition == conditionGain.copyChoiceFrom)?.choice || condition.choice;
                             } else if (newConditionGain.choiceBySubType) {
                                 //If there is a choiceBySubType value, and you have a feat with superType == choiceBySubType, set the choice to that feat's subType as long as it's a valid choice for the condition.
-                                let subType = (characterService.get_FeatsAndFeatures(newConditionGain.choiceBySubType, "", true, true).find(feat => feat.superType == newConditionGain.choiceBySubType && feat.have(creature, characterService, creature.level, false)));
+                                let subType = (characterService.get_CharacterFeatsAndFeatures(newConditionGain.choiceBySubType, "", true, true).find(feat => feat.superType == newConditionGain.choiceBySubType && feat.have(creature, characterService, creature.level, false)));
                                 if (subType && condition.choices.map(choice => choice.name).includes(subType.subType)) {
                                     newConditionGain.choice = subType.subType;
                                 }
@@ -273,12 +273,12 @@ export class ActivitiesService {
                             }
                             //Check if an effect changes the duration of this condition.
                             let effectDuration: number = newConditionGain.duration || 0;
-                            characterService.effectsService.get_AbsolutesOnThis(creature, condition.name + " Duration").forEach(effect => {
+                            characterService.effectsService.get_AbsolutesOnThis(creature, condition.name.replace(" (Originator)", "").replace(" (Caster)", "") + " Duration").forEach(effect => {
                                 effectDuration = parseInt(effect.setValue);
                                 conditionsToRemove.push(effect.source);
                             })
                             if (effectDuration > 0) {
-                                characterService.effectsService.get_RelativesOnThis(creature, condition.name + " Duration").forEach(effect => {
+                                characterService.effectsService.get_RelativesOnThis(creature, condition.name.replace(" (Originator)", "").replace(" (Caster)", "") + " Duration").forEach(effect => {
                                     effectDuration += parseInt(effect.value);
                                     conditionsToRemove.push(effect.source);
                                 })
@@ -382,7 +382,7 @@ export class ActivitiesService {
                         if (activated) {
                             cast.spellGain.selectedTarget = target;
                         }
-                        spellsService.process_Spell(creature, cast.spellGain.selectedTarget, characterService, itemsService, conditionsService, null, cast.spellGain, librarySpell, cast.level, activated, true, false, gain);
+                        spellsService.process_Spell(creature, cast.spellGain.selectedTarget, characterService, itemsService, conditionsService, null, null, cast.spellGain, librarySpell, cast.level, activated, true, false, gain);
                     }
                 })
                 if (!activated) {
@@ -502,6 +502,7 @@ export class ActivitiesService {
     }
 
     initialize() {
+        //Initialize activities only once, but cleanup active hints everytime thereafter.
         if (!this.activities.length) {
             this.loading = true;
             this.load_Activities();

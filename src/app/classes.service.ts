@@ -74,6 +74,7 @@ export class ClassesService {
     }
 
     initialize() {
+        //Initialize only once.
         if (!this.classes.length) {
             this.loading = true;
             this.load_Classes();

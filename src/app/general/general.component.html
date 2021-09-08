@@ -66,6 +66,19 @@
                 <strong>Deity</strong>
                 <span>{{get_Character().class.deity}}</span>
             </div>
+            <div class="fullsize-only list-item" *ngIf="get_Domains().length">
+                <strong>Deity's Domains</strong>
+                <div class="newrow">
+                    <ul>
+                        <li *ngFor="let domain of get_Domains(); trackBy:trackByIndex;">
+                            <span [ngbPopover]="domain.desc">
+                                {{domain.name}}
+                                <i class="bi-question-circle"></i>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <div class="list-item"
                 *ngIf="get_Character().class.ancestry.languages && get_Character().class.ancestry.languages.length">
                 <strong>Languages</strong>
@@ -97,8 +110,8 @@
                     </ul>
                 </div>
             </div>
-            <app-tags [creature]="creature" [objectName]="'Tenets'" [showTraits]=true [showFeats]=true
-                [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
+            <app-tags [creature]="creature" [objectName]="'Tenets'" [showTraits]=true [showFeats]=true [showItems]=true
+                [showActivities]=true [showConditions]=true></app-tags>
             <div class="fullsize-only list-item" *ngFor="let feat of get_DifferentWorldsFeat(); trackBy:trackByIndex;">
                 <strong>Alternative Identity (Different Worlds)</strong>
                 <span>{{feat.data.name}} {{(feat.data.background) ? "("+feat.data.background+")" : ""}}</span>

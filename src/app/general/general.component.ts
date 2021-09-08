@@ -5,6 +5,8 @@ import { TraitsService } from '../traits.service';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { FamiliarsService } from '../familiars.service';
 import { FeatChoice } from '../FeatChoice';
+import { DeitiesService } from '../deities.service';
+import { Domain } from '../Domain';
 
 @Component({
     selector: 'app-general',
@@ -26,7 +28,8 @@ export class GeneralComponent implements OnInit {
         public characterService: CharacterService,
         public effectsService: EffectsService,
         public traitsService: TraitsService,
-        private familiarsService: FamiliarsService
+        private familiarsService: FamiliarsService,
+        private deitiesService: DeitiesService
     ) { }
 
     minimize() {
@@ -100,31 +103,63 @@ export class GeneralComponent implements OnInit {
         return this.get_Creature().get_Size(this.effectsService);
     }
 
+    get_Domains() {
+        let character = this.get_Character();
+        if (character.class.deityFocused) {
+            let deity = this.characterService.get_CharacterDeities(character)[0];
+            if (deity) {
+                let domainFeats = this.characterService.get_CharacterFeatsAndFeatures()
+                    .filter(feat => feat.gainDomains?.length && feat.have(character, this.characterService));
+                let domains = deity.get_Domains(character)
+                    .concat(...(domainFeats.map(feat => feat.gainDomains))
+                    );
+                return domains.map(domain => this.deitiesService.get_Domains(domain)[0] || new Domain());
+            } else {
+                return [];
+            }
+        } else {
+            return [];
+        }
+    }
+
     get_Tenets() {
         let character = this.get_Character();
         //Collect tenets from all feats and features you have that include them.
-        return [].concat(...this.characterService.get_FeatsAndFeatures()
+        return [].concat(...this.characterService.get_CharacterFeatsAndFeatures()
             .filter(feat => feat.tenets?.length && feat.have(character, this.characterService))
-            .map(feat => feat.tenets))
+            .map(feat => feat.tenets)
+        );
     }
-    
+
     get_Edicts() {
         let character = this.get_Character();
-        let deity = character.class.deity ? this.characterService.get_Deities(character.class.deity)[0] : null;
-        let deityEdicts = deity ? deity.edicts.map(edict => edict[0].toUpperCase() + edict.substr(1)) : [];
-        //Collect anathema from all feats and features you have that include them.
-        return (character.class.showDeityAnathema ? deityEdicts : [])
+        if (character.class.showDeityEdicts) {
+            //Collect edicts from all deities you have (usually one);
+            let deityEdicts: string[] = [];
+            this.characterService.get_CharacterDeities(character).forEach(deity => {
+                deityEdicts.push(...deity.edicts.map(edict => edict[0].toUpperCase() + edict.substr(1)));
+            });
+            return deityEdicts;
+        } else {
+            return [];
+        }
     }
 
     get_Anathema() {
         let character = this.get_Character();
-        let deity = character.class.deity ? this.characterService.get_Deities(character.class.deity)[0] : null;
-        let deityAnathema = deity ? deity.anathema.map(anathema => anathema[0].toUpperCase() + anathema.substr(1)) : [];
-        //Collect anathema from all feats and features you have that include them.
-        return character.class.anathema.concat(...this.characterService.get_FeatsAndFeatures()
+
+        let deityAnathema: string[] = [];
+        if (character.class.showDeityAnathema) {
+            //If your Collect anathema from all deities you have (usually one);
+            this.characterService.get_CharacterDeities(character).forEach(deity => {
+                deityAnathema.push(...deity.anathema.map(anathema => anathema[0].toUpperCase() + anathema.substr(1)));
+            });
+        }
+        //Add anathema from all feats and features you have that include them.
+        return character.class.anathema.concat(...this.characterService.get_CharacterFeatsAndFeatures()
             .filter(feat => feat.anathema?.length && feat.have(this.get_Character(), this.characterService))
             .map(feat => feat.anathema.map(anathema => anathema[0].toUpperCase() + anathema.substr(1))))
-            .concat((character.class.showDeityAnathema ? deityAnathema : []))
+            .concat((deityAnathema))
     }
 
     get_Languages() {
@@ -147,22 +182,22 @@ export class GeneralComponent implements OnInit {
         if (className) {
             results.push({ name: "Class", choice: className, subChoice: false });
             character.class.levels.forEach(level => {
-                featChoices.push(...level.featChoices.filter(choice => choice.specialChoice && choice.feats.length == 1 && choice.available == 1));
+                featChoices.push(...level.featChoices.filter(choice => choice.specialChoice && !choice.autoSelectIfPossible && choice.feats.length == 1 && choice.available == 1));
             })
             //Find specialchoices that have this class as their source.
             featChoices.filter(choice => choice.source == className).forEach(choice => {
                 let choiceName = choice.feats[0].name;
                 if (choiceName.includes(choice.type)) {
-                    choiceName = choiceName.split(" " + choice.type).join("");
+                    choiceName = choiceName.replace(choice.type + ": ", "").replace(" " + choice.type, "");
                 }
                 results.push({ name: choice.type, choice: choiceName, subChoice: true })
             })
             //Archetypes are identified by you having a dedication feat.
-            let archetypes = this.characterService.get_FeatsAndFeatures().filter(feat => feat.traits.includes("Dedication") && feat.have(this.get_Character(), this.characterService));
+            let archetypes = this.characterService.get_CharacterFeatsAndFeatures().filter(feat => feat.traits.includes("Dedication") && feat.have(this.get_Character(), this.characterService));
             archetypes.forEach(archetype => {
                 results.push({ name: "Archetype", choice: archetype.archetype, subChoice: false });
                 //Find specialchoices that have this dedication feat as their source.
-                featChoices.filter(choice => choice.specialChoice && choice.feats.length == 1 && choice.source == "Feat: " + archetype.name).forEach(choice => {
+                featChoices.filter(choice => choice.source == "Feat: " + archetype.name).forEach(choice => {
                     let choiceName = choice.feats[0].name;
                     results.push({ name: choice.type, choice: choiceName, subChoice: true })
                 })

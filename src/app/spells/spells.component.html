@@ -29,7 +29,11 @@
                         <span>
                             <input id="showHeightened" type="checkbox"
                                 [(ngModel)]="get_Character().settings.showHeightenedSpells">
-                            <label for="showHeightened">&nbsp;Show heightened spells</label>
+                            <label for="showHeightened">
+                                <strong>
+                                    Show heightened spells
+                                </strong>
+                            </label>
                         </span>
                     </div>
                     <ng-container *ngFor="let casting of get_SpellCastings(); let index = index; trackBy:trackByIndex;">
@@ -51,7 +55,9 @@
                             <span>
                                 <input id="allowBorrow" type="checkbox" [(ngModel)]="allowBorrow">
                                 <label for="allowBorrow">
-                                    Borrow spells
+                                    <strong>
+                                        Borrow spells
+                                    </strong>
                                 </label>
                                 <i class="bi-question-circle"
                                     [ngbPopover]="'Allow selecting spells not in your spellbook, assuming you borrow them from another spellcaster or a different book or scroll.'"></i>
@@ -62,7 +68,9 @@
                                 <span>
                                     <input id="allowSpellSubstitution" type="checkbox" [(ngModel)]="prepared">
                                     <label for="allowSpellSubstitution">
-                                        Spell Substitution
+                                        <strong>
+                                            Spell Substitution
+                                        </strong>
                                     </label>
                                     <i class="bi-question-circle"
                                         [ngbPopover]="'Selected spells are immediately prepared, as if you had used spell substitution to replace a currently prepared spell.'"></i>
@@ -115,8 +123,7 @@
                                                 <ng-container *ngIf="!get_TileMode()">
                                                     <div class="list-item fullsize-only"
                                                         *ngFor="let spellID of ['showFixedSpell'+spellTaken.choice.id+spellTaken.gain.name]; trackBy:trackByIndex;">
-                                                        <button
-                                                            class="newrow sublist-toggle fancy-button left-aligned"
+                                                        <button class="newrow sublist-toggle fancy-button left-aligned"
                                                             [ngbPopover]="FixedSpellContent" triggers="click">
                                                             <span [ngbTooltip]="'Fixed spell'">
                                                                 <i class="bi-lock-fill"></i>

@@ -188,7 +188,7 @@ export class ItemComponent implements OnInit {
             }
             if (spell) {
                 let tempGain: SpellGain = new SpellGain();
-                this.spellsService.process_Spell(this.get_Creature("Character"), target, this.characterService, this.itemsService, this.characterService.conditionsService, null, tempGain, spell, spellChoice.level, true, true, false);
+                this.spellsService.process_Spell(this.get_Creature("Character"), target, this.characterService, this.itemsService, this.characterService.conditionsService, null, null, tempGain, spell, spellChoice.level, true, true, false);
             }
             spellChoice.spells.shift();
         }

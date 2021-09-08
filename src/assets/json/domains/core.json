@@ -1,0 +1,350 @@
+[
+   {
+      "name": "Abomination",
+      "desc": "You seek to instill abhorrence and horror in those around you.",
+      "domainSpell": "Lift Nature's Caul",
+      "advancedDomainSpell": "Fearful Feast"
+   },
+   {
+      "name": "Air",
+      "desc": "You can control winds and the weather.",
+      "domainSpell": "Pushing Gust",
+      "advancedDomainSpell": "Disperse into Air"
+   },
+   {
+      "name": "Ambition",
+      "desc": "You strive to keep up with and outpace the competition.",
+      "domainSpell": "Blind Ambition",
+      "advancedDomainSpell": "Competitive Edge"
+   },
+   {
+      "name": "Change",
+      "desc": "You can restructure the physical and metaphysical.",
+      "domainSpell": "Adapt Self",
+      "advancedDomainSpell": "Adaptive Ablation"
+   },
+   {
+      "name": "Cities",
+      "desc": "You have powers over urban environments and denizens.",
+      "domainSpell": "Face in the Crowd",
+      "advancedDomainSpell": "Pulse of the City"
+   },
+   {
+      "name": "Cold",
+      "desc": "You control ice, snow, and freezing temperatures.",
+      "domainSpell": "Winter Bolt",
+      "advancedDomainSpell": "Diamond Dust"
+   },
+   {
+      "name": "Confidence",
+      "desc": "You overcome your fear and project pride.",
+      "domainSpell": "Veil of Confidence",
+      "advancedDomainSpell": "Delusional Pride"
+   },
+   {
+      "name": "Creation",
+      "desc": "You have divine abilities related to crafting and art.",
+      "domainSpell": "Splash of Art",
+      "advancedDomainSpell": "Artistic Flourish"
+   },
+   {
+      "name": "Darkness",
+      "desc": "You operate in the darkness and take away the light.",
+      "domainSpell": "Cloak of Shadow",
+      "advancedDomainSpell": "Darkened Eyes"
+   },
+   {
+      "name": "Death",
+      "desc": "You have the power to end lives and destroy undead.",
+      "domainSpell": "Death's Call",
+      "advancedDomainSpell": "Eradicate Undeath"
+   },
+   {
+      "name": "Decay",
+      "desc": "You have the power to spoil and deteriorate matter.",
+      "domainSpell": "Withering Grasp",
+      "advancedDomainSpell": "Fallow Field"
+   },
+   {
+      "name": "Delirium",
+      "desc": "You can bring about hallucinations and restlessness.",
+      "domainSpell": "Hyperfocus",
+      "advancedDomainSpell": "Ephemeral Hazards"
+   },
+   {
+      "name": "Destruction",
+      "desc": "You are a conduit for divine devastation.",
+      "domainSpell": "Cry of Destruction",
+      "advancedDomainSpell": "Destructive Aura"
+   },
+   {
+      "name": "Dreams",
+      "desc": "You have the power to enter and manipulate dreams.",
+      "domainSpell": "Sweet Dream",
+      "advancedDomainSpell": "Dreamer's Call"
+   },
+   {
+      "name": "Dust",
+      "desc": "You have the power to dry and crumble what opposes you.",
+      "domainSpell": "Parch",
+      "advancedDomainSpell": "Dust Storm"
+   },
+   {
+      "name": "Duty",
+      "desc": "You defend oaths and carry out your divine missions with great dedication.",
+      "domainSpell": "Oathkeeper's Insignia",
+      "advancedDomainSpell": "Dutiful Challenge"
+   },
+   {
+      "name": "Earth",
+      "desc": "You control soil and stone.",
+      "domainSpell": "Hurtling Stone",
+      "advancedDomainSpell": "Localized Quake"
+   },
+   {
+      "name": "Family",
+      "desc": "You aid and protect your family and community more effectively.",
+      "domainSpell": "Soothing Words",
+      "advancedDomainSpell": "Unity"
+   },
+   {
+      "name": "Fate",
+      "desc": "You see and understand hidden inevitabilities.",
+      "domainSpell": "Read Fate",
+      "advancedDomainSpell": "Tempt Fate"
+   },
+   {
+      "name": "Fire",
+      "desc": "You control flame.",
+      "domainSpell": "Fire Ray",
+      "advancedDomainSpell": "Flame Barrier"
+   },
+   {
+      "name": "Freedom",
+      "desc": "You liberate yourself and others from shackles and constraints.",
+      "domainSpell": "Unimpeded Stride",
+      "advancedDomainSpell": "Word of Freedom"
+   },
+   {
+      "name": "Glyph",
+      "desc": "You wield power over written words and symbols.",
+      "domainSpell": "Redact",
+      "advancedDomainSpell": "Ghostly Transcription"
+   },
+   {
+      "name": "Healing",
+      "desc": "Your healing magic is particularly potent.",
+      "domainSpell": "Healer's Blessing",
+      "advancedDomainSpell": "Rebuke Death"
+   },
+   {
+      "name": "Indulgence",
+      "desc": "You feast mightily and can shake off the effects of overindulging.",
+      "domainSpell": "Overstuff",
+      "advancedDomainSpell": "Take its Course"
+   },
+   {
+      "name": "Knowledge",
+      "desc": "You receive divine insights.",
+      "domainSpell": "Scholarly Recollection",
+      "advancedDomainSpell": "Know the Enemy"
+   },
+   {
+      "name": "Lightning",
+      "desc": "You control electricity, thunder, and storms.",
+      "domainSpell": "Charged Javelin",
+      "advancedDomainSpell": "Bottle the Storm"
+   },
+   {
+      "name": "Luck",
+      "desc": "You're unnaturally lucky and keep out of harm's way.",
+      "domainSpell": "Bit of Luck",
+      "advancedDomainSpell": "Lucky Break"
+   },
+   {
+      "name": "Magic",
+      "desc": "You perform the unexpected and inexplicable.",
+      "domainSpell": "Magic's Vessel",
+      "advancedDomainSpell": "Mystic Beacon"
+   },
+   {
+      "name": "Might",
+      "desc": "Your physical power is bolstered by divine strength.",
+      "domainSpell": "Athletic Rush",
+      "advancedDomainSpell": "Enduring Might"
+   },
+   {
+      "name": "Moon",
+      "desc": "You command powers associated with the moon.",
+      "domainSpell": "Moonbeam",
+      "advancedDomainSpell": "Touch of the Moon"
+   },
+   {
+      "name": "Naga",
+      "desc": "Like the serpentine nagas, you're in tune with cosmic forces that Ravithra once controlled.",
+      "domainSpell": "Split the Tongue",
+      "advancedDomainSpell": "Ordained Purpose"
+   },
+   {
+      "name": "Nature",
+      "desc": "You hold power over animals and plants.",
+      "domainSpell": "Vibrant Thorns",
+      "advancedDomainSpell": "Nature's Bounty"
+   },
+   {
+      "name": "Nightmares",
+      "desc": "You fill minds with horror and dread.",
+      "domainSpell": "Waking Nightmare",
+      "advancedDomainSpell": "Shared Nightmare"
+   },
+   {
+      "name": "Pain",
+      "desc": "You punish those who displease you with the sharp sting of pain.",
+      "domainSpell": "Savor the Sting",
+      "advancedDomainSpell": "Retributive Pain"
+   },
+   {
+      "name": "Passion",
+      "desc": "You evoke passion, whether as love or lust.",
+      "domainSpell": "Charming Touch",
+      "advancedDomainSpell": "Captivating Adoration"
+   },
+   {
+      "name": "Perfection",
+      "desc": "You strive to perfect your mind, body, and spirit.",
+      "domainSpell": "Perfected Mind",
+      "advancedDomainSpell": "Perfected Form"
+   },
+   {
+      "name": "Plague",
+      "desc": "You wield disease and pestilence like a weapon.",
+      "domainSpell": "Divine Plagues",
+      "advancedDomainSpell": "Foul Miasma"
+   },
+   {
+      "name": "Protection",
+      "desc": "You ward yourself and others.",
+      "domainSpell": "Protector's Sacrifice",
+      "advancedDomainSpell": "Protector's Sphere"
+   },
+   {
+      "name": "Repose",
+      "desc": "You ease mental burdens.",
+      "domainSpell": "Share Burden",
+      "advancedDomainSpell": "Font of Serenity"
+   },
+   {
+      "name": "Secrecy",
+      "desc": "You protect secrets and keep them hidden.",
+      "domainSpell": "Forced Quiet",
+      "advancedDomainSpell": "Safeguard Secret"
+   },
+   {
+      "name": "Sorrow",
+      "desc": "You have a painful connection to melancholy and sadness.",
+      "domainSpell": "Lament",
+      "advancedDomainSpell": "Overflowing Sorrow"
+   },
+   {
+      "name": "Soul",
+      "desc": "You wield power over the spiritual.",
+      "domainSpell": "Eject Soul",
+      "advancedDomainSpell": "Ectoplasmic Interstice"
+   },
+   {
+      "name": "Star",
+      "desc": "You command the power of the stars.",
+      "domainSpell": "Zenith Star",
+      "advancedDomainSpell": "Asterism"
+   },
+   {
+      "name": "Sun",
+      "desc": "You harness the power of the sun and other light sources, and punish undead.",
+      "domainSpell": "Dazzling Flash",
+      "advancedDomainSpell": "Positive Luminance"
+   },
+   {
+      "name": "Swarm",
+      "desc": "You exert control over masses of creatures.",
+      "domainSpell": "Swarmsense",
+      "advancedDomainSpell": "Swarm Form"
+   },
+   {
+      "name": "Time",
+      "desc": "You reign over the flow of time.",
+      "domainSpell": "Delay Consequence",
+      "advancedDomainSpell": "Stasis"
+   },
+   {
+      "name": "Toil",
+      "desc": "You work constantly and refuse to let anything stand in your way.",
+      "domainSpell": "Practice Makes Perfect",
+      "advancedDomainSpell": "Tireless Worker"
+   },
+   {
+      "name": "Travel",
+      "desc": "You have power over movement and journeys.",
+      "domainSpell": "Agile Feet",
+      "advancedDomainSpell": "Traveler's Transit"
+   },
+   {
+      "name": "Trickery",
+      "desc": "You deceive others and cause mischief.",
+      "domainSpell": "Sudden Shift",
+      "advancedDomainSpell": "Trickster's Twin"
+   },
+   {
+      "name": "Truth",
+      "desc": "You pierce lies and discover the truth.",
+      "domainSpell": "Word of Truth",
+      "advancedDomainSpell": "Glimpse the Truth"
+   },
+   {
+      "name": "Tyranny",
+      "desc": "You wield power to rule and enslave others.",
+      "domainSpell": "Touch of Obedience",
+      "advancedDomainSpell": "Commanding Lash"
+   },
+   {
+      "name": "Undeath",
+      "desc": "Your magic carries close ties to the undead.",
+      "domainSpell": "Touch of Undeath",
+      "advancedDomainSpell": "Malignant Sustenance"
+   },
+   {
+      "name": "Vigil",
+      "desc": "You watch over those long passed and guard their secrets.",
+      "domainSpell": "Object Memory",
+      "advancedDomainSpell": "Remember the Lost"
+   },
+   {
+      "name": "Void",
+      "desc": "You draw power from emptiness.",
+      "domainSpell": "Empty Inside",
+      "advancedDomainSpell": "Door to Beyond"
+   },
+   {
+      "name": "Water",
+      "desc": "You control water and bodies of water.",
+      "domainSpell": "Tidal Surge",
+      "advancedDomainSpell": "Downpour"
+   },
+   {
+      "name": "Wealth",
+      "desc": "You hold power over wealth, trade, and treasure.",
+      "domainSpell": "Appearance of Wealth",
+      "advancedDomainSpell": "Precious Metals"
+   },
+   {
+      "name": "Wyrmkin",
+      "desc": "You draw on the power of dragons, linnorms, and other powerful reptilian creatures.",
+      "domainSpell": "Draconic Barrage",
+      "advancedDomainSpell": "Roar of the Wyrm"
+   },
+   {
+      "name": "Zeal",
+      "desc": "Your inner fire increases your combat prowess.",
+      "domainSpell": "Weapon Surge",
+      "advancedDomainSpell": "Zeal for Battle"
+   }
+]

@@ -21,13 +21,26 @@ export class SpellsService {
 
     private spells: Spell[] = [];
     private loading: boolean = false;
+    private spellsMap = new Map<string, Spell>();
 
     constructor(
         private extensionsService: ExtensionsService
     ) { }
 
+    get_SpellFromName(name: string) {
+        //Returns a named spell from the map.
+        return this.spellsMap.get(name.toLowerCase());
+    }
+
     get_Spells(name: string = "", type: string = "", tradition: string = "") {
         if (!this.still_loading()) {
+            //If only a name is given, try to find a spell by that name in the index map. This should be much quicker.
+            if (name && !type && !tradition) {
+                let spell = this.get_SpellFromName(name);
+                if (spell) {
+                    return [spell];
+                }
+            }
             return this.spells.filter(spell =>
                 (spell.name.toLowerCase() == (name.toLowerCase()) || name == "") &&
                 (spell.traits.includes(type) || type == "") &&
@@ -55,7 +68,7 @@ export class SpellsService {
         }
     }
 
-    process_Spell(creature: Creature, target: string = "", characterService: CharacterService, itemsService: ItemsService, conditionsService: ConditionsService, casting: SpellCasting, gain: SpellGain, spell: Spell, level: number, activated: boolean, manual: boolean = false, changeAfter: boolean = true, activityGain: ActivityGain = null) {
+    process_Spell(creature: Creature, target: string = "", characterService: CharacterService, itemsService: ItemsService, conditionsService: ConditionsService, casting: SpellCasting, choice: SpellChoice, gain: SpellGain, spell: Spell, level: number, activated: boolean, manual: boolean = false, changeAfter: boolean = true, activityGain: ActivityGain = null) {
 
         //Cantrips and Focus spells are automatically heightened to your maximum available spell level.
         //If a spell is cast with a lower level than its minimum, the level is raised to the minimum.
@@ -69,12 +82,10 @@ export class SpellsService {
             customDuration = activityDuration = gain.duration;
         }
 
-        if (activated) {
-            //Start cooldown
-            if (gain.cooldown && !gain.activeCooldown) {
-                gain.activeCooldown = gain.cooldown;
-                characterService.set_ToChange(creature.type, "spellbook");
-            }
+        if (activated && gain.cooldown && !gain.activeCooldown) {
+            //Start cooldown.
+            gain.activeCooldown = gain.cooldown;
+            characterService.set_ToChange(creature.type, "spellbook");
         }
 
         //The conditions listed in conditionsToRemove will be removed after the spell is processed.
@@ -154,7 +165,7 @@ export class SpellsService {
                                 newConditionGain.choice = gain.overrideChoices.find(overrideChoice => overrideChoice.condition == condition.name && condition._choices.includes(overrideChoice.choice)).choice;
                             } else if (newConditionGain.choiceBySubType) {
                                 //If there is a choiceBySubType value, and you have a feat with superType == choiceBySubType, set the choice to that feat's subType as long as it's a valid choice for the condition.
-                                let subType = (characterService.get_FeatsAndFeatures(newConditionGain.choiceBySubType, "", true, true).find(feat => feat.superType == newConditionGain.choiceBySubType && feat.have(creature, characterService, creature.level, false)));
+                                let subType = (characterService.get_CharacterFeatsAndFeatures(newConditionGain.choiceBySubType, "", true, true).find(feat => feat.superType == newConditionGain.choiceBySubType && feat.have(creature, characterService, creature.level, false)));
                                 if (subType && condition.choices.some(choice => choice.name == subType.subType)) {
                                     newConditionGain.choice = subType.subType;
                                 }
@@ -221,12 +232,12 @@ export class SpellsService {
                             }
                             //Check if an effect changes the duration of this condition.
                             let effectDuration: number = newConditionGain.duration || 0;
-                            characterService.effectsService.get_AbsolutesOnThese(creature, ["Next Spell Duration", condition.name + " Duration"]).forEach(effect => {
+                            characterService.effectsService.get_AbsolutesOnThese(creature, ["Next Spell Duration", condition.name.replace(" (Originator)", "").replace(" (Caster)", "") + " Duration"]).forEach(effect => {
                                 effectDuration = parseInt(effect.setValue);
                                 conditionsToRemove.push(effect.source);
                             })
                             if (effectDuration > 0) {
-                                characterService.effectsService.get_RelativesOnThese(creature, ["Next Spell Duration", condition.name + " Duration"]).forEach(effect => {
+                                characterService.effectsService.get_RelativesOnThese(creature, ["Next Spell Duration", condition.name.replace(" (Originator)", "").replace(" (Caster)", "") + " Duration"]).forEach(effect => {
                                     effectDuration += parseInt(effect.value);
                                     conditionsToRemove.push(effect.source);
                                 })
@@ -314,6 +325,11 @@ export class SpellsService {
             });
         }
 
+        //The Heal Spell from the Divine Font should update effects, because Channeled Succor depends on it.
+        if (spell.name == "Heal" && choice.source == "Divine Font") {
+            characterService.set_ToChange("Character", "effects");
+        }
+
         if (changeAfter) {
             characterService.process_ToChange();
         }
@@ -362,7 +378,7 @@ export class SpellsService {
                 if (taken.gain.duration == 0) {
                     let spell: Spell = this.get_Spells(taken.gain.name)[0];
                     if (spell) {
-                        this.process_Spell(character, taken.gain.selectedTarget, characterService, itemsService, conditionsService, null, taken.gain, spell, 0, false, false)
+                        this.process_Spell(character, taken.gain.selectedTarget, characterService, itemsService, conditionsService, null, null, taken.gain, spell, 0, false, false)
                     }
                 }
             }
@@ -378,9 +394,14 @@ export class SpellsService {
     }
 
     initialize() {
+        //Initialize only once.
         if (!this.spells.length) {
             this.loading = true;
             this.load_Spells();
+            this.spellsMap.clear();
+            this.spells.forEach(spell => {
+                this.spellsMap.set(spell.name.toLowerCase(), spell);
+            })
             this.loading = false;
         }
     }

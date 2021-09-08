@@ -1234,7 +1234,9 @@ button.list-item {
 
 .list-item.sublist :not(.list-item)>strong:not(.no-shadow),
 .list-item.sublist :not(.list-item)>span>strong:not(.no-shadow),
-.modal-content strong:not(.no-shadow) {
+.modal-content strong:not(.no-shadow),
+.gridicon-sidebar.effect strong:not(.no-shadow),
+app-condition strong:not(.no-shadow) {
     color: rgb(var(--accent));
     text-shadow: 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white;
     text-shadow: 1px 0 2px white, 0 1px 2px white, -1px 0 2px white, 0 -1px 2px white, -1px -1px 2px white, -1px 1px 2px white, 1px -1px 2px white, 1px 1px 2px white;
@@ -1242,7 +1244,9 @@ button.list-item {
 
 .darkmode .list-item.sublist :not(.list-item)>strong:not(.no-shadow),
 .darkmode .list-item.sublist :not(.list-item)>span>strong:not(.no-shadow),
-.darkmode .modal-content strong:not(.no-shadow) {
+.darkmode .modal-content strong:not(.no-shadow),
+.darkmode .gridicon-sidebar.effect strong:not(.no-shadow),
+.darkmode app-condition strong:not(.no-shadow) {
     text-shadow: 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor);
     text-shadow: 1px 0 2px var(--textcolor), 0 1px 2px var(--textcolor), -1px 0 2px var(--textcolor), 0 -1px 2px var(--textcolor), -1px -1px 2px var(--textcolor), -1px 1px 2px var(--textcolor), 1px -1px 2px var(--textcolor), 1px 1px 2px var(--textcolor);
 }
@@ -2015,7 +2019,8 @@ SPECIFIC STYLE MODIFIERS
 .hlist:empty,
 div.newrow:empty,
 app-tags:empty,
-app-skill:empty {
+app-skill:empty,
+app-featchoice:empty {
     display: none;
 }
 
@@ -2306,7 +2311,7 @@ MEDIA QUERIES
         max-width: 1360px;
     }
 }
-@media (max-width: 992px) {
+@media (max-width: 991px) {
     body {
         font-size: 2vw;
     }
@@ -2361,6 +2366,7 @@ MEDIA QUERIES
         background-color: white;
         width: 100%;
         height: 100%;
+        overflow-y: hidden;
     }
 
     .darkmode #character-height > .charactersheet-column-container > .charactersheet-column:not(:first-child),
@@ -2396,7 +2402,7 @@ MEDIA QUERIES
         font-size: 1.5em;
     }
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     body {
         font-size: 3vw;
     }

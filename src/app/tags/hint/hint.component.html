@@ -1,63 +1,65 @@
 <ng-container *ngFor="let hint of get_Hints(); trackBy:trackByIndex;">
-    <ng-template #SimpleHintContent>
-        <ng-container
-            *ngFor="let text of get_HintDescription(hint).split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
-            <app-description class="newrow" [text]="text"></app-description>
-        </ng-container>
-    </ng-template>
-    <ng-template #HintContent>
-        <ng-container
-            *ngFor="let text of get_HintDescription(hint).split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
-            <app-description class="newrow" [text]="text"></app-description>
-        </ng-container>
-        <div class="list-item" *ngIf="get_HintsShowMore() && get_ObjectType()">
-            <header class="spellHeader" *ngIf="object.name">{{object.name}}</header>
-            <app-feat *ngIf="get_ObjectType()=='Feat'" [feat]="object">
-            </app-feat>
-            <app-condition *ngIf="get_ObjectType()=='ConditionSet'" [condition]="object.condition"
-                [conditionGain]="object.gain">
-            </app-condition>
-            <ng-container *ngIf="get_ObjectType()=='Activity'">
-                <div class="newrow left-aligned">
-                    <cite class="trait" *ngFor="let trait of object.traits; trackBy:trackByIndex;"
-                        [ngbPopover]="get_Traits(trait)[0].desc">
-                        {{trait}}
-                    </cite>
-                    <cite class="trait" *ngFor="let trait of object.get_ActivationTraits(); trackBy:trackByIndex;"
-                        [ngbPopover]="get_Traits(trait)[0].desc">
-                        {{trait}}
-                    </cite>
-                </div>
-                <app-activityContent class="fullwidth vlist lower" [creature]="creature" [allowActivate]="false"
-                    [activity]="object" [cooldown]="object.get_Cooldown(get_Creature(), characterService)">
-                </app-activityContent>
+    <ng-container *ngFor="let source of [get_Source(hint)]; trackBy:trackByIndex;">
+        <ng-template #SimpleHintContent>
+            <ng-container
+                *ngFor="let text of get_HintDescription(hint).split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
+                <app-description class="newrow" [text]="text"></app-description>
             </ng-container>
-            <app-hintItem *ngIf="get_ObjectType()=='Item'" [item]="object"></app-hintItem>
-            <div class="newrow left-aligned" *ngIf="get_ObjectType()=='DescOnly'">
-                <app-description class="newrow" [text]="object.desc"></app-description>
+        </ng-template>
+        <ng-template #HintContent>
+            <ng-container
+                *ngFor="let text of get_HintDescription(hint).split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
+                <app-description class="newrow" [text]="text"></app-description>
+            </ng-container>
+            <div class="list-item" *ngIf="get_HintsShowMore() && get_ObjectType(source)">
+                <header class="spellHeader" *ngIf="source.name">{{source.name}}</header>
+                <app-feat *ngIf="get_ObjectType(source)=='Feat'" [feat]="source">
+                </app-feat>
+                <app-condition *ngIf="get_ObjectType(source)=='ConditionSet'" [condition]="source.condition"
+                    [conditionGain]="source.gain">
+                </app-condition>
+                <ng-container *ngIf="get_ObjectType(source)=='Activity'">
+                    <div class="newrow left-aligned">
+                        <cite class="trait" *ngFor="let trait of source.traits; trackBy:trackByIndex;"
+                            [ngbPopover]="get_Traits(trait)[0].desc">
+                            {{trait}}
+                        </cite>
+                        <cite class="trait" *ngFor="let trait of source.get_ActivationTraits(); trackBy:trackByIndex;"
+                            [ngbPopover]="get_Traits(trait)[0].desc">
+                            {{trait}}
+                        </cite>
+                    </div>
+                    <app-activityContent class="fullwidth vlist lower" [creature]="creature" [allowActivate]="false"
+                        [activity]="source" [cooldown]="source.get_Cooldown(get_Creature(), characterService)">
+                    </app-activityContent>
+                </ng-container>
+                <app-hintItem *ngIf="get_ObjectType(source)=='Item'" [item]="source"></app-hintItem>
+                <div class="newrow left-aligned" *ngIf="get_ObjectType(source)=='DescOnly'">
+                    <app-description class="newrow" [text]="source.desc"></app-description>
+                </div>
             </div>
-        </div>
-    </ng-template>
-    <cite>
-        <span #fullDetailPopover="ngbPopover" [ngbPopover]="HintContent" triggers="click">
-            <span [ngbPopover]="!fullDetailPopover.isOpen() && SimpleHintContent" triggers="hover">
-                {{description}}{{get_HintChoice(hint)}}
+        </ng-template>
+        <cite>
+            <span #fullDetailPopover="ngbPopover" [ngbPopover]="HintContent" triggers="click">
+                <span [ngbPopover]="!fullDetailPopover.isOpen() && SimpleHintContent" triggers="hover">
+                    {{hint.replaceTitle || description}}{{get_HintChoice(hint)}}
+                </span>
             </span>
-        </span>
-        <input type="checkbox" [(ngModel)]="hint.active" (ngModelChange)="on_ActivateEffect()"
-            *ngIf="hint.effects && hint.effects.length" [ngbTooltip]="'Activate any effects of this hint.'"
-            triggers="hover">
-        <input type="checkbox" [(ngModel)]="hint.active2" (ngModelChange)="on_ActivateEffect()"
-            *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 0"
-            [ngbTooltip]="'Activate the second level of this hint\'s effects.'" triggers="hover">
-        <input type="checkbox" [(ngModel)]="hint.active3" (ngModelChange)="on_ActivateEffect()"
-            *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 1"
-            [ngbTooltip]="'Activate the third level of this hint\'s effects.'" triggers="hover">
-        <input type="checkbox" [(ngModel)]="hint.active4" (ngModelChange)="on_ActivateEffect()"
-            *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 2"
-            [ngbTooltip]="'Activate the fourth level of this hint\'s effects.'" triggers="hover">
-        <input type="checkbox" [(ngModel)]="hint.active5" (ngModelChange)="on_ActivateEffect()"
-            *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 3"
-            [ngbTooltip]="'Activate the fifth level of this hint\'s effects.'" triggers="hover">
-    </cite>
+            <input type="checkbox" [(ngModel)]="hint.active" (ngModelChange)="on_ActivateEffect()"
+                *ngIf="hint.effects && hint.effects.length" [ngbTooltip]="'Activate any effects of this hint.'"
+                triggers="hover">
+            <input type="checkbox" [(ngModel)]="hint.active2" (ngModelChange)="on_ActivateEffect()"
+                *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 0"
+                [ngbTooltip]="'Activate the second level of this hint\'s effects.'" triggers="hover">
+            <input type="checkbox" [(ngModel)]="hint.active3" (ngModelChange)="on_ActivateEffect()"
+                *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 1"
+                [ngbTooltip]="'Activate the third level of this hint\'s effects.'" triggers="hover">
+            <input type="checkbox" [(ngModel)]="hint.active4" (ngModelChange)="on_ActivateEffect()"
+                *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 2"
+                [ngbTooltip]="'Activate the fourth level of this hint\'s effects.'" triggers="hover">
+            <input type="checkbox" [(ngModel)]="hint.active5" (ngModelChange)="on_ActivateEffect()"
+                *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 3"
+                [ngbTooltip]="'Activate the fifth level of this hint\'s effects.'" triggers="hover">
+        </cite>
+    </ng-container>
 </ng-container>

@@ -38,6 +38,7 @@ import { Character } from '../Character';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SkillChoice } from '../SkillChoice';
 import { Activity } from '../Activity';
+import { Domain } from '../Domain';
 
 @Component({
     selector: 'app-character',
@@ -432,7 +433,12 @@ export class CharacterComponent implements OnInit {
         this.characterService.set_ToChange("Character", "featchoices");
         this.characterService.set_ToChange("Character", "effects");
         this.characterService.process_ToChange();
+    }
 
+    on_HiddenFeatsChange() {
+        this.characterService.set_ToChange("Character", "charactersheet");
+        this.characterService.set_ToChange("Character", "featchoices");
+        this.characterService.process_ToChange();
     }
 
     numbersOnly(event): boolean {
@@ -460,7 +466,7 @@ export class CharacterComponent implements OnInit {
         let newLevel = character.level;
         //If we went up levels, repeat any onceEffects of Feats that apply inbetween, such as recovering Focus Points for a larger Focus Pool
         if (newLevel > oldLevel) {
-            this.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length && feat.have(character, this.characterService, newLevel, true, false, oldLevel))
+            this.get_CharacterFeatsAndFeatures().filter(feat => feat.onceEffects.length && feat.have(character, this.characterService, newLevel, true, false, oldLevel))
                 .forEach(feat => {
                     feat.onceEffects.forEach(effect => {
                         this.characterService.process_OnceEffect(character, effect);
@@ -506,7 +512,7 @@ export class CharacterComponent implements OnInit {
             this.characterService.set_ToChange("Character", "skillchoices");
             this.characterService.set_ToChange("Character", "skills");
         }
-        this.get_FeatsAndFeatures().filter(feat => feat.hints.length && feat.have(character, this.characterService, higherLevel, true, false, lowerLevel))
+        this.get_CharacterFeatsAndFeatures().filter(feat => feat.have(character, this.characterService, higherLevel, true, false, lowerLevel))
             .forEach(feat => {
                 feat.hints.forEach(hint => {
                     this.characterService.set_TagsToChange("Character", hint.showon);
@@ -572,7 +578,7 @@ export class CharacterComponent implements OnInit {
             if (levelNumber) {
                 //If level is given, check if any new languages have been added on this level. If not, don't get any languages at this point.
                 let newLanguages: number = 0;
-                newLanguages += this.get_FeatsAndFeatures().filter(feat => feat.effects.some(effect => effect.affected == "Max Languages") && feat.have(character, this.characterService, levelNumber, false, false, levelNumber)).length
+                newLanguages += this.get_CharacterFeatsAndFeatures().filter(feat => feat.effects.some(effect => effect.affected == "Max Languages") && feat.have(character, this.characterService, levelNumber, false, false, levelNumber)).length
                 newLanguages += character.get_AbilityBoosts(levelNumber, levelNumber, "Intelligence").length;
                 if (!newLanguages) {
                     return false;
@@ -814,8 +820,8 @@ export class CharacterComponent implements OnInit {
         return this.featsService.get_Feats(this.get_Character().customFeats, name, type);
     }
 
-    get_FeatsAndFeatures(name: string = "", type: string = "") {
-        return this.featsService.get_All(this.get_Character().customFeats, name, type);
+    get_CharacterFeatsAndFeatures(name: string = "", type: string = "") {
+        return this.featsService.get_CharacterFeats(this.get_Character().customFeats, name, type);
     }
 
     get_Activities(name: string = "") {
@@ -841,7 +847,7 @@ export class CharacterComponent implements OnInit {
     }
 
     get_BlessedBloodDeitySpells() {
-        let deity = this.characterService.get_Deities(this.get_Character().class.deity)[0];
+        let deity = this.characterService.get_CharacterDeities(this.get_Character())[0];
         if (deity) {
             return deity.clericSpells.map(spell => this.get_Spells(spell.name)[0]).filter(spell => spell && (this.get_Character().settings.showOtherOptions ? true : this.get_BlessedBloodHaveSpell(spell)));
         }
@@ -866,8 +872,65 @@ export class CharacterComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
+    get_SplinterFaithFeat(levelNumber: number) {
+        return this.get_Character().get_FeatsTaken(levelNumber, levelNumber, "Splinter Faith").length;
+    }
+
+    get_SplinterFaithDomains() {
+        return this.get_Character().customFeats.find(feat => feat.name == "Splinter Faith").data?.["domains"] || [];
+    }
+
+    get_SplinterFaithAvailableDomains() {
+        let deityName = this.get_Character().class.deity;
+        if (deityName) {
+            let deity = this.characterService.get_Deities(deityName)[0];
+            if (deity) {
+                return []
+                    .concat(deity.domains.map((domain, index) => { return { title: index ? "" : "Deity's Domains", type: 1, domain: this.deitiesService.get_Domains(domain)[0] || new Domain() } }))
+                    .concat(deity.alternateDomains.map((domain, index) => { return { title: index ? "" : "Deity's Alternate Domains", type: 2, domain: this.deitiesService.get_Domains(domain)[0] || new Domain() } }))
+                    .concat(this.deitiesService.get_Domains().filter(domain => !deity.domains.includes(domain.name) && !deity.alternateDomains.includes(domain.name)).map((domain, index) => { return { title: index ? "" : "Other Domains", type: 3, domain: domain } })) as
+                    { title: string, type: number, domain: Domain }[];
+            }
+        }
+        return [];
+    }
+
+    get_SplinterFaithThirdDomainTaken(availableDomains: { title: string, type: number, domain: Domain }[], takenDomains: string[]) {
+        //Check if any domain with type 3 is among the taken domains.
+        return availableDomains.some(availableDomain => availableDomain.type == 3 && takenDomains.includes(availableDomain.domain.name));
+    }
+
+    on_SplinterFaithDomainTaken(domain: string, taken: boolean) {
+        let feat = this.get_Character().customFeats.find(feat => feat.name == "Splinter Faith");
+        if (feat.data?.["domains"]) {
+            if (taken) {
+                feat.data["domains"].push(domain);
+                let deityName = this.get_Character().class.deity;
+                if (deityName) {
+                    let deity = this.characterService.get_Deities(deityName)[0];
+                    if (deity) {
+                        deity.clear_TemporaryDomains();
+                    }
+                }
+            } else {
+                feat.data["domains"] = feat.data["domains"].filter(takenDomain => takenDomain != domain);
+                let deityName = this.get_Character().class.deity;
+                if (deityName) {
+                    let deity = this.characterService.get_Deities(deityName)[0];
+                    if (deity) {
+                        deity.clear_TemporaryDomains();
+                    }
+                }
+            }
+            this.characterService.set_ToChange("Character", "general");
+            this.characterService.process_ToChange();
+        }
+    }
+
     get_AdditionalHeritagesAvailable(levelNumber: number) {
-        return [].concat(...this.get_FeatsAndFeatures()
+        //Check if you have taken an additional heritage feat on this exact level.
+        // Don't use feat.have() because it checks from level 1 to current.
+        return [].concat(...this.get_CharacterFeatsAndFeatures()
             .filter(
                 feat => feat.gainHeritage.length &&
                     this.get_Character().get_FeatsTaken(levelNumber, levelNumber, feat.name).length
@@ -986,9 +1049,29 @@ export class CharacterComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, filter: string = "") {
+    get_SyncretismFeat(levelNumber: number) {
+        if (this.get_Character().get_FeatsTaken(levelNumber, levelNumber, "Syncretism").length) {
+            return this.get_Character().customFeats.filter(feat => feat.name == "Syncretism");
+        }
+    }
+
+    on_SyncretismDeityChange(feat: Feat, deity: Deity, taken: boolean) {
+        if (taken) {
+            if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
+            feat.data["deity"] = deity.name;
+        } else {
+            feat.data["deity"] = "";
+        }
+        this.characterService.deitiesService.clear_CharacterDeities();
+        this.characterService.set_ToChange("Character", "charactersheet");
+        this.characterService.set_ToChange("Character", "featchoices");
+        this.characterService.set_ToChange("Character", "general");
+        this.characterService.process_ToChange();
+    }
+
+    get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, filter: string = "", automatic: boolean = undefined) {
         let character = this.get_Character();
-        return this.get_Character().get_FeatsTaken(minLevelNumber, maxLevelNumber, featName, source, sourceId, locked)
+        return this.get_Character().get_FeatsTaken(minLevelNumber, maxLevelNumber, featName, source, sourceId, locked, undefined, undefined, automatic)
             .filter(taken => filter == "feature" ? taken.source == character.class.name : (filter == "feat" ? taken.source != character.class.name : true));
     }
 
@@ -1050,32 +1133,53 @@ export class CharacterComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    get_AvailableDeities(name: string = "") {
-        let currentDeity = this.get_Character().class?.deity || "";
+    get_AvailableDeities(name: string = "", syncretism: boolean = false) {
+        let character = this.get_Character();
+        let currentDeities = this.characterService.get_CharacterDeities(character);
         let showOtherOptions = this.get_Character().settings.showOtherOptions;
         //Certain classes need to choose a deity allowing their alignment.
         if (this.get_Character().class.deityFocused) {
-            return this.deitiesService.get_Deities(name).filter((deity: Deity) => (showOtherOptions || !currentDeity || deity.name == currentDeity) && (!this.get_Character().alignment || deity.followerAlignments.includes(this.get_Character().alignment)))
-                .sort(function (a, b) {
-                    if (a.name > b.name) {
-                        return 1
-                    }
-                    if (a.name < b.name) {
-                        return -1
-                    }
-                    return 0
-                });
+            return this.deitiesService.get_Deities(name).filter((deity: Deity) =>
+                (
+                    showOtherOptions ||
+                    (
+                        syncretism ?
+                            !currentDeities[1] :
+                            !currentDeities[0]
+                    ) ||
+                    (
+                        syncretism ?
+                            ([currentDeities[0].name, currentDeities[1].name].includes(deity.name)) :
+                            (deity.name == currentDeities[0].name)
+                    )
+                ) &&
+                (
+                    !this.get_Character().alignment ||
+                    deity.followerAlignments.includes(this.get_Character().alignment)
+                )
+            ).sort(function (a, b) {
+                if (a.name > b.name) {
+                    return 1
+                }
+                if (a.name < b.name) {
+                    return -1
+                }
+                return 0
+            });
         } else {
-            return this.deitiesService.get_Deities(name).filter(deity => showOtherOptions || !currentDeity || deity.name == currentDeity)
-                .sort(function (a, b) {
-                    if (a.name > b.name) {
-                        return 1
-                    }
-                    if (a.name < b.name) {
-                        return -1
-                    }
-                    return 0
-                });
+            return this.deitiesService.get_Deities(name).filter(deity =>
+                showOtherOptions ||
+                !currentDeities[0] ||
+                deity.name == currentDeities[0].name
+            ).sort(function (a, b) {
+                if (a.name > b.name) {
+                    return 1
+                }
+                if (a.name < b.name) {
+                    return -1
+                }
+                return 0
+            });
         }
     }
 
@@ -1188,8 +1292,9 @@ export class CharacterComponent implements OnInit {
     }
 
     get_CompanionAvailable(levelNumber: number) {
-        //Return the number of feats taken this level that granted you an animal companion
-        return this.get_FeatsAndFeatures().filter(feat => (feat.gainAnimalCompanion == "Young") && this.get_Character().get_FeatsTaken(levelNumber, levelNumber, feat.name).length).length;
+        //Return the number of feats taken this level that granted you an animal companion.
+        // Don't use feat.have() because it checks from level 1 to current.
+        return this.get_CharacterFeatsAndFeatures().filter(feat => (feat.gainAnimalCompanion == "Young") && this.get_Character().get_FeatsTaken(levelNumber, levelNumber, feat.name).length).length;
     }
 
     get_Companion() {
@@ -1253,8 +1358,9 @@ export class CharacterComponent implements OnInit {
     }
 
     get_CompanionSpecializationsAvailable(levelNumber: number) {
-        //Return the number of feats taken this level that granted you an animal companion specialization (i.e. gainAnimalCompanion == 6)
-        return this.characterService.get_FeatsAndFeatures().filter(feat => (feat.gainAnimalCompanion == "Specialized") && this.get_Character().get_FeatsTaken(levelNumber, levelNumber, feat.name).length).length;
+        //Return the number of feats taken this level that granted you an animal companion specialization (i.e. gainAnimalCompanion == "Specialized")
+        // Don't use feat.have() because it checks from level 1 to current.
+        return this.get_CharacterFeatsAndFeatures().filter(feat => (feat.gainAnimalCompanion == "Specialized") && this.get_Character().get_FeatsTaken(levelNumber, levelNumber, feat.name).length).length;
     }
 
     get_AvailableCompanionSpecializations(levelNumber: number) {
@@ -1289,7 +1395,8 @@ export class CharacterComponent implements OnInit {
 
     get_FamiliarAvailable(levelNumber: number) {
         //Return the number of feats taken this level that granted you a familiar
-        return this.characterService.get_FeatsAndFeatures().filter(feat => feat.gainFamiliar && this.get_Character().get_FeatsTaken(levelNumber, levelNumber, feat.name).length).length;
+        // Don't use feat.have() because it checks from level 1 to current.
+        return this.get_CharacterFeatsAndFeatures().filter(feat => feat.gainFamiliar && this.get_Character().get_FeatsTaken(levelNumber, levelNumber, feat.name).length).length;
     }
 
     get_Familiar() {

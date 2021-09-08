@@ -51,6 +51,7 @@ export class SkillsService {
     }
 
     initialize() {
+        //Initialize only once.
         if (!this.skills.length) {
             this.loading = true;
             this.load_Skills();

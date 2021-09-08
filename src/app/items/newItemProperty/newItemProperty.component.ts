@@ -22,6 +22,7 @@ import { Ability } from 'src/app/Ability';
 import { SpellChoice } from 'src/app/SpellChoice';
 import { InventoryGain } from 'src/app/InventoryGain';
 import { Hint } from 'src/app/Hint';
+import { SpellGain } from 'src/app/SpellGain';
 
 @Component({
     selector: 'app-newItemProperty',
@@ -240,8 +241,15 @@ export class NewItemPropertyComponent implements OnInit {
                 this.get_Parent()[this.propertyKey].push("" as string)
                 break;
             case "storedSpells":
-                this.get_Parent()[this.propertyKey].push(new SpellChoice())
+                index = this.get_Parent()[this.propertyKey].push(new SpellChoice())
                 this.get_Parent()[this.propertyKey][index - 1].source = this.get_Parent()["id"];
+                break;
+            case "gainSpells":
+                index = this.get_Parent()[this.propertyKey].push(new SpellChoice())
+                this.get_Parent()[this.propertyKey][index - 1].source = this.get_Parent()["id"];
+                break;
+            case "spells":
+                index = this.get_Parent()[this.propertyKey].push(new SpellGain())
                 break;
             case "traits":
                 this.get_Parent()[this.propertyKey].push("" as string)

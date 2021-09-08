@@ -237,6 +237,54 @@ export class DefenseComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
+    get_SpecialShowon(item: Armor | Shield, savingThrows: boolean = false) {
+        //Under certain circumstances, some Feats apply to Armnor, Shield or Saving Throws independently of their name.
+        //Return names that get_FeatsShowingOn should run on.
+        let specialNames: string[] = []
+        if (item instanceof Shield) {
+            //Shields with Emblazon Armament get tagged as "Emblazon Armament Shield".
+            if (item instanceof Shield && item._emblazonArmament) {
+                item.emblazonArmament.forEach(ea => {
+                    if (ea.type == "emblazonArmament") {
+                        specialNames.push("Emblazon Armament Shield");
+                    }
+                })
+            }
+            //Shields with Emblazon Energy get tagged as "Emblazon Energy Shield <Choice>".
+            if (item instanceof Shield && item._emblazonEnergy) {
+                item.emblazonArmament.forEach(ea => {
+                    if (ea.type == "emblazonEnergy") {
+                        specialNames.push("Emblazon Energy Shield " + ea.choice);
+                    }
+                })
+            }
+            //Shields with Emblazon Antimagic get tagged as "Emblazon Antimagic Shield".
+            if (item instanceof Shield && item._emblazonAntimagic) {
+                item.emblazonArmament.forEach(ea => {
+                    if (ea.type == "emblazonAntimagic") {
+                        specialNames.push("Emblazon Antimagic Shield");
+                    }
+                })
+            }
+        }
+        //Return the same name for Saving Throws if the shield applies.
+        if (savingThrows) {
+            this.get_EquippedShield().forEach(shield => {
+                if (shield._emblazonEnergy) {
+                    shield.emblazonArmament.filter(ea => ea.type == "emblazonEnergy").forEach(ea => {
+                        specialNames.push("Emblazon Energy Shield " + ea.choice);
+                    })
+                }
+                if (shield._emblazonAntimagic) {
+                    shield.emblazonArmament.filter(ea => ea.type == "emblazonAntimagic").forEach(ea => {
+                        specialNames.push("Emblazon Antimagic Shield");
+                    })
+                }
+            })
+        }
+        return specialNames;
+    }
+
     set_DefenseChanged() {
         this.characterService.set_ToChange(this.creature, "effects");
         this.characterService.process_ToChange();

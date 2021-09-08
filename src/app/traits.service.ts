@@ -85,6 +85,7 @@ export class TraitsService {
     }
 
     initialize() {
+        //Initialize only once.
         if (!this.traits.length) {
             this.loading = true;
             this.load_Traits();

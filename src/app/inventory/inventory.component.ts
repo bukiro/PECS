@@ -217,7 +217,7 @@ export class InventoryComponent implements OnInit {
 
     can_DropAll(item: Item) {
         //You can use the "Drop All" button if this item grants other items on grant or equip.
-        return item.gainItems && item.gainItems.filter(gain => gain.on != "use").length;
+        return item.gainItems && item.gainItems.some(gain => gain.on == "grant");
     }
 
     drop_InventoryItem(item: Item, inventory: ItemCollection, pay: boolean = false) {
@@ -473,7 +473,7 @@ export class InventoryComponent implements OnInit {
         if (spellChoice && spellName) {
             let spell = this.get_Spells(spellName)[0];
             if (spell && !(item instanceof Wand && item.overcharged)) {
-                this.spellsService.process_Spell(this.get_Character(), creature, this.characterService, this.itemsService, this.conditionsService, null, item.storedSpells[0].spells[0], spell, spellChoice.level, true, true, false);
+                this.spellsService.process_Spell(this.get_Character(), creature, this.characterService, this.itemsService, this.conditionsService, null, spellChoice, item.storedSpells[0].spells[0], spell, spellChoice.level, true, true, false);
             }
             if (item instanceof Wand) {
                 if (item.cooldown) {
@@ -680,11 +680,27 @@ export class InventoryComponent implements OnInit {
     }
 
     get_LargeWeaponAllowed(item: Item) {
-        return this.creature == "Character" && (this.get_Character().get_FeatsTaken(1, this.get_Character().level, 'Titan Mauler').length || this.effectsService.get_EffectsOnThis(this.get_Creature(), "Use Large Weapons").length) && item.type == "weapons" && ((item as Weapon).prof != "Unarmed Attacks");
+        return this.creature == "Character" && item instanceof Weapon && item.prof != "Unarmed Attacks" && (this.get_Character().get_FeatsTaken(1, this.get_Character().level, 'Titan Mauler').length || this.effectsService.get_EffectsOnThis(this.get_Creature(), "Use Large Weapons").length);
     }
 
     get_BladeAllyAllowed(item: Item) {
-        return this.creature == "Character" && this.get_Character().get_FeatsTaken(1, this.get_Character().level, 'Divine Ally: Blade Ally').length && ((item.type == "weapons" && (item as Weapon).prof != "Unarmed Attacks") || (item.type == "wornitems" && (item as WornItem).isHandwrapsOfMightyBlows));
+        return this.creature == "Character" && ((item instanceof Weapon && item.prof != "Unarmed Attacks") || (item instanceof WornItem && item.isHandwrapsOfMightyBlows)) && this.get_Character().get_FeatsTaken(1, this.get_Character().level, 'Divine Ally: Blade Ally').length;
+    }
+
+    get_EmblazonArmamentAllowed(item: Item) {
+        return this.creature == "Character" && (item instanceof Weapon || item instanceof Shield) && this.get_Character().get_FeatsTaken(1, this.get_Character().level, 'Emblazon Armament').length;
+    }
+
+    get_ItemEmblazonArmament(item: Item) {
+        return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.some(ea => ea.type == "emblazonArmament");
+    }
+
+    get_ItemEmblazonEnergy(item: Item) {
+        return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.find(ea => ea.type == "emblazonEnergy")?.choice;
+    }
+
+    get_ItemEmblazonAntimagic(item: Item) {
+        return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.some(ea => ea.type == "emblazonAntimagic");
     }
 
     get_BladeAllyUsed() {

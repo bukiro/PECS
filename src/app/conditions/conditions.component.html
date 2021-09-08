@@ -228,11 +228,10 @@
                                                 <div class="newrow" *ngIf="condition.inputRequired">
                                                     <div class="list-item lower">
                                                         <strong>Player input required:</strong>
-                                                        <div class="newrow left-aligned">
-                                                            <p
-                                                                *ngFor="let inputRequired of condition.inputRequired.split('\n'); trackBy:trackByIndex;">
-                                                                {{inputRequired}}
-                                                            </p>
+                                                        <div class="newrow left-aligned"
+                                                            *ngFor="let inputRequired of condition.inputRequired.split('\n\n'); trackBy:trackByIndex;">
+                                                            <app-description class="newrow" [text]="inputRequired">
+                                                            </app-description>
                                                         </div>
                                                     </div>
                                                 </div>

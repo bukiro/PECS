@@ -4149,6 +4149,1028 @@
         ]
     },
     {
+        "name": "False Faith",
+        "desc": "After having spent 1 hour in prayer to Droskar, you can cast spells using the religious symbol of a different deity as your divine focus, and you can address verbal prayers to that deity. Droskar intercepts your prayers and answers them without the named god knowing.\n\nThis ability applies to the religious symbol of only one god at a time - making a different religious symbol work in this fashion requires another hour of prayer and causes the old one to cease functioning. You can always use a religious symbol of Droskar without affecting this ability.",
+        "type": "activities",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You can cast spells using the religious symbol of a different deity as your divine focus, and you can address verbal prayers to that deity. Droskar intercepts your prayers and answers them without the named god knowing.\n\nThis ability applies to the religious symbol of only one god at a time - making a different religious symbol work in this fashion requires another hour of prayer and causes the old one to cease functioning. You can always use a religious symbol of Droskar without affecting this ability.",
+                "showon": "Spellbook"
+            }
+        ]
+    },
+    {
+        "name": "Command Undead",
+        "desc": "The animating force within you is bent it to the will of the caster. You become controlled depending on your Will save.\n\n<strong>Critical Success</strong> You are unaffected and temporarily immune for 24 hours.\n<strong>Success</strong> You are unaffected.\n<strong>Failure</strong> You become a minion under the caster's control. The spell gains a duration of 1 minute, but it is dismissed if the caster or any of their allies attack you.\n<strong>Critical Failure</strong> As failure, but the duration is 1 hour.",
+        "type": "activities",
+        "SortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": 100
+            },
+            {
+                "duration": 6000
+            }
+        ],
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 100
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": 6000
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": "Critical Success",
+                "duration": 144000,
+                "name": "Command Undead Immunity",
+                "persistent": true
+            }
+        ]
+    },
+    {
+        "name": "Command Undead Immunity",
+        "desc": "For the duration of the condition, you cannot be controlled with the harm spell by the caster who previously attempted and failed to control you.",
+        "type": "activities",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 144000
+            }
+        ]
+    },
+    {
+        "name": "Command Undead (Caster)",
+        "desc": "You have grasped the animating force within an undead creature and bent it to your will. The target becomes controlled by you depending on its Will save.\n\n<strong>Critical Success</strong> The target is unaffected and is temporarily immune for 24 hours.\n<strong>Success</strong> The target is unaffected.\n<strong>Failure</strong> The undead creature becomes a minion under your control. The spell gains a duration of 1 minute, but it is dismissed if you or an ally attacks the minion undead.\n<strong>Critical Failure</strong> As failure, but the duration is 1 hour.",
+        "type": "activities",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            },
+            {
+                "duration": 6000
+            },
+            {
+                "duration": 144000
+            }
+        ],
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 144000
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 100
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": 6000
+            }
+        ],
+        "gainConditions": [
+            {
+                "activationPrerequisite": "Has_Feat(Creature.type, 'Improved Command Undead') ? 1 : 0",
+                "choice": "Success",
+                "conditionChoiceFilter": "Success",
+                "duration": -5,
+                "name": "Improved Command Undead (Caster)",
+                "persistent": true
+            },
+            {
+                "activationPrerequisite": "Has_Feat(Creature.type, 'Improved Command Undead') ? 1 : 0",
+                "choice": "Failure",
+                "conditionChoiceFilter": "Failure",
+                "duration": -5,
+                "name": "Improved Command Undead (Caster)",
+                "persistent": true
+            },
+            {
+                "activationPrerequisite": "Has_Feat(Creature.type, 'Improved Command Undead') ? 1 : 0",
+                "choice": "Critical Failure",
+                "conditionChoiceFilter": "Critical Failure",
+                "duration": -5,
+                "name": "Improved Command Undead (Caster)",
+                "persistent": true
+            }
+        ]
+    },
+    {
+        "name": "Improved Command Undead",
+        "desc": "The animating force within you is bent it to the will of the caster. You become controlled depending on your Will save.\n\n<strong>Critical Success</strong> You are unaffected and temporarily immune for 24 hours.\n<strong>Success</strong> You become a minion under the caster's control. The spell gains a duration of 1 round, but it is dismissed if the caster or any of their allies attack you.\n<strong>Failure</strong> As success, but the duration is 10 minutes.\n<strong>Critical Failure</strong> As success, but the duration is 24 hours.",
+        "type": "activities",
+        "SortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": 10
+            },
+            {
+                "duration": 1000
+            },
+            {
+                "duration": 144000
+            }
+        ],
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 10
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 1000
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": 144000
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": "Critical Success",
+                "duration": 144000,
+                "name": "Command Undead Immunity",
+                "persistent": true
+            }
+        ],
+        "endConditions": [
+            "Command Undead"
+        ]
+    },
+    {
+        "name": "Improved Command Undead (Caster)",
+        "desc": "You have grasped the animating force within an undead creature and bent it to your will. The target becomes controlled by you depending on its Will save.\n\n<strong>Critical Success</strong> The target is unaffected and is temporarily immune for 24 hours.\n<strong>Success</strong> The undead creature becomes a minion under your control. The spell gains a duration of 1 round, but it is dismissed if you or an ally attacks the minion undead.\n<strong>Failure</strong> As success, but the duration is 10 minutes.\n<strong>Critical Failure</strong> As success, but the duration is 24 hours.",
+        "type": "activities",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            },
+            {
+                "duration": 1000
+            },
+            {
+                "duration": 144000
+            }
+        ],
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 10
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 1000
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": 144000
+            }
+        ],
+        "endConditions": [
+            "Command Undead (Caster)"
+        ]
+    },
+    {
+        "name": "Necrotic Infusion",
+        "desc": "Negative energy empowers your attacks. You deal an additional |dice=1d6 Negative| 1d6 negative damage with your melee weapons and unarmed attacks until the end of your next turn. If the harm spell is at least 5th level, this damage increases to |dice=2d6 Negative| 2d6, and if the harm spell is at least 8th level, the damage increases to |dice=3d6 Negative| 3d6.",
+        "type": "activities",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You deal an additional |dice=1d6 Negative| 1d6 negative damage with your melee weapons and unarmed attacks until the end of your next turn. If the harm spell is at least 5th level, this damage increases to |dice=2d6 Negative| 2d6, and if the harm spell is at least 8th level, the damage increases to |dice=3d6 Negative| 3d6.",
+                "showon": "Attacks"
+            }
+        ]
+    },
+    {
+        "name": "Necrotic Infusion (Caster)",
+        "desc": "You have poured negative energy into your undead subject to empower its attacks. The target deals an additional |dice=1d6 Negative| 1d6 negative damage with its melee weapons and unarmed attacks until the end of its next turn. If the harm spell is at least 5th level, this damage increases to |dice=2d6 Negative| 2d6, and if the harm spell is at least 8th level, the damage increases to |dice=3d6 Negative| 3d6.",
+        "type": "activities",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ]
+    },
+    {
+        "name": "Cast Down",
+        "desc": "The sheer force of faith has brought you crashing down. You are knocked prone if you have taken any damage from the cast harm or heal spell. If you critically fail your save against the spell, you also take a -10-foot status penalty to your Speed for 1 minute.",
+        "type": "activities",
+        "SortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "choice": "Damage Taken",
+        "choices": [
+            {
+                "name": "No Effect",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Damage Taken",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": 100
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Land Speed",
+                "type": "status",
+                "value": "Choice == 'Critical Failure' ? -10 : 0"
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": "Damage Taken",
+                "name": "Prone",
+                "persistent": true
+            },
+            {
+                "conditionChoiceFilter": "Critical Failure",
+                "name": "Prone"
+            }
+        ]
+    },
+    {
+        "name": "Cast Down (Caster)",
+        "desc": "The sheer force of your faith has brought a foe crashing down. Target is knocked prone if it takes any damage from the spell. If the target critically fails its save against the spell, it also takes a -10-foot status penalty to its Speed for 1 minute.",
+        "type": "activities",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "choice": "Damage Taken",
+        "choices": [
+            {
+                "name": "No Effect",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Damage Taken",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": 100
+            }
+        ]
+    },
+    {
+        "name": "Divine Weapon",
+        "desc": "You have siphoned residual spell energy into a weapon you're wielding. Until the end of your turn, the weapon deals an additional |dice=1d4 Force| 1d4 force damage. You can instead deal an additional |dice=1d6| damage of an alignment type that matches one of your deity's alignment components. As usual for aligned damage, this can damage only creatures of the opposite alignment.",
+        "type": "activities",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 5
+            }
+        ],
+        "hints": [
+            {
+                "desc": "One weapon you're wielding deals an additional |dice=1d4 Force| 1d4 force damage. You can instead deal an additional |dice=1d6| 1d6 damage of an alignment type that matches one of your deity's alignment components. As usual for aligned damage, this can damage only creatures of the opposite alignment.",
+                "showon": "Attacks"
+            }
+        ]
+    },
+    {
+        "name": "Align Armament",
+        "desc": "Your weapon is brought into metaphysical concordance with a deity's beliefs. The touched weapon deals an additional |dice=1d6| 1d6 damage of the chosen type to creatures of the opposed alignment. For example, if good was chosen, the weapon would deal an extra 1d6 good damage to evil creatures.",
+        "type": "activities",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "hints": [
+            {
+                "desc": "One of your weapons deals an additional |dice=1d6| 1d6 damage of the chosen type to creatures of the opposed alignment.",
+                "showon": "Attacks"
+            }
+        ],
+        "choices": [
+            {
+                "name": ""
+            },
+            {
+                "name": "Chaotic"
+            },
+            {
+                "name": "Evil"
+            },
+            {
+                "name": "Good"
+            },
+            {
+                "name": "Lawful"
+            }
+        ]
+    },
+    {
+        "name": "Align Armament (Originator)",
+        "desc": "You have brought a weapon into metaphysical concordance with your deity's beliefs. The touched weapon deals an additional 1d6 damage of the chosen type to creatures of the opposed alignment. For example, if you chose good, the weapon would deal an extra 1d6 good damage to evil creatures. If you Align an Armament again, any previously aligned armament loses its additional damage.",
+        "type": "activities",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "choices": [
+            {
+                "name": "-"
+            },
+            {
+                "name": "Chaotic",
+                "featreq": [
+                    "Align Armament: Chaotic"
+                ]
+            },
+            {
+                "name": "Evil",
+                "featreq": [
+                    "Align Armament: Evil"
+                ]
+            },
+            {
+                "name": "Good",
+                "featreq": [
+                    "Align Armament: Good"
+                ]
+            },
+            {
+                "name": "Lawful",
+                "featreq": [
+                    "Align Armament: Lawful"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Castigating Weapon",
+        "desc": "The force of your deity's castigation strengthens your body so you can strike down the wicked. After damaging a fiend using a heal spell, your weapon or unarmed Strikes deal <var>var1</var> extra good damage to fiends for the duration. This is cumulative with any good damage the weapon already deals (such as from a holy rune).",
+        "type": "activities",
+        "minLevel": 1,
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 15
+            }
+        ],
+        "inputRequired": "Remove this condition if you did not damage a fiend with your heal spell.",
+        "hints": [
+            {
+                "desc": "Your weapon or unarmed Strikes deal extra <var>var1</var> good damage to fiends. This is cumulative with any good damage the weapon already deals (such as from a holy rune).",
+                "showon": "Attacks",
+                "effects": [
+                    {
+                        "affected": "Damage Rolls",
+                        "value": "Math.floor(Heightened /2)"
+                    }
+                ],
+                "heightenedDescs": [
+                    {
+                        "level": 1,
+                        "descs": [
+                            {
+                                "value": 0,
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 2,
+                        "descs": [
+                            {
+                                "value": 1,
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 3,
+                        "descs": [
+                            {
+                                "value": 1,
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 4,
+                        "descs": [
+                            {
+                                "value": 2,
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 5,
+                        "descs": [
+                            {
+                                "value": 2,
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 6,
+                        "descs": [
+                            {
+                                "value": 3,
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 7,
+                        "descs": [
+                            {
+                                "value": 3,
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 8,
+                        "descs": [
+                            {
+                                "value": 4,
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 9,
+                        "descs": [
+                            {
+                                "value": 4,
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 10,
+                        "descs": [
+                            {
+                                "value": 5,
+                                "variable": "var1"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 1,
+                "descs": [
+                    {
+                        "value": 0,
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 2,
+                "descs": [
+                    {
+                        "value": 1,
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 3,
+                "descs": [
+                    {
+                        "value": 1,
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 4,
+                "descs": [
+                    {
+                        "value": 2,
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 5,
+                "descs": [
+                    {
+                        "value": 2,
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": 3,
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": 3,
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": 4,
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": 4,
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": 5,
+                        "variable": "var1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Heroic Recovery",
+        "desc": "The restorative power of healing invigorates you. After regaining Hit Points from the triggering heal spell, you also gain three bonuses for the duration: a +5-foot status bonus to your Speed, a +1 status bonus to attack rolls, and a +1 status bonus to damage rolls.",
+        "type": "activities",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "inputRequired": "Remove this condition if you did not regain Hit Points from the heal spell.",
+        "effects": [
+            {
+                "affected": "Land Speed",
+                "type": "status",
+                "value": "5"
+            },
+            {
+                "affected": "Attack Rolls",
+                "type": "status",
+                "value": 1
+            },
+            {
+                "affected": "Damage Rolls",
+                "type": "status",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Heroic Recovery (Caster)",
+        "desc": "The restorative power of your healing invigorates the recipient. After regaining Hit Points from your heal spell, the target also gains three bonuses for the duration: a +5-foot status bonus to its Speed, a +1 status bonus to attack rolls, and a +1 status bonus to damage rolls.",
+        "type": "activities",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "inputRequired": "Remove this condition if the target did not regain Hit Points from the heal spell."
+    },
+    {
+        "name": "Defensive Recovery",
+        "desc": "The caster's faith provides temporary protection in addition to healing. After regaining Hit Points from their harm or heal spell, you also gain a +2 status bonus to AC and saving throws for 1 round.",
+        "type": "activities",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "inputRequired": "Remove this condition if you did not regain Hit Points from the heal spell.",
+        "effects": [
+            {
+                "affected": "AC",
+                "type": "status",
+                "value": "2"
+            },
+            {
+                "affected": "Saving Throws",
+                "type": "status",
+                "value": 2
+            }
+        ]
+    },
+    {
+        "name": "Defensive Recovery (Caster)",
+        "desc": "Your faith provides temporary protection in addition to healing. After regaining Hit Points from your harm or heal spell, the target also gains a +2 status bonus to AC and saving throws for 1 round.",
+        "type": "activities",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "inputRequired": "Remove this condition if the target did not regain Hit Points from the heal spell."
+    },
+    {
+        "name": "Replenishment of War",
+        "desc": "Striking out against your enemies has drawn praise and protection from your deity. You gain a number of temporary Hit Points equal to half your level, or equal to your level if the Strike was a critical hit for the duration.",
+        "type": "activities",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 15
+            }
+        ],
+        "choice": "Hit",
+        "choices": [
+            {
+                "name": "Critical Hit"
+            },
+            {
+                "name": "Hit"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "Choice == 'Critical Hit' ? Character.level : Math.floor(Character.level / 2)"
+            }
+        ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "-Temporary_HP('',effect.sourceId)"
+            }
+        ]
+    },
+    {
+        "name": "Replenishment of War (Originator)",
+        "desc": "Striking out against your enemies has drawn praise and protection from your deity. Your ally gains a number of temporary Hit Points equal to half their level, or equal to their level if the Strike was a critical hit for the duration.",
+        "type": "activities",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 15
+            }
+        ],
+        "choice": "Hit",
+        "choices": [
+            {
+                "name": "Critical Hit"
+            },
+            {
+                "name": "Hit"
+            }
+        ]
+    },
+    {
+        "name": "Deity's Protection",
+        "desc": "Calling upon your deity's power to fulfill the promise of their domain, you have gained divine protection. You gain <var>var1</var> resistance to all damage for the duration.",
+        "type": "activities",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "inputRequired": "Remove this condition if you did not damage a fiend with your heal spell.",
+        "effects": [
+            {
+                "affected": "All Damage Resistance",
+                "value": "Heightened"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 1,
+                "descs": [
+                    {
+                        "value": 1,
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 2,
+                "descs": [
+                    {
+                        "value": 2,
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 3,
+                "descs": [
+                    {
+                        "value": 3,
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 4,
+                "descs": [
+                    {
+                        "value": 4,
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 5,
+                "descs": [
+                    {
+                        "value": 5,
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": 6,
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": 7,
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": 8,
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": 9,
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": 10,
+                        "variable": "var1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Resurrectionist",
+        "desc": "You have been brought back from the brink of death thriving and continuing to heal. You gain fast healing 5 for 1 minute. This fast healing ends if you are knocked unconscious.",
+        "type": "activities",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Fast Healing",
+                "value": "5"
+            }
+        ]
+    },
+    {
+        "name": "Resurrectionist (Originator)",
+        "desc": "You cause a creature you bring back from the brink of death to thrive and continue healing. After restoring Hit Points to a dying creature or bringing a dead creature back to life and restoring Hit Points to it, you have granted that creature fast healing 5 for 1 minute. This fast healing ends if the creature is knocked unconscious.",
+        "type": "activities",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ]
+    },
+    {
+        "name": "Dance of Intercession",
+        "desc": "You have performed the Dance of Intercession, with results depending on your Performance check.\n\n<strong>Critical Success</strong> You have performed the movements of the Dance of Intercession so gracefully that you evoked a glimmer of the memory of the Celestial Dragon's awesome power. You cast the 3-action version of either 9th-level harm or heal at any point during your Stride. This does not use any spell slots.\n<strong>Success</strong> As critical success, but the spell is 7th level instead of 9th as you stumble through the movements.\n<strong>Failure</strong> As critical success, but the spell is 5th level instead of 9th as you stumble through the movements.\n<strong>Critical Failure</strong> You have failed to remember the steps of the dance. You gain no additional effect beyond Striding half your Speed, and you can't attempt the Dance of Intercession again until your next daily preparations.",
+        "type": "activities",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -2
+            }
+        ],
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": -2
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Dance of Intercession Disabled",
+                "value": "Choice == 'Critical Failure' ? 1 : null"
+            }
+        ]
+    },
+    {
+        "name": "Inventive Offensive",
+        "desc": "You have jury-rigged your weapon to perform in unexpected ways. You add one of the following weapon traits to a melee weapon you wield: deadly d6, disarm, nonlethal, shove, trip, versatile B, versatile P, or versatile S. You cannot add a trait that the weapon already has. The weapon retains this trait until you successfully hit and deal damage with the weapon. The weapon retains this trait only while you wield it, and you can have only one weapon modified in this way at any time.",
+        "type": "activities",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ],
+        "unlimited": true,
+        "inputRequired": "Remove the condition once you successfully hit and deal damage with the weapon.",
+        "hints": [
+            {
+                "desc": "One melee weapon you wield has the Deadly d6 trait.",
+                "showon": "Attacks",
+                "conditionChoiceFilter": "Deadly d6"
+            },
+            {
+                "desc": "One melee weapon you wield has the Disarm trait.",
+                "showon": "Attacks",
+                "conditionChoiceFilter": "Disarm"
+            },
+            {
+                "desc": "One melee weapon you wield has the Nonlethal trait.",
+                "showon": "Attacks",
+                "conditionChoiceFilter": "Nonlethal"
+            },
+            {
+                "desc": "One melee weapon you wield has the Shove trait.",
+                "showon": "Attacks",
+                "conditionChoiceFilter": "Shove"
+            },
+            {
+                "desc": "One melee weapon you wield has the Trip trait.",
+                "showon": "Attacks",
+                "conditionChoiceFilter": "Trip"
+            },
+            {
+                "desc": "One melee weapon you wield has the Versatile B trait.",
+                "showon": "Attacks",
+                "conditionChoiceFilter": "Versatile B"
+            },
+            {
+                "desc": "One melee weapon you wield has the Versatile P trait.",
+                "showon": "Attacks",
+                "conditionChoiceFilter": "Versatile P"
+            },
+            {
+                "desc": "One melee weapon you wield has the Versatile S trait.",
+                "showon": "Attacks",
+                "conditionChoiceFilter": "Versatile S"
+            }
+        ],
+        "choice": "Deadly d6",
+        "choices": [
+            {
+                "name": "Deadly d6"
+            },
+            {
+                "name": "Disarm"
+            },
+            {
+                "name": "Nonlethal"
+            },
+            {
+                "name": "Shove"
+            },
+            {
+                "name": "Trip"
+            },
+            {
+                "name": "Versatile B"
+            },
+            {
+                "name": "Versatile P"
+            },
+            {
+                "name": "Versatile S"
+            }
+        ]
+    },
+    {
         "name": "Arsenic",
         "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
         "type": "afflictions",
@@ -7856,7 +8878,7 @@
                 "heightenedDescs": [
                     {
                         "level": 1,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "2",
                                 "variable": "var1"
@@ -7865,7 +8887,7 @@
                     },
                     {
                         "level": 2,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "4",
                                 "variable": "var1"
@@ -7874,7 +8896,7 @@
                     },
                     {
                         "level": 3,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "6",
                                 "variable": "var1"
@@ -7883,7 +8905,7 @@
                     },
                     {
                         "level": 4,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "8",
                                 "variable": "var1"
@@ -7892,7 +8914,7 @@
                     },
                     {
                         "level": 5,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "10",
                                 "variable": "var1"
@@ -7901,7 +8923,7 @@
                     },
                     {
                         "level": 6,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "12",
                                 "variable": "var1"
@@ -7910,7 +8932,7 @@
                     },
                     {
                         "level": 7,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "14",
                                 "variable": "var1"
@@ -7919,7 +8941,7 @@
                     },
                     {
                         "level": 8,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "16",
                                 "variable": "var1"
@@ -7928,7 +8950,7 @@
                     },
                     {
                         "level": 9,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "18",
                                 "variable": "var1"
@@ -7937,7 +8959,7 @@
                     },
                     {
                         "level": 10,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "20",
                                 "variable": "var1"
@@ -8396,6 +9418,71 @@
                 "ignorePersistent": true,
                 "name": "Fatigued"
             }
+        ]
+    },
+    {
+        "name": "Eternal Bane",
+        "desc": "A life of evil has made you a nexus for your deity's vile power. You're continuously surrounded by a bane spell with a spell level equal to half your level (rounded up). The radius is 15 feet, and you can't increase it. You can Dismiss the spell; if you do, it returns automatically after 1 minute.\n\n<header class='spellHeader'>Bane</header>\n\nYou fill the minds of your enemies with doubt. Targets that fail their Will saves take a -1 status penalty to attack rolls as long as they are in the area. Bane can counteract bless.",
+        "type": "feats",
+        "SortLevel": 0,
+        "radius": 15,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ],
+        "inputRequired": "You can dismiss Eternal Bane for 1 minute as an activity."
+    },
+    {
+        "name": "Eternal Bane Dismissed",
+        "desc": "You have Dismissed the bane spell that surrounds you constantly. It will return automatically after 1 minute.",
+        "type": "feats",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "overrideConditions": [
+            "Eternal Bane"
+        ]
+    },
+    {
+        "name": "Eternal Blessing",
+        "desc": "Your good deeds have brought your deity's grace to you for all of eternity. You're continuously surrounded by a bless spell with a spell level equal to half your level (rounded up). The radius is 15 feet, and you can't increase it. You can Dismiss the spell; if you do, it returns automatically after 1 minute.\n\n<header class='spellheader'>Bless</header>\n\nBlessings from beyond help your companions strike true. You and your allies gain a +1 status bonus to attack rolls while within the emanation. Bless can counteract bane.",
+        "type": "feats",
+        "SortLevel": 0,
+        "radius": 15,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ],
+        "inputRequired": "You can grant Bless to your allies as an activity as needed, and you can dismiss Eternal Blessing for 1 minute as an activity.",
+        "effects": [
+            {
+                "affected": "Attack Rolls",
+                "type": "status",
+                "value": "1"
+            }
+        ]
+    },
+    {
+        "name": "Eternal Blessing Dismissed",
+        "desc": "You have Dismissed the bless spell that surrounds you constantly. It will return automatically after 1 minute.",
+        "type": "feats",
+        "SortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "overrideConditions": [
+            "Eternal Blessing"
         ]
     },
     {
@@ -9015,7 +10102,7 @@
     },
     {
         "name": "Range Penalty",
-        "desc": "Ranged and thrown weapons each have a listed range increment, and attacks with them grow less accurate against targets farther away (range and range increments are covered in depth on page 279). As long as your target is at or within the listed range increment, also called the first range increment, you take no penalty to the attack roll. If you’re attacking beyond that range increment, you take a -2 penalty for each additional increment beyond the first. You can attempt to attack with a ranged weapon or thrown weapon up to six range increments away, but the farther away you are, the harder it is to hit your target.",
+        "desc": "Ranged and thrown weapons each have a listed range increment, and attacks with them grow less accurate against targets farther away (range and range increments are covered in depth on page 279). As long as your target is at or within the listed range increment, also called the first range increment, you take no penalty to the attack roll. If you're attacking beyond that range increment, you take a -2 penalty for each additional increment beyond the first. You can attempt to attack with a ranged weapon or thrown weapon up to six range increments away, but the farther away you are, the harder it is to hit your target.",
         "type": "generic",
         "defaultDurations": [
             {
@@ -9169,7 +10256,8 @@
         ],
         "endConditions": [
             "Rage",
-            "Badger Rage"
+            "Badger Rage",
+            "Resurrectionist"
         ]
     },
     {
@@ -12095,7 +13183,7 @@
                 "heightenedDescs": [
                     {
                         "level": 1,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "trained",
                                 "variable": "var1"
@@ -12104,7 +13192,7 @@
                     },
                     {
                         "level": 6,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "an expert",
                                 "variable": "var1"
@@ -13099,7 +14187,7 @@
                 "heightenedDescs": [
                     {
                         "level": 1,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "1d4",
                                 "variable": "var2"
@@ -13108,7 +14196,7 @@
                     },
                     {
                         "level": 3,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "2d4",
                                 "variable": "var2"
@@ -13117,7 +14205,7 @@
                     },
                     {
                         "level": 5,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "3d4",
                                 "variable": "var2"
@@ -14106,7 +15194,7 @@
                 "heightenedDescs": [
                     {
                         "level": 1,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "1d6",
                                 "variable": "var1"
@@ -14115,7 +15203,7 @@
                     },
                     {
                         "level": 3,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "2d6",
                                 "variable": "var1"
@@ -14124,7 +15212,7 @@
                     },
                     {
                         "level": 5,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "3d6",
                                 "variable": "var1"
@@ -14133,7 +15221,7 @@
                     },
                     {
                         "level": 7,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "4d6",
                                 "variable": "var1"
@@ -14142,7 +15230,7 @@
                     },
                     {
                         "level": 9,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "5d6",
                                 "variable": "var1"
@@ -16537,7 +17625,7 @@
                 "heightenedDescs": [
                     {
                         "level": 1,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "1d8",
                                 "variable": "var2"
@@ -16546,7 +17634,7 @@
                     },
                     {
                         "level": 2,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "2d8",
                                 "variable": "var2"
@@ -16555,7 +17643,7 @@
                     },
                     {
                         "level": 3,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "3d8",
                                 "variable": "var2"
@@ -16564,7 +17652,7 @@
                     },
                     {
                         "level": 4,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "4d8",
                                 "variable": "var2"
@@ -16573,7 +17661,7 @@
                     },
                     {
                         "level": 5,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "5d8",
                                 "variable": "var2"
@@ -16582,7 +17670,7 @@
                     },
                     {
                         "level": 6,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "6d8",
                                 "variable": "var2"
@@ -16591,7 +17679,7 @@
                     },
                     {
                         "level": 7,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "7d8",
                                 "variable": "var2"
@@ -16600,7 +17688,7 @@
                     },
                     {
                         "level": 8,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "8d8",
                                 "variable": "var2"
@@ -16609,7 +17697,7 @@
                     },
                     {
                         "level": 9,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "9d8",
                                 "variable": "var2"
@@ -16618,7 +17706,7 @@
                     },
                     {
                         "level": 10,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "10d8",
                                 "variable": "var2"
@@ -16923,7 +18011,7 @@
                 "heightenedDescs": [
                     {
                         "level": 1,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "5",
                                 "variable": "var1"
@@ -16932,7 +18020,7 @@
                     },
                     {
                         "level": 3,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "10",
                                 "variable": "var1"
@@ -16941,7 +18029,7 @@
                     },
                     {
                         "level": 5,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "15",
                                 "variable": "var1"
@@ -16950,7 +18038,7 @@
                     },
                     {
                         "level": 7,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "20",
                                 "variable": "var1"
@@ -16959,7 +18047,7 @@
                     },
                     {
                         "level": 9,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "25",
                                 "variable": "var1"
@@ -17469,7 +18557,7 @@
                 "heightenedDescs": [
                     {
                         "level": 1,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "2",
                                 "variable": "var1"
@@ -17478,7 +18566,7 @@
                     },
                     {
                         "level": 2,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "4",
                                 "variable": "var1"
@@ -17487,7 +18575,7 @@
                     },
                     {
                         "level": 3,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "6",
                                 "variable": "var1"
@@ -17496,7 +18584,7 @@
                     },
                     {
                         "level": 4,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "8",
                                 "variable": "var1"
@@ -17505,7 +18593,7 @@
                     },
                     {
                         "level": 5,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "10",
                                 "variable": "var1"
@@ -17514,7 +18602,7 @@
                     },
                     {
                         "level": 6,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "12",
                                 "variable": "var1"
@@ -17523,7 +18611,7 @@
                     },
                     {
                         "level": 7,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "14",
                                 "variable": "var1"
@@ -17532,7 +18620,7 @@
                     },
                     {
                         "level": 8,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "16",
                                 "variable": "var1"
@@ -17541,7 +18629,7 @@
                     },
                     {
                         "level": 9,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "18",
                                 "variable": "var1"
@@ -17550,7 +18638,7 @@
                     },
                     {
                         "level": 10,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "20",
                                 "variable": "var1"
@@ -17672,7 +18760,7 @@
                 "heightenedDescs": [
                     {
                         "level": 1,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "2",
                                 "variable": "var1"
@@ -17681,7 +18769,7 @@
                     },
                     {
                         "level": 2,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "4",
                                 "variable": "var1"
@@ -17690,7 +18778,7 @@
                     },
                     {
                         "level": 3,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "6",
                                 "variable": "var1"
@@ -17699,7 +18787,7 @@
                     },
                     {
                         "level": 4,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "8",
                                 "variable": "var1"
@@ -17708,7 +18796,7 @@
                     },
                     {
                         "level": 5,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "10",
                                 "variable": "var1"
@@ -17717,7 +18805,7 @@
                     },
                     {
                         "level": 6,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "12",
                                 "variable": "var1"
@@ -17726,7 +18814,7 @@
                     },
                     {
                         "level": 7,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "14",
                                 "variable": "var1"
@@ -17735,7 +18823,7 @@
                     },
                     {
                         "level": 8,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "16",
                                 "variable": "var1"
@@ -17744,7 +18832,7 @@
                     },
                     {
                         "level": 9,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "18",
                                 "variable": "var1"
@@ -17753,7 +18841,7 @@
                     },
                     {
                         "level": 10,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "20",
                                 "variable": "var1"
@@ -17761,6 +18849,16 @@
                         ]
                     }
                 ]
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Ignore Fast Healing",
+                "toggle": true
+            },
+            {
+                "affected": "Ignore Regeneration",
+                "toggle": true
             }
         ],
         "heightenedDescs": [
@@ -18748,7 +19846,7 @@
                 "heightenedDescs": [
                     {
                         "level": 1,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "2",
                                 "variable": "var1"
@@ -18757,7 +19855,7 @@
                     },
                     {
                         "level": 2,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "4",
                                 "variable": "var1"
@@ -18766,7 +19864,7 @@
                     },
                     {
                         "level": 3,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "6",
                                 "variable": "var1"
@@ -18775,7 +19873,7 @@
                     },
                     {
                         "level": 4,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "8",
                                 "variable": "var1"
@@ -18784,7 +19882,7 @@
                     },
                     {
                         "level": 5,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "10",
                                 "variable": "var1"
@@ -18793,7 +19891,7 @@
                     },
                     {
                         "level": 6,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "12",
                                 "variable": "var1"
@@ -18802,7 +19900,7 @@
                     },
                     {
                         "level": 7,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "14",
                                 "variable": "var1"
@@ -18811,7 +19909,7 @@
                     },
                     {
                         "level": 8,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "16",
                                 "variable": "var1"
@@ -18820,7 +19918,7 @@
                     },
                     {
                         "level": 9,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "18",
                                 "variable": "var1"
@@ -18829,7 +19927,7 @@
                     },
                     {
                         "level": 10,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "20",
                                 "variable": "var1"
@@ -20683,7 +21781,7 @@
                 "heightenedDescs": [
                     {
                         "level": 2,
-                        "desc": [
+                        "descs": [
                             {
                                 "variable": "var1"
                             }
@@ -20691,7 +21789,7 @@
                     },
                     {
                         "level": 3,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "and speak ",
                                 "variable": "var1"
@@ -20970,7 +22068,7 @@
                 "heightenedDescs": [
                     {
                         "level": 3,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "You are protected from severe cold and heat (but not extreme cold or heat).",
                                 "variable": "var1"
@@ -20979,7 +22077,7 @@
                     },
                     {
                         "level": 5,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "You are protected from severe cold, severe heat, extreme cold, and extreme heat.",
                                 "variable": "var1"
@@ -21342,7 +22440,7 @@
                 "duration": 10008000
             }
         ],
-        "inputRequired": "On a failure, take 1d4 damage plus 1d4 damage per spell level above 2nd each day. After the spell's duration, take damage from starvation.\nOn a critical failure, take 2d4 damage plus 2d4 damage per spell level above 2nd each day. After the spell's duration, take damage from starvation.",
+        "inputRequired": "On a failure, take 1d4 damage plus 1d4 damage per spell level above 2nd each day. After the spell's duration, take damage from starvation.\n\nOn a critical failure, take 2d4 damage plus 2d4 damage per spell level above 2nd each day. After the spell's duration, take damage from starvation.",
         "hints": [
             {
                 "desc": "The damage you take from Feast of Ashes can't be healed until you sate your hunger. No amount of eating can sate your hunger during the spell's duration. After the spell's duration, you take damage from starvation.",
@@ -22660,7 +23758,7 @@
                 "heightenedDescs": [
                     {
                         "level": 2,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "The steed has a Speed of 40 feet and can hold its rider's body weight, plus 20 Bulk.",
                                 "variable": "var1"
@@ -22669,7 +23767,7 @@
                     },
                     {
                         "level": 4,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "The steed has a Speed of 60 feet, can walk on water, and ignores areas of natural difficult terrain. It can hold its rider's body weight, plus 20 Bulk.",
                                 "variable": "var1"
@@ -22678,7 +23776,7 @@
                     },
                     {
                         "level": 5,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "The steed has a Speed of 60 feet, can walk on water, and ignores areas of natural difficult terrain. It can also air walk but must end its turn on solid ground or fall. It can hold its rider's body weight, plus 20 Bulk.",
                                 "variable": "var1"
@@ -22687,7 +23785,7 @@
                     },
                     {
                         "level": 6,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "The steed can walk or fly at a Speed of 80 feet, can walk on water, and ignores natural difficult terrain. It can hold its rider's body weight, plus 20 Bulk.",
                                 "variable": "var1"
@@ -26049,7 +27147,7 @@
                 "heightenedDescs": [
                     {
                         "level": 3,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "-1",
                                 "variable": "var2"
@@ -26058,7 +27156,7 @@
                     },
                     {
                         "level": 5,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "-2",
                                 "variable": "var2"
@@ -26067,7 +27165,7 @@
                     },
                     {
                         "level": 7,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "-3",
                                 "variable": "var2"
@@ -26076,7 +27174,7 @@
                     },
                     {
                         "level": 9,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "-4",
                                 "variable": "var2"
@@ -26230,7 +27328,7 @@
                 "heightenedDescs": [
                     {
                         "level": 3,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "For the purpose of long-distance overland travel during exploration mode, traveling through difficult terrain reduces you to only three-quarters your travel Speed instead of half, and traveling through greater difficult terrain reduces your travel Speed to only half your travel Speed instead of one-third.",
                                 "variable": "var1"
@@ -26239,7 +27337,7 @@
                     },
                     {
                         "level": 6,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "For the purpose of long-distance overland travel during exploration mode, traveling through difficult terrain doesn't reduce your travel Speed at all, and traveling through greater difficult terrain reduces your travel Speed to only three-quarters of its normal value instead of one-third.",
                                 "variable": "var1"
@@ -26465,7 +27563,7 @@
                 "heightenedDescs": [
                     {
                         "level": 3,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "1d6",
                                 "variable": "var2"
@@ -26474,7 +27572,7 @@
                     },
                     {
                         "level": 5,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "2d6",
                                 "variable": "var2"
@@ -26483,7 +27581,7 @@
                     },
                     {
                         "level": 7,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "3d6",
                                 "variable": "var2"
@@ -26492,7 +27590,7 @@
                     },
                     {
                         "level": 9,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "4d6",
                                 "variable": "var2"
@@ -26780,7 +27878,7 @@
                 "heightenedDescs": [
                     {
                         "level": 3,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "-1",
                                 "variable": "var1"
@@ -26793,7 +27891,7 @@
                     },
                     {
                         "level": 5,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "-2",
                                 "variable": "var1"
@@ -26806,7 +27904,7 @@
                     },
                     {
                         "level": 7,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "-3",
                                 "variable": "var1"
@@ -26819,7 +27917,7 @@
                     },
                     {
                         "level": 9,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "-4",
                                 "variable": "var1"
@@ -26917,7 +28015,7 @@
                 "heightenedDescs": [
                     {
                         "level": 3,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "-1",
                                 "variable": "var1"
@@ -26926,7 +28024,7 @@
                     },
                     {
                         "level": 5,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "-2",
                                 "variable": "var1"
@@ -26935,7 +28033,7 @@
                     },
                     {
                         "level": 7,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "-3",
                                 "variable": "var1"
@@ -26944,7 +28042,7 @@
                     },
                     {
                         "level": 9,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "-4",
                                 "variable": "var1"
@@ -28609,7 +29707,7 @@
                 "heightenedDescs": [
                     {
                         "level": 4,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "2d6",
                                 "variable": "var2"
@@ -28618,7 +29716,7 @@
                     },
                     {
                         "level": 6,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "3d6",
                                 "variable": "var2"
@@ -28627,7 +29725,7 @@
                     },
                     {
                         "level": 8,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "4d6",
                                 "variable": "var2"
@@ -28636,7 +29734,7 @@
                     },
                     {
                         "level": 10,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "5d6",
                                 "variable": "var2"
@@ -29894,7 +30992,7 @@
                 "heightenedDescs": [
                     {
                         "level": 4,
-                        "desc": [
+                        "descs": [
                             {
                                 "variable": "var1"
                             }
@@ -29902,7 +31000,7 @@
                     },
                     {
                         "level": 6,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "When you fly using stormwind flight, you don't count flying against the wind as difficult terrain. ",
                                 "variable": "var1"
@@ -30863,7 +31961,7 @@
     {
         "name": "Banishment (Caster)",
         "desc": "You have attemped to send the target back to its home plane, with results depending on its Will save.\n\n<strong>Critical Success</strong> The target resists being banished and you are stunned 1.\n<strong>Success</strong> The target resists being banished.\n<strong>Failure</strong> The target is banished.\n<strong>Critical Failure</strong> The target is banished and can't return by any means to the plane it's banished from for 1 week.",
-        "type": "hidden",
+        "type": "spells",
         "defaultDurations": [
             {
                 "duration": 1008000
@@ -30962,7 +32060,7 @@
                 "heightenedDescs": [
                     {
                         "level": 5,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "1d4",
                                 "variable": "var1"
@@ -30971,7 +32069,7 @@
                     },
                     {
                         "level": 7,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "1d4+1",
                                 "variable": "var1"
@@ -30980,7 +32078,7 @@
                     },
                     {
                         "level": 9,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "1d4+2",
                                 "variable": "var1"
@@ -31054,7 +32152,7 @@
                 "heightenedDescs": [
                     {
                         "level": 5,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "1d4",
                                 "variable": "var1"
@@ -31063,7 +32161,7 @@
                     },
                     {
                         "level": 7,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "1d4+1",
                                 "variable": "var1"
@@ -31072,7 +32170,7 @@
                     },
                     {
                         "level": 9,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "1d4+2",
                                 "variable": "var1"
@@ -33115,7 +34213,7 @@
                 "heightenedDescs": [
                     {
                         "level": 5,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "5d8",
                                 "variable": "var1"
@@ -33132,7 +34230,7 @@
                     },
                     {
                         "level": 6,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "6d8",
                                 "variable": "var1"
@@ -33149,7 +34247,7 @@
                     },
                     {
                         "level": 7,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "7d8",
                                 "variable": "var1"
@@ -33166,7 +34264,7 @@
                     },
                     {
                         "level": 8,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "8d8",
                                 "variable": "var1"
@@ -33183,7 +34281,7 @@
                     },
                     {
                         "level": 9,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "9d8",
                                 "variable": "var1"
@@ -33200,7 +34298,7 @@
                     },
                     {
                         "level": 10,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "10d8",
                                 "variable": "var1"
@@ -34225,7 +35323,7 @@
                 "heightenedDescs": [
                     {
                         "level": 5,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "2d6",
                                 "variable": "var2"
@@ -34234,7 +35332,7 @@
                     },
                     {
                         "level": 7,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "3d6",
                                 "variable": "var2"
@@ -34243,7 +35341,7 @@
                     },
                     {
                         "level": 9,
-                        "desc": [
+                        "descs": [
                             {
                                 "value": "4d6",
                                 "variable": "var2"
@@ -35309,6 +36407,7 @@
     {
         "name": "Vibrant Pattern",
         "desc": "A pattern of lights pulses with intensity in the area. Creatures are dazzled while inside the pattern.\n\nIn addition, you must attempt a Will saving throw if you are inside the pattern when it was cast, enter the pattern, end your turn within the pattern, or use a Seek or Interact action on the pattern. A creature currently blinded by the pattern doesn't need to attempt new saving throws.\n\n<strong>Success</strong> You are unaffected.\n<strong>Failure</strong> You are blinded by the pattern. If you exit the pattern, you can attempt a new save to recover from the blinded condition at the end of each of your turns, to a maximum duration of 1 minute.\n<strong>Critical Failure</strong> You are blinded for 1 minute.",
+        "type": "spells",
         "minLevel": 6,
         "defaultDurations": [
             {
@@ -35349,6 +36448,7 @@
     {
         "name": "Vibrant Pattern (Caster)",
         "desc": "You have created a pattern of lights that pulses with intensity. Creatures are dazzled while inside the pattern.\n\nIn addition, a creature must attempt a Will saving throw if it's inside the pattern when you cast it, enters the pattern, ends its turn within the pattern, or uses a Seek or Interact action on the pattern. A creature currently blinded by the pattern doesn't need to attempt new saving throws.\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature is blinded by the pattern. If it exits the pattern, it can attempt a new save to recover from the blinded condition at the end of each of its turns, to a maximum duration of 1 minute.\n<strong>Critical Failure</strong> The creature is blinded for 1 minute.",
+        "type": "spells",
         "minLevel": 6,
         "buff": true,
         "defaultDurations": [

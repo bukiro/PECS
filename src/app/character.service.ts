@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { Character } from './Character';
 import { Skill } from './Skill';
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -79,7 +79,7 @@ export class CharacterService {
     public viewChanged$: Observable<{ creature: string, target: string, subtarget: string }>;
     private loader = [];
     private loading: boolean = false;
-    private basicItems: (Weapon|Armor)[] = [];
+    private basicItems: (Weapon | Armor)[] = [];
     private toChange: { creature: string, target: string, subtarget: string }[] = [];
     private changed: BehaviorSubject<string> = new BehaviorSubject<string>("");
     private viewChanged: BehaviorSubject<{ creature: string, target: string, subtarget: string }> = new BehaviorSubject<{ creature: string, target: string, subtarget: string }>({ target: "", creature: "", subtarget: "" });
@@ -479,12 +479,12 @@ export class CharacterService {
 
     get_CompanionAvailable(charLevel: number = this.get_Character().level) {
         //Return any feat that grants an animal companion that you own.
-        return this.get_FeatsAndFeatures().find(feat => feat.gainAnimalCompanion == "Young" && feat.have(this.get_Character(), this, charLevel));
+        return this.get_CharacterFeatsAndFeatures().find(feat => feat.gainAnimalCompanion == "Young" && feat.have(this.get_Character(), this, charLevel));
     }
 
     get_FamiliarAvailable(charLevel: number = this.get_Character().level) {
         //Return any feat that grants an animal companion that you own.
-        return this.get_FeatsAndFeatures().find(feat => feat.gainFamiliar && feat.have(this.get_Character(), this, charLevel));
+        return this.get_CharacterFeatsAndFeatures().find(feat => feat.gainFamiliar && feat.have(this.get_Character(), this, charLevel));
     }
 
     get_Companion() {
@@ -579,6 +579,10 @@ export class CharacterService {
         return this.deitiesService.get_Deities(name);
     }
 
+    get_CharacterDeities(character: Character, source: string = "", level: number = character.level) {
+        return this.deitiesService.get_CharacterDeities(character, source, level);
+    }
+
     get_Speeds(creature: Creature, name: string = "") {
         return creature.speeds.filter(speed => speed.name == name || name == "");
     }
@@ -607,9 +611,9 @@ export class CharacterService {
             //Build an array of int per level for comparison between the levels, starting with the base at 0.
             let int: number[] = [baseInt]
 
-            //Collect all feats that grant extra free languages, then note if you have any of them, and on which level.
+            //Collect all feats you have that grant extra free languages, then note on which level you have them.
             //Also add more languages if INT has been raised (and is positive).
-            let languageFeats: string[] = this.get_FeatsAndFeatures().filter(feat => feat.effects.some(effect => effect.affected == "Max Languages")).map(feat => feat.name);
+            let languageFeats: string[] = this.get_CharacterFeatsAndFeatures().filter(feat => feat.effects.some(effect => effect.affected == "Max Languages")).map(feat => feat.name);
             character.class.levels.forEach(level => {
                 character.get_FeatsTaken(level.number, level.number).filter(taken => languageFeats.includes(taken.name)).forEach(taken => {
                     //The amount will be added later by effects.
@@ -762,7 +766,9 @@ export class CharacterService {
     change_Deity(deity: Deity) {
         let character = this.get_Character();
         character.class.deity = deity.name;
+        this.deitiesService.clear_CharacterDeities();
         this.set_ToChange("Character", "general");
+        this.set_ToChange("Character", "spells", "clear");
         this.set_ToChange("Character", "spellchoices");
         this.set_ToChange("Character", "featchoices");
         this.set_ToChange("Character", "attacks");
@@ -813,6 +819,7 @@ export class CharacterService {
 
     create_WeaponFeats(weapons: Weapon[] = []) {
         //This function depends on the feats and items being loaded, and it will wait forever for them!
+        // They should usually be running at this time, but just in case...
         if (this.featsService.still_loading() || this.itemsService.still_loading()) {
             setTimeout(() => {
                 this.create_WeaponFeats(weapons);
@@ -966,7 +973,7 @@ export class CharacterService {
                 //Add all Items that you get from being granted this one
                 if (item.gainItems.length) {
                     item.gainItems.filter(gainItem => gainItem.on == "grant" && gainItem.amount > 0).forEach(gainItem => {
-                        let extraItem: Item = this.get_CleanItems()[gainItem.type].filter((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase())[0];
+                        let extraItem: Item = this.get_CleanItems()[gainItem.type].find((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase());
                         if (extraItem.can_Stack()) {
                             this.grant_InventoryItem(creature, inventory, extraItem, true, false, false, gainItem.amount + (gainItem.amountPerLevel * creature.level));
                         } else {
@@ -1293,7 +1300,7 @@ export class CharacterService {
             //Add all Items that you get from equipping this one
             if (item.gainItems && item.gainItems.length) {
                 item.gainItems.filter((gainItem: ItemGain) => gainItem.on == "equip").forEach(gainItem => {
-                    let newItem: Item = this.itemsService.get_Items()[gainItem.type].filter((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase())[0]
+                    let newItem: Item = this.itemsService.get_Items()[gainItem.type].find((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase());
                     if (newItem.can_Stack()) {
                         this.grant_InventoryItem(creature, inventory, newItem, false, false, false, gainItem.amount + (gainItem.amountPerLevel * creature.level));
                     } else {
@@ -2198,6 +2205,10 @@ export class CharacterService {
         return this.featsService.get_All(this.get_Character().customFeats, name, type, includeSubTypes, includeCountAs);
     }
 
+    get_CharacterFeatsAndFeatures(name: string = "", type: string = "", includeSubTypes: boolean = false, includeCountAs: boolean = false) {
+        return this.featsService.get_CharacterFeats(this.get_Character().customFeats, name, type, includeSubTypes, includeCountAs);
+    }
+
     get_Health(creature: Creature) {
         return creature.health;
     }
@@ -2224,7 +2235,7 @@ export class CharacterService {
             if (heritageSenses.length) {
                 senses.push(...heritageSenses)
             }
-            this.get_FeatsAndFeatures()
+            this.get_CharacterFeatsAndFeatures()
                 .filter(feat => feat.senses?.length && feat.have(character, this, charLevel))
                 .forEach(feat => {
                     senses.push(...feat.senses);
@@ -2250,7 +2261,7 @@ export class CharacterService {
     }
 
     get_FeatsShowingOn(objectName: string = "all") {
-        return this.get_FeatsAndFeatures().filter(feat =>
+        return this.get_CharacterFeatsAndFeatures().filter(feat =>
             feat.hints.find(hint =>
                 (hint.minLevel ? this.get_Character().level >= hint.minLevel : true) &&
                 hint.showon?.split(",").find(showon =>
@@ -2302,7 +2313,7 @@ export class CharacterService {
             //Return any feats that include e.g. Companion:Athletics
             .concat(
                 this.get_FeatsShowingOn("Companion:" + objectName)
-            ) as (AnimalCompanionAncestry|AnimalCompanionSpecialization|Feat)[];
+            ) as (AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat)[];
     }
 
     get_FamiliarShowingOn(objectName: string = "all") {
@@ -2366,31 +2377,40 @@ export class CharacterService {
             if (all) {
                 creature.inventories.forEach(inv => {
                     inv.allEquipment().forEach(item => {
+                        //Get external activity gains from items.
                         if (item.gainActivities.length) {
-                            activities.push(...item.gainActivities);
+                            if (item instanceof Shield && item.emblazonArmament?.length) {
+                                //Only get Emblazon Armament activities if the blessing applies.
+                                activities.push(...item.gainActivities.filter(gain =>
+                                    (item._emblazonEnergy ? true : gain.source != "Emblazon Energy") &&
+                                    (item._emblazonAntimagic ? true : gain.source != "Emblazon Antimagic")
+                                ));
+                            } else {
+                                activities.push(...item.gainActivities);
+                            }
                         }
                         if (item.activities.length) {
                             activities.push(...item.activities);
                         }
-                        //Get activities from runes
+                        //Get activities from runes.
                         if (item.propertyRunes) {
                             item.propertyRunes.filter(rune => rune.activities.length).forEach(rune => {
                                 activities.push(...rune.activities);
                             });
                         }
-                        //Get activities from runes
+                        //Get activities from runes.
                         if (item.bladeAllyRunes) {
                             item.bladeAllyRunes.filter(rune => rune.activities.length).forEach(rune => {
                                 activities.push(...rune.activities);
                             });
                         }
-                        //Get activities from Oils emulating runes
+                        //Get activities from Oils emulating runes.
                         if (item.oilsApplied) {
                             item.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.activities).forEach(oil => {
                                 activities.push(...oil.runeEffect.activities);
                             });
                         }
-                        //Get activities from slotted Aeon Stones
+                        //Get activities from slotted Aeon Stones.
                         if ((item as WornItem).aeonStones) {
                             (item as WornItem).aeonStones.filter(stone => stone.activities.length).forEach(stone => {
                                 activities.push(...stone.activities);
@@ -2494,6 +2514,21 @@ export class CharacterService {
                         (
                             objectName.toLowerCase().includes("lore") &&
                             showon.trim().toLowerCase() == "lore"
+                        ) ||
+                        (
+                            //Show Emblazon Energy or Emblazon Antimagic Shield Block hint on Shield Block if the shield's blessing applies.
+                            item instanceof Shield && item.emblazonArmament.length &&
+                            (
+                                (
+                                    item._emblazonEnergy &&
+                                    objectName == "Shield Block" &&
+                                    showon == "Emblazon Energy Shield Block"
+                                ) || (
+                                    item._emblazonAntimagic &&
+                                    objectName == "Shield Block" &&
+                                    showon == "Emblazon Antimagic Shield Block"
+                                )
+                            )
                         )
                     )
                 )
@@ -2613,7 +2648,6 @@ export class CharacterService {
                 this.continue_Initialize(id, loadAsGM);
             }, 500)
         } else {
-            this.configService.initialize();
             this.traitsService.initialize();
             this.abilitiesService.initialize();
             this.activitiesService.initialize();
@@ -2624,12 +2658,13 @@ export class CharacterService {
             this.spellsService.initialize();
             this.skillsService.initialize()
             this.itemsService.initialize();
-            this.effectsService.initialize(this);
             this.deitiesService.initialize();
             this.animalCompanionsService.initialize();
             this.familiarsService.initialize();
             this.savegameService.initialize(this);
             this.messageService.initialize(this);
+            //EffectsService will wait for the character to be loaded before initializing.
+            this.effectsService.initialize(this);
             if (id) {
                 this.load_CharacterFromDB(id)
                     .subscribe((results: string[]) => {
@@ -2685,20 +2720,31 @@ export class CharacterService {
     }
 
     finalize_Character() {
-        if (this.itemsService.still_loading() || this.animalCompanionsService.still_loading()) {
+        if (this.itemsService.still_loading() || this.animalCompanionsService.still_loading() || this.featsService.still_loading()) {
             setTimeout(() => {
                 this.finalize_Character();
             }, 500)
         } else {
-            //Use this.me here instead of this.get_Character() because we're still_loading()
+            //Use this.me here instead of this.get_Character() because we're still_loading().
             this.me = this.savegameService.load_Character(this.me, this, this.itemsService, this.classesService, this.historyService, this.animalCompanionsService)
             if (this.loading) { this.loading = false; }
+            //Now that the character is loaded, do some things that require everything to be in working order:
+            //Give the character a Fist and an Unarmored© if they have nothing else, and keep those ready if they should drop their last weapon or armor.
             this.grant_BasicItems();
+            //Create feats that are based on all weapons in the store and in your inventory.
             this.create_WeaponFeats();
+            //Prepare the update variables that everything subscribes to.
             this.characterChanged$ = this.changed.asObservable();
             this.viewChanged$ = this.viewChanged.asObservable();
-            this.verify_Feats();
+            //Check that every feat's specialreq makes sense. This is a debugging thing and should only run in development.
+            if (isDevMode) {
+                this.verify_Feats();
+            }
+            //Set your turn state according to the saved state.
             this.timeService.set_YourTurn(this.get_Character().yourTurn);
+            //Fill a runtime variable with all the feats the character has taken.
+            this.featsService.build_CharacterFeats(this.get_Character());
+            //Set accent color and dark mode according to the settings.
             this.set_Accent();
             this.set_Darkmode();
             this.trigger_FinalChange();
@@ -2706,6 +2752,7 @@ export class CharacterService {
     }
 
     trigger_FinalChange() {
+        //Wait for the important services to finish loading.
         if (
             this.traitsService.still_loading() ||
             this.featsService.still_loading() ||
@@ -2719,7 +2766,7 @@ export class CharacterService {
                 this.trigger_FinalChange();
             }, 500)
         } else {
-            //Update everything once.
+            //Update everything once, then effects, and then the player can take over.
             this.set_Changed();
             this.set_ToChange("Character", "effects");
             this.process_ToChange();

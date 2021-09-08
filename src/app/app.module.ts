@@ -75,6 +75,7 @@ import { ActivityContentComponent } from './activity/activityContent/activityCon
 import { ItemContentComponent } from './item/itemContent/itemContent.component';
 import { HintItemComponent } from './tags/hint/hintItem/hintItem.component';
 import { SpellContentComponent } from './spell/spellContent/spellContent.component';
+import { ItemEmblazonArmamentComponent } from './item/itemEmblazonArmament/itemEmblazonArmament.component';
 
 @NgModule({
    declarations: [						 
@@ -142,7 +143,8 @@ import { SpellContentComponent } from './spell/spellContent/spellContent.compone
       ActivityContentComponent,
       ItemContentComponent,
       HintItemComponent,
-      SpellContentComponent
+      SpellContentComponent,
+      ItemEmblazonArmamentComponent
    ],
    imports: [
       CommonModule,

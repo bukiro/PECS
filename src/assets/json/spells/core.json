@@ -1914,6 +1914,24 @@
         ]
     },
     {
+        "name": "Lift Nature's Caul",
+        "id": "88a7d5ae-e46b-452a-b8e0-91c282a1edce",
+        "shortDesc": "With a wave of the hand, you cause the targets to see the world around them as if a gauzy film had been lifted away to expose the truth that lies below their perceived reality.",
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "levelreq": 1,
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Fear",
+            "Illusion",
+            "Visual"
+        ],
+        "savingThrow": "Will"
+    },
+    {
         "name": "Lingering Composition",
         "id": "c64c3500-5b93-46f4-b27a-d9d59f556da9",
         "shortDesc": "You add a flourish to your composition to extend its benefits. ",
@@ -5062,6 +5080,24 @@
         ],
         "area": "15-foot emanation",
         "target": "area",
+        "savingThrow": "Will"
+    },
+    {
+        "name": "Fearful Feast",
+        "id": "8fdc4718-c942-4fdc-be90-c2f63fbd8bb7",
+        "shortDesc": "You open your mouth wide and inhale sharply; you draw in the bravery, self-confidence, and hope to which the frightened target clings and then strip away the target's false assumption that these fragile emotions can save them from the oblivion of terror.",
+        "actions": "Reaction",
+        "castType": "somatic",
+        "levelreq": 4,
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Fear",
+            "Mental",
+            "Necromancy"
+        ],
         "savingThrow": "Will"
     },
     {

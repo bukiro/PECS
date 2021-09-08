@@ -276,7 +276,7 @@ export class AttacksComponent implements OnInit {
                     if (spell.target == 'self') {
                         target = "Character";
                     }
-                    this.characterService.spellsService.process_Spell(this.get_Creature('Character'), target, this.characterService, this.characterService.itemsService, this.characterService.conditionsService, null, tempGain, spell, spellChoice.level, true, true, false);
+                    this.characterService.spellsService.process_Spell(this.get_Creature('Character'), target, this.characterService, this.characterService.itemsService, this.characterService.conditionsService, null, null, tempGain, spell, spellChoice.level, true, true, false);
                 }
                 spellChoice.spells.shift();
             }
@@ -355,6 +355,31 @@ export class AttacksComponent implements OnInit {
         if (weapon.get_IsFavoredWeapon(this.get_Character(), this.characterService)) {
             specialNames.push("Favored Weapon");
         }
+        //Weapons with Emblazon Armament get tagged as "Emblazon Armament Weapon".
+        if (weapon._emblazonArmament) {
+            weapon.emblazonArmament.forEach(ea => {
+                if (ea.type == "emblazonArmament") {
+                    specialNames.push("Emblazon Armament Weapon");
+                }
+            })
+        }
+        //Weapons with Emblazon Energy get tagged as "Emblazon Energy Weapon <Choice>".
+        if (weapon._emblazonEnergy) {
+            weapon.emblazonArmament.forEach(ea => {
+                if (ea.type == "emblazonEnergy") {
+                    specialNames.push("Emblazon Energy Weapon " + ea.choice);
+                }
+            })
+        }
+        //Weapons with Emblazon Antimagic get tagged as "Emblazon Antimagic Weapon".
+        if (weapon._emblazonAntimagic) {
+            weapon.emblazonArmament.forEach(ea => {
+                if (ea.type == "emblazonAntimagic") {
+                    specialNames.push("Emblazon Antimagic Weapon");
+                }
+            })
+        }
+
         let creature = this.get_Creature();
         specialNames.push(weapon.get_Proficiency(creature, this.characterService, creature.level));
         specialNames.push(...weapon.get_Traits(this.characterService, creature));
@@ -544,10 +569,15 @@ export class AttacksComponent implements OnInit {
     get_FavoredWeapons() {
         let creature = this.get_Creature();
         if (creature instanceof Character && creature.class?.deity && creature.class.deityFocused) {
-            let deity = this.deitiesService.get_Deities(creature.class.deity)[0];
+            let deity = this.deitiesService.get_CharacterDeities(creature)[0];
+            let favoredWeapons = [];
             if (deity && deity.favoredWeapon.length) {
-                return [deity.favoredWeapon];
+                favoredWeapons.push(...deity.favoredWeapon);
             }
+            if (creature.get_FeatsTaken(1, creature.level, "Favored Weapon (Syncretism)").length) {
+                favoredWeapons.push(...this.characterService.get_CharacterDeities(creature, "syncretism")[0]?.favoredWeapon || []);
+            }
+            return [favoredWeapons];
         }
         return [];
     }

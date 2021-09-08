@@ -90,8 +90,10 @@
         <ng-container *ngFor="let weapon of get_EquippedWeapons(); let weaponIndex = index; trackBy:trackByIndex;">
             <div class="fullsize-only list-item"
                 *ngIf="(onlyAttacks.length || forbiddenAttacks.length) && weaponIndex == 0">
-                <label for="showRestricted">Show restricted attacks</label>
-                <input id="showRestricted" type="checkbox" [(ngModel)]="showRestricted">
+                <strong class="gap-text">
+                    <input id="showRestricted" type="checkbox" [(ngModel)]="showRestricted">
+                    <label for="showRestricted">Show restricted attacks</label>
+                </strong>
             </div>
             <div class="list-item"
                 [ngClass]="{'problem fullsize-only':!get_IsAllowed(weapon), 'invisible':!get_IsAllowed(weapon) && !showRestricted}"

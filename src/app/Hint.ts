@@ -28,6 +28,10 @@ export class Hint {
     //On an aeon stone, hints can be resonant powers. These only get shown if the aeon stone is slotted in a wayfinder.
     //NOTE: At this point, if any hint is not resonant, all hints are shown even if the aeon stone is not slotted in a wayfinder.
     public resonant: boolean = false;
+    //Replace the object that is loaded when more information is shown. Does not replace the title.
+    public replaceSource: { source: string, type: "feat" }[] = [];
+    //Replace the title of the hint.
+    public replaceTitle: string = "";
     get_DescriptionSet(levelNumber: number) {
         //This descends from levelnumber downwards and returns the first description set with a matching level.
         //A description set contains variable names and the text to replace them with.

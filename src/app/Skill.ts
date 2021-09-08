@@ -172,7 +172,7 @@ export class Skill {
             //Collect all the available proficiency copy instructions,
             // (i.e. "Whenever you gain a class feature that grants you expert or greater proficiency in a given weapon or weapons, you also gain that proficiency in...").
             //We check whether you meet the minimum proficiency level by comparing if your skillLevel up to this point.
-            characterService.get_FeatsAndFeatures()
+            characterService.get_CharacterFeatsAndFeatures()
                 .filter(feat => feat.copyProficiency.length && feat.have(creature, characterService, charLevel, false))
                 .forEach(feat => {
                     proficiencyCopies.push(...feat.copyProficiency.filter(copy =>

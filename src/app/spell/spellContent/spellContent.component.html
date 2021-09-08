@@ -1,9 +1,9 @@
 <div class="list-item lower newrow problem" *ngIf="spell.inputRequired">
     <strong>Player input required:</strong>
-    <div class="newrow left-aligned">
-        <p *ngFor="let inputRequired of spell.inputRequired.split('\n'); trackBy:trackByIndex;">
-            {{inputRequired}}
-        </p>
+    <div class="newrow left-aligned"
+        *ngFor="let inputRequired of spell.inputRequired.split('\n\n'); trackBy:trackByIndex;">
+        <app-description class="newrow" [text]="inputRequired">
+        </app-description>
     </div>
 </div>
 <div class="newrow left-aligned" *ngIf="spell.sourceBook">

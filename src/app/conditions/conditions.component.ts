@@ -495,7 +495,7 @@ export class ConditionsComponent implements OnInit {
 
     get_CustomEffectProperties() {
         function get_PropertyData(key: string, effectsService: EffectsService) {
-            return effectsService.get_EffectProperties().filter(property => property.key == key)[0];
+            return effectsService.get_EffectProperties().find(property => property.key == key);
         }
         return Object.keys(this.newEffect).map((key) => get_PropertyData(key, this.effectsService)).filter(property => property != undefined).sort((a, b) => {
             if (a.priority > b.priority) {

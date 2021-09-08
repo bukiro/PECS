@@ -177,7 +177,7 @@ export class SpellchoiceComponent implements OnInit {
             !this.choice.showOnSheet
         ) {
             let signatureSpellGains: SignatureSpellGain[] = [];
-            this.characterService.get_FeatsAndFeatures()
+            this.characterService.get_CharacterFeatsAndFeatures()
                 .filter(feat => feat.allowSignatureSpells.length && feat.have(this.get_Character(), this.characterService)).forEach(feat => {
                     signatureSpellGains.push(...feat.allowSignatureSpells.filter(gain => gain.className == this.spellCasting.className))
                 })
@@ -588,12 +588,12 @@ export class SpellchoiceComponent implements OnInit {
         }
         let character = this.get_Character()
         let allSpells: { spell: Spell, borrowed: boolean }[];
-        //Get spells from your spellbook for prepared wizard spells or if the choice requires it, otherwise get all spells.
-        //If you are preparing spellbook spells, and borrowing is active, get all spells and mark all spells as borrowed that aren't in the spellbook.
+        //Get spells from your spellbook if the casting the choice requires it, otherwise get all spells.
+        //If you are preparing spellbook spells because of the casting, and borrowing is active, get all spells and mark all spells as borrowed that aren't in the spellbook.
         let spellBookSpells: Spell[] = this.spellsService.get_Spells().filter(spell =>
             character.class.spellBook.find((learned: SpellLearned) => learned.name == spell.name)
         );
-        if (this.spellCasting?.castingType == "Prepared" && this.spellCasting?.className == "Wizard") {
+        if (this.spellCasting?.spellBookOnly) {
             if (this.allowBorrow) {
                 allSpells = this.spellsService.get_Spells().map(spell => { return { spell: spell, borrowed: (!spellBookSpells.some(spellBookSpell => spellBookSpell.name == spell.name)) } });
             } else {
@@ -636,10 +636,18 @@ export class SpellchoiceComponent implements OnInit {
                 } else if (choice.crossbloodedEvolution && !(traditionFilter && choice.spells.some(takenSpell => !this.spellsService.get_Spells(takenSpell.name)[0]?.traditions.includes(traditionFilter)))) {
                     //With Crossblooded Evolution, you can choose spells of any tradition, unless you already have one of a different tradition than your own.
                     spells.push(...allSpells.filter(spell => !spell.spell.traditions.includes("Focus")));
+                } else if (choice.source.includes("Divine Font") && this.have_Feat("Versatile Font")) {
+                    //With Versatile Font, you can choose both Harm and Heal in the Divine Font spell slot.
+                    if (!choice.filter.includes("Harm")) {
+                        spells.push(...allSpells.concat(this.spellsService.get_Spells("Harm").map(spell => { return { spell: spell, borrowed: false } })));
+                    }
+                    if (!choice.filter.includes("Heal")) {
+                        spells.push(...allSpells.concat(this.spellsService.get_Spells("Heal").map(spell => { return { spell: spell, borrowed: false } })));
+                    }
                 } else if (traditionFilter) {
                     //If the tradition filter comes from the spellcasting, also include all spells that are on the spell list regardless of their tradition.
                     //For (main class) clerics, include all spells that are on your deity's cleric spell list
-                    let deity = character.class.deity ? this.deitiesService.get_Deities(character.class.deity)[0] : null;
+                    let deity = character.class.deity ? this.deitiesService.get_CharacterDeities(character)[0] : null;
                     if (!choice.tradition && this.spellCasting.tradition) {
                         spells.push(...allSpells.filter(spell =>
                             (
@@ -935,6 +943,7 @@ export class SpellchoiceComponent implements OnInit {
         this.characterService.set_ToChange("Character", "spells");
         this.characterService.set_ToChange("Character", "spellchoices");
         this.characterService.set_ToChange("Character", "spellbook");
+        this.characterService.set_ToChange("Character", "effects");
         this.characterService.process_ToChange();
     }
 

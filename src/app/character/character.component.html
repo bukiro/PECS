@@ -309,7 +309,7 @@
                             (click)="toggle_List('alternativeBaseValues')">
                             <app-gridIcon class="fancy-button"
                                 [ngbTooltip]="'Alternative Ability Values: ' + (get_Character().baseValues.length ? 'Used' : 'Not Used')"
-                                [title]="'A B I'">
+                                [title]="'A B I'" [superTitle]="'icon-ra ra-circle-of-circles'">
                             </app-gridIcon>
                         </button>
                         <!--Class-->
@@ -318,7 +318,8 @@
                             (click)="toggle_List('class')">
                             <app-gridIcon [ngClass]="{'fancy-button':get_Character().class.name}"
                                 [ngbTooltip]="'Class' + (get_Character().class.name ? ': ' + get_Character().class.name : '')"
-                                [title]="get_Character().class.name ? get_Character().class.name : 'C L A S'">
+                                [title]="get_Character().class.name ? get_Character().class.name : 'C L A S'"
+                                [superTitle]="'icon-ra ra-lightning-sword'">
                             </app-gridIcon>
                         </button>
                         <!--Ancestry-->
@@ -328,7 +329,8 @@
                                 (click)="toggle_List('ancestry')">
                                 <app-gridIcon [ngClass]="{'fancy-button':get_Character().class.ancestry.name}"
                                     [ngbTooltip]="'Ancestry' + (get_Character().class.ancestry.name ? ': ' + get_Character().class.ancestry.name : '')"
-                                    [title]="get_Character().class.ancestry.name ? get_Character().class.ancestry.name : 'A N C E'">
+                                    [title]="get_Character().class.ancestry.name ? get_Character().class.ancestry.name : 'A N C E'"
+                                    [superTitle]="'icon-ra ra-sprout-emblem'">
                                 </app-gridIcon>
                             </button>
                         </ng-container>
@@ -339,7 +341,8 @@
                                 (click)="toggle_List('heritage')">
                                 <app-gridIcon [ngClass]="{'fancy-button':get_Character().class.heritage.name}"
                                     [ngbTooltip]="'Heritage' + (get_Character().class.heritage.name ? ': ' + get_Character().class.heritage.name : '')"
-                                    [title]="get_Character().class.heritage.name ? get_Character().class.heritage.name : 'H E R I'">
+                                    [title]="get_Character().class.heritage.name ? get_Character().class.heritage.name : 'H E R I'"
+                                    [superTitle]="'icon-ra ra-crowned-heart'">
                                 </app-gridIcon>
                             </button>
                         </ng-container>
@@ -366,7 +369,8 @@
                                 (click)="toggle_List('background')">
                                 <app-gridIcon [ngClass]="{'fancy-button':get_Character().class.background.name}"
                                     [ngbTooltip]="'Background' + (get_Character().class.background.name ? ': ' + get_Character().class.background.name : '')"
-                                    [title]="get_Character().class.background.name ? get_Character().class.background.name : 'B A C K'">
+                                    [title]="get_Character().class.background.name ? get_Character().class.background.name : 'B A C K'"
+                                    [superTitle]="'icon-ra ra-forging'">
                                 </app-gridIcon>
                             </button>
                         </ng-container>
@@ -377,7 +381,8 @@
                                 (click)="toggle_List('deity')">
                                 <app-gridIcon [ngClass]="{'fancy-button':get_Character().class.deity}"
                                     [ngbTooltip]="'Deity' + (get_Character().class.deity ? ': ' + get_Character().class.deity : '')"
-                                    [title]="get_Character().class.deity ? get_Character().class.deity : 'D E I T'">
+                                    [title]="get_Character().class.deity ? get_Character().class.deity : 'D E I T'"
+                                    [superTitle]="'icon-ra ra-sunbeams'">
                                 </app-gridIcon>
                             </button>
                         </ng-container>
@@ -458,9 +463,9 @@
                                         <ng-container
                                             *ngFor="let fixedSkillIncreases of [get_SkillIncreases(level.number, level.number, '', '', '', true)]; trackBy:trackByIndex;">
                                             <ng-container
-                                                *ngFor="let fixedFeats of [get_FeatsTaken(level.number, level.number, '', '', '', true, 'feat')]; trackBy:trackByIndex;">
+                                                *ngFor="let fixedFeats of [get_FeatsTaken(level.number, level.number, '', '', '', true, 'feat', true)]; trackBy:trackByIndex;">
                                                 <ng-container
-                                                    *ngFor="let fixedFeatures of [get_FeatsTaken(level.number, level.number, '', '', '', true, 'feature')]; trackBy:trackByIndex;">
+                                                    *ngFor="let fixedFeatures of [get_FeatsTaken(level.number, level.number, '', '', '', true, 'feature', true)]; trackBy:trackByIndex;">
                                                     <ng-container
                                                         *ngIf="fixedAbilityBoosts.length + fixedSkillIncreases.length + fixedFeatures.length + fixedFeats.length > 0">
                                                         <!--Fixed information list mode-->
@@ -620,7 +625,7 @@
                                             </ng-template>
                                             <button class="fullsize-only inactive-button"
                                                 #FixedSkillPopover="ngbPopover" [ngbPopover]="FixedSkillIncreaseContent"
-                                                triggers="click" triggers="click">
+                                                triggers="click">
                                                 <app-gridIcon class="skillincrease"
                                                     [ngbTooltip]="!FixedSkillPopover.isOpen() && skillIncrease.name"
                                                     [title]="skillIncrease.name" [superTitle]="'icon-bi-lock-fill'">
@@ -644,9 +649,9 @@
                                     <ng-container
                                         *ngIf="!get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
                                         <ng-container
-                                            *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feat'); trackBy:trackByIndex;">
+                                            *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feat', true); trackBy:trackByIndex;">
                                             <ng-container
-                                                *ngFor="let libraryFeat of [get_FeatsAndFeatures(feat.name)[0]]; trackBy:trackByIndex;">
+                                                *ngFor="let libraryFeat of [get_CharacterFeatsAndFeatures(feat.name)[0]]; trackBy:trackByIndex;">
                                                 <div class="list-item fullsize-only">
                                                     <ng-template #FixedFeatContent>
                                                         <header class="spellHeader">{{libraryFeat.displayName ||
@@ -676,9 +681,9 @@
                                     <ng-container
                                         *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
                                         <ng-container
-                                            *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feat'); trackBy:trackByIndex;">
+                                            *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feat', true); trackBy:trackByIndex;">
                                             <ng-container
-                                                *ngFor="let libraryFeat of [get_FeatsAndFeatures(feat.name)[0]]; trackBy:trackByIndex;">
+                                                *ngFor="let libraryFeat of [get_CharacterFeatsAndFeatures(feat.name)[0]]; trackBy:trackByIndex;">
                                                 <ng-template #FixedFeatContent>
                                                     <header class="spellHeader">{{libraryFeat.displayName || feat.name}}
                                                     </header>
@@ -724,9 +729,9 @@
                                     <ng-container
                                         *ngIf="!get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
                                         <ng-container
-                                            *ngFor="let feature of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feature'); trackBy:trackByIndex;">
+                                            *ngFor="let feature of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feature', true); trackBy:trackByIndex;">
                                             <ng-container
-                                                *ngFor="let libraryFeature of [get_FeatsAndFeatures(feature.name)[0]]; trackBy:trackByIndex;">
+                                                *ngFor="let libraryFeature of [get_CharacterFeatsAndFeatures(feature.name)[0]]; trackBy:trackByIndex;">
                                                 <div class="list-item fullsize-only">
                                                     <ng-template #FixedFeatureContent>
                                                         <header class="spellHeader">{{libraryFeature.displayName ||
@@ -756,9 +761,9 @@
                                     <ng-container
                                         *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
                                         <ng-container
-                                            *ngFor="let feature of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feature'); trackBy:trackByIndex;">
+                                            *ngFor="let feature of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feature', true); trackBy:trackByIndex;">
                                             <ng-container
-                                                *ngFor="let libraryFeature of [get_FeatsAndFeatures(feature.name)[0]]; trackBy:trackByIndex;">
+                                                *ngFor="let libraryFeature of [get_CharacterFeatsAndFeatures(feature.name)[0]]; trackBy:trackByIndex;">
                                                 <ng-template #FixedFeatureContent>
                                                     <header class="spellHeader">{{libraryFeature.displayName ||
                                                         feature.name}}
@@ -955,6 +960,33 @@
                                             </ng-container>
                                         </ng-container>
                                     </ng-container>
+                                    <!--Splinter Faith-->
+                                    <ng-container *ngIf="get_SplinterFaithFeat(level.number)">
+                                        <ng-container
+                                            *ngFor="let splinterFaithDomains of [get_SplinterFaithDomains().length || 0]; trackBy:trackByIndex;">
+                                            <ng-container
+                                                *ngFor="let finished of [splinterFaithDomains >= 4]; trackBy:trackByIndex;">
+                                                <div class="list-item" *ngIf="!get_TileMode()"
+                                                    [ngClass]="{'fullsize-only':finished}">
+                                                    <button class="newrow specialchoice"
+                                                        [ngClass]="{'fancy-button choicecleared':finished, 'activechoice':get_ShowList()=='splinterfaith' && get_ShowContentLevelNumber()==level.number}"
+                                                        (click)="toggle_List('splinterfaith', level.number)">
+                                                        Splinter Faith Domains: {{splinterFaithDomains}}/4
+                                                    </button>
+                                                </div>
+                                                <button class="specialchoice" *ngIf="get_TileMode()"
+                                                    [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':get_ShowList()=='splinterfaith' && get_ShowContentLevelNumber()==level.number}"
+                                                    (click)="toggle_List('splinterfaith', level.number)">
+                                                    <app-gridIcon class="specialchoice"
+                                                        [ngClass]="{'fancy-button':finished}"
+                                                        [ngbTooltip]="'Splinter Faith Domains: ' + splinterFaithDomains.toString() + '/4'"
+                                                        [title]="finished ? '4' : splinterFaithDomains.toString() + '/4'"
+                                                        [superTitle]="'icon-ra ra-ocean-emblem'">
+                                                    </app-gridIcon>
+                                                </button>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-container>
                                     <!--Additional Heritages-->
                                     <ng-container
                                         *ngFor="let heritageGain of get_AdditionalHeritagesAvailable(level.number); trackBy:trackByIndex">
@@ -1007,8 +1039,33 @@
                                                 <app-gridIcon class="specialchoice"
                                                     [ngClass]="{'fancy-button':finished}"
                                                     [ngbTooltip]="'Fuse Stance' + (finished ? ': ' + feat.data.name + ' (' + feat.data.stances.join(', ') + ')' : '')"
-                                                    [title]="finished ? feat.data.name : ''"
+                                                    [title]="finished ? feat.data.name : 'Fuse Stance'"
                                                     [superTitle]="'icon-ra ra-double-team'">
+                                                </app-gridIcon>
+                                            </button>
+                                        </ng-container>
+                                    </ng-container>
+                                    <!--Syncretism-->
+                                    <ng-container
+                                        *ngFor="let feat of get_SyncretismFeat(level.number); trackBy:trackByIndex;">
+                                        <ng-container *ngFor="let finished of [feat.data.deity]; trackBy:trackByIndex">
+                                            <div class="list-item" *ngIf="!get_TileMode()"
+                                                [ngClass]="{'fullsize-only':finished}">
+                                                <button class="newrow specialchoice"
+                                                    [ngClass]="{'fancy-button choicecleared':finished, 'activechoice':get_ShowList()=='syncretism' && get_ShowContentLevelNumber()==level.number}"
+                                                    (click)="toggle_List('syncretism', level.number)">
+                                                    Second Deity{{(finished) ? ": "+
+                                                    feat.data.deity : ""}}
+                                                </button>
+                                            </div>
+                                            <button class="specialchoice" *ngIf="get_TileMode()"
+                                                [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':get_ShowList()=='syncretism' && get_ShowContentLevelNumber()==level.number}"
+                                                (click)="toggle_List('syncretism', level.number)">
+                                                <app-gridIcon class="specialchoice"
+                                                    [ngClass]="{'fancy-button':finished}"
+                                                    [ngbTooltip]="'Second Deity' + (finished ? ': ' + feat.data.deity : '')"
+                                                    [title]="finished ? feat.data.deity : 'D E I T'"
+                                                    [superTitle]="'icon-ra ra-sunbeams'">
                                                 </app-gridIcon>
                                             </button>
                                         </ng-container>
@@ -1216,6 +1273,20 @@
                                     Show archetype feats
                                 </strong>
                             </label>
+                        </div>
+                        <div class="list-item gridicon-fullsizebox">
+                            <input class="character-choice" id="hiddenFeats" type="checkbox"
+                                [(ngModel)]="get_Character().settings.hiddenFeats"
+                                (ngModelChange)="on_HiddenFeatsChange()">
+                            <span>
+                                <label for="hiddenFeats">
+                                    <strong>
+                                        Show hidden choices
+                                    </strong>
+                                </label>
+                                <i class="bi-question-circle"
+                                    [ngbPopover]="'Certain choices are intended to work automatically, and are hidden if no manual input is required or possible. Showing these can help tracking an issue (e.g. when you take a class choice that grants you a feat, and the feat isn\'t showing up).\n\nThese feat choices may not react as intended to manual input (such as deselecting a feat that was selected automatically).'"></i>
+                            </span>
                         </div>
                     </div>
                     <div class="list-item">
@@ -1903,11 +1974,9 @@
                                     </div>
                                     <div class="list-item lower newrow problem" *ngIf="background.inputRequired">
                                         <strong>Player input required:</strong>
-                                        <div class="newrow left-aligned">
-                                            <p
-                                                *ngFor="let inputRequired of background.inputRequired.split('\n'); trackBy:trackByIndex;">
-                                                {{inputRequired}}
-                                            </p>
+                                        <div class="newrow left-aligned"
+                                            *ngFor="let inputRequired of background.inputRequired.split('\n\n'); trackBy:trackByIndex;">
+                                            <app-description class="newrow" [text]="inputRequired"></app-description>
                                         </div>
                                     </div>
                                     <!--Subbackgrounds-->
@@ -1959,6 +2028,7 @@
                     </ng-container>
                 </div>
             </ng-container>
+            <!--Deity choice content-->
             <ng-container *ngIf="get_ShowList()=='deity'">
                 <div class="newrow list-item padding-8 center-aligned">
                     <header class="box-header sectionHeader">
@@ -2633,6 +2703,59 @@
                     </div>
                 </ng-container>
             </ng-container>
+            <!--Splinter Faith Content-->
+            <ng-container
+                *ngFor="let splinterFaithContent of get_ActiveSpecialChoiceShown('splinterfaith'); trackBy:trackByID;">
+                <ng-container *ngFor="let splinterFaithDomains of [get_SplinterFaithDomains()]; trackBy:trackByIndex;">
+                    <div class="newrow list-item padding-8 center-aligned">
+                        <header class="box-header sectionHeader">
+                            Blessed Blood Deity Spells: {{splinterFaithDomains}}/4
+                        </header>
+                    </div>
+                    <div class="list-item">
+                        <p>
+                            Choose four domains. These domains must be chosen from among your deity's domains, your
+                            deity's alternate domains, and up to one domain that isn't on either list and isn't
+                            anathematic to your deity. Any domain spell you cast from a domain that isn't on either of
+                            your deity's lists is always heightened to 1 level lower than usual for a focus spell. For
+                            the purpose of abilities that depend on your deity's domains, the four domains you chose are
+                            your deity's domains, and any of your deity's domains you didn't choose are now among your
+                            deity's alternate domains.
+                        </p>
+                    </div>
+                    <div id="choiceArea" class="list-item">
+                        <ng-container
+                            *ngFor="let availableDomains of [get_SplinterFaithAvailableDomains()]; trackBy:trackByIndex;">
+                            <ng-container *ngFor="let domain of availableDomains; trackBy:trackByIndex;">
+                                <div class="list-item newrow" *ngIf="domain.title">
+                                    <header class="sectionHeader">
+                                        {{domain.title}}
+                                    </header>
+                                </div>
+                                <ng-container
+                                    *ngFor="let checked of [splinterFaithDomains.includes(domain.domain.name)]; trackBy:trackByIndex">
+                                    <ng-container
+                                        *ngFor="let disabled of [!checked && (splinterFaithDomains.length >= 4 || (domain.type == 3 && get_SplinterFaithThirdDomainTaken(availableDomains, splinterFaithDomains)))]; trackBy:trackByIndex">
+                                        <div class="list-item gridicon-fullsizebox" [ngClass]="{'selected':checked}">
+                                            <input id="{{domain.domain.name}}" type="checkbox" class="character-choice"
+                                                (change)="on_SplinterFaithDomainTaken(domain.domain.name, $event.target.checked)"
+                                                [checked]="checked" [disabled]="disabled">
+                                            <div class="gridicon-fullsizebox" [ngbPopover]="domain.domain.desc"
+                                                triggers="click">
+                                                <app-gridIcon [title]="domain.domain.name">
+                                                </app-gridIcon>
+                                                <header class="sectionHeader">
+                                                    <span>{{domain.domain.name}}</span>
+                                                </header>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                </ng-container>
+            </ng-container>
             <!--Fuse Stance content-->
             <ng-container
                 *ngFor="let fuseStanceContent of get_ActiveSpecialChoiceShown('fusestance'); trackBy:trackByID;">
@@ -2844,6 +2967,135 @@
                                 </ng-container>
                             </div>
                         </ng-container>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+            <!--Syncretism choice content-->
+            <ng-container
+                *ngFor="let syncretismContent of get_ActiveSpecialChoiceShown('syncretism'); trackBy:trackByID;">
+                <ng-container
+                    *ngFor="let syncretismFeat of get_SyncretismFeat(syncretismContent.levelNumber); trackBy:trackByIndex">
+                    <ng-container *ngFor="let finished of [syncretismFeat.data.deity]; trackBy:trackByIndex">
+                        <div class="newrow list-item padding-8 center-aligned">
+                            <header class="box-header sectionHeader">
+                                Second Deity{{finished ? ": " + finished : ""}}
+                            </header>
+                        </div>
+                        <div id="choiceArea" class="list-item">
+                            <ng-container *ngFor="let deity of get_AvailableDeities('', true); trackBy:trackByIndex;">
+                                <ng-container
+                                    *ngFor="let checked of [[finished, get_Character().class.deity].includes(deity.name)]; trackBy:trackByIndex">
+                                    <ng-container
+                                        *ngFor="let disabled of [deity.name == get_Character().class.deity || (finished && (deity.name != finished))]; trackBy:trackByIndex">
+                                        <ng-template #DeityChoiceDetailsTemplate>
+                                            <header class="spellHeader">{{deity.name}}</header>
+                                            <div class="button newrow no-animation" *ngIf="!disabled"
+                                                [ngClass]="{'fancy-button':checked, 'disabled':disabled}">
+                                                <label>
+                                                    <input type="checkbox"
+                                                        (change)="on_SyncretismDeityChange(syncretismFeat, deity, $event.target.checked)"
+                                                        [checked]="checked" [disabled]="disabled" hidden>
+                                                    {{checked ? "Remove" : "Choose"}}
+                                                </label>
+                                            </div>
+                                            <header class="subsectionHeader" *ngIf="deity.nickname">{{deity.nickname}}
+                                            </header>
+                                            <div class="newrow left-aligned problem"
+                                                *ngIf="!deity.alternateDomains.length">
+                                                This deity has no alternate domains and will not grant a domain spell to
+                                                a cloistered cleric.
+                                            </div>
+                                            <div class="newrow left-aligned problem"
+                                                *ngIf="!deity.favoredWeapon.length">
+                                                This deity has no favored weapon and will not grant one a warpriest.
+                                            </div>
+                                            <div class="newrow left-aligned" *ngIf="deity.sourceBook">
+                                                <strong>Source</strong>
+                                                <i>{{deity.sourceBook}}</i>
+                                            </div>
+                                            <ng-container
+                                                *ngFor="let desc of deity.desc.split('\n\n'); trackBy:trackByIndex;">
+                                                <app-description class="newrow" [text]="desc"></app-description>
+                                            </ng-container>
+                                            <div class="newrow left-aligned gap-text" *ngIf="deity.edicts">
+                                                <strong>Edicts</strong>
+                                                {{deity.edicts.join(", ")}}
+                                            </div>
+                                            <div class="newrow left-aligned gap-text" *ngIf="deity.anathema">
+                                                <strong>Anathema</strong>
+                                                {{deity.anathema.join(", ")}}
+                                            </div>
+                                            <div class="newrow left-aligned gap-text" *ngIf="deity.areasOfConcern">
+                                                <strong>Areas of Concern</strong>
+                                                {{deity.areasOfConcern}}
+                                            </div>
+                                            <div class="newrow left-aligned gap-text"
+                                                *ngIf="deity.followerAlignments.length">
+                                                <strong>Follower Alignments</strong>
+                                                {{deity.followerAlignments.join(", ")}}
+                                            </div>
+                                            <div class="newrow left-aligned gap-text"
+                                                *ngIf="deity.pantheonMembers.length">
+                                                <strong>Pantheon Members</strong>
+                                                {{deity.pantheonMembers.join(", ")}}
+                                            </div>
+                                            <div class="newrow left-aligned gap-text"
+                                                *ngIf="deity.divineAbility.length">
+                                                <strong>Divine Ability</strong>
+                                                {{deity.divineAbility.join(" or ")}}
+                                            </div>
+                                            <div class="newrow left-aligned gap-text" *ngIf="deity.divineFont.length">
+                                                <strong>Divine Font</strong>
+                                                {{deity.divineFont.join(" or ")}}
+                                            </div>
+                                            <div class="newrow left-aligned gap-text" *ngIf="deity.divineSkill.length">
+                                                <strong>Divine Skill</strong>
+                                                {{deity.divineSkill.join(" or ")}}
+                                            </div>
+                                            <div class="newrow left-aligned gap-text"
+                                                *ngIf="deity.favoredWeapon.length">
+                                                <strong>Favored Weapon</strong>
+                                                {{deity.favoredWeapon.join(" or ")}}
+                                            </div>
+                                            <div class="newrow left-aligned gap-text" *ngIf="deity.domains.length">
+                                                <strong>Domains</strong>
+                                                {{deity.domains.join(", ")}}
+                                            </div>
+                                            <div class="newrow left-aligned gap-text"
+                                                *ngIf="deity.alternateDomains.length">
+                                                <strong>Alternate Domains</strong>
+                                                {{deity.alternateDomains.join(", ")}}
+                                            </div>
+                                            <ng-container *ngIf="deity.clericSpells.length">
+                                                <div class="newrow left-aligned">
+                                                    <strong>Cleric Spells</strong>
+                                                </div>
+                                                <div class="list-item lower left-aligned"
+                                                    *ngFor="let spell of deity.clericSpells; trackBy:trackByIndex;">
+                                                    <strong>Level {{spell.level}}</strong>
+                                                    {{spell.name}}{{(spell.note ? "("+spell.note+")" : "")}}
+                                                </div>
+                                            </ng-container>
+                                        </ng-template>
+                                        <div class="list-item gridicon-fullsizebox" [ngClass]="{'selected':checked}">
+                                            <input id="{{deity.name}}" type="checkbox" class="character-choice"
+                                                (change)="on_SyncretismDeityChange(syncretismFeat, deity, $event.target.checked)"
+                                                [checked]="checked" [disabled]="disabled">
+                                            <div class="gridicon-fullsizebox" [ngbPopover]="DeityChoiceDetailsTemplate"
+                                                triggers="click">
+                                                <app-gridIcon [title]="deity.name" [detail]="deity.alignment">
+                                                </app-gridIcon>
+                                                <header class="sectionHeader">
+                                                    <span>{{deity.name}}&nbsp;</span>
+                                                    <cite class="trait"
+                                                        *ngIf="deity.alignment">{{deity.alignment}}</cite>
+                                                </header>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </div>
                     </ng-container>
                 </ng-container>
             </ng-container>

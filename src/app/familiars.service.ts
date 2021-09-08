@@ -26,6 +26,7 @@ export class FamiliarsService {
     }
 
     initialize() {
+        //Initialize only once, but cleanup active effects everytime thereafter.
         if (!this.familiarAbilities.length) {
             this.loading_familiarAbilities = true;
             this.load_Abilities();

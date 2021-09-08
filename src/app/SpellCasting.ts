@@ -13,6 +13,7 @@ export class SpellCasting {
     public traditionAvailable: 0;
     public traditionFilter: string[] = [];
     public spellChoices: SpellChoice[] = [];
+    public spellBookOnly: boolean = false;
     //SpellSlotsUsed is for spontaneous casters and counts the spells cast on each spell level, where the index is the spell level.
     //Index 0 is for Studious Capacity, which allows a single more casting each day,
     // and index 11 and 12 are for Greater Vital Evolution, which allows two more.

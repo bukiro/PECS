@@ -43,7 +43,7 @@
         </div>
         <div class="list-item" style="margin: initial 0" *ngIf="propertyData.type!='textarea' && propertyData.type!='checkbox' &&
         !(propertyData.parent == 'gainItems' && propertyData.key == 'type')">
-            <select class="newrow" [(ngModel)]="get_Parent()[propertyKey]" [disabled]="!get_Examples().length"
+            <select class="newrow left-aligned" [(ngModel)]="get_Parent()[propertyKey]" [disabled]="!get_Examples().length"
                 (ngModelChange)="validate()">
                 <option *ngFor="let example of get_Examples(); trackBy:trackByIndex;" [ngValue]="example">
                     {{example}}
@@ -52,7 +52,7 @@
         </div>
         <div class="list-item" style="margin: initial 0"
             *ngIf="propertyData.parent == 'gainItems' && propertyData.key == 'type'">
-            <select class="newrow" [(ngModel)]="get_Parent()[propertyKey]" (ngModelChange)="set_ItemType()">
+            <select class="newrow left-aligned" [(ngModel)]="get_Parent()[propertyKey]" (ngModelChange)="set_ItemType()">
                 <option *ngFor="let itemset of get_ItemSets(); trackBy:trackByIndex;" [ngValue]="itemset.key">
                     {{itemset.name}}
                 </option>

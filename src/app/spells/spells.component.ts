@@ -217,6 +217,9 @@ export class SpellsComponent implements OnInit {
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "character" && ["spells", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
+                        if (view.subtarget == "clear") {
+                            this.toggle_Choice('');
+                        }
                     }
                 });
             return true;

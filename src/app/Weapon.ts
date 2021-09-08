@@ -58,6 +58,12 @@ export class Weapon extends Equipment {
     public bladeAlly: boolean = false;
     //A Dwarf with the Battleforger feat can sharpen a weapon to grant the effect of a +1 potency rune.
     public battleforged: boolean = false;
+    //A CLeric with the Emblazon Armament feat can give a bonus to a shield or weapon that only works for followers of the same deity.
+    // Subsequent feats can change options and restrictions of the functionality.
+    public emblazonArmament: { type: string, choice: string, deity: string, alignment: string, emblazonDivinity: boolean, source: string }[] = [];
+    public _emblazonArmament: boolean = false;
+    public _emblazonEnergy: boolean = false;
+    public _emblazonAntimagic: boolean = false;
     //Dexterity-based melee attacks force you to use dexterity for your attack modifier.
     public dexterityBased: boolean = false;
     //If useHighestAttackProficiency is true, the proficiency level will be copied from your highest unarmed or weapon proficiency.
@@ -174,6 +180,27 @@ export class Weapon extends Equipment {
         }
         return runeSource;
     }
+    get_EmblazonArmament(creature: Creature, characterService: CharacterService) {
+        this._emblazonArmament = false;
+        this._emblazonEnergy = false;
+        this.emblazonArmament.forEach(ea => {
+            if (ea.emblazonDivinity || (creature instanceof Character && characterService.get_CharacterDeities(creature).some(deity => deity.name.toLowerCase() == ea.deity.toLowerCase()))) {
+                switch (ea.type) {
+                    case "emblazonArmament":
+                        this._emblazonArmament = true;
+                        break;
+                    case "emblazonEnergy":
+                        this._emblazonEnergy = true;
+                        break;
+                    case "emblazonAntimagic":
+                        this._emblazonAntimagic = true;
+                        break;
+                }
+            }
+        })
+        return this._emblazonArmament || this._emblazonEnergy || this._emblazonAntimagic;
+    }
+
     get_Traits(characterService: CharacterService, creature: Creature) {
         //Test for certain feats that give traits to unarmed attacks.
         let traits: string[] = JSON.parse(JSON.stringify(this.traits));
@@ -250,7 +277,7 @@ export class Weapon extends Equipment {
         let proficiencyChanges: ProficiencyChange[] = [];
         if (creature.type == "Character") {
             let character = creature as Character;
-            characterService.get_FeatsAndFeatures()
+            characterService.get_CharacterFeatsAndFeatures()
                 .filter(feat => feat.changeProficiency.length && feat.have(character, characterService, charLevel, false))
                 .forEach(feat => {
                     proficiencyChanges.push(...feat.changeProficiency.filter(change =>
@@ -532,13 +559,35 @@ export class Weapon extends Equipment {
                     extraDamage += "\n" + weaponRune.extraDamage;
                 });
         }
-        extraDamage = extraDamage.split("+").map(part => part[0] == " " ? part.substr(1) : part).join(" + ");
-        extraDamage = extraDamage.split("-").map(part => part[0] == " " ? part.substr(1) : part).join(" - ");
+        //Emblazon Energy on a weapon adds 1d4 damage of the chosen type if the deity matches.
+        if (creature instanceof Character) {
+            if (this._emblazonEnergy) {
+                this.emblazonArmament.filter(ea => ea.type == 'emblazonEnergy').forEach(ea => {
+                    let eaDmg = "+1d4 ";
+                    let type = ea.choice;
+                    creature.class.spellCasting.find(casting => casting.source == "Domain Spells")?.spellChoices.forEach(choice => {
+                        choice.spells.forEach(spell => {
+                            if (characterService.spellsService.get_Spells(spell.name)[0]?.traits.includes(type)) {
+                                eaDmg = "+1d6 ";
+                            }
+                        })
+                    })
+                    extraDamage += "\n" + eaDmg + type;
+                })
+            }
+        }
+        extraDamage = extraDamage.split("+").map(part => part.trim()).join(" + ");
+        extraDamage = extraDamage.split("-").map(part => part.trim()).join(" - ");
         return extraDamage;
     }
-    get_IsFavoredWeapon(creature: Character | AnimalCompanion, characterService) {
-        if (creature instanceof Character && creature.class.deity) {
-            return characterService.get_Deities(creature.class.deity)[0]?.favoredWeapon.some(favoredWeapon => [this.name, this.weaponBase, this.displayName].includes(favoredWeapon));
+    get_IsFavoredWeapon(creature: Character | AnimalCompanion, characterService: CharacterService) {
+        if ((creature instanceof Character && creature.class.deity)) {
+            return characterService.get_CharacterDeities(creature)[0]?.favoredWeapon.some(favoredWeapon => [this.name, this.weaponBase, this.displayName].includes(favoredWeapon));
+        } else if (
+            creature instanceof Character &&
+            creature.get_FeatsTaken(1, creature.level, "Favored Weapon (Syncretism)").length
+        ) {
+            return characterService.get_CharacterDeities(creature, "syncretism")[0]?.favoredWeapon.some(favoredWeapon => [this.name, this.weaponBase, this.displayName].includes(favoredWeapon));
         }
         return false;
     }
@@ -797,7 +846,7 @@ export class Weapon extends Equipment {
             calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Damage", abilityMod.toString(), "", false, abilitySource, false, true, false, 0))
         }
         //Mature and Specialized Companions add extra Damage to their attacks.
-        if (creature.type == "Companion") {
+        if (creature instanceof AnimalCompanion) {
             creature.class.levels.filter(level => level.number <= creature.level).forEach(level => {
                 if (level.extraDamage) {
                     let companionSource: string = "";
@@ -810,6 +859,14 @@ export class Weapon extends Equipment {
                     calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Damage", companionMod.toString(), "", false, companionSource, false, true, false, 0))
                 }
             })
+        }
+        //Emblazon Armament on a weapon adds a +1 status bonus to damage rolls if the deity matches.
+        if (creature instanceof Character) {
+            if (this._emblazonArmament) {
+                this.emblazonArmament.filter(ea => ea.type == 'emblazonArmament').forEach(ea => {
+                    calculatedEffects.push(new Effect(creature.type, "status", this.name + " Damage", "+1", "", false, "Emblazon Armament", false, true, false, 0))
+                })
+            }
         }
         let profLevel = this.profLevel(creature, characterService, runeSource[1]);
         let traits = this.get_Traits(characterService, creature);
@@ -967,7 +1024,7 @@ export class Weapon extends Equipment {
             let character = creature as Character;
             let runeSource: (Weapon | WornItem)[] = this.get_RuneSource(creature, range);
             let skillLevel = this.profLevel(creature, characterService, runeSource[1]);
-            characterService.get_FeatsAndFeatures()
+            characterService.get_CharacterFeatsAndFeatures()
                 .filter(feat => feat.gainSpecialization.length && feat.have(character, characterService, character.level, false))
                 .forEach(feat => {
                     SpecializationGains.push(...feat.gainSpecialization.filter(spec =>
@@ -980,7 +1037,7 @@ export class Weapon extends Equipment {
                         (spec.trait ? this.traits.some(trait => spec.trait.includes(trait)) : true) &&
                         (spec.proficiency ? (prof && spec.proficiency.includes(prof)) : true) &&
                         (spec.skillLevel ? skillLevel >= spec.skillLevel : true) &&
-                        (spec.featreq ? characterService.get_FeatsAndFeatures(spec.featreq)[0]?.have(character, characterService) : true)
+                        (spec.featreq ? characterService.get_CharacterFeatsAndFeatures(spec.featreq)[0]?.have(character, characterService) : true)
                     ))
                 });
             SpecializationGains.forEach(critSpec => {

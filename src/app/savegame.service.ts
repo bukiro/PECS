@@ -403,6 +403,41 @@ export class SavegameService {
                 }
             }
 
+            //Clerics before 1.0.6 need to change Divine Font: Harm and Divine Font: Heal to Healing Font and Harmful Font respectively in feat choices.
+            //Some feats that were taken automatically should be marked as automatic.
+            if (character.class?.name == "Cleric" && character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 6) {
+                character.class.levels?.[1]?.featChoices?.forEach(choice => {
+                    choice.feats?.forEach(taken => {
+                        if (choice.autoSelectIfPossible && taken.name == "Deadly Simplicity") {
+                            taken.automatic = true;
+                        }
+                        if (choice.autoSelectIfPossible && choice.filter.includes("Divine Skill")) {
+                            taken.automatic = true;
+                        }
+                        if (choice.autoSelectIfPossible && choice.filter.includes("Divine Font")) {
+                            if (taken.name == "Divine Font: Harm") {
+                                taken.name = "Harmful Font";
+                            }
+                            if (taken.name == "Divine Font: Heal") {
+                                taken.name = "Healing Font";
+                            }
+                            if (character.class.deity) {
+                                if (characterService.get_Deities(character.class.deity)[0]?.divineFont.length == 1) {
+                                    taken.automatic = true;
+                                }
+                            }
+                        }
+                    })
+                })
+            }
+
+            //Wizards and Wizard Archetypes before 1.0.6 need to change their main spellcasting to spellBookOnly=true.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 6) {
+                character.class?.spellCasting?.filter(casting => casting.className == "Wizard" && casting.castingType == "Prepared").forEach(casting => {
+                    casting.spellBookOnly = true;
+                })
+            }
+
         }
 
         // STAGE 2
@@ -494,6 +529,11 @@ export class SavegameService {
                 character.class.levels.forEach(level => {
                     level.featChoices.filter(choice => ["Feat: Raging Intimidation", "Feat: Instinct Ability"].includes(choice.source) || choice.filter?.[0] == "Divine Skill").forEach(choice => {
                         choice.autoSelectIfPossible = true;
+                        choice.feats?.forEach(taken => {
+                            if (!taken.name.includes("Bestial Rage") && !taken.name.includes("Draconic Rage")) {
+                                taken.automatic = true;
+                            }
+                        })
                     })
                 })
             }
@@ -531,6 +571,7 @@ export class SavegameService {
             case "ConditionGain": return Object.assign(new ConditionGain(), obj);
             case "Consumable": return Object.assign(new Consumable(), obj);
             case "EffectGain": return Object.assign(new EffectGain(), obj);
+            case "Equipment": return Object.assign(new Equipment(), obj);
             case "Familiar": return Object.assign(new Familiar(), obj);
             case "Feat": return Object.assign(new Feat(), obj);
             case "FeatChoice": return Object.assign(new FeatChoice(), obj);
@@ -766,6 +807,7 @@ export class SavegameService {
 
     initialize(characterService: CharacterService) {
         this.loading = true;
+        //At this time, the save and load buttons are disabled, and we refresh the character builder and the menu bar so that the browser knows.
         characterService.set_Changed("charactersheet");
         characterService.set_Changed("top-bar");
         this.load_Characters()
@@ -777,6 +819,8 @@ export class SavegameService {
                 this.savegames = [];
                 this.loadingError = true;
                 this.loading = false;
+                //If the character list couldn't be loaded, the save and load buttons are re-enabled (but will disable on their own because of the error).
+                // We refresh the character builder and the menu bar to update the buttons.
                 characterService.set_Changed("charactersheet");
                 characterService.set_Changed("top-bar");
             });
@@ -786,6 +830,7 @@ export class SavegameService {
         if (this.loader) {
             this.savegames = [];
             this.loader.forEach(savegame => {
+                //Build some informational attributes on each save game description from the character's properties.
                 let newLength = this.savegames.push(new Savegame());
                 this.savegames[newLength - 1].id = savegame.id;
                 this.savegames[newLength - 1].dbId = savegame._id || "";
@@ -795,7 +840,7 @@ export class SavegameService {
                 if (savegame.class) {
                     this.savegames[newLength - 1].class = savegame.class.name || "";
                     if (savegame.class.levels?.[1]?.featChoices?.length) {
-                        savegame.class.levels[1].featChoices.filter(choice => choice.specialChoice && choice.feats?.length == 1 && choice.available == 1 && choice.source == savegame.class.name).forEach(choice => {
+                        savegame.class.levels[1].featChoices.filter(choice => choice.specialChoice && !choice.autoSelectIfPossible && choice.feats?.length == 1 && choice.available == 1 && choice.source == savegame.class.name).forEach(choice => {
                             let choiceName = choice.feats[0].name.split(":")[0];
                             if (!choiceName.includes("School") && choiceName.includes(choice.type)) {
                                 choiceName = choiceName.substr(0, choiceName.length - choice.type.length - 1);
@@ -824,6 +869,7 @@ export class SavegameService {
             this.loader = [];
         }
         if (this.loading) { this.loading = false; }
+        //Refresh the character builder and menu bar to update the save and load buttons, now that they are enabled again.
         characterService.set_Changed("charactersheet");
         characterService.set_Changed("top-bar");
     }

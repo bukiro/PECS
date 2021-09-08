@@ -104,7 +104,7 @@ export class Condition {
             } else {
                 let character = characterService.get_Character();
                 //If the choice has a featreq, check if you meet that (or a feat that has this supertype).
-                //Requirements like "Aggressive Block or Brutish Shove" are split in get_FeatsAndFeatures().
+                //Requirements like "Aggressive Block or Brutish Shove" are split in get_CharacterFeatsAndFeatures().
                 if (!choice.spelllevelreq || spellLevel >= choice.spelllevelreq) {
                     if (choice.featreq?.length) {
                         let featNotFound: boolean = false;
@@ -119,7 +119,7 @@ export class Condition {
                                 requiredFeat = characterService.familiarsService.get_FamiliarAbilities(testfeat);
                             } else {
                                 testcreature = character;
-                                requiredFeat = characterService.get_FeatsAndFeatures(testfeat, "", true);
+                                requiredFeat = characterService.get_CharacterFeatsAndFeatures(testfeat, "", true);
                             }
                             if (requiredFeat.length) {
                                 if (!requiredFeat.find(feat => feat.have(testcreature, characterService, character.level))) {
