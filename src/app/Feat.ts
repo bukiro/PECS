@@ -229,6 +229,7 @@ export class Feat {
         //If the feat has a heritagereq, check if your heritage matches that.
         //Requirements like "irongut goblin heritage or razortooth goblin heritage" are split into each heritage and succeed if either matches your heritage.
         //Returns [requirement met, requirement description]
+        let character = characterService.get_Character();
         let result: Array<{ met?: boolean, desc?: string }> = [];
         if (this.heritagereq) {
             if (
@@ -334,7 +335,7 @@ export class Feat {
         let heritagereqs = this.meetsHeritageReq(characterService, charLevel);
         let heritagereq: boolean = ignoreRequirementsList.includes("heritagereq") || heritagereqs.filter(req => req.met == false).length == 0;
         //If any of the previous requirements are already not fulfilled, skip the specialreq, as it is the most performance intensive.
-        if (levelreq && levelreq && abilityreq && skillreq && featreq) {
+        if (levelreq && levelreq && abilityreq && skillreq && featreq && heritagereq) {
             //Check the special req. True if returns true.
             let specialreq: boolean = ignoreRequirementsList.includes("specialreq") || this.meetsSpecialReq(characterService, charLevel).met;
             //Return true if all are true

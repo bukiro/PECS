@@ -63,7 +63,7 @@
                 </button>
             </div>
             <ng-container
-                *ngIf="!(parentActivityGain || gain).active && !(spell || activity).get_IsHostile() && ((spell || activity).target == 'area' || parameters.targetNumber != 0)">
+                *ngIf="!(parentActivityGain || gain).active && !(spell || activity).get_IsHostile() && (spell || activity).target != 'self' && ((spell || activity).target == 'area' || parameters.targetNumber != 0)">
                 <ng-container *ngFor="let targets of [get_SpellTargets()]; trackBy:trackByIndex">
                     <ng-template #SpellTargetModal let-modal>
                         <div class="modal-header">

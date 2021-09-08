@@ -351,7 +351,7 @@ export class EffectsService {
         return (new Speed(name));
     }
 
-    get_SimpleEffects(creature: Creature, characterService: CharacterService, object: any, name: string = "", parentConditionGain: ConditionGain = null, parentItem: Item|Material = null) {
+    get_SimpleEffects(creature: Creature, characterService: CharacterService, object: any, name: string = "", parentConditionGain: ConditionGain = null, parentItem: Item|Material = null, fakeLevel: number = 0) {
         //If an object has a simple instruction in effects, such as "Athletics", "+2", turn it into an effect,
         // then mark the effect as a penalty if the change is negative (except for Bulk).
         //The effect can have a formula as well, for example "Max HP", "Character.level + 2", which is evaluated with the variables and functions listed here.
@@ -369,7 +369,7 @@ export class EffectsService {
         let Character: Character = characterService.get_Character();
         let Companion: AnimalCompanion = characterService.get_Companion();
         let Familiar: Familiar = characterService.get_Familiar();
-        let Level: number = Character.level;
+        let Level: number = fakeLevel || Character.level;
         //Some values specific to conditions for effect values
         let Duration: number = object.duration;
         let Value: number = object.value;
@@ -482,14 +482,14 @@ export class EffectsService {
             if (creature == "Familiar") {
                 return characterService.familiarsService.get_FamiliarAbilities(name).some(feat => feat.have(Familiar, characterService, Level, false));
             } else if (creature == "Character") {
-                return characterService.featsService.get_CharacterFeats(Character.customFeats, name, "", true, true).length != 0;
+                return Character.get_FeatsTaken(1, Level, name).length != 0;
             } else {
                 return 0;
             }
         }
         function SpellcastingModifier() {
             if (SpellCastingAbility) {
-                return abilitiesService.get_Abilities(SpellCastingAbility)?.[0]?.mod(Character, characterService, effectsService, Character.level).result || 0
+                return abilitiesService.get_Abilities(SpellCastingAbility)?.[0]?.mod(Character, characterService, effectsService, Level).result || 0
             } else {
                 return 0;
             }

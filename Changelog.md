@@ -26,3 +26,13 @@ This log tracks only major changes, as well as changes that need characters to b
 
 - Items can now be moved between inventories with drag & drop.
 - Some held and worn items as well as rune and material mechanics have changed in ways that require characters' items to be patched.
+
+## 1.0.5
+
+- Clerics are now functional, and Clerics before 1.0.5 will be patched extensively.
+- Some choices can now be automated, and characters with these choices will be patched to have them automate and show as fixed choices when they do.
+
+## 1.0.6
+
+- After implementing all Cleric feats, Clerics before 1.0.6 will be patched some more and may see some choices disappear that only had one option.
+

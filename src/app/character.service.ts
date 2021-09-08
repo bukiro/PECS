@@ -611,42 +611,44 @@ export class CharacterService {
             //Build an array of int per level for comparison between the levels, starting with the base at 0.
             let int: number[] = [baseInt]
 
-            //Collect all feats you have that grant extra free languages, then note on which level you have them.
-            //Also add more languages if INT has been raised (and is positive).
-            let languageFeats: string[] = this.get_CharacterFeatsAndFeatures().filter(feat => feat.effects.some(effect => effect.affected == "Max Languages")).map(feat => feat.name);
-            character.class.levels.forEach(level => {
-                character.get_FeatsTaken(level.number, level.number).filter(taken => languageFeats.includes(taken.name)).forEach(taken => {
-                    //The amount will be added later by effects.
-                    languageSources.push({ name: taken.name, level: level.number, amount: 0 })
-                })
-                //Compare INT on this level with INT on the previous level. Don't do this on Level 0, obviously.
-                if (level.number > 0) {
-                    let levelIntelligence: number = this.get_Abilities("Intelligence")[0]?.baseValue(character, this, level.number)?.result;
-                    int.push(Math.floor((levelIntelligence - 10) / 2));
-                    let diff = int[level.number] - int[level.number - 1];
-                    if (diff > 0 && int[level.number] > 0) {
-                        languageSources.push({ name: "Intelligence", level: level.number, amount: Math.min(diff, int[level.number]) })
+            character.class.levels.filter(level => level.number > 0).forEach(level => {
+                //Collect all feats you have that grant extra free languages, then note on which level you have them.
+                //Add the amount that they would grant you on that level by faking a level for the effect.
+                character.get_FeatsTaken(level.number, level.number).forEach(taken => {
+                    let feat = this.get_FeatsAndFeatures(taken.name)[0];
+                    if (feat) {
+                        if (feat.effects.some(effect => effect.affected == "Max Languages")) {
+                            let effects = this.effectsService.get_SimpleEffects(character, this, feat, taken.name, null, null, level.number);
+                            effects.filter(effect => effect.target == "Max Languages").forEach(effect => {
+                                languageSources.push({ name: taken.name, level: level.number, amount: parseInt(effect.value) })
+                            })
+                        }
                     }
+                })
+                //Also add more languages if INT has been raised (and is positive).
+                //Compare INT on this level with INT on the previous level. Don't do this on Level 0, obviously.
+                let levelIntelligence: number = this.get_Abilities("Intelligence")[0]?.baseValue(character, this, level.number)?.result;
+                int.push(Math.floor((levelIntelligence - 10) / 2));
+                let diff = int[level.number] - int[level.number - 1];
+                if (diff > 0 && int[level.number] > 0) {
+                    languageSources.push({ name: "Intelligence", level: level.number, amount: Math.min(diff, int[level.number]) })
                 }
             })
 
             //Never apply absolute effects or negative effects to Max Languages. This should not happen in the game,
             // and it could delete your chosen languages.
-            //Apply the relative effects by finding a language source fitting the effect and changing its amount accordingly.
-            // Only change sources that have no amount yet.
-            // If a source cannot be found, the effect is not from a feat and should be treated as temporary (level -2).
+            //Check if you have already collected this effect by finding a languageSource with the same source and amount.
+            //Only if a source cannot be found, add the effect as a temporary source (level = -2).
             this.effectsService.get_RelativesOnThis(this.get_Character(), "Max Languages").forEach(effect => {
                 if (parseInt(effect.value) > 0) {
-                    let source = languageSources.find(source => source.name == effect.source && source.amount == 0);
-                    if (source) {
-                        source.amount = parseInt(effect.value);
-                    } else {
+                    let source = languageSources.find(source => source.name == effect.source && source.amount == parseInt(effect.value));
+                    if (!source) {
                         languageSources.push({ name: effect.source, level: -2, amount: parseInt(effect.value) })
                     }
                 }
             })
 
-            //If the current INT is positive and higher than the base INT for the current level (e.g. because of an item bonus), add another language source.
+            //If the current INT is positive and higher than the base INT for the current level (e.g. because of an item bonus), add another temporary language source.
             let currentInt = this.get_Abilities("Intelligence")[0]?.mod(character, this, this.effectsService)?.result;
             let diff = currentInt - int[character.level];
             if (diff > 0 && currentInt > 0) {
@@ -701,6 +703,12 @@ export class CharacterService {
             //Sort languages by locked > level > source > name.
             character.class.languages = character.class.languages
                 .sort(function (a, b) {
+                    if (a.name && !b.name) {
+                        return -1;
+                    }
+                    if (!a.name && b.name) {
+                        return 1;
+                    }
                     if (a.name > b.name) {
                         return 1;
                     }

@@ -2688,26 +2688,6 @@
         ]
     },
     {
-        "name": "First World Magic",
-        "desc": "Your connection to the First World grants you a primal innate spell, much like those of the fey. Choose one cantrip from the primal spell list. You can cast this spell as a primal innate spell at will. A cantrip is heightened to a spell level equal to half your level rounded up.",
-        "shortdesc": "Your connection to the First World grants you a primal innate spell, much like those of the fey.",
-        "traits": [
-            "Gnome"
-        ],
-        "gainSpellChoice": [
-            {
-                "_className": "SpellChoice",
-                "available": 1,
-                "castingType": "Innate",
-                "className": "Innate",
-                "frequency": "at will",
-                "id": "34498c50-920f-4009-a898-c53ba5536ed0",
-                "source": "Feat: First World Magic",
-                "tradition": "Primal"
-            }
-        ]
-    },
-    {
         "name": "Fishseeker Shoony",
         "desc": "You come from a long line of fisherfolk and have inherited the quick reflexes necessary to nab and reel in big game. If you roll a success on an attempt to Grab an Edge, you get a critical success instead; if you roll a critical failure, you get a failure instead. A creature that rolls a failure on a check to Disarm you gets a critical failure instead.",
         "hints": [
@@ -56285,10 +56265,10 @@
             },
             {
                 "desc": "You gain a +1 circumstance bonus to Will saves against illusions.",
-                "showon": "Saving Throws",
+                "showon": "Will",
                 "effects": [
                     {
-                        "affected": "Saving Throws",
+                        "affected": "Will",
                         "type": "circumstance",
                         "value": 1
                     }
@@ -56377,6 +56357,26 @@
         "heritagereq": "chameleon gnome",
         "gainActivities": [
             "Vibrant Display"
+        ]
+    },
+    {
+        "name": "First World Magic",
+        "desc": "Your connection to the First World grants you a primal innate spell, much like those of the fey. Choose one cantrip from the primal spell list. You can cast this spell as a primal innate spell at will. A cantrip is heightened to a spell level equal to half your level rounded up.",
+        "shortdesc": "Your connection to the First World grants you a primal innate spell, much like those of the fey.",
+        "traits": [
+            "Gnome"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "34498c50-920f-4009-a898-c53ba5536ed0",
+                "source": "Feat: First World Magic",
+                "tradition": "Primal"
+            }
         ]
     }
 ]

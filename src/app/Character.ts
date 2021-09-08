@@ -745,7 +745,10 @@ export class Character extends Creature {
             level.skillChoices.forEach(choice => {
                 choice.increases = choice.increases.filter(increase => increase.name != 'Lore: ' + source.loreName);
             })
-            level.skillChoices = level.skillChoices.filter(choice => choice.filter.filter(filter => filter == 'Lore: ' + source.loreName).length == 0);
+            level.skillChoices = level.skillChoices.filter(choice => !(choice.source == source.source && !choice.increases.some(increase => increase.name != 'Lore: ' + source.loreName)) && !choice.filter.some(filter => filter == 'Lore: ' + source.loreName));
+            if (source.source == "Feat: Gnome Obsession") {
+                level.skillChoices = level.skillChoices.filter(choice => !(choice.source == source.source && !choice.increases.some(increase => !increase.name.includes('Lore: '))));
+            }
         });
         let loreSkill: Skill = characterService.get_Character().customSkills.find(skill => skill.name == 'Lore: ' + source.loreName);
         if (loreSkill) {
@@ -782,9 +785,25 @@ export class Character extends Creature {
         }
         //The Gnome Obsession feat grants a skill increase on Levels 2, 7 and 15 that can only be applied to this lore.
         if (source.source == "Feat: Gnome Obsession") {
-            this.add_SkillChoice(characterService.get_Level(2), Object.assign(new SkillChoice(), { available: 1, increases: [], filter: ['Lore: ' + source.loreName], type: "Skill", maxRank: 4, source: "Feat: Additional Lore", id: "" }))
-            this.add_SkillChoice(characterService.get_Level(7), Object.assign(new SkillChoice(), { available: 1, increases: [], filter: ['Lore: ' + source.loreName], type: "Skill", maxRank: 6, source: "Feat: Additional Lore", id: "" }))
-            this.add_SkillChoice(characterService.get_Level(15), Object.assign(new SkillChoice(), { available: 1, increases: [], filter: ['Lore: ' + source.loreName], type: "Skill", maxRank: 8, source: "Feat: Additional Lore", id: "" }))
+            let newChoice = this.add_SkillChoice(characterService.get_Level(2), Object.assign(new SkillChoice(), { available: 0, increases: [], filter: [], type: "Skill", maxRank: 4, source: "Feat: Gnome Obsession", id: "" }));
+            newChoice.increases.push({ name: 'Lore: ' + source.loreName, source: "Feat: Gnome Obsession", maxRank: 4, locked: true, sourceId: newChoice.id });
+            newChoice = this.add_SkillChoice(characterService.get_Level(7), Object.assign(new SkillChoice(), { available: 0, increases: [], filter: [], type: "Skill", maxRank: 6, source: "Feat: Gnome Obsession", id: "" }))
+            newChoice.increases.push({ name: 'Lore: ' + source.loreName, source: "Feat: Gnome Obsession", maxRank: 6, locked: true, sourceId: newChoice.id });
+            newChoice = this.add_SkillChoice(characterService.get_Level(15), Object.assign(new SkillChoice(), { available: 0, increases: [], filter: [], type: "Skill", maxRank: 8, source: "Feat: Gnome Obsession", id: "" }))
+            newChoice.increases.push({ name: 'Lore: ' + source.loreName, source: "Feat: Gnome Obsession", maxRank: 8, locked: true, sourceId: newChoice.id });
+        }
+        if (["Feat: Gnome Obsession", "Background"].includes(source.source)) {
+            let backgroundLoreIncreases = this.get_SkillIncreases(characterService, 1, 1, '', "Background").filter(increase => increase.name.includes("Lore: ") && increase.locked);
+            let gnomeObsessionLoreIncreases = this.get_SkillIncreases(characterService, 0, 20, '', "Feat: Gnome Obsession").filter(increase => increase.name.includes("Lore: ") && increase.locked);
+            if (gnomeObsessionLoreIncreases.length > 0 && backgroundLoreIncreases.length > 0 && backgroundLoreIncreases.length != 4) {
+                let backgroundLoreName = backgroundLoreIncreases[0].name;
+                let newChoice = this.add_SkillChoice(characterService.get_Level(2), Object.assign(new SkillChoice(), { available: 0, increases: [], filter: [], type: "Skill", maxRank: 4, source: "Feat: Gnome Obsession", id: "" }));
+                newChoice.increases.push({ name: backgroundLoreName, source: "Feat: Gnome Obsession", maxRank: 4, locked: true, sourceId: newChoice.id });
+                newChoice = this.add_SkillChoice(characterService.get_Level(7), Object.assign(new SkillChoice(), { available: 0, increases: [], filter: [], type: "Skill", maxRank: 6, source: "Feat: Gnome Obsession", id: "" }))
+                newChoice.increases.push({ name: backgroundLoreName, source: "Feat: Gnome Obsession", maxRank: 6, locked: true, sourceId: newChoice.id });
+                newChoice = this.add_SkillChoice(characterService.get_Level(15), Object.assign(new SkillChoice(), { available: 0, increases: [], filter: [], type: "Skill", maxRank: 8, source: "Feat: Gnome Obsession", id: "" }))
+                newChoice.increases.push({ name: backgroundLoreName, source: "Feat: Gnome Obsession", maxRank: 8, locked: true, sourceId: newChoice.id });
+            }
         }
         this.add_LoreFeats(characterService, source.loreName);
     }

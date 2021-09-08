@@ -5102,42 +5102,73 @@
         "inputRequired": "Remove the condition once you successfully hit and deal damage with the weapon.",
         "hints": [
             {
-                "desc": "One melee weapon you wield has the Deadly d6 trait.",
+                "desc": "One melee weapon you wield has the Deadly d6 trait.\n\n<header class='spellHeader'>Deadly<header>\n\nOn a critical hit, the weapon adds |dice=1d6| a weapon damage die of the listed size. Roll this after doubling the weapon's damage. This increases to |dice=2d6| two dice if the weapon has a greater striking rune and |dice=3d6| three dice if the weapon has a major striking rune. For instance, your wielded weapon deals 2d6 extra damage on a critical hit. An ability that changes the size of the weapon's normal damage dice doesn't change the size of its deadly die.",
                 "showon": "Attacks",
                 "conditionChoiceFilter": "Deadly d6"
             },
             {
-                "desc": "One melee weapon you wield has the Disarm trait.",
-                "showon": "Attacks",
-                "conditionChoiceFilter": "Disarm"
+                "desc": "One melee weapon you wield has the Disarm trait.\n\n<header class='spellHeader'>Disarm<header>\n\nYou can use this weapon to Disarm with the Athletics skill even if you don't have a free hand. This uses the weapon's reach (if different from your own) and adds the weapon's item bonus to attack rolls (if any) as an item bonus to the Athletics check. If you critically fail a check to Disarm using the weapon, you can drop the weapon to take the effects of a failure instead of a critical failure. On a critical success, you still need a free hand if you want to take the item.",
+                "showon": "Attacks, Athletics",
+                "effects": [
+                    {
+                        "affected": "Athletics",
+                        "type": "item",
+                        "value": "object.active3 ? 3 : (object.active2 ? 2 : 1)"
+                    }
+                ],
+                "conditionChoiceFilter": "Disarm",
+                "extraActivations": 2
             },
             {
-                "desc": "One melee weapon you wield has the Nonlethal trait.",
+                "desc": "One melee weapon you wield has the Nonlethal trait.\n\n<header class='spellHeader'>Disarm<header>\n\nAn effect with this trait is not inherently deadly. Damage from a nonlethal effect knocks a creature out rather than killing it. You can use a nonlethal weapon to make a lethal attack with a -2 circumstance penalty.",
                 "showon": "Attacks",
+                "effects": [
+                    {
+                        "affected": "Attack Rolls",
+                        "type": "circumstance",
+                        "value": "-2"
+                    }
+                ],
                 "conditionChoiceFilter": "Nonlethal"
             },
             {
-                "desc": "One melee weapon you wield has the Shove trait.",
-                "showon": "Attacks",
-                "conditionChoiceFilter": "Shove"
+                "desc": "One melee weapon you wield has the Shove trait.\n\n<header class='spellHeader'>Shove<header>\n\nYou can use this weapon to Shove with the Athletics skill even if you don't have a free hand. This uses the weapon's reach (if different from your own) and adds the weapon's item bonus to attack rolls as an item bonus to the Athletics check. If you critically fail a check to Shove using the weapon, you can drop the weapon to take the effects of a failure instead of a critical failure.",
+                "showon": "Attacks, Athletics",
+                "effects": [
+                    {
+                        "affected": "Athletics",
+                        "type": "item",
+                        "value": "object.active3 ? 3 : (object.active2 ? 2 : 1)"
+                    }
+                ],
+                "conditionChoiceFilter": "Shove",
+                "extraActivations": 2
             },
             {
-                "desc": "One melee weapon you wield has the Trip trait.",
-                "showon": "Attacks",
-                "conditionChoiceFilter": "Trip"
+                "desc": "One melee weapon you wield has the Trip trait.\n\n<header class='spellHeader'>Trip<header>\n\nYou can use this weapon to Trip with the Athletics skill even if you don't have a free hand. This uses the weapon's reach (if different from your own) and adds the weapon's item bonus to attack rolls as an item bonus to the Athletics check. If you critically fail a check to Trip using the weapon, you can drop the weapon to take the effects of a failure instead of a critical failure.",
+                "showon": "Attacks, Athletics",
+                "effects": [
+                    {
+                        "affected": "Athletics",
+                        "type": "item",
+                        "value": "object.active3 ? 3 : (object.active2 ? 2 : 1)"
+                    }
+                ],
+                "conditionChoiceFilter": "Trip",
+                "extraActivations": 2
             },
             {
-                "desc": "One melee weapon you wield has the Versatile B trait.",
+                "desc": "One melee weapon you wield has the Versatile B trait.\n\n<header class='spellHeader'>Versatile<header>\n\nA versatile weapon can be used to deal a different type of damage than that listed in the Damage entry. This trait indicates the alternate damage type. For instance, a piercing weapon that is versatile S can be used to deal piercing or slashing damage. You choose the damage type each time you make an attack.",
                 "showon": "Attacks",
                 "conditionChoiceFilter": "Versatile B"
             },
             {
-                "desc": "One melee weapon you wield has the Versatile P trait.",
+                "desc": "One melee weapon you wield has the Versatile P trait.\n\n<header class='spellHeader'>Versatile<header>\n\nA versatile weapon can be used to deal a different type of damage than that listed in the Damage entry. This trait indicates the alternate damage type. For instance, a piercing weapon that is versatile S can be used to deal piercing or slashing damage. You choose the damage type each time you make an attack.",
                 "showon": "Attacks",
                 "conditionChoiceFilter": "Versatile P"
             },
             {
-                "desc": "One melee weapon you wield has the Versatile S trait.",
+                "desc": "One melee weapon you wield has the Versatile S trait.\n\n<header class='spellHeader'>Versatile<header>\n\nA versatile weapon can be used to deal a different type of damage than that listed in the Damage entry. This trait indicates the alternate damage type. For instance, a piercing weapon that is versatile S can be used to deal piercing or slashing damage. You choose the damage type each time you make an attack.",
                 "showon": "Attacks",
                 "conditionChoiceFilter": "Versatile S"
             }

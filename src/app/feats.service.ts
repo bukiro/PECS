@@ -735,6 +735,7 @@ export class FeatsService {
                         }
                     })
                 }
+                characterService.update_LanguageList();
                 characterService.set_ToChange("Character", "general");
             }
 
@@ -989,6 +990,12 @@ export class FeatsService {
             if (feat.name == "Syncretism") {
                 characterService.deitiesService.clear_CharacterDeities();
                 characterService.set_ToChange(creature.type, "general");
+            }
+
+            //Feats that grant language effects should update the language list.
+            if (feat.effects.some(effect => effect.affected == "Max Languages")) {
+                characterService.update_LanguageList();
+                characterService.set_ToChange(creature.type, "charactersheet");
             }
 
             //  Updating Components

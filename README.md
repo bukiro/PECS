@@ -14,13 +14,13 @@ PECS was gratefully created under the [Paizo Inc. Community Use Policy](https://
 
 # Hosting
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.4. It is intended for you and your group of players and will probably not scale well. You can host the server for your group, or everyone can run their own. If you want to cast spells on your party members or look at their character sheets, each server needs to connect to the same database.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.4. It is intended for you and your group of players and will probably not scale well to a public website. You can host the server for your group, or everyone can run their own. If you want to cast spells on your party members or look at their character sheets, each server needs to connect to the same database.
 
 Before you can run the app, you need to provide a config.json with your database connector URL in src/. See `src/config.json.example` for an example and `Database.md` for details.
 
 Run `ng serve` for a dev server, navigate to `http://localhost:4200` and never bother to go productive. Alternatively, run `ng build` to build the project, with the `--prod` flag for a production build. CAUTION: Definitely use `--optimization=false` and configure your initial budget with `"maximumError": "15mb"` in angular.json. PECS is a very complex piece of code and does not take kindly to minification.
 
-A modern computer or tablet should have no issues running PECS in a browser, but mind that it requires some processing power and has way too much on-screen content for a smartphone. PECS looks best in the Edge browser.
+A modern computer or tablet should have no issues running PECS in a browser, but mind that it requires some processing power and has a lot of on-screen content, so the mobile version is to be enjoyed on a provisionary basis. PECS looks best in the Edge browser.
 
 # Database
 
@@ -40,7 +40,7 @@ You can build characters from level 1 through 20, with the following classes and
 - [x] Barbarian
 - [x] Bard
 - [ ] Champion (feats missing)
-- [ ] Cleric (feats and mechanics missing)
+- [ ] Cleric (domain spells missing)
 - [x] Druid
 - [x] Fighter
 - [x] Monk

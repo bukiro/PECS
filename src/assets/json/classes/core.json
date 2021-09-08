@@ -5595,7 +5595,6 @@
     {
         "_className": "Class",
         "name": "Cleric",
-        "warning": "Cleric functionality and feats are not implemented yet.",
         "deityFocused": true,
         "showDeityAnathema": true,
         "showDeityEdicts": true,
