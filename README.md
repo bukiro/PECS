@@ -20,7 +20,7 @@ Before you can run the app, you need to provide a config.json with your database
 
 Run `ng serve` for a dev server, navigate to `http://localhost:4200` and never bother to go productive. Alternatively, run `ng build` to build the project, with the `--prod` flag for a production build. CAUTION: Definitely use `--optimization=false` and configure your initial budget with `"maximumError": "15mb"` in angular.json. PECS is a very complex piece of code and does not take kindly to minification.
 
-NEW: You can now download the whole package with a Windows executable that requires no knowledge of Angular.
+NEW: You can now download the whole package with a Windows/Linux/MacOS executable that requires no knowledge of Angular - see [releases](https://github.com/bukiro/PECS/releases).
 
 A modern computer or tablet should have no issues running PECS in a browser, but mind that it requires some processing power and has a lot of on-screen content, so the mobile version is to be enjoyed on a provisionary basis. PECS looks best in the Edge browser.
 
