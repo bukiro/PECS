@@ -1,12 +1,16 @@
 {
   "name": "@bukiro/pecs",
   "version": "1.0.6",
+  "author": {
+    "name": "Arne Brandt",
+    "email": "arne.x.brandt@outlook.com"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/bukiro/PECS.git"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://npm.pkg.github.com/bukiro"
   },
   "scripts": {
     "ng": "ng",
