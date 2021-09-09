@@ -36,3 +36,6 @@ This log tracks only major changes, as well as changes that need characters to b
 
 - After implementing all Cleric feats, Clerics before 1.0.6 will be patched some more and may see some choices disappear that only had one option.
 
+## 1.0.7
+
+- The app is now available as a standalone executable.
