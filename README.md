@@ -27,7 +27,7 @@ Remember to open and/or forward your firewall ports. If everyone is running thei
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.4. 
 
-To use to a database, you need to provide a config.json with your database connector URL in src/assets/. See `src/config.json.example` for an example and `Database.md` for details.
+To use to a database, you need to provide a config.json with your database connector URL in src/assets/. See `src/assets/config.json.example` for an example and `Database.md` for details.
 
 With git and Node.js installed, clone the repository with `git clone https://github.com/bukiro/PECS`, then run `npm install`.
 
