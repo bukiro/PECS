@@ -38,23 +38,23 @@ export class MessageService {
     }
 
     load_Messages(recipientId: string): Observable<string[]> {
-        return this.http.get<string[]>(this.configService.dbConnectionURL + '/loadMessages/' + recipientId);
+        return this.http.get<string[]>(this.configService.get_DBConnectionURL() + '/loadMessages/' + recipientId);
     }
 
     cleanup_OldMessages() {
-        return this.http.get<string[]>(this.configService.dbConnectionURL + '/cleanupMessages');
+        return this.http.get<string[]>(this.configService.get_DBConnectionURL() + '/cleanupMessages');
     }
 
     load_TimeFromConnector(): Observable<string[]> {
-        return this.http.get<string[]>(this.configService.dbConnectionURL + '/time');
+        return this.http.get<string[]>(this.configService.get_DBConnectionURL() + '/time');
     }
 
     delete_MessageFromDB(message: PlayerMessage): Observable<string[]> {
-        return this.http.post<string[]>(this.configService.dbConnectionURL + '/deleteMessage', { id: message.id });
+        return this.http.post<string[]>(this.configService.get_DBConnectionURL() + '/deleteMessage', { id: message.id });
     }
 
     save_MessagesToDB(messages: PlayerMessage[]): Observable<string[]> {
-        return this.http.post<string[]>(this.configService.dbConnectionURL + '/saveMessages/', messages);
+        return this.http.post<string[]>(this.configService.get_DBConnectionURL() + '/saveMessages/', messages);
     }
 
     finish_loading(loader: string[]) {

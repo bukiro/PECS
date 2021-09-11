@@ -1,15 +1,12 @@
 This is a standalone executable to host PECS for you and your fellow players. It is intended to save you the effort of installing and using node.js to build and serve PECS.
 However, it still requires some input:
 
-1. If you want to save any of your created characters, you will need a database and a database connector.
+1. If you want to save any of your created characters, you will need a MongoDB database. If you prefer a different database, you need a database API connector instead.
 
-My database connector is available on https://github.com/bukiro/PECS-MongoDB-Connector. It works with MongoDB and can be run in node or standalone. Configuring the connector is further described there.
 MongoDB can be downloaded for free at https://www.mongodb.com/. You can also host a free database on the MongoDB Atlas servers and connect to that.
+To develop your own database connector, you can reference my standalone MongoDB connector on https://github.com/bukiro/PECS-MongoDB-Connector, or see the documentation on https://github.com/bukiro/PECS/blob/4f8bffcfeabab0320469bef3e4d0ec7697b10931/Database.md
 
 2. Before the executable can start, you need a config.json file. You can copy and rename config.json.examble to see all the possible options:
-
-dbConnectionURL
-This is the URL where the connector is going to run. This URL needs to work for everybody who is using your PECS server, so only use localhost if you are the only user, even if you are running the connector on the same computer as the server. If you have a dynamic IP address, you may need to update this value before starting the server.
 
 HTTPPort
 (optional, default 4200)
@@ -26,6 +23,26 @@ If you want to use HTTPS, you need an SSL certificate. This is the path to where
 SSLPrivateKeyPath
 (optional)
 If you want to use HTTPS, your SSL certificate needs a private key. This is the path to the key. Password-protected private keys are not supported.
+
+externaldbConnectionURL
+(not needed with MongoDBConnectionURL)
+If you are running an external database connector (likely because you are not using MongoDB for your database), you need to configure its URL here. This URL needs to work for everybody who is using your PECS server. If you have a dynamic IP address, you may need to update this value before starting the server.
+
+MongoDBConnectionURL
+(not needed with externaldbConnectionURL)
+If you are not running an external database connector, this is the connection URL for your MongoDB database server. Both MongoDB Atlas and MongoDB Compass can show you the exact url to use for your server. If the server requires an authenticated user for the connection, you must enter the user and password here. MongoDB Atlas always requires authenticated users.
+
+MongoDBDatabase
+(not needed with externaldbConnectionURL)
+If you are not running an external database connector, name the MongoDB database that you will connect to.
+
+MongoDBCharacterCollection
+(not needed with externaldbConnectionURL, default characters)
+The name of the collection in the database where the character are stored.
+
+MongoDBMessagesCollection
+(not needed with externaldbConnectionURL, default messages)
+The name of the messages collection in the database.
 
 3. When the above points are taken care of, you can start PECS simply by running the executable: On Windows, run pecs.exe, and on Linux, run pecs.
 

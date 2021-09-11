@@ -255,7 +255,7 @@ export class CharacterComponent implements OnInit {
     }
 
     get_Database() {
-        return this.configService.dbConnectionURL;
+        return this.configService.get_HasDBConnectionURL();
     }
 
     get_Savegames() {

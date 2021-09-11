@@ -786,19 +786,19 @@ export class SavegameService {
     }
 
     load_Characters(): Observable<string[]> {
-        return this.http.get<string[]>(this.configService.dbConnectionURL + '/listCharacters');
+        return this.http.get<string[]>(this.configService.get_DBConnectionURL() + '/listCharacters');
     }
 
     load_CharacterFromDB(id: string): Observable<string[]> {
-        return this.http.get<string[]>(this.configService.dbConnectionURL + '/loadCharacter/' + id);
+        return this.http.get<string[]>(this.configService.get_DBConnectionURL() + '/loadCharacter/' + id);
     }
 
     delete_CharacterFromDB(savegame: Savegame): Observable<string[]> {
-        return this.http.post<string[]>(this.configService.dbConnectionURL + '/deleteCharacter', { id: savegame.id });
+        return this.http.post<string[]>(this.configService.get_DBConnectionURL() + '/deleteCharacter', { id: savegame.id });
     }
 
     save_CharacterToDB(savegame): Observable<string[]> {
-        return this.http.post<string[]>(this.configService.dbConnectionURL + '/saveCharacter', savegame);
+        return this.http.post<string[]>(this.configService.get_DBConnectionURL() + '/saveCharacter', savegame);
     }
 
     still_loading() {
@@ -810,7 +810,7 @@ export class SavegameService {
         //At this time, the save and load buttons are disabled, and we refresh the character builder and the menu bar so that the browser knows.
         characterService.set_Changed("charactersheet");
         characterService.set_Changed("top-bar");
-        if (this.configService.dbConnectionURL) {
+        if (this.configService.get_HasDBConnectionURL()) {
             this.load_Characters()
             .subscribe((results: string[]) => {
                 this.loader = results;
@@ -839,35 +839,36 @@ export class SavegameService {
             this.loader.forEach(savegame => {
                 //Build some informational attributes on each save game description from the character's properties.
                 let newLength = this.savegames.push(new Savegame());
-                this.savegames[newLength - 1].id = savegame.id;
-                this.savegames[newLength - 1].dbId = savegame._id || "";
-                this.savegames[newLength - 1].level = savegame.level || 1;
-                this.savegames[newLength - 1].name = savegame.name || "Unnamed";
-                this.savegames[newLength - 1].partyName = savegame.partyName || "No Party";
+                let newSavegame = this.savegames[newLength - 1];
+                newSavegame.id = savegame.id;
+                newSavegame.dbId = savegame._id || "";
+                newSavegame.level = savegame.level || 1;
+                newSavegame.name = savegame.name || "Unnamed";
+                newSavegame.partyName = savegame.partyName || "No Party";
                 if (savegame.class) {
-                    this.savegames[newLength - 1].class = savegame.class.name || "";
+                    newSavegame.class = savegame.class.name || "";
                     if (savegame.class.levels?.[1]?.featChoices?.length) {
                         savegame.class.levels[1].featChoices.filter(choice => choice.specialChoice && !choice.autoSelectIfPossible && choice.feats?.length == 1 && choice.available == 1 && choice.source == savegame.class.name).forEach(choice => {
                             let choiceName = choice.feats[0].name.split(":")[0];
                             if (!choiceName.includes("School") && choiceName.includes(choice.type)) {
                                 choiceName = choiceName.substr(0, choiceName.length - choice.type.length - 1);
                             }
-                            this.savegames[newLength - 1].classChoice = choiceName;
+                            newSavegame.classChoice = choiceName;
                         });
                     }
                     if (savegame.class.ancestry) {
-                        this.savegames[newLength - 1].ancestry = savegame.class.ancestry.name || "";
+                        newSavegame.ancestry = savegame.class.ancestry.name || "";
                     }
                     if (savegame.class.heritage) {
-                        this.savegames[newLength - 1].heritage = savegame.class.heritage.name || "";
+                        newSavegame.heritage = savegame.class.heritage.name || "";
                     }
                     if (savegame.class.animalCompanion?.class) {
-                        this.savegames[newLength - 1].companionName = savegame.class.animalCompanion.name || savegame.class.animalCompanion.type;
-                        this.savegames[newLength - 1].companionId = savegame.class.animalCompanion.id;
+                        newSavegame.companionName = savegame.class.animalCompanion.name || savegame.class.animalCompanion.type;
+                        newSavegame.companionId = savegame.class.animalCompanion.id;
                     }
                     if (savegame.class.familiar?.originClass) {
-                        this.savegames[newLength - 1].familiarName = savegame.class.familiar.name || savegame.class.familiar.type;
-                        this.savegames[newLength - 1].familiarId = savegame.class.familiar.id;
+                        newSavegame.familiarName = savegame.class.familiar.name || savegame.class.familiar.type;
+                        newSavegame.familiarId = savegame.class.familiar.id;
                     }
                 }
             });

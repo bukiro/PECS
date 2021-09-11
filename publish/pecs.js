@@ -1,4 +1,7 @@
 const express = require("express");
+var cors = require('cors');
+var { MongoClient } = require('mongodb');
+var bodyParser = require('body-parser');
 var http = require('http');
 var https = require('https');
 var fs = require('fs');
@@ -51,15 +54,184 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
         dataDir = __dirname + "/src";
         app.use(express.static(dataDir));
 
-        var dbConnectionURL = config.dbConnectionURL || "";
+        app.get('/tests', (req, res) => {
+            res.send({ msg: 'Hello there!' })
+        })
+
+        var externalDBConnectionURL = config.externalDBConnectionURL || "";
         var HTTPPort = config.HTTPPort || 4200;
         var HTTPSPort = config.HTTPSPort || 4443;
         var SSLCertificatePath = config.SSLCertificatePath || "";
         var SSLPrivateKeyPath = config.SSLPrivateKeyPath || "";
+        var MongoDBConnectionURL = config.MongoDBConnectionURL || "";
+        var MongoDBDatabase = config.MongoDBDatabase || "";
+        var MongoDBCharacterCollection = config.MongoDBCharacterCollection || "characters";
+        var MongoDBMessagesCollection = config.MongoDBMessagesCollection || "messages";
 
-        if (dbConnectionURL) {
-            log("Preparing PECS config file in src/assets/config.json")
-            fs.writeFileSync("src/assets/config.json", JSON.stringify({ dbConnectionURL: dbConnectionURL }), function (err) {
+        if (MongoDBConnectionURL && MongoDBDatabase) {
+
+            MongoClient.connect(MongoDBConnectionURL, function (err, client) {
+                if (err) {
+                    log("Failed to connect to the database!");
+                    log(err, true, true);
+                } else {
+                    var db = client.db(MongoDBDatabase);
+                    var characters = db.collection(MongoDBCharacterCollection);
+                    var messages = db.collection(MongoDBMessagesCollection);
+
+                    [MongoDBCharacterCollection, MongoDBMessagesCollection].forEach(collection => {
+                        db.createCollection(collection, function (err, result) {
+                            if (err) {
+                                if (err.codeName != "NamespaceExists") {
+                                    log("The collection " + collection + " doea not exist and could not be created: ");
+                                    log(err, true, true);
+                                }
+                            } else {
+                                log("The collection " + collection + " was created on the database.");
+                            }
+                        });
+                    })
+
+                    //Returns all savegames.
+                    app.get('/listCharacters', cors(), function (req, res) {
+                        characters.find().toArray(function (err, result) {
+                            if (err) {
+                                log(err, true, true);
+                                res.status(500).send(err);
+                            } else {
+                                res.send(result)
+                            }
+                        })
+                    })
+
+                    //Returns a savegame by ID.
+                    app.get('/loadCharacter/:query', cors(), function (req, res) {
+                        var query = req.params.query;
+
+                        characters.findOne({ 'id': query }, function (err, result) {
+                            if (err) {
+                                log(err, true, true);
+                                res.status(500).send(err);
+                            } else {
+                                res.send(result)
+                            }
+                        })
+                    })
+
+                    //Inserts or overwrites a savegame identified by its MongoDB _id, which is set to its own id.
+                    app.post('/saveCharacter', bodyParser.json(), function (req, res) {
+                        var query = req.body;
+                        query._id = query.id;
+
+                        characters.findOneAndReplace({ _id: query._id }, query, { upsert: true, returnNewDocument: true }, function (err, result) {
+                            if (err) {
+                                log(err, true, true);
+                                res.status(500).send(err);
+                            } else {
+                                res.send(result)
+                            }
+                        })
+                    })
+
+                    //Deletes a savegame by ID.
+                    app.post('/deleteCharacter', bodyParser.json(), function (req, res) {
+                        var query = req.body;
+
+                        characters.findOneAndDelete({ 'id': query.id }, function (err, result) {
+                            if (err) {
+                                log(err, true, true);
+                                res.status(500).send(err);
+                            } else {
+                                res.send(result)
+                            }
+                        })
+                    })
+
+                    //Returns the current time in order to timestamp new messages on the frontend.
+                    app.get('/time', cors(), function (req, res) {
+                        var time = new Date().getTime();
+                        res.send({ time: time });
+                    })
+
+                    //Returns all messages addressed to this recipient.
+                    app.get('/loadMessages/:query', cors(), function (req, res) {
+                        var query = req.params.query;
+
+                        messages.find({ 'recipientId': query }).toArray(function (err, result) {
+                            if (err) {
+                                log(err, true, true);
+                                res.status(500).send(err);
+                            } else {
+                                res.send(result)
+                            }
+                        })
+                    })
+
+                    //Sends your messages to the database.
+                    app.post('/saveMessages', bodyParser.json(), function (req, res) {
+                        var query = req.body;
+
+                        messages.insertMany(query, function (err, result) {
+                            if (err) {
+                                log(err, true, true);
+                                res.status(500).send(err);
+                            } else {
+                                res.send(result)
+                            }
+                        })
+                    })
+
+                    //Deletes one message by id.
+                    app.post('/deleteMessage', bodyParser.json(), function (req, res) {
+                        var query = req.body;
+
+                        messages.findOneAndDelete({ 'id': query.id }, function (err, result) {
+                            if (err) {
+                                log(err, true, true);
+                                res.status(500).send(err);
+                            } else {
+                                res.send(result)
+                            }
+                        })
+                    })
+
+                    //Deletes all messages that are older than 10 minutes. The messages are timestamped with the above time to avoid issues arising from time differences.
+                    app.get('/cleanupMessages', cors(), function (req, res) {
+                        var tenMinutesOld = new Date();
+                        tenMinutesOld.setMinutes(tenMinutesOld.getMinutes() - 10);
+
+                        messages.deleteMany({ 'timeStamp': { $lt: tenMinutesOld.getTime() } }, function (err, result) {
+                            if (err) {
+                                log(err, true, true);
+                                res.status(500).send(err);
+                            } else {
+                                res.send(result)
+                            }
+                        })
+                    })
+                }
+            })
+        } else if (!externalDBConnectionURL) {
+            log('No external database connector is configured, and database connection information is missing from config.json: ')
+            if (!MongoDBConnectionURL) {
+                log(' MongoDBConnectionURL');
+            }
+            if (!MongoDBDatabase) {
+                log(' MongoDBDatabase');
+            }
+            log('If your database connector is running elsewhere, you must use externalDBConnectionURL in config.json.')
+        }
+
+        log("Preparing PECS config file in src/assets/config.json")
+        if (externalDBConnectionURL) {
+            fs.writeFileSync("src/assets/config.json", JSON.stringify({ dbConnectionURL: externalDBConnectionURL }), function (err) {
+                if (err) {
+                    log("Could not prepare PECS config file: ");
+                    log(err);
+                }
+            });
+        } else {
+            fs.writeFileSync("src/assets/config.json", JSON.stringify({ localDBConnector: true }), function (err) {
                 if (err) {
                     log("Could not prepare PECS config file: ");
                     log(err);
@@ -102,7 +274,7 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
             }
             if (certificate && privateKey) {
                 var credentials = { key: privateKey, cert: certificate };
-                
+
                 async function startHTTPS() {
                     var httpsServer = https.createServer(credentials, app);
 
@@ -126,7 +298,6 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
             } else {
                 log('HTTPS server was not started.')
             }
-
         } else if (SSLCertificatePath || SSLPrivateKeyPath) {
             log('SSL information missing from config.json: ')
             if (!SSLCertificatePath) {

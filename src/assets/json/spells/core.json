@@ -791,7 +791,7 @@
         ]
     },
     {
-        "name": "Face In the Crowd",
+        "name": "Face in the Crowd",
         "id": "983c463c-7483-11eb-9439-0242ac130002",
         "shortDesc": "While in a crowd of roughly similar creatures, your appearance becomes bland and nondescript.",
         "actions": "1A",
@@ -948,6 +948,7 @@
         ],
         "targets": "1 creature",
         "target": "other",
+        "singleTarget": true,
         "desc": "You fire an unerring dart of force from your fingertips. It automatically hits and deals |dice=var1 Force| <var>var1</var> force damage to the target.",
         "heightened": [
             {
@@ -1773,6 +1774,7 @@
         "range": "touch",
         "targets": "1 willing creature or 1 undead creature",
         "target": "ally",
+        "singleTarget": true,
         "desc": "Your hands become infused with positive energy, healing a living creature or damaging an undead creature with a touch. If you use lay on hands on a willing living target, you restore |dice=var1| <var>var1</var> Hit Points; if the target is one of your allies, they also gain a +2 status bonus to AC for 1 round. Against an undead target, you deal |dice=var2| <var>var2</var> damage and it must attempt a basic Fortitude save; if it fails, it also takes a -2 status penalty to AC for 1 round.",
         "heightened": [
             {

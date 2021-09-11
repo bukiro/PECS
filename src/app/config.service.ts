@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 export class ConfigService {
 
     public dbConnectionURL: string = "";
+    public localDBConnector: boolean = false;
     private loading = false;
 
     constructor(
@@ -15,6 +16,18 @@ export class ConfigService {
 
     still_loading() {
         return this.loading;
+    }
+
+    get_HasDBConnectionURL() {
+        return this.dbConnectionURL || this.localDBConnector;
+    }
+
+    get_DBConnectionURL() {
+        if (this.dbConnectionURL) {
+            return this.dbConnectionURL;
+        } else {
+            return "";
+        }
     }
 
     initialize() {
@@ -32,7 +45,8 @@ export class ConfigService {
                             .toPromise()
                             .then(data => {
                                 let config = JSON.parse(JSON.stringify(data));
-                                this.dbConnectionURL = config.dbConnectionURL || ""
+                                this.dbConnectionURL = config.dbConnectionURL || "";
+                                this.localDBConnector = config.localDBConnector;
                             }).catch(err => {
                                 throw err;
                             }).finally(() => {
