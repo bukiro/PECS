@@ -1,7 +1,11 @@
 {
-    "dbConnectionURL": "https://server:port",
     "HTTPPort": "8080",
     "HTTPSPort": "8443",
-    "SSLCertificatePath": "./src/server.crt",
-    "SSLPrivateKeyPath": "./src/server.key"
+    "SSLCertificatePath": "./server.crt",
+    "SSLPrivateKeyPath": "./server.key",
+    "dbConnectionURL": "https://server:port",
+    "MongoDBConnectionURL": "mongodb://user:password@host:port/?retryWrites=true&w=majority&useUnifiedTopology=true",
+    "MongoDBDatabase": "pecs",
+    "MongoDBCharacterCollection": "characters",
+    "MongoDBMessagesCollection": "messages"
 }
