@@ -16,10 +16,10 @@ A modern computer or tablet should have no issues running PECS in a browser, but
 
 # Hosting your own instance
 
-You can and should host your own instance of PECS for yourself and your players. It is intended for you and your group of players and will probably not scale well to a public website. You can host the server for your group, or everyone can run their own. There are two options for this:
+PECS is intended to be hosted by you for yourself and your group of players (and will probably not scale well to a public website). You can host one instance for your entire group, or everybody can run their own. There are two options for this:
 
-- Download the latest [release](https://github.com/bukiro/PECS/releases), edit the config file and run the executable on Windows or Linux. You need a running MongoDB database or can connect to your own API for any other kind of data source.
-- Clone the repository or download the source code and run it in Node.js (see below). This does not come with a database connector, but you can use it with [my PECS-MongoDB connector](https://github.com/bukiro/PECS-MongoDB-Connector) or your own API. You only need this option if you want to change the code or don't trust my executables. The executables were compiled with [nexe](https://github.com/nexe/nexe) from the .js file in the same package.
+- Download the latest [release](https://github.com/bukiro/PECS/releases), edit the config file and run the executable on Windows or Linux. You need a running MongoDB database or can connect to your own API for any other kind of data source. This is the easy option.
+- Clone the repository or download the source code and run it in Node.js (see below). This does not come with an internal database connector, but you can use it with [my PECS-MongoDB connector](https://github.com/bukiro/PECS-MongoDB-Connector) or your own API. You only need this option if you want to change the code or don't trust my executables. The executables were compiled with [nexe](https://github.com/nexe/nexe) from the .js file in the same package.
 
 Remember to open and/or forward your firewall ports. If everyone is running their own instance, and you want to cast spells on your party members or look at their character sheets, each instance needs to connect to the same database.
 
@@ -104,3 +104,7 @@ Basic equipment items are implemented, as well as weapon, shield and armor mater
 - [x] Runes
 
 Spells are implemented up to and including `5th level`.
+
+# Contributing
+
+If you'd like to contribute missing content, feel free to take a look at the files in `/src/assets/json`, and if you really want to deal with THAT, [let me know](mailto:pecs-dev@outlook.com)! If you don't have the time or the nerve, but really want me to feel good about my work, I am of course happy to take donations on [ko-fi](https://ko-fi.com/bukiro) and [patreon](https://patreon.com/bukiro).
