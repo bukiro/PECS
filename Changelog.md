@@ -39,3 +39,7 @@ This log tracks only major changes, as well as changes that need characters to b
 ## 1.0.7
 
 - The app is now available as a standalone executable.
+
+## 1.0.8
+
+- The standalone package now includes the MongoDB connector and does not need one running separately. An external API connector can still be used with the standalone package if preferred.
