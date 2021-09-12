@@ -12,30 +12,30 @@ PECS was gratefully created under the [Paizo Inc. Community Use Policy](https://
 
 A modern computer or tablet should have no issues running PECS in a browser, but mind that it requires some processing power and has a lot of on-screen content, so the mobile version is to be enjoyed on a provisionary basis. PECS looks best in the Edge browser.
 
+PECS is not a public website, but is intended to be hosted by you for yourself and your group of players.
+
 # Working demo [HERE](http://bukiro.github.io/PECS-Demo)
 
-# Hosting your own instance
+# Running PECS
 
-PECS is intended to be hosted by you for yourself and your group of players (and will probably not scale well to a public website). You can host one instance for your entire group, or everybody can run their own. There are two options for this:
+The simple way is to download the latest [release](https://github.com/bukiro/PECS/releases/latest), unpack it and just run pecs.exe or pecs on Windows or Linux. This will start an HTTP server that people can visit in their browser. If you have SSL certificate files, you can run the server in HTTPS as well.
 
-- Download the latest [release](https://github.com/bukiro/PECS/releases), edit the config file and run the executable on Windows or Linux. You need a running MongoDB database or can connect to your own API for any other kind of data source. This is the easy option.
-- Clone the repository or download the source code and run it in Node.js (see below). This does not come with an internal database connector, but you can use it with [my PECS-MongoDB connector](https://github.com/bukiro/PECS-MongoDB-Connector) or your own API. You only need this option if you want to change the code or don't trust my executables. The executables were compiled with [nexe](https://github.com/nexe/nexe) from the .js file in the same package.
+Remember to open and/or forward your firewall ports. If everyone is running their own instance, and you want to cast spells on your party members or look at their character sheets, you also need to run a MongoDB database, and each instance needs to be configured to connect to that same database using the config.json file.
 
-Remember to open and/or forward your firewall ports. If everyone is running their own instance, and you want to cast spells on your party members or look at their character sheets, each instance needs to connect to the same database.
+# Running PECS in Node.js
 
-# Hosting your own instance with Node.js
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.4. If you run it in Node.js directly for some reason, it does not serve a database for your characters or an effect exchange service for play. In that case, you need to configure a database connection in `src/assets/config.json` in order to save characters and exchange effects (see `src/assets/config.json.example` for an example). The database connection needs to be able to handle certain web queries - see `Database.md` for details, or just go ahead and use [my PECS Data Service](https://github.com/bukiro/PECS-Data-Service). The service is available as a Windows and Linux executable.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.4. 
+With the releases available, you only need to run PECS in Node.js if you want to test development or don't trust my executables. The executables were compiled with [nexe](https://github.com/nexe/nexe) from the .js file in the same package.
 
-To use to a database, you need to provide a config.json with your database connector URL in src/assets/. See `src/assets/config.json.example` for an example and `Database.md` for details.
+Install PECS with git and Node.js:
 
-With git and Node.js installed, clone the repository with `git clone https://github.com/bukiro/PECS`, then run `npm install`.
+```
+git clone https://github.com/bukiro/PECS
+npm install
+```
 
-Run `ng serve` for a dev server, navigate to `http://localhost:4200` and never bother to go productive. Alternatively, run `ng build --prod --optimization=false` flag for a production build. CAUTION: You MUST use `--optimization=false` and configure your initial budget with `"maximumError": "15mb"` in angular.json. PECS is a very complex piece of code and does not take kindly to minification.
-
-# Database
-
-If you want to keep your characters, you need a database. The demo uses a mongodb database, but you can probably make it work with another product, as long as you have a connector URL that handles the necessary queries. See `Database.md` for details, or just go ahead and use [my PECS-MongoDB connector](https://github.com/bukiro/PECS-MongoDB-Connector). The connector is available as a Windows executable.
+Run `ng serve` for a dev server, navigate to `http://localhost:4200` and never bother to go productive. Alternatively, run `ng build --prod --optimization=false` flag for a production build. CAUTION: You MUST use `--optimization=false`. PECS is a very complex piece of code and does not take kindly to minification.
 
 # Integration with Foundry VTT
 
@@ -84,7 +84,7 @@ You can build characters from level 1 through 20, with the following classes and
 - [x] Lizardfolk
 - [ ] Shoony
 
-Basic equipment items are implemented, as well as weapon, shield and armor materials. Magic items and consumables are finished as follows:
+Non-magic equipment items are fully implemented, as well as weapon, shield and armor materials. Magic items and consumables are finished as follows:
 
 - [ ] Weapons
 - [ ] Armors

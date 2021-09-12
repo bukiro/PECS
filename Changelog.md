@@ -43,3 +43,9 @@ This log tracks only major changes, as well as changes that need characters to b
 ## 1.0.8
 
 - The standalone package now includes the MongoDB connector and does not need one running separately. An external API connector can still be used with the standalone package if preferred.
+
+## 1.0.9
+
+- Messages in the release are now handled internally and don't use the database connection anymore.
+- The messages parameter is not used anymore in the release config. You can delete your MongoDB messages collection. All messages will disappear when you stop PECS.
+- The release now uses a local data file to store characters. The MongoDB connection remains an optional alternative.

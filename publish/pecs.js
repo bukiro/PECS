@@ -5,6 +5,8 @@ var bodyParser = require('body-parser');
 var http = require('http');
 var https = require('https');
 var fs = require('fs');
+var { JsonDB } = require('node-json-db');
+var { Config } = require('node-json-db/dist/lib/JsonDBConfig');
 
 var logFile = __dirname + "/pecs.log";
 function log(message, withDate = true, error = false, die = false) {
@@ -43,7 +45,6 @@ function log(message, withDate = true, error = false, die = false) {
 
 log('==================================================', false)
 
-const app = express();
 fs.readFile('./config.json', 'utf8', function (err, data) {
     if (err) {
         log('config.json was not found or could not be opened: ');
@@ -51,14 +52,7 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
     } else {
         var config = JSON.parse(data);
 
-        dataDir = __dirname + "/src";
-        app.use(express.static(dataDir));
-
-        app.get('/tests', (req, res) => {
-            res.send({ msg: 'Hello there!' })
-        })
-
-        var externalDBConnectionURL = config.externalDBConnectionURL || "";
+        var DataServiceConnectionURL = config.DataServiceConnectionURL || config.externalDBConnectionURL || "";
         var HTTPPort = config.HTTPPort || 4200;
         var HTTPSPort = config.HTTPSPort || 4443;
         var SSLCertificatePath = config.SSLCertificatePath || "";
@@ -66,7 +60,16 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
         var MongoDBConnectionURL = config.MongoDBConnectionURL || "";
         var MongoDBDatabase = config.MongoDBDatabase || "";
         var MongoDBCharacterCollection = config.MongoDBCharacterCollection || "characters";
-        var MongoDBMessagesCollection = config.MongoDBMessagesCollection || "messages";
+        var ConvertMongoDBToLocal = config.ConvertMongoDBToLocal || false;
+
+        var messageStore = [];
+
+        var isWin = process.platform === "win32";
+
+        var app = express();
+
+        dataDir = __dirname + "/src";
+        app.use(express.static(dataDir));
 
         if (MongoDBConnectionURL && MongoDBDatabase) {
 
@@ -77,20 +80,37 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
                 } else {
                     var db = client.db(MongoDBDatabase);
                     var characters = db.collection(MongoDBCharacterCollection);
-                    var messages = db.collection(MongoDBMessagesCollection);
 
-                    [MongoDBCharacterCollection, MongoDBMessagesCollection].forEach(collection => {
-                        db.createCollection(collection, function (err, result) {
-                            if (err) {
-                                if (err.codeName != "NamespaceExists") {
-                                    log("The collection " + collection + " doea not exist and could not be created: ");
-                                    log(err, true, true);
-                                }
-                            } else {
-                                log("The collection " + collection + " was created on the database.");
+                    db.createCollection(MongoDBCharacterCollection, function (err, result) {
+                        if (err) {
+                            if (err.codeName != "NamespaceExists") {
+                                log("The characters collection '" + MongoDBCharacterCollection + "' does not exist and could not be created. The connector will not run: ");
+                                log(err, true, true, true);
                             }
-                        });
-                    })
+                        } else {
+                            log("The characters collection '" + MongoDBCharacterCollection + "' was created on the database.");
+                        }
+                    });
+
+                    if (ConvertMongoDBToLocal) {
+                        log("Converting characters from MongoDB to local database.")
+                        if (isWin) {
+                            var localDB = new JsonDB(new Config(process.env.APPDATA + "/kironet/pecs/characters", true, true, '/'));
+                        } else {
+                            var localDB = new JsonDB(new Config(process.env.HOME + "/.kironet_pecs/characters", true, true, '/'));
+                        }
+                        characters.find().toArray(function (err, result) {
+                            if (err) {
+                                log("Unable to load characters from MongoDB: ")
+                                log(err, true, true);
+                            } else {
+                                result.forEach(char => {
+                                    localDB.push("/" + char.id, char);
+                                })
+                                log("All characters have been converted. MongoDB is still the connected database. Please remove the database parameters from the config file now and restart the application.", true, false, true);
+                            }
+                        })
+                    }
 
                     //Returns all savegames.
                     app.get('/listCharacters', cors(), function (req, res) {
@@ -147,166 +167,194 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
                         })
                     })
 
-                    //Returns the current time in order to timestamp new messages on the frontend.
-                    app.get('/time', cors(), function (req, res) {
-                        var time = new Date().getTime();
-                        res.send({ time: time });
-                    })
 
-                    //Returns all messages addressed to this recipient.
-                    app.get('/loadMessages/:query', cors(), function (req, res) {
-                        var query = req.params.query;
-
-                        messages.find({ 'recipientId': query }).toArray(function (err, result) {
-                            if (err) {
-                                log(err, true, true);
-                                res.status(500).send(err);
-                            } else {
-                                res.send(result)
-                            }
-                        })
-                    })
-
-                    //Sends your messages to the database.
-                    app.post('/saveMessages', bodyParser.json(), function (req, res) {
-                        var query = req.body;
-
-                        messages.insertMany(query, function (err, result) {
-                            if (err) {
-                                log(err, true, true);
-                                res.status(500).send(err);
-                            } else {
-                                res.send(result)
-                            }
-                        })
-                    })
-
-                    //Deletes one message by id.
-                    app.post('/deleteMessage', bodyParser.json(), function (req, res) {
-                        var query = req.body;
-
-                        messages.findOneAndDelete({ 'id': query.id }, function (err, result) {
-                            if (err) {
-                                log(err, true, true);
-                                res.status(500).send(err);
-                            } else {
-                                res.send(result)
-                            }
-                        })
-                    })
-
-                    //Deletes all messages that are older than 10 minutes. The messages are timestamped with the above time to avoid issues arising from time differences.
-                    app.get('/cleanupMessages', cors(), function (req, res) {
-                        var tenMinutesOld = new Date();
-                        tenMinutesOld.setMinutes(tenMinutesOld.getMinutes() - 10);
-
-                        messages.deleteMany({ 'timeStamp': { $lt: tenMinutesOld.getTime() } }, function (err, result) {
-                            if (err) {
-                                log(err, true, true);
-                                res.status(500).send(err);
-                            } else {
-                                res.send(result)
-                            }
-                        })
-                    })
                 }
             })
-        } else if (!externalDBConnectionURL) {
-            log('No external database connector is configured, and database connection information is missing from config.json: ')
+        } else if (MongoDBConnectionURL || MongoDBDatabase) {
+            log('Database information is configured but incomplete. The following information is missing from config.json: ')
             if (!MongoDBConnectionURL) {
                 log(' MongoDBConnectionURL');
             }
             if (!MongoDBDatabase) {
                 log(' MongoDBDatabase');
             }
-            log('If your database connector is running elsewhere, you must use externalDBConnectionURL in config.json.')
-        }
-
-        log("Preparing PECS config file in src/assets/config.json")
-        if (externalDBConnectionURL) {
-            fs.writeFileSync("src/assets/config.json", JSON.stringify({ dbConnectionURL: externalDBConnectionURL }), function (err) {
-                if (err) {
-                    log("Could not prepare PECS config file: ");
-                    log(err);
-                }
-            });
         } else {
-            fs.writeFileSync("src/assets/config.json", JSON.stringify({ localDBConnector: true }), function (err) {
-                if (err) {
-                    log("Could not prepare PECS config file: ");
-                    log(err);
-                }
-            });
-        }
-
-        async function startHTTP() {
-            var httpServer = http.createServer(app);
-            try {
-                await new Promise((resolve, reject) => {
-                    httpServer.listen(HTTPPort, () => {
-                        log('HTTP server is listening on port ' + HTTPPort);
-                        resolve();
-                    });
-                    httpServer.once('error', (err) => {
-                        reject(err);
-                    });
-                });
-                return;
-            } catch (err) {
-                log("HTTP server could not be started: ");
-                log(err, true, true, true);
-            }
-        }
-        startHTTP()
-
-        if (SSLCertificatePath && SSLPrivateKeyPath) {
-            try {
-                var certificate = fs.readFileSync(SSLCertificatePath, 'utf8');
-            } catch (err) {
-                log('SSL certificate not found at ' + SSLCertificatePath)
-                certificate = "";
-            }
-            try {
-                var privateKey = fs.readFileSync(SSLPrivateKeyPath, 'utf8');
-            } catch (err) {
-                log('SSL private key not found at ' + SSLPrivateKeyPath)
-                privateKey = "";
-            }
-            if (certificate && privateKey) {
-                var credentials = { key: privateKey, cert: certificate };
-
-                async function startHTTPS() {
-                    var httpsServer = https.createServer(credentials, app);
-
-                    try {
-                        await new Promise((resolve, reject) => {
-                            httpsServer.listen(HTTPSPort, () => {
-                                log('HTTPS server is listening on port ' + HTTPSPort);
-                                resolve();
-                            });
-                            httpsServer.once('error', (err) => {
-                                reject(err);
-                            });
-                        });
-                        return;
-                    } catch (err) {
-                        log("HTTPS server could not be started: ");
-                        log(err, true, true, true);
-                    }
-                }
-                startHTTPS()
+            if (isWin) {
+                var db = new JsonDB(new Config(process.env.APPDATA + "/kironet/pecs/characters", true, true, '/'));
             } else {
+                var db = new JsonDB(new Config(process.env.HOME + "/.kironet_pecs/characters", true, true, '/'));
+            }
+
+            //Returns all savegames.
+            app.get('/listCharacters', cors(), function (req, res) {
+                var characterResults = db.getData("/");
+                if (Object.keys(characterResults).length) {
+                    result = Object.keys(characterResults).map(key => characterResults[key]);
+                    res.send(result);
+                } else {
+                    res.send([]);
+                }
+            })
+
+            //Returns a savegame by ID.
+            app.get('/loadCharacter/:query', cors(), function (req, res) {
+                var query = req.params.query;
+                var result = db.getData("/" + query);
+                res.send(result);
+            })
+
+            //Inserts or overwrites a savegame identified by its MongoDB _id, which is set to its own id.
+            app.post('/saveCharacter', bodyParser.json(), function (req, res) {
+                var query = req.body;
+                query._id = query.id;
+
+                db.push("/" + query.id, query);
+                result = { result: { n: 1, ok: 1 } };
+                res.send(result);
+            })
+
+            //Deletes a savegame by ID.
+            app.post('/deleteCharacter', bodyParser.json(), function (req, res) {
+                var query = req.body;
+
+                db.delete("/" + query.id);
+                result = { result: { n: 1, ok: 1 } };
+                res.send(result);
+            })
+        }
+
+        //Returns the current time in order to timestamp new messages on the frontend.
+        app.get('/time', cors(), function (req, res) {
+            var time = new Date().getTime();
+            res.send({ time: time });
+        })
+
+        //Returns all messages addressed to this recipient.
+        app.get('/loadMessages/:query', cors(), function (req, res) {
+            var query = req.params.query;
+            var result = messageStore.filter(message => message.recipientId == query);
+            res.send(result)
+        })
+
+        //Sends your messages to the database.
+        app.post('/saveMessages', bodyParser.json(), function (req, res) {
+            var query = req.body;
+            messageStore.push(...query);
+            var result = { result: { ok: 1, n: query.length }, ops: query, insertedCount: query.length }
+            res.send(result);
+        })
+
+        //Deletes one message by id.
+        app.post('/deleteMessage', bodyParser.json(), function (req, res) {
+            var query = req.body;
+            var messageToDelete = messageStore.find(message => message.id == query.id);
+            if (messageToDelete) {
+                var result = { lastErrorObject: { n: 1 }, value: messageToDelete, ok: 1 }
+            } else {
+                var result = { lastErrorObject: { n: 0 }, value: null, ok: 1 }
+            }
+            messageStore = messageStore.filter(message => message.id != query.id);
+            res.send(result);
+        })
+
+        //Deletes all messages that are older than 10 minutes. The messages are timestamped with the above time to avoid issues arising from time differences.
+        app.get('/cleanupMessages', cors(), function (req, res) {
+            var tenMinutesOld = new Date();
+            tenMinutesOld.setMinutes(tenMinutesOld.getMinutes() - 10);
+            var messagesToDelete = messageStore.filter(message => message.timeStamp < tenMinutesOld.getTime());
+            var result = { result: { n: messagesToDelete.length, ok: 1 }, deletedCount: messagesToDelete.length };
+            messageStore = messageStore.filter(message => message.timeStamp >= tenMinutesOld.getTime());
+            res.send(result);
+        })
+
+        if (!(MongoDBConnectionURL && MongoDBDatabase && ConvertMongoDBToLocal)) {
+
+            log("Preparing PECS config file in src/assets/config.json")
+            if (DataServiceConnectionURL) {
+                fs.writeFileSync("src/assets/config.json", JSON.stringify({ dbConnectionURL: DataServiceConnectionURL }), function (err) {
+                    if (err) {
+                        log("Could not prepare PECS config file: ");
+                        log(err);
+                    }
+                });
+            } else {
+                fs.writeFileSync("src/assets/config.json", JSON.stringify({ localDBConnector: true }), function (err) {
+                    if (err) {
+                        log("Could not prepare PECS config file: ");
+                        log(err);
+                    }
+                });
+            }
+
+            async function startHTTP() {
+                var httpServer = http.createServer(app);
+                try {
+                    await new Promise((resolve, reject) => {
+                        httpServer.listen(HTTPPort, () => {
+                            log('HTTP server is listening on port ' + HTTPPort);
+                            resolve();
+                        });
+                        httpServer.once('error', (err) => {
+                            reject(err);
+                        });
+                    });
+                    return;
+                } catch (err) {
+                    log("HTTP server could not be started: ");
+                    log(err, true, true, true);
+                }
+            }
+            startHTTP()
+
+            if (SSLCertificatePath && SSLPrivateKeyPath) {
+                try {
+                    var certificate = fs.readFileSync(SSLCertificatePath, 'utf8');
+                } catch (err) {
+                    log('SSL certificate not found at ' + SSLCertificatePath)
+                    certificate = "";
+                }
+                try {
+                    var privateKey = fs.readFileSync(SSLPrivateKeyPath, 'utf8');
+                } catch (err) {
+                    log('SSL private key not found at ' + SSLPrivateKeyPath)
+                    privateKey = "";
+                }
+                if (certificate && privateKey) {
+                    var credentials = { key: privateKey, cert: certificate };
+
+                    async function startHTTPS() {
+                        var httpsServer = https.createServer(credentials, app);
+
+                        try {
+                            await new Promise((resolve, reject) => {
+                                httpsServer.listen(HTTPSPort, () => {
+                                    log('HTTPS server is listening on port ' + HTTPSPort);
+                                    resolve();
+                                });
+                                httpsServer.once('error', (err) => {
+                                    reject(err);
+                                });
+                            });
+                            return;
+                        } catch (err) {
+                            log("HTTPS server could not be started: ");
+                            log(err, true, true, true);
+                        }
+                    }
+                    startHTTPS()
+                } else {
+                    log('HTTPS server was not started.')
+                }
+            } else if (SSLCertificatePath || SSLPrivateKeyPath) {
+                log('SSL information missing from config.json: ')
+                if (!SSLCertificatePath) {
+                    log(' SSLCertificatePath');
+                }
+                if (!SSLPrivateKeyPath) {
+                    log(' SSLPrivateKeyPath');
+                }
                 log('HTTPS server was not started.')
             }
-        } else if (SSLCertificatePath || SSLPrivateKeyPath) {
-            log('SSL information missing from config.json: ')
-            if (!SSLCertificatePath) {
-                log(' SSLCertificatePath');
-            }
-            if (!SSLPrivateKeyPath) {
-                log(' SSLPrivateKeyPath');
-            }
-            log('HTTPS server was not started.')
         }
     }
 

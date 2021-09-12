@@ -52,7 +52,6 @@ Thumbs.db
 /src/assets/config.json
 /src/assets/json/**/custom*.json
 /src/assets/json/**/extensions.json
-/publish/*.json
 /publish/*.crt
 /publish/*.key
 /publish/*.exe

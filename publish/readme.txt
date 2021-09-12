@@ -24,7 +24,7 @@ SSLPrivateKeyPath
 (optional)
 If you want to use HTTPS, your SSL certificate needs a private key. This is the path to the key. Password-protected private keys are not supported.
 
-externaldbConnectionURL
+DataServiceConnectionURL
 (not needed with MongoDBConnectionURL)
 If you are running an external database connector (likely because you are not using MongoDB for your database), you need to configure its URL here. This URL needs to work for everybody who is using your PECS server. If you have a dynamic IP address, you may need to update this value before starting the server.
 
