@@ -126,16 +126,20 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
                     var db = client.db(MongoDBDatabase);
                     var characters = db.collection(MongoDBCharacterCollection);
 
-                    db.createCollection(MongoDBCharacterCollection, function (err, result) {
-                        if (err) {
-                            if (err.codeName != "NamespaceExists") {
-                                log("The characters collection '" + MongoDBCharacterCollection + "' does not exist and could not be created. The connector will not run: ");
-                                log(err, true, true, true);
-                            }
-                        } else {
-                            log("The characters collection '" + MongoDBCharacterCollection + "' was created on the database.");
+                    db.listCollections({ name: MongoDBCharacterCollection }).next(function (err, collinfo) {
+                        if (!collinfo) {
+                            db.createCollection(MongoDBCharacterCollection, function (err, result) {
+                                if (err) {
+                                    if (err.codeName != "NamespaceExists") {
+                                        log("The characters collection '" + MongoDBCharacterCollection + "' does not exist and could not be created. The connector will not run: ");
+                                        log(err, true, true, true);
+                                    }
+                                } else {
+                                    log("The characters collection '" + MongoDBCharacterCollection + "' was created on the database.");
+                                }
+                            });
                         }
-                    });
+                    })
 
                     if (ConvertMongoDBToLocal) {
                         log("Converting characters from MongoDB to local database.")
@@ -399,7 +403,7 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
                 try {
                     await new Promise((resolve, reject) => {
                         httpServer.listen(HTTPPort, () => {
-                            log('The HTTP server is running on http://localhost: ' + HTTPPort);
+                            log('The HTTP server is running on http://localhost:' + HTTPPort);
                             resolve();
                         });
                         httpServer.once('error', (err) => {
@@ -436,7 +440,7 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
                         try {
                             await new Promise((resolve, reject) => {
                                 httpsServer.listen(HTTPSPort, () => {
-                                    log('The HTTPS server is running on https://localhost: ' + HTTPSPort);
+                                    log('The HTTPS server is running on https://localhost:' + HTTPSPort);
                                     resolve();
                                 });
                                 httpsServer.once('error', (err) => {

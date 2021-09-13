@@ -8,6 +8,5 @@
     "MongoDBConnectionURL": "mongodb://user:password@host:port/?retryWrites=true&w=majority&useUnifiedTopology=true",
     "MongoDBDatabase": "pecs",
     "MongoDBCharacterCollection": "characters",
-    "MongoDBMessagesCollection": "messages",
     "ConvertMongoDBToLocal": false
 }
