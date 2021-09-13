@@ -250,12 +250,28 @@ export class CharacterComponent implements OnInit {
         this.savegameService.initialize(this.characterService);
     }
 
+    on_RetryLogin() {
+        this.configService.get_Login("", this.characterService, this.savegameService);
+    }
+
     get_SavegamesInitializing() {
         return this.savegameService.still_loading();
     }
 
+    get_LoggingIn() {
+        return this.configService.get_LoggingIn();
+    }
+
     get_Database() {
         return this.configService.get_HasDBConnectionURL();
+    }
+
+    get_LoggedIn() {
+        return this.configService.get_LoggedIn();
+    }
+
+    get_CannotLogin() {
+        return this.configService.get_CannotLogin();
     }
 
     get_Savegames() {

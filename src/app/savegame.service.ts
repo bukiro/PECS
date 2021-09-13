@@ -51,7 +51,7 @@ import { Item } from './Item';
 import { Scroll } from './Scroll';
 import { InventoryGain } from './InventoryGain';
 import { Oil } from './Oil';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Savegame } from './Savegame';
 import { CharacterService } from './character.service';
@@ -786,19 +786,19 @@ export class SavegameService {
     }
 
     load_Characters(): Observable<string[]> {
-        return this.http.get<string[]>(this.configService.get_DBConnectionURL() + '/listCharacters');
+        return this.http.get<string[]>(this.configService.get_DBConnectionURL() + '/listCharacters', { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     load_CharacterFromDB(id: string): Observable<string[]> {
-        return this.http.get<string[]>(this.configService.get_DBConnectionURL() + '/loadCharacter/' + id);
+        return this.http.get<string[]>(this.configService.get_DBConnectionURL() + '/loadCharacter/' + id, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     delete_CharacterFromDB(savegame: Savegame): Observable<string[]> {
-        return this.http.post<string[]>(this.configService.get_DBConnectionURL() + '/deleteCharacter', { id: savegame.id });
+        return this.http.post<string[]>(this.configService.get_DBConnectionURL() + '/deleteCharacter', { id: savegame.id }, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     save_CharacterToDB(savegame): Observable<string[]> {
-        return this.http.post<string[]>(this.configService.get_DBConnectionURL() + '/saveCharacter', savegame);
+        return this.http.post<string[]>(this.configService.get_DBConnectionURL() + '/saveCharacter', savegame, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     still_loading() {
@@ -810,22 +810,26 @@ export class SavegameService {
         //At this time, the save and load buttons are disabled, and we refresh the character builder and the menu bar so that the browser knows.
         characterService.set_Changed("charactersheet");
         characterService.set_Changed("top-bar");
-        if (this.configService.get_HasDBConnectionURL()) {
+        if (this.configService.get_HasDBConnectionURL() && this.configService.get_LoggedIn()) {
             this.load_Characters()
-            .subscribe((results: string[]) => {
-                this.loader = results;
-                this.finish_loading(characterService)
-            }, (error) => {
-                console.log('Error loading characters from database: ' + error.message);
-                this.savegames = [];
-                this.loadingError = true;
-                this.loading = false;
-                //If the character list couldn't be loaded, the save and load buttons are re-enabled (but will disable on their own because of the error).
-                // We refresh the character builder and the menu bar to update the buttons.
-                characterService.set_Changed("charactersheet");
-                characterService.set_Changed("top-bar");
-                characterService.set_Changed();
-            });
+                .subscribe((results: string[]) => {
+                    this.loader = results;
+                    this.finish_loading(characterService)
+                }, (error) => {
+                    if (error.status == 401) {
+                        this.configService.on_LoggedOut(characterService, "Your login is no longer valid.");
+                    } else {
+                        console.log('Error loading characters from database: ' + error.message);
+                        this.savegames = [];
+                        this.loadingError = true;
+                        this.loading = false;
+                        //If the character list couldn't be loaded, the save and load buttons are re-enabled (but will disable on their own because of the error).
+                        // We refresh the character builder and the menu bar to update the buttons.
+                        characterService.set_Changed("charactersheet");
+                        characterService.set_Changed("top-bar");
+                        characterService.set_Changed();
+                    }
+                });
         } else {
             this.loading = false;
             this.loadingError = true;
@@ -880,6 +884,8 @@ export class SavegameService {
         //Refresh the character builder and menu bar to update the save and load buttons, now that they are enabled again.
         characterService.set_Changed("charactersheet");
         characterService.set_Changed("top-bar");
+        //Also update the charactersheet that the character builder is attached to, so it is properly displayed after loading the page.
+        characterService.set_Changed("character-sheet");
     }
 
 }

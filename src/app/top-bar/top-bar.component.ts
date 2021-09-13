@@ -18,8 +18,13 @@ export class TopBarComponent implements OnInit {
 
     public newMessages: PlayerMessage[] = [];
     public modalOpen: boolean = false;
+    public loginModalOpen: boolean = false;
+    public password: string = "";
+    public passwordFailed: boolean = false;
     @ViewChild('NewMessagesModal', { static: false })
     private newMessagesModal;
+    @ViewChild('LoginModal', { static: false })
+    private loginModal;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -39,6 +44,22 @@ export class TopBarComponent implements OnInit {
 
     get_Database() {
         return this.configService.get_HasDBConnectionURL();
+    }
+
+    get_LoggingIn() {
+        return this.configService.get_LoggingIn();
+    }
+
+    get_LoggedIn() {
+        return this.configService.get_LoggedIn();
+    }
+
+    get_CannotLogin() {
+        return this.configService.get_CannotLogin();
+    }
+
+    get_LoggedOutMessage() {
+        return this.configService.get_LoggedOutMessage();
     }
 
     get_Savegames() {
@@ -153,8 +174,8 @@ export class TopBarComponent implements OnInit {
     }
 
     get_Messages() {
-        if (this.get_ManualMode()) {
-            //Don't check effects in manual mode.
+        if (this.get_ManualMode() || !this.get_LoggedIn()) {
+            //Don't check effects in manual mode or if not logged in.
             return false;
         }
         if (this.modalOpen) {
@@ -188,8 +209,12 @@ export class TopBarComponent implements OnInit {
                         console.log('Error loading messages from database: ' + error.message);
                     });
             }, error => {
-                this.toastService.show("An error occurred while cleaning up messages. See console for more information.", [], this.characterService)
-                console.log('Error cleaning up messages: ' + error.message);
+                if (error.status == 401) {
+                    this.configService.on_LoggedOut(this.characterService, "Your login is no longer valid. New effects could not be checked. Please try again after logging in.");
+                } else {
+                    this.toastService.show("An error occurred while cleaning up messages. See console for more information.", [], this.characterService)
+                    console.log('Error cleaning up messages: ' + error.message);
+                }
             })
         }
     }
@@ -259,6 +284,28 @@ export class TopBarComponent implements OnInit {
         }
     }
 
+    open_LoginModal(passwordFailed: boolean = false) {
+        if (!this.modalOpen) {
+            this.modalOpen = true;
+            this.password = "";
+            if (passwordFailed) {
+                this.passwordFailed = true;
+            }
+            this.modalService.open(this.loginModal, { centered: true, ariaLabelledBy: 'modal-title' }).result.then((result) => {
+                if (result == "OK click") {
+                    this.passwordFailed = false;
+                    this.modalOpen = false;
+                    this.configService.get_Login(this.password, this.characterService, this.savegameService);
+                    this.password = "";
+                }
+            }, (reason) => {
+                //If the login modal is cancelled in any way, it can go ahead and open right back up.
+                this.modalOpen = false;
+                this.open_LoginModal();
+            });
+        }
+    }
+
     finish_Loading() {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
@@ -276,6 +323,12 @@ export class TopBarComponent implements OnInit {
                     }
                     if (view.creature.toLowerCase() == "character" && view.target.toLowerCase() == "check-messages-manually") {
                         this.get_Messages();
+                    }
+                    if (view.creature.toLowerCase() == "character" && view.target.toLowerCase() == "logged-out") {
+                        this.open_LoginModal();
+                    }
+                    if (view.creature.toLowerCase() == "character" && view.target.toLowerCase() == "password-failed") {
+                        this.open_LoginModal(true);
                     }
                 });
             return true;

@@ -24,6 +24,10 @@ SSLPrivateKeyPath
 (optional)
 If you want to use HTTPS, your SSL certificate needs a private key. This is the path to the key. Password-protected private keys are not supported.
 
+Password
+(optional)
+If you set a password, PECS will require players to enter it before they can use the tool and access your data.
+
 DataServiceConnectionURL
 (not needed with MongoDBConnectionURL)
 If you are running an external database connector (likely because you are not using MongoDB for your database), you need to configure its URL here. This URL needs to work for everybody who is using your PECS server. If you have a dynamic IP address, you may need to update this value before starting the server.
@@ -40,9 +44,9 @@ MongoDBCharacterCollection
 (not needed with externaldbConnectionURL, default characters)
 The name of the collection in the database where the character are stored.
 
-MongoDBMessagesCollection
-(not needed with externaldbConnectionURL, default messages)
-The name of the messages collection in the database.
+ConvertMongoDBToLocal
+(optional, default false)
+ONLY if you have previously connected to a MongoDB and wish to switch to the local database, set this value to true and keep the MongoDB parameters. The next time you start the application, the characters stored in your MongoDB database will be converted to the local database. After that process has finished, you can remove the MongoDB parameters and this parameter from the config file and restart the application.
 
 3. When the above points are taken care of, you can start PECS simply by running the executable: On Windows, run pecs.exe, and on Linux, run pecs.
 

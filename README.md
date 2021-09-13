@@ -10,7 +10,7 @@ You can create new items on the fly, or if you're the one running the server, yo
 
 PECS was gratefully created under the [Paizo Inc. Community Use Policy](https://paizo.com/community/communityuse) and the [Open Gaming License v1.0a](https://paizo.com/pathfinder/compatibility/ogl), and is neither endorsed nor recognized bz Paizo. It is completely free.
 
-A modern computer or tablet should have no issues running PECS in a browser, but mind that it requires some processing power and has a lot of on-screen content, so the mobile version is to be enjoyed on a provisionary basis. PECS looks best in the Edge browser.
+A modern computer or tablet should have no issues running PECS in a browser and is largely responsive for mobile. PECS looks best in the Edge browser and has some issues in Safari.
 
 PECS is not a public website, but is intended to be hosted by you for yourself and your group of players.
 
@@ -18,13 +18,13 @@ PECS is not a public website, but is intended to be hosted by you for yourself a
 
 # Running PECS
 
-The simple way is to download the latest [release](https://github.com/bukiro/PECS/releases/latest), unpack it and just run pecs.exe or pecs on Windows or Linux. This will start an HTTP server that people can visit in their browser. If you have SSL certificate files, you can run the server in HTTPS as well.
+The simple way is to download the latest [release](https://github.com/bukiro/PECS/releases/latest), unpack it and just run pecs.exe or pecs on Windows or Linux. This will start an HTTP server that people can visit in their browser. If you have SSL certificate files, you can run the server in HTTPS as well. You can optionally protect your instance with a password.
 
 Remember to open and/or forward your firewall ports. If everyone is running their own instance, and you want to cast spells on your party members or look at their character sheets, you also need to run a MongoDB database, and each instance needs to be configured to connect to that same database using the config.json file.
 
 # Running PECS in Node.js
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.4. If you run it in Node.js directly for some reason, it does not serve a database for your characters or an effect exchange service for play. In that case, you need to configure a database connection in `src/assets/config.json` in order to save characters and exchange effects (see `src/assets/config.json.example` for an example). The database connection needs to be able to handle certain web queries - see `Database.md` for details, or just go ahead and use [my PECS Data Service](https://github.com/bukiro/PECS-Data-Service). The service is available as a Windows and Linux executable.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.4. If you run it in Node.js directly for some reason, it does not serve a database for your characters or an effect exchange service for play. In that case, you need to configure a database connection in `src/assets/config.json` in order to save characters and exchange effects (see `src/assets/config.json.example` for an example). The database connection needs to be able to handle certain web queries - see `Database.md` for details, or just go ahead and use [my PECS Data Service](https://github.com/bukiro/PECS-Data-Service). The service is available as a Windows and Linux executable. PECS 1.0.10 requires at least version 1.0.4 of the service.
 
 With the releases available, you only need to run PECS in Node.js if you want to test development or don't trust my executables. The executables were compiled with [nexe](https://github.com/nexe/nexe) from the .js file in the same package.
 
@@ -107,4 +107,4 @@ Spells are implemented up to and including `5th level`.
 
 # Contributing
 
-If you'd like to contribute missing content, feel free to take a look at the files in `/src/assets/json`, and if you really want to deal with THAT, [let me know](mailto:pecs-dev@outlook.com)! If you don't have the time or the nerve, but really want me to feel good about my work, I am of course happy to take donations on [ko-fi](https://ko-fi.com/bukiro) and [patreon](https://patreon.com/bukiro).
+If you'd like to contribute missing content, feel free to take a look at the files in `/src/assets/json`, and if you really want to deal with THAT, [drop me a line](mailto:pecs-dev@outlook.com)! If you don't have the time or the nerve, but really want me to feel good about my work, I am of course happy to take donations on [ko-fi](https://ko-fi.com/bukiro) and [patreon](https://patreon.com/bukiro).

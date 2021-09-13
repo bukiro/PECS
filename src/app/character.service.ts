@@ -477,6 +477,10 @@ export class CharacterService {
         return this.get_Character().settings.manualMode;
     }
 
+    get_LoggedIn() {
+        return this.configService.get_LoggedIn();
+    }
+
     get_CompanionAvailable(charLevel: number = this.get_Character().level) {
         //Return any feat that grants an animal companion that you own.
         return this.get_CharacterFeatsAndFeatures().find(feat => feat.gainAnimalCompanion == "Young" && feat.have(this.get_Character(), this, charLevel));
@@ -1684,8 +1688,8 @@ export class CharacterService {
     }
 
     send_TurnChangeToPlayers() {
-        //Don't send messages in GM mode or manual mode.
-        if (this.get_GMMode() || this.get_ManualMode()) {
+        //Don't send messages in GM mode or manual mode, or if not logged in.
+        if (this.get_GMMode() || this.get_ManualMode() || !this.get_LoggedIn()) {
             return false;
         }
         let timeStamp: number = 0;
@@ -1710,13 +1714,21 @@ export class CharacterService {
                     //Don't notify the user that a turn change was sent. It proved more annoying than useful.
                     //this.toastService.show("Sent turn change to " + (messages.length) + " targets.", [], this);
                 }, (error) => {
-                    this.toastService.show("An error occurred while sending effects. See console for more information.", [], this);
-                    console.log('Error saving effect messages to database: ' + error.message);
+                    if (error.status == 401) {
+                        this.configService.on_LoggedOut(this, "Your login is no longer valid; The event was not sent.");
+                    } else {
+                        this.toastService.show("An error occurred while sending effects. See console for more information.", [], this);
+                        console.log('Error saving effect messages to database: ' + error.message);
+                    }
                 });;
             }
         }, (error) => {
-            this.toastService.show("An error occurred while sending effects. See console for more information.", [], this);
-            console.log('Error saving effect messages to database: ' + error.message);
+            if (error.status == 401) {
+                this.configService.on_LoggedOut(this, "Your login is no longer valid; The event was not sent.");
+            } else {
+                this.toastService.show("An error occurred while sending effects. See console for more information.", [], this);
+                console.log('Error saving effect messages to database: ' + error.message);
+            }
         });
     }
 
@@ -1749,8 +1761,8 @@ export class CharacterService {
     }
 
     send_ConditionToPlayers(targets: SpellTarget[], conditionGain: ConditionGain, activate: boolean = true) {
-        //Don't send messages in GM mode or manual mode.
-        if (this.get_GMMode() || this.get_ManualMode()) {
+        //Don't send messages in GM mode or manual mode, or if not logged in.
+        if (this.get_GMMode() || this.get_ManualMode() || !this.get_LoggedIn()) {
             return false;
         }
         let timeStamp: number = 0;
@@ -1784,13 +1796,21 @@ export class CharacterService {
                     //If messages were sent, send a summary toast.
                     this.toastService.show("Sent effects to " + (messages.length) + " targets.", [], this);
                 }, (error) => {
-                    this.toastService.show("An error occurred while sending effects. See console for more information.", [], this);
-                    console.log('Error saving effect messages to database: ' + error.message);
+                    if (error.status == 401) {
+                        this.configService.on_LoggedOut(this, "Your login is no longer valid; The conditions were not sent. Please try again after logging in; If you have wasted an action or spell this way, you can enable Manual Mode in the settings to restore them.");
+                    } else {
+                        this.toastService.show("An error occurred while sending effects. See console for more information.", [], this);
+                        console.log('Error saving effect messages to database: ' + error.message);
+                    }
                 });;
             }
         }, (error) => {
-            this.toastService.show("An error occurred while sending effects. See console for more information.", [], this);
-            console.log('Error saving effect messages to database: ' + error.message);
+            if (error.status == 401) {
+                this.configService.on_LoggedOut(this, "Your login is no longer valid; The conditions were not sent. Please try again after logging in; If you have wasted an action or spell this way, you can enable Manual Mode in the settings to restore them.");
+            } else {
+                this.toastService.show("An error occurred while sending effects. See console for more information.", [], this);
+                console.log('Error saving effect messages to database: ' + error.message);
+            }
         });
     }
 
@@ -1840,8 +1860,8 @@ export class CharacterService {
     }
 
     send_ItemsToPlayer(sender: Character | AnimalCompanion, target: SpellTarget, item: Item, amount: number = 0) {
-        //Don't send messages in GM mode or manual mode.
-        if (this.get_GMMode() || this.get_ManualMode()) {
+        //Don't send messages in GM mode or manual mode, or if not logged in.
+        if (this.get_GMMode() || this.get_ManualMode() || !this.get_LoggedIn()) {
             return false;
         }
         if (!amount) {
@@ -1868,12 +1888,20 @@ export class CharacterService {
                 //If the message was sent, send a summary toast.
                 this.toastService.show("Sent item offer to <strong>" + target.name + "</strong>.", [], this);
             }, (error) => {
+                if (error.status == 401) {
+                    this.configService.on_LoggedOut(this, "Your login is no longer valid; The item offer was not sent. Please try again after logging in.");
+                } else {
+                    this.toastService.show("An error occurred while sending item. See console for more information.", [], this);
+                    console.log('Error saving item message to database: ' + error.message);
+                }
+            });
+        }, (error) => {
+            if (error.status == 401) {
+                this.configService.on_LoggedOut(this, "Your login is no longer valid; The item offer was not sent. Please try again after logging in.");
+            } else {
                 this.toastService.show("An error occurred while sending item. See console for more information.", [], this);
                 console.log('Error saving item message to database: ' + error.message);
-            });;
-        }, (error) => {
-            this.toastService.show("An error occurred while sending item. See console for more information.", [], this);
-            console.log('Error saving item message to database: ' + error.message);
+            }
         });
     }
 
@@ -1964,8 +1992,8 @@ export class CharacterService {
     }
 
     send_ItemAcceptedMessage(message: PlayerMessage, accepted: boolean = true) {
-        //Don't send messages in GM mode or manual mode.
-        if (this.get_GMMode() || this.get_ManualMode()) {
+        //Don't send messages in GM mode or manual mode, or if not logged in.
+        if (this.get_GMMode() || this.get_ManualMode() || !this.get_LoggedIn()) {
             return false;
         }
         let timeStamp: number = 0;
@@ -1994,12 +2022,20 @@ export class CharacterService {
                     this.toastService.show("Sent rejection response to <strong>" + target + "</strong>.", [], this);
                 }
             }, (error) => {
-                this.toastService.show("An error occurred while sending response. See console for more information.", [], this);
-                console.log('Error saving response message to database: ' + error.message);
+                if (error.status == 401) {
+                    this.configService.on_LoggedOut(this, "Your login is no longer valid; The item acceptance message could not be sent. Your companion should drop the item manually.");
+                } else {
+                    this.toastService.show("An error occurred while sending response. See console for more information.", [], this);
+                    console.log('Error saving response message to database: ' + error.message);
+                }
             });;
         }, (error) => {
-            this.toastService.show("An error occurred while sending response. See console for more information.", [], this);
-            console.log('Error saving response message to database: ' + error.message);
+            if (error.status == 401) {
+                this.configService.on_LoggedOut(this, "Your login is no longer valid; The item acceptance message could not be sent. Your companion should drop the item manually.");
+            } else {
+                this.toastService.show("An error occurred while sending response. See console for more information.", [], this);
+                console.log('Error saving response message to database: ' + error.message);
+            }
         });
     }
 
@@ -2646,7 +2682,7 @@ export class CharacterService {
         this.set_Changed("top-bar");
         this.loading = true;
         this.extensionsService.initialize();
-        this.configService.initialize();
+        this.configService.initialize(this, this.savegameService);
         this.continue_Initialize(id, loadAsGM);
     }
 
@@ -2669,7 +2705,6 @@ export class CharacterService {
             this.deitiesService.initialize();
             this.animalCompanionsService.initialize();
             this.familiarsService.initialize();
-            this.savegameService.initialize(this);
             this.messageService.initialize(this);
             //EffectsService will wait for the character to be loaded before initializing.
             this.effectsService.initialize(this);
@@ -2684,8 +2719,14 @@ export class CharacterService {
                             this.cancel_Loading();
                         }
                     }, (error) => {
-                        this.toastService.show("An error occurred while loading the character. See console for more information.", [], this);
-                        console.log('Error loading character from database: ' + error.message);
+                        if (error.status == 401) {
+                            this.configService.on_LoggedOut(this, "Your login is no longer valid. The character could not be loaded. Please try again after logging in.");
+                            this.cancel_Loading();
+                        } else {
+                            this.toastService.show("An error occurred while loading the character. See console for more information.", [], this);
+                            console.log('Error loading character from database: ' + error.message);
+                            this.cancel_Loading();
+                        }
                     });
             } else {
                 this.me = new Character();
@@ -2703,8 +2744,12 @@ export class CharacterService {
             this.toastService.show("Deleted " + (savegame.name || "character") + " from database.", [], this);
             this.savegameService.initialize(this);
         }, (error) => {
-            this.toastService.show("An error occurred while deleting the character. See console for more information.", [], this);
-            console.log('Error deleting from database: ' + error.message);
+            if (error.status == 401) {
+                this.configService.on_LoggedOut(this, "Your login is no longer valid. The character could not be deleted. Please try again after logging in.");
+            } else {
+                this.toastService.show("An error occurred while deleting the character. See console for more information.", [], this);
+                console.log('Error deleting from database: ' + error.message);
+            }
         });
     }
 
@@ -2724,6 +2769,8 @@ export class CharacterService {
     cancel_Loading() {
         this.loader = [];
         if (this.loading) { this.loading = false; }
+        //Fill a runtime variable with all the feats the character has taken, as they were cleared when trying to load.
+        this.featsService.build_CharacterFeats(this.get_Character());
         this.trigger_FinalChange();
     }
 
@@ -2777,12 +2824,16 @@ export class CharacterService {
             //Update everything once, then effects, and then the player can take over.
             this.set_Changed();
             this.set_ToChange("Character", "effects");
+            if (!this.configService.get_LoggedIn() && !this.configService.get_CannotLogin()) {
+                this.set_ToChange("Character", "logged-out");
+            }
             this.process_ToChange();
         }
     }
 
     save_Character() {
         this.get_Character().yourTurn = this.timeService.get_YourTurn();
+        this.toastService.show("Saving...", [], this);
         this.savegameService.save_Character(this.get_Character(), this.itemsService, this.classesService, this.historyService, this.animalCompanionsService).subscribe((result) => {
             if (result["lastErrorObject"] && result["lastErrorObject"].updatedExisting) {
                 this.toastService.show("Saved " + (this.get_Character().name || "character") + ".", [], this);
@@ -2791,8 +2842,12 @@ export class CharacterService {
             }
             this.savegameService.initialize(this);
         }, (error) => {
-            this.toastService.show("An error occurred while saving the character. See console for more information.", [], this);
-            console.log('Error saving to database: ' + error.message);
+            if (error.status == 401) {
+                this.configService.on_LoggedOut(this, "Your login is no longer valid. The character could not be saved. Please try saving the character again after logging in.");
+            } else {
+                this.toastService.show("An error occurred while saving the character. See console for more information.", [], this);
+                console.log('Error saving to database: ' + error.message);
+            }
         });
 
     }

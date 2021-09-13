@@ -3,6 +3,7 @@
     "HTTPSPort": "8443",
     "SSLCertificatePath": "./server.crt",
     "SSLPrivateKeyPath": "./server.key",
+    "Password": "secret",
     "DataServiceConnectionURL": "https://server:port",
     "MongoDBConnectionURL": "mongodb://user:password@host:port/?retryWrites=true&w=majority&useUnifiedTopology=true",
     "MongoDBDatabase": "pecs",
