@@ -52,7 +52,8 @@ This log tracks only major changes, as well as changes that need characters to b
 
 ## 1.0.10
 
-- The release will now handle MongoDB databases slightly better. Re-releasing requires a version update.
+- The release can now secure your session with a password.
+- The release will now handle MongoDB databases slightly better.
 
 ## 1.0.11
 
