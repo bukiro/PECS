@@ -17,6 +17,8 @@ export class ActivityGain {
     public duration: number = 0;
     //The character level where this activity becomes available
     public level: number = 0;
+    //The heightened value can be set by a condition that grants this activity gain.
+    public heightened: number = 0;
     public name: string = "";
     public source: string = "";
     //Some activities come with notes to make, like a custom trigger for Trickster's Ace. These can be filled out on the activities app, with name as the title and value as the note.
@@ -35,4 +37,10 @@ export class ActivityGain {
     public targets: SpellTarget[] = [];
     //Condition gains save this id so they can be found and removed when the activity ends, or end the activity when the condition ends.
     public id = uuidv4();
+    recast() {
+        this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
+        this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
+        this.targets = this.targets.map(obj => Object.assign(new SpellTarget(), obj).recast());
+        return this;
+    }
 }

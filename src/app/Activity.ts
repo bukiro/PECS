@@ -42,6 +42,8 @@ export class Activity {
     public inputRequired: string = "";
     public name: string = "";
     public onceEffects: EffectGain[] = [];
+    //overrideHostile allows you to declare a spell as hostile or friendly regardless of other indicators. This will only change the display color of the spell, but not whether you can target allies.
+    public overrideHostile: "hostile" | "friendly" | "" = "";
     public requirements: string = "";
     public showActivities: string[] = [];
     public showonSkill: string = "";
@@ -56,7 +58,10 @@ export class Activity {
     //For "ally", it can be cast on any in-app creature (depending on targetNumber) or without target
     //For "area", it can be cast on any in-app creature witout target number limit or without target
     //For "object", "minion" or "other", the spell button will just say "Cast" without a target
+    //Any non-hostile activity can still target allies if the target number is nonzero. Hostile activities can target allies if the target number is nonzero and this.overrideHostile is "friendly".
     public target: string = "self";
+    //The target number determines how many allies you can target with a non-hostile activity, or how many enemies you can target with a hostile one (not actually implemented).
+    //The activity can have multiple target numbers that are dependent on the character level and whether you have a feat.
     public targetNumbers: SpellTargetNumber[] = [];
     public toggle: boolean = false;
     public traits: string[] = [];
@@ -86,14 +91,29 @@ export class Activity {
         let isStance: boolean = (this.traits.includes("Stance"))
         return isStance || this.gainItems.length || this.castSpells.length || this.gainConditions.length || this.cooldown || this._cooldown || this.toggle || this.onceEffects.length;
     }
-    get_IsHostile() {
+    get_IsHostile(ignoreOverride: boolean = false) {
         //Return whether an activity is meant to be applied on enemies. This is usually the case if the activity target is "other", or if the target is "area" and the activity has no target conditions.
+        //Use ignoreOverride to determine whether you can target allies with an activity that is shown as hostile using overideHostile.
         return (
-            this.target == "other" ||
+            //If ignoreOverride is false and this activity is overrideHostile as hostile, the activity counts as hostile.
+            (!ignoreOverride && this.overrideHostile == "hostile") ||
+            //Otherwise, as long as overrides are ignored or no override as friendly exists, keep checking.
             (
-                this.target == "area" && !this.gainConditions.some(gain => gain.targetFilter != "caster")
+                (
+                    ignoreOverride ||
+                    this.overrideHostile != "friendly"
+                ) &&
+                (
+                    this.target == "other" ||
+                    (
+                        this.target == "area" && !this.hasTargetConditions()
+                    )
+                )
             )
         )
+    }
+    hasTargetConditions() {
+        return this.gainConditions.some(gain => gain.targetFilter != "caster");
     }
     get_TargetNumber(levelNumber: number, characterService: CharacterService) {
         //You can select any number of targets for an area spell.
@@ -103,7 +123,7 @@ export class Activity {
         let character = characterService.get_Character();
         let targetNumber: SpellTargetNumber;
         //This descends from levelnumber downwards and returns the first available targetNumber that has the required feat (if any). Prefer targetNumbers with required feats over those without.
-        // If no targetNumbers are configured, return 1, and if none have a minLevel, return the first that has the required feat (if any). Prefer targetNumbers with required feats over those without.
+        // If no targetNumbers are configured, return 1 for an ally activity and 0 for any other, and if none have a minLevel, return the first that has the required feat (if any). Prefer targetNumbers with required feats over those without.
         if (this.targetNumbers.length) {
             if (this.targetNumbers.some(targetNumber => targetNumber.minLevel)) {
                 for (levelNumber; levelNumber > 0; levelNumber--) {
@@ -123,7 +143,11 @@ export class Activity {
                 return targetNumber?.number || this.targetNumbers[0].number;
             }
         } else {
-            return 1;
+            if (this.target == "ally") {
+                return 1;
+            } else {
+                return 0;
+            }
         }
     }
     maxCharges(creature: Creature, characterService: CharacterService) {
@@ -185,7 +209,7 @@ export class Activity {
         return new HeightenedDescSet();
     }
     get_Heightened(text: string, levelNumber: number) {
-        //For an arbitrary text (usually the spell description or the saving throw result descriptions), retrieve the appropriate description set for this level and replace the variables with the included strings.
+        //For an arbitrary text (usually the activity description or the saving throw result descriptions), retrieve the appropriate description set for this level and replace the variables with the included strings.
         this.get_DescriptionSet(levelNumber).descs.forEach((descVar: HeightenedDesc) => {
             let regex = new RegExp(descVar.variable, "g")
             text = text.replace(regex, (descVar.value || ""));

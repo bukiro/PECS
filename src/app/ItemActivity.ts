@@ -17,13 +17,13 @@ export class ItemActivity extends Activity {
     //The duration is copied from the activity when activated.
     public duration: number = 0;
     public level: number = 0;
+    //The heightened value is here for compatibility with activity gains, which can come with conditions and can carry a spell level.
+    public readonly heightened: number = 0;
     public source: string = "";
     public showonSkill: string = "";
     //Resonant item activities are only available when the item is slotted into a wayfinder.
     public resonant: boolean = false;
     public data: { name: string, value: any }[] = [];
-    //We copy the activity's castSpells here whenever we activate it, so we can store the item ID.
-    public castSpells: SpellCast[] = [];
     //If the activity causes a condition, in order to select a choice from the activity beforehand, the choice is saved here for each condition.
     public effectChoices: { condition: string, choice: string }[] = [];
     //If the activity casts a spell, in order to select a choice from the spell before casting it, the choice is saved here for each condition for each spell, recursively.
@@ -44,4 +44,8 @@ export class ItemActivity extends Activity {
     public targets: SpellTarget[] = [];
     //Condition gains save this id so they can be found and removed when the activity ends, or end the activity when the condition ends.
     public id = uuidv4();
+    recast() {
+        this.targets = this.targets.map(obj => Object.assign(new SpellTarget(), obj).recast());
+        return this;
+    }
 }

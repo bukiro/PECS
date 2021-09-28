@@ -68,6 +68,9 @@ export class Skill {
         ];
         if (ability) {
             list.push(ability + "-based Checks and DCs");
+            if (!isDC) {
+                list.push(ability + "-based Skill Checks");
+            }
         }
         if (this.type == "Skill") {
             list.push("Skill Checks");

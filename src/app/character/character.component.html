@@ -47,7 +47,7 @@
                             </button>
                         </div>
                     </ng-container>
-                    <ng-container *ngIf="get_CannotLogin()">
+                    <ng-container *ngIf="!get_CannotLogin()">
                         <ng-container *ngIf="!get_LoggedIn()">
                             <div class="list-item">
                                 <button class="newrow" disabled>
@@ -752,7 +752,8 @@
                                                     triggers="click">
                                                     <app-gridIcon class="featchoice"
                                                         [ngbTooltip]="!FixedFeatPopover.isOpen() && (libraryFeat.displayName || feat.name)"
-                                                        [title]="libraryFeat.displayName || feat.name"
+                                                        [title]="(libraryFeat.displayName || feat.name).split(': ')[0]"
+                                                        [detail]="(libraryFeat.displayName || feat.name).split(': ')[1] || ''"
                                                         [superTitle]="'icon-bi-lock-fill'">
                                                     </app-gridIcon>
                                                 </button>
@@ -833,7 +834,8 @@
                                                     triggers="click">
                                                     <app-gridIcon class="specialchoice"
                                                         [ngbTooltip]="!FixedFeaturePopover.isOpen() && (libraryFeature.displayName || feature.name)"
-                                                        [title]="libraryFeature.displayName || feature.name"
+                                                        [title]="(libraryFeature.displayName || feature.name).split(': ')[0]"
+                                                        [detail]="(libraryFeature.displayName || feature.name).split(': ')[1] || ''"
                                                         [superTitle]="'icon-bi-lock-fill'">
                                                     </app-gridIcon>
                                                 </button>
@@ -1719,8 +1721,10 @@
                                         triggers="click">
                                         <app-gridIcon [title]="class.name"></app-gridIcon>
                                         <header class="sectionHeader">
-                                            <i [ngbTooltip]="class.warning" style="font-size:200%" *ngIf="class.warning"
+                                            <i [ngbTooltip]="class.problem" style="font-size:200%" *ngIf="class.problem"
                                                 class="penalty bi-exclamation-triangle"></i>
+                                            <i [ngbTooltip]="class.warning" style="font-size:200%" *ngIf="class.warning"
+                                                class="absolute bi-exclamation-triangle"></i>
                                             <span>
                                                 {{class.name}}
                                             </span>

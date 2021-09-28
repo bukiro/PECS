@@ -134,12 +134,12 @@ export class AttacksComponent implements OnInit {
             let condition = this.characterService.get_Conditions(gain.name)[0];
             this.onlyAttacks.push(
                 ...condition?.attackRestrictions
-                    .filter(restriction => !restriction.excluding && (!restriction.conditionChoiceFilter || restriction.conditionChoiceFilter == gain.choice))
+                    .filter(restriction => !restriction.excluding && (!restriction.conditionChoiceFilter.length || restriction.conditionChoiceFilter.includes(gain.choice)))
                     .map(restriction => restriction.name)
             )
             this.forbiddenAttacks.push(
                 ...condition?.attackRestrictions
-                    .filter(restriction => restriction.excluding && (!restriction.conditionChoiceFilter || restriction.conditionChoiceFilter == gain.choice))
+                    .filter(restriction => restriction.excluding && (!restriction.conditionChoiceFilter.length || restriction.conditionChoiceFilter.includes(gain.choice)))
                     .map(restriction => restriction.name)
             )
         });

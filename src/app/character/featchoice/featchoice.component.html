@@ -14,7 +14,8 @@
                 <button (click)="toggle_List(listID)" *ngIf="showTitle && !showContent && get_TileMode()"
                     [ngClass]="{'fancy-button choicecleared':(availableFeats == choice.feats.length), 'featchoice':!choice.specialChoice, 'specialchoice':choice.specialChoice, 'activechoice':get_ShowChoice()==listID}">
                     <app-gridIcon [ngbTooltip]="buttonTitle" [superTitle]="availableFeats.toString()"
-                        [title]="(availableFeats == 1 && choice.feats.length) ? choice.feats[0].name : ((availableFeats > 1 && choice.feats.length > 0) ? choice.feats.length.toString() : '')"
+                        [title]="(availableFeats == 1 && choice.feats.length) ? choice.feats[0].name.split(': ')[0] : ((availableFeats > 1 && choice.feats.length > 0) ? choice.feats.length.toString() : '')"
+                        [detail]="(availableFeats == 1 && choice.feats.length) ? (choice.feats[0].name.split(': ')[1] || '') : ''"
                         [ngClass]="{'fancy-button':(availableFeats == choice.feats.length), 'featchoice':!choice.specialChoice, 'specialchoice':choice.specialChoice}"
                         [subTitle]="choice.feats.length ? '' : choice.type.split(' ')[choice.type.split(' ').length-1].substr(0,8)">
                     </app-gridIcon>

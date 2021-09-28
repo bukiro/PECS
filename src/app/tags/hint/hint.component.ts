@@ -57,9 +57,9 @@ export class HintComponent implements OnInit {
                     isConditionSet ?
                         (
                             (
-                                hint.conditionChoiceFilter ?
-                                    (hint.conditionChoiceFilter == "-" && this.object.gain.choice == "") ||
-                                    (this.object.gain.choice == hint.conditionChoiceFilter) :
+                                hint.conditionChoiceFilter.length ?
+                                    (hint.conditionChoiceFilter.includes("-") && this.object.gain.choice == "") ||
+                                    (hint.conditionChoiceFilter.includes(this.object.gain.choice)) :
                                     true
                             )
                         ) :
@@ -124,7 +124,7 @@ export class HintComponent implements OnInit {
 
     get_HintChoice(hint: Hint) {
         //Only for condition hints, append the choice if the hint only showed up because of the choice.
-        if (this.object instanceof ConditionSet && hint.conditionChoiceFilter) {
+        if (this.object instanceof ConditionSet && hint.conditionChoiceFilter.length) {
             return ": " + this.object.gain.choice;
         }
         return "";

@@ -68,6 +68,7 @@ import { ConditionSet } from './ConditionSet';
 import { ExtensionsService } from './extensions.service';
 import { AnimalCompanionAncestry } from './AnimalCompanionAncestry';
 import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
+import { dependenciesFromGlobalMetadata } from '@angular/compiler/src/render3/r3_factory';
 
 @Injectable({
     providedIn: 'root'
@@ -1492,6 +1493,12 @@ export class CharacterService {
             if (conditionGain.heightened < originalCondition.minLevel) {
                 conditionGain.heightened = originalCondition.minLevel;
             }
+            //Check if any condition denies this condition, and stop processing if that is the case.
+            let denySources: string[] = this.get_AppliedConditions(creature, "", "", true).filter(existingGain => this.get_Conditions(existingGain.name)?.[0]?.denyConditions.includes(conditionGain.name)).map(existingGain => "<strong>" + existingGain.name + "</strong>");
+            if (denySources.length) {
+                activate = false;
+                this.toastService.show("The condition <strong>" + conditionGain.name + "</strong> was not added because it is blocked by: " + denySources.join(", "), [], this);
+            }
             //If the condition has an activationPrerequisite, test that first and only activate if it evaluates to a nonzero number.
             if (conditionGain.activationPrerequisite) {
                 let testConditionGain: any = Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain)));
@@ -1512,9 +1519,9 @@ export class CharacterService {
                 if (originalCondition.choices.length && !conditionGain.choice) {
                     conditionGain.choice = originalCondition.choice || originalCondition.choices[0].name;
                 }
-                //If there is a choice, check if there is a nextStage value of that choice.
+                //If there is a choice, check if there is a nextStage value of that choice and copy it to the condition gain.
                 if (conditionGain.choice) {
-                    conditionGain.nextStage = originalCondition.choices.find(choice => choice.name == conditionGain.choice)?.nextStage || 0;
+                    conditionGain.nextStage = originalCondition.get_ChoiceNextStage(conditionGain.choice);
                 }
                 if (conditionGain.nextStage) {
                     this.set_ToChange(creature.type, "time");
@@ -2099,6 +2106,24 @@ export class CharacterService {
         } catch (error) {
             value = 0;
         }
+        let recipientName = "";
+        let recipientName2 = "It";
+        let recipientName3 = "it";
+        let recipientGenitive = "its";
+        let recipientIs = "is";
+        let recipientHas = "has";
+        if (creature.type == "Character") {
+            recipientName = "You";
+            recipientName2 = "You";
+            recipientName3 = "you";
+            recipientGenitive = "your";
+            recipientIs = "are";
+            recipientHas = "have";
+        } else if (creature.type == "Companion") {
+            recipientName = this.get_Companion().name || 'Your animal companion';
+        } else if (creature.type == "Familiar") {
+            recipientName = this.get_Familiar().name || 'Your familiar';
+        }
         switch (effectGain.affected) {
             case "Focus Points":
                 if (value) {
@@ -2126,14 +2151,14 @@ export class CharacterService {
                     if (effectGain.source == "Manual") {
                         creature.health.temporaryHP[0] = { amount: value, source: effectGain.source, sourceId: "" };
                         creature.health.temporaryHP.length = 1;
-                        this.toastService.show("You gained " + value + " temporary HP.", [], this);
+                        this.toastService.show(recipientName + " gained " + value + " temporary HP.", [], this);
                     } else if (creature.health.temporaryHP[0].amount == 0) {
                         creature.health.temporaryHP[0] = { amount: value, source: effectGain.source, sourceId: effectGain.sourceId };
                         creature.health.temporaryHP.length = 1;
-                        this.toastService.show("You gained " + value + " temporary HP from " + effectGain.source + ".", [], this);
+                        this.toastService.show(recipientName + " gained " + value + " temporary HP from " + effectGain.source + ".", [], this);
                     } else {
                         creature.health.temporaryHP.push({ amount: value, source: effectGain.source, sourceId: effectGain.sourceId });
-                        this.toastService.show("You gained " + value + " temporary HP from " + effectGain.source + ". You already had temporary HP and must choose which amount to keep.", [], this);
+                        this.toastService.show(recipientName + " gained " + value + " temporary HP from " + effectGain.source + ". " + recipientName2 + " already had temporary HP and must choose which amount to keep.", [], this);
                     }
                 } else if (value < 0) {
                     let targetTempHPSet = creature.health.temporaryHP.find(tempHPSet => ((tempHPSet.source == "Manual") && (effectGain.source == "Manual")) || tempHPSet.sourceId == effectGain.sourceId)
@@ -2144,12 +2169,12 @@ export class CharacterService {
                             if (targetTempHPSet.amount <= 0) {
                                 creature.health.temporaryHP[0] = { amount: 0, source: "", sourceId: "" };
                             }
-                            this.toastService.show("You lost " + value * -1 + " temporary HP.", [], this);
+                            this.toastService.show(recipientName + " lost " + value * -1 + " temporary HP.", [], this);
                         } else {
                             if (targetTempHPSet.amount <= 0) {
                                 creature.health.temporaryHP.splice(creature.health.temporaryHP.indexOf(targetTempHPSet), 1);
                             }
-                            this.toastService.show("You lost " + value * -1 + " of the temporary HP gained from " + effectGain.source + ". This is not the set of temporary HP that you are currently using.", [], this);
+                            this.toastService.show(recipientName + " lost " + value * -1 + " of the temporary HP gained from " + effectGain.source + ". This is not the set of temporary HP that " + recipientName3 + " " + recipientIs + " currently using.", [], this);
                         }
                     }
                 }
@@ -2163,25 +2188,25 @@ export class CharacterService {
                     let result = creature.health.heal(creature, this, this.effectsService, value, true);
                     let results: string = ""
                     if (result.unconsciousRemoved) {
-                        results = " This removed your Unconscious condition."
+                        results = " This removed " + recipientGenitive + " Unconscious condition."
                     }
                     if (result.dyingRemoved) {
-                        results = " This removed your Dying condition."
+                        results = " This removed " + recipientGenitive + " Dying condition."
                     }
-                    this.toastService.show("You gained " + value + " HP from " + effectGain.source + "." + results, [], this);
+                    this.toastService.show(recipientName + " gained " + value + " HP from " + effectGain.source + "." + results, [], this);
                 } else if (value < 0) {
                     let result = creature.health.takeDamage(creature, this, this.effectsService, -value, false);
                     let results: string = ""
                     if (result.unconsciousAdded) {
-                        results = " You are now Unconscious."
+                        results = " " + recipientName + " " + recipientIs + " now Unconscious."
                     }
                     if (result.dyingAdded) {
-                        results = " You are now Dying " + result.dyingAdded + "."
+                        results = " " + recipientName2 + " " + recipientIs + " now Dying " + result.dyingAdded + "."
                     }
                     if (result.wokeUp) {
-                        results = " This removed your Unconscious condition."
+                        results = " This removed " + recipientGenitive + " Unconscious condition."
                     }
-                    this.toastService.show("You lost " + value * -1 + " HP from " + effectGain.source + "." + results, [], this);
+                    this.toastService.show(recipientName + " lost " + value * -1 + " HP from " + effectGain.source + "." + results, [], this);
                 }
                 this.set_ToChange(creature.type, "health");
                 this.set_ToChange(creature.type, "effects");
@@ -2204,16 +2229,16 @@ export class CharacterService {
                 this.defenseService.get_AC().set_Cover(creature, value, null, this, this.conditionsService);
                 switch (value) {
                     case 0:
-                        this.toastService.show("You are no longer taking cover.", [], this);
+                        this.toastService.show("" + recipientName + " " + recipientIs + " no longer taking cover.", [], this);    
                         break;
                     case 1:
-                        this.toastService.show("You now have lesser cover.", [], this);
+                        this.toastService.show(recipientName + " now " + recipientHas + " lesser cover.", [], this);    
                         break;
                     case 2:
-                        this.toastService.show("You now have standard cover.", [], this);
+                        this.toastService.show(recipientName + " now " + recipientHas + " standard cover.", [], this);    
                         break;
                     case 4:
-                        this.toastService.show("You now have greater cover.", [], this);
+                        this.toastService.show(recipientName + " now " + recipientHas + " greater cover.", [], this);    
                         break;
                 }
                 break;
@@ -2294,7 +2319,7 @@ export class CharacterService {
         this.get_AppliedConditions(creature).filter(gain => gain.apply).forEach(gain => {
             let condition = this.conditionsService.get_Conditions(gain.name)[0]
             if (condition?.senses.length) {
-                senses.push(...condition.senses.filter(sense => !sense.conditionChoiceFilter || sense.conditionChoiceFilter == gain.choice).map(sense => sense.name))
+                senses.push(...condition.senses.filter(sense => !sense.conditionChoiceFilter.length || sense.conditionChoiceFilter.includes(gain.choice)).map(sense => sense.name))
             }
         });
         return Array.from(new Set(senses));
@@ -2412,8 +2437,11 @@ export class CharacterService {
             if (creature.type == "Companion") {
                 activities.push(...(creature as AnimalCompanion).class?.ancestry?.activities.filter(gain => gain.level <= levelNumber));
             }
-            //Get all applied condition gains' activity gains. These were copied from the condition when it was added.
+            //Get all applied condition gains' activity gains. These were copied from the condition when it was added. Also set the condition gain's spell level to the activity gain.
             this.get_AppliedConditions(creature, "", "", true).filter(gain => gain.apply).forEach(gain => {
+                gain.gainActivities.forEach(activityGain => {
+                    activityGain.heightened = gain.heightened;
+                })
                 activities.push(...gain.gainActivities);
             });
             //With the all parameter, get all activities of all items regardless of whether they are equipped or invested or slotted.

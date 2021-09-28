@@ -155,8 +155,8 @@ export class EffectsComponent implements OnInit {
         return this.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.apply && !effect.show);
     }
 
-    get_AppliedConditions(apply: boolean) {
-        return this.characterService.get_AppliedConditions(this.get_Creature()).filter(condition => condition.apply == apply).sort(function (a, b) {
+    get_AppliedConditions(apply: boolean, instant: boolean = false) {
+        return this.characterService.get_AppliedConditions(this.get_Creature()).filter(condition => condition.apply == apply || (instant && condition.duration == 1)).sort(function (a, b) {
             if (a.name + a.value + a.choice > b.name + b.value + b.choice) {
                 return 1;
             }

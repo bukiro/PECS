@@ -2,7 +2,7 @@
     {
         "_className": "Class",
         "name": "Alchemist",
-        "warning": "Alchemist functionality and feats are not implemented yet.",
+        "problem": "Alchemist functionality and feats are not implemented yet.",
         "customSkills": [
             {
                 "ability": "Intelligence",
@@ -4188,7 +4188,7 @@
         "deityFocused": true,
         "showDeityAnathema": true,
         "showDeityEdicts": true,
-        "warning": "Champion feats are not implemented yet.",
+        "problem": "Champion feats are not implemented yet.",
         "customSkills": [
             {
                 "ability": "Charisma",
@@ -5595,6 +5595,7 @@
     {
         "_className": "Class",
         "name": "Cleric",
+        "warning": "Advanced domain spells can be chosen, but are not yet functional. The Cleric is otherwise fully implemented.",
         "deityFocused": true,
         "showDeityAnathema": true,
         "showDeityEdicts": true,

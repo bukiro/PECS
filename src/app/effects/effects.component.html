@@ -98,7 +98,7 @@
                     <header class="sectionHeader box-header">Conditions</header>
                 </div>
                 <ng-container
-                    *ngFor="let conditionGain of get_AppliedConditions(true); trackBy:trackByConditionGainID;">
+                    *ngFor="let conditionGain of get_AppliedConditions(true, true); trackBy:trackByConditionGainID;">
                     <ng-container *ngTemplateOutlet="conditionTemplate;context:{conditionGain:conditionGain}">
                     </ng-container>
                 </ng-container>

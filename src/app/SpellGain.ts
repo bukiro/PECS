@@ -37,4 +37,9 @@ export class SpellGain {
     public ignoreBloodMagicTrigger = false;
     //Condition gains save this id so they can be found and removed when the spell ends, or end the spell when the condition ends.
     public id = uuidv4();
+    recast() {
+        this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
+        this.targets = this.targets.map(obj => Object.assign(new SpellTarget(), obj).recast());
+        return this;
+    }
 }

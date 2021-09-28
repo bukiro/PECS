@@ -201,6 +201,9 @@ export class GridIconComponent implements OnInit {
             if (this.condition.choice.substr(0, 6) == "Stage ") {
                 iconDetail = this.condition.choice.replace("tage ", "");
                 return iconDetail;
+            } else if (this.condition.name == "Persistent Damage") {
+                iconDetail = this.condition.choice.split(" ")[0].substr(0, 6);
+                return iconDetail;
             } else {
                 iconDetail = this.condition.choice;
             }
@@ -212,6 +215,8 @@ export class GridIconComponent implements OnInit {
                 } else {
                     iconDetail = iconDetail.replace(/[^a-z ]/gi, '').split(" ").map(part => part.substr(0, 1)).join("").toUpperCase().substr(0, 2);
                 }
+            } else {
+                iconDetail = parseInt(iconDetail).toString();
             }
         }
         return iconDetail;
@@ -300,7 +305,11 @@ export class GridIconComponent implements OnInit {
     get_IconValue() {
         //Show condition value, and show effect values over 2 characters. Shorter effect values will be shown as SuperTitle instead.
         if (this.condition?.value) {
-            return this.condition.value.toString();
+            if (this.condition.name == "Stunned" && this.condition.duration != -1) {
+                return "";
+            } else {
+                return this.condition.value.toString();
+            }
         } else if (this.effect?.setValue?.length > 2) {
             return this.effect.setValue;
         } else if (this.effect?.value?.length > 2) {

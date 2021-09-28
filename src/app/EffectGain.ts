@@ -27,4 +27,7 @@ export class EffectGain {
     public cumulative: string[] = [];
     //A resonant effect only applies if the carrying item is slotted into a wayfinder.
     public resonant: boolean = false;
+    recast() {
+        return this;
+    }
 }

@@ -86,6 +86,12 @@
     <strong>Critical Failure</strong>
     <app-description [text]="get_Heightened(spell.critfailure)" [casting]="casting" [oneLiner]="true"></app-description>
 </div>
+<ng-container *ngIf="spell.desc2">
+    <div class="newrow left-aligned"
+        *ngFor="let desc of get_Heightened(spell.desc2).split('\n\n'); trackBy:trackByIndex;">
+        <app-description class="newrow" [text]="desc" [casting]="casting"></app-description>
+    </div>
+</ng-container>
 <div class="newrow left-aligned" *ngFor="let heightened of spell.heightened; trackBy:trackByIndex;">
     <span>
         <strong>Heightened {{heightened.level}}</strong>

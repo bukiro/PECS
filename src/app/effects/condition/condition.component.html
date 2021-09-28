@@ -22,6 +22,8 @@
                                 &nbsp;{{conditionGain.choice}}
                             </span>
                         </label>
+                        <app-quickdice *ngIf="conditionGain.name == 'Persistent Damage' && conditionGain.choice"
+                            [diceString]="conditionGain.choice"></app-quickdice>
                         <ng-container
                             *ngIf="conditionGain.showChoices && choices.length && !conditionGain.choiceLocked">
                             <span *ngFor="let oldChoice of [conditionGain.choice]; trackBy:trackByIndex;">
@@ -81,6 +83,14 @@
                     *ngIf="conditionGain.duration == 1">
                     Done
                 </button>
+            </span>
+        </div>
+        <div class="newrow list-item left-aligned"
+            *ngIf="conditionGain.showChoices && condition.name == 'Persistent Damage'">
+            <span class="gap-text">
+                Damage type and amount:
+                <input type="text" id="persistentDamage" [(ngModel)]="conditionGain.choice" maxLength="30">
+                <button (click)="conditionGain.showChoices = false">Save</button>
             </span>
         </div>
         <div [ngbCollapse]="!conditionGain.showNotes">
@@ -172,12 +182,6 @@
                     *ngIf="(condition.allowRadiusChange || conditionGain.showRadius) && conditionGain.radius">+5</button>
             </span>
         </div>
-        <div class="newrow list-item" *ngIf="conditionGain.showChoices && condition.name == 'Persistent Damage'">
-            <span>
-                Damage type and amount: <input type="text" id="persistentDamage" [(ngModel)]="conditionGain.choice"
-                    maxLength="30">
-            </span>
-        </div>
         <div class="newrow" *ngIf="conditionGain.nextStage > 0">
             <span>
                 <strong>Affliction onset&nbsp;</strong>{{get_Duration(conditionGain.nextStage)}}
@@ -185,7 +189,7 @@
         </div>
         <div class="newrow" *ngIf="conditionGain.nextStage == -1 && conditionGain.choice && choices.length">
             <div class="list-item lower newrow problem">
-                <strong>Affliction onset reached</strong>
+                <strong class="no-shadow">Affliction onset reached</strong>
                 <div class="newrow left-aligned">
                     <p>Make {{condition.traits.includes("Virulent") ? "two saving throws" : "a saving throw"}} to
                         determine the next stage of the affliction.</p>

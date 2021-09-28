@@ -263,10 +263,10 @@ export class SpellbookComponent implements OnInit {
                 //Add the condition to the selection list. Conditions with no choices or with automatic choices will not be displayed.
                 conditionSets.push(conditionSet);
                 //Then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.
-                while (!gain.effectChoices.length || gain.effectChoices.length < index - 1) {
+                while (conditionSet.condition && (!gain.effectChoices.length || gain.effectChoices.length < index - 1)) {
                     gain.effectChoices.push({ condition: conditionSet.condition.name, choice: conditionSet.condition.choice });
                 }
-                if (!conditionSet.condition._choices.includes(gain.effectChoices?.[index]?.choice)) {
+                if (conditionSet.condition && !conditionSet.condition._choices.includes(gain.effectChoices?.[index]?.choice)) {
                     gain.effectChoices[index] = { condition: conditionSet.condition.name, choice: conditionSet.condition.choice };
                 }
             })

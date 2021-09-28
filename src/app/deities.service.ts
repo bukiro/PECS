@@ -17,7 +17,7 @@ export class DeitiesService {
     private loading: boolean = false;
     //The character's deity or deities get loaded into $characterDeities whenever it is queried and empty.
     private $characterDeities: { deity: Deity, source: string, level: number }[] = [];
-
+    
     constructor(
         private extensionsService: ExtensionsService
     ) { }

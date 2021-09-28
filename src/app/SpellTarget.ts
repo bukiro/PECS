@@ -5,4 +5,7 @@ export class SpellTarget {
     type: "Character" | "Companion" | "Familiar" = "Character";
     selected: boolean = false;
     isPlayer: boolean = false;
+    recast() {
+        return this;
+    }
 }

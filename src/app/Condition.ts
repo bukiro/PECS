@@ -33,7 +33,9 @@ export class Condition {
     public gainActivities: ActivityGain[] = [];
     public gainConditions: ConditionGain[] = [];
     public gainItems: ItemGain[] = [];
+    public hide: boolean = false;
     public overrideConditions: string[] = [];
+    public denyConditions: string[] = [];
     public endConditions: string[] = [];
     //If alwaysApplyCasterCondition is true and this is a caster condition, it is applied even when it is informational and the caster is already getting the target condition.
     public alwaysApplyCasterCondition: boolean = false;
@@ -42,9 +44,10 @@ export class Condition {
     public attackRestrictions: AttackRestriction[] = [];
     public source: string = "";
     public senses: SenseGain[] = [];
-    public nextCondition: ConditionGain = null;
+    public nextCondition: ConditionGain[] = [];
     public defaultDurations: ConditionDuration[] = [];
     public persistent: boolean = false;
+    //Restricted conditions can be seen, but not taken from the conditions menu.
     public restricted: boolean = false;
     public radius: number = 0;
     public allowRadiusChange: boolean = false;
@@ -57,10 +60,31 @@ export class Condition {
     public _choices: string[] = [];
     //This property is only used to select a default choice before adding the condition. It is not read when evaluating the condition.
     public choice: string = "";
+    //All instances of an unlimited condition are shown in the conditions area.
     public unlimited: boolean = false;
+    recast() {
+        this.heightenedDescs = this.heightenedDescs.map(obj => Object.assign(new HeightenedDescSet(), obj).recast());
+        this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
+        this.onceEffects = this.onceEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
+        this.endEffects = this.endEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
+        this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
+        this.gainActivities = this.gainActivities.map(obj => Object.assign(new ActivityGain(), obj).recast());
+        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
+        this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
+        this.attackRestrictions = this.attackRestrictions.map(obj => Object.assign(new AttackRestriction(), obj).recast());
+        this.senses = this.senses.map(obj => Object.assign(new SenseGain(), obj).recast());
+        this.nextCondition = this.nextCondition.map(obj => Object.assign(new ConditionGain(), obj).recast());
+        this.defaultDurations = this.defaultDurations.map(obj => Object.assign(new ConditionDuration(), obj).recast());
+        this.choices = this.choices.map(obj => Object.assign(new ConditionChoice(), obj).recast());
+        //If choices exist and no default choice is given, take the first one as default.
+        if (this.choices.length && !this.choice) {
+            this.choice = this.choices[0].name
+        }
+        return this;
+    }
     get_HasEffects() {
         //Return whether the condition has any effects beyond showing text.
-        return (this.effects?.length || this.hints.some(hint => hint.effects?.length) || this.gainConditions.length || this.overrideConditions.length || this.endConditions.length || this.gainItems.length || this.gainActivities.length || this.senses.length || this.nextCondition || this.onceEffects.length || this.endEffects.length);
+        return (this.effects?.length || this.hints.some(hint => hint.effects?.length) || this.gainConditions.length || this.overrideConditions.length || this.endConditions.length || this.gainItems.length || this.gainActivities.length || this.senses.length || this.nextCondition.length || this.onceEffects.length || this.endEffects.length);
     }
     get_IsChangeable() {
         //Return whether the condition has values that you can change.
@@ -78,14 +102,16 @@ export class Condition {
             this.gainItems.length ||
             this.gainActivities.length ||
             this.senses.length ||
-            this.nextCondition ||
+            this.nextCondition.length ||
             this.endEffects.length ||
             (
                 conditionGain ?
                     (this.gainConditions.length ? characterService.get_AppliedConditions(creature, "", "", true).some(existingCondition => existingCondition.parentID == conditionGain?.id) : false) :
                     this.gainConditions.length
             ) ||
+            this.denyConditions.length ||
             (this.overrideConditions.length ? characterService.get_AppliedConditions(creature, "", "", true).some(existingCondition => this.overrideConditions.includes(existingCondition.name)) : false)
+
         )
     }
     get_Choices(characterService: CharacterService, filtered: boolean = false, spellLevel: number = this.minLevel) {

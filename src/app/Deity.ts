@@ -1,5 +1,4 @@
 import { Character } from './Character';
-import { CharacterService } from './character.service';
 import { SpellCast } from './SpellCast';
 
 export class Deity {
@@ -29,6 +28,7 @@ export class Deity {
         if (!this.$domains.length) {
             this.$domains = JSON.parse(JSON.stringify(this.domains));
             if (character.class.deity == this.name) {
+                //If you have taken the Splinter Faith feat, your domains are replaced. It's not necessary to filter by level, because Splinter Faith changes domains retroactively.
                 let splinterFaithFeat = character.customFeats.find(feat => feat.name == "Splinter Faith");
                 if (splinterFaithFeat) {
                     this.$domains = JSON.parse(JSON.stringify(splinterFaithFeat.data?.['domains'] as string[] || []));
@@ -53,6 +53,7 @@ export class Deity {
             this.$alternateDomains = JSON.parse(JSON.stringify(this.alternateDomains));
             if (JSON.stringify(this.$domains) != JSON.stringify(this.domains)) {
                 if (character.class.deity == this.name) {
+                    //If you have taken the Splinter Faith feat, your alternate domains are replaced. It's not necessary to filter by level, because Splinter Faith changes domains retroactively.
                     let splinterFaithFeat = character.customFeats.find(feat => feat.name == "Splinter Faith");
                     if (splinterFaithFeat) {
                         let splinterFaithDomains = splinterFaithFeat.data?.['domains'] as string[] || [];

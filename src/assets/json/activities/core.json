@@ -5597,5 +5597,258 @@
         "cooldown": 1000,
         "target": "self",
         "desc": "Once every 10 minutes, when you use the Feint action, you can compare your Deception check result to the Perception DCs of all adjacent creatures rather than just one creature within melee reach. It's possible to get a different degree of success for each target.\n\nThese changes are imprecise and usually short-lived, so while they allow you to periodically change your appearance in unpredictable ways, they are of little use in providing camouflage or aiding a disguise."
+    },
+    {
+        "name": "Draconic Barrage Energy Missile",
+        "actions": "1A",
+        "traits": [
+            "Attack",
+            "Concentrate"
+        ],
+        "target": "self",
+        "desc": "You have shaped energy into <var>var1</var>. The specific dragon is random; roll 1d6 on the table below for each dragon evoked to determine which type of dragon you create. While the spell persists, you can command one of your dragons to spit a missile of energy at a creature within 60 feet by using a single action, which has the concentrate trait. This is a ranged Strike that uses your spell attack bonus and deals |dice=var2 + spellMod| <var>var2</var> damage plus your spellcasting ability modifier, with the damage type depending on the dragon. A dragon's breath Strike uses and contributes to your multiple attack penalty. Once a dragon has used its breath Strike, it winks out of existence; when you have no dragons remaining, the spell ends.\n\n<strong>1</strong> Copper or black dragon, Acid breath\n<strong>2</strong> Silver or white dragon, Cold breath\n<strong>3</strong> Bronze or blue dragon, Electricity breath\n<strong>4</strong> Brass, gold, or red dragon, Fire breath\n<strong>5</strong> Green Dragon, Poison breath\n<strong>6</strong> Your choice of dragon, breath type as the dragon",
+        "gainConditions": [
+            {
+                "duration": 0,
+                "name": "Draconic Barrage Energy Missile",
+                "source": "Draconic Barrage Energy Missile"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 1,
+                "descs": [
+                    {
+                        "value": "one incorporeal tiny dragon (or serpentine creature) that flits around you.",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "1d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 2,
+                "descs": [
+                    {
+                        "value": "two incorporeal tiny dragons (or serpentine creatures) that flit around you.",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "2d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 3,
+                "descs": [
+                    {
+                        "value": "three incorporeal tiny dragons (or serpentine creatures) that flit around you.",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "3d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 4,
+                "descs": [
+                    {
+                        "value": "four incorporeal tiny dragons (or serpentine creatures) that flit around you.",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "4d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 5,
+                "descs": [
+                    {
+                        "value": "five incorporeal tiny dragons (or serpentine creatures) that flit around you.",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "5d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "six incorporeal tiny dragons (or serpentine creatures) that flit around you.",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "6d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "seven incorporeal tiny dragons (or serpentine creatures) that flit around you.",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "7d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "eight incorporeal tiny dragons (or serpentine creatures) that flit around you.",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "8d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "nine incorporeal tiny dragons (or serpentine creatures) that flit around you.",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "9d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "ten incorporeal tiny dragons (or serpentine creatures) that flit around you.",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "10d6",
+                        "variable": "var2"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Vibrant Thorns: Positive Spell Cast",
+        "target": "self",
+        "desc": "Anytime you cast a positive spell, the damage from Vibrant Thorns increases to |dice=var2 P| <var>var2</var> until the start of your next turn.",
+        "gainConditions": [
+            {
+                "duration": 10,
+                "name": "Vibrant Thorns: Positive Spell Cast",
+                "source": "Vibrant Thorns: Positive Spell Cast"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 1,
+                "descs": [
+                    {
+                        "value": "1d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 2,
+                "descs": [
+                    {
+                        "value": "2d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 3,
+                "descs": [
+                    {
+                        "value": "3d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 4,
+                "descs": [
+                    {
+                        "value": "4d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 5,
+                "descs": [
+                    {
+                        "value": "5d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "6d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "7d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "8d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "9d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "10d6",
+                        "variable": "var2"
+                    }
+                ]
+            }
+        ]
     }
 ]

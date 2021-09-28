@@ -143,9 +143,11 @@ export class SpellLibraryComponent implements OnInit {
                     this.wordFilter && (
                         spell.name
                             .concat(spell.desc)
+                            .concat(spell.desc2)
                             .concat(spell.area)
                             .concat(spell.targets)
                             .concat(spell.range)
+                            .concat(spell.heightenedDescs.map(hdesc => hdesc.descs.map(desc => desc.value).join(" ")).join(" "))
                             .toLowerCase()
                             .includes(this.wordFilter.toLowerCase()) ||
                         spell.traits.filter(trait => trait.toLowerCase().includes(this.wordFilter.toLowerCase())).length

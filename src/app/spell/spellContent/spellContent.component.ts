@@ -39,7 +39,8 @@ export class SpellContentComponent implements OnInit {
         let levelNumber = this.spellLevel;
         if (!levelNumber || levelNumber == -1) {
             levelNumber = this.characterService.get_Character().get_SpellLevel();
-        } else if (this.spell.levelreq && levelNumber < this.spell.levelreq) {
+        }
+        if (this.spell.levelreq && levelNumber < this.spell.levelreq) {
             levelNumber = this.spell.levelreq;
         }
         return this.spell.get_Heightened(desc, levelNumber)

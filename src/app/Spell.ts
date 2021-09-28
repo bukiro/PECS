@@ -19,6 +19,8 @@ export class Spell {
     public critsuccess: string = "";
     public heightenedDescs: HeightenedDescSet[] = [];
     public desc: string = "";
+    //desc2 is displayed after the success levels.
+    public desc2: string = "";
     public duration: string = "";
     //When giving conditions to other player creatures, they should last half a round longer to allow for the caster's turn to end after their last.
     // Spells with a duration like "until the end of the target's turn" instead give the caster half a turn longer. This is activated by durationDependsOnTarget.
@@ -30,6 +32,8 @@ export class Spell {
     public inputRequired: string = "";
     public levelreq: number = 1;
     public name: string = "";
+    //overrideHostile allows you to declare a spell as hostile or friendly regardless of other indicators. This will only change the display color of the spell, but not whether you can target allies.
+    public overrideHostile: "hostile" | "friendly" | "" = "";
     public PFSnote: string = "";
     public range: string = "";
     public savingThrow: string = "";
@@ -47,6 +51,7 @@ export class Spell {
     //For "ally", it can be cast on any in-app creature (depending on targetNumber) or without target
     //For "area", it can be cast on any in-app creature witout target number limit or without target
     //For "object", "minion" or "other", the spell button will just say "Cast" without a target
+    //Any non-hostile spell can still target allies if the target number is nonzero. Hostile spells can target allies if the target number is nonzero and this.overrideHostile is "friendly".
     public target: string = "self";
     //The target description in the spell description.
     public targets: string = "";
@@ -58,6 +63,8 @@ export class Spell {
     public traditions: string[] = [];
     public traits: string[] = [];
     public trigger: string = "";
+    //The target number determines how many allies you can target with a non-hostile activity, or how many enemies you can target with a hostile one (not actually implemented).
+    //The spell can have multiple target numbers that are dependent on the character level and whether you have a feat.
     public targetNumbers: SpellTargetNumber[] = [];
     get_DescriptionSet(levelNumber: number) {
         //This descends from levelnumber downwards and returns the first description set with a matching level.
@@ -72,7 +79,7 @@ export class Spell {
         return new HeightenedDescSet();
     }
     get_Heightened(text: string, levelNumber: number) {
-        //For an arbitrary text (usually the spell description or the saving throw result descriptions), retrieve the appropriate description set for this level and replace the variables with the included strings.
+        //For an arbitrary text (usually the spell description or the saving throw result descriptions), retrieve the appropriate description set for this spell level and replace the variables with the included strings.
         this.get_DescriptionSet(levelNumber).descs.forEach((descVar: HeightenedDesc) => {
             let regex = new RegExp(descVar.variable, "g")
             text = text.replace(regex, (descVar.value || ""));
@@ -87,7 +94,7 @@ export class Spell {
         let character = characterService.get_Character();
         let targetNumber: SpellTargetNumber;
         //This descends from levelnumber downwards and returns the first available targetNumber that has the required feat (if any). Prefer targetNumbers with required feats over those without.
-        // If no targetNumbers are configured, return 1, and if none have a minLevel, return the first that has the required feat (if any). Prefer targetNumbers with required feats over those without.
+        // If no targetNumbers are configured, return 1 for an ally spell and 0 for any other, and if none have a minLevel, return the first that has the required feat (if any). Prefer targetNumbers with required feats over those without.
         if (this.targetNumbers.length) {
             if (this.targetNumbers.some(targetNumber => targetNumber.minLevel)) {
                 for (levelNumber; levelNumber > 0; levelNumber--) {
@@ -107,7 +114,11 @@ export class Spell {
                 return targetNumber?.number || this.targetNumbers[0].number;
             }
         } else {
-            return 1;
+            if (this.target == "ally") {
+                return 1;
+            } else {
+                return 0;
+            }
         }
     }
     get_HeightenedConditions(levelNumber: number = this.levelreq) {
@@ -167,12 +178,24 @@ export class Spell {
         let levelreq: boolean = this.meetsLevelReq(characterService, spellLevel).met;
         return levelreq;
     }
-    get_IsHostile() {
-        //Return whether a spell is meant to be cast on enemies. This is usually the case if the activity target is "other", or if the target is "area" and the spell has no target conditions.
+    get_IsHostile(ignoreOverride: boolean = false) {
+        //Return whether a spell is meant to be cast on enemies. This is usually the case if the spell target is "other", or if the target is "area" and the spell has no target conditions.
+        //Use ignoreOverride to determine whether you can target allies with a spell that is shown as hostile using overideHostile.
         return (
-            this.target == "other" ||
+            //If ignoreOverride is false and this spell is overrideHostile as hostile, the spell counts as hostile.
+            (!ignoreOverride && this.overrideHostile == "hostile") ||
+            //Otherwise, as long as overrides are ignored or no override as friendly exists, keep checking.
             (
-                this.target == "area" && !this.gainConditions.some(gain => gain.targetFilter != "caster")
+                (
+                    ignoreOverride ||
+                    this.overrideHostile != "friendly"
+                ) &&
+                (
+                    this.target == "other" ||
+                    (
+                        this.target == "area" && !this.hasTargetConditions()
+                    )
+                )
             )
         )
     }

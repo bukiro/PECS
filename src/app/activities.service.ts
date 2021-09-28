@@ -267,6 +267,10 @@ export class ActivitiesService {
                             )
                         ) {
                             newConditionGain.sourceGainID = gain?.id || "";
+                            //If this activityGain has taken over a spell level from a spell condition, and the new condition is a spell condition itself, transfer the spell level to it.
+                            if (condition.minLevel) {
+                                newConditionGain.heightened = newConditionGain.heightened || gain.heightened || condition.minLevel;
+                            }
                             if (newConditionGain.duration == -5) {
                                 //If the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
                                 newConditionGain.duration = condition.get_DefaultDuration(newConditionGain.choice, newConditionGain.heightened).duration;
@@ -327,7 +331,7 @@ export class ActivitiesService {
                                 characterService.add_Condition(target as Creature, newConditionGain, false);
                             })
                             //Apply to any non-creature targets whose ID matches your own creatures.
-                            let creatures = characterService.get_Creatures();            
+                            let creatures = characterService.get_Creatures();
                             conditionTargets.filter(target => target instanceof SpellTarget && creatures.some(creature => creature.id == target.id)).forEach(target => {
                                 characterService.add_Condition(characterService.get_Creature(target.type), newConditionGain, false);
                             })

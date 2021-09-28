@@ -40,10 +40,10 @@ export class ConditionGain {
     public value: number = 0;
     //Remove this condition if any of the endsWithConditions is removed.
     public endsWithConditions: string[] = [];
-    //Only activate this condition if this string evaluates to a numeral nonzero value. This is tested at the add_condition stage, so it can be combined with conditionChoiceFilter.
+    //Only activate this condition if this string evaluates to a numeral nonzero value (so use "<evaluation> ? 1 : null"). This is tested at the add_condition stage, so it can be combined with conditionChoiceFilter.
     public activationPrerequisite: string = "";
     //For conditions within conditions, activate this condition only if this choice was made on the original condition.
-    public conditionChoiceFilter: string = "";
+    public conditionChoiceFilter: string[] = [];
     //Spells choose from multiple conditions those that match their level.
     //For example, if a spell has a ConditionGain with heightenedFilter 1 and one with heightenedFilter 2, and the spell is cast at 2nd level, only the heightenedFilter 2 ConditionGain is used.
     public heightenedFilter: number = 0;
@@ -88,4 +88,13 @@ export class ConditionGain {
     public copyChoiceFrom: string = "";
     //If acknowledgedInputRequired is true, the inputRequired message is not shown.
     public acknowledgedInputRequired: boolean = false;
+    recast() {
+        this.gainActivities = this.gainActivities.map(obj => Object.assign(new ActivityGain(), obj).recast());
+        this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
+        //Condition values need to be numbers but can sometimes be strings in the json. They need to be recast here.
+        if (typeof this.value == "string") {
+            this.value = parseInt(this.value);
+        }
+        return this;
+    }
 }

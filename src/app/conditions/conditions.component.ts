@@ -232,10 +232,13 @@ export class ConditionsComponent implements OnInit {
 
         if (typeKey) {
             return this.get_Conditions("", typeKey).filter(condition =>
-                !this.wordFilter || (
-                    this.wordFilter && (
-                        condition.name.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
-                        condition.desc.toLowerCase().includes(this.wordFilter.toLowerCase())
+                !condition.hide &&
+                (
+                    !this.wordFilter || (
+                        this.wordFilter && (
+                            condition.name.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
+                            condition.desc.toLowerCase().includes(this.wordFilter.toLowerCase())
+                        )
                     )
                 )
             ).sort((a, b) => {

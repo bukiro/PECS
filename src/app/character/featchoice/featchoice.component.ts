@@ -492,12 +492,12 @@ export class FeatchoiceComponent implements OnInit {
                 reasons.push({ reason: "Invalid type", explain: "The feat's traits do not match the choice type." });
             }
             //If the feat can be taken a limited number of times:
-            //  (Don't count temporary choices (showOnSheet == true) unless this is also temporary.)
-            let excludeTemporary = !choice.showOnSheet;
-            let haveUpToNow: number = feat.have(creature, this.characterService, levelNumber, excludeTemporary, true);
-            //Familiar abilities are independent of level. Don't check haveLater for them, because it will be the same result as haveUpToNow.
-            let haveLater: number = creature.type == "Character" ? feat.have(creature, this.characterService, 20, excludeTemporary, true, levelNumber + 1) : 0;
             if (!feat.unlimited) {
+                // (Don't count temporary choices (showOnSheet == true) unless this is also temporary.)
+                let excludeTemporary = !choice.showOnSheet;
+                let haveUpToNow: number = feat.have(creature, this.characterService, levelNumber, excludeTemporary, true);
+                //Familiar abilities are independent of level. Don't check haveLater for them, because it will be the same result as haveUpToNow.
+                let haveLater: number = creature.type == "Character" ? feat.have(creature, this.characterService, 20, excludeTemporary, true, levelNumber + 1) : 0;
                 if (feat.limited) {
                     //Has it already been taken up to this level, excluding this FeatChoice, and more often than the limit?
                     //  Don't count temporary choices (showOnSheet == true) unless this is also temporary.
@@ -535,13 +535,15 @@ export class FeatchoiceComponent implements OnInit {
             //If a subtype has been taken and the feat is not limited, no other subfeat can be taken.
             if (feat.superType && !skipSubfeatAlreadyTaken) {
                 let superfeat: Feat = this.get_Feats().find(superfeat => superfeat.name == feat.superType && !superfeat.hide);
-                let takenSubfeats: Feat[] = this.get_Feats().filter(subfeat => subfeat.superType == feat.superType && subfeat.name != feat.name && !subfeat.hide && subfeat.have(creature, this.characterService, levelNumber));
-                //If another subtype has been taken, but not in this choice, and the feat is not unlimited, no other subfeat can be taken.
-                if (!superfeat.unlimited && !superfeat.limited && takenSubfeats.length) {
-                    reasons.push({ reason: "Feat already taken", explain: "This feat cannot be taken more than once." });
-                }
-                if (superfeat.limited && takenSubfeats.length >= superfeat.limited) {
-                    reasons.push({ reason: "Feat already taken", explain: "This feat cannot be taken more than " + superfeat.limited + " times." });
+                if (!superfeat.unlimited) {
+                    let takenSubfeats: Feat[] = this.get_Feats().filter(subfeat => subfeat.superType == feat.superType && subfeat.name != feat.name && !subfeat.hide && subfeat.have(creature, this.characterService, levelNumber));
+                    //If another subtype has been taken, but not in this choice, and the feat is not unlimited, no other subfeat can be taken.
+                    if (!superfeat.unlimited && !superfeat.limited && takenSubfeats.length) {
+                        reasons.push({ reason: "Feat already taken", explain: "This feat cannot be taken more than once." });
+                    }
+                    if (superfeat.limited && takenSubfeats.length >= superfeat.limited) {
+                        reasons.push({ reason: "Feat already taken", explain: "This feat cannot be taken more than " + superfeat.limited + " times." });
+                    }
                 }
             }
             if (reasons.length) {
@@ -555,10 +557,10 @@ export class FeatchoiceComponent implements OnInit {
             //If this feat has any subtypes, check if any of them can be taken. If not, this cannot be taken either.
             if (feat.subTypes) {
                 let subfeats: Feat[] = this.get_Feats().filter(subfeat => subfeat.superType == feat.name && !subfeat.hide);
-                let availableSubfeats = subfeats.filter(subfeat =>
+                let subfeatsAvailable = subfeats.some(subfeat =>
                     this.get_FeatTakenByChoice(subfeat, choice) || this.cannotTake(subfeat, choice, skipLevel).length == 0
                 );
-                if (availableSubfeats.length == 0) {
+                if (!subfeatsAvailable) {
                     reasons.push({ reason: "No option available", explain: "None of the options for this feat has its requirements met." });
                 }
             }

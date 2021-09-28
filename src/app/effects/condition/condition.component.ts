@@ -121,25 +121,27 @@ export class ConditionComponent implements OnInit {
 
     change_ConditionChoice(gain: ConditionGain, condition: Condition, oldChoice: string) {
         let creature = this.get_Creature();
+        let conditionDidSomething: boolean = false;
         if (this.creature != "Familiar" && oldChoice != gain.choice) {
             //Remove any items that were granted by the previous choice.
             if (oldChoice) {
-                gain.gainItems.filter(gainItem => gainItem.conditionChoiceFilter == oldChoice).forEach(gainItem => {
+                gain.gainItems.filter(gainItem => gainItem.conditionChoiceFilter.includes(oldChoice)).forEach(gainItem => {
                     this.conditionsService.remove_ConditionItem(creature as Character | AnimalCompanion, this.characterService, this.itemsService, gainItem);
                 });
             }
             //Add any items that are granted by the new choice.
             if (gain.choice) {
-                gain.gainItems.filter(gainItem => gainItem.conditionChoiceFilter == gain.choice).forEach(gainItem => {
+                gain.gainItems.filter(gainItem => gainItem.conditionChoiceFilter.includes(gain.choice)).forEach(gainItem => {
+                    conditionDidSomething = true;
                     this.conditionsService.add_ConditionItem(creature as Character | AnimalCompanion, this.characterService, this.itemsService, gainItem, condition);
                 });
             }
         }
         if (oldChoice != gain.choice) {
             let creature = this.get_Creature();
-            //Remove any conditions that were granted by the previous choice, unless they are persistent (but still if they are ignorePersistentAtChoiceChange).
+            //Remove any conditions that were granted by the previous choice, unless they are persistent (but still remove them if they are ignorePersistentAtChoiceChange).
             if (oldChoice) {
-                condition.gainConditions.filter(extraCondition => extraCondition.conditionChoiceFilter == oldChoice).forEach(extraCondition => {
+                condition.gainConditions.filter(extraCondition => extraCondition.conditionChoiceFilter.includes(oldChoice)).forEach(extraCondition => {
                     let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
                     addCondition.source = gain.name;
                     let originalCondition = this.characterService.get_Conditions(addCondition.name)[0];
@@ -150,7 +152,8 @@ export class ConditionComponent implements OnInit {
             }
             //Add any conditions that are granted by the new choice.
             if (gain.choice) {
-                condition.gainConditions.filter(extraCondition => extraCondition.conditionChoiceFilter == gain.choice).forEach(extraCondition => {
+                condition.gainConditions.filter(extraCondition => extraCondition.conditionChoiceFilter.includes(gain.choice)).forEach(extraCondition => {
+                    conditionDidSomething = true;
                     let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
                     if (!addCondition.heightened) {
                         addCondition.heightened = gain.heightened;
@@ -161,10 +164,30 @@ export class ConditionComponent implements OnInit {
                     this.characterService.add_Condition(creature, addCondition, false, gain);
                 })
             }
+            //If the current duration is locking the time buttons, refresh the time bar after the change.
+            if (gain.duration == 1 || gain.nextStage) {
+                this.characterService.set_ToChange("Character", "time");
+            }
             //If the current duration is the default duration of the previous choice, then set the default duration for the current choice. This lets us change the choice directly after adding the condition if we made a mistake.
             if (gain.duration == condition.get_DefaultDuration(oldChoice, gain.heightened).duration) {
                 gain.duration = condition.get_DefaultDuration(gain.choice, gain.heightened).duration;
+                //Also set the maxDuration to the new value as we have effectively restarted the counter.
+                gain.maxDuration = gain.duration;
+                //If the new duration is locking the time buttons, refresh the time bar after the change.
+                if (gain.duration == 1) {
+                    this.characterService.set_ToChange("Character", "time");
+                }
+            } else if (gain.duration == condition.get_DefaultDuration(oldChoice, gain.heightened).duration + 2) {
+                //If the current duration is the default duration of the previous choice PLUS 2, then set the default duration for the current choice, plus 2.
+                gain.duration = condition.get_DefaultDuration(gain.choice, gain.heightened).duration + 2;
+                //Also set the maxDuration to the new value as we have effectively restarted the counter.
+                gain.maxDuration = gain.duration;
             }
+            //Show a notification if the new condition has no duration and did nothing, because it will be removed in the next cycle.
+            if (!conditionDidSomething && gain.duration == 0) {
+                this.characterService.toastService.show("The condition <strong>" + gain.name + "</strong> was removed because it had no duration and no effect.", [], this.characterService)
+            }
+
         }
         this.characterService.set_ToChange(this.creature, "effects");
         if (condition.attackRestrictions.length) {
@@ -182,14 +205,14 @@ export class ConditionComponent implements OnInit {
     change_ConditionStage(gain: ConditionGain, condition: Condition, choices: string[], change: number) {
         if (change == 0) {
             //If no change, the condition remains, but the onset is reset.
-            gain.nextStage = condition.choices.find(choice => choice.name == gain.choice)?.nextStage || 0;
+            gain.nextStage = condition.get_ChoiceNextStage(gain.choice);
             this.characterService.set_ToChange(this.creature, "time");
             this.characterService.set_ToChange(this.creature, "health");
             this.characterService.set_ToChange(this.creature, "effects");
         } else {
             let newChoice = choices[choices.indexOf(gain.choice) + change];
             if (newChoice) {
-                gain.nextStage = condition.choices.find(choice => choice.name == newChoice)?.nextStage || 0;
+                gain.nextStage = condition.get_ChoiceNextStage(newChoice);
                 if (gain.nextStage) {
                     this.characterService.set_ToChange(this.creature, "time");
                     this.characterService.set_ToChange(this.creature, "health");

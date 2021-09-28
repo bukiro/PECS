@@ -698,7 +698,7 @@ export class EffectsService {
                 effectsObject.effects = JSON.parse(JSON.stringify(originalCondition.effects));
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, effectsObject, "", gain));
             }
-            originalCondition?.hints?.filter(hint => (!hint.conditionChoiceFilter || hint.conditionChoiceFilter == gain.choice) && (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
+            originalCondition?.hints?.filter(hint => (!hint.conditionChoiceFilter.length || hint.conditionChoiceFilter.includes(gain.choice)) && (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
                 hintEffects = hintEffects.concat(this.get_SimpleEffects(creature, characterService, hint, "conditional, " + originalCondition.name, gain));
             })
         });
@@ -1086,10 +1086,13 @@ export class EffectsService {
             "Damage Rolls",
             "Deception",
             "Diplomacy",
+            "Expert Skill Checks",
             "Fortitude",
             "Hardness",
             "Intimidation",
+            "Legendary Skill Checks",
             "Lore",
+            "Master Skill Checks",
             "Max Dying",
             "Max HP",
             "Medicine",
@@ -1114,6 +1117,7 @@ export class EffectsService {
             "Stealth",
             "Survival",
             "Thievery",
+            "Trained Skill Checks",
             "Unarmed Attack Rolls",
             "Unarmed Damage",
             "Untrained Skill Checks",
@@ -1125,6 +1129,7 @@ export class EffectsService {
             "Ignore",
             "Speed",
             "-based Checks and DCs",
+            "-based Skill Checks",
             "Lore: "
         ].map(name => name.toLowerCase())
         allEffects.filter(effect => effect.show == undefined).forEach(effect => {

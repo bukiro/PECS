@@ -15,7 +15,6 @@ import * as json_conditions from '../assets/json/conditions';
 import { Creature } from './Creature';
 import { Activity } from './Activity';
 import { ItemActivity } from './ItemActivity';
-import { Hint } from './Hint';
 import { ExtensionsService } from './extensions.service';
 import { Familiar } from './Familiar';
 
@@ -48,8 +47,8 @@ export class ConditionsService {
                 }
             }
             return this.conditions.filter(condition =>
-                (condition.name.toLowerCase() == name.toLowerCase() || name == "") &&
-                (condition.type.toLowerCase() == type.toLowerCase() || type == "")
+                (name == "" || condition.name.toLowerCase() == name.toLowerCase()) &&
+                (type == "" || condition.type.toLowerCase() == type.toLowerCase())
             );
         } else {
             return [new Condition()];
@@ -122,8 +121,8 @@ export class ConditionsService {
                 if (condition) {
                     //Only process the conditions that haven't been marked for deletion.
                     if (gain.value != -1) {
-                        //If any condition overrides this, or if any overrides all (but this doesn't override that one)
-                        if (overrides.some(override => override.override == gain.name) || overrides.some(override => override.override == "All" && !condition.overrideConditions.includes(override.source) && override.source != gain.name)) {
+                        //If any condition overrides this or its source (but is not itself the override), or if any overrides all (but isn't overriden by this condition), set apply to false.
+                        if (overrides.some(override => override.override == gain.name || (override.override == gain.source && override.source != gain.name)) || overrides.some(override => override.override == "All" && !condition.overrideConditions.includes(override.source) && override.source != gain.name)) {
                             gain.apply = false;
                         }
                         //We compare this condition with all others that have the same name and deactivate it under certain circumstances
@@ -156,8 +155,9 @@ export class ConditionsService {
                 }
             })
             //Remove all conditions that were marked for deletion by setting its value to -1. We use while so we don't mess up the index and skip some.
+            //Ignore anything that would stop the condition from being removed (i.e. lockedByParent), or we will get stuck in this loop.
             while (activeConditions.some(gain => gain.value == -1)) {
-                characterService.remove_Condition(creature, activeConditions.find(gain => gain.value == -1), false);
+                characterService.remove_Condition(creature, activeConditions.find(gain => gain.value == -1), false, undefined, undefined, true);
             }
             this.appliedConditions[creatureIndex] = [];
             this.appliedConditions[creatureIndex] = activeConditions.map(gain => Object.assign(new ConditionGain(), gain));
@@ -197,6 +197,8 @@ export class ConditionsService {
             gain.maxDuration = gain.duration;
         }
 
+        let conditionDidSomething: boolean = false;
+
         //Copy the condition's ActivityGains to the ConditionGain so we can track its duration, cooldown etc.
         gain.gainActivities = condition.gainActivities.map(activityGain => Object.assign(new ActivityGain(), JSON.parse(JSON.stringify(activityGain))));
 
@@ -205,45 +207,44 @@ export class ConditionsService {
         }
 
         //One time effects
-        if (condition.onceEffects.length) {
-            if (taken) {
-                condition.onceEffects.forEach(effect => {
-                    let tempEffect = Object.assign(new EffectGain, JSON.parse(JSON.stringify(effect)));
-                    //Copy some data to allow calculations and tracking temporary HP.
-                    if (!tempEffect.source) {
-                        tempEffect.source = condition.name;
-                        tempEffect.sourceId = gain.id;
-                    }
-                    if (!tempEffect.spellSource) {
-                        tempEffect.spellSource = gain.spellSource;
-                    }
-                    characterService.process_OnceEffect(creature, tempEffect, gain.value, gain.heightened, gain.choice, gain.spellCastingAbility);
-                })
-            }
+        if (taken) {
+            condition.onceEffects.forEach(effect => {
+                conditionDidSomething = true;
+                let tempEffect = Object.assign(new EffectGain, JSON.parse(JSON.stringify(effect)));
+                //Copy some data to allow calculations and tracking temporary HP.
+                if (!tempEffect.source) {
+                    tempEffect.source = condition.name;
+                    tempEffect.sourceId = gain.id;
+                }
+                if (!tempEffect.spellSource) {
+                    tempEffect.spellSource = gain.spellSource;
+                }
+                characterService.process_OnceEffect(creature, tempEffect, gain.value, gain.heightened, gain.choice, gain.spellCastingAbility);
+            })
         }
 
         //One time effects when ending the condition
-        if (condition.endEffects.length) {
-            if (!taken) {
-                condition.endEffects.forEach(effect => {
-                    let tempEffect = Object.assign(new EffectGain, JSON.parse(JSON.stringify(effect)));
-                    //Copy some data to allow calculations and tracking temporary HP.
-                    if (!tempEffect.source) {
-                        tempEffect.source = condition.name;
-                        tempEffect.sourceId = gain.id;
-                    }
-                    if (!tempEffect.spellSource) {
-                        tempEffect.spellSource = gain.spellSource;
-                    }
-                    characterService.process_OnceEffect(creature, tempEffect, gain.value, gain.heightened, gain.choice, gain.spellCastingAbility);
-                })
-            }
+        if (!taken) {
+            condition.endEffects.forEach(effect => {
+                conditionDidSomething = true;
+                let tempEffect = Object.assign(new EffectGain, JSON.parse(JSON.stringify(effect)));
+                //Copy some data to allow calculations and tracking temporary HP.
+                if (!tempEffect.source) {
+                    tempEffect.source = condition.name;
+                    tempEffect.sourceId = gain.id;
+                }
+                if (!tempEffect.spellSource) {
+                    tempEffect.spellSource = gain.spellSource;
+                }
+                characterService.process_OnceEffect(creature, tempEffect, gain.value, gain.heightened, gain.choice, gain.spellCastingAbility);
+            })
         }
 
         //Gain other conditions if applicable
         //They are removed when this is removed in characterService.remove_Condition().
         if (taken) {
-            condition.gainConditions.filter(extraCondition => !extraCondition.conditionChoiceFilter || extraCondition.conditionChoiceFilter == gain.choice).forEach(extraCondition => {
+            condition.gainConditions.filter(extraCondition => !extraCondition.conditionChoiceFilter.length || extraCondition.conditionChoiceFilter.includes(gain.choice)).forEach(extraCondition => {
+                conditionDidSomething = true;
                 let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
                 if (!addCondition.heightened) {
                     addCondition.heightened = gain.heightened;
@@ -255,38 +256,46 @@ export class ConditionsService {
                 addCondition.parentID = gain.id;
                 addCondition.apply = true;
                 characterService.add_Condition(creature, addCondition, false, gain);
+
             })
         }
 
         //If this ends, remove conditions that have this listed in endsWithConditions
         if (!taken && !ignoreEndsWithConditions) {
-            let conditionsToRemove: ConditionGain[] = characterService.get_AppliedConditions(creature, "", "", true)
+            characterService.get_AppliedConditions(creature, "", "", true)
                 .filter(conditionGain => conditionGain.endsWithConditions.includes(condition.name))
-                .map(conditionGain => Object.assign(new ConditionGain, JSON.parse(JSON.stringify(conditionGain))));
-            conditionsToRemove.forEach(conditionGain => {
-                characterService.remove_Condition(creature, conditionGain, false);
-            })
+                .map(conditionGain => Object.assign(new ConditionGain, JSON.parse(JSON.stringify(conditionGain))))
+                .forEach(conditionGain => {
+                    conditionDidSomething = true;
+                    characterService.remove_Condition(creature, conditionGain, false);
+                })
         }
 
         //Remove other conditions if applicable
         if (taken) {
             condition.endConditions.forEach(end => {
-                characterService.get_AppliedConditions(creature, end).filter(conditionGain => conditionGain != gain).forEach(conditionGain => {
-                    characterService.remove_Condition(creature, conditionGain, false);
-                })
+                characterService.get_AppliedConditions(creature, end)
+                    .filter(conditionGain => conditionGain != gain)
+                    .forEach(conditionGain => {
+                        conditionDidSomething = true;
+                        characterService.remove_Condition(creature, conditionGain, false);
+                    })
             })
         }
 
         //Conditions that start when this ends. This happens if there is a nextCondition value.
-        if (!taken && condition.nextCondition) {
-            if (!condition.nextCondition.conditionChoiceFilter || gain.choice == condition.nextCondition.conditionChoiceFilter) {
-                let newGain: ConditionGain = new ConditionGain();
-                newGain.source = gain.source;
-                newGain.name = condition.nextCondition.name;
-                newGain.duration = condition.nextCondition.duration || -1;
-                newGain.choice = condition.choice || "";
-                characterService.add_Condition(creature, newGain, false);
-            }
+        if (!taken) {
+            condition.nextCondition.forEach(nextCondition => {
+                if (!nextCondition.conditionChoiceFilter.length || nextCondition.conditionChoiceFilter.includes(gain.choice)) {
+                    conditionDidSomething = true;
+                    let newGain: ConditionGain = new ConditionGain();
+                    newGain.source = gain.source;
+                    newGain.name = nextCondition.name;
+                    newGain.duration = nextCondition.duration || -1;
+                    newGain.choice = condition.choice || "";
+                    characterService.add_Condition(creature, newGain, false);
+                }
+            })
         }
 
         //Gain Items
@@ -299,20 +308,22 @@ export class ConditionsService {
                     gain.gainItems
                         .filter(gainItem =>
                         (
-                            !gainItem.conditionChoiceFilter ||
-                            gainItem.conditionChoiceFilter == gain.choice
+                            !gainItem.conditionChoiceFilter.length ||
+                            gainItem.conditionChoiceFilter.includes(gain.choice)
                         )
                         ).forEach(gainItem => {
+                            conditionDidSomething = true;
                             this.add_ConditionItem((creature as AnimalCompanion | Character), characterService, itemsService, gainItem, condition);
                         });
                 } else {
                     gain.gainItems
                         .filter(gainItem =>
                         (
-                            !gainItem.conditionChoiceFilter ||
-                            gainItem.conditionChoiceFilter == gain.choice
+                            !gainItem.conditionChoiceFilter.length ||
+                            gainItem.conditionChoiceFilter.includes(gain.choice)
                         )
                         ).forEach(gainItem => {
+                            conditionDidSomething = true;
                             this.remove_ConditionItem((creature as AnimalCompanion | Character), characterService, itemsService, gainItem);
                         });
                     gain.gainItems = [];
@@ -326,6 +337,7 @@ export class ConditionsService {
 
         //Stuff that happens when your Dying value is raised or lowered beyond a limit.
         if (gain.name == "Dying") {
+            conditionDidSomething = true;
             if (taken) {
                 if (creature.health.dying(creature, characterService) >= creature.health.maxDying(creature, effectsService)) {
                     if (characterService.get_AppliedConditions(creature, "Dead").length == 0) {
@@ -443,6 +455,11 @@ export class ConditionsService {
             characterService.set_ToChange(creature.type, "health");
         }
 
+        //Show a notification if a new condition has no duration and did nothing, because it will be removed in the next cycle.
+        if (taken && !conditionDidSomething && gain.duration == 0) {
+            characterService.toastService.show("The condition <strong>" + gain.name + "</strong> was removed because it had no duration and no effect.", [], characterService)
+        }
+
     }
 
     add_ConditionItem(creature: Character | AnimalCompanion, characterService: CharacterService, itemsService: ItemsService, gainItem: ItemGain, condition: Condition) {
@@ -489,6 +506,10 @@ export class ConditionsService {
 
     tick_Conditions(creature: Creature, turns: number = 10, yourTurn: number) {
         let activeConditions = creature.conditions;
+        //If for any reason the maxDuration for a condition is lower than the duration, this is corrected here.
+        activeConditions.filter(gain => gain.maxDuration > 0 && gain.maxDuration < gain.duration).forEach(gain => {
+            gain.maxDuration = gain.duration;
+        });
         while (turns > 0) {
             let activeConditions = creature.conditions;
             activeConditions = activeConditions.sort(function (a, b) {
@@ -507,12 +528,12 @@ export class ConditionsService {
                     return Math.min(...compareA) - Math.min(...compareB)
                 }
             });
-            if (activeConditions.some(gain => (gain.duration > 0 && gain.choice != "Onset") || gain.nextStage > 0) || activeConditions.some(gain => gain.decreasingValue)) {
+            if (activeConditions.some(gain => (gain.duration > 0 && gain.choice != "Onset") || gain.nextStage > 0) || activeConditions.some(gain => gain.decreasingValue && !gain.valueLockedByParent && !(gain.value == 1 && gain.lockedByParent))) {
                 //Get the first condition that will run out
                 let first: number;
                 //If any condition has a decreasing Value per round, step 5 (to the end of the Turn) if it is your Turn or 10 (1 turn) at most
                 //Otherwise find the next step from either the duration or the nextStage of the first gain of the sorted list.
-                if (activeConditions.some(gain => gain.decreasingValue)) {
+                if (activeConditions.some(gain => gain.decreasingValue && !gain.valueLockedByParent && !(gain.value == 1 && gain.lockedByParent))) {
                     if (yourTurn == 5) {
                         first = 5;
                     } else {
@@ -540,7 +561,7 @@ export class ConditionsService {
                 });
                 //If any conditions have their value decreasing, do this now.
                 if ((yourTurn == 5 && step == 5) || (yourTurn == 0 && step == 10)) {
-                    activeConditions.filter(gain => gain.decreasingValue).forEach(gain => {
+                    activeConditions.filter(gain => gain.decreasingValue && !gain.valueLockedByParent && !(gain.value == 1 && gain.lockedByParent)).forEach(gain => {
                         gain.value--;
                     });
                 }
@@ -657,23 +678,7 @@ export class ConditionsService {
         this.conditions = [];
         let data = this.extensionsService.extend(json_conditions, "conditions");
         Object.keys(data).forEach(key => {
-            this.conditions.push(...data[key].map(obj => Object.assign(new Condition(), obj)));
-        });
-        this.conditions.forEach(condition => {
-            condition.choices.forEach(choice => {
-                //Blank choices are saved with "name":"-" for easier managing; These need to be blanked here.
-                if (choice.name == "-") {
-                    choice.name = "";
-                }
-                //If a choice name has turned into a number, turn it back into a string.
-                if (choice.name != "" && !isNaN(Number(choice.name))) {
-                    choice.name = parseInt(choice.name).toString();
-                }
-            })
-            if (condition.choices.length && !condition.choice) {
-                condition.choice = condition.choices[0].name
-            }
-            condition.hints = condition.hints.map(hint => Object.assign(new Hint(), hint));
+            this.conditions.push(...data[key].map(obj => Object.assign(new Condition(), obj).recast()));
         });
         this.conditions = this.extensionsService.cleanup_Duplicates(this.conditions, "name", "conditions");
     }

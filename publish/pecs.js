@@ -244,10 +244,80 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
             }
             log('No database will be available.', true, true)
         } else {
+            //Load Database from characters.json under APPDATA\bukiro\pecs or HOME/.bukiro/pecs.
+            //They were stored in APPDATA\kironet\pecs or HOME/.kironet_pecs before, so have to be moved with some unfortunate file movements.
             if (isWin) {
-                var db = new JsonDB(new Config(process.env.APPDATA + "/kironet/pecs/characters", true, true, '/'));
+                try {
+                    var oldDir = process.env.APPDATA + "/kironet/pecs";
+                    var newDir = process.env.APPDATA + "/bukiro/pecs";
+                    var file = "/characters.json";
+                    if (fs.existsSync(oldDir + file) && !fs.existsSync(newDir + file)) {
+                        log("Characters were found under %appdata%\\kironet and will be moved to %appdata%\\bukiro.");
+                        //Create bukiro and bukiro/pecs if they don't exist, then move kironet/pecs/characters.json to bukiro/pecs/.
+                        if (!fs.existsSync(process.env.APPDATA + "/bukiro")) {
+                            fs.mkdirSync(process.env.APPDATA + "/bukiro");
+                        }
+                        if (!fs.existsSync(newDir)) {
+                            fs.mkdirSync(newDir);
+                        }
+                        fs.renameSync(oldDir + file, newDir + file);
+                        //Remove kironet/pecs, then kironet if empty.
+                        fs.readdir(oldDir, function (err, data) {
+                            if (data.length == 0) {
+                                fs.rmdir(oldDir, () => {
+                                    //Remove kironet if empty.
+                                    fs.readdir(process.env.APPDATA + "/kironet", function (err, data) {
+                                        if (data.length == 0) {
+                                            fs.rmdir(process.env.APPDATA + "/kironet", () => {
+                                            });
+                                        }
+                                    })
+                                });
+                            }
+                        })
+                        //Remove kironet if empty.
+                        fs.readdir(process.env.APPDATA + "/kironet", function (err, data) {
+                            if (data.length == 0) {
+                                fs.rmdir(process.env.APPDATA + "/kironet", () => {
+                                });
+                            }
+                        })
+                    }
+                    var db = new JsonDB(new Config(process.env.APPDATA + "/bukiro/pecs/characters", true, true, '/'));
+                } catch (error) {
+                    log("Characters could not be moved and remain in %appdata%\\kironet:");
+                    log(error.message, true, true);
+                    var db = new JsonDB(new Config(process.env.APPDATA + "/kironet/pecs/characters", true, true, '/'));
+                }
             } else {
-                var db = new JsonDB(new Config(process.env.HOME + "/.kironet_pecs/characters", true, true, '/'));
+                try {
+                    var oldDir = process.env.HOME + "/.kironet_pecs";
+                    var newDir = process.env.HOME + "/.bukiro/pecs";
+                    var file = "/characters.json";
+                    if (fs.existsSync(oldDir + file) && !fs.existsSync(newDir + file)) {
+                        log("Characters were found under ~/.kironet_pecs and will be moved to ~/.bukiro/pecs.");
+                        //Create .bukiro and .bukiro/pecs if they don't exist, then move .kironet_pecs/characters.json to .bukiro/pecs/.
+                        if (!fs.existsSync(process.env.HOME + "/.bukiro")) {
+                            fs.mkdirSync(process.env.HOME + "/.bukiro");
+                        }
+                        if (!fs.existsSync(newDir)) {
+                            fs.mkdirSync(newDir);
+                        }
+                        fs.renameSync(oldDir + file, newDir + file);
+                        //Remove .kironet_pecs if empty.
+                        fs.readdir(oldDir, function (err, data) {
+                            if (data.length == 0) {
+                                fs.rmdir(oldDir, () => {
+                                });
+                            }
+                        })
+                    }
+                    var db = new JsonDB(new Config(process.env.HOME + "/.bukiro/pecs/characters", true, true, '/'));
+                } catch (error) {
+                    log("Characters could not be moved and remain in ~/.kironet_pecs:");
+                    log(error.message, true, true);
+                    var db = new JsonDB(new Config(process.env.HOME + "/.kironet_pecs/characters", true, true, '/'));
+                }
             }
 
             //Returns all savegames.

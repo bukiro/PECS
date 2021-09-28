@@ -196,7 +196,7 @@ export class SpellTargetComponent implements OnInit {
     get_SpellTargets() {
         //Collect all possible targets for a spell/activity (allies only).
         //Hostile spells and activities don't get targets.
-        if ((this.spell || this.activity).get_IsHostile()) {
+        if ((this.spell || this.activity).get_IsHostile(true)) {
             return [];
         }
         let newTargets: SpellTarget[] = [];

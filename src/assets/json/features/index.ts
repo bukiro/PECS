@@ -10,4 +10,8 @@
 ]
 */
 
-export { default as core } from './core.json';
+import { default as core } from './core.json';
+
+core.forEach((obj: any) => obj._extensionFileName = "core");
+
+export { core as core };

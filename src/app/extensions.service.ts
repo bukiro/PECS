@@ -124,35 +124,38 @@ export class ExtensionsService {
                     ).length > 1
                 ).map(item => item[identifier])
         ));
-        duplicates.forEach(duplicateIdentifier => {
+        let winners: { object: string, winner: string }[] = [];
+        duplicates.forEach(duplicate => {
             let highestPriority = Math.max(
                 ...data
-                    .filter(item => item[identifier] == duplicateIdentifier)
+                    .filter(item => item[identifier] == duplicate)
                     .map(item => item.overridePriority || 0)
             ) || 0;
-            let highestItem = data.find(item => item[identifier] == duplicateIdentifier && (item.overridePriority || 0) == highestPriority);
-            data = data.filter(item => !(item[identifier] == duplicateIdentifier && item !== highestItem));
+            let highestItem = data.find(item => item[identifier] == duplicate && (item.overridePriority || 0) == highestPriority);
+            data = data.filter(item => !(item[identifier] == duplicate && item !== highestItem));
+            winners.push({ object: duplicate, winner: highestItem._extensionFileName || "core" });
         })
         let newcount = data.length;
         if (oldcount != newcount) {
             console.log("Resolved " + (oldcount - newcount) + " duplicate" + ((oldcount - newcount > 1) ? "s" : "") + " in " + listName + ":");
-            console.log(duplicates);
+            console.log(winners);
         }
         return data;
     }
 
     cleanup_DuplicatesWithMultipleIdentifiers(data: any[], identifiers: string[], listName: string) {
         let oldcount = data.length;
-        let duplicates: string[][] = Array.from(new Set(
+        let duplicates: string[] = Array.from(new Set(
             data
                 .filter(item =>
                     data.filter(otherItem =>
                         //List all items where all identifiers match.
                         !identifiers.map(identifier => otherItem[identifier] == item[identifier]).some(result => result == false)
                     ).length > 1
-                ).map(item => identifiers.map(identifier => item[identifier]))
+                ).map(item => identifiers.map(identifier => item[identifier])).map(item => JSON.stringify(item))
         ));
-        duplicates.forEach(duplicateIdentifiers => {
+        let winners: { identifiers: string, object: string, winner: string }[] = [];
+        duplicates.map(duplicate => JSON.parse(duplicate)).forEach(duplicateIdentifiers => {
             let highestPriority = Math.max(
                 ...data
                     .filter(item => !identifiers.map((identifier, index) => item[identifier] == duplicateIdentifiers[index]).some(result => !result))
@@ -160,10 +163,12 @@ export class ExtensionsService {
             ) || 0;
             let highestItem = data.find(item => !identifiers.map((identifier, index) => item[identifier] == duplicateIdentifiers[index]).some(result => !result) && (item.overridePriority || 0) == highestPriority);
             data = data.filter(item => !(!identifiers.map((identifier, index) => item[identifier] == duplicateIdentifiers[index]).some(result => !result) && item !== highestItem));
+            winners.push({ identifiers: identifiers.join("; "), object: identifiers.map(identifier => highestItem[identifier]).join("; "), winner: highestItem._extensionFileName || "core" });
         })
         let newcount = data.length;
         if (oldcount != newcount) {
-            console.log("Removed " + (oldcount - newcount) + " duplicates (multiple identifier)")
+            console.log("Resolved " + (oldcount - newcount) + " duplicate" + ((oldcount - newcount > 1) ? "s" : "") + " in " + listName + " (with multiple identifiers):");
+            console.log(winners);
         }
         return data;
     }
@@ -177,6 +182,7 @@ export class ExtensionsService {
                     this.extensions[target] = new Object;
                 }
                 this.extensions[target][key] = data;
+                this.extensions[target][key].forEach((obj: any) => { obj._extensionFileName = filename });
                 this.finishedLoading++;
             })
     }

@@ -1462,6 +1462,12 @@ app-proficiency-form,
     text-shadow: 0 0 2px #CCC, 0 0 2px #CCC;
 }
 
+/* Password input box */
+
+#passwordInput {
+    font-size: 1.5em;
+}
+
 /*
 BOOTSTRAP OVERRIDES
 */
@@ -1678,7 +1684,7 @@ GRIDICONS
     flex-wrap: wrap;
 }
 
-/* Grid Icons: quadratic icons with text generated from assigned content */
+/* Grid Icons: quadratic icons with content generated from assigned parameters */
 
 app-gridicon {
     height: 4rem;

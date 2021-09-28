@@ -13,4 +13,8 @@ export class SpellCast {
     //This is used automatically for sustained spells cast by items or activities.
     public spellGain: SpellGain = new SpellGain();
     public target: "ally"|"self"|"" = "";
+    recast() {
+        this.spellGain = Object.assign(new SpellGain(), this.spellGain).recast();
+        return this;
+    }
 }
