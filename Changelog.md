@@ -49,3 +49,11 @@ This log tracks only major changes, as well as changes that need characters to b
 - Messages in the release are now handled internally and don't use the database connection anymore.
 - The messages parameter is not used anymore in the release config. You can delete your MongoDB messages collection. All messages will disappear when you stop PECS.
 - The release now uses a local data file to store characters. The MongoDB connection remains an optional alternative.
+
+## 1.0.10
+
+- The release will now handle MongoDB databases slightly better. Re-releasing requires a version update.
+
+## 1.0.11
+
+- The path for the local data file has been changed, and the file will automatically be moved.
