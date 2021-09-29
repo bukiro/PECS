@@ -240,6 +240,8 @@ export class GridIconComponent implements OnInit {
         if (this.effect) {
             if (this.effect.toggle) {
                 superTitle = "";
+            } else if (this.effect.title) {
+                superTitle = this.effect.title;
             } else if (this.effect.setValue) {
                 superTitle = this.effect.setValue;
             } else if (this.effect.value) {
@@ -295,7 +297,8 @@ export class GridIconComponent implements OnInit {
                 return "<i class='ra ra-hive-emblem'></i>";
             }
         }
-        if (superTitle.length <= 2 || superTitle.includes("<")) {
+        //Only show a supertitle if it has 2 or fewer characters, or is an icon.
+        if (superTitle.length <= 2 || superTitle.includes("<i")) {
             return superTitle;
         } else {
             return "";
@@ -310,6 +313,8 @@ export class GridIconComponent implements OnInit {
             } else {
                 return this.condition.value.toString();
             }
+        } else if (this.effect?.title?.length > 2) {
+            return this.effect.title;
         } else if (this.effect?.setValue?.length > 2) {
             return this.effect.setValue;
         } else if (this.effect?.value?.length > 2) {

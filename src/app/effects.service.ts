@@ -351,7 +351,7 @@ export class EffectsService {
         return (new Speed(name));
     }
 
-    get_SimpleEffects(creature: Creature, characterService: CharacterService, object: any, name: string = "", parentConditionGain: ConditionGain = null, parentItem: Item|Material = null, fakeLevel: number = 0) {
+    get_SimpleEffects(creature: Creature, characterService: CharacterService, object: any, name: string = "", parentConditionGain: ConditionGain = null, parentItem: Item | Material = null, fakeLevel: number = 0) {
         //If an object has a simple instruction in effects, such as "Athletics", "+2", turn it into an effect,
         // then mark the effect as a penalty if the change is negative (except for Bulk).
         //The effect can have a formula as well, for example "Max HP", "Character.level + 2", which is evaluated with the variables and functions listed here.
@@ -541,22 +541,28 @@ export class EffectsService {
             if (setValue) {
                 penalty = false;
                 value = "0";
-            } else if (parseInt(value) < 0) {
-                if (effect.affected != "Bulk") {
-                    penalty = true;
-                } else {
-                    penalty = false;
-                }
             } else {
-                if (effect.affected != "Bulk") {
-                    penalty = false;
-                } else {
-                    penalty = true;
-                }
+                penalty = (parseInt(value) < 0) == (effect.affected != "Bulk");
             }
             if (toggle) {
-                setValue = "";
-                value = "0";
+                //If an effect is both toggle and has a value or setValue, the toggle is only set if either is nonzero. Both are then nulled, but leave a toggled effect.
+                if (
+                    (effect.setValue ? setValue : true) &&
+                    ((effect.value && effect.value != "0") ? value != "0" : true)
+                ) {
+                    setValue = "";
+                    value = "0";
+                } else {
+                    toggle = false;
+                }
+            }
+            let title = "";
+            if (effect.title) {
+                try {
+                    title = eval(effect.title).toString();
+                } catch (error) {
+                    title = "";
+                };
             }
             //Hide all relative effects that come from feats, so we don't see green effects permanently after taking a feat.
             show = effect.show;
@@ -583,7 +589,7 @@ export class EffectsService {
             }
             //Effects that have neither a value nor a toggle get ignored.
             if (toggle || setValue || parseInt(value) != 0) {
-                objectEffects.push(new Effect(target, type, affected, value, setValue, toggle, source, penalty, undefined, show, effect.duration, effect.maxDuration, effect.cumulative));
+                objectEffects.push(new Effect(target, type, affected, value, setValue, toggle, title, source, penalty, undefined, show, effect.duration, effect.maxDuration, effect.cumulative));
             }
         });
         return objectEffects;
@@ -805,11 +811,11 @@ export class EffectsService {
             items.shields.filter(shield => shield.equipped && shield.raised && !shield.broken).forEach(shield => {
                 let shieldBonus = shield.get_ACBonus();
                 if (shieldBonus) {
-                    itemEffects.push(new Effect(creature.id, 'circumstance', "AC", "+" + shieldBonus, "", false, shield.get_Name(), false));
+                    itemEffects.push(new Effect(creature.id, 'circumstance', "AC", "+" + shieldBonus, "", false, "", shield.get_Name(), false));
                 }
                 //Reflexive Shield
                 if (character.get_FeatsTaken(1, character.level, "Reflexive Shield").length) {
-                    itemEffects.push(new Effect(creature.id, 'circumstance', "Reflex", "+" + shieldBonus, "", false, "Reflexive Shield", false));
+                    itemEffects.push(new Effect(creature.id, 'circumstance', "Reflex", "+" + shieldBonus, "", false, "", "Reflexive Shield", false));
                 }
             });
             //Initialize armored skirt and shoddy values for all armor.
@@ -828,7 +834,7 @@ export class EffectsService {
                 //For Saving Throws, add any resilient runes on the equipped armor
                 if (armor.get_ResilientRune() > 0 && !armor.broken) {
                     let resilient = armor.get_ResilientRune();
-                    itemEffects.push(new Effect(creature.id, 'item', "Saving Throws", "+" + resilient, "", false, armor.get_Resilient(resilient), false))
+                    itemEffects.push(new Effect(creature.id, 'item', "Saving Throws", "+" + resilient, "", false, "", armor.get_Resilient(resilient), false))
                 }
                 //Add Armor specialization effects if they apply
                 armor.get_ArmorSpecialization(creature, characterService).forEach(spec => {
@@ -838,13 +844,13 @@ export class EffectsService {
                 if (armor.broken) {
                     switch (armor.get_Proficiency()) {
                         case "Light Armor":
-                            itemEffects.push(new Effect(creature.id, "untyped", "AC", "-1", "", false, "Broken Armor", true));
+                            itemEffects.push(new Effect(creature.id, "untyped", "AC", "-1", "", false, "", "Broken Armor", true));
                             break;
                         case "Medium Armor":
-                            itemEffects.push(new Effect(creature.id, "untyped", "AC", "-2", "", false, "Broken Armor", true));
+                            itemEffects.push(new Effect(creature.id, "untyped", "AC", "-2", "", false, "", "Broken Armor", true));
                             break;
                         case "Heavy Armor":
-                            itemEffects.push(new Effect(creature.id, "untyped", "AC", "-3", "", false, "Broken Armor", true));
+                            itemEffects.push(new Effect(creature.id, "untyped", "AC", "-3", "", false, "", "Broken Armor", true));
                             break;
                     }
                 }
@@ -866,25 +872,25 @@ export class EffectsService {
                         //We push this as an apply:false effect to each so you can see that (and why) you were spared from it.
                         //We also add a note to the source for clarity.
                         if (this.traitsService.have_Trait(characterService, item, "Flexible")) {
-                            itemEffects.push(new Effect(creature.id, 'item', "Acrobatics", item.get_SkillPenalty().toString(), "", false, name + " (cancelled by Flexible)", true, false));
-                            itemEffects.push(new Effect(creature.id, 'item', "Athletics", item.get_SkillPenalty().toString(), "", false, name + " (cancelled by Flexible)", true, false));
+                            itemEffects.push(new Effect(creature.id, 'item', "Acrobatics", item.get_SkillPenalty().toString(), "", false, "", name + " (cancelled by Flexible)", true, false));
+                            itemEffects.push(new Effect(creature.id, 'item', "Athletics", item.get_SkillPenalty().toString(), "", false, "", name + " (cancelled by Flexible)", true, false));
                         } else {
-                            itemEffects.push(new Effect(creature.id, 'item', "Acrobatics", item.get_SkillPenalty().toString(), "", false, name, true));
-                            itemEffects.push(new Effect(creature.id, 'item', "Athletics", item.get_SkillPenalty().toString(), "", false, name, true));
+                            itemEffects.push(new Effect(creature.id, 'item', "Acrobatics", item.get_SkillPenalty().toString(), "", false, "", name, true));
+                            itemEffects.push(new Effect(creature.id, 'item', "Athletics", item.get_SkillPenalty().toString(), "", false, "", name, true));
                         }
                         //These two always apply unless you are strong enough.
-                        itemEffects.push(new Effect(creature.id, 'item', "Stealth", item.get_SkillPenalty().toString(), "", false, name, true));
-                        itemEffects.push(new Effect(creature.id, 'item', "Thievery", item.get_SkillPenalty().toString(), "", false, name, true));
+                        itemEffects.push(new Effect(creature.id, 'item', "Stealth", item.get_SkillPenalty().toString(), "", false, "", name, true));
+                        itemEffects.push(new Effect(creature.id, 'item', "Thievery", item.get_SkillPenalty().toString(), "", false, "", name, true));
                     } else {
                         //If you ARE strong enough, we push some not applying effects so you can feel good about that
-                        itemEffects.push(new Effect(creature.id, 'item', "Acrobatics", item.get_SkillPenalty().toString(), "", false, name + " (cancelled by Strength)", true, false));
-                        itemEffects.push(new Effect(creature.id, 'item', "Athletics", item.get_SkillPenalty().toString(), "", false, name + " (cancelled by Strength)", true, false));
-                        itemEffects.push(new Effect(creature.id, 'item', "Thievery", item.get_SkillPenalty().toString(), "", false, name + " (cancelled by Strength)", true, false));
+                        itemEffects.push(new Effect(creature.id, 'item', "Acrobatics", item.get_SkillPenalty().toString(), "", false, "", name + " (cancelled by Strength)", true, false));
+                        itemEffects.push(new Effect(creature.id, 'item', "Athletics", item.get_SkillPenalty().toString(), "", false, "", name + " (cancelled by Strength)", true, false));
+                        itemEffects.push(new Effect(creature.id, 'item', "Thievery", item.get_SkillPenalty().toString(), "", false, "", name + " (cancelled by Strength)", true, false));
                         //UNLESS the item is also Noisy, in which case you do get the stealth penalty because you are dummy thicc and the clap of your ass cheeks keeps alerting the guards.
                         if (this.traitsService.have_Trait(characterService, item, "Noisy")) {
-                            itemEffects.push(new Effect(creature.id, 'item', "Stealth", item.get_SkillPenalty().toString(), "", false, name + " (Noisy)", true))
+                            itemEffects.push(new Effect(creature.id, 'item', "Stealth", item.get_SkillPenalty().toString(), "", false, "", name + " (Noisy)", true))
                         } else {
-                            itemEffects.push(new Effect(creature.id, 'item', "Stealth", item.get_SkillPenalty().toString(), "", false, name + " (cancelled by Strength)", true, false));
+                            itemEffects.push(new Effect(creature.id, 'item', "Stealth", item.get_SkillPenalty().toString(), "", false, "", name + " (cancelled by Strength)", true, false));
                         }
                     }
                 });
@@ -895,23 +901,23 @@ export class EffectsService {
                         let speedPenalty = item.get_SpeedPenalty();
                         if (Strength < item.get_Strength()) {
                             //You are not strong enough to move unhindered in this armor. You get a speed penalty.
-                            itemEffects.push(new Effect(creature.id, 'untyped', "Speed", speedPenalty.toString(), "", false, name, true));
+                            itemEffects.push(new Effect(creature.id, 'untyped', "Speed", speedPenalty.toString(), "", false, "", name, true));
                         } else {
                             //You are strong enough, but if the armor is particularly heavy, your penalty is only lessened.
                             if (speedPenalty < -5) {
                                 //In this case we push both the avoided and the actual effect so you can feel at least a little good about yourself.
-                                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", (speedPenalty + 5).toString(), "", false, name, true));
-                                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", speedPenalty.toString(), "", false, name + " (cancelled by Strength)", true, false));
+                                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", (speedPenalty + 5).toString(), "", false, "", name, true));
+                                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", speedPenalty.toString(), "", false, "", name + " (cancelled by Strength)", true, false));
                             } else {
                                 //If you are strong enough and the armor only gave -5ft penalty, you get a fully avoided effect to gaze at.
-                                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", speedPenalty.toString(), "", false, name + " (cancelled by Strength)", true, false));
+                                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", speedPenalty.toString(), "", false, "", name + " (cancelled by Strength)", true, false));
                             }
                         }
                     });
                 }
                 items.shields.filter(item => item.equipped && item.speedpenalty).forEach(item => {
                     //Shields don't have a strength requirement for speed penalties. In this case, the penalty just alwas applies.
-                    itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), "", false, item.get_Name(), true));
+                    itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), "", false, "", item.get_Name(), true));
                 });
             }
 

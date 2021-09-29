@@ -38,8 +38,17 @@
     },
     {
         "parent": "effects",
-        "key": "toggle",
+        "key": "title",
         "priority": "04",
+        "group": "",
+        "name": "Effect title",
+        "desc": "You can choose to show a word instead of a number on the effect. This is useful, for example, in Size effects, where you might want to set Size to 2 (for Large), but show 'Size: Large' instead. This title can be calculated like values, and use 'value' and 'setValue' as variables to reference the relative or absolute value of the effect.",
+        "examples": "effects title"
+    },
+    {
+        "parent": "effects",
+        "key": "toggle",
+        "priority": "05",
         "name": "On/Off effect",
         "desc": "If this is set, the effect doesn't need a value, but just sets a certain state. Some effects like 'Ignore Armor Penalty' use this. This overrides both absolute and relative values on this effect.",
         "type": "checkbox"
@@ -47,7 +56,7 @@
     {
         "parent": "effects",
         "key": "type",
-        "priority": "05",
+        "priority": "06",
         "name": "Effect type",
         "desc": "Bonuses and penalties of the same type do not stack, except for untyped effects. Keep the field blank for an untyped bonus.",
         "locked": true,

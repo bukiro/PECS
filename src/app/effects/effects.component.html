@@ -9,14 +9,16 @@
                     [fullDisplay]="fullDisplay"></app-condition>
             </ng-template>
             <div [ngbPopover]="conditionContent" triggers="click" *ngIf="!fullDisplay" style="display:flex;">
-                <app-gridIcon [updateId]="conditionGain.id" class="condition" [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}"
-                    placement="right bottom top" [condition]="conditionGain" [originalCondition]="condition"
+                <app-gridIcon [updateId]="conditionGain.id" class="condition"
+                    [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}" placement="right bottom top"
+                    [condition]="conditionGain" [originalCondition]="condition"
                     [superTitle]="get_IsInformationalCondition(conditionGain, condition) ? 'icon-bi-info-circle' : ''"
                     [ngbTooltip]="conditionGain.name" openDelay=0>
                 </app-gridIcon>
             </div>
             <div class="list-item gridicon-fullsizebox" *ngIf="fullDisplay">
-                <app-gridIcon [updateId]="conditionGain.id" class="condition" [condition]="conditionGain" [originalCondition]="condition"
+                <app-gridIcon [updateId]="conditionGain.id" class="condition" [condition]="conditionGain"
+                    [originalCondition]="condition"
                     [superTitle]="get_IsInformationalCondition(conditionGain, condition) ? 'icon-bi-info-circle' : ''"
                     [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}">
                 </app-gridIcon>
@@ -29,8 +31,9 @@
             <div class="newrow">
                 <span>
                     <strong class="no-shadow"
-                        [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}">{{effect.target}}
-                        {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue : ''}}
+                        [ngClass]="{'penalty':effect.penalty, 'bonus':(!effect.penalty && !effect.setValue && !effect.toggle), 'absolute':(effect.setValue || effect.toggle)}">{{effect.target}}
+                        {{effect.title ? "= "+effect.title : ((parseInt(effect.value) ? effect.value : '') ||
+                        (effect.setValue ? "= "+effect.setValue : ''))}}
                     </strong>
                 </span>
             </div>
@@ -76,7 +79,7 @@
         <div [ngbPopover]="effectContent" triggers="click" *ngIf="!fullDisplay" style="display:flex;">
             <app-gridIcon class="effect" [effect]="effect" placement="left bottom top"
                 [ngClass]="{'penalty':effect.penalty && !effect.ignored, 'bonus':!effect.penalty && !effect.setValue && !effect.ignored, 'absolute':effect.setValue && !effect.ignored, 'inactive-button':effect.ignored}"
-                [ngbTooltip]="effect.target + (parseInt(effect.value) ? ' ' + effect.value : '') + (effect.setValue ? ' = '+effect.setValue : '')"
+                [ngbTooltip]="effect.target + (effect.title ? ' = '+effect.title : ((parseInt(effect.value) ? ' ' + effect.value : '') + (effect.setValue ? ' = '+effect.setValue : '')))"
                 openDelay=0>
             </app-gridIcon>
         </div>

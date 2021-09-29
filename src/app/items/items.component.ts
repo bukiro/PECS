@@ -458,6 +458,12 @@ export class ItemsComponent implements OnInit {
     grant_CustomItem(creature: string = "Character") {
         if (this.newItem != null) {
             this.newItem.id = "";
+            if (Object.keys(this.newItem).includes("equipped")) {
+                this.newItem["equipped"] = false;
+            }
+            if (Object.keys(this.newItem).includes("invested")) {
+                this.newItem["invested"] = false;
+            }
             this.grant_Item(creature, this.newItem);
         }
     }

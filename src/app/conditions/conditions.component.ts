@@ -585,6 +585,15 @@ export class ConditionsComponent implements OnInit {
                 });
                 examples = examples.filter(example => typeof example == "string" && !example.toLowerCase().includes("object") && !example.toLowerCase().includes("heightened") && !example.toLowerCase().includes("value"));
                 break;
+            case "effects title":
+                this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length).forEach(feat => {
+                    examples.push(...feat.effects.map(effect => effect.title))
+                });
+                this.characterService.get_Conditions().filter(condition => condition.effects.length).forEach((condition: Condition) => {
+                    examples.push(...condition.effects.map(effect => effect.title))
+                });
+                examples = examples.filter(example => typeof example == "string" && !example.toLowerCase().includes("object") && !example.toLowerCase().includes("heightened"));
+                break;
             case "effects type":
                 examples = this.get_BonusTypes();
                 break;

@@ -1434,7 +1434,8 @@
         "effects": [
             {
                 "affected": "Dance of Intercession Disabled",
-                "setValue": "Choice == 'Critical Failure' ? 1 : null"
+                "setValue": "Choice == 'Critical Failure' ? 1 : null",
+                "toggle": true
             }
         ]
     },
@@ -2023,7 +2024,8 @@
         "effects": [
             {
                 "affected": "Size",
-                "setValue": "1"
+                "setValue": "1",
+                "title": "'Large'"
             },
             {
                 "affected": "Athletics",
@@ -2682,7 +2684,8 @@
         "effects": [
             {
                 "affected": "Size",
-                "setValue": "Has_Feat(Creature.type, \"Titan's Stature\") ? 2 : 1"
+                "setValue": "Has_Feat(Creature.type, \"Titan's Stature\") ? 2 : 1",
+                "title": "['Medium','Large','Huge'][setValue]"
             },
             {
                 "affected": "Reach",
@@ -20455,7 +20458,8 @@
         "effects": [
             {
                 "affected": "Size",
-                "setValue": "-2"
+                "setValue": "-2",
+                "title": "Tiny"
             },
             {
                 "affected": "AC",
@@ -28495,7 +28499,8 @@
         "effects": [
             {
                 "affected": "Size",
-                "setValue": "Math.min(Math.max(0, Heightened - 3), 2)"
+                "setValue": "Math.min(Math.max(0, Heightened - 3), 2)",
+                "title": "['Medium','Large','Huge'][setValue]"
             },
             {
                 "affected": "AC",
@@ -29959,7 +29964,8 @@
         "effects": [
             {
                 "affected": "Size",
-                "setValue": "Choice == 'Huge' ? 2 : 1"
+                "setValue": "Choice == 'Huge' ? 2 : 1",
+                "title": "['Medium','Large','Huge'][setValue]"
             },
             {
                 "affected": "Melee Damage",
@@ -30910,7 +30916,8 @@
         "effects": [
             {
                 "affected": "Size",
-                "setValue": "Choice.includes('Small') ? -1 : (Choice.includes('Large') ? 1 : 0)"
+                "setValue": "Choice.includes('Small') ? -1 : (Choice.includes('Large') ? 1 : 0)",
+                "title": "setValue == -1 ? 'Small' : ['Medium','Large','Huge'][setValue]"
             },
             {
                 "affected": "Reach",
@@ -31857,7 +31864,8 @@
         "effects": [
             {
                 "affected": "Size",
-                "setValue": "-2"
+                "setValue": "-2",
+                "title": "'Tiny'"
             },
             {
                 "affected": "Reach",
@@ -32331,7 +32339,8 @@
         "effects": [
             {
                 "affected": "Size",
-                "setValue": "1"
+                "setValue": "1",
+                "title": "'Large'"
             },
             {
                 "affected": "AC",
@@ -32372,7 +32381,8 @@
         "effects": [
             {
                 "affected": "Size",
-                "setValue": "1"
+                "setValue": "1",
+                "title": "'Large'"
             },
             {
                 "affected": "AC",
@@ -34010,7 +34020,8 @@
         "effects": [
             {
                 "affected": "Size",
-                "setValue": "0"
+                "setValue": "0",
+                "title": "'Medium'"
             },
             {
                 "affected": "AC",
@@ -36186,7 +36197,8 @@
         "effects": [
             {
                 "affected": "Size",
-                "setValue": "Math.min(Math.max(0, Heightened - 4), 2)"
+                "setValue": "Math.min(Math.max(0, Heightened - 4), 2)",
+                "title": "['Medium','Large','Huge'][setValue]"
             },
             {
                 "affected": "AC",
@@ -37104,7 +37116,8 @@
         "effects": [
             {
                 "affected": "Size",
-                "setValue": "[null,null,null,null,1,2,2,3,3,3,3][Heightened]"
+                "setValue": "[null,null,null,null,1,2,2,3,3,3,3][Heightened]",
+                "title": "setValue ? ['Medium','Large','Huge','Gargantuan'][setValue] : ''"
             },
             {
                 "affected": "AC",
@@ -40968,7 +40981,8 @@
         "effects": [
             {
                 "affected": "Size",
-                "setValue": "Math.min(Math.max(0, Heightened - 5), 2)"
+                "setValue": "Math.min(Math.max(0, Heightened - 5), 2)",
+                "title": "['Medium','Large','Huge'][setValue]"
             },
             {
                 "affected": "AC",
@@ -41065,7 +41079,7 @@
             },
             {
                 "conditionChoiceFilter": [
-                    "Warth"
+                    "Earth"
                 ],
                 "name": "Elemental Form Earth Fist",
                 "type": "weapons"
@@ -42323,7 +42337,8 @@
         "effects": [
             {
                 "affected": "Size",
-                "setValue": "Math.min(Math.max(0, Heightened - 4), 2)"
+                "setValue": "Math.min(Math.max(0, Heightened - 4), 2)",
+                "title": "['Medium','Large','Huge'][setValue]"
             },
             {
                 "affected": "AC",
@@ -44344,7 +44359,8 @@
         "effects": [
             {
                 "affected": "Size",
-                "setValue": "Heightened >= 8 ? 2 : 1"
+                "setValue": "Heightened >= 8 ? 2 : 1",
+                "title": "['Medium','Large','Huge'][setValue]"
             },
             {
                 "affected": "AC",
@@ -45215,7 +45231,8 @@
         "effects": [
             {
                 "affected": "Size",
-                "setValue": "2"
+                "setValue": "2",
+                "title": "'Huge'"
             },
             {
                 "affected": "AC",
@@ -45767,7 +45784,8 @@
         "effects": [
             {
                 "affected": "Size",
-                "setValue": "2"
+                "setValue": "2",
+                "title": "'Huge'"
             },
             {
                 "affected": "Reach",
@@ -45858,7 +45876,8 @@
         "effects": [
             {
                 "affected": "Size",
-                "setValue": "Choice == 'Kaiju' ? 2 : 0"
+                "setValue": "Choice == 'Kaiju' ? 2 : 0",
+                "title": "['Medium','Large','Huge'][setValue]"
             },
             {
                 "affected": "AC",

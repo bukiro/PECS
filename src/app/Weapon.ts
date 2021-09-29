@@ -486,7 +486,7 @@ export class Weapon extends Equipment {
             if (runeSource[2]) {
                 source = "Potency (" + runeSource[2].get_Name() + ")";
             }
-            calculatedEffects.push(new Effect(creature.type, "item", this.name, potencyRune.toString(), "", false, source, false, true, false, 0))
+            calculatedEffects.push(new Effect(creature.type, "item", this.name, potencyRune.toString(), "", false, "", source, false, true, false, 0))
         }
         if (runeSource[0].battleforged) {
             let source = "Battleforged"
@@ -494,7 +494,7 @@ export class Weapon extends Equipment {
             if (runeSource[2]) {
                 source = "Battleforged (" + runeSource[2].get_Name() + ")";
             }
-            calculatedEffects.push(new Effect(creature.type, "item", this.name, "+1", "", false, source, false, true, false, 0))
+            calculatedEffects.push(new Effect(creature.type, "item", this.name, "+1", "", false, "", source, false, true, false, 0))
         }
         //Powerful Fist ignores the nonlethal penalty on unarmed attacks.
         let isPowerfulFist = false;
@@ -508,7 +508,7 @@ export class Weapon extends Equipment {
         if (this.shoddy && characterService.get_Feats("Junk Tinker")[0]?.have(creature, characterService) && this.crafted) {
             explain += "\nShoddy (canceled by Junk Tinker): -0";
         } else if (this.shoddy) {
-            calculatedEffects.push(new Effect(creature.type, "item", this.name, "-2", "", false, "Shoddy", true, true, false, 0))
+            calculatedEffects.push(new Effect(creature.type, "item", this.name, "-2", "", false, "", "Shoddy", true, true, false, 0))
         }
         //Because of the Potency and Shoddy Effects, we need to filter the types a second time, even though get_RelativesOnThese comes pre-filtered.
         effectsService.get_TypeFilteredEffects(
@@ -667,7 +667,7 @@ export class Weapon extends Equipment {
                 if (runeSource[2]) {
                     source += " (" + runeSource[2].get_Name() + ")";
                 }
-                calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Number", "", (1 + runeSource[0].get_StrikingRune()).toString(), false, source, false, true, false, 0))
+                calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Number", "", (1 + runeSource[0].get_StrikingRune()).toString(), false, "", source, false, true, false, 0))
             }
             effectsService.get_TypeFilteredEffects(
                 calculatedEffects
@@ -682,7 +682,7 @@ export class Weapon extends Equipment {
             if (this.prof == "Unarmed Attacks") {
                 let character = characterService.get_Character();
                 if (character.get_FeatsTaken(0, character.level, "Diamond Fists").length && this.traits.includes("Forceful")) {
-                    calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Number", "+1", "", false, "Diamond Fists", false, true, false, 0))
+                    calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Number", "+1", "", false, "", "Diamond Fists", false, true, false, 0))
                 }
             }
             effectsService.get_TypeFilteredEffects(
@@ -704,7 +704,7 @@ export class Weapon extends Equipment {
                 if (this.get_IsFavoredWeapon(creature, characterService)) {
                     let newDicesize = Math.max(Math.min(dicesize + 2, 12), 6);
                     if (newDicesize > dicesize) {
-                        calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Size", "", newDicesize.toString(), false, "Deific Weapon", false, true, false, 0))
+                        calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Size", "", newDicesize.toString(), false, "", "Deific Weapon", false, true, false, 0))
                     }
                 }
             }
@@ -717,7 +717,7 @@ export class Weapon extends Equipment {
                         newDicesize = 6;
                     }
                     if (newDicesize > dicesize) {
-                        calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Size", "", newDicesize.toString(), false, "Deadly Simplicity", false, true, false, 0))
+                        calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Size", "", newDicesize.toString(), false, "", "Deadly Simplicity", false, true, false, 0))
                     }
                 }
             }
@@ -727,7 +727,7 @@ export class Weapon extends Equipment {
                     let twoHandedDiceSize = parseInt(trait.substr(10))
                     if (twoHandedDiceSize) {
                         if (twoHandedDiceSize > dicesize) {
-                            calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Size", "", twoHandedDiceSize.toString(), false, "Two-Hand", false, true, false, 0))
+                            calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Size", "", twoHandedDiceSize.toString(), false, "", "Two-Hand", false, true, false, 0))
                         }
                     }
                 })
@@ -843,7 +843,7 @@ export class Weapon extends Equipment {
             if (abilityReason) {
                 abilitySource += " (" + abilityReason + ")"
             }
-            calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Damage", abilityMod.toString(), "", false, abilitySource, false, true, false, 0))
+            calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Damage", abilityMod.toString(), "", false, "", abilitySource, false, true, false, 0))
         }
         //Mature and Specialized Companions add extra Damage to their attacks.
         if (creature instanceof AnimalCompanion) {
@@ -856,7 +856,7 @@ export class Weapon extends Equipment {
                         companionMod *= 2;
                         companionSource = "Specialized Animal Companion";
                     }
-                    calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Damage", companionMod.toString(), "", false, companionSource, false, true, false, 0))
+                    calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Damage", companionMod.toString(), "", false, "", companionSource, false, true, false, 0))
                 }
             })
         }
@@ -864,7 +864,7 @@ export class Weapon extends Equipment {
         if (creature instanceof Character) {
             if (this._emblazonArmament) {
                 this.emblazonArmament.filter(ea => ea.type == 'emblazonArmament').forEach(ea => {
-                    calculatedEffects.push(new Effect(creature.type, "status", this.name + " Damage", "+1", "", false, "Emblazon Armament", false, true, false, 0))
+                    calculatedEffects.push(new Effect(creature.type, "status", this.name + " Damage", "+1", "", false, "", "Emblazon Armament", false, true, false, 0))
                 })
             }
         }

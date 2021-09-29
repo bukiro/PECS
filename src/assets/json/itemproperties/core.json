@@ -345,7 +345,7 @@
         "key": "gainConditions",
         "priority": "16",
         "group": "",
-        "name": "Cause condition",
+        "name": "Cause conditions",
         "desc": "Add known conditions that will be caused when this item is activated."
     },
     {
@@ -383,14 +383,6 @@
         "name": "Critical failure effect",
         "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a critical failure.",
         "examples": "activity"
-    },
-    {
-        "parent": "activities",
-        "key": "effects",
-        "priority": "21",
-        "group": "",
-        "name": "Permanent numeral effects",
-        "desc": "These bonuses or penalties will be applied while the item is activated."
     },
     {
         "parent": "activities",
@@ -543,8 +535,17 @@
     },
     {
         "parent": "effects",
-        "key": "toggle",
+        "key": "title",
         "priority": "03",
+        "group": "",
+        "name": "Effect title",
+        "desc": "You can choose to show a word instead of a number on the effect. This is useful, for example, in Size effects, where you might want to set Size to 2 (for Large), but show 'Size: Large' instead. This title can be calculated like values, and use 'value' and 'setValue' as variables to reference the relative or absolute value of the effect.",
+        "examples": "effects title"
+    },
+    {
+        "parent": "effects",
+        "key": "toggle",
+        "priority": "04",
         "group": "",
         "name": "On/Off effect",
         "desc": "If this is set, the effect doesn't need a value, but just sets a certain state. Some effects like 'Ignore Armor Penalty' use this.",
@@ -553,7 +554,7 @@
     {
         "parent": "effects",
         "key": "type",
-        "priority": "04",
+        "priority": "05",
         "group": "",
         "name": "Effect type",
         "desc": "Items usually grant 'item' type bonuses. Bonuses and penalties of the same type do not stack, except for untyped effects. Keep the field blank to have an untyped bonus.",

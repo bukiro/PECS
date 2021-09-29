@@ -215,17 +215,17 @@ export class AC {
             //As long as Potency is calculated like this, it is cumulative with item effects on AC.
             let potency = armor.get_PotencyRune();
             if (potency) {
-                relatives.push(new Effect(creature.type, "item", this.name, potency.toString(), "", false, "Potency", false, true, true, 0))
+                relatives.push(new Effect(creature.type, "item", this.name, potency.toString(), "", false, "", "Potency", false, true, true, 0))
             }
             if (armor.battleforged) {
-                relatives.push(new Effect(creature.type, "item", this.name, "+1", "", false, "Battleforged", false, true, true, 0))
+                relatives.push(new Effect(creature.type, "item", this.name, "+1", "", false, "", "Battleforged", false, true, true, 0))
             }
             //Shoddy items have a -2 item penalty to attacks, unless you have the Junk Tinker feat and have crafted the item yourself.
             if (shoddy && characterService.get_Feats("Junk Tinker")[0]?.have(creature, characterService) && armor.crafted) {
                 explain += "\nShoddy (canceled by Junk Tinker): -0";
-                relatives.push(new Effect(creature.type, "item", this.name, "0", "", false, " (canceled by Junk Tinker)", true, true, true, 0))
+                relatives.push(new Effect(creature.type, "item", this.name, "0", "", false, "", " (canceled by Junk Tinker)", true, true, true, 0))
             } else if (shoddy) {
-                relatives.push(new Effect(creature.type, "item", this.name, "-2", "", false, "Shoddy", true, true, true, 0))
+                relatives.push(new Effect(creature.type, "item", this.name, "-2", "", false, "", "Shoddy", true, true, true, 0))
             }
             //Add up all modifiers and return the AC gained from this armor
             armorBonus += skillLevel + charLevelBonus + armorItemBonus + dexBonus;

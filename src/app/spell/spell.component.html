@@ -5,7 +5,7 @@
             {{trait}}
         </cite>
         <app-tags [creature]="'Character'" [objectName]="spell.name" [showTraits]=true [showFeats]=true [showItems]=true
-            [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+            [showActivities]=true [showConditions]=true [showEffects]=true [specialNames]="[source]"></app-tags>
     </div>
     <app-spellContent class="vlist fullwidth" [spell]="spell" [spellLevel]="spellLevel" [casting]="casting">
     </app-spellContent>

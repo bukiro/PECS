@@ -117,7 +117,7 @@
                                                         {{spellTaken.gain.source || spellTaken.choice.source}}
                                                     </div>
                                                     <app-spell [spell]="get_Spells(spellTaken.gain.name)[0]"
-                                                        [spellLevel]="level">
+                                                        [spellLevel]="level" [source]="spellTaken.gain.source">
                                                     </app-spell>
                                                 </ng-template>
                                                 <ng-container *ngIf="!get_TileMode()">

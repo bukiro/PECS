@@ -488,6 +488,15 @@ export class NewItemPropertyComponent implements OnInit {
                 });
                 examples = examples.filter(example => typeof example == "string" && !example.toLowerCase().includes("object") && !example.toLowerCase().includes("heightened") && !example.toLowerCase().includes("value"));
                 break;
+            case "effects title":
+                this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length).forEach(feat => {
+                    examples.push(...feat.effects.map(effect => effect.title))
+                });
+                this.characterService.get_Conditions().filter(condition => condition.effects.length).forEach((condition: Condition) => {
+                    examples.push(...condition.effects.map(effect => effect.title))
+                });
+                examples = examples.filter(example => typeof example == "string" && !example.toLowerCase().includes("object") && !example.toLowerCase().includes("heightened"));
+                break;
             case "inputRequired":
                 this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
                     examples.push(...item.activities.filter(activity => activity.inputRequired.length)

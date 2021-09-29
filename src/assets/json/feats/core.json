@@ -55514,6 +55514,12 @@
         "desc": "You can remove conditions with divine grace. You can sacrifice one heal spell you've prepared in your extra slots from healing font to cast one of the following spells instead: remove curse, remove disease, remove paralysis, or restoration. The spell is heightened to the same level as the heal spell you sacrificed.",
         "usageNote": "You gain a set of these spells. Whenever you use one of them, you expend one of the heal spells you've prepared in your extra slots from healing font instead, and they become unavailable when no heal spells are left.",
         "internalNote": "Spending heal spells instead of the granted spells is hardcoded in the spellbook component.",
+        "hints": [
+            {
+                "desc": "Whenever you use one of the spells granted by Channeled Succor, you expend one of the heal spells you've prepared in your extra slots from healing font instead, and they become unavailable when no heal spells are left.",
+                "showon": "Feat: Channeled Succor"
+            }
+        ],
         "shortdesc": "You can remove conditions with divine grace.",
         "traits": [
             "Cleric"
@@ -55525,7 +55531,8 @@
         "effects": [
             {
                 "affected": "Channeled Succor Disabled",
-                "setValue": "Character.get_SpellsTaken(characterService, 1, Character.level, -1, 'Heal', null, '', '', '', 'Divine Font').find(taken => taken.gain.prepared) ? null : 1"
+                "setValue": "Character.get_SpellsTaken(characterService, 1, Character.level, -1, 'Heal', null, '', '', '', 'Divine Font').some(taken => taken.gain.prepared) ? null : 1",
+                "toggle": true
             }
         ],
         "gainSpellChoice": [

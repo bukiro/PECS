@@ -17,6 +17,8 @@ export class SpellComponent implements OnInit {
     @Input()
     spellLevel: number;
     @Input()
+    source: string = "";
+    @Input()
     casting: SpellCasting = null;
 
     constructor(

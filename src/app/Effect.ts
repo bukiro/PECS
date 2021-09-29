@@ -7,6 +7,7 @@ export class Effect {
         public value: string = "",
         public setValue: string = "",
         public toggle: boolean = false,
+        public title: string = "",
         public source: string = "",
         public penalty: boolean = false,
         public apply: boolean = undefined,

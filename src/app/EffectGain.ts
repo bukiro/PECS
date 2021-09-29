@@ -12,6 +12,7 @@ export class EffectGain {
     // Hint: "you gain an X Speed" effects do not stack and should use setValue.
     public setValue: string = "";
     //Set if the effect does not need a value, but still needs to be applied.
+    //An effect that has a value and is toggle==true will be toggled only if the value is nonzero, and not keep its value.
     public toggle: boolean = false;
     //Effects will be shown if show = true, not shown if show = false, or otherwise shown if they match a certain list of effects that should always show.
     public show: boolean = undefined;
@@ -27,6 +28,8 @@ export class EffectGain {
     public cumulative: string[] = [];
     //A resonant effect only applies if the carrying item is slotted into a wayfinder.
     public resonant: boolean = false;
+    //The title will be shown instead of the value if it is set. It can be calculated like the value, and use the value for its calculations, but should result in a string.
+    public title: string = "";
     recast() {
         return this;
     }

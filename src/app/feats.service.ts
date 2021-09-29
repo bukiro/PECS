@@ -117,7 +117,7 @@ export class FeatsService {
     }
 
     add_CharacterFeat(feat: Feat) {
-        if (!this.$characterFeats.has(feat.name)) {
+        if (feat?.name && !this.$characterFeats.has(feat.name)) {
             this.$characterFeats.set(feat.name, feat);
         }
     }
