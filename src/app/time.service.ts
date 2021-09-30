@@ -129,8 +129,8 @@ export class TimeService {
                 characterService.set_ToChange("Character", "inventory");
                 //Regenerate bonded item charges.
                 character.class.spellCasting.filter(casting => casting.castingType == "Prepared" && casting.className == "Wizard").forEach(casting => {
-                    let superiorBond = character.get_FeatsTaken(1, character.level, "Superior Bond").length;
-                    if (character.get_FeatsTaken(1, character.level, "Universalist Wizard").length) {
+                    let superiorBond = characterService.get_CharacterFeatsTaken(1, character.level, "Superior Bond").length;
+                    if (characterService.get_CharacterFeatsTaken(1, character.level, "Universalist Wizard").length) {
                         casting.bondedItemCharges = [superiorBond, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
                     } else {
                         casting.bondedItemCharges = [1 + superiorBond, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];

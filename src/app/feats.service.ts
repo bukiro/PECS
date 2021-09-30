@@ -26,6 +26,7 @@ import { LanguageGain } from './LanguageGain';
 import { Hint } from './Hint';
 import { ExtensionsService } from './extensions.service';
 import { BloodMagic } from './BloodMagic';
+import { FeatTaken } from './FeatTaken';
 
 @Injectable({
     providedIn: 'root'
@@ -39,6 +40,7 @@ export class FeatsService {
     private featuresMap = new Map<string, Feat>();
     //Load all feats that you have into $characterFeats, so they are faster to retrieve.
     private $characterFeats = new Map<string, Feat>();
+    private $characterFeatsTaken: { level: number, gain: FeatTaken }[] = [];
 
     constructor(
         private extensionsService: ExtensionsService
@@ -109,22 +111,34 @@ export class FeatsService {
         //Add all feats that the character has taken to $characterFeats, unless they are among the custom feats.
         let customFeats = character.customFeats;
         this.$characterFeats.clear();
-        character.get_FeatsTaken(0, 0).forEach(takenFeat => {
-            if (!customFeats.some(feat => feat.name.toLowerCase() == takenFeat.name.toLowerCase())) {
-                this.add_CharacterFeat(this.get_AllFromName([], takenFeat.name));
-            }
+        this.$characterFeatsTaken.length = 0;
+
+        character.class.levels.forEach(level => {
+            level.featChoices.forEach(choice => {
+                choice.feats.forEach(takenFeat => {
+                    if (!customFeats.some(feat => feat.name.toLowerCase() == takenFeat.name.toLowerCase())) {
+                        this.add_CharacterFeat(this.get_AllFromName([], takenFeat.name), takenFeat, level.number);
+                    }
+                })
+            })
         })
     }
 
-    add_CharacterFeat(feat: Feat) {
+    add_CharacterFeat(feat: Feat, gain: FeatTaken, level: number) {
         if (feat?.name && !this.$characterFeats.has(feat.name)) {
             this.$characterFeats.set(feat.name, feat);
         }
+        this.$characterFeatsTaken.push({ level: level, gain: gain });
     }
 
-    remove_CharacterFeat(character: Character, feat: Feat) {
+    remove_CharacterFeat(feat: Feat, gain: FeatTaken, level: number) {
+        //Remove one instance of the feat from the taken character feats list.
+        let takenFeat = this.$characterFeatsTaken.find(taken => taken.level == level && JSON.stringify(taken) == JSON.stringify(gain));
+        let a = this.$characterFeatsTaken;
+        a.splice(a.indexOf(takenFeat, 1));
+        this.$characterFeatsTaken = this.$characterFeatsTaken.filter(taken => taken === takenFeat);
         //Remove a feat from the character feats only if it is no longer taken by the character.
-        if (!character.get_FeatsTaken(0, 0, feat.name).length) {
+        if (!this.get_CharacterFeatsTaken(0, 0, feat.name).length) {
             if (this.$characterFeats.has(feat.name)) {
                 this.$characterFeats.delete(feat.name);
             }
@@ -177,6 +191,21 @@ export class FeatsService {
         } else { return [new Feat()]; }
     }
 
+    get_CharacterFeatsTaken(minLevel: number = 0, maxLevel: number = 0, name: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, includeCountAs: boolean = false, automatic: boolean = undefined) {
+        return this.$characterFeatsTaken.filter(taken =>
+            (!minLevel || (taken.level >= minLevel)) &&
+            (!maxLevel || (taken.level <= maxLevel)) &&
+            (
+                !name ||
+                (includeCountAs && (taken.gain.countAsFeat?.toLowerCase() == name.toLowerCase() || false)) ||
+                (taken.gain.name.toLowerCase() == name.toLowerCase())
+            ) &&
+            (!source || (taken.gain.source.toLowerCase() == source.toLowerCase())) &&
+            (!sourceId || (taken.gain.sourceId == sourceId)) &&
+            ((locked == undefined && automatic == undefined) || (taken.gain.locked == locked) || (taken.gain.automatic == automatic))
+        ).map(taken => taken.gain);
+    }
+
     get_All(customFeats: Feat[], name: string = "", type: string = "", includeSubTypes: boolean = false, includeCountAs: boolean = false) {
         //ATTENTION: Use this function sparingly!
         //There are thousands of feats. Particularly if you need to find out if you have a feat with an attribute, use get_CharacterFeats instead:
@@ -193,10 +222,11 @@ export class FeatsService {
         } else { return [new Feat()]; }
     }
 
-    process_Feat(creature: Character | Familiar, characterService: CharacterService, feat: Feat, featName: string, choice: FeatChoice, level: Level, taken: boolean) {
+    process_Feat(creature: Character | Familiar, characterService: CharacterService, feat: Feat, gain: FeatTaken, choice: FeatChoice, level: Level, taken: boolean) {
         let character = characterService.get_Character();
         //Get feats and features via the characterService in order to include custom feats
         let feats: Feat[] = [];
+        let featName = gain.name;
         if (feat) {
             feats = [feat];
         } else {
@@ -232,7 +262,7 @@ export class FeatsService {
                                 insertedFeatChoice = character.add_FeatChoice(level, newFeatChoice);
                             }
                             insertedFeatChoice.feats.forEach(gain => {
-                                this.process_Feat(creature, characterService, undefined, gain.name, insertedFeatChoice, level, true);
+                                this.process_Feat(creature, characterService, undefined, gain, insertedFeatChoice, level, true);
                             })
                             if (insertedFeatChoice.showOnSheet) {
                                 characterService.set_ToChange(creature.type, "activities");
@@ -676,8 +706,9 @@ export class FeatsService {
                     //Remove the latest specialization chosen on this level, only if all choices are taken
                     let specializations = companion.class.specializations.filter(spec => spec.level == level.number);
                     if (specializations.length) {
-                        if (specializations.length >= characterService.get_CharacterFeatsAndFeatures()
-                            .filter(feat => feat.gainAnimalCompanion == "Specialized" && character.get_FeatsTaken(level.number, level.number, feat.name)).length
+                        if (specializations.length >= characterService.get_CharacterFeatsTaken(level.number, level.number)
+                            .map(taken => characterService.get_CharacterFeatsAndFeatures(taken.name)[0])
+                            .filter(feat => feat.gainAnimalCompanion == "Specialized").length
                         ) {
                             companion.class.specializations = companion.class.specializations.filter(spec => spec.name != specializations[specializations.length - 1].name)
                         }
@@ -833,7 +864,7 @@ export class FeatsService {
                 "Illusion School", "Necromancy School", "Transmutation School", "Universalist Wizard"].includes(feat.name)) {
                 if (taken) {
                     character.class.spellCasting.filter(casting => casting.castingType == "Prepared" && casting.className == "Wizard").forEach(casting => {
-                        let superiorBond = character.get_FeatsTaken(1, character.level, "Superior Bond").length;
+                        let superiorBond = characterService.get_CharacterFeatsTaken(1, character.level, "Superior Bond").length;
                         if (feat.name == "Universalist Wizard") {
                             casting.bondedItemCharges = [superiorBond, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
                         } else {
@@ -972,9 +1003,9 @@ export class FeatsService {
             // If it is removed, remove it from the list. The function checks for feats that may have been taken multiple times and keeps them.
             if (creature === character) {
                 if (taken) {
-                    this.add_CharacterFeat(feat);
+                    this.add_CharacterFeat(feat, gain, level.number);
                 } else {
-                    this.remove_CharacterFeat(character, feat);
+                    this.remove_CharacterFeat(feat, gain, level.number);
                 }
             }
 

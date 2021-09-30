@@ -225,7 +225,7 @@ export class SpellchoiceComponent implements OnInit {
     }
 
     have_Feat(name: string) {
-        return this.get_Character().get_FeatsTaken(1, this.get_Character().level, name).length;
+        return this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, name).length;
     }
 
     is_TradedIn() {
@@ -537,6 +537,7 @@ export class SpellchoiceComponent implements OnInit {
             return component.characterService.get_Abilities(name)[0].mod(component.get_Character(), component.characterService, component.effectsService).result;
         }
         function Has_Feat(name: string) {
+            //Return number of times you have the feat. The number is needed for calculations; boolean is not enough.
             return component.have_Feat(name);
         }
         function Used_For_Spell_Blending() {

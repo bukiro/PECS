@@ -173,7 +173,7 @@ export class HealthComponent implements OnInit {
 
     get_NumbToDeath() {
         if (this.get_Creature().type == "Character") {
-            return this.get_Character().get_FeatsTaken(0, this.get_Character().level, "Numb to Death").length;
+            return this.characterService.get_CharacterFeatsTaken(0, this.get_Character().level, "Numb to Death").length;
         } else {
             return 0;
         }

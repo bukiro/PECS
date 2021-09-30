@@ -361,7 +361,7 @@ export class SpellbookComponent implements OnInit {
 
     have_Feat(name: string) {
         let character = this.get_Character();
-        return character.get_FeatsTaken(0, character.level, name).length
+        return this.characterService.get_CharacterFeatsTaken(0, character.level, name).length
     }
 
     refocus() {
@@ -583,23 +583,23 @@ export class SpellbookComponent implements OnInit {
     can_Counterspell(casting: SpellCasting) {
         let character = this.get_Character();
         if (["Prepared", "Spontaneous"].includes(casting.castingType)) {
-            return character.get_FeatsTaken(1, character.level, "Counterspell (" + casting.castingType + ")").length;
+            return this.characterService.get_CharacterFeatsTaken(1, character.level, "Counterspell (" + casting.castingType + ")").length;
         }
     }
 
     can_ChannelSmite(spell: Spell) {
         let character = this.get_Character();
         if (["Heal", "Harm"].includes(spell.name)) {
-            return character.get_FeatsTaken(1, character.level, "Channel Smite").length;
+            return this.characterService.get_CharacterFeatsTaken(1, character.level, "Channel Smite").length;
         }
     }
 
     can_SwiftBanish(casting: SpellCasting, spell: Spell, level: number) {
         let character = this.get_Character();
         if (["Banishment"].includes(spell.name)) {
-            return character.get_FeatsTaken(1, character.level, "Swift Banishment").length;
+            return this.characterService.get_CharacterFeatsTaken(1, character.level, "Swift Banishment").length;
         } else if (level >= 5 && casting.castingType == "Prepared") {
-            return character.get_FeatsTaken(1, character.level, "Improved Swift Banishment").length;
+            return this.characterService.get_CharacterFeatsTaken(1, character.level, "Improved Swift Banishment").length;
         }
     }
 

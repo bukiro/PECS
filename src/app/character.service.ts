@@ -69,6 +69,7 @@ import { ExtensionsService } from './extensions.service';
 import { AnimalCompanionAncestry } from './AnimalCompanionAncestry';
 import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
 import { dependenciesFromGlobalMetadata } from '@angular/compiler/src/render3/r3_factory';
+import { FeatTaken } from './FeatTaken';
 
 @Injectable({
     providedIn: 'root'
@@ -619,7 +620,7 @@ export class CharacterService {
             character.class.levels.filter(level => level.number > 0).forEach(level => {
                 //Collect all feats you have that grant extra free languages, then note on which level you have them.
                 //Add the amount that they would grant you on that level by faking a level for the effect.
-                character.get_FeatsTaken(level.number, level.number).forEach(taken => {
+                this.get_CharacterFeatsTaken(level.number, level.number).forEach(taken => {
                     let feat = this.get_FeatsAndFeatures(taken.name)[0];
                     if (feat) {
                         if (feat.effects.some(effect => effect.affected == "Max Languages")) {
@@ -2229,16 +2230,16 @@ export class CharacterService {
                 this.defenseService.get_AC().set_Cover(creature, value, null, this, this.conditionsService);
                 switch (value) {
                     case 0:
-                        this.toastService.show("" + recipientName + " " + recipientIs + " no longer taking cover.", [], this);    
+                        this.toastService.show("" + recipientName + " " + recipientIs + " no longer taking cover.", [], this);
                         break;
                     case 1:
-                        this.toastService.show(recipientName + " now " + recipientHas + " lesser cover.", [], this);    
+                        this.toastService.show(recipientName + " now " + recipientHas + " lesser cover.", [], this);
                         break;
                     case 2:
-                        this.toastService.show(recipientName + " now " + recipientHas + " standard cover.", [], this);    
+                        this.toastService.show(recipientName + " now " + recipientHas + " standard cover.", [], this);
                         break;
                     case 4:
-                        this.toastService.show(recipientName + " now " + recipientHas + " greater cover.", [], this);    
+                        this.toastService.show(recipientName + " now " + recipientHas + " greater cover.", [], this);
                         break;
                 }
                 break;
@@ -2272,6 +2273,16 @@ export class CharacterService {
 
     get_CharacterFeatsAndFeatures(name: string = "", type: string = "", includeSubTypes: boolean = false, includeCountAs: boolean = false) {
         return this.featsService.get_CharacterFeats(this.get_Character().customFeats, name, type, includeSubTypes, includeCountAs);
+    }
+
+    get_CharacterFeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, excludeTemporary: boolean = false, includeCountAs: boolean = false, automatic: boolean = undefined) {
+        //If the feat choice is not needed (i.e. if excludeTemporary is not given), we can get the taken feats quicker from the featsService.
+        //CharacterService.get_CharacterFeatsTaken should be preferred over Character.get_FeatsTaken for this reason.
+        if (!excludeTemporary) {
+            return this.featsService.get_CharacterFeatsTaken(minLevelNumber, maxLevelNumber, featName, source, sourceId, locked, includeCountAs, automatic);
+        } else {
+            return this.get_Character().get_FeatsTaken(minLevelNumber, maxLevelNumber, featName, source, sourceId, locked, excludeTemporary, includeCountAs, automatic);
+        }
     }
 
     get_Health(creature: Creature) {
@@ -2321,8 +2332,8 @@ export class CharacterService {
         return Array.from(new Set(senses));
     }
 
-    process_Feat(creature: Character | Familiar, feat: Feat, featName: string, choice: FeatChoice, level: Level, taken: boolean) {
-        this.featsService.process_Feat(creature, this, feat, featName, choice, level, taken);
+    process_Feat(creature: Character | Familiar, feat: Feat, gain: FeatTaken, choice: FeatChoice, level: Level, taken: boolean) {
+        this.featsService.process_Feat(creature, this, feat, gain, choice, level, taken);
     }
 
     get_FeatsShowingOn(objectName: string = "all") {
@@ -2793,7 +2804,7 @@ export class CharacterService {
     cancel_Loading() {
         this.loader = [];
         if (this.loading) { this.loading = false; }
-        //Fill a runtime variable with all the feats the character has taken, as they were cleared when trying to load.
+        //Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken. These were cleared when trying to load.
         this.featsService.build_CharacterFeats(this.get_Character());
         this.trigger_FinalChange();
     }
@@ -2821,7 +2832,7 @@ export class CharacterService {
             }
             //Set your turn state according to the saved state.
             this.timeService.set_YourTurn(this.get_Character().yourTurn);
-            //Fill a runtime variable with all the feats the character has taken.
+            //Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
             this.featsService.build_CharacterFeats(this.get_Character());
             //Set accent color and dark mode according to the settings.
             this.set_Accent();

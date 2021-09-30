@@ -167,8 +167,8 @@ export class GeneralComponent implements OnInit {
     }
 
     get_DifferentWorldsFeat() {
-        if (this.get_Character().get_FeatsTaken(1, this.get_Character().level, "Different Worlds").length) {
-            return this.get_Character().customFeats.filter(feat => feat.name == "Different Worlds");
+        if (this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, "Different Worlds").length) {
+            return this.characterService.get_CharacterFeatsAndFeatures("Different Worlds");
         }
     }
 
@@ -209,7 +209,7 @@ export class GeneralComponent implements OnInit {
     get_CharacterTraits() {
         let character = this.get_Character();
         //Verdant Metamorphosis adds the Plant trait and removes the Humanoid, Animal or Fungus trait.
-        if (character.get_FeatsTaken(1, character.level, "Verdant Metamorphosis").length) {
+        if (this.characterService.get_CharacterFeatsTaken(1, character.level, "Verdant Metamorphosis").length) {
             return ["Plant"].concat(this.get_Character().class.ancestry.traits.filter(trait => !["Humanoid", "Animal", "Fungus"].includes(trait)))
                 .sort(function (a, b) {
                     if (a > b) {

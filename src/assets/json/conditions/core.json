@@ -3719,7 +3719,7 @@
             },
             {
                 "affected": "Dexterity Modifier Cap",
-                "setValue": "(Character.get_FeatsTaken(1, Level, 'Mountain Quake').length ? 1 : (Character.get_FeatsTaken(1, Level, 'Mountain Stronghold').length ? 1 : 0))"
+                "setValue": "(Has_Feat('Character', 'Mountain Quake') ? 1 : (Has_Feat('Character', 'Mountain Stronghold') ? 1 : 0))"
             },
             {
                 "affected": "Speed",
@@ -11118,7 +11118,7 @@
             },
             {
                 "affected": "Agile Attack Rolls",
-                "value": "Character.get_FeatsTaken(1, Level, 'Agile Grace').length ? (Choice == 'Third Attack' ? -6 : -3) : (Choice == 'Third Attack' ? -8 : -4)"
+                "value": "Has_Feat('Character', 'Agile Grace') ? (Choice == 'Third Attack' ? -6 : -3) : (Choice == 'Third Attack' ? -8 : -4)"
             },
             {
                 "affected": "Spell Attack Rolls",

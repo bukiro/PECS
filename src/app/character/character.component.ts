@@ -857,13 +857,13 @@ export class CharacterComponent implements OnInit {
     }
 
     get_DifferentWorldsFeat(levelNumber: number) {
-        if (this.get_Character().get_FeatsTaken(levelNumber, levelNumber, "Different Worlds").length) {
+        if (this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, "Different Worlds").length) {
             return this.get_Character().customFeats.filter(feat => feat.name == "Different Worlds");
         }
     }
 
     get_BlessedBloodFeat(levelNumber: number) {
-        return this.get_Character().get_FeatsTaken(levelNumber, levelNumber, "Blessed Blood").length
+        return this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, "Blessed Blood").length
     }
 
     get_BlessedBloodDeitySpells() {
@@ -893,7 +893,7 @@ export class CharacterComponent implements OnInit {
     }
 
     get_SplinterFaithFeat(levelNumber: number) {
-        return this.get_Character().get_FeatsTaken(levelNumber, levelNumber, "Splinter Faith").length;
+        return this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, "Splinter Faith").length;
     }
 
     get_SplinterFaithDomains() {
@@ -948,13 +948,14 @@ export class CharacterComponent implements OnInit {
     }
 
     get_AdditionalHeritagesAvailable(levelNumber: number) {
-        //Check if you have taken an additional heritage feat on this exact level.
-        // Don't use feat.have() because it checks from level 1 to current.
-        return [].concat(...this.get_CharacterFeatsAndFeatures()
-            .filter(
-                feat => feat.gainHeritage.length &&
-                    this.get_Character().get_FeatsTaken(levelNumber, levelNumber, feat.name).length
-            ).map(feat => feat.gainHeritage))
+        //Return all heritages you have gained on this specific level.
+        return this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber)
+            .map(taken => this.get_CharacterFeatsAndFeatures(taken.name)[0])
+            .filter(feat =>
+                feat &&
+                feat.gainHeritage.length
+            )
+            .map(feat => feat.gainHeritage)
     }
 
     get_AdditionalHeritageIndex(source: string) {
@@ -1016,7 +1017,7 @@ export class CharacterComponent implements OnInit {
     }
 
     get_FuseStanceFeat(levelNumber: number) {
-        if (this.get_Character().get_FeatsTaken(levelNumber, levelNumber, "Fuse Stance").length) {
+        if (this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, "Fuse Stance").length) {
             return this.get_Character().customFeats.filter(feat => feat.name == "Fuse Stance");
         }
     }
@@ -1070,7 +1071,7 @@ export class CharacterComponent implements OnInit {
     }
 
     get_SyncretismFeat(levelNumber: number) {
-        if (this.get_Character().get_FeatsTaken(levelNumber, levelNumber, "Syncretism").length) {
+        if (this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, "Syncretism").length) {
             return this.get_Character().customFeats.filter(feat => feat.name == "Syncretism");
         }
     }
@@ -1091,7 +1092,7 @@ export class CharacterComponent implements OnInit {
 
     get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, filter: string = "", automatic: boolean = undefined) {
         let character = this.get_Character();
-        return this.get_Character().get_FeatsTaken(minLevelNumber, maxLevelNumber, featName, source, sourceId, locked, undefined, undefined, automatic)
+        return this.characterService.get_CharacterFeatsTaken(minLevelNumber, maxLevelNumber, featName, source, sourceId, locked, undefined, undefined, automatic)
             .filter(taken => filter == "feature" ? taken.source == character.class.name : (filter == "feat" ? taken.source != character.class.name : true));
     }
 
@@ -1312,9 +1313,10 @@ export class CharacterComponent implements OnInit {
     }
 
     get_CompanionAvailable(levelNumber: number) {
-        //Return the number of feats taken this level that granted you an animal companion.
-        // Don't use feat.have() because it checks from level 1 to current.
-        return this.get_CharacterFeatsAndFeatures().filter(feat => (feat.gainAnimalCompanion == "Young") && this.get_Character().get_FeatsTaken(levelNumber, levelNumber, feat.name).length).length;
+        //Return whether you have taken a feat this level that granted you an animal companion.
+        return this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber)
+            .map(taken => this.get_CharacterFeatsAndFeatures(taken.name)[0])
+            .some(feat => feat && feat.gainAnimalCompanion == "Young");
     }
 
     get_Companion() {
@@ -1378,9 +1380,10 @@ export class CharacterComponent implements OnInit {
     }
 
     get_CompanionSpecializationsAvailable(levelNumber: number) {
-        //Return the number of feats taken this level that granted you an animal companion specialization (i.e. gainAnimalCompanion == "Specialized")
-        // Don't use feat.have() because it checks from level 1 to current.
-        return this.get_CharacterFeatsAndFeatures().filter(feat => (feat.gainAnimalCompanion == "Specialized") && this.get_Character().get_FeatsTaken(levelNumber, levelNumber, feat.name).length).length;
+        //Return how many feats you have taken this level that granted you an animal companion specialization.
+        return this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber)
+            .map(taken => this.get_CharacterFeatsAndFeatures(taken.name)[0])
+            .filter(feat => feat && feat.gainAnimalCompanion == "Specialized").length;
     }
 
     get_AvailableCompanionSpecializations(levelNumber: number) {
@@ -1414,9 +1417,10 @@ export class CharacterComponent implements OnInit {
     }
 
     get_FamiliarAvailable(levelNumber: number) {
-        //Return the number of feats taken this level that granted you a familiar
-        // Don't use feat.have() because it checks from level 1 to current.
-        return this.get_CharacterFeatsAndFeatures().filter(feat => feat.gainFamiliar && this.get_Character().get_FeatsTaken(levelNumber, levelNumber, feat.name).length).length;
+        //Return whether you have taken a feat this level that granted you a familiar.
+        return this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber)
+            .map(taken => this.get_CharacterFeatsAndFeatures(taken.name)[0])
+            .some(feat => feat && feat.gainFamiliar);
     }
 
     get_Familiar() {

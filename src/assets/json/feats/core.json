@@ -22810,7 +22810,7 @@
         "effects": [
             {
                 "affected": "Max HP",
-                "value": "Character.get_FeatsTaken(1, Level).filter(gain => characterService.get_Feats(gain.name)[0]?.archetype == 'Fighter').length * 3"
+                "value": "Feats_Taken('Character').filter(gain => characterService.get_Feats(gain.name)[0]?.archetype == 'Fighter').length * 3"
             }
         ]
     },
@@ -23036,7 +23036,7 @@
         "effects": [
             {
                 "affected": "Max HP",
-                "value": "Character.get_FeatsTaken(1, Level).filter(gain => characterService.get_Feats(gain.name)[0]?.archetype == 'Monk').length * 3"
+                "value": "Feats_Taken('Character').filter(gain => characterService.get_Feats(gain.name)[0]?.archetype == 'Monk').length * 3"
             }
         ]
     },
@@ -24758,7 +24758,7 @@
         "effects": [
             {
                 "affected": "Max HP",
-                "value": "Character.get_FeatsTaken(1, Level).filter(gain => characterService.get_Feats(gain.name)[0]?.archetype == 'Ranger').length * 3"
+                "value": "Feats_Taken('Character').filter(gain => characterService.get_Feats(gain.name)[0]?.archetype == 'Ranger').length * 3"
             }
         ]
     },
@@ -26705,7 +26705,7 @@
         "featreq": [
             "Arcane Bond"
         ],
-        "specialreq": "character.get_FeatsTaken(1, charLevel).find(gain => ['Abjuration School', 'Conjuration School', 'Divination School', 'Enchantment School', 'Evocation School', 'Illusion School', 'Necromancy School', 'Transmutation School'].includes(gain.name))",
+        "specialreq": "Feats_Taken('Character').find(gain => ['Abjuration School', 'Conjuration School', 'Divination School', 'Enchantment School', 'Evocation School', 'Illusion School', 'Necromancy School', 'Transmutation School'].includes(gain.name))",
         "specialreqdesc": "arcane school"
     },
     {
@@ -26768,7 +26768,7 @@
             "Wizard"
         ],
         "levelreq": 8,
-        "specialreq": "character.get_FeatsTaken(1, charLevel).find(gain => ['Abjuration School', 'Conjuration School', 'Divination School', 'Enchantment School', 'Evocation School', 'Illusion School', 'Necromancy School', 'Transmutation School'].includes(gain.name))",
+        "specialreq": "Feats_Taken('Character').find(gain => ['Abjuration School', 'Conjuration School', 'Divination School', 'Enchantment School', 'Evocation School', 'Illusion School', 'Necromancy School', 'Transmutation School'].includes(gain.name))",
         "specialreqdesc": "arcane school"
     },
     {
@@ -30295,7 +30295,7 @@
             "Bard"
         ],
         "levelreq": 2,
-        "specialreq": "!character.get_FeatsTaken(1, charLevel, 'Enigma Muse').length",
+        "specialreq": "!Has_Feat('Character', 'Enigma Muse', false)",
         "specialreqdesc": "no enigma muse",
         "gainFeatChoice": [
             {
@@ -30321,7 +30321,7 @@
             "Bard"
         ],
         "levelreq": 2,
-        "specialreq": "!character.get_FeatsTaken(1, charLevel, 'Maestro Muse').length",
+        "specialreq": "!Has_Feat('Character', 'Maestro Muse', false)",
         "specialreqdesc": "no maestro muse",
         "gainFeatChoice": [
             {
@@ -30347,7 +30347,7 @@
             "Bard"
         ],
         "levelreq": 2,
-        "specialreq": "!character.get_FeatsTaken(1, charLevel, 'Polymath Muse').length",
+        "specialreq": "!Has_Feat('Character', 'Polymath Muse', false)",
         "specialreqdesc": "no polymath muse",
         "gainFeatChoice": [
             {
@@ -35395,7 +35395,7 @@
             "Human"
         ],
         "levelreq": 13,
-        "specialreq": "character.get_SpellsTaken(this, 1, charLevel, -1, 'Fly').length || character.get_SpellsLearned('Fly').length || character.get_FeatsTaken(1, charLevel, 'Shory Aeromancer').length",
+        "specialreq": "Has_Feat('Character', 'Shory Aeromancer') || character.get_SpellsTaken(this, 1, charLevel, -1, 'Fly').length || character.get_SpellsLearned('Fly').length",
         "specialreqdesc": "Garundi, Mauxi, or Tian-Yae ethnicity; Shory Aeromancer or ability to cast fly"
     },
     {
@@ -36319,7 +36319,7 @@
             "Elf"
         ],
         "levelreq": 13,
-        "specialreq": "character.class.ancestry.name == 'Elf' || character.get_FeatsTaken(1, charLevel, 'Elf Atavism').length",
+        "specialreq": "character.class.ancestry.name == 'Elf' || Has_Feat('Character', 'Elf Atavism')",
         "specialreqdesc": "arctic elf, cavern elf, desert elf, woodland elf, or any other elf heritage based on adapting to an environment"
     },
     {
@@ -40552,7 +40552,7 @@
         "effects": [
             {
                 "affected": "Max HP",
-                "value": "Character.get_FeatsTaken(1, Level).filter(gain => characterService.get_Feats(gain.name)[0]?.archetype == 'Barbarian').length * 3"
+                "value": "Feats_Taken('Character').filter(gain => characterService.get_Feats(gain.name)[0]?.archetype == 'Barbarian').length * 3"
             }
         ]
     },
@@ -40783,7 +40783,7 @@
             "Druid"
         ],
         "levelreq": 2,
-        "specialreq": "!character.get_FeatsTaken(1, charLevel, 'Animal Order').length",
+        "specialreq": "!Has_Feat('Character', 'Animal Order', false)",
         "specialreqdesc": "no animal order",
         "anathema": [
             "Committing wanton cruelty to animals or killing animals unnecessarily is anathema to your order. (This doesn't prevent you from defending yourself against animals or killing them cleanly for food.)"
@@ -40813,7 +40813,7 @@
             "Druid"
         ],
         "levelreq": 2,
-        "specialreq": "!character.get_FeatsTaken(1, charLevel, 'Leaf Order').length",
+        "specialreq": "!Has_Feat('Character', 'Leaf Order', false)",
         "specialreqdesc": "no leaf order",
         "anathema": [
             "Committing wanton cruelty to plants or killing plants unnecessarily is anathema to your order. (This doesn't prevent you from defending yourself against plants or harvesting them when necessary for survival.)"
@@ -40843,7 +40843,7 @@
             "Druid"
         ],
         "levelreq": 2,
-        "specialreq": "!character.get_FeatsTaken(1, charLevel, 'Storm Order').length",
+        "specialreq": "!Has_Feat('Character', 'Storm Order', false)",
         "specialreqdesc": "no storm order",
         "anathema": [
             "Polluting the air or allowing those who cause major air pollution or climate shifts to go unpunished is anathema to your order. (This doesn't force you to take action against merely potential harm to the environment or to sacrifice yourself against an obviously superior foe.)"
@@ -40873,7 +40873,7 @@
             "Druid"
         ],
         "levelreq": 2,
-        "specialreq": "!character.get_FeatsTaken(1, charLevel, 'Wild Order').length",
+        "specialreq": "!Has_Feat('Character', 'Wild Order', false)",
         "specialreqdesc": "no wild order",
         "anathema": [
             "Becoming fully domesticated by the temptations of civilization is anathema to your order. (This doesn't prevent you from buying and using processed goods or staying in a city for an adventure, but you can never come to rely on these conveniences or truly call such a place your permanent home.)"
@@ -41434,7 +41434,7 @@
             "Druid"
         ],
         "levelreq": 10,
-        "specialreq": "character.get_FeatsTaken(1, 20, 'Wild Shape').length",
+        "specialreq": "characterService.get_CharacterFeatsTaken(1, 20, 'Wild Shape').length",
         "specialreqdesc": "Wild Shape",
         "effects": [
             {
@@ -41457,7 +41457,7 @@
         "featreq": [
             "leaf order"
         ],
-        "specialreq": "!character.get_FeatsTaken(1, 20, 'Wild Shape').length",
+        "specialreq": "!characterService.get_CharacterFeatsTaken(1, 20, 'Wild Shape').length",
         "specialreqdesc": "no Wild Shape",
         "gainSpellChoice": [
             {

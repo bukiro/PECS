@@ -122,7 +122,7 @@ export class SkillsComponent implements OnInit {
     }
 
     have_Feat(name: string) {
-        return this.characterService.get_Character().get_FeatsTaken(1, this.characterService.get_Character().level, name).length;
+        return this.characterService.get_CharacterFeatsTaken(1, this.characterService.get_Character().level, name).length;
     }
     
     get_Activities(name: string = "") {

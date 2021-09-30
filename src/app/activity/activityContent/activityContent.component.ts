@@ -126,7 +126,7 @@ export class ActivityContentComponent implements OnInit {
     }
 
     get_HeightenedDescription() {
-        return this.activity.get_Heightened(this.activity.desc, this.gain.heightened || this.get_Character().level);
+        return this.activity.get_Heightened(this.activity.desc, this.gain?.heightened || this.get_Character().level);
     }
 
     on_EffectChoiceChange() {

@@ -161,12 +161,10 @@ export class Feat {
         let skillreq = JSON.parse(JSON.stringify(this.skillreq));
         //The Versatile Performance feat allows to use Performance instead of Deception, Diplomacy or Intimidation to meet skill requirements for feats.
         //If you have the feat and any of these skills are required, add Performance to the requirements with the lowest required value.
-        if (character.get_FeatsTaken(1, charLevel, "Versatile Performance").length) {
-            let matchingreqs = skillreq.filter(requirement => ["Deception", "Diplomacy", "Intimidation"].includes(requirement.skill));
-            if (matchingreqs.length) {
-                let lowest = Math.min(matchingreqs.map(requirement => requirement.value));
-                skillreq.push({ skill: "Performance", value: lowest });
-            }
+        let matchingreqs = skillreq.filter(requirement => ["Deception", "Diplomacy", "Intimidation"].includes(requirement.skill));
+        if (matchingreqs.length && characterService.get_CharacterFeatsTaken(1, charLevel, "Versatile Performance").length) {
+            let lowest = Math.min(matchingreqs.map(requirement => requirement.value));
+            skillreq.push({ skill: "Performance", value: lowest });
         }
         if (skillreq.length) {
             skillreq.forEach(requirement => {
@@ -197,21 +195,20 @@ export class Feat {
         let result: Array<{ met?: boolean, desc?: string }> = [];
         if (this.featreq.length) {
             this.featreq.forEach(featreq => {
-                //Allow to check for the Familiar's feats
+                //Use testcreature and testfeat to allow to check for the Familiar's feats
                 let requiredFeat: Feat[]
                 let testcreature: Character | Familiar;
                 let testfeat = featreq;
-
                 if (featreq.includes("Familiar:")) {
                     testcreature = characterService.get_Familiar();
                     testfeat = featreq.split("Familiar:")[1].trim();
-                    requiredFeat = characterService.familiarsService.get_FamiliarAbilities(testfeat);
+                    requiredFeat = characterService.familiarsService.get_FamiliarAbilities().filter(ability => [ability.name.toLowerCase(), ability.superType.toLowerCase()].includes(testfeat.toLowerCase()));
                 } else {
                     testcreature = characterService.get_Character();
                     requiredFeat = characterService.get_CharacterFeatsAndFeatures(testfeat, "", true, true);
                 }
                 if (requiredFeat.length) {
-                    if (requiredFeat.find(feat => feat.have(testcreature, characterService, charLevel))) {
+                    if (requiredFeat.some(feat => feat.have(testcreature, characterService, charLevel))) {
                         result.push({ met: true, desc: featreq });
                     } else {
                         result.push({ met: false, desc: featreq });
@@ -282,11 +279,21 @@ export class Feat {
                 return 0;
             }
         }
-        function Has_Feat(creature: string, name: string) {
+        function Feats_Taken(creature: string) {
             if (creature == "Familiar") {
-                return characterService.familiarsService.get_FamiliarAbilities(name).find(feat => feat.have(familiar, characterService, charLevel, false));
+                return characterService.familiarsService.get_FamiliarAbilities().filter(feat => feat.have(familiar, characterService, charLevel));
             } else if (creature == "Character") {
-                return characterService.get_CharacterFeatsAndFeatures(name, "", true, true).find(feat => feat.have(character, characterService, charLevel, false));
+                return characterService.get_CharacterFeatsTaken(0, charLevel);
+            } else {
+                return null;
+            }
+        }
+        function Has_Feat(creature: string, name: string, includeCountAs: boolean = true) {
+            //Return whether the feat has been taken up to the current level. A number is not necessary.
+            if (creature == "Familiar") {
+                return characterService.familiarsService.get_FamiliarAbilities().some(feat => feat.have(familiar, characterService, charLevel));
+            } else if (creature == "Character") {
+                return characterService.get_CharacterFeatsTaken(0, charLevel, name, "", "", undefined, false, includeCountAs).length != 0;
             } else {
                 return null;
             }
@@ -347,7 +354,7 @@ export class Feat {
     have(creature: Creature, characterService: CharacterService, charLevel: number = (characterService?.get_Character().level || 0), excludeTemporary: boolean = false, includeCountAs: boolean = false, minLevel: number = 1) {
         if (characterService?.still_loading()) { return 0 }
         if (creature.type == "Character") {
-            return (creature as Character).get_FeatsTaken(minLevel, charLevel, this.name, "", "", undefined, excludeTemporary, includeCountAs)?.length || 0;
+            return characterService.get_CharacterFeatsTaken(minLevel, charLevel, this.name, "", "", undefined, excludeTemporary, includeCountAs)?.length || 0;
         } else if (creature.type == "Familiar") {
             return (creature as Familiar).abilities.feats.filter(gain => gain.name.toLowerCase() == this.name.toLowerCase())?.length || 0;
         } else {

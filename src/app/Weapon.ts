@@ -205,13 +205,6 @@ export class Weapon extends Equipment {
     get_Traits(characterService: CharacterService, creature: Creature) {
         //Test for certain feats that give traits to unarmed attacks.
         let traits: string[] = JSON.parse(JSON.stringify(this.traits));
-        if (this.prof == "Unarmed Attacks") {
-            if (creature.type == "Character") {
-                if ((this.name == "Razortooth Goblin Jaws") && (creature as Character).get_FeatsTaken(0, creature.level, "Fang Sharpener (Razortooth Goblin)").length) {
-                    traits = traits.filter(trait => trait != "Finesse");
-                }
-            }
-        }
         if (this.melee) {
             //Find and apply effects that give this weapon reach.
             let effectsService = characterService.effectsService;
@@ -310,7 +303,7 @@ export class Weapon extends Equipment {
         if (creature.type == "Character") {
             let character = creature as Character;
             characterService.get_CharacterFeatsAndFeatures()
-                .filter(feat => feat.changeProficiency.length && feat.have(character, characterService, charLevel, false))
+                .filter(feat => feat.changeProficiency.length && feat.have(character, characterService, charLevel))
                 .forEach(feat => {
                     proficiencyChanges.push(...feat.changeProficiency.filter(change =>
                         (change.name ? this.name.toLowerCase() == change.name.toLowerCase() : true) &&
@@ -533,7 +526,7 @@ export class Weapon extends Equipment {
         let isPowerfulFist = false;
         if (this.prof == "Unarmed Attacks") {
             let character = characterService.get_Character();
-            if (character.get_FeatsTaken(0, character.level, "Powerful Fist").length) {
+            if (characterService.get_CharacterFeatsTaken(0, character.level, "Powerful Fist").length) {
                 isPowerfulFist = true;
             }
         }
@@ -669,9 +662,10 @@ export class Weapon extends Equipment {
     get_IsFavoredWeapon(creature: Character | AnimalCompanion, characterService: CharacterService) {
         if ((creature instanceof Character && creature.class.deity)) {
             return characterService.get_CharacterDeities(creature)[0]?.favoredWeapon.some(favoredWeapon => [this.name, this.weaponBase, this.displayName].includes(favoredWeapon));
-        } else if (
+        }
+        if (
             creature instanceof Character &&
-            creature.get_FeatsTaken(1, creature.level, "Favored Weapon (Syncretism)").length
+            characterService.get_CharacterFeatsTaken(0, creature.level, "Favored Weapon (Syncretism)").length
         ) {
             return characterService.get_CharacterDeities(creature, "syncretism")[0]?.favoredWeapon.some(favoredWeapon => [this.name, this.weaponBase, this.displayName].includes(favoredWeapon));
         }
@@ -768,7 +762,7 @@ export class Weapon extends Equipment {
             //Diamond Fists adds the forceful trait to your unarmed attacks, but if one already has the trait, it gains one damage die.
             if (this.prof == "Unarmed Attacks") {
                 let character = characterService.get_Character();
-                if (character.get_FeatsTaken(0, character.level, "Diamond Fists").length && this.traits.includes("Forceful")) {
+                if (characterService.get_CharacterFeatsTaken(0, character.level, "Diamond Fists").length && this.traits.includes("Forceful")) {
                     calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Number", "+1", "", false, "", "Diamond Fists", false, true, false, 0))
                 }
             }
@@ -787,7 +781,7 @@ export class Weapon extends Equipment {
             let calculatedEffects: Effect[] = [];
             //Champions get increased dice size via Deific Weapon for unarmed attacks with d4 damage or simple weapons as long as they are their deity's favored weapon.
             if (((dicesize == 4 && this.prof == "Unarmed Attacks") || this.prof == "Simple Weapons") &&
-                characterService.get_Features("Deific Weapon")[0]?.have(creature, characterService)) {
+                characterService.get_CharacterFeatsAndFeatures("Deific Weapon")[0]?.have(creature, characterService)) {
                 if (this.get_IsFavoredWeapon(creature, characterService)) {
                     let newDicesize = Math.max(Math.min(dicesize + 2, 12), 6);
                     if (newDicesize > dicesize) {
@@ -893,7 +887,7 @@ export class Weapon extends Equipment {
             //If the weapon is Finesse and you have the Thief Racket, you apply your Dexterity modifier to damage if it is higher.
             if (traits.includes("Finesse") &&
                 creature.type == "Character" &&
-                (creature as Character).get_FeatsTaken(1, creature.level, "Thief Racket").length) {
+                characterService.get_CharacterFeatsTaken(1, creature.level, "Thief Racket").length) {
                 //Check if dex or str would give you more damage by comparing your modifiers and any penalties and bonuses.
                 //The Enfeebled condition affects all Strength damage
                 let strEffects = effectsService.get_RelativesOnThis(creature, "Strength-based Checks and DCs");
@@ -1124,7 +1118,7 @@ export class Weapon extends Equipment {
             let runeSource: (Weapon | WornItem)[] = this.get_RuneSource(creature, range);
             let skillLevel = this.profLevel(creature, characterService, runeSource[1]);
             characterService.get_CharacterFeatsAndFeatures()
-                .filter(feat => feat.gainSpecialization.length && feat.have(character, characterService, character.level, false))
+                .filter(feat => feat.gainSpecialization.length && feat.have(character, characterService, character.level))
                 .forEach(feat => {
                     SpecializationGains.push(...feat.gainSpecialization.filter(spec =>
                         (spec.minLevel ? creature.level >= spec.minLevel : true) &&

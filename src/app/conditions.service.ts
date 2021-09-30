@@ -603,7 +603,7 @@ export class ConditionsService {
                 //If you have Fast Recovery or have activated the effect of Forge-Day's Rest, reduce the value by 2 instead of 1.
                 (
                     creature.type == "Character" &&
-                    (creature as Character).get_FeatsTaken(1, creature.level, "Fast Recovery").length
+                    characterService.get_CharacterFeatsTaken(1, creature.level, "Fast Recovery").length
                 ) ||
                 characterService.featsService.get_Feats([], "Forge-Day's Rest")?.[0]?.hints.some(hint => hint.active)
             ) {

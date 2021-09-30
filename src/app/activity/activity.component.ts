@@ -196,7 +196,7 @@ export class ActivityComponent implements OnInit {
     get_FuseStanceFeat() {
         if (this.get_Creature().type == "Character") {
             let character = this.get_Creature() as Character;
-            if (character.get_FeatsTaken(0, character.level, "Fuse Stance").length) {
+            if (this.characterService.get_CharacterFeatsTaken(0, character.level, "Fuse Stance").length) {
                 return character.customFeats.find(feat => feat.name == "Fuse Stance");
             } else {
                 return null;

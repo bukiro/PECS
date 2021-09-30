@@ -550,7 +550,7 @@ export class InventoryComponent implements OnInit {
     have_Feat(name: string) {
         if (this.creature == "Character") {
             let character = this.get_Character();
-            return character.get_FeatsTaken(1, character.level, name).length;
+            return this.characterService.get_CharacterFeatsTaken(1, character.level, name).length;
         }
     }
 
@@ -586,13 +586,13 @@ export class InventoryComponent implements OnInit {
         //Return any reasons why you cannot craft an item.
         let character: Character = this.get_Character();
         let reasons: string[] = [];
-        if (item.traits.includes("Alchemical") && !character.get_FeatsTaken(1, character.level, "Alchemical Crafting").length) {
+        if (item.traits.includes("Alchemical") && !this.characterService.get_CharacterFeatsTaken(1, character.level, "Alchemical Crafting").length) {
             reasons.push("You need the Alchemical Crafting skill feat to create alchemical items.")
         }
-        if (item.traits.includes("Magical") && !character.get_FeatsTaken(1, character.level, "Magical Crafting").length) {
+        if (item.traits.includes("Magical") && !this.characterService.get_CharacterFeatsTaken(1, character.level, "Magical Crafting").length) {
             reasons.push("You need the Magical Crafting skill feat to create magic items.")
         }
-        if (item.traits.includes("Snare") && !character.get_FeatsTaken(1, character.level, "Snare Crafting").length) {
+        if (item.traits.includes("Snare") && !this.characterService.get_CharacterFeatsTaken(1, character.level, "Snare Crafting").length) {
             reasons.push("You need the Snare Crafting skill feat to create snares.")
         }
         if (item.level > character.level) {
@@ -680,15 +680,15 @@ export class InventoryComponent implements OnInit {
     }
 
     get_LargeWeaponAllowed(item: Item) {
-        return this.creature == "Character" && item instanceof Weapon && item.prof != "Unarmed Attacks" && (this.get_Character().get_FeatsTaken(1, this.get_Character().level, 'Titan Mauler').length || this.effectsService.get_EffectsOnThis(this.get_Creature(), "Use Large Weapons").length);
+        return this.creature == "Character" && item instanceof Weapon && item.prof != "Unarmed Attacks" && (this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, 'Titan Mauler').length || this.effectsService.get_EffectsOnThis(this.get_Creature(), "Use Large Weapons").length);
     }
 
     get_BladeAllyAllowed(item: Item) {
-        return this.creature == "Character" && ((item instanceof Weapon && item.prof != "Unarmed Attacks") || (item instanceof WornItem && item.isHandwrapsOfMightyBlows)) && this.get_Character().get_FeatsTaken(1, this.get_Character().level, 'Divine Ally: Blade Ally').length;
+        return this.creature == "Character" && ((item instanceof Weapon && item.prof != "Unarmed Attacks") || (item instanceof WornItem && item.isHandwrapsOfMightyBlows)) && this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, 'Divine Ally: Blade Ally').length;
     }
 
     get_EmblazonArmamentAllowed(item: Item) {
-        return this.creature == "Character" && (item instanceof Weapon || item instanceof Shield) && this.get_Character().get_FeatsTaken(1, this.get_Character().level, 'Emblazon Armament').length;
+        return this.creature == "Character" && (item instanceof Weapon || item instanceof Shield) && this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, 'Emblazon Armament').length;
     }
 
     get_ItemEmblazonArmament(item: Item) {
@@ -709,7 +709,7 @@ export class InventoryComponent implements OnInit {
 
     get_BattleforgedAllowed(item: Item) {
         return (
-            this.get_Character().get_FeatsTaken(1, this.get_Character().level, 'Battleforger').length ||
+            this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, 'Battleforger').length ||
             this.effectsService.get_EffectsOnThis(this.get_Character(), "Allow Battleforger").length
         ) && (
                 (

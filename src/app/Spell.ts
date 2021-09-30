@@ -99,7 +99,7 @@ export class Spell {
             if (this.targetNumbers.some(targetNumber => targetNumber.minLevel)) {
                 for (levelNumber; levelNumber > 0; levelNumber--) {
                     if (this.targetNumbers.some(targetNumber => targetNumber.minLevel == levelNumber)) {
-                        targetNumber = this.targetNumbers.find(targetNumber => (targetNumber.minLevel == levelNumber) && (targetNumber.featreq && character.get_FeatsTaken(1, character.level, targetNumber.featreq).length));
+                        targetNumber = this.targetNumbers.find(targetNumber => (targetNumber.minLevel == levelNumber) && (targetNumber.featreq && characterService.get_CharacterFeatsTaken(1, character.level, targetNumber.featreq).length));
                         if (!targetNumber) {
                             targetNumber = this.targetNumbers.find(targetNumber => targetNumber.minLevel == levelNumber);
                         }
@@ -110,7 +110,7 @@ export class Spell {
                 }
                 return this.targetNumbers[0].number;
             } else {
-                targetNumber = this.targetNumbers.find(targetNumber => targetNumber.featreq && character.get_FeatsTaken(1, character.level, targetNumber.featreq).length);
+                targetNumber = this.targetNumbers.find(targetNumber => targetNumber.featreq && characterService.get_CharacterFeatsTaken(1, character.level, targetNumber.featreq).length);
                 return targetNumber?.number || this.targetNumbers[0].number;
             }
         } else {

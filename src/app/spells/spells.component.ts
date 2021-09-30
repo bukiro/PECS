@@ -136,13 +136,13 @@ export class SpellsComponent implements OnInit {
     apply_SpellSubstitution(casting: SpellCasting) {
         return casting.castingType == "Prepared" &&
             casting.className == "Wizard" &&
-            this.get_Character().get_FeatsTaken(1, this.get_Character().level, "Spell Substitution").length > 0;
+            this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, "Spell Substitution").length > 0;
     }
 
     apply_ReprepareSpell(casting: SpellCasting) {
         return casting.castingType == "Prepared" &&
             casting.className == "Wizard" &&
-            this.get_Character().get_FeatsTaken(1, this.get_Character().level, "Reprepare Spell").length > 0;
+            this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, "Reprepare Spell").length > 0;
     }
 
     get_Spells(name: string = "", type: string = "", tradition: string = "") {

@@ -402,10 +402,10 @@ export class AttacksComponent implements OnInit {
         let creature = this.get_Creature();
         let character = this.characterService.get_Character();
         this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true).filter(gain => gain.name == "Hunt Prey").length
-        if (creature.type == "Character" || (creature.type == "Companion" && character.get_FeatsTaken(1, character.level, "Animal Companion (Ranger)").length)) {
+        if (creature.type == "Character" || (creature.type == "Companion" && this.characterService.get_CharacterFeatsTaken(1, character.level, "Animal Companion (Ranger)").length)) {
             return (
                 (
-                    character.get_FeatsTaken(1, character.level, "Flurry").length &&
+                    this.characterService.get_CharacterFeatsTaken(1, character.level, "Flurry").length &&
                     this.conditionsService.get_AppliedConditions(character, this.characterService, character.conditions, true).filter(gain => gain.name == "Hunt Prey").length
                 ) ||
                 this.conditionsService.get_AppliedConditions(character, this.characterService, character.conditions, true).filter(gain => gain.name == "Hunt Prey: Flurry").length
@@ -574,7 +574,7 @@ export class AttacksComponent implements OnInit {
             if (deity && deity.favoredWeapon.length) {
                 favoredWeapons.push(...deity.favoredWeapon);
             }
-            if (creature.get_FeatsTaken(1, creature.level, "Favored Weapon (Syncretism)").length) {
+            if (this.characterService.get_CharacterFeatsTaken(1, creature.level, "Favored Weapon (Syncretism)").length) {
                 favoredWeapons.push(...this.characterService.get_CharacterDeities(creature, "syncretism")[0]?.favoredWeapon || []);
             }
             return [favoredWeapons];

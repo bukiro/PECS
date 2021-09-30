@@ -123,7 +123,7 @@ export class CraftingComponent implements OnInit {
         }
         return true;
     }
-    
+
     get_IsEquipment(item: Item) {
         return (item instanceof Equipment);
     }
@@ -224,13 +224,13 @@ export class CraftingComponent implements OnInit {
         //Return any reasons why you cannot craft an item.
         let character: Character = this.get_Character();
         let reasons: string[] = [];
-        if (item.traits.includes("Alchemical") && !character.get_FeatsTaken(1, character.level, "Alchemical Crafting").length) {
+        if (item.traits.includes("Alchemical") && !this.characterService.get_CharacterFeatsTaken(1, character.level, "Alchemical Crafting").length) {
             reasons.push("You need the Alchemical Crafting skill feat to create alchemical items.")
         }
-        if (item.traits.includes("Magical") && !character.get_FeatsTaken(1, character.level, "Magical Crafting").length) {
+        if (item.traits.includes("Magical") && !this.characterService.get_CharacterFeatsTaken(1, character.level, "Magical Crafting").length) {
             reasons.push("You need the Magical Crafting skill feat to create magic items.")
         }
-        if (item.traits.includes("Snare") && !character.get_FeatsTaken(1, character.level, "Snare Crafting").length) {
+        if (item.traits.includes("Snare") && !this.characterService.get_CharacterFeatsTaken(1, character.level, "Snare Crafting").length) {
             reasons.push("You need the Snare Crafting skill feat to create snares.")
         }
         if (item.level > character.level) {
@@ -258,7 +258,7 @@ export class CraftingComponent implements OnInit {
     }
 
     have_Feat(name: string) {
-        return this.get_Character().get_FeatsTaken(1, this.get_Character().level, name).length;
+        return this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, name).length;
     }
 
     get_SnareSpecialistPreparations() {

@@ -496,7 +496,7 @@ export class ItemsComponent implements OnInit {
     }
 
     have_Feat(name: string) {
-        return this.get_Character().get_FeatsTaken(1, this.get_Character().level, name).length;
+        return this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, name).length;
     }
 
     get_LearningAvailable() {

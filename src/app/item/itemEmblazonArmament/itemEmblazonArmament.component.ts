@@ -38,7 +38,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
 
     get_EmblazonDivinity() {
         let character = this.get_Character();
-        return character.get_FeatsTaken(0, character.level, "Emblazon Divinity").length != 0;
+        return this.characterService.get_CharacterFeatsTaken(0, character.level, "Emblazon Divinity").length != 0;
     }
 
     get_Displayed(type: string) {
@@ -48,11 +48,11 @@ export class ItemEmblazonArmamentComponent implements OnInit {
         } else {
             switch (type) {
                 case "emblazonArmament":
-                    return character.get_FeatsTaken(0, character.level, "Emblazon Armament").length;
+                    return this.characterService.get_CharacterFeatsTaken(0, character.level, "Emblazon Armament").length;
                 case "emblazonEnergy":
-                    return character.get_FeatsTaken(0, character.level, "Emblazon Energy").length;
+                    return this.characterService.get_CharacterFeatsTaken(0, character.level, "Emblazon Energy").length;
                 case "emblazonAntimagic":
-                    return character.get_FeatsTaken(0, character.level, "Emblazon Antimagic").length;
+                    return this.characterService.get_CharacterFeatsTaken(0, character.level, "Emblazon Antimagic").length;
             }
         }
         return false;

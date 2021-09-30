@@ -545,16 +545,16 @@ export class Character extends Creature {
             let levels = this.class.levels.filter(level => level.number >= minLevelNumber && (!maxLevelNumber || level.number <= maxLevelNumber));
             levels.forEach(level => {
                 level.featChoices.forEach(choice => {
-                    choice.feats.filter((feat: FeatTaken) =>
+                    choice.feats.filter((taken: FeatTaken) =>
                         (excludeTemporary ? !choice.showOnSheet : true) &&
                         (
-                            (featName == "") ||
-                            (feat.name.toLowerCase() == featName.toLowerCase()) ||
-                            (includeCountAs && (feat.countAsFeat?.toLowerCase() == featName.toLowerCase() || false))
+                            !featName ||
+                            (includeCountAs && (taken.countAsFeat?.toLowerCase() == featName.toLowerCase() || false)) ||
+                            (taken.name.toLowerCase() == featName.toLowerCase())
                         ) &&
-                        (feat.source.toLowerCase() == source.toLowerCase() || source == "") &&
-                        (feat.sourceId == sourceId || sourceId == "") &&
-                        (feat.locked == locked || feat.automatic == automatic || (locked == undefined && automatic == undefined))
+                        (!source || (taken.source.toLowerCase() == source.toLowerCase())) &&
+                        (!sourceId || (taken.sourceId == sourceId)) &&
+                        ((locked == undefined && automatic == undefined) || (taken.locked == locked) || (taken.automatic == automatic))
                     ).forEach(feat => {
                         featsTaken.push(feat);
                     })
@@ -570,15 +570,17 @@ export class Character extends Creature {
             if (feat) {
                 featName = feat.name;
             }
-            choice.feats.push({ name: (feat?.name || featName), source: choice.source, locked: locked, automatic: automatic, sourceId: choice.id, countAsFeat: (feat?.countAsFeat || feat?.superType || "") });
-            characterService.process_Feat(creature, feat, featName, choice, level, taken);
+            let newLength = choice.feats.push({ name: (feat?.name || featName), source: choice.source, locked: locked, automatic: automatic, sourceId: choice.id, countAsFeat: (feat?.countAsFeat || feat?.superType || "") });
+            let gain = choice.feats[newLength - 1];
+            characterService.process_Feat(creature, feat, gain, choice, level, taken);
         } else {
-            characterService.process_Feat(creature, feat, featName, choice, level, taken);
             let a = choice.feats;
-            a.splice(a.indexOf(a.find(existingFeat =>
+            let gain = a.find(existingFeat =>
                 existingFeat.name == featName &&
                 existingFeat.locked == locked
-            )), 1)
+            )
+            characterService.process_Feat(creature, feat, gain, choice, level, taken);
+            a.splice(a.indexOf(gain, 1));
         }
     }
     get_SpellsTaken(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, spellLevel: number = -1, spellName: string = "", spellCasting: SpellCasting = undefined, className: string = "", tradition: string = "", castingType: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, signatureAllowed: boolean = false, cantripAllowed: boolean = true) {

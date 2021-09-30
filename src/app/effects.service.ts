@@ -28,6 +28,7 @@ import { Shield } from './Shield';
 import { Rune } from './Rune';
 import { ExtensionsService } from './extensions.service';
 import { Item } from './Item';
+import { FeatsService } from './feats.service';
 
 @Injectable({
     providedIn: 'root'
@@ -497,9 +498,18 @@ export class EffectsService {
         }
         function Has_Feat(creature: string, name: string) {
             if (creature == "Familiar") {
-                return characterService.familiarsService.get_FamiliarAbilities(name).some(feat => feat.have(Familiar, characterService, Level, false));
+                return characterService.familiarsService.get_FamiliarAbilities(name).filter(feat => feat.have(Familiar, characterService, Level, false)).length;
             } else if (creature == "Character") {
-                return Character.get_FeatsTaken(1, Level, name).length != 0;
+                return characterService.get_CharacterFeatsTaken(1, Level, name).length;
+            } else {
+                return 0;
+            }
+        }
+        function Feats_Taken(creature: string) {
+            if (creature == "Familiar") {
+                return characterService.familiarsService.get_FamiliarAbilities(name).filter(feat => feat.have(Familiar, characterService, Level, false));
+            } else if (creature == "Character") {
+                return characterService.get_CharacterFeatsTaken(1, Level);
             } else {
                 return 0;
             }
@@ -667,8 +677,9 @@ export class EffectsService {
 
         //Character Feats and active hints
         if (character) {
-            characterService.get_CharacterFeatsAndFeatures()
-                .filter(feat => (feat.effects?.length || feat.hints?.length) && feat.have(character, characterService, character.level))
+            characterService.get_CharacterFeatsTaken(0, character.level)
+                .map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
+                .filter(feat => feat && (feat.effects?.length || feat.hints?.length) && feat.have(character, characterService, character.level))
                 .forEach(feat => {
                     if (feat.effects?.length) {
                         featEffects = featEffects.concat(this.get_SimpleEffects(character, characterService, feat));
@@ -831,7 +842,7 @@ export class EffectsService {
                     itemEffects.push(new Effect(creature.id, 'circumstance', "AC", "+" + shieldBonus, "", false, "", shield.get_Name(), false));
                 }
                 //Reflexive Shield
-                if (character.get_FeatsTaken(1, character.level, "Reflexive Shield").length) {
+                if (characterService.get_CharacterFeatsTaken(1, character.level, "Reflexive Shield").length) {
                     itemEffects.push(new Effect(creature.id, 'circumstance', "Reflex", "+" + shieldBonus, "", false, "", "Reflexive Shield", false));
                 }
             });
@@ -944,7 +955,7 @@ export class EffectsService {
         let allEffects: Effect[] = simpleEffects.concat(itemEffects).concat(foreignEffects);
 
         //If you have the Unburdened Iron feat and are taking speed penalties, reduce the first of them by 5.
-        if (character?.get_FeatsTaken(0, character.level, "Unburdened Iron").length) {
+        if (character && characterService.get_CharacterFeatsTaken(0, character.level, "Unburdened Iron").length) {
             let done: boolean = false;
             //Try global speed penalties first (this is more beneficial to the character).
             allEffects.filter(effect => effect.target == "Speed" && effect.penalty && !effect.toggle).forEach(effect => {
@@ -1311,7 +1322,7 @@ export class EffectsService {
                 changedEffects.push(oldEffect);
             }
         })
-       
+
         this.set_TargetsToChange(creature, changedEffects.map(effect => effect.target), characterService);
 
         //If any equipped weapon is affected, update attacks, and if any equipped armor or shield is affected, update defense.

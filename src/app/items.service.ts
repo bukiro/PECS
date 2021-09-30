@@ -782,7 +782,7 @@ export class ItemsService {
         if (creature.type == "Character") {
             let character = creature as Character;
             //If you have Scroll Savant, get a copy of each prepared scroll that lasts until the next rest.
-            if (character.get_FeatsTaken(1, character.level, "Scroll Savant").length) {
+            if (characterService.get_CharacterFeatsTaken(1, character.level, "Scroll Savant").length) {
                 character.class.spellCasting.filter(casting => casting.scrollSavant.length).forEach(casting => {
                     casting.scrollSavant.forEach(scroll => {
                         characterService.grant_InventoryItem(character, character.inventories[0], scroll, false, false, false);
@@ -791,7 +791,7 @@ export class ItemsService {
             }
 
             //If you have Battleforger, all your battleforged items are reset.
-            if (character.get_FeatsTaken(1, character.level, "Battleforger").length) {
+            if (characterService.get_CharacterFeatsTaken(1, character.level, "Battleforger").length) {
                 let attacksChanged: boolean = false;
                 let defenseChanged: boolean = false;
                 character.inventories.forEach(inv => {
