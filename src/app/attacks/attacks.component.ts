@@ -188,7 +188,7 @@ export class AttacksComponent implements OnInit {
     }
 
     get_TwoHandedAllowed(weapon: Weapon) {
-        return (this.traitsService.have_Trait(this.characterService, weapon, "Two-Hand"));
+        return weapon._traits.some(trait => trait.toLowerCase().includes("two-handed"));
     }
 
     on_EquipmentChange(item: Equipment) {
@@ -382,9 +382,9 @@ export class AttacksComponent implements OnInit {
 
         let creature = this.get_Creature();
         specialNames.push(weapon.get_Proficiency(creature, this.characterService, creature.level));
-        specialNames.push(...weapon.get_Traits(this.characterService, creature));
-        specialNames.push(range)
-        specialNames.push(weapon.weaponBase)
+        specialNames.push(...weapon._traits);
+        specialNames.push(range);
+        specialNames.push(weapon.weaponBase);
         return specialNames;
     }
 

@@ -3,7 +3,7 @@
         <ng-container *ngFor="let traitSet of allTags.traits; trackBy:trackByIndex;">
             <ng-container *ngFor="let trait of traitSet.traits; trackBy:trackByIndex;">
                 <app-hint [creature]="creature" [ngClass]="'trait'" [object]="trait" [objectName]="traitSet.setName"
-                    [description]="trait.name +' ('+ trait.haveOn(get_Creature(), this.characterService, true) + ')'">
+                    [description]="trait.name +' ('+ trait.haveOn(get_Creature(), this.characterService, true).join(', ') + ')'">
                 </app-hint>
             </ng-container>
         </ng-container>

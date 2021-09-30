@@ -138,7 +138,7 @@ export class ActivitiesService {
                     gain.gainItems = activity.gainItems.map(gainItem => Object.assign(new ItemGain(), gainItem));
                 }
                 gain.gainItems.forEach(gainItem => {
-                    let newItem: Item = itemsService.get_CleanItems()[gainItem.type].find((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase());
+                    let newItem: Item = itemsService.get_CleanItems()[gainItem.type.toLowerCase()].find((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase());
                     if (newItem) {
                         let grantedItem = characterService.grant_InventoryItem(creature as Character | AnimalCompanion, creature.inventories[0], newItem, false, false, true);
                         gainItem.id = grantedItem.id;
@@ -147,7 +147,7 @@ export class ActivitiesService {
                             grantedItem.grantedBy = "(Granted by " + activity.name + ")";
                         };
                     } else {
-                        this.toastService.show("Failed granting " + gainItem.type + " " + gainItem.name + " - item not found.", [], characterService)
+                        this.toastService.show("Failed granting " + gainItem.type + " item " + gainItem.name + " - item not found.", [], characterService)
                     }
                 });
             } else {

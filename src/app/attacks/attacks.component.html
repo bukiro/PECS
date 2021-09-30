@@ -152,13 +152,25 @@
                         </ng-container>
                     </span>
                 </div>
-                <ng-container
-                    *ngFor="let traits of [weapon.get_Traits(characterService, get_Creature())]; trackBy:trackByIndex;">
+                <ng-container *ngFor="let traits of [weapon._traits]; trackBy:trackByIndex;">
                     <div class="fullsize-only newrow left-aligned tags" *ngIf="traits.length">
-                        <cite class="trait" *ngFor="let trait of traits; trackBy:trackByIndex;"
-                            [ngbPopover]="get_Traits(trait)[0].desc">
-                            {{trait}}
-                        </cite>
+                        <ng-container *ngFor="let trait of traits; trackBy:trackByIndex;">
+                            <cite class="trait" *ngFor="let realTrait of get_Traits(trait); trackBy:trackByIndex;"
+                                [ngbPopover]="realTrait.desc">
+                                {{trait}}
+                            </cite>
+                        </ng-container>
+                    </div>
+                </ng-container>
+                <ng-container *ngFor="let traits of [weapon._traits]; trackBy:trackByIndex;">
+                    <div class="fullsize-only newrow left-aligned tags" *ngIf="traits.length">
+                        <ng-container *ngFor="let trait of traits; trackBy:trackByIndex;">
+                            <ng-container *ngFor="let realTrait of get_Traits(trait); trackBy:trackByIndex;">
+                                <app-hint *ngIf="realTrait.hints.length" [creature]="creature" [object]="realTrait"
+                                    [description]="trait" [noFilter]="true">
+                                </app-hint>
+                            </ng-container>
+                        </ng-container>
                     </div>
                 </ng-container>
                 <div class="list-item newrow" *ngIf="get_TwoHandedAllowed(weapon)">

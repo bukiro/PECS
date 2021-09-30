@@ -17,10 +17,12 @@ export class Scroll extends Consumable {
     }
     get_Traits(characterService: CharacterService, creature: Creature) {
         //creature is not needed for scrolls, but for other types of item.
+        let traits: string[] = [];
         if (this.storedSpells[0]?.spells.length) {
             let spell = characterService.spellsService.get_Spells(this.storedSpells[0].spells[0].name)[0];
             if (spell) {
-                return Array.from(new Set(this.traits.concat(spell.traits))).sort(function(a,b) {
+
+                traits = Array.from(new Set(this.traits.concat(spell.traits))).sort(function(a,b) {
                     if (a > b) {
                         return 1;
                     }
@@ -29,11 +31,9 @@ export class Scroll extends Consumable {
                     }
                     return 0;
                 });
-            } else {
-                return this.traits;
             }
-        } else {
-            return this.traits;
         }
+        this._traits = traits;
+        return traits;
     }
 }

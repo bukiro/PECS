@@ -748,7 +748,7 @@ export class ItemsService {
             //Gain Items on Activation
             if (item.gainItems.length && creature.type != "Familiar") {
                 item.gainItems.forEach(gainItem => {
-                    let newItem: Item = itemsService.get_CleanItems()[gainItem.type].find((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase());
+                    let newItem: Item = itemsService.get_CleanItems()[gainItem.type.toLowerCase()].find((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase());
                     if (newItem) {
                         let grantedItem = characterService.grant_InventoryItem(creature as Character | AnimalCompanion, creature.inventories[0], newItem, false, false, true);
                         gainItem.id = grantedItem.id;
@@ -757,7 +757,7 @@ export class ItemsService {
                             grantedItem.grantedBy = "(Granted by " + item.name + ")";
                         };
                     } else {
-                        this.toastService.show("Failed granting " + gainItem.type + " " + gainItem.name + " - item not found.", [], characterService)
+                        this.toastService.show("Failed granting " + gainItem.type.toLowerCase() + " item " + gainItem.name + " - item not found.", [], characterService)
                     }
                 });
             }
@@ -827,7 +827,7 @@ export class ItemsService {
                 .filter(feat => feat.gainItems.find(gain => gain.on == "rest") && feat.have(creature, characterService, creature.level))
                 .forEach(feat => {
                     feat.gainItems.filter(gain => gain.on == "rest").forEach(gainItem => {
-                        let newItem: Item = this.get_CleanItemsOfType(gainItem.type, gainItem.name)[0];
+                        let newItem: Item = this.get_CleanItemsOfType(gainItem.type.toLowerCase(), gainItem.name)[0];
                         let grantedItem: Item;
                         if (newItem && newItem.can_Stack() && (gainItem.amount + (gainItem.amountPerLevel * creature.level))) {
                             grantedItem = characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, true, false, false, (gainItem.amount + (gainItem.amountPerLevel * creature.level)), undefined, -2);

@@ -76,6 +76,21 @@ export class EffectsService {
         return this.effects[index].all.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored);
     }
 
+    get_EffectsOnThese(creature: Creature, ObjectNames: string[]) {
+        let index = this.get_CalculatedIndex(creature.type);
+        return this.effects[index].all.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored);
+    }
+
+    get_ToggledOnThis(creature: Creature, ObjectName: string) {
+        let index = this.get_CalculatedIndex(creature.type);
+        return this.effects[index].all.filter(effect => effect.toggle && effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored);
+    }
+
+    get_ToggledOnThese(creature: Creature, ObjectNames: string[]) {
+        let index = this.get_CalculatedIndex(creature.type);
+        return this.effects[index].all.filter(effect => effect.toggle && effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored);
+    }
+
     get_RelativesOnThis(creature: Creature, ObjectName: string) {
         let index = this.get_CalculatedIndex(creature.type);
         return this.effects[index].relatives.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored);
@@ -98,8 +113,8 @@ export class EffectsService {
         let index = this.get_CalculatedIndex(creature.type);
         //Since there can be an overlap between the different effects we're asking about, we need to break them down to one bonus and one penalty per effect type.
         return this.get_TypeFilteredEffects(
-            this.effects[index].absolutes.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored)
-            , true, lowerIsBetter);
+            this.effects[index].absolutes.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored),
+            true, lowerIsBetter);
     }
 
     get_BonusesOnThis(creature: Creature, ObjectName: string) {
@@ -111,8 +126,8 @@ export class EffectsService {
         let index = this.get_CalculatedIndex(creature.type);
         //Since there can be an overlap between the different effects we're asking about, we need to break them down to one bonus and one penalty per effect type.
         return this.get_TypeFilteredEffects(
-            this.effects[index].bonuses.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored)
-            , false, lowerIsBetter);
+            this.effects[index].bonuses.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored),
+            false, lowerIsBetter);
     }
 
     get_PenaltiesOnThis(creature: Creature, ObjectName: string) {
@@ -124,8 +139,8 @@ export class EffectsService {
         let index = this.get_CalculatedIndex(creature.type);
         //Since there can be an overlap between the different effects we're asking about, we need to break them down to one bonus and one penalty per effect type.
         return this.get_TypeFilteredEffects(
-            this.effects[index].penalties.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored)
-            , false, lowerIsBetter);
+            this.effects[index].penalties.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored),
+            false, lowerIsBetter);
     }
 
     show_BonusesOnThis(creature: Creature, ObjectName: string) {
@@ -369,6 +384,7 @@ export class EffectsService {
         let Character: Character = characterService.get_Character();
         let Companion: AnimalCompanion = characterService.get_Companion();
         let Familiar: Familiar = characterService.get_Familiar();
+        //fakeLevel can help determine how strong an effect would be on a certain level.
         let Level: number = fakeLevel || Character.level;
         //Some values specific to conditions for effect values
         let Duration: number = object.duration;
@@ -443,6 +459,7 @@ export class EffectsService {
                 return characterService.get_Skills(creature, name)[0]?.level((creature as AnimalCompanion | Character), characterService, Level);
             }
         }
+        //Get_TestSpeed just provides a blank speed, but this dependency doesn't work within the evaluation. We need to use this.get_TestSpeed instead.
         let get_TestSpeed = this.get_TestSpeed;
         function Speed(name: string) {
             return (get_TestSpeed(name))?.value((creature as AnimalCompanion | Character), characterService, effectsService)[0] || 0;
@@ -587,8 +604,8 @@ export class EffectsService {
                 target = Familiar?.id || "";
                 affected = effect.affected.replace("Familiar:", "");
             }
-            //Effects that have neither a value nor a toggle get ignored.
-            if (toggle || setValue || parseInt(value) != 0) {
+            //Effects that have neither a value nor title nor a toggle get ignored.
+            if (title || toggle || setValue || parseInt(value) != 0) {
                 objectEffects.push(new Effect(target, type, affected, value, setValue, toggle, title, source, penalty, undefined, show, effect.duration, effect.maxDuration, effect.cumulative));
             }
         });
@@ -871,7 +888,7 @@ export class EffectsService {
                         //If the item has the Flexible trait, its penalty doesn't apply to Acrobatics and Athletics.
                         //We push this as an apply:false effect to each so you can see that (and why) you were spared from it.
                         //We also add a note to the source for clarity.
-                        if (this.traitsService.have_Trait(characterService, item, "Flexible")) {
+                        if (this.traitsService.have_Trait(characterService, creature, item, "Flexible")) {
                             itemEffects.push(new Effect(creature.id, 'item', "Acrobatics", item.get_SkillPenalty().toString(), "", false, "", name + " (cancelled by Flexible)", true, false));
                             itemEffects.push(new Effect(creature.id, 'item', "Athletics", item.get_SkillPenalty().toString(), "", false, "", name + " (cancelled by Flexible)", true, false));
                         } else {
@@ -887,7 +904,7 @@ export class EffectsService {
                         itemEffects.push(new Effect(creature.id, 'item', "Athletics", item.get_SkillPenalty().toString(), "", false, "", name + " (cancelled by Strength)", true, false));
                         itemEffects.push(new Effect(creature.id, 'item', "Thievery", item.get_SkillPenalty().toString(), "", false, "", name + " (cancelled by Strength)", true, false));
                         //UNLESS the item is also Noisy, in which case you do get the stealth penalty because you are dummy thicc and the clap of your ass cheeks keeps alerting the guards.
-                        if (this.traitsService.have_Trait(characterService, item, "Noisy")) {
+                        if (this.traitsService.have_Trait(characterService, creature, item, "Noisy")) {
                             itemEffects.push(new Effect(creature.id, 'item', "Stealth", item.get_SkillPenalty().toString(), "", false, "", name + " (Noisy)", true))
                         } else {
                             itemEffects.push(new Effect(creature.id, 'item', "Stealth", item.get_SkillPenalty().toString(), "", false, "", name + " (cancelled by Strength)", true, false));
@@ -961,6 +978,49 @@ export class EffectsService {
         // If one target is affected by two bonuses of the same type, only the bigger one is applied.
         // The same goes for penalties, unless they are untyped.
 
+        let targets: string[] = [];
+        //Collect all targets of effects, but each only once
+        allEffects.forEach(effect => {
+            if (!targets.includes(effect.target)) {
+                targets.push(effect.target);
+            }
+        });
+        targets.forEach(target => {
+            //Apply all untyped relative effects, but only the highest bonus and lowest penalty for each type for this target.
+            //We only apply effects if the decision hasn't already been made (that is, if apply == undefined)
+            this.get_TypeFilteredEffects(allEffects
+                .filter(effect =>
+                    effect.target == target && effect.apply == undefined && effect.value
+                ), false)
+                .forEach(effect => {
+                    effect.apply = true;
+                })
+            //Apply only the highest absolute effect for each type for this target.
+            // (There aren't actually any absolute penalties, and absolute effects are usually untyped.)
+            this.get_TypeFilteredEffects(allEffects
+                .filter(effect =>
+                    effect.target == target && effect.apply == undefined && effect.setValue
+                ), true)
+                .forEach(effect => {
+                    effect.apply = true;
+                })
+        })
+
+        //Disable all effects that are not applied so far.
+        allEffects.filter(effect => effect.apply == undefined).forEach(effect => {
+            effect.apply = false;
+        })
+
+        //Reset ignoring all effects before processing ignored effects.
+        allEffects.forEach(effect => {
+            effect.ignored = false;
+        })
+
+        //Ignore all effects that match the creature's ignoredEffects.
+        allEffects.filter(effect => this.get_IgnoredEffect(creature, effect)).forEach(effect => {
+            effect.ignored = true;
+        })
+
         //If an effect with the target "Ignore <type> bonuses and penalties" exists, all effects of that type are disabled.
         this.bonusTypes.forEach(type => {
             if (allEffects.find(effect => !effect.ignored && effect.target.toLowerCase() == "ignore " + type + " bonuses and penalties")) {
@@ -1019,49 +1079,22 @@ export class EffectsService {
                 effect.apply = false;
             })
         })
-
-        let targets: string[] = [];
-        //Collect all targets of effects, but each only once
-        allEffects.forEach(effect => {
-            if (!targets.includes(effect.target)) {
-                targets.push(effect.target);
-            }
-        });
-        targets.forEach(target => {
-            //Apply all untyped relative effects, but only the highest bonus and lowest penalty for each type for this target.
-            //We only apply effects if the decision hasn't already been made (that is, if apply == undefined)
-            this.get_TypeFilteredEffects(allEffects
-                .filter(effect =>
-                    effect.target == target && effect.apply == undefined && effect.value
-                ), false)
-                .forEach(effect => {
-                    effect.apply = true;
-                })
-            //Apply only the highest absolute effect for each type for this target.
-            // (There aren't actually any absolute penalties, and absolute effects are usually untyped.)
-            this.get_TypeFilteredEffects(allEffects
-                .filter(effect =>
-                    effect.target == target && effect.apply == undefined && effect.setValue
-                ), true)
-                .forEach(effect => {
-                    effect.apply = true;
-                })
-        })
-
-        //Disable all effects that are not applied so far.
-        allEffects.filter(effect => effect.apply == undefined).forEach(effect => {
-            effect.apply = false;
-        })
-
-        //Reset ignoring all effects before processing ignored effects.
-        allEffects.forEach(effect => {
-            effect.ignored = false;
-        })
-
-        //Ignore all effects that match the creature's ignoredEffects.
-        allEffects.filter(effect => this.get_IgnoredEffect(creature, effect)).forEach(effect => {
-            effect.ignored = true;
-        })
+        //If an effect with the target "Ignore absolute effects [on <name>]" exists without a type, all absolute effects [on that target] are disabled.
+        allEffects
+            .filter(effect => !effect.ignored && effect.target.toLowerCase().includes("ignore absolute effects"))
+            .forEach(ignoreeffect => {
+                let target = "all";
+                if (ignoreeffect.target.toLowerCase().includes(" on ")) {
+                    target = ignoreeffect.target.toLowerCase().split(" on ")[1];
+                } else if (ignoreeffect.target.toLowerCase().includes(" to ")) {
+                    target = ignoreeffect.target.toLowerCase().split(" to ")[1];
+                }
+                allEffects
+                    .filter(effect => (target == "all" || effect.target.toLowerCase() == target) && effect.setValue)
+                    .forEach(effect => {
+                        effect.apply = false;
+                    })
+            })
 
         //Cleanup the creature's ignoredEffects and delete each that doesn't match an existing effect.
         creature.ignoredEffects = creature.ignoredEffects.filter(ignoredEffect =>
@@ -1126,10 +1159,13 @@ export class EffectsService {
             "Trained Skill Checks",
             "Unarmed Attack Rolls",
             "Unarmed Damage",
+            "Unarmed Damage per Die",
             "Untrained Skill Checks",
+            "Weapon Damage per Die",
             "Will"
         ].map(name => name.toLowerCase())
         let alwaysShowWildcard: string[] = [
+            "Extra Damage",
             "Resistance",
             "Immunity",
             "Ignore",
@@ -1155,7 +1191,7 @@ export class EffectsService {
         //When the effects are finished and up-to-date, refresh all affected areas.
 
         if ((JSON.stringify(this.effects[creatureIndex].all)) != (JSON.stringify(allEffects))) {
-            this.set_ToChange(creature, allEffects, this.effects[creatureIndex].all, characterService);
+            this.set_EffectsToChange(creature, allEffects, this.effects[creatureIndex].all, characterService);
             this.effects[creatureIndex] = new EffectCollection();
             this.effects[creatureIndex].all = allEffects.map(effect => Object.assign(new Effect(), effect));
             this.effects[creatureIndex].relatives = this.effects[creatureIndex].all.filter(effect => parseInt(effect.value));
@@ -1174,9 +1210,7 @@ export class EffectsService {
         }
     }
 
-    set_ToChange(creature: Creature, newEffects: Effect[], oldEffects: Effect[], characterService: CharacterService) {
-        //Set refresh commands for all components of the application depending on whether there are new effects affecting their data,
-        // or old effects have been removed.
+    set_TargetsToChange(creature: Creature, targets: string[], characterService: CharacterService) {
         let general: string[] = ["Max Languages", "Size"].map(name => name.toLowerCase());
         let generalWildcard: string[] = [].map(name => name.toLowerCase());
         let abilities: string[] = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"].map(name => name.toLowerCase());
@@ -1188,34 +1222,21 @@ export class EffectsService {
         let defenseWildcard: string[] = ["Proficiency Level"].map(name => name.toLowerCase());
         let attacks: string[] = ["Damage Rolls", "Dexterity-based Checks and DCs", "Strength-based Checks and DCs", "All Checks and DCs",
             "Unarmed Damage per Die", "Weapon Damage per Die"].map(name => name.toLowerCase());
-        let attacksWildcard: string[] = ["Attack Rolls", "Damage", "Dice Size", "Dice Number", "Proficiency Level", "Reach", "Damage Per Die"].map(name => name.toLowerCase());
+        let attacksWildcard: string[] = ["Attack Rolls", "Damage", "Dice Size", "Dice Number", "Proficiency Level", "Reach", "Damage Per Die", "Gain Trait", "Lose Trait"].map(name => name.toLowerCase());
         let individualskills: string[] = ["Perception", "Fortitude", "Reflex", "Will", "Acrobatics", "Arcana", "Athletics", "Crafting", "Deception", "Diplomacy", "Intimidation", "Medicine",
             "Nature", "Occultism", "Performance", "Religion", "Society", "Stealth", "Survival", "Thievery", "Fortitude", "Reflex", "Will"].map(name => name.toLowerCase());
         let individualSkillsWildcard: string[] = ["Lore", "Class DC", "Spell DC", "Spell Attack", "Attack Rolls"].map(name => name.toLowerCase());
         let skillsWildcard: string[] = ["All Checks and DCs", "Skill Checks", "Proficiency Level", "Recall Knowledge Checks", "Master Recall Knowledge Checks", "Saving Throws", "Speed"].map(name => name.toLowerCase());
         let inventory: string[] = ["Bulk", "Encumbered Limit", "Max Bulk", "Max Invested"].map(name => name.toLowerCase());
+        let inventoryWildcard: string[] = ["Gain Trait", "Lose Trait"].map(name => name.toLowerCase());
         let spellbook: string[] = ["Refocus Bonus Points", "Focus Points", "Focus Pool", "All Checks and DCs", "Attack Rolls", "Spell Attack Rolls", "Spell DCs"].map(name => name.toLowerCase());
         let spellbookWildcard: string[] = ["Spell Slots", "Proficiency Level", "Spell Level", "Disabled"].map(name => name.toLowerCase());
         let activities: string[] = ["Dexterity-based Checks and DCs", "Strength-based Checks and DCs", "All Checks and DCs"].map(name => name.toLowerCase());
         let activitiesWildcard: string[] = ["Class DC", "Charges", "Cooldown", "Disabled"].map(name => name.toLowerCase());
 
-        let changedEffects: Effect[] = [];
-        //Collect all new feats that don't exist in the old list or old feats that don't exist in the new list - that is, everything that has changed.
-        newEffects.filter(effect => effect.apply && !effect.ignored).forEach(newEffect => {
-            if (!oldEffects.some(oldEffect => JSON.stringify(oldEffect) == JSON.stringify(newEffect))) {
-                changedEffects.push(newEffect);
-            }
-        })
-        oldEffects.filter(effect => effect.apply && !effect.ignored).forEach(oldEffect => {
-            if (!newEffects.some(newEffect => JSON.stringify(newEffect) == JSON.stringify(oldEffect))) {
-                changedEffects.push(oldEffect);
-            }
-        })
-
         //Then prepare changes for everything that should be updated according to the effect.
-        changedEffects.forEach(effect => {
-            let lowerCaseTarget = effect.target.toLowerCase();
-            let target = effect.target;
+        targets.forEach(target => {
+            let lowerCaseTarget = target.toLowerCase();
             if (general.includes(lowerCaseTarget) || generalWildcard.some(name => lowerCaseTarget.includes(name))) {
                 characterService.set_ToChange(creature.type, "general");
             }
@@ -1239,16 +1260,19 @@ export class EffectsService {
                 characterService.set_ToChange(creature.type, "individualskills", "attacks");
             }
             if (individualskills.includes(lowerCaseTarget)) {
-                characterService.set_ToChange(creature.type, "individualskills", target);
+                characterService.set_ToChange(creature.type, "individualskills", lowerCaseTarget);
             }
             if (individualSkillsWildcard.some(name => lowerCaseTarget.includes(name))) {
-                characterService.set_ToChange(creature.type, "individualskills", target);
+                characterService.set_ToChange(creature.type, "individualskills", lowerCaseTarget);
             }
             if (skillsWildcard.some(name => lowerCaseTarget.includes(name))) {
                 characterService.set_ToChange(creature.type, "skills");
                 characterService.set_ToChange(creature.type, "individualskills", "all");
             }
             if (inventory.includes(lowerCaseTarget)) {
+                characterService.set_ToChange(creature.type, "inventory");
+            }
+            if (inventoryWildcard.some(name => lowerCaseTarget.includes(name))) {
                 characterService.set_ToChange(creature.type, "inventory");
             }
             if (spellbook.includes(lowerCaseTarget)) {
@@ -1265,9 +1289,30 @@ export class EffectsService {
             }
             //Specific triggers
             if (lowerCaseTarget == "familiar abilities") {
+                //Familiar abilities effects need to update the familiar's featchoices.
                 characterService.set_ToChange("Familiar", "featchoices");
             }
         })
+    }
+
+    set_EffectsToChange(creature: Creature, newEffects: Effect[], oldEffects: Effect[], characterService: CharacterService) {
+        //Set refresh commands for all components of the application depending on whether there are new effects affecting their data,
+        // or old effects have been removed.
+
+        let changedEffects: Effect[] = [];
+        //Collect all new feats that don't exist in the old list or old feats that don't exist in the new list - that is, everything that has changed.
+        newEffects.filter(effect => effect.apply && !effect.ignored).forEach(newEffect => {
+            if (!oldEffects.some(oldEffect => JSON.stringify(oldEffect) == JSON.stringify(newEffect))) {
+                changedEffects.push(newEffect);
+            }
+        })
+        oldEffects.filter(effect => effect.apply && !effect.ignored).forEach(oldEffect => {
+            if (!newEffects.some(newEffect => JSON.stringify(newEffect) == JSON.stringify(oldEffect))) {
+                changedEffects.push(oldEffect);
+            }
+        })
+       
+        this.set_TargetsToChange(creature, changedEffects.map(effect => effect.target), characterService);
 
         //If any equipped weapon is affected, update attacks, and if any equipped armor or shield is affected, update defense.
         if (creature.inventories[0].weapons.some(weapon => weapon.equipped && changedEffects.some(effect => effect.target.toLowerCase() == weapon.name.toLowerCase()))) {

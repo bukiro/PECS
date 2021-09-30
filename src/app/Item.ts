@@ -2,6 +2,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { SpellChoice } from './SpellChoice';
 import { Oil } from './Oil';
 import { ItemGain } from './ItemGain';
+import { Creature } from './Creature';
+import { CharacterService } from './character.service';
 
 export class Item {
     public readonly _className: string = this.constructor.name;
@@ -65,12 +67,19 @@ export class Item {
     public tradeable: boolean = true;
     //What traits does the item have? Can be expanded under certain circumstances
     public traits: string[] = [];
+    //Some items may recalculate their traits and store them here temporarily for easier access.
+    public _traits: string[] = [];
     //Type of item - very important. Must be set by the specific Item class and decides which database is searched for the item
     public type: string;
     //For items with the same id (from different source files for example), higher overridePriority wins. If two have the same priority, the first in the list wins.
     public overridePriority: number = 0;
     //If markedForDeletion is set, the item isn't recursively dropped during drop_InventoryItem, thus avoiding loops stemming from gained items and gained inventories. 
     public markedForDeletion: boolean = false;
+    get_Traits(characterService: CharacterService, creature: Creature) {
+        //Some types of items have more complicated methods of determining traits, and need characterService and creature in the function.
+        this._traits = this.traits;
+        return this._traits;
+    }
     get_Bulk() {
         //Return either the bulk set by an oil, or else the actual bulk of the item.
         let oilBulk: string = "";

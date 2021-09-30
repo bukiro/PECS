@@ -24,6 +24,8 @@ export class HintComponent implements OnInit {
     objectName: string = "";
     @Input()
     description: string = "";
+    @Input()
+    noFilter: boolean = false;
 
     constructor(
         public characterService: CharacterService,
@@ -48,6 +50,9 @@ export class HintComponent implements OnInit {
 
     get_Hints() {
         let isConditionSet = this.object instanceof ConditionSet;
+        if (this.noFilter) {
+            return (isConditionSet ? this.object.condition.hints : this.object.hints);
+        }
         let isAeonStone = this.object instanceof WornItem && this.object.isAeonStone;
         let isEmblazonArmamentShield = (this.object instanceof Shield && this.object.emblazonArmament.length) ? this.object : null;
         return (isConditionSet ? this.object.condition.hints : this.object.hints)

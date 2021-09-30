@@ -248,26 +248,10 @@
         "gainConditions": [
             {
                 "_className": "ConditionGain",
-                "duration": 100,
+                "choice": "Lesser",
+                "duration": -5,
                 "name": "Bestial Mutagen",
-                "source": "Bestial Mutagen (Lesser)",
-                "value": 1
-            }
-        ],
-        "gainItems": [
-            {
-                "_className": "ItemGain",
-                "expiration": 100,
-                "name": "Bestial Mutagen Claw (Lesser)",
-                "type": "weapons",
-                "on": "use"
-            },
-            {
-                "_className": "ItemGain",
-                "expiration": 100,
-                "name": "Bestial Mutagen Jaws (Lesser)",
-                "type": "weapons",
-                "on": "use"
+                "source": "Bestial Mutagen (Lesser)"
             }
         ],
         "benefit": "You gain an item bonus to Athletics checks and unarmed attack rolls. You gain a claw unarmed attack with the agile trait and a jaws unarmed attack.",
@@ -754,26 +738,10 @@
         "gainConditions": [
             {
                 "_className": "ConditionGain",
-                "duration": 1000,
+                "choice": "Moderate",
+                "duration": -5,
                 "name": "Bestial Mutagen",
-                "source": "Bestial Mutagen (Moderate)",
-                "value": 2
-            }
-        ],
-        "gainItems": [
-            {
-                "_className": "ItemGain",
-                "expiration": 1000,
-                "name": "Bestial Mutagen Claw (Moderate)",
-                "type": "weapons",
-                "on": "use"
-            },
-            {
-                "_className": "ItemGain",
-                "expiration": 1000,
-                "name": "Bestial Mutagen Jaws (Moderate)",
-                "type": "weapons",
-                "on": "use"
+                "source": "Bestial Mutagen (Moderate)"
             }
         ],
         "benefit": "You gain an item bonus to Athletics checks and unarmed attack rolls. You gain a claw unarmed attack with the agile trait and a jaws unarmed attack.",
@@ -1765,26 +1733,10 @@
         "gainConditions": [
             {
                 "_className": "ConditionGain",
-                "duration": 6000,
+                "choice": "Greater",
+                "duration": -5,
                 "name": "Bestial Mutagen",
-                "source": "Bestial Mutagen (Greater)",
-                "value": 3
-            }
-        ],
-        "gainItems": [
-            {
-                "_className": "ItemGain",
-                "expiration": 6000,
-                "name": "Bestial Mutagen Claw (Greater)",
-                "type": "weapons",
-                "on": "use"
-            },
-            {
-                "_className": "ItemGain",
-                "expiration": 6000,
-                "name": "Bestial Mutagen Jaws (Greater)",
-                "type": "weapons",
-                "on": "use"
+                "source": "Bestial Mutagen (Greater)"
             }
         ],
         "benefit": "You gain an item bonus to Athletics checks and unarmed attack rolls. You gain a claw unarmed attack with the agile trait and a jaws unarmed attack.",
@@ -2536,26 +2488,10 @@
         "gainConditions": [
             {
                 "_className": "ConditionGain",
-                "duration": 6000,
+                "choice": "Major",
+                "duration": -5,
                 "name": "Bestial Mutagen",
-                "source": "Bestial Mutagen (Major)",
-                "value": 4
-            }
-        ],
-        "gainItems": [
-            {
-                "_className": "ItemGain",
-                "expiration": 6000,
-                "name": "Bestial Mutagen Claw (Major)",
-                "type": "weapons",
-                "on": "use"
-            },
-            {
-                "_className": "ItemGain",
-                "expiration": 6000,
-                "name": "Bestial Mutagen Jaws (Major)",
-                "type": "weapons",
-                "on": "use"
+                "source": "Bestial Mutagen (Major)"
             }
         ],
         "benefit": "You gain an item bonus to Athletics checks and unarmed attack rolls. You gain a claw unarmed attack with the agile trait and a jaws unarmed attack.",

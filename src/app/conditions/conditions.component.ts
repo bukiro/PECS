@@ -367,7 +367,7 @@ export class ConditionsComponent implements OnInit {
     }
 
     get_IsFormula(value: string) {
-        if (isNaN(parseInt(value))) {
+        if (value && isNaN(parseInt(value))) {
             if (!value.match("^[0-9-]*$").length) {
                 return true;
             }

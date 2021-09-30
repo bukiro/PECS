@@ -13,13 +13,26 @@ export class TraitsService {
 
     private traits: Trait[] = [];
     private loading: boolean = false;
+    private traitsMap = new Map<string, Trait>();
 
     constructor(
         private extensionsService: ExtensionsService
     ) { }
 
+    get_TraitFromName(name: string) {
+        //Returns a named trait from the map.
+        return this.traitsMap.get(name.toLowerCase());
+    }
+
     get_Traits(traitName: string = "") {
         if (!this.still_loading()) {
+            //If only a name is given, try to find a feat by that name in the index map. This should be much quicker.
+            if (traitName) {
+                let trait = this.get_TraitFromName(traitName);
+                if (trait) {
+                    return [trait];
+                }
+            }
             //Some trait instances have information after the trait name, so we allow traits that are included in the name as long as they have the dynamic attribute.
             let traits = this.traits
                 .filter(trait =>
@@ -64,10 +77,10 @@ export class TraitsService {
         }
     }
 
-    have_Trait(characterService: CharacterService, object: any, traitName: string) {
+    have_Trait(characterService: CharacterService, creature: Creature, object: any, traitName: string) {
         //Find out if this object - could be anything - has this trait. Sounds easy enough, but some items get traits added by certain circumstances, so here we are.
         //Traits can have additional information, so we compare only the first word - but if the given traitName includes spaces, we compare the entire string.
-        return (object.get_Traits ? object.get_Traits(characterService, characterService.get_Character()) : object.traits)
+        return (object.get_Traits ? object.get_Traits(characterService, creature) : object.traits)
             .some((trait: string) =>
                 (
                     traitName.includes(" ") &&
@@ -89,6 +102,9 @@ export class TraitsService {
         if (!this.traits.length) {
             this.loading = true;
             this.load_Traits();
+            this.traits.forEach(trait => {
+                this.traitsMap.set(trait.name.toLowerCase(), trait);
+            })
             this.loading = false;
         } else {
             this.traits.forEach(trait => {

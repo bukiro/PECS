@@ -986,7 +986,7 @@ export class CharacterService {
                 //Add all Items that you get from being granted this one
                 if (item.gainItems.length) {
                     item.gainItems.filter(gainItem => gainItem.on == "grant" && gainItem.amount > 0).forEach(gainItem => {
-                        let extraItem: Item = this.get_CleanItems()[gainItem.type].find((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase());
+                        let extraItem: Item = this.get_CleanItems()[gainItem.type.toLowerCase()].find((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase());
                         if (extraItem.can_Stack()) {
                             this.grant_InventoryItem(creature, inventory, extraItem, true, false, false, gainItem.amount + (gainItem.amountPerLevel * creature.level));
                         } else {
@@ -1313,7 +1313,7 @@ export class CharacterService {
             //Add all Items that you get from equipping this one
             if (item.gainItems && item.gainItems.length) {
                 item.gainItems.filter((gainItem: ItemGain) => gainItem.on == "equip").forEach(gainItem => {
-                    let newItem: Item = this.itemsService.get_Items()[gainItem.type].find((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase());
+                    let newItem: Item = this.itemsService.get_Items()[gainItem.type.toLowerCase()].find((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase());
                     if (newItem.can_Stack()) {
                         this.grant_InventoryItem(creature, inventory, newItem, false, false, false, gainItem.amount + (gainItem.amountPerLevel * creature.level));
                     } else {
@@ -2243,10 +2243,6 @@ export class CharacterService {
                 }
                 break;
         }
-    }
-
-    have_Trait(object: any, traitName: string) {
-        return this.traitsService.have_Trait(this, object, traitName);
     }
 
     get_Abilities(name: string = "") {

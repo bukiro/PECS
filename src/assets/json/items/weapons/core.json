@@ -658,7 +658,8 @@
    {
       "hide": true,
       "id": "08693227-8daa-11ea-abca-ffb46fbada73",
-      "name": "Wolf Jaw",
+      "name": "Wolf Stance Wolf Jaw",
+      "displayName": "Wolf Jaw",
       "traits": [
          "Agile",
          "Backstabber",
@@ -5471,5 +5472,21 @@
       "melee": 5,
       "prof": "Unarmed Attacks",
       "useHighestAttackProficiency": true
+   },
+   {
+      "hide": true,
+      "id": "11f17559-9ffb-4a07-9ee1-83b97d999c38",
+      "name": "Spiritual Weapon",
+      "desc": "A weapon made of pure magical force attacks foes you designate within range. This weapon has a ghostly appearance and manifests as a club, a dagger or your deity's favored weapon.",
+      "traits": [],
+      "moddable": false,
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "Force",
+      "group": "",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "craftable": false
    }
 ]

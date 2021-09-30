@@ -202,13 +202,11 @@ export class Armor extends Equipment {
         if (this._affectedByArmoredSkirt != 0) {
             //An armored skirt makes your armor noisy if it isn't already.
             if (!traits.includes("Noisy")) {
-                return traits.concat("Noisy");
-            } else {
-                return traits;
+                traits = traits.concat("Noisy");
             }
-        } else {
-            return traits;
         }
+        this._traits = traits;
+        return traits;
     }
     profLevel(creature: Character | AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }

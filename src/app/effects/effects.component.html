@@ -78,14 +78,14 @@
         </ng-template>
         <div [ngbPopover]="effectContent" triggers="click" *ngIf="!fullDisplay" style="display:flex;">
             <app-gridIcon class="effect" [effect]="effect" placement="left bottom top"
-                [ngClass]="{'penalty':effect.penalty && !effect.ignored, 'bonus':!effect.penalty && !effect.setValue && !effect.ignored, 'absolute':effect.setValue && !effect.ignored, 'inactive-button':effect.ignored}"
+                [ngClass]="{'penalty':!effect.toggle && effect.penalty && !effect.ignored, 'bonus':!effect.toggle && !effect.penalty && !effect.setValue && !effect.ignored, 'absolute':(effect.toggle || effect.setValue) && !effect.ignored, 'inactive-button':effect.ignored}"
                 [ngbTooltip]="effect.target + (effect.title ? ' = '+effect.title : ((parseInt(effect.value) ? ' ' + effect.value : '') + (effect.setValue ? ' = '+effect.setValue : '')))"
                 openDelay=0>
             </app-gridIcon>
         </div>
         <div class="list-item gridicon-fullsizebox" *ngIf="fullDisplay">
             <app-gridIcon class="effect" [effect]="effect"
-                [ngClass]="{'penalty':effect.penalty && !effect.ignored, 'bonus':!effect.penalty && !effect.setValue && !effect.ignored, 'absolute':effect.setValue && !effect.ignored, 'inactive-button':effect.ignored}">
+                [ngClass]="{'penalty':!effect.toggle && effect.penalty && !effect.ignored, 'bonus':!effect.toggle && !effect.penalty && !effect.setValue && !effect.ignored, 'absolute':(effect.toggle || effect.setValue) && !effect.ignored, 'inactive-button':effect.ignored}">
             </app-gridIcon>
             <div class="gridicon-sidebar effect">
                 <ng-container *ngTemplateOutlet="effectContent"></ng-container>

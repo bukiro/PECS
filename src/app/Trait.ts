@@ -1,6 +1,3 @@
-import { Character } from './Character';
-import { AnimalCompanion } from './AnimalCompanion';
-import { Familiar } from './Familiar';
 import { Item } from './Item';
 import { Hint } from './Hint';
 import { Creature } from './Creature';
@@ -19,7 +16,7 @@ export class Trait {
             filteredItems.push(...inventory.allEquipment()
                 .filter(item =>
                     item.equipped &&
-                    item.traits
+                    item._traits
                         .find(trait =>
                             this.name == trait ||
                             (
@@ -31,7 +28,7 @@ export class Trait {
                 );
         });
         if (namesOnly) {
-            return filteredItems.map(item => item.name);
+            return filteredItems.map(item => item.displayName || item.name);
         } else {
             return filteredItems;
         }

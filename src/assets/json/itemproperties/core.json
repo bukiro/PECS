@@ -539,7 +539,7 @@
         "priority": "03",
         "group": "",
         "name": "Effect title",
-        "desc": "You can choose to show a word instead of a number on the effect. This is useful, for example, in Size effects, where you might want to set Size to 2 (for Large), but show 'Size: Large' instead. This title can be calculated like values, and use 'value' and 'setValue' as variables to reference the relative or absolute value of the effect.",
+        "desc": "You can choose to show a word instead of a number on the effect. This is useful, for example, in Size effects, where you might want to set Size to 2 (for Large), but show 'Size: Large' instead. The title is also used for extra damage on attacks and to change weapon traits. This title can be calculated like values, and use 'value' and 'setValue' as variables to reference the relative or absolute value of the effect.",
         "examples": "effects title"
     },
     {

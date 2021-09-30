@@ -21,7 +21,7 @@ export class Wand extends Equipment {
             return this.displayName;
         } else if (this.storedSpells.length && this.storedSpells[0].spells.length) {
             if (this.name.includes("Magic Wand (")) {
-                return "Wand of "+this.storedSpells[0].spells[0].name;
+                return "Wand of " + this.storedSpells[0].spells[0].name;
             } else {
                 return this.name.split("(")[0] + "(" + this.storedSpells[0].spells[0].name + ")";
             }
@@ -31,10 +31,11 @@ export class Wand extends Equipment {
     }
     get_Traits(characterService: CharacterService, creature: Creature) {
         //creature is not needed for wands, but for other types of item.
+        let traits: string[] = [];
         if (this.storedSpells[0]?.spells.length) {
             let spell = characterService.spellsService.get_Spells(this.storedSpells[0].spells[0].name)[0];
             if (spell) {
-                return Array.from(new Set(this.traits.concat(spell.traits))).sort(function(a,b) {
+                traits = Array.from(new Set(this.traits.concat(spell.traits))).sort(function (a, b) {
                     if (a > b) {
                         return 1;
                     }
@@ -43,11 +44,9 @@ export class Wand extends Equipment {
                     }
                     return 0;
                 });
-            } else {
-                return this.traits;
             }
-        } else {
-            return this.traits;
         }
+        this._traits = traits;
+        return traits;
     }
 }

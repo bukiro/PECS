@@ -2112,7 +2112,14 @@
         "traits": [
             "Monk"
         ],
-        "levelreq": 18
+        "levelreq": 18,
+        "effects": [
+            {
+                "affected": "Unarmed Attacks Gain Trait",
+                "title": "'Forceful'",
+                "toggle": true
+            }
+        ]
     },
     {
         "name": "Diamond Soul",
@@ -2923,15 +2930,10 @@
         "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock all of the following uncommon class feats.",
         "hints": [
             {
-                "desc": "Your unarmed Strikes gain the deadly d12 trait.",
-                "showon": "Unarmed"
-            },
-            {
                 "desc": "You have fast healing 20, causing you to regain 20 HP at the start of each of your turns provided you have at least 1 HP. This happens automatically when you start a turn.",
                 "showon": "Health"
             }
         ],
-        "internalNote": "The effect on traits is hardcoded.",
         "shortdesc": "Strike harder and heal more rapidly.",
         "traits": [
             "Monk",
@@ -2939,6 +2941,11 @@
         ],
         "levelreq": 20,
         "effects": [
+            {
+                "affected": "Unarmed Attacks Gain Trait",
+                "title": "'Deadly d12'",
+                "toggle": true
+            },
             {
                 "affected": "Fast Healing",
                 "value": "20"
@@ -31679,6 +31686,11 @@
         "heritagereq": "razortooth goblin",
         "effects": [
             {
+                "affected": "Razortooth Goblin Jaws Lose Trait",
+                "title": "'Finesse'",
+                "toggle": true
+            },
+            {
                 "affected": "Razortooth Goblin Jaws Dice Size",
                 "setValue": "8"
             }
@@ -36421,6 +36433,11 @@
         ],
         "levelreq": 1,
         "effects": [
+            {
+                "affected": "Lizardfolk Claw Gain Trait",
+                "title": "'Versatile P'",
+                "toggle": true
+            },
             {
                 "affected": "Lizardfolk Claw Dice Size",
                 "setValue": "6"
@@ -55517,7 +55534,7 @@
         "hints": [
             {
                 "desc": "Whenever you use one of the spells granted by Channeled Succor, you expend one of the heal spells you've prepared in your extra slots from healing font instead, and they become unavailable when no heal spells are left.",
-                "showon": "Feat: Channeled Succor"
+                "showon": "Feat: Channeled Succor, Divine Font"
             }
         ],
         "shortdesc": "You can remove conditions with divine grace.",

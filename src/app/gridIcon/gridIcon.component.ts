@@ -306,7 +306,7 @@ export class GridIconComponent implements OnInit {
     }
 
     get_IconValue() {
-        //Show condition value, and show effect values over 2 characters. Shorter effect values will be shown as SuperTitle instead.
+        //Show condition value, and show effect values over 2 characters, trimmed to 6 characters. Shorter effect values will be shown as SuperTitle instead.
         if (this.condition?.value) {
             if (this.condition.name == "Stunned" && this.condition.duration != -1) {
                 return "";
@@ -314,11 +314,11 @@ export class GridIconComponent implements OnInit {
                 return this.condition.value.toString();
             }
         } else if (this.effect?.title?.length > 2) {
-            return this.effect.title;
+            return this.effect.title.split(" (")[0].split(":")[0].substr(0,6);
         } else if (this.effect?.setValue?.length > 2) {
-            return this.effect.setValue;
+            return this.effect.setValue.substr(0,6);
         } else if (this.effect?.value?.length > 2) {
-            return this.effect.value;
+            return this.effect.value.substr(0,6);
         }
         if (this.item) {
             let value = "";

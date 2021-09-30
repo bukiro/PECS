@@ -13,7 +13,14 @@
         "hints": [
             {
                 "desc": "One of your weapons deals an additional |dice=1d6| 1d6 damage of the chosen type to creatures of the opposed alignment.",
-                "showon": "Attacks"
+                "showon": "Attacks",
+                "effects": [
+                    {
+                        "affected": "Weapons Extra Damage",
+                        "title": "'+1d6 ' + Choice + ' (Align Armament)'",
+                        "toggle": true
+                    }
+                ]
             }
         ],
         "choices": [
@@ -198,7 +205,7 @@
         "hints": [
             {
                 "desc": "If you are the next creature to attack the same target before the start of the originator's turn, you gain a +1 circumstance bonus to your roll if their Strike was a hit, or a +2 circumstance bonus if their Strike was a critical hit.",
-                "showon": "Attacks",
+                "showon": "Attacks, Spellbook",
                 "effects": [
                     {
                         "affected": "Attack Rolls",
@@ -340,7 +347,14 @@
         "hints": [
             {
                 "desc": "One weapon you're wielding deals an extra |dice=1d6| 1d6 damage of a type depending on the school of the spell you just cast.\n\nAbjuration: force damage\nConjuration or Transmutation: the same type as the weapon\nDivination, Enchantment, or Illusion: mental damage\nEvocation: a type the spell dealt, or force damage if the spell didn't deal damage\nNecromancy: negative damage",
-                "showon": "Attacks"
+                "showon": "Attacks",
+                "effects": [
+                    {
+                        "affected": "Weapons Extra Damage",
+                        "title": "'+1d6' + (Choice == 'Abjuration' ? ' Force' : '') + (['Divination', 'Enchantment', 'Illusion'].includes(Choice) ? ' Mental' : '') + (Choice == 'Necromancy' ? ' Negative' : '') + ' (Bespell Weapon)'",
+                        "toggle": true
+                    }
+                ]
             }
         ],
         "choice": "Abjuration",
@@ -1541,14 +1555,14 @@
                     "Clumsy"
                 ],
                 "name": "Clumsy",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Enfeebled"
                 ],
                 "name": "Enfeebled",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -1567,14 +1581,14 @@
                     "Slowed 1"
                 ],
                 "name": "Slowed",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Slowed 2"
                 ],
                 "name": "Slowed",
-                "value": "2"
+                "value": 2
             }
         ]
     },
@@ -1815,8 +1829,16 @@
         ],
         "hints": [
             {
-                "desc": "One weapon you're wielding deals an additional |dice=1d4 Force| 1d4 force damage. You can instead deal an additional |dice=1d6| 1d6 damage of an alignment type that matches one of your deity's alignment components. As usual for aligned damage, this can damage only creatures of the opposite alignment.",
-                "showon": "Attacks"
+                "desc": "One weapon you're wielding deals an additional |dice=1d4 Force| 1d4 force damage. You can instead deal an additional |dice=1d6| 1d6 damage of an alignment type that matches one of your deity's alignment components (second activation). As usual for aligned damage, this can damage only creatures of the opposite alignment.",
+                "showon": "Attacks",
+                "effects": [
+                    {
+                        "affected": "Weapons Extra Damage",
+                        "title": "(object.active2 ? '+1d6' : '+1d4 Force') + ' (Divine Weapon)'",
+                        "toggle": true
+                    }
+                ],
+                "extraActivations": 1
             }
         ]
     },
@@ -2695,7 +2717,7 @@
         "gainConditions": [
             {
                 "name": "Clumsy",
-                "value": "1"
+                "value": 1
             }
         ]
     },
@@ -3044,7 +3066,7 @@
             },
             {
                 "desc": "You ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.",
-                "showon": "Attacks"
+                "showon": "Attacks, Spellbook"
             }
         ]
     },
@@ -3062,7 +3084,7 @@
         "hints": [
             {
                 "desc": "Your multiple attack penalty for attacks against your hunted prey is -3 (-2 with an agile weapon) on your second attack of the turn instead of -5, and -6 (-4 with an agile weapon) on your third or subsequent attack of the turn, instead of -10.\n\nYou also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.",
-                "showon": "Attacks"
+                "showon": "Attacks, Spellbook"
             },
             {
                 "desc": "You gain a +2 circumstance bonus to Perception checks when you Seek your prey.",
@@ -3121,7 +3143,7 @@
                     },
                     {
                         "affected": "Recall Knowledge Checks",
-                        "show": "TRUE",
+                        "show": true,
                         "type": "circumstance",
                         "value": "2"
                     }
@@ -3156,13 +3178,13 @@
                     {
                         "affected": "AC",
                         "type": "circumstance",
-                        "value": "1"
+                        "value": 1
                     }
                 ]
             },
             {
                 "desc": "You ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.",
-                "showon": "Attacks"
+                "showon": "Attacks, Spellbook"
             }
         ]
     },
@@ -3350,35 +3372,41 @@
         "inputRequired": "Remove the condition once you successfully hit and deal damage with the weapon.",
         "hints": [
             {
-                "desc": "One melee weapon you wield has the Deadly d6 trait.\n\n<header class='spellHeader'>Deadly<header>\n\nOn a critical hit, the weapon adds |dice=1d6| a weapon damage die of the listed size. Roll this after doubling the weapon's damage. This increases to |dice=2d6| two dice if the weapon has a greater striking rune and |dice=3d6| three dice if the weapon has a major striking rune. For instance, your wielded weapon deals 2d6 extra damage on a critical hit. An ability that changes the size of the weapon's normal damage dice doesn't change the size of its deadly die.",
+                "desc": "One melee weapon you wield has the Deadly d6 trait.",
                 "showon": "Attacks",
+                "effects": [
+                    {
+                        "affected": "Melee Weapons Gain Trait",
+                        "title": "'Deadly d6'",
+                        "toggle": true
+                    }
+                ],
                 "conditionChoiceFilter": [
                     "Deadly d6"
                 ]
             },
             {
-                "desc": "One melee weapon you wield has the Disarm trait.\n\n<header class='spellHeader'>Disarm<header>\n\nYou can use this weapon to Disarm with the Athletics skill even if you don't have a free hand. This uses the weapon's reach (if different from your own) and adds the weapon's item bonus to attack rolls (if any) as an item bonus to the Athletics check. If you critically fail a check to Disarm using the weapon, you can drop the weapon to take the effects of a failure instead of a critical failure. On a critical success, you still need a free hand if you want to take the item.",
+                "desc": "One melee weapon you wield has the Disarm trait.",
                 "showon": "Attacks, Athletics",
                 "effects": [
                     {
-                        "affected": "Athletics",
-                        "type": "item",
-                        "value": "object.active3 ? 3 : (object.active2 ? 2 : 1)"
+                        "affected": "Melee Weapons Gain Trait",
+                        "title": "'Disarm'",
+                        "toggle": true
                     }
                 ],
                 "conditionChoiceFilter": [
                     "Disarm"
-                ],
-                "extraActivations": 2
+                ]
             },
             {
-                "desc": "One melee weapon you wield has the Nonlethal trait.\n\n<header class='spellHeader'>Disarm<header>\n\nAn effect with this trait is not inherently deadly. Damage from a nonlethal effect knocks a creature out rather than killing it. You can use a nonlethal weapon to make a lethal attack with a -2 circumstance penalty.",
+                "desc": "One melee weapon you wield has the Nonlethal trait.",
                 "showon": "Attacks",
                 "effects": [
                     {
-                        "affected": "Attack Rolls",
-                        "type": "circumstance",
-                        "value": -2
+                        "affected": "Melee Weapons Gain Trait",
+                        "title": "'Nonlethal'",
+                        "toggle": true
                     }
                 ],
                 "conditionChoiceFilter": [
@@ -3386,41 +3414,41 @@
                 ]
             },
             {
-                "desc": "One melee weapon you wield has the Shove trait.\n\n<header class='spellHeader'>Shove<header>\n\nYou can use this weapon to Shove with the Athletics skill even if you don't have a free hand. This uses the weapon's reach (if different from your own) and adds the weapon's item bonus to attack rolls as an item bonus to the Athletics check. If you critically fail a check to Shove using the weapon, you can drop the weapon to take the effects of a failure instead of a critical failure.",
+                "desc": "One melee weapon you wield has the Shove trait.",
                 "showon": "Attacks, Athletics",
                 "effects": [
                     {
-                        "affected": "Athletics",
-                        "type": "item",
-                        "value": "object.active3 ? 3 : (object.active2 ? 2 : 1)"
+                        "affected": "Melee Weapons Gain Trait",
+                        "title": "'Shove'",
+                        "toggle": true
                     }
                 ],
                 "conditionChoiceFilter": [
                     "Shove"
-                ],
-                "extraActivations": 2
+                ]
             },
             {
-                "desc": "One melee weapon you wield has the Trip trait.\n\n<header class='spellHeader'>Trip<header>\n\nYou can use this weapon to Trip with the Athletics skill even if you don't have a free hand. This uses the weapon's reach (if different from your own) and adds the weapon's item bonus to attack rolls as an item bonus to the Athletics check. If you critically fail a check to Trip using the weapon, you can drop the weapon to take the effects of a failure instead of a critical failure.",
+                "desc": "One melee weapon you wield has the Trip trait.",
                 "showon": "Attacks, Athletics",
                 "effects": [
                     {
-                        "affected": "Athletics",
-                        "type": "item",
-                        "value": "object.active3 ? 3 : (object.active2 ? 2 : 1)"
+                        "affected": "Melee Weapons Gain Trait",
+                        "title": "'Trip'",
+                        "toggle": true
                     }
                 ],
                 "conditionChoiceFilter": [
                     "Trip"
-                ],
-                "extraActivations": 2
+                ]
             },
             {
-                "desc": "One melee weapon you wield has the Versatile B trait.\n\n<header class='spellHeader'>Versatile<header>\n\nA versatile weapon can be used to deal a different type of damage than that listed in the Damage entry. This trait indicates the alternate damage type. For instance, a piercing weapon that is versatile S can be used to deal piercing or slashing damage. You choose the damage type each time you make an attack.",
+                "desc": "One melee weapon you wield has the Versatile B trait.",
                 "showon": "Attacks",
                 "effects": [
                     {
-                        "affected": "Athletics"
+                        "affected": "Melee Weapons Gain Trait",
+                        "title": "'Versatile B'",
+                        "toggle": true
                     }
                 ],
                 "conditionChoiceFilter": [
@@ -3428,11 +3456,13 @@
                 ]
             },
             {
-                "desc": "One melee weapon you wield has the Versatile P trait.\n\n<header class='spellHeader'>Versatile<header>\n\nA versatile weapon can be used to deal a different type of damage than that listed in the Damage entry. This trait indicates the alternate damage type. For instance, a piercing weapon that is versatile S can be used to deal piercing or slashing damage. You choose the damage type each time you make an attack.",
+                "desc": "One melee weapon you wield has the Versatile P trait.",
                 "showon": "Attacks",
                 "effects": [
                     {
-                        "affected": "Athletics"
+                        "affected": "Melee Weapons Gain Trait",
+                        "title": "'Versatile P'",
+                        "toggle": true
                     }
                 ],
                 "conditionChoiceFilter": [
@@ -3440,11 +3470,13 @@
                 ]
             },
             {
-                "desc": "One melee weapon you wield has the Versatile S trait.\n\n<header class='spellHeader'>Versatile<header>\n\nA versatile weapon can be used to deal a different type of damage than that listed in the Damage entry. This trait indicates the alternate damage type. For instance, a piercing weapon that is versatile S can be used to deal piercing or slashing damage. You choose the damage type each time you make an attack.",
+                "desc": "One melee weapon you wield has the Versatile S trait.",
                 "showon": "Attacks",
                 "effects": [
                     {
-                        "affected": "Athletics"
+                        "affected": "Melee Weapons Gain Trait",
+                        "title": "'Versatile S'",
+                        "toggle": true
                     }
                 ],
                 "conditionChoiceFilter": [
@@ -4143,11 +4175,11 @@
                 "name": "Furious Bully"
             }
         ],
-        "endConditions": [
-            "Share Rage Cooldown"
-        ],
         "overrideConditions": [
             "Fatigued"
+        ],
+        "endConditions": [
+            "Share Rage Cooldown"
         ]
     },
     {
@@ -5532,7 +5564,7 @@
     },
     {
         "name": "Wolf Stance",
-        "desc": "If you're flanking a target while in Wolf Stance, your wolf jaw unarmed attacks also gain the trip trait.",
+        "desc": "You have entered the stance of a wolf, low to the ground with your hands held like fanged teeth. You can make wolf jaw unarmed attacks. These deal 1d8 piercing damage; are in the brawling group; and have the agile, backstabber, finesse, nonlethal, and unarmed traits.\n\nIf you're flanking a target while in Wolf Stance, your wolf jaw unarmed attacks also gain the trip trait.",
         "type": "activities",
         "SortLevel": 0,
         "buff": true,
@@ -5544,12 +5576,19 @@
         "hints": [
             {
                 "desc": "If you're flanking a target while in Wolf Stance, your wolf jaw unarmed attacks also gain the trip trait.",
-                "showon": "Wolf Jaw"
+                "showon": "Wolf Stance Wolf Jaw",
+                "effects": [
+                    {
+                        "affected": "Wolf Stance Wolf Jaw Gain Trait",
+                        "title": "'Trip'",
+                        "toggle": true
+                    }
+                ]
             }
         ],
         "gainItems": [
             {
-                "name": "Wolf Jaw",
+                "name": "Wolf Stance Wolf Jaw",
                 "type": "weapons"
             }
         ]
@@ -5675,7 +5714,7 @@
                 "lockedByParent": true,
                 "valueLockedByParent": true,
                 "name": "Sickened",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -5684,7 +5723,7 @@
                 "lockedByParent": true,
                 "valueLockedByParent": true,
                 "name": "Sickened",
-                "value": "2"
+                "value": 2
             },
             {
                 "conditionChoiceFilter": [
@@ -5693,7 +5732,7 @@
                 "lockedByParent": true,
                 "valueLockedByParent": true,
                 "name": "Sickened",
-                "value": "3"
+                "value": 3
             }
         ]
     },
@@ -5792,14 +5831,14 @@
                     "Stage 2"
                 ],
                 "name": "Clumsy",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Stage 2"
                 ],
                 "name": "Slowed",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -5807,7 +5846,7 @@
                 ],
                 "valueLockedByParent": true,
                 "name": "Clumsy",
-                "value": "1"
+                "value": 1
             }
         ]
     },
@@ -5844,14 +5883,14 @@
                     "Stage 2"
                 ],
                 "name": "Clumsy",
-                "value": "2"
+                "value": 2
             },
             {
                 "conditionChoiceFilter": [
                     "Stage 2"
                 ],
                 "name": "Slowed",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -5859,7 +5898,7 @@
                 ],
                 "valueLockedByParent": true,
                 "name": "Clumsy",
-                "value": "2"
+                "value": 2
             }
         ]
     },
@@ -5896,14 +5935,14 @@
                     "Stage 2"
                 ],
                 "name": "Enfeebled",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Stage 2"
                 ],
                 "name": "Slowed",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -5911,7 +5950,7 @@
                 ],
                 "valueLockedByParent": true,
                 "name": "Enfeebled",
-                "value": "1"
+                "value": 1
             }
         ]
     },
@@ -5948,14 +5987,14 @@
                     "Stage 2"
                 ],
                 "name": "Enfeebled",
-                "value": "2"
+                "value": 2
             },
             {
                 "conditionChoiceFilter": [
                     "Stage 2"
                 ],
                 "name": "Slowed",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -5963,7 +6002,7 @@
                 ],
                 "valueLockedByParent": true,
                 "name": "Enfeebled",
-                "value": "2"
+                "value": 2
             }
         ]
     },
@@ -6000,14 +6039,14 @@
                     "Stage 2"
                 ],
                 "name": "Stupefied",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Stage 2"
                 ],
                 "name": "Slowed",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -6015,7 +6054,7 @@
                 ],
                 "valueLockedByParent": true,
                 "name": "Stupefied",
-                "value": "1"
+                "value": 1
             }
         ]
     },
@@ -6052,14 +6091,14 @@
                     "Stage 2"
                 ],
                 "name": "Stupefied",
-                "value": "2"
+                "value": 2
             },
             {
                 "conditionChoiceFilter": [
                     "Stage 2"
                 ],
                 "name": "Slowed",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -6067,7 +6106,7 @@
                 ],
                 "valueLockedByParent": true,
                 "name": "Stupefied",
-                "value": "2"
+                "value": 2
             }
         ]
     },
@@ -6159,14 +6198,14 @@
                     "Stage 1"
                 ],
                 "name": "Enfeebled",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Stage 2"
                 ],
                 "name": "Enfeebled",
-                "value": "2"
+                "value": 2
             }
         ]
     },
@@ -6198,14 +6237,14 @@
                     "Stage 1"
                 ],
                 "name": "Clumsy",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Stage 2"
                 ],
                 "name": "Clumsy",
-                "value": "2"
+                "value": 2
             }
         ]
     },
@@ -6269,14 +6308,14 @@
                     "Stage 3"
                 ],
                 "name": "Sickened",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Stage 2"
                 ],
                 "name": "Slowed",
-                "value": "1"
+                "value": 1
             }
         ]
     },
@@ -6317,7 +6356,7 @@
                 ],
                 "lockedByParent": true,
                 "name": "Drained",
-                "value": "1"
+                "value": 1
             },
             {
                 "addValue": 2,
@@ -6552,7 +6591,7 @@
     },
     {
         "name": "Bestial Mutagen",
-        "desc": "Your features transform into something bestial and you take on muscle mass, but your lumbering form is clumsy. \n\n<strong>Benefit</strong> You gain an item bonus to Athletics checks and unarmed attack rolls equal to the value. You gain a claw unarmed attack with the agile trait and a jaws unarmed attack. \n<strong>Drawback</strong> You take a -1 penalty to AC and a -2 penalty to Reflex saves.",
+        "desc": "Your features transform into something bestial and you take on muscle mass, but your lumbering form is clumsy.\n\n<strong>Benefit</strong> You gain an item bonus to Athletics checks and unarmed attack rolls equal to the value. You gain a claw unarmed attack with the agile trait and a jaws unarmed attack.\n<strong>Drawback</strong> You take a -1 penalty to AC and a -2 penalty to Reflex saves.\n\nThe bonus depends on the quality of the mutagen:\n\n<strong>Lesser</strong> You gain a +1 item bonus, your claw deals 1d4 slashing damage, your jaws deal 1d6 piercing damage, and the duration is 1 minute.\n<strong>Moderate</strong> You gain a +2 item bonus, your claw deals 1d6 slashing damage, your jaws deal 1d8 piercing damage, and the duration is 10 minutes.\n<strong>Greater</strong> You gain a +3 item bonus, your claw deals 1d8 slashing damage, your jaws deal 1d10 piercing damage, and the duration is 1 minute.\n<strong>Major</strong> You gain a +4 item bonus, your claw deals 1d8 slashing damage, your jaws deal 1d10 piercing damage, and the duration is 1 hour. You gain weapon specialization with the claws and jaws, or greater weapon specialization, if you already have weapon specialization with these unarmed attacks.",
         "type": "alchemicalelixirs",
         "SortLevel": 0,
         "buff": true,
@@ -6567,7 +6606,6 @@
                 "duration": 6000
             }
         ],
-        "hasValue": true,
         "choice": "Lesser",
         "choices": [
             {
@@ -6591,12 +6629,12 @@
             {
                 "affected": "Athletics",
                 "type": "item",
-                "value": "Value"
+                "value": "['','Lesser','Moderate','Greater','Major'].indexOf(Choice)"
             },
             {
                 "affected": "Unarmed Attack Rolls",
                 "type": "item",
-                "value": "Value"
+                "value": "['','Lesser','Moderate','Greater','Major'].indexOf(Choice)"
             },
             {
                 "affected": "AC",
@@ -6608,27 +6646,85 @@
             },
             {
                 "affected": "Expert Bestial Mutagen Jaws (Major) Damage",
-                "value": "Value == 4 && !Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 2 : 0"
+                "value": "(Choice == 'Major' && (!Has_Feat(Creature.type, 'Weapon Specialization') || !Has_Feat(Creature.type, 'Greater Weapon Specialization'))) ? 2 : 0"
             },
             {
                 "affected": "Expert Bestial Mutagen Claw (Major) Damage",
-                "value": "Value == 4 && !Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 2 : 0"
+                "value": "(Choice == 'Major' && (!Has_Feat(Creature.type, 'Weapon Specialization') || !Has_Feat(Creature.type, 'Greater Weapon Specialization'))) ? 2 : 0"
             },
             {
                 "affected": "Master Bestial Mutagen Jaws (Major) Damage",
-                "value": "Value == 4 && !Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 3 : 0"
+                "value": "(Choice == 'Major' && (!Has_Feat(Creature.type, 'Weapon Specialization') || !Has_Feat(Creature.type, 'Greater Weapon Specialization'))) ? 3 : 0"
             },
             {
                 "affected": "Master Bestial Mutagen Claw (Major) Damage",
-                "value": "Value == 4 && !Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 3 : 0"
+                "value": "(Choice == 'Major' && (!Has_Feat(Creature.type, 'Weapon Specialization') || !Has_Feat(Creature.type, 'Greater Weapon Specialization'))) ? 3 : 0"
             },
             {
                 "affected": "Legendary Bestial Mutagen Jaws (Major) Damage",
-                "value": "Value == 4 && !Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 4 : 0"
+                "value": "(Choice == 'Major' && (!Has_Feat(Creature.type, 'Weapon Specialization') || !Has_Feat(Creature.type, 'Greater Weapon Specialization'))) ? 4 : 0"
             },
             {
                 "affected": "Legendary Bestial Mutagen Claw (Major) Damage",
-                "value": "Value == 4 && !Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 4 : 0"
+                "value": "(Choice == 'Major' && (!Has_Feat(Creature.type, 'Weapon Specialization') || !Has_Feat(Creature.type, 'Greater Weapon Specialization'))) ? 4 : 0"
+            }
+        ],
+        "gainItems": [
+            {
+                "conditionChoiceFilter": [
+                    "Lesser"
+                ],
+                "name": "Bestial Mutagen Claw (Lesser)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Lesser"
+                ],
+                "name": "Bestial Mutagen Jaws (Lesser)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Moderate"
+                ],
+                "name": "Bestial Mutagen Claw (Moderate)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Moderate"
+                ],
+                "name": "Bestial Mutagen Jaws (Moderate)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Greater"
+                ],
+                "name": "Bestial Mutagen Claw (Greater)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Greater"
+                ],
+                "name": "Bestial Mutagen Jaws (Greater)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Major"
+                ],
+                "name": "Bestial Mutagen Claw (Major)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Major"
+                ],
+                "name": "Bestial Mutagen Jaws (Major)",
+                "type": "weapons"
             }
         ]
     },
@@ -6780,7 +6876,7 @@
         "hints": [
             {
                 "desc": "You reduce the flat check to target hidden creatures to 5, and you don't need to attempt a flat check to target concealed creatures. These benefits apply only against creatures within 30 feet of you.",
-                "showon": "Perception, Attacks"
+                "showon": "Perception, Attacks, Spellbook"
             }
         ]
     },
@@ -9213,16 +9309,15 @@
                 "duration": 6000
             }
         ],
-        "hints": [
-            {
-                "desc": "Your fists lose the nonlethal trait. You do not take the -2 circumstance penalty to make a lethal attack with your fists.",
-                "showon": "Fist"
-            }
-        ],
         "effects": [
             {
                 "affected": "Fist Dice Size",
                 "setValue": "6"
+            },
+            {
+                "affected": "Fist Lose Trait",
+                "title": "'Nonlethal'",
+                "toggle": true
             }
         ]
     },
@@ -10582,7 +10677,7 @@
         "hints": [
             {
                 "desc": "You can't Delay, Ready, or use reactions. You use all your actions to Strike or cast offensive cantrips, though the GM can have you use other actions to facilitate attack, such as draw a weapon, move so that a target is in reach, and so forth. Your targets are determined randomly by the GM. If you have no other viable targets, you target yourself, automatically hitting but not scoring a critical hit. If it's impossible for you to attack or cast spells, you babble incoherently, wasting your actions.",
-                "showon": "Attacks, Activities, Skills"
+                "showon": "Attacks, Activities, Skills, Spellbook"
             }
         ],
         "gainConditions": [
@@ -10599,7 +10694,7 @@
         "hints": [
             {
                 "desc": "Someone else is making your decisions for you, usually because you're being commanded or magically dominated. The controller dictates how you act and can make you use any of your actions, including attacks, reactions, or even Delay. The controller usually does not have to spend their own actions when controlling you.",
-                "showon": "Attacks, Activities, Skills"
+                "showon": "Attacks, Activities, Skills, Spellbook"
             }
         ]
     },
@@ -10780,7 +10875,7 @@
         "gainConditions": [
             {
                 "name": "Clumsy",
-                "value": "1"
+                "value": 1
             }
         ]
     },
@@ -10883,7 +10978,7 @@
         "hints": [
             {
                 "desc": "On your turn, you must spend each of your actions trying to escape the source of the fleeing condition as expediently as possible (such as by using move actions to flee, or opening doors barring your escape). The source is usually the effect or caster that gave you the condition, though some effects might define something else as the source. You can't Delay or Ready while fleeing.",
-                "showon": "Attacks, Activities, Skills"
+                "showon": "Attacks, Activities, Skills, Spellbook"
             }
         ]
     },
@@ -11208,7 +11303,7 @@
         "hints": [
             {
                 "desc": "You can't use any actions with the attack or manipulate traits except to attempt to Escape or Force Open your bonds.",
-                "showon": "Activities, Attacks, Skills"
+                "showon": "Activities, Attacks, Skills, Spellbook"
             }
         ],
         "gainConditions": [
@@ -11705,7 +11800,7 @@
                     "85-87"
                 ],
                 "name": "Clumsy",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -11959,7 +12054,7 @@
                     "43-44"
                 ],
                 "name": "Mirror Image",
-                "value": "3"
+                "value": 3
             },
             {
                 "conditionChoiceFilter": [
@@ -14067,42 +14162,42 @@
                     "Success"
                 ],
                 "name": "Clumsy",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Success"
                 ],
                 "name": "Stupefied",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Failure"
                 ],
                 "name": "Clumsy",
-                "value": "2"
+                "value": 2
             },
             {
                 "conditionChoiceFilter": [
                     "Failure"
                 ],
                 "name": "Stupefied",
-                "value": "2"
+                "value": 2
             },
             {
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Clumsy",
-                "value": "3"
+                "value": 3
             },
             {
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Stupefied",
-                "value": "3"
+                "value": 3
             },
             {
                 "conditionChoiceFilter": [
@@ -14374,21 +14469,21 @@
                     "Critical Success"
                 ],
                 "name": "Sickened",
-                "value": "2"
+                "value": 2
             },
             {
                 "conditionChoiceFilter": [
                     "Critical Success"
                 ],
                 "name": "Slowed",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Success"
                 ],
                 "name": "Sickened",
-                "value": "1"
+                "value": 1
             }
         ]
     },
@@ -15032,7 +15127,7 @@
         "hints": [
             {
                 "desc": "You take a -1 circumstance penalty to attack rolls and damage rolls against the caster.",
-                "showon": "Attacks, Activities",
+                "showon": "Attacks, Activities, Spellbook",
                 "effects": [
                     {
                         "affected": "Attack Rolls",
@@ -15051,7 +15146,7 @@
             },
             {
                 "desc": "You can't use hostile actions against the caster.",
-                "showon": "Attacks, Activities",
+                "showon": "Attacks, Activities, Spellbook",
                 "conditionChoiceFilter": [
                     "Failure",
                     "Critical Failure"
@@ -15230,7 +15325,7 @@
                 ],
                 "duration": -1,
                 "name": "Stunned",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -15252,7 +15347,7 @@
                 ],
                 "duration": 10,
                 "name": "Stunned",
-                "value": "9"
+                "value": 9
             },
             {
                 "conditionChoiceFilter": [
@@ -15313,14 +15408,14 @@
         "hints": [
             {
                 "desc": "You must use a single action on your turn to do as you were commanded.",
-                "showon": "Activities, Attacks",
+                "showon": "Activities, Attacks, Spellbook",
                 "conditionChoiceFilter": [
                     "Failure"
                 ]
             },
             {
                 "desc": "You must use all your actions on your turn to obey the caster's command.",
-                "showon": "Activities, Attacks",
+                "showon": "Activities, Attacks, Spellbook",
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ]
@@ -15434,7 +15529,7 @@
                 ],
                 "duration": -1,
                 "name": "Stunned",
-                "value": "1"
+                "value": 1
             }
         ]
     },
@@ -15622,7 +15717,7 @@
         "hints": [
             {
                 "desc": "You gain a +1 status bonus to attack rolls and skill checks related to performing your task. If you refuse to perform the task, you instead take a -1 status penalty to all your attack rolls and skill checks (second activation).",
-                "showon": "Skills, Attacks",
+                "showon": "Skills, Attacks, Spellbook",
                 "effects": [
                     {
                         "affected": "Attack Rolls",
@@ -15635,7 +15730,7 @@
                         "value": "object.active2 ? -1 : (object.active ? +1 : 0)"
                     }
                 ],
-                "extraActivations": "1"
+                "extraActivations": 1
             }
         ]
     },
@@ -16604,7 +16699,7 @@
                 ],
                 "duration": -1,
                 "name": "Stunned",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -16641,7 +16736,7 @@
             },
             {
                 "conditionChoiceFilter": [
-                    "Critical Failure"
+                    "Critical Failure, 4 Rounds"
                 ],
                 "duration": 42,
                 "name": "Stunned",
@@ -17183,21 +17278,21 @@
                     "Success"
                 ],
                 "name": "Frightened",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Failure"
                 ],
                 "name": "Frightened",
-                "value": "2"
+                "value": 2
             },
             {
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Frightened",
-                "value": "3"
+                "value": 3
             },
             {
                 "conditionChoiceFilter": [
@@ -17817,7 +17912,7 @@
         "hints": [
             {
                 "desc": "Divine guidance is granting you a +1 status bonus to one attack roll, Perception check, saving throw, or skill check you attempt before the duration ends. You choose which roll to use the bonus on before rolling. If you use the bonus, the spell ends.",
-                "showon": "Saving Throws, Attacks, Perception, Skills",
+                "showon": "Saving Throws, Attacks, Perception, Skills, Spellbook",
                 "effects": [
                     {
                         "affected": "Attack Rolls",
@@ -18335,14 +18430,14 @@
         "hints": [
             {
                 "desc": "The first time during the duration that you roll an attack roll or skill check, you must roll twice and take the worse result.",
-                "showon": "Attacks, Skills",
+                "showon": "Attacks, Skills, Spellbook",
                 "conditionChoiceFilter": [
                     "Failure"
                 ]
             },
             {
                 "desc": "Every time you roll an attack roll or skill check, you must roll twice and take the worse result.",
-                "showon": "Attacks, Skills",
+                "showon": "Attacks, Skills, Spellbook",
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ]
@@ -18671,7 +18766,7 @@
                     "Strength"
                 ],
                 "name": "Enfeebled",
-                "value": "1"
+                "value": 1
             },
             {
                 "activationPrerequisite": "Value >= 2",
@@ -18679,7 +18774,7 @@
                     "Strength"
                 ],
                 "name": "Enfeebled",
-                "value": "2"
+                "value": 2
             },
             {
                 "activationPrerequisite": "Value == 1",
@@ -18687,7 +18782,7 @@
                     "Dexterity"
                 ],
                 "name": "Clumsy",
-                "value": "1"
+                "value": 1
             },
             {
                 "activationPrerequisite": "Value >= 2",
@@ -18695,7 +18790,7 @@
                     "Dexterity"
                 ],
                 "name": "Clumsy",
-                "value": "2"
+                "value": 2
             },
             {
                 "activationPrerequisite": "Value == 1",
@@ -18703,7 +18798,7 @@
                     "Constitution"
                 ],
                 "name": "Drained",
-                "value": "1"
+                "value": 1
             },
             {
                 "activationPrerequisite": "Value >= 2",
@@ -18711,7 +18806,7 @@
                     "Constitution"
                 ],
                 "name": "Drained",
-                "value": "2"
+                "value": 2
             },
             {
                 "activationPrerequisite": "Value == 1",
@@ -18719,7 +18814,7 @@
                     "Intelligence, Wisdom or Charisma"
                 ],
                 "name": "Stupefied",
-                "value": "1"
+                "value": 1
             },
             {
                 "activationPrerequisite": "Value >= 2",
@@ -18727,7 +18822,7 @@
                     "Intelligence, Wisdom or Charisma"
                 ],
                 "name": "Stupefied",
-                "value": "2"
+                "value": 2
             }
         ]
     },
@@ -18848,6 +18943,11 @@
                 "affected": "Unarmed Attack Rolls",
                 "type": "status",
                 "value": "1"
+            },
+            {
+                "affected": "Unarmed Extra Damage",
+                "title": "['','+1d6','+1d6','+1d6','+1d6','+2d6','+2d6','+2d6','+2d6','+3d6','+3d6'][Heightened] + ' (Ki Strike)'",
+                "toggle": true
             }
         ],
         "heightenedDescs": [
@@ -18942,7 +19042,7 @@
                 "name": "Sickened",
                 "persistent": true,
                 "ignorePersistentAtChoiceChange": true,
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -18950,7 +19050,7 @@
                     "Critical Failure"
                 ],
                 "name": "Stupefied",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -18959,7 +19059,7 @@
                 "name": "Frightened",
                 "persistent": true,
                 "ignorePersistentAtChoiceChange": true,
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -18969,7 +19069,7 @@
                 "name": "Frightened",
                 "persistent": true,
                 "ignorePersistentAtChoiceChange": true,
-                "value": "2"
+                "value": 2
             },
             {
                 "conditionChoiceFilter": [
@@ -19967,14 +20067,14 @@
                     "Failure"
                 ],
                 "name": "Sickened",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Sickened",
-                "value": "2"
+                "value": 2
             }
         ]
     },
@@ -20459,7 +20559,7 @@
             {
                 "affected": "Size",
                 "setValue": "-2",
-                "title": "Tiny"
+                "title": "'Tiny'"
             },
             {
                 "affected": "AC",
@@ -20540,14 +20640,14 @@
                     "Failure"
                 ],
                 "name": "Sickened",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Sickened",
-                "value": "2"
+                "value": 2
             },
             {
                 "choice": "Mental 1d4 per spell level",
@@ -20953,7 +21053,7 @@
                         "value": "object.active2 ? 3 : 1"
                     }
                 ],
-                "extraActivations": "1"
+                "extraActivations": 1
             }
         ],
         "choice": "Chaotic",
@@ -21077,21 +21177,21 @@
                     "Success"
                 ],
                 "name": "Enfeebled",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Failure"
                 ],
                 "name": "Enfeebled",
-                "value": "2"
+                "value": 2
             },
             {
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Enfeebled",
-                "value": "3"
+                "value": 3
             }
         ]
     },
@@ -21218,7 +21318,7 @@
     },
     {
         "name": "Savor the Sting",
-        "desc": "The caster revels in your anguish. You take mental damage and |dice=var1 Persistent Mental| <var>var1</var> persistent mental damage depending on your save. As long as you are taking persistent damage from this spell, the caster gains a +1 status bonus to attack rolls and skill checks against you.\n\n<strong>Critical Success</strong> You are unaffected.\n<strong>Success</strong> You take half damage and no persistent damage.\n<strong>Failure</strong> You take full initial and persistent damage.\n<strong>Critical Failure</strong> You take double initial and persistent damage.",
+        "desc": "The caster revels in your anguish. You take mental damage and |dice=var1 Persistent Mental| <var>var1</var> persistent mental damage depending on your Will save. As long as you are taking persistent damage from this spell, the caster gains a +1 status bonus to attack rolls and skill checks against you.\n\n<strong>Critical Success</strong> You are unaffected.\n<strong>Success</strong> You take half damage and no persistent damage.\n<strong>Failure</strong> You take full initial and persistent damage.\n<strong>Critical Failure</strong> You take double initial and persistent damage.",
         "type": "spells",
         "minLevel": 1,
         "SortLevel": 1,
@@ -21258,203 +21358,203 @@
         "gainConditions": [
             {
                 "activationPrerequisite": "Heightened == 1 ? 1 : null",
+                "choice": "1d4 Mental",
                 "conditionChoiceFilter": [
                     "Failure"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "1d4 Mental"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 2 ? 1 : null",
+                "choice": "2d4 Mental",
                 "conditionChoiceFilter": [
                     "Failure"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "2d4 Mental"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 3 ? 1 : null",
+                "choice": "3d4 Mental",
                 "conditionChoiceFilter": [
                     "Failure"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "3d4 Mental"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 4 ? 1 : null",
+                "choice": "4d4 Mental",
                 "conditionChoiceFilter": [
                     "Failure"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "4d4 Mental"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 5 ? 1 : null",
+                "choice": "5d4 Mental",
                 "conditionChoiceFilter": [
                     "Failure"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "5d4 Mental"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 6 ? 1 : null",
+                "choice": "6d4 Mental",
                 "conditionChoiceFilter": [
                     "Failure"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "6d4 Mental"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 7 ? 1 : null",
+                "choice": "7d4 Mental",
                 "conditionChoiceFilter": [
                     "Failure"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "7d4 Mental"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 8 ? 1 : null",
+                "choice": "8d4 Mental",
                 "conditionChoiceFilter": [
                     "Failure"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "8d4 Mental"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 9 ? 1 : null",
+                "choice": "9d4 Mental",
                 "conditionChoiceFilter": [
                     "Failure"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "9d4 Mental"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 10 ? 1 : null",
+                "choice": "10d4 Mental",
                 "conditionChoiceFilter": [
                     "Failure"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "10d4 Mental"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 1 ? 1 : null",
+                "choice": "1d4 Mental (doubled)",
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "1d4 Mental (doubled)"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 2 ? 1 : null",
+                "choice": "2d4 Mental (doubled)",
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "2d4 Mental (doubled)"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 3 ? 1 : null",
+                "choice": "3d4 Mental (doubled)",
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "3d4 Mental (doubled)"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 4 ? 1 : null",
+                "choice": "4d4 Mental (doubled)",
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "4d4 Mental (doubled)"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 5 ? 1 : null",
+                "choice": "5d4 Mental (doubled)",
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "5d4 Mental (doubled)"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 6 ? 1 : null",
+                "choice": "6d4 Mental (doubled)",
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "6d4 Mental (doubled)"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 7 ? 1 : null",
+                "choice": "7d4 Mental (doubled)",
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "7d4 Mental (doubled)"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 8 ? 1 : null",
+                "choice": "8d4 Mental (doubled)",
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "8d4 Mental (doubled)"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 9 ? 1 : null",
+                "choice": "9d4 Mental (doubled)",
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "9d4 Mental (doubled)"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 10 ? 1 : null",
+                "choice": "10d4 Mental (doubled)",
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "10d4 Mental (doubled)"
+                "ignorePersistentAtChoiceChange": true
             }
         ],
         "heightenedDescs": [
@@ -21567,7 +21667,7 @@
         "hints": [
             {
                 "desc": "As long as the target is taking persistent damage from this spell, you gain a +1 status bonus to attack rolls and skill checks against the target.",
-                "showon": "Attacks, Skills",
+                "showon": "Attacks, Skills, Spellbook",
                 "effects": [
                     {
                         "affected": "Attack Rolls",
@@ -23396,7 +23496,7 @@
                     "Failure, Red"
                 ],
                 "name": "Enfeebled",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -23405,21 +23505,21 @@
                 "name": "Frightened",
                 "persistent": true,
                 "ignorePersistentAtChoiceChange": true,
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Failure, Blue"
                 ],
                 "name": "Clumsy",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Critical Failure, Red"
                 ],
                 "name": "Enfeebled",
-                "value": "2"
+                "value": 2
             },
             {
                 "conditionChoiceFilter": [
@@ -23428,14 +23528,14 @@
                 "name": "Frightened",
                 "persistent": true,
                 "ignorePersistentAtChoiceChange": true,
-                "value": "2"
+                "value": 2
             },
             {
                 "conditionChoiceFilter": [
                     "Critical Failure, Blue"
                 ],
                 "name": "Clumsy",
-                "value": "2"
+                "value": 2
             }
         ]
     },
@@ -23547,7 +23647,7 @@
                     "Failure, 4 Rounds"
                 ],
                 "name": "Stupefied",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -23557,7 +23657,7 @@
                     "Critical Failure, 4 Rounds"
                 ],
                 "name": "Stupefied",
-                "value": "2"
+                "value": 2
             }
         ]
     },
@@ -24079,11 +24179,9 @@
                         "level": 1,
                         "descs": [
                             {
-                                "value": "",
                                 "variable": "var1"
                             },
                             {
-                                "value": "",
                                 "variable": "var2"
                             }
                         ]
@@ -24096,7 +24194,6 @@
                                 "variable": "var1"
                             },
                             {
-                                "value": "",
                                 "variable": "var2"
                             }
                         ]
@@ -24736,7 +24833,7 @@
                     "Critical Failure"
                 ],
                 "name": "Stupefied",
-                "value": "1"
+                "value": 1
             }
         ]
     },
@@ -24874,7 +24971,7 @@
         "hints": [
             {
                 "desc": "The next time you make an attack roll before the end of your turn, roll the attack twice and use the better result. The attack ignores circumstance penalties to the attack roll and any flat check required due to the target being concealed or hidden.",
-                "showon": "Attacks"
+                "showon": "Attacks, Spellbook"
             }
         ]
     },
@@ -26071,7 +26168,7 @@
                 "name": "Frightened",
                 "persistent": true,
                 "ignorePersistentAtChoiceChange": true,
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -26082,7 +26179,7 @@
                 "name": "Frightened",
                 "persistent": true,
                 "ignorePersistentAtChoiceChange": true,
-                "value": "2"
+                "value": 2
             },
             {
                 "conditionChoiceFilter": [
@@ -26093,7 +26190,7 @@
                 "name": "Frightened",
                 "persistent": true,
                 "ignorePersistentAtChoiceChange": true,
-                "value": "3"
+                "value": 3
             },
             {
                 "conditionChoiceFilter": [
@@ -27188,7 +27285,7 @@
                         "level": 1,
                         "descs": [
                             {
-                                "value": 2,
+                                "value": "2",
                                 "variable": "var4"
                             }
                         ]
@@ -27197,7 +27294,7 @@
                         "level": 2,
                         "descs": [
                             {
-                                "value": 3,
+                                "value": "3",
                                 "variable": "var4"
                             }
                         ]
@@ -27307,203 +27404,203 @@
         "gainConditions": [
             {
                 "activationPrerequisite": "Heightened == 1 ? 1 : null",
+                "choice": "1d12 Negative",
                 "conditionChoiceFilter": [
                     "Success (Creature)"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "1d12 Negative"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 2 ? 1 : null",
+                "choice": "2d12 Negative",
                 "conditionChoiceFilter": [
                     "Success (Creature)"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "2d12 Negative"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 3 ? 1 : null",
+                "choice": "3d12 Negative",
                 "conditionChoiceFilter": [
                     "Success (Creature)"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "3d12 Negative"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 4 ? 1 : null",
+                "choice": "4d12 Negative",
                 "conditionChoiceFilter": [
                     "Success (Creature)"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "4d12 Negative"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 5 ? 1 : null",
+                "choice": "5d12 Negative",
                 "conditionChoiceFilter": [
                     "Success (Creature)"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "5d12 Negative"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 6 ? 1 : null",
+                "choice": "6d12 Negative",
                 "conditionChoiceFilter": [
                     "Success (Creature)"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "6d12 Negative"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 7 ? 1 : null",
+                "choice": "7d12 Negative",
                 "conditionChoiceFilter": [
                     "Success (Creature)"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "7d12 Negative"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 8 ? 1 : null",
+                "choice": "8d12 Negative",
                 "conditionChoiceFilter": [
                     "Success (Creature)"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "8d12 Negative"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 9 ? 1 : null",
+                "choice": "9d12 Negative",
                 "conditionChoiceFilter": [
                     "Success (Creature)"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "9d12 Negative"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 10 ? 1 : null",
+                "choice": "10d12 Negative",
                 "conditionChoiceFilter": [
                     "Success (Creature)"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "10d12 Negative"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 1 ? 1 : null",
+                "choice": "1d12 Negative (doubled)",
                 "conditionChoiceFilter": [
                     "Critical Success (Creature)"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "1d12 Negative (doubled)"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 2 ? 1 : null",
+                "choice": "2d12 Negative (doubled)",
                 "conditionChoiceFilter": [
                     "Critical Success (Creature)"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "2d12 Negative (doubled)"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 3 ? 1 : null",
+                "choice": "3d12 Negative (doubled)",
                 "conditionChoiceFilter": [
                     "Critical Success (Creature)"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "3d12 Negative (doubled)"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 4 ? 1 : null",
+                "choice": "4d12 Negative (doubled)",
                 "conditionChoiceFilter": [
                     "Critical Success (Creature)"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "4d12 Negative (doubled)"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 5 ? 1 : null",
+                "choice": "5d12 Negative (doubled)",
                 "conditionChoiceFilter": [
                     "Critical Success (Creature)"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "5d12 Negative (doubled)"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 6 ? 1 : null",
+                "choice": "6d12 Negative (doubled)",
                 "conditionChoiceFilter": [
                     "Critical Success (Creature)"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "6d12 Negative (doubled)"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 7 ? 1 : null",
+                "choice": "7d12 Negative (doubled)",
                 "conditionChoiceFilter": [
                     "Critical Success (Creature)"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "7d12 Negative (doubled)"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 8 ? 1 : null",
+                "choice": "8d12 Negative (doubled)",
                 "conditionChoiceFilter": [
                     "Critical Success (Creature)"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "8d12 Negative (doubled)"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 9 ? 1 : null",
+                "choice": "9d12 Negative (doubled)",
                 "conditionChoiceFilter": [
                     "Critical Success (Creature)"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "9d12 Negative (doubled)"
+                "ignorePersistentAtChoiceChange": true
             },
             {
                 "activationPrerequisite": "Heightened == 10 ? 1 : null",
+                "choice": "10d12 Negative (doubled)",
                 "conditionChoiceFilter": [
                     "Critical Success (Creature)"
                 ],
                 "name": "Persistent Damage",
                 "persistent": true,
-                "ignorePersistentAtChoiceChange": true,
-                "choice": "10d12 Negative (doubled)"
+                "ignorePersistentAtChoiceChange": true
             }
         ],
         "heightenedDescs": [
@@ -27736,7 +27833,7 @@
         "hints": [
             {
                 "desc": "The targeted object's Hardness is lowered by <var>var3</var> for the duration.",
-                "showon": "Attacks",
+                "showon": "Attacks, Spellbook",
                 "conditionChoiceFilter": [
                     "Critical Success (Object)"
                 ],
@@ -27835,7 +27932,7 @@
             },
             {
                 "desc": "The targeted object's Hardness is lowered by <var>var4</var> for the duration.",
-                "showon": "Attacks",
+                "showon": "Attacks, Spellbook",
                 "conditionChoiceFilter": [
                     "Success (Object)"
                 ],
@@ -27844,7 +27941,7 @@
                         "level": 1,
                         "descs": [
                             {
-                                "value": 2,
+                                "value": "2",
                                 "variable": "var4"
                             }
                         ]
@@ -27853,7 +27950,7 @@
                         "level": 2,
                         "descs": [
                             {
-                                "value": 3,
+                                "value": "3",
                                 "variable": "var4"
                             }
                         ]
@@ -28382,7 +28479,7 @@
         "hints": [
             {
                 "desc": "While the spell persists, as long as you can see the night sky and the target is visible from the same night sky, you can sense the approximate direction and distance to the creature by using a single action, which has the concentrate trait. This is exact enough to track the creature, but not pinpoint their exact square (for instance, to make an attack).<var>var1</var>",
-                "showon": "Perception, Attacks",
+                "showon": "Perception, Attacks, Spellbook",
                 "conditionChoiceFilter": [
                     "Failure",
                     "Critical Failure"
@@ -29352,14 +29449,14 @@
                     "Failure"
                 ],
                 "name": "Sickened",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Sickened",
-                "value": "2"
+                "value": 2
             }
         ]
     },
@@ -29421,7 +29518,7 @@
         "hints": [
             {
                 "desc": "You can't use hostile actions.",
-                "showon": "Activities, Attacks",
+                "showon": "Activities, Attacks, Spellbook",
                 "conditionChoiceFilter": [
                     "Failure",
                     "Critical Failure"
@@ -29979,7 +30076,7 @@
         "gainConditions": [
             {
                 "name": "Clumsy",
-                "value": "1"
+                "value": 1
             }
         ]
     },
@@ -30806,7 +30903,7 @@
                     "Failure"
                 ],
                 "name": "Slowed",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -30848,7 +30945,7 @@
     },
     {
         "name": "Humanoid Form",
-        "desc": "You have transformd your appearance to that of a <var>var1</var>. You gain the humanoid trait in addition to your other traits while in this form, as well as any trait related to the creature's kind (such as goblin or human). If this transformation reduces your size, it reduces your reach accordingly (as the shrink spell). This transformation doesn't change your statistics in any way, and you don't gain any special abilities of the humanoid form you assume. You can still wear and use your gear, which changes size (if necessary) to match your new form. If items leave your person, they return to their usual size.<var>var2</var>\n\nHumanoid form grants you a +4 status bonus to Deception checks to pass as a generic member of the chosen ancestry, and you add your level even if you're untrained, but you can't make yourself look like a specific person. If you want to Impersonate an individual, you still need to create a disguise, though the GM won't factor in the difference in ancestry when determining the DC of your Deception check. You can Dismiss this spell.",
+        "desc": "You have transformed your appearance to that of a <var>var1</var>. You gain the humanoid trait in addition to your other traits while in this form, as well as any trait related to the creature's kind (such as goblin or human). If this transformation reduces your size, it reduces your reach accordingly (as the shrink spell). This transformation doesn't change your statistics in any way, and you don't gain any special abilities of the humanoid form you assume. You can still wear and use your gear, which changes size (if necessary) to match your new form. If items leave your person, they return to their usual size.<var>var2</var>\n\nHumanoid form grants you a +4 status bonus to Deception checks to pass as a generic member of the chosen ancestry, and you add your level even if you're untrained, but you can't make yourself look like a specific person. If you want to Impersonate an individual, you still need to create a disguise, though the GM won't factor in the difference in ancestry when determining the DC of your Deception check. You can Dismiss this spell.",
         "type": "spells",
         "minLevel": 2,
         "SortLevel": 2,
@@ -30936,7 +31033,7 @@
             {
                 "activationPrerequisite": "((Choice.includes('Medium') && BaseSize() < -1) || (Choice.includes('Large') && BaseSize() < 1)) ? 1 : 0",
                 "name": "Clumsy",
-                "value": "1"
+                "value": 1
             }
         ],
         "senses": [
@@ -31435,7 +31532,7 @@
         "hints": [
             {
                 "desc": "You treat no one as an ally.",
-                "showon": "Attacks, Activities",
+                "showon": "Attacks, Activities, Spellbook",
                 "conditionChoiceFilter": [
                     "Success",
                     "Failure"
@@ -31443,7 +31540,7 @@
             },
             {
                 "desc": "You must use all your reactions and free actions against everyone, regardless of whether they were previously your allies, as determined by the GM.",
-                "showon": "Attacks, Activities",
+                "showon": "Attacks, Activities, Spellbook",
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ]
@@ -32085,8 +32182,80 @@
         ],
         "hints": [
             {
-                "desc": "The spiritual weapon uses and contributes to your multiple attack penalty.",
-                "showon": "Attacks"
+                "desc": "A weapon made of pure magical force attacks foes you designate within range. This weapon has a ghostly appearance and manifests as a club, a dagger or your deity's favored weapon.\n\nEach time you Sustain the Spell, you can move the weapon to a new target within range (if needed) and Strike with it. The spiritual weapon uses and contributes to your multiple attack penalty.\n\nThe weapon's Strikes are melee spell attacks. Regardless of its appearance, the weapon deals force damage equal to <var>var1</var> plus your spellcasting ability modifier. You can deal damage of the type normally dealt by the weapon instead of force damage (or any of the available damage types for a versatile weapon). No other statistics or traits of the weapon apply, and even a ranged weapon attacks adjacent creatures only. Despite making a spell attack, the spiritual weapon is a weapon for purposes of triggers, resistances, and so forth.\n\nThe weapon doesn't take up space, grant flanking, or have any other attributes a creature would. The weapon can't make any attack other than its Strike, and feats or spells that affect weapons do not apply to it.",
+                "showon": "Attacks, Spiritual Weapon",
+                "heightenedDescs": [
+                    {
+                        "level": 2,
+                        "descs": [
+                            {
+                                "value": "1d8",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 4,
+                        "descs": [
+                            {
+                                "value": "2d8",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 6,
+                        "descs": [
+                            {
+                                "value": "3d8",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 8,
+                        "descs": [
+                            {
+                                "value": "4d8",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 10,
+                        "descs": [
+                            {
+                                "value": "5d8",
+                                "variable": "var1"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Spiritual Weapon Dice Number",
+                "setValue": "Math.floor(Heightened / 2)"
+            },
+            {
+                "affected": "Spiritual Weapon Attack Rolls",
+                "setValue": "Skill('Innate Spell DC') + Modifier(SpellCastingAbility) - Modifier('Charisma')"
+            },
+            {
+                "affected": "Spiritual Weapon Damage",
+                "setValue": "Modifier(SpellCastingAbility)"
+            },
+            {
+                "affected": "Ignore Bonus Damage on Spiritual Weapon",
+                "show": false,
+                "toggle": true
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Spiritual Weapon",
+                "type": "Weapons"
             }
         ],
         "heightenedDescs": [
@@ -32276,14 +32445,14 @@
                     "Failure"
                 ],
                 "name": "Stupefied",
-                "value": "2"
+                "value": 2
             },
             {
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Stupefied",
-                "value": "4"
+                "value": 4
             }
         ]
     },
@@ -32333,7 +32502,7 @@
             },
             {
                 "desc": "While in tree form, you can observe everything around you, but you can't act other than to end the spell, and your turn, by using a single action, which has the concentrate trait. Only status bonuses, status penalties, circumstance bonuses, and circumstance penalties affect you.",
-                "showon": "Defense, Attacks, Skills, Activities"
+                "showon": "Defense, Attacks, Skills, Activities, Spellbook"
             }
         ],
         "effects": [
@@ -32375,7 +32544,7 @@
             },
             {
                 "desc": "While in tree form, you can observe everything around you, but you can't act other than to end the spell, and your turn, by using a single action, which has the concentrate trait. Only status bonuses, status penalties, circumstance bonuses, and circumstance penalties affect you.",
-                "showon": "Defense, Attacks, Skills, Activities"
+                "showon": "Defense, Attacks, Skills, Activities, Spellbook"
             }
         ],
         "effects": [
@@ -32645,7 +32814,7 @@
                     "Failure"
                 ],
                 "name": "Stupefied",
-                "value": "2"
+                "value": 2
             },
             {
                 "conditionChoiceFilter": [
@@ -32793,7 +32962,7 @@
                         "value": "object.active2 ? 3 : 1"
                     }
                 ],
-                "extraActivations": "1"
+                "extraActivations": 1
             }
         ],
         "choice": "chaotic",
@@ -32880,7 +33049,7 @@
                         "value": "object.active2 ? 3 : 1"
                     }
                 ],
-                "extraActivations": "1"
+                "extraActivations": 1
             }
         ],
         "choice": "chaotic",
@@ -32966,7 +33135,7 @@
                     "Critical Success"
                 ],
                 "name": "Stupefied",
-                "value": "1"
+                "value": 1
             }
         ]
     },
@@ -34489,7 +34658,7 @@
                     "Success"
                 ],
                 "name": "Clumsy",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -34497,14 +34666,14 @@
                     "Critical Failure"
                 ],
                 "name": "Clumsy",
-                "value": "3"
+                "value": 3
             },
             {
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Slowed",
-                "value": "1"
+                "value": 1
             }
         ]
     },
@@ -34712,7 +34881,7 @@
                 ],
                 "duration": -1,
                 "name": "Stunned",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -34923,7 +35092,7 @@
                 "name": "Sickened",
                 "persistent": true,
                 "ignorePersistentAtChoiceChange": true,
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -34933,7 +35102,7 @@
                 "name": "Sickened",
                 "persistent": true,
                 "ignorePersistentAtChoiceChange": true,
-                "value": "1"
+                "value": 1
             },
             {
                 "duration": 100,
@@ -34981,7 +35150,7 @@
         "hints": [
             {
                 "desc": "You gain a +1 status bonus to AC, attack rolls, damage rolls, and saving throws against the chosen creature type.",
-                "showon": "AC, Attacks, Saving Throws",
+                "showon": "AC, Attacks, Saving Throws, Spellbook",
                 "effects": [
                     {
                         "affected": "AC",
@@ -35045,7 +35214,7 @@
         "hints": [
             {
                 "desc": "You gain a +1 status bonus to AC, attack rolls, damage rolls, and saving throws against the chosen creature type.",
-                "showon": "AC, Attacks, Saving Throws",
+                "showon": "AC, Attacks, Saving Throws, Spellbook",
                 "effects": [
                     {
                         "affected": "AC",
@@ -35421,14 +35590,14 @@
                     "Failure"
                 ],
                 "name": "Slowed",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Slowed",
-                "value": "2"
+                "value": 2
             }
         ]
     },
@@ -35503,7 +35672,7 @@
                 "name": "Sickened",
                 "persistent": true,
                 "ignorePersistentAtChoiceChange": true,
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -35513,7 +35682,7 @@
                 "name": "Sickened",
                 "persistent": true,
                 "ignorePersistentAtChoiceChange": true,
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -35522,7 +35691,7 @@
                 ],
                 "lockedByParent": true,
                 "name": "Slowed",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -35532,7 +35701,7 @@
                 "name": "Sickened",
                 "persistent": true,
                 "ignorePersistentAtChoiceChange": true,
-                "value": "2"
+                "value": 2
             }
         ]
     },
@@ -36019,7 +36188,7 @@
         ],
         "hints": [
             {
-                "desc": "You take a <var>var1</var> circumstance penalty to further attacks with that weapon or unarmed attack.",
+                "desc": "You take a <var>var1</var> circumstance penalty to further attacks with the snagged weapon or unarmed attack.",
                 "showon": "Attacks",
                 "effects": [
                     {
@@ -36609,21 +36778,21 @@
                     "Success"
                 ],
                 "name": "Stupefied",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Failure"
                 ],
                 "name": "Stupefied",
-                "value": "2"
+                "value": 2
             },
             {
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Stupefied",
-                "value": "4"
+                "value": 4
             }
         ]
     },
@@ -36877,7 +37046,7 @@
                     "Success"
                 ],
                 "name": "Stunned",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -37644,14 +37813,14 @@
                     "Failure"
                 ],
                 "name": "Sickened",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Sickened",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -37659,7 +37828,7 @@
                 ],
                 "lockedByParent": true,
                 "name": "Slowed",
-                "value": "1"
+                "value": 1
             }
         ]
     },
@@ -38481,7 +38650,7 @@
                 "lockedByParent": true,
                 "valueLockedByParent": true,
                 "name": "Drained",
-                "value": "2"
+                "value": 2
             }
         ],
         "endConditions": [
@@ -39023,15 +39192,15 @@
         "gainConditions": [
             {
                 "name": "Slowed",
-                "value": "1"
+                "value": 1
             },
             {
                 "name": "Stunned",
-                "value": "1"
+                "value": 1
             },
             {
                 "name": "Stunned",
-                "value": "3"
+                "value": 3
             }
         ]
     },
@@ -39261,7 +39430,7 @@
         "hints": [
             {
                 "desc": "You follow the caster's suggestion until you have completed a finite suggestion or the suggestion becomes self-destructive or has other obvious negative effects.",
-                "showon": "Activities, Skills, Attacks",
+                "showon": "Activities, Skills, Attacks, Spellbook",
                 "conditionChoiceFilter": [
                     "Failure",
                     "Critical Failure"
@@ -39393,7 +39562,7 @@
                         "variable": "var1"
                     },
                     {
-                        "choice": ", but you can communicate telepathically with creatures using shared mental imagery even if you don't share a language",
+                        "value": ", but you can communicate telepathically with creatures using shared mental imagery even if you don't share a language",
                         "variable": "var2"
                     }
                 ]
@@ -40181,7 +40350,7 @@
                 "name": "Stunned",
                 "persistent": true,
                 "ignorePersistentAtChoiceChange": true,
-                "value": "1"
+                "value": 1
             }
         ]
     },
@@ -40328,7 +40497,7 @@
         "hints": [
             {
                 "desc": "You and your allies receive a +1 status bonus to your attack rolls and skill checks against the target. Anytime a good creature damages the branded creature, the good creature deals an additional |dice=var1| <var>var1</var> good damage.",
-                "showon": "Attacks, Skills",
+                "showon": "Attacks, Skills, Spellbook",
                 "effects": [
                     {
                         "affected": "Attack Rolls",
@@ -40569,7 +40738,7 @@
                 ],
                 "duration": 10,
                 "name": "Stunned",
-                "value": "9"
+                "value": 9
             },
             {
                 "duration": 5,
@@ -40746,7 +40915,7 @@
                 "name": "Slowed",
                 "persistent": true,
                 "ignorePersistentAtChoiceChange": true,
-                "value": "1"
+                "value": 1
             }
         ]
     },
@@ -41804,7 +41973,7 @@
                     "Success"
                 ],
                 "name": "Sickened",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -41814,7 +41983,7 @@
                 "name": "Sickened",
                 "persistent": true,
                 "ignorePersistentAtChoiceChange": true,
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -41824,7 +41993,7 @@
                 "name": "Sickened",
                 "persistent": true,
                 "ignorePersistentAtChoiceChange": true,
-                "value": "2"
+                "value": 2
             },
             {
                 "conditionChoiceFilter": [
@@ -41834,7 +42003,7 @@
                 "name": "Sickened",
                 "persistent": true,
                 "ignorePersistentAtChoiceChange": true,
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -41844,21 +42013,21 @@
                 "name": "Sickened",
                 "persistent": true,
                 "ignorePersistentAtChoiceChange": true,
-                "value": "2"
+                "value": 2
             },
             {
                 "conditionChoiceFilter": [
                     "Failure and on the sea"
                 ],
                 "name": "Slowed",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Critical Failure and on the sea"
                 ],
                 "name": "Slowed",
-                "value": "1"
+                "value": 1
             }
         ]
     },
@@ -42929,7 +43098,7 @@
         "hints": [
             {
                 "desc": "Each time you Sustain the Spell, you can move the spiritual guardian to an unoccupied space next to a target within range (if necessary) and make a Strike with it. The guardian uses and contributes to your multiple attack penalty. Alternatively, when you Sustain the Spell, you can have the guardian move adjacent to an ally and protect that ally. If you do, each time the ally would take damage, the guardian takes the first 10 damage instead of your ally. It continues to do so until you move the guardian to attack an enemy or defend a different ally, or until the guardian is destroyed.",
-                "showon": "Attacks, Defense"
+                "showon": "Attacks, Defense, Spellbook"
             }
         ],
         "heightenedDescs": [
@@ -43478,14 +43647,14 @@
                 ],
                 "duration": -1,
                 "name": "Stunned",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Failure"
                 ],
                 "name": "Stunned",
-                "value": "2"
+                "value": 2
             },
             {
                 "conditionChoiceFilter": [
@@ -43493,7 +43662,7 @@
                 ],
                 "duration": 10,
                 "name": "Stunned",
-                "value": "9"
+                "value": 9
             }
         ]
     },
@@ -43535,7 +43704,7 @@
             },
             {
                 "desc": "All creatures and objects are concealed to you.",
-                "showon": "Perception, Attacks"
+                "showon": "Perception, Attacks, Spellbook"
             }
         ],
         "choice": "Success or Failure",
@@ -43570,28 +43739,28 @@
                     "Success"
                 ],
                 "name": "Clumsy",
-                "value": "3"
+                "value": 3
             },
             {
                 "conditionChoiceFilter": [
                     "Failure"
                 ],
                 "name": "Clumsy",
-                "value": "3"
+                "value": 3
             },
             {
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Clumsy",
-                "value": "3"
+                "value": 3
             },
             {
                 "conditionChoiceFilter": [
                     "Critical Failure"
                 ],
                 "name": "Stunned",
-                "value": "2"
+                "value": 2
             }
         ]
     },
@@ -44001,7 +44170,7 @@
         "hints": [
             {
                 "desc": "You are partially controlled by the caster, causing you to take a single action of their choice. If you have actions left, you can act normally.",
-                "showon": "Activities, Attacks, Skills",
+                "showon": "Activities, Attacks, Skills, Spellbook",
                 "conditionChoiceFilter": [
                     "Failure (5th Level)"
                 ]
@@ -44041,7 +44210,7 @@
                 ],
                 "duration": -1,
                 "name": "Stunned",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -44049,7 +44218,7 @@
                 ],
                 "duration": -1,
                 "name": "Stunned",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -44977,7 +45146,7 @@
             },
             {
                 "desc": "You can't affect the Material Plane, and you can't be affected by the Material Plane except by force effects and abjurations originating there.",
-                "showon": "Defense, Attacks, Activities, Skills"
+                "showon": "Defense, Attacks, Activities, Skills, Spellbook"
             }
         ],
         "heightenedDescs": [
@@ -45014,7 +45183,7 @@
         "hints": [
             {
                 "desc": "You take a -2 circumstance penalty to attack rolls, AC and skill checks while on shaking ground.",
-                "showon": "Attacks, AC, Skills",
+                "showon": "Attacks, AC, Skills, Spellbook",
                 "effects": [
                     {
                         "affected": "Attack Rolls",
@@ -45773,10 +45942,6 @@
         ],
         "hints": [
             {
-                "desc": "Your attack gains the deadly d12 trait:\n\nOn a critical hit, the attack adds a |dice=d12| d12 damage. Roll this after doubling the attack's damage. An ability that changes the size of the attack's normal damage dice doesn't change the size of its deadly die.",
-                "showon": "Attacks"
-            },
-            {
                 "desc": "You ignore difficult terrain and greater difficult terrain.",
                 "showon": "Movement"
             }
@@ -45788,12 +45953,17 @@
                 "title": "'Huge'"
             },
             {
+                "affected": "Unarmed Attacks Gain Trait",
+                "title": "'Deadly d12'",
+                "toggle": true
+            },
+            {
                 "affected": "Reach",
                 "setValue": "15"
             },
             {
-                "affected": "Damage Dice Number",
-                "value": "1"
+                "affected": "Damage Dice Size",
+                "value": "2"
             },
             {
                 "affected": "Speed",
@@ -46067,21 +46237,21 @@
                     "Dead"
                 ],
                 "name": "Slowed",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Undead: Success"
                 ],
                 "name": "Slowed",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
                     "Undead: Failure"
                 ],
                 "name": "Slowed",
-                "value": "1"
+                "value": 1
             },
             {
                 "conditionChoiceFilter": [
@@ -46228,7 +46398,7 @@
                     "Failure"
                 ],
                 "name": "Slowed",
-                "value": "1"
+                "value": 1
             }
         ]
     },
@@ -46386,7 +46556,7 @@
         "hints": [
             {
                 "desc": "You don't need to succeed at a flat check to target concealed creatures. You're not flat-footed to creatures that are hidden from you (unless you're flat-footed to them for reasons other than the hidden condition), and you need only a successful DC 5 flat check to target a hidden creature.\n\nWhile you're adjacent to an undetected creature of your level or lower, it is instead only hidden from you.",
-                "showon": "Attacks, Perception"
+                "showon": "Attacks, Perception, Spellbook"
             }
         ]
     },
@@ -46504,7 +46674,7 @@
                     "Critical Failure"
                 ],
                 "name": "Slowed",
-                "value": "1"
+                "value": 1
             }
         ]
     },
@@ -46562,7 +46732,14 @@
         "hints": [
             {
                 "desc": "The weapon that the tiger menuki is affixed to gains the sweep trait for the triggering attack and all other attacks for the duration.",
-                "showon": "Attacks"
+                "showon": "Attacks",
+                "effects": [
+                    {
+                        "affected": "Weapons Gain Trait",
+                        "title": "'Sweep'",
+                        "toggle": true
+                    }
+                ]
             }
         ]
     },
@@ -46921,7 +47098,7 @@
         "hints": [
             {
                 "desc": "If you follow the issued order, you gain a +1 status bonus to attack rolls and damage rolls.",
-                "showon": "Attacks",
+                "showon": "Attacks, Spellbook",
                 "effects": [
                     {
                         "affected": "Attack Rolls",
@@ -46962,8 +47139,16 @@
         "inputRequired": "Remove the condition if you score a critical hit with the weapon or stop wielding the weapon.",
         "hints": [
             {
-                "desc": "One weapon you wield gains the deadly d12 trait. Against undead, the weapon instead gains the fatal d12 trait. This blessing lasts for 1 minute, until you score a critical hit with the weapon, or until you aren't wielding the weapon.",
-                "showon": "Attacks"
+                "desc": "One weapon you wield gains the deadly d12 trait. Against undead, the weapon instead gains the fatal d12 trait (second activation). This blessing lasts for 1 minute, until you score a critical hit with the weapon, or until you aren't wielding the weapon.",
+                "showon": "Attacks",
+                "effects": [
+                    {
+                        "affected": "Weapons Gain Trait",
+                        "title": "object.active2 ? 'Fatal d12' : 'Deadly d12'",
+                        "toggle": true
+                    }
+                ],
+                "extraActivations": 1
             }
         ]
     },

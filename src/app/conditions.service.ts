@@ -463,7 +463,7 @@ export class ConditionsService {
     }
 
     add_ConditionItem(creature: Character | AnimalCompanion, characterService: CharacterService, itemsService: ItemsService, gainItem: ItemGain, condition: Condition) {
-        let newItem: Item = itemsService.get_CleanItems()[gainItem.type].find((item: Item) => item.name.toLowerCase() == gainItem.name.toLowerCase());
+        let newItem: Item = itemsService.get_CleanItems()[gainItem.type.toLowerCase()].find((item: Item) => item.name.toLowerCase() == gainItem.name.toLowerCase());
         if (newItem) {
             if (newItem.can_Stack()) {
                 //For consumables, add the appropriate amount and don't track them.
@@ -480,15 +480,15 @@ export class ConditionsService {
     }
 
     remove_ConditionItem(creature: Character | AnimalCompanion, characterService: CharacterService, itemsService: ItemsService, gainItem: ItemGain) {
-        if (itemsService.get_Items()[gainItem.type].find((item: Item) => item.name.toLowerCase() == gainItem.name.toLowerCase())?.can_Stack()) {
-            let items: Item[] = creature.inventories[0][gainItem.type].filter((item: Item) => item.name == gainItem.name);
+        if (itemsService.get_Items()[gainItem.type.toLowerCase()].find((item: Item) => item.name.toLowerCase() == gainItem.name.toLowerCase())?.can_Stack()) {
+            let items: Item[] = creature.inventories[0][gainItem.type.toLowerCase()].filter((item: Item) => item.name == gainItem.name);
             //For consumables, remove the same amount as previously given. This is not ideal, but you can easily add more in the inventory.
             if (items.length) {
                 characterService.drop_InventoryItem(creature, creature.inventories[0], items[0], false, true, true, gainItem.amount);
             }
         } else {
             //For equipment, we have saved the ID and remove exactly that item.
-            let item: Item = creature.inventories[0][gainItem.type].find((item: Item) => item.id == gainItem.id);
+            let item: Item = creature.inventories[0][gainItem.type.toLowerCase()].find((item: Item) => item.id == gainItem.id);
             if (item) {
                 if ((item as Equipment).gainInventory && (item as Equipment).gainInventory.length) {
                     //If a temporary container is destroyed, return all contained items to the main inventory.
