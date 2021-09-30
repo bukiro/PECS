@@ -99,21 +99,17 @@
   },
   {
     "name": "Backstabber",
-    "desc": "When you hit a flat-footed creature, this weapon deals 1 precision damage in addition to its normal damage. The precision damage increases to 2 if the weapon is a +3 weapon."
+    "desc": "When you hit a flat-footed creature, this weapon deals |dice=1 Precision| 1 precision damage in addition to its normal damage. The precision damage increases to |dice=2 Precision| 2 if the weapon is a +3 weapon."
   },
   {
     "name": "Backswing",
     "desc": "You can use the momentum from a missed attack with this weapon to lead into your next attack. After missing with this weapon on your turn, you gain a +1 circumstance bonus to your next attack with this weapon before the end of your turn.",
-    "hints": [
+    "objectEffects": [
       {
-        "showon": "Attacks",
-        "effects": [
-          {
-            "affected": "Backswing Attack Rolls",
-            "value": "1",
-            "type": "circumstance"
-          }
-        ]
+        "show": true,
+        "affected": "Attack",
+        "value": "1",
+        "type": "circumstance"
       }
     ]
   },
@@ -284,7 +280,7 @@
   },
   {
     "name": "Disarm",
-    "desc": "You can use this weapon to Disarm with the Athletics skill even if you don't have a free hand. This uses the weapon's reach (if different from your own) and adds the weapon's item bonus to attack rolls (if any) as an item bonus to the Athletics check. If you critically fail a check to Disarm using the weapon, you can drop the weapon to take the effects of a failure instead of a critical failure. On a critical success, you still need a free hand if you want to take the item.",
+    "desc": "You can use this weapon to Disarm with the Athletics skill even if you don't have a free hand. This uses the weapon's reach (if different from your own) and adds the weapon's item bonus to attack rolls (if any) as an item bonus to the Athletics check. If you critically fail a check to Disarm using the weapon, you can drop the weapon to take the effects of a failure instead of a critical failure. On a critical success, you still need a free hand if you want to take the item.\n\nActivate the first level for a +1 bonus, the second level for +2 and the third for +3.",
     "hints": [
       {
         "showon": "Athletics",
@@ -392,7 +388,19 @@
   {
     "name": "Fatal",
     "desc": "The fatal trait includes a die size. On a critical hit, the weapon's damage die increases to that die size instead of the normal die size, and the weapon adds one additional damage die of the listed size.",
-    "dynamic": true
+    "dynamic": true,
+    "objectEffects": [
+      {
+        "show": true,
+        "affected": "Dice Size",
+        "setValue": "dynamicValue"
+      },
+      {
+        "show": true,
+        "affected": "Dice Number",
+        "value": "1"
+      }
+    ]
   },
   {
     "name": "Fear",
@@ -438,7 +446,16 @@
   },
   {
     "name": "Forceful",
-    "desc": "This weapon becomes more dangerous as you build momentum. When you attack with it more than once on your turn, the second attack gains a circumstance bonus to damage equal to the number of weapon damage dice, and each subsequent attack gains a circumstance bonus to damage equal to double the number of weapon damage dice."
+    "desc": "This weapon becomes more dangerous as you build momentum. When you attack with it more than once on your turn, the second attack gains a circumstance bonus to damage equal to the number of weapon damage dice, and each subsequent attack gains a circumstance bonus to damage equal to double the number of weapon damage dice.",
+    "effectDesc": "Activate the first level for the second attack and the second level for each subsequent attack.",
+    "objectEffects": [
+      {
+        "show": true,
+        "affected": "Damage per Die",
+        "value": "active2 ? 2 : 1"
+      }
+    ],
+    "extraActivations": 1
   },
   {
     "name": "Fortune",
@@ -594,7 +611,22 @@
   {
     "name": "Jousting",
     "desc": "The weapon is suited for mounted combat with a harness or similar means. When mounted, if you moved at least 10 feet on the action before your attack, add a circumstance bonus to damage for that attack equal to the number of damage dice for the weapon. In addition, while mounted, you can wield the weapon in one hand, changing the damage die to the listed value.",
-    "dynamic": true
+    "effectDesc": "Activate the first level for the damage bonus attack and the second level for wielding the weapon in one hand.",
+    "dynamic": true,
+    "objectEffects": [
+      {
+        "show": true,
+        "affected": "Damage per Die",
+        "type": "circumstance",
+        "value": "active ? 1 : 0"
+      },
+      {
+        "show": true,
+        "affected": "Dice Size",
+        "setValue": "active2 ? dynamicValue : null"
+      }
+    ],
+    "extraActivations": 1
   },
   {
     "name": "Kitsune"
@@ -752,17 +784,12 @@
   {
     "name": "Nonlethal",
     "desc": "Attacks with this weapon are nonlethal, and are used to knock creatures unconscious instead of kill them. You can use a nonlethal weapon to make a lethal attack with a -2 circumstance penalty.",
-    "hints": [
+    "objectEffects": [
       {
-        "showon": "Attacks",
-        "desc": "You can use a nonlethal weapon to make a lethal attack with a -2 circumstance penalty.",
-        "effects": [
-          {
-            "affected": "Nonlethal Attack Rolls",
-            "value": "-2",
-            "type": "circumstance"
-          }
-        ]
+        "show": true,
+        "affected": "Attack",
+        "value": "-2",
+        "type": "circumstance"
       }
     ]
   },
@@ -865,11 +892,12 @@
   {
     "name": "Range",
     "desc": "These attacks will either list a finite range or a range increment, which follows the normal rules for range increments.",
-    "dynamic": true
+    "dynamic": true,
+    "dynamicDefault": 10
   },
   {
     "name": "Ranged Trip",
-    "desc": "This weapon can be used to Trip with the Athletics skill at a distance up to the weapon's first range increment. The skill check takes a -2 circumstance penalty. You can add the weapon's item bonus to attack rolls as a bonus to the check. (Add the second effect for +2 and the third for +3.) As with using a melee weapon to trip, a ranged trip doesn't deal any damage when used to Trip. This trait usually only appears on a thrown weapon.",
+    "desc": "This weapon can be used to Trip with the Athletics skill at a distance up to the weapon's first range increment. The skill check takes a -2 circumstance penalty. You can add the weapon's item bonus to attack rolls as a bonus to the check. As with using a melee weapon to trip, a ranged trip doesn't deal any damage when used to Trip. This trait usually only appears on a thrown weapon.\n\nActivate the first level for a +1 bonus, the second level for +2 and the third for +3.",
     "hints": [
       {
         "showon": "Athletics",
@@ -903,7 +931,8 @@
   {
     "name": "Reach",
     "desc": "Natural attacks with this trait can be used to attack creatures up to the listed distance away instead of only adjacent creatures. Weapons with this trait are long and can be used to attack creatures up to 10 feet away instead of only adjacent creatures. For creatures that already have reach with the limb or limbs that wield the weapon, the weapon increases their reach by 5 feet.",
-    "dynamic": true
+    "dynamic": true,
+    "dynamicDefault": 10
   },
   {
     "name": "Reckless"
@@ -948,7 +977,7 @@
   },
   {
     "name": "Shove",
-    "desc": "You can use this weapon to Shove with the Athletics skill even if you don't have a free hand. This uses the weapon's reach (if different from your own) and adds the weapon's item bonus to attack rolls as an item bonus to the Athletics check. (Add the second effect for +2 and the third for +3.) If you critically fail a check to Shove using the weapon, you can drop the weapon to take the effects of a failure instead of a critical failure.",
+    "desc": "You can use this weapon to Shove with the Athletics skill even if you don't have a free hand. This uses the weapon's reach (if different from your own) and adds the weapon's item bonus to attack rolls as an item bonus to the Athletics check. If you critically fail a check to Shove using the weapon, you can drop the weapon to take the effects of a failure instead of a critical failure.\n\nActivate the first level for a +1 bonus, the second level for +2 and the third for +3.",
     "hints": [
       {
         "showon": "Athletics",
@@ -1030,16 +1059,12 @@
   {
     "name": "Sweep",
     "desc": "This weapon makes wide sweeping or spinning attacks, making it easier to attack multiple enemies. When you attack with this weapon, you gain a +1 circumstance bonus to your attack roll if you already attempted to attack a different target this turn using this weapon.",
-    "hints": [
+    "objectEffects": [
       {
-        "showon": "Attacks",
-        "effects": [
-          {
-            "affected": "Sweep Attack Rolls",
-            "value": "1",
-            "type": "circumstance"
-          }
-        ]
+        "show": true,
+        "affected": "Attack",
+        "value": "1",
+        "type": "circumstance"
       }
     ]
   },
@@ -1063,7 +1088,8 @@
   {
     "name": "Thrown",
     "desc": "You can throw this weapon as a ranged attack, and it is a ranged weapon when thrown. A thrown weapon adds your Strength modifier to damage just like a melee weapon does. When this trait appears on a melee weapon, it also includes the range increment. Ranged weapons with this trait use the range increment specified in the weapon's Range entry.",
-    "dynamic": true
+    "dynamic": true,
+    "dynamicDefault": 10
   },
   {
     "name": "Tiefling"
@@ -1086,7 +1112,7 @@
   },
   {
     "name": "Trip",
-    "desc": "You can use this weapon to Trip with the Athletics skill even if you don't have a free hand. This uses the weapon's reach (if different from your own) and adds the weapon's item bonus to attack rolls as an item bonus to the Athletics check. (Add the second effect for +2 and the third for +3.) If you critically fail a check to Trip using the weapon, you can drop the weapon to take the effects of a failure instead of a critical failure.",
+    "desc": "You can use this weapon to Trip with the Athletics skill even if you don't have a free hand. This uses the weapon's reach (if different from your own) and adds the weapon's item bonus to attack rolls as an item bonus to the Athletics check. If you critically fail a check to Trip using the weapon, you can drop the weapon to take the effects of a failure instead of a critical failure.\n\nActivate the first level for a +1 bonus, the second level for +2 and the third for +3.",
     "hints": [
       {
         "showon": "Athletics",
@@ -1107,24 +1133,25 @@
   {
     "name": "Twin",
     "desc": "These weapons are used as a pair, complementing each other. When you attack with a twin weapon, you add a circumstance bonus to the damage roll equal to the weapon's number of damage dice if you have previously attacked with a different weapon of the same type this turn. The weapons must be of the same type to benefit from this trait, but they don't need to have the same runes.",
-    "hints": [
+    "objectEffects": [
       {
-        "desc": "When you attack with a twin weapon, you add a circumstance bonus to the damage roll equal to the weapon's number of damage dice if you have previously attacked with a different weapon of the same type this turn. The weapons must be of the same type to benefit from this trait, but they don't need to have the same runes.",
-        "showon": "Attacks",
-        "effects": [
-          {
-            "affected": "Twin Damage per Die",
-            "value": "1",
-            "type": "circumstance"
-          }
-        ]
+        "show": true,
+        "affected": "Damage per Die",
+        "value": "1"
       }
     ]
   },
   {
     "name": "Two-Hand",
     "desc": "This weapon can be wielded with two hands. Doing so changes its weapon damage die to the indicated value. This change applies to all the weapon's damage dice, such as those from striking runes.",
-    "dynamic": true
+    "dynamic": true,
+    "objectEffects": [
+      {
+        "show": true,
+        "affected": "Dice Size",
+        "value": "dynamicValue"
+      }
+    ]
   },
   {
     "name": "Unarmed",
@@ -1168,17 +1195,14 @@
     "name": "Volley",
     "desc": "This ranged weapon is less effective at close distances. Your attacks against targets that are at a distance within the range listed take a -2 penalty.",
     "dynamic": true,
-    "hints": [
+    "objectEffects": [
       {
-        "showon": "Attacks",
-        "effects": [
-          {
-            "affected": "Volley Attack Rolls",
-            "value": "-2"
-          }
-        ]
+        "show": true,
+        "affected": "Attack",
+        "value": "-2"
       }
-    ]
+    ],
+    "dynamicDefault": 30
   },
   {
     "name": "Wand"

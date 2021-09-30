@@ -69,6 +69,8 @@ export class Item {
     public traits: string[] = [];
     //Some items may recalculate their traits and store them here temporarily for easier access.
     public _traits: string[] = [];
+    //Items can store whether they have activated effects on any of their hints here.
+    public traitActivations: { trait: string, active: boolean, active2: boolean, active3: boolean }[] = [];
     //Type of item - very important. Must be set by the specific Item class and decides which database is searched for the item
     public type: string;
     //For items with the same id (from different source files for example), higher overridePriority wins. If two have the same priority, the first in the list wins.
@@ -79,6 +81,15 @@ export class Item {
         //Some types of items have more complicated methods of determining traits, and need characterService and creature in the function.
         this._traits = this.traits;
         return this._traits;
+    }
+    cleanup_TraitActivations() {
+        this.traitActivations = this.traitActivations.filter(activation => this._traits.includes(activation.trait));
+        this._traits.filter(trait => !this.traitActivations.some(activation => activation.trait == trait)).forEach(trait => {
+            this.traitActivations.push({ trait: trait, active: false, active2: false, active3: false });
+        })
+    }
+    get_ActivatedTraits() {
+        return this.traitActivations.filter(activation => activation.active || activation.active2 || activation.active3);
     }
     get_Bulk() {
         //Return either the bulk set by an oil, or else the actual bulk of the item.

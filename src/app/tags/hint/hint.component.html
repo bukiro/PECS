@@ -45,21 +45,22 @@
                     {{hint.replaceTitle || description}}{{get_HintChoice(hint)}}
                 </span>
             </span>
-            <input type="checkbox" [(ngModel)]="hint.active" (ngModelChange)="on_ActivateEffect()"
-                *ngIf="hint.effects && hint.effects.length" [ngbTooltip]="'Activate any effects of this hint.'"
-                triggers="hover">
-            <input type="checkbox" [(ngModel)]="hint.active2" (ngModelChange)="on_ActivateEffect()"
-                *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 0"
-                [ngbTooltip]="'Activate the second level of this hint\'s effects.'" triggers="hover">
-            <input type="checkbox" [(ngModel)]="hint.active3" (ngModelChange)="on_ActivateEffect()"
-                *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 1"
-                [ngbTooltip]="'Activate the third level of this hint\'s effects.'" triggers="hover">
-            <input type="checkbox" [(ngModel)]="hint.active4" (ngModelChange)="on_ActivateEffect()"
-                *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 2"
-                [ngbTooltip]="'Activate the fourth level of this hint\'s effects.'" triggers="hover">
-            <input type="checkbox" [(ngModel)]="hint.active5" (ngModelChange)="on_ActivateEffect()"
-                *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 3"
-                [ngbTooltip]="'Activate the fifth level of this hint\'s effects.'" triggers="hover">
+            <ng-container *ngIf="hint.effects && hint.effects.length">
+                <input type="checkbox" [(ngModel)]="hint.active" (ngModelChange)="on_ActivateEffect()"
+                    [ngbTooltip]="'Activate any effects of this hint.'" triggers="hover">
+                <input type="checkbox" [(ngModel)]="hint.active2" (ngModelChange)="on_ActivateEffect()"
+                    *ngIf="hint.extraActivations > 0"
+                    [ngbTooltip]="'Activate the second level of this hint\'s effects.'" triggers="hover">
+                <input type="checkbox" [(ngModel)]="hint.active3" (ngModelChange)="on_ActivateEffect()"
+                    *ngIf="hint.extraActivations > 1" [ngbTooltip]="'Activate the third level of this hint\'s effects.'"
+                    triggers="hover">
+                <input type="checkbox" [(ngModel)]="hint.active4" (ngModelChange)="on_ActivateEffect()"
+                    *ngIf="hint.extraActivations > 2"
+                    [ngbTooltip]="'Activate the fourth level of this hint\'s effects.'" triggers="hover">
+                <input type="checkbox" [(ngModel)]="hint.active5" (ngModelChange)="on_ActivateEffect()"
+                    *ngIf="hint.extraActivations > 3" [ngbTooltip]="'Activate the fifth level of this hint\'s effects.'"
+                    triggers="hover">
+            </ng-container>
         </cite>
     </ng-container>
 </ng-container>

@@ -5,6 +5,7 @@ import * as json_traits from '../assets/json/traits';
 import { Creature } from './Creature';
 import { Hint } from './Hint';
 import { ExtensionsService } from './extensions.service';
+import { EffectGain } from './EffectGain';
 
 @Injectable({
     providedIn: 'root'
@@ -123,6 +124,7 @@ export class TraitsService {
         });
         this.traits.forEach(trait => {
             trait.hints = trait.hints.map(hint => Object.assign(new Hint(), hint));
+            trait.objectEffects = trait.objectEffects.map(hint => Object.assign(new EffectGain(), hint));
         });
         this.traits = this.extensionsService.cleanup_Duplicates(this.traits, "name", "traits");
     }

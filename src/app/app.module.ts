@@ -76,9 +76,10 @@ import { ItemContentComponent } from './item/itemContent/itemContent.component';
 import { HintItemComponent } from './tags/hint/hintItem/hintItem.component';
 import { SpellContentComponent } from './spell/spellContent/spellContent.component';
 import { ItemEmblazonArmamentComponent } from './item/itemEmblazonArmament/itemEmblazonArmament.component';
+import { TraitComponent } from './trait/trait.component';
 
 @NgModule({
-   declarations: [						 
+   declarations: [								 
       AppComponent,
       AbilitiesComponent,
       TopBarComponent,
@@ -144,7 +145,9 @@ import { ItemEmblazonArmamentComponent } from './item/itemEmblazonArmament/itemE
       ItemContentComponent,
       HintItemComponent,
       SpellContentComponent,
-      ItemEmblazonArmamentComponent
+      ItemEmblazonArmamentComponent,
+      TraitComponent,
+      TraitComponent
    ],
    imports: [
       CommonModule,

@@ -492,8 +492,17 @@ export class Weapon extends Equipment {
         if (!traits.includes("Agile")) {
             namesList.push("Non-Agile Attack Rolls");
         }
+        //For any activated traits of this weapon, check if any effects on Attack apply. These need to be calculated in the effects service.
+        let traitEffects: Effect[] = [];
+        this.get_ActivatedTraits().forEach(activation => {
+            let realTrait = characterService.traitsService.get_Traits(activation.trait)[0];
+            traitEffects.push(...realTrait.get_ObjectEffects(activation, ["Attack"]));
+        })
         //Add absolute effects
-        effectsService.get_AbsolutesOnThese(creature, namesList)
+        effectsService.get_TypeFilteredEffects(
+            traitEffects.filter(effect => effect.setValue)
+                .concat(effectsService.get_AbsolutesOnThese(creature, namesList)
+                ), true)
             .forEach(effect => {
                 if (effect.show) {
                     absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false, type: effect.type });
@@ -539,6 +548,7 @@ export class Weapon extends Equipment {
         //Because of the Potency and Shoddy Effects, we need to filter the types a second time, even though get_RelativesOnThese comes pre-filtered.
         effectsService.get_TypeFilteredEffects(
             calculatedEffects
+                .concat(traitEffects.filter(effect => effect.value != "0"))
                 .concat(effectsService.get_RelativesOnThese(creature, namesList)
                 ), false)
             .forEach(effect => {
@@ -741,7 +751,7 @@ export class Weapon extends Equipment {
                 prof.split(" ")[0] + this.weaponBase + " Dice Number"
             ]
             //Add the striking rune or oil of potency effect of the runeSource.
-            //Only apply and explain Striking if it's actually better than your multiplied dice size.
+            //Only apply and explain Striking if it's actually better than your multiplied dice number.
             if (runeSource[0].get_StrikingRune() + 1 > dicenum) {
                 let source = runeSource[0].get_Striking(runeSource[0].get_StrikingRune());
                 //If you're getting the striking effect because of another item (like Doubling Rings), name it here
@@ -750,8 +760,15 @@ export class Weapon extends Equipment {
                 }
                 calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Number", "", (1 + runeSource[0].get_StrikingRune()).toString(), false, "", source, false, true, false, 0))
             }
+            //For any activated traits of this weapon, check if any effects on Dice Number apply. These need to be calculated in the effects service.
+            let traitEffects = [];
+            this.get_ActivatedTraits().forEach(activation => {
+                let realTrait = characterService.traitsService.get_Traits(activation.trait)[0];
+                traitEffects.push(...realTrait.get_ObjectEffects(activation, ["Dice Number"]));
+            })
             effectsService.get_TypeFilteredEffects(
                 calculatedEffects
+                    .concat(traitEffects.filter(effect => effect.setValue))
                     .concat(effectsService.get_AbsolutesOnThese(creature, namesList)
                     ), true)
                 .forEach(effect => {
@@ -768,6 +785,7 @@ export class Weapon extends Equipment {
             }
             effectsService.get_TypeFilteredEffects(
                 calculatedEffects
+                    .concat(traitEffects.filter(effect => effect.value != "0"))
                     .concat(effectsService.get_RelativesOnThese(creature, namesList)
                     ), false)
                 .forEach(effect => {
@@ -813,6 +831,12 @@ export class Weapon extends Equipment {
                     }
                 })
             }
+            //For any activated traits of this weapon, check if any effects on Dice Size apply. These need to be calculated in the effects service.
+            let traitEffects = [];
+            this.get_ActivatedTraits().forEach(activation => {
+                let realTrait = characterService.traitsService.get_Traits(activation.trait)[0];
+                traitEffects.push(...realTrait.get_ObjectEffects(activation, ["Dice Size"]));
+            })
             //Apply dice size effects.
             namesList = [
                 "Dice Size",
@@ -835,18 +859,23 @@ export class Weapon extends Equipment {
             ]
             effectsService.get_TypeFilteredEffects(
                 calculatedEffects
+                    .concat(traitEffects.filter(effect => effect.setValue))
                     .concat(effectsService.get_AbsolutesOnThese(creature, namesList)
                     ), true)
                 .forEach(effect => {
                     dicesize = parseInt(effect.setValue);
                     diceExplain += "\n" + effect.source + ": Dice size d" + dicesize;
                 })
-            effectsService.get_RelativesOnThese(creature, namesList).forEach(effect => {
-                dicesize += parseInt(effect.value);
-                //Don't raise dice size over 12.
-                dicesize = Math.min(12, dicesize);
-                diceExplain += "\n" + effect.source + ": Dice size d" + dicesize;
-            })
+            effectsService.get_TypeFilteredEffects(
+                traitEffects.filter(effect => effect.value != "0")
+                    .concat(effectsService.get_RelativesOnThese(creature, namesList)
+                    ), false)
+                .forEach(effect => {
+                    dicesize += parseInt(effect.value);
+                    //Don't raise dice size over 12.
+                    dicesize = Math.min(12, dicesize);
+                    diceExplain += "\n" + effect.source + ": Dice size d" + dicesize;
+                })
         }
         //Get the basic "#d#" string from the weapon's dice values, unless dicenum is 0 or null (for instance some weapons deal exactly 1 base damage, which is represented by 0d1).
         // In that case, add the damage to the damage bonus and ignore the #d# string.
@@ -860,72 +889,75 @@ export class Weapon extends Equipment {
             }
         };
         //Decide whether this weapon uses strength or dexterity (modifier, bonuses and penalties).
-        //First, calculate dexterity and strength penalties to see which would be more beneficial. They are not immediately applied.
         let calculatedEffects: Effect[] = [];
         let strUsed: boolean = false;
         let dexUsed: boolean = false;
         let abilityReason: string = "";
-        //Check if the Weapon has any traits that affect its damage Bonus, such as Thrown or Propulsive, and run those calculations.
-        let abilityMod: number = 0;
-        if (range == "ranged") {
-            if (traits.includes("Propulsive")) {
-                if (str > 0) {
-                    abilityMod = Math.floor(str / 2);
-                    abilityReason = "Propulsive";
-                    strUsed = true;
-                } else if (str < 0) {
+        //Weapons with the Splash trait do not add your Strength modifier (and presumably not your Dexterity modifier, either).
+        if (!traits.includes("Splash")) {
+            let abilityMod: number = 0;
+            //First, calculate dexterity and strength penalties to see which would be more beneficial. They are not immediately applied.
+            //Check if the Weapon has any traits that affect its damage Bonus, such as Thrown or Propulsive, and run those calculations.
+            if (range == "ranged") {
+                if (traits.includes("Propulsive")) {
+                    if (str > 0) {
+                        abilityMod = Math.floor(str / 2);
+                        abilityReason = "Propulsive";
+                        strUsed = true;
+                    } else if (str < 0) {
+                        abilityMod = str;
+                        abilityReason = "Propulsive";
+                        strUsed = true;
+                    }
+                } else if (traits.some(trait => trait.includes("Thrown"))) {
                     abilityMod = str;
-                    abilityReason = "Propulsive";
+                    abilityReason += "Thrown";
                     strUsed = true;
                 }
-            } else if (traits.some(trait => trait.includes("Thrown"))) {
-                abilityMod = str;
-                abilityReason += "Thrown";
-                strUsed = true;
-            }
-        } else {
-            //If the weapon is Finesse and you have the Thief Racket, you apply your Dexterity modifier to damage if it is higher.
-            if (traits.includes("Finesse") &&
-                creature.type == "Character" &&
-                characterService.get_CharacterFeatsTaken(1, creature.level, "Thief Racket").length) {
-                //Check if dex or str would give you more damage by comparing your modifiers and any penalties and bonuses.
-                //The Enfeebled condition affects all Strength damage
-                let strEffects = effectsService.get_RelativesOnThis(creature, "Strength-based Checks and DCs");
-                let strPenaltySum: number = 0;
-                strEffects.forEach(effect => {
-                    strPenaltySum += parseInt(effect.value);
-                });
-                //The Clumsy condition affects all Dexterity damage
-                let dexEffects = effectsService.get_RelativesOnThis(creature, "Dexterity-based Checks and DCs");
-                let dexPenaltySum: number = 0;
-                dexEffects.forEach(effect => {
-                    dexPenaltySum += parseInt(effect.value);
-                });
-                if ((dex + dexPenaltySum) > (str + strPenaltySum)) {
-                    abilityMod = dex;
-                    abilityReason += "Thief";
-                    dexUsed = true;
+            } else {
+                //If the weapon is Finesse and you have the Thief Racket, you apply your Dexterity modifier to damage if it is higher.
+                if (traits.includes("Finesse") &&
+                    creature.type == "Character" &&
+                    characterService.get_CharacterFeatsTaken(1, creature.level, "Thief Racket").length) {
+                    //Check if dex or str would give you more damage by comparing your modifiers and any penalties and bonuses.
+                    //The Enfeebled condition affects all Strength damage
+                    let strEffects = effectsService.get_RelativesOnThis(creature, "Strength-based Checks and DCs");
+                    let strPenaltySum: number = 0;
+                    strEffects.forEach(effect => {
+                        strPenaltySum += parseInt(effect.value);
+                    });
+                    //The Clumsy condition affects all Dexterity damage
+                    let dexEffects = effectsService.get_RelativesOnThis(creature, "Dexterity-based Checks and DCs");
+                    let dexPenaltySum: number = 0;
+                    dexEffects.forEach(effect => {
+                        dexPenaltySum += parseInt(effect.value);
+                    });
+                    if ((dex + dexPenaltySum) > (str + strPenaltySum)) {
+                        abilityMod = dex;
+                        abilityReason += "Thief";
+                        dexUsed = true;
+                    } else {
+                        abilityMod = str;
+                        strUsed = true;
+                    }
                 } else {
                     abilityMod = str;
                     strUsed = true;
                 }
-            } else {
-                abilityMod = str;
-                strUsed = true;
             }
-        }
-        if (abilityMod) {
-            let abilitySource: string = ""
-            if (strUsed) {
-                abilitySource = "Strength Modifier";
+            if (abilityMod) {
+                let abilitySource: string = ""
+                if (strUsed) {
+                    abilitySource = "Strength Modifier";
+                }
+                if (dexUsed) {
+                    abilitySource = "Dexterity Modifier";
+                }
+                if (abilityReason) {
+                    abilitySource += " (" + abilityReason + ")"
+                }
+                calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Damage", abilityMod.toString(), "", false, "", abilitySource, false, true, false, 0))
             }
-            if (dexUsed) {
-                abilitySource = "Dexterity Modifier";
-            }
-            if (abilityReason) {
-                abilitySource += " (" + abilityReason + ")"
-            }
-            calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Damage", abilityMod.toString(), "", false, "", abilitySource, false, true, false, 0))
         }
         //Mature and Specialized Companions add extra Damage to their attacks.
         if (creature instanceof AnimalCompanion) {
@@ -1038,6 +1070,12 @@ export class Weapon extends Equipment {
                     break;
             }
             //Pre-create Effects based on "Damage per Die" effects.
+            //For any activated traits of this weapon, check if any effects on Dice Size apply. These need to be calculated in the effects service.
+            let traitEffects = [];
+            this.get_ActivatedTraits().forEach(activation => {
+                let realTrait = characterService.traitsService.get_Traits(activation.trait)[0];
+                traitEffects.push(...realTrait.get_ObjectEffects(activation, ["Damage per Die"]));
+            })
             let perDieList: string[] = [];
             if (this.prof == "Unarmed Attacks") {
                 perDieList.push("Unarmed Damage per Die");
@@ -1051,13 +1089,16 @@ export class Weapon extends Equipment {
                     perDieList.push(trait + " Damage per Die");
                 }
             })
-            effectsService.get_RelativesOnThese(creature, perDieList).forEach(effect => {
-                let effectBonus = parseInt(effect.value) * dicenum;
-                let newEffect = Object.assign(new Effect(), JSON.parse(JSON.stringify(effect)));
-                newEffect.target = newEffect.target.replace(" per Die", "");
-                newEffect.value = effectBonus.toString();
-                calculatedEffects.push(newEffect);
-            })
+            //All "...Damage per Die" effects are converted to just "...Damage" (by multiplying with the dice number) and then re-processed with the rest of the damage effects.
+            traitEffects.filter(effect => effect.value != "0")
+                .concat(effectsService.get_RelativesOnThese(creature, perDieList))
+                .forEach(effect => {
+                    let effectBonus = parseInt(effect.value) * dicenum;
+                    let newEffect = Object.assign(new Effect(), JSON.parse(JSON.stringify(effect)));
+                    newEffect.target = newEffect.target.replace(" per Die", "");
+                    newEffect.value = effectBonus.toString();
+                    calculatedEffects.push(newEffect);
+                })
             //Now collect and apply the type-filtered effects on this weapon's damage, including the pregenerated ones.
             effectsService.get_TypeFilteredEffects(
                 calculatedEffects
@@ -1071,13 +1112,8 @@ export class Weapon extends Equipment {
                             bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
                         }
                     }
-                    if (effect.target.toLowerCase().includes("damage per die")) {
-                        effectBonus += parseInt(effect.value) * dicenum;
-                        bonusExplain += "\n" + effect.source + ": Damage " + ((parseInt(effect.value) * dicenum) >= 0 ? "+" : "") + (parseInt(effect.value) * dicenum);
-                    } else {
-                        effectBonus += parseInt(effect.value);
-                        bonusExplain += "\n" + effect.source + ": Damage " + (parseInt(effect.value) >= 0 ? "+" : "") + parseInt(effect.value);
-                    }
+                    effectBonus += parseInt(effect.value);
+                    bonusExplain += "\n" + effect.source + ": Damage " + (parseInt(effect.value) >= 0 ? "+" : "") + parseInt(effect.value);
                 })
             dmgBonus += effectBonus;
         };

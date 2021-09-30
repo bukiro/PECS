@@ -155,10 +155,9 @@
                 <ng-container *ngFor="let traits of [weapon._traits]; trackBy:trackByIndex;">
                     <div class="fullsize-only newrow left-aligned tags" *ngIf="traits.length">
                         <ng-container *ngFor="let trait of traits; trackBy:trackByIndex;">
-                            <cite class="trait" *ngFor="let realTrait of get_Traits(trait); trackBy:trackByIndex;"
-                                [ngbPopover]="realTrait.desc">
-                                {{trait}}
-                            </cite>
+                            <ng-container *ngFor="let realTrait of get_Traits(trait); trackBy:trackByIndex;">
+                                <app-trait [trait]="realTrait" [object]="weapon" [name]="trait" [creature]="creature"></app-trait>
+                            </ng-container>
                         </ng-container>
                     </div>
                 </ng-container>

@@ -535,7 +535,7 @@ export class EffectsService {
         //This statement is eval'd here. The statement can use the above functions to check level, skills, abilities etc., but also access a lot of information via characterService.
         //If an effect is resonant, the object needs to be a slotted aeon stone.
         object.effects.filter((effect: EffectGain) => effect.resonant ? object.isSlottedAeonStone : true).forEach((effect: EffectGain) => {
-            let show: boolean = false;
+            let show: boolean = effect.show;
             let type: string = "untyped";
             let penalty: boolean = false;
             let value: string = "0";
@@ -592,8 +592,7 @@ export class EffectsService {
                 };
             }
             //Hide all relative effects that come from feats, so we don't see green effects permanently after taking a feat.
-            show = effect.show;
-            if (effect.show == undefined && object instanceof Feat) {
+            if (show == undefined && object instanceof Feat) {
                 show = false;
             }
             if (source == "Custom Effect") {
