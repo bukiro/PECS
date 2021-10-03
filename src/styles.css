@@ -75,12 +75,12 @@ CLASSIC ELEMENTS
 
 a {
     cursor: pointer;
-    color: #465A8C;
-    color: rgb(var(--accent));
-    text-decoration: none;
+    color: inherit;
+    text-decoration: underline;
 }
 
 a:hover {
+    color: inherit;
     opacity: 0.8;
 }
 

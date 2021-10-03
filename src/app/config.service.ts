@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Md5 } from 'ts-md5';
 import { CharacterService } from './character.service';
 import { SavegameService } from './savegame.service';
+import { default as package_json } from 'package.json';
 
 @Injectable({
     providedIn: 'root'
@@ -17,6 +18,8 @@ export class ConfigService {
     private loggedIn: boolean = false;
     private cannotLogin: boolean = false;
     private loggedOutMessage: string = "";
+    private updateAvailable: string = "";
+    private updateURL: string = "http://api.github.com/repos/bukiro/PECS/releases/latest";
 
     constructor(
         private httpClient: HttpClient
@@ -56,6 +59,10 @@ export class ConfigService {
         } else {
             return "";
         }
+    }
+
+    get_UpdateAvailable() {
+        return this.updateAvailable;
     }
 
     login(password: string = "") {
@@ -148,6 +155,27 @@ export class ConfigService {
                         throw err;
                     }
                     this.loading = false;
+                })
+            this.httpClient.get(this.updateURL)
+                .toPromise()
+                .then((response) => {
+                    let cvs = package_json.version.split(".").map(version => parseInt(version));
+                    let availableVersion = JSON.parse(JSON.stringify(response)).tag_name?.replace("v", "") || "n/a";
+                    if (availableVersion != "n/a") {
+                        let avs = availableVersion.split(".").map(version => parseInt(version));
+                        if (avs[0] > cvs[0] || (avs[0] == cvs[0] && avs[1] > cvs[1]) || (avs[0] == cvs[0] && avs[1] == cvs[1] && avs[2] > cvs[2])) {
+                            this.updateAvailable = availableVersion;
+                        }
+                    } else {
+                        this.updateAvailable = availableVersion;
+                    }
+                }).catch(err => {
+                    if (err.status == 404) {
+                        console.log("Could not contact github to check for new version.")
+                    } else {
+                        throw err;
+                    }
+                    this.updateAvailable = "n/a";
                 })
         }
     }

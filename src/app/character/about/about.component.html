@@ -4,6 +4,13 @@
         you to build your character according to the rules and options in PFRPG 2e and then use that character in play.
     </p>
 </div>
+<ng-container *ngFor="let updateAvailable of get_UpdateAvailable(); trackBy:trackByIndex">
+    <div class="list-item newrow center-aligned" *ngIf="updateAvailable.available">
+        <a *ngIf="updateAvailable.desc != 'n/a'" href='https://github.com/bukiro/PECS/releases/latest' target="_blank"
+            rel="noreferrer noopener">{{updateAvailable.desc}}</a>
+        <span *ngIf="updateAvailable.desc == 'n/a'">{{updateAvailable.desc}}</span>
+    </div>
+</ng-container>
 <div class="newrow list-item left-aligned lower" *ngIf="version">
     <header class="spellHeader">
         New in version

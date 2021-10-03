@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import welcome from '../../../assets/json/about/welcome.json';
 import hints from '../../../assets/json/about/hints.json';
 import changelog from '../../../assets/json/about/changelog.json';
+import { ConfigService } from 'src/app/config.service';
 
 @Component({
     selector: 'app-about',
@@ -16,7 +17,9 @@ export class AboutComponent implements OnInit {
     hints: { header: string, desc: string, images: string[] }[] = hints;
     changelog: { version: string, changes: { desc: string, images: string[] }[] }[] = changelog;
 
-    constructor() { }
+    constructor(
+        private configService: ConfigService
+    ) { }
 
     trackByIndex(index: number, obj: any): any {
         return index;
@@ -24,6 +27,17 @@ export class AboutComponent implements OnInit {
 
     get_VersionShown() {
         return this.changelog.find(versionChange => versionChange.version == this.version);
+    }
+
+    get_UpdateAvailable() {
+        let updateAvailable = this.configService.get_UpdateAvailable();
+        if (updateAvailable == "n/a") {
+            return [{ available: false, desc: "PECS was unable to check for new versions." }];
+        } else if (updateAvailable) {
+            return [{ available: true, desc: "Version " + updateAvailable + " is available for download!" }];
+        } else {
+            return [{ available: false, desc: "" }];
+        }
     }
 
     ngOnInit() {

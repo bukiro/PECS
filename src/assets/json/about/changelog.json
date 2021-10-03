@@ -59,7 +59,7 @@
         "changes": [
             {
                 "header": "Standalone executable released",
-                "desc": "PECS is now proudly available as an executable package from <a style='color: inherit' href='https://github.com/bukiro/PECS/releases'>https://github.com/bukiro/PECS/releases</a>.\nThe included executables can be run on Windows and Linux, must be configured in a config file, and does not require node.js to be installed.\nThe release still needs to connect to a data service for content.",
+                "desc": "PECS is now proudly available as an executable package from <a href='https://github.com/bukiro/PECS/releases' target='_blank' rel='noreferrer noopener'>https://github.com/bukiro/PECS/releases</a>.\nThe included executables can be run on Windows and Linux, must be configured in a config file, and does not require node.js to be installed.\nThe release still needs to connect to a data service for content.",
                 "images": []
             }
         ]
