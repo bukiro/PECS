@@ -1,0 +1,10 @@
+[
+    {
+        "header": "Building a Character",
+        "desc": "Creating your character happens here, in the <strong>character</strong> menu. PECS starts up with a new character, and you can begin creation right away by giving them a name, alignment and class. More options will be unlocked from that point on. PECS will only show you those options that are available to your class, your ancestry, and sometimes your alignment. In later stages, you may learn spells in the <strong>spell library</strong> and prepare them in the <strong>spellbook</strong> menu, as well as equip yourself in the <strong>items</strong> menu, where you can also learn recipes for crafting. Don't forget to save your character - it is never saved automatically, giving you more freedom to experiment."
+    },
+    {
+        "header": "Playing Pathfinder with PECS",
+        "desc": "When you are ready to play, close the character menu and you will find yourself on the <strong>character sheet</strong>. Here you have an overview of your statistics and abilities. You can leave it at that and use a pen and paper for playing, or you can make live changes to your character, such as changing hit points, casting spells, using actions and actitivites, and equipping, investing and consuming items. Everything is designed to apply the appropriate effects to your character where possible. You can also manually add all sorts of conditions in the <strong>conditions</strong> menu, for example when an enemy has affected your character with a harmful spell."
+    }
+]

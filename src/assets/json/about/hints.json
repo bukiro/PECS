@@ -1,0 +1,31 @@
+[
+    {
+        "header": "Exploring the settings",
+        "desc": "Other than changing your personal color accent and toggling dark mode, the settings can also fine-tune a lot of the behavior of PECS to match different player's preferences. For example, you can change whether feat choices display feat that you can't take, or whether you get conditions from casting spells that don't affect you. You can toggle automatic checks for any effects your party members may have sent you, and you can even enable a manual mode that prevents all automatic status changes and allows you to finely control your stats.",
+        "images": [
+            "settings.png"
+        ]
+    },
+    {
+        "header": "Toggling tile mode and compact view",
+        "desc": "Many areas of PECS have one or two of buttons shown below in the top-right corner. The first button toggles between tile mode and list mode - tile mode can give you better overview over your spells or items, while list mode makes it easier to find one. Compact view hides any information that you don't immediately need, such as info tags and skills that have the default value. This makes it easier to find your stats quickly, but remove a lot of control and detail.",
+        "images": [
+            "compactView.png",
+            "tileMode.png"
+        ]
+    },
+    {
+        "header": "Quick bonuses and penalties",
+        "desc": "You can always add status effects via conditions or create complex custom effects in the <strong>conditions</strong> menu to your heart's content - but a lot of statistics actually let you change them much more quickly by clicking the little lightning icon next to their name. Just enter a value, and optionally a source for the bonus or penalty, and it will apply right away (or rather, as soon as you click outside the number field).",
+        "images": [
+            "quickEffects.png"
+        ]
+    },
+    {
+        "header": "Adding bonus feats, skills and abilities",
+        "desc": "Ever want to give your character a little something extra? Perhaps a deity is granting your them a boon, or your campaign just starts with a few more skill inreases? You will find a small badge icon next to every level header in the <strong>character</strong> menu. Just click it, and you can add all sorts of free boosts, increases and feat choices.",
+        "images": [
+            "addingBonuses.png"
+        ]
+    }
+]

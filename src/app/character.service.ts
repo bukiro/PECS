@@ -68,7 +68,6 @@ import { ConditionSet } from './ConditionSet';
 import { ExtensionsService } from './extensions.service';
 import { AnimalCompanionAncestry } from './AnimalCompanionAncestry';
 import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
-import { dependenciesFromGlobalMetadata } from '@angular/compiler/src/render3/r3_factory';
 import { FeatTaken } from './FeatTaken';
 
 @Injectable({
@@ -86,6 +85,7 @@ export class CharacterService {
     private changed: BehaviorSubject<string> = new BehaviorSubject<string>("");
     private viewChanged: BehaviorSubject<{ creature: string, target: string, subtarget: string }> = new BehaviorSubject<{ creature: string, target: string, subtarget: string }>({ target: "", creature: "", subtarget: "" });
     private firstTime: boolean = true;
+    private loadingStatus: string = "Loading";
 
     itemsMenuState: string = 'out';
     itemsMenuTarget: string = 'Character';
@@ -137,6 +137,14 @@ export class CharacterService {
 
     still_loading() {
         return this.loading;
+    }
+
+    get_LoadingStatus() {
+        return this.loadingStatus;
+    }
+
+    set_LoadingStatus(status: string) {
+        this.loadingStatus = status || "Loading";
     }
 
     get_Changed(): Observable<string> {
@@ -269,7 +277,7 @@ export class CharacterService {
         if (!this.still_loading()) {
             return this.get_Character().settings.darkmode;
         } else {
-            return false;
+            return true;
         }
     }
 
@@ -2714,8 +2722,14 @@ export class CharacterService {
     }
 
     initialize(id: string, loadAsGM: boolean = false) {
-        this.set_Changed("top-bar");
+        //Prepare the update variables that everything subscribes to.
+        if (!this.characterChanged$) {
+            this.characterChanged$ = this.changed.asObservable();
+            this.viewChanged$ = this.viewChanged.asObservable();
+        }
+        this.set_LoadingStatus("Initializing");
         this.loading = true;
+        this.set_Changed("top-bar");
         this.extensionsService.initialize();
         this.configService.initialize(this, this.savegameService);
         this.continue_Initialize(id, loadAsGM);
@@ -2823,9 +2837,6 @@ export class CharacterService {
             this.grant_BasicItems();
             //Create feats that are based on all weapons in the store and in your inventory.
             this.create_WeaponFeats();
-            //Prepare the update variables that everything subscribes to.
-            this.characterChanged$ = this.changed.asObservable();
-            this.viewChanged$ = this.viewChanged.asObservable();
             //Check that every feat's specialreq makes sense. This is a debugging thing and should only run in development.
             if (isDevMode) {
                 this.verify_Feats();

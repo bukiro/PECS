@@ -77,6 +77,7 @@ import { HintItemComponent } from './tags/hint/hintItem/hintItem.component';
 import { SpellContentComponent } from './spell/spellContent/spellContent.component';
 import { ItemEmblazonArmamentComponent } from './item/itemEmblazonArmament/itemEmblazonArmament.component';
 import { TraitComponent } from './trait/trait.component';
+import { AboutComponent } from './character/about/about.component';
 
 @NgModule({
    declarations: [								 
@@ -147,7 +148,7 @@ import { TraitComponent } from './trait/trait.component';
       SpellContentComponent,
       ItemEmblazonArmamentComponent,
       TraitComponent,
-      TraitComponent
+      AboutComponent
    ],
    imports: [
       CommonModule,

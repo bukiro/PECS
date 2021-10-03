@@ -20,6 +20,7 @@ This log tracks only major changes, as well as changes that need characters to b
 ## 1.0.3
 
 - Rogues created before version 1.0.3 will have their "Racket" choice renamed to "Rogue's Racket" to match the correct class choice name.
+- Druids created before version 1.0.3 will have their "Order" choice renamed to "Druidic Order" to match the correct class choice name.
 - Players are now able to send items from their inventories to other party members.
 
 ## 1.0.4

@@ -70,7 +70,7 @@ import { OtherConsumableBomb } from './OtherConsumableBomb';
 import { Wand } from './Wand';
 import { Equipment } from './Equipment';
 import { ConfigService } from './config.service';
-import { default as package_json } from '../../package.json';
+import { default as package_json } from 'package.json';
 import { Hint } from './Hint';
 
 @Injectable({
@@ -503,7 +503,6 @@ export class SavegameService {
             }
 
             //Characters before version 1.0.5 need to update certain spell choices to have a dynamicAvailable value.
-            //They also need to add hideIfNoneAvailable to certain featChoices.
             if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 5) {
                 character.class.spellCasting.forEach(casting => {
                     casting.spellChoices.forEach(choice => {

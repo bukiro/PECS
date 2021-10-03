@@ -70,6 +70,16 @@ export class TopBarComponent implements OnInit {
         }
     }
 
+    get_LoadingButtonTitle() {
+        if (this.get_LoggingIn() && this.get_Database()) {
+            return "Connecting to database";
+        } else if (this.get_LoggedIn() || this.get_CannotLogin()) {
+            return "Initializing";
+        } else {
+            return "Loading";
+        }
+    }
+
     get_NewConditionMessages() {
         return this.messageService.get_NewMessages(this.characterService);
     }
@@ -307,7 +317,7 @@ export class TopBarComponent implements OnInit {
     }
 
     finish_Loading() {
-        if (this.still_loading()) {
+        if (!this.get_Database() && !this.configService.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()

@@ -1,29 +1,25 @@
+<ng-template #Split let-split="split">
+    <app-quickdice *ngIf="split.includes('dice=')" [diceString]="split.replace('dice=','')" [casting]="casting">
+    </app-quickdice>
+    <span *ngIf="!split.includes('dice=') && split.includes('<')" [innerHtml]="split.trim()"></span>
+    <span *ngIf="!split.includes('dice=') && !split.includes('<')">{{split.trim()}}</span>
+</ng-template>
 <ng-container *ngIf="oneLiner && text">
     <ng-container *ngFor="let split of text.split('|'); trackBy:trackByIndex;">
-        <app-quickdice *ngIf="split.includes('dice=')" [diceString]="split.replace('dice=','')" [casting]="casting">
-        </app-quickdice>
-        <span *ngIf="!split.includes('dice=') && split.includes('<')" [innerHtml]="split.trim()"></span>
-        <span *ngIf="!split.includes('dice=') && !split.includes('<')">{{split.trim()}}</span>
+        <ng-container *ngTemplateOutlet="Split;context:{split:split}"></ng-container>
     </ng-container>
 </ng-container>
 <ng-container *ngIf="!oneLiner && text">
     <p *ngIf="text.split('\n').length == 1">
         <ng-container *ngFor="let split of text.split('|'); trackBy:trackByIndex;">
-            <app-quickdice *ngIf="split.includes('dice=')" [diceString]="split.replace('dice=','')" [casting]="casting">
-            </app-quickdice>
-            <span *ngIf="!split.includes('dice=') && split.includes('<')" [innerHtml]="split"></span>
-            <span *ngIf="!split.includes('dice=') && !split.includes('<')">{{split}}</span>
+            <ng-container *ngTemplateOutlet="Split;context:{split:split}"></ng-container>
         </ng-container>
     </p>
     <ul *ngIf="text.split('\n').length > 1">
         <ng-container *ngFor="let line of text.split('\n'); trackBy:trackByIndex;">
             <li>
                 <ng-container *ngFor="let split of line.split('|'); trackBy:trackByIndex;">
-                    <app-quickdice *ngIf="split.includes('dice=')" [diceString]="split.replace('dice=','')"
-                        [casting]="casting">
-                    </app-quickdice>
-                    <span *ngIf="!split.includes('dice=') && split.includes('<')" [innerHtml]="split"></span>
-                    <span *ngIf="!split.includes('dice=') && !split.includes('<')">{{split}}</span>
+                    <ng-container *ngTemplateOutlet="Split;context:{split:split}"></ng-container>
                 </ng-container>
             </li>
         </ng-container>

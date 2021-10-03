@@ -40,6 +40,7 @@ import { SkillChoice } from '../SkillChoice';
 import { Activity } from '../Activity';
 import { Domain } from '../Domain';
 import { ConfigService } from '../config.service';
+import { default as package_json } from 'package.json';
 
 @Component({
     selector: 'app-character',
@@ -61,6 +62,7 @@ export class CharacterComponent implements OnInit {
     public loadAsGM: boolean = false;
     public blankCharacter: Character = new Character();
     public bonusSource: string = "Bonus";
+    public versionString: string = package_json.version;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -1535,6 +1537,8 @@ export class CharacterComponent implements OnInit {
     }
 
     ngOnInit() {
+        //Start with the about page in desktop mode, and without it on mobile.
+        this.showList = (window.innerWidth < 992) ? "" : "about";
         this.finish_Loading();
     }
 

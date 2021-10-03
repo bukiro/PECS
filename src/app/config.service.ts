@@ -9,8 +9,8 @@ import { SavegameService } from './savegame.service';
 })
 export class ConfigService {
 
-    public dbConnectionURL: string = "";
-    public localDBConnector: boolean = false;
+    private dataServiceURL: string = "";
+    private localDataService: boolean = false;
     private loading = false;
     private xAccessToken: string = "testtoken";
     private loggingIn: boolean = false;
@@ -47,12 +47,12 @@ export class ConfigService {
     }
 
     get_HasDBConnectionURL() {
-        return this.dbConnectionURL || this.localDBConnector;
+        return this.dataServiceURL || this.localDataService;
     }
 
     get_DBConnectionURL() {
-        if (this.dbConnectionURL) {
-            return this.dbConnectionURL;
+        if (this.dataServiceURL) {
+            return this.dataServiceURL;
         } else {
             return "";
         }
@@ -115,7 +115,7 @@ export class ConfigService {
 
     initialize(characterService: CharacterService, savegameService: SavegameService) {
         //Initialize only once.
-        if (!this.dbConnectionURL && !this.localDBConnector) {
+        if (!this.dataServiceURL && !this.localDataService) {
             this.loading = true;
 
             let headers = new HttpHeaders().set('Cache-Control', 'no-cache').set('Pragma', 'no-cache');
@@ -128,19 +128,18 @@ export class ConfigService {
                             .toPromise()
                             .then(data => {
                                 let config = JSON.parse(JSON.stringify(data));
-                                this.dbConnectionURL = config.dbConnectionURL || "";
-                                this.localDBConnector = config.localDBConnector;
+                                this.dataServiceURL = config.dataServiceURL || config.dbConnectionURL || "";
+                                this.localDataService = config.localDataService || config.localDBConnector;
                             }).catch(err => {
                                 throw err;
                             }).finally(() => {
-                                if (!this.get_LoggedIn()) {
-                                    this.get_Login("", characterService, savegameService);
-                                }
+                                //Establish a connection to the data service and check whether login is required.
+                                this.get_Login("", characterService, savegameService);
                             })
                     } else {
-                        if (!this.get_LoggedIn()) {
-                            this.get_Login("", characterService, savegameService);
-                        }
+                        //If there is any result other than 200, assume that we are working with a local data service.
+                        //Run Login to check whether login is required.
+                        this.get_Login("", characterService, savegameService);
                     }
                 }).catch(err => {
                     if (err.status == 404) {

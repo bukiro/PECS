@@ -99,6 +99,12 @@
                         Licenses
                     </button>
                 </div>
+                <div class="list-item">
+                    <button class="newrow" (click)="toggle_List('about')"
+                        [ngClass]="{'activechoice':get_ShowList()=='about'}">
+                        About
+                    </button>
+                </div>
             </ng-container>
             <!--Management tile mode-->
             <div class="newrow list-item" *ngIf="get_TileMode()">
@@ -170,6 +176,10 @@
                     </button>
                     <button (click)="toggle_List('licenses')" [ngClass]="{'activechoice':get_ShowList()=='licenses'}">
                         <app-gridIcon [ngbTooltip]="'Licenses'" [subTitle]="'Licenses'" [superTitle]="'§'">
+                        </app-gridIcon>
+                    </button>
+                    <button (click)="toggle_List('about')" [ngClass]="{'activechoice':get_ShowList()=='about'}">
+                        <app-gridIcon [ngbTooltip]="'About'" [subTitle]="'About'" [superTitle]="'icon-bi-info-circle'">
                         </app-gridIcon>
                     </button>
                 </div>
@@ -1462,7 +1472,8 @@
                                     be caused by activities, spells or items.
                                 </li>
                                 <li>
-                                    Any conditions that remain or are added manually still cause effects.
+                                    Any conditions that remain when manual mode is enabled, or that are added manually
+                                    afterwards, still cause effects.
                                 </li>
                                 <li>
                                     Conditions can still end automatically with time or through other factors, for
@@ -3162,8 +3173,20 @@
                         Licenses
                     </header>
                 </div>
-                <div id="choiceArea" style="font-size: 1em;" class="charactersheet-app">
-                    <app-licenses></app-licenses>
+                <div id="choiceArea" style="font-size: 1em;">
+                    <app-licenses class="list-item"></app-licenses>
+                </div>
+            </ng-container>
+            <!--About content-->
+            <ng-container *ngIf="get_ShowList()=='about'">
+                <div class="newrow list-item padding-8 center-aligned">
+                    <header class="box-header sectionHeader" style="margin-bottom: 0">
+                        Pathfinder Excessive Character Sheet
+                    </header>
+                    <div class="newrow lower center-aligned">Version {{versionString}}</div>
+                </div>
+                <div id="choiceArea">
+                    <app-about class="list-item"></app-about>
                 </div>
             </ng-container>
         </div>

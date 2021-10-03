@@ -1,0 +1,167 @@
+[
+    {
+        "version": "1.0.11",
+        "changes": [
+            {
+                "header": "",
+                "desc": "In the standalone release, the path of the local data file has changed to properly reflect the author and avoid conflicts with any similarly named publishers. The app will automatically attempt to move your file and cleanup the folder if it's empty afterwards.",
+                "images": []
+            },
+            {
+                "header": "",
+                "desc": "Weapon traits that grant attack or damage bonuses can now be activated directly in the weapon entry in the <strong>attacks</strong> area, and will only affect that particular weapon. Previously, they were shown in the top of the attacks area and would affect all weapons sharing that trait.",
+                "images": []
+            },
+            {
+                "header": "",
+                "desc": "Cleric Initial Domain Spells have been implemented. Any previously chosen spell will now be functional without any actions needed.",
+                "images": []
+            }
+        ]
+    },
+    {
+        "version": "1.0.10",
+        "changes": [
+            {
+                "header": "Optional password requirement implemented",
+                "desc": "In the standalone release, a password can now be configured that all players need to enter before they can use the app.\nIf no password is defined in the config file, no password will be expected.\nBecause this is a fundamental security feature, PECS 10.0.10 will now only work with PECS Data Service 10.0.4 or higher, and vice versa.",
+                "images": []
+            }
+        ]
+    },
+    {
+        "version": "1.0.9",
+        "changes": [
+            {
+                "header": "Messages moved out of the database",
+                "desc": "In the standalone package, inter-party message events are now handled in memory and don't use the connected database anymore.\nThe <i>messages</i> parameter is not used anymore in the config file, and you can clear out the messages collection in your database.\nGoing forward, messages will not persist when PECS is stopped.",
+                "images": []
+            },
+            {
+                "header": "Default database moved from MongoDB to local file",
+                "desc": "The standalone package now uses a local data file instead of an external MongoDB.\nThis file is saved in %appdata% under Windows and in HOMEDIR under Linux.\nYou can still continue using a MongoDB if preferred.\nThe executable will automatically migrate your existing characters from it if you keep your database connection configured and set <i>ConvertMongoDBToLocal: true</i> in config.json",
+                "images": []
+            }
+        ]
+    },
+    {
+        "version": "1.0.8",
+        "changes": [
+            {
+                "header": "Data service functions fully integrated",
+                "desc": "The standalone executable now includes all the functions of the PECS data service, and does not need to connect to an external service anymore.\nPECS still needs to connect to a MongoDB database running somewhere, but will handle its data traffic without the need for another service.\nAn external data service like the PECS data service can still be used in tandem if preferred.",
+                "images": []
+            }
+        ]
+    },
+    {
+        "version": "1.0.7",
+        "changes": [
+            {
+                "header": "Standalone executable released",
+                "desc": "PECS is now proudly available as an executable package from <a style='color: inherit' href='https://github.com/bukiro/PECS/releases'>https://github.com/bukiro/PECS/releases</a>.\nThe included executables can be run on Windows and Linux, must be configured in a config file, and does not require node.js to be installed.\nThe release still needs to connect to a data service for content.",
+                "images": []
+            }
+        ]
+    },
+    {
+        "version": "1.0.6",
+        "changes": [
+            {
+                "header": "Cleric feats implemented",
+                "desc": "The Cleric is now fully playable with all feats included in the Core Rulebook, but domain spells and Divine spells above 5th level still need to be implemented.\nThe domain feats and all spells can be taken, but they don't do anything yet.\nThe Divine Font feature options are be renamed to either Healing Font or Harmful Font on existing Clerics.",
+                "images": []
+            }
+        ]
+    },
+    {
+        "version": "1.0.5",
+        "changes": [
+            {
+                "header": "Cleric functionality implemented",
+                "desc": "The Cleric can now be used as a class with all abilities and statistics. Most Cleric feats still need to be implemented and tested, and are not available to your character yet.\nIf you had already created a Cleric, the character will be patched the first time they are loaded. You may seem some feats and features be handled in a different way than before.",
+                "images": []
+            },
+            {
+                "header": "",
+                "desc": "Certain feat choices can now automatically pick select a feat when only one option is available. These choices do not show as choices in that case, but are listed under fixed changes instead.",
+                "images": []
+            }
+        ]
+    },
+    {
+        "version": "1.0.4",
+        "changes": [
+            {
+                "header": "",
+                "desc": "Items can now be moved between inventories with drag & drop.",
+                "images": []
+            },
+            {
+                "header": "Item patches",
+                "desc": "Some held and worn items as well as rune and material mechanics have changed in ways that require characters' items to be patched.\nWorn items that grant innate spells used to be implemented with an activity that casts the spell. From now on, they instead grant real spells that are displayed in the <strong>Spellbook</strong> and the <strong>Spells</strong> area.",
+                "images": []
+            }
+        ]
+    },
+    {
+        "version": "1.0.3",
+        "changes": [
+            {
+                "header": "",
+                "desc": "Rogues created before version 1.0.3 will have their \"Racket\" choice renamed to \"Rogue's Racket\" to match the correct class choice name.",
+                "images": []
+            },
+            {
+                "header": "",
+                "desc": "Druids created before version 1.0.3 will have their \"Order\" choice renamed to \"Druidic Order\" to match the correct class choice name.",
+                "images": []
+            },
+            {
+                "header": "",
+                "desc": "Players are now able to send items from their inventories to other party members.",
+                "images": []
+            }
+        ]
+    },
+    {
+        "version": "1.0.2",
+        "changes": [
+            {
+                "header": "",
+                "desc": "Monks created before version 1.0.2 will lose their skill increases from Path to Perfection, and gain matching feature choices instead.",
+                "images": []
+            },
+            {
+                "header": "",
+                "desc": "A Foundry VTT integration allows you to send your dice rolls to a FVTT session. This requires the External Dice Roll Connector module to be enabled in FVTT.",
+                "images": []
+            }
+        ]
+    },
+    {
+        "version": "1.0.1",
+        "changes": [
+            {
+                "header": "",
+                "desc": "After applying some errata, certain containers have been removed, and all characters now receive a second default inventory for worn tools.",
+                "images": []
+            }
+        ]
+    },
+    {
+        "version": "1.0.0",
+        "changes": [
+            {
+                "header": "First release",
+                "desc": "This is the first public version of PECS. Going forward, it will be assumed that people have created characters, and new versions will patch these characters to work with changes and new functionalities.\nThe App is fully functional, but with a lot of core content still to be implemented.\nDevelopment files have been cleaned out from the repository.",
+                "images": []
+            },
+            {
+                "header": "",
+                "desc": "Members of the same party can target each other with benevolent spells, sending conditions and optionally sending turn start events that can end expiring conditions.",
+                "images": []
+            }
+        ]
+    }
+]
