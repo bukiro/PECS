@@ -1,11 +1,12 @@
 import { Consumable } from './Consumable';
 import { Hint } from './Hint';
 import { SpellCast } from './SpellCast';
+import { TypeService } from './type.service';
 import { WeaponRune } from './WeaponRune';
 
 export class Oil extends Consumable {
     public readonly _className: string = this.constructor.name;
-    //Ammunition should be type "ammunition" to be found in the database
+    //Oils should be type "oils" to be found in the database
     readonly type = "oils";
     public castSpells: SpellCast[] = [];
     public critfailure: string = "";
@@ -28,4 +29,11 @@ export class Oil extends Consumable {
     //You can only choose this oil for an item if its type or "items" is in the targets list
     public targets: string[] = [];
     public weightLimit: number = 0;
+    recast(typeService: TypeService) {
+        super.recast(typeService);
+        this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
+        this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
+        this.runeEffect = Object.assign(new WeaponRune(), this.runeEffect).recast(typeService);
+        return this;
+    }
 }

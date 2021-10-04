@@ -11,4 +11,8 @@ export class LoreChoice extends SkillChoice {
     public loreName: string = "";
     public maxRank: number = 0;
     public source: string = "";
+    recast() {
+        super.recast();
+        return this;
+    }
 }

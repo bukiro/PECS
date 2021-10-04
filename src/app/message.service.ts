@@ -4,9 +4,10 @@ import { Observable } from 'rxjs';
 import { CharacterService } from './character.service';
 import { ConditionGain } from './ConditionGain';
 import { ConfigService } from './config.service';
+import { ItemsService } from './items.service';
 import { PlayerMessage } from './PlayerMessage';
 import { ToastService } from './toast.service';
-import { Md5 } from 'ts-md5';
+import { TypeService } from './type.service';
 
 @Injectable({
     providedIn: 'root'
@@ -22,7 +23,9 @@ export class MessageService {
     constructor(
         private http: HttpClient,
         private configService: ConfigService,
-        private toastService: ToastService
+        private toastService: ToastService,
+        private typeService: TypeService,
+        private itemsService: ItemsService
     ) { }
 
     get_NewMessages(characterService: CharacterService) {
@@ -64,12 +67,12 @@ export class MessageService {
     finish_loading(loader: string[]) {
         let messages = [];
         if (loader) {
-            messages = loader.map(message => Object.assign(new PlayerMessage(), message))
+            messages = loader.map(message => Object.assign(new PlayerMessage(), message).recast(this.typeService, this.itemsService));
             messages.forEach(message => {
                 //Cut off the time zone.
                 message.time = message.time.split("(")[0].trim();
                 //Reassign gainCondition.
-                message.gainCondition = message.gainCondition.map(gain => Object.assign(new ConditionGain(), gain))
+                message.gainCondition = message.gainCondition.map(gain => Object.assign(new ConditionGain(), gain).recast());
             })
         }
         return messages;

@@ -1,6 +1,7 @@
 import { ConditionGain } from './ConditionGain';
 import { Item } from './Item';
 import { EffectGain } from './EffectGain';
+import { TypeService } from './type.service';
 
 export class Consumable extends Item {
     public readonly _className: string = this.constructor.name;
@@ -21,4 +22,10 @@ export class Consumable extends Item {
     //Some Items get bought in stacks. Stack defines how many you buy at once,
     //and how many make up one instance of the items Bulk.
     public stack: number = 1;
+    recast(typeService: TypeService) {
+        super.recast(typeService);
+        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
+        this.onceEffects = this.onceEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
+        return this;
+    }
 }

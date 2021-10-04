@@ -7,6 +7,7 @@ import { Specialization } from './Specialization';
 import { ArmorMaterial } from './ArmorMaterial';
 import { Creature } from './Creature';
 import { ItemsService } from './items.service';
+import { TypeService } from './type.service';
 
 export class Armor extends Equipment {
     public readonly _className: string = this.constructor.name;
@@ -40,6 +41,10 @@ export class Armor extends Equipment {
     private strength: number = 0;
     //A Dwarf with the Battleforger feat can polish armor to grant the effect of a +1 potency rune.
     public battleforged: boolean = false;
+    recast(typeService: TypeService) {
+        super.recast(typeService);
+        return this;
+    }
     get_Name() {
         if (this.displayName.length) {
             return this.displayName;
@@ -238,7 +243,7 @@ export class Armor extends Equipment {
                     ))
                 });
             SpecializationGains.forEach(critSpec => {
-                let specs: Specialization[] = characterService.get_Specializations(this.group).map(spec => Object.assign(new Specialization(), spec));
+                let specs: Specialization[] = characterService.get_Specializations(this.group).map(spec => Object.assign(new Specialization(), spec).recast());
                 specs.forEach(spec => {
                     if (critSpec.condition) {
                         spec.desc = "(" + critSpec.condition + ") " + spec.desc;

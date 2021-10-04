@@ -2,7 +2,6 @@ import { EffectsService } from './effects.service';
 import { CharacterService } from './character.service';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
-import { Effect } from './Effect';
 
 export class Ability {
     constructor(

@@ -17,6 +17,7 @@ import { Activity } from './Activity';
 import { ItemActivity } from './ItemActivity';
 import { ExtensionsService } from './extensions.service';
 import { Familiar } from './Familiar';
+import { TypeService } from './type.service';
 
 @Injectable({
     providedIn: 'root'
@@ -29,7 +30,8 @@ export class ConditionsService {
     private conditionsMap = new Map<string, Condition>();
 
     constructor(
-        private extensionsService: ExtensionsService
+        private extensionsService: ExtensionsService,
+        private typeService: TypeService,
     ) { }
 
     get_ConditionFromName(name: string) {
@@ -160,7 +162,7 @@ export class ConditionsService {
                 characterService.remove_Condition(creature, activeConditions.find(gain => gain.value == -1), false, undefined, undefined, true);
             }
             this.appliedConditions[creatureIndex] = [];
-            this.appliedConditions[creatureIndex] = activeConditions.map(gain => Object.assign(new ConditionGain(), gain));
+            this.appliedConditions[creatureIndex] = activeConditions.map(gain => Object.assign(new ConditionGain(), gain).recast());
             return activeConditions
                 .sort((a, b) => {
                     if (a.name > b.name) {
@@ -200,7 +202,7 @@ export class ConditionsService {
         let conditionDidSomething: boolean = false;
 
         //Copy the condition's ActivityGains to the ConditionGain so we can track its duration, cooldown etc.
-        gain.gainActivities = condition.gainActivities.map(activityGain => Object.assign(new ActivityGain(), JSON.parse(JSON.stringify(activityGain))));
+        gain.gainActivities = condition.gainActivities.map(activityGain => Object.assign(new ActivityGain(), JSON.parse(JSON.stringify(activityGain))).recast());
 
         if (!gain.endsWithConditions.length) {
             gain.endsWithConditions = condition.endsWithConditions;
@@ -245,7 +247,7 @@ export class ConditionsService {
         if (taken) {
             condition.gainConditions.filter(extraCondition => !extraCondition.conditionChoiceFilter.length || extraCondition.conditionChoiceFilter.includes(gain.choice)).forEach(extraCondition => {
                 conditionDidSomething = true;
-                let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
+                let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition))).recast();
                 if (!addCondition.heightened) {
                     addCondition.heightened = gain.heightened;
                 }
@@ -264,7 +266,7 @@ export class ConditionsService {
         if (!taken && !ignoreEndsWithConditions) {
             characterService.get_AppliedConditions(creature, "", "", true)
                 .filter(conditionGain => conditionGain.endsWithConditions.includes(condition.name))
-                .map(conditionGain => Object.assign(new ConditionGain, JSON.parse(JSON.stringify(conditionGain))))
+                .map(conditionGain => Object.assign(new ConditionGain, JSON.parse(JSON.stringify(conditionGain))).recast())
                 .forEach(conditionGain => {
                     conditionDidSomething = true;
                     characterService.remove_Condition(creature, conditionGain, false);
@@ -341,7 +343,7 @@ export class ConditionsService {
             if (taken) {
                 if (creature.health.dying(creature, characterService) >= creature.health.maxDying(creature, effectsService)) {
                     if (characterService.get_AppliedConditions(creature, "Dead").length == 0) {
-                        characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Dead", source: "Dying value too high" }), false)
+                        characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Dead", source: "Dying value too high" }).recast(), false);
                     }
                 }
             } else {
@@ -349,16 +351,16 @@ export class ConditionsService {
                     if (increaseWounded) {
                         if (creature.health.wounded(creature, characterService) > 0) {
                             characterService.get_AppliedConditions(creature, "Wounded").forEach(gain => {
-                                gain.value += 1
+                                gain.value++;
                                 gain.source = "Recovered from Dying";
                             });
                         } else {
-                            characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Wounded", value: 1, source: "Recovered from Dying" }), false)
+                            characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Wounded", value: 1, source: "Recovered from Dying" }).recast(), false);
                         }
                     }
                     if (creature.health.currentHP(creature, characterService, effectsService).result == 0) {
                         if (characterService.get_AppliedConditions(creature, "Unconscious", "0 Hit Points").length == 0 && characterService.get_AppliedConditions(creature, "Unconscious", "Dying").length == 0) {
-                            characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Unconscious", source: "0 Hit Points" }), false)
+                            characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Unconscious", source: "0 Hit Points" }).recast(), false);
                         }
                     }
                 }
@@ -681,6 +683,21 @@ export class ConditionsService {
             this.conditions.push(...data[key].map(obj => Object.assign(new Condition(), obj).recast()));
         });
         this.conditions = this.extensionsService.cleanup_Duplicates(this.conditions, "name", "conditions");
+        this.conditions.forEach(condition => {
+            if (condition.choices.length && !condition.choice) {
+                condition.choice = condition.choices[0].name;
+            }
+            condition.choices.forEach(choice => {
+                //Blank choices are saved with "name":"-" for easier managing; These need to be blanked here.
+                if (choice.name == "-") {
+                    choice.name = "";
+                }
+                //If a choice name has turned into a number, turn it back into a string.
+                if (typeof choice.name == "number") {
+                    choice.name = parseInt(choice.name).toString();
+                }
+            })
+        })
     }
 
 }

@@ -4,6 +4,7 @@ import { ItemsService } from 'src/app/items.service';
 import { WornItem } from 'src/app/WornItem';
 import { ItemCollection } from 'src/app/ItemCollection';
 import { TimeService } from 'src/app/time.service';
+import { TypeService } from 'src/app/type.service';
 
 @Component({
     selector: 'app-itemAeonStones',
@@ -22,7 +23,8 @@ export class ItemAeonStonesComponent implements OnInit {
     constructor(
         public characterService: CharacterService,
         private itemsService: ItemsService,
-        private timeService: TimeService
+        private timeService: TimeService,
+        private typeService: TypeService
     ) { }
 
     trackByIndex(index: number, obj: any): any {
@@ -99,7 +101,7 @@ export class ItemAeonStonesComponent implements OnInit {
             if (stone.name != "") {
                 //Add a copy of the stone to the item
                 let newLength = item.aeonStones.push(Object.assign(new WornItem, JSON.parse(JSON.stringify(stone))));
-                item.aeonStones[newLength - 1] = this.characterService.reassign(item.aeonStones[newLength - 1]);
+                item.aeonStones[newLength - 1] = item.aeonStones[newLength - 1].recast(this.typeService);
                 let newStone = item.aeonStones[newLength - 1];
                 newStone.amount = 1;
                 newStone.isSlottedAeonStone = true;

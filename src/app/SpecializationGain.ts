@@ -10,4 +10,7 @@ export class SpecializationGain {
     public skillLevel: number = 0;
     public range: string = "";
     public trait: string = "";
+    recast() {
+        return this;
+    }
 }

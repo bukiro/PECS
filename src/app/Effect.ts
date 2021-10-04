@@ -17,4 +17,7 @@ export class Effect {
         //If the effect is typed, cumulative lists all effect sources (of the same type) that it is cumulative with.
         public cumulative: string[] = []
     ) {}
+    recast() {
+        return this;
+    }
 }

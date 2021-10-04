@@ -45,7 +45,9 @@ export class ItemActivity extends Activity {
     //Condition gains save this id so they can be found and removed when the activity ends, or end the activity when the condition ends.
     public id = uuidv4();
     recast() {
+        super.recast();
         this.targets = this.targets.map(obj => Object.assign(new SpellTarget(), obj).recast());
         return this;
     }
+
 }

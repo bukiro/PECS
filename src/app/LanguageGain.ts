@@ -3,4 +3,7 @@ export class LanguageGain {
     public source: string = "";
     public locked: boolean = false;
     public level: number = -1;
+    recast() {
+        return this;
+    }
 }

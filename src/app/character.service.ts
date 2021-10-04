@@ -69,6 +69,7 @@ import { ExtensionsService } from './extensions.service';
 import { AnimalCompanionAncestry } from './AnimalCompanionAncestry';
 import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
 import { FeatTaken } from './FeatTaken';
+import { TypeService } from './type.service';
 
 @Injectable({
     providedIn: 'root'
@@ -120,6 +121,7 @@ export class CharacterService {
         public familiarsService: FamiliarsService,
         private messageService: MessageService,
         public toastService: ToastService,
+        private typeService: TypeService,
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig,
     ) {
@@ -771,8 +773,7 @@ export class CharacterService {
         character.class.on_ChangeAncestry(this);
         character.class.on_ChangeBackground(this);
         character.class.on_ChangeClass(this);
-        character.class = Object.assign(new Class(), JSON.parse(JSON.stringify($class)));
-        character.class = this.reassign(character.class);
+        character.class = Object.assign(new Class(), JSON.parse(JSON.stringify($class))).recast(this.typeService, this.itemsService);
         character.class.on_NewClass(this, this.itemsService);
         this.set_Changed();
     }
@@ -782,8 +783,7 @@ export class CharacterService {
         this.change_Heritage(new Heritage());
         character.class.on_ChangeAncestry(this);
         character.class.ancestry = new Ancestry();
-        character.class.ancestry = Object.assign(new Ancestry(), JSON.parse(JSON.stringify(ancestry)))
-        character.class.ancestry = this.reassign(character.class.ancestry);
+        character.class.ancestry = Object.assign(new Ancestry(), JSON.parse(JSON.stringify(ancestry))).recast();
         character.class.on_NewAncestry(this, itemsService);
         this.update_LanguageList();
     }
@@ -804,12 +804,10 @@ export class CharacterService {
         character.class.on_ChangeHeritage(this, index);
         if (index == -1) {
             character.class.heritage = new Heritage();
-            character.class.heritage = Object.assign(new Heritage(), JSON.parse(JSON.stringify(heritage)))
-            character.class.heritage = this.reassign(character.class.heritage);
+            character.class.heritage = Object.assign(new Heritage(), JSON.parse(JSON.stringify(heritage))).recast();
         } else {
             character.class.additionalHeritages[index] = new Heritage();
-            character.class.additionalHeritages[index] = Object.assign(new Heritage(), JSON.parse(JSON.stringify(heritage)))
-            character.class.additionalHeritages[index] = this.reassign(character.class.additionalHeritages[index]);
+            character.class.additionalHeritages[index] = Object.assign(new Heritage(), JSON.parse(JSON.stringify(heritage))).recast();
             character.class.additionalHeritages[index].source = source;
         }
         character.class.on_NewHeritage(this, this.itemsService, index);
@@ -819,8 +817,7 @@ export class CharacterService {
         let character = this.get_Character();
         character.class.on_ChangeBackground(this);
         character.class.background = new Background();
-        character.class.background = Object.assign(new Background(), JSON.parse(JSON.stringify(background)));
-        character.class.background = this.reassign(character.class.background);
+        character.class.background = Object.assign(new Background(), JSON.parse(JSON.stringify(background))).recast();
         character.class.on_NewBackground(this);
     }
 
@@ -880,7 +877,7 @@ export class CharacterService {
                     let regex = new RegExp(replacementString, "g")
                     let featString = JSON.stringify(feat);
                     featString = featString.replace(regex, weapon.name);
-                    let replacedFeat = Object.assign(new Feat(), JSON.parse(featString))
+                    let replacedFeat = Object.assign(new Feat(), JSON.parse(featString)).recast();
                     let newLength = this.add_CustomFeat(replacedFeat);
                     let newFeat = this.get_Character().customFeats[newLength - 1];
                     newFeat.hide = false;
@@ -1437,10 +1434,10 @@ export class CharacterService {
             }, 500)
         } else {
             this.basicItems = [];
-            let newBasicWeapon: Weapon = Object.assign(new Weapon(), this.itemsService.get_ItemsOfType("weapons", "Fist")[0]);
+            let newBasicWeapon: Weapon = Object.assign(new Weapon(), this.itemsService.get_ItemsOfType("weapons", "Fist")[0]).recast(this.typeService);
             this.basicItems.push(newBasicWeapon);
             let newBasicArmor: Armor;
-            newBasicArmor = Object.assign(new Armor(), this.itemsService.get_ItemsOfType("armors", "Unarmored")[0]);
+            newBasicArmor = Object.assign(new Armor(), this.itemsService.get_ItemsOfType("armors", "Unarmored")[0]).recast(this.typeService);
             this.basicItems.push(newBasicArmor);
             this.equip_BasicItems(this.get_Character(), false)
             this.equip_BasicItems(this.get_Companion(), false)
@@ -1475,8 +1472,7 @@ export class CharacterService {
     }
 
     add_CustomFeat(newFeat: Feat) {
-        let newLength = this.get_Character().customFeats.push(Object.assign(new Feat(), JSON.parse(JSON.stringify(newFeat))));
-        this.get_Character().customFeats[newLength - 1] = this.savegameService.reassign(this.get_Character().customFeats[newLength - 1]);
+        let newLength = this.get_Character().customFeats.push(Object.assign(new Feat(), JSON.parse(JSON.stringify(newFeat))).recast());
         this.set_ToChange("Character", "charactersheet");
         return newLength;
     }
@@ -1499,7 +1495,7 @@ export class CharacterService {
 
     add_Condition(creature: Creature, originalConditionGain: ConditionGain, reload: boolean = true, parentConditionGain: ConditionGain = null) {
         let activate: boolean = true;
-        let conditionGain: ConditionGain = Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(originalConditionGain)));
+        let conditionGain: ConditionGain = Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(originalConditionGain))).recast();
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
         if (originalCondition) {
             if (conditionGain.heightened < originalCondition.minLevel) {
@@ -1513,7 +1509,7 @@ export class CharacterService {
             }
             //If the condition has an activationPrerequisite, test that first and only activate if it evaluates to a nonzero number.
             if (conditionGain.activationPrerequisite) {
-                let testConditionGain: any = Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain)));
+                let testConditionGain: any = Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))).recast();
                 let testEffectGain: EffectGain = new EffectGain();
                 testEffectGain.value = conditionGain.activationPrerequisite;
                 testConditionGain.effects = [testEffectGain];
@@ -1802,7 +1798,7 @@ export class CharacterService {
                     let date = new Date();
                     message.time = date.getHours() + ":" + date.getMinutes();
                     message.timeStamp = timeStamp;
-                    message.gainCondition.push(Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))));
+                    message.gainCondition.push(Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))).recast());
                     if (message.gainCondition.length) {
                         message.gainCondition[0].foreignPlayerId = message.senderId;
                     }
@@ -1899,7 +1895,7 @@ export class CharacterService {
             let date = new Date();
             message.time = date.getHours() + ":" + date.getMinutes();
             message.timeStamp = timeStamp;
-            message.offeredItem.push(Object.assign(new Item(), JSON.parse(JSON.stringify(item))));
+            message.offeredItem.push(Object.assign(new Item(), JSON.parse(JSON.stringify(item))).recast());
             message.itemAmount = amount;
             message.includedItems = included.items;
             message.includedInventories = included.inventories;
@@ -1944,6 +1940,7 @@ export class CharacterService {
                             if (item === message.offeredItem[0]) {
                                 item.amount = message.itemAmount;
                             }
+                            item = this.itemsService.cast_ItemByType(item);
                             let existingItems = targetInventory[item.type].filter((existing: Item) => existing.name == item.name && existing.can_Stack() && !item.expiration);
                             //If any existing, stackable items are found, add this item's amount on top and finish.
                             //If no items are found, add the new item to the inventory and process it as a new item (skipping gained items and gained inventories).
@@ -1955,7 +1952,7 @@ export class CharacterService {
                                 this.set_ToChange(targetCreature.type, "inventory");
                                 this.set_Changed(existingItems[0].id);
                             } else {
-                                item = this.reassign(item);
+                                item = item.recast(this.typeService);
                                 let newLength = targetInventory[item.type].push(item);
                                 let addedItem = targetInventory[item.type][newLength - 1];
                                 this.set_ToChange(targetCreature.type, "inventory");
@@ -1967,7 +1964,6 @@ export class CharacterService {
                         })
                         //Add included inventories and process all items inside them.
                         message.includedInventories.forEach(inventory => {
-                            inventory = this.reassign(inventory)
                             let newLength = targetCreature.inventories.push(inventory);
                             let newInventory = targetCreature.inventories[newLength - 1];
                             newInventory.allItems().forEach(invItem => {
@@ -2700,9 +2696,7 @@ export class CharacterService {
     initialize_AnimalCompanion() {
         let character = this.get_Character();
         if (character.class.animalCompanion) {
-            character.class.animalCompanion = Object.assign(new AnimalCompanion(), character.class.animalCompanion);
-            character.class.animalCompanion = this.reassign(character.class.animalCompanion);
-            character.class.animalCompanion.class.reset_levels(this);
+            character.class.animalCompanion = Object.assign(new AnimalCompanion(), character.class.animalCompanion).recast(this.typeService, this.itemsService);
             character.class.animalCompanion.set_Level(this);
             this.equip_BasicItems(character.class.animalCompanion);
             this.set_ToChange("Companion", "all");
@@ -2718,8 +2712,7 @@ export class CharacterService {
     initialize_Familiar() {
         let character = this.get_Character();
         if (character.class.familiar) {
-            character.class.familiar = Object.assign(new Familiar(), character.class.familiar);
-            character.class.familiar = this.reassign(character.class.familiar);
+            character.class.familiar = Object.assign(new Familiar(), character.class.familiar).recast(this.typeService, this.itemsService);
             this.set_ToChange("Familiar", "all");
         }
     }
@@ -2804,10 +2797,6 @@ export class CharacterService {
                 console.log('Error deleting from database: ' + error.message);
             }
         });
-    }
-
-    reassign(object: any) {
-        return this.savegameService.reassign(object, "", this.itemsService);
     }
 
     finish_Loading(loadAsGM: boolean = false) {

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Deity } from './Deity';
-import { SpellCast } from './SpellCast';
 import * as json_deities from '../assets/json/deities';
 import * as json_domains from '../assets/json/domains';
 import { ExtensionsService } from './extensions.service';
 import { Domain } from './Domain';
 import { Character } from './Character';
+import { TypeService } from './type.service';
 
 @Injectable({
     providedIn: 'root'
@@ -17,9 +17,10 @@ export class DeitiesService {
     private loading: boolean = false;
     //The character's deity or deities get loaded into $characterDeities whenever it is queried and empty.
     private $characterDeities: { deity: Deity, source: string, level: number }[] = [];
-    
+
     constructor(
-        private extensionsService: ExtensionsService
+        private extensionsService: ExtensionsService,
+        private typeService: TypeService
     ) { }
 
     get_CharacterDeities(character: Character, source: string = "", level: number = character.level) {
@@ -83,12 +84,8 @@ export class DeitiesService {
         this.deities = [];
         let data = this.extensionsService.extend(json_deities, "deities");
         Object.keys(data).forEach(key => {
-            this.deities.push(...data[key].map(obj => Object.assign(new Deity(), obj)));
+            this.deities.push(...data[key].map(obj => Object.assign(new Deity(), obj).recast()));
         });
-        //Don't call reassign() because cleric spells are really the only thing we need to assign.
-        this.deities.forEach(deity => {
-            deity.clericSpells = deity.clericSpells.map(spell => Object.assign(new SpellCast(), spell));
-        })
         this.deities = this.extensionsService.cleanup_Duplicates(this.deities, "name", "deities");
     }
 

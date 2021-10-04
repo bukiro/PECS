@@ -26,6 +26,8 @@ import { Snare } from './Snare';
 import { OtherConsumableBomb } from './OtherConsumableBomb';
 import { Wand } from './Wand';
 import { Rune } from './Rune';
+import { TypeService } from './type.service';
+import { ItemsService } from './items.service';
 
 export class ItemCollection {
     public readonly _className: string = this.constructor.name;
@@ -81,9 +83,38 @@ export class ItemCollection {
         { name: "Other Consumables (Bombs)", key: "otherconsumablesbombs" },
         { name: "Wands", key: "wands" }
     ]
+    recast(typeService: TypeService, itemsService: ItemsService) {
+        this.adventuringgear = this.adventuringgear.map(obj => Object.assign(new AdventuringGear(), typeService.restore_Item(obj, itemsService)).recast(typeService));
+        this.ammunition = this.ammunition.map(obj => Object.assign(new Ammunition(), typeService.restore_Item(obj, itemsService)).recast(typeService));
+        this.alchemicalelixirs = this.alchemicalelixirs.map(obj => Object.assign(new AlchemicalElixir(), typeService.restore_Item(obj, itemsService)).recast(typeService));
+        this.armorrunes = this.armorrunes.map(obj => Object.assign(new ArmorRune(), typeService.restore_Item(obj, itemsService)).recast(typeService));
+        this.armors = this.armors.map(obj => Object.assign(new Armor(), typeService.restore_Item(obj, itemsService)).recast(typeService));
+        this.helditems = this.helditems.map(obj => Object.assign(new HeldItem(), typeService.restore_Item(obj, itemsService)).recast(typeService));
+        this.otherconsumables = this.otherconsumables.map(obj => Object.assign(new OtherConsumable(), typeService.restore_Item(obj, itemsService)).recast(typeService));
+        //Consumable Bombs need to be cast blindly to avoid circular dependency warnings.
+        this.otherconsumablesbombs = this.otherconsumablesbombs.map(obj => typeService.classCast(typeService.restore_Item(obj, itemsService), "OtherConsumableBomb").recast(typeService));
+        this.otheritems = this.otheritems.map(obj => Object.assign(new OtherItem(), typeService.restore_Item(obj, itemsService)).recast(typeService));
+        this.potions = this.potions.map(obj => Object.assign(new Potion(), typeService.restore_Item(obj, itemsService)).recast(typeService));
+        //Shields need to be cast blindly to avoid circular dependency warnings.
+        this.shields = this.shields.map(obj => typeService.classCast(typeService.restore_Item(obj, itemsService), "Shield").recast(typeService));
+        this.weaponrunes = this.weaponrunes.map(obj => Object.assign(new WeaponRune(), typeService.restore_Item(obj, itemsService)).recast(typeService));
+        //Weapons need to be cast blindly to avoid circular dependency warnings.
+        this.weapons = this.weapons.map(obj => typeService.classCast(typeService.restore_Item(obj, itemsService), "Weapon").recast(typeService));
+        this.wornitems = this.wornitems.map(obj => Object.assign(new WornItem(), typeService.restore_Item(obj, itemsService)).recast(typeService));
+        this.scrolls = this.scrolls.map(obj => Object.assign(new Scroll(), typeService.restore_Item(obj, itemsService)).recast(typeService));
+        this.oils = this.oils.map(obj => Object.assign(new Oil(), typeService.restore_Item(obj, itemsService)).recast(typeService));
+        this.talismans = this.talismans.map(obj => Object.assign(new Talisman(), typeService.restore_Item(obj, itemsService)).recast(typeService));
+        //Alchemical Bombs need to be cast blindly to avoid circular dependency warnings.
+        this.alchemicalbombs = this.alchemicalbombs.map(obj => typeService.classCast(typeService.restore_Item(obj, itemsService), "AlchemicalBomb").recast(typeService));
+        this.alchemicaltools = this.alchemicaltools.map(obj => Object.assign(new AlchemicalTool(), typeService.restore_Item(obj, itemsService)).recast(typeService));
+        this.alchemicalpoisons = this.alchemicalpoisons.map(obj => Object.assign(new AlchemicalPoison(), typeService.restore_Item(obj, itemsService)).recast(typeService));
+        this.snares = this.snares.map(obj => Object.assign(new Snare(), typeService.restore_Item(obj, itemsService)).recast(typeService));
+        this.wands = this.wands.map(obj => Object.assign(new Wand(), typeService.restore_Item(obj, itemsService)).recast(typeService));
+        return this;
+    }
     allEquipment(): Equipment[] {
         return [].concat(this.adventuringgear, this.alchemicalbombs, this.otherconsumablesbombs, this.armors, this.helditems, this.shields, this.weapons, this.wornitems, this.wands);
-        
+
     }
     allConsumables(): Consumable[] {
         return [].concat(this.alchemicalelixirs, this.alchemicaltools, this.ammunition, this.oils, this.otherconsumables, this.potions, this.scrolls, this.talismans, this.snares, this.alchemicalpoisons);

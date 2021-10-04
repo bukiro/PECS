@@ -11,6 +11,7 @@ import { TimeService } from 'src/app/time.service';
 import { ActivitiesService } from 'src/app/activities.service';
 import { SpellsService } from 'src/app/spells.service';
 import { ConditionsService } from 'src/app/conditions.service';
+import { TypeService } from 'src/app/type.service';
 
 @Component({
     selector: 'app-itemBladeAlly',
@@ -30,7 +31,8 @@ import { ConditionsService } from 'src/app/conditions.service';
         private timeService: TimeService,
         private activitiesService: ActivitiesService,
         private spellsService: SpellsService,
-        private conditionsService: ConditionsService
+        private conditionsService: ConditionsService,
+        private typeService: TypeService
     ) { }
 
     trackByIndex(index: number, obj: any): any {
@@ -155,8 +157,7 @@ import { ConditionsService } from 'src/app/conditions.service';
             //Then add the new rune to the item.
             if (rune.name != "") {
                 //Add a copy of the rune to the item
-                weapon.bladeAllyRunes[0] = Object.assign(new WeaponRune, JSON.parse(JSON.stringify(rune)));
-                weapon.bladeAllyRunes[0] = this.characterService.reassign(weapon.bladeAllyRunes[0]);
+                weapon.bladeAllyRunes[0] = Object.assign(new WeaponRune(), JSON.parse(JSON.stringify(rune))).recast(this.typeService);
                 weapon.bladeAllyRunes[0].amount = 1;
             }
         }

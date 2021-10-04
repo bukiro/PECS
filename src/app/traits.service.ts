@@ -3,9 +3,8 @@ import { Trait } from './Trait';
 import { CharacterService } from './character.service';
 import * as json_traits from '../assets/json/traits';
 import { Creature } from './Creature';
-import { Hint } from './Hint';
 import { ExtensionsService } from './extensions.service';
-import { EffectGain } from './EffectGain';
+import { TypeService } from './type.service';
 
 @Injectable({
     providedIn: 'root'
@@ -17,7 +16,8 @@ export class TraitsService {
     private traitsMap = new Map<string, Trait>();
 
     constructor(
-        private extensionsService: ExtensionsService
+        private extensionsService: ExtensionsService,
+        private typeService: TypeService
     ) { }
 
     get_TraitFromName(name: string) {
@@ -120,11 +120,7 @@ export class TraitsService {
         this.traits = [];
         let data = this.extensionsService.extend(json_traits, "traits");
         Object.keys(data).forEach(key => {
-            this.traits.push(...data[key].map(obj => Object.assign(new Trait(), obj)));
-        });
-        this.traits.forEach(trait => {
-            trait.hints = trait.hints.map(hint => Object.assign(new Hint(), hint));
-            trait.objectEffects = trait.objectEffects.map(hint => Object.assign(new EffectGain(), hint));
+            this.traits.push(...data[key].map(obj => Object.assign(new Trait(), obj).recast()));
         });
         this.traits = this.extensionsService.cleanup_Duplicates(this.traits, "name", "traits");
     }

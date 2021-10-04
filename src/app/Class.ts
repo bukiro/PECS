@@ -18,6 +18,7 @@ import { ItemGain } from './ItemGain';
 import { SpellLearned } from './SpellLearned';
 import { FormulaLearned } from './FormulaLearned';
 import { LanguageGain } from './LanguageGain';
+import { TypeService } from './type.service';
 
 export class Class {
     public readonly _className: string = this.constructor.name;
@@ -31,7 +32,7 @@ export class Class {
     public background: Background = new Background();
     public customSkills: Skill[] = [];
     public deity: string = "";
-    public desc: {name:string, value:string}[] = [];
+    public desc: { name: string, value: string }[] = [];
     public familiar: Familiar = new Familiar();
     public focusPoints: number = 0;
     public focusPointsLast: number = 0;
@@ -47,6 +48,22 @@ export class Class {
     public spellBook: SpellLearned[] = [];
     public spellList: SpellLearned[] = [];
     public formulaBook: FormulaLearned[] = [];
+    recast(typeService: TypeService, itemsService: ItemsService) {
+        this.activities = this.activities.map(obj => Object.assign(new ActivityGain(), obj).recast());
+        this.ancestry = Object.assign(new Ancestry(), this.ancestry).recast();
+        this.animalCompanion = Object.assign(new AnimalCompanion(), this.animalCompanion).recast(typeService, itemsService);
+        this.background = Object.assign(new Background(), this.background).recast();
+        this.customSkills = this.customSkills.map(obj => Object.assign(new Skill(), obj).recast());
+        this.familiar = Object.assign(new Familiar(), this.familiar).recast(typeService, itemsService);
+        this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
+        this.heritage = Object.assign(new Heritage(), this.heritage).recast();
+        this.additionalHeritages = this.additionalHeritages.map(obj => Object.assign(new Heritage(), obj).recast());
+        this.languages = this.languages.map(obj => Object.assign(new LanguageGain(), obj).recast());
+        this.levels = this.levels.map(obj => Object.assign(new Level(), obj).recast());
+        this.spellCasting = this.spellCasting.map(obj => Object.assign(new SpellCasting(obj.castingType), obj).recast());
+        this.formulaBook = this.formulaBook.map(obj => Object.assign(new FormulaLearned(), obj).recast());
+        return this;
+    }
     on_ChangeClass(characterService: CharacterService) {
         let character = characterService.get_Character();
         //Of each granted Item, find the item with the stored id and drop it.
@@ -139,7 +156,7 @@ export class Class {
         if (this.ancestry.name) {
             let character = characterService.get_Character();
             let level = this.levels[1];
-            this.languages.push(...this.ancestry.languages.map(language => Object.assign(new LanguageGain(), {name:language, locked:true, source:this.ancestry.name})));
+            this.languages.push(...this.ancestry.languages.map(language => Object.assign(new LanguageGain(), { name: language, locked: true, source: this.ancestry.name })));
             characterService.set_ToChange("Character", "general");
             level.abilityChoices.push(...this.ancestry.abilityChoices);
             level.featChoices.push(...this.ancestry.featChoices);
@@ -220,19 +237,19 @@ export class Class {
             //We collect all Gnome feats that grant a primal spell, and for all of those spells that you own, set the spell tradition to Primal on the character:
             if (heritage.name.includes("Wellspring Gnome")) {
                 let feats: string[] = characterService.get_Feats("", "Gnome")
-                    .filter(feat => 
-                        feat.gainSpellChoice.filter(choice => 
+                    .filter(feat =>
+                        feat.gainSpellChoice.filter(choice =>
                             choice.castingType == "Innate" &&
                             choice.tradition == "Primal"
                         ).length)
                     .map(feat => feat.name);
                 this.spellCasting.find(casting => casting.castingType == "Innate")
                     .spellChoices.filter(choice => feats.includes(choice.source.substr(6))).forEach(choice => {
-                    choice.tradition = "Primal";
-                    if (choice.available || choice.dynamicAvailable) {
-                        choice.spells.length = 0;
-                    }
-                });
+                        choice.tradition = "Primal";
+                        if (choice.available || choice.dynamicAvailable) {
+                            choice.spells.length = 0;
+                        }
+                    });
             }
         }
     }
@@ -287,11 +304,11 @@ export class Class {
                 }
             }
             heritage.gainActivities.forEach((gainActivity: string) => {
-                character.gain_Activity(characterService, Object.assign(new ActivityGain(), {name:gainActivity, source:heritage.name}), 1);
+                character.gain_Activity(characterService, Object.assign(new ActivityGain(), { name: gainActivity, source: heritage.name }), 1);
             });
             //Gain Spell or Spell Option
             heritage.spellChoices.forEach(newSpellChoice => {
-                let insertSpellChoice = Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newSpellChoice)));
+                let insertSpellChoice = Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newSpellChoice))).recast();
                 insertSpellChoice.spells.forEach((gain: SpellGain) => {
                     gain.sourceId = insertSpellChoice.id;
                     gain.source = insertSpellChoice.source;
@@ -307,11 +324,11 @@ export class Class {
                     .filter(feat => feat.gainSpellChoice.some(choice => choice.castingType == "Innate" && choice.tradition == "Primal")).map(feat => feat.name);
                 this.spellCasting.find(casting => casting.castingType == "Innate")
                     .spellChoices.filter(choice => feats.includes(choice.source.substr(6))).forEach(choice => {
-                    choice.tradition = heritage.subType;
-                    if (choice.available || choice.dynamicAvailable) {
-                        choice.spells.length = 0;
-                    }
-                });
+                        choice.tradition = heritage.subType;
+                        if (choice.available || choice.dynamicAvailable) {
+                            choice.spells.length = 0;
+                        }
+                    });
             }
         }
     }
@@ -325,7 +342,7 @@ export class Class {
             //We can't just delete these feats, but must specifically un-take them to undo their effects.
             level.featChoices.filter(choice => choice.source == "Background").forEach(choice => {
                 choice.feats.forEach(feat => {
-                character.take_Feat(character, characterService, undefined, feat.name, false, choice, feat.locked);
+                    character.take_Feat(character, characterService, undefined, feat.name, false, choice, feat.locked);
                 });
             });
             level.featChoices = level.featChoices.filter(availableBoost => availableBoost.source != "Background");
@@ -342,7 +359,7 @@ export class Class {
                     character.process_Skill(characterService, increase.name, false, choice, true)
                 })
             });
-            
+
         }
     }
     on_NewBackground(characterService: CharacterService) {
@@ -371,10 +388,10 @@ export class Class {
                 })
             });
             if (this.background.loreChoices[0].loreName) {
-                if (characterService.get_Skills(character, 'Lore: '+this.background.loreChoices[0].loreName).length) {
-                    let increases = character.get_SkillIncreases(characterService, 1, 20, 'Lore: '+this.background.loreChoices[0].loreName).filter(increase => 
+                if (characterService.get_Skills(character, 'Lore: ' + this.background.loreChoices[0].loreName).length) {
+                    let increases = character.get_SkillIncreases(characterService, 1, 20, 'Lore: ' + this.background.loreChoices[0].loreName).filter(increase =>
                         increase.sourceId.includes("-Lore-")
-                        );
+                    );
                     if (increases.length) {
                         let oldChoice = character.get_LoreChoice(increases[0].sourceId)
                         if (oldChoice.available == 1) {

@@ -2,15 +2,17 @@ import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
-import { Familiar } from './Familiar';
 import { Creature } from './Creature';
 
 export class Speed {
-    public readonly _className = this.constructor.name;
-    constructor (
+    public readonly _className: string = this.constructor.name;
+    constructor(
         public name: string = ""
-    ) {};
+    ) { };
     public source: string = "";
+    recast() {
+        return this;
+    }
     relatives(creature: Creature, effectsService: EffectsService, name: string, both: boolean = false) {
         if (both && name != "Speed") {
             return effectsService.get_RelativesOnThese(creature, [name, "Speed"]);
@@ -40,7 +42,7 @@ export class Speed {
         }
     }
     baseValue(creature: Creature, characterService: CharacterService, effectsService: EffectsService) {
-    //Gets the basic speed and adds all effects
+        //Gets the basic speed and adds all effects
         if (characterService.still_loading()) { return 0; }
         let sum = 0;
         let explain: string = "";
@@ -50,13 +52,13 @@ export class Speed {
         if (creature.type == "Familiar") {
             if (this.name == creature.speeds[1].name) {
                 sum = 25;
-                explain = "\nBase speed: "+sum;
+                explain = "\nBase speed: " + sum;
             }
         } else {
-            if ((creature as AnimalCompanion|Character).class.ancestry.name) {
-                (creature as AnimalCompanion|Character).class.ancestry.speeds.filter(speed => speed.name == this.name).forEach(speed => {
+            if ((creature as AnimalCompanion | Character).class.ancestry.name) {
+                (creature as AnimalCompanion | Character).class.ancestry.speeds.filter(speed => speed.name == this.name).forEach(speed => {
                     sum = speed.value;
-                    explain = "\n"+(creature as AnimalCompanion|Character).class.ancestry.name+" base speed: "+sum;
+                    explain = "\n" + (creature as AnimalCompanion | Character).class.ancestry.name + " base speed: " + sum;
                 });
             }
         }
@@ -69,7 +71,7 @@ export class Speed {
         let isNull: boolean = (sum == 0)
         this.relatives(creature, effectsService, this.name).forEach(effect => {
             sum += parseInt(effect.value);
-            explain += "\n"+effect.source+": "+effect.value;
+            explain += "\n" + effect.source + ": " + effect.value;
         });
         if (!isNull && sum < 5 && this.name != "Speed") {
             sum = 5;
@@ -88,7 +90,7 @@ export class Speed {
         if (this.name != "Speed") {
             this.relatives(creature, effectsService, "Speed").forEach(effect => {
                 sum += parseInt(effect.value);
-                explain += "\n"+effect.source+": "+effect.value;
+                explain += "\n" + effect.source + ": " + effect.value;
             });
         }
         if (!isNull && sum < 5 && this.name != "Speed") {

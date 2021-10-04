@@ -1,3 +1,4 @@
+import { TypeService } from './type.service';
 import { Weapon } from './Weapon';
 
 export class AlchemicalBomb extends Weapon {
@@ -12,5 +13,8 @@ export class AlchemicalBomb extends Weapon {
     get_Name() {
         return this.displayName || this.name;
     }
-    
+    recast(typeService: TypeService) {
+        super.recast(typeService);
+        return this;
+    }
 }

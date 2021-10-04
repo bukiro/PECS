@@ -4,9 +4,13 @@ import { Oil } from './Oil';
 import { ItemGain } from './ItemGain';
 import { Creature } from './Creature';
 import { CharacterService } from './character.service';
+import { TypeService } from './type.service';
 
 export class Item {
     public readonly _className: string = this.constructor.name;
+    public readonly neversave: string[] = [
+        "restoredFromSave"
+    ]
     //Allow changing of "equippable" by custom item creation
     public allowEquippable: boolean;
     //Number of items of this kind in your inventory.
@@ -77,6 +81,18 @@ export class Item {
     public overridePriority: number = 0;
     //If markedForDeletion is set, the item isn't recursively dropped during drop_InventoryItem, thus avoiding loops stemming from gained items and gained inventories. 
     public markedForDeletion: boolean = false;
+    public restoredFromSave: boolean = false;
+    recast(typeService: TypeService) {
+        this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
+        //Oils need to be cast blindly in order to avoid circular dependency warnings.
+        this.oilsApplied = this.oilsApplied.map(obj => typeService.classCast(obj, "Oil").recast());
+        this.storedSpells = this.storedSpells.map(obj => Object.assign(new SpellChoice(), obj).recast());
+        this.storedSpells.forEach((choice: SpellChoice, index) => {
+            choice.source = this.id;
+            choice.id = "0-Spell-" + this.id + index;
+        });
+        return this;
+    }
     get_Traits(characterService: CharacterService, creature: Creature) {
         //Some types of items have more complicated methods of determining traits, and need characterService and creature in the function.
         this._traits = this.traits;

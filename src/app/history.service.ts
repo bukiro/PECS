@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Ancestry } from './Ancestry';
 import { Heritage } from './Heritage';
 import { Background } from './Background';
-import { SavegameService } from './savegame.service';
 import * as json_ancestries from '../assets/json/ancestries';
 import * as json_backgrounds from '../assets/json/backgrounds';
 import * as json_heritages from '../assets/json/heritages';
 import { ExtensionsService } from './extensions.service';
+import { TypeService } from './type.service';
 
 @Injectable({
     providedIn: 'root'
@@ -18,9 +18,9 @@ export class HistoryService {
     private loading_ancestries: boolean = false;
     private loading_backgrounds: boolean = false;
     private loading_heritages: boolean = false;
-    
+
     constructor(
-        private savegameService: SavegameService,
+        private typeService: TypeService,
         private extensionsService: ExtensionsService
     ) { }
 
@@ -32,8 +32,8 @@ export class HistoryService {
 
     get_Heritages(name: string = "", ancestryName: string = "") {
         if (!this.loading_heritages) {
-            return this.heritages.filter(heritage => (heritage.name == name || name == "" )
-             && (ancestryName == "" || this.get_Ancestries(ancestryName)[0].heritages.includes(heritage.name)) );
+            return this.heritages.filter(heritage => (heritage.name == name || name == "")
+                && (ancestryName == "" || this.get_Ancestries(ancestryName)[0].heritages.includes(heritage.name)));
         } else { return [new Heritage()] }
     }
 
@@ -44,23 +44,23 @@ export class HistoryService {
             heritages.forEach(heritage => {
                 heritages.push(...heritage.subTypes);
             })
-            return heritages.filter(heritage => (heritage.name == name || name == "" ));
+            return heritages.filter(heritage => (heritage.name == name || name == ""));
         } else { return [new Heritage()] }
     }
-    
+
     get_Backgrounds(name: string = "") {
         if (!this.loading_backgrounds) {
             return this.backgrounds.filter(background => (background.name == name || name == ""));
         } else { return [new Background()] }
     }
 
-    restore_AncestryFromSave(ancestry: Ancestry, savegameService: SavegameService) {
+    restore_AncestryFromSave(ancestry: Ancestry) {
         if (ancestry.name) {
             let libraryObject = this.get_Ancestries(ancestry.name)[0];
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    ancestry = savegameService.merge(libraryObject, ancestry);
+                    ancestry = this.typeService.merge(libraryObject, ancestry);
                 } catch (e) {
                     console.log("Failed reassigning: " + e)
                 }
@@ -87,13 +87,13 @@ export class HistoryService {
         return ancestry;
     }
 
-    restore_HeritageFromSave(heritage: Heritage, savegameService: SavegameService) {
+    restore_HeritageFromSave(heritage: Heritage) {
         if (heritage.name) {
             let libraryObject = this.get_HeritagesAndSubtypes(heritage.name)[0];
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    heritage = savegameService.merge(libraryObject, heritage);
+                    heritage = this.typeService.merge(libraryObject, heritage);
                 } catch (e) {
                     console.log("Failed reassigning: " + e)
                 }
@@ -120,13 +120,13 @@ export class HistoryService {
         return heritage;
     }
 
-    restore_BackgroundFromSave(background: Background, savegameService: SavegameService) {
+    restore_BackgroundFromSave(background: Background) {
         if (background.name) {
             let libraryObject = this.get_Backgrounds(background.name)[0];
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    background = savegameService.merge(libraryObject, background);
+                    background = this.typeService.merge(libraryObject, background);
                 } catch (e) {
                     console.log("Failed reassigning: " + e)
                 }
@@ -180,10 +180,7 @@ export class HistoryService {
         this[target] = [];
         let data = this.extensionsService.extend(source, target);
         Object.keys(data).forEach(key => {
-            this[target].push(...data[key].map(obj => Object.assign(new type(), obj)));
-        });
-        this[target].forEach(obj => {
-            obj = this.savegameService.reassign(obj)
+            this[target].push(...data[key].map(obj => Object.assign(new type(), obj).recast()));
         });
         this[target] = this.extensionsService.cleanup_Duplicates(this[target], "name", target);
     }

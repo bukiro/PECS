@@ -25,4 +25,7 @@ export class SkillChoice {
     public source: string = "";
     public type: string = "";
     public bonus: boolean = false;
+    recast() {
+        return this;
+    }
 }

@@ -23,6 +23,10 @@ export class Deity {
     //Store current domains here to save resources for the many queries coming from the general component and the domain initiate feats.
     public $domains: string[] = [];
     public $alternateDomains: string[] = [];
+    recast() {
+        this.clericSpells = this.clericSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
+        return this;
+    }
     get_Domains(character: Character) {
         //Only collect the domains if $domains is empty. When this is done, the result is written into $domains.
         if (!this.$domains.length) {

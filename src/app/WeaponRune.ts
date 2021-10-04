@@ -1,4 +1,5 @@
 import { Rune } from './Rune';
+import { TypeService } from './type.service';
 
 export class WeaponRune extends Rune {
     public readonly _className: string = this.constructor.name;
@@ -16,11 +17,15 @@ export class WeaponRune extends Rune {
     //Can only be applied to a weapon with this name
     public namereq: string = "";
     //Can only be applied to a melee weapon, or to a ranged weapon
-    public rangereq: ""|"melee"|"ranged" = "";
+    public rangereq: "" | "melee" | "ranged" = "";
     //Cannot apply to a weapon with this rune
     public runeblock: string = "";
     public striking: number = 0;
     public success: string = "";
     //Can only be applied to a weapon with this trait
     public traitreq: string = "";
+    recast(typeService: TypeService) {
+        super.recast(typeService);
+        return this;
+    }
 }

@@ -7,4 +7,7 @@ export class ProficiencyCopy {
     public featuresOnly: boolean = false;
     //Minimum skill level needed to apply (usually Trained).
     public minLevel: number = 2;
+    recast() {
+        return this;
+    }
 }

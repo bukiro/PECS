@@ -569,7 +569,7 @@ export class InventoryComponent implements OnInit {
         if (type == 'snarespecialist') {
             return this.get_FormulasLearned()
                 .filter(learned => learned.snareSpecialistPrepared)
-                .map(learned => Object.assign(new Object(), { learned: learned, item: this.itemsService.get_CleanItemByID(learned.id) }))
+                .map(learned => { return { learned: learned, item: this.itemsService.get_CleanItemByID(learned.id) } })
                 .sort(function (a, b) {
                     if (a.item.name > b.item.name) {
                         return 1;

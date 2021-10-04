@@ -13,4 +13,7 @@ export class Savegame {
     companionId: string;
     familiarName: string;
     familiarId: string;
+    recast() {
+        return this;
+    }
 }

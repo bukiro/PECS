@@ -3,4 +3,7 @@ export class SignatureSpellGain {
     public className: string = "";
     //You can assign this amount of signature spells, where -1 is unlimited.
     public available: number = 0;
+    recast() {
+        return this;
+    }
 }

@@ -7,6 +7,7 @@ import { Equipment } from 'src/app/Equipment';
 import { Weapon } from 'src/app/Weapon';
 import { Armor } from 'src/app/Armor';
 import { Shield } from 'src/app/Shield';
+import { TypeService } from 'src/app/type.service';
 
 @Component({
     selector: 'app-itemTalismans',
@@ -25,7 +26,8 @@ export class ItemTalismansComponent implements OnInit {
 
     constructor(
         public characterService: CharacterService,
-        private itemsService: ItemsService
+        private itemsService: ItemsService,
+        private typeService: TypeService
     ) { }
 
     trackByIndex(index: number, obj: any): any {
@@ -110,8 +112,7 @@ export class ItemTalismansComponent implements OnInit {
             //Then add the new Talisman to the item and (unless we are in the item store) remove it from the inventory.
             if (talisman.name != "") {
                 //Add a copy of Talisman to the item
-                let newLength = item.talismans.push(Object.assign(new Talisman, JSON.parse(JSON.stringify(talisman))));
-                item.talismans[newLength - 1] = this.characterService.reassign(item.talismans[newLength - 1]);
+                let newLength = item.talismans.push(Object.assign(new Talisman, JSON.parse(JSON.stringify(talisman))).recast(this.typeService));
                 let newTalisman = item.talismans[newLength - 1];
                 newTalisman.amount = 1;
                 //If we are not in the item store, remove the inserted Talisman from the inventory, either by decreasing the amount or by dropping the item.
@@ -153,17 +154,17 @@ export class ItemTalismansComponent implements OnInit {
                 let price: number = talisman.price;
                 let priceString: string = "";
                 if (price >= 100) {
-                    priceString += Math.floor(price / 100)+"gp";
+                    priceString += Math.floor(price / 100) + "gp";
                     price %= 100;
-                    if (price >= 10) {priceString += " ";}
+                    if (price >= 10) { priceString += " "; }
                 }
                 if (price >= 10) {
-                    priceString += Math.floor(price / 10)+"sp";
+                    priceString += Math.floor(price / 10) + "sp";
                     price %= 10;
-                    if (price >= 1) {priceString += " ";}
+                    if (price >= 1) { priceString += " "; }
                 }
                 if (price >= 1) {
-                    priceString += price+"cp";
+                    priceString += price + "cp";
                 }
                 return priceString;
             }

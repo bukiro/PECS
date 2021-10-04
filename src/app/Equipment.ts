@@ -11,6 +11,8 @@ import { Hint } from './Hint';
 import { ConditionGain } from './ConditionGain';
 import { SpellChoice } from './SpellChoice';
 import { WornItem } from './WornItem';
+import { TypeService } from './type.service';
+import { SpellGain } from './SpellGain';
 
 export class Equipment extends Item {
     //Allow changing of "equippable" by custom item creation
@@ -73,13 +75,40 @@ export class Equipment extends Item {
     public talismans: Talisman[] = [];
     //List any Talisman Cords attached to this item.
     public talismanCords: WornItem[] = [];
+    recast(typeService: TypeService) {
+        super.recast(typeService);
+        this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
+        this.activities.forEach(activity => { activity.source = this.id });
+        this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
+        this.gainActivities = this.gainActivities.map(obj => Object.assign(new ActivityGain(), obj).recast());
+        this.gainActivities.forEach(gain => { gain.source = this.id });
+        this.gainInventory = this.gainInventory.map(obj => Object.assign(new InventoryGain(), obj).recast());
+        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
+        this.gainSpells = this.gainSpells.map(obj => Object.assign(new SpellChoice(), obj).recast());
+        this.gainSpells.forEach((choice: SpellChoice) => {
+            choice.castingType = "Innate";
+            choice.source = this.name;
+            choice.available = 0;
+            choice.spells.forEach((gain: SpellGain) => {
+                gain.locked = true;
+                gain.sourceId = choice.id;
+            })
+        })
+        this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
+        this.material = this.material.map(obj => Object.assign(new Material(), obj).recast());
+        this.propertyRunes = this.propertyRunes.map(obj => Object.assign(new Rune(), obj).recast(typeService));
+        this.bladeAllyRunes = this.bladeAllyRunes.map(obj => Object.assign(new Rune(), obj).recast(typeService));
+        this.talismans = this.talismans.map(obj => Object.assign(new Talisman(), obj).recast(typeService));
+        //Talisman Cords need to be cast blindly to avoid circular dependency warnings.
+        this.talismanCords = this.talismanCords.map(obj => typeService.classCast(obj, "WornItem").recast(typeService));
+        return this;
+    }
     can_Stack() {
         //Additionally to the usual considerations, equipment can't stack if it adds an inventory or any activities.
         return (
             super.can_Stack() &&
             !this.gainInventory.length &&
-            !this.gainActivities.filter((activity: ItemActivity) => !activity.displayOnly).length &&
-            !this.activities.filter((activity: ItemActivity) => !activity.displayOnly).length
+            !this.activities.some((activity: ItemActivity) => !activity.displayOnly)
         )
     }
     get_Bulk() {

@@ -35,4 +35,8 @@ export class FeatChoice {
     public ignoreRequirements: string[] = [];
     public type: string = "";
     public bonus: boolean = false;
+    recast() {
+        this.feats = this.feats.map(obj => Object.assign(new FeatTaken(), obj).recast());
+        return this;
+    }
 }

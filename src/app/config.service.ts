@@ -170,11 +170,7 @@ export class ConfigService {
                         this.updateAvailable = availableVersion;
                     }
                 }).catch(err => {
-                    if (err.status == 404) {
-                        console.log("Could not contact github to check for new version.")
-                    } else {
-                        throw err;
-                    }
+                    console.log("Could not contact github to check for new version.")
                     this.updateAvailable = "n/a";
                 })
         }

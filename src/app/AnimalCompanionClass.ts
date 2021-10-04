@@ -12,9 +12,11 @@ export class AnimalCompanionClass {
     public levels: AnimalCompanionLevel[] = [];
     public name: string = "";
     public specializations: AnimalCompanionSpecialization[] = [];
-    reset_levels(characterService: CharacterService) {
-        //Don't call it unless you are resetting the animal companion.
-        this.levels = characterService.get_AnimalCompanionLevels().map(level => Object.assign(new AnimalCompanionLevel(), level));
+    recast() {
+        this.ancestry = Object.assign(new AnimalCompanionAncestry(), this.ancestry);
+        this.levels = this.levels.map(obj => Object.assign(new AnimalCompanionLevel(), obj).recast());
+        this.specializations = this.specializations.map(obj => Object.assign(new AnimalCompanionSpecialization(), obj).recast());
+        return this;
     }
     on_ChangeAncestry(characterService: CharacterService) {
         if (this.ancestry.name) {

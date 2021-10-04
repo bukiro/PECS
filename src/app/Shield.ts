@@ -4,6 +4,7 @@ import { Creature } from './Creature';
 import { Equipment } from './Equipment';
 import { ItemsService } from './items.service';
 import { ShieldMaterial } from './ShieldMaterial';
+import { TypeService } from './type.service';
 
 export class Shield extends Equipment {
     public readonly _className: string = this.constructor.name;
@@ -36,6 +37,10 @@ export class Shield extends Equipment {
     public _emblazonAntimagic: boolean = false;
     //Shoddy shields take a -2 penalty to AC.
     public _shoddy: number = 0;
+    recast(typeService: TypeService) {
+        super.recast(typeService);
+        return this;
+    }
     get_Name() {
         if (this.displayName.length) {
             return this.displayName;

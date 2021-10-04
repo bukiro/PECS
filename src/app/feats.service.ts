@@ -27,6 +27,7 @@ import { Hint } from './Hint';
 import { ExtensionsService } from './extensions.service';
 import { BloodMagic } from './BloodMagic';
 import { FeatTaken } from './FeatTaken';
+import { TypeService } from './type.service';
 
 @Injectable({
     providedIn: 'root'
@@ -43,7 +44,8 @@ export class FeatsService {
     private $characterFeatsTaken: { level: number, gain: FeatTaken }[] = [];
 
     constructor(
-        private extensionsService: ExtensionsService
+        private extensionsService: ExtensionsService,
+        private typeService: TypeService
     ) { }
 
     get_FeatFromName(customFeats: Feat[], name: string) {
@@ -422,7 +424,7 @@ export class FeatsService {
                 if (taken) {
                     feat.gainSpellChoice.forEach(newSpellChoice => {
                         if (newSpellChoice.insertClass ? character.class.name == newSpellChoice.insertClass : true) {
-                            let insertSpellChoice: SpellChoice = Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newSpellChoice)));
+                            let insertSpellChoice: SpellChoice = Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newSpellChoice))).recast();
                             //Allow adding Spellchoices without a class to automatically add the correct class.
                             // This finds the correct class either from the choice (if its type is a class name) or from the character's main class.
                             if (!insertSpellChoice.className) {
@@ -683,7 +685,7 @@ export class FeatsService {
                 if (companion.class.levels.length) {
                     if (taken) {
                         if (!["Young", "Specialized"].includes(feat.gainAnimalCompanion)) {
-                            companion.class.levels[3] = Object.assign(new AnimalCompanionLevel(), companion.class.levels.find(level => level.name == feat.gainAnimalCompanion));
+                            companion.class.levels[3] = Object.assign(new AnimalCompanionLevel(), companion.class.levels.find(level => level.name == feat.gainAnimalCompanion)).recast();
                             companion.class.levels[3].number = 3;
                             companion.class.name = "Placeholder";
                         }
@@ -1160,20 +1162,8 @@ export class FeatsService {
         this[target] = [];
         let data = this.extensionsService.extend(source, target);
         Object.keys(data).forEach(key => {
-            this[target].push(...data[key].map(obj => Object.assign(new Feat(), obj)));
+            this[target].push(...data[key].map(obj => Object.assign(new Feat(), obj).recast()));
         });
-        this[target].forEach((feat: Feat) => {
-            feat.gainFeatChoice = feat.gainFeatChoice.map(choice => Object.assign(new FeatChoice(), choice));
-            feat.gainConditions = feat.gainConditions.map(choice => Object.assign(new ConditionGain(), choice));
-            feat.gainSpecialization = feat.gainSpecialization.map(spec => Object.assign(new SpecializationGain, spec));
-            //feat.gainFormulaChoice = feat.gainFormulaChoice.map(choice => Object.assign(new FormulaChoice(), choice));
-            feat.gainAbilityChoice = feat.gainAbilityChoice.map(choice => Object.assign(new AbilityChoice, choice));
-            feat.gainSkillChoice = feat.gainSkillChoice.map(choice => Object.assign(new SkillChoice, choice));
-            feat.gainSpellChoice = feat.gainSpellChoice.map(choice => Object.assign(new SpellChoice, choice));
-            feat.gainSpellCasting = feat.gainSpellCasting.map(choice => Object.assign(new SpellCasting(choice.castingType), choice));
-            feat.hints = feat.hints.map(hint => Object.assign(new Hint(), hint));
-            feat.bloodMagic = feat.bloodMagic.map(bloodMagic => Object.assign(new BloodMagic(), bloodMagic));
-        })
         this[target] = this.extensionsService.cleanup_Duplicates(this[target], "name", target);
     }
 

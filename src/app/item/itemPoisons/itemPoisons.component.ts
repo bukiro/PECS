@@ -5,8 +5,8 @@ import { ItemCollection } from 'src/app/ItemCollection';
 import { CharacterService } from 'src/app/character.service';
 import { ItemsService } from 'src/app/items.service';
 import { TimeService } from 'src/app/time.service';
-import { Equipment } from 'src/app/Equipment';
 import { Weapon } from 'src/app/Weapon';
+import { TypeService } from 'src/app/type.service';
 
 @Component({
     selector: 'app-itemPoisons',
@@ -26,7 +26,8 @@ export class ItemPoisonsComponent implements OnInit {
     constructor(
         private characterService: CharacterService,
         private itemsService: ItemsService,
-        private timeService: TimeService
+        private timeService: TimeService,
+        private typeService: TypeService
     ) { }
 
     trackByIndex(index: number, obj: any): any {
@@ -62,8 +63,7 @@ export class ItemPoisonsComponent implements OnInit {
         if (this.newPoison.poison.name) {
             let item = this.item;
             item.poisonsApplied.length = 0;
-            let newLength = item.poisonsApplied.push(Object.assign(new AlchemicalPoison(), JSON.parse(JSON.stringify(this.newPoison.poison))));
-            item.poisonsApplied[newLength - 1] = this.characterService.reassign(item.poisonsApplied[newLength - 1]);
+            item.poisonsApplied.push(Object.assign(new AlchemicalPoison(), JSON.parse(JSON.stringify(this.newPoison.poison))).recast(this.typeService));
             if (this.newPoison.inv) {
                 this.characterService.drop_InventoryItem(this.get_Character(), this.newPoison.inv, this.newPoison.poison, false, false, false, 1);
             }

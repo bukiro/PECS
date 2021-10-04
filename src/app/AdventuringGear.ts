@@ -1,4 +1,5 @@
 import { Equipment } from './Equipment';
+import { TypeService } from './type.service';
 
 export class AdventuringGear extends Equipment {
     public readonly _className: string = this.constructor.name;
@@ -15,4 +16,8 @@ export class AdventuringGear extends Equipment {
     public stack: number = 1;
     //How is this item used/worn/applied? Example: held in 1 hand
     public usage: string = "";
+    recast(typeService: TypeService) {
+        super.recast(typeService);
+        return this;
+    }
 }

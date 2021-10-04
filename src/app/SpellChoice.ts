@@ -1,7 +1,5 @@
 import { SpellGain } from './SpellGain';
 import { v4 as uuidv4 } from 'uuid';
-import { Creature } from './Creature';
-import { CharacterService } from './character.service';
 
 export class SpellChoice {
     public readonly _className: string = this.constructor.name;
@@ -73,4 +71,8 @@ export class SpellChoice {
     //If target is set to "Allies", you can only choose spells with target "ally".
     //If target is set to "Enemies", you can only choose spells with no target property (so it's likely not beneficial).
     public target: string = "";
+    recast() {
+        this.spells = this.spells.map(obj => Object.assign(new SpellGain(), obj).recast());
+        return this;
+    }
 }

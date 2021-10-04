@@ -72,6 +72,7 @@ import { Equipment } from './Equipment';
 import { ConfigService } from './config.service';
 import { default as package_json } from 'package.json';
 import { Hint } from './Hint';
+import { TypeService } from './type.service';
 
 @Injectable({
     providedIn: 'root'
@@ -85,7 +86,8 @@ export class SavegameService {
 
     constructor(
         private http: HttpClient,
-        private configService: ConfigService
+        private configService: ConfigService,
+        private typeService: TypeService
     ) {
 
     }
@@ -102,50 +104,47 @@ export class SavegameService {
         //Make a copy of the character before restoration. This will be used in patching.
         let savedCharacter = Object.assign(new Character(), JSON.parse(JSON.stringify(character)));
 
-        //Restore a lot of data from reference objects.
-        //This allows us to save a lot of data at saving by removing all data from certain objects that is the same as in their original template.
+        //We restore a few things individually before we restore the class, allowing us to patch them before any issues would be created by new changes to the class.
 
         //Apply any new settings.
         character.settings = Object.assign(new Settings, character.settings);
 
-        //Restore Inventories.
+        //Restore Inventories, but not items.
         character.inventories = character.inventories.map(inventory => Object.assign(new ItemCollection(), inventory));
 
         //Apply patches that need to be done before the class is restored.
         //This is usually removing skill increases and feat choices, which can cause issues if the class doesn't have them at the same index as the character.
         character = this.patch(savedCharacter, character, 1, characterService);
 
+        //Restore a lot of data from reference objects.
+        //This allows us to save a lot of traffic at saving by removing all data from certain objects that is the unchanged from in their original template.
         if (character.class.name) {
             if (character.class.ancestry && character.class.ancestry.name) {
-                character.class.ancestry = historyService.restore_AncestryFromSave(character.class.ancestry, this);
+                character.class.ancestry = historyService.restore_AncestryFromSave(character.class.ancestry);
             }
             if (character.class.heritage && character.class.heritage.name) {
-                character.class.heritage = historyService.restore_HeritageFromSave(character.class.heritage, this);
+                character.class.heritage = historyService.restore_HeritageFromSave(character.class.heritage);
             }
             if (character.class.background && character.class.background.name) {
-                character.class.background = historyService.restore_BackgroundFromSave(character.class.background, this);
+                character.class.background = historyService.restore_BackgroundFromSave(character.class.background);
             }
             if (character.class.animalCompanion) {
-                if (character.class.animalCompanion.inventories) {
-                    character.class.animalCompanion.inventories = character.class.animalCompanion.inventories
-                        .map(inventory => Object.assign(new ItemCollection(), inventory));
-                }
                 if (character.class.animalCompanion?.class?.ancestry) {
-                    character.class.animalCompanion.class.ancestry = animalCompanionsService.restore_AncestryFromSave(character.class.animalCompanion.class.ancestry, this);
+                    character.class.animalCompanion.class.ancestry = animalCompanionsService.restore_AncestryFromSave(character.class.animalCompanion.class.ancestry);
                 }
                 if (character.class.animalCompanion?.class?.levels) {
-                    character.class.animalCompanion.class = animalCompanionsService.restore_LevelsFromSave(character.class.animalCompanion.class, this);
+                    character.class.animalCompanion.class = animalCompanionsService.restore_LevelsFromSave(character.class.animalCompanion.class);
                 }
                 if (character.class.animalCompanion.class?.specializations) {
                     character.class.animalCompanion.class.specializations = character.class.animalCompanion.class.specializations
-                        .map(spec => animalCompanionsService.restore_SpecializationFromSave(spec, this));
+                        .map(spec => animalCompanionsService.restore_SpecializationFromSave(spec));
                 }
             }
             //Restore the class last, so we don't null its components (ancestry, animal companion etc.)
-            character.class = classesService.restore_ClassFromSave(character.class, this);
+            character.class = classesService.restore_ClassFromSave(character.class);
         }
 
-        character = this.reassign(character, "", itemsService);
+        character = character.recast(this.typeService, itemsService);
         if (character['_id']) {
             delete character['_id'];
         }
@@ -543,106 +542,6 @@ export class SavegameService {
 
     }
 
-    classCast(obj: any, className: string) {
-        //This function tries to cast an object according to the given class name.
-        switch (className) {
-            case "AbilityChoice": return Object.assign(new AbilityChoice(), obj);
-            case "ActivityGain": return Object.assign(new ActivityGain(), obj);
-            case "AdventuringGear": return Object.assign(new AdventuringGear(), obj);
-            case "AlchemicalBomb": return Object.assign(new AlchemicalBomb(), obj);
-            case "AlchemicalElixir": return Object.assign(new AlchemicalElixir(), obj);
-            case "AlchemicalPoison": return Object.assign(new AlchemicalPoison(), obj);
-            case "AlchemicalTool": return Object.assign(new AlchemicalTool(), obj);
-            case "Ammunition": return Object.assign(new Ammunition(), obj);
-            case "Ancestry": return Object.assign(new Ancestry(), obj);
-            case "AnimalCompanion": return Object.assign(new AnimalCompanion(), obj);
-            case "AnimalCompanionAncestry": return Object.assign(new AnimalCompanionAncestry(), obj);
-            case "AnimalCompanionClass": return Object.assign(new AnimalCompanionClass(), obj);
-            case "AnimalCompanionLevel": return Object.assign(new AnimalCompanionLevel(), obj);
-            case "AnimalCompanionSpecialization": return Object.assign(new AnimalCompanionSpecialization(), obj);
-            case "Armor": return Object.assign(new Armor(), obj);
-            case "ArmorMaterial": return Object.assign(new ArmorMaterial(), obj);
-            case "ArmorRune": return Object.assign(new ArmorRune(), obj);
-            case "Background": return Object.assign(new Background(), obj);
-            case "Bulk": return Object.assign(new Bulk(), obj);
-            case "Character": return Object.assign(new Character(), obj);
-            case "Class": return Object.assign(new Class(), obj);
-            case "ConditionGain": return Object.assign(new ConditionGain(), obj);
-            case "Consumable": return Object.assign(new Consumable(), obj);
-            case "EffectGain": return Object.assign(new EffectGain(), obj);
-            case "Equipment": return Object.assign(new Equipment(), obj);
-            case "Familiar": return Object.assign(new Familiar(), obj);
-            case "Feat": return Object.assign(new Feat(), obj);
-            case "FeatChoice": return Object.assign(new FeatChoice(), obj);
-            case "FormulaChoice": return Object.assign(new FormulaChoice(), obj);
-            case "Health": return Object.assign(new Health(), obj);
-            case "HeldItem": return Object.assign(new HeldItem(), obj);
-            case "Heritage": return Object.assign(new Heritage(), obj);
-            case "Hint": return Object.assign(new Hint(), obj);
-            case "InventoryGain": return Object.assign(new InventoryGain(), obj);
-            case "Item": return Object.assign(new Item(), obj);
-            case "ItemActivity": return Object.assign(new ItemActivity(), obj);
-            case "ItemCollection": return Object.assign(new ItemCollection(), obj);
-            case "ItemGain": return Object.assign(new ItemGain(), obj);
-            case "Level": return Object.assign(new Level(), obj);
-            case "LoreChoice": return Object.assign(new LoreChoice(), obj);
-            case "Oil": return Object.assign(new Oil(), obj);
-            case "OtherConsumable": return Object.assign(new OtherConsumable(), obj);
-            case "OtherConsumableBomb": return Object.assign(new OtherConsumableBomb(), obj);
-            case "OtherItem": return Object.assign(new OtherItem(), obj);
-            case "Potion": return Object.assign(new Potion(), obj);
-            case "Scroll": return Object.assign(new Scroll(), obj);
-            case "Settings": return Object.assign(new Settings(), obj);
-            case "Shield": return Object.assign(new Shield(), obj);
-            case "ShieldMaterial": return Object.assign(new ShieldMaterial(), obj);
-            case "Skill": return Object.assign(new Skill(), obj);
-            case "SkillChoice": return Object.assign(new SkillChoice(), obj);
-            case "Snare": return Object.assign(new Snare(), obj);
-            case "Speed": return Object.assign(new Speed(), obj);
-            case "SpellCast": return Object.assign(new SpellCast(), obj);
-            case "SpellCasting": return Object.assign(new SpellCasting(obj.castingType), obj);
-            case "SpellChoice": return Object.assign(new SpellChoice(), obj);
-            case "SpellGain": return Object.assign(new SpellGain(), obj);
-            case "Talisman": return Object.assign(new Talisman(), obj);
-            case "Weapon": return Object.assign(new Weapon(), obj);
-            case "WeaponMaterial": return Object.assign(new WeaponMaterial(), obj);
-            case "WeaponRune": return Object.assign(new WeaponRune(), obj);
-            case "WornItem": return Object.assign(new WornItem(), obj);
-            case "Wand": return Object.assign(new Wand(), obj);
-            default: return obj;
-        }
-    }
-
-    merge(target: any, source: any) {
-        if (typeof source == "object" && source) {
-            let output = Object.assign(new target.constructor, JSON.parse(JSON.stringify(target)))
-            if (Array.isArray(source)) {
-                source.forEach((obj: any, index) => {
-                    if (!output[index]) {
-                        Object.assign(output, { [index]: JSON.parse(JSON.stringify(source[index])) });
-                    } else {
-                        output[index] = this.merge(target[index], source[index]);
-                    }
-                });
-            } else {
-                Object.keys(source).forEach(key => {
-                    if (typeof source === 'object') {
-                        if (!(key in target))
-                            Object.assign(output, { [key]: JSON.parse(JSON.stringify(source[key])) });
-                        else
-                            output[key] = this.merge(target[key], source[key]);
-                    } else {
-                        Object.assign(output, { [key]: JSON.parse(JSON.stringify(source[key])) });
-                    }
-                });
-            }
-            return output;
-        } else {
-            return source;
-        }
-
-    }
-
     clean(object: any, itemsService: ItemsService) {
         //Only cleanup objects that have Classes (= aren't object Object)
         if (typeof object == "object" && object.constructor !== Object) {
@@ -687,53 +586,10 @@ export class SavegameService {
         return object;
     }
 
-    reassign(object: any, keyName: string = "", itemsService: ItemsService = null) {
-        //Only objects get reassigned - if they have a _className attribute and aren't null/undefined/empty
-        if (typeof object == "object" && object) {
-            //If the object is an array, iterate over its elements
-            if (Array.isArray(object)) {
-                object.forEach((obj: any, index) => {
-                    object[index] = this.reassign(obj, keyName + "[" + index + "]", itemsService);
-                });
-            } else {
-                //For items with a refId, merge them with their reference item if it exists.
-                if (object.refId && itemsService) {
-                    let libraryItem = itemsService.get_CleanItemByID(object.refId);
-                    if (libraryItem) {
-                        //Map the restored object onto the library object and keep the result.
-                        try {
-                            object = this.merge(libraryItem, object);
-                            object = itemsService.cast_ItemByClassName(object, libraryItem.constructor.name);
-                            //Disable any active hint effects when loading an item.
-                            if (object.hints?.length) {
-                                (object as Equipment).hints?.forEach(hint => {
-                                    hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-                                })
-                            }
-                        } catch (e) {
-                            console.log("Failed reassigning item " + object.id + ": " + e)
-                        }
-                    }
-                }
-                //If the object is not cast yet, try casting it object as its _className.
-                if (object._className && object.constructor.name != object._className) {
-                    try {
-                        object = this.classCast(object, object._className);
-                    } catch (e) {
-                        console.log("Failed reassigning " + keyName + ": " + e)
-                    }
-                }
-                Object.keys(object).forEach(key => {
-                    object[key] = this.reassign(object[key], key, itemsService)
-                })
-            }
-        }
-        return object;
-    }
-
     save_Character(character: Character, itemsService: ItemsService, classesService: ClassesService, historyService: HistoryService, animalCompanionsService: AnimalCompanionsService) {
 
-        let savegame: Character = JSON.parse(JSON.stringify(character));
+        //Copy the character into a savegame, then go through all its elements and make sure that they have the correct class.
+        let savegame: Character = Object.assign(new Character(), JSON.parse(JSON.stringify(character))).recast(this.typeService, itemsService);
 
         let versionString: string = package_json.version;
 
@@ -742,10 +598,6 @@ export class SavegameService {
             savegame.appVersion = parseInt(versionString.split(".")[1]) || 0;
             savegame.appVersionMinor = parseInt(versionString.split(".")[2]) || 0;
         }
-
-        //After copying the character into the savegame, we go through all its elements and make sure that they have the correct class.
-
-        savegame = this.reassign(savegame, "", itemsService);
 
         //Go through all the items, class, ancestry, heritage, background and compare every element to its library equivalent, skipping the properties listed in .save
         //Everything that is the same as the library item gets deleted.

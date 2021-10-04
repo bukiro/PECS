@@ -1,4 +1,5 @@
 import { Consumable } from './Consumable';
+import { TypeService } from './type.service';
 
 export class Snare extends Consumable {
     public readonly _className: string = this.constructor.name;
@@ -13,5 +14,9 @@ export class Snare extends Consumable {
     can_Stack() {
         //Snares can't stack.
         return false;
+    }
+    recast(typeService: TypeService) {
+        super.recast(typeService);
+        return this;
     }
 }

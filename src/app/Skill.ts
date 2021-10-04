@@ -21,6 +21,9 @@ export class Skill {
         public locked: boolean = false,
         public recallKnowledge: boolean = false
     ) { }
+    recast() {
+        return this;
+    }
     calculate(creature: Creature, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level, isDC: boolean = false) {
         let level: number = (creature.type == "Familiar" ? 0 : this.level((creature as AnimalCompanion | Character), characterService, charLevel));
         let ability: string = this.get_Ability(creature, characterService);
@@ -185,7 +188,7 @@ export class Skill {
                 });
             //If the skill name is "Highest Attack Proficiency", add an extra proficiency copy instruction that should return the highest weapon or unarmed procifiency that you have.
             if (this.name == "Highest Attack Proficiency") {
-                proficiencyCopies.push(Object.assign(new ProficiencyCopy(), {name: "Highest Attack Proficiency", type: "Weapon Proficiency", featuresOnly: false}));
+                proficiencyCopies.push(Object.assign(new ProficiencyCopy(), { name: "Highest Attack Proficiency", type: "Weapon Proficiency", featuresOnly: false }));
             }
             //For each proficiency copy instruction, collect the desired skill increases, then keep the highest.
             let copyLevels: number[] = [];

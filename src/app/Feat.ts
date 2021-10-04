@@ -99,6 +99,27 @@ export class Feat {
     public PFSnote: string = "";
     //For feats with the same name (from different source files for example), higher overridePriority wins. If two have the same priority, the first in the list wins.
     public overridePriority: number = 0;
+    recast() {
+        this.changeProficiency = this.changeProficiency.map(obj => Object.assign(new ProficiencyChange(), obj).recast());
+        this.copyProficiency = this.copyProficiency.map(obj => Object.assign(new ProficiencyCopy(), obj).recast());
+        this.bloodMagic = this.bloodMagic.map(obj => Object.assign(new BloodMagic(), obj).recast());
+        this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
+        this.gainAbilityChoice = this.gainAbilityChoice.map(obj => Object.assign(new AbilityChoice(), obj).recast());
+        this.gainSpecialization = this.gainSpecialization.map(obj => Object.assign(new SpecializationGain(), obj).recast());
+        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
+        this.gainFeatChoice = this.gainFeatChoice.map(obj => Object.assign(new FeatChoice(), obj).recast());
+        this.gainFormulaChoice = this.gainFormulaChoice.map(obj => Object.assign(new FormulaChoice(), obj).recast());
+        this.gainHeritage = this.gainHeritage.map(obj => Object.assign(new HeritageGain(), obj).recast());
+        this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
+        this.gainLanguages = this.gainLanguages.map(obj => Object.assign(new LanguageGain(), obj).recast());
+        this.gainLoreChoice = this.gainLoreChoice.map(obj => Object.assign(new LoreChoice(), obj).recast());
+        this.gainSkillChoice = this.gainSkillChoice.map(obj => Object.assign(new SkillChoice(), obj).recast());
+        this.gainSpellCasting = this.gainSpellCasting.map(obj => Object.assign(new SpellCasting(obj.castingType), obj).recast());
+        this.gainSpellChoice = this.gainSpellChoice.map(obj => Object.assign(new SpellChoice(), obj).recast());
+        this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
+        this.allowSignatureSpells = this.allowSignatureSpells.map(obj => Object.assign(new SignatureSpellGain(), obj).recast());
+        return this;
+    }
     prof(skillLevel: number) {
         switch (skillLevel) {
             case 2:

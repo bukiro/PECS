@@ -20,6 +20,7 @@ import { ToastService } from './toast.service';
 import { SpellGain } from './SpellGain';
 import { SpellTarget } from './SpellTarget';
 import { ExtensionsService } from './extensions.service';
+import { TypeService } from './type.service';
 
 @Injectable({
     providedIn: 'root'
@@ -31,7 +32,8 @@ export class ActivitiesService {
 
     constructor(
         private toastService: ToastService,
-        private extensionsService: ExtensionsService
+        private extensionsService: ExtensionsService,
+        private typeService: TypeService
     ) { }
 
     get_Activities(name: string = "") {
@@ -135,7 +137,7 @@ export class ActivitiesService {
         if (activity.gainItems.length && creature.type != "Familiar") {
             if (activated) {
                 if (gain.constructor instanceof ActivityGain) {
-                    gain.gainItems = activity.gainItems.map(gainItem => Object.assign(new ItemGain(), gainItem));
+                    gain.gainItems = activity.gainItems.map(gainItem => Object.assign(new ItemGain(), gainItem).recast());
                 }
                 gain.gainItems.forEach(gainItem => {
                     let newItem: Item = itemsService.get_CleanItems()[gainItem.type.toLowerCase()].find((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase());
@@ -207,7 +209,7 @@ export class ActivitiesService {
                     let sameCondition: boolean = hasTargetCondition && hasCasterCondition && Array.from(new Set(conditions.map(conditionGain => conditionGain.name))).length == 1;
                     conditions.forEach((conditionGain, conditionIndex) => {
                         conditionGain.source = activity.name;
-                        let newConditionGain = Object.assign(new ConditionGain(), conditionGain);
+                        let newConditionGain = Object.assign(new ConditionGain(), conditionGain).recast();
                         let condition = conditionsService.get_Conditions(conditionGain.name)[0]
                         if (!newConditionGain.source) {
                             newConditionGain.source = activity.name;
@@ -366,13 +368,12 @@ export class ActivitiesService {
                 if (activated) {
                     //For non-item activities, which are read-only, we have to store any temporary spell gain data (like duration and targets) on the activity gain instead of the activity, so we copy all spell casts (which include spell gains) to the activity gain.
                     if (gain instanceof ActivityGain) {
-                        gain.castSpells = activity.castSpells.map(spellCast => Object.assign(new SpellCast(), JSON.parse(JSON.stringify(spellCast))));
+                        gain.castSpells = activity.castSpells.map(spellCast => Object.assign(new SpellCast(), JSON.parse(JSON.stringify(spellCast))).recast());
                     }
                 }
                 gain.castSpells.forEach((cast, spellCastIndex) => {
                     let librarySpell = spellsService.get_Spells(cast.name)[0];
                     if (librarySpell) {
-                        cast.spellGain = Object.assign(new SpellGain(), cast.spellGain);
                         if (activated && gain.spellEffectChoices[spellCastIndex].length) {
                             cast.spellGain.effectChoices = gain.spellEffectChoices[spellCastIndex];
                         }
@@ -525,11 +526,7 @@ export class ActivitiesService {
         this.activities = []
         let data = this.extensionsService.extend(json_activities, "activities");
         Object.keys(data).forEach(key => {
-            this.activities.push(...data[key].map(activity => Object.assign(new Activity(), activity)));
-        });
-        this.activities.forEach((activity: Activity) => {
-            activity.castSpells = activity.castSpells.map(cast => Object.assign(new SpellCast(), cast));
-            activity.hints = activity.hints.map(hint => Object.assign(new Hint(), hint));
+            this.activities.push(...data[key].map(activity => Object.assign(new Activity(), activity).recast()));
         });
         this.activities = this.extensionsService.cleanup_Duplicates(this.activities, "name", "activities");
     }

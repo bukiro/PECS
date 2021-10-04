@@ -321,7 +321,7 @@ export class EffectsService {
                             characterService.remove_Condition(creature, gain, false);
                         } else {
                             if (gain.activationPrerequisite) {
-                                let testConditionGain: any = Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(gain)));
+                                let testConditionGain: any = Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(gain))).recast();
                                 let testEffectGain: EffectGain = new EffectGain();
                                 testEffectGain.value = gain.activationPrerequisite;
                                 testConditionGain.effects = [testEffectGain];

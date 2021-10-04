@@ -6,6 +6,9 @@ import { AnimalCompanion } from './AnimalCompanion';
 
 export class Bulk {
     public readonly _className: string = this.constructor.name;
+    recast() {
+        return this;
+    }
     calculate(creature: Character | AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
         let maxabsolutes = this.absolutes(creature, effectsService, "Max Bulk");
         let currentabsolutes = this.absolutes(creature, effectsService, "Bulk");

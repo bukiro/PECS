@@ -91,10 +91,6 @@ export class ConditionGain {
     recast() {
         this.gainActivities = this.gainActivities.map(obj => Object.assign(new ActivityGain(), obj).recast());
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
-        //Condition values need to be numbers but can sometimes be strings in the json. They need to be recast here.
-        if (typeof this.value == "string") {
-            this.value = parseInt(this.value);
-        }
         return this;
     }
 }

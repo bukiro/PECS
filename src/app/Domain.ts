@@ -3,4 +3,7 @@ export class Domain {
     public desc: string = "";
     public domainSpell: string = "";
     public advancedDomainSpell: string = "";
+    recast() {
+        return this;
+    }
 }

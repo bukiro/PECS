@@ -7,6 +7,7 @@ import { Equipment } from 'src/app/Equipment';
 import { Weapon } from 'src/app/Weapon';
 import { Armor } from 'src/app/Armor';
 import { Shield } from 'src/app/Shield';
+import { TypeService } from 'src/app/type.service';
 
 @Component({
     selector: 'app-itemTalismanCords',
@@ -22,7 +23,8 @@ export class ItemTalismanCordsComponent implements OnInit {
 
     constructor(
         public characterService: CharacterService,
-        private itemsService: ItemsService
+        private itemsService: ItemsService,
+        private typeService: TypeService
     ) { }
 
     trackByIndex(index: number, obj: any): any {
@@ -82,8 +84,7 @@ export class ItemTalismanCordsComponent implements OnInit {
             //Then add the new Talisman Cord to the item and (unless we are in the item store) remove it from the inventory.
             if (cord.name != "") {
                 //Add a copy of the cord to the item
-                let newLength = item.talismanCords.push(Object.assign(new WornItem, JSON.parse(JSON.stringify(cord))));
-                item.talismanCords[newLength - 1] = this.characterService.reassign(item.talismanCords[newLength - 1]);
+                let newLength = item.talismanCords.push(Object.assign(new WornItem, JSON.parse(JSON.stringify(cord))).recast(this.typeService));
                 let newCord = item.talismanCords[newLength - 1];
                 newCord.amount = 1;
                 //Remove the inserted Talisman Cord from the inventory, either by decreasing the amount or by dropping the item.

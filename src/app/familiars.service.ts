@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Feat } from './Feat';
 import * as json_abilities from '../assets/json/familiarabilities';
 import { ExtensionsService } from './extensions.service';
+import { TypeService } from './type.service';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +13,8 @@ export class FamiliarsService {
     private loading_familiarAbilities: boolean = false;
 
     constructor(
-        private extensionsService: ExtensionsService
+        private extensionsService: ExtensionsService,
+        private typeService: TypeService
     ) { }
 
     still_loading() {
@@ -45,7 +47,7 @@ export class FamiliarsService {
         this.familiarAbilities = [];
         let data = this.extensionsService.extend(json_abilities, "familiarAbilities");
         Object.keys(data).forEach(key => {
-            this.familiarAbilities.push(...data[key].map(obj => Object.assign(new Feat(), obj)));
+            this.familiarAbilities.push(...data[key].map(obj => Object.assign(new Feat(), obj).recast()));
         });
         this.familiarAbilities = this.extensionsService.cleanup_Duplicates(this.familiarAbilities, "name", "familiar abilities");
     }

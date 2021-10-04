@@ -22,7 +22,6 @@ import { Potion } from './Potion';
 import { Specialization } from './Specialization';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Character } from './Character';
-import { SavegameService } from './savegame.service';
 import { Ammunition } from './Ammunition';
 import { SpellChoice } from './SpellChoice';
 import { Equipment } from './Equipment';
@@ -73,6 +72,7 @@ import { Hint } from './Hint';
 import { SpellTarget } from './SpellTarget';
 import { SpellGain } from './SpellGain';
 import { ExtensionsService } from './extensions.service';
+import { TypeService } from './type.service';
 
 @Injectable({
     providedIn: 'root'
@@ -92,7 +92,7 @@ export class ItemsService {
     itemsMenuState: string = 'out';
 
     constructor(
-        private savegameService: SavegameService,
+        private typeService: TypeService,
         private toastService: ToastService,
         private extensionsService: ExtensionsService
     ) { }
@@ -318,44 +318,12 @@ export class ItemsService {
                 choice.id = uuidv4();
             })
         }
-        newItem = this.savegameService.reassign(newItem, "", this);
-        if (newItem.gainSpells) {
-            (newItem as Equipment).gainSpells.forEach((choice: SpellChoice) => {
-                choice.castingType = "Innate";
-                choice.source = newItem.name;
-                choice.available = 0;
-                choice.spells.forEach((gain: SpellGain) => {
-                    gain.locked = true;
-                    gain.sourceId = choice.id;
-                })
-            })
-        }
-        if (newItem.gainActivities) {
-            (newItem as Equipment).gainActivities.forEach((gain: ActivityGain) => {
-                gain.source = newItem.id;
-            });
-        }
-        if (newItem.activities) {
-            (newItem as Equipment).activities.forEach((activity: ItemActivity) => {
-                activity.source = newItem.id;
-                activity.gainConditions = activity.gainConditions.map(gain => Object.assign(new ConditionGain(), gain));
-                activity.gainConditions.forEach(conditionGain => {
-                    conditionGain.source = activity.name;
-                })
-            });
-        }
-        if (newItem.storedSpells) {
-            (newItem as Item).storedSpells.forEach((choice: SpellChoice, index) => {
-                choice.source = newItem.id;
-                choice.id = "0-Spell-" + newItem.id + index;
-            });
-        }
+        newItem = newItem.recast(this.typeService);
         //For items (oils) that apply the same effect as a rune, load the rune into the item here.
         if (newItem.runeEffect && newItem.runeEffect.name) {
             let rune = this.cleanItems.weaponrunes.find(rune => rune.name == newItem.runeEffect.name);
             if (rune) {
-                newItem.runeEffect = Object.assign(new WeaponRune(), JSON.parse(JSON.stringify(rune)));
-                this.savegameService.reassign(newItem.runeEffect, "", this);
+                newItem.runeEffect = Object.assign(new WeaponRune(), JSON.parse(JSON.stringify(rune))).recast(this.typeService);
                 newItem.runeEffect.activities.forEach((activity: ItemActivity) => { activity.name += " (" + newItem.name + ")" });
             }
         }
@@ -365,7 +333,7 @@ export class ItemsService {
             newItem.propertyRunes.forEach((rune: WeaponRune) => {
                 let libraryItem = this.cleanItems.weaponrunes.find(newrune => newrune.name == rune.name)
                 if (libraryItem) {
-                    newRunes.push(this.savegameService.merge(libraryItem, rune))
+                    newRunes.push(this.typeService.merge(libraryItem, rune))
                 }
             })
             newItem.propertyRunes = newRunes;
@@ -375,7 +343,7 @@ export class ItemsService {
             newItem.propertyRunes.forEach((rune: ArmorRune) => {
                 let libraryItem = this.cleanItems.armorrunes.find(newrune => newrune.name == rune.name)
                 if (libraryItem) {
-                    newRunes.push(this.savegameService.merge(libraryItem, rune))
+                    newRunes.push(this.typeService.merge(libraryItem, rune))
                 }
             })
             newItem.propertyRunes = newRunes;
@@ -386,7 +354,7 @@ export class ItemsService {
             newItem.material.forEach((material: WeaponMaterial) => {
                 let libraryItem = this.weaponMaterials.find(newMaterial => newMaterial.name == material.name)
                 if (libraryItem) {
-                    newMaterials.push(this.savegameService.merge(libraryItem, material))
+                    newMaterials.push(this.typeService.merge(libraryItem, material))
                 }
             })
             newItem.material = newMaterials;
@@ -396,37 +364,27 @@ export class ItemsService {
             newItem.material.forEach((material: ArmorMaterial) => {
                 let libraryItem = this.armorMaterials.find(newMaterial => newMaterial.name == material.name)
                 if (libraryItem) {
-                    newMaterials.push(this.savegameService.merge(libraryItem, material))
+                    newMaterials.push(this.typeService.merge(libraryItem, material))
                 }
             })
             newItem.material = newMaterials;
         }
-        //Recast and disable all hints.
-        if ((newItem as Equipment).hints?.length) {
-            newItem.hints = (newItem as Equipment).hints.map(hint => Object.assign(new Hint(), hint));
-            (newItem as Equipment).hints.forEach(hint => {
+        //Disable all hints.
+        if (newItem instanceof Equipment) {
+            newItem.hints.forEach(hint => {
                 hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
             })
-        }
-        if ((newItem as Equipment).propertyRunes?.length) {
-            (newItem as Equipment).propertyRunes.forEach(rune => {
-                rune.hints = rune.hints.map(hint => Object.assign(new Hint(), hint));
+            newItem.propertyRunes.forEach(rune => {
                 rune.hints.forEach(hint => {
                     hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
                 })
             })
-        }
-        if ((newItem as Equipment).oilsApplied?.length) {
-            (newItem as Equipment).oilsApplied.forEach(oil => {
-                oil.hints = oil.hints.map(hint => Object.assign(new Hint(), hint));
+            newItem.oilsApplied.forEach(oil => {
                 oil.hints.forEach(hint => {
                     hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
                 })
             })
-        }
-        if ((newItem as Equipment).material?.length) {
-            (newItem as Equipment).material.forEach(material => {
-                material.hints = material.hints.map(hint => Object.assign(new Hint(), hint));
+            newItem.material.forEach(material => {
                 material.hints.forEach(hint => {
                     hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
                 })
@@ -547,7 +505,7 @@ export class ItemsService {
                     if (toPack) {
                         let moved = Math.min(toPack, invItem.amount);
                         toPack -= moved;
-                        let newItem = Object.assign(new Item(), JSON.parse(JSON.stringify(invItem)));
+                        let newItem = this.cast_ItemByType(Object.assign(new Item(), JSON.parse(JSON.stringify(invItem)))).recast(this.typeService);
                         newItem.amount = moved;
                         items.push(newItem);
                         let included = this.pack_GrantingItem(creature, invItem, primaryItem);
@@ -560,7 +518,7 @@ export class ItemsService {
 
         //If the item adds inventories, add a copy of them to the inventory list.
         if ((item as Equipment).gainInventory?.length) {
-            inventories.push(...creature.inventories.filter(inventory => inventory.itemId == item.id).map(inventory => Object.assign(new ItemCollection(), JSON.parse(JSON.stringify(inventory)))));
+            inventories.push(...creature.inventories.filter(inventory => inventory.itemId == item.id).map(inventory => Object.assign(new ItemCollection(), JSON.parse(JSON.stringify(inventory))).recast(this.typeService, this)));
         }
 
         //At this point, if this is the primary item, all nested items and inventories have been added. We can now clean up the stacks:
@@ -578,7 +536,7 @@ export class ItemsService {
                             if (newInventories.length) {
                                 newInventoriesFound = true;
                                 inventories.push(
-                                    ...newInventories.map(inventory => Object.assign(new ItemCollection(), JSON.parse(JSON.stringify(inventory)))));
+                                    ...newInventories.map(inventory => Object.assign(new ItemCollection(), JSON.parse(JSON.stringify(inventory))).recast(this.typeService, this)));
                             }
                         })
                     })
@@ -632,8 +590,7 @@ export class ItemsService {
                 //If this item is moved between inventories of the same creature, you don't need to drop it explicitly.
                 //Just push it to the new inventory and remove it from the old, but unequip it either way.
                 //The item does need to be copied so we don't just move a reference.
-                let movedItem = JSON.parse(JSON.stringify(item));
-                movedItem = characterService.reassign(movedItem);
+                let movedItem = this.cast_ItemByType(JSON.parse(JSON.stringify(item))).recast(this.typeService);
                 //If the item is stackable, and a stack already exists in the target inventory, just add the amount to the stack.
                 if (movedItem.can_Stack()) {
                     let targetItem = targetInventory[item.type].find(invItem => invItem.name == movedItem.name)
@@ -689,8 +646,7 @@ export class ItemsService {
                     //Update the item's gridicon to reflect its changed amount.
                     characterService.set_Changed(existingItems[0].id);
                 } else {
-                    let movedItem = JSON.parse(JSON.stringify(includedItem));
-                    movedItem = characterService.reassign(movedItem);
+                    let movedItem = this.cast_ItemByType(JSON.parse(JSON.stringify(includedItem))).recast(this.typeService);
                     let newLength = targetInventory[includedItem.type].push(movedItem);
                     let newItem = targetInventory[includedItem.type][newLength - 1];
                     newItem = characterService.process_GrantedItem(toCreature as Character | AnimalCompanion, newItem, targetInventory, true, false, true, true);
@@ -698,7 +654,6 @@ export class ItemsService {
             })
             //Add included inventories and process all items inside them.
             included.inventories.forEach(inventory => {
-                inventory = characterService.reassign(inventory)
                 let newLength = toCreature.inventories.push(inventory);
                 let newInventory = toCreature.inventories[newLength - 1];
                 newInventory.allItems().forEach(invItem => {
@@ -730,7 +685,7 @@ export class ItemsService {
 
             //Apply conditions
             item.gainConditions.forEach(gain => {
-                let newConditionGain = Object.assign(new ConditionGain(), gain);
+                let newConditionGain = Object.assign(new ConditionGain(), gain).recast();
                 characterService.add_Condition(creature, newConditionGain, false);
             });
 
@@ -959,17 +914,20 @@ export class ItemsService {
             /*
             this.load(json_REPLACE0, "REPLACE0", REPLACE1, "item");
             */
+
+            //Make a copy of clean items for shop items and crafting items.
+            this.items = Object.assign(new ItemCollection(), JSON.parse(JSON.stringify(this.cleanItems))).recast(this.typeService, this);
+            this.craftingItems = Object.assign(new ItemCollection(), JSON.parse(JSON.stringify(this.cleanItems))).recast(this.typeService, this);
+
             this.loading = false;
 
         } else {
             //Reset items and crafting items from clean items.
-            this.cleanItems.names.forEach(name => {
-                this.items[name.key] = this.cleanItems[name.key].map(obj => this.savegameService.reassign(JSON.parse(JSON.stringify(obj)), "", this));
-                this.craftingItems[name.key] = this.cleanItems[name.key].map(obj => this.savegameService.reassign(JSON.parse(JSON.stringify(obj)), "", this));
-            })
+            this.items = Object.assign(new ItemCollection(), JSON.parse(JSON.stringify(this.cleanItems))).recast(this.typeService, this);
+            this.craftingItems = Object.assign(new ItemCollection(), JSON.parse(JSON.stringify(this.cleanItems))).recast(this.typeService, this);
             //Disable any active hint effects when loading a character, and reinitialize the hints.
             this.specializations.forEach(spec => {
-                spec.hints = spec.hints.map(hint => Object.assign(new Hint(), hint));
+                spec = spec.recast();
                 spec.hints?.forEach(hint => {
                     hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
                 })
@@ -989,14 +947,12 @@ export class ItemsService {
                     this.cleanItems[target].push(...data[key].map(obj => this.initialize_Item(Object.assign(new type(), obj), true, false, true)));
                 });
                 this.cleanItems[target] = this.extensionsService.cleanup_Duplicates(this.cleanItems[target], "id", listName);
-                this.items[target] = this.cleanItems[target].map(obj => this.savegameService.reassign(JSON.parse(JSON.stringify(obj)), "", this));
-                this.craftingItems[target] = this.cleanItems[target].map(obj => this.savegameService.reassign(JSON.parse(JSON.stringify(obj)), "", this));
                 break;
             case "meta":
                 this[target] = [];
                 data = this.extensionsService.extend(source, target);
                 Object.keys(data).forEach(key => {
-                    this[target].push(...data[key].map(obj => Object.assign(new type(), obj)));
+                    this[target].push(...data[key].map(obj => Object.assign(new type(), obj).recast()));
                 });
                 break;
         }

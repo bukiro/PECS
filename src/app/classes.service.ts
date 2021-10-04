@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Class } from './Class';
-import { SavegameService } from './savegame.service';
 import * as json_classes from '../assets/json/classes';
 import { ExtensionsService } from './extensions.service';
+import { TypeService } from './type.service';
+import { ItemsService } from './items.service';
 
 @Injectable({
     providedIn: 'root'
@@ -11,9 +12,10 @@ export class ClassesService {
 
     classes: Class[] = [];
     private loading: boolean = false;
-    
+
     constructor(
-        private savegameService: SavegameService,
+        private typeService: TypeService,
+        private itemsService: ItemsService,
         private extensionsService: ExtensionsService
     ) { }
 
@@ -26,15 +28,15 @@ export class ClassesService {
     still_loading() {
         return (this.loading);
     }
-  
-    restore_ClassFromSave($class: Class, savegameService: SavegameService) {
+
+    restore_ClassFromSave($class: Class) {
         if ($class.name) {
             let libraryObject = this.get_Classes($class.name)[0];
             if (libraryObject) {
                 //Make a safe copy of the library object.
                 //Then map the restored object onto the copy and keep that.
                 try {
-                    $class = savegameService.merge(libraryObject, $class)
+                    $class = this.typeService.merge(libraryObject, $class)
                 } catch (e) {
                     console.log("Failed reassigning: " + e)
                 }
@@ -86,10 +88,7 @@ export class ClassesService {
         this.classes = [];
         let data = this.extensionsService.extend(json_classes, "classes");
         Object.keys(data).forEach(key => {
-            this.classes.push(...data[key].map(obj => Object.assign(new Class(), obj)));
-        });
-        this.classes.forEach(obj => {
-            obj = this.savegameService.reassign(obj)
+            this.classes.push(...data[key].map(obj => Object.assign(new Class(), obj).recast(this.typeService, this.itemsService)));
         });
         this.classes = this.extensionsService.cleanup_Duplicates(this.classes, "name", "classes");
     }

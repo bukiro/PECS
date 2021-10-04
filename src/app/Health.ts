@@ -14,6 +14,9 @@ export class Health {
     public temporaryHP: { amount: number, source: string, sourceId: string }[] = [{ amount: 0, source: "", sourceId: "" }];
     public manualWounded: number = 0;
     public manualDying: number = 0;
+    recast() {
+        return this;
+    }
     calculate(creature: Creature, characterService: CharacterService, effectsService: EffectsService) {
         let result = {
             maxHP: this.maxHP(creature, characterService, effectsService),

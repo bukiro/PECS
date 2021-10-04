@@ -14,6 +14,7 @@ import { Effect } from './Effect';
 import { Creature } from './Creature';
 import { Skill } from './Skill';
 import { ItemsService } from './items.service';
+import { TypeService } from './type.service';
 
 export class Weapon extends Equipment {
     public readonly _className: string = this.constructor.name;
@@ -69,6 +70,11 @@ export class Weapon extends Equipment {
     //If useHighestAttackProficiency is true, the proficiency level will be copied from your highest unarmed or weapon proficiency.
     public useHighestAttackProficiency: boolean = false;
     public _traits: string[] = [];
+    recast(typeService: TypeService) {
+        super.recast(typeService);
+        this.poisonsApplied = this.poisonsApplied.map(obj => Object.assign(new AlchemicalPoison(), obj).recast(typeService));
+        return this;
+    }
     get_Name() {
         if (this.displayName.length) {
             return this.displayName;
@@ -1170,7 +1176,7 @@ export class Weapon extends Equipment {
                     ))
                 });
             SpecializationGains.forEach(critSpec => {
-                let specs: Specialization[] = characterService.get_Specializations(this.group).map(spec => Object.assign(new Specialization(), spec));
+                let specs: Specialization[] = characterService.get_Specializations(this.group).map(spec => Object.assign(new Specialization(), spec).recast());
                 specs.forEach(spec => {
                     if (critSpec.condition) {
                         spec.desc = "(" + critSpec.condition + ") " + spec.desc;

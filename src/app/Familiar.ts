@@ -2,7 +2,9 @@ import { Creature } from './Creature';
 import { EffectsService } from './effects.service';
 import { FeatChoice } from './FeatChoice';
 import { FeatTaken } from './FeatTaken';
+import { ItemsService } from './items.service';
 import { Skill } from './Skill';
+import { TypeService } from './type.service';
 
 export class Familiar extends Creature {
     public readonly _className: string = this.constructor.name;
@@ -14,23 +16,29 @@ export class Familiar extends Creature {
         type: "Familiar"
     });
     public customSkills: Skill[] = [
-        Object.assign(new Skill(), { name:"Attack Rolls", type:"Familiar Proficiency" })
+        Object.assign(new Skill(), { name: "Attack Rolls", type: "Familiar Proficiency" })
     ];
     public originClass: string = "";
     public senses: string[] = ["Low-Light Vision"];
     public species: string = "";
     public traits: string[] = ["Minion"];
+    recast(typeService: TypeService, itemsService: ItemsService) {
+        super.recast(typeService, itemsService);
+        this.abilities = Object.assign(new FeatChoice(), this.abilities).recast();
+        this.customSkills = this.customSkills.map(obj => Object.assign(new Skill(), obj).recast());
+        return this;
+    }
     get_BaseSize() {
         return -2;
     }
     get_Size(effectsService: EffectsService) {
         let size: number = this.get_BaseSize();
-        
+
         let setSizeEffects = effectsService.get_AbsolutesOnThis(this, "Size");
         if (setSizeEffects.length) {
             size = Math.max(...setSizeEffects.map(effect => parseInt(effect.setValue)));
         }
-                
+
         let sizeEffects = effectsService.get_RelativesOnThis(this, "Size");
         sizeEffects.forEach(effect => {
             size += parseInt(effect.value)
@@ -55,8 +63,8 @@ export class Familiar extends Creature {
         let featsTaken: string[] = [];
         this.abilities.feats.filter((feat: FeatTaken) => feat.name.toLowerCase() == featName.toLowerCase() || featName == "")
             .forEach(feat => {
-            featsTaken.push(feat.name);
-        })
+                featsTaken.push(feat.name);
+            })
         return featsTaken;
     }
 }

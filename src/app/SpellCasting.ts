@@ -9,7 +9,7 @@ export class SpellCasting {
     public ability: string = "";
     //The level where you learn to spell casts using this method.
     public charLevelAvailable: number = 0;
-    public tradition: ""|"Arcane"|"Divine"|"Occult"|"Primal" = "";
+    public tradition: "" | "Arcane" | "Divine" | "Occult" | "Primal" = "";
     public traditionAvailable: 0;
     public traditionFilter: string[] = [];
     public spellChoices: SpellChoice[] = [];
@@ -26,6 +26,10 @@ export class SpellCasting {
     public bondedItemCharges: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     public source: string = "";
     public scrollSavant: Scroll[] = [];
-    constructor(public castingType: "Focus"|"Innate"|"Prepared"|"Spontaneous") {
-    }    
+    constructor(public castingType: "Focus" | "Innate" | "Prepared" | "Spontaneous") {
+    }
+    recast() {
+        this.spellChoices = this.spellChoices.map(obj => Object.assign(new SpellChoice(), obj).recast());
+        return this;
+    }
 }

@@ -20,4 +20,7 @@ export class AbilityChoice {
         }
         return this.available - lost;
     }
+    recast() {
+        return this;
+    }
 }

@@ -1,4 +1,5 @@
 import { Equipment } from './Equipment';
+import { TypeService } from './type.service';
 
 export class HeldItem extends Equipment {
     public readonly _className: string = this.constructor.name;
@@ -8,4 +9,8 @@ export class HeldItem extends Equipment {
     readonly type = "helditems";
     //How is this item held when used? Example: "held in one hand"
     public usage: string = "";
+    recast(typeService: TypeService) {
+        super.recast(typeService);
+        return this;
+    }
 }

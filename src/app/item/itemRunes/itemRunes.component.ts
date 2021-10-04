@@ -14,6 +14,7 @@ import { Armor } from 'src/app/Armor';
 import { ActivitiesService } from 'src/app/activities.service';
 import { SpellsService } from 'src/app/spells.service';
 import { ConditionsService } from 'src/app/conditions.service';
+import { TypeService } from 'src/app/type.service';
 
 @Component({
     selector: 'app-itemRunes',
@@ -41,7 +42,8 @@ export class ItemRunesComponent implements OnInit {
         private timeService: TimeService,
         private activitiesService: ActivitiesService,
         private spellsService: SpellsService,
-        private conditionsService: ConditionsService
+        private conditionsService: ConditionsService,
+        private typeService: TypeService
     ) { }
 
     trackByIndex(index: number, obj: any): any {
@@ -602,8 +604,7 @@ export class ItemRunesComponent implements OnInit {
             //Then add the new rune to the item and (unless we are in the item store) remove it from the inventory.
             if (rune.name != "") {
                 //Add a copy of the rune to the item
-                let newLength = weapon.propertyRunes.push(Object.assign(new WeaponRune, JSON.parse(JSON.stringify(rune))));
-                weapon.propertyRunes[newLength - 1] = this.characterService.reassign(weapon.propertyRunes[newLength - 1]);
+                let newLength = weapon.propertyRunes.push(Object.assign(new WeaponRune, JSON.parse(JSON.stringify(rune))).recast(this.typeService));
                 let newRune = weapon.propertyRunes[newLength - 1];
                 newRune.amount = 1;
                 newRune.loreChoices = newRune.loreChoices.map(choice => Object.assign(new LoreChoice(), choice));
@@ -654,8 +655,7 @@ export class ItemRunesComponent implements OnInit {
             //Then add the new rune to the item and (unless we are in the item store) remove it from the inventory.
             if (rune.name != "") {
                 //Add a copy of the rune to the item
-                let newLength = armor.propertyRunes.push(Object.assign(new ArmorRune, JSON.parse(JSON.stringify(rune))));
-                armor.propertyRunes[newLength - 1] = this.characterService.reassign(armor.propertyRunes[newLength - 1]);
+                let newLength = armor.propertyRunes.push(Object.assign(new ArmorRune, JSON.parse(JSON.stringify(rune))).recast(this.typeService));
                 let newRune = armor.propertyRunes[newLength - 1];
                 newRune.amount = 1;
                 newRune.loreChoices = newRune.loreChoices.map(choice => Object.assign(new LoreChoice(), choice));

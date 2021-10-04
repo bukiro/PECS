@@ -27,6 +27,7 @@ import { FormulaLearned } from './FormulaLearned';
 import { ConditionsService } from './conditions.service';
 import { ItemCollection } from './ItemCollection';
 import { WornItem } from './WornItem';
+import { TypeService } from './type.service';
 
 export class Character extends Creature {
     public readonly _className: string = this.constructor.name;
@@ -50,6 +51,14 @@ export class Character extends Creature {
     public GMMode: boolean = false;
     //yourTurn is only written when saving the character to the database and read when loading.
     public yourTurn: number = 0;
+    recast(typeService: TypeService, itemsService: ItemsService) {
+        super.recast(typeService, itemsService);
+        this.class = Object.assign(new Class(), this.class).recast(typeService, itemsService);
+        this.customFeats = this.customFeats.map(obj => Object.assign(new Feat(), obj).recast());
+        this.customSkills = this.customSkills.map(obj => Object.assign(new Skill(), obj).recast());
+        this.settings = Object.assign(new Settings(), this.settings);
+        return this;
+    }
     get_Changed(characterService: CharacterService,) {
         return characterService.get_Changed();
     }
@@ -160,7 +169,7 @@ export class Character extends Creature {
         a.splice(a.indexOf(oldChoice), 1);
     }
     add_SpellCasting(characterService: CharacterService, level: Level, newCasting: SpellCasting) {
-        let newLength: number = this.class.spellCasting.push(Object.assign(new SpellCasting(newCasting.castingType), JSON.parse(JSON.stringify(newCasting))));
+        let newLength: number = this.class.spellCasting.push(Object.assign(new SpellCasting(newCasting.castingType), JSON.parse(JSON.stringify(newCasting))).recast());
         let newSpellCasting: SpellCasting = this.class.spellCasting[newLength - 1];
         //If the SpellCasting has a charLevelAvailable above 0, but lower than the current level, you could use it before you get it.
         //So we raise the charLevelAvailable to either the current level or the original value, whichever is higher.
@@ -204,7 +213,7 @@ export class Character extends Creature {
         return this.class.levels[levelNumber].featChoices.find(choice => choice.id == sourceId);
     }
     add_SpellChoice(characterService: CharacterService, levelNumber: number, newChoice: SpellChoice) {
-        let insertChoice = Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newChoice)));
+        let insertChoice = Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
         if (insertChoice.className == "Default") {
             insertChoice.className = this.class.name;
         }
@@ -222,7 +231,6 @@ export class Character extends Creature {
         if (spellCasting) {
             let newLength: number = spellCasting.spellChoices.push(insertChoice);
             let choice = spellCasting.spellChoices[newLength - 1];
-            choice.spells = choice.spells.map(gain => Object.assign(new SpellGain(), gain));
             //If the choice has a charLevelAvailable lower than the current level, you could choose spells before you officially get this choice.
             //So we raise the charLevelAvailable to either the current level or the original value, whichever is higher.
             choice.charLevelAvailable = Math.max(choice.charLevelAvailable, levelNumber);
@@ -570,7 +578,7 @@ export class Character extends Creature {
             if (feat) {
                 featName = feat.name;
             }
-            let newLength = choice.feats.push({ name: (feat?.name || featName), source: choice.source, locked: locked, automatic: automatic, sourceId: choice.id, countAsFeat: (feat?.countAsFeat || feat?.superType || "") });
+            let newLength = choice.feats.push(Object.assign(new FeatTaken(), { name: (feat?.name || featName), source: choice.source, locked: locked, automatic: automatic, sourceId: choice.id, countAsFeat: (feat?.countAsFeat || feat?.superType || "") }));
             let gain = choice.feats[newLength - 1];
             characterService.process_Feat(creature, feat, gain, choice, level, taken);
         } else {

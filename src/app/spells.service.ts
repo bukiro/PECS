@@ -13,6 +13,7 @@ import { SpellChoice } from './SpellChoice';
 import { SpellTarget } from './SpellTarget';
 import { ActivityGain } from './ActivityGain';
 import { ExtensionsService } from './extensions.service';
+import { TypeService } from './type.service';
 
 @Injectable({
     providedIn: 'root'
@@ -24,7 +25,8 @@ export class SpellsService {
     private spellsMap = new Map<string, Spell>();
 
     constructor(
-        private extensionsService: ExtensionsService
+        private extensionsService: ExtensionsService,
+        private typeService: TypeService
     ) { }
 
     get_SpellFromName(name: string) {
@@ -153,7 +155,7 @@ export class SpellsService {
                     //Do the target and the caster get the same condition?
                     let sameCondition: boolean = hasTargetCondition && hasCasterCondition && Array.from(new Set(conditions.map(conditionGain => conditionGain.name))).length == 1;
                     conditions.forEach((conditionGain, conditionIndex) => {
-                        let newConditionGain = Object.assign(new ConditionGain(), conditionGain);
+                        let newConditionGain = Object.assign(new ConditionGain(), conditionGain).recast();
                         let condition = conditionsService.get_Conditions(conditionGain.name)[0]
                         //Unless the conditionGain has a choice set, try to set it by various factors.
                         if (!conditionGain.choice) {
@@ -410,7 +412,7 @@ export class SpellsService {
         this.spells = [];
         let data = this.extensionsService.extend(json_spells, "spells");
         Object.keys(data).forEach(key => {
-            this.spells.push(...data[key].map(obj => Object.assign(new Spell(), obj)));
+            this.spells.push(...data[key].map(obj => Object.assign(new Spell(), obj).recast()));
         });
         this.spells = this.extensionsService.cleanup_Duplicates(this.spells, "id", "spells");
     }

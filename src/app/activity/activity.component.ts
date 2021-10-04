@@ -34,7 +34,7 @@ export class ActivityComponent implements OnInit {
     allowActivate: boolean = false;
     @Input()
     isSubItem: boolean = false;
-    
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
@@ -103,7 +103,7 @@ export class ActivityComponent implements OnInit {
     on_ActivateFuseStance(activated: boolean) {
         this.gain.active = activated;
         this.get_FusedStances().forEach(gain => {
-            let activity = (gain instanceof ItemActivity ? gain : this.get_Activities(gain.name)[0])
+            let activity = this.get_ActivitiesFromGain(gain)[0];
             if (activity && activated != gain.active) {
                 this.activitiesService.activate_Activity(this.get_Creature(), "Character", this.characterService, this.conditionsService, this.itemsService, this.spellsService, gain, activity, activated);
             }
@@ -164,12 +164,12 @@ export class ActivityComponent implements OnInit {
         if (objectName) {
             return this.characterService.get_OwnedActivities(this.get_Creature())
                 .filter((gain: ItemActivity | ActivityGain) =>
-                    (gain._className == "ItemActivity" ? [gain as ItemActivity] : this.get_Activities(gain.name))
-                        .find((activity: ItemActivity | Activity) =>
+                    this.get_ActivitiesFromGain(gain)
+                        .some((activity: ItemActivity | Activity) =>
                             activity.hints
-                                .find(hint =>
+                                .some(hint =>
                                     hint.showon.split(",")
-                                        .find(showon =>
+                                        .some(showon =>
                                             showon.trim().toLowerCase() == objectName.toLowerCase()
                                         )
                                 )

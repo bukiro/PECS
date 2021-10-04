@@ -4,4 +4,7 @@ export class BloodMagic {
     public sourceTrigger: string[] = [];
     public trigger: string[] = [];
     public neutralPhrase: boolean = false;
+    recast() {
+        return this;
+    }
 }

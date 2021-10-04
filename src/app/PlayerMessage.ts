@@ -2,6 +2,8 @@ import { ConditionGain } from './ConditionGain';
 import { v4 as uuidv4 } from 'uuid';
 import { Item } from './Item';
 import { ItemCollection } from './ItemCollection';
+import { TypeService } from './type.service';
+import { ItemsService } from './items.service';
 
 export class PlayerMessage {
     public id = uuidv4();
@@ -31,4 +33,11 @@ export class PlayerMessage {
     public deleted: boolean = false;
     public turnChange: boolean = false;
     public ttl: number = 600;
+    recast(typeService: TypeService, itemsService: ItemsService) {
+        this.gainCondition = this.gainCondition.map(obj => Object.assign(new ConditionGain(), obj).recast());
+        this.offeredItem = this.offeredItem.map(obj => Object.assign(new Item(), obj).recast(typeService));
+        this.includedItems = this.includedItems.map(obj => Object.assign(new Item(), obj).recast(typeService));
+        this.includedInventories = this.includedInventories.map(obj => Object.assign(new ItemCollection(), obj).recast(typeService, itemsService));
+        return this;
+    }
 }

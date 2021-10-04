@@ -6,6 +6,7 @@ import { Oil } from 'src/app/Oil';
 import { ItemCollection } from 'src/app/ItemCollection';
 import { TimeService } from 'src/app/time.service';
 import { Weapon } from 'src/app/Weapon';
+import { TypeService } from 'src/app/type.service';
 
 @Component({
     selector: 'app-itemOils',
@@ -25,7 +26,8 @@ export class ItemOilsComponent implements OnInit {
     constructor(
         private characterService: CharacterService,
         private itemsService: ItemsService,
-        private timeService: TimeService
+        private timeService: TimeService,
+        private typeService: TypeService
     ) { }
 
     trackByIndex(index: number, obj: any): any {
@@ -97,8 +99,7 @@ export class ItemOilsComponent implements OnInit {
     add_Oil() {
         if (this.newOil.oil.name) {
             let item = this.item;
-            let newLength = item.oilsApplied.push(Object.assign(new Oil(), JSON.parse(JSON.stringify(this.newOil.oil))));
-            item.oilsApplied[newLength - 1] = this.characterService.reassign(item.oilsApplied[newLength - 1]);
+            let newLength = item.oilsApplied.push(Object.assign(new Oil(), JSON.parse(JSON.stringify(this.newOil.oil))).recast(this.typeService));
             if (this.newOil.inv) {
                 this.characterService.drop_InventoryItem(this.get_Character(), this.newOil.inv, this.newOil.oil, false, false, false, 1);
             }

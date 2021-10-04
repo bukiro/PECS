@@ -33,6 +33,7 @@ export class Hint {
     public replaceSource: { source: string, type: "feat" }[] = [];
     //Replace the title of the hint.
     public replaceTitle: string = "";
+    public displayOnly: boolean = false;
     recast() {
         this.heightenedDescs = this.heightenedDescs.map(obj => Object.assign(new HeightenedDescSet(), obj).recast());
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());

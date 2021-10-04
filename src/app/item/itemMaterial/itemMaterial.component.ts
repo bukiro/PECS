@@ -142,7 +142,7 @@ export class ItemMaterialComponent implements OnInit {
             //Then add the new material to the item.
             if (material.name != "") {
                 //Add a copy of the material to the item
-                armor.material.push(Object.assign(new ArmorMaterial, JSON.parse(JSON.stringify(material))));
+                armor.material.push(Object.assign(new ArmorMaterial(), JSON.parse(JSON.stringify(material))).recast());
             }
         }
         this.set_MaterialNames();
@@ -229,7 +229,7 @@ export class ItemMaterialComponent implements OnInit {
             //Then add the new material to the item.
             if (material.name != "") {
                 //Add a copy of the material to the item
-                shield.material.push(Object.assign(new ShieldMaterial, JSON.parse(JSON.stringify(material))));
+                shield.material.push(Object.assign(new ShieldMaterial(), JSON.parse(JSON.stringify(material))).recast());
             }
         }
         this.set_MaterialNames();
@@ -330,7 +330,7 @@ export class ItemMaterialComponent implements OnInit {
             //Then add the new material to the item.
             if (material.name != "") {
                 //Add a copy of the material to the item
-                weapon.material.push(Object.assign(new WeaponMaterial, JSON.parse(JSON.stringify(material))));
+                weapon.material.push(Object.assign(new WeaponMaterial(), JSON.parse(JSON.stringify(material))).recast());
             }
         }
         this.set_MaterialNames();

@@ -74,6 +74,19 @@ export class Activity {
     public _cooldown: number = 0;
     //Set displayOnly if the activity should not be used, but displayed for information, e.g. for ammunition
     public displayOnly: boolean = false;
+    recast() {
+        this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
+        this.heightenedDescs = this.heightenedDescs.map(obj => Object.assign(new HeightenedDescSet(), obj).recast());
+        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
+        this.gainConditions.forEach(conditionGain => {
+            conditionGain.source = this.name;
+        })
+        this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
+        this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
+        this.onceEffects = this.onceEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
+        this.targetNumbers = this.targetNumbers.map(obj => Object.assign(new SpellTargetNumber(), obj).recast());
+        return this;
+    }
     get_ActivationTraits() {
         switch (this.activationType) {
             case "Command":

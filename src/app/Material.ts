@@ -19,6 +19,10 @@ export class Material {
     public hints: Hint[] = [];
     public removeTraits: string[] = [];
     public itemFilter: string[] = [];
+    recast() {
+        this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
+        return this;
+    }
     get_Name() {
         return this.name.split("(")[0].trim();
     }

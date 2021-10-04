@@ -9,6 +9,7 @@ import * as json_ancestries from '../assets/json/animalcompanions';
 import * as json_levels from '../assets/json/animalcompanionlevels';
 import * as json_specializations from '../assets/json/animalcompanionspecializations';
 import { ExtensionsService } from './extensions.service';
+import { TypeService } from './type.service';
 
 
 @Injectable({
@@ -22,10 +23,10 @@ export class AnimalCompanionsService {
     private loading_ancestries: boolean = false;
     private loading_levels: boolean = false;
     private loading_specializations: boolean = false;
-    
+
     constructor(
-        private savegameService: SavegameService,
-        private extensionsService: ExtensionsService
+        private extensionsService: ExtensionsService,
+        private typeService: TypeService
     ) { }
 
     get_CompanionTypes(name: string = "") {
@@ -46,13 +47,13 @@ export class AnimalCompanionsService {
         } else { return [new AnimalCompanionSpecialization()] }
     }
 
-    restore_AncestryFromSave(ancestry: AnimalCompanionAncestry, savegameService: SavegameService) {
+    restore_AncestryFromSave(ancestry: AnimalCompanionAncestry) {
         if (ancestry.name) {
             let libraryObject = this.get_CompanionTypes(ancestry.name)[0];
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    ancestry = savegameService.merge(libraryObject, ancestry);
+                    ancestry = this.typeService.merge(libraryObject, ancestry);
                 } catch (e) {
                     console.log("Failed reassigning: " + e)
                 }
@@ -79,14 +80,14 @@ export class AnimalCompanionsService {
         return ancestry;
     }
 
-    restore_LevelsFromSave($class: AnimalCompanionClass, savegameService: SavegameService) {
+    restore_LevelsFromSave($class: AnimalCompanionClass) {
         if ($class.levels) {
             let libraryObject = this.get_CompanionLevels();
             if (libraryObject) {
                 for (let index = 0; index < $class.levels.length; index++) {
                     //Map the restored object onto the library object and keep the result.
-                try {
-                    $class.levels = savegameService.merge(libraryObject, $class.levels);
+                    try {
+                        $class.levels = this.typeService.merge(libraryObject, $class.levels);
                     } catch (e) {
                         console.log("Failed reassigning: " + e)
                     }
@@ -111,19 +112,19 @@ export class AnimalCompanionsService {
                         }
                     })
                 }
-                
+
             }
         }
         return $class;
     }
 
-    restore_SpecializationFromSave(spec: AnimalCompanionSpecialization, savegameService: SavegameService) {
+    restore_SpecializationFromSave(spec: AnimalCompanionSpecialization) {
         if (spec.name) {
             let libraryObject = this.get_CompanionSpecializations(spec.name)[0];
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    spec = savegameService.merge(libraryObject, spec);
+                    spec = this.typeService.merge(libraryObject, spec);
                 } catch (e) {
                     console.log("Failed reassigning: " + e)
                 }
@@ -152,14 +153,12 @@ export class AnimalCompanionsService {
 
     change_Type(companion: AnimalCompanion, type: AnimalCompanionAncestry) {
         companion.class.ancestry = new AnimalCompanionAncestry();
-        companion.class.ancestry = Object.assign(new AnimalCompanionAncestry(), JSON.parse(JSON.stringify(type)));
-        companion.class.ancestry = this.savegameService.reassign(companion.class.ancestry)
+        companion.class.ancestry = Object.assign(new AnimalCompanionAncestry(), JSON.parse(JSON.stringify(type))).recast();
     }
 
     add_Specialization(companion: AnimalCompanion, spec: AnimalCompanionSpecialization, levelNumber: number) {
-        let newLength = companion.class.specializations.push(Object.assign(new AnimalCompanionSpecialization(), JSON.parse(JSON.stringify(spec))));
-        companion.class.specializations[newLength-1].level = levelNumber;
-        companion.class.specializations[newLength-1] = this.savegameService.reassign(companion.class.specializations[newLength-1]);
+        let newLength = companion.class.specializations.push(Object.assign(new AnimalCompanionSpecialization(), JSON.parse(JSON.stringify(spec))).recast());
+        companion.class.specializations[newLength - 1].level = levelNumber;
     }
 
     remove_Specialization(companion: AnimalCompanion, spec: AnimalCompanionSpecialization) {
@@ -169,7 +168,7 @@ export class AnimalCompanionsService {
     still_loading() {
         return (this.loading_ancestries || this.loading_levels || this.loading_specializations);
     }
-  
+
     initialize() {
         //Initialize only once, but cleanup active effects everytime thereafter.
         if (!this.companionAncestries.length) {
@@ -209,10 +208,7 @@ export class AnimalCompanionsService {
         this[target] = [];
         let data = this.extensionsService.extend(source, target);
         Object.keys(data).forEach(key => {
-            this[target].push(...data[key].map(obj => Object.assign(new type(), obj)));
-        });
-        this[target].forEach(obj => {
-            obj = this.savegameService.reassign(obj)
+            this[target].push(...data[key].map(obj => Object.assign(new type(), obj).recast()));
         });
         this[target] = this.extensionsService.cleanup_Duplicates(this[target], "name", target);
     }

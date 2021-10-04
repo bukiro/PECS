@@ -7,6 +7,8 @@ import { AnimalCompanionAncestry } from './AnimalCompanionAncestry';
 import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
 import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
+import { TypeService } from './type.service';
+import { ItemsService } from './items.service';
 
 export class AnimalCompanion extends Creature {
     public readonly _className: string = this.constructor.name;
@@ -17,6 +19,12 @@ export class AnimalCompanion extends Creature {
     ];
     public species: string = "";
     public readonly type = "Companion";
+    recast(typeService: TypeService, itemsService: ItemsService) {
+        super.recast(typeService, itemsService)
+        this.class = Object.assign(new AnimalCompanionClass(), this.class).recast();
+        this.customSkills = this.customSkills.map(obj => Object.assign(new Skill(), obj).recast());
+        return this;
+    }
     get_BaseSize() {
         let size: number = (this.class.ancestry.size ? this.class.ancestry.size : 0);
         this.class.levels.filter(level => level.number <= this.level).forEach(level => {

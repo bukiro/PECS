@@ -7,6 +7,8 @@ import { MessageService } from '../message.service';
 import { TimeService } from '../time.service';
 import { ToastService } from '../toast.service';
 import { ConfigService } from '../config.service';
+import { TypeService } from '../type.service';
+import { ItemsService } from '../items.service';
 
 @Component({
     selector: 'app-top-bar',
@@ -35,6 +37,8 @@ export class TopBarComponent implements OnInit {
         private timeService: TimeService,
         private toastService: ToastService,
         private modalService: NgbModal,
+        private typeService: TypeService,
+        private itemsService: ItemsService,
         public modal: NgbActiveModal
     ) { }
 
@@ -248,7 +252,7 @@ export class TopBarComponent implements OnInit {
     open_NewMessagesModal() {
         this.modalOpen = true;
         //Freeze the new messages by cloning them so that the modal doesn't change while it's open.
-        this.newMessages = this.get_NewConditionMessages().map(message => Object.assign(new PlayerMessage(), JSON.parse(JSON.stringify(message))));
+        this.newMessages = this.get_NewConditionMessages().map(message => Object.assign(new PlayerMessage(), JSON.parse(JSON.stringify(message))).recast(this.typeService, this.itemsService));
         this.modalService.open(this.newMessagesModal, { centered: true, ariaLabelledBy: 'modal-title' }).result.then((result) => {
             if (result == "Apply click") {
                 //Prepare to refresh the effects of all affected creatures;

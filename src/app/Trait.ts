@@ -2,8 +2,6 @@ import { Item } from './Item';
 import { Hint } from './Hint';
 import { Creature } from './Creature';
 import { EffectGain } from './EffectGain';
-import { EffectsService } from './effects.service';
-import { CharacterService } from './character.service';
 import { Effect } from './Effect';
 
 export class Trait {
@@ -16,6 +14,11 @@ export class Trait {
     //Object effects apply only to the object that is bearing this trait, and are evaluated within the object instead of the effects service. Whether they are activated or not is saved in the object.
     public objectEffects: EffectGain[] = [];
     public extraActivations: number = 0;
+    recast() {
+        this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
+        this.objectEffects = this.objectEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
+        return this;
+    }
     //Return all equipped items that have this trait, or alternatively only their names.
     //Some trait instances have information after the trait name, so we allow traits that include this trait's name as long as this trait is dynamic.
     haveOn(creature: Creature, namesOnly: boolean = false) {

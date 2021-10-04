@@ -66,6 +66,14 @@ export class Spell {
     //The target number determines how many allies you can target with a non-hostile activity, or how many enemies you can target with a hostile one (not actually implemented).
     //The spell can have multiple target numbers that are dependent on the character level and whether you have a feat.
     public targetNumbers: SpellTargetNumber[] = [];
+    recast() {
+        this.heightenedDescs = this.heightenedDescs.map(obj => Object.assign(new HeightenedDescSet(), obj).recast());
+        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
+        this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
+        this.showSpells = this.showSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
+        this.targetNumbers = this.targetNumbers.map(obj => Object.assign(new SpellTargetNumber(), obj).recast());
+        return this;
+    }
     get_DescriptionSet(levelNumber: number) {
         //This descends from levelnumber downwards and returns the first description set with a matching level.
         //A description set contains variable names and the text to replace them with.

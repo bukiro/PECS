@@ -10,4 +10,7 @@ export class ItemProperty {
     public property: any;
     public type: string = "";
     public validation: string = "";
+    recast() {
+        return this;
+    }
 }

@@ -1,4 +1,5 @@
 import { Consumable } from './Consumable';
+import { TypeService } from './type.service';
 
 export class AlchemicalElixir extends Consumable {
     public readonly _className: string = this.constructor.name;
@@ -9,4 +10,8 @@ export class AlchemicalElixir extends Consumable {
     public benefit: string = "";
     //Will be shown as "Drawback":"..."
     public drawback: string = "";
+    recast(typeService: TypeService) {
+        super.recast(typeService);
+        return this;
+    }
 }
