@@ -71,13 +71,7 @@ export class TopBarComponent implements OnInit {
     }
 
     get_LoadingButtonTitle() {
-        if (this.get_LoggingIn() && this.get_Database()) {
-            return "Connecting to database";
-        } else if (this.get_LoggedIn() || this.get_CannotLogin()) {
-            return "Initializing";
-        } else {
-            return "Loading";
-        }
+        return this.characterService.get_LoadingStatus();
     }
 
     get_NewConditionMessages() {

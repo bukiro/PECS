@@ -178,7 +178,8 @@
         <div class="modal-body vlist">
             <p *ngIf="get_LoggedOutMessage()">{{get_LoggedOutMessage()}}</p>
             <p>Please enter the password for this PECS server:</p>
-            <input placeholder="Password" title="Password" name="password" id="passwordInput" type="password" class="fullwidth" [(ngModel)]="password">
+            <input placeholder="Password" title="Password" name="password" id="passwordInput" type="password"
+                class="fullwidth" [(ngModel)]="password">
             <p class="problem" *ngIf="passwordFailed">The password was not correct.</p>
         </div>
         <div class="modal-footer">

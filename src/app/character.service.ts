@@ -143,8 +143,11 @@ export class CharacterService {
         return this.loadingStatus;
     }
 
-    set_LoadingStatus(status: string) {
+    set_LoadingStatus(status: string, refreshTopBar: boolean = true) {
         this.loadingStatus = status || "Loading";
+        if (refreshTopBar) {
+            this.set_Changed("top-bar");
+        }
     }
 
     get_Changed(): Observable<string> {
@@ -2727,9 +2730,8 @@ export class CharacterService {
             this.characterChanged$ = this.changed.asObservable();
             this.viewChanged$ = this.viewChanged.asObservable();
         }
-        this.set_LoadingStatus("Initializing");
         this.loading = true;
-        this.set_Changed("top-bar");
+        this.set_LoadingStatus("Loading extensions");
         this.extensionsService.initialize();
         this.configService.initialize(this, this.savegameService);
         this.continue_Initialize(id, loadAsGM);
@@ -2741,6 +2743,7 @@ export class CharacterService {
                 this.continue_Initialize(id, loadAsGM);
             }, 500)
         } else {
+            this.set_LoadingStatus("Initializing content");
             this.traitsService.initialize();
             this.abilitiesService.initialize();
             this.activitiesService.initialize();
@@ -2758,6 +2761,7 @@ export class CharacterService {
             //EffectsService will wait for the character to be loaded before initializing.
             this.effectsService.initialize(this);
             if (id) {
+                this.set_LoadingStatus("Loading character");
                 this.load_CharacterFromDB(id)
                     .subscribe((results: string[]) => {
                         this.loader = results;
@@ -2808,6 +2812,7 @@ export class CharacterService {
 
     finish_Loading(loadAsGM: boolean = false) {
         if (this.loader) {
+            this.set_LoadingStatus("Initializing character");
             this.me = Object.assign(new Character(), JSON.parse(JSON.stringify(this.loader)));
             this.me.GMMode = loadAsGM;
             this.loader = [];
@@ -2832,13 +2837,14 @@ export class CharacterService {
             //Use this.me here instead of this.get_Character() because we're still_loading().
             this.me = this.savegameService.load_Character(this.me, this, this.itemsService, this.classesService, this.historyService, this.animalCompanionsService)
             if (this.loading) { this.loading = false; }
+            this.set_LoadingStatus("Finalizing");
             //Now that the character is loaded, do some things that require everything to be in working order:
-            //Give the character a Fist and an Unarmored© if they have nothing else, and keep those ready if they should drop their last weapon or armor.
+            //Give the character a Fist and an Unarmored™ if they have nothing else, and keep those ready if they should drop their last weapon or armor.
             this.grant_BasicItems();
             //Create feats that are based on all weapons in the store and in your inventory.
             this.create_WeaponFeats();
             //Check that every feat's specialreq makes sense. This is a debugging thing and should only run in development.
-            if (isDevMode) {
+            if (isDevMode()) {
                 this.verify_Feats();
             }
             //Set your turn state according to the saved state.
@@ -2869,6 +2875,7 @@ export class CharacterService {
         } else {
             //Update everything once, then effects, and then the player can take over.
             this.set_Changed();
+            this.set_LoadingStatus("Loading", false);
             this.set_ToChange("Character", "effects");
             if (!this.configService.get_LoggedIn() && !this.configService.get_CannotLogin()) {
                 this.set_ToChange("Character", "logged-out");

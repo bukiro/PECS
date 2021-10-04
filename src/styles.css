@@ -1866,7 +1866,6 @@ app-gridicon.specialchoice, .darkmode app-gridicon.specialchoice {
 /* Animated loading signifier */
 
 .loading {
-    color: #616161;
     color: currentColor;
     -webkit-animation: altrclr 2s infinite;
     animation: altrclr 2s infinite;
@@ -1881,8 +1880,7 @@ app-gridicon.specialchoice, .darkmode app-gridicon.specialchoice {
 
 @-webkit-keyframes altrclr {
     0% {
-        color: #616161;
-        color: var(--textcolor);
+        color: rgb(var(--accent));
     }
     25% {
         color: #EFEFEF;
@@ -1891,8 +1889,7 @@ app-gridicon.specialchoice, .darkmode app-gridicon.specialchoice {
 
 @keyframes altrclr {
     0% {
-        color: #616161;
-        color: var(--textcolor);
+        color: rgb(var(--accent));
     }
     25% {
         color: #EFEFEF;

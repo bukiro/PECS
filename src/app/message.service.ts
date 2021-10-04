@@ -88,17 +88,14 @@ export class MessageService {
                 // otherwise only announce that new messages are available, then update the component to show the number on the button.
                 if (newMessages.length && characterService.get_Character().settings.applyMessagesAutomatically) {
                     this.on_ApplyMessagesAutomatically(characterService, newMessages);
+                    characterService.set_Changed("top-bar");
                 } else if (newMessages.length) {
                     this.add_NewMessages(newMessages);
-                    this.toastService.show("<strong>" + newMessages.length +
-                        "</strong> new message" + (newMessages.length != 1 ? "s are" : " is") +
-                        " available.",
-                        { onClickCreature: "character", onClickAction: "check-messages-manually" },
-                        characterService)
+                    this.toastService.show("<strong>" + newMessages.length + "</strong> new message" + (newMessages.length != 1 ? "s are" : " is") + " available.",
+                        { onClickCreature: "character", onClickAction: "check-messages-manually" }, characterService)
+                    characterService.set_Changed("top-bar");
                 }
                 this.checkingMessages = false;
-                characterService.set_ToChange("Character", "top-bar");
-                characterService.process_ToChange();
             }, (error) => {
                 this.checkingMessages = false;
                 if (error.status == 401) {
