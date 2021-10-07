@@ -1,6 +1,5 @@
 export class Settings {
-    public readonly _className: string = this.constructor.name;
-    abilitiesMinimized: boolean = false;
+        abilitiesMinimized: boolean = false;
     accent: string = "#465A8C";
     activitiesMinimized: boolean = false;
     activitiesTileMode: boolean = true;

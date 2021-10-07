@@ -2,8 +2,7 @@ import { Equipment } from './Equipment';
 import { TypeService } from './type.service';
 
 export class AdventuringGear extends Equipment {
-    public readonly _className: string = this.constructor.name;
-    //Adventuring Gear should be type "adventuringgear" to be found in the database
+        //Adventuring Gear should be type "adventuringgear" to be found in the database
     readonly type = "adventuringgear";
     //Adventuring Gear can usually not be equipped or invested, but with exceptions.
     equippable = false;

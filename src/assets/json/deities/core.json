@@ -15,17 +15,14 @@
       "category": "Gods of the Inner Sea",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Illusory Object"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Creation"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Magnificent Mansion"
          }
@@ -80,17 +77,14 @@
       "category": "Gods of the Inner Sea",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Charm"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Suggestion"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Mislead"
          }
@@ -141,17 +135,14 @@
       "category": "Gods of the Inner Sea",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Charm"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Enthrall"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Mislead"
          }
@@ -202,17 +193,14 @@
       "category": "Gods of the Inner Sea",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Fleet Step"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Touch of Idiocy"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Hallucination"
          }
@@ -266,17 +254,14 @@
       "category": "Gods of the Inner Sea",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Sleep"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Fly"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Dreaming Potential"
          }
@@ -331,17 +316,14 @@
       "category": "Gods of the Inner Sea",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "True Strike"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Wall of Thorns"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Tree Stride"
          }
@@ -392,17 +374,14 @@
       "category": "Gods of the Inner Sea",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "True Strike"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Enlarge"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Weapon Storm"
          }
@@ -456,17 +435,14 @@
       "category": "Gods of the Inner Sea",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Gust of Wind"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Lightning Bolt"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Control Water"
          }
@@ -521,17 +497,14 @@
       "category": "Gods of the Inner Sea",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "True Strike"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Enlarge"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Fire Shield"
          }
@@ -584,17 +557,14 @@
       "category": "Gods of the Inner Sea",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Jump"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Haste"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Stoneskin"
          }
@@ -648,17 +618,14 @@
       "category": "Gods of the Inner Sea",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Magic Fang"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Animal Form"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Nightmare"
          }
@@ -709,47 +676,38 @@
       "category": "Gods of the Inner Sea",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Magic Missile"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Magic Mouth"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Levitate"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Blink"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Prying Eye"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Wall of Force"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Warp Mind"
          },
          {
-            "_className": "SpellCast",
             "level": 8,
             "name": "Maze"
          },
          {
-            "_className": "SpellCast",
             "level": 9,
             "name": "Disjunction"
          }
@@ -800,17 +758,14 @@
       "category": "Gods of the Inner Sea",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Illusory Disguise"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Invisibility"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Phantasmal Killer"
          }
@@ -867,17 +822,14 @@
       "category": "Gods of the Inner Sea",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Mindlink"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Ghostly Weapon"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Phantasmal Killer"
          }
@@ -931,17 +883,14 @@
       "category": "Gods of the Inner Sea",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Burning Hands"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Enlarge"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Disintegrate"
          }
@@ -993,17 +942,14 @@
       "category": "Gods of the Inner Sea",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Burning Hands"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Fireball"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Wall of Fire"
          }
@@ -1056,17 +1002,14 @@
       "category": "Gods of the Inner Sea",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Color Spray"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Enthrall"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Creation"
          }
@@ -1121,17 +1064,14 @@
       "category": "Gods of the Inner Sea",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Mindlink"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Earthbind"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Creation"
          }
@@ -1186,17 +1126,14 @@
       "category": "Gods of the Inner Sea",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Goblin Pox"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "False Life"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Mask of Terror"
          }
@@ -1248,17 +1185,14 @@
       "category": "Gods of the Inner Sea",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Phantom Pain"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Wall of Thorns"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Shadow Walk"
          }
@@ -1307,17 +1241,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "True Strike"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Invisibility"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Phantasmal Killer"
          }
@@ -1372,17 +1303,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Feather Fall"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Misdirection"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Magnificent Mansion"
          }
@@ -1434,17 +1362,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Ill Omen"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Nondetection"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Crushing Despair"
          }
@@ -1488,17 +1413,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Anticipate Peril"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Knock"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Dimension Door"
          }
@@ -1544,17 +1466,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Magic Fang"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Creation"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Dragon Form",
             "note": "(metallic dragons only)"
@@ -1606,17 +1525,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Endure"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Animus Mine"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Feeblemind"
          }
@@ -1668,17 +1584,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Ant Haul"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Enlarge"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Dinosaur Form"
          }
@@ -1728,17 +1641,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Hydraulic Push"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Feet To Fins"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Mariner's Curse"
          }
@@ -1793,17 +1703,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Temporary Tool"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Creation"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Duplicate Foe"
          }
@@ -1859,17 +1766,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Floating Disk"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Hypercognition"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Wall of Force"
          }
@@ -1921,17 +1825,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Fleet Step"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Misdirection"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Cloak of Colors"
          }
@@ -1978,17 +1879,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Magic Fang"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Fireball"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Dragon Form",
             "note": "(chromatic dragons only)"
@@ -2034,17 +1932,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Anticipate Peril"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Misdirection"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Nondetection"
          }
@@ -2095,17 +1990,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Mindlink"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Threefold Aspect"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Prying Eye"
          }
@@ -2149,17 +2041,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Summon Fey"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Barkskin"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Tree Stride"
          }
@@ -2209,17 +2098,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Goblin Pox"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Vomit Swarm"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Insect Form"
          }
@@ -2273,17 +2159,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Pest Form"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Web"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Glibness"
          }
@@ -2335,17 +2218,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Summon Plant or Fungus"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Entangle"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Tangling Creepers"
          }
@@ -2392,17 +2272,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Phantom Pain"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Crushing Despair"
          },
          {
-            "_className": "SpellCast",
             "level": 9,
             "name": "Disjunction"
          }
@@ -2449,17 +2326,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Ill Omen"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Paranoia"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Feeblemind"
          }
@@ -2505,17 +2379,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Hydraulic Push"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Aqueous Orb"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Solid Fog"
          }
@@ -2564,17 +2435,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Temporary Tool"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Shape Wood"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Wall of Thorns"
          }
@@ -2628,17 +2496,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Pass Without Trace"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Paralyze"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Phantasmal Killer"
          }
@@ -2695,17 +2560,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Mage Armor"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Animal Form"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Stoneskin"
          }
@@ -2755,17 +2617,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Sleep"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Vomit Swarm"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Insect Form"
          }
@@ -2813,17 +2672,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Ant Haul"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Enlarge"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Haste"
          }
@@ -2873,17 +2729,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Message Rune"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Secret Page"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Dominate"
          }
@@ -2935,17 +2788,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Ill Omen"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Flaming Sphere"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Fiery Body"
          }
@@ -2996,17 +2846,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Share Lore"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Shape Stone"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Wall of Stone"
          }
@@ -3056,17 +2903,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Mage Armor"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Enthrall"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Fire Shield"
          }
@@ -3114,17 +2958,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Soothe"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Crushing Despair"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Drop Dead"
          }
@@ -3176,17 +3017,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Illusory Disguise"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Invisibility"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Private Sanctum"
          }
@@ -3238,17 +3076,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Penumbral Shroud"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Nondetection"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Creation"
          }
@@ -3301,18 +3136,15 @@
       "category": "Other",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Charm"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Animal Form",
             "note": "snake only"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Clairvoyance"
          }
@@ -3363,17 +3195,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Illusory Disguise"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Veil"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Shadow Siphon"
          }
@@ -3423,17 +3252,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Penumbral Shroud"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Invisibility Sphere"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Mislead"
          }
@@ -3486,17 +3312,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Fleet Step"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Haste"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Dragon Form"
          }
@@ -3545,17 +3368,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Burning Hands"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Fireball"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Wall of Fire"
          }
@@ -3601,17 +3421,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Magic Fang"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Cloudkill"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Purple Worm Sting"
          }
@@ -3654,17 +3471,14 @@
       "category": "Other Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Ill Omen"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Shatter"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Phantasmal Calamity"
          }
@@ -3711,17 +3525,14 @@
       "category": "Ancient Osirian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Unseen Servant"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Shifting Sand"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Wall of Stone"
          }
@@ -3770,18 +3581,15 @@
       "category": "Ancient Osirian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Pest Form",
             "note": "(cats only)"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Animal Vision"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Private Sanctum"
          }
@@ -3831,17 +3639,14 @@
       "category": "Ancient Osirian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Sleep"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Hideous Laughter"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Enthrall"
          }
@@ -3889,17 +3694,14 @@
       "category": "Ancient Osirian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Charm"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Tree Shape"
          },
          {
-            "_className": "SpellCast",
             "level": 8,
             "name": "Uncontrollable Dance"
          }
@@ -3946,17 +3748,14 @@
       "category": "Ancient Osirian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Floating Disk"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Wall of Wind"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Aerial Form",
             "note": "(bird only)"
@@ -4005,47 +3804,38 @@
       "category": "Ancient Osirian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Soothe"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Humanoid Form"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Animal Vision"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Creation"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Control Water"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Wall of Force"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Magnificent Mansion"
          },
          {
-            "_className": "SpellCast",
             "level": 8,
             "name": "Wind Walk"
          },
          {
-            "_className": "SpellCast",
             "level": 9,
             "name": "Shapechange"
          }
@@ -4094,17 +3884,14 @@
       "category": "Ancient Osirian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Feather Fall"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Resilient Sphere"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Mind Probe"
          }
@@ -4152,17 +3939,14 @@
       "category": "Ancient Osirian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Soothe"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "False Life"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Tangling Creepers"
          }
@@ -4209,17 +3993,14 @@
       "category": "Ancient Osirian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Burning Hands"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Flaming Sphere"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Threefold Aspect"
          }
@@ -4267,17 +4048,14 @@
       "category": "Ancient Osirian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "True Strike"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Wall of Fire"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Moon Frenzy"
          }
@@ -4328,17 +4106,14 @@
       "category": "Ancient Osirian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Soothe"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Paralyze"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Purple Worm Sting"
          }
@@ -4387,17 +4162,14 @@
       "category": "Ancient Osirian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Hydraulic Push"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Feet To Fins"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Dinosaur Form",
             "note": "(appears as crocodile)"
@@ -4448,17 +4220,14 @@
       "category": "Ancient Osirian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Message Rune"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Comprehend Language"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Secret Page"
          }
@@ -4506,18 +4275,15 @@
       "category": "Ancient Osirian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Mage Armor"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Animal Form",
             "note": "(snake only)"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Fly"
          }
@@ -4565,17 +4331,14 @@
       "category": "Archdevils",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Fleet Step"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Vomit Swarm"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Mislead"
          }
@@ -4621,17 +4384,14 @@
       "category": "Archdevils",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Magic Fang"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Paralyze"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Clairvoyance"
          }
@@ -4677,17 +4437,14 @@
       "category": "Archdevils",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Charm"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Humanoid Form"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Enthrall"
          }
@@ -4733,17 +4490,14 @@
       "category": "Archdevils",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Tether"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Suggestion"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Flesh To Stone"
          }
@@ -4790,18 +4544,15 @@
       "category": "Archdevils",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Acidic Burst"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Animal Form",
             "note": "(snake only)"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Hypercognition"
          }
@@ -4847,17 +4598,14 @@
       "category": "Archdevils",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Shattering Gem"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Creation"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Magnificent Mansion"
          }
@@ -4903,17 +4651,14 @@
       "category": "Archdevils",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Message Rune"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Blistering Invective"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Subconscious Suggestion"
          }
@@ -4960,17 +4705,14 @@
       "category": "Archdevils",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Burning Hands"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Acid Storm"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Fiery Body"
          }
@@ -5017,47 +4759,38 @@
       "category": "Demon Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Share Lore"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Spectral Hand"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Hypercognition"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Reflective Scales"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Black Tentacles"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Feeblemind"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Spell Turning"
          },
          {
-            "_className": "SpellCast",
             "level": 8,
             "name": "Unrelenting Observation"
          },
          {
-            "_className": "SpellCast",
             "level": 9,
             "name": "Disjunction"
          }
@@ -5108,18 +4841,15 @@
       "category": "Demon Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Magic Fang"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Animal Form",
             "note": "(ape only)"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Moon Frenzy"
          }
@@ -5166,17 +4896,14 @@
       "category": "Demon Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Summon Animal"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Enlarge"
          },
          {
-            "_className": "SpellCast",
             "level": 8,
             "name": "Maze"
          }
@@ -5225,17 +4952,14 @@
       "category": "Demon Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Summon Plant or Fungus"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Fungal Hyphae"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Plant Form"
          }
@@ -5284,17 +5008,14 @@
       "category": "Demon Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Hydraulic Push"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Feet To Fins"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Chain Lightning"
          }
@@ -5341,17 +5062,14 @@
       "category": "Demon Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Jump"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Stinking Cloud"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Black Tentacles"
          }
@@ -5398,17 +5116,14 @@
       "category": "Demon Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Jump"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Expeditious Excavation"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Paralyze"
          }
@@ -5453,17 +5168,14 @@
       "category": "Demon Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Chilling Spray"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Enlarge"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Cone of Cold"
          }
@@ -5510,17 +5222,14 @@
       "category": "Demon Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Burning Hands"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Flaming Sphere"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Cup of Dust"
          }
@@ -5568,17 +5277,14 @@
       "category": "Demon Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Gust of Wind"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Suggestion"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Fly"
          }
@@ -5625,17 +5331,14 @@
       "category": "Demon Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Phantom Pain"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Invisibility"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Haste"
          }
@@ -5682,17 +5385,14 @@
       "category": "Demon Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Ill Omen"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Crushing Despair"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Subconscious Suggestion"
          }
@@ -5741,17 +5441,14 @@
       "category": "Demon Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Grim Tendrils"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Wall of Thorns"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Tangling Creepers"
          }
@@ -5801,17 +5498,14 @@
       "category": "Demon Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Magic Fang"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Dinosaur Form"
          },
          {
-            "_className": "SpellCast",
             "level": 8,
             "name": "Earthquake"
          }
@@ -5860,17 +5554,14 @@
       "category": "Demon Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Charm"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Gaseous Form"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Dominate"
          }
@@ -5916,17 +5607,14 @@
       "category": "Dwarven Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Burning Hands"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Blistering Invective"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Fireball"
          }
@@ -5973,17 +5661,14 @@
       "category": "Dwarven Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Soothe"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Creation"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Collective Transposition"
          }
@@ -6031,17 +5716,14 @@
       "category": "Dwarven Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Longstrider"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Knock"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Passwall"
          }
@@ -6092,17 +5774,14 @@
       "category": "Dwarven Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Ant Haul"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Haste"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Dominate"
          }
@@ -6150,17 +5829,14 @@
       "category": "Dwarven Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Endure"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Fire Shield"
          },
          {
-            "_className": "SpellCast",
             "level": 9,
             "name": "Resplendent Mansion"
          }
@@ -6207,17 +5883,14 @@
       "category": "Dwarven Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Anticipate Peril"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Resilient Sphere"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Wall of Force"
          }
@@ -6265,17 +5938,14 @@
       "category": "Dwarven Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Unseen Servant"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Suggestion"
          },
          {
-            "_className": "SpellCast",
             "level": 8,
             "name": "Unrelenting Observation"
          }
@@ -6323,17 +5993,14 @@
       "category": "Dwarven Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Temporary Tool"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Expeditious Excavation"
          },
          {
-            "_className": "SpellCast",
             "level": 9,
             "name": "Earthquake"
          }
@@ -6381,17 +6048,14 @@
       "category": "Dwarven Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Endure"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Haste"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Stoneskin"
          }
@@ -6438,17 +6102,14 @@
       "category": "Eldest",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Penumbral Shroud"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Private Sanctum"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Shadow Walk"
          }
@@ -6498,17 +6159,14 @@
       "category": "Eldest",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Mindlink"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Mirror Image"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Stoneskin"
          }
@@ -6558,17 +6216,14 @@
       "category": "Eldest",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Anticipate Peril"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Threefold Aspect"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Scrying"
          }
@@ -6615,17 +6270,14 @@
       "category": "Eldest",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Pass Without Trace"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Invisibility"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Blink"
          }
@@ -6672,17 +6324,14 @@
       "category": "Eldest",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Hydraulic Push"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Feet To Fins"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Purple Worm Sting"
          }
@@ -6732,17 +6381,14 @@
       "category": "Eldest",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Anticipate Peril"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Haste"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Time Beacon"
          }
@@ -6795,17 +6441,14 @@
       "category": "Eldest",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Charm"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Suggestion"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Plant Form"
          }
@@ -6855,17 +6498,14 @@
       "category": "Eldest",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Illusory Disguise"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Hideous Laughter"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Baleful Polymorph"
          }
@@ -6914,17 +6554,14 @@
       "category": "Eldest",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Soothe"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Modify Memory"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Crushing Despair"
          }
@@ -6974,17 +6611,14 @@
       "category": "Elemental Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Soothe"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Ghostly Weapon"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Fire Shield"
          }
@@ -7034,18 +6668,15 @@
       "category": "Elemental Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Shockwave"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Summon Elemental",
             "note": "(earth only)"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Flesh To Stone"
          }
@@ -7095,18 +6726,15 @@
       "category": "Elemental Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Gust of Wind"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Summon Elemental",
             "note": "(air only)"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Gaseous Form"
          }
@@ -7156,18 +6784,15 @@
       "category": "Elemental Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Fear"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Summon Elemental",
             "note": "(water only)"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Hydraulic Torrent"
          }
@@ -7218,17 +6843,14 @@
       "category": "Elemental Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Hydraulic Push"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Aqueous Orb"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Control Water"
          }
@@ -7280,17 +6902,14 @@
       "category": "Elemental Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Liberating Command"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Fly"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Chain Lightning"
          }
@@ -7340,17 +6959,14 @@
       "category": "Elemental Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Shattering Gem"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Expeditious Excavation"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Stoneskin"
          }
@@ -7401,18 +7017,15 @@
       "category": "Elemental Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Burning Hands"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Summon Elemental",
             "note": "(fire only)"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Wall of Fire"
          }
@@ -7461,17 +7074,14 @@
       "category": "Elven Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Temporary Tool"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Shape Stone"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Magnificent Mansion"
          }
@@ -7521,17 +7131,14 @@
       "category": "Elven Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Pass Without Trace"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Invisibility"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Animal Vision"
          }
@@ -7579,47 +7186,38 @@
       "category": "Elven Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Shattering Gem"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Shape Wood"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Meld into Stone"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Speak with Plants"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Tree Stride"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Tangling Creepers"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Unfettered Pack"
          },
          {
-            "_className": "SpellCast",
             "level": 8,
             "name": "Prismatic Wall"
          },
          {
-            "_className": "SpellCast",
             "level": 9,
             "name": "Nature's Enmity"
          }
@@ -7671,18 +7269,15 @@
       "category": "Empyreal Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Shillelagh"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Aerial Form",
             "note": "(bird only)"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Collective Transposition"
          }
@@ -7730,17 +7325,14 @@
       "category": "Empyreal Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Mage Armor"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Humanoid Form"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Dreaming Potential"
          }
@@ -7790,17 +7382,14 @@
       "category": "Empyreal Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Soothe"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Glitterdust"
          },
          {
-            "_className": "SpellCast",
             "level": 8,
             "name": "Uncontrollable Dance"
          }
@@ -7849,17 +7438,14 @@
       "category": "Empyreal Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Penumbral Shroud"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Blur"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Blink"
          }
@@ -7906,17 +7492,14 @@
       "category": "Empyreal Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "True Strike"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Animal Form"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Lightning Bolt"
          }
@@ -7965,17 +7548,14 @@
       "category": "Empyreal Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "True Strike"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Paralyze"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Stoneskin"
          }
@@ -8024,17 +7604,14 @@
       "category": "Empyreal Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Mindlink"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Comprehend Language"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Enthrall"
          }
@@ -8084,17 +7661,14 @@
       "category": "Empyreal Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "True Strike"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Ghostly Weapon"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Cloak of Colors"
          }
@@ -8142,17 +7716,14 @@
       "category": "Empyreal Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Summon Plant or Fungus"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Touch of Idiocy"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Speak with Plants"
          }
@@ -8203,17 +7774,14 @@
       "category": "Empyreal Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Anticipate Peril"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Mirror Image"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Secret Page"
          }
@@ -8261,17 +7829,14 @@
       "category": "Empyreal Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Longstrider"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Haste"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Mask of Terror"
          }
@@ -8322,17 +7887,14 @@
       "category": "Empyreal Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Soothe"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Slow"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Resilient Sphere"
          }
@@ -8378,17 +7940,14 @@
       "category": "Empyreal Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Mage Armor"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Threefold Aspect"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Resilient Sphere"
          }
@@ -8438,17 +7997,14 @@
       "category": "Empyreal Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Color Spray"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Chromatic Wall"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Teleport"
          }
@@ -8497,17 +8053,14 @@
       "category": "Empyreal Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "True Strike"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Haste"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Fire Shield"
          }
@@ -8554,17 +8107,14 @@
       "category": "Empyreal Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Liberating Command"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Hypercognition"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Dreaming Potential"
          }
@@ -8614,17 +8164,14 @@
       "category": "Empyreal Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Summon Construct"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Meld into Stone"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Stoneskin"
          }
@@ -8673,17 +8220,14 @@
       "category": "Empyreal Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Pass Without Trace"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Animal Vision"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Aerial Form",
             "note": "(bird only)"
@@ -8733,18 +8277,15 @@
       "category": "Empyreal Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Phantom Pain"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Slough Skin",
             "note": "(appears as streams of blood)"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Synaptic Pulse"
          }
@@ -8791,17 +8332,14 @@
       "category": "Empyreal Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Share Lore"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Comprehend Language"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Veil"
          }
@@ -8852,17 +8390,14 @@
       "category": "Empyreal Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Feather Fall"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Feet To Fins"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Fly"
          }
@@ -8913,17 +8448,14 @@
       "category": "Empyreal Lords",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Share Lore"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Hypercognition"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Retrocognition"
          }
@@ -8972,17 +8504,14 @@
       "category": "Horsemen",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Goblin Pox"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Vomit Swarm"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Cloudkill"
          }
@@ -9031,17 +8560,14 @@
       "category": "Horsemen",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Grim Tendrils"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Crushing Despair"
          },
          {
-            "_className": "SpellCast",
             "level": 9,
             "name": "Weird"
          }
@@ -9089,17 +8615,14 @@
       "category": "Horsemen",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Burning Hands"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Haste"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Weapon Storm"
          }
@@ -9147,17 +8670,14 @@
       "category": "Horsemen",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Grease"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Feast of Ashes"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Acid Storm"
          }
@@ -9206,17 +8726,14 @@
       "category": "Monitor Demigods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Longstrider"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Knock"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Teleport"
          }
@@ -9272,17 +8789,14 @@
       "category": "Old Sun Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Burning Hands"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Fireball"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Fire Shield"
          }
@@ -9329,17 +8843,14 @@
       "category": "Monitor Demigods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Ill Omen"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Paranoia"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Phantasmal Calamity"
          }
@@ -9389,17 +8900,14 @@
       "category": "Monitor Demigods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Penumbral Shroud"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Shadow Siphon"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Disintegrate"
          }
@@ -9454,17 +8962,14 @@
       "category": "Old Sun Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Sleep"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Invisibility Sphere"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Shadow Walk"
          }
@@ -9512,17 +9017,14 @@
       "category": "Monitor Demigods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Unseen Servant"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Spectral Hand"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Gaseous Form"
          }
@@ -9572,17 +9074,14 @@
       "category": "Monitor Demigods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Soothe"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Aerial Form"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Baleful Polymorph"
          }
@@ -9630,17 +9129,14 @@
       "category": "Monitor Demigods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Endure"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Slough Skin"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Modify Memory"
          }
@@ -9689,17 +9185,14 @@
       "category": "Monitor Demigods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Mindlink"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Confusion"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Synesthesia"
          }
@@ -9749,17 +9242,14 @@
       "category": "Monitor Demigods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "True Strike"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Gravity Well"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Reverse Gravity"
          }
@@ -9806,17 +9296,14 @@
       "category": "Monitor Demigods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Share Lore"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Hypercognition"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Dreaming Potential"
          }
@@ -9872,17 +9359,14 @@
       "category": "Old Sun Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Soothe"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Enthrall"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Dreaming Potential"
          }
@@ -9932,17 +9416,14 @@
       "category": "Monitor Demigods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Mage Armor"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Feeblemind"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Contingency"
          }
@@ -9992,17 +9473,14 @@
       "category": "Monitor Demigods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Message Rune"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Blistering Invective"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Glibness"
          }
@@ -10048,17 +9526,14 @@
       "category": "Outer Gods and Great Old Ones",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Ill Omen"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Synaptic Pulse"
          },
          {
-            "_className": "SpellCast",
             "level": 9,
             "name": "Unfathomable Song"
          }
@@ -10100,17 +9575,14 @@
       "category": "Outer Gods and Great Old Ones",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Illusory Disguise"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Confusion"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Hallucination"
          }
@@ -10157,17 +9629,14 @@
       "category": "Outer Gods and Great Old Ones",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Grim Tendrils"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Entangle"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Cloudkill"
          }
@@ -10208,17 +9677,14 @@
       "category": "Outer Gods and Great Old Ones",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Grim Tendrils"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Nightmare"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Summon Entity"
          }
@@ -10256,47 +9722,38 @@
       "category": "Outer Gods and Great Old Ones",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Message Rune"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Humanoid Form"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Enthrall"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Suggestion"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Summon Entity"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Mislead"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Project Image"
          },
          {
-            "_className": "SpellCast",
             "level": 8,
             "name": "Dream Council"
          },
          {
-            "_className": "SpellCast",
             "level": 9,
             "name": "Weird"
          }
@@ -10338,17 +9795,14 @@
       "category": "Outer Gods and Great Old Ones",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Summon Plant or Fungus"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Wall of Thorns"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Warp Mind"
          }
@@ -10390,17 +9844,14 @@
       "category": "Outer Gods and Great Old Ones",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Fleet Step"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Black Tentacles"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Time Beacon"
          }
@@ -10452,17 +9903,14 @@
       "category": "Pantheons",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Fleet Step"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Black Tentacles"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Time Beacon"
          }
@@ -10527,17 +9975,14 @@
       "category": "Pantheons",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Mage Armor"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Creation"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "True Target"
          }
@@ -10597,17 +10042,14 @@
       "category": "Pantheons",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Ant Haul"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Creation"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Retrocognition"
          }
@@ -10669,17 +10111,14 @@
       "category": "Pantheons",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Shillelagh"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Shape Wood"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Tree Stride"
          }
@@ -10742,17 +10181,14 @@
       "category": "Pantheons",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Message Rune"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Hypercognition"
          },
          {
-            "_className": "SpellCast",
             "level": 9,
             "name": "Retrocognition"
          }
@@ -10812,17 +10248,14 @@
       "category": "Pantheons",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Gust of Wind"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Fly"
          },
          {
-            "_className": "SpellCast",
             "level": 9,
             "name": "Storm of Vengeance"
          }
@@ -10881,17 +10314,14 @@
       "category": "Pantheons",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Anticipate Peril"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Fireball"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Mislead"
          }
@@ -10949,17 +10379,14 @@
       "category": "Pantheons",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Phantom Pain"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Fire Shield"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Dominate"
          }
@@ -11020,17 +10447,14 @@
       "category": "Pantheons",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Longstrider"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Flaming Sphere"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Gravity Well"
          }
@@ -11088,17 +10512,14 @@
       "category": "Pantheons",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Sleep"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Fireball"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Creation"
          }
@@ -11157,17 +10578,14 @@
       "category": "Pantheons",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Soothe"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "False Life"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Fiery Body"
          }
@@ -11226,17 +10644,14 @@
       "category": "Pantheons",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Soothe"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Resilient Sphere"
          },
          {
-            "_className": "SpellCast",
             "level": 9,
             "name": "Disjunction"
          }
@@ -11291,17 +10706,14 @@
       "category": "Queens of the Night",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Charm"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Enthrall"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Suggestion"
          }
@@ -11348,17 +10760,14 @@
       "category": "Queens of the Night",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Phantom Pain"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Earthbind"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Synaptic Pulse"
          }
@@ -11404,17 +10813,14 @@
       "category": "Queens of the Night",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "True Strike"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Fireball"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Dimension Door"
          }
@@ -11459,17 +10865,14 @@
       "category": "Queens of the Night",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Illusory Disguise"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Misdirection"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Illusory Scene"
          }
@@ -11516,17 +10919,14 @@
       "category": "Sarkorian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Agitate"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Creation"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Cone of Cold"
          }
@@ -11573,18 +10973,15 @@
       "category": "Sarkorian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Phantom Pain"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Animal Form",
             "note": "(bull only: appears as stag)"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Flesh To Stone"
          }
@@ -11634,17 +11031,14 @@
       "category": "Sarkorian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Charm"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Cloak of Colors"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Dragon Form"
          }
@@ -11691,17 +11085,14 @@
       "category": "Tian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Pest Form"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Humanoid Form"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Illusory Scene"
          }
@@ -11750,17 +11141,14 @@
       "category": "Tian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Grim Tendrils"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Feast of Ashes"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Possession"
          }
@@ -11810,17 +11198,14 @@
       "category": "Tian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "True Strike"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Phantom Steed"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Wall of Wind"
          }
@@ -11873,17 +11258,14 @@
       "category": "Tian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Gust of Wind"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Hydraulic Torrent"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Chain Lightning"
          }
@@ -11932,17 +11314,14 @@
       "category": "Tian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Soothe"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Hideous Laughter"
          },
          {
-            "_className": "SpellCast",
             "level": 8,
             "name": "Uncontrollable Dance"
          }
@@ -11989,17 +11368,14 @@
       "category": "Tian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Sleep"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Mirror Image"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Chromatic Wall"
          }
@@ -12044,17 +11420,14 @@
       "category": "Tian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Burning Hands"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Control Water"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Dragon Form"
          }
@@ -12100,18 +11473,15 @@
       "category": "Tian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Summon Animal",
             "note": "(rodents only)"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Knock"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Nondetection"
          }
@@ -12161,47 +11531,38 @@
       "category": "Tian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Charm"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Invisibility"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Lightning Bolt"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Reflective Scales"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Subconscious Suggestion"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Mislead"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Contingency"
          },
          {
-            "_className": "SpellCast",
             "level": 8,
             "name": "Scintillating Pattern"
          },
          {
-            "_className": "SpellCast",
             "level": 9,
             "name": "Storm of Vengeance"
          }
@@ -12252,17 +11613,14 @@
       "category": "Tian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Soothe"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "False Life"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Resilient Sphere"
          }
@@ -12317,17 +11675,14 @@
       "category": "Tian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "True Strike"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Reflective Scales"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Summon Dragon"
          }
@@ -12374,17 +11729,14 @@
       "category": "Tian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Jump"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Mad Monkeys"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Creation"
          }
@@ -12438,17 +11790,14 @@
       "category": "Tian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Soothe"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Mirror Image"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Hallucination"
          }
@@ -12498,17 +11847,14 @@
       "category": "Tian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "True Strike"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Invisibility"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Mislead"
          }
@@ -12554,17 +11900,14 @@
       "category": "Tian Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Shockwave"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Shifting Sand"
          },
          {
-            "_className": "SpellCast",
             "level": 7,
             "name": "Volcanic Eruption"
          }
@@ -12614,17 +11957,14 @@
       "category": "Vudrani Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Shillelagh"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Ghostly Weapon"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Speak with Plants"
          }
@@ -12673,17 +12013,14 @@
       "category": "Vudrani Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Shattering Gem"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Shape Stone"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Wall of Stone"
          }
@@ -12732,17 +12069,14 @@
       "category": "Vudrani Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Summon Animal"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Lightning Bolt"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Moon Frenzy"
          }
@@ -12790,17 +12124,14 @@
       "category": "Vudrani Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Fear"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Glibness"
          },
          {
-            "_className": "SpellCast",
             "level": 6,
             "name": "Mislead"
          }
@@ -12847,17 +12178,14 @@
       "category": "Vudrani Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Phantom Pain"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Slough Skin"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Weapon Storm"
          }
@@ -12913,17 +12241,14 @@
       "category": "Vudrani Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Share Lore"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Comprehend Language"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Hypercognition"
          }
@@ -12971,17 +12296,14 @@
       "category": "Vudrani Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Fleet Step"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Mad Monkeys"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Confusion"
          }
@@ -13027,17 +12349,14 @@
       "category": "Vudrani Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Illusory Disguise"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Enthrall"
          },
          {
-            "_className": "SpellCast",
             "level": 5,
             "name": "Illusory Scene"
          }
@@ -13088,17 +12407,14 @@
       "category": "Vudrani Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Share Lore"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Slow"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Speak with Plants"
          }
@@ -13146,17 +12462,14 @@
       "category": "Vudrani Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "Shockwave"
          },
          {
-            "_className": "SpellCast",
             "level": 3,
             "name": "Mad Monkeys"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Gaseous Form"
          }
@@ -13204,17 +12517,14 @@
       "category": "Vudrani Gods",
       "clericSpells": [
          {
-            "_className": "SpellCast",
             "level": 1,
             "name": "True Strike"
          },
          {
-            "_className": "SpellCast",
             "level": 2,
             "name": "Invisibility"
          },
          {
-            "_className": "SpellCast",
             "level": 4,
             "name": "Weapon Storm"
          }

@@ -2,8 +2,7 @@ import { Consumable } from './Consumable';
 import { TypeService } from './type.service';
 
 export class Talisman extends Consumable {
-    public readonly _className: string = this.constructor.name;
-    //Other Consumables should be type "talismans" to be found in the database
+        //Other Consumables should be type "talismans" to be found in the database
     readonly type = "talismans";
     public critfailure: string = "";
     public critsuccess: string = "";

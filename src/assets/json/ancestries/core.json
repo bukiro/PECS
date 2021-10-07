@@ -1,6 +1,5 @@
 [
     {
-        "_className": "Ancestry",
         "name": "Dwarf",
         "desc": [
             {
@@ -61,7 +60,6 @@
         ],
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "locked": true,
@@ -89,7 +87,6 @@
                 "source": "Ancestry"
             },
             {
-                "_className": "AbilityChoice",
                 "available": 1,
                 "baseValuesLost": 1,
                 "id": "1-Ability-Ancestry-1",
@@ -132,7 +129,6 @@
         ]
     },
     {
-        "_className": "Ancestry",
         "name": "Elf",
         "desc": [
             {
@@ -189,7 +185,6 @@
         ],
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "locked": true,
@@ -217,7 +212,6 @@
                 "source": "Ancestry"
             },
             {
-                "_className": "AbilityChoice",
                 "available": 1,
                 "baseValuesLost": 1,
                 "id": "1-Ability-Ancestry-1",
@@ -253,7 +247,6 @@
         ]
     },
     {
-        "_className": "Ancestry",
         "name": "Gnome",
         "warning": "Gnome feats are not implemented yet.",
         "desc": [
@@ -311,7 +304,6 @@
         ],
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "locked": true,
@@ -339,7 +331,6 @@
                 "source": "Ancestry"
             },
             {
-                "_className": "AbilityChoice",
                 "available": 1,
                 "baseValuesLost": 1,
                 "id": "1-Ability-Ancestry-1",
@@ -375,7 +366,6 @@
         ]
     },
     {
-        "_className": "Ancestry",
         "name": "Goblin",
         "desc": [
             {
@@ -432,7 +422,6 @@
         ],
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "locked": true,
@@ -460,7 +449,6 @@
                 "source": "Ancestry"
             },
             {
-                "_className": "AbilityChoice",
                 "available": 1,
                 "baseValuesLost": 1,
                 "id": "1-Ability-Ancestry-1",
@@ -496,7 +484,6 @@
         ]
     },
     {
-        "_className": "Ancestry",
         "name": "Halfling",
         "desc": [
             {
@@ -553,7 +540,6 @@
         ],
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "locked": true,
@@ -581,7 +567,6 @@
                 "source": "Ancestry"
             },
             {
-                "_className": "AbilityChoice",
                 "available": 1,
                 "baseValuesLost": 1,
                 "id": "1-Ability-Ancestry-1",
@@ -611,7 +596,6 @@
         ],
         "featChoices": [
             {
-                "_className": "FeatChoice",
                 "feats": [
                     {
                         "name": "Keen Eyes",
@@ -627,7 +611,6 @@
         ]
     },
     {
-        "_className": "Ancestry",
         "name": "Hobgoblin",
         "warning": "Hobgoblin feats are not implemented yet.",
         "sourceBook": "Character Guide",
@@ -687,7 +670,6 @@
         ],
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "locked": true,
@@ -715,7 +697,6 @@
                 "source": "Ancestry"
             },
             {
-                "_className": "AbilityChoice",
                 "available": 1,
                 "baseValuesLost": 1,
                 "id": "1-Ability-Ancestry-1",
@@ -749,7 +730,6 @@
         ]
     },
     {
-        "_className": "Ancestry",
         "name": "Human",
         "desc": [
             {
@@ -798,7 +778,6 @@
         ],
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "available": 2,
                 "baseValuesLost": 1,
                 "id": "1-Ability-Ancestry-0",
@@ -818,7 +797,6 @@
         ]
     },
     {
-        "_className": "Ancestry",
         "name": "Leshy",
         "warning": "Leshy feats are not implemented yet.",
         "sourceBook": "Character Guide",
@@ -878,7 +856,6 @@
         ],
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "locked": true,
@@ -906,7 +883,6 @@
                 "source": "Ancestry"
             },
             {
-                "_className": "AbilityChoice",
                 "available": 1,
                 "baseValuesLost": 1,
                 "id": "1-Ability-Ancestry-1",
@@ -939,7 +915,6 @@
         ],
         "featChoices": [
             {
-                "_className": "FeatChoice",
                 "feats": [
                     {
                         "name": "Plant Nourishment",
@@ -955,7 +930,6 @@
         ]
     },
     {
-        "_className": "Ancestry",
         "name": "Lizardfolk",
         "sourceBook": "Character Guide",
         "desc": [
@@ -1018,7 +992,6 @@
         ],
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "locked": true,
@@ -1046,7 +1019,6 @@
                 "source": "Ancestry"
             },
             {
-                "_className": "AbilityChoice",
                 "available": 1,
                 "baseValuesLost": 1,
                 "id": "1-Ability-Ancestry-1",
@@ -1083,7 +1055,6 @@
         ],
         "featChoices": [
             {
-                "_className": "FeatChoice",
                 "feats": [
                     {
                         "name": "Breath Control",
@@ -1099,7 +1070,6 @@
         ]
     },
     {
-        "_className": "Ancestry",
         "name": "Shoony",
         "warning": "Shoony feats are not implemented yet.",
         "sourceBook": "Pathfinder #153: Life's Long Shadow",
@@ -1163,7 +1133,6 @@
         ],
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "locked": true,
@@ -1191,7 +1160,6 @@
                 "source": "Ancestry"
             },
             {
-                "_className": "AbilityChoice",
                 "available": 1,
                 "baseValuesLost": 1,
                 "id": "1-Ability-Ancestry-1",
@@ -1223,7 +1191,6 @@
         ],
         "featChoices": [
             {
-                "_className": "FeatChoice",
                 "feats": [
                     {
                         "name": "Blunt Snout",
@@ -1239,7 +1206,6 @@
         ]
     },
     {
-        "_className": "Ancestry",
         "name": "Orc",
         "sourceBook": "Advanced Player's Guide",
         "desc": [
@@ -1294,7 +1260,6 @@
         ],
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "locked": true,
@@ -1308,7 +1273,6 @@
                 "source": "Ancestry"
             },
             {
-                "_className": "AbilityChoice",
                 "available": 1,
                 "baseValuesLost": 1,
                 "id": "1-Ability-Ancestry-1",

@@ -12,7 +12,6 @@
         "craftRequirement": "You are an expert in Crafting.",
         "potency": 1,
         "usage": "etched onto a weapon",
-        "_className": "WeaponRune",
         "craftingRequirement": 4
     },
     {
@@ -33,7 +32,6 @@
             }
         ],
         "usage": "etched onto a clan dagger",
-        "_className": "WeaponRune",
         "namereq": "Clan Dagger"
     },
     {
@@ -52,7 +50,6 @@
             }
         ],
         "usage": "etched onto a thrown weapon",
-        "_className": "WeaponRune",
         "traitreq": "Thrown"
     },
     {
@@ -66,7 +63,6 @@
             "Magical"
         ],
         "usage": "etched onto a weapon",
-        "_className": "WeaponRune",
         "striking": 1
     },
     {
@@ -85,7 +81,6 @@
             }
         ],
         "usage": "etched onto a melee weapon",
-        "_className": "WeaponRune",
         "rangereq": "melee"
     },
     {
@@ -99,7 +94,6 @@
             "Necromancy"
         ],
         "usage": "etched onto a melee weapon",
-        "_className": "WeaponRune",
         "criticalHint": "On a critical hit on an undead, the undead is enfeebled 1 until the end of your next turn.",
         "extraDamage": "+1d6 Positive\n(against undead)",
         "rangereq": "melee"
@@ -124,12 +118,10 @@
                     "Magical",
                     "Transmutation"
                 ],
-                "_className": "ItemActivity",
                 "source": "89c636ad-8e09-11ea-9fab-e92c63c14723"
             }
         ],
         "usage": "etched onto a melee weapon",
-        "_className": "WeaponRune",
         "rangereq": "melee"
     },
     {
@@ -143,7 +135,6 @@
             "Necromancy"
         ],
         "usage": "etched onto a piercing or slashing melee weapon",
-        "_className": "WeaponRune",
         "criticalHint": "The weapon deals |dice=1d12 Persistent Bleed| 1d12 persistent bleed damage instead of 1d6.",
         "damagereq": "PS",
         "extraDamage": "+1d6 persistent bleed",
@@ -167,7 +158,6 @@
             }
         ],
         "usage": "etched onto a clan dagger",
-        "_className": "WeaponRune",
         "extraDamage": "+1 persistent bleed\n(against clan enemy)",
         "namereq": "Clan Dagger"
     },
@@ -183,7 +173,6 @@
             "Magical"
         ],
         "usage": "etched onto a weapon",
-        "_className": "WeaponRune",
         "criticalHint": "The target's armor takes |dice=3d6 Acid| 3d6 acid damage before applying Hardness; if the target has a shield raised, the shield takes this damage instead.",
         "extraDamage": "+1d6 Acid"
     },
@@ -199,7 +188,6 @@
             "Magical"
         ],
         "usage": "etched onto a weapon",
-        "_className": "WeaponRune",
         "criticalHint": "The weapon deals |dice=1d19 Persistent Fire| 1d10 persistent fire damage.",
         "extraDamage": "+1d6 Fire"
     },
@@ -215,7 +203,6 @@
             "Magical"
         ],
         "usage": "etched onto a weapon",
-        "_className": "WeaponRune",
         "criticalHint": "The target is slowed 1 until the end of your next turn unless it succeeds at a DC 24 Fortitude save.",
         "extraDamage": "+1d6 Cold"
     },
@@ -231,7 +218,6 @@
             "Magical"
         ],
         "usage": "etched onto a weapon",
-        "_className": "WeaponRune",
         "criticalHint": "Electricity arcs out to deal |dice=1d6 Electricity| 1d6 electricity damage to up to two other creatures of your choice within 10 feet of the weapon target.",
         "extraDamage": "+1d6 Electricity"
     },
@@ -247,7 +233,6 @@
             "Sonic"
         ],
         "usage": "etched onto a weapon",
-        "_className": "WeaponRune",
         "criticalHint": "The target has to succeed at a DC 24 Fortitude save or be deafened for 1 minute (or 1 hour on a critical failure).",
         "extraDamage": "+1d6 Sonic"
     },
@@ -320,7 +305,6 @@
             "Magical"
         ],
         "usage": "etched onto a weapon",
-        "_className": "WeaponRune",
         "criticalHint": "When your attack roll with this weapon is a critical hit and gains the critical specialization effect, you gain the following benefit depending on the weapon group:"
     },
     {
@@ -338,7 +322,6 @@
         "craftRequirement": "You are a master in Crafting.",
         "potency": 2,
         "usage": "etched onto a weapon",
-        "_className": "WeaponRune",
         "craftingRequirement": 6
     },
     {
@@ -362,12 +345,10 @@
                     "Evocation",
                     "Magical"
                 ],
-                "_className": "ItemActivity",
                 "source": "89c65dc3-8e09-11ea-9fab-e92c63c14723"
             }
         ],
         "usage": "etched onto a slashing melee weapon",
-        "_className": "WeaponRune",
         "damagereq": "S",
         "extraDamage": "+1d4\n(when slashing)",
         "rangereq": "melee"
@@ -385,7 +366,6 @@
         ],
         "craftRequirement": "You are chaotic.",
         "usage": "etched onto a weapon without an axiomatic rune",
-        "_className": "WeaponRune",
         "alignmentPenalty": "Lawful",
         "criticalHint": "On a critical hit against a lawful creature, roll |dice=1d6| 1d6. On a 1 or 2, you deal double minimum damage; on a 3 or 4, double your damage normally; on a 5 or 6, you deal double maximum damage.",
         "extraDamage": "+1d6 Chaotic\n(against lawful)",
@@ -404,7 +384,6 @@
         ],
         "craftRequirement": "You are lawful.",
         "usage": "etched onto a weapon without an anarchic rune",
-        "_className": "WeaponRune",
         "alignmentPenalty": "Chaotic",
         "criticalHint": "On a critical hit against a chaotic creature, instead of rolling, count each weapon damage die as average damage rounded up (3 for d4, 4 for d6, 5 for d8, 6 for d10, 7 for d12).",
         "extraDamage": "+1d6 Lawful\n(against chaotic)",
@@ -438,13 +417,11 @@
                     "Magical",
                     "Positive"
                 ],
-                "_className": "ItemActivity",
                 "source": "89c65dc9-8e09-11ea-9fab-e92c63c14723"
             }
         ],
         "craftRequirement": "You are good.",
         "usage": "etched onto a weapon without an unholy rune",
-        "_className": "WeaponRune",
         "alignmentPenalty": "Evil",
         "extraDamage": "+1d6 Good\n(against evil)",
         "runeblock": "Unholy"
@@ -475,13 +452,11 @@
                     "Magical"
                 ],
                 "trigger": "You critically succeed at an attack roll against a good creature with the weapon",
-                "_className": "ItemActivity",
                 "source": "89c65dcb-8e09-11ea-9fab-e92c63c14723"
             }
         ],
         "craftRequirement": "You are evil.",
         "usage": "etched onto a weapon without a holy rune",
-        "_className": "WeaponRune",
         "alignmentPenalty": "Good",
         "extraDamage": "+1d6 Evil\n(against good)",
         "runeblock": "Holy"
@@ -499,7 +474,6 @@
             "Magical"
         ],
         "usage": "etched onto a weapon",
-        "_className": "WeaponRune",
         "striking": 2
     },
     {
@@ -526,18 +500,15 @@
                     "Evocation",
                     "Magical"
                 ],
-                "_className": "ItemActivity",
                 "source": "89c65dcf-8e09-11ea-9fab-e92c63c14723"
             }
         ],
         "usage": "etched onto a melee weapon",
-        "_className": "WeaponRune",
         "rangereq": "melee"
     },
     {
         "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 3,
                 "target": "Others"
@@ -564,7 +535,6 @@
                     "Abjuration",
                     "Magical"
                 ],
-                "_className": "ItemActivity",
                 "source": "89c65dd1-8e09-11ea-9fab-e92c63c14723"
             },
             {
@@ -576,13 +546,11 @@
                     "Abjuration",
                     "Magical"
                 ],
-                "_className": "ItemActivity",
                 "source": "89c65dd1-8e09-11ea-9fab-e92c63c14723",
                 "desc": "Harmlessly expend the stored spell. This frees the weapon to have a new spell cast into it."
             }
         ],
         "usage": "etched onto a melee weapon",
-        "_className": "WeaponRune",
         "rangereq": "melee"
     },
     {
@@ -605,7 +573,6 @@
             }
         ],
         "usage": "etched onto a clan dagger",
-        "_className": "WeaponRune",
         "extraDamage": "+1d4 persistent bleed\n(against clan enemy)",
         "namereq": "Clan Dagger"
     },
@@ -621,7 +588,6 @@
             "Transmutation"
         ],
         "usage": "etched onto a piercing or slashing melee weapon",
-        "_className": "WeaponRune",
         "criticalHint": "Attacks with this weapon are a critical hit on a 19 on the die as long as that result is a success.",
         "damagereq": "PS",
         "rangereq": "melee"
@@ -640,7 +606,6 @@
             "Uncommon"
         ],
         "usage": "etched onto a melee weapon",
-        "_className": "WeaponRune",
         "critfailure": "It's destroyed.",
         "criticalHint": "On a critical hit against an undead creature, the creature must attempt a DC 34 Fortitude save with the following effects.",
         "critsuccess": "It's enfeebled 1 until the end of your next turn.",
@@ -663,7 +628,6 @@
             "Magical"
         ],
         "usage": "etched onto a weapon",
-        "_className": "WeaponRune",
         "criticalHint": "The target's armor takes |dice=6d6 Acid| 6d6 acid damage before applying Hardness; if the target has a shield raised, the shield takes this damage instead.",
         "extraDamage": "+1d6 Acid\n(ignores acid resistance)"
     },
@@ -681,7 +645,6 @@
             "Magical"
         ],
         "usage": "etched onto a weapon",
-        "_className": "WeaponRune",
         "criticalHint": "The weapon deals |dice=2d10 persistent Fire| 2d10 persistent fire damage, ignoring fire resistance.",
         "extraDamage": "+1d6 Fire\n(ignores fire resistance)"
     },
@@ -699,7 +662,6 @@
             "Magical"
         ],
         "usage": "etched onto a weapon",
-        "_className": "WeaponRune",
         "criticalHint": "The target is slowed 1 until the end of your next turn unless it succeeds at a DC 34 Fortitude save.",
         "extraDamage": "+1d6 Cold\n(ignores cold resistance)"
     },
@@ -717,7 +679,6 @@
             "Magical"
         ],
         "usage": "etched onto a weapon",
-        "_className": "WeaponRune",
         "criticalHint": "Electricity arcs out to deal an equal amount of electricity damage to up to two other creatures of your choice within 10 feet of the weapon target, ignoring the targets' electricity resistance.",
         "extraDamage": "+1d6 Electricity\n(ignores electricity resistance)"
     },
@@ -735,7 +696,6 @@
             "Sonic"
         ],
         "usage": "etched onto a weapon",
-        "_className": "WeaponRune",
         "criticalHint": "The target has to succeed at a DC 34 Fortitude save or be permanently deafened.",
         "extraDamage": "+1d6 Sonic\n(ignores sonic resistance)"
     },
@@ -761,8 +721,7 @@
                 "id": "0-Skill-Ancestral Echoing Rune-0"
             }
         ],
-        "usage": "etched onto a weapon",
-        "_className": "WeaponRune"
+        "usage": "etched onto a weapon"
     },
     {
         "desc": "Magical enhancements make this weapon strike true. Attack rolls with this weapon gain a +1 item bonus, and the weapon can be etched with one property rune.\n\nYou can upgrade the weapon potency rune already etched on a weapon to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes' Prices.",
@@ -779,7 +738,6 @@
         "craftRequirement": "You are legendary in Crafting.",
         "potency": 3,
         "usage": "etched onto a weapon",
-        "_className": "WeaponRune",
         "craftingRequirement": 8
     },
     {
@@ -798,8 +756,7 @@
                 "desc": "While wielding a speed weapon, you gain the quickened condition, but you can use the additional action granted only to make a Strike with the etched weapon."
             }
         ],
-        "usage": "etched onto a weapon",
-        "_className": "WeaponRune"
+        "usage": "etched onto a weapon"
     },
     {
         "desc": "Originally created as a means of slaying the legendary jabberwock, vorpal weapons prove equally effective against nearly any foe with a head.",
@@ -825,13 +782,11 @@
                     "Magical"
                 ],
                 "trigger": "You roll a natural 20 on a Strike with the weapon, critically succeed, and deal slashing damage.",
-                "_className": "ItemActivity",
                 "target": "other",
                 "source": "89c65de9-8e09-11ea-9fab-e92c63c14723"
             }
         ],
         "usage": "etched onto a slashing melee weapon",
-        "_className": "WeaponRune",
         "damagereq": "S",
         "rangereq": "melee"
     },
@@ -848,7 +803,6 @@
             "Magical"
         ],
         "usage": "etched onto a weapon",
-        "_className": "WeaponRune",
         "striking": 3
     }
 ]

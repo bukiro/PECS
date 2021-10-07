@@ -1,6 +1,5 @@
 [
     {
-        "_className": "OtherConsumableBomb",
         "id": "85e00a17-cd1e-43a3-87fb-e1c823046343",
         "name": "Holy Water",
         "actions": "1A",
@@ -27,7 +26,6 @@
         "usage": "held in 1 hand"
     },
     {
-        "_className": "OtherConsumableBomb",
         "id": "19e978fa-3418-4750-bf76-f060600ccc8e",
         "name": "Unholy Water",
         "actions": "1A",

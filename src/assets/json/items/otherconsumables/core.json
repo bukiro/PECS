@@ -10,7 +10,6 @@
             "Consumable",
             "Magical"
         ],
-        "_className": "OtherConsumable",
         "activationType": "Interact"
     },
     {
@@ -26,11 +25,9 @@
             "Mental",
             "Uncommon"
         ],
-        "_className": "OtherConsumable",
         "activationType": "Interact",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 1000,
                 "name": "Candle of Truth",
                 "source": "Candle of Truth"
@@ -51,14 +48,12 @@
         ],
         "castSpells": [
             {
-                "_className": "SpellCast",
                 "name": "Summon Elemental",
                 "level": 5
             }
         ],
         "subType": "Transparent",
         "subTypeDesc": "A transparent elemental gem summons a living whirlwind.",
-        "_className": "OtherConsumable",
         "activationType": "Command, Interact"
     },
     {
@@ -75,14 +70,12 @@
         ],
         "castSpells": [
             {
-                "_className": "SpellCast",
                 "name": "Summon Elemental",
                 "level": 5
             }
         ],
         "subType": "Transparent",
         "subTypeDesc": "A light brown elemental gem summons a living landslide.",
-        "_className": "OtherConsumable",
         "activationType": "Command, Interact"
     },
     {
@@ -99,14 +92,12 @@
         ],
         "castSpells": [
             {
-                "_className": "SpellCast",
                 "name": "Summon Elemental",
                 "level": 5
             }
         ],
         "subType": "Transparent",
         "subTypeDesc": "A reddish orange elemental gem summons a living wildfire.",
-        "_className": "OtherConsumable",
         "activationType": "Command, Interact"
     },
     {
@@ -127,7 +118,6 @@
             "Consumable",
             "Magical"
         ],
-        "_className": "OtherConsumable",
         "activationType": "Interact"
     },
     {
@@ -144,14 +134,12 @@
         ],
         "castSpells": [
             {
-                "_className": "SpellCast",
                 "name": "Summon Elemental",
                 "level": 5
             }
         ],
         "subType": "Transparent",
         "subTypeDesc": "A blue-green elemental gem summons a living waterfall.",
-        "_className": "OtherConsumable",
         "activationType": "Command, Interact"
     }
 ]

@@ -5,7 +5,6 @@
         "id": "ed88f238-8ed4-11ea-bc55-0242ac130003",
         "name": "Arrows",
         "ammunition": "Arrows",
-        "_className": "Ammunition",
         "price": 10,
         "stack": 10
     },
@@ -15,7 +14,6 @@
         "id": "ed88f44a-8ed4-11ea-bc55-0242ac130003",
         "name": "Blowgun Darts",
         "ammunition": "Blowgun Darts",
-        "_className": "Ammunition",
         "price": 5,
         "stack": 10
     },
@@ -25,7 +23,6 @@
         "id": "ed88f54e-8ed4-11ea-bc55-0242ac130003",
         "name": "Bolts",
         "ammunition": "Bolts",
-        "_className": "Ammunition",
         "price": 10,
         "stack": 10
     },
@@ -35,7 +32,6 @@
         "id": "ed88f634-8ed4-11ea-bc55-0242ac130003",
         "name": "Sling Bullets",
         "ammunition": "Sling Bullets",
-        "_className": "Ammunition",
         "price": 1,
         "stack": 10
     },
@@ -47,7 +43,6 @@
                 "activationType": "Interact",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "name": "Sleep"
                     }
                 ],
@@ -59,8 +54,7 @@
                     "Magical",
                     "Mental",
                     "Sleep"
-                ],
-                "_className": "ItemActivity"
+                ]
             }
         ],
         "actions": "1A",
@@ -70,7 +64,6 @@
         "levelreq": 3,
         "name": "Sleep Arrow",
         "ammunition": "Arrows",
-        "_className": "Ammunition",
         "price": 1100,
         "traits": [
             "Consumable",
@@ -87,9 +80,8 @@
         "levelreq": 3,
         "name": "Spellstrike Ammunition (Type I)",
         "ammunition": "Any",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 1,
                 "target": "Others"
@@ -106,13 +98,11 @@
                     "Consumable",
                     "Magical",
                     "Transmutation"
-                ],
-                "_className": "ItemActivity"
+                ]
             }
         ],
         "subType": "Type I",
         "subTypeDesc": "Maximum Spell Level 1st",
-        "_className": "Ammunition",
         "price": 1200,
         "traits": [
             "Consumable",
@@ -128,7 +118,6 @@
         "levelreq": 3,
         "name": "Vine Arrow",
         "ammunition": "Arrows",
-        "_className": "Ammunition",
         "price": 1000,
         "traits": [
             "Conjuration",
@@ -145,7 +134,6 @@
         "levelreq": 3,
         "name": "Viper Arrow",
         "ammunition": "Arrows",
-        "_className": "Ammunition",
         "price": 1100,
         "gainConditions": [
             {
@@ -166,9 +154,8 @@
         "levelreq": 5,
         "name": "Spellstrike Ammunition (Type II)",
         "ammunition": "Any",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 2,
                 "target": "Others"
@@ -185,13 +172,11 @@
                     "Consumable",
                     "Magical",
                     "Transmutation"
-                ],
-                "_className": "ItemActivity"
+                ]
             }
         ],
         "subType": "Type II",
         "subTypeDesc": "Maximum Spell Level 2nd",
-        "_className": "Ammunition",
         "price": 3000,
         "traits": [
             "Consumable",
@@ -207,7 +192,6 @@
         "levelreq": 9,
         "name": "Explosive Ammunition",
         "ammunition": "Any",
-        "_className": "Ammunition",
         "price": 13000,
         "traits": [
             "Consumable",

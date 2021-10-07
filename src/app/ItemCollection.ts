@@ -30,8 +30,7 @@ import { TypeService } from './type.service';
 import { ItemsService } from './items.service';
 
 export class ItemCollection {
-    public readonly _className: string = this.constructor.name;
-    //This is the amount of bulk that can be ignored when weighing this inventory.
+        //This is the amount of bulk that can be ignored when weighing this inventory.
     public bulkReduction: number = 0;
     public id = uuidv4();
     //If an item grants an inventory, this is the item's ID.

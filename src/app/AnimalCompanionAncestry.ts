@@ -6,8 +6,7 @@ import { EffectGain } from './EffectGain';
 import { Hint } from './Hint';
 
 export class AnimalCompanionAncestry {
-    public readonly _className: string = this.constructor.name;
-    public abilityChoices: AbilityChoice[] = [];
+        public abilityChoices: AbilityChoice[] = [];
     public activities: ActivityGain[] = [];
     public desc: string = "";
     public gainItems: ItemGain[] = [];

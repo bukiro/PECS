@@ -2,8 +2,7 @@ import { SpellChoice } from './SpellChoice';
 import { Scroll } from './Scroll';
 
 export class SpellCasting {
-    public readonly _className: string = this.constructor.name;
-    //The name of the class that this choice belongs to.
+        //The name of the class that this choice belongs to.
     //Important to identify the class's spellcasting key ability.
     public className: string = "";
     public ability: string = "";

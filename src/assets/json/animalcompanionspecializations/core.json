@@ -1,9 +1,7 @@
 [
     {
-        "_className": "AnimalCompanionSpecialization",
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Dexterity",
@@ -54,7 +52,6 @@
         "name": "Ambusher",
         "skillChoices": [
             {
-                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Unarmed Attacks",
@@ -130,10 +127,8 @@
         ]
     },
     {
-        "_className": "AnimalCompanionSpecialization",
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Dexterity",
@@ -199,7 +194,6 @@
         "name": "Bully",
         "skillChoices": [
             {
-                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Unarmed Attacks",
@@ -275,10 +269,8 @@
         ]
     },
     {
-        "_className": "AnimalCompanionSpecialization",
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Dexterity",
@@ -329,7 +321,6 @@
         "name": "Daredevil",
         "skillChoices": [
             {
-                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Unarmed Attacks",
@@ -405,10 +396,8 @@
         ]
     },
     {
-        "_className": "AnimalCompanionSpecialization",
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Dexterity",
@@ -453,7 +442,6 @@
         "name": "Racer (Land Speed)",
         "skillChoices": [
             {
-                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Unarmed Attacks",
@@ -522,7 +510,6 @@
         ],
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Land Speed",
                 "value": 10,
                 "type": "status"
@@ -530,10 +517,8 @@
         ]
     },
     {
-        "_className": "AnimalCompanionSpecialization",
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Dexterity",
@@ -578,7 +563,6 @@
         "name": "Racer (Swim Speed)",
         "skillChoices": [
             {
-                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Unarmed Attacks",
@@ -647,7 +631,6 @@
         ],
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Swim Speed",
                 "value": 10,
                 "type": "status"
@@ -655,10 +638,8 @@
         ]
     },
     {
-        "_className": "AnimalCompanionSpecialization",
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Dexterity",
@@ -703,7 +684,6 @@
         "name": "Racer (Fly Speed)",
         "skillChoices": [
             {
-                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Unarmed Attacks",
@@ -772,7 +752,6 @@
         ],
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Fly Speed",
                 "value": 10,
                 "type": "status"
@@ -780,10 +759,8 @@
         ]
     },
     {
-        "_className": "AnimalCompanionSpecialization",
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Dexterity",
@@ -834,7 +811,6 @@
         "name": "Tracker",
         "skillChoices": [
             {
-                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Unarmed Attacks",
@@ -903,10 +879,8 @@
         ]
     },
     {
-        "_className": "AnimalCompanionSpecialization",
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Dexterity",
@@ -957,7 +931,6 @@
         "name": "Wrecker",
         "skillChoices": [
             {
-                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Unarmed Attacks",

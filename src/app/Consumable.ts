@@ -4,8 +4,7 @@ import { EffectGain } from './EffectGain';
 import { TypeService } from './type.service';
 
 export class Consumable extends Item {
-    public readonly _className: string = this.constructor.name;
-    //Allow changing of "equippable" by custom item creation
+        //Allow changing of "equippable" by custom item creation
     readonly allowEquippable = false;
     //Consumables can not be equipped.
     readonly equippable = false;

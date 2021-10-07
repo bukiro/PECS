@@ -10,8 +10,7 @@ import { ItemsService } from './items.service';
 import { TypeService } from './type.service';
 
 export class Armor extends Equipment {
-    public readonly _className: string = this.constructor.name;
-    //Armor should be type "armors" to be found in the database
+        //Armor should be type "armors" to be found in the database
     readonly type = "armors";
     //For certain medium and light armors, set 1 if an "Armored Skirt" is equipped; For certain heavy armors, set -1 instead
     //This value influences acbonus, skillpenalty, dexcap and strength

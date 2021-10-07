@@ -4,8 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { SpellTarget } from './SpellTarget';
 
 export class ActivityGain {
-    public readonly _className: string = this.constructor.name;
-    public readonly isActivity: boolean = false;
+        public readonly isActivity: boolean = false;
     public active: boolean = false;
     public activeCooldown: number = 0;
     public chargesUsed: number = 0;

@@ -3,8 +3,7 @@ import { EffectGain } from './EffectGain';
 import { TypeService } from './type.service';
 
 export class ArmorRune extends Rune {
-    public readonly _className: string = this.constructor.name;
-    //Armor Runes should be type "armorrunes" to be found in the database
+        //Armor Runes should be type "armorrunes" to be found in the database
     readonly type = "armorrunes";
     public resilient: number = 0;
     //Can only be applied to an armor with this proficiency

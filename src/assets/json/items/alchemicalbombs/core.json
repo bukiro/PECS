@@ -1,6 +1,5 @@
 [
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e00ca-ab5b-11ea-bb37-0242ac130002",
       "name": "Acid Flask (Lesser)",
       "actions": "1A",
@@ -30,7 +29,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e0322-ab5b-11ea-bb37-0242ac130002",
       "name": "Alchemist's Fire (Lesser)",
       "actions": "1A",
@@ -60,7 +58,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e0430-ab5b-11ea-bb37-0242ac130002",
       "name": "Bottled Lightning (Lesser)",
       "actions": "1A",
@@ -91,7 +88,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e0520-ab5b-11ea-bb37-0242ac130002",
       "name": "Frost Vial (Lesser)",
       "actions": "1A",
@@ -122,7 +118,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e0606-ab5b-11ea-bb37-0242ac130002",
       "name": "Tanglefoot Bag (Lesser)",
       "actions": "1A",
@@ -150,7 +145,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e06d8-ab5b-11ea-bb37-0242ac130002",
       "name": "Thunderstone (Lesser)",
       "actions": "1A",
@@ -181,7 +175,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e07b4-ab5b-11ea-bb37-0242ac130002",
       "name": "Peshpine Grenade (Lesser)",
       "actions": "1A",
@@ -213,7 +206,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e087c-ab5b-11ea-bb37-0242ac130002",
       "name": "Dwarven Daisy (Lesser)",
       "actions": "1A",
@@ -245,7 +237,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e0b24-ab5b-11ea-bb37-0242ac130002",
       "name": "Acid Flask (Moderate)",
       "actions": "1A",
@@ -276,7 +267,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e0c0a-ab5b-11ea-bb37-0242ac130002",
       "name": "Alchemist's Fire (Moderate)",
       "actions": "1A",
@@ -307,7 +297,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e0cdc-ab5b-11ea-bb37-0242ac130002",
       "name": "Bottled Lightning (Moderate)",
       "actions": "1A",
@@ -339,7 +328,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e0dae-ab5b-11ea-bb37-0242ac130002",
       "name": "Frost Vial (Moderate)",
       "actions": "1A",
@@ -371,7 +359,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e0ef8-ab5b-11ea-bb37-0242ac130002",
       "name": "Tanglefoot Bag (Moderate)",
       "actions": "1A",
@@ -400,7 +387,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e0fe8-ab5b-11ea-bb37-0242ac130002",
       "name": "Thunderstone (Moderate)",
       "actions": "1A",
@@ -432,7 +418,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e10ba-ab5b-11ea-bb37-0242ac130002",
       "name": "Peshpine Grenade (Moderate)",
       "actions": "1A",
@@ -465,7 +450,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e120e-ab5b-11ea-bb37-0242ac130002",
       "name": "Dwarven Daisy (Moderate)",
       "actions": "1A",
@@ -497,7 +481,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e1574-ab5b-11ea-bb37-0242ac130002",
       "name": "Acid Flask (Greater)",
       "actions": "1A",
@@ -528,7 +511,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e1650-ab5b-11ea-bb37-0242ac130002",
       "name": "Alchemist's Fire (Greater)",
       "actions": "1A",
@@ -559,7 +541,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e172c-ab5b-11ea-bb37-0242ac130002",
       "name": "Bottled Lightning (Greater)",
       "actions": "1A",
@@ -591,7 +572,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e17fe-ab5b-11ea-bb37-0242ac130002",
       "name": "Frost Vial (Greater)",
       "actions": "1A",
@@ -623,7 +603,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e18d0-ab5b-11ea-bb37-0242ac130002",
       "name": "Tanglefoot Bag (Greater)",
       "actions": "1A",
@@ -652,7 +631,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e19ac-ab5b-11ea-bb37-0242ac130002",
       "name": "Thunderstone (Greater)",
       "actions": "1A",
@@ -684,7 +662,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e1a7e-ab5b-11ea-bb37-0242ac130002",
       "name": "Peshpine Grenade (Greater)",
       "actions": "1A",
@@ -717,7 +694,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e1d58-ab5b-11ea-bb37-0242ac130002",
       "name": "Acid Flask (Major)",
       "actions": "1A",
@@ -748,7 +724,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e1e34-ab5b-11ea-bb37-0242ac130002",
       "name": "Alchemist's Fire (Major)",
       "actions": "1A",
@@ -779,7 +754,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e1f06-ab5b-11ea-bb37-0242ac130002",
       "name": "Bottled Lightning (Major)",
       "actions": "1A",
@@ -811,7 +785,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e1fd8-ab5b-11ea-bb37-0242ac130002",
       "name": "Frost Vial (Major)",
       "actions": "1A",
@@ -843,7 +816,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e2096-ab5b-11ea-bb37-0242ac130002",
       "name": "Tanglefoot Bag (Major)",
       "actions": "1A",
@@ -872,7 +844,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e215e-ab5b-11ea-bb37-0242ac130002",
       "name": "Thunderstone (Major)",
       "actions": "1A",
@@ -904,7 +875,6 @@
       "usage": "held in 1 hand"
    },
    {
-      "_className": "AlchemicalBomb",
       "id": "5b6e2212-ab5b-11ea-bb37-0242ac130002",
       "name": "Peshpine Grenade (Major)",
       "actions": "1A",

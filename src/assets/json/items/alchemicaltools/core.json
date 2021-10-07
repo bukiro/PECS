@@ -10,7 +10,6 @@
             "Consumable",
             "Fire"
         ],
-        "_className": "Potion",
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand"
@@ -26,13 +25,11 @@
             "Alchemical",
             "Consumable"
         ],
-        "_className": "Potion",
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 2 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Snake Oil",
                 "source": "Snake Oil"
@@ -52,13 +49,11 @@
             "Alchemical",
             "Consumable"
         ],
-        "_className": "Potion",
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 2 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 100,
                 "name": "Smokestick (Lesser)",
                 "source": "Smokestick (Lesser)"
@@ -77,13 +72,11 @@
             "Consumable",
             "Light"
         ],
-        "_className": "Potion",
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 36000,
                 "name": "Sunrod",
                 "source": "Sunrod"
@@ -101,13 +94,11 @@
             "Alchemical",
             "Consumable"
         ],
-        "_className": "Potion",
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 2 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Silversheen",
                 "source": "Silversheen"
@@ -127,13 +118,11 @@
             "Alchemical",
             "Consumable"
         ],
-        "_className": "Potion",
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 100,
                 "name": "Smokestick (Greater)",
                 "source": "Smokestick (Greater)"
@@ -152,14 +141,12 @@
             "Alchemical",
             "Consumable"
         ],
-        "_className": "Potion",
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "sourceBook": "Pathfinder #155: Lord of the Black Sands",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 144000,
                 "name": "Purple Worm Repellent",
                 "source": "Purple Worm Repellent"
@@ -178,7 +165,6 @@
             "Alchemical",
             "Consumable"
         ],
-        "_className": "Potion",
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
@@ -186,7 +172,6 @@
         "craftRequirement": "The initial raw ingredients must include an azure worm's scale.",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 144000,
                 "name": "Azure Worm Repellent",
                 "source": "Azure Worm Repellent"
@@ -206,7 +191,6 @@
             "Consumable",
             "Potion"
         ],
-        "_className": "Potion",
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
@@ -228,7 +212,6 @@
             "Alchemical",
             "Consumable"
         ],
-        "_className": "Potion",
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
@@ -236,7 +219,6 @@
         "craftRequirement": "The initial raw ingredients must include a crimson worm's liver.",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 144000,
                 "name": "Crimson Worm Repellent",
                 "source": "Crimson Worm Repellent"
@@ -256,7 +238,6 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "actions": "1A or 1 or more days",
         "activationType": "Interact",
         "usage": "held in 2 hand"

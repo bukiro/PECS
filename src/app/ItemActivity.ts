@@ -5,8 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 //ItemActivity combines Activity and ActivityGain, so that an item can have its own contained activity.
 export class ItemActivity extends Activity {
-    public readonly _className: string = this.constructor.name;
-    public readonly isActivity: boolean = true;
+        public readonly isActivity: boolean = true;
     public active: boolean = false;
     public activeCooldown: number = 0;
     public chargesUsed: number = 0;

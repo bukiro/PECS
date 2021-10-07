@@ -1,8 +1,7 @@
 import { Material } from './Material';
 
 export class WeaponMaterial extends Material {
-    public readonly _className: string = this.constructor.name;
-    public criticalHint: string = "";
+        public criticalHint: string = "";
     recast() {
         super.recast();
         return this;

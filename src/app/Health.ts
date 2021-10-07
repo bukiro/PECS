@@ -6,8 +6,7 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { Creature } from './Creature';
 
 export class Health {
-    public readonly _className: string = this.constructor.name;
-    public damage: number = 0;
+        public damage: number = 0;
     public immunities: any[] = [];
     public lessenedEffects: any[] = [];
     public resistances: any[] = [];

@@ -3052,12 +3052,10 @@
         ],
         "castSpells": [
             {
-                "_className": "SpellCast",
                 "level": 1,
                 "name": "Detect Magic"
             },
             {
-                "_className": "SpellCast",
                 "level": 3,
                 "name": "Detect Magic"
             }
@@ -3916,7 +3914,6 @@
         ],
         "castSpells": [
             {
-                "_className": "SpellCast",
                 "level": 2,
                 "name": "Augury"
             }
@@ -4859,7 +4856,6 @@
         "desc": "You stomp the ground with such force that it creates a minor earthquake, with the effects of the earthquake spell.",
         "castSpells": [
             {
-                "_className": "SpellCast",
                 "level": 8,
                 "name": "Earthquake"
             }
@@ -4901,7 +4897,6 @@
         ],
         "castSpells": [
             {
-                "_className": "SpellCast",
                 "level": 0,
                 "name": "Tempest Surge"
             }

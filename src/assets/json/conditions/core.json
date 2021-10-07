@@ -714,7 +714,6 @@
         "inputRequired": "If the result of the augury was \"nothing,\" remove the condition.",
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Call Upon the Brightness",
                 "source": "Brightness Seeker"
             }
@@ -2121,7 +2120,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Dragon Form Breath Weapon",
                 "source": "Dragon Transformation"
             }
@@ -5616,7 +5614,6 @@
         "persistent": true,
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Perfect Distraction: Setup Decoy",
                 "source": "Perfect Distraction Exhaustion"
             }
@@ -7587,7 +7584,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Energy Mutagen (Acid, Greater)",
                 "source": "Energy Mutagen (Acid, Greater)"
             }
@@ -7670,7 +7666,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Energy Mutagen (Acid, Major)",
                 "source": "Energy Mutagen (Acid, Major)"
             }
@@ -7757,7 +7752,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Energy Mutagen (Cold, Greater)",
                 "source": "Energy Mutagen (Cold, Greater)"
             }
@@ -7840,7 +7834,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Energy Mutagen (Cold, Major)",
                 "source": "Energy Mutagen (Cold, Major)"
             }
@@ -7927,7 +7920,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Energy Mutagen (Electricity, Greater)",
                 "source": "Energy Mutagen (Electricity, Greater)"
             }
@@ -8010,7 +8002,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Energy Mutagen (Electricity, Major)",
                 "source": "Energy Mutagen (Electricity, Major)"
             }
@@ -8097,7 +8088,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Energy Mutagen (Fire, Greater)",
                 "source": "Energy Mutagen (Fire, Greater)"
             }
@@ -8180,7 +8170,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Energy Mutagen (Fire, Major)",
                 "source": "Energy Mutagen (Fire, Major)"
             }
@@ -12430,7 +12419,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Black Dragon's Breath Potion (Adult)",
                 "source": "Black Dragon's Breath Potion (Adult)"
             }
@@ -12452,7 +12440,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Black Dragon's Breath Potion (Wyrm)",
                 "source": "Black Dragon's Breath Potion (Wyrm)"
             }
@@ -12475,7 +12462,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Black Dragon's Breath Potion (Young)",
                 "source": "Black Dragon's Breath Potion (Young)"
             }
@@ -12494,7 +12480,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Blue Dragon's Breath Potion (Adult)",
                 "source": "Blue Dragon's Breath Potion (Adult)"
             }
@@ -12516,7 +12501,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Blue Dragon's Breath Potion (Wyrm)",
                 "source": "Blue Dragon's Breath Potion (Wyrm)"
             }
@@ -12539,7 +12523,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Blue Dragon's Breath Potion (Young)",
                 "source": "Blue Dragon's Breath Potion (Young)"
             }
@@ -12558,7 +12541,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Brass Dragon's Breath Potion (Adult)",
                 "source": "Brass Dragon's Breath Potion (Adult)"
             }
@@ -12580,7 +12562,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Brass Dragon's Breath Potion (Wyrm)",
                 "source": "Brass Dragon's Breath Potion (Wyrm)"
             }
@@ -12603,7 +12584,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Brass Dragon's Breath Potion (Young)",
                 "source": "Brass Dragon's Breath Potion (Young)"
             }
@@ -12622,7 +12602,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Bronze Dragon's Breath Potion (Adult)",
                 "source": "Bronze Dragon's Breath Potion (Adult)"
             }
@@ -12644,7 +12623,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Bronze Dragon's Breath Potion (Wyrm)",
                 "source": "Bronze Dragon's Breath Potion (Wyrm)"
             }
@@ -12667,7 +12645,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Bronze Dragon's Breath Potion (Young)",
                 "source": "Bronze Dragon's Breath Potion (Young)"
             }
@@ -12686,7 +12663,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Copper Dragon's Breath Potion (Adult)",
                 "source": "Copper Dragon's Breath Potion (Adult)"
             }
@@ -12708,7 +12684,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Copper Dragon's Breath Potion (Wyrm)",
                 "source": "Copper Dragon's Breath Potion (Wyrm)"
             }
@@ -12731,7 +12706,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Copper Dragon's Breath Potion (Young)",
                 "source": "Copper Dragon's Breath Potion (Young)"
             }
@@ -12750,7 +12724,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Gold Dragon's Breath Potion (Adult)",
                 "source": "Gold Dragon's Breath Potion (Adult)"
             }
@@ -12772,7 +12745,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Gold Dragon's Breath Potion (Wyrm)",
                 "source": "Gold Dragon's Breath Potion (Wyrm)"
             }
@@ -12795,7 +12767,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Gold Dragon's Breath Potion (Young)",
                 "source": "Gold Dragon's Breath Potion (Young)"
             }
@@ -12814,7 +12785,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Green Dragon's Breath Potion (Adult)",
                 "source": "Green Dragon's Breath Potion (Adult)"
             }
@@ -12836,7 +12806,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Green Dragon's Breath Potion (Wyrm)",
                 "source": "Green Dragon's Breath Potion (Wyrm)"
             }
@@ -12859,7 +12828,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Green Dragon's Breath Potion (Young)",
                 "source": "Green Dragon's Breath Potion (Young)"
             }
@@ -13023,7 +12991,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Red Dragon's Breath Potion (Adult)",
                 "source": "Red Dragon's Breath Potion (Adult)"
             }
@@ -13045,7 +13012,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Red Dragon's Breath Potion (Wyrm)",
                 "source": "Red Dragon's Breath Potion (Wyrm)"
             }
@@ -13068,7 +13034,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Red Dragon's Breath Potion (Young)",
                 "source": "Red Dragon's Breath Potion (Young)"
             }
@@ -13106,7 +13071,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Silver Dragon's Breath Potion (Adult)",
                 "source": "Silver Dragon's Breath Potion (Adult)"
             }
@@ -13128,7 +13092,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Silver Dragon's Breath Potion (Wyrm)",
                 "source": "Silver Dragon's Breath Potion (Wyrm)"
             }
@@ -13151,7 +13114,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Silver Dragon's Breath Potion (Young)",
                 "source": "Silver Dragon's Breath Potion (Young)"
             }
@@ -13211,7 +13173,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "White Dragon's Breath Potion (Adult)",
                 "source": "White Dragon's Breath Potion (Adult)"
             }
@@ -13233,7 +13194,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "White Dragon's Breath Potion (Wyrm)",
                 "source": "White Dragon's Breath Potion (Wyrm)"
             }
@@ -13256,7 +13216,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "White Dragon's Breath Potion (Young)",
                 "source": "White Dragon's Breath Potion (Young)"
             }
@@ -16207,7 +16166,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Draconic Barrage Energy Missile",
                 "source": "Draconic Barrage"
             }
@@ -25694,7 +25652,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Vibrant Thorns: Positive Spell Cast",
                 "source": "Vibrant Thorns"
             }
@@ -38843,7 +38800,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Reflective Scales Discharge",
                 "source": "Reflective Scales"
             }
@@ -40901,7 +40857,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Crushing Despair: Failed Save",
                 "source": "Crushing Despair"
             }
@@ -44623,7 +44578,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Dragon Form Breath Weapon",
                 "source": "Dragon Form"
             }
@@ -45304,7 +45258,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Impaling Briars: Impale",
                 "source": "Impaling Briars"
             }
@@ -45458,12 +45411,10 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Shroud of Flame",
                 "source": "Monstrosity Form"
             },
             {
-                "_className": "ActivityGain",
                 "name": "Spine Rake",
                 "source": "Monstrosity Form"
             }
@@ -45842,7 +45793,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Storm Lord: Call Lightning Bolt",
                 "source": "Storm Lord"
             }
@@ -46092,7 +46042,6 @@
         ],
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Trample",
                 "source": "Nature Incarnate"
             }

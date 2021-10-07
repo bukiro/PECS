@@ -2,8 +2,7 @@ import { Equipment } from './Equipment';
 import { TypeService } from './type.service';
 
 export class HeldItem extends Equipment {
-    public readonly _className: string = this.constructor.name;
-    //Worn Items cannot be equipped or unequipped
+        //Worn Items cannot be equipped or unequipped
     readonly equippable = false;
     //Held Items should be type "helditems" to be found in the database
     readonly type = "helditems";

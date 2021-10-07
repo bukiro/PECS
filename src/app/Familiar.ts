@@ -7,8 +7,7 @@ import { Skill } from './Skill';
 import { TypeService } from './type.service';
 
 export class Familiar extends Creature {
-    public readonly _className: string = this.constructor.name;
-    public readonly type = "Familiar";
+        public readonly type = "Familiar";
     public abilities: FeatChoice = Object.assign(new FeatChoice, {
         available: 2,
         id: "0-Feat-Familiar-0",

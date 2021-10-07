@@ -2,8 +2,7 @@ import { Consumable } from './Consumable';
 import { TypeService } from './type.service';
 
 export class AlchemicalPoison extends Consumable {
-    public readonly _className: string = this.constructor.name;
-    //Alchemical Poisons should be type "alchemicalpoisons" to be found in the database
+        //Alchemical Poisons should be type "alchemicalpoisons" to be found in the database
     readonly type = "alchemicalpoisons";
     public savingThrow: string = "";
     public maxDuration: number = 0;

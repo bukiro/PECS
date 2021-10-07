@@ -1,12 +1,8 @@
 [
+    {},
     {
-        "_className": "AnimalCompanionLevel"
-    },
-    {
-        "_className": "AnimalCompanionLevel",
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Strength",
@@ -87,7 +83,6 @@
         "number": 1,
         "skillChoices": [
             {
-                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Unarmed Attacks",
@@ -168,10 +163,8 @@
         ]
     },
     {
-        "_className": "AnimalCompanionLevel",
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Strength",
@@ -211,7 +204,6 @@
         "sizeChange": 1,
         "skillChoices": [
             {
-                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Fortitude",
@@ -271,16 +263,13 @@
         ]
     },
     {
-        "_className": "AnimalCompanionLevel",
         "number": 3,
         "name": "Placeholder",
         "internalNote": "This level gets replaced by Nimble (4) or Savage (5) as needed. The animal companion cannot rise above level 3."
     },
     {
-        "_className": "AnimalCompanionLevel",
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Strength",
@@ -327,7 +316,6 @@
         "number": 4,
         "skillChoices": [
             {
-                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Acrobatics",
@@ -352,10 +340,8 @@
         ]
     },
     {
-        "_className": "AnimalCompanionLevel",
         "abilityChoices": [
             {
-                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Strength",
@@ -403,7 +389,6 @@
         "sizeChange": 1,
         "skillChoices": [
             {
-                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Athletics",

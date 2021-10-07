@@ -5,7 +5,6 @@ import { Hint } from './Hint';
 import { TypeService } from './type.service';
 
 export class Rune extends Item {
-    public _className;
     public activities: ItemActivity[] = [];
     public desc: string = "";
     //For weapon runes, the hints are shown directly on the weapon.

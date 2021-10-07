@@ -17,8 +17,7 @@ import { ItemsService } from './items.service';
 import { TypeService } from './type.service';
 
 export class Weapon extends Equipment {
-    public readonly _className: string = this.constructor.name;
-    //Weapons should be type "weapons" to be found in the database
+        //Weapons should be type "weapons" to be found in the database
     public type = "weapons";
     //Weapons are usually moddable.
     moddable = true;

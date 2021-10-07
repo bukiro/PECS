@@ -11,8 +11,7 @@ import { TypeService } from './type.service';
 import { ItemsService } from './items.service';
 
 export class AnimalCompanion extends Creature {
-    public readonly _className: string = this.constructor.name;
-    public class: AnimalCompanionClass = new AnimalCompanionClass();
+        public class: AnimalCompanionClass = new AnimalCompanionClass();
     public customSkills: Skill[] = [
         Object.assign(new Skill(), { name: "Light Barding", type: "Armor Proficiency" }),
         Object.assign(new Skill(), { name: "Heavy Barding", type: "Armor Proficiency" })

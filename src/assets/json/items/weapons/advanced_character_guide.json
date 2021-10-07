@@ -10,7 +10,6 @@
       ],
       "displayName": "Tusks",
       "moddable": false,
-      "_className": "Weapon",
       "dicesize": 6,
       "dmgType": "P",
       "group": "Brawling",

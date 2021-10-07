@@ -4,8 +4,7 @@ import { LoreChoice } from './LoreChoice';
 import { FeatChoice } from './FeatChoice';
 
 export class Background {
-    public readonly _className: string = this.constructor.name;
-    public abilityChoices: AbilityChoice[] = [];
+        public abilityChoices: AbilityChoice[] = [];
     public feat: string = "";
     public featChoices: FeatChoice[] = [];
     public loreChoices: LoreChoice[] = [];

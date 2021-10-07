@@ -3,8 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { SpellTarget } from './SpellTarget';
 
 export class SpellGain {
-    public readonly _className: string = this.constructor.name;
-    //Set if sustained spell is activated
+        //Set if sustained spell is activated
     public active: boolean = false;
     public activeCooldown: number = 0;
     //Copied from SpellChoice. How often the spell can be used, human readable for display.

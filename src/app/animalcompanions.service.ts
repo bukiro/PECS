@@ -67,7 +67,7 @@ export class AnimalCompanionsService {
             let libraryObject = this.get_CompanionTypes(ancestry.name)[0];
             if (libraryObject) {
                 Object.keys(ancestry).forEach(key => {
-                    if (!["name", "_className"].includes(key)) {
+                    if (key != "name") {
                         //If the Object has a name, and a library item can be found with that name, compare the property with the library item
                         //If they have the same value, delete the property from the item - it can be recovered during loading via the name.
                         if (JSON.stringify(ancestry[key]) == JSON.stringify(libraryObject[key])) {
@@ -103,7 +103,7 @@ export class AnimalCompanionsService {
             if (libraryObject) {
                 for (let index = 0; index < $class.levels.length; index++) {
                     Object.keys($class.levels[index]).forEach(key => {
-                        if (!["name", "_className"].includes(key)) {
+                        if (key != "name") {
                             //If the Object has a name, and a library item can be found with that name, compare the property with the library item
                             //If they have the same value, delete the property from the item - it can be recovered during loading from the database.
                             if (JSON.stringify($class.levels[index][key]) == JSON.stringify(libraryObject[index][key])) {
@@ -138,7 +138,7 @@ export class AnimalCompanionsService {
             let libraryObject = this.get_CompanionSpecializations(spec.name)[0];
             if (libraryObject) {
                 Object.keys(spec).forEach(key => {
-                    if (!["name", "_className"].includes(key)) {
+                    if (key != "name") {
                         //If the Object has a name, and a library item can be found with that name, compare the property with the library item
                         //If they have the same value, delete the property from the item - it can be recovered during loading via the name.
                         if (JSON.stringify(spec[key]) == JSON.stringify(libraryObject[key])) {

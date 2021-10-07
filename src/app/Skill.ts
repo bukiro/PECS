@@ -9,8 +9,7 @@ import { Creature } from './Creature';
 import { ProficiencyCopy } from './ProficiencyCopy';
 
 export class Skill {
-    public readonly _className: string = this.constructor.name;
-    public notes: string = "";
+        public notes: string = "";
     public showNotes: boolean = false;
     public showEffects: boolean = false;
     constructor(

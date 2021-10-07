@@ -1,8 +1,7 @@
 import { FeatTaken } from './FeatTaken';
 
 export class FeatChoice {
-    public readonly _className: string = this.constructor.name;
-    public available: number = 0;
+        public available: number = 0;
     public feats: FeatTaken[] = [];
     public filter: string[] = [];
     public id: string = "";

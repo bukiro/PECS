@@ -13,9 +13,6 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Character } from './Character';
 import { Speed } from './Speed';
-import { SpellCasting } from './SpellCasting';
-import { SpecializationGain } from './SpecializationGain';
-import { AbilityChoice } from './AbilityChoice';
 import { AnimalCompanionClass } from './AnimalCompanionClass';
 import { Heritage } from './Heritage';
 import { ItemGain } from './ItemGain';
@@ -23,9 +20,7 @@ import { Item } from './Item';
 import * as json_feats from '../assets/json/feats';
 import * as json_features from '../assets/json/features';
 import { LanguageGain } from './LanguageGain';
-import { Hint } from './Hint';
 import { ExtensionsService } from './extensions.service';
-import { BloodMagic } from './BloodMagic';
 import { FeatTaken } from './FeatTaken';
 import { TypeService } from './type.service';
 
@@ -44,8 +39,7 @@ export class FeatsService {
     private $characterFeatsTaken: { level: number, gain: FeatTaken }[] = [];
 
     constructor(
-        private extensionsService: ExtensionsService,
-        private typeService: TypeService
+        private extensionsService: ExtensionsService
     ) { }
 
     get_FeatFromName(customFeats: Feat[], name: string) {
@@ -110,39 +104,44 @@ export class FeatsService {
     }
 
     build_CharacterFeats(character: Character) {
-        //Add all feats that the character has taken to $characterFeats, unless they are among the custom feats.
-        let customFeats = character.customFeats;
+        //Add all feats that the character has taken to $characterFeats (feat for quick retrieval) and $characterFeatsTaken (gain with level);
         this.$characterFeats.clear();
         this.$characterFeatsTaken.length = 0;
-
         character.class.levels.forEach(level => {
             level.featChoices.forEach(choice => {
                 choice.feats.forEach(takenFeat => {
-                    if (!customFeats.some(feat => feat.name.toLowerCase() == takenFeat.name.toLowerCase())) {
-                        this.add_CharacterFeat(this.get_AllFromName([], takenFeat.name), takenFeat, level.number);
-                    }
+                    this.add_CharacterFeat(character, this.get_AllFromName([], takenFeat.name), takenFeat, level.number);
                 })
             })
         })
     }
 
-    add_CharacterFeat(feat: Feat, gain: FeatTaken, level: number) {
-        if (feat?.name && !this.$characterFeats.has(feat.name)) {
-            this.$characterFeats.set(feat.name, feat);
+    add_CharacterFeat(character: Character, feat: Feat, gain: FeatTaken, level: number) {
+        //Add the feat to $characterFeats, unless it is among the custom feats.
+        let customFeats = character.customFeats;
+        if (!customFeats.some(takenFeat => takenFeat.name.toLowerCase() == feat.name.toLowerCase())) {
+            if (feat?.name && !this.$characterFeats.has(feat.name)) {
+                this.$characterFeats.set(feat.name, feat);
+            }
         }
         this.$characterFeatsTaken.push({ level: level, gain: gain });
     }
 
     remove_CharacterFeat(feat: Feat, gain: FeatTaken, level: number) {
         //Remove one instance of the feat from the taken character feats list.
-        let takenFeat = this.$characterFeatsTaken.find(taken => taken.level == level && JSON.stringify(taken) == JSON.stringify(gain));
-        let a = this.$characterFeatsTaken;
-        a.splice(a.indexOf(takenFeat, 1));
-        this.$characterFeatsTaken = this.$characterFeatsTaken.filter(taken => taken === takenFeat);
-        //Remove a feat from the character feats only if it is no longer taken by the character.
-        if (!this.get_CharacterFeatsTaken(0, 0, feat.name).length) {
-            if (this.$characterFeats.has(feat.name)) {
-                this.$characterFeats.delete(feat.name);
+        let takenFeat = this.$characterFeatsTaken.find(taken => taken.level == level && JSON.stringify(taken.gain) == JSON.stringify(gain));
+        //If no exact same gain can be found, find one with the same name instead.
+        if (!takenFeat) {
+            takenFeat = this.$characterFeatsTaken.find(taken => taken.level == level && taken.gain.name == gain.name);
+        }
+        if (takenFeat) {
+            let a = this.$characterFeatsTaken;
+            a.splice(a.indexOf(takenFeat), 1);
+            //Remove a feat from the character feats only if it is no longer taken by the character.
+            if (!this.get_CharacterFeatsTaken(0, 0, feat.name).length) {
+                if (this.$characterFeats.has(feat.name)) {
+                    this.$characterFeats.delete(feat.name);
+                }
             }
         }
     }
@@ -1005,7 +1004,7 @@ export class FeatsService {
             // If it is removed, remove it from the list. The function checks for feats that may have been taken multiple times and keeps them.
             if (creature === character) {
                 if (taken) {
-                    this.add_CharacterFeat(feat, gain, level.number);
+                    this.add_CharacterFeat(character, feat, gain, level.number);
                 } else {
                     this.remove_CharacterFeat(feat, gain, level.number);
                 }
@@ -1123,6 +1122,7 @@ export class FeatsService {
     initialize() {
         //Clear the character feats whenever a character is loaded.
         this.$characterFeats.clear();
+        this.$characterFeatsTaken.length = 0;
         //Initialize feats only once, but cleanup their active hints everytime thereafter.
         if (!this.feats.length) {
             this.loading_feats = true;

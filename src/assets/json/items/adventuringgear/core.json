@@ -3,7 +3,6 @@
         "desc": "Plants of supernatural significance provide a primal focus for primal spellcasters, such as druids, when using certain abilities and casting some spells. A bundle of holly and mistletoe must be held in one hand to use it. Other primal foci exist for druids focused on other aspects of nature. ",
         "id": "89c6d2e2-8e09-11ea-9fab-e92c63c14723",
         "name": "Holly and Mistletoe",
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -11,21 +10,18 @@
         "id": "89c6d2e5-8e09-11ea-9fab-e92c63c14723",
         "name": "Candle",
         "price": 1,
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
         "id": "89c6d2e8-8e09-11ea-9fab-e92c63c14723",
         "name": "Chalk",
         "price": 1,
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
         "id": "89c6d2eb-8e09-11ea-9fab-e92c63c14723",
         "name": "Mug",
         "price": 1,
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -33,7 +29,6 @@
         "id": "89c6d2ee-8e09-11ea-9fab-e92c63c14723",
         "name": "Oil",
         "price": 1,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -46,7 +41,6 @@
                 "showon": "Athletics"
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -57,11 +51,9 @@
         "price": 1,
         "gainInventory": [
             {
-                "_className": "InventoryGain",
                 "bulkLimit": 8
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -75,7 +67,6 @@
                 "showon": "Perception"
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -84,21 +75,18 @@
         "id": "89c6f9f3-8e09-11ea-9fab-e92c63c14723",
         "name": "Torch",
         "price": 1,
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
         "bulk": "L",
         "id": "89c6f9f6-8e09-11ea-9fab-e92c63c14723",
         "name": "Bedroll",
-        "price": 2,
-        "_className": "AdventuringGear"
+        "price": 2
     },
     {
         "id": "89c6f9f9-8e09-11ea-9fab-e92c63c14723",
         "name": "Soap",
         "price": 2,
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -106,7 +94,6 @@
         "id": "89c6f9fc-8e09-11ea-9fab-e92c63c14723",
         "name": "Ladder",
         "price": 3,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -114,7 +101,6 @@
         "id": "89c6fa02-8e09-11ea-9fab-e92c63c14723",
         "name": "Flint and Steel",
         "price": 5,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -123,7 +109,6 @@
         "id": "89c6fa08-8e09-11ea-9fab-e92c63c14723",
         "name": "Waterskin",
         "price": 5,
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -131,22 +116,19 @@
         "id": "89c6fa0b-8e09-11ea-9fab-e92c63c14723",
         "name": "Signal Whistle",
         "price": 8,
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
         "desc": "Ordinary clothing is functional with basic tailoring, such as peasant garb, monk's robes, or work clothes.",
         "id": "89c6fa0e-8e09-11ea-9fab-e92c63c14723",
         "name": "Clothing (Ordinary)",
-        "price": 10,
-        "_className": "AdventuringGear"
+        "price": 10
     },
     {
         "desc": "If you've crafted a large number of disguises, you can replenish your cosmetics supply with replacement cosmetics suitable for the type of your disguise kit.",
         "id": "89c6fa11-8e09-11ea-9fab-e92c63c14723",
         "name": "Disguise Kit (Replacement Cosmetics)",
-        "price": 10,
-        "_className": "AdventuringGear"
+        "price": 10
     },
     {
         "bulk": "L",
@@ -159,7 +141,6 @@
                 "showon": "Athletics"
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -167,7 +148,6 @@
         "id": "89c6fa17-8e09-11ea-9fab-e92c63c14723",
         "name": "Hammer",
         "price": 10,
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -179,12 +159,10 @@
         "carryingBulk": "L",
         "gainInventory": [
             {
-                "_className": "InventoryGain",
                 "bulkLimit": 4,
                 "bulkReduction": 2
             }
-        ],
-        "_className": "AdventuringGear"
+        ]
     },
     {
         "bulk": "L",
@@ -192,7 +170,6 @@
         "id": "89c6fa1d-8e09-11ea-9fab-e92c63c14723",
         "name": "Religious Symbol (Wooden)",
         "price": 10,
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -201,30 +178,26 @@
         "id": "89c6fa29-8e09-11ea-9fab-e92c63c14723",
         "name": "Basic Crafter's Book",
         "price": 10,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
         "desc": "If you've written a large amount, you can refill your kit with extra ink and paper.",
         "id": "89c72101-8e09-11ea-9fab-e92c63c14723",
         "name": "Writing Set (Extra Ink and Paper)",
-        "price": 10,
-        "_className": "AdventuringGear"
+        "price": 10
     },
     {
         "desc": "Picking a poor lock requires two successful DC 15 Thievery checks.",
         "id": "89c72104-8e09-11ea-9fab-e92c63c14723",
         "name": "Lock (Poor)",
         "price": 20,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
         "bulk": "L",
         "id": "89c72107-8e09-11ea-9fab-e92c63c14723",
         "name": "Merchant's Scale",
-        "price": 20,
-        "_className": "AdventuringGear"
+        "price": 20
     },
     {
         "desc": "Saddlebags come in a pair. Each can hold up to 3 Bulk of items. The Bulk value given is for saddlebags worn by a mount. If you are carrying or stowing saddlebags, they count as 1 Bulk instead of light Bulk. The first 1 Bulk of items in each saddlebag doesn't count against your mount's Bulk limits.",
@@ -235,32 +208,27 @@
         "carryingBulk": "1",
         "gainInventory": [
             {
-                "_className": "InventoryGain",
                 "bulkLimit": 3,
                 "bulkReduction": 1
             },
             {
-                "_className": "InventoryGain",
                 "bulkLimit": 3,
                 "bulkReduction": 1
             }
-        ],
-        "_className": "AdventuringGear"
+        ]
     },
     {
         "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from poor manacles requires two successful DC 17 Thievery checks.",
         "id": "89c7210d-8e09-11ea-9fab-e92c63c14723",
         "name": "Manacles (Poor)",
         "price": 30,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
         "desc": "If your thieves' tools are broken, you can repair them by replacing the lock picks with replacement picks appropriate to your tools; this doesn't require using the Repair action.",
         "id": "89c72110-8e09-11ea-9fab-e92c63c14723",
         "name": "Thieves' Tools (Replacement Picks)",
-        "price": 30,
-        "_className": "AdventuringGear"
+        "price": 30
     },
     {
         "bulk": "L",
@@ -268,7 +236,6 @@
         "id": "89c72113-8e09-11ea-9fab-e92c63c14723",
         "name": "Caltrops",
         "price": 30,
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -282,15 +249,13 @@
             {
                 "showon": "Resistances"
             }
-        ],
-        "_className": "AdventuringGear"
+        ]
     },
     {
         "bulk": "L",
         "id": "89c72119-8e09-11ea-9fab-e92c63c14723",
         "name": "Rations (1 week)",
         "price": 40,
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -298,7 +263,6 @@
         "id": "ecc356cd-637b-43f8-a0cf-8ac90318eb7f",
         "name": "Sunlight Rations (1 week)",
         "price": 400,
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -307,7 +271,6 @@
         "id": "89c7211c-8e09-11ea-9fab-e92c63c14723",
         "name": "Tool (Short)",
         "price": 40,
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -321,7 +284,6 @@
                 "showon": "Athletics"
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -335,7 +297,6 @@
                 "showon": "Athletics"
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -344,7 +305,6 @@
         "id": "89c72125-8e09-11ea-9fab-e92c63c14723",
         "name": "Material Component Pouch",
         "price": 50,
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -352,7 +312,6 @@
         "id": "89c72128-8e09-11ea-9fab-e92c63c14723",
         "name": "Rope",
         "price": 50,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -363,11 +322,9 @@
         "price": 60,
         "gainInventory": [
             {
-                "_className": "InventoryGain",
                 "bulkLimit": 8
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -377,55 +334,45 @@
         "price": 150,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Backpack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Bedroll",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "amount": 10,
                 "name": "Chalk",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Flint and Steel",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Rope",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "amount": 2,
                 "name": "Rations (1 week)",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Soap",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "amount": 5,
                 "name": "Torch",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Waterskin",
                 "type": "adventuringgear"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "1"
     },
     {
@@ -435,49 +382,40 @@
         "price": 842,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Studded Leather Armor",
                 "type": "armors"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dagger",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Sling",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "amount": 20,
                 "name": "Sling Bullets",
                 "type": "ammunition"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Alchemist's Tools",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Basic Crafter's Book",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "amount": 2,
                 "name": "Caltrops",
                 "type": "adventuringgear"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "3 Bulk, 7 light"
     },
     {
@@ -487,54 +425,44 @@
         "price": 1042,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Studded Leather Armor",
                 "type": "armors"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dagger",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Sling",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "amount": 20,
                 "name": "Sling Bullets",
                 "type": "ammunition"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Alchemist's Tools",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Basic Crafter's Book",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "amount": 2,
                 "name": "Caltrops",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Repair Kit",
                 "type": "adventuringgear"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "4 Bulk, 7 light"
     },
     {
@@ -544,42 +472,34 @@
         "price": 400,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Hide Armor",
                 "type": "armors"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Grappling Hook",
                 "type": "adventuringgear"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "3 Bulk, 5 light"
     },
     {
@@ -589,47 +509,38 @@
         "price": 600,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Hide Armor",
                 "type": "armors"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Grappling Hook",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Greataxe",
                 "type": "weapons"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "5 Bulk, 5 light"
     },
     {
@@ -639,47 +550,38 @@
         "price": 600,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Hide Armor",
                 "type": "armors"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Grappling Hook",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Greatsword",
                 "type": "weapons"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "5 Bulk, 5 light"
     },
     {
@@ -689,47 +591,38 @@
         "price": 500,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Hide Armor",
                 "type": "armors"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Grappling Hook",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Greatclub",
                 "type": "weapons"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "5 Bulk, 5 light"
     },
     {
@@ -739,52 +632,42 @@
         "price": 700,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Hide Armor",
                 "type": "armors"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Grappling Hook",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Battle Axe",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Steel Shield",
                 "type": "shields"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "5 Bulk, 5 light"
     },
     {
@@ -794,43 +677,35 @@
         "price": 752,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Studded Leather Armor",
                 "type": "armors"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dagger",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Sling",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "amount": 20,
                 "name": "Sling Bullets",
                 "type": "ammunition"
             },
             {
-                "_className": "ItemGain",
                 "name": "Rapier",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Musical Instrument (Handheld)",
                 "type": "adventuringgear"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "4 Bulk, 4 light"
     },
     {
@@ -840,52 +715,42 @@
         "price": 470,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Hide Armor",
                 "type": "armors"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dagger",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Crowbar",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Grappling Hook",
                 "type": "adventuringgear"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "3 Bulk, 7 light"
     },
     {
@@ -895,57 +760,46 @@
         "price": 670,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Hide Armor",
                 "type": "armors"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dagger",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Crowbar",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Grappling Hook",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Steel Shield",
                 "type": "shields"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "4 Bulk, 7 light"
     },
     {
@@ -955,23 +809,19 @@
         "price": 220,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "amount": 2,
                 "name": "Caltrops",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Religious Symbol (Wooden)",
                 "type": "adventuringgear"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "1 Bulk, 3 light"
     },
     {
@@ -981,28 +831,23 @@
         "price": 420,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "amount": 2,
                 "name": "Caltrops",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Religious Symbol (Wooden)",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Hide Armor",
                 "type": "armors"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "3 Bulk, 3 light"
     },
     {
@@ -1012,47 +857,38 @@
         "price": 440,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Leather Armor",
                 "type": "armors"
             },
             {
-                "_className": "ItemGain",
                 "name": "Longspear",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Holly and Mistletoe",
                 "type": "adventuringgear"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "4 Bulk, 4 light"
     },
     {
@@ -1062,52 +898,42 @@
         "price": 940,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Leather Armor",
                 "type": "armors"
             },
             {
-                "_className": "ItemGain",
                 "name": "Longspear",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Javelin",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Holly and Mistletoe",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Healer's Tools",
                 "type": "adventuringgear"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "5 Bulk, 4 light"
     },
     {
@@ -1117,27 +943,22 @@
         "price": 380,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Hide Armor",
                 "type": "armors"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dagger",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Grappling Hook",
                 "type": "adventuringgear"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "3 Bulk, 2 light"
     },
     {
@@ -1147,32 +968,26 @@
         "price": 580,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Hide Armor",
                 "type": "armors"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dagger",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Grappling Hook",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Greatsword",
                 "type": "weapons"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "5 Bulk, 2 light"
     },
     {
@@ -1182,38 +997,31 @@
         "price": 1000,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Hide Armor",
                 "type": "armors"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dagger",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "amount": 20,
                 "name": "Arrows",
                 "type": "ammunition"
             },
             {
-                "_className": "ItemGain",
                 "name": "Grappling Hook",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Longbow",
                 "type": "weapons"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "5 Bulk, 4 light"
     },
     {
@@ -1223,37 +1031,30 @@
         "price": 680,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Hide Armor",
                 "type": "armors"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dagger",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Grappling Hook",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Longsword",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Steel Shield",
                 "type": "shields"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "5 Bulk, 2 light"
     },
     {
@@ -1263,77 +1064,62 @@
         "price": 530,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Climbing Kit",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Grappling Hook",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Smokestick (Lesser)",
                 "type": "alchemicaltools"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "3 Bulk, 2 light"
     },
     {
@@ -1343,82 +1129,66 @@
         "price": 530,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Climbing Kit",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Grappling Hook",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Smokestick (Lesser)",
                 "type": "alchemicaltools"
             },
             {
-                "_className": "ItemGain",
                 "name": "Staff",
                 "type": "weapons"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "4 Bulk, 2 light"
     },
     {
@@ -1428,82 +1198,66 @@
         "price": 580,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dart",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Climbing Kit",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Grappling Hook",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Smokestick (Lesser)",
                 "type": "alchemicaltools"
             },
             {
-                "_className": "ItemGain",
                 "name": "Longspear",
                 "type": "weapons"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "5 Bulk, 2 light"
     },
     {
@@ -1513,22 +1267,18 @@
         "price": 370,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Leather Armor",
                 "type": "armors"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dagger",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "2 Bulk, 1 light"
     },
     {
@@ -1538,33 +1288,27 @@
         "price": 990,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Leather Armor",
                 "type": "armors"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dagger",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "amount": 20,
                 "name": "Arrows",
                 "type": "ammunition"
             },
             {
-                "_className": "ItemGain",
                 "name": "Longbow",
                 "type": "weapons"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "4 Bulk, 3 light"
     },
     {
@@ -1574,32 +1318,26 @@
         "price": 670,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Leather Armor",
                 "type": "armors"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dagger",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Longsword",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Steel Shield",
                 "type": "shields"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "4 Bulk, 1 light"
     },
     {
@@ -1609,32 +1347,26 @@
         "price": 550,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Leather Armor",
                 "type": "armors"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dagger",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Shortsword",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Shortsword",
                 "type": "weapons"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "2 Bulk, 3 light"
     },
     {
@@ -1644,32 +1376,26 @@
         "price": 620,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Leather Armor",
                 "type": "armors"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dagger",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Rapier",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Climbing Kit",
                 "type": "adventuringgear"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "4 Bulk, 1 light"
     },
     {
@@ -1679,37 +1405,30 @@
         "price": 620,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Leather Armor",
                 "type": "armors"
             },
             {
-                "_className": "ItemGain",
                 "name": "Dagger",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Rapier",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Climbing Kit",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Thieves' Tools",
                 "type": "adventuringgear"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "4 Bulk, 2 light"
     },
     {
@@ -1719,34 +1438,28 @@
         "price": 232,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Dagger",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Sling",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "amount": 20,
                 "name": "Sling Bullets",
                 "type": "ammunition"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "amount": 2,
                 "name": "Caltrops",
                 "type": "adventuringgear"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "1 Bulk, 6 light"
     },
     {
@@ -1756,27 +1469,22 @@
         "price": 300,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Staff",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Material Component Pouch",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Writing Set",
                 "type": "adventuringgear"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "2 Bulk, 2 light"
     },
     {
@@ -1786,38 +1494,31 @@
         "price": 620,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Staff",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Material Component Pouch",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "amount": 20,
                 "name": "Bolts",
                 "type": "ammunition"
             },
             {
-                "_className": "ItemGain",
                 "name": "Writing Set",
                 "type": "adventuringgear"
             },
             {
-                "_className": "ItemGain",
                 "name": "Crossbow",
                 "type": "weapons"
             }
         ],
-        "_className": "AdventuringGear",
         "storeBulk": "3 Bulk, 4 light"
     },
     {
@@ -1826,7 +1527,6 @@
         "id": "89c74815-8e09-11ea-9fab-e92c63c14723",
         "name": "Lantern (Hooded)",
         "price": 70,
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -1835,7 +1535,6 @@
         "id": "89c74818-8e09-11ea-9fab-e92c63c14723",
         "name": "Fishing Tackle",
         "price": 80,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -1849,7 +1548,6 @@
                 "showon": "Performance"
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -1857,7 +1555,6 @@
         "id": "89c7481e-8e09-11ea-9fab-e92c63c14723",
         "name": "Tent (Pup)",
         "price": 80,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -1871,7 +1568,6 @@
                 "showon": "Survival"
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -1879,7 +1575,6 @@
         "id": "89c74824-8e09-11ea-9fab-e92c63c14723",
         "name": "Cookware",
         "price": 100,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -1889,7 +1584,6 @@
         "id": "89c74827-8e09-11ea-9fab-e92c63c14723",
         "name": "Formula Book",
         "price": 100,
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -1898,14 +1592,12 @@
         "id": "89c7482a-8e09-11ea-9fab-e92c63c14723",
         "name": "Lantern (Bull's-Eye)",
         "price": 100,
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
         "id": "89c7482d-8e09-11ea-9fab-e92c63c14723",
         "name": "Mirror",
         "price": 100,
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -1914,7 +1606,6 @@
         "id": "89c74830-8e09-11ea-9fab-e92c63c14723",
         "name": "Religious Text",
         "price": 100,
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -1924,7 +1615,6 @@
         "id": "89c74833-8e09-11ea-9fab-e92c63c14723",
         "name": "Spellbook",
         "price": 100,
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -1933,7 +1623,6 @@
         "id": "89c74836-8e09-11ea-9fab-e92c63c14723",
         "name": "Tool (Long)",
         "price": 100,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -1942,7 +1631,6 @@
         "id": "89c74839-8e09-11ea-9fab-e92c63c14723",
         "name": "Writing Set",
         "price": 100,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -1950,8 +1638,7 @@
         "desc": "Fine clothing, suitable for a noble or royal, is made with expensive fabrics, precious metals, and intricate patterns.",
         "id": "89c7483c-8e09-11ea-9fab-e92c63c14723",
         "name": "Clothing (Fine)",
-        "price": 200,
-        "_className": "AdventuringGear"
+        "price": 200
     },
     {
         "bulk": "L",
@@ -1964,7 +1651,6 @@
                 "showon": "Deception"
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -1978,7 +1664,6 @@
                 "showon": "Performance"
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -1987,7 +1672,6 @@
         "id": "89c74845-8e09-11ea-9fab-e92c63c14723",
         "name": "Religious Symbol (Silver)",
         "price": 200,
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -2001,7 +1685,6 @@
                 "showon": "Crafting"
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2010,7 +1693,6 @@
         "id": "89c7484b-8e09-11ea-9fab-e92c63c14723",
         "name": "Jellyfish Lamp",
         "price": 200,
-        "_className": "AdventuringGear",
         "usage": "held in 1 hand"
     },
     {
@@ -2020,7 +1702,6 @@
         "name": "Armored Skirt",
         "price": 200,
         "equippable": true,
-        "_className": "AdventuringGear",
         "isArmoredSkirt": true
     },
     {
@@ -2029,7 +1710,6 @@
         "id": "89c76f25-8e09-11ea-9fab-e92c63c14723",
         "name": "Alchemist's Tools",
         "price": 300,
-        "_className": "AdventuringGear",
         "hands": "2 (1 when worn)"
     },
     {
@@ -2037,7 +1717,6 @@
         "id": "89c76f28-8e09-11ea-9fab-e92c63c14723",
         "name": "Hourglass",
         "price": 300,
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -2051,7 +1730,6 @@
                 "showon": "Thievery"
             }
         ],
-        "_className": "AdventuringGear",
         "hands": "2 (1 when worn)"
     },
     {
@@ -2059,7 +1737,6 @@
         "id": "89c76f2e-8e09-11ea-9fab-e92c63c14723",
         "name": "Chain",
         "price": 400,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2068,7 +1745,6 @@
         "id": "89c76f31-8e09-11ea-9fab-e92c63c14723",
         "name": "Artisan's Tools",
         "price": 400,
-        "_className": "AdventuringGear",
         "hands": "2 (1 when worn)"
     },
     {
@@ -2078,8 +1754,7 @@
         "name": "Tack",
         "price": 400,
         "equippable": true,
-        "carryingBulk": "2",
-        "_className": "AdventuringGear"
+        "carryingBulk": "2"
     },
     {
         "bulk": "1",
@@ -2092,7 +1767,6 @@
                 "showon": "Medicine"
             }
         ],
-        "_className": "AdventuringGear",
         "hands": "2 (1 when worn)"
     },
     {
@@ -2104,7 +1778,6 @@
         "equippable": true,
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Land Speed",
                 "value": -10
             }
@@ -2113,8 +1786,7 @@
             {
                 "showon": "Athletics"
             }
-        ],
-        "_className": "AdventuringGear"
+        ]
     },
     {
         "bulk": "2",
@@ -2127,7 +1799,6 @@
                 "showon": "Crafting"
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2141,7 +1812,6 @@
                 "showon": "Crafting"
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2149,7 +1819,6 @@
         "id": "89c76f43-8e09-11ea-9fab-e92c63c14723",
         "name": "Tent (Four-Person)",
         "price": 500,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2163,7 +1832,6 @@
                 "showon": "Perception"
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2183,7 +1851,6 @@
                 ]
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -2192,7 +1859,6 @@
         "level": 1,
         "name": "Lock (Simple)",
         "price": 200,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2201,7 +1867,6 @@
         "level": 1,
         "name": "Manacles (Simple)",
         "price": 300,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2210,7 +1875,6 @@
         "level": 2,
         "name": "Tent (Pavilion)",
         "price": 4000,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2218,16 +1882,14 @@
         "id": "89c79638-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Disguise Kit (Elite Cosmetics)",
-        "price": 50,
-        "_className": "AdventuringGear"
+        "price": 50
     },
     {
         "desc": "If your thieves' tools are broken, you can repair them by replacing the lock picks with replacement picks appropriate to your tools; this doesn't require using the Repair action.",
         "id": "89c7963b-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Thieves' Tools (Infiltrator Picks)",
-        "price": 300,
-        "_className": "AdventuringGear"
+        "price": 300
     },
     {
         "bulk": "L",
@@ -2253,7 +1915,6 @@
                 ]
             }
         ],
-        "_className": "AdventuringGear",
         "usage": "held in 1 hand"
     },
     {
@@ -2280,7 +1941,6 @@
                 ]
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -2312,7 +1972,6 @@
                 ]
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -2321,7 +1980,6 @@
         "level": 3,
         "name": "Lock (Average)",
         "price": 1500,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2343,7 +2001,6 @@
                 ]
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 1
     },
     {
@@ -2365,7 +2022,6 @@
                 ]
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2375,7 +2031,6 @@
         "level": 3,
         "name": "Fishing Tackle (Professional)",
         "price": 2000,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2384,7 +2039,6 @@
         "level": 3,
         "name": "Manacles (Average)",
         "price": 2000,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2406,7 +2060,6 @@
                 ]
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2419,7 +2072,6 @@
         "traits": [
             "Uncommon"
         ],
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2441,7 +2093,6 @@
                 ]
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2463,7 +2114,6 @@
                 ]
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2485,7 +2135,6 @@
                 ]
             }
         ],
-        "_className": "AdventuringGear",
         "hands": "2 (1 when worn)"
     },
     {
@@ -2507,7 +2156,6 @@
                 ]
             }
         ],
-        "_className": "AdventuringGear",
         "hands": "2 (1 when worn)"
     },
     {
@@ -2529,7 +2177,6 @@
                 ]
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2551,7 +2198,6 @@
                 ]
             }
         ],
-        "_className": "AdventuringGear",
         "hands": "2 (1 when worn)"
     },
     {
@@ -2561,7 +2207,6 @@
         "level": 3,
         "name": "Survey Map (Atlas)",
         "price": 5000,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2582,8 +2227,7 @@
                     }
                 ]
             }
-        ],
-        "_className": "AdventuringGear"
+        ]
     },
     {
         "bulk": "2",
@@ -2604,7 +2248,6 @@
                 ]
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2626,7 +2269,6 @@
                 ]
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2648,7 +2290,6 @@
                 ]
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2670,7 +2311,6 @@
                 ]
             }
         ],
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2679,7 +2319,6 @@
         "level": 9,
         "name": "Lock (Good)",
         "price": 20000,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2688,7 +2327,6 @@
         "level": 9,
         "name": "Manacles (Good)",
         "price": 25000,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2709,7 +2347,6 @@
                 "activationType": "Command, Interact",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "level": 4,
                         "name": "Create Food"
                     }
@@ -2723,7 +2360,6 @@
                     "Magical",
                     "Uncommon"
                 ],
-                "_className": "ItemActivity",
                 "source": "89c79686-8e09-11ea-9fab-e92c63c14723"
             }
         ],
@@ -2739,8 +2375,7 @@
                     }
                 ]
             }
-        ],
-        "_className": "AdventuringGear"
+        ]
     },
     {
         "desc": "Picking a superior lock requires six successes at DC 40.",
@@ -2748,7 +2383,6 @@
         "level": 17,
         "name": "Lock (Superior)",
         "price": 450000,
-        "_className": "AdventuringGear",
         "hands": 2
     },
     {
@@ -2757,7 +2391,6 @@
         "level": 17,
         "name": "Manacles (Superior)",
         "price": 500000,
-        "_className": "AdventuringGear",
         "hands": 2
     }
 ]

@@ -2,8 +2,7 @@ import { Consumable } from './Consumable';
 import { TypeService } from './type.service';
 
 export class Snare extends Consumable {
-    public readonly _className: string = this.constructor.name;
-    //Snares should be type "snares" to be found in the database
+        //Snares should be type "snares" to be found in the database
     readonly type = "snares";
     public critfailure: string = "";
     public critsuccess: string = "";

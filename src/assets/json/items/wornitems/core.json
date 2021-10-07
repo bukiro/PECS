@@ -3,11 +3,9 @@
         "name": "Gourd Head",
         "id": "082244c0-e1fd-4f48-8053-d09da1e388fc",
         "desc": "You have a large gourd for a skull. Your knowledge comes from within your spirit, rather than a physical brain, and you have found a handier use for the space inside your head. You can store a collection of up to 1 Bulk of objects within your head. The DC of checks to Steal objects from inside your head increases by 4. Additionally, if you store only one object within your head, you can draw it effortlessly into your hand as part of another action to use the object. Drawing the item grants this other action the manipulate trait.",
-        "_className": "WornItem",
         "hide": true,
         "gainInventory": [
             {
-                "_className": "InventoryGain",
                 "bulkLimit": 1
             }
         ]
@@ -16,11 +14,9 @@
         "name": "Iron Gut",
         "id": "00d7f12b-0dd1-4559-a596-22185ec7fa52",
         "desc": "Your mouth, esophagus, and stomach are incredibly elastic and tougher than metal. For the duration of the spell, you can reach down your throat to store or retrieve a single object of light or negligible Bulk in your stomach, as though your stomach were a backpack or other container. Storing and retrieving an item in this way requires an Interact action. The object must be small enough to reasonably fit within your stomach. It is very difficult for other creatures to notice that you are hiding an object in this way; passive observers can't possibly notice and you gain a +4 circumstance bonus to your Stealth checks to Conceal the Object unless the searcher specifically searches your mouth and stomach. If at the end of the spell's duration you still have an object stored in your stomach, it is violently expelled, dealing |dice=1d6| 1d6 damage to you.",
-        "_className": "WornItem",
         "hide": true,
         "gainInventory": [
             {
-                "_className": "InventoryGain",
                 "bulkLimit": 0.1
             }
         ]
@@ -29,7 +25,6 @@
         "name": "Aeon Stone (Dull Gray)",
         "id": "8a187528-2072-4e6b-8c18-1b8f10c9ae38",
         "desc": "A dull gray aeon stone has lost its special magical properties, sometimes as a result of overusing a tourmaline sphere or pale lavender ellipsoid aeon stone. It still orbits your head like any other aeon stone and can thus serve as a stylish, hands-free option for various spells that target an object, like continual flame.\n\nDull gray aeon stones have no resonant power.",
-        "_className": "WornItem",
         "level": 1,
         "price": 900,
         "traits": [
@@ -46,7 +41,6 @@
         "id": "68dade25-080b-48ed-bfe5-018a3ee15f15",
         "desc": "This ring magically conceals any armor and sheathed weapons you're wearing by either turning them invisible or creating the illusion of ordinary clothes. The ring doesn't change your appearance beyond concealing weapons and armor. As soon as you wield a weapon, the weapon becomes obvious to onlookers and is no longer affected by the ring until you sheathe the weapon for at least 1 minute. A creature can disbelieve this illusion by Seeking or any time it hits you with an attack.",
         "sourceBook": "Pathfinder #157: Devil at the Dreaming Palace",
-        "_className": "WornItem",
         "level": 1,
         "price": 1500,
         "traits": [
@@ -69,7 +63,6 @@
         "id": "7625bac1-e435-4536-947a-af51caa9d402",
         "desc": "An archaic wayfinder functions as a compass and acts as a repository for one cantrip cast into it. To fill an archaic wayfinder, a spellcaster casts the chosen cantrip into the empty device, providing any necessary cost; the spell cannot be one that is normally cast as a free action or reaction. Activating an archaic wayfinder is the same as the casting for the relevant spell. Once it has been activated, it becomes empty again. An archaic wayfinder can hold an aeon stone and activate its resonant power. An archaic wayfinder counts against the limit of one wayfinder with a slotted resonant aeon stone.",
         "sourceBook": "World Guide",
-        "_className": "WornItem",
         "level": 2,
         "price": 3000,
         "traits": [
@@ -81,7 +74,6 @@
         "isWayfinder": 1,
         "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 0
             }
@@ -91,7 +83,6 @@
         "name": "Brooch of Shielding",
         "id": "21db4d88-1b38-4beb-b4c5-28e5483cb5b0",
         "desc": "This piece of silver or gold jewelry is adorned with miniature images of kite shields and can be used to fasten a cloak or cape. The brooch automatically absorbs magic missile spells targeting you. A brooch of shielding can absorb 30 individual magic missiles before it melts and becomes useless. Sometimes when found, a brooch of shielding has already absorbed a number of missiles.",
-        "_className": "WornItem",
         "level": 2,
         "price": 3000,
         "traits": [
@@ -112,7 +103,6 @@
         "name": "Hand of the Mage",
         "id": "a5aa952e-7eab-4f49-9955-fd19ce8b3e1f",
         "desc": "This mummified elf hand hangs on a golden chain, its gnarled fingers locked in a peculiar pattern.",
-        "_className": "WornItem",
         "level": 2,
         "bulk": "L",
         "price": 3000,
@@ -124,7 +114,6 @@
         "usage": "worn",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Hand of the Mage",
                 "source": "a5aa952e-7eab-4f49-9955-fd19ce8b3e1f",
                 "actions": "2A",
@@ -135,7 +124,6 @@
                 "desc": "You cast mage hand.",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "name": "Mage Hand"
                     }
                 ],
@@ -151,7 +139,6 @@
         "name": "Handwraps of Mighty Blows",
         "id": "89c3c5a2-8e09-11ea-9fab-e92c63c14723",
         "desc": "As you invest these embroidered strips of cloth, you must meditate and slowly wrap them around your hands. These handwraps have weapon runes etched into them to give your unarmed attacks the benefits of those runes, making your unarmed attacks work like magic weapons. For example, +1 striking handwraps of mighty blows would give you a +1 item bonus to attack rolls with your unarmed attacks and increase the damage of your unarmed attacks from one weapon die to two (normally 2d4 instead of 1d4, but if your fists have a different weapon damage die or you have other unarmed attacks, use two of that die size instead).\n\nYou can upgrade, add, and transfer runes to and from the handwraps just as you would for a weapon, and you can attach talismans to the handwraps. Treat the handwraps as melee weapons of the brawling group with light Bulk for these purposes. Property runes apply only when they would be applicable to the unarmed attack you're using. For example, a property that must be applied to a slashing weapon wouldn't function when you attacked with a fist, but you would gain its benefits if you attacked with a claw or some other slashing unarmed attack.",
-        "_className": "WornItem",
         "level": 2,
         "price": 3500,
         "traits": [
@@ -168,7 +155,6 @@
         "name": "Hat of Disguise",
         "id": "d320c1ca-396f-4d9a-a1c5-775800cde0ab",
         "desc": "This ordinary-looking hat allows you to cloak yourself in illusions.",
-        "_className": "WornItem",
         "level": 2,
         "price": 3000,
         "traits": [
@@ -179,7 +165,6 @@
         "usage": "worn headwear",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Hat of Disguise",
                 "source": "d320c1ca-396f-4d9a-a1c5-775800cde0ab",
                 "actions": "1 minute",
@@ -189,7 +174,6 @@
                 "desc": "The hat casts a 1st-level illusory disguise spell on you. While setting up the disguise, you can magically alter the hat to appear as a comb, ribbon, helm, or other piece of headwear.",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "level": 1,
                         "name": "Illusory Disguise"
                     }
@@ -206,7 +190,6 @@
         "name": "Wayfinder",
         "id": "4c5d0fa0-fb67-4e5a-80af-dd450eba7cf4",
         "desc": "This compact compass repurposes ancient technology to draw fantastic powers from the mysterious magical items called aeon stones. It serves as a badge of office for agents of the Pathfinder Society and as a status symbol among adventurers of any stripe. A wayfinder functions as a compass.\n\nAn indentation in the middle of the wayfinder can hold a single aeon stone. Placing an aeon stone in this indentation provides you all the benefits of having the aeon stone orbiting your head, but it protects the stone from being noticed or stolen as easily. You invest a wayfinder and the aeon stone within it simultaneously, and they count as only one item toward your investiture limit. An invested aeon stone slotted in a wayfinder also grants its resonant power.\n\nIf you have more than one wayfinder with an invested aeon stone on your person at a given time, destructive interference from their resonance prevents you from gaining benefits from any of them. You can still benefit from additional aeon stones orbiting your head, just not in wayfinders.\n\nAll Pathfinders have access.",
-        "_className": "WornItem",
         "level": 2,
         "price": 2800,
         "traits": [
@@ -219,7 +202,6 @@
         "isWayfinder": 1,
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Wayfinder",
                 "source": "4c5d0fa0-fb67-4e5a-80af-dd450eba7cf4",
                 "actions": "1A",
@@ -227,7 +209,6 @@
                 "desc": "The wayfinder is targeted by a 1st-level light spell.",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "level": 1,
                         "name": "Light"
                     }
@@ -247,7 +228,6 @@
         "desc": "This aeon stone allows you to cast the 1st-level shield cantrip as an arcane innate spell, surrounding yourself in pink energy.\n\nThe resonant power increases the damage prevented by your aeon stone's shield spell from 5 to 10.",
         "access": "Member of the Pathfinder Society.",
         "sourceBook": "Pathfinder Society Guide",
-        "_className": "WornItem",
         "level": 3,
         "price": 5000,
         "traits": [
@@ -267,13 +247,11 @@
         ],
         "gainSpells": [
             {
-                "_className": "SpellChoice",
                 "frequency": "at will",
                 "level": 0,
                 "tradition": "Arcane",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Shield"
                     }
@@ -287,7 +265,6 @@
         "desc": "When you invest this aeon stone, it slowly starts healing your wounds, restoring 1 HP every minute.\n\nThe resonant power grants you resistance 1 to negative damage.",
         "access": "Member of the Pathfinder Society.",
         "sourceBook": "Pathfinder Society Guide",
-        "_className": "WornItem",
         "level": 3,
         "price": 6000,
         "traits": [
@@ -306,7 +283,6 @@
         ],
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Negative Damage Resistance",
                 "value": "1",
                 "resonant": true
@@ -317,7 +293,6 @@
         "name": "Bracelet of Dashing",
         "id": "88de530a-913b-11ea-bb37-0242ac130002",
         "desc": "This jangling, silvery bracelet makes you lighter on your feet, giving you a +1 item bonus to Acrobatics checks.",
-        "_className": "WornItem",
         "level": 3,
         "bulk": "L",
         "price": 5800,
@@ -329,7 +304,6 @@
         "usage": "worn",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Acrobatics",
                 "type": "item",
                 "value": 1
@@ -337,7 +311,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Bracelet of Dashing",
                 "source": "88de530a-913b-11ea-bb37-0242ac130002",
                 "actions": "1A",
@@ -347,7 +320,6 @@
                 "desc": "You gain a +10-foot status bonus to Speed for 1 minute.",
                 "gainConditions": [
                     {
-                        "_className": "ConditionGain",
                         "duration": 100,
                         "name": "Bracelet of Dashing",
                         "source": "Bracelet of Dashing"
@@ -365,7 +337,6 @@
         "name": "Bracers of Missile Deflection",
         "id": "f9eb15ad-fccf-4682-b35a-2eba31964d78",
         "desc": "These bracers are made from plates of durable mithral and gleam like the summer sun.",
-        "_className": "WornItem",
         "level": 3,
         "bulk": "L",
         "price": 52000,
@@ -377,7 +348,6 @@
         "usage": "worn bracers",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Bracers of Missile Deflection",
                 "source": "f9eb15ad-fccf-4682-b35a-2eba31964d78",
                 "actions": "Reaction",
@@ -399,7 +369,6 @@
         "name": "Channel Protection Amulet",
         "id": "a312982e-a189-4637-ac9b-fbcca9a23cbc",
         "desc": "This nugget of polished tektite is trapped in a cage of braided wire and hangs from a silken cord. When wearing this amulet, you gain resistance 5 against damage from harm spells if you're living, or against heal spells if you're undead.",
-        "_className": "WornItem",
         "level": 3,
         "price": 5600,
         "traits": [
@@ -417,7 +386,6 @@
         ],
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Harm/Heal Spell Damage Resistance",
                 "value": 5
             }
@@ -427,7 +395,6 @@
         "name": "Coyote Cloak",
         "id": "825c4ba2-616f-4f74-9148-c740e14544a6",
         "desc": "This dusty coat is made of mangy brown-and-gray coyote fur. You gain a +1 item bonus to Survival checks. If you critically succeed at your Survival check to Subsist, you can feed twice as many additional creatures.",
-        "_className": "WornItem",
         "level": 3,
         "price": 6000,
         "traits": [
@@ -444,7 +411,6 @@
         ],
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Survival",
                 "type": "item",
                 "value": 1
@@ -455,7 +421,6 @@
         "name": "Crafter's Eyepiece",
         "id": "66c0f3c3-3922-4c0a-b368-076213a1d1e8",
         "desc": "This rugged metal eyepiece etched with square patterns is designed to be worn over a single eye. Twisting the lens reveals a faint three-dimensional outline of an item you plan to build or repair, with helpful labels on the component parts. While worn, this eyepiece gives you a +1 item bonus to Crafting checks. When you Repair an item, increase the Hit Points restored by 15 per proficiency rank instead of 10.",
-        "_className": "WornItem",
         "level": 3,
         "price": 6000,
         "traits": [
@@ -472,7 +437,6 @@
         ],
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Crafting",
                 "type": "item",
                 "value": 1
@@ -483,7 +447,6 @@
         "name": "Dancing Scarf",
         "id": "6f799cb3-0ec6-4ea3-aafb-c530bf85db82",
         "desc": "This long and billowing scarf is typically woven of silk or sheer fabric and adorned with bells or other jangling bits of shiny metal. It grants a +1 item bonus to Performance checks to dance.",
-        "_className": "WornItem",
         "level": 3,
         "price": 6000,
         "traits": [
@@ -508,7 +471,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Dancing Scarf",
                 "source": "6f799cb3-0ec6-4ea3-aafb-c530bf85db82",
                 "actions": "1A",
@@ -517,7 +479,6 @@
                 "desc": "You become concealed until the beginning of your next turn.",
                 "gainConditions": [
                     {
-                        "_className": "ConditionGain",
                         "duration": 10,
                         "name": "Concealed",
                         "source": "Dancing Scarf"
@@ -536,7 +497,6 @@
         "name": "Doubling Rings",
         "id": "89c3ecb6-8e09-11ea-9fab-e92c63c14723",
         "desc": "This item consists of two magically linked rings: an intricate, gleaming golden ring with a square-cut ruby, and a thick, plain iron ring. When you wield a melee weapon in the hand wearing the golden ring, the weapon's fundamental runes are replicated onto any melee weapon you wield in the hand wearing the iron ring. (The fundamental runes are weapon potency and striking, which add an item bonus to attack rolls and extra weapon damage dice, respectively.) Any fundamental runes on the weapon in the hand wearing the iron ring are suppressed.\n\nThe replication functions only if you wear both rings, and it ends as soon as you cease wielding a melee weapon in one of your hands. Consequently, the benefit doesn't apply to thrown attacks or if you're holding a weapon but not wielding it (such as holding in one hand a weapon that requires two hands to wield).",
-        "_className": "WornItem",
         "level": 3,
         "price": 5000,
         "traits": [
@@ -567,7 +527,6 @@
         "id": "a01501e1-cf5f-44e1-b632-6cc51a358c67",
         "desc": "Constructed of green material and decorated with a white Glyph of the Open Road, a dozen or more small pockets line the inside of this pack. The pack is enchanted so that each pocket contains common, mundane gear, each item worth no more than 1 gp, such as chalk, flint and steel, and string. It doesn't contain any armor, shields, weapons, or items made of any kind of precious material. Keep track of the exact value of the gear you retrieve from the pack. The pack empties after 8 gp worth of items of your choice are removed, after which it becomes a mundane backpack.\n\n(The everyneed pack comes with a backpack. When the everyneed pack empties, you can drop it and keep the backpack.)",
         "sourceBook": "Pathfinder Society Guide",
-        "_className": "WornItem",
         "level": 3,
         "price": 2000,
         "traits": [
@@ -579,7 +538,6 @@
         "usage": "worn on belt",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Everyneed Pack",
                 "source": "a01501e1-cf5f-44e1-b632-6cc51a358c67",
                 "actions": "1 minute",
@@ -597,7 +555,6 @@
         ],
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Backpack",
                 "type": "adventuringgear"
             }
@@ -609,7 +566,6 @@
         "desc": "Fashionable wayfinders allow you to be dressed for success in almost any situation. In addition to the effects of a wayfinder, a fashionable wayfinder can attune to up to three sets of mundane clothing in your possession during your daily preparations. A fashionable wayfinder has the following activation.",
         "access": "Member of the Pathfinder Society.",
         "sourceBook": "Pathfinder Society Guide",
-        "_className": "WornItem",
         "level": 3,
         "price": 5000,
         "traits": [
@@ -622,7 +578,6 @@
         "isWayfinder": 1,
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Fashionable Wayfinder",
                 "source": "f80c72bf-2387-416e-b095-d002e59d7276",
                 "actions": "1A",
@@ -642,7 +597,6 @@
         "id": "53350a40-03f2-402d-b196-6be2ffc4ade4",
         "desc": "These gleaming golden epaulets are issued to Eagle Knight officers and worn as part of the uniform. While they can be enchanted to provide a variety of effects, the Golden Legion epaulet remains the most common.",
         "sourceBook": "World Guide",
-        "_className": "WornItem",
         "level": 3,
         "bulk": "L",
         "price": 5500,
@@ -655,7 +609,6 @@
         "usage": "worn epaulet",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Golden Legion Epaulet",
                 "source": "53350a40-03f2-402d-b196-6be2ffc4ade4",
                 "actions": "1A",
@@ -666,14 +619,12 @@
                 "desc": "Issue an order as part of the command. You and each ally within 60 feet who follows that order gain a +1 status bonus to attack rolls, damage rolls, and saving throws against fear until the beginning of your next turn.",
                 "gainConditions": [
                     {
-                        "_className": "ConditionGain",
                         "duration": 10,
                         "name": "Golden Legion Epaulet",
                         "source": "Golden Legion Epaulet",
                         "targetFilter": "caster"
                     },
                     {
-                        "_className": "ConditionGain",
                         "duration": 10,
                         "name": "Golden Legion Epaulet",
                         "source": "Golden Legion Epaulet",
@@ -694,7 +645,6 @@
         "id": "36e08a07-d905-4f6b-9d8b-aa02c86d0ab4",
         "desc": "This item appears to be an ordinary semiprecious stone and is typically mounted on a brooch or ring, but the stone is, in fact, an eyeball. This illusion can be seen through with true seeing or similar magic, and anyone who interacts with the item feels its wet and sticky surface, allowing them to attempt to disbelieve the illusion (DC 19). Many hags claim a hag eye is more effective if plucked from a living, awake creature, but this is likely just a convenient excuse for sadism.\n\nThe hag eye produces no direct benefit for the wearer, but allows the hag who created it, or any member of her coven, to peer through the eye using the Seek action. This has no range limit, provided the hag is on the same plane.\n\nAny damage dealt to the eye destroys it. If this happens while a hag is looking through it, the hag is blinded for 1 hour.",
         "sourceBook": "Bestiary 3",
-        "_className": "WornItem",
         "level": 3,
         "price": 5000,
         "traits": [
@@ -717,7 +667,6 @@
         "name": "Hat of the Magi",
         "id": "16fbd1dd-c85f-401e-8c99-46052e2dc0b0",
         "desc": "This hat comes in many forms, such as a colorful turban or a pointy hat with a brim, and can bear symbols or runes. It grants you a +1 item bonus to Arcana checks and allows you to cast the prestidigitation cantrip as an arcane innate spell.",
-        "_className": "WornItem",
         "level": 3,
         "price": 5000,
         "traits": [
@@ -728,7 +677,6 @@
         "usage": "worn headwear",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Arcana",
                 "type": "item",
                 "value": 1
@@ -736,13 +684,11 @@
         ],
         "gainSpells": [
             {
-                "_className": "SpellChoice",
                 "frequency": "at will",
                 "level": 0,
                 "tradition": "Arcane",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Prestidigitation"
                     }
@@ -756,7 +702,6 @@
         "desc": "These sturdy, average manacles are connected by a thick iron chain that is much heavier than its appearance suggests at a glance. Followers of Zon-Kuthon sometimes employ manacles of persuasion against captured enemies and spies. When the manacles are locked around an immobilized creature's wrists, they begin to sap the life out of the victim, dealing 2 negative damage per hour until the creature falls unconscious. The effect is nonlethal, so the damage doesn't cause the creature to become dying. While the creature is unconscious, the manacles deal no damage and allow the creature to recover Hit Points normally to a maximum of 10 Hit Points, at which point the manacles begin to deal damage once more. The manacles have no effect on a creature that is not immobilized.\n\n<strong>Manacles (Average)</strong> You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from average manacles requires four successful DC 27 Thievery checks.",
         "access": "follower of Zon-Kuthon",
         "sourceBook": "Gods & Magic",
-        "_className": "WornItem",
         "level": 3,
         "bulk": "1",
         "price": 4500,
@@ -772,7 +717,6 @@
         "name": "Pendant of the Occult",
         "id": "b0f14149-f835-4671-8a4c-a9ff72a7f162",
         "desc": "This amulet is hollow and shaped in the form of an unblinking eye. Its cavity typically holds some fragment of occult text. While wearing the pendant, you gain a +1 item bonus to Occultism checks, and you can cast the guidance cantrip as an occult innate spell.",
-        "_className": "WornItem",
         "level": 3,
         "price": 6000,
         "traits": [
@@ -783,7 +727,6 @@
         "usage": "worn",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Occultism",
                 "type": "item",
                 "value": 1
@@ -791,13 +734,11 @@
         ],
         "gainSpells": [
             {
-                "_className": "SpellChoice",
                 "frequency": "at will",
                 "level": 0,
                 "tradition": "Occult",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Guidance"
                     }
@@ -809,7 +750,6 @@
         "name": "Persona Mask",
         "id": "b351a292-bace-4581-9df7-1d81c2648936",
         "desc": "Despite covering the entire face, this alabaster mask does not hinder vision or other senses. Wearing the mask grants a +1 item bonus to Performance checks while acting, orating, performing comedy, or singing.",
-        "_className": "WornItem",
         "level": 3,
         "price": 5000,
         "traits": [
@@ -834,7 +774,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Persona Mask",
                 "source": "b351a292-bace-4581-9df7-1d81c2648936",
                 "actions": "1A",
@@ -855,7 +794,6 @@
         "id": "bb4c3c0f-3ab0-4f74-87ad-c5e69bba01c8",
         "desc": "Each of these full-face masks is made of stitched materials - often including humanoid skin - and has a single, bulbous eye. While wearing the mask, you gain a +1 item bonus to Deception checks to Lie and the mask doesn't impair your vision. The mask can also be activated, with an ability based on its type.",
         "sourceBook": "GM's Toolkit: Secret Keeper's Mask",
-        "_className": "WornItem",
         "level": 3,
         "price": 6000,
         "subType": "Blackfingers",
@@ -883,7 +821,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Secret-Keeper's Mask (Blackfingers)",
                 "source": "bb4c3c0f-3ab0-4f74-87ad-c5e69bba01c8",
                 "actions": "2A",
@@ -906,7 +843,6 @@
         "id": "f06b352e-3664-4043-92cc-890375a13c37",
         "desc": "Each of these full-face masks is made of stitched materials - often including humanoid skin - and has a single, bulbous eye. While wearing the mask, you gain a +1 item bonus to Deception checks to Lie and the mask doesn't impair your vision. The mask can also be activated, with an ability based on its type.",
         "sourceBook": "GM's Toolkit: Secret Keeper's Mask",
-        "_className": "WornItem",
         "level": 3,
         "price": 6000,
         "subType": "Reaper of Reputation",
@@ -934,7 +870,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Secret-Keeper's Mask (Reaper of Reputation)",
                 "source": "f06b352e-3664-4043-92cc-890375a13c37",
                 "actions": "1A",
@@ -944,7 +879,6 @@
                 "desc": "You touch the mask's spiral and identify a target creature within 30 feet. For the next 10 minutes, any normal speech you utter can, at your discretion, be inaudible to all creatures except the target creature, who can hear you clearly regardless of ambient sound so long as it is within 1 mile. This ability doesn't silence magical words, such as the verbal component of spellcasting or commands to activate magic items.",
                 "gainConditions": [
                     {
-                        "_className": "ConditionGain",
                         "duration": 1000,
                         "name": "Secret-Keeper's Mask (Reaper of Reputation)",
                         "source": "Secret-Keeper's Mask (Reaper of Reputation)"
@@ -967,7 +901,6 @@
         "id": "bda52508-8006-4aec-be93-3e7687edeb65",
         "desc": "A patchwork of humanoid flesh makes up this grotesque mask stitched together with black silk or wire. It is distinctive for its bulbous orange eye - crafted from a magical glass bauble - and wide row of teeth. When worn, the mask amplifies your ability to sense fear in other creatures. You automatically know the value of the frightened condition of any observed creature, and you gain a +1 item bonus to Perception checks to Seek frightened creatures. Whenever you deal precision damage to a frightened creature, you deal 1 additional precision damage. If you are not evil, you are drained 2 while wearing the Skinsaw mask.",
         "sourceBook": "Pathfinder #158: Sixty Feet Under",
-        "_className": "WornItem",
         "level": 3,
         "bulk": "L",
         "price": 3000,
@@ -999,7 +932,6 @@
         ],
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "alignmentFilter": "!Evil",
                 "name": "Drained",
                 "source": "Skinsaw Mask",
@@ -1011,7 +943,6 @@
         "name": "Tracker's Goggles",
         "id": "90b291d0-437f-4a9a-8a3b-35cda85266c0",
         "desc": "These lenses of forest-green glass are bound in rough leather stitched with crude twine. While wearing these goggles, you gain a +1 bonus to Survival checks to Sense Direction and Track. If you fail a check to Track, you can try again after 30 minutes rather than an hour.",
-        "_className": "WornItem",
         "level": 3,
         "price": 6000,
         "traits": [
@@ -1038,7 +969,6 @@
         "name": "Ventriloquist's Ring",
         "id": "91746825-8973-4f42-806f-024b26475878",
         "desc": "This elegant copper ring has miniature images of songbirds engraved around its circumference. You gain a +1 item bonus to Deception checks.",
-        "_className": "WornItem",
         "level": 3,
         "price": 6000,
         "traits": [
@@ -1049,7 +979,6 @@
         "usage": "worn",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Deception",
                 "type": "item",
                 "value": 1
@@ -1057,7 +986,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Ventriloquist's Ring",
                 "source": "91746825-8973-4f42-806f-024b26475878",
                 "actions": "2A",
@@ -1067,7 +995,6 @@
                 "desc": "Twisting the ring around your finger allows you to magically throw your voice, with the effects of a ventriloquism spell (DC 19).",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "name": "Ventriloquism"
                     }
                 ],
@@ -1083,7 +1010,6 @@
         "name": "Alchemist Goggles",
         "id": "e889c9cd-f3ab-4ffa-ac2e-783b19474e74",
         "desc": "These brass goggles are engraved with flame patterns and have thick, heavy lenses. While worn, they give you a +1 item bonus to Crafting checks to Craft alchemical items and a +1 item bonus to attack rolls with alchemical bombs. You can also ignore lesser cover when making Strikes with alchemical bombs.",
-        "_className": "WornItem",
         "level": 4,
         "price": 10000,
         "traits": [
@@ -1111,7 +1037,6 @@
         ],
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Alchemical Attack Rolls",
                 "type": "item",
                 "value": 1
@@ -1123,7 +1048,6 @@
         "id": "339d9ac6-39b2-47b0-a91f-3660d5bfda63",
         "desc": "When you put on this belt, its silver buckle begins to glow, which slowly spreads into the heart-shaped jewel in the center. You increase your maximum Hit Points and current Hit Points by 4.",
         "sourceBook": "Pathfinder Beginner Box: Game Master's Guide",
-        "_className": "WornItem",
         "level": 4,
         "bulk": "L",
         "price": 8500,
@@ -1135,7 +1059,6 @@
         "usage": "worn belt",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Max HP",
                 "value": 4
             }
@@ -1145,7 +1068,6 @@
         "name": "Cloak of Repute",
         "id": "d984d72c-e68e-4067-921d-e9f908273e44",
         "desc": "This gaudy and extravagant cloak is adorned with brilliant gems and a fur trim. While wearing the cloak, you gain instant fame and notoriety, granting you a +1 item bonus to Diplomacy checks to Make an Impression. Creatures attempting to learn about you gain the same bonus to Gather Information about you.",
-        "_className": "WornItem",
         "level": 4,
         "bulk": "1",
         "price": 9000,
@@ -1170,7 +1092,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Cloak of Repute",
                 "source": "d984d72c-e68e-4067-921d-e9f908273e44",
                 "actions": "2A",
@@ -1191,7 +1112,6 @@
         "name": "Demon Mask",
         "id": "01adbda8-9131-11ea-bb37-0242ac130002",
         "desc": "This terrifying mask is crafted in the visage of a leering demon and grants a +1 item bonus to Intimidation checks.",
-        "_className": "WornItem",
         "level": 4,
         "bulk": "L",
         "price": 8500,
@@ -1203,7 +1123,6 @@
         "usage": "worn mask",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Intimidation",
                 "type": "item",
                 "value": 1
@@ -1211,7 +1130,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Demon Mask",
                 "source": "01adbda8-9131-11ea-bb37-0242ac130002",
                 "actions": "2A",
@@ -1221,7 +1139,6 @@
                 "desc": "The mask casts a fear spell with a DC of 20.",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "name": "Fear"
                     }
                 ],
@@ -1237,7 +1154,6 @@
         "name": "Handwraps of Mighty Blows",
         "id": "89c3c5a5-8e09-11ea-9fab-e92c63c14723",
         "desc": "As you invest these embroidered strips of cloth, you must meditate and slowly wrap them around your hands. These handwraps have weapon runes etched into them to give your unarmed attacks the benefits of those runes, making your unarmed attacks work like magic weapons. For example, +1 striking handwraps of mighty blows would give you a +1 item bonus to attack rolls with your unarmed attacks and increase the damage of your unarmed attacks from one weapon die to two (normally 2d4 instead of 1d4, but if your fists have a different weapon damage die or you have other unarmed attacks, use two of that die size instead).\n\nYou can upgrade, add, and transfer runes to and from the handwraps just as you would for a weapon, and you can attach talismans to the handwraps. Treat the handwraps as melee weapons of the brawling group with light Bulk for these purposes. Property runes apply only when they would be applicable to the unarmed attack you're using. For example, a property that must be applied to a slashing weapon wouldn't function when you attacked with a fist, but you would gain its benefits if you attacked with a claw or some other slashing unarmed attack.",
-        "_className": "WornItem",
         "level": 4,
         "price": 10000,
         "traits": [
@@ -1255,7 +1171,6 @@
         "name": "Healer's Gloves",
         "id": "69f36f9e-bf6c-4878-9d80-206e960e7d3a",
         "desc": "These clean, white gloves never show signs of blood, even when used to stitch up wounds or treat other ailments. They give you a +1 item bonus to Medicine checks.",
-        "_className": "WornItem",
         "level": 4,
         "bulk": "L",
         "price": 8000,
@@ -1267,7 +1182,6 @@
         "usage": "worn gloves",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Medicine",
                 "type": "item",
                 "value": 1
@@ -1275,7 +1189,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Healer's Gloves",
                 "source": "69f36f9e-bf6c-4878-9d80-206e960e7d3a",
                 "actions": "1A",
@@ -1297,7 +1210,6 @@
         "id": "27f7e66c-fd8f-45c7-a61e-d10c5fd7ff67",
         "desc": "This arrowhead-shaped charm is not meant to be affixed to an arrow, but instead to be carried in a pocket or inside of a quiver. A hunter's arrowhead is etched with images sacred to the elven god Ketephys. If you carry one on your person, you are infused with great skill at hunting, and gain a +1 item bonus to Survival skill checks and attack rolls against any creature you've currently designated as your prey for the Hunt Prey ranger ability (note that the bonus to attack rolls is an item bonus, and therefore not cumulative with an item bonus from a magic weapon). A hunter's arrowhead is also a religious symbol of Ketephys.",
         "sourceBook": "Pathfinder #145: Hellknight Hill",
-        "_className": "WornItem",
         "level": 4,
         "price": 8000,
         "traits": [
@@ -1327,7 +1239,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Hunter's Arrowhead",
                 "source": "27f7e66c-fd8f-45c7-a61e-d10c5fd7ff67",
                 "actions": "Reaction",
@@ -1350,7 +1261,6 @@
         "id": "a04e08dc-f8eb-424b-a944-df97b52e2808",
         "desc": "While wearing this silver religious symbol of Erastil, you can cast the disrupt undead cantrip as an innate divine spell.",
         "sourceBook": "Pathfinder #164: Hands of the Devil",
-        "_className": "WornItem",
         "level": 4,
         "bulk": "L",
         "price": 8000,
@@ -1364,7 +1274,6 @@
         "usage": "worn",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Hunter's Brooch",
                 "source": "a04e08dc-f8eb-424b-a944-df97b52e2808",
                 "actions": "3A",
@@ -1374,7 +1283,6 @@
                 "desc": "By touching a weapon you wield to the symbol and uttering a plea for Erastil's steadying hand, you grant that weapon the deadly d12 trait. Against undead, the weapon instead gains the fatal d12 trait. This blessing lasts for 1 minute, until you score a critical hit with the weapon, or until you aren't wielding the weapon.",
                 "gainConditions": [
                     {
-                        "_className": "ConditionGain",
                         "duration": 100,
                         "name": "Hunter's Brooch",
                         "source": "Hunter's Brooch"
@@ -1391,13 +1299,11 @@
         ],
         "gainSpells": [
             {
-                "_className": "SpellChoice",
                 "frequency": "at will",
                 "level": 0,
                 "tradition": "Divine",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Disrupt Undead"
                     }
@@ -1409,7 +1315,6 @@
         "name": "Lifting Belt",
         "id": "89c3ecb3-8e09-11ea-9fab-e92c63c14723",
         "desc": "This wide leather belt grants you a +1 item bonus to Athletics checks and increases the amount you can easily carry. You can carry Bulk equal to 6 + your Strength modifier before becoming encumbered, and you can hold and carry a total Bulk up to 11 + your Strength modifier.",
-        "_className": "WornItem",
         "level": 4,
         "bulk": "L",
         "price": 8000,
@@ -1421,19 +1326,16 @@
         "usage": "worn belt",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Athletics",
                 "type": "item",
                 "value": 1
             },
             {
-                "_className": "EffectGain",
                 "affected": "Encumbered Limit",
                 "type": "item",
                 "value": 1
             },
             {
-                "_className": "EffectGain",
                 "affected": "Max Bulk",
                 "type": "item",
                 "value": 1
@@ -1441,7 +1343,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Lifting Belt",
                 "source": "89c3ecb3-8e09-11ea-9fab-e92c63c14723",
                 "actions": "2A",
@@ -1462,7 +1363,6 @@
         "desc": "A shining wayfinder is a polished silver compass blessed by the power of benevolent deities. It has the usual functions of a wayfinder, except instead of an activation to cast light, the shining wayfinder has the following two activations.",
         "access": "Member of the Pathfinder Society.",
         "sourceBook": "Character Guide",
-        "_className": "WornItem",
         "level": 4,
         "price": 10000,
         "traits": [
@@ -1477,7 +1377,6 @@
         "isWayfinder": 1,
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Shining Wayfinder: Guidance",
                 "source": "b828f7cd-91b5-438b-81db-39a7380618e4",
                 "actions": "2A",
@@ -1486,7 +1385,6 @@
                 "desc": "You hold the wayfinder and ask for guidance. The wayfinder casts guidance on you.",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "name": "Guidance",
                         "target": "self"
                     }
@@ -1501,7 +1399,6 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "name": "Shining Wayfinder: Bless",
                 "source": "b828f7cd-91b5-438b-81db-39a7380618e4",
                 "frequency": "once per day",
@@ -1509,7 +1406,6 @@
                 "desc": "You call upon the wayfinder's divine blessings for yourself and your allies. The wayfinder casts bless, with an emanation centered on itself. Once per turn, you can use a single action, which has the concentrate trait, to increase the emanation's radius by 5 feet.",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "name": "Bless"
                     }
                 ],
@@ -1529,7 +1425,6 @@
         "id": "2c679278-f02a-480b-a571-0303cea9b798",
         "desc": "This loose robe has wide, voluminous sleeves that each contain an extradimensional space. These spaces each function as a bag of holding that can hold up to 5 Bulk of items (for a total of 10 Bulk), though no individual item can be of more than 1 Bulk; the sleeves grow slightly heavy as you reach maximum capacity. You can add or remove an item from a sleeve with a single hand free as an Interact action.\n\nIf a sleeve is completely empty, you can place your own familiar into that extradimensional space. It can survive comfortably in your sleeve for up to 1 hour, after which it begins to suffocate. While in your sleeve, it can't be affected or targeted by any effects, but you don't benefit from any master abilities. A familiar can exit the sleeve of its own volition with a single action that has the manipulate and move traits. You can't place any other creature into your sleeves, nor can you place your familiar in a sleeve if it's larger than Tiny. If your familiar is in your sleeve, you can't place any items in the sleeve.",
         "sourceBook": "Advanced Player's Guide",
-        "_className": "WornItem",
         "level": 4,
         "bulk": "L",
         "price": 10000,
@@ -1542,12 +1437,10 @@
         "usage": "worn garment",
         "gainInventory": [
             {
-                "_className": "InventoryGain",
                 "bulkLimit": 5,
                 "bulkReduction": 5
             },
             {
-                "_className": "InventoryGain",
                 "bulkLimit": 5,
                 "bulkReduction": 5
             }
@@ -1559,7 +1452,6 @@
         "desc": "This thin leather cord bears delicate runic markings and threads through an item that can bear affixed talismans. When you Affix a Talisman to that item, you can thread the talisman onto the cord, activating the cord's preserving effects. The cord is attuned to a particular school of magic, chosen when the cord was created. It gains the corresponding trait for that school. When you activate a talisman threaded through a cord with the same magic school trait that's also the cord's level or lower, attempt a |dice=1d20| DC 16 flat check. On a success, that talisman is not consumed and can be used again.",
         "access": "Member of the Pathfinder Society.",
         "sourceBook": "Pathfinder Society Guide",
-        "_className": "WornItem",
         "level": 4,
         "price": 8500,
         "traits": [
@@ -1593,7 +1485,6 @@
         "id": "fb77b315-4561-4fbd-8b2f-b437025fce16",
         "desc": "As a standard wayfinder, but once per day you can activate it to cast heal on a creature other than yourself, using either the one-action or two-action version of heal as a 1st-level spell.",
         "sourceBook": "Pathfinder Society Scenario #1-03: Escaping the Grave",
-        "_className": "WornItem",
         "level": 4,
         "price": 8000,
         "traits": [
@@ -1606,7 +1497,6 @@
         "isWayfinder": 1,
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Wayfinder of Rescue",
                 "source": "fb77b315-4561-4fbd-8b2f-b437025fce16",
                 "actions": "1A",
@@ -1614,7 +1504,6 @@
                 "desc": "The wayfinder is targeted by a 1st-level light spell.",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "level": 1,
                         "name": "Light"
                     }
@@ -1627,7 +1516,6 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "name": "Wayfinder of Rescue: Heal",
                 "source": "fb77b315-4561-4fbd-8b2f-b437025fce16",
                 "frequency": "once per day",
@@ -1635,7 +1523,6 @@
                 "desc": "Once per day, you can activate the wayfinder of rescue to cast heal on a creature other than yourself, using either the one-action or two-action version of heal as a 1st-level spell.",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "name": "Heal",
                         "target": "ally"
                     }
@@ -1654,7 +1541,6 @@
         "id": "06e89689-ef79-4e69-a7ab-a90361066254",
         "desc": "This aeon stone allows you to cast 2nd-level augury as a divine innate spell once per day.\n\nThe resonant power causes the augury spell from the aeon stone to always succeed at the DC 6 flat check to give an answer other than \"nothing.\"",
         "access": "Member of the Pathfinder Society.",
-        "_className": "WornItem",
         "level": 5,
         "price": 13000,
         "traits": [
@@ -1673,14 +1559,12 @@
         ],
         "gainSpells": [
             {
-                "_className": "SpellChoice",
                 "cooldown": 144000,
                 "frequency": "once per day",
                 "level": 2,
                 "tradition": "Divine",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Augury"
                     }
@@ -1692,7 +1576,6 @@
         "name": "Boots of Elvenkind",
         "id": "65665afb-bfd6-465a-b897-f57e83624036",
         "desc": "These tall, pointed boots are made from soft, supple black or green leather and are decorated with trim and buckles of gold. When worn, the boots allow you to move more nimbly, granting you a +1 item bonus to Acrobatics checks.",
-        "_className": "WornItem",
         "level": 5,
         "bulk": "L",
         "price": 14500,
@@ -1704,25 +1587,21 @@
         "usage": "worn shoes",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Acrobatics",
                 "type": "item",
                 "value": 1
             },
             {
-                "_className": "EffectGain",
                 "affected": "Cloak of Elvenkind Charges",
                 "setValue": 2
             },
             {
-                "_className": "EffectGain",
                 "affected": "Cloak of Elvenkind (Greater) Charges",
                 "setValue": 2
             }
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Boots of Elvenkind",
                 "source": "65665afb-bfd6-465a-b897-f57e83624036",
                 "actions": "Free",
@@ -1732,7 +1611,6 @@
                 "desc": "Until the end of your turn, you ignore difficult terrain when moving on the ground. If you're wearing a cloak of elvenkind, you also gain a +5-foot status bonus to your land Speed until the end of your turn.",
                 "gainConditions": [
                     {
-                        "_className": "ConditionGain",
                         "duration": 5,
                         "name": "Boots of Elvenkind",
                         "source": "Boots of Elvenkind"
@@ -1750,7 +1628,6 @@
         "name": "Diplomat's Badge",
         "id": "7c575172-b080-442b-813d-6743400e52ec",
         "desc": "When displayed prominently, this brass badge makes creatures find you more agreeable. You gain a +1 item bonus to Diplomacy checks.",
-        "_className": "WornItem",
         "level": 5,
         "price": 12500,
         "traits": [
@@ -1761,7 +1638,6 @@
         "usage": "worn",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Diplomacy",
                 "type": "item",
                 "value": 1
@@ -1769,7 +1645,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Diplomat's Badge",
                 "source": "7c575172-b080-442b-813d-6743400e52ec",
                 "actions": "1A",
@@ -1779,7 +1654,6 @@
                 "desc": "Attempt a DC 20 check to Recall Knowledge about people of a human ethnicity, a non-human ancestry, or some other type of creature. (The GM determines what your options are.) If you succeed, the badge's bonus increases to +2 for Diplomacy checks with creatures of that group for the rest of the day.",
                 "gainConditions": [
                     {
-                        "_className": "ConditionGain",
                         "duration": -5,
                         "name": "Diplomat's Badge",
                         "source": "Diplomat's Badge"
@@ -1792,7 +1666,6 @@
         "name": "Goggles of Night",
         "id": "6dfd996e-a954-49ca-bd65-57f823f53d89",
         "desc": "The opaque crystal lenses of these sleek goggles do not obscure vision, but rather enhance it. While wearing the goggles, you gain a +1 item bonus to Perception checks involving sight.",
-        "_className": "WornItem",
         "level": 5,
         "price": 15000,
         "traits": [
@@ -1816,7 +1689,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Goggles of Night",
                 "source": "6dfd996e-a954-49ca-bd65-57f823f53d89",
                 "actions": "1A",
@@ -1826,7 +1698,6 @@
                 "desc": "Rotating the lenses 90 degrees, you gain darkvision for 1 hour.",
                 "gainConditions": [
                     {
-                        "_className": "ConditionGain",
                         "duration": 6000,
                         "hideChoices": [
                             true
@@ -1847,7 +1718,6 @@
         "name": "Necklace of Fireballs I",
         "id": "5ab265b1-5321-4bb1-9102-53aa03b012f8",
         "desc": "This string of beads appears to be a hemp string with lustrous red beads of various sizes hanging from it. When activated, it briefly appears in its true form: a golden chain with golden spheres attached by fine threads.\n\nNumerous varieties of the necklace of fireballs exist. Each has a different basic Reflex save DC and includes a combination of spheres dealing different amounts of damage, as listed for each type below. When all the beads are gone, the necklace becomes a non-magical hemp string.",
-        "_className": "WornItem",
         "level": 5,
         "price": 4400,
         "subType": "I",
@@ -1859,7 +1729,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Necklace of Fireballs I: 6d6, DC 21",
                 "source": "5ab265b1-5321-4bb1-9102-53aa03b012f8",
                 "actions": "1A",
@@ -1876,7 +1745,6 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "name": "Necklace of Fireballs I: 4d6, DC 21",
                 "source": "5ab265b1-5321-4bb1-9102-53aa03b012f8",
                 "actions": "1A",
@@ -1898,7 +1766,6 @@
         "name": "Clandestine Cloak",
         "id": "b403bd95-ae81-40b3-a246-aa178f4d4aea",
         "desc": "When you pull up the hood of this nondescript gray cloak (an Interact action), you become drab and uninteresting, gaining a +1 item bonus to Stealth checks and to Deception checks to Impersonate a forgettable background character, such as a servant, but also taking a -1 item penalty to Diplomacy and Intimidation checks.",
-        "_className": "WornItem",
         "level": 6,
         "bulk": "L",
         "price": 23000,
@@ -1911,7 +1778,6 @@
         "usage": "worn cloak",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Clandestine Cloak",
                 "source": "b403bd95-ae81-40b3-a246-aa178f4d4aea",
                 "actions": "2A",
@@ -1923,7 +1789,6 @@
                 "desc": "You pull the cloak's hood up and gain the benefits of nondetection for 1 hour or until you pull the hood back down, whichever comes first.",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "name": "Nondetection",
                         "target": "self"
                     }
@@ -1937,7 +1802,6 @@
                 "maxDuration": 6000
             },
             {
-                "_className": "ItemActivity",
                 "name": "Clandestine Cloak: Pull Up Hood",
                 "source": "b403bd95-ae81-40b3-a246-aa178f4d4aea",
                 "actions": "1A",
@@ -1962,7 +1826,6 @@
         "name": "Ring of Energy Resistance (Acid)",
         "id": "183b8611-da90-4a2d-a2ed-19a434a1f8ba",
         "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "_className": "WornItem",
         "level": 6,
         "price": 24500,
         "subType": "Acid",
@@ -1975,7 +1838,6 @@
         "usage": "worn",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Acid Resistance",
                 "value": 5
             }
@@ -1985,7 +1847,6 @@
         "name": "Ring of Energy Resistance (Cold)",
         "id": "12f84e34-2192-479e-8077-507b04fd8d89",
         "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "_className": "WornItem",
         "level": 6,
         "price": 24500,
         "subType": "Cold",
@@ -1998,7 +1859,6 @@
         "usage": "worn",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Cold Resistance",
                 "value": 5
             }
@@ -2008,7 +1868,6 @@
         "name": "Ring of Energy Resistance (Electricity)",
         "id": "0b079ba2-b01a-436c-ac64-a2b52865812f",
         "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "_className": "WornItem",
         "level": 6,
         "price": 24500,
         "subType": "Electricity",
@@ -2021,7 +1880,6 @@
         "usage": "worn",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Electricity Resistance",
                 "value": 5
             }
@@ -2031,7 +1889,6 @@
         "name": "Ring of Energy Resistance (Fire)",
         "id": "524f8fcf-8e33-42df-9444-4299d5e9f06f",
         "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "_className": "WornItem",
         "level": 6,
         "price": 24500,
         "subType": "Fire",
@@ -2044,7 +1901,6 @@
         "usage": "worn",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Fire Resistance",
                 "value": 5
             }
@@ -2054,7 +1910,6 @@
         "name": "Ring of Energy Resistance (Sonic)",
         "id": "95600cdc-03ca-4c3d-87e4-b823e7714cb9",
         "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "_className": "WornItem",
         "level": 6,
         "price": 24500,
         "subType": "Sonic",
@@ -2067,7 +1922,6 @@
         "usage": "worn",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Sonic Resistance",
                 "value": 5
             }
@@ -2077,7 +1931,6 @@
         "name": "Ring of the Ram",
         "id": "08cedfef-2357-41fc-921b-23f1bdbc1208",
         "desc": "This heavy iron ring is shaped to look like the head of a ram, with curling horns.",
-        "_className": "WornItem",
         "level": 6,
         "price": 22000,
         "traits": [
@@ -2089,7 +1942,6 @@
         "usage": "worn",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Ring of the Ram",
                 "source": "08cedfef-2357-41fc-921b-23f1bdbc1208",
                 "actions": "1A or more",
@@ -2115,7 +1967,6 @@
         "name": "Aeon Stone (Clear Spindle)",
         "id": "046845de-4cb0-411a-9f6e-85a669e5e12b",
         "desc": "You don't need to eat or drink while this aeon stone is invested by you. This aeon stone doesn't function until it has been worn continuously for a week and invested each day therein. If it's invested by someone else, this interval starts over.\n\nThe resonant power allows you to cast air bubble as a primal innate spell once per day.",
-        "_className": "WornItem",
         "level": 7,
         "price": 32500,
         "traits": [
@@ -2134,7 +1985,6 @@
         ],
         "gainSpells": [
             {
-                "_className": "SpellChoice",
                 "cooldown": 144000,
                 "frequency": "once per day",
                 "level": 1,
@@ -2142,7 +1992,6 @@
                 "tradition": "Primal",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Air Bubble"
                     }
@@ -2154,7 +2003,6 @@
         "name": "Cloak of Elvenkind",
         "id": "b0a0fc41-b6cc-4dba-870c-efdd0468e448",
         "desc": "This cloak is deep green with a voluminous hood, embroidered with gold trim and symbols significant in elven culture. The cloak allows you to cast the ghost sound cantrip as an arcane innate spell. When you adjust the cloak's clasp (an Interact action), the cloak transforms to match the environment around you and muffles your sounds, granting you a +1 item bonus to Stealth checks.",
-        "_className": "WornItem",
         "level": 7,
         "bulk": "L",
         "price": 36000,
@@ -2166,7 +2014,6 @@
         "usage": "worn cloak",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Stealth",
                 "type": "item",
                 "value": 1
@@ -2174,7 +2021,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Cloak of Elvenkind",
                 "source": "b0a0fc41-b6cc-4dba-870c-efdd0468e448",
                 "actions": "2A",
@@ -2186,7 +2032,6 @@
                 "desc": "You draw the hood up and gain the effects of invisibility, with the spell's normal duration or until you pull the hood back down, whichever comes first. If you're also wearing boots of elvenkind, you can activate this ability twice per day.",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "name": "Invisibility",
                         "target": "self"
                     }
@@ -2199,7 +2044,6 @@
                 "maxDuration": 1000
             },
             {
-                "_className": "ItemActivity",
                 "name": "Cloak of Elvenkind: Adjust Clasp",
                 "source": "b0a0fc41-b6cc-4dba-870c-efdd0468e448",
                 "actions": "1A",
@@ -2221,13 +2065,11 @@
         ],
         "gainSpells": [
             {
-                "_className": "SpellChoice",
                 "frequency": "at will",
                 "level": 0,
                 "tradition": "Arcane",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Ghost Sound"
                     }
@@ -2239,7 +2081,6 @@
         "name": "Gloves of Storing",
         "id": "07119308-8e70-429c-bcce-60adae2d0f81",
         "desc": "An item can be stored inside these supple leather gloves, held in an extradimensional space. When an item is inside the glove, an image of the item appears as a simple, stitched pattern on the back of each glove. Many gloves of storing are found with an item already inside.",
-        "_className": "WornItem",
         "level": 7,
         "price": 34000,
         "traits": [
@@ -2252,7 +2093,6 @@
         "usage": "worn gloves",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Gloves of Storing: Store",
                 "source": "07119308-8e70-429c-bcce-60adae2d0f81",
                 "actions": "1A",
@@ -2270,7 +2110,6 @@
                 "inputRequired": "Manually move an item to the gloves' container."
             },
             {
-                "_className": "ItemActivity",
                 "name": "Gloves of Storing: Retrieve",
                 "source": "07119308-8e70-429c-bcce-60adae2d0f81",
                 "actions": "Free",
@@ -2291,7 +2130,6 @@
         ],
         "gainInventory": [
             {
-                "_className": "InventoryGain",
                 "bulkLimit": 1,
                 "bulkReduction": 1
             }
@@ -2301,7 +2139,6 @@
         "name": "Horseshoes of Speed",
         "id": "a55f6c9e-9a05-11ea-bb37-0242ac130002",
         "desc": "When you affix these simple iron horseshoes to the hooves of an ordinary horse or a quadrupedal animal companion and the animal companion invests them, that creature gains a +5-foot item bonus to its land Speed and a +2 item bonus to Athletics checks to High Jump and Long Jump. In addition, when it Leaps, it can move 5 feet farther if jumping horizontally or 3 feet higher if jumping vertically.",
-        "_className": "WornItem",
         "level": 7,
         "bulk": "1",
         "price": 34000,
@@ -2327,7 +2164,6 @@
         ],
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Land Speed",
                 "type": "item",
                 "value": 5
@@ -2338,7 +2174,6 @@
         "name": "Ring of Sustenance",
         "id": "89c3ecbc-8e09-11ea-9fab-e92c63c14723",
         "desc": "This polished wooden ring constantly refreshes your body and mind. You don't need to eat or drink while wearing it, and you need only 2 hours of sleep per day to gain the benefits of 8 hours of sleep. A ring of sustenance doesn't function until it's been worn and invested continuously for a week. Removing it resets this interval.",
-        "_className": "WornItem",
         "level": 7,
         "price": 32500,
         "traits": [
@@ -2359,7 +2194,6 @@
         "name": "Slippers of Spider Climbing",
         "id": "89c3ecbf-8e09-11ea-9fab-e92c63c14723",
         "desc": "These soft slippers are made of fine gray silk. If the slippers are left unattended for a while, they tend to attract spiders that nest inside.",
-        "_className": "WornItem",
         "level": 7,
         "bulk": "L",
         "price": 32500,
@@ -2371,7 +2205,6 @@
         "usage": "worn shoes",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Slippers of Spider Climbing",
                 "source": "89c3ecbf-8e09-11ea-9fab-e92c63c14723",
                 "actions": "1A",
@@ -2381,7 +2214,6 @@
                 "desc": "Tiny, hairlike tendrils extend from the slippers' soles, allowing you to walk on vertical surfaces or even to move upside down along ceilings. For 1 minute, you gain a 20-foot climb Speed and you don't need to use your hands to Climb. However, the slippers require decent traction for you to walk on a wall, so they provide no benefit when you're moving across greased, icy, or oiled surfaces.",
                 "gainConditions": [
                     {
-                        "_className": "ConditionGain",
                         "duration": 100,
                         "name": "Slippers of Spider Climbing",
                         "source": "Slippers of Spider Climbing"
@@ -2399,7 +2231,6 @@
         "name": "Collar of Inconspicuousness",
         "id": "a55f7068-9a05-11ea-bb37-0242ac130002",
         "desc": "This leather collar's worn and almost threadbare look belies its magical nature. When your companion wears and invests the collar, it gains the ability to change its appearance from that of a ferocious animal into a more inconspicuous form.",
-        "_className": "WornItem",
         "level": 8,
         "bulk": "1",
         "price": 47500,
@@ -2412,7 +2243,6 @@
         "usage": "worn collar",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Pest Form",
                 "source": "a55f7068-9a05-11ea-bb37-0242ac130002",
                 "actions": "1A",
@@ -2421,7 +2251,6 @@
                 "desc": "You touch your animal companion to transform it into a nonthreatening Tiny creature of the same family or a similar creature (for instance, a house cat instead of a tiger, or a puppy instead of a wolf). This has the effects of 2nd level pest form. The effect lasts until you Dismiss it.",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "duration": -1,
                         "hideChoices": [
                             "Pest Form"
@@ -2446,7 +2275,6 @@
                 "inputRequired": "Use this activation if the companion can't fly."
             },
             {
-                "_className": "ItemActivity",
                 "name": "Pest Form (Flying)",
                 "source": "a55f7068-9a05-11ea-bb37-0242ac130002",
                 "actions": "1A",
@@ -2455,7 +2283,6 @@
                 "desc": "You touch your animal companion to transform it into a nonthreatening Tiny flying creature of the same family or a similar creature. This has the effects of 4th level pest form. The effect lasts until you Dismiss it.",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "duration": -1,
                         "hideChoices": [
                             "Pest Form"
@@ -2485,7 +2312,6 @@
         "name": "Armbands of Athleticism",
         "id": "83ad0d05-f2bb-4f60-bc27-a87e6565631b",
         "desc": "Skilled awl work has imprinted images of a muscled weightlifter into these tiered leather bands, which grant you enhanced stamina and skill when performing athletic exercises. While fastened to your upper arms, the armbands give you a +2 item bonus to Athletics checks. In addition, whenever you use an action to Climb or Swim and you succeed at the Athletics check, add a +5-foot item bonus to the distance you move.",
-        "_className": "WornItem",
         "level": 9,
         "bulk": "L",
         "price": 64500,
@@ -2503,7 +2329,6 @@
         ],
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Athletics",
                 "type": "item",
                 "value": 2
@@ -2514,7 +2339,6 @@
         "name": "Bracers of Missile Deflection (Greater)",
         "id": "b34042cb-3303-4a1a-8aca-94b92fc48583",
         "desc": "These bracers are made from plates of durable mithral and gleam like the summer sun.",
-        "_className": "WornItem",
         "level": 9,
         "bulk": "L",
         "price": 650000,
@@ -2526,7 +2350,6 @@
         "usage": "worn bracers",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Bracers of Missile Deflection (Greater)",
                 "source": "b34042cb-3303-4a1a-8aca-94b92fc48583",
                 "actions": "Reaction",
@@ -2548,7 +2371,6 @@
         "name": "Collar of Empathy",
         "id": "a55f7176-9a05-11ea-bb37-0242ac130002",
         "desc": "This ornate collar of intertwined leather strips of contrasting colors is paired with a bracelet of a similar construction. When you wear and invest the bracelet and your companion wears and invests the collar, you gain a stronger connection to each other. You and your companion can always sense each others' emotional states and basic physical wants and needs.",
-        "_className": "WornItem",
         "level": 9,
         "bulk": "1",
         "price": 60000,
@@ -2561,7 +2383,6 @@
         "usage": "worn collar",
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Bracelet of Empathy",
                 "type": "wornitems"
             }
@@ -2571,7 +2392,6 @@
         "name": "Bracelet of Empathy",
         "id": "def56a5a-92b9-4edb-94a1-1379f2acd1c1",
         "desc": "This ornate bracelet of intertwined leather strips of contrasting colors comes with the Collar of Empathy. When you wear and invest the bracelet and your companion wears and invests the collar, you gain a stronger connection to each other. You and your companion can always sense each others' emotional states and basic physical wants and needs.",
-        "_className": "WornItem",
         "level": 9,
         "hide": true,
         "traits": [
@@ -2582,7 +2402,6 @@
         "usage": "worn bracelet",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Bracelet of Empathy",
                 "source": "def56a5a-92b9-4edb-94a1-1379f2acd1c1",
                 "actions": "2A",
@@ -2591,7 +2410,6 @@
                 "desc": "You perceive through your animal companion's senses instead of your own. You can Sustain the Activation. You are unaware of your own surroundings for as long as you are using your animal companion's senses. In addition to the obvious use when you are separated from your companion, this ability might allow you to notice sounds, scents, and other stimuli that your companion's senses register but yours alone don't.",
                 "gainConditions": [
                     {
-                        "_className": "ConditionGain",
                         "duration": -1,
                         "name": "Collar of Empathy",
                         "source": "Bracelet of Empathy"
@@ -2609,7 +2427,6 @@
         "name": "Coyote Cloak (Greater)",
         "id": "da870b3d-9d59-4476-85c8-fa0ea2d8b9e2",
         "desc": "This dusty coat is made of mangy brown-and-gray coyote fur. You gain a +1 item bonus to Survival checks. If you critically succeed at your Survival check to Subsist, you can feed twice as many additional creatures.",
-        "_className": "WornItem",
         "level": 9,
         "price": 65000,
         "subType": "Greater",
@@ -2628,7 +2445,6 @@
         ],
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Survival",
                 "type": "item",
                 "value": 2
@@ -2639,7 +2455,6 @@
         "name": "Healer's Gloves (Greater)",
         "id": "b3447aa0-062d-4660-bc13-4996eff4b0e7",
         "desc": "These clean, white gloves never show signs of blood, even when used to stitch up wounds or treat other ailments. They give you a +1 item bonus to Medicine checks.",
-        "_className": "WornItem",
         "level": 9,
         "bulk": "L",
         "price": 70000,
@@ -2653,7 +2468,6 @@
         "usage": "worn gloves",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Medicine",
                 "type": "item",
                 "value": 2
@@ -2661,7 +2475,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Healer's Gloves (Greater)",
                 "source": "b3447aa0-062d-4660-bc13-4996eff4b0e7",
                 "actions": "1A",
@@ -2682,7 +2495,6 @@
         "name": "Messenger's Ring",
         "id": "462510ac-d2fc-4f29-aa7c-dcc7272ebfcf",
         "desc": "This silver signet ring changes to match the insignia of a lord or organization you serve (or your own face, if you serve no one else). It grants you a +2 item bonus to Diplomacy checks and lets you cast message as an arcane innate spell at will.",
-        "_className": "WornItem",
         "level": 9,
         "price": 70000,
         "traits": [
@@ -2693,7 +2505,6 @@
         "usage": "worn",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Diplomacy",
                 "type": "item",
                 "value": 2
@@ -2701,7 +2512,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Messenger's Ring",
                 "source": "462510ac-d2fc-4f29-aa7c-dcc7272ebfcf",
                 "actions": "1 minute",
@@ -2711,7 +2521,6 @@
                 "desc": "The ring casts animal messenger to your specification. The animal is a magical creature that springs from the ring, and its appearance suits the iconography or heraldry of the lord or organization represented by the ring.",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "name": "Animal Messenger"
                     }
                 ],
@@ -2724,13 +2533,11 @@
         ],
         "gainSpells": [
             {
-                "_className": "SpellChoice",
                 "frequency": "at will",
                 "level": 0,
                 "tradition": "Arcane",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Message"
                     }
@@ -2742,7 +2549,6 @@
         "name": "Barding of the Zephyr",
         "id": "89c3c5a8-8e09-11ea-9fab-e92c63c14723",
         "desc": "This light barding is covered in stylized wind motifs. When you suit up your animal companion, the barding adjusts to fit your animal companion regardless of its shape.\n\nWhen your companion falls, wind picks it up from below; it gains the effects of feather fall.",
-        "_className": "WornItem",
         "level": 10,
         "bulk": "L",
         "price": 90000,
@@ -2755,7 +2561,6 @@
         "usage": "worn barding",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Barding of the Zephyr",
                 "source": "89c3c5a8-8e09-11ea-9fab-e92c63c14723",
                 "actions": "2A",
@@ -2765,7 +2570,6 @@
                 "desc": "You trace a finger along the wind motifs on the barding, granting your companion wearing the barding a fly Speed of 30 feet for 10 minutes. Even if the companion doesn't have the mount special ability, it can still Fly while being ridden.",
                 "gainConditions": [
                     {
-                        "_className": "ConditionGain",
                         "duration": 1000,
                         "name": "Barding of the Zephyr",
                         "source": "Barding of the Zephyr"
@@ -2779,7 +2583,6 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "name": "Barding of the Zephyr: Feather Fall",
                 "source": "89c3c5a8-8e09-11ea-9fab-e92c63c14723",
                 "actions": "Free",
@@ -2787,7 +2590,6 @@
                 "desc": "When your companion falls, wind picks it up from below; it gains the effects of feather fall.",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "name": "Feather Fall"
                     }
                 ],
@@ -2804,7 +2606,6 @@
         "name": "Clandestine Cloak (Greater)",
         "id": "9acbe7d9-081e-4058-9329-4b5dfe8e448c",
         "desc": "When you pull up the hood of this nondescript gray cloak (an Interact action), you become drab and uninteresting, gaining a +1 item bonus to Stealth checks and to Deception checks to Impersonate a forgettable background character, such as a servant, but also taking a -1 item penalty to Diplomacy and Intimidation checks.",
-        "_className": "WornItem",
         "level": 10,
         "bulk": "L",
         "price": 90000,
@@ -2819,7 +2620,6 @@
         "usage": "worn cloak",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Clandestine Cloak (Greater)",
                 "source": "9acbe7d9-081e-4058-9329-4b5dfe8e448c",
                 "actions": "2A",
@@ -2831,7 +2631,6 @@
                 "desc": "You pull the cloak's hood up and gain the benefits of 5th-level nondetection for 8 hours or until you pull the hood back down, whichever comes first.",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "duration": 48000,
                         "level": 5,
                         "name": "Nondetection",
@@ -2847,7 +2646,6 @@
                 "maxDuration": 48000
             },
             {
-                "_className": "ItemActivity",
                 "name": "Clandestine Cloak (Greater): Pull Up Hood",
                 "source": "9acbe7d9-081e-4058-9329-4b5dfe8e448c",
                 "actions": "1A",
@@ -2872,7 +2670,6 @@
         "name": "Cloak of the Bat",
         "id": "95366e4c-5b77-47c2-9deb-411dc18534d4",
         "desc": "Sewn from several long strips of luxurious brown and black silk, this cloak grants you a +2 item bonus to Stealth checks as well as to Acrobatics checks to Maneuver in Flight. You can also use your feet to hang from any surface that can support your weight, without requiring any check, though you still must attempt Athletics checks to Climb in order to move around while inverted.",
-        "_className": "WornItem",
         "level": 10,
         "bulk": "L",
         "price": 95000,
@@ -2897,7 +2694,6 @@
         ],
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Stealth",
                 "type": "item",
                 "value": 2
@@ -2905,7 +2701,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Cloak of the Bat: Bat Wings",
                 "source": "95366e4c-5b77-47c2-9deb-411dc18534d4",
                 "actions": "2A",
@@ -2928,7 +2723,6 @@
                 "sharedChargesID": 1
             },
             {
-                "_className": "ItemActivity",
                 "name": "Cloak of the Bat: Bat Form",
                 "source": "95366e4c-5b77-47c2-9deb-411dc18534d4",
                 "actions": "2A",
@@ -2939,7 +2733,6 @@
                 "desc": "You can either transform the cloak into bat-like wings that grant you a fly Speed of 30 feet for 10 minutes, or have the cloak turn you into a bat by casting a 4th-level pest form spell on you.",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "level": 4,
                         "name": "Pest Form",
                         "target": "self"
@@ -2958,7 +2751,6 @@
         "name": "Ring of Energy Resistance (Acid, Greater)",
         "id": "806cb90e-d915-47ff-b049-d1a9cd625107",
         "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "_className": "WornItem",
         "level": 10,
         "price": 97500,
         "subType": "Acid, Greater",
@@ -2971,7 +2763,6 @@
         "usage": "worn",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Acid Resistance",
                 "value": 10
             }
@@ -2981,7 +2772,6 @@
         "name": "Ring of Energy Resistance (Cold, Greater)",
         "id": "0dbb3f58-41be-4b0c-9da6-ac853877fe57",
         "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "_className": "WornItem",
         "level": 10,
         "price": 97500,
         "subType": "Cold, Greater",
@@ -2994,7 +2784,6 @@
         "usage": "worn",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Cold Resistance",
                 "value": 10
             }
@@ -3004,7 +2793,6 @@
         "name": "Ring of Energy Resistance (Electricity, Greater)",
         "id": "5722eead-6f13-434f-a792-8e6384e5265d",
         "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "_className": "WornItem",
         "level": 10,
         "price": 97500,
         "subType": "Electricity, Greater",
@@ -3017,7 +2805,6 @@
         "usage": "worn",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Electricity Resistance",
                 "value": 10
             }
@@ -3027,7 +2814,6 @@
         "name": "Ring of Energy Resistance (Fire, Greater)",
         "id": "87c0a3b2-0a28-4f6e-822b-3a70c393c962",
         "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "_className": "WornItem",
         "level": 10,
         "price": 97500,
         "subType": "Fire, Greater",
@@ -3040,7 +2826,6 @@
         "usage": "worn",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Fire Resistance",
                 "value": 10
             }
@@ -3050,7 +2835,6 @@
         "name": "Ring of Energy Resistance (Sonic, Greater)",
         "id": "970d5882-2c86-40fb-9d55-3d98bd829020",
         "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "_className": "WornItem",
         "level": 10,
         "price": 97500,
         "subType": "Sonic, Greater",
@@ -3063,7 +2847,6 @@
         "usage": "worn",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Sonic Resistance",
                 "value": 10
             }
@@ -3073,7 +2856,6 @@
         "name": "Ring of Lies",
         "id": "0de44cf9-5fa2-4baa-8275-c1fa71868761",
         "desc": "This plain silver ring has an almost oily sheen. While wearing the ring, you gain a +2 item bonus to Deception checks.",
-        "_className": "WornItem",
         "level": 10,
         "price": 85000,
         "traits": [
@@ -3085,7 +2867,6 @@
         "usage": "worn",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Deception",
                 "type": "item",
                 "value": "2"
@@ -3093,7 +2874,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Ring of Lies",
                 "source": "0de44cf9-5fa2-4baa-8275-c1fa71868761",
                 "actions": "2A",
@@ -3101,7 +2881,6 @@
                 "desc": "Snapping your fingers on the hand that wears the ring causes the ring to cast glibness on you with no visual manifestations of a spell being cast.",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "name": "Glibness"
                     }
                 ],
@@ -3118,7 +2897,6 @@
         "name": "Winged Boots",
         "id": "b45d0723-ade2-4ffe-a220-5bfaaa66b890",
         "desc": "Made from soft leather, with delicate white wings attached to the heel, these boots are ensorcelled with powerful air magic. Whenever you fall while wearing these boots, the boots automatically cast feather fall on you. This benefit can't trigger again for 10 minutes.",
-        "_className": "WornItem",
         "level": 10,
         "bulk": "L",
         "price": 85000,
@@ -3130,7 +2908,6 @@
         "usage": "worn shoes",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Winged Boots: Feather Fall",
                 "source": "b45d0723-ade2-4ffe-a220-5bfaaa66b890",
                 "cooldown": 1000,
@@ -3138,7 +2915,6 @@
                 "desc": "Whenever you fall while wearing these boots, the boots automatically cast feather fall on you. This benefit can't trigger again for 10 minutes.",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "name": "Feather Fall",
                         "target": "self"
                     }
@@ -3151,7 +2927,6 @@
                 "inputRequired": "Activate the item when you fall."
             },
             {
-                "_className": "ItemActivity",
                 "name": "Winged Boots",
                 "source": "b45d0723-ade2-4ffe-a220-5bfaaa66b890",
                 "actions": "2A",
@@ -3177,7 +2952,6 @@
         "name": "Crafter's Eyepiece (Greater)",
         "id": "19cde2df-4421-4d01-a898-51d57d41787c",
         "desc": "This rugged metal eyepiece etched with square patterns is designed to be worn over a single eye. Twisting the lens reveals a faint three-dimensional outline of an item you plan to build or repair, with helpful labels on the component parts. While worn, this eyepiece gives you a +1 item bonus to Crafting checks. When you Repair an item, increase the Hit Points restored by 15 per proficiency rank instead of 10.",
-        "_className": "WornItem",
         "level": 11,
         "price": 12000,
         "subType": "Greater",
@@ -3196,7 +2970,6 @@
         ],
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Crafting",
                 "type": "item",
                 "value": 2
@@ -3204,7 +2977,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Crafter's Eyepiece (Greater)",
                 "source": "19cde2df-4421-4d01-a898-51d57d41787c",
                 "actions": "1 minute",
@@ -3214,7 +2986,6 @@
                 "desc": "You calibrate the eyepiece to have it cast a 5th-level creation spell over the course of 1 minute to construct a temporary item.",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "level": 5,
                         "name": "Creation"
                     }
@@ -3231,7 +3002,6 @@
         "name": "Boots of Elvenkind (Greater)",
         "id": "c17fe719-2d55-4a0f-b74d-a90508aea9da",
         "desc": "These tall, pointed boots are made from soft, supple black or green leather and are decorated with trim and buckles of gold. When worn, the boots allow you to move more nimbly, granting you a +1 item bonus to Acrobatics checks.",
-        "_className": "WornItem",
         "level": 11,
         "bulk": "L",
         "price": 125000,
@@ -3262,25 +3032,21 @@
         ],
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Acrobatics",
                 "type": "item",
                 "value": 2
             },
             {
-                "_className": "EffectGain",
                 "affected": "Cloak of Elvenkind Charges",
                 "setValue": 2
             },
             {
-                "_className": "EffectGain",
                 "affected": "Cloak of Elvenkind (Greater) Charges",
                 "setValue": 2
             }
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Boots of Elvenkind (Greater)",
                 "source": "c17fe719-2d55-4a0f-b74d-a90508aea9da",
                 "actions": "Free",
@@ -3307,7 +3073,6 @@
         "name": "Doubling Rings (Greater)",
         "id": "138be671-c974-48ab-a280-c30e9556eb79",
         "desc": "This item consists of two magically linked rings: an intricate, gleaming golden ring with a square-cut ruby, and a thick, plain iron ring. When you wield a melee weapon in the hand wearing the golden ring, the weapon's fundamental runes are replicated onto any melee weapon you wield in the hand wearing the iron ring. (The fundamental runes are weapon potency and striking, which add an item bonus to attack rolls and extra weapon damage dice, respectively.) Any fundamental runes on the weapon in the hand wearing the iron ring are suppressed.\n\nThe replication functions only if you wear both rings, and it ends as soon as you cease wielding a melee weapon in one of your hands. Consequently, the benefit doesn't apply to thrown attacks or if you're holding a weapon but not wielding it (such as holding in one hand a weapon that requires two hands to wield).",
-        "_className": "WornItem",
         "level": 11,
         "price": 130000,
         "subType": "Greater",
@@ -3339,7 +3104,6 @@
         "name": "Goggles of Night (Greater)",
         "id": "b1af94db-6e0b-492f-ba0c-788c3c00d4e5",
         "desc": "The opaque crystal lenses of these sleek goggles do not obscure vision, but rather enhance it. While wearing the goggles, you gain a +1 item bonus to Perception checks involving sight.",
-        "_className": "WornItem",
         "level": 11,
         "price": 125000,
         "subType": "Greater",
@@ -3365,7 +3129,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Goggles of Night (Greater)",
                 "source": "b1af94db-6e0b-492f-ba0c-788c3c00d4e5",
                 "actions": "1A",
@@ -3397,7 +3160,6 @@
         "name": "Cloak of Elvenkind (Greater)",
         "id": "df38a8cc-49f9-41d2-97b8-101a5cf020be",
         "desc": "This cloak is deep green with a voluminous hood, embroidered with gold trim and symbols significant in elven culture. The cloak allows you to cast the ghost sound cantrip as an arcane innate spell. When you adjust the cloak's clasp (an Interact action), the cloak transforms to match the environment around you and muffles your sounds, granting you a +1 item bonus to Stealth checks.",
-        "_className": "WornItem",
         "level": 12,
         "bulk": "L",
         "price": 175000,
@@ -3417,7 +3179,6 @@
         ],
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Stealth",
                 "type": "item",
                 "value": 1
@@ -3425,7 +3186,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Cloak of Elvenkind (Greater)",
                 "source": "df38a8cc-49f9-41d2-97b8-101a5cf020be",
                 "actions": "2A",
@@ -3437,7 +3197,6 @@
                 "desc": "You draw the hood up and gain the effects of 4th-level invisibility, with the spell's normal duration or until you pull the hood back down, whichever comes first. If you're also wearing boots of elvenkind, you can activate this ability twice per day.",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "duration": 100,
                         "level": 4,
                         "name": "Invisibility",
@@ -3452,7 +3211,6 @@
                 "maxDuration": 100
             },
             {
-                "_className": "ItemActivity",
                 "name": "Cloak of Elvenkind (Greater): Adjust Clasp",
                 "source": "df38a8cc-49f9-41d2-97b8-101a5cf020be",
                 "actions": "1A",
@@ -3474,13 +3232,11 @@
         ],
         "gainSpells": [
             {
-                "_className": "SpellChoice",
                 "frequency": "at will",
                 "level": 0,
                 "tradition": "Arcane",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Ghost Sound"
                     }
@@ -3492,7 +3248,6 @@
         "name": "Handwraps of Mighty Blows",
         "id": "89c3c5ae-8e09-11ea-9fab-e92c63c14723",
         "desc": "As you invest these embroidered strips of cloth, you must meditate and slowly wrap them around your hands. These handwraps have weapon runes etched into them to give your unarmed attacks the benefits of those runes, making your unarmed attacks work like magic weapons. For example, +1 striking handwraps of mighty blows would give you a +1 item bonus to attack rolls with your unarmed attacks and increase the damage of your unarmed attacks from one weapon die to two (normally 2d4 instead of 1d4, but if your fists have a different weapon damage die or you have other unarmed attacks, use two of that die size instead).\n\nYou can upgrade, add, and transfer runes to and from the handwraps just as you would for a weapon, and you can attach talismans to the handwraps. Treat the handwraps as melee weapons of the brawling group with light Bulk for these purposes. Property runes apply only when they would be applicable to the unarmed attack you're using. For example, a property that must be applied to a slashing weapon wouldn't function when you attacked with a fist, but you would gain its benefits if you attacked with a claw or some other slashing unarmed attack.",
-        "_className": "WornItem",
         "level": 12,
         "price": 200000,
         "traits": [
@@ -3510,7 +3265,6 @@
         "name": "Ring of the Ram (Greater)",
         "id": "d47bf271-881a-461d-adb0-cb90e733b173",
         "desc": "This heavy iron ring is shaped to look like the head of a ram, with curling horns.",
-        "_className": "WornItem",
         "level": 13,
         "price": 270000,
         "subType": "Greater",
@@ -3524,7 +3278,6 @@
         "usage": "worn",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Ring of the Ram (Greater)",
                 "source": "d47bf271-881a-461d-adb0-cb90e733b173",
                 "actions": "1A or more",
@@ -3550,7 +3303,6 @@
         "name": "Horseshoes of Speed (Greater)",
         "id": "a55f74b4-9a05-11ea-bb37-0242ac130002",
         "desc": "When you affix these simple iron horseshoes to the hooves of an ordinary horse or a quadrupedal animal companion and the animal companion invests them, that creature gains a +5-foot item bonus to its land Speed and a +2 item bonus to Athletics checks to High Jump and Long Jump. In addition, when it Leaps, it can move 5 feet farther if jumping horizontally or 3 feet higher if jumping vertically.",
-        "_className": "WornItem",
         "level": 14,
         "bulk": "1",
         "price": 425000,
@@ -3578,7 +3330,6 @@
         ],
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Land Speed",
                 "type": "item",
                 "value": 10
@@ -3589,7 +3340,6 @@
         "name": "Ring of Energy Resistance (Acid, Major)",
         "id": "c423fb02-a4dd-4fcf-8b15-70d46d719b60",
         "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "_className": "WornItem",
         "level": 14,
         "price": 440000,
         "subType": "Acid, Major",
@@ -3602,7 +3352,6 @@
         "usage": "worn",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Acid Resistance",
                 "value": 15
             }
@@ -3612,7 +3361,6 @@
         "name": "Ring of Energy Resistance (Cold, Major)",
         "id": "95398fbc-2f7f-4de5-adf2-a3da9413ab95",
         "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "_className": "WornItem",
         "level": 14,
         "price": 440000,
         "subType": "Cold, Major",
@@ -3625,7 +3373,6 @@
         "usage": "worn",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Cold Resistance",
                 "value": 15
             }
@@ -3635,7 +3382,6 @@
         "name": "Ring of Energy Resistance (Electricity, Major)",
         "id": "c4727cc4-28b5-4d7a-b4ea-854b97de2542",
         "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "_className": "WornItem",
         "level": 14,
         "price": 440000,
         "subType": "Electricity, Major",
@@ -3648,7 +3394,6 @@
         "usage": "worn",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Electricity Resistance",
                 "value": 15
             }
@@ -3658,7 +3403,6 @@
         "name": "Ring of Energy Resistance (Fire, Major)",
         "id": "99b02a8a-b3ce-44ee-be45-8cfcf1a2835b",
         "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "_className": "WornItem",
         "level": 14,
         "price": 440000,
         "subType": "Fire, Major",
@@ -3671,7 +3415,6 @@
         "usage": "worn",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Fire Resistance",
                 "value": 15
             }
@@ -3681,7 +3424,6 @@
         "name": "Ring of Energy Resistance (Sonic, Major)",
         "id": "5144f481-8875-436e-ad42-48b53ac93e08",
         "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "_className": "WornItem",
         "level": 14,
         "price": 440000,
         "subType": "Sonic, Major",
@@ -3694,7 +3436,6 @@
         "usage": "worn",
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Sonic Resistance",
                 "value": 15
             }
@@ -3704,7 +3445,6 @@
         "name": "Handwraps of Mighty Blows",
         "id": "89c3c5b1-8e09-11ea-9fab-e92c63c14723",
         "desc": "As you invest these embroidered strips of cloth, you must meditate and slowly wrap them around your hands. These handwraps have weapon runes etched into them to give your unarmed attacks the benefits of those runes, making your unarmed attacks work like magic weapons. For example, +1 striking handwraps of mighty blows would give you a +1 item bonus to attack rolls with your unarmed attacks and increase the damage of your unarmed attacks from one weapon die to two (normally 2d4 instead of 1d4, but if your fists have a different weapon damage die or you have other unarmed attacks, use two of that die size instead).\n\nYou can upgrade, add, and transfer runes to and from the handwraps just as you would for a weapon, and you can attach talismans to the handwraps. Treat the handwraps as melee weapons of the brawling group with light Bulk for these purposes. Property runes apply only when they would be applicable to the unarmed attack you're using. For example, a property that must be applied to a slashing weapon wouldn't function when you attacked with a fist, but you would gain its benefits if you attacked with a claw or some other slashing unarmed attack.",
-        "_className": "WornItem",
         "level": 16,
         "price": 1000000,
         "traits": [
@@ -3722,7 +3462,6 @@
         "name": "Armbands of Athleticism (Greater)",
         "id": "02546135-7000-40b4-8cc0-cac0200bc812",
         "desc": "Skilled awl work has imprinted images of a muscled weightlifter into these tiered leather bands, which grant you enhanced stamina and skill when performing athletic exercises. While fastened to your upper arms, the armbands give you a +2 item bonus to Athletics checks. In addition, whenever you use an action to Climb or Swim and you succeed at the Athletics check, add a +5-foot item bonus to the distance you move.",
-        "_className": "WornItem",
         "level": 17,
         "bulk": "L",
         "price": 130000,
@@ -3742,7 +3481,6 @@
         ],
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Athletics",
                 "type": "item",
                 "value": 3
@@ -3753,7 +3491,6 @@
         "name": "Cloak of the Bat (Greater)",
         "id": "e85d2d73-fedf-4855-ab58-fcf143a45ba2",
         "desc": "Sewn from several long strips of luxurious brown and black silk, this cloak grants you a +2 item bonus to Stealth checks as well as to Acrobatics checks to Maneuver in Flight. You can also use your feet to hang from any surface that can support your weight, without requiring any check, though you still must attempt Athletics checks to Climb in order to move around while inverted.",
-        "_className": "WornItem",
         "level": 17,
         "bulk": "L",
         "price": 1300000,
@@ -3780,7 +3517,6 @@
         ],
         "effects": [
             {
-                "_className": "EffectGain",
                 "affected": "Stealth",
                 "type": "item",
                 "value": 3
@@ -3788,7 +3524,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Cloak of the Bat (Greater): Bat Wings",
                 "source": "e85d2d73-fedf-4855-ab58-fcf143a45ba2",
                 "actions": "2A",
@@ -3809,7 +3544,6 @@
                 "sharedChargesID": 1
             },
             {
-                "_className": "ItemActivity",
                 "name": "Cloak of the Bat (Greater): Bat Form",
                 "source": "e85d2d73-fedf-4855-ab58-fcf143a45ba2",
                 "actions": "2A",
@@ -3818,7 +3552,6 @@
                 "desc": "You can either transform the cloak into bat-like wings that grant you a fly Speed of 30 feet for 10 minutes, or have the cloak turn you into a bat by casting a 4th-level pest form spell on you.",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "level": 4,
                         "name": "Pest Form",
                         "target": "self"
@@ -3837,7 +3570,6 @@
         "name": "Goggles of Night (Major)",
         "id": "c320dd0c-347a-4d66-8ad8-5fb0a6571bc4",
         "desc": "The opaque crystal lenses of these sleek goggles do not obscure vision, but rather enhance it. While wearing the goggles, you gain a +1 item bonus to Perception checks involving sight.",
-        "_className": "WornItem",
         "level": 18,
         "price": 2000000,
         "subType": "Major",
@@ -3863,7 +3595,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Goggles of Night (Major)",
                 "source": "c320dd0c-347a-4d66-8ad8-5fb0a6571bc4",
                 "actions": "1A",

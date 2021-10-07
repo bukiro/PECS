@@ -276,15 +276,6 @@ export class SavegameService {
                 }
             }
 
-            //Some held items before version 1.0.3 have _ClassName="WornItem" and will be corrected.
-            if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 3) {
-                character.inventories.forEach(inv => {
-                    inv.helditems.filter(invItem => invItem._className != "HeldItem").forEach((invItem: any) => {
-                        invItem._className = "HeldItem";
-                    })
-                })
-            }
-
             //Some worn items before version 1.0.4 have activities that grant innate spells. Innate spells are now granted differently, and activities do not update well, so the activities need to be removed.
             //The activity and Condition of the Bracelet of Dashing have been renamed and can be updated at this point.
             //Slotted aeon stones now reflect that information on their own, for better detection of resonant hints and effects.
@@ -564,16 +555,16 @@ export class SavegameService {
                     //Delete attributes that are in the "neversave" list, if it exists.
                     if (object.neversave?.includes(key)) {
                         delete object[key];
-                        //Don't cleanup the "_className" or any attributes that are in the "save" list or start with "_" (which is done further down).
-                    } else if (!object.save?.includes(key) && (key != "_className") && (key.substr(0, 1) != "_")) {
+                        //Don't cleanup any attributes that are in the "save" list or start with "_" (which is done further down).
+                    } else if (!object.save?.includes(key) && (key.substr(0, 1) != "_")) {
                         //If the attribute has the same value as the default, delete it from the object.
                         if (JSON.stringify(object[key]) == JSON.stringify(blank[key])) {
                             delete object[key];
                         } else {
                             object[key] = this.clean(object[key], itemsService)
                         }
-                        //Cleanup attributes that start with _ (except _className).
-                    } else if ((key != "_className") && key.substr(0, 1) == "_") {
+                        //Cleanup attributes that start with _.
+                    } else if (key.substr(0, 1) == "_") {
                         delete object[key];
                     }
                 })

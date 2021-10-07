@@ -2,8 +2,7 @@ import { Rune } from './Rune';
 import { TypeService } from './type.service';
 
 export class WeaponRune extends Rune {
-    public readonly _className: string = this.constructor.name;
-    //Weapon Runes should be type "weaponrunes" to be found in the database
+        //Weapon Runes should be type "weaponrunes" to be found in the database
     readonly type = "weaponrunes";
     //You are enfeebled 2 if your alignment contains this word.
     public alignmentPenalty: string = "";

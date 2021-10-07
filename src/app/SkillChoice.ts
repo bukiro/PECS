@@ -1,8 +1,7 @@
 import { SkillIncrease } from './SkillIncrease';
 
 export class SkillChoice {
-    public readonly _className: string = this.constructor.name;
-    public available: number = 0;
+        public available: number = 0;
     public filter: string[] = [];
     public id: string = "";
     public increases: SkillIncrease[] = [];

@@ -5,7 +5,6 @@ import * as json_domains from '../assets/json/domains';
 import { ExtensionsService } from './extensions.service';
 import { Domain } from './Domain';
 import { Character } from './Character';
-import { TypeService } from './type.service';
 
 @Injectable({
     providedIn: 'root'
@@ -17,11 +16,16 @@ export class DeitiesService {
     private loading: boolean = false;
     //The character's deity or deities get loaded into $characterDeities whenever it is queried and empty.
     private $characterDeities: { deity: Deity, source: string, level: number }[] = [];
+    private deitiesMap = new Map<string, Deity>();
 
     constructor(
-        private extensionsService: ExtensionsService,
-        private typeService: TypeService
+        private extensionsService: ExtensionsService
     ) { }
+
+    get_DeityFromName(name: string) {
+        //Returns a named deity from the map.
+        return this.deitiesMap.get(name.toLowerCase());
+    }
 
     get_CharacterDeities(character: Character, source: string = "", level: number = character.level) {
         if (!this.$characterDeities.length && character.class.deity) {
@@ -55,6 +59,13 @@ export class DeitiesService {
 
     get_Deities(name: string = "") {
         if (!this.still_loading()) {
+            //If a name is given, try to find a deity by that name in the index map. This should be much quicker.
+            if (name) {
+                let deity = this.get_DeityFromName(name);
+                if (deity) {
+                    return [deity];
+                }
+            }
             return this.deities.filter(deity => deity.name.toLowerCase() == name.toLowerCase() || name == "")
         } else { return [new Deity()] }
     }
@@ -76,6 +87,11 @@ export class DeitiesService {
             this.loading = true;
             this.load_Deities();
             this.load_Domains();
+            this.deitiesMap.clear();
+            this.deities.forEach(deity => {
+                this.deitiesMap.set(deity.name.toLowerCase(), deity);
+            })
+            
             this.loading = false;
         }
     }

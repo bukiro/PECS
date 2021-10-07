@@ -3,7 +3,6 @@
         "id": "89c1a2c2-8e09-11ea-9fab-e92c63c14723",
         "name": "Unarmored",
         "moddable": false,
-        "_className": "Armor",
         "prof": "Unarmored Defense",
         "craftable": false
     },
@@ -17,7 +16,6 @@
             "Companion"
         ],
         "moddable": false,
-        "_className": "Armor",
         "acbonus": 1,
         "dexcap": 5,
         "prof": "Light Barding",
@@ -35,7 +33,6 @@
             "Companion"
         ],
         "moddable": false,
-        "_className": "Armor",
         "acbonus": 1,
         "dexcap": 5,
         "prof": "Light Barding",
@@ -53,7 +50,6 @@
             "Companion"
         ],
         "moddable": false,
-        "_className": "Armor",
         "acbonus": 3,
         "dexcap": 3,
         "prof": "Heavy Barding",
@@ -71,7 +67,6 @@
             "Companion"
         ],
         "moddable": false,
-        "_className": "Armor",
         "acbonus": 3,
         "dexcap": 3,
         "prof": "Heavy Barding",
@@ -88,7 +83,6 @@
         "traits": [
             "Comfort"
         ],
-        "_className": "Armor",
         "dexcap": 5,
         "prof": "Unarmored Defense"
     },
@@ -101,7 +95,6 @@
         "traits": [
             "Comfort"
         ],
-        "_className": "Armor",
         "acbonus": 1,
         "dexcap": 3,
         "strength": 10
@@ -112,7 +105,6 @@
         "id": "89c1a2d7-8e09-11ea-9fab-e92c63c14723",
         "name": "Leather Armor",
         "price": 200,
-        "_className": "Armor",
         "acbonus": 1,
         "dexcap": 4,
         "skillpenalty": -1,
@@ -124,7 +116,6 @@
         "id": "89c1a2da-8e09-11ea-9fab-e92c63c14723",
         "name": "Studded Leather Armor",
         "price": 300,
-        "_className": "Armor",
         "acbonus": 2,
         "dexcap": 3,
         "skillpenalty": -1,
@@ -140,7 +131,6 @@
             "Flexible",
             "Noisy"
         ],
-        "_className": "Armor",
         "acbonus": 2,
         "dexcap": 3,
         "skillpenalty": -1,
@@ -152,7 +142,6 @@
         "id": "89c1a2e0-8e09-11ea-9fab-e92c63c14723",
         "name": "Hide Armor",
         "price": 200,
-        "_className": "Armor",
         "acbonus": 3,
         "dexcap": 2,
         "group": "Leather",
@@ -167,7 +156,6 @@
         "id": "89c1c9d1-8e09-11ea-9fab-e92c63c14723",
         "name": "Scale Mail",
         "price": 400,
-        "_className": "Armor",
         "acbonus": 3,
         "dexcap": 2,
         "group": "Composite",
@@ -186,7 +174,6 @@
             "Flexible",
             "Noisy"
         ],
-        "_className": "Armor",
         "acbonus": 4,
         "dexcap": 1,
         "group": "Chain",
@@ -201,7 +188,6 @@
         "id": "89c1c9d7-8e09-11ea-9fab-e92c63c14723",
         "name": "Breastplate",
         "price": 800,
-        "_className": "Armor",
         "acbonus": 4,
         "dexcap": 1,
         "group": "Plate",
@@ -219,17 +205,14 @@
         "price": 1300,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Gauntlet",
                 "type": "weapons"
             },
             {
-                "_className": "ItemGain",
                 "name": "Padded Armor",
                 "type": "armors"
             }
         ],
-        "_className": "Armor",
         "acbonus": 5,
         "dexcap": 1,
         "group": "Composite",
@@ -247,16 +230,13 @@
         "price": 1800,
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Gauntlet"
             },
             {
-                "_className": "ItemGain",
                 "name": "Padded Armor",
                 "type": "armors"
             }
         ],
-        "_className": "Armor",
         "acbonus": 5,
         "dexcap": 1,
         "group": "Plate",
@@ -277,16 +257,13 @@
         ],
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Gauntlet"
             },
             {
-                "_className": "ItemGain",
                 "name": "Padded Armor",
                 "type": "armors"
             }
         ],
-        "_className": "Armor",
         "acbonus": 6,
         "dexcap": 0,
         "group": "Plate",
@@ -308,16 +285,13 @@
         ],
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Gauntlet"
             },
             {
-                "_className": "ItemGain",
                 "name": "Padded Armor",
                 "type": "armors"
             }
         ],
-        "_className": "Armor",
         "acbonus": 6,
         "dexcap": 0,
         "group": "Plate",
@@ -332,7 +306,6 @@
         "name": "Mage Armor (1st Level)",
         "displayName": "Mage Armor",
         "moddable": false,
-        "_className": "Armor",
         "acbonus": 0,
         "potencyRune": 1,
         "dexcap": 5,
@@ -345,7 +318,6 @@
         "name": "Mage Armor (4th Level)",
         "displayName": "Mage Armor",
         "moddable": false,
-        "_className": "Armor",
         "acbonus": 0,
         "potencyRune": 1,
         "resilientRune": 1,
@@ -359,7 +331,6 @@
         "name": "Mage Armor (6th Level)",
         "displayName": "Mage Armor",
         "moddable": false,
-        "_className": "Armor",
         "acbonus": 0,
         "potencyRune": 2,
         "resilientRune": 1,
@@ -373,7 +344,6 @@
         "name": "Mage Armor (8th Level)",
         "displayName": "Mage Armor",
         "moddable": false,
-        "_className": "Armor",
         "acbonus": 0,
         "potencyRune": 2,
         "resilientRune": 2,
@@ -387,7 +357,6 @@
         "name": "Mage Armor (10th Level)",
         "displayName": "Mage Armor",
         "moddable": false,
-        "_className": "Armor",
         "acbonus": 0,
         "potencyRune": 1,
         "resilientRune": 1,

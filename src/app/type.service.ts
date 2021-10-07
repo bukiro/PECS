@@ -225,7 +225,7 @@ export class TypeService {
                 //Map the restored object onto the library object and keep the result.
                 try {
                     object = this.merge(libraryItem, object);
-                    object = itemsService.cast_ItemByClassName(object, libraryItem.constructor.name);
+                    object = itemsService.cast_ItemByType(object, libraryItem.type);
                     //Disable any active hint effects when loading an item.
                     if (object instanceof Equipment) {
                         object.hints.forEach(hint => {

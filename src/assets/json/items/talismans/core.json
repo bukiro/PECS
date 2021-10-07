@@ -1,7 +1,6 @@
 [
     {
         "name": "Emergency Disguise",
-        "_className": "Talisman",
         "id": "6bf295c5-209b-4a4b-8767-fa22076ba918",
         "level": 1,
         "price": 300,
@@ -31,7 +30,6 @@
     },
     {
         "name": "Owlbear Claw",
-        "_className": "Talisman",
         "id": "a0d7cc62-c9b6-11ea-87d0-0242ac130003",
         "level": 1,
         "price": 300,
@@ -52,7 +50,6 @@
     },
     {
         "name": "Potency Crystal",
-        "_className": "Talisman",
         "id": "a0d7ce74-c9b6-11ea-87d0-0242ac130003",
         "level": 1,
         "price": 400,
@@ -80,7 +77,6 @@
     },
     {
         "name": "Wolf Fang",
-        "_className": "Talisman",
         "id": "a0d7cf64-c9b6-11ea-87d0-0242ac130003",
         "level": 1,
         "price": 400,
@@ -102,7 +98,6 @@
     },
     {
         "name": "Slippery Ribbon",
-        "_className": "Talisman",
         "id": "a761a174-7e7f-434a-8c29-5cc4f0b09793",
         "level": 1,
         "price": 1200,
@@ -126,7 +121,6 @@
     },
     {
         "name": "Hunter's Bane",
-        "_className": "Talisman",
         "id": "a0d7d02c-c9b6-11ea-87d0-0242ac130003",
         "level": 2,
         "price": 600,
@@ -148,7 +142,6 @@
     },
     {
         "name": "Jade Cat",
-        "_className": "Talisman",
         "id": "a0d7d0f4-c9b6-11ea-87d0-0242ac130003",
         "level": 2,
         "price": 600,
@@ -177,7 +170,6 @@
     },
     {
         "name": "Monkey Pin",
-        "_className": "Talisman",
         "id": "a0d7d1bc-c9b6-11ea-87d0-0242ac130003",
         "level": 2,
         "price": 600,
@@ -198,7 +190,6 @@
     },
     {
         "name": "Bronze Bull Pendant",
-        "_className": "Talisman",
         "id": "a0d7d284-c9b6-11ea-87d0-0242ac130003",
         "level": 2,
         "price": 700,
@@ -220,7 +211,6 @@
     },
     {
         "name": "Crying Angel Pendant",
-        "_className": "Talisman",
         "id": "a0d7d4be-c9b6-11ea-87d0-0242ac130003",
         "level": 2,
         "price": 700,
@@ -242,7 +232,6 @@
     },
     {
         "name": "Effervescent Ampoule",
-        "_className": "Talisman",
         "id": "a0d7d57c-c9b6-11ea-87d0-0242ac130003",
         "level": 2,
         "price": 700,
@@ -270,7 +259,6 @@
     },
     {
         "name": "Mesmerizing Opal",
-        "_className": "Talisman",
         "id": "a0d7d63a-c9b6-11ea-87d0-0242ac130003",
         "level": 2,
         "price": 700,
@@ -291,7 +279,6 @@
     },
     {
         "name": "Onyx Panther",
-        "_className": "Talisman",
         "id": "a0d7d6f8-c9b6-11ea-87d0-0242ac130003",
         "level": 2,
         "price": 700,
@@ -320,7 +307,6 @@
     },
     {
         "name": "Savior Spike",
-        "_className": "Talisman",
         "id": "a0d7d7ac-c9b6-11ea-87d0-0242ac130003",
         "level": 2,
         "price": 700,
@@ -343,7 +329,6 @@
     },
     {
         "name": "Feather Step Stone",
-        "_className": "Talisman",
         "id": "a0d7d86a-c9b6-11ea-87d0-0242ac130003",
         "level": 3,
         "price": 800,
@@ -372,7 +357,6 @@
     },
     {
         "name": "Snapleaf",
-        "_className": "Talisman",
         "id": "a0d7da9a-c9b6-11ea-87d0-0242ac130003",
         "level": 3,
         "price": 900,
@@ -401,7 +385,6 @@
     },
     {
         "name": "Dragon Turtle Scale",
-        "_className": "Talisman",
         "id": "a0d7dbee-c9b6-11ea-87d0-0242ac130003",
         "level": 4,
         "price": 1300,
@@ -429,7 +412,6 @@
     },
     {
         "name": "Fortifying Pebble",
-        "_className": "Talisman",
         "id": "a0d7dcfc-c9b6-11ea-87d0-0242ac130003",
         "level": 4,
         "price": 1300,
@@ -454,7 +436,6 @@
     },
     {
         "name": "Bloodseeker Beak",
-        "_className": "Talisman",
         "id": "a0d7ddc4-c9b6-11ea-87d0-0242ac130003",
         "level": 4,
         "price": 2000,
@@ -475,7 +456,6 @@
     },
     {
         "name": "Fear Gem",
-        "_className": "Talisman",
         "id": "a0d7de82-c9b6-11ea-87d0-0242ac130003",
         "level": 4,
         "price": 2000,
@@ -500,7 +480,6 @@
     },
     {
         "name": "Sneaky Key",
-        "_className": "Talisman",
         "id": "a0d7df4a-c9b6-11ea-87d0-0242ac130003",
         "level": 5,
         "price": 2200,
@@ -528,7 +507,6 @@
     },
     {
         "name": "Shark Tooth Charm",
-        "_className": "Talisman",
         "id": "a0d7e008-c9b6-11ea-87d0-0242ac130003",
         "level": 5,
         "price": 2300,
@@ -550,7 +528,6 @@
     },
     {
         "name": "Beckoning Cat Amulet",
-        "_className": "Talisman",
         "id": "a0d7e21a-c9b6-11ea-87d0-0242ac130003",
         "level": 5,
         "price": 2600,
@@ -574,7 +551,6 @@
     },
     {
         "name": "Emerald Grasshopper",
-        "_className": "Talisman",
         "id": "a0d7e2ec-c9b6-11ea-87d0-0242ac130003",
         "level": 5,
         "price": 3000,
@@ -596,7 +572,6 @@
     },
     {
         "name": "Oily Button",
-        "_className": "Talisman",
         "id": "8fddaa03-3211-4f19-b591-c603d6b9194e",
         "level": 5,
         "price": 3000,
@@ -627,7 +602,6 @@
     },
     {
         "name": "Tiger Menuki",
-        "_className": "Talisman",
         "id": "a0d7e3b4-c9b6-11ea-87d0-0242ac130003",
         "level": 5,
         "price": 3000,
@@ -655,7 +629,6 @@
     },
     {
         "name": "Iron Cube",
-        "_className": "Talisman",
         "id": "a0d7e472-c9b6-11ea-87d0-0242ac130003",
         "level": 6,
         "price": 5000,
@@ -679,7 +652,6 @@
     },
     {
         "name": "Grim Trophy",
-        "_className": "Talisman",
         "id": "9f7d8f2b-2fd6-41e2-a35a-387d3eb745a7",
         "level": 7,
         "price": 5500,
@@ -701,7 +673,6 @@
     },
     {
         "name": "Whisper Briolette",
-        "_className": "Talisman",
         "id": "e28a3f38-5eb9-4f54-b454-96845218eed6",
         "level": 7,
         "price": 5500,
@@ -726,7 +697,6 @@
     },
     {
         "name": "Putrescent Glob",
-        "_className": "Talisman",
         "id": "8a7c666c-bc67-4973-8ce8-7989d46e098e",
         "level": 7,
         "price": 6500,
@@ -750,7 +720,6 @@
     },
     {
         "name": "Murderer's Knot",
-        "_className": "Talisman",
         "id": "f1bcd9af-7088-4ff3-8683-61bfc6cdc971",
         "level": 7,
         "price": 6600,
@@ -772,7 +741,6 @@
     },
     {
         "name": "Swift Block Cabochon",
-        "_className": "Talisman",
         "id": "a0d7e6ac-c9b6-11ea-87d0-0242ac130003",
         "level": 7,
         "price": 7000,
@@ -794,7 +762,6 @@
     },
     {
         "name": "Gallows Tooth",
-        "_className": "Talisman",
         "id": "a0d7e8b4-c9b6-11ea-87d0-0242ac130003",
         "level": 8,
         "price": 10000,
@@ -816,7 +783,6 @@
     },
     {
         "name": "Jade Bauble",
-        "_className": "Talisman",
         "id": "a0d7e986-c9b6-11ea-87d0-0242ac130003",
         "level": 8,
         "price": 10000,
@@ -845,7 +811,6 @@
     },
     {
         "name": "Basilisk Eye",
-        "_className": "Talisman",
         "id": "2abb21c5-0597-447f-a8eb-1924184fe7b4",
         "level": 9,
         "price": 15000,
@@ -868,7 +833,6 @@
     },
     {
         "name": "Vanishing Coin",
-        "_className": "Talisman",
         "id": "a0d7eae4-c9b6-11ea-87d0-0242ac130003",
         "level": 10,
         "price": 16000,
@@ -898,7 +862,6 @@
     },
     {
         "name": "Iron Medallion",
-        "_className": "Talisman",
         "id": "a0d7ec10-c9b6-11ea-87d0-0242ac130003",
         "level": 10,
         "price": 17500,
@@ -927,7 +890,6 @@
     },
     {
         "name": "Mummified Bat",
-        "_className": "Talisman",
         "id": "a0d7ed0a-c9b6-11ea-87d0-0242ac130003",
         "level": 10,
         "price": 17500,
@@ -955,7 +917,6 @@
     },
     {
         "name": "Lucky Rabbit's Foot",
-        "_className": "Talisman",
         "id": "a0d7eddc-c9b6-11ea-87d0-0242ac130003",
         "level": 10,
         "price": 17500,
@@ -979,7 +940,6 @@
     },
     {
         "name": "Fade Band",
-        "_className": "Talisman",
         "id": "a0d7ee9a-c9b6-11ea-87d0-0242ac130003",
         "level": 12,
         "price": 32000,
@@ -1009,7 +969,6 @@
     },
     {
         "name": "Balisse Feather",
-        "_className": "Talisman",
         "id": "583487b7-c381-43b4-bc1c-dbe0d800285d",
         "level": 12,
         "price": 40000,
@@ -1032,7 +991,6 @@
     },
     {
         "name": "Eye of Apprehension",
-        "_className": "Talisman",
         "id": "a0d7f066-c9b6-11ea-87d0-0242ac130003",
         "level": 12,
         "price": 40000,
@@ -1054,7 +1012,6 @@
     },
     {
         "name": "Iron Equalizer",
-        "_className": "Talisman",
         "id": "a0d7f142-c9b6-11ea-87d0-0242ac130003",
         "level": 12,
         "price": 40000,
@@ -1078,7 +1035,6 @@
     },
     {
         "name": "Mending Lattice",
-        "_className": "Talisman",
         "id": "a0d7f200-c9b6-11ea-87d0-0242ac130003",
         "level": 13,
         "price": 52500,
@@ -1102,7 +1058,6 @@
     },
     {
         "name": "Grinning Pugwampi",
-        "_className": "Talisman",
         "id": "a0d7f2be-c9b6-11ea-87d0-0242ac130003",
         "level": 14,
         "price": 70000,
@@ -1129,7 +1084,6 @@
     },
     {
         "name": "Viper's Fang",
-        "_className": "Talisman",
         "id": "a0d7f37c-c9b6-11ea-87d0-0242ac130003",
         "level": 14,
         "price": 85000,
@@ -1154,7 +1108,6 @@
     },
     {
         "name": "Dazing Coil",
-        "_className": "Talisman",
         "id": "a0d7f43a-c9b6-11ea-87d0-0242ac130003",
         "level": 14,
         "price": 90000,
@@ -1175,7 +1128,6 @@
     },
     {
         "name": "Iron Cudgel",
-        "_className": "Talisman",
         "id": "7d05bee4-c9bf-11ea-87d0-0242ac130003",
         "level": 14,
         "price": 90000,
@@ -1199,7 +1151,6 @@
     },
     {
         "name": "Flame Navette",
-        "_className": "Talisman",
         "id": "7d05c0ec-c9bf-11ea-87d0-0242ac130003",
         "level": 16,
         "price": 180000,
@@ -1223,7 +1174,6 @@
     },
     {
         "name": "Ghost Dust",
-        "_className": "Talisman",
         "id": "7d05c1e6-c9bf-11ea-87d0-0242ac130003",
         "level": 16,
         "price": 180000,
@@ -1253,7 +1203,6 @@
     },
     {
         "name": "Dispelling Sliver",
-        "_className": "Talisman",
         "id": "7d05c448-c9bf-11ea-87d0-0242ac130003",
         "level": 17,
         "price": 240000,
@@ -1275,7 +1224,6 @@
     },
     {
         "name": "Celestial Hair",
-        "_className": "Talisman",
         "id": "7d05c51a-c9bf-11ea-87d0-0242ac130003",
         "level": 20,
         "price": 1250000,

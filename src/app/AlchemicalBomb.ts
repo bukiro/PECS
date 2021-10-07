@@ -2,8 +2,7 @@ import { TypeService } from './type.service';
 import { Weapon } from './Weapon';
 
 export class AlchemicalBomb extends Weapon {
-    public readonly _className: string = this.constructor.name;
-    //Alchemical bombs should be type "alchemicalbombs" to be found in the database
+        //Alchemical bombs should be type "alchemicalbombs" to be found in the database
     public type = "alchemicalbombs";
     //Alchemical bombs are never moddable.
     readonly moddable = false;

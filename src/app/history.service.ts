@@ -74,7 +74,7 @@ export class HistoryService {
             let libraryObject = this.get_Ancestries(ancestry.name)[0];
             if (libraryObject) {
                 Object.keys(ancestry).forEach(key => {
-                    if (!["name", "_className"].includes(key)) {
+                    if (key != "name") {
                         //If the Object has a name, and a library item can be found with that name, compare the property with the library item
                         //If they have the same value, delete the property from the item - it can be recovered during loading from the refId.
                         if (JSON.stringify(ancestry[key]) == JSON.stringify(libraryObject[key])) {
@@ -107,7 +107,7 @@ export class HistoryService {
             let libraryObject = this.get_HeritagesAndSubtypes(heritage.name)[0];
             if (libraryObject) {
                 Object.keys(heritage).forEach(key => {
-                    if (!["name", "_className"].includes(key)) {
+                    if (key != "name") {
                         //If the Object has a name, and a library item can be found with that name, compare the property with the library item
                         //If they have the same value, delete the property from the item - it can be recovered during loading from the refId.
                         if (JSON.stringify(heritage[key]) == JSON.stringify(libraryObject[key])) {
@@ -140,7 +140,7 @@ export class HistoryService {
             let libraryObject = this.get_Backgrounds(background.name)[0];
             if (libraryObject) {
                 Object.keys(background).forEach(key => {
-                    if (!["name", "_className"].includes(key)) {
+                    if (key != "name") {
                         //If the Object has a name, and a library item can be found with that name, compare the property with the library item
                         //If they have the same value, delete the property from the item - it can be recovered during loading from the refId.
                         if (JSON.stringify(background[key]) == JSON.stringify(libraryObject[key])) {

@@ -7,8 +7,7 @@ import { ShieldMaterial } from './ShieldMaterial';
 import { TypeService } from './type.service';
 
 export class Shield extends Equipment {
-    public readonly _className: string = this.constructor.name;
-    //Shields should be type "shields" to be found in the database
+        //Shields should be type "shields" to be found in the database
     readonly type = "shields";
     //Shields are usually moddable, which means they get material but no runes.
     moddable = true;

@@ -30,8 +30,7 @@ import { WornItem } from './WornItem';
 import { TypeService } from './type.service';
 
 export class Character extends Creature {
-    public readonly _className: string = this.constructor.name;
-    readonly type = "Character";
+        readonly type = "Character";
     public appVersionMajor: number = 0;
     public appVersion: number = 0;
     public appVersionMinor: number = 0;

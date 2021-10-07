@@ -11,7 +11,6 @@
             "Light",
             "Magical"
         ],
-        "_className": "HeldItem",
         "usage": "held in 1 hand"
     },
     {
@@ -26,10 +25,8 @@
             "Divine"
         ],
         "usage": "held in 1 hand",
-        "_className": "HeldItem",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "actions": "2A",
                 "activationType": "Interact",
                 "cost": "incense worth at least 5 gp",
@@ -68,12 +65,10 @@
         ],
         "gainInventory": [
             {
-                "_className": "InventoryGain",
                 "bulkLimit": 25,
                 "bulkReduction": 25
             }
         ],
-        "_className": "HeldItem",
         "usage": "held in 2 hands"
     },
     {
@@ -97,15 +92,12 @@
         ],
         "usage": "held in 1 hand",
         "craftRequirement": "You have a spellcasting class feature with the divine tradition.",
-        "_className": "HeldItem",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "actions": "2A",
                 "activationType": "Cast a spell",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "name": "Bless"
                     }
                 ],
@@ -123,12 +115,10 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "actions": "1A to 3A",
                 "activationType": "Cast a spell",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "name": "Heal"
                     }
                 ],
@@ -159,10 +149,8 @@
         ],
         "usage": "held in 2 hands",
         "bulk": "1",
-        "_className": "HeldItem",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "actions": "2A",
                 "activationType": "Envision, Interact",
                 "toggle": true,
@@ -193,12 +181,10 @@
         ],
         "gainInventory": [
             {
-                "_className": "InventoryGain",
                 "bulkLimit": 50,
                 "bulkReduction": 50
             }
         ],
-        "_className": "HeldItem",
         "usage": "held in 2 hands"
     },
     {
@@ -217,12 +203,10 @@
         ],
         "gainInventory": [
             {
-                "_className": "InventoryGain",
                 "bulkLimit": 100,
                 "bulkReduction": 100
             }
         ],
-        "_className": "HeldItem",
         "usage": "held in 2 hands"
     },
     {
@@ -248,15 +232,12 @@
         ],
         "usage": "held in 1 hand",
         "craftRequirement": "You have a spellcasting class feature with the divine tradition.",
-        "_className": "HeldItem",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "actions": "2A",
                 "activationType": "Cast a spell",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "name": "Bless",
                         "level": 4
                     }
@@ -275,12 +256,10 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "actions": "2A",
                 "activationType": "Cast a spell",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "name": "Divine Wrath"
                     }
                 ],
@@ -298,12 +277,10 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "actions": "1A to 3A",
                 "activationType": "Cast a spell",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "name": "Heal"
                     }
                 ],
@@ -321,12 +298,10 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "actions": "2A",
                 "activationType": "Cast a spell",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "name": "Neutralize Poison"
                     }
                 ],
@@ -344,12 +319,10 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "actions": "10 minutes",
                 "activationType": "Cast a spell",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "name": "Remove Disease"
                     }
                 ],
@@ -384,12 +357,10 @@
         ],
         "gainInventory": [
             {
-                "_className": "InventoryGain",
                 "bulkLimit": 150,
                 "bulkReduction": 150
             }
         ],
-        "_className": "HeldItem",
         "usage": "held in 2 hands"
     },
     {
@@ -416,15 +387,12 @@
             "Transmutation"
         ],
         "usage": "held in 1 hand",
-        "_className": "HeldItem",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "actions": "Free",
                 "activationType": "Interact",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "name": "Knock"
                     }
                 ],
@@ -454,10 +422,8 @@
             "Water"
         ],
         "usage": "held in 2 hands",
-        "_className": "HeldItem",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "actions": "1A",
                 "activationType": "Command, Interact",
                 "target": "object",
@@ -472,7 +438,6 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "actions": "1A",
                 "activationType": "Command, Interact",
                 "target": "object",
@@ -487,7 +452,6 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "actions": "1A",
                 "activationType": "Command, Interact",
                 "target": "object",
@@ -522,10 +486,8 @@
             "Magical"
         ],
         "usage": "held in 1 hand",
-        "_className": "HeldItem",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "actions": "2A",
                 "activationType": "Command, Interact",
                 "target": "ally",
@@ -619,10 +581,8 @@
             "Transmutation"
         ],
         "usage": "held in 1 hand",
-        "_className": "HeldItem",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "actions": "1A",
                 "activationType": "Interact",
                 "desc": "You push the button to anchor the rod in place. It doesn't move, defying gravity if need be. If the button is pushed again, the rod deactivates, ending the anchoring magic. While anchored, the rod can be moved only if 8,000 pounds of pressure are applied to it or if a creature uses Athletics to Force Open the rod with a DC of 40 (though most intelligent creatures can just push the button to release the rod).",
@@ -642,13 +602,11 @@
         "desc": "You have shrunk 1 non-magical object up to 20 cubic feet in volume and up to 80 bulk to roughly the size of a coin. This reduces it to negligible Bulk. This storage can be used to hold the item and nullify its bulk, representing its shrunk status.\n\nYou can Dismiss the spell, and the spell ends if you toss the object onto a solid surface. The object can't be used to attack or cause damage during the process of it returning to normal size. If there isn't room for the object to return to normal size when the spell ends, the spell's duration continues until the object is in a location large enough to accommodate its normal size.",
         "gainInventory": [
             {
-                "_className": "InventoryGain",
                 "bulkLimit": 80,
                 "bulkReduction": 80
             }
         ],
-        "hide": true,
-        "_className": "HeldItem"
+        "hide": true
     },
     {
         "name": "Dragon's Eye Charm",
@@ -664,15 +622,12 @@
             "Magical"
         ],
         "usage": "held in 1 hand",
-        "_className": "HeldItem",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "actions": "1A",
                 "activationType": "Interact",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "level": 5,
                         "name": "Produce Flame"
                     }
@@ -689,7 +644,6 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "actions": "1A",
                 "activationType": "Interact",
                 "cooldown": 144000,
@@ -713,7 +667,6 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "actions": "1A",
                 "activationType": "Interact",
                 "cooldown": 144000,
@@ -734,7 +687,6 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "actions": "1A",
                 "activationType": "Interact",
                 "cooldown": 144000,
@@ -773,10 +725,8 @@
             "Magical"
         ],
         "usage": "held in 1 hand",
-        "_className": "HeldItem",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "actions": "2A",
                 "activationType": "Command, Interact",
                 "cooldown": 144000,
@@ -797,7 +747,6 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "actions": "",
                 "cooldown": 1008000,
                 "desc": "If both lions are slain while in animal form, the figurine reverts to its statue shape and cannot be activated again until 1 week has passed.",
@@ -829,10 +778,8 @@
             "Magical"
         ],
         "usage": "held in 1 hand",
-        "_className": "HeldItem",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "actions": "2A",
                 "activationType": "Command, Interact",
                 "cooldown": 144000,
@@ -853,7 +800,6 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "actions": "",
                 "cooldown": 1008000,
                 "desc": "If the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
@@ -885,10 +831,8 @@
             "Magical"
         ],
         "usage": "held in 1 hand",
-        "_className": "HeldItem",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "actions": "2A",
                 "activationType": "Command, Interact",
                 "cooldown": 4032000,
@@ -910,7 +854,6 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "actions": " ",
                 "cooldown": 1008000,
                 "desc": "If the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
@@ -943,10 +886,8 @@
             "Magical"
         ],
         "usage": "held in 1 hand",
-        "_className": "HeldItem",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "actions": "2A",
                 "activationType": "Command, Interact",
                 "cooldown": 1008000,
@@ -968,7 +909,6 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "actions": "",
                 "cooldown": 1008000,
                 "desc": "If the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
@@ -1001,10 +941,8 @@
             "Magical"
         ],
         "usage": "held in 1 hand",
-        "_className": "HeldItem",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "actions": "2A",
                 "activationType": "Command, Interact",
                 "cooldown": 1008000,
@@ -1025,7 +963,6 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "actions": "",
                 "cooldown": 1008000,
                 "desc": "If the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
@@ -1059,10 +996,8 @@
             "Magical"
         ],
         "usage": "held in 1 hand",
-        "_className": "HeldItem",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "actions": "2A",
                 "activationType": "Command, Interact",
                 "cooldown": 144000,
@@ -1084,7 +1019,6 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "actions": "",
                 "cooldown": 1008000,
                 "desc": "If the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
@@ -1119,10 +1053,8 @@
             "Magical"
         ],
         "usage": "held in 1 hand",
-        "_className": "HeldItem",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "actions": "2A",
                 "activationType": "Command, Interact",
                 "cooldown": 144000,
@@ -1144,7 +1076,6 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "actions": "",
                 "cooldown": 1008000,
                 "desc": "If the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
@@ -1194,10 +1125,8 @@
             "Magical"
         ],
         "usage": "held in 1 hand",
-        "_className": "HeldItem",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "actions": "1A",
                 "activationType": "Interact (metamagic)",
                 "frequency": "once per day",
@@ -1233,10 +1162,8 @@
             "Magical"
         ],
         "usage": "held in 1 hand",
-        "_className": "HeldItem",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "actions": "",
                 "desc": "A cursed dreamstone seems to function as a normal dreamstone until the bearer falls asleep or is forced to attempt a saving throw against a sleep effect. At this point, the person carrying the cursed dreamstone must attempt a DC 26 Will save to resist the curse's effects.",
                 "critsuccess": "The character resists the curse entirely and experiences a vivid dream while sleeping that warns them of the nature of the cursed dreamstone.",
@@ -1274,10 +1201,8 @@
             "Divine"
         ],
         "usage": "held in 1 hand",
-        "_className": "HeldItem",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "actions": "2A",
                 "activationType": "Interact",
                 "cost": "incense worth at least 5 gp",
@@ -1299,12 +1224,10 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "actions": "1A",
                 "activationType": "Interact",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "duration": 10,
                         "name": "See Invisibility",
                         "level": 2
@@ -1335,10 +1258,8 @@
             "Divine"
         ],
         "usage": "held in 1 hand",
-        "_className": "HeldItem",
         "activities": [
             {
-                "_className": "ItemActivity",
                 "actions": "2A",
                 "activationType": "Interact",
                 "cost": "incense worth at least 5 gp",
@@ -1360,18 +1281,15 @@
                 ]
             },
             {
-                "_className": "ItemActivity",
                 "actions": "1A",
                 "activationType": "Interact",
                 "castSpells": [
                     {
-                        "_className": "SpellCast",
                         "duration": 10,
                         "name": "See Invisibility",
                         "level": 2
                     },
                     {
-                        "_className": "SpellCast",
                         "duration": 10,
                         "name": "True Seeing",
                         "level": 6

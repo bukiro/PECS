@@ -1,7 +1,6 @@
 [
     {
         "name": "Rogue Poison",
-        "_className": "AlchemicalPoison",
         "level": 0,
         "price": 0,
         "bulk": "L",
@@ -20,7 +19,6 @@
     },
     {
         "name": "Arsenic",
-        "_className": "AlchemicalPoison",
         "level": 1,
         "price": 300,
         "bulk": "L",
@@ -46,7 +44,6 @@
     },
     {
         "name": "Spear Frog Poison",
-        "_className": "AlchemicalPoison",
         "level": 1,
         "price": 300,
         "bulk": "L",
@@ -71,7 +68,6 @@
     },
     {
         "name": "Giant Centipede Venom",
-        "_className": "AlchemicalPoison",
         "level": 1,
         "price": 400,
         "bulk": "L",
@@ -97,7 +93,6 @@
     },
     {
         "name": "Black Smear Poison",
-        "_className": "AlchemicalPoison",
         "level": 2,
         "price": 500,
         "bulk": "L",
@@ -125,7 +120,6 @@
     },
     {
         "name": "Belladonna",
-        "_className": "AlchemicalPoison",
         "level": 2,
         "price": 500,
         "bulk": "L",
@@ -151,7 +145,6 @@
     },
     {
         "name": "Black Adder Venom",
-        "_className": "AlchemicalPoison",
         "level": 2,
         "price": 600,
         "bulk": "L",
@@ -177,7 +170,6 @@
     },
     {
         "name": "Toad Tears",
-        "_className": "AlchemicalPoison",
         "level": 2,
         "price": 600,
         "bulk": "L",
@@ -203,7 +195,6 @@
     },
     {
         "name": "Lethargy Poison",
-        "_className": "AlchemicalPoison",
         "level": 2,
         "price": 700,
         "bulk": "L",
@@ -233,7 +224,6 @@
     },
     {
         "name": "Yellow Musk Vial",
-        "_className": "AlchemicalPoison",
         "level": 2,
         "price": 700,
         "bulk": "L",
@@ -261,7 +251,6 @@
     },
     {
         "name": "Blue Dragonfly Poison",
-        "_className": "AlchemicalPoison",
         "level": 3,
         "price": 700,
         "bulk": "L",
@@ -289,7 +278,6 @@
     },
     {
         "name": "Cytillesh Oil",
-        "_className": "AlchemicalPoison",
         "level": 3,
         "price": 1000,
         "bulk": "L",
@@ -315,7 +303,6 @@
     },
     {
         "name": "Graveroot",
-        "_className": "AlchemicalPoison",
         "level": 3,
         "price": 1000,
         "bulk": "L",
@@ -341,7 +328,6 @@
     },
     {
         "name": "Violet Venom",
-        "_className": "AlchemicalPoison",
         "level": 3,
         "price": 1200,
         "bulk": "L",
@@ -369,7 +355,6 @@
     },
     {
         "name": "Hunting Spider Venom",
-        "_className": "AlchemicalPoison",
         "level": 5,
         "price": 2500,
         "bulk": "L",
@@ -395,7 +380,6 @@
     },
     {
         "name": "False Death",
-        "_className": "AlchemicalPoison",
         "level": 5,
         "price": 2500,
         "bulk": "L",
@@ -423,7 +407,6 @@
     },
     {
         "name": "Giant Scorpion Venom",
-        "_className": "AlchemicalPoison",
         "level": 6,
         "price": 4000,
         "bulk": "L",
@@ -449,7 +432,6 @@
     },
     {
         "name": "Giant Wasp Venom",
-        "_className": "AlchemicalPoison",
         "level": 7,
         "price": 5500,
         "bulk": "L",
@@ -475,7 +457,6 @@
     },
     {
         "name": "Malyass Root Paste",
-        "_className": "AlchemicalPoison",
         "level": 7,
         "price": 5500,
         "bulk": "L",
@@ -501,7 +482,6 @@
     },
     {
         "name": "Isolation Draught",
-        "_className": "AlchemicalPoison",
         "level": 7,
         "price": 5500,
         "bulk": "L",
@@ -529,7 +509,6 @@
     },
     {
         "name": "Addlebrain",
-        "_className": "AlchemicalPoison",
         "level": 7,
         "price": 5800,
         "bulk": "L",
@@ -557,7 +536,6 @@
     },
     {
         "name": "Nettleweed Residue",
-        "_className": "AlchemicalPoison",
         "level": 8,
         "price": 7500,
         "bulk": "L",
@@ -583,7 +561,6 @@
     },
     {
         "name": "Wyvern Poison",
-        "_className": "AlchemicalPoison",
         "level": 8,
         "price": 8000,
         "bulk": "L",
@@ -609,7 +586,6 @@
     },
     {
         "name": "Lich Dust",
-        "_className": "AlchemicalPoison",
         "level": 9,
         "price": 11000,
         "bulk": "L",
@@ -635,7 +611,6 @@
     },
     {
         "name": "Spider Root",
-        "_className": "AlchemicalPoison",
         "level": 9,
         "price": 11000,
         "bulk": "L",
@@ -661,7 +636,6 @@
     },
     {
         "name": "Wolfsbane",
-        "_className": "AlchemicalPoison",
         "level": 10,
         "price": 15500,
         "bulk": "L",
@@ -687,7 +661,6 @@
     },
     {
         "name": "Shadow Essence",
-        "_className": "AlchemicalPoison",
         "level": 10,
         "price": 16000,
         "bulk": "L",
@@ -714,7 +687,6 @@
     },
     {
         "name": "Blightburn Resin",
-        "_className": "AlchemicalPoison",
         "level": 11,
         "price": 22500,
         "bulk": "L",
@@ -740,7 +712,6 @@
     },
     {
         "name": "Slumber Wine",
-        "_className": "AlchemicalPoison",
         "level": 12,
         "price": 32500,
         "bulk": "L",
@@ -767,7 +738,6 @@
     },
     {
         "name": "Mage Bane",
-        "_className": "AlchemicalPoison",
         "level": 12,
         "price": 32500,
         "bulk": "L",
@@ -795,7 +765,6 @@
     },
     {
         "name": "Deathcap Powder",
-        "_className": "AlchemicalPoison",
         "level": 13,
         "price": 45000,
         "bulk": "L",
@@ -821,7 +790,6 @@
     },
     {
         "name": "Gorgon's Breath",
-        "_className": "AlchemicalPoison",
         "level": 13,
         "price": 47500,
         "bulk": "L",
@@ -850,7 +818,6 @@
     },
     {
         "name": "Purple Worm Venom",
-        "_className": "AlchemicalPoison",
         "level": 13,
         "price": 50000,
         "bulk": "L",
@@ -876,7 +843,6 @@
     },
     {
         "name": "Dragon Bile",
-        "_className": "AlchemicalPoison",
         "level": 15,
         "price": 92500,
         "bulk": "L",
@@ -902,7 +868,6 @@
     },
     {
         "name": "Mindfog Mist",
-        "_className": "AlchemicalPoison",
         "level": 15,
         "price": 100000,
         "bulk": "L",
@@ -928,7 +893,6 @@
     },
     {
         "name": "Nightmare Vapor",
-        "_className": "AlchemicalPoison",
         "level": 16,
         "price": 140000,
         "bulk": "L",
@@ -954,7 +918,6 @@
     },
     {
         "name": "Weeping Midnight",
-        "_className": "AlchemicalPoison",
         "level": 16,
         "price": 140000,
         "bulk": "L",
@@ -982,7 +945,6 @@
     },
     {
         "name": "Brimstone Fumes",
-        "_className": "AlchemicalPoison",
         "level": 16,
         "price": 150000,
         "bulk": "L",
@@ -1009,7 +971,6 @@
     },
     {
         "name": "Frenzy Oil",
-        "_className": "AlchemicalPoison",
         "level": 16,
         "price": 150000,
         "bulk": "L",
@@ -1037,7 +998,6 @@
     },
     {
         "name": "Hemlock",
-        "_className": "AlchemicalPoison",
         "level": 17,
         "price": 225000,
         "bulk": "L",
@@ -1063,7 +1023,6 @@
     },
     {
         "name": "King's Sleep",
-        "_className": "AlchemicalPoison",
         "level": 18,
         "price": 400000,
         "bulk": "L",
@@ -1089,7 +1048,6 @@
     },
     {
         "name": "Black Lotus Extract",
-        "_className": "AlchemicalPoison",
         "level": 19,
         "price": 650000,
         "bulk": "L",
@@ -1116,7 +1074,6 @@
     },
     {
         "name": "Oblivion Essence",
-        "_className": "AlchemicalPoison",
         "level": 19,
         "price": 650000,
         "bulk": "L",
@@ -1144,7 +1101,6 @@
     },
     {
         "name": "Tears of Death",
-        "_className": "AlchemicalPoison",
         "level": 20,
         "price": 1200000,
         "bulk": "L",
@@ -1171,7 +1127,6 @@
     },
     {
         "name": "Nightmare Salt",
-        "_className": "AlchemicalPoison",
         "level": 20,
         "price": 1400000,
         "bulk": "L",

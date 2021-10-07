@@ -11,7 +11,7 @@
         "levelreq": 1,
         "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
         "specialreqdesc": "Any Ancestry except Orc",
-        "gainAncestry":"Orc"
+        "gainAncestry": "Orc"
     },
     {
         "name": "Cultural Adaptability: Orc",
@@ -27,7 +27,6 @@
         "specialreqdesc": "Any Ancestry except Orc",
         "gainFeatChoice": [
             {
-                "_className": "FeatChoice",
                 "feats": [
                     {
                         "locked": true,
@@ -38,7 +37,6 @@
                 "type": "General"
             },
             {
-                "_className": "FeatChoice",
                 "available": 1,
                 "level": 1,
                 "source": "Feat: Cultural Adaptability: Orc",

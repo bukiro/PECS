@@ -3,8 +3,7 @@ import { ItemActivity } from './ItemActivity';
 import { TypeService } from './type.service';
 
 export class Ammunition extends Consumable {
-    public readonly _className: string = this.constructor.name;
-    //Ammunition should be type "ammunition" to be found in the database
+        //Ammunition should be type "ammunition" to be found in the database
     readonly type = "ammunition";
     activities: ItemActivity[] = [];
     actions = "";

@@ -7,8 +7,7 @@ import { CharacterService } from './character.service';
 import { TypeService } from './type.service';
 
 export class Item {
-    public readonly _className: string = this.constructor.name;
-    public readonly neversave: string[] = [
+        public readonly neversave: string[] = [
         "restoredFromSave"
     ]
     //Allow changing of "equippable" by custom item creation

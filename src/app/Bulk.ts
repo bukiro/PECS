@@ -5,8 +5,7 @@ import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
 
 export class Bulk {
-    public readonly _className: string = this.constructor.name;
-    recast() {
+        recast() {
         return this;
     }
     calculate(creature: Character | AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {

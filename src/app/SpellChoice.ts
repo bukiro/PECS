@@ -2,13 +2,11 @@ import { SpellGain } from './SpellGain';
 import { v4 as uuidv4 } from 'uuid';
 
 export class SpellChoice {
-    public readonly _className: string = this.constructor.name;
-    //This is a list of all the attributes that should not be discarded when saving the character.
+        //This is a list of all the attributes that should not be discarded when saving the character.
     //For SpellChoices, if the choice is part of a class, the class may designate this choice as a signature spell.
     //A regular SpellChoice does not do that, so if you disable the signature spell on the choice, it is false == false and gets discarded.
     //Loading the character recreates the class and overwrites attributes that aren't set, so the SpellChoice will be a signature spell again.
     public readonly save = [
-        "_className",
         "signatureSpell"
     ];
     public available: number = 0;

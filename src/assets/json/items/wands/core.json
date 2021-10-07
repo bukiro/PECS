@@ -5,14 +5,12 @@
         "level": 3,
         "name": "Magic Wand (1st-Level Spell)",
         "activationType": "Cast a Spell",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 1
             }
         ],
-        "_className": "Wand",
         "price": 6000,
         "traits": [
             "Magical",
@@ -28,14 +26,12 @@
         "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
         "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
         "activationType": "Cast a Spell",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 1
             }
         ],
-        "_className": "Wand",
         "price": 10000,
         "traits": [
             "Magical",
@@ -48,14 +44,12 @@
         "level": 5,
         "name": "Magic Wand (2nd-Level Spell)",
         "activationType": "Cast a Spell",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 2
             }
         ],
-        "_className": "Wand",
         "price": 16000,
         "traits": [
             "Magical",
@@ -71,14 +65,12 @@
         "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
         "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
         "activationType": "Cast a Spell",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 2
             }
         ],
-        "_className": "Wand",
         "price": 25000,
         "traits": [
             "Magical",
@@ -91,14 +83,12 @@
         "level": 7,
         "name": "Magic Wand (3rd-Level Spell)",
         "activationType": "Cast a Spell",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 3
             }
         ],
-        "_className": "Wand",
         "price": 36000,
         "traits": [
             "Magical",
@@ -114,9 +104,8 @@
         "craftingRequirement": "Supply a casting of fireball of the appropriate level.",
         "effect": "You cast fireball of the indicated level. Each creature that fails its save takes |dice=1d6 Persistent Fire| persistent fire damage.",
         "activationType": "Cast a Spell",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "level": 3,
                 "spells": [
                     {
@@ -128,7 +117,6 @@
         ],
         "subType": "(3rd-Level Spell)",
         "subTypeDesc": "Persistent Damage 1d6",
-        "_className": "Wand",
         "price": 50000,
         "traits": [
             "Evocation",
@@ -146,14 +134,12 @@
         "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
         "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
         "activationType": "Cast a Spell",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 3
             }
         ],
-        "_className": "Wand",
         "price": 50000,
         "traits": [
             "Magical",
@@ -166,14 +152,12 @@
         "level": 9,
         "name": "Magic Wand (4th-Level Spell)",
         "activationType": "Cast a Spell",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 4
             }
         ],
-        "_className": "Wand",
         "price": 70000,
         "traits": [
             "Magical",
@@ -189,14 +173,12 @@
         "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
         "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
         "activationType": "Cast a Spell",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 4
             }
         ],
-        "_className": "Wand",
         "price": 100000,
         "traits": [
             "Magical",
@@ -209,14 +191,12 @@
         "level": 11,
         "name": "Magic Wand (5th-Level Spell)",
         "activationType": "Cast a Spell",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 5
             }
         ],
-        "_className": "Wand",
         "price": 150000,
         "traits": [
             "Magical",
@@ -232,9 +212,8 @@
         "craftingRequirement": "Supply a casting of fireball of the appropriate level.",
         "effect": "You cast fireball of the indicated level. Each creature that fails its save takes |dice=2d6 Persistent Fire| persistent fire damage.",
         "activationType": "Cast a Spell",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "level": 5,
                 "spells": [
                     {
@@ -246,7 +225,6 @@
         ],
         "subType": "(5th-Level Spell)",
         "subTypeDesc": "Persistent Damage 2d6",
-        "_className": "Wand",
         "price": 200000,
         "traits": [
             "Evocation",
@@ -264,14 +242,12 @@
         "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
         "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
         "activationType": "Cast a Spell",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 5
             }
         ],
-        "_className": "Wand",
         "price": 200000,
         "traits": [
             "Magical",
@@ -284,14 +260,12 @@
         "level": 13,
         "name": "Magic Wand (6th-Level Spell)",
         "activationType": "Cast a Spell",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 6
             }
         ],
-        "_className": "Wand",
         "price": 300000,
         "traits": [
             "Magical",
@@ -307,14 +281,12 @@
         "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
         "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
         "activationType": "Cast a Spell",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 6
             }
         ],
-        "_className": "Wand",
         "price": 450000,
         "traits": [
             "Magical",
@@ -327,14 +299,12 @@
         "level": 15,
         "name": "Magic Wand (7th-Level Spell)",
         "activationType": "Cast a Spell",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 7
             }
         ],
-        "_className": "Wand",
         "price": 650000,
         "traits": [
             "Magical",
@@ -350,9 +320,8 @@
         "craftingRequirement": "Supply a casting of fireball of the appropriate level.",
         "effect": "You cast fireball of the indicated level. Each creature that fails its save takes |dice=3d6 Persistent Fire| persistent fire damage.",
         "activationType": "Cast a Spell",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "level": 7,
                 "spells": [
                     {
@@ -364,7 +333,6 @@
         ],
         "subType": "(7rd-Level Spell)",
         "subTypeDesc": "Persistent Damage 3d6",
-        "_className": "Wand",
         "price": 1000000,
         "traits": [
             "Evocation",
@@ -382,14 +350,12 @@
         "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
         "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
         "activationType": "Cast a Spell",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 7
             }
         ],
-        "_className": "Wand",
         "price": 1000000,
         "traits": [
             "Magical",
@@ -402,14 +368,12 @@
         "level": 17,
         "name": "Magic Wand (8th-Level Spell)",
         "activationType": "Cast a Spell",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 8
             }
         ],
-        "_className": "Wand",
         "price": 150000,
         "traits": [
             "Magical",
@@ -425,14 +389,12 @@
         "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
         "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
         "activationType": "Cast a Spell",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 8
             }
         ],
-        "_className": "Wand",
         "price": 2400000,
         "traits": [
             "Magical",
@@ -445,14 +407,12 @@
         "level": 19,
         "name": "Magic Wand (9th-Level Spell)",
         "activationType": "Cast a Spell",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 9
             }
         ],
-        "_className": "Wand",
         "price": 400000,
         "traits": [
             "Magical",
@@ -468,9 +428,8 @@
         "craftingRequirement": "Supply a casting of fireball of the appropriate level.",
         "effect": "You cast fireball of the indicated level. Each creature that fails its save takes |dice=4d6 Persistent Fire| persistent fire damage.",
         "activationType": "Cast a Spell",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 9,
                 "spells": [
@@ -483,7 +442,6 @@
         ],
         "subType": "(9th-Level Spell)",
         "subTypeDesc": "Persistent Damage 4d6",
-        "_className": "Wand",
         "price": 7000000,
         "traits": [
             "Evocation",
@@ -501,14 +459,12 @@
         "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
         "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
         "activationType": "Cast a Spell",
-        "storedSpells":[
+        "storedSpells": [
             {
-                "_className": "SpellChoice",
                 "available": 1,
                 "level": 9
             }
         ],
-        "_className": "Wand",
         "price": 7000000,
         "traits": [
             "Magical",

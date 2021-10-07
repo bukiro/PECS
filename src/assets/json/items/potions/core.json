@@ -16,7 +16,6 @@
             "Necromancy",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand"
     },
@@ -33,12 +32,10 @@
             "Potion",
             "Transmutation"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "castSpells": [
             {
-                "_className": "SpellCast",
                 "name": "Water Breathing",
                 "level": 2,
                 "duration": 6000
@@ -62,7 +59,6 @@
             "Necromancy",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand"
     },
@@ -79,12 +75,10 @@
             "Potion",
             "Primal"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "castSpells": [
             {
-                "_className": "SpellCast",
                 "name": "Barkskin",
                 "level": 2,
                 "duration": 1000
@@ -104,12 +98,10 @@
             "Potion",
             "Transmutation"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "castSpells": [
             {
-                "_className": "SpellCast",
                 "name": "Shrink",
                 "level": 2,
                 "duration": 1000
@@ -130,12 +122,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "castSpells": [
             {
-                "_className": "SpellCast",
                 "name": "Invisibility",
                 "level": 2
             }
@@ -154,12 +144,10 @@
             "Potion",
             "Transmutation"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "castSpells": [
             {
-                "_className": "SpellCast",
                 "name": "Jump",
                 "level": 1,
                 "duration": 100
@@ -181,12 +169,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Potion of Acid Resistance",
                 "source": "Potion of Acid Resistance (Lesser)",
@@ -209,12 +195,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Potion of Cold Resistance",
                 "source": "Potion of Cold Resistance (Lesser)",
@@ -237,12 +221,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Potion of Electricity Resistance",
                 "source": "Potion of Electricity Resistance (Lesser)",
@@ -265,12 +247,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Potion of Fire Resistance",
                 "source": "Potion of Fire Resistance (Lesser)",
@@ -293,12 +273,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Potion of Sonic Resistance",
                 "source": "Potion of Sonic Resistance (Lesser)",
@@ -321,12 +299,10 @@
             "Mental",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 1000,
                 "name": "Truth Potion",
                 "source": "Truth Potion"
@@ -353,7 +329,6 @@
             "Necromancy",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand"
     },
@@ -370,12 +345,10 @@
             "Potion",
             "Transmutation"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 1000,
                 "name": "Potion of Swimming",
                 "source": "Potion of Swimming"
@@ -395,7 +368,6 @@
             "Potion",
             "Transmutation"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand"
     },
@@ -415,12 +387,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Black Dragon's Breath Potion (Young)",
                 "source": "Black Dragon's Breath Potion (Young)"
@@ -443,12 +413,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Copper Dragon's Breath Potion (Young)",
                 "source": "Copper Dragon's Breath Potion (Young)"
@@ -471,12 +439,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Blue Dragon's Breath Potion (Young)",
                 "source": "Blue Dragon's Breath Potion (Young)"
@@ -499,12 +465,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Bronze Dragon's Breath Potion (Young)",
                 "source": "Bronze Dragon's Breath Potion (Young)"
@@ -527,12 +491,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Brass Dragon's Breath Potion (Young)",
                 "source": "Brass Dragon's Breath Potion (Young)"
@@ -555,12 +517,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Green Dragon's Breath Potion (Young)",
                 "source": "Green Dragon's Breath Potion (Young)"
@@ -583,12 +543,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Gold Dragon's Breath Potion (Young)",
                 "source": "Gold Dragon's Breath Potion (Young)"
@@ -611,12 +569,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Red Dragon's Breath Potion (Young)",
                 "source": "Red Dragon's Breath Potion (Young)"
@@ -639,12 +595,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Silver Dragon's Breath Potion (Young)",
                 "source": "Silver Dragon's Breath Potion (Young)"
@@ -667,12 +621,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "White Dragon's Breath Potion (Young)",
                 "source": "White Dragon's Breath Potion (Young)"
@@ -692,12 +644,10 @@
             "Potion",
             "Transmutation"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "castSpells": [
             {
-                "_className": "SpellCast",
                 "name": "Haste"
             }
         ]
@@ -717,12 +667,10 @@
             "Potion",
             "Transmutation"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "castSpells": [
             {
-                "_className": "SpellCast",
                 "name": "Shrink",
                 "level": 4,
                 "duration": 6000
@@ -730,7 +678,6 @@
         ],
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Shrinking Potion (Greater)",
                 "source": "Shrinking Potion (Greater)"
@@ -750,12 +697,10 @@
             "Potion",
             "Transmutation"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 100,
                 "name": "Potion of Flying",
                 "source": "Potion of Flying"
@@ -777,12 +722,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Potion of Acid Resistance",
                 "source": "Potion of Acid Resistance (Moderate)",
@@ -805,12 +748,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Potion of Cold Resistance",
                 "source": "Potion of Cold Resistance (Moderate)",
@@ -833,12 +774,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Potion of Electricity Resistance",
                 "source": "Potion of Electricity Resistance (Moderate)",
@@ -861,12 +800,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Potion of Fire Resistance",
                 "source": "Potion of Fire Resistance (Moderate)",
@@ -889,12 +826,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Potion of Sonic Resistance",
                 "source": "Potion of Sonic Resistance (Moderate)",
@@ -917,12 +852,10 @@
             "Potion",
             "Transmutation"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Potion of Swimming",
                 "source": "Potion of Swimming"
@@ -943,12 +876,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 24000,
                 "name": "Potion of Tongues",
                 "source": "Potion of Tongues"
@@ -971,12 +902,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Black Dragon's Breath Potion (Adult)",
                 "source": "Black Dragon's Breath Potion (Adult)"
@@ -999,12 +928,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Copper Dragon's Breath Potion (Adult)",
                 "source": "Copper Dragon's Breath Potion (Adult)"
@@ -1027,12 +954,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Blue Dragon's Breath Potion (Adult)",
                 "source": "Blue Dragon's Breath Potion (Adult)"
@@ -1055,12 +980,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Bronze Dragon's Breath Potion (Adult)",
                 "source": "Bronze Dragon's Breath Potion (Adult)"
@@ -1083,12 +1006,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Brass Dragon's Breath Potion (Adult)",
                 "source": "Brass Dragon's Breath Potion (Adult)"
@@ -1111,12 +1032,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Green Dragon's Breath Potion (Adult)",
                 "source": "Green Dragon's Breath Potion (Adult)"
@@ -1139,12 +1058,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Gold Dragon's Breath Potion (Adult)",
                 "source": "Gold Dragon's Breath Potion (Adult)"
@@ -1167,12 +1084,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Red Dragon's Breath Potion (Adult)",
                 "source": "Red Dragon's Breath Potion (Adult)"
@@ -1195,12 +1110,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Silver Dragon's Breath Potion (Adult)",
                 "source": "Silver Dragon's Breath Potion (Adult)"
@@ -1223,12 +1136,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "White Dragon's Breath Potion (Adult)",
                 "source": "White Dragon's Breath Potion (Adult)"
@@ -1252,7 +1163,6 @@
             "Necromancy",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand"
     },
@@ -1271,7 +1181,6 @@
             "Necromancy",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "inputRequired": "The potion attempts to counteract all curses and diseases affecting you, as well as the blinded and deafened conditions from spells affecting you. The potion has a counteract level of 7 and a +20 modifier for the roll."
@@ -1291,12 +1200,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Potion of Acid Resistance",
                 "source": "Potion of Acid Resistance (Greater)",
@@ -1319,12 +1226,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Potion of Cold Resistance",
                 "source": "Potion of Cold Resistance (Greater)",
@@ -1347,12 +1252,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Potion of Electricity Resistance",
                 "source": "Potion of Electricity Resistance (Greater)",
@@ -1375,12 +1278,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Potion of Fire Resistance",
                 "source": "Potion of Fire Resistance (Greater)",
@@ -1403,12 +1304,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Potion of Sonic Resistance",
                 "source": "Potion of Sonic Resistance (Greater)",
@@ -1431,12 +1330,10 @@
             "Potion",
             "Transmutation"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Potion of Flying",
                 "source": "Potion of Flying"
@@ -1456,12 +1353,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "castSpells": [
             {
-                "_className": "SpellCast",
                 "name": "True Seeing",
                 "level": 7
             }
@@ -1483,12 +1378,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Black Dragon's Breath Potion (Wyrm)",
                 "source": "Black Dragon's Breath Potion (Wyrm)"
@@ -1511,12 +1404,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Copper Dragon's Breath Potion (Wyrm)",
                 "source": "Copper Dragon's Breath Potion (Wyrm)"
@@ -1539,12 +1430,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Blue Dragon's Breath Potion (Wyrm)",
                 "source": "Blue Dragon's Breath Potion (Wyrm)"
@@ -1567,12 +1456,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Bronze Dragon's Breath Potion (Wyrm)",
                 "source": "Bronze Dragon's Breath Potion (Wyrm)"
@@ -1595,12 +1482,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Brass Dragon's Breath Potion (Wyrm)",
                 "source": "Brass Dragon's Breath Potion (Wyrm)"
@@ -1623,12 +1508,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Green Dragon's Breath Potion (Wyrm)",
                 "source": "Green Dragon's Breath Potion (Wyrm)"
@@ -1651,12 +1534,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Gold Dragon's Breath Potion (Wyrm)",
                 "source": "Gold Dragon's Breath Potion (Wyrm)"
@@ -1679,12 +1560,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Red Dragon's Breath Potion (Wyrm)",
                 "source": "Red Dragon's Breath Potion (Wyrm)"
@@ -1707,12 +1586,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "Silver Dragon's Breath Potion (Wyrm)",
                 "source": "Silver Dragon's Breath Potion (Wyrm)"
@@ -1735,12 +1612,10 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "gainConditions": [
             {
-                "_className": "ConditionGain",
                 "duration": 6000,
                 "name": "White Dragon's Breath Potion (Wyrm)",
                 "source": "White Dragon's Breath Potion (Wyrm)"
@@ -1760,17 +1635,14 @@
             "Magical",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "castSpells": [
             {
-                "_className": "SpellCast",
                 "name": "Mind Blank",
                 "duration": 1000
             },
             {
-                "_className": "SpellCast",
                 "name": "Invisibility",
                 "level": 4,
                 "duration": 1000
@@ -1794,7 +1666,6 @@
             "Necromancy",
             "Potion"
         ],
-        "_className": "Potion",
         "activationType": "Interact",
         "usage": "held in 1 hand"
     }

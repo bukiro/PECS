@@ -4,8 +4,7 @@ import { Creature } from './Creature';
 import { TypeService } from './type.service';
 
 export class Wand extends Equipment {
-    public readonly _className: string = this.constructor.name;
-    //Wands should be type "wands" to be found in the database
+        //Wands should be type "wands" to be found in the database
     readonly type = "wands";
     readonly equippable = false;
     public actions: string = "";

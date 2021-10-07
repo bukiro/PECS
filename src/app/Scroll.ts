@@ -4,8 +4,7 @@ import { Creature } from './Creature';
 import { TypeService } from './type.service';
 
 export class Scroll extends Consumable {
-    public readonly _className: string = this.constructor.name;
-    //Scrolls should be type "scrolls" to be found in the database
+        //Scrolls should be type "scrolls" to be found in the database
     readonly type = "scrolls";
     recast(typeService: TypeService) {
         super.recast(typeService);

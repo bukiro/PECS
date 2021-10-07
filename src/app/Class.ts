@@ -21,8 +21,7 @@ import { LanguageGain } from './LanguageGain';
 import { TypeService } from './type.service';
 
 export class Class {
-    public readonly _className: string = this.constructor.name;
-    public activities: ActivityGain[] = [];
+        public activities: ActivityGain[] = [];
     public ancestry: Ancestry = new Ancestry();
     public anathema: string[] = [];
     public deityFocused: boolean = false;

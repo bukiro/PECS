@@ -50,7 +50,7 @@ export class ClassesService {
             let libraryObject = this.get_Classes($class.name)[0];
             if (libraryObject) {
                 Object.keys($class).forEach(key => {
-                    if (!["name", "_className"].includes(key)) {
+                    if (key != "name") {
                         //If the Object has a name, and a library item can be found with that name, compare the property with the library item
                         //If they have the same value, delete the property from the item - it can be recovered during loading via the name.
                         if (JSON.stringify($class[key]) == JSON.stringify(libraryObject[key])) {
@@ -62,7 +62,7 @@ export class ClassesService {
                 if ($class.levels) {
                     for (let index = 0; index < $class.levels.length; index++) {
                         Object.keys($class.levels[index]).forEach(key => {
-                            if (!["number", "_className"].includes(key)) {
+                            if (key != "number") {
                                 if (JSON.stringify($class.levels[index][key]) == JSON.stringify(libraryObject.levels[index][key])) {
                                     delete $class.levels[index][key];
                                 }

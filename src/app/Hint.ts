@@ -3,8 +3,7 @@ import { HeightenedDesc } from './HeightenedDesc';
 import { HeightenedDescSet } from './HeightenedDescSet';
 
 export class Hint {
-    public readonly _className: string = this.constructor.name;
-    //We want the active hints to be reset when loading characters. Everything listed in neversave gets deleted during saving.
+        //We want the active hints to be reset when loading characters. Everything listed in neversave gets deleted during saving.
     public readonly neversave: string[] = [
         "active",
         "active2",

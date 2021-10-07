@@ -233,65 +233,9 @@ export class ItemsService {
                 case "wands":
                     return Object.assign(new Snare(), item);
             }
-        } else if (item._className) {
-            return this.cast_ItemByClassName(item)
         } else {
             return item;
         }
-    }
-
-    cast_ItemByClassName(item: Item, className = item._className) {
-        if (className) {
-            switch (className) {
-                case "Weapon":
-                    return Object.assign(new Weapon(), item);
-                case "Armor":
-                    return Object.assign(new Armor(), item);
-                case "Shield":
-                    return Object.assign(new Shield(), item);
-                case "WornItem":
-                    return Object.assign(new WornItem(), item);
-                case "HeldItem":
-                    return Object.assign(new HeldItem(), item);
-                case "AlchemicalElixir":
-                    return Object.assign(new AlchemicalElixir(), item);
-                case "AlchemicalBomb":
-                    return Object.assign(new AlchemicalBomb(), item);
-                case "AlchemicalPoison":
-                    return Object.assign(new AlchemicalPoison(), item);
-                case "AlchemicalTool":
-                    return Object.assign(new AlchemicalTool(), item);
-                case "Potion":
-                    return Object.assign(new Potion(), item);
-                case "OtherConsumable":
-                    return Object.assign(new OtherConsumable(), item);
-                case "OtherConsumableBomb":
-                    return Object.assign(new OtherConsumableBomb(), item);
-                case "AdventuringGear":
-                    return Object.assign(new AdventuringGear(), item);
-                case "Ammunition":
-                    return Object.assign(new Ammunition(), item);
-                case "ArmorRune":
-                    return Object.assign(new ArmorRune(), item);
-                case "WeaponRune":
-                    return Object.assign(new WeaponRune(), item);
-                case "Scroll":
-                    return Object.assign(new Scroll(), item);
-                case "Oil":
-                    return Object.assign(new Oil(), item);
-                case "Talisman":
-                    return Object.assign(new Talisman(), item);
-                case "Snare":
-                    return Object.assign(new Snare(), item);
-                case "Wand":
-                    return Object.assign(new Wand(), item);
-            }
-        } else if (item.type) {
-            return this.cast_ItemByType(item)
-        } else {
-            return item;
-        }
-
     }
 
     initialize_Item(item: any, preassigned: boolean = false, newId: boolean = true, resetPropertyRunes: boolean = false) {
@@ -619,7 +563,10 @@ export class ItemsService {
                 if (including) {
                     this.move_GrantedItems(creature, movedItem, targetInventory, inventory, characterService);
                 }
-                characterService.set_EquipmentViewChanges(creature, movedItem);
+                if (movedItem instanceof Equipment) {
+                    characterService.set_EquipmentViewChanges(creature, movedItem);
+                }
+
             }
         }
     }

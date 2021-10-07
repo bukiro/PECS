@@ -3,8 +3,7 @@ import { ItemsService } from './items.service';
 import { TypeService } from './type.service';
 
 export class WornItem extends Equipment {
-    public readonly _className: string = this.constructor.name;
-    //Allow changing of "equippable" by custom item creation.
+        //Allow changing of "equippable" by custom item creation.
     readonly allowEquippable = false;
     //Worn Items cannot be equipped or unequipped, but can be invested.
     readonly equippable = false;

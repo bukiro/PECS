@@ -1,6 +1,5 @@
 export class Savegame {
-    public readonly _className: string = this.constructor.name;
-    name: string = "Unnamed";
+        name: string = "Unnamed";
     id: string;
     dbId: string;
     class: string;

@@ -5,8 +5,7 @@ import { TypeService } from './type.service';
 import { WeaponRune } from './WeaponRune';
 
 export class Oil extends Consumable {
-    public readonly _className: string = this.constructor.name;
-    //Oils should be type "oils" to be found in the database
+        //Oils should be type "oils" to be found in the database
     readonly type = "oils";
     public castSpells: SpellCast[] = [];
     public critfailure: string = "";

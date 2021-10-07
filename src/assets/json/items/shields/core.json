@@ -7,12 +7,10 @@
         "name": "Buckler",
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Shield Bash",
                 "on": "equip"
             }
         ],
-        "_className": "Shield",
         "acbonus": 1,
         "brokenThreshold": 3,
         "hardness": 3,
@@ -26,12 +24,10 @@
         "name": "Wooden Shield",
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Shield Bash",
                 "on": "equip"
             }
         ],
-        "_className": "Shield",
         "acbonus": 2,
         "brokenThreshold": 6,
         "hardness": 3,
@@ -45,12 +41,10 @@
         "name": "Steel Shield",
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Shield Bash",
                 "on": "equip"
             }
         ],
-        "_className": "Shield",
         "acbonus": 2,
         "brokenThreshold": 10,
         "hardness": 5,
@@ -64,12 +58,10 @@
         "name": "Tower Shield",
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Shield Bash",
                 "on": "equip"
             }
         ],
-        "_className": "Shield",
         "acbonus": 2,
         "speedpenalty": -5,
         "brokenThreshold": 10,
@@ -87,7 +79,6 @@
         "shieldBase": "Steel Shield",
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Lion's Head Shield Boss",
                 "type": "weapons",
                 "on": "equip"
@@ -95,7 +86,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Lion's Shield",
                 "desc": "You animate the lion's head. You Raise the Shield and make a melee Strike with it as part of the same action. The shield's biting maw is a martial melee weapon that deals 2d6 piercing damage and has the deadly 1d6 trait; it can't be enhanced by runes. The shield remains animated for 1 minute, during which time you can Strike with it each time you Raise the Shield, as well as with a Strike action.",
                 "inputRequired": "You gain the lion's shield biting maw weapon and can make attacks with it.",
@@ -118,7 +108,6 @@
                 "source": "91a08649-09cd-44aa-9c5f-aac121102a64"
             }
         ],
-        "_className": "Shield",
         "acbonus": 2,
         "brokenThreshold": 18,
         "hardness": 6,
@@ -139,7 +128,6 @@
         "shieldBase": "Steel Shield",
         "gainItems": [
             {
-                "_className": "ItemGain",
                 "name": "Spined Shield Spikes",
                 "type": "weapons",
                 "on": "equip"
@@ -147,7 +135,6 @@
         ],
         "activities": [
             {
-                "_className": "ItemActivity",
                 "name": "Spined Shield",
                 "desc": "You shoot one of the shield's spines at a target. A fired spine uses the spikes' statistics, but it is a martial ranged weapon with a range increment of 120 feet.",
                 "inputRequired": "Make an attack with the spined shield spikes weapon.",
@@ -164,7 +151,6 @@
                 "sharedChargesID": 1
             },
             {
-                "_className": "ItemActivity",
                 "name": "Spined Shield: Snap Off Spine",
                 "desc": "When the shield would take damage (after applying Hardness), snaps off one spine per 6 damage, reducing the damage by 6. The shield takes any remaining damage. When there are no spines left, the shield takes damage as normal.",
                 "traits": [
@@ -179,7 +165,6 @@
                 "sharedChargesID": 1
             }
         ],
-        "_className": "Shield",
         "acbonus": 2,
         "brokenThreshold": 12,
         "hardness": 6,
@@ -197,12 +182,10 @@
         "displayName": "Force Shield",
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Shield Block",
                 "source": "Force Shield"
             }
         ],
-        "_className": "Shield",
         "acbonus": 1,
         "brokenThreshold": 1,
         "hardness": 5,
@@ -217,12 +200,10 @@
         "displayName": "Force Shield",
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Shield Block",
                 "source": "Force Shield"
             }
         ],
-        "_className": "Shield",
         "acbonus": 1,
         "brokenThreshold": 1,
         "hardness": 10,
@@ -237,12 +218,10 @@
         "displayName": "Force Shield",
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Shield Block",
                 "source": "Force Shield"
             }
         ],
-        "_className": "Shield",
         "acbonus": 1,
         "brokenThreshold": 1,
         "hardness": 15,
@@ -257,12 +236,10 @@
         "displayName": "Force Shield",
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Shield Block",
                 "source": "Force Shield"
             }
         ],
-        "_className": "Shield",
         "acbonus": 1,
         "brokenThreshold": 1,
         "hardness": 20,
@@ -277,12 +254,10 @@
         "displayName": "Force Shield",
         "gainActivities": [
             {
-                "_className": "ActivityGain",
                 "name": "Shield Block",
                 "source": "Force Shield"
             }
         ],
-        "_className": "Shield",
         "acbonus": 1,
         "brokenThreshold": 1,
         "hardness": 25,
