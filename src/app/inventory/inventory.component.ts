@@ -222,7 +222,7 @@ export class InventoryComponent implements OnInit {
         return item.gainItems && item.gainItems.some(gain => gain.on == "grant");
     }
 
-    open_ContainerItemDropModal(content, item: Item, inventory: ItemCollection) {
+    open_GrantingOrContainerItemDropModal(content, item: Item, inventory: ItemCollection) {
         this.modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then((result) => {
             if (result == "Drop all") {
                 this.drop_InventoryItem(item, inventory);
@@ -256,7 +256,7 @@ export class InventoryComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    move_InventoryItem(item: Item, inventory: ItemCollection, target: ItemCollection | SpellTarget, amount: number, including: boolean) {
+    move_InventoryItem(item: Item, inventory: ItemCollection, target: ItemCollection | SpellTarget, amount: number, including: boolean, reload: boolean = true) {
         if (target instanceof ItemCollection) {
             this.itemsService.move_InventoryItemLocally(this.get_Creature(), item, target, inventory, this.characterService, amount, including);
         } else if (target instanceof SpellTarget) {
@@ -267,11 +267,13 @@ export class InventoryComponent implements OnInit {
             }
             this.toggle_Item();
         }
-        this.characterService.set_Changed("close-popovers");
-        this.characterService.set_Changed(item.id);
-        this.characterService.set_ToChange(this.creature, "inventory");
-        this.characterService.set_ToChange(this.creature, "effects");
-        this.characterService.process_ToChange();
+        if (reload) {
+            this.characterService.set_Changed("close-popovers");
+            this.characterService.set_Changed(item.id);
+            this.characterService.set_ToChange(this.creature, "inventory");
+            this.characterService.set_ToChange(this.creature, "effects");
+            this.characterService.process_ToChange();
+        }
     }
 
     dragdrop_InventoryItem(event: CdkDragDrop<string[]>) {
@@ -310,9 +312,11 @@ export class InventoryComponent implements OnInit {
     }
 
     get_ItemContainsInventory(item: Equipment, inventory: ItemCollection) {
+        //If this item grants any inventories, check those inventories for whether they include any items that grant the target inventory.
+        //Repeat for any included items that grant inventories themselves, until we are certain that this inventory is not in this container, no matter how deep.
         let found = false;
         if (item.gainInventory?.length) {
-            found = this.get_Creature().inventories.filter(inv => inv.itemId == item.id).some(inv => {
+            found = this.get_Inventories().filter(inv => inv.itemId == item.id).some(inv => {
                 return inv.allEquipment().some(invItem => invItem.id == inventory.itemId) ||
                     inv.allEquipment().filter(invItem => invItem.gainInventory.length).some(invItem => {
                         return this.get_ItemContainsInventory(invItem, inventory);
@@ -352,6 +356,13 @@ export class InventoryComponent implements OnInit {
 
     drop_ContainerOnly(item: Item, inventory: ItemCollection) {
         this.toggle_Item();
+        if (item instanceof Equipment && item.gainInventory?.length) {
+            this.get_Inventories().filter(inv => inv.itemId == item.id).forEach(inv => {
+                inv.allItems().filter(invItem => invItem !== item).forEach(invItem => {
+                    this.move_InventoryItem(invItem, inv, this.get_Inventories()[0], invItem.amount, true, false);
+                })
+            })
+        }
         this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, false, true, false, item.amount);
         this.characterService.set_ToChange(this.creature, "close-popovers");
         this.characterService.process_ToChange();

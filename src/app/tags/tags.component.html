@@ -48,7 +48,7 @@
                         <strong
                             [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}">
                             {{effect.target}} {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ?
-                            "="+effect.setValue : ''}}
+                            "= " + effect.setValue : ''}}
                         </strong>
                     </span>
                 </div>
