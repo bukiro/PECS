@@ -3,6 +3,7 @@ import { TraitsService } from 'src/app/traits.service';
 import { ActivitiesService } from 'src/app/activities.service';
 import { CharacterService } from 'src/app/character.service';
 import { Creature } from 'src/app/Creature';
+import { Item } from 'src/app/Item';
 
 @Component({
     selector: 'app-hintItem',
@@ -15,8 +16,8 @@ export class HintItemComponent implements OnInit {
     @Input()
     creature: string = "Character";
     @Input()
-    item;
-    
+    item: Item | any;
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         private traitsService: TraitsService,

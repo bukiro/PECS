@@ -27,7 +27,7 @@ export class SkillComponent implements OnInit {
     @Input()
     isDC: boolean = false;
     @Input()
-    relatedActivityGains: (ActivityGain|ItemActivity)[] = [];
+    relatedActivityGains: (ActivityGain | ItemActivity)[] = [];
     @Input()
     showAction: string = "";
     @Output()
@@ -97,7 +97,7 @@ export class SkillComponent implements OnInit {
             }
         }
     }
-    
+
     get_Activities(name: string = "") {
         return this.activitiesService.get_Activities(name);
     }

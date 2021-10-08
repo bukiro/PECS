@@ -47,7 +47,7 @@ export class SavegameService {
 
     load_Character(character: Character, characterService: CharacterService, itemsService: ItemsService, classesService: ClassesService, historyService: HistoryService, animalCompanionsService: AnimalCompanionsService) {
         //Make a copy of the character before restoration. This will be used in patching.
-        let savedCharacter = Object.assign(new Character(), JSON.parse(JSON.stringify(character)));
+        let savedCharacter = Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(character)));
 
         //We restore a few things individually before we restore the class, allowing us to patch them before any issues would be created by new changes to the class.
 
@@ -559,7 +559,7 @@ export class SavegameService {
     save_Character(character: Character, itemsService: ItemsService, classesService: ClassesService, historyService: HistoryService, animalCompanionsService: AnimalCompanionsService) {
 
         //Copy the character into a savegame, then go through all its elements and make sure that they have the correct class.
-        let savegame: Character = Object.assign(new Character(), JSON.parse(JSON.stringify(character))).recast(this.typeService, itemsService);
+        let savegame: Character = Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(character))).recast(this.typeService, itemsService);
 
         let versionString: string = package_json.version;
 

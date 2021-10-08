@@ -5,7 +5,7 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { Creature } from './Creature';
 
 export class Speed {
-        constructor(
+    constructor(
         public name: string = ""
     ) { };
     public source: string = "";

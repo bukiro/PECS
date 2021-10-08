@@ -1,10 +1,8 @@
-import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { Character } from '../Character';
 import { CharacterService } from '../character.service';
-import { Consumable } from '../Consumable';
 import { Equipment } from '../Equipment';
 import { Familiar } from '../Familiar';
 import { Item } from '../Item';
@@ -34,7 +32,6 @@ export class ItemTargetComponent implements OnInit {
     public excluding: boolean = false;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
         private savegameService: SavegameService,
         private itemsService: ItemsService,

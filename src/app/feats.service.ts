@@ -332,7 +332,7 @@ export class FeatsService {
             if (feat.gainSkillChoice.length) {
                 if (taken) {
                     feat.gainSkillChoice.forEach(newSkillChoice => {
-                        let insertSkillChoice: SkillChoice = Object.assign(new SkillChoice(), JSON.parse(JSON.stringify(newSkillChoice)));
+                        let insertSkillChoice: SkillChoice = Object.assign<SkillChoice, SkillChoice>(new SkillChoice(), JSON.parse(JSON.stringify(newSkillChoice))).recast();
                         let newChoice: SkillChoice;
                         //Check if the skill choice has a class requirement, and if so, only apply it if you have that class.
 
@@ -427,7 +427,7 @@ export class FeatsService {
                 if (taken) {
                     feat.gainSpellChoice.forEach(newSpellChoice => {
                         if (newSpellChoice.insertClass ? character.class.name == newSpellChoice.insertClass : true) {
-                            let insertSpellChoice: SpellChoice = Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newSpellChoice))).recast();
+                            let insertSpellChoice: SpellChoice = Object.assign<SpellChoice, SpellChoice>(new SpellChoice(), JSON.parse(JSON.stringify(newSpellChoice))).recast();
                             //Allow adding Spellchoices without a class to automatically add the correct class.
                             // This finds the correct class either from the choice (if its type is a class name) or from the character's main class.
                             if (!insertSpellChoice.className) {
@@ -754,7 +754,7 @@ export class FeatsService {
             if (feat.gainLanguages.length) {
                 if (taken) {
                     feat.gainLanguages.forEach(languageGain => {
-                        let newLanguageGain = Object.assign(new LanguageGain(), JSON.parse(JSON.stringify(languageGain)));
+                        let newLanguageGain = Object.assign<LanguageGain, LanguageGain>(new LanguageGain(), JSON.parse(JSON.stringify(languageGain))).recast();
                         newLanguageGain.level = level.number;
                         character.class.languages.push(newLanguageGain);
                     })
@@ -1161,7 +1161,7 @@ export class FeatsService {
         this[target] = [];
         let data = this.extensionsService.extend(source, target);
         Object.keys(data).forEach(key => {
-            this[target].push(...data[key].map(obj => Object.assign(new Feat(), obj).recast()));
+            this[target].push(...data[key].map((obj: Feat) => Object.assign(new Feat(), obj).recast()));
         });
         this[target] = this.extensionsService.cleanup_Duplicates(this[target], "name", target);
     }

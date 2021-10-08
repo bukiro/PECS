@@ -4,7 +4,7 @@ import { AbilityChoice } from './AbilityChoice';
 import { FeatChoice } from './FeatChoice';
 
 export class Level {
-        public abilityChoices: AbilityChoice[] = [];
+    public abilityChoices: AbilityChoice[] = [];
     public featChoices: FeatChoice[] = [];
     public loreChoices: LoreChoice[] = [];
     public number: number = 0;

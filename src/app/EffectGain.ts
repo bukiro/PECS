@@ -1,5 +1,5 @@
 export class EffectGain {
-        public affected: string = "";
+    public affected: string = "";
     //Add this number to the target value.
     //Gets eval()-ed to determine the actual value.
     //Gets applied if parseInt(value) != 0

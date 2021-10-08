@@ -99,7 +99,7 @@ export class ItemOilsComponent implements OnInit {
     add_Oil() {
         if (this.newOil.oil.name) {
             let item = this.item;
-            let newLength = item.oilsApplied.push(Object.assign(new Oil(), JSON.parse(JSON.stringify(this.newOil.oil))).recast(this.typeService, this.itemsService));
+            let newLength = item.oilsApplied.push(Object.assign<Oil, Oil>(new Oil(), JSON.parse(JSON.stringify(this.newOil.oil))).recast(this.typeService, this.itemsService));
             if (this.newOil.inv) {
                 this.characterService.drop_InventoryItem(this.get_Character(), this.newOil.inv, this.newOil.oil, false, false, false, 1);
             }

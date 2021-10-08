@@ -80,7 +80,7 @@ export class SkillsComponent implements OnInit {
     receive_ChoiceMessage(message: { name: string, levelNumber: number, choice: SkillChoice }) {
         this.toggle_List(message.name);
     }
-    
+
     toggle_TileMode() {
         this.get_Character().settings.skillsTileMode = !this.get_Character().settings.skillsTileMode;
         this.characterService.set_ToChange("Character", "skills");
@@ -124,20 +124,20 @@ export class SkillsComponent implements OnInit {
     have_Feat(name: string) {
         return this.characterService.get_CharacterFeatsTaken(1, this.characterService.get_Character().level, name).length;
     }
-    
+
     get_Activities(name: string = "") {
         return this.activitiesService.get_Activities(name);
     }
 
     get_OwnedActivities() {
-        let activities: (ActivityGain|ItemActivity)[] = [];
+        let activities: (ActivityGain | ItemActivity)[] = [];
         let unique: string[] = [];
         if (this.get_Character().settings.showSkillActivities) {
             this.characterService.get_OwnedActivities(this.get_Creature()).forEach(activity => {
                 if (activity instanceof ItemActivity) {
                     activity.get_Cooldown(this.get_Creature(), this.characterService)
                 } else {
-                    this.get_Activities(activity.name).forEach(actualActivity => {actualActivity.get_Cooldown(this.get_Creature(), this.characterService)})
+                    this.get_Activities(activity.name).forEach(actualActivity => { actualActivity.get_Cooldown(this.get_Creature(), this.characterService) })
                 }
                 if (!unique.includes(activity.name)) {
                     unique.push(activity.name);
@@ -148,7 +148,7 @@ export class SkillsComponent implements OnInit {
         return activities;
     }
 
-    get_SkillActivities(activities: (ActivityGain|ItemActivity)[], skillName: string) {
+    get_SkillActivities(activities: (ActivityGain | ItemActivity)[], skillName: string) {
         //Filter activities whose showonSkill or whose original activity's showonSkill includes this skill's name.
         return activities.filter(activity => (activity instanceof ItemActivity ? activity.showonSkill : (this.get_Activities(activity.name)[0]?.showonSkill || "")).toLowerCase().includes(skillName.toLowerCase()));
     }

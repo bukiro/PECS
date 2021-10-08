@@ -118,7 +118,7 @@ export class TraitsService {
         this.traits = [];
         let data = this.extensionsService.extend(json_traits, "traits");
         Object.keys(data).forEach(key => {
-            this.traits.push(...data[key].map(obj => Object.assign(new Trait(), obj).recast()));
+            this.traits.push(...data[key].map((obj: Trait) => Object.assign(new Trait(), obj).recast()));
         });
         this.traits = this.extensionsService.cleanup_Duplicates(this.traits, "name", "traits");
     }

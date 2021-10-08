@@ -252,7 +252,7 @@ export class TopBarComponent implements OnInit {
     open_NewMessagesModal() {
         this.modalOpen = true;
         //Freeze the new messages by cloning them so that the modal doesn't change while it's open.
-        this.newMessages = this.get_NewConditionMessages().map(message => Object.assign(new PlayerMessage(), JSON.parse(JSON.stringify(message))).recast(this.typeService, this.itemsService));
+        this.newMessages = this.get_NewConditionMessages().map(message => Object.assign<PlayerMessage, PlayerMessage>(new PlayerMessage(), JSON.parse(JSON.stringify(message))).recast(this.typeService, this.itemsService));
         this.modalService.open(this.newMessagesModal, { centered: true, ariaLabelledBy: 'modal-title' }).result.then((result) => {
             if (result == "Apply click") {
                 //Prepare to refresh the effects of all affected creatures;

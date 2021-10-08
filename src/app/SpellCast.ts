@@ -1,7 +1,7 @@
 import { SpellGain } from './SpellGain';
 
 export class SpellCast {
-        public level: number = 1;
+    public level: number = 1;
     public name: string = "";
     //These choices can override the spell condition choices. This applies only if the choice exists on the condition.
     public overrideChoices: { condition: string, choice: string }[] = [];

@@ -63,7 +63,7 @@ export class SkillsService {
         this.skills = [];
         let data = this.extensionsService.extend(json_skills, "skills");
         Object.keys(data).forEach(key => {
-            this.skills.push(...data[key].map(obj => Object.assign(new Skill(), obj)));
+            this.skills.push(...data[key].map((obj: Skill) => Object.assign(new Skill(), obj).recast()));
         });
         this.skills = this.extensionsService.cleanup_Duplicates(this.skills, "name", "skills");
     }

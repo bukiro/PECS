@@ -1102,7 +1102,7 @@ export class Weapon extends Equipment {
                 .concat(effectsService.get_RelativesOnThese(creature, perDieList))
                 .forEach(effect => {
                     let effectBonus = parseInt(effect.value) * dicenum;
-                    let newEffect = Object.assign(new Effect(), JSON.parse(JSON.stringify(effect)));
+                    let newEffect = Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(effect))).recast();
                     newEffect.target = newEffect.target.replace(" per Die", "");
                     newEffect.value = effectBonus.toString();
                     calculatedEffects.push(newEffect);

@@ -111,7 +111,7 @@ export class TagsComponent implements OnInit {
         }
     }
 
-    get_FeatsShowingOn(name: string, show: boolean): (AnimalCompanionAncestry|AnimalCompanionSpecialization|Feat)[] {
+    get_FeatsShowingOn(name: string, show: boolean): (AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat)[] {
         if (show && name && this.creature == "Character") {
             return this.sortByName(this.characterService.get_FeatsShowingOn(name));
         } else if (show && name && this.creature == "Companion") {

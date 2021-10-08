@@ -321,7 +321,7 @@ export class EffectsService {
                             characterService.remove_Condition(creature, gain, false);
                         } else {
                             if (gain.activationPrerequisite) {
-                                let testConditionGain: any = Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(gain))).recast();
+                                let testConditionGain: any = Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(gain))).recast();
                                 let testEffectGain: EffectGain = new EffectGain();
                                 testEffectGain.value = gain.activationPrerequisite;
                                 testConditionGain.effects = [testEffectGain];
@@ -1393,7 +1393,7 @@ export class EffectsService {
         this.effectProperties = [];
         let data = this.extensionsService.extend(json_effectproperties, "effectProperties");
         Object.keys(data).forEach(key => {
-            this.effectProperties.push(...data[key].map(obj => Object.assign(new ItemProperty(), obj)));
+            this.effectProperties.push(...data[key].map((obj: ItemProperty) => Object.assign(new ItemProperty(), obj).recast()));
         });
         this.effectProperties = this.extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(this.effectProperties, ["parent", "key"], "custom effect properties");
     }

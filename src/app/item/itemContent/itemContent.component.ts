@@ -13,8 +13,8 @@ import { Equipment } from 'src/app/Equipment';
 export class ItemContentComponent implements OnInit {
 
     @Input()
-    item;
-    
+    item: Item | any;
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,

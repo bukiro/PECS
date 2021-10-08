@@ -79,7 +79,7 @@ export class ItemAeonStonesComponent implements OnInit {
         //If any resonant activity on this aeon Stone has a cooldown, return the lowest of these in a human readable format.
         if (stone.activities && stone.activities.length && stone.activities.some(activity => activity.resonant && activity.activeCooldown)) {
             let lowestCooldown = Math.min(...stone.activities.filter(activity => activity.resonant && activity.activeCooldown).map(activity => activity.activeCooldown));
-            return " (Cooldown: "+this.timeService.get_Duration(lowestCooldown)+")";
+            return " (Cooldown: " + this.timeService.get_Duration(lowestCooldown) + ")";
         } else {
             return "";
         }
@@ -100,8 +100,7 @@ export class ItemAeonStonesComponent implements OnInit {
             //Then add the new Aeon Stone to the item and (unless we are in the item store) remove it from the inventory.
             if (stone.name != "") {
                 //Add a copy of the stone to the item
-                let newLength = item.aeonStones.push(Object.assign(new WornItem, JSON.parse(JSON.stringify(stone))));
-                item.aeonStones[newLength - 1] = item.aeonStones[newLength - 1].recast(this.typeService, this.itemsService);
+                let newLength = item.aeonStones.push(Object.assign<WornItem, WornItem>(new WornItem, JSON.parse(JSON.stringify(stone))).recast(this.typeService, this.itemsService));
                 let newStone = item.aeonStones[newLength - 1];
                 newStone.amount = 1;
                 newStone.isSlottedAeonStone = true;
@@ -155,17 +154,17 @@ export class ItemAeonStonesComponent implements OnInit {
                 let price: number = stone.price;
                 let priceString: string = "";
                 if (price >= 100) {
-                    priceString += Math.floor(price / 100)+"gp";
+                    priceString += Math.floor(price / 100) + "gp";
                     price %= 100;
-                    if (price >= 10) {priceString += " ";}
+                    if (price >= 10) { priceString += " "; }
                 }
                 if (price >= 10) {
-                    priceString += Math.floor(price / 10)+"sp";
+                    priceString += Math.floor(price / 10) + "sp";
                     price %= 10;
-                    if (price >= 1) {priceString += " ";}
+                    if (price >= 1) { priceString += " "; }
                 }
                 if (price >= 1) {
-                    priceString += price+"cp";
+                    priceString += price + "cp";
                 }
                 return priceString;
             }
@@ -175,11 +174,11 @@ export class ItemAeonStonesComponent implements OnInit {
     }
 
     set_AeonStoneNames() {
-        this.newAeonStone = 
-        (this.item.aeonStones ? [
-            (this.item.aeonStones[0] ? { aeonStone: this.item.aeonStones[0], inv: null } : { aeonStone: new WornItem(), inv: null }),
-            (this.item.aeonStones[1] ? { aeonStone: this.item.aeonStones[1], inv: null } : { aeonStone: new WornItem(), inv: null }),
-        ] : [{ aeonStone: new WornItem(), inv: null }, { aeonStone: new WornItem(), inv: null }]);
+        this.newAeonStone =
+            (this.item.aeonStones ? [
+                (this.item.aeonStones[0] ? { aeonStone: this.item.aeonStones[0], inv: null } : { aeonStone: new WornItem(), inv: null }),
+                (this.item.aeonStones[1] ? { aeonStone: this.item.aeonStones[1], inv: null } : { aeonStone: new WornItem(), inv: null }),
+            ] : [{ aeonStone: new WornItem(), inv: null }, { aeonStone: new WornItem(), inv: null }]);
         this.newAeonStone.filter(stone => stone.aeonStone.name == "New Item").forEach(stone => {
             stone.aeonStone.name = "";
         });

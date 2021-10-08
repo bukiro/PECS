@@ -80,6 +80,12 @@ export class Condition {
         if (this.choices.length && !this.choice) {
             this.choice = this.choices[0].name
         }
+        //endsWithConditions has changed from string to object; this is patched here for existing conditions.
+        this.endsWithConditions.forEach((endsWith, index) => {
+            if (typeof endsWith === "string") {
+                this.endsWithConditions[index] = { name: endsWith, source: "" };
+            }
+        })
         return this;
     }
     get_HasEffects() {

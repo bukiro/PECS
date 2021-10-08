@@ -88,7 +88,7 @@ export class ClassesService {
         this.classes = [];
         let data = this.extensionsService.extend(json_classes, "classes");
         Object.keys(data).forEach(key => {
-            this.classes.push(...data[key].map(obj => Object.assign(new Class(), obj).recast(this.typeService, this.itemsService)));
+            this.classes.push(...data[key].map((obj: Class) => Object.assign(new Class(), obj).recast(this.typeService, this.itemsService)));
         });
         this.classes = this.extensionsService.cleanup_Duplicates(this.classes, "name", "classes");
     }

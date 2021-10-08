@@ -4,7 +4,7 @@ import { SpellChoice } from './SpellChoice';
 import { ItemGain } from './ItemGain';
 
 export class Heritage {
-        public gainActivities: string[] = [];
+    public gainActivities: string[] = [];
     public ancestries: string[] = [];
     public desc: string = "";
     public featChoices: FeatChoice[] = [];

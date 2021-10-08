@@ -200,7 +200,7 @@ export class ConditionsService {
         let conditionDidSomething: boolean = false;
 
         //Copy the condition's ActivityGains to the ConditionGain so we can track its duration, cooldown etc.
-        gain.gainActivities = condition.gainActivities.map(activityGain => Object.assign(new ActivityGain(), JSON.parse(JSON.stringify(activityGain))).recast());
+        gain.gainActivities = condition.gainActivities.map(activityGain => Object.assign<ActivityGain, ActivityGain>(new ActivityGain(), JSON.parse(JSON.stringify(activityGain))).recast());
 
         if (!gain.endsWithConditions.length) {
             gain.endsWithConditions = condition.endsWithConditions;
@@ -210,7 +210,7 @@ export class ConditionsService {
         if (taken) {
             condition.onceEffects.forEach(effect => {
                 conditionDidSomething = true;
-                let tempEffect = Object.assign(new EffectGain, JSON.parse(JSON.stringify(effect)));
+                let tempEffect = Object.assign<EffectGain, EffectGain>(new EffectGain(), JSON.parse(JSON.stringify(effect))).recast();
                 //Copy some data to allow calculations and tracking temporary HP.
                 if (!tempEffect.source) {
                     tempEffect.source = condition.name;
@@ -227,7 +227,7 @@ export class ConditionsService {
         if (!taken) {
             condition.endEffects.forEach(effect => {
                 conditionDidSomething = true;
-                let tempEffect = Object.assign(new EffectGain, JSON.parse(JSON.stringify(effect)));
+                let tempEffect = Object.assign<EffectGain, EffectGain>(new EffectGain(), JSON.parse(JSON.stringify(effect))).recast();
                 //Copy some data to allow calculations and tracking temporary HP.
                 if (!tempEffect.source) {
                     tempEffect.source = condition.name;
@@ -245,12 +245,9 @@ export class ConditionsService {
         if (taken) {
             condition.gainConditions.filter(extraCondition => !extraCondition.conditionChoiceFilter.length || extraCondition.conditionChoiceFilter.includes(gain.choice)).forEach(extraCondition => {
                 conditionDidSomething = true;
-                let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition))).recast();
+                let addCondition = Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(extraCondition))).recast();
                 if (!addCondition.heightened) {
                     addCondition.heightened = gain.heightened;
-                }
-                if (addCondition.lockedByParent) {
-                    addCondition.lockedByID = gain.id;
                 }
                 addCondition.source = gain.name;
                 addCondition.parentID = gain.id;
@@ -264,7 +261,7 @@ export class ConditionsService {
         if (!taken && !ignoreEndsWithConditions) {
             characterService.get_AppliedConditions(creature, "", "", true)
                 .filter(conditionGain => conditionGain.endsWithConditions.some(endsWith => endsWith.name == condition.name && (!endsWith.source || gain.source == endsWith.source)))
-                .map(conditionGain => Object.assign(new ConditionGain, JSON.parse(JSON.stringify(conditionGain))).recast())
+                .map(conditionGain => Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))).recast())
                 .forEach(conditionGain => {
                     conditionDidSomething = true;
                     characterService.remove_Condition(creature, conditionGain, false);
@@ -304,7 +301,7 @@ export class ConditionsService {
                 characterService.set_ToChange(creature.type, "attacks");
                 characterService.set_ToChange(creature.type, "inventory");
                 if (taken) {
-                    gain.gainItems = condition.get_HeightenedItems(gain.heightened).map(itemGain => Object.assign(new ItemGain(), itemGain));
+                    gain.gainItems = condition.get_HeightenedItems(gain.heightened).map(itemGain => Object.assign<ItemGain, ItemGain>(new ItemGain(), JSON.parse(JSON.stringify(itemGain))).recast());
                     gain.gainItems
                         .filter(gainItem =>
                         (
@@ -678,24 +675,9 @@ export class ConditionsService {
         this.conditions = [];
         let data = this.extensionsService.extend(json_conditions, "conditions");
         Object.keys(data).forEach(key => {
-            this.conditions.push(...data[key].map(obj => Object.assign(new Condition(), obj).recast()));
+            this.conditions.push(...data[key].map((obj: Condition) => Object.assign(new Condition(), obj).recast()));
         });
         this.conditions = this.extensionsService.cleanup_Duplicates(this.conditions, "name", "conditions");
-        this.conditions.forEach(condition => {
-            if (condition.choices.length && !condition.choice) {
-                condition.choice = condition.choices[0].name;
-            }
-            condition.choices.forEach(choice => {
-                //Blank choices are saved with "name":"-" for easier managing; These need to be blanked here.
-                if (choice.name == "-") {
-                    choice.name = "";
-                }
-                //If a choice name has turned into a number, turn it back into a string.
-                if (typeof choice.name == "number") {
-                    choice.name = parseInt(choice.name).toString();
-                }
-            })
-        })
     }
 
 }

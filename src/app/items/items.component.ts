@@ -424,7 +424,7 @@ export class ItemsComponent implements OnInit {
                 this.newItem = null;
         }
         if (this.newItem) {
-            this.newItem = this.itemsService.initialize_Item(this.newItem, true, false, false)
+            this.newItem = this.itemsService.initialize_Item(this.newItem, true, false, false) as Equipment | Consumable;
         }
     }
 
@@ -452,7 +452,7 @@ export class ItemsComponent implements OnInit {
     }
 
     copy_Item(item: Equipment | Consumable) {
-        this.newItem = this.itemsService.initialize_Item(JSON.parse(JSON.stringify(item)))
+        this.newItem = this.itemsService.initialize_Item(JSON.parse(JSON.stringify(item))) as Equipment | Consumable;
     }
 
     grant_CustomItem(creature: string = "Character") {

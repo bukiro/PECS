@@ -4,7 +4,7 @@ import { EffectGain } from './EffectGain';
 import { Hint } from './Hint';
 
 export class AnimalCompanionSpecialization {
-        public abilityChoices: AbilityChoice[] = [];
+    public abilityChoices: AbilityChoice[] = [];
     public desc: string = "";
     public effects: EffectGain[] = [];
     public hints: Hint[] = [];

@@ -2,7 +2,7 @@ import { AbilityChoice } from './AbilityChoice';
 import { SkillChoice } from './SkillChoice';
 
 export class AnimalCompanionLevel {
-        public abilityChoices: AbilityChoice[] = [];
+    public abilityChoices: AbilityChoice[] = [];
     public extraDamage: number = 0;
     public name: string = "";
     public number: number = 0;

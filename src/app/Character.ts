@@ -137,7 +137,7 @@ export class Character extends Creature {
     }
     add_AbilityChoice(level: Level, newChoice: AbilityChoice) {
         let existingChoices = level.abilityChoices.filter(choice => choice.source == newChoice.source);
-        let tempChoice = Object.assign(new AbilityChoice, JSON.parse(JSON.stringify(newChoice)))
+        let tempChoice = Object.assign<AbilityChoice, AbilityChoice>(new AbilityChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
         tempChoice.id = level.number + "-Ability-" + tempChoice.source + "-" + existingChoices.length;
         let newLength: number = level.abilityChoices.push(tempChoice);
         return level.abilityChoices[newLength - 1];
@@ -153,7 +153,7 @@ export class Character extends Creature {
     }
     add_SkillChoice(level: Level, newChoice: SkillChoice) {
         let existingChoices = level.skillChoices.filter(choice => choice.source == newChoice.source);
-        let tempChoice = Object.assign(new SkillChoice, JSON.parse(JSON.stringify(newChoice)))
+        let tempChoice = Object.assign<SkillChoice, SkillChoice>(new SkillChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
         tempChoice.id = level.number + "-Skill-" + tempChoice.source + "-" + existingChoices.length;
         let newLength: number = level.skillChoices.push(tempChoice);
         return level.skillChoices[newLength - 1];
@@ -168,7 +168,7 @@ export class Character extends Creature {
         a.splice(a.indexOf(oldChoice), 1);
     }
     add_SpellCasting(characterService: CharacterService, level: Level, newCasting: SpellCasting) {
-        let newLength: number = this.class.spellCasting.push(Object.assign(new SpellCasting(newCasting.castingType), JSON.parse(JSON.stringify(newCasting))).recast());
+        let newLength: number = this.class.spellCasting.push(Object.assign<SpellCasting, SpellCasting>(new SpellCasting(newCasting.castingType), JSON.parse(JSON.stringify(newCasting))).recast());
         let newSpellCasting: SpellCasting = this.class.spellCasting[newLength - 1];
         //If the SpellCasting has a charLevelAvailable above 0, but lower than the current level, you could use it before you get it.
         //So we raise the charLevelAvailable to either the current level or the original value, whichever is higher.
@@ -186,7 +186,7 @@ export class Character extends Creature {
     }
     add_LoreChoice(level: Level, newChoice: LoreChoice) {
         let existingChoices = level.loreChoices.filter(choice => choice.source == newChoice.source);
-        let tempChoice = Object.assign(new LoreChoice, JSON.parse(JSON.stringify(newChoice)))
+        let tempChoice = Object.assign<LoreChoice, LoreChoice>(new LoreChoice(), JSON.parse(JSON.stringify(newChoice))).recast()
         tempChoice.increases = Object.assign([], newChoice.increases);
         tempChoice.id = level.number + "-Lore-" + tempChoice.source + "-" + existingChoices.length;
         let newLength: number = level.loreChoices.push(tempChoice);
@@ -198,7 +198,7 @@ export class Character extends Creature {
     }
     add_FeatChoice(level: Level, newChoice: FeatChoice) {
         let existingChoices = level.featChoices.filter(choice => choice.source == newChoice.source);
-        let tempChoice = Object.assign(new FeatChoice, JSON.parse(JSON.stringify(newChoice)));
+        let tempChoice = Object.assign<FeatChoice, FeatChoice>(new FeatChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
         tempChoice.id = level.number + "-" + (tempChoice.type ? tempChoice.type : "Feat") + "-" + tempChoice.source + "-" + existingChoices.length;
         let newLength: number = level.featChoices.push(tempChoice);
         level.featChoices[newLength - 1].feats.forEach(feat => {
@@ -212,12 +212,12 @@ export class Character extends Creature {
         return this.class.levels[levelNumber].featChoices.find(choice => choice.id == sourceId);
     }
     add_SpellChoice(characterService: CharacterService, levelNumber: number, newChoice: SpellChoice) {
-        let insertChoice = Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
+        let insertChoice = Object.assign<SpellChoice, SpellChoice>(new SpellChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
         if (insertChoice.className == "Default") {
             insertChoice.className = this.class.name;
         }
         if (insertChoice.castingType == "Default") {
-            insertChoice.castingType = this.get_DefaultSpellcasting()?.castingType || "";
+            insertChoice.castingType = this.get_DefaultSpellcasting()?.castingType || "Innate";
         }
         let spellCasting = this.class.spellCasting
             .find(casting =>

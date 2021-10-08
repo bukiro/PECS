@@ -17,14 +17,14 @@ import { TypeService } from 'src/app/type.service';
     selector: 'app-itemBladeAlly',
     templateUrl: './itemBladeAlly.component.html',
     styleUrls: ['./itemBladeAlly.component.scss']
-  })
-  export class ItemBladeAllyComponent implements OnInit {
+})
+export class ItemBladeAllyComponent implements OnInit {
 
     @Input()
     item: Equipment;
-    
+
     public newPropertyRune: { rune: Rune, disabled?: boolean };
-    
+
     constructor(
         public characterService: CharacterService,
         private itemsService: ItemsService,
@@ -103,37 +103,37 @@ import { TypeService } from 'src/app/type.service';
         });
         //Filter all runes whose requirements are not met.
         allRunes.forEach((rune: { rune: WeaponRune, inv: ItemCollection, disabled?: boolean }, $index) => {
-                if (
-                    (
-                        //Show runes that require a trait if that trait is present on the weapon.
-                        rune.rune.traitreq ?
-                            weapon2?.traits
-                                .filter(trait => trait.includes(rune.rune.traitreq)).length
-                            : true
-                    ) && (
-                        //Show runes that require a range if the weapon has a value for that range.
-                        rune.rune.rangereq ?
-                            weapon2?.[rune.rune.rangereq] > 0
-                            : true
-                    ) && (
-                        //Show runes that require a damage type if the weapon's dmgType contains either of the letters in the requirement.
-                        rune.rune.damagereq ?
+            if (
+                (
+                    //Show runes that require a trait if that trait is present on the weapon.
+                    rune.rune.traitreq ?
+                        weapon2?.traits
+                            .filter(trait => trait.includes(rune.rune.traitreq)).length
+                        : true
+                ) && (
+                    //Show runes that require a range if the weapon has a value for that range.
+                    rune.rune.rangereq ?
+                        weapon2?.[rune.rune.rangereq] > 0
+                        : true
+                ) && (
+                    //Show runes that require a damage type if the weapon's dmgType contains either of the letters in the requirement.
+                    rune.rune.damagereq ?
+                        (
+                            (weapon2 as Weapon)?.dmgType &&
                             (
-                                (weapon2 as Weapon)?.dmgType &&
-                                (
-                                    rune.rune.damagereq.split("")
-                                        .filter(req => (weapon2 as Weapon).dmgType.includes(req)).length ||
-                                    (weapon2 as Weapon)?.dmgType == "modular"
-                                )
+                                rune.rune.damagereq.split("")
+                                    .filter(req => (weapon2 as Weapon).dmgType.includes(req)).length ||
+                                (weapon2 as Weapon)?.dmgType == "modular"
                             )
-                            : true
-                    )
-                ) {
-                    rune.disabled = false;
-                } else {
-                    rune.disabled = true;
-                }
-            })
+                        )
+                        : true
+                )
+            ) {
+                rune.disabled = false;
+            } else {
+                rune.disabled = true;
+            }
+        })
         return allRunes.sort(function (a, b) {
             if (a.rune.name > b.rune.name) {
                 return 1;
@@ -157,7 +157,7 @@ import { TypeService } from 'src/app/type.service';
             //Then add the new rune to the item.
             if (rune.name != "") {
                 //Add a copy of the rune to the item
-                weapon.bladeAllyRunes[0] = Object.assign(new WeaponRune(), JSON.parse(JSON.stringify(rune))).recast(this.typeService, this.itemsService);
+                weapon.bladeAllyRunes[0] = Object.assign<WeaponRune, WeaponRune>(new WeaponRune(), JSON.parse(JSON.stringify(rune))).recast(this.typeService, this.itemsService);
                 weapon.bladeAllyRunes[0].amount = 1;
             }
         }

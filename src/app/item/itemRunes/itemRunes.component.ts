@@ -3,7 +3,6 @@ import { CharacterService } from 'src/app/character.service';
 import { ItemsService } from 'src/app/items.service';
 import { WeaponRune } from 'src/app/WeaponRune';
 import { Equipment } from 'src/app/Equipment';
-import { LoreChoice } from 'src/app/LoreChoice';
 import { Rune } from 'src/app/Rune';
 import { ArmorRune } from 'src/app/ArmorRune';
 import { ItemCollection } from 'src/app/ItemCollection';
@@ -604,10 +603,9 @@ export class ItemRunesComponent implements OnInit {
             //Then add the new rune to the item and (unless we are in the item store) remove it from the inventory.
             if (rune.name != "") {
                 //Add a copy of the rune to the item
-                let newLength = weapon.propertyRunes.push(Object.assign(new WeaponRune, JSON.parse(JSON.stringify(rune))).recast(this.typeService, this.itemsService));
+                let newLength = weapon.propertyRunes.push(Object.assign<WeaponRune, WeaponRune>(new WeaponRune, JSON.parse(JSON.stringify(rune))).recast(this.typeService, this.itemsService));
                 let newRune = weapon.propertyRunes[newLength - 1];
                 newRune.amount = 1;
-                newRune.loreChoices = newRune.loreChoices.map(choice => Object.assign(new LoreChoice(), choice));
                 //If we are not in the item store, remove the inserted rune from the inventory, either by decreasing the amount or by dropping the item.
                 //Also add the rune's lore if needed.
                 if (!this.itemStore) {
@@ -655,10 +653,9 @@ export class ItemRunesComponent implements OnInit {
             //Then add the new rune to the item and (unless we are in the item store) remove it from the inventory.
             if (rune.name != "") {
                 //Add a copy of the rune to the item
-                let newLength = armor.propertyRunes.push(Object.assign(new ArmorRune, JSON.parse(JSON.stringify(rune))).recast(this.typeService, this.itemsService));
+                let newLength = armor.propertyRunes.push(Object.assign<ArmorRune, ArmorRune>(new ArmorRune, JSON.parse(JSON.stringify(rune))).recast(this.typeService, this.itemsService));
                 let newRune = armor.propertyRunes[newLength - 1];
                 newRune.amount = 1;
-                newRune.loreChoices = newRune.loreChoices.map(choice => Object.assign(new LoreChoice(), choice));
                 //If we are not in the item store, remove the inserted rune from the inventory, either by decreasing the amount or by dropping the item.
                 if (!this.itemStore) {
                     this.characterService.drop_InventoryItem(this.get_Character(), inv, rune, false, false, false, 1);

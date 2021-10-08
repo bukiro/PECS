@@ -364,7 +364,7 @@ export class ActivitiesService {
                 if (activated) {
                     //For non-item activities, which are read-only, we have to store any temporary spell gain data (like duration and targets) on the activity gain instead of the activity, so we copy all spell casts (which include spell gains) to the activity gain.
                     if (gain instanceof ActivityGain) {
-                        gain.castSpells = activity.castSpells.map(spellCast => Object.assign(new SpellCast(), JSON.parse(JSON.stringify(spellCast))).recast());
+                        gain.castSpells = activity.castSpells.map(spellCast => Object.assign<SpellCast, SpellCast>(new SpellCast(), JSON.parse(JSON.stringify(spellCast))).recast());
                     }
                 }
                 gain.castSpells.forEach((cast, spellCastIndex) => {
@@ -522,7 +522,7 @@ export class ActivitiesService {
         this.activities = []
         let data = this.extensionsService.extend(json_activities, "activities");
         Object.keys(data).forEach(key => {
-            this.activities.push(...data[key].map(activity => Object.assign(new Activity(), activity).recast()));
+            this.activities.push(...data[key].map((obj: Activity) => Object.assign(new Activity(), obj).recast()));
         });
         this.activities = this.extensionsService.cleanup_Duplicates(this.activities, "name", "activities");
     }

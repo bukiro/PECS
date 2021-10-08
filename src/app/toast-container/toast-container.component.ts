@@ -9,7 +9,7 @@ import { ToastService } from '../toast.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ToastContainerComponent {
-    
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
@@ -19,7 +19,7 @@ export class ToastContainerComponent {
     trackByIndex(index: number, obj: any): any {
         return index;
     }
-    
+
     isTemplate(toast) { return toast.textOrTpl instanceof TemplateRef; }
 
     on_Click(toast) {

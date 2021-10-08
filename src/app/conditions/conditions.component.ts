@@ -383,7 +383,7 @@ export class ConditionsComponent implements OnInit {
 
     add_Effect(creature: Creature) {
         let duration: number = this.get_ConditionDuration(false);
-        let newLength = creature.effects.push(Object.assign(new EffectGain(), JSON.parse(JSON.stringify(this.newEffect))));
+        let newLength = creature.effects.push(Object.assign<EffectGain, EffectGain>(new EffectGain(), JSON.parse(JSON.stringify(this.newEffect))).recast());
         if (duration == -1) {
             creature.effects[newLength - 1].duration = duration;
         } else {

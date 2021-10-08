@@ -18,7 +18,7 @@ export class ItemTalismanCordsComponent implements OnInit {
 
     @Input()
     item: Equipment;
-    
+
     public newTalismanCord: { talismanCord: WornItem, inv: ItemCollection }[];
 
     constructor(
@@ -115,10 +115,10 @@ export class ItemTalismanCordsComponent implements OnInit {
     }
 
     set_TalismanCordNames() {
-        this.newTalismanCord = 
-        (this.item.talismanCords ? [
-            (this.item.talismanCords[0] ? { talismanCord: this.item.talismanCords[0], inv: null } : { talismanCord: new WornItem(), inv: null })
-        ] : [{ talismanCord: new WornItem(), inv: null }]);
+        this.newTalismanCord =
+            (this.item.talismanCords ? [
+                (this.item.talismanCords[0] ? { talismanCord: this.item.talismanCords[0], inv: null } : { talismanCord: new WornItem(), inv: null })
+            ] : [{ talismanCord: new WornItem(), inv: null }]);
         this.newTalismanCord.filter(cord => cord.talismanCord.name == "New Item").forEach(cord => {
             cord.talismanCord.name = "";
         });

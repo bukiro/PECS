@@ -142,7 +142,7 @@ export class ConditionComponent implements OnInit {
             //Remove any conditions that were granted by the previous choice, unless they are persistent (but still remove them if they are ignorePersistentAtChoiceChange).
             if (oldChoice) {
                 condition.gainConditions.filter(extraCondition => extraCondition.conditionChoiceFilter.includes(oldChoice)).forEach(extraCondition => {
-                    let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition))).recast();
+                    let addCondition: ConditionGain = Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(extraCondition))).recast();
                     addCondition.source = gain.name;
                     let originalCondition = this.characterService.get_Conditions(addCondition.name)[0];
                     if (!(addCondition.persistent || originalCondition?.persistent) || addCondition.ignorePersistentAtChoiceChange) {
@@ -154,7 +154,7 @@ export class ConditionComponent implements OnInit {
             if (gain.choice) {
                 condition.gainConditions.filter(extraCondition => extraCondition.conditionChoiceFilter.includes(gain.choice)).forEach(extraCondition => {
                     conditionDidSomething = true;
-                    let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition))).recast();
+                    let addCondition: ConditionGain = Object.assign<ConditionGain, ConditionGain>(new ConditionGain, JSON.parse(JSON.stringify(extraCondition))).recast();
                     if (!addCondition.heightened) {
                         addCondition.heightened = gain.heightened;
                     }

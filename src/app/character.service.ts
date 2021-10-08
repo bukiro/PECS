@@ -677,7 +677,7 @@ export class CharacterService {
             //Remove all free languages that have not been filled.
             character.class.languages = character.class.languages.sort().filter(language => !(language.name == "" && !language.locked));
             //Make a new list of all the free languages. We will pick and sort the free languages from here into the character language list.
-            let tempLanguages: LanguageGain[] = character.class.languages.filter(language => !language.locked).map(language => Object.assign(new LanguageGain(), JSON.parse(JSON.stringify(language))));
+            let tempLanguages: LanguageGain[] = character.class.languages.filter(language => !language.locked).map(language => Object.assign<LanguageGain, LanguageGain>(new LanguageGain(), JSON.parse(JSON.stringify(language))));
             //Reduce the character language list to only the locked ones.
             character.class.languages = character.class.languages.filter(language => language.locked);
 
@@ -695,12 +695,12 @@ export class CharacterService {
                     } else {
                         existingLanguage = tempLanguages.find(language => language.source == languageSource.name && language.level == -1 && !language.locked)
                         if (existingLanguage) {
-                            let newLanguage = Object.assign(new LanguageGain(), JSON.parse(JSON.stringify(tempLanguages)));
+                            let newLanguage = Object.assign<LanguageGain, LanguageGain>(new LanguageGain(), JSON.parse(JSON.stringify(existingLanguage)));
                             newLanguage.level = languageSource.level;
                             character.class.languages.push(newLanguage);
                             tempLanguages.splice(tempLanguages.indexOf(existingLanguage), 1);
                         } else {
-                            character.class.languages.push(Object.assign(new LanguageGain(), { name: "", source: languageSource.name, locked: false, level: languageSource.level }));
+                            character.class.languages.push(Object.assign(new LanguageGain(), { name: "", source: languageSource.name, locked: false, level: languageSource.level }) as LanguageGain);
                         }
                     }
                 }
@@ -773,7 +773,7 @@ export class CharacterService {
         character.class.on_ChangeAncestry(this);
         character.class.on_ChangeBackground(this);
         character.class.on_ChangeClass(this);
-        character.class = Object.assign(new Class(), JSON.parse(JSON.stringify($class))).recast(this.typeService, this.itemsService);
+        character.class = Object.assign<Class, Class>(new Class(), JSON.parse(JSON.stringify($class))).recast(this.typeService, this.itemsService);
         character.class.on_NewClass(this, this.itemsService);
         this.set_Changed();
     }
@@ -783,7 +783,7 @@ export class CharacterService {
         this.change_Heritage(new Heritage());
         character.class.on_ChangeAncestry(this);
         character.class.ancestry = new Ancestry();
-        character.class.ancestry = Object.assign(new Ancestry(), JSON.parse(JSON.stringify(ancestry))).recast();
+        character.class.ancestry = Object.assign<Ancestry, Ancestry>(new Ancestry(), JSON.parse(JSON.stringify(ancestry))).recast();
         character.class.on_NewAncestry(this, itemsService);
         this.update_LanguageList();
     }
@@ -804,10 +804,10 @@ export class CharacterService {
         character.class.on_ChangeHeritage(this, index);
         if (index == -1) {
             character.class.heritage = new Heritage();
-            character.class.heritage = Object.assign(new Heritage(), JSON.parse(JSON.stringify(heritage))).recast();
+            character.class.heritage = Object.assign<Heritage, Heritage>(new Heritage(), JSON.parse(JSON.stringify(heritage))).recast();
         } else {
             character.class.additionalHeritages[index] = new Heritage();
-            character.class.additionalHeritages[index] = Object.assign(new Heritage(), JSON.parse(JSON.stringify(heritage))).recast();
+            character.class.additionalHeritages[index] = Object.assign<Heritage, Heritage>(new Heritage(), JSON.parse(JSON.stringify(heritage))).recast();
             character.class.additionalHeritages[index].source = source;
         }
         character.class.on_NewHeritage(this, this.itemsService, index);
@@ -817,7 +817,7 @@ export class CharacterService {
         let character = this.get_Character();
         character.class.on_ChangeBackground(this);
         character.class.background = new Background();
-        character.class.background = Object.assign(new Background(), JSON.parse(JSON.stringify(background))).recast();
+        character.class.background = Object.assign<Background, Background>(new Background(), JSON.parse(JSON.stringify(background))).recast();
         character.class.on_NewBackground(this);
     }
 
@@ -877,7 +877,7 @@ export class CharacterService {
                     let regex = new RegExp(replacementString, "g")
                     let featString = JSON.stringify(feat);
                     featString = featString.replace(regex, weapon.name);
-                    let replacedFeat = Object.assign(new Feat(), JSON.parse(featString)).recast();
+                    let replacedFeat = Object.assign<Feat, Feat>(new Feat(), JSON.parse(featString)).recast();
                     let newLength = this.add_CustomFeat(replacedFeat);
                     let newFeat = this.get_Character().customFeats[newLength - 1];
                     newFeat.hide = false;
@@ -1472,7 +1472,7 @@ export class CharacterService {
     }
 
     add_CustomFeat(newFeat: Feat) {
-        let newLength = this.get_Character().customFeats.push(Object.assign(new Feat(), JSON.parse(JSON.stringify(newFeat))).recast());
+        let newLength = this.get_Character().customFeats.push(Object.assign<Feat, Feat>(new Feat(), JSON.parse(JSON.stringify(newFeat))).recast());
         this.set_ToChange("Character", "charactersheet");
         return newLength;
     }
@@ -1495,7 +1495,7 @@ export class CharacterService {
 
     add_Condition(creature: Creature, originalConditionGain: ConditionGain, reload: boolean = true, parentConditionGain: ConditionGain = null) {
         let activate: boolean = true;
-        let conditionGain: ConditionGain = Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(originalConditionGain))).recast();
+        let conditionGain: ConditionGain = Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(originalConditionGain))).recast();
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
         if (originalCondition) {
             if (conditionGain.heightened < originalCondition.minLevel) {
@@ -1509,7 +1509,7 @@ export class CharacterService {
             }
             //If the condition has an activationPrerequisite, test that first and only activate if it evaluates to a nonzero number.
             if (conditionGain.activationPrerequisite) {
-                let testConditionGain: any = Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))).recast();
+                let testConditionGain: any = Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))).recast();
                 let testEffectGain: EffectGain = new EffectGain();
                 testEffectGain.value = conditionGain.activationPrerequisite;
                 testConditionGain.effects = [testEffectGain];
@@ -1687,7 +1687,7 @@ export class CharacterService {
     }
 
     remove_LockedByParent(creature: Creature, id: string) {
-        //This function removes the lockedByParent and lockedByID attributes from all condition gains locked by the given ID.
+        //This function removes the lockedByParent and valueLockedByParent attributes from all condition gains locked by the given ID.
         creature.conditions.filter(gain => gain.parentID == id).forEach(gain => {
             gain.lockedByParent = false;
             gain.valueLockedByParent = false;
@@ -1798,7 +1798,7 @@ export class CharacterService {
                     let date = new Date();
                     message.time = date.getHours() + ":" + date.getMinutes();
                     message.timeStamp = timeStamp;
-                    message.gainCondition.push(Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))).recast());
+                    message.gainCondition.push(Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))).recast());
                     if (message.gainCondition.length) {
                         message.gainCondition[0].foreignPlayerId = message.senderId;
                     }
@@ -1895,7 +1895,7 @@ export class CharacterService {
             let date = new Date();
             message.time = date.getHours() + ":" + date.getMinutes();
             message.timeStamp = timeStamp;
-            message.offeredItem.push(Object.assign(new Item(), JSON.parse(JSON.stringify(item))).recast());
+            message.offeredItem.push(Object.assign<Item, Item>(new Item(), JSON.parse(JSON.stringify(item))).recast(this.typeService, this.itemsService));
             message.itemAmount = amount;
             message.includedItems = included.items;
             message.includedInventories = included.inventories;
@@ -2802,7 +2802,8 @@ export class CharacterService {
     finish_Loading(loadAsGM: boolean = false) {
         if (this.loader) {
             this.set_LoadingStatus("Initializing character");
-            this.me = Object.assign(new Character(), JSON.parse(JSON.stringify(this.loader)));
+            //We assign the character, but don't recast it yet. This is done in finalize_Character().
+            this.me = Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(this.loader)));
             this.me.GMMode = loadAsGM;
             this.loader = [];
             this.finalize_Character();

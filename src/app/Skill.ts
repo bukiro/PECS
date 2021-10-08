@@ -9,7 +9,7 @@ import { Creature } from './Creature';
 import { ProficiencyCopy } from './ProficiencyCopy';
 
 export class Skill {
-        public notes: string = "";
+    public notes: string = "";
     public showNotes: boolean = false;
     public showEffects: boolean = false;
     constructor(

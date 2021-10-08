@@ -306,11 +306,11 @@ export class Class {
                 }
             }
             heritage.gainActivities.forEach((gainActivity: string) => {
-                character.gain_Activity(characterService, Object.assign(new ActivityGain(), { name: gainActivity, source: heritage.name }), 1);
+                character.gain_Activity(characterService, (Object.assign(new ActivityGain(), { name: gainActivity, source: heritage.name }) as ActivityGain).recast(), 1);
             });
             //Gain Spell or Spell Option
             heritage.spellChoices.forEach(newSpellChoice => {
-                let insertSpellChoice = Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newSpellChoice))).recast();
+                let insertSpellChoice = Object.assign<SpellChoice, SpellChoice>(new SpellChoice(), JSON.parse(JSON.stringify(newSpellChoice))).recast();
                 insertSpellChoice.spells.forEach((gain: SpellGain) => {
                     gain.sourceId = insertSpellChoice.id;
                     gain.source = insertSpellChoice.source;

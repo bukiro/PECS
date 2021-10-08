@@ -158,7 +158,7 @@ export class AC {
             relatives = this.relatives(creature, character, effectsService);
         } else {
             //Reassign the effects to unchain them from the calling function.
-            relatives = relatives.map(relative => Object.assign(new Effect(), JSON.parse(JSON.stringify(relative))));
+            relatives = relatives.map(relative => Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(relative))).recast());
         }
         let armorSet = false;
         //Absolutes completely replace the baseValue. They are sorted so that the highest value counts last.
@@ -166,7 +166,7 @@ export class AC {
             absolutes = this.absolutes(armorCreature, effectsService)
         } else {
             //Reassign the effects to unchain them from the calling function.
-            absolutes = absolutes.map(absolute => Object.assign(new Effect(), JSON.parse(JSON.stringify(absolute))));
+            absolutes = absolutes.map(absolute => Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(absolute))).recast());
         }
         absolutes.forEach(effect => {
             armorSet = true;

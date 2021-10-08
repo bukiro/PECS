@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input } from '@angular/core';
-import { AbilitiesService} from '../abilities.service';
+import { AbilitiesService } from '../abilities.service';
 import { CharacterService } from '../character.service';
 import { EffectsService } from '../effects.service';
 
@@ -10,7 +10,7 @@ import { EffectsService } from '../effects.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AbilitiesComponent implements OnInit {
-    
+
     @Input()
     public creature: string = "Character";
     @Input()
@@ -66,9 +66,9 @@ export class AbilitiesComponent implements OnInit {
             case 2:
                 return this.abilitiesService.get_Abilities().filter((ability, index) => index >= 3);
         }
-        
+
     }
-    
+
     still_loading() {
         return this.abilitiesService.still_loading() || this.characterService.still_loading();
     }
@@ -78,17 +78,17 @@ export class AbilitiesComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (["abilities", "all", this.creature.toLowerCase()].includes(target)) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (["abilities", "all", this.creature.toLowerCase()].includes(target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["abilities", "all"].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["abilities", "all"].includes(view.target.toLowerCase())) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             return true;
         }
     }

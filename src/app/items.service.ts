@@ -70,6 +70,7 @@ import { ShieldMaterial } from './ShieldMaterial';
 import { SpellTarget } from './SpellTarget';
 import { ExtensionsService } from './extensions.service';
 import { TypeService } from './type.service';
+import { Rune } from './Rune';
 
 @Injectable({
     providedIn: 'root'
@@ -238,7 +239,7 @@ export class ItemsService {
     initialize_Item(item: any, preassigned: boolean = false, newId: boolean = true, resetPropertyRunes: boolean = false) {
         //Every new item has to be re-assigned its class and iterate over its objects to reassign them as well.
         //Typescript does not seem to have the option to keep object properties' classes when assigning.
-        let newItem: any;
+        let newItem: Item;
         //Set preassigned if you have already given the item a Class. Otherwise it will be determined by the item's type.
         if (preassigned) {
             newItem = Object.assign(new item.constructor(), JSON.parse(JSON.stringify(item)));
@@ -248,25 +249,29 @@ export class ItemsService {
         //Optionally, a new ID is assigned and updated on the item's activities and their spell gains.
         if (newId) {
             newItem.id = uuidv4();
-            newItem.activities?.forEach((activity: ItemActivity) => {
-                activity.castSpells?.forEach(cast => {
-                    if (cast.spellGain) {
-                        cast.spellGain.id = uuidv4();
-                    }
+            if (newItem instanceof Equipment || newItem instanceof Rune) {
+                newItem.activities?.forEach((activity: ItemActivity) => {
+                    activity.castSpells?.forEach(cast => {
+                        if (cast.spellGain) {
+                            cast.spellGain.id = uuidv4();
+                        }
+                    })
                 })
-            })
-            newItem.gainSpells?.forEach((choice: SpellChoice) => {
-                choice.id = uuidv4();
-            })
+            }
+            if (newItem instanceof Equipment) {
+                newItem.gainSpells?.forEach((choice: SpellChoice) => {
+                    choice.id = uuidv4();
+                })
+            }
         }
 
         //Perform any merging before the item is recast.
 
         //For items (oils) that apply the same effect as a rune, load the rune into the item here.
-        if (newItem.runeEffect?.name) {
-            let rune = this.cleanItems.weaponrunes.find(rune => rune.name == newItem.runeEffect.name);
+        if (newItem instanceof Oil && newItem.runeEffect?.name) {
+            let rune = this.cleanItems.weaponrunes.find(rune => rune.name == (newItem as Oil).runeEffect.name);
             if (rune) {
-                newItem.runeEffect = Object.assign(new WeaponRune(), JSON.parse(JSON.stringify(rune))).recast(this.typeService, this);
+                newItem.runeEffect = Object.assign<WeaponRune, WeaponRune>(new WeaponRune(), JSON.parse(JSON.stringify(rune))).recast(this.typeService, this);
                 newItem.runeEffect.activities.forEach((activity: ItemActivity) => { activity.name += " (" + newItem.name + ")" });
             }
         }
@@ -461,7 +466,7 @@ export class ItemsService {
                     if (toPack) {
                         let moved = Math.min(toPack, invItem.amount);
                         toPack -= moved;
-                        let newItem = this.cast_ItemByType(Object.assign(new Item(), JSON.parse(JSON.stringify(invItem)))).recast(this.typeService, this);
+                        let newItem = this.cast_ItemByType(Object.assign<Item, Item>(new Item(), JSON.parse(JSON.stringify(invItem)))).recast(this.typeService, this);
                         newItem.amount = moved;
                         items.push(newItem);
                         let included = this.pack_GrantingItem(creature, invItem, primaryItem);
@@ -474,7 +479,7 @@ export class ItemsService {
 
         //If the item adds inventories, add a copy of them to the inventory list.
         if ((item as Equipment).gainInventory?.length) {
-            inventories.push(...creature.inventories.filter(inventory => inventory.itemId == item.id).map(inventory => Object.assign(new ItemCollection(), JSON.parse(JSON.stringify(inventory))).recast(this.typeService, this)));
+            inventories.push(...creature.inventories.filter(inventory => inventory.itemId == item.id).map(inventory => Object.assign<ItemCollection, ItemCollection>(new ItemCollection(), JSON.parse(JSON.stringify(inventory))).recast(this.typeService, this)));
         }
 
         //At this point, if this is the primary item, all nested items and inventories have been added. We can now clean up the stacks:
@@ -492,7 +497,7 @@ export class ItemsService {
                             if (newInventories.length) {
                                 newInventoriesFound = true;
                                 inventories.push(
-                                    ...newInventories.map(inventory => Object.assign(new ItemCollection(), JSON.parse(JSON.stringify(inventory))).recast(this.typeService, this)));
+                                    ...newInventories.map(inventory => Object.assign<ItemCollection, ItemCollection>(new ItemCollection(), JSON.parse(JSON.stringify(inventory))).recast(this.typeService, this)));
                             }
                         })
                     })
@@ -875,15 +880,15 @@ export class ItemsService {
             */
 
             //Make a copy of clean items for shop items and crafting items.
-            this.items = Object.assign(new ItemCollection(), JSON.parse(JSON.stringify(this.cleanItems))).recast(this.typeService, this);
-            this.craftingItems = Object.assign(new ItemCollection(), JSON.parse(JSON.stringify(this.cleanItems))).recast(this.typeService, this);
+            this.items = Object.assign<ItemCollection, ItemCollection>(new ItemCollection(), JSON.parse(JSON.stringify(this.cleanItems))).recast(this.typeService, this);
+            this.craftingItems = Object.assign<ItemCollection, ItemCollection>(new ItemCollection(), JSON.parse(JSON.stringify(this.cleanItems))).recast(this.typeService, this);
 
             this.loading = false;
 
         } else {
             //Reset items and crafting items from clean items.
-            this.items = Object.assign(new ItemCollection(), JSON.parse(JSON.stringify(this.cleanItems))).recast(this.typeService, this);
-            this.craftingItems = Object.assign(new ItemCollection(), JSON.parse(JSON.stringify(this.cleanItems))).recast(this.typeService, this);
+            this.items = Object.assign<ItemCollection, ItemCollection>(new ItemCollection(), JSON.parse(JSON.stringify(this.cleanItems))).recast(this.typeService, this);
+            this.craftingItems = Object.assign<ItemCollection, ItemCollection>(new ItemCollection(), JSON.parse(JSON.stringify(this.cleanItems))).recast(this.typeService, this);
             //Disable any active hint effects when loading a character, and reinitialize the hints.
             this.specializations.forEach(spec => {
                 spec = spec.recast();
@@ -902,8 +907,9 @@ export class ItemsService {
                 this.items[target] = [];
                 this.craftingItems[target] = [];
                 data = this.extensionsService.extend(source, "items_" + target);
+                //Initialize all clean items. Recasting happens in the initialization, and the store and crafting items will be copied and recast afterwards.
                 Object.keys(data).forEach(key => {
-                    this.cleanItems[target].push(...data[key].map(obj => this.initialize_Item(Object.assign(new type(), obj), true, false, true)));
+                    this.cleanItems[target].push(...data[key].map((obj: Item) => this.initialize_Item(Object.assign(new type(), obj), true, false, true)));
                 });
                 this.cleanItems[target] = this.extensionsService.cleanup_Duplicates(this.cleanItems[target], "id", listName);
                 break;

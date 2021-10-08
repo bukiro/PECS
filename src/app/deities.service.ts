@@ -97,7 +97,7 @@ export class DeitiesService {
         this.deities = [];
         let data = this.extensionsService.extend(json_deities, "deities");
         Object.keys(data).forEach(key => {
-            this.deities.push(...data[key].map(obj => Object.assign(new Deity(), obj).recast()));
+            this.deities.push(...data[key].map((obj: Deity) => Object.assign(new Deity(), obj).recast()));
         });
         this.deities = this.extensionsService.cleanup_Duplicates(this.deities, "name", "deities");
     }
@@ -106,7 +106,7 @@ export class DeitiesService {
         this.domains = [];
         let data = this.extensionsService.extend(json_domains, "domains");
         Object.keys(data).forEach(key => {
-            this.domains.push(...data[key].map(obj => Object.assign(new Domain(), obj)));
+            this.domains.push(...data[key].map((obj: Domain) => Object.assign(new Domain(), obj).recast()));
         });
         this.domains = this.extensionsService.cleanup_Duplicates(this.domains, "name", "domains");
     }

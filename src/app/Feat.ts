@@ -27,7 +27,7 @@ import { SignatureSpellGain } from './SignatureSpellGain';
 import { EffectGain } from './EffectGain';
 
 export class Feat {
-        public abilityreq: any[] = [];
+    public abilityreq: any[] = [];
     public access: string = "";
     //If weaponfeatbase is true, the feat will be copied for every weapon that matches the description in the subtype:
     // Advanced => Advanced Weapons

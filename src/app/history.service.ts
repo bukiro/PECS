@@ -161,27 +161,41 @@ export class HistoryService {
         //Initialize only once.
         if (!this.ancestries.length) {
             this.loading_ancestries = true;
-            this.load(json_ancestries, "ancestries", Ancestry);
+            this.load(json_ancestries, "ancestries", "Ancestry");
             this.loading_ancestries = false;
         }
         if (!this.backgrounds.length) {
             this.loading_backgrounds = true;
-            this.load(json_backgrounds, "backgrounds", Background);
+            this.load(json_backgrounds, "backgrounds", "Background");
             this.loading_backgrounds = false;
         }
         if (!this.heritages.length) {
             this.loading_heritages = true;
-            this.load(json_heritages, "heritages", Heritage);
+            this.load(json_heritages, "heritages", "Heritage");
             this.loading_heritages = false;
         }
     }
 
-    load(source, target: string, type) {
+    load(source, target: string, type: string) {
         this[target] = [];
         let data = this.extensionsService.extend(source, target);
-        Object.keys(data).forEach(key => {
-            this[target].push(...data[key].map(obj => Object.assign(new type(), obj).recast()));
-        });
+        switch (type) {
+            case "Ancestry":
+                Object.keys(data).forEach(key => {
+                    this[target].push(...data[key].map((obj: Ancestry) => Object.assign(new Ancestry(), obj).recast()));
+                });
+                break;
+            case "Background":
+                Object.keys(data).forEach(key => {
+                    this[target].push(...data[key].map((obj: Background) => Object.assign(new Background(), obj).recast()));
+                });
+                break;
+            case "Heritage":
+                Object.keys(data).forEach(key => {
+                    this[target].push(...data[key].map((obj: Heritage) => Object.assign(new Heritage(), obj).recast()));
+                });
+                break;
+        }
         this[target] = this.extensionsService.cleanup_Duplicates(this[target], "name", target);
     }
 

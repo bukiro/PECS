@@ -3,7 +3,7 @@ import { ItemGain } from './ItemGain';
 import { FeatChoice } from './FeatChoice';
 
 export class Ancestry {
-        public abilityChoices: AbilityChoice[] = [];
+    public abilityChoices: AbilityChoice[] = [];
     public ancestries: string[] = [];
     public baseLanguages: number = 0;
     public desc: { name: string, value: string }[] = [];

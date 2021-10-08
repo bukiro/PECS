@@ -5,7 +5,6 @@ import { ActivityGain } from '../ActivityGain';
 import { CharacterService } from '../character.service';
 import { ConditionGain } from '../ConditionGain';
 import { ConditionsService } from '../conditions.service';
-import { Creature } from '../Creature';
 import { Feat } from '../Feat';
 import { ItemActivity } from '../ItemActivity';
 import { SavegameService } from '../savegame.service';

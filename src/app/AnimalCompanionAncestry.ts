@@ -2,11 +2,10 @@ import { ItemGain } from './ItemGain';
 import { AbilityChoice } from './AbilityChoice';
 import { SkillChoice } from './SkillChoice';
 import { ActivityGain } from './ActivityGain';
-import { EffectGain } from './EffectGain';
 import { Hint } from './Hint';
 
 export class AnimalCompanionAncestry {
-        public abilityChoices: AbilityChoice[] = [];
+    public abilityChoices: AbilityChoice[] = [];
     public activities: ActivityGain[] = [];
     public desc: string = "";
     public gainItems: ItemGain[] = [];

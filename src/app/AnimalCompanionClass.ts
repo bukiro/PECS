@@ -6,7 +6,7 @@ import { ItemsService } from './items.service';
 import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
 
 export class AnimalCompanionClass {
-        public ancestry: AnimalCompanionAncestry = new AnimalCompanionAncestry();
+    public ancestry: AnimalCompanionAncestry = new AnimalCompanionAncestry();
     public hitPoints: number = 6;
     public levels: AnimalCompanionLevel[] = [];
     public name: string = "";

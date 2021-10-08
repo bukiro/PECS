@@ -152,11 +152,11 @@ export class AnimalCompanionsService {
 
     change_Type(companion: AnimalCompanion, type: AnimalCompanionAncestry) {
         companion.class.ancestry = new AnimalCompanionAncestry();
-        companion.class.ancestry = Object.assign(new AnimalCompanionAncestry(), JSON.parse(JSON.stringify(type))).recast();
+        companion.class.ancestry = Object.assign<AnimalCompanionAncestry, AnimalCompanionAncestry>(new AnimalCompanionAncestry(), JSON.parse(JSON.stringify(type))).recast();
     }
 
     add_Specialization(companion: AnimalCompanion, spec: AnimalCompanionSpecialization, levelNumber: number) {
-        let newLength = companion.class.specializations.push(Object.assign(new AnimalCompanionSpecialization(), JSON.parse(JSON.stringify(spec))).recast());
+        let newLength = companion.class.specializations.push(Object.assign<AnimalCompanionSpecialization, AnimalCompanionSpecialization>(new AnimalCompanionSpecialization(), JSON.parse(JSON.stringify(spec))).recast());
         companion.class.specializations[newLength - 1].level = levelNumber;
     }
 
@@ -172,7 +172,7 @@ export class AnimalCompanionsService {
         //Initialize only once, but cleanup active effects everytime thereafter.
         if (!this.companionAncestries.length) {
             this.loading_ancestries = true;
-            this.load(json_ancestries, "companionAncestries", AnimalCompanionAncestry);
+            this.load(json_ancestries, "companionAncestries", "AnimalCompanionAncestry");
             this.loading_ancestries = false;
         } else {
             //Disable any active hint effects when loading a character.
@@ -184,14 +184,14 @@ export class AnimalCompanionsService {
         }
         if (!this.companionLevels.length) {
             this.loading_levels = true;
-            this.load(json_levels, "companionLevels", AnimalCompanionLevel);
+            this.load(json_levels, "companionLevels", "AnimalCompanionLevel");
             //Sort levels by level number, after it may have got out of order with duplicates.
             this.companionLevels = this.companionLevels.sort((a, b) => a.number - b.number);
             this.loading_levels = false;
         }
         if (!this.companionSpecializations.length) {
             this.loading_specializations = true;
-            this.load(json_specializations, "companionSpecializations", AnimalCompanionSpecialization);
+            this.load(json_specializations, "companionSpecializations", "AnimalCompanionSpecialization");
             this.loading_specializations = false;
         } else {
             //Disable any active hint effects when loading a character.
@@ -203,12 +203,26 @@ export class AnimalCompanionsService {
         }
     }
 
-    load(source, target: string, type) {
+    load(source, target: string, type: string) {
         this[target] = [];
         let data = this.extensionsService.extend(source, target);
-        Object.keys(data).forEach(key => {
-            this[target].push(...data[key].map(obj => Object.assign(new type(), obj).recast()));
-        });
+        switch (type) {
+            case "AnimalCompanionAncestry":
+                Object.keys(data).forEach(key => {
+                    this[target].push(...data[key].map((obj: AnimalCompanionAncestry) => Object.assign(new AnimalCompanionAncestry(), obj).recast()));
+                });
+                break;
+            case "AnimalCompanionLevel":
+                Object.keys(data).forEach(key => {
+                    this[target].push(...data[key].map((obj: AnimalCompanionLevel) => Object.assign(new AnimalCompanionLevel(), obj).recast()));
+                });
+                break;
+            case "AnimalCompanionSpecialization":
+                Object.keys(data).forEach(key => {
+                    this[target].push(...data[key].map((obj: AnimalCompanionSpecialization) => Object.assign(new AnimalCompanionSpecialization(), obj).recast()));
+                });
+                break;
+        }
         this[target] = this.extensionsService.cleanup_Duplicates(this[target], "name", target);
     }
 
