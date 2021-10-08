@@ -3,7 +3,7 @@ import { ItemGain } from './ItemGain';
 import { v4 as uuidv4 } from 'uuid';
 
 export class ConditionGain {
-        public addValue: number = 0;
+    public addValue: number = 0;
     public addValueUpperLimit: number = 0;
     public addValueLowerLimit: number = 0;
     public id = uuidv4();
@@ -38,7 +38,7 @@ export class ConditionGain {
     public parentID: string = "";
     public value: number = 0;
     //Remove this condition if any of the endsWithConditions is removed.
-    public endsWithConditions: string[] = [];
+    public endsWithConditions: { name: string, source: string }[] = [];
     //Only activate this condition if this string evaluates to a numeral nonzero value (so use "<evaluation> ? 1 : null"). This is tested at the add_condition stage, so it can be combined with conditionChoiceFilter.
     public activationPrerequisite: string = "";
     //For conditions within conditions, activate this condition only if this choice was made on the original condition.

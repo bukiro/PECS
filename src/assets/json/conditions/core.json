@@ -95,7 +95,9 @@
             }
         ],
         "endsWithConditions": [
-            "Rage"
+            {
+                "name": "Rage"
+            }
         ],
         "hints": [
             {
@@ -1178,7 +1180,9 @@
         ],
         "inputRequired": "If a creature hits you, that creature is flat-footed to you until the end of your next turn. If you hit it before the end of your next turn, grant yourself temporary Hit Points equal to your Constitution modifier, or double that on a critical hit. These temporary Hit Points last until the end of your rage.",
         "endsWithConditions": [
-            "Rage"
+            {
+                "name": "Rage"
+            }
         ],
         "hints": [
             {
@@ -1948,7 +1952,9 @@
             }
         ],
         "endsWithConditions": [
-            "Rage"
+            {
+                "name": "Rage"
+            }
         ],
         "effects": [
             {
@@ -1993,7 +1999,9 @@
             }
         ],
         "endsWithConditions": [
-            "Rage"
+            {
+                "name": "Rage"
+            }
         ],
         "hints": [
             {
@@ -2409,7 +2417,9 @@
             }
         ],
         "endsWithConditions": [
-            "Rage"
+            {
+                "name": "Rage"
+            }
         ],
         "hints": [
             {
@@ -2678,7 +2688,9 @@
             }
         ],
         "endsWithConditions": [
-            "Rage"
+            {
+                "name": "Rage"
+            }
         ],
         "effects": [
             {
@@ -2699,7 +2711,9 @@
             }
         ],
         "endsWithConditions": [
-            "Rage"
+            {
+                "name": "Rage"
+            }
         ],
         "effects": [
             {
@@ -3921,9 +3935,15 @@
             }
         ],
         "endsWithConditions": [
-            "Plant Form",
-            "Nature Incarnate",
-            "Tree Shape"
+            {
+                "name": "Plant Form"
+            },
+            {
+                "name": "Nature Incarnate"
+            },
+            {
+                "name": "Tree Shape"
+            }
         ],
         "hints": [
             {
@@ -3981,8 +4001,12 @@
             }
         ],
         "endsWithConditions": [
-            "Furious Finish",
-            "Perfect Clarity"
+            {
+                "name": "Furious Finish"
+            },
+            {
+                "name": "Perfect Clarity"
+            }
         ],
         "hints": [
             {
@@ -4226,7 +4250,9 @@
             }
         ],
         "endsWithConditions": [
-            "Rage"
+            {
+                "name": "Rage"
+            }
         ],
         "effects": [
             {
@@ -4928,7 +4954,9 @@
         ],
         "unlimited": true,
         "endsWithConditions": [
-            "Rage"
+            {
+                "name": "Rage"
+            }
         ]
     },
     {
@@ -5000,7 +5028,9 @@
             }
         ],
         "endsWithConditions": [
-            "Monstrosity Form"
+            {
+                "name": "Monstrosity Form"
+            }
         ]
     },
     {
@@ -5100,7 +5130,9 @@
             }
         ],
         "endsWithConditions": [
-            "Rage"
+            {
+                "name": "Rage"
+            }
         ],
         "hints": [
             {
@@ -10566,7 +10598,9 @@
         ],
         "inputRequired": "While this is activated, you can enter Rage without waiting.",
         "endsWithConditions": [
-            "Rage"
+            {
+                "name": "Rage"
+            }
         ],
         "effects": [
             {
@@ -14407,7 +14441,10 @@
             }
         ],
         "endsWithConditions": [
-            "Sickened"
+            {
+                "name": "Sickened",
+                "source": "Call of the Grave"
+            }
         ],
         "choice": "Success",
         "choices": [
@@ -14486,7 +14523,10 @@
             }
         ],
         "endsWithConditions": [
-            "Persistent Damage"
+            {
+                "name": "Persistent Damage",
+                "source": "Charged Javelin"
+            }
         ],
         "hints": [
             {
@@ -17212,7 +17252,10 @@
             }
         ],
         "endsWithConditions": [
-            "Frightened"
+            {
+                "name": "Frightened",
+                "source": "Fear"
+            }
         ],
         "choice": "Success",
         "choices": [
@@ -19981,7 +20024,10 @@
             }
         ],
         "endsWithConditions": [
-            "Sickened"
+            {
+                "name": "Sickened",
+                "source": "Overstuff"
+            }
         ],
         "hints": [
             {
@@ -20573,7 +20619,10 @@
             }
         ],
         "endsWithConditions": [
-            "Sickened"
+            {
+                "name": "Sickened",
+                "source": "Phantom Train"
+            }
         ],
         "choice": "Failure",
         "choices": [
@@ -21286,7 +21335,10 @@
             }
         ],
         "endsWithConditions": [
-            "Persistent Damage"
+            {
+                "name": "Persistent Damage",
+                "source": "Savor the Sting"
+            }
         ],
         "hints": [
             {
@@ -34070,7 +34122,10 @@
             }
         ],
         "endsWithConditions": [
-            "Fascinated"
+            {
+                "name": "Fascinated",
+                "source": "Hypnotic Pattern"
+            }
         ],
         "choice": "Failure",
         "choices": [
@@ -36954,7 +37009,7 @@
     },
     {
         "name": "Confusion",
-        "desc": "You are befuddled with strange impulses, causing you to act randomly. The effects are determined by your Will save.\n\n<strong>Critical Success</strong> You are unaffected.\n<strong>Success</strong> You babble incoherently and is stunned 1.\n<strong>Failure</strong> You are confused for 1 minute. You can attempt a new save at the end of each of your turns to end the confusion.\n<strong>Critical Failure</strong> You are confused for 1 minute, with no save to end early.",
+        "desc": "You are befuddled with strange impulses, causing you to act randomly. The effects are determined by your Will save.\n\n<strong>Critical Success</strong> You are unaffected.\n<strong>Success</strong> You babble incoherently and are stunned 1.\n<strong>Failure</strong> You are confused for 1 minute. You can attempt a new save at the end of each of your turns to end the confusion.\n<strong>Critical Failure</strong> You are confused for 1 minute, with no save to end early.",
         "type": "spells",
         "minLevel": 4,
         "SortLevel": 4,
@@ -36967,7 +37022,14 @@
             }
         ],
         "endsWithConditions": [
-            "Stunned"
+            {
+                "name": "Stunned",
+                "source": "Confusion"
+            },
+            {
+                "name": "Confused",
+                "source": "Confusion"
+            }
         ],
         "hints": [
             {
@@ -37007,12 +37069,7 @@
             },
             {
                 "conditionChoiceFilter": [
-                    "Failure"
-                ],
-                "name": "Confused"
-            },
-            {
-                "conditionChoiceFilter": [
+                    "Failure",
                     "Critical Failure"
                 ],
                 "name": "Confused"
@@ -37745,7 +37802,10 @@
             }
         ],
         "endsWithConditions": [
-            "Sickened"
+            {
+                "name": "Sickened",
+                "source": "Divine Wrath"
+            }
         ],
         "choice": "Failure",
         "choices": [
@@ -38597,7 +38657,10 @@
             }
         ],
         "endsWithConditions": [
-            "Fatigued"
+            {
+                "name": "Fatigued",
+                "source": "Nightmare (Critical Failure)"
+            }
         ],
         "gainConditions": [
             {
@@ -41902,7 +41965,10 @@
             }
         ],
         "endsWithConditions": [
-            "Sickened"
+            {
+                "name": "Sickened",
+                "source": "Mariner's Curse"
+            }
         ],
         "choice": "Success",
         "choices": [
@@ -43576,6 +43642,12 @@
                 "duration": -1
             }
         ],
+        "endsWithConditions": [
+            {
+                "name": "Stunned",
+                "source": "Synaptic Pulse"
+            }
+        ],
         "choice": "Success",
         "choices": [
             {
@@ -43633,10 +43705,7 @@
                 "duration": 10
             }
         ],
-        "unlimited": true,
-        "endsWithConditions": [
-            "Stunned"
-        ]
+        "unlimited": true
     },
     {
         "name": "Synesthesia",
@@ -44905,8 +44974,12 @@
             }
         ],
         "endsWithConditions": [
-            "Summon Animal",
-            "Summon Plant or Fungus"
+            {
+                "name": "Summon Animal"
+            },
+            {
+                "name": "Summon Plant or Fungus"
+            }
         ],
         "hints": [
             {

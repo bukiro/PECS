@@ -263,7 +263,7 @@ export class ConditionsService {
         //If this ends, remove conditions that have this listed in endsWithConditions
         if (!taken && !ignoreEndsWithConditions) {
             characterService.get_AppliedConditions(creature, "", "", true)
-                .filter(conditionGain => conditionGain.endsWithConditions.includes(condition.name))
+                .filter(conditionGain => conditionGain.endsWithConditions.some(endsWith => endsWith.name == condition.name && (!endsWith.source || gain.source == endsWith.source)))
                 .map(conditionGain => Object.assign(new ConditionGain, JSON.parse(JSON.stringify(conditionGain))).recast())
                 .forEach(conditionGain => {
                     conditionDidSomething = true;
