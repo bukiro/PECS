@@ -1,5 +1,15 @@
 [
     {
+        "version": "1.0.12",
+        "changes": [
+            {
+                "header": "",
+                "desc": "After extensive rewriting of the internal typecasting methods, the _className attribute is no longer required when creating custom content.",
+                "images": []
+            }
+        ]
+    },
+    {
         "version": "1.0.11",
         "changes": [
             {

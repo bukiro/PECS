@@ -45,7 +45,6 @@ export class Feat {
     //The customData property causes the feat to be copied into a custom feat, and the data property to gain the listed fields.
     // This usually goes hand in hand with feats where you need to make very specific, hardcoded choices that are saved in the data fields. 
     public customData: { name: string, type: "string" | "number" | "stringArray" | "numberArray" }[] = [];
-    public data: {} = {};
     public displayName: string = "";
     public desc: string = "";
     public effects: EffectGain[] = [];
@@ -281,7 +280,7 @@ export class Feat {
         //The variable is recast here so it can be used in eval().
         charLevel = charLevel;
         let familiar: Familiar = characterService.get_Familiar();
-        let deities: Deity[] = characterService.deitiesService.get_CharacterDeities(character, "", charLevel);
+        let deities: Deity[] = characterService.deitiesService.get_CharacterDeities(characterService, character, "", charLevel);
         let deity = deities[0];
         let secondDeity = deities[1];
         function Skill_Level(creature: string, name: string) {

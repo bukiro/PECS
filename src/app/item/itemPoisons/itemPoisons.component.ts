@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Item } from 'src/app/Item';
 import { AlchemicalPoison } from 'src/app/AlchemicalPoison';
 import { ItemCollection } from 'src/app/ItemCollection';
 import { CharacterService } from 'src/app/character.service';

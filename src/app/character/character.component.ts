@@ -41,6 +41,7 @@ import { Activity } from '../Activity';
 import { Domain } from '../Domain';
 import { ConfigService } from '../config.service';
 import { default as package_json } from 'package.json';
+import { FeatData } from '../FeatData';
 
 @Component({
     selector: 'app-character',
@@ -858,13 +859,13 @@ export class CharacterComponent implements OnInit {
         return Math.ceil(levelNumber / 2);
     }
 
-    get_DifferentWorldsFeat(levelNumber: number) {
+    get_DifferentWorldsData(levelNumber: number) {
         if (this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, "Different Worlds").length) {
-            return this.get_Character().customFeats.filter(feat => feat.name == "Different Worlds");
+            return this.get_Character().class.get_FeatData(levelNumber, levelNumber, "Different Worlds");
         }
     }
 
-    get_BlessedBloodFeat(levelNumber: number) {
+    get_BlessedBloodAvailable(levelNumber: number) {
         return this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, "Blessed Blood").length
     }
 
@@ -894,12 +895,12 @@ export class CharacterComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    get_SplinterFaithFeat(levelNumber: number) {
+    get_SplinterFaithAvailable(levelNumber: number) {
         return this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, "Splinter Faith").length;
     }
 
     get_SplinterFaithDomains() {
-        return this.get_Character().customFeats.find(feat => feat.name == "Splinter Faith").data?.["domains"] || [];
+        return this.get_Character().class.get_FeatData(0, 0, "Splinter Faith")[0]?.data?.["domains"] || [];
     }
 
     get_SplinterFaithAvailableDomains() {
@@ -923,10 +924,10 @@ export class CharacterComponent implements OnInit {
     }
 
     on_SplinterFaithDomainTaken(domain: string, taken: boolean) {
-        let feat = this.get_Character().customFeats.find(feat => feat.name == "Splinter Faith");
-        if (feat.data?.["domains"]) {
+        let featData = this.get_Character().class.get_FeatData(0, 0, "Splinter Faith")[0];
+        if (featData?.data?.["domains"]) {
             if (taken) {
-                feat.data["domains"].push(domain);
+                featData.data["domains"].push(domain);
                 let deityName = this.get_Character().class.deity;
                 if (deityName) {
                     let deity = this.characterService.get_Deities(deityName)[0];
@@ -935,7 +936,7 @@ export class CharacterComponent implements OnInit {
                     }
                 }
             } else {
-                feat.data["domains"] = feat.data["domains"].filter(takenDomain => takenDomain != domain);
+                featData.data["domains"] = featData.data["domains"].filter(takenDomain => takenDomain != domain);
                 let deityName = this.get_Character().class.deity;
                 if (deityName) {
                     let deity = this.characterService.get_Deities(deityName)[0];
@@ -980,12 +981,12 @@ export class CharacterComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    on_DifferentWorldsBackgroundChange(levelNumber: number, feat: Feat, background: Background, taken: boolean) {
+    on_DifferentWorldsBackgroundChange(levelNumber: number, data: FeatData, background: Background, taken: boolean) {
         let character = this.get_Character();
         let level = character.class.levels[levelNumber];
         if (taken) {
             if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
-            feat.data["background"] = background.name;
+            data.data["background"] = background.name;
             background.loreChoices.forEach(choice => {
                 let newChoice: LoreChoice = character.add_LoreChoice(level, choice);
                 newChoice.source = "Different Worlds";
@@ -1005,7 +1006,7 @@ export class CharacterComponent implements OnInit {
                 }
             })
         } else {
-            feat.data["background"] = "";
+            data.data["background"] = "";
             let oldChoices: LoreChoice[] = level.loreChoices.filter(choice => choice.source == "Different Worlds");
             //Remove the lore granted by Different Worlds.
             if (oldChoices.length) {
@@ -1018,13 +1019,13 @@ export class CharacterComponent implements OnInit {
         }
     }
 
-    get_FuseStanceFeat(levelNumber: number) {
+    get_FuseStanceData(levelNumber: number) {
         if (this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, "Fuse Stance").length) {
-            return this.get_Character().customFeats.filter(feat => feat.name == "Fuse Stance");
+            return this.get_Character().class.get_FeatData(levelNumber, levelNumber, "Fuse Stance");
         }
     }
 
-    get_StancesToFuse(levelNumber: number, fuseStanceFeat: Feat) {
+    get_StancesToFuse(levelNumber: number, fuseStanceData: FeatData) {
         //Return all stances that you own.
         //Since Fuse Stance can't use two stances that only allow one type of attack each, we check if one of the previously selected stances does that,
         // and if so, make a note for each available stance with a restriction that it isn't available.
@@ -1034,7 +1035,7 @@ export class CharacterComponent implements OnInit {
         let restrictedConditions = this.get_Conditions().filter(condition => condition.attackRestrictions.length).map(condition => condition.name);
         let activities = this.activitiesService.get_Activities().filter(activity => activity.traits.includes("Stance"));
         let existingStances: Activity[] = [];
-        (fuseStanceFeat.data["stances"] as string[]).forEach(stance => {
+        (fuseStanceData.data["stances"] as string[]).forEach(stance => {
             existingStances.push(activities.find(example => example.name == stance));
         })
         let restrictedStances = existingStances.some(example => example.gainConditions.some(gain => restrictedConditions.includes(gain.name)));
@@ -1042,9 +1043,9 @@ export class CharacterComponent implements OnInit {
             .map(activity => activities.find(example => example.name == activity.name))
             .filter(activity => activity && activity.name != "Fused Stance")
             .forEach(activity => {
-                if (!unique.includes(activity.name) && (showOtherOptions || fuseStanceFeat.data["stances"].length < 2 || fuseStanceFeat.data["stances"].includes(activity.name))) {
+                if (!unique.includes(activity.name) && (showOtherOptions || fuseStanceData.data["stances"].length < 2 || fuseStanceData.data["stances"].includes(activity.name))) {
                     let restricted = activity.gainConditions.some(gain => restrictedConditions.includes(gain.name));
-                    if (restricted && restrictedStances && !fuseStanceFeat.data["stances"].includes(activity.name)) {
+                    if (restricted && restrictedStances && !fuseStanceData.data["stances"].includes(activity.name)) {
                         unique.push(activity.name);
                         stances.push({ activity: activity, restricted: restricted, reason: "Incompatible restrictions." });
                     } else {
@@ -1061,29 +1062,29 @@ export class CharacterComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    on_FuseStanceStanceChange(feat: Feat, stance: string, taken: boolean) {
+    on_FuseStanceStanceChange(data: FeatData, stance: string, taken: boolean) {
         if (taken) {
-            if (this.get_Character().settings.autoCloseChoices && feat.data["stances"].length == 1 && feat.data["name"]) { this.toggle_List(""); }
-            feat.data["stances"].push(stance);
+            if (this.get_Character().settings.autoCloseChoices && data.data["stances"].length == 1 && data.data["name"]) { this.toggle_List(""); }
+            data.data["stances"].push(stance);
         } else {
-            feat.data["stances"] = feat.data["stances"].filter((existingStance: string) => existingStance != stance);
+            data.data["stances"] = data.data["stances"].filter((existingStance: string) => existingStance != stance);
         }
         this.characterService.set_ToChange("Character", "activities");
         this.characterService.process_ToChange();
     }
 
-    get_SyncretismFeat(levelNumber: number) {
+    get_SyncretismData(levelNumber: number) {
         if (this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, "Syncretism").length) {
-            return this.get_Character().customFeats.filter(feat => feat.name == "Syncretism");
+            return this.get_Character().class.get_FeatData(levelNumber, levelNumber, "Syncretism");
         }
     }
 
-    on_SyncretismDeityChange(feat: Feat, deity: Deity, taken: boolean) {
+    on_SyncretismDeityChange(data: FeatData, deity: Deity, taken: boolean) {
         if (taken) {
             if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
-            feat.data["deity"] = deity.name;
+            data.data["deity"] = deity.name;
         } else {
-            feat.data["deity"] = "";
+            data.data["deity"] = "";
         }
         this.characterService.deitiesService.clear_CharacterDeities();
         this.characterService.set_ToChange("Character", "charactersheet");

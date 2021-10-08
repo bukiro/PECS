@@ -4,7 +4,6 @@ import { AnimalCompanionLevel } from './AnimalCompanionLevel';
 import { AnimalCompanionAncestry } from './AnimalCompanionAncestry';
 import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
 import { AnimalCompanionClass } from './AnimalCompanionClass';
-import { SavegameService } from './savegame.service';
 import * as json_ancestries from '../assets/json/animalcompanions';
 import * as json_levels from '../assets/json/animalcompanionlevels';
 import * as json_specializations from '../assets/json/animalcompanionspecializations';

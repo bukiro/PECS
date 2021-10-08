@@ -17,7 +17,6 @@ import { Activity } from './Activity';
 import { ItemActivity } from './ItemActivity';
 import { ExtensionsService } from './extensions.service';
 import { Familiar } from './Familiar';
-import { TypeService } from './type.service';
 
 @Injectable({
     providedIn: 'root'
@@ -30,8 +29,7 @@ export class ConditionsService {
     private conditionsMap = new Map<string, Condition>();
 
     constructor(
-        private extensionsService: ExtensionsService,
-        private typeService: TypeService,
+        private extensionsService: ExtensionsService
     ) { }
 
     get_ConditionFromName(name: string) {

@@ -13,7 +13,6 @@ import { SpellChoice } from './SpellChoice';
 import { SpellTarget } from './SpellTarget';
 import { ActivityGain } from './ActivityGain';
 import { ExtensionsService } from './extensions.service';
-import { TypeService } from './type.service';
 
 @Injectable({
     providedIn: 'root'
@@ -25,8 +24,7 @@ export class SpellsService {
     private spellsMap = new Map<string, Spell>();
 
     constructor(
-        private extensionsService: ExtensionsService,
-        private typeService: TypeService
+        private extensionsService: ExtensionsService
     ) { }
 
     get_SpellFromName(name: string) {

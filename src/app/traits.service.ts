@@ -4,7 +4,6 @@ import { CharacterService } from './character.service';
 import * as json_traits from '../assets/json/traits';
 import { Creature } from './Creature';
 import { ExtensionsService } from './extensions.service';
-import { TypeService } from './type.service';
 
 @Injectable({
     providedIn: 'root'
@@ -16,8 +15,7 @@ export class TraitsService {
     private traitsMap = new Map<string, Trait>();
 
     constructor(
-        private extensionsService: ExtensionsService,
-        private typeService: TypeService
+        private extensionsService: ExtensionsService
     ) { }
 
     get_TraitFromName(name: string) {

@@ -22,7 +22,7 @@ import * as json_features from '../assets/json/features';
 import { LanguageGain } from './LanguageGain';
 import { ExtensionsService } from './extensions.service';
 import { FeatTaken } from './FeatTaken';
-import { TypeService } from './type.service';
+import { FeatData } from './FeatData';
 
 @Injectable({
     providedIn: 'root'
@@ -104,7 +104,7 @@ export class FeatsService {
     }
 
     build_CharacterFeats(character: Character) {
-        //Add all feats that the character has taken to $characterFeats (feat for quick retrieval) and $characterFeatsTaken (gain with level);
+        //Add all feats that the character has taken to $characterFeats (feat for quick retrieval) and $characterFeatsTaken (gain with level).
         this.$characterFeats.clear();
         this.$characterFeatsTaken.length = 0;
         character.class.levels.forEach(level => {
@@ -137,7 +137,7 @@ export class FeatsService {
         if (takenFeat) {
             let a = this.$characterFeatsTaken;
             a.splice(a.indexOf(takenFeat), 1);
-            //Remove a feat from the character feats only if it is no longer taken by the character.
+            //Remove a feat from the character feats only if it is no longer taken by the character on any level.
             if (!this.get_CharacterFeatsTaken(0, 0, feat.name).length) {
                 if (this.$characterFeats.has(feat.name)) {
                     this.$characterFeats.delete(feat.name);
@@ -192,7 +192,7 @@ export class FeatsService {
         } else { return [new Feat()]; }
     }
 
-    get_CharacterFeatsTaken(minLevel: number = 0, maxLevel: number = 0, name: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, includeCountAs: boolean = false, automatic: boolean = undefined) {
+    get_CharacterFeatsTakenWithLevel(minLevel: number = 0, maxLevel: number = 0, name: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, includeCountAs: boolean = false, automatic: boolean = undefined) {
         return this.$characterFeatsTaken.filter(taken =>
             (!minLevel || (taken.level >= minLevel)) &&
             (!maxLevel || (taken.level <= maxLevel)) &&
@@ -204,7 +204,11 @@ export class FeatsService {
             (!source || (taken.gain.source.toLowerCase() == source.toLowerCase())) &&
             (!sourceId || (taken.gain.sourceId == sourceId)) &&
             ((locked == undefined && automatic == undefined) || (taken.gain.locked == locked) || (taken.gain.automatic == automatic))
-        ).map(taken => taken.gain);
+        )
+    }
+
+    get_CharacterFeatsTaken(minLevel: number = 0, maxLevel: number = 0, name: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, includeCountAs: boolean = false, automatic: boolean = undefined) {
+        return this.get_CharacterFeatsTakenWithLevel(minLevel, maxLevel, name, source, sourceId, locked, includeCountAs, automatic).map(taken => taken.gain);
     }
 
     get_All(customFeats: Feat[], name: string = "", type: string = "", includeSubTypes: boolean = false, includeCountAs: boolean = false) {
@@ -292,7 +296,7 @@ export class FeatsService {
                                     b?.feats.forEach(feat => {
                                         character.take_Feat(character, characterService, undefined, feat.name, false, b, false);
                                     });
-                                    a.splice(a.indexOf(b), 1)
+                                    a.splice(a.indexOf(b), 1);
                                 }
                             }
                         }
@@ -587,36 +591,31 @@ export class FeatsService {
             //This cannot be used with feats that can be taken multiple times.
             if (feat.customData.length) {
                 if (taken) {
-                    if (character.customFeats.filter(customFeat => customFeat.name == feat.name).length == 0) {
-                        let newLength = characterService.add_CustomFeat(feat);
-                        let newFeat = character.customFeats[newLength - 1];
-                        newFeat.hide = true;
-                        newFeat.data = { background: "", name: "" }
-                        newFeat.data = {};
-                        newFeat.customData.forEach(customData => {
-                            switch (customData.type) {
-                                case "string":
-                                    newFeat.data[customData.name] = "";
-                                    break;
-                                case "number":
-                                    newFeat.data[customData.name] = 0;
-                                    break;
-                                case "stringArray":
-                                    newFeat.data[customData.name] = [] as string[];
-                                    break;
-                                case "numberArray":
-                                    newFeat.data[customData.name] = [] as number[];
-                                    break;
-                                default:
-                                    newFeat.data[customData.name] = null;
-                            }
-                        })
-                        newFeat.hints.length = 0;
-                    }
-                } else {
-                    character.customFeats.filter(customFeat => customFeat.name == feat.name).forEach(oldFeat => {
-                        characterService.remove_CustomFeat(oldFeat);
+                    let newLength = character.class.featData.push(new FeatData(level.number, feat.name, choice.id));
+                    let newData = character.class.featData[newLength - 1];
+                    feat.customData.forEach(customData => {
+                        switch (customData.type) {
+                            case "string":
+                                newData.data[customData.name] = "";
+                                break;
+                            case "number":
+                                newData.data[customData.name] = 0;
+                                break;
+                            case "stringArray":
+                                newData.data[customData.name] = [] as string[];
+                                break;
+                            case "numberArray":
+                                newData.data[customData.name] = [] as number[];
+                                break;
+                            default:
+                                newData.data[customData.name] = null;
+                        }
                     })
+                } else {
+                    let oldData = character.class.featData.find(data => data.level == level.number && data.featName == feat.name && data.sourceId == choice.id);
+                    if (oldData) {
+                        character.class.featData = character.class.featData.filter(data => data !== oldData);
+                    }
                 }
             }
 

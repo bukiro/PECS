@@ -599,7 +599,7 @@ export class CharacterService {
     }
 
     get_CharacterDeities(character: Character, source: string = "", level: number = character.level) {
-        return this.deitiesService.get_CharacterDeities(character, source, level);
+        return this.deitiesService.get_CharacterDeities(this, character, source, level);
     }
 
     get_Speeds(creature: Creature, name: string = "") {
@@ -2282,7 +2282,7 @@ export class CharacterService {
         return this.featsService.get_CharacterFeats(this.get_Character().customFeats, name, type, includeSubTypes, includeCountAs);
     }
 
-    get_CharacterFeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, excludeTemporary: boolean = false, includeCountAs: boolean = false, automatic: boolean = undefined) {
+    get_CharacterFeatsTaken(minLevelNumber: number = 0, maxLevelNumber: number = 0, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, excludeTemporary: boolean = false, includeCountAs: boolean = false, automatic: boolean = undefined) {
         //If the feat choice is not needed (i.e. if excludeTemporary is not given), we can get the taken feats quicker from the featsService.
         //CharacterService.get_CharacterFeatsTaken should be preferred over Character.get_FeatsTaken for this reason.
         if (!excludeTemporary) {

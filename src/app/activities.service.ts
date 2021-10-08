@@ -13,14 +13,11 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { SpellsService } from './spells.service';
 import { SpellCast } from './SpellCast';
 import { ConditionsService } from './conditions.service';
-import { Hint } from './Hint';
 import * as json_activities from '../assets/json/activities';
 import { Creature } from './Creature';
 import { ToastService } from './toast.service';
-import { SpellGain } from './SpellGain';
 import { SpellTarget } from './SpellTarget';
 import { ExtensionsService } from './extensions.service';
-import { TypeService } from './type.service';
 
 @Injectable({
     providedIn: 'root'
@@ -32,8 +29,7 @@ export class ActivitiesService {
 
     constructor(
         private toastService: ToastService,
-        private extensionsService: ExtensionsService,
-        private typeService: TypeService
+        private extensionsService: ExtensionsService
     ) { }
 
     get_Activities(name: string = "") {

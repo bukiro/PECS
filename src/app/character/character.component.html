@@ -453,7 +453,7 @@
                 <!--Levels-->
                 <ng-container *ngIf="get_Character().class">
                     <ng-container *ngFor="let level of get_Character().class.levels; trackBy:trackByIndex;">
-                        <div
+                        <div *ngIf="level.number > 0"
                             [ngClass]="{'invisible':!(level.number > 0 && [0,level.number].includes(get_ShowLevel())), 'vlist':!get_TileMode()}">
                             <!--Bonuses templates mode-->
                             <ng-template #AddBonusesTemplate>
@@ -972,17 +972,17 @@
                                     </ng-container>
                                     <!--Different Worlds-->
                                     <ng-container
-                                        *ngFor="let differentWorldsFeat of get_DifferentWorldsFeat(level.number); trackBy:trackByIndex;">
+                                        *ngFor="let differentWorldsData of get_DifferentWorldsData(level.number); trackBy:trackByIndex;">
                                         <ng-container
-                                            *ngFor="let finished of [differentWorldsFeat.data.name && differentWorldsFeat.data.background]; trackBy:trackByIndex;">
+                                            *ngFor="let finished of [differentWorldsData.data.name && differentWorldsData.data.background]; trackBy:trackByIndex;">
                                             <!--Different Worlds-->
                                             <div class="list-item" *ngIf="!get_TileMode()"
                                                 [ngClass]="{'fullsize-only':finished}">
                                                 <button class="newrow specialchoice"
                                                     [ngClass]="{'fancy-button choicecleared':finished, 'activechoice':get_ShowList()=='differentworlds' && get_ShowContentLevelNumber()==level.number}"
                                                     (click)="toggle_List('differentworlds', level.number)">
-                                                    Different Worlds{{(differentWorldsFeat.data.background) ? ": " +
-                                                    differentWorldsFeat.data.background : ""}}
+                                                    Different Worlds{{(differentWorldsData.data.background) ? ": " +
+                                                    differentWorldsData.data.background : ""}}
                                                 </button>
                                             </div>
                                             <button class="specialchoice" *ngIf="get_TileMode()"
@@ -990,15 +990,15 @@
                                                 (click)="toggle_List('differentworlds', level.number)">
                                                 <app-gridIcon class="specialchoice"
                                                     [ngClass]="{'fancy-button':finished}"
-                                                    [ngbTooltip]="'Different Worlds' + (differentWorldsFeat.data.background ? ': ' + differentWorldsFeat.data.background : '')"
-                                                    [title]="differentWorldsFeat.data.background"
+                                                    [ngbTooltip]="'Different Worlds' + (differentWorldsData.data.background ? ': ' + differentWorldsData.data.background : '')"
+                                                    [title]="differentWorldsData.data.background"
                                                     [superTitle]="'icon-ra ra-arcane-mask'">
                                                 </app-gridIcon>
                                             </button>
                                         </ng-container>
                                     </ng-container>
                                     <!--Blessed Blood-->
-                                    <ng-container *ngIf="get_BlessedBloodFeat(level.number)">
+                                    <ng-container *ngIf="get_BlessedBloodAvailable(level.number)">
                                         <ng-container
                                             *ngFor="let blessedBloodSpells of [get_BlessedBloodSpells()]; trackBy:trackByIndex;">
                                             <ng-container
@@ -1025,7 +1025,7 @@
                                         </ng-container>
                                     </ng-container>
                                     <!--Splinter Faith-->
-                                    <ng-container *ngIf="get_SplinterFaithFeat(level.number)">
+                                    <ng-container *ngIf="get_SplinterFaithAvailable(level.number)">
                                         <ng-container
                                             *ngFor="let splinterFaithDomains of [get_SplinterFaithDomains().length || 0]; trackBy:trackByIndex;">
                                             <ng-container
@@ -1084,16 +1084,17 @@
                                     </ng-container>
                                     <!--Fuse Stance-->
                                     <ng-container
-                                        *ngFor="let feat of get_FuseStanceFeat(level.number); trackBy:trackByIndex;">
+                                        *ngFor="let fuseStanceData of get_FuseStanceData(level.number); trackBy:trackByIndex;">
                                         <ng-container
-                                            *ngFor="let finished of [feat.data.stances.length == 2 && feat.data.name]; trackBy:trackByIndex">
+                                            *ngFor="let finished of [fuseStanceData.data.stances.length == 2 && fuseStanceData.data.name]; trackBy:trackByIndex">
                                             <div class="list-item" *ngIf="!get_TileMode()"
                                                 [ngClass]="{'fullsize-only':finished}">
                                                 <button class="newrow specialchoice"
                                                     [ngClass]="{'fancy-button choicecleared':finished, 'activechoice':get_ShowList()=='fusestance' && get_ShowContentLevelNumber()==level.number}"
                                                     (click)="toggle_List('fusestance', level.number)">
                                                     Fuse Stance{{(finished) ? ": "+
-                                                    feat.data.name + " (" + feat.data.stances.join(', ') + ")" :
+                                                    fuseStanceData.data.name + " (" +
+                                                    fuseStanceData.data.stances.join(', ') + ")" :
                                                     ""}}
                                                 </button>
                                             </div>
@@ -1102,8 +1103,8 @@
                                                 (click)="toggle_List('fusestance', level.number)">
                                                 <app-gridIcon class="specialchoice"
                                                     [ngClass]="{'fancy-button':finished}"
-                                                    [ngbTooltip]="'Fuse Stance' + (finished ? ': ' + feat.data.name + ' (' + feat.data.stances.join(', ') + ')' : '')"
-                                                    [title]="finished ? feat.data.name : 'Fuse Stance'"
+                                                    [ngbTooltip]="'Fuse Stance' + (finished ? ': ' + fuseStanceData.data.name + ' (' + fuseStanceData.data.stances.join(', ') + ')' : '')"
+                                                    [title]="finished ? fuseStanceData.data.name : 'Fuse Stance'"
                                                     [superTitle]="'icon-ra ra-double-team'">
                                                 </app-gridIcon>
                                             </button>
@@ -1111,15 +1112,16 @@
                                     </ng-container>
                                     <!--Syncretism-->
                                     <ng-container
-                                        *ngFor="let feat of get_SyncretismFeat(level.number); trackBy:trackByIndex;">
-                                        <ng-container *ngFor="let finished of [feat.data.deity]; trackBy:trackByIndex">
+                                        *ngFor="let syncretismData of get_SyncretismData(level.number); trackBy:trackByIndex;">
+                                        <ng-container
+                                            *ngFor="let finished of [syncretismData.data.deity]; trackBy:trackByIndex">
                                             <div class="list-item" *ngIf="!get_TileMode()"
                                                 [ngClass]="{'fullsize-only':finished}">
                                                 <button class="newrow specialchoice"
                                                     [ngClass]="{'fancy-button choicecleared':finished, 'activechoice':get_ShowList()=='syncretism' && get_ShowContentLevelNumber()==level.number}"
                                                     (click)="toggle_List('syncretism', level.number)">
                                                     Second Deity{{(finished) ? ": "+
-                                                    feat.data.deity : ""}}
+                                                    syncretismData.data.deity : ""}}
                                                 </button>
                                             </div>
                                             <button class="specialchoice" *ngIf="get_TileMode()"
@@ -1127,8 +1129,8 @@
                                                 (click)="toggle_List('syncretism', level.number)">
                                                 <app-gridIcon class="specialchoice"
                                                     [ngClass]="{'fancy-button':finished}"
-                                                    [ngbTooltip]="'Second Deity' + (finished ? ': ' + feat.data.deity : '')"
-                                                    [title]="finished ? feat.data.deity : 'D E I T'"
+                                                    [ngbTooltip]="'Second Deity' + (finished ? ': ' + syncretismData.data.deity : '')"
+                                                    [title]="finished ? syncretismData.data.deity : 'D E I T'"
                                                     [superTitle]="'icon-ra ra-sunbeams'">
                                                 </app-gridIcon>
                                             </button>
@@ -2584,18 +2586,18 @@
             <ng-container
                 *ngFor="let differentWorldsContent of get_ActiveSpecialChoiceShown('differentworlds'); trackBy:trackByID">
                 <ng-container
-                    *ngFor="let differentWorldsFeat of get_DifferentWorldsFeat(differentWorldsContent.levelNumber); trackBy:trackByIndex;">
+                    *ngFor="let differentWorldsData of get_DifferentWorldsData(differentWorldsContent.levelNumber); trackBy:trackByIndex;">
                     <div class="newrow list-item padding-8 center-aligned">
                         <header class="box-header sectionHeader">
-                            Different Worlds{{(differentWorldsFeat.data.background) ? ": "+
-                            differentWorldsFeat.data.background : ""}}
+                            Different Worlds{{(differentWorldsData.data.background) ? ": "+
+                            differentWorldsData.data.background : ""}}
                         </header>
                     </div>
                     <div id="choiceArea" class="list-item">
                         <div class="newrow list-item">
                             <div class="newrow list-item left-aligned">
                                 <strong>Alternative name</strong>
-                                <input type="text" [(ngModel)]="differentWorldsFeat.data.name" (blur)=on_NameChange()
+                                <input type="text" [(ngModel)]="differentWorldsData.data.name" (blur)=on_NameChange()
                                     maxLength="30">
                             </div>
                         </div>
@@ -2621,18 +2623,18 @@
                         <!-- End Filter -->
                         <ng-container *ngFor="let background of get_Backgrounds(); trackBy:trackByIndex;">
                             <ng-container
-                                *ngFor="let selected of [background.name === differentWorldsFeat.data.background]; trackBy:trackByIndex">
+                                *ngFor="let selected of [background.name === differentWorldsData.data.background]; trackBy:trackByIndex">
                                 <ng-container
                                     *ngFor="let checked of [selected || background.name === get_Character().class.background.name || background.name === get_Character().class.background.superType]; trackBy:trackByIndex">
                                     <ng-container
-                                        *ngFor="let disabled of [!selected && (checked || differentWorldsFeat.data.background)]; trackBy:trackByIndex">
+                                        *ngFor="let disabled of [!selected && (checked || differentWorldsData.data.background)]; trackBy:trackByIndex">
                                         <ng-template #DifferentWorldsBackgroundChoiceDetailsTemplate>
                                             <header class="spellHeader">{{background.name}}</header>
                                             <div class="button newrow no-animation" *ngIf="!disabled"
                                                 [ngClass]="{'fancy-button':selected, 'disabled':disabled}">
                                                 <label>
                                                     <input type="checkbox"
-                                                        (change)="on_DifferentWorldsBackgroundChange(differentWorldsContent.levelNumber, differentWorldsFeat, background, $event.target.checked)"
+                                                        (change)="on_DifferentWorldsBackgroundChange(differentWorldsContent.levelNumber, differentWorldsData, background, $event.target.checked)"
                                                         [checked]="checked" [disabled]="disabled" hidden>{{selected
                                                     ? "Remove" : "Choose"}}
                                                 </label>
@@ -2679,7 +2681,7 @@
                                         </ng-template>
                                         <div class="list-item gridicon-fullsizebox" [ngClass]="{'selected':selected}">
                                             <input id="{{background.name}}" type="checkbox" class="character-choice"
-                                                (change)="on_DifferentWorldsBackgroundChange(differentWorldsContent.levelNumber, differentWorldsFeat, background, $event.target.checked)"
+                                                (change)="on_DifferentWorldsBackgroundChange(differentWorldsContent.levelNumber, differentWorldsData, background, $event.target.checked)"
                                                 [checked]="checked" [disabled]="disabled">
                                             <div class="gridicon-fullsizebox"
                                                 [ngbPopover]="DifferentWorldsBackgroundChoiceDetailsTemplate"
@@ -2827,13 +2829,13 @@
             <ng-container
                 *ngFor="let fuseStanceContent of get_ActiveSpecialChoiceShown('fusestance'); trackBy:trackByID;">
                 <ng-container
-                    *ngFor="let fuseStanceFeat of get_FuseStanceFeat(fuseStanceContent.levelNumber); trackBy:trackByIndex">
+                    *ngFor="let fuseStanceData of get_FuseStanceData(fuseStanceContent.levelNumber); trackBy:trackByIndex">
                     <ng-container
-                        *ngFor="let finished of [fuseStanceFeat.data.stances.length == 2]; trackBy:trackByIndex">
+                        *ngFor="let finished of [fuseStanceData.data.stances.length == 2]; trackBy:trackByIndex">
                         <div class="newrow list-item padding-8 center-aligned">
                             <header class="box-header sectionHeader">
-                                Fuse Stance{{(finished && fuseStanceFeat.data.name) ? ": "+
-                                fuseStanceFeat.data.name + " (" + fuseStanceFeat.data.stances.join(', ') + ")" :
+                                Fuse Stance{{(finished && fuseStanceData.data.name) ? ": "+
+                                fuseStanceData.data.name + " (" + fuseStanceData.data.stances.join(', ') + ")" :
                                 ""}}
                             </header>
                         </div>
@@ -2853,7 +2855,7 @@
                             <div class="newrow list-item">
                                 <div class="newrow list-item left-aligned">
                                     <strong>Stance name</strong>
-                                    <input type="text" [(ngModel)]="fuseStanceFeat.data.name"
+                                    <input type="text" [(ngModel)]="fuseStanceData.data.name"
                                         (blur)="on_FuseStanceNameChange()" maxLength="30">
                                 </div>
                             </div>
@@ -2861,7 +2863,7 @@
                                 <header class="sectionHeader">Fused Stances</header>
                             </div>
                             <ng-container
-                                *ngFor="let stance of get_StancesToFuse(fuseStanceContent.levelNumber, fuseStanceFeat); trackBy:trackByIndex;">
+                                *ngFor="let stance of get_StancesToFuse(fuseStanceContent.levelNumber, fuseStanceData); trackBy:trackByIndex;">
                                 <ng-template #FuseStanceChoiceDetailsPopover>
                                     <header class="spellHeader">{{stance.activity.name}}
                                         <app-actionIcons *ngIf="stance.activity.actions"
@@ -2875,11 +2877,11 @@
                                     </app-activity>
                                 </ng-template>
                                 <div class="list-item gridicon-fullsizebox"
-                                    [ngClass]="{'unavailable':stance.reason, 'selected':fuseStanceFeat.data.stances.includes(stance.activity.name)}">
+                                    [ngClass]="{'unavailable':stance.reason, 'selected':fuseStanceData.data.stances.includes(stance.activity.name)}">
                                     <input id="{{stance.activity.name}}" type="checkbox" class="character-choice"
-                                        (change)="on_FuseStanceStanceChange(fuseStanceFeat, stance.activity.name, $event.target.checked)"
-                                        [checked]="fuseStanceFeat.data.stances.includes(stance.activity.name)"
-                                        [disabled]="(finished || stance.reason) && !fuseStanceFeat.data.stances.includes(stance.activity.name)">
+                                        (change)="on_FuseStanceStanceChange(fuseStanceData, stance.activity.name, $event.target.checked)"
+                                        [checked]="fuseStanceData.data.stances.includes(stance.activity.name)"
+                                        [disabled]="(finished || stance.reason) && !fuseStanceData.data.stances.includes(stance.activity.name)">
                                     <div class="gridicon-fullsizebox" [ngbPopover]="FuseStanceChoiceDetailsPopover"
                                         triggers="click">
                                         <app-gridIcon [title]="stance.activity.name"
@@ -3041,8 +3043,8 @@
             <ng-container
                 *ngFor="let syncretismContent of get_ActiveSpecialChoiceShown('syncretism'); trackBy:trackByID;">
                 <ng-container
-                    *ngFor="let syncretismFeat of get_SyncretismFeat(syncretismContent.levelNumber); trackBy:trackByIndex">
-                    <ng-container *ngFor="let finished of [syncretismFeat.data.deity]; trackBy:trackByIndex">
+                    *ngFor="let syncretismData of get_SyncretismData(syncretismContent.levelNumber); trackBy:trackByIndex">
+                    <ng-container *ngFor="let finished of [syncretismData.data.deity]; trackBy:trackByIndex">
                         <div class="newrow list-item padding-8 center-aligned">
                             <header class="box-header sectionHeader">
                                 Second Deity{{finished ? ": " + finished : ""}}
@@ -3060,7 +3062,7 @@
                                                 [ngClass]="{'fancy-button':checked, 'disabled':disabled}">
                                                 <label>
                                                     <input type="checkbox"
-                                                        (change)="on_SyncretismDeityChange(syncretismFeat, deity, $event.target.checked)"
+                                                        (change)="on_SyncretismDeityChange(syncretismData, deity, $event.target.checked)"
                                                         [checked]="checked" [disabled]="disabled" hidden>
                                                     {{checked ? "Remove" : "Choose"}}
                                                 </label>
@@ -3146,7 +3148,7 @@
                                         </ng-template>
                                         <div class="list-item gridicon-fullsizebox" [ngClass]="{'selected':checked}">
                                             <input id="{{deity.name}}" type="checkbox" class="character-choice"
-                                                (change)="on_SyncretismDeityChange(syncretismFeat, deity, $event.target.checked)"
+                                                (change)="on_SyncretismDeityChange(syncretismData, deity, $event.target.checked)"
                                                 [checked]="checked" [disabled]="disabled">
                                             <div class="gridicon-fullsizebox" [ngbPopover]="DeityChoiceDetailsTemplate"
                                                 triggers="click">

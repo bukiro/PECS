@@ -42,7 +42,7 @@ export class ActivitiesComponent implements OnInit {
                 return this.characterService.get_Character().settings.companionMinimized;
         }
     }
-    
+
     trackByIndex(index: number, obj: any): any {
         return index;
     }
@@ -115,28 +115,28 @@ export class ActivitiesComponent implements OnInit {
     still_loading() {
         return this.activitiesService.still_loading() || this.characterService.still_loading();
     }
-    
+
     get_Creature() {
-        return this.characterService.get_Creature(this.creature) as Character|AnimalCompanion;
+        return this.characterService.get_Creature(this.creature) as Character | AnimalCompanion;
     }
-    
+
     get_Activities(name: string = "") {
         return this.activitiesService.get_Activities(name);
     }
 
     get_ClassDCs() {
-        return this.characterService.get_Skills(this.get_Creature(), "", "Class DC").filter(skill => skill.level(this.get_Creature() as Character|AnimalCompanion, this.characterService) > 0);
+        return this.characterService.get_Skills(this.get_Creature(), "", "Class DC").filter(skill => skill.level(this.get_Creature() as Character | AnimalCompanion, this.characterService) > 0);
     }
 
     get_OwnedActivities() {
         this.id = 0;
-        let activities: (ActivityGain|ItemActivity)[] = [];
+        let activities: (ActivityGain | ItemActivity)[] = [];
         let unique: string[] = [];
         this.characterService.get_OwnedActivities(this.get_Creature()).forEach(activity => {
             if (activity instanceof ItemActivity) {
                 activity.get_Cooldown(this.get_Creature(), this.characterService)
             } else {
-                this.get_Activities(activity.name).forEach(actualActivity => {actualActivity.get_Cooldown(this.get_Creature(), this.characterService)})
+                this.get_Activities(activity.name).forEach(actualActivity => { actualActivity.get_Cooldown(this.get_Creature(), this.characterService) })
             }
             if (!unique.includes(activity.name)) {
                 unique.push(activity.name);
@@ -147,9 +147,9 @@ export class ActivitiesComponent implements OnInit {
     }
 
     get_FuseStanceName() {
-        let fuseStance = this.characterService.get_Character().customFeats.filter(feat => feat.name == "Fuse Stance");
-        if (fuseStance.length && fuseStance[0].data?.["name"]) {
-            return fuseStance[0].data["name"];
+        let data = this.get_Character().class.get_FeatData(0, 0, "Fuse Stance")[0];
+        if (data) {
+            return data.data?.["name"] || "Fused Stance";
         } else {
             return "Fused Stance";
         }
@@ -176,11 +176,11 @@ export class ActivitiesComponent implements OnInit {
                     }
                 });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["activities", "all"].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["activities", "all"].includes(view.target.toLowerCase())) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             return true;
         }
     }

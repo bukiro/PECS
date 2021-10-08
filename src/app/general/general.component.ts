@@ -110,7 +110,7 @@ export class GeneralComponent implements OnInit {
             if (deity) {
                 let domainFeats = this.characterService.get_CharacterFeatsAndFeatures()
                     .filter(feat => feat.gainDomains?.length && feat.have(character, this.characterService));
-                let domains = deity.get_Domains(character)
+                let domains = deity.get_Domains(character, this.characterService)
                     .concat(...(domainFeats.map(feat => feat.gainDomains))
                     );
                 return domains.map(domain => this.deitiesService.get_Domains(domain)[0] || new Domain());
@@ -166,9 +166,10 @@ export class GeneralComponent implements OnInit {
         return this.get_Character().class.languages.filter(language => (!language.level || language.level <= this.get_Character().level) && language.name != "").map(language => language.name).join(', ')
     }
 
-    get_DifferentWorldsFeat() {
-        if (this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, "Different Worlds").length) {
-            return this.characterService.get_CharacterFeatsAndFeatures("Different Worlds");
+    get_DifferentWorldsData() {
+        let character = this.get_Character();
+        if (this.characterService.get_CharacterFeatsTaken(1, character.level, "Different Worlds").length) {
+            return character.class.get_FeatData(0, character.level, "Different Worlds");
         }
     }
 

@@ -103,9 +103,9 @@ export class SkillComponent implements OnInit {
     }
 
     get_FuseStanceName() {
-        let fuseStance = this.characterService.get_Character().customFeats.filter(feat => feat.name == "Fuse Stance");
-        if (fuseStance.length && fuseStance[0].data?.["name"]) {
-            return fuseStance[0].data["name"];
+        let data = this.get_Character().class.get_FeatData(0, 0, "Fuse Stance")[0];
+        if (data) {
+            return data.data?.["name"] || "Fused Stance";
         } else {
             return "Fused Stance";
         }

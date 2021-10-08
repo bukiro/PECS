@@ -193,11 +193,11 @@ export class ActivityComponent implements OnInit {
         return gain instanceof ItemActivity ? [gain] : this.get_Activities(gain.name)
     }
 
-    get_FuseStanceFeat() {
-        if (this.get_Creature().type == "Character") {
-            let character = this.get_Creature() as Character;
-            if (this.characterService.get_CharacterFeatsTaken(0, character.level, "Fuse Stance").length) {
-                return character.customFeats.find(feat => feat.name == "Fuse Stance");
+    get_FuseStanceData() {
+        let creature = this.get_Creature();
+        if (creature instanceof Character) {
+            if (this.characterService.get_CharacterFeatsTaken(0, creature.level, "Fuse Stance").length) {
+                return creature.class.get_FeatData(0, creature.level, "Fuse Stance")[0]?.data || null;
             } else {
                 return null;
             }
@@ -207,10 +207,10 @@ export class ActivityComponent implements OnInit {
     }
 
     get_FusedStances() {
-        let feat: Feat = this.get_FuseStanceFeat();
-        if (feat) {
+        let data = this.get_Character().class.get_FeatData(0, 0, "Fuse Stance")[0];
+        if (data) {
             return this.characterService.get_OwnedActivities(this.get_Creature())
-                .filter((gain: ItemActivity | ActivityGain) => feat.data?.["stances"]?.includes(gain.name))
+                .filter((gain: ItemActivity | ActivityGain) => data.data?.["stances"]?.includes(gain.name))
         }
     }
 

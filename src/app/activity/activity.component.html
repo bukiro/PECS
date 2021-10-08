@@ -38,7 +38,7 @@
                         [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
                         *ngIf="!gain.active">
                         <button class="newrow center-aligned" (click)="on_ActivateFuseStance(true)"
-                            [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data">
+                            [disabled]="!get_FuseStanceData()">
                             Activate {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges + "
                             charges)" : ""}}
                         </button>
@@ -47,7 +47,7 @@
                         [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
                         *ngIf="gain.active">
                         <button class="newrow center-aligned" (click)="on_ActivateFuseStance(false)"
-                            [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data">
+                            [disabled]="!get_FuseStanceData()">
                             Deactivate {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges +
                             " charges)" : ""}}
                         </button>

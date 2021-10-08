@@ -30,7 +30,7 @@ import { WornItem } from './WornItem';
 import { TypeService } from './type.service';
 
 export class Character extends Creature {
-        readonly type = "Character";
+    readonly type = "Character";
     public appVersionMajor: number = 0;
     public appVersion: number = 0;
     public appVersionMinor: number = 0;
@@ -546,10 +546,10 @@ export class Character extends Creature {
             }
         }
     }
-    get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, excludeTemporary: boolean = false, includeCountAs: boolean = false, automatic: boolean = undefined) {
+    get_FeatsTaken(minLevelNumber: number = 0, maxLevelNumber: number = 0, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, excludeTemporary: boolean = false, includeCountAs: boolean = false, automatic: boolean = undefined) {
         if (this.class) {
             let featsTaken: FeatTaken[] = [];
-            let levels = this.class.levels.filter(level => level.number >= minLevelNumber && (!maxLevelNumber || level.number <= maxLevelNumber));
+            let levels = this.class.levels.filter(level => (!minLevelNumber || level.number >= minLevelNumber) && (!maxLevelNumber || level.number <= maxLevelNumber));
             levels.forEach(level => {
                 level.featChoices.forEach(choice => {
                     choice.feats.filter((taken: FeatTaken) =>
@@ -562,8 +562,8 @@ export class Character extends Creature {
                         (!source || (taken.source.toLowerCase() == source.toLowerCase())) &&
                         (!sourceId || (taken.sourceId == sourceId)) &&
                         ((locked == undefined && automatic == undefined) || (taken.locked == locked) || (taken.automatic == automatic))
-                    ).forEach(feat => {
-                        featsTaken.push(feat);
+                    ).forEach(taken => {
+                        featsTaken.push(taken);
                     })
                 })
             })

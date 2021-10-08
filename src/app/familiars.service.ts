@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Feat } from './Feat';
 import * as json_abilities from '../assets/json/familiarabilities';
 import { ExtensionsService } from './extensions.service';
-import { TypeService } from './type.service';
 
 @Injectable({
     providedIn: 'root'
@@ -13,8 +12,7 @@ export class FamiliarsService {
     private loading_familiarAbilities: boolean = false;
 
     constructor(
-        private extensionsService: ExtensionsService,
-        private typeService: TypeService
+        private extensionsService: ExtensionsService
     ) { }
 
     still_loading() {

@@ -14,7 +14,6 @@ import { ItemActivity } from './ItemActivity';
 import { ItemProperty } from './ItemProperty';
 import { Item } from './Item';
 import { HeldItem } from './HeldItem';
-import { ActivityGain } from './ActivityGain';
 import { v4 as uuidv4 } from 'uuid';
 import { WeaponRune } from './WeaponRune';
 import { ArmorRune } from './ArmorRune';
@@ -68,9 +67,7 @@ import { Creature } from './Creature';
 import { ToastService } from './toast.service';
 import { ArmorMaterial } from './ArmorMaterial';
 import { ShieldMaterial } from './ShieldMaterial';
-import { Hint } from './Hint';
 import { SpellTarget } from './SpellTarget';
-import { SpellGain } from './SpellGain';
 import { ExtensionsService } from './extensions.service';
 import { TypeService } from './type.service';
 

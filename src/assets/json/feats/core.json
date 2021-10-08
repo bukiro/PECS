@@ -2459,7 +2459,7 @@
                 "value": 6
             }
         ],
-        "specialreq": "deity && (deity.get_Domains(character).includes('Cold') || deity.get_Domains(character).includes('Fire') || deity.get_Domains(character).includes('Nature') || deity.get_Domains(character).includes('Travel'))",
+        "specialreq": "deity && (deity.get_Domains(character, characterService).includes('Cold') || deity.get_Domains(character, characterService).includes('Fire') || deity.get_Domains(character, characterService).includes('Nature') || deity.get_Domains(character, characterService).includes('Travel'))",
         "specialreqdesc": "deity who grants the cold, fire, nature, or travel domain"
     },
     {
@@ -35911,7 +35911,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the abomination domain",
         "gainSpellChoice": [
             {
@@ -35939,7 +35939,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the air domain",
         "gainSpellChoice": [
             {
@@ -35967,7 +35967,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the ambition domain",
         "gainSpellChoice": [
             {
@@ -35995,7 +35995,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the change domain",
         "gainSpellChoice": [
             {
@@ -36023,7 +36023,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the cities domain",
         "gainSpellChoice": [
             {
@@ -36051,7 +36051,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the cold domain",
         "gainSpellChoice": [
             {
@@ -36079,7 +36079,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the confidence domain",
         "gainSpellChoice": [
             {
@@ -36107,7 +36107,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the creation domain",
         "gainSpellChoice": [
             {
@@ -36135,7 +36135,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the darkness domain",
         "gainSpellChoice": [
             {
@@ -36163,7 +36163,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the death domain",
         "gainSpellChoice": [
             {
@@ -36191,7 +36191,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the decay domain",
         "gainSpellChoice": [
             {
@@ -36219,7 +36219,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the delirium domain",
         "gainSpellChoice": [
             {
@@ -36247,7 +36247,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the destruction domain",
         "gainSpellChoice": [
             {
@@ -36275,7 +36275,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the dreams domain",
         "gainSpellChoice": [
             {
@@ -36303,7 +36303,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the dust domain",
         "gainSpellChoice": [
             {
@@ -36331,7 +36331,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the duty domain",
         "gainSpellChoice": [
             {
@@ -36359,7 +36359,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the earth domain",
         "gainSpellChoice": [
             {
@@ -36387,7 +36387,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the family domain",
         "gainSpellChoice": [
             {
@@ -36415,7 +36415,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the fate domain",
         "gainSpellChoice": [
             {
@@ -36443,7 +36443,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the fire domain",
         "gainSpellChoice": [
             {
@@ -36471,7 +36471,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the freedom domain",
         "gainSpellChoice": [
             {
@@ -36499,7 +36499,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the glyph domain",
         "gainSpellChoice": [
             {
@@ -36527,7 +36527,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the healing domain",
         "gainSpellChoice": [
             {
@@ -36555,7 +36555,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the indulgence domain",
         "gainSpellChoice": [
             {
@@ -36583,7 +36583,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the knowledge domain",
         "gainSpellChoice": [
             {
@@ -36611,7 +36611,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the lightning domain",
         "gainSpellChoice": [
             {
@@ -36639,7 +36639,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the luck domain",
         "gainSpellChoice": [
             {
@@ -36667,7 +36667,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the magic domain",
         "gainSpellChoice": [
             {
@@ -36695,7 +36695,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the might domain",
         "gainSpellChoice": [
             {
@@ -36723,7 +36723,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the moon domain",
         "gainSpellChoice": [
             {
@@ -36751,7 +36751,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the naga domain",
         "gainSpellChoice": [
             {
@@ -36779,7 +36779,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the nature domain",
         "gainSpellChoice": [
             {
@@ -36807,7 +36807,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the nightmares domain",
         "gainSpellChoice": [
             {
@@ -36835,7 +36835,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the pain domain",
         "gainSpellChoice": [
             {
@@ -36863,7 +36863,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the passion domain",
         "gainSpellChoice": [
             {
@@ -36891,7 +36891,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the perfection domain",
         "gainSpellChoice": [
             {
@@ -36919,7 +36919,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the plague domain",
         "gainSpellChoice": [
             {
@@ -36947,7 +36947,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the protection domain",
         "gainSpellChoice": [
             {
@@ -36975,7 +36975,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the repose domain",
         "gainSpellChoice": [
             {
@@ -37003,7 +37003,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the secrecy domain",
         "gainSpellChoice": [
             {
@@ -37031,7 +37031,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the sorrow domain",
         "gainSpellChoice": [
             {
@@ -37059,7 +37059,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the soul domain",
         "gainSpellChoice": [
             {
@@ -37087,7 +37087,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the star domain",
         "gainSpellChoice": [
             {
@@ -37115,7 +37115,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the sun domain",
         "gainSpellChoice": [
             {
@@ -37143,7 +37143,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the swarm domain",
         "gainSpellChoice": [
             {
@@ -37171,7 +37171,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the time domain",
         "gainSpellChoice": [
             {
@@ -37199,7 +37199,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the toil domain",
         "gainSpellChoice": [
             {
@@ -37227,7 +37227,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the travel domain",
         "gainSpellChoice": [
             {
@@ -37255,7 +37255,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the trickery domain",
         "gainSpellChoice": [
             {
@@ -37283,7 +37283,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the truth domain",
         "gainSpellChoice": [
             {
@@ -37311,7 +37311,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the tyranny domain",
         "gainSpellChoice": [
             {
@@ -37339,7 +37339,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the undeath domain",
         "gainSpellChoice": [
             {
@@ -37367,7 +37367,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the vigil domain",
         "gainSpellChoice": [
             {
@@ -37395,7 +37395,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the void domain",
         "gainSpellChoice": [
             {
@@ -37423,7 +37423,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the water domain",
         "gainSpellChoice": [
             {
@@ -37451,7 +37451,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the wealth domain",
         "gainSpellChoice": [
             {
@@ -37479,7 +37479,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the wyrmkin domain",
         "gainSpellChoice": [
             {
@@ -37507,7 +37507,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity who grants the zeal domain",
         "gainSpellChoice": [
             {
@@ -43379,7 +43379,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the abomination domain",
         "effects": [
             {
@@ -43433,7 +43433,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the air domain",
         "effects": [
             {
@@ -43487,7 +43487,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the ambition domain",
         "effects": [
             {
@@ -43541,7 +43541,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the change domain",
         "effects": [
             {
@@ -43595,7 +43595,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the cities domain",
         "effects": [
             {
@@ -43649,7 +43649,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the cold domain",
         "effects": [
             {
@@ -43703,7 +43703,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the confidence domain",
         "effects": [
             {
@@ -43757,7 +43757,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the creation domain",
         "effects": [
             {
@@ -43811,7 +43811,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the darkness domain",
         "effects": [
             {
@@ -43865,7 +43865,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the death domain",
         "effects": [
             {
@@ -43919,7 +43919,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the decay domain",
         "effects": [
             {
@@ -43973,7 +43973,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the delirium domain",
         "effects": [
             {
@@ -44027,7 +44027,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the destruction domain",
         "effects": [
             {
@@ -44081,7 +44081,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the dreams domain",
         "effects": [
             {
@@ -44135,7 +44135,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the dust domain",
         "effects": [
             {
@@ -44189,7 +44189,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the duty domain",
         "effects": [
             {
@@ -44243,7 +44243,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the earth domain",
         "effects": [
             {
@@ -44297,7 +44297,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the family domain",
         "effects": [
             {
@@ -44351,7 +44351,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the fate domain",
         "effects": [
             {
@@ -44405,7 +44405,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the fire domain",
         "effects": [
             {
@@ -44459,7 +44459,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the freedom domain",
         "effects": [
             {
@@ -44513,7 +44513,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the glyph domain",
         "effects": [
             {
@@ -44567,7 +44567,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the healing domain",
         "effects": [
             {
@@ -44621,7 +44621,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the indulgence domain",
         "effects": [
             {
@@ -44675,7 +44675,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the knowledge domain",
         "effects": [
             {
@@ -44729,7 +44729,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the lightning domain",
         "effects": [
             {
@@ -44783,7 +44783,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the luck domain",
         "effects": [
             {
@@ -44837,7 +44837,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the magic domain",
         "effects": [
             {
@@ -44891,7 +44891,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the might domain",
         "effects": [
             {
@@ -44945,7 +44945,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the moon domain",
         "effects": [
             {
@@ -45000,7 +45000,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the naga domain",
         "effects": [
             {
@@ -45054,7 +45054,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the nature domain",
         "effects": [
             {
@@ -45108,7 +45108,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the nightmares domain",
         "effects": [
             {
@@ -45162,7 +45162,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the pain domain",
         "effects": [
             {
@@ -45216,7 +45216,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the passion domain",
         "effects": [
             {
@@ -45270,7 +45270,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the perfection domain",
         "effects": [
             {
@@ -45324,7 +45324,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the plague domain",
         "effects": [
             {
@@ -45378,7 +45378,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the protection domain",
         "effects": [
             {
@@ -45432,7 +45432,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the repose domain",
         "effects": [
             {
@@ -45486,7 +45486,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the secrecy domain",
         "effects": [
             {
@@ -45540,7 +45540,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the sorrow domain",
         "effects": [
             {
@@ -45594,7 +45594,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the soul domain",
         "effects": [
             {
@@ -45648,7 +45648,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the star domain",
         "effects": [
             {
@@ -45702,7 +45702,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the sun domain",
         "effects": [
             {
@@ -45756,7 +45756,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the swarm domain",
         "effects": [
             {
@@ -45810,7 +45810,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the time domain",
         "effects": [
             {
@@ -45864,7 +45864,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the toil domain",
         "effects": [
             {
@@ -45918,7 +45918,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the travel domain",
         "effects": [
             {
@@ -45972,7 +45972,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the trickery domain",
         "effects": [
             {
@@ -46026,7 +46026,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the truth domain",
         "effects": [
             {
@@ -46080,7 +46080,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the tyranny domain",
         "effects": [
             {
@@ -46134,7 +46134,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the undeath domain",
         "effects": [
             {
@@ -46188,7 +46188,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the vigil domain",
         "effects": [
             {
@@ -46242,7 +46242,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the void domain",
         "effects": [
             {
@@ -46296,7 +46296,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the water domain",
         "effects": [
             {
@@ -46350,7 +46350,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the wealth domain",
         "effects": [
             {
@@ -46404,7 +46404,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the wyrmkin domain",
         "effects": [
             {
@@ -46458,7 +46458,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.get_Domains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the zeal domain",
         "effects": [
             {
@@ -48717,7 +48717,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the abomination domain as an alternate domain",
         "effects": [
             {
@@ -48757,7 +48757,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the air domain as an alternate domain",
         "effects": [
             {
@@ -48797,7 +48797,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the ambition domain as an alternate domain",
         "effects": [
             {
@@ -48837,7 +48837,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the change domain as an alternate domain",
         "effects": [
             {
@@ -48877,7 +48877,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the cities domain as an alternate domain",
         "effects": [
             {
@@ -48917,7 +48917,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the cold domain as an alternate domain",
         "effects": [
             {
@@ -48957,7 +48957,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the confidence domain as an alternate domain",
         "effects": [
             {
@@ -48997,7 +48997,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the creation domain as an alternate domain",
         "effects": [
             {
@@ -49037,7 +49037,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the darkness domain as an alternate domain",
         "effects": [
             {
@@ -49077,7 +49077,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the death domain as an alternate domain",
         "effects": [
             {
@@ -49117,7 +49117,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the decay domain as an alternate domain",
         "effects": [
             {
@@ -49157,7 +49157,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the delirium domain as an alternate domain",
         "effects": [
             {
@@ -49197,7 +49197,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the destruction domain as an alternate domain",
         "effects": [
             {
@@ -49237,7 +49237,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the dreams domain as an alternate domain",
         "effects": [
             {
@@ -49277,7 +49277,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the dust domain as an alternate domain",
         "effects": [
             {
@@ -49317,7 +49317,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the duty domain as an alternate domain",
         "effects": [
             {
@@ -49357,7 +49357,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the earth domain as an alternate domain",
         "effects": [
             {
@@ -49397,7 +49397,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the family domain as an alternate domain",
         "effects": [
             {
@@ -49437,7 +49437,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the fate domain as an alternate domain",
         "effects": [
             {
@@ -49477,7 +49477,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the fire domain as an alternate domain",
         "effects": [
             {
@@ -49517,7 +49517,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the freedom domain as an alternate domain",
         "effects": [
             {
@@ -49557,7 +49557,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the glyph domain as an alternate domain",
         "effects": [
             {
@@ -49597,7 +49597,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the healing domain as an alternate domain",
         "effects": [
             {
@@ -49637,7 +49637,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the indulgence domain as an alternate domain",
         "effects": [
             {
@@ -49677,7 +49677,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the knowledge domain as an alternate domain",
         "effects": [
             {
@@ -49717,7 +49717,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the lightning domain as an alternate domain",
         "effects": [
             {
@@ -49757,7 +49757,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the luck domain as an alternate domain",
         "effects": [
             {
@@ -49797,7 +49797,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the magic domain as an alternate domain",
         "effects": [
             {
@@ -49837,7 +49837,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the might domain as an alternate domain",
         "effects": [
             {
@@ -49877,7 +49877,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the moon domain as an alternate domain",
         "effects": [
             {
@@ -49918,7 +49918,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the naga domain as an alternate domain",
         "effects": [
             {
@@ -49958,7 +49958,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the nature domain as an alternate domain",
         "effects": [
             {
@@ -49998,7 +49998,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the nightmares domain as an alternate domain",
         "effects": [
             {
@@ -50038,7 +50038,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the pain domain as an alternate domain",
         "effects": [
             {
@@ -50078,7 +50078,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the passion domain as an alternate domain",
         "effects": [
             {
@@ -50118,7 +50118,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the perfection domain as an alternate domain",
         "effects": [
             {
@@ -50158,7 +50158,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the plague domain as an alternate domain",
         "effects": [
             {
@@ -50198,7 +50198,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the protection domain as an alternate domain",
         "effects": [
             {
@@ -50238,7 +50238,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the repose domain as an alternate domain",
         "effects": [
             {
@@ -50278,7 +50278,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the secrecy domain as an alternate domain",
         "effects": [
             {
@@ -50318,7 +50318,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the sorrow domain as an alternate domain",
         "effects": [
             {
@@ -50358,7 +50358,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the soul domain as an alternate domain",
         "effects": [
             {
@@ -50398,7 +50398,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the star domain as an alternate domain",
         "effects": [
             {
@@ -50438,7 +50438,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the sun domain as an alternate domain",
         "effects": [
             {
@@ -50478,7 +50478,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the swarm domain as an alternate domain",
         "effects": [
             {
@@ -50518,7 +50518,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the time domain as an alternate domain",
         "effects": [
             {
@@ -50558,7 +50558,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the toil domain as an alternate domain",
         "effects": [
             {
@@ -50598,7 +50598,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the travel domain as an alternate domain",
         "effects": [
             {
@@ -50638,7 +50638,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the trickery domain as an alternate domain",
         "effects": [
             {
@@ -50678,7 +50678,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the truth domain as an alternate domain",
         "effects": [
             {
@@ -50718,7 +50718,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the tyranny domain as an alternate domain",
         "effects": [
             {
@@ -50758,7 +50758,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the undeath domain as an alternate domain",
         "effects": [
             {
@@ -50798,7 +50798,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the vigil domain as an alternate domain",
         "effects": [
             {
@@ -50838,7 +50838,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the void domain as an alternate domain",
         "effects": [
             {
@@ -50878,7 +50878,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the water domain as an alternate domain",
         "effects": [
             {
@@ -50918,7 +50918,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the wealth domain as an alternate domain",
         "effects": [
             {
@@ -50958,7 +50958,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the wyrmkin domain as an alternate domain",
         "effects": [
             {
@@ -50998,7 +50998,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character).includes(this.subType)",
+        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
         "specialreqdesc": "deity with the zeal domain as an alternate domain",
         "effects": [
             {

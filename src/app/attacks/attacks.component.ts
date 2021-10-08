@@ -569,7 +569,7 @@ export class AttacksComponent implements OnInit {
     get_FavoredWeapons() {
         let creature = this.get_Creature();
         if (creature instanceof Character && creature.class?.deity && creature.class.deityFocused) {
-            let deity = this.deitiesService.get_CharacterDeities(creature)[0];
+            let deity = this.deitiesService.get_CharacterDeities(this.characterService, creature)[0];
             let favoredWeapons = [];
             if (deity && deity.favoredWeapon.length) {
                 favoredWeapons.push(...deity.favoredWeapon);

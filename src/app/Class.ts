@@ -19,12 +19,14 @@ import { SpellLearned } from './SpellLearned';
 import { FormulaLearned } from './FormulaLearned';
 import { LanguageGain } from './LanguageGain';
 import { TypeService } from './type.service';
+import { FeatData } from './FeatData';
 
 export class Class {
-        public activities: ActivityGain[] = [];
+    public activities: ActivityGain[] = [];
     public ancestry: Ancestry = new Ancestry();
     public anathema: string[] = [];
     public deityFocused: boolean = false;
+    public featData: FeatData[] = [];
     public showDeityEdicts: boolean = false;
     public showDeityAnathema: boolean = false;
     public animalCompanion: AnimalCompanion = new AnimalCompanion();
@@ -53,6 +55,7 @@ export class Class {
         this.animalCompanion = Object.assign(new AnimalCompanion(), this.animalCompanion).recast(typeService, itemsService);
         this.background = Object.assign(new Background(), this.background).recast();
         this.customSkills = this.customSkills.map(obj => Object.assign(new Skill(), obj).recast());
+        this.featData = this.featData.map(obj => Object.assign(new FeatData(obj.level, obj.featName, obj.sourceId), obj).recast());
         this.familiar = Object.assign(new Familiar(), this.familiar).recast(typeService, itemsService);
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         this.heritage = Object.assign(new Heritage(), this.heritage).recast();
@@ -419,5 +422,13 @@ export class Class {
                 }
             }
         }
+    }
+    get_FeatData(minLevel: number = 0, maxLevel: number = 0, featName: string, sourceId: string = "") {
+        return this.featData.filter(data =>
+            (data.featName.toLowerCase() == featName.toLowerCase()) &&
+            (!minLevel || data.level >= minLevel) &&
+            (!maxLevel || data.level <= maxLevel) &&
+            (!sourceId || data.sourceId == sourceId)
+        );
     }
 }

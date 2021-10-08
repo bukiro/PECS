@@ -112,9 +112,9 @@
             </div>
             <app-tags [creature]="creature" [objectName]="'Tenets'" [showTraits]=true [showFeats]=true [showItems]=true
                 [showActivities]=true [showConditions]=true></app-tags>
-            <div class="fullsize-only list-item" *ngFor="let feat of get_DifferentWorldsFeat(); trackBy:trackByIndex;">
+            <div class="fullsize-only list-item" *ngFor="let differentWorldsData of get_DifferentWorldsData(); trackBy:trackByIndex;">
                 <strong>Alternative Identity (Different Worlds)</strong>
-                <span>{{feat.data.name}} {{(feat.data.background) ? "("+feat.data.background+")" : ""}}</span>
+                <span>{{differentWorldsData.data.name}} {{(differentWorldsData.data.background) ? "("+differentWorldsData.data.background+")" : ""}}</span>
             </div>
         </ng-container>
         <ng-container *ngIf="creature=='Companion'">

@@ -1,56 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Character } from './Character';
-import { Ancestry } from './Ancestry';
-import { Class } from './Class';
-import { AbilityChoice } from './AbilityChoice';
-import { ItemGain } from './ItemGain';
-import { AnimalCompanion } from './AnimalCompanion';
-import { Familiar } from './Familiar';
-import { AnimalCompanionClass } from './AnimalCompanionClass';
-import { AnimalCompanionAncestry } from './AnimalCompanionAncestry';
-import { ActivityGain } from './ActivityGain';
-import { Level } from './Level';
 import { FeatChoice } from './FeatChoice';
-import { LoreChoice } from './LoreChoice';
-import { SkillChoice } from './SkillChoice';
-import { EffectGain } from './EffectGain';
-import { SpellChoice } from './SpellChoice';
-import { SpellCasting } from './SpellCasting';
-import { AnimalCompanionLevel } from './AnimalCompanionLevel';
-import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
 import { Skill } from './Skill';
-import { WornItem } from './WornItem';
-import { AdventuringGear } from './AdventuringGear';
-import { AlchemicalElixir } from './AlchemicalElixir';
-import { Armor } from './Armor';
-import { ArmorRune } from './ArmorRune';
-import { Background } from './Background';
-import { ConditionGain } from './ConditionGain';
-import { Consumable } from './Consumable';
-import { Feat } from './Feat';
-import { FormulaChoice } from './FormulaChoice';
-import { Health } from './Health';
-import { HeldItem } from './HeldItem';
-import { Heritage } from './Heritage';
-import { ItemActivity } from './ItemActivity';
-import { OtherConsumable } from './OtherConsumable';
-import { OtherItem } from './OtherItem';
-import { Potion } from './Potion';
 import { Settings } from './Settings';
-import { Shield } from './Shield';
-import { SpellCast } from './SpellCast';
-import { SpellGain } from './SpellGain';
-import { Weapon } from './Weapon';
-import { WeaponRune } from './WeaponRune';
 import { ItemCollection } from './ItemCollection';
-import { Speed } from './Speed';
-import { Bulk } from './Bulk';
 import { ItemsService } from './items.service';
-import { Ammunition } from './Ammunition';
-import { Item } from './Item';
-import { Scroll } from './Scroll';
-import { InventoryGain } from './InventoryGain';
-import { Oil } from './Oil';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Savegame } from './Savegame';
@@ -58,21 +12,11 @@ import { CharacterService } from './character.service';
 import { AnimalCompanionsService } from './animalcompanions.service';
 import { ClassesService } from './classes.service';
 import { HistoryService } from './history.service';
-import { Talisman } from './Talisman';
-import { AlchemicalBomb } from './AlchemicalBomb';
-import { AlchemicalTool } from './AlchemicalTool';
-import { Snare } from './Snare';
-import { WeaponMaterial } from './WeaponMaterial';
-import { ArmorMaterial } from './ArmorMaterial';
-import { ShieldMaterial } from './ShieldMaterial';
-import { AlchemicalPoison } from './AlchemicalPoison';
-import { OtherConsumableBomb } from './OtherConsumableBomb';
-import { Wand } from './Wand';
-import { Equipment } from './Equipment';
 import { ConfigService } from './config.service';
 import { default as package_json } from 'package.json';
 import { Hint } from './Hint';
 import { TypeService } from './type.service';
+import { FeatData } from './FeatData';
 
 @Injectable({
     providedIn: 'root'
@@ -525,6 +469,23 @@ export class SavegameService {
                         })
                     })
                 })
+            }
+
+            //Feats do not have data after 1.0.12, so all custom feats' data has to be moved to class.featData. These custom feats can be removed afterwards.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 12) {
+                let baseFeats = characterService.get_Feats().filter(feat => feat.lorebase || feat.weaponfeatbase).map(feat => feat.name.toLowerCase());
+                characterService.featsService.build_CharacterFeats(character);
+                //Only proceed with feats that were not generated from lore or weapon feat bases, and that have data.
+                character.customFeats.filter(feat => !baseFeats.includes(feat.name.toLowerCase()) && feat["data"] && Object.keys(feat["data"]).length).forEach(feat => {
+                    //For each time you have this feat (should be exactly one), add its data to the class object.
+                    characterService.featsService.get_CharacterFeatsTakenWithLevel(0, 0, feat.name, "", "", undefined, false, false).forEach(taken => {
+                        let newLength = character.class.featData.push(new FeatData(taken.level, feat.name, taken.gain.sourceId));
+                        character.class.featData[newLength - 1].data = JSON.parse(JSON.stringify(feat["data"]));
+                    })
+                    //Mark the feat to delete.
+                    feat.name = "DELETE THIS";
+                })
+                character.customFeats = character.customFeats.filter(feat => feat.name != "DELETE THIS");
             }
 
         }

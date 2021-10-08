@@ -17,7 +17,6 @@ export class MessageService {
     private newMessages: PlayerMessage[] = [];
     private checkingActive: boolean = false;
     private checkingMessages: boolean = false;
-    private cleaningUpMessages: boolean = false;
     private cleaningUpIgnoredMessages: boolean = false;
 
     constructor(
