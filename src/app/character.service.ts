@@ -1434,10 +1434,10 @@ export class CharacterService {
             }, 500)
         } else {
             this.basicItems = [];
-            let newBasicWeapon: Weapon = Object.assign(new Weapon(), this.itemsService.get_ItemsOfType("weapons", "Fist")[0]).recast(this.typeService);
+            let newBasicWeapon: Weapon = Object.assign(new Weapon(), this.itemsService.get_ItemsOfType("weapons", "Fist")[0]).recast(this.typeService, this.itemsService);
             this.basicItems.push(newBasicWeapon);
             let newBasicArmor: Armor;
-            newBasicArmor = Object.assign(new Armor(), this.itemsService.get_ItemsOfType("armors", "Unarmored")[0]).recast(this.typeService);
+            newBasicArmor = Object.assign(new Armor(), this.itemsService.get_ItemsOfType("armors", "Unarmored")[0]).recast(this.typeService, this.itemsService);
             this.basicItems.push(newBasicArmor);
             this.equip_BasicItems(this.get_Character(), false)
             this.equip_BasicItems(this.get_Companion(), false)
@@ -1952,7 +1952,7 @@ export class CharacterService {
                                 this.set_ToChange(targetCreature.type, "inventory");
                                 this.set_Changed(existingItems[0].id);
                             } else {
-                                item = item.recast(this.typeService);
+                                item = item.recast(this.typeService, this.itemsService);
                                 let newLength = targetInventory[item.type].push(item);
                                 let addedItem = targetInventory[item.type][newLength - 1];
                                 this.set_ToChange(targetCreature.type, "inventory");

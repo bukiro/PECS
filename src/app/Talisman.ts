@@ -1,8 +1,9 @@
 import { Consumable } from './Consumable';
+import { ItemsService } from './items.service';
 import { TypeService } from './type.service';
 
 export class Talisman extends Consumable {
-        //Other Consumables should be type "talismans" to be found in the database
+    //Other Consumables should be type "talismans" to be found in the database
     readonly type = "talismans";
     public critfailure: string = "";
     public critsuccess: string = "";
@@ -13,8 +14,8 @@ export class Talisman extends Consumable {
     //You can only choose this talisman for an item if its type is in the targets list (with a hardcoded exception for "melee weapons")
     public targets: string[] = [];
     public trigger: string = "";
-    recast(typeService: TypeService) {
-        super.recast(typeService);
+    recast(typeService: TypeService, itemsService: ItemsService) {
+        super.recast(typeService, itemsService);
         return this;
     }
 }

@@ -1,8 +1,9 @@
 import { Equipment } from './Equipment';
+import { ItemsService } from './items.service';
 import { TypeService } from './type.service';
 
 export class AdventuringGear extends Equipment {
-        //Adventuring Gear should be type "adventuringgear" to be found in the database
+    //Adventuring Gear should be type "adventuringgear" to be found in the database
     readonly type = "adventuringgear";
     //Adventuring Gear can usually not be equipped or invested, but with exceptions.
     equippable = false;
@@ -15,8 +16,8 @@ export class AdventuringGear extends Equipment {
     public stack: number = 1;
     //How is this item used/worn/applied? Example: held in 1 hand
     public usage: string = "";
-    recast(typeService: TypeService) {
-        super.recast(typeService);
+    recast(typeService: TypeService, itemsService: ItemsService) {
+        super.recast(typeService, itemsService);
         return this;
     }
 }

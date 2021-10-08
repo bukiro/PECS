@@ -7,7 +7,7 @@ import { ShieldMaterial } from './ShieldMaterial';
 import { TypeService } from './type.service';
 
 export class Shield extends Equipment {
-        //Shields should be type "shields" to be found in the database
+    //Shields should be type "shields" to be found in the database
     readonly type = "shields";
     //Shields are usually moddable, which means they get material but no runes.
     moddable = true;
@@ -36,8 +36,9 @@ export class Shield extends Equipment {
     public _emblazonAntimagic: boolean = false;
     //Shoddy shields take a -2 penalty to AC.
     public _shoddy: number = 0;
-    recast(typeService: TypeService) {
-        super.recast(typeService);
+    recast(typeService: TypeService, itemsService: ItemsService) {
+        super.recast(typeService, itemsService);
+        this.material = this.material.map(obj => Object.assign(new ShieldMaterial(), obj).recast());
         return this;
     }
     get_Name() {

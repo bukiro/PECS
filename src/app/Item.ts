@@ -5,9 +5,10 @@ import { ItemGain } from './ItemGain';
 import { Creature } from './Creature';
 import { CharacterService } from './character.service';
 import { TypeService } from './type.service';
+import { ItemsService } from './items.service';
 
 export class Item {
-        public readonly neversave: string[] = [
+    public readonly neversave: string[] = [
         "restoredFromSave"
     ]
     //Allow changing of "equippable" by custom item creation
@@ -80,11 +81,12 @@ export class Item {
     public overridePriority: number = 0;
     //If markedForDeletion is set, the item isn't recursively dropped during drop_InventoryItem, thus avoiding loops stemming from gained items and gained inventories. 
     public markedForDeletion: boolean = false;
+    //If restoredFromSave is set, the item doesn't need to be merged with its reference item again.
     public restoredFromSave: boolean = false;
-    recast(typeService: TypeService) {
+    recast(typeService: TypeService, itemsService: ItemsService) {
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         //Oils need to be cast blindly in order to avoid circular dependency warnings.
-        this.oilsApplied = this.oilsApplied.map(obj => typeService.classCast(obj, "Oil").recast());
+        this.oilsApplied = this.oilsApplied.map(obj => (typeService.classCast(typeService.restore_Item(obj, itemsService), "Oil") as Oil).recast(typeService, itemsService));
         this.storedSpells = this.storedSpells.map(obj => Object.assign(new SpellChoice(), obj).recast());
         this.storedSpells.forEach((choice: SpellChoice, index) => {
             choice.source = this.id;

@@ -101,7 +101,7 @@ export class ItemAeonStonesComponent implements OnInit {
             if (stone.name != "") {
                 //Add a copy of the stone to the item
                 let newLength = item.aeonStones.push(Object.assign(new WornItem, JSON.parse(JSON.stringify(stone))));
-                item.aeonStones[newLength - 1] = item.aeonStones[newLength - 1].recast(this.typeService);
+                item.aeonStones[newLength - 1] = item.aeonStones[newLength - 1].recast(this.typeService, this.itemsService);
                 let newStone = item.aeonStones[newLength - 1];
                 newStone.amount = 1;
                 newStone.isSlottedAeonStone = true;

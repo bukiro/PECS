@@ -259,16 +259,18 @@ export class ItemsService {
                 choice.id = uuidv4();
             })
         }
-        newItem = newItem.recast(this.typeService);
+
+        //Perform any merging before the item is recast.
+
         //For items (oils) that apply the same effect as a rune, load the rune into the item here.
-        if (newItem.runeEffect && newItem.runeEffect.name) {
+        if (newItem.runeEffect?.name) {
             let rune = this.cleanItems.weaponrunes.find(rune => rune.name == newItem.runeEffect.name);
             if (rune) {
-                newItem.runeEffect = Object.assign(new WeaponRune(), JSON.parse(JSON.stringify(rune))).recast(this.typeService);
+                newItem.runeEffect = Object.assign(new WeaponRune(), JSON.parse(JSON.stringify(rune))).recast(this.typeService, this);
                 newItem.runeEffect.activities.forEach((activity: ItemActivity) => { activity.name += " (" + newItem.name + ")" });
             }
         }
-        //For base items that come with property Runes with name only, load the rune into the item here.
+        //For base items that come with property Runes with name only, load the rune into the item here. Runes of loaded items will be largely 
         if (resetPropertyRunes && (newItem instanceof Weapon || (newItem instanceof WornItem && newItem.isHandwrapsOfMightyBlows)) && newItem.propertyRunes?.length) {
             let newRunes: WeaponRune[] = [];
             newItem.propertyRunes.forEach((rune: WeaponRune) => {
@@ -310,6 +312,19 @@ export class ItemsService {
             })
             newItem.material = newMaterials;
         }
+        if (resetPropertyRunes && newItem instanceof Shield && newItem.material?.length) {
+            let newMaterials: ShieldMaterial[] = [];
+            newItem.material.forEach((material: ShieldMaterial) => {
+                let libraryItem = this.armorMaterials.find(newMaterial => newMaterial.name == material.name)
+                if (libraryItem) {
+                    newMaterials.push(this.typeService.merge(libraryItem, material))
+                }
+            })
+            newItem.material = newMaterials;
+        }
+
+        newItem = newItem.recast(this.typeService, this);
+
         //Disable all hints.
         if (newItem instanceof Equipment) {
             newItem.hints.forEach(hint => {
@@ -446,7 +461,7 @@ export class ItemsService {
                     if (toPack) {
                         let moved = Math.min(toPack, invItem.amount);
                         toPack -= moved;
-                        let newItem = this.cast_ItemByType(Object.assign(new Item(), JSON.parse(JSON.stringify(invItem)))).recast(this.typeService);
+                        let newItem = this.cast_ItemByType(Object.assign(new Item(), JSON.parse(JSON.stringify(invItem)))).recast(this.typeService, this);
                         newItem.amount = moved;
                         items.push(newItem);
                         let included = this.pack_GrantingItem(creature, invItem, primaryItem);
@@ -531,7 +546,7 @@ export class ItemsService {
                 //If this item is moved between inventories of the same creature, you don't need to drop it explicitly.
                 //Just push it to the new inventory and remove it from the old, but unequip it either way.
                 //The item does need to be copied so we don't just move a reference.
-                let movedItem = this.cast_ItemByType(JSON.parse(JSON.stringify(item))).recast(this.typeService);
+                let movedItem = this.cast_ItemByType(JSON.parse(JSON.stringify(item))).recast(this.typeService, this);
                 //If the item is stackable, and a stack already exists in the target inventory, just add the amount to the stack.
                 if (movedItem.can_Stack()) {
                     let targetItem = targetInventory[item.type].find(invItem => invItem.name == movedItem.name)
@@ -590,7 +605,7 @@ export class ItemsService {
                     //Update the item's gridicon to reflect its changed amount.
                     characterService.set_Changed(existingItems[0].id);
                 } else {
-                    let movedItem = this.cast_ItemByType(JSON.parse(JSON.stringify(includedItem))).recast(this.typeService);
+                    let movedItem = this.cast_ItemByType(JSON.parse(JSON.stringify(includedItem))).recast(this.typeService, this);
                     let newLength = targetInventory[includedItem.type].push(movedItem);
                     let newItem = targetInventory[includedItem.type][newLength - 1];
                     newItem = characterService.process_GrantedItem(toCreature as Character | AnimalCompanion, newItem, targetInventory, true, false, true, true);

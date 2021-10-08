@@ -35,8 +35,8 @@ export class PlayerMessage {
     public ttl: number = 600;
     recast(typeService: TypeService, itemsService: ItemsService) {
         this.gainCondition = this.gainCondition.map(obj => Object.assign(new ConditionGain(), obj).recast());
-        this.offeredItem = this.offeredItem.map(obj => Object.assign(new Item(), obj).recast(typeService));
-        this.includedItems = this.includedItems.map(obj => Object.assign(new Item(), obj).recast(typeService));
+        this.offeredItem = this.offeredItem.map(obj => Object.assign(new Item(), obj).recast(typeService, itemsService));
+        this.includedItems = this.includedItems.map(obj => Object.assign(new Item(), obj).recast(typeService, itemsService));
         this.includedInventories = this.includedInventories.map(obj => Object.assign(new ItemCollection(), obj).recast(typeService, itemsService));
         return this;
     }

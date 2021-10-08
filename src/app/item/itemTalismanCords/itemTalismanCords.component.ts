@@ -84,7 +84,7 @@ export class ItemTalismanCordsComponent implements OnInit {
             //Then add the new Talisman Cord to the item and (unless we are in the item store) remove it from the inventory.
             if (cord.name != "") {
                 //Add a copy of the cord to the item
-                let newLength = item.talismanCords.push(Object.assign(new WornItem, JSON.parse(JSON.stringify(cord))).recast(this.typeService));
+                let newLength = item.talismanCords.push(Object.assign<WornItem, WornItem>(new WornItem, JSON.parse(JSON.stringify(cord))).recast(this.typeService, this.itemsService));
                 let newCord = item.talismanCords[newLength - 1];
                 newCord.amount = 1;
                 //Remove the inserted Talisman Cord from the inventory, either by decreasing the amount or by dropping the item.

@@ -112,7 +112,7 @@ export class ItemTalismansComponent implements OnInit {
             //Then add the new Talisman to the item and (unless we are in the item store) remove it from the inventory.
             if (talisman.name != "") {
                 //Add a copy of Talisman to the item
-                let newLength = item.talismans.push(Object.assign(new Talisman, JSON.parse(JSON.stringify(talisman))).recast(this.typeService));
+                let newLength = item.talismans.push(Object.assign<Talisman, Talisman>(new Talisman(), JSON.parse(JSON.stringify(talisman))).recast(this.typeService, this.itemsService));
                 let newTalisman = item.talismans[newLength - 1];
                 newTalisman.amount = 1;
                 //If we are not in the item store, remove the inserted Talisman from the inventory, either by decreasing the amount or by dropping the item.

@@ -1,9 +1,10 @@
 import { Equipment } from './Equipment';
 import { ItemsService } from './items.service';
 import { TypeService } from './type.service';
+import { WeaponRune } from './WeaponRune';
 
 export class WornItem extends Equipment {
-        //Allow changing of "equippable" by custom item creation.
+    //Allow changing of "equippable" by custom item creation.
     readonly allowEquippable = false;
     //Worn Items cannot be equipped or unequipped, but can be invested.
     readonly equippable = false;
@@ -29,9 +30,10 @@ export class WornItem extends Equipment {
     public usage: string = "";
     //A Dwarf with the Battleforger feat can sharpen a weapon to grant the effect of a +1 potency rune. This applies to Handwraps of Mighty Blows only.
     public battleforged: boolean = false;
-    recast(typeService: TypeService) {
-        super.recast(typeService);
-        this.aeonStones = this.aeonStones.map(obj => Object.assign(new WornItem(), obj).recast(typeService));
+    recast(typeService: TypeService, itemsService: ItemsService) {
+        super.recast(typeService, itemsService);
+        this.aeonStones = this.aeonStones.map(obj => Object.assign<WornItem, WornItem>(new WornItem(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
+        this.propertyRunes = this.propertyRunes.map(obj => Object.assign<WeaponRune, WeaponRune>(new WeaponRune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         return this;
     }
     get_Name() {

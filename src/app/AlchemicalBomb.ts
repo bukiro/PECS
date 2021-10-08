@@ -1,8 +1,9 @@
+import { ItemsService } from './items.service';
 import { TypeService } from './type.service';
 import { Weapon } from './Weapon';
 
 export class AlchemicalBomb extends Weapon {
-        //Alchemical bombs should be type "alchemicalbombs" to be found in the database
+    //Alchemical bombs should be type "alchemicalbombs" to be found in the database
     public type = "alchemicalbombs";
     //Alchemical bombs are never moddable.
     readonly moddable = false;
@@ -12,8 +13,8 @@ export class AlchemicalBomb extends Weapon {
     get_Name() {
         return this.displayName || this.name;
     }
-    recast(typeService: TypeService) {
-        super.recast(typeService);
+    recast(typeService: TypeService, itemsService: ItemsService) {
+        super.recast(typeService, itemsService);
         return this;
     }
 }

@@ -62,7 +62,7 @@ export class ItemPoisonsComponent implements OnInit {
         if (this.newPoison.poison.name) {
             let item = this.item;
             item.poisonsApplied.length = 0;
-            item.poisonsApplied.push(Object.assign(new AlchemicalPoison(), JSON.parse(JSON.stringify(this.newPoison.poison))).recast(this.typeService));
+            item.poisonsApplied.push(Object.assign(new AlchemicalPoison(), JSON.parse(JSON.stringify(this.newPoison.poison))).recast(this.typeService, this.itemsService));
             if (this.newPoison.inv) {
                 this.characterService.drop_InventoryItem(this.get_Character(), this.newPoison.inv, this.newPoison.poison, false, false, false, 1);
             }

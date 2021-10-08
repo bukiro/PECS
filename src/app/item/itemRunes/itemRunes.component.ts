@@ -604,7 +604,7 @@ export class ItemRunesComponent implements OnInit {
             //Then add the new rune to the item and (unless we are in the item store) remove it from the inventory.
             if (rune.name != "") {
                 //Add a copy of the rune to the item
-                let newLength = weapon.propertyRunes.push(Object.assign(new WeaponRune, JSON.parse(JSON.stringify(rune))).recast(this.typeService));
+                let newLength = weapon.propertyRunes.push(Object.assign(new WeaponRune, JSON.parse(JSON.stringify(rune))).recast(this.typeService, this.itemsService));
                 let newRune = weapon.propertyRunes[newLength - 1];
                 newRune.amount = 1;
                 newRune.loreChoices = newRune.loreChoices.map(choice => Object.assign(new LoreChoice(), choice));
@@ -655,7 +655,7 @@ export class ItemRunesComponent implements OnInit {
             //Then add the new rune to the item and (unless we are in the item store) remove it from the inventory.
             if (rune.name != "") {
                 //Add a copy of the rune to the item
-                let newLength = armor.propertyRunes.push(Object.assign(new ArmorRune, JSON.parse(JSON.stringify(rune))).recast(this.typeService));
+                let newLength = armor.propertyRunes.push(Object.assign(new ArmorRune, JSON.parse(JSON.stringify(rune))).recast(this.typeService, this.itemsService));
                 let newRune = armor.propertyRunes[newLength - 1];
                 newRune.amount = 1;
                 newRune.loreChoices = newRune.loreChoices.map(choice => Object.assign(new LoreChoice(), choice));

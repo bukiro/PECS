@@ -157,7 +157,7 @@ import { TypeService } from 'src/app/type.service';
             //Then add the new rune to the item.
             if (rune.name != "") {
                 //Add a copy of the rune to the item
-                weapon.bladeAllyRunes[0] = Object.assign(new WeaponRune(), JSON.parse(JSON.stringify(rune))).recast(this.typeService);
+                weapon.bladeAllyRunes[0] = Object.assign(new WeaponRune(), JSON.parse(JSON.stringify(rune))).recast(this.typeService, this.itemsService);
                 weapon.bladeAllyRunes[0].amount = 1;
             }
         }

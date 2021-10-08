@@ -232,13 +232,16 @@
                                                 <span [ngbTooltip]="'Battleforged'" *ngIf="item.battleforged">
                                                     <i class='ra ra-anvil'></i>
                                                 </span>
-                                                <span [ngbTooltip]="'Emblazon Armament'" *ngIf="get_ItemEmblazonArmament(item)">
+                                                <span [ngbTooltip]="'Emblazon Armament'"
+                                                    *ngIf="get_ItemEmblazonArmament(item)">
                                                     <i class='ra ra-fire-shield'></i>
                                                 </span>
-                                                <span [ngbTooltip]="'Emblazon Energy: ' + get_ItemEmblazonEnergy(item)" *ngIf="get_ItemEmblazonEnergy(item)">
+                                                <span [ngbTooltip]="'Emblazon Energy: ' + get_ItemEmblazonEnergy(item)"
+                                                    *ngIf="get_ItemEmblazonEnergy(item)">
                                                     <i class='ra ra-bolt-shield'></i>
                                                 </span>
-                                                <span [ngbTooltip]="'Emblazon Antimagic'" *ngIf="get_ItemEmblazonAntimagic(item)">
+                                                <span [ngbTooltip]="'Emblazon Antimagic'"
+                                                    *ngIf="get_ItemEmblazonAntimagic(item)">
                                                     <i class='ra ra-eye-shield'></i>
                                                 </span>
                                                 {{(item.amount != undefined && item.amount != 1) ? item.amount+" " :
@@ -370,6 +373,56 @@
                                                     </span>
                                                 </button>
                                             </ng-container>
+                                            <ng-template #ContainerItemDropModal let-dropModal>
+                                                <div class="modal-header">
+                                                    <header class="sectionHeader modal-title" id="modal-title">
+                                                        <i class="ra ra-hive-emblem"></i> Drop included items?
+                                                    </header>
+                                                    <button type="button" class="close" aria-label="close"
+                                                        (click)="dropModal.dismiss('Cross click')" ngbAutofocus>
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body vlist">
+                                                    <div class="fullsize-scroll-box vlist" style="max-height: 50vh;">
+                                                        <div class="list-item newrow left-aligned">
+                                                            This item originally came with additional items attached or
+                                                            included. You can drop everything or just this item.
+                                                            <div class="newrow lower">
+                                                                If you choose to drop everything, the following rules
+                                                                apply:
+                                                            </div>
+                                                            <div class="newrow lower">
+                                                                <ul>
+                                                                    <li>
+                                                                        Items that cannot stack (most equipment and some
+                                                                        consumables) will only be dropped if they were
+                                                                        explicitly granted by this item.
+                                                                    </li>
+                                                                    <li>
+                                                                        For items that can stack, you will drop as many
+                                                                        as you originally received with this item.
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <button class="fullwidth btn btn-primary"
+                                                            style="background-color: rgb(var(--accent))"
+                                                            (click)="dropModal.close('Drop all')">
+                                                            Drop this item and all items granted by it
+                                                        </button>
+                                                        <button class="fullwidth btn btn-primary"
+                                                            style="background-color: rgb(var(--accent))"
+                                                            (click)="dropModal.close('Drop one')">
+                                                            Drop this item, but keep all items granted by it
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline-secondary"
+                                                        (click)="dropModal.dismiss('Cancel click')">Cancel</button>
+                                                </div>
+                                            </ng-template>
                                             <div class="newrow">
                                                 <span *ngIf="can_Equip(item, inventoryIndex)">
                                                     <button *ngIf="!item.equipped"
@@ -401,20 +454,15 @@
                                                     </app-itemTarget>
                                                 </span>
                                                 <span *ngIf="can_Drop(item) && can_DropAll(item)">
-                                                    <button (click)="drop_ContainerOnly(item, inventory)"
-                                                        [ngbTooltip]="'Drop this item, but keep all items granted by it'">
-                                                        Drop without parts
+                                                    <button
+                                                        (click)="open_ContainerItemDropModal(ContainerItemDropModal, item, inventory)"
+                                                        [ngbTooltip]="'Choose what to do with included items'">
+                                                        Drop...
                                                     </button>
                                                 </span>
                                                 <span *ngIf="can_Drop(item) && !can_DropAll(item)">
                                                     <button (click)="drop_InventoryItem(item, inventory)">
                                                         Drop
-                                                    </button>
-                                                </span>
-                                                <span *ngIf="can_Drop(item) && can_DropAll(item)">
-                                                    <button (click)="drop_InventoryItem(item, inventory)"
-                                                        [ngbTooltip]="'Drop this item and all items granted by it'">
-                                                        Drop with all parts
                                                     </button>
                                                 </span>
                                             </div>

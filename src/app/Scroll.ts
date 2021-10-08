@@ -2,12 +2,13 @@ import { Consumable } from './Consumable';
 import { CharacterService } from './character.service';
 import { Creature } from './Creature';
 import { TypeService } from './type.service';
+import { ItemsService } from './items.service';
 
 export class Scroll extends Consumable {
-        //Scrolls should be type "scrolls" to be found in the database
+    //Scrolls should be type "scrolls" to be found in the database
     readonly type = "scrolls";
-    recast(typeService: TypeService) {
-        super.recast(typeService);
+    recast(typeService: TypeService, itemsService: ItemsService) {
+        super.recast(typeService, itemsService);
         return this;
     }
     get_Name() {

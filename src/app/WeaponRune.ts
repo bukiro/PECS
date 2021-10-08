@@ -1,8 +1,9 @@
+import { ItemsService } from './items.service';
 import { Rune } from './Rune';
 import { TypeService } from './type.service';
 
 export class WeaponRune extends Rune {
-        //Weapon Runes should be type "weaponrunes" to be found in the database
+    //Weapon Runes should be type "weaponrunes" to be found in the database
     readonly type = "weaponrunes";
     //You are enfeebled 2 if your alignment contains this word.
     public alignmentPenalty: string = "";
@@ -23,8 +24,8 @@ export class WeaponRune extends Rune {
     public success: string = "";
     //Can only be applied to a weapon with this trait
     public traitreq: string = "";
-    recast(typeService: TypeService) {
-        super.recast(typeService);
+    recast(typeService: TypeService, itemsService: ItemsService) {
+        super.recast(typeService, itemsService);
         return this;
     }
 }

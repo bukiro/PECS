@@ -69,7 +69,7 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDest
     }
 
     close() {
-        //Only close if no modal is open.
+        //Only close if no modal is open or popover-keepalive element exists.
         if (document.getElementsByTagName("ngb-modal-window").length || document.getElementsByClassName("popover-keepalive").length) {
         } else {
             super.close();

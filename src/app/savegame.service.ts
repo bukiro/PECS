@@ -516,8 +516,8 @@ export class SavegameService {
                     //Delete attributes that are in the "neversave" list, if it exists.
                     if (object.neversave?.includes(key)) {
                         delete object[key];
-                        //Don't cleanup any attributes that are in the "save" list or start with "_" (which is done further down).
-                    } else if (!object.save?.includes(key) && (key.substr(0, 1) != "_")) {
+                        //Don't cleanup the neversave list, the save list, any attributes that are in the save list, or any that start with "_" (which is done further down).
+                    } else if (key != "save" && key != "neversave" && !object.save?.includes(key) && (key.substr(0, 1) != "_")) {
                         //If the attribute has the same value as the default, delete it from the object.
                         if (JSON.stringify(object[key]) == JSON.stringify(blank[key])) {
                             delete object[key];
@@ -532,6 +532,9 @@ export class SavegameService {
                 //Delete the "save" list last so it can be referenced during the cleanup, but still updated when loading.
                 if (object.save) {
                     delete object.save;
+                }
+                if (object.neversave) {
+                    delete object.neversave;
                 }
             }
         }

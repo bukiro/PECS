@@ -8,9 +8,10 @@ import { ArmorMaterial } from './ArmorMaterial';
 import { Creature } from './Creature';
 import { ItemsService } from './items.service';
 import { TypeService } from './type.service';
+import { ArmorRune } from './ArmorRune';
 
 export class Armor extends Equipment {
-        //Armor should be type "armors" to be found in the database
+    //Armor should be type "armors" to be found in the database
     readonly type = "armors";
     //For certain medium and light armors, set 1 if an "Armored Skirt" is equipped; For certain heavy armors, set -1 instead
     //This value influences acbonus, skillpenalty, dexcap and strength
@@ -40,8 +41,10 @@ export class Armor extends Equipment {
     private strength: number = 0;
     //A Dwarf with the Battleforger feat can polish armor to grant the effect of a +1 potency rune.
     public battleforged: boolean = false;
-    recast(typeService: TypeService) {
-        super.recast(typeService);
+    recast(typeService: TypeService, itemsService: ItemsService) {
+        super.recast(typeService, itemsService);
+        this.propertyRunes = this.propertyRunes.map(obj => Object.assign<ArmorRune, ArmorRune>(new ArmorRune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
+        this.material = this.material.map(obj => Object.assign(new ArmorMaterial(), obj).recast());
         return this;
     }
     get_Name() {

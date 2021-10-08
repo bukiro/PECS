@@ -2,9 +2,10 @@ import { CharacterService } from './character.service';
 import { Equipment } from './Equipment';
 import { Creature } from './Creature';
 import { TypeService } from './type.service';
+import { ItemsService } from './items.service';
 
 export class Wand extends Equipment {
-        //Wands should be type "wands" to be found in the database
+    //Wands should be type "wands" to be found in the database
     readonly type = "wands";
     readonly equippable = false;
     public actions: string = "";
@@ -13,8 +14,8 @@ export class Wand extends Equipment {
     public overcharged: boolean = false;
     public cooldown: number = 0;
     public inputRequired = "After the spell is cast from the wand for the day, you can use it one more time, but the wand is immediately broken. Roll a DC 10 flat check. On a failure, drop the wand as it is destroyed. If you overcharge the wand when it's already been overcharged that day, the wand is automatically destroyed and dropped (even if it had been repaired) and no spell is cast."
-    recast(typeService: TypeService) {
-        super.recast(typeService);
+    recast(typeService: TypeService, itemsService: ItemsService) {
+        super.recast(typeService, itemsService);
         return this;
     }
     get_Name() {

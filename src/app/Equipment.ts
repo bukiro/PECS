@@ -75,8 +75,8 @@ export class Equipment extends Item {
     public talismans: Talisman[] = [];
     //List any Talisman Cords attached to this item.
     public talismanCords: WornItem[] = [];
-    recast(typeService: TypeService) {
-        super.recast(typeService);
+    recast(typeService: TypeService, itemsService: ItemsService) {
+        super.recast(typeService, itemsService);
         this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
         this.activities.forEach(activity => { activity.source = this.id });
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
@@ -96,11 +96,11 @@ export class Equipment extends Item {
         })
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.material = this.material.map(obj => Object.assign(new Material(), obj).recast());
-        this.propertyRunes = this.propertyRunes.map(obj => Object.assign(new Rune(), obj).recast(typeService));
-        this.bladeAllyRunes = this.bladeAllyRunes.map(obj => Object.assign(new Rune(), obj).recast(typeService));
-        this.talismans = this.talismans.map(obj => Object.assign(new Talisman(), obj).recast(typeService));
+        this.propertyRunes = this.propertyRunes.map(obj => Object.assign<Rune, Rune>(new Rune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
+        this.bladeAllyRunes = this.bladeAllyRunes.map(obj => Object.assign<Rune, Rune>(new Rune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
+        this.talismans = this.talismans.map(obj => Object.assign<Talisman, Talisman>(new Talisman(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         //Talisman Cords need to be cast blindly to avoid circular dependency warnings.
-        this.talismanCords = this.talismanCords.map(obj => typeService.classCast(obj, "WornItem").recast(typeService));
+        this.talismanCords = this.talismanCords.map(obj => (typeService.classCast(typeService.restore_Item(obj, itemsService), "WornItem") as WornItem).recast(typeService, itemsService));
         return this;
     }
     can_Stack() {

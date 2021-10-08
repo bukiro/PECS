@@ -219,7 +219,7 @@ export class TypeService {
     }
 
     restore_Item(object: any, itemsService: ItemsService = null) {
-        if (object.refId && !object.restoredFromSave && itemsService) {
+        if (itemsService && object.refId && !object.restoredFromSave) {
             let libraryItem = itemsService.get_CleanItemByID(object.refId);
             if (libraryItem) {
                 //Map the restored object onto the library object and keep the result.
@@ -232,9 +232,7 @@ export class TypeService {
                             hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
                         })
                     }
-                    if (object instanceof Item) {
-                        object.restoredFromSave = true;
-                    }
+                    object.restoredFromSave = true;
                 } catch (e) {
                     console.log("Failed reassigning item " + object.id + ": " + e)
                 }

@@ -15,9 +15,10 @@ import { Creature } from './Creature';
 import { Skill } from './Skill';
 import { ItemsService } from './items.service';
 import { TypeService } from './type.service';
+import { WeaponMaterial } from './WeaponMaterial';
 
 export class Weapon extends Equipment {
-        //Weapons should be type "weapons" to be found in the database
+    //Weapons should be type "weapons" to be found in the database
     public type = "weapons";
     //Weapons are usually moddable.
     moddable = true;
@@ -69,9 +70,11 @@ export class Weapon extends Equipment {
     //If useHighestAttackProficiency is true, the proficiency level will be copied from your highest unarmed or weapon proficiency.
     public useHighestAttackProficiency: boolean = false;
     public _traits: string[] = [];
-    recast(typeService: TypeService) {
-        super.recast(typeService);
-        this.poisonsApplied = this.poisonsApplied.map(obj => Object.assign(new AlchemicalPoison(), obj).recast(typeService));
+    recast(typeService: TypeService, itemsService: ItemsService) {
+        super.recast(typeService, itemsService);
+        this.poisonsApplied = this.poisonsApplied.map(obj => Object.assign<AlchemicalPoison, AlchemicalPoison>(new AlchemicalPoison(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
+        this.material = this.material.map(obj => Object.assign(new WeaponMaterial(), obj).recast());
+        this.propertyRunes = this.propertyRunes.map(obj => Object.assign<WeaponRune, WeaponRune>(new WeaponRune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         return this;
     }
     get_Name() {

@@ -1,8 +1,7 @@
-import { EffectGain } from "./EffectGain";
 import { Hint } from "./Hint";
 
 export class Material {
-        public bulkPrice: number = 0;
+    public bulkPrice: number = 0;
     public bulkModifier: number = 0;
     public craftRequirement: string = "";
     //This is how high your crafting level needs to be to craft with this material.

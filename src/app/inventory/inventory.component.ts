@@ -27,6 +27,7 @@ import { OtherConsumableBomb } from '../OtherConsumableBomb';
 import { SpellTarget } from '../SpellTarget';
 import { AdventuringGear } from '../AdventuringGear';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-inventory',
@@ -55,7 +56,8 @@ export class InventoryComponent implements OnInit {
         private timeService: TimeService,
         private spellsService: SpellsService,
         private conditionsService: ConditionsService,
-        private toastService: ToastService
+        private toastService: ToastService,
+        private modalService: NgbModal
     ) { }
 
     minimize() {
@@ -220,6 +222,19 @@ export class InventoryComponent implements OnInit {
         return item.gainItems && item.gainItems.some(gain => gain.on == "grant");
     }
 
+    open_ContainerItemDropModal(content, item: Item, inventory: ItemCollection) {
+        this.modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then((result) => {
+            if (result == "Drop all") {
+                this.drop_InventoryItem(item, inventory);
+            }
+            if (result == "Drop one") {
+                this.drop_ContainerOnly(item, inventory);
+            }
+        }, (reason) => {
+            //Do nothing if cancelled.
+        });
+    }
+
     drop_InventoryItem(item: Item, inventory: ItemCollection, pay: boolean = false) {
         this.showItem = 0;
         if (pay) {
@@ -237,6 +252,7 @@ export class InventoryComponent implements OnInit {
         }
         this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, false, true, true, item.amount);
         this.characterService.set_ToChange(this.creature, "inventory");
+        this.characterService.set_ToChange(this.creature, "close-popovers");
         this.characterService.process_ToChange();
     }
 
@@ -337,6 +353,7 @@ export class InventoryComponent implements OnInit {
     drop_ContainerOnly(item: Item, inventory: ItemCollection) {
         this.toggle_Item();
         this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, false, true, false, item.amount);
+        this.characterService.set_ToChange(this.creature, "close-popovers");
         this.characterService.process_ToChange();
     }
 

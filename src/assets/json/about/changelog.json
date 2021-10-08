@@ -4,7 +4,12 @@
         "changes": [
             {
                 "header": "",
-                "desc": "After extensive rewriting of the internal typecasting methods, the _className attribute is no longer required when creating custom content.",
+                "desc": "The _className attribute is no longer required when creating custom content.",
+                "images": []
+            },
+            {
+                "header": "",
+                "desc": "When dropping an item that comes with other items, a popup dialog will now ask you what do to with the included items, while giving some context. Previously, there were two alternative drop buttons that never seemed very clear in their wording.",
                 "images": []
             }
         ]

@@ -1,8 +1,9 @@
 import { Consumable } from './Consumable';
+import { ItemsService } from './items.service';
 import { TypeService } from './type.service';
 
 export class Snare extends Consumable {
-        //Snares should be type "snares" to be found in the database
+    //Snares should be type "snares" to be found in the database
     readonly type = "snares";
     public critfailure: string = "";
     public critsuccess: string = "";
@@ -14,8 +15,8 @@ export class Snare extends Consumable {
         //Snares can't stack.
         return false;
     }
-    recast(typeService: TypeService) {
-        super.recast(typeService);
+    recast(typeService: TypeService, itemsService: ItemsService) {
+        super.recast(typeService, itemsService);
         return this;
     }
 }
