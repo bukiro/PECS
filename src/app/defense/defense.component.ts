@@ -193,7 +193,7 @@ export class DefenseComponent implements OnInit {
         shield.damage += amount;
         if (shield.get_HitPoints() < shield.get_BrokenThreshold()) {
             shield.broken = true;
-            this.characterService.onEquip(this.get_Creature() as Character | AnimalCompanion, this.get_Creature().inventories[0], shield, false, false, true)
+            this.characterService.on_Equip(this.get_Creature() as Character | AnimalCompanion, this.get_Creature().inventories[0], shield, false, false, true)
             this.toastService.show("Your shield broke and was unequipped.", [], this.characterService)
         } else {
             shield.broken = false;

@@ -250,6 +250,13 @@ export class InventoryComponent implements OnInit {
                 }
             }
         }
+        if (pay && item instanceof Equipment && item.gainInventory.length) {
+            //If you are selling a container item, you don't sell its content. If you are dropping it, the content decision gets handled earlier.
+            let found = this.characterService.preserve_InventoryContent(this.get_Creature(), item);
+            if (found) {
+                this.toastService.show(found + " item" + (found > 1 ? "s" : "") + " were emptied out of <strong>" + item.get_Name() + "</strong> before selling the item. These items can be found in your main inventory unless they were sold as well.", [], this.characterService);
+            }
+        }
         this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, false, true, true, item.amount);
         this.characterService.set_ToChange(this.creature, "inventory");
         this.characterService.set_ToChange(this.creature, "close-popovers");
@@ -357,11 +364,7 @@ export class InventoryComponent implements OnInit {
     drop_ContainerOnly(item: Item, inventory: ItemCollection) {
         this.toggle_Item();
         if (item instanceof Equipment && item.gainInventory?.length) {
-            this.get_Inventories().filter(inv => inv.itemId == item.id).forEach(inv => {
-                inv.allItems().filter(invItem => invItem !== item).forEach(invItem => {
-                    this.move_InventoryItem(invItem, inv, this.get_Inventories()[0], invItem.amount, true, false);
-                })
-            })
+            this.characterService.preserve_InventoryContent(this.get_Creature(), item);
         }
         this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, false, true, false, item.amount);
         this.characterService.set_ToChange(this.creature, "close-popovers");
@@ -455,7 +458,7 @@ export class InventoryComponent implements OnInit {
     }
 
     on_Equip(item: Equipment, inventory: ItemCollection, equipped: boolean) {
-        this.characterService.onEquip(this.get_Creature(), inventory, item, equipped);
+        this.characterService.on_Equip(this.get_Creature(), inventory, item, equipped);
     }
 
     on_Invest(item: Equipment, inventory: ItemCollection, invested: boolean) {
@@ -465,7 +468,7 @@ export class InventoryComponent implements OnInit {
     onItemBroken(item: Equipment) {
         if (item.broken) {
             if (!this.can_Equip(item, 0) && item.equipped) {
-                this.characterService.onEquip(this.get_Creature() as Character | AnimalCompanion, this.get_Creature().inventories[0], item, false, false, true)
+                this.characterService.on_Equip(this.get_Creature() as Character | AnimalCompanion, this.get_Creature().inventories[0], item, false, false, true)
                 this.toastService.show("Your <strong>" + item.get_Name() + "</strong> was unequipped because it is broken.", [], this.characterService);
             }
         }

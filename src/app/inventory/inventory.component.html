@@ -501,13 +501,15 @@
                                                         <button
                                                             (click)="open_GrantingOrContainerItemDropModal(GrantingItemDropModal, item, inventory)"
                                                             [ngbTooltip]="'Choose what to do with included items'">
-                                                            Drop...
+                                                            <i class="ra ra-hive-emblem"></i> Drop...
                                                         </button>
                                                     </span>
-                                                    <span *ngIf="can_Drop(item) && containedItems">
+                                                    <span
+                                                        *ngIf="can_Drop(item) && containedItems && !can_DropAll(item)">
                                                         <button
-                                                            (click)="open_GrantingOrContainerItemDropModal(ContainerItemDropModal, item, inventory)">
-                                                            Drop...
+                                                            (click)="open_GrantingOrContainerItemDropModal(ContainerItemDropModal, item, inventory)"
+                                                            [ngbTooltip]="'Choose what to do with contained items'">
+                                                            <i class="ra ra-hive-emblem"></i> Drop...
                                                         </button>
                                                     </span>
                                                     <span
@@ -519,7 +521,8 @@
                                                 </div>
                                                 <div class="newrow" *ngIf="get_Price(item) && item.tradeable">
                                                     <span *ngIf="item.can_Stack()">
-                                                        <span [ngbTooltip]="'Sell at half price'">
+                                                        <span
+                                                            [ngbTooltip]="(item.broken || item.shoddy) ? 'The item is worthless in this state' : 'Sell at half price'">
                                                             <button (click)="onAmountChange(item, -1, true)"
                                                                 [disabled]="item.amount <= 0 || item.broken || item.shoddy">Sell
                                                                 1</button>
@@ -532,10 +535,12 @@
                                                         <!-- This span is a placeholder that appears if no other button is valid on the left side of the Sell button -->
                                                     </span>
                                                     <span>
-                                                        <span [ngbTooltip]="'Sell at half price'">
+                                                        <span
+                                                            [ngbTooltip]="(item.broken || item.shoddy) ? 'The item is worthless in this state' : 'Sell at half price'">
                                                             <button (click)="drop_InventoryItem(item, inventory, true)"
                                                                 [disabled]="item.amount <= 0 || item.broken || item.shoddy">
-                                                                Sell {{can_DropAll(item) ? " with all parts" : ""}}
+                                                                Sell{{can_DropAll(item) ? " with all parts" :
+                                                                ""}}{{containedItems ? " without contained items" : ""}}
                                                             </button>
                                                         </span>
                                                     </span>

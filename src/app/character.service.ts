@@ -968,7 +968,7 @@ export class CharacterService {
                 this.set_ToChange(creature.type, "activities");
             }
             if (equip && Object.keys(item).includes("equipped") && item.equippable) {
-                this.onEquip(creature, inventory, item, true, false);
+                this.on_Equip(creature, inventory, item, true, false);
             }
             if (item instanceof Weapon && item.prof == "Advanced Weapons") {
                 this.create_WeaponFeats([item]);
@@ -1048,7 +1048,7 @@ export class CharacterService {
             }
             if (item instanceof Equipment) {
                 if (item.equipped) {
-                    this.onEquip(creature, inventory, item as Equipment, false, false);
+                    this.on_Equip(creature, inventory, item as Equipment, false, false);
                 } else if (item.invested && item.can_Invest()) {
                     this.on_Invest(creature, inventory, item as Equipment, false, false);
                 }
@@ -1288,7 +1288,7 @@ export class CharacterService {
         }
     }
 
-    onEquip(creature: Character | AnimalCompanion, inventory: ItemCollection, item: Equipment, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
+    on_Equip(creature: Character | AnimalCompanion, inventory: ItemCollection, item: Equipment, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
         //Only allow equipping or unequipping for items that the creature can wear. Only allow equipping items in inventories that aren't containers.
         //Unequip any item that lands here and can't be equipped.
         let oldequipped = item.equipped;
@@ -1298,6 +1298,7 @@ export class CharacterService {
             item.equipped = false;
         }
         this.set_ToChange(creature.type, "inventory");
+        this.set_ToChange(creature.type, item.id);
         this.set_EquipmentViewChanges(creature, item);
         if (!oldequipped && item.equipped) {
             if (item instanceof Armor || item instanceof Shield) {
@@ -1308,7 +1309,7 @@ export class CharacterService {
                     raised = true;
                 }
                 allOfType.forEach(typeItem => {
-                    this.onEquip(creature, inventory, typeItem, false, false, false);
+                    this.on_Equip(creature, inventory, typeItem, false, false, false);
                 });
                 item.equipped = true;
                 if (item instanceof Shield) {
@@ -1381,6 +1382,13 @@ export class CharacterService {
                 if (toDrop) {
                     let dropped = Math.min(toDrop, invItem.amount);
                     toDrop -= dropped;
+                    //When dropping included items, empty their inventories first.
+                    if (invItem instanceof Equipment && invItem.gainInventory.length) {
+                        let found = this.preserve_InventoryContent(creature, invItem);
+                        if (found) {
+                            this.toastService.show(found + " item" + (found > 1 ? "s" : "") + " were emptied out of <strong>" + invItem.get_Name() + "</strong> before dropping the item as part of a bundle. These items can be found in your inventory, unless they were dropped in the same bundle.", [], this);
+                        }
+                    }
                     this.drop_InventoryItem(creature, inventory, invItem, false, false, true, dropped);
                 }
             })
@@ -1388,15 +1396,30 @@ export class CharacterService {
         gainedItem.id = "";
     }
 
+    preserve_InventoryContent(creature: Character | AnimalCompanion, item: Equipment) {
+        //This gets all inventories granted by an item and dumps them into the main inventory. That way, content isn't lost when you drop an inventory item.
+        let found = 0;
+        creature.inventories.filter(inv => inv.itemId == item.id).forEach(inv => {
+            inv.allItems().filter(invItem => invItem !== item).forEach(invItem => {
+                if (!invItem.markedForDeletion) {
+                    found++;
+                    this.itemsService.move_InventoryItemLocally(creature, invItem, creature.inventories[0], inv, this, invItem.amount, true);
+                }
+            })
+        })
+        return found;
+    }
+
     on_Invest(creature: Character | AnimalCompanion, inventory: ItemCollection, item: Equipment, invested: boolean = true, changeAfter: boolean = true) {
         item.invested = invested;
         this.set_ToChange(creature.type, "inventory");
+        this.set_ToChange(creature.type, item.id);
         if (item instanceof WornItem && item.gainSpells.length) {
             this.set_ToChange(creature.type, "spellbook");
         }
         if (item.invested) {
             if (!item.equipped) {
-                this.onEquip(creature, inventory, item, true, false);
+                this.on_Equip(creature, inventory, item, true, false);
             } else {
                 this.set_EquipmentViewChanges(creature, item);
             }
@@ -1454,11 +1477,11 @@ export class CharacterService {
             }
             if (!creature.inventories[0].weapons.some(weapon => weapon.equipped == true)) {
                 if (creature.inventories[0].weapons.length) {
-                    this.onEquip(creature, creature.inventories[0], creature.inventories[0].weapons[0], true, changeAfter);
+                    this.on_Equip(creature, creature.inventories[0], creature.inventories[0].weapons[0], true, changeAfter);
                 }
             }
             if (!creature.inventories[0].armors.some(armor => armor.equipped == true)) {
-                this.onEquip(creature, creature.inventories[0], creature.inventories[0].armors[0], true, changeAfter);
+                this.on_Equip(creature, creature.inventories[0], creature.inventories[0].armors[0], true, changeAfter);
             }
         }
     }

@@ -11,6 +11,16 @@
                 "header": "",
                 "desc": "When dropping an item that comes with other items, a popup dialog will now ask you what do to with the included items, while giving some context. Previously, there were two alternative drop buttons that never seemed very clear in their wording.",
                 "images": []
+            },
+            {
+                "header": "",
+                "desc": "Container items like backpacks will now get a similar popup dialog to choose whether to drop all contained items or dump them into your main inventory. If you sell a container or lose it as as part of a bundle (e.g. in the adventurer's pack), it will automatically be emptied first.",
+                "images": []
+            },
+            {
+                "header": "",
+                "desc": "You can now grant yourself additional lore trainings in the bonus menu.",
+                "images": []
             }
         ]
     },

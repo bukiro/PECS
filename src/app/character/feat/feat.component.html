@@ -26,10 +26,13 @@
         <ng-container *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
             <app-description class="newrow" [text]="desc"></app-description>
         </ng-container>
-        <p *ngIf="feat.specialdesc.length">
+        <p *ngIf="feat.specialdesc">
             <strong>Special</strong> {{feat.specialdesc}}
         </p>
-        <p *ngIf="feat.usageNote.length">
+        <p *ngIf="feat.PFSnote">
+            <strong>PFS note</strong> {{feat.PFSnote}}
+        </p>
+        <p *ngIf="feat.usageNote">
             <strong>Usage note&nbsp;</strong>
             <span class="problem">{{feat.usageNote}}</span>
         </p>

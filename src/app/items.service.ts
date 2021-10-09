@@ -571,7 +571,7 @@ export class ItemsService {
                     item.amount -= amount;
                 }
                 if (movedItem instanceof Equipment && movedItem.equipped) {
-                    characterService.onEquip(creature, inventory, movedItem as Equipment, false)
+                    characterService.on_Equip(creature, inventory, movedItem as Equipment, false)
                 }
                 if (movedItem instanceof Equipment && movedItem.invested) {
                     characterService.on_Invest(creature, inventory, movedItem as Equipment, false)

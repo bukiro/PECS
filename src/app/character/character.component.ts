@@ -1513,6 +1513,27 @@ export class CharacterComponent implements OnInit {
         this.get_Character().add_FeatChoice(level, newChoice);
     }
 
+    add_BonusLoreChoice(level: Level) {
+        let newChoice = new LoreChoice();
+        newChoice.available = 1;
+        newChoice.source = this.bonusSource || "Bonus";
+        newChoice.bonus = true;
+        this.get_Character().add_LoreChoice(level, newChoice);
+    }
+
+    remove_BonusLoreChoice(choice: LoreChoice, levelNumber: number) {
+        let character = this.get_Character();
+        let a = character.class.levels[levelNumber].loreChoices;
+        if (choice.loreName) {
+            character.remove_Lore(this.characterService, choice);
+        }
+        if (a.indexOf(choice) != -1) {
+            a.splice(a.indexOf(choice), 1);
+        }
+        this.toggle_List("");
+        this.characterService.process_ToChange();
+    }
+
     still_loading() {
         return this.characterService.still_loading();
     }

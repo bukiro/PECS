@@ -508,6 +508,11 @@
                                         Skill<br>Feat
                                     </button>
                                 </div>
+                                <div class="newrow center-aligned">
+                                    <button class="specialchoice center-aligned" (click)="add_BonusLoreChoice(level)">
+                                        Lore Training
+                                    </button>
+                                </div>
                             </ng-template>
                             <header class="sectionHeader levelHeader" *ngIf="level.number > 0">
                                 <span class="fullsize-only" [ngbPopover]="AddBonusesTemplate"
@@ -2283,6 +2288,14 @@
                         Lore Training ({{loreContent.choice.source}}){{(loreContent.choice.increases.length) ? ": "+
                         loreContent.choice.loreName : ""}}
                     </header>
+                    <div class="newrow center-aligned">
+                        <span>
+                            <button class="center-aligned" *ngIf="loreContent.choice.bonus"
+                                (click)="remove_BonusLoreChoice(loreContent.choice, loreContent.levelNumber)">
+                                Remove bonus lore training
+                            </button>
+                        </span>
+                    </div>
                 </div>
                 <div id="choiceArea" class="list-item">
                     <ng-container
@@ -2291,7 +2304,7 @@
                             *ngFor="let illegal of [get_Skills('Lore: '+loreContent.choice.loreName).length && !checked]; trackBy:trackByIndex">
                             <ng-container
                                 *ngFor="let disabled of [!loreContent.choice.loreName || illegal]; trackBy:trackByIndex">
-                                <div class="newrow left-aligned list-item">
+                                <div class="newrow left-aligned list-item" *ngIf="loreContent.choice.loreDesc">
                                     <strong>Lore Type</strong>
                                     {{loreContent.choice.loreDesc}}
                                 </div>
@@ -2306,11 +2319,11 @@
                                         </label>
                                     </div>
                                     <header class="sectionHeader">
-                                        <input id="LoreName" type="text" [(ngModel)]="loreContent.choice.loreName"
-                                            [disabled]="checked" (blur)="on_LoreNameChange" maxLength="20">
                                         <cite class="problem" *ngIf="illegal">
                                             Lore already trained
                                         </cite>
+                                        <input id="LoreName" type="text" [(ngModel)]="loreContent.choice.loreName"
+                                            [disabled]="checked" (blur)="on_LoreNameChange" maxLength="20">
                                     </header>
                                 </div>
                             </ng-container>
