@@ -1202,6 +1202,7 @@ export class CharacterService {
     }
 
     set_ItemViewChanges(creature: Character | AnimalCompanion, item: Item) {
+        this.set_ToChange(creature.type, item.id);
         if (item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb || item instanceof AlchemicalPoison || item instanceof Ammunition || item instanceof Snare) {
             this.set_ToChange(creature.type, "attacks");
         }

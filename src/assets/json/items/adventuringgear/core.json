@@ -376,7 +376,7 @@
         "storeBulk": "1"
     },
     {
-        "desc": "Alchemist Class Kit (Option A):\n\nMoney left over: 6 gp, 5 sp, 8 cp\n<strong>Armor</strong> studded leather armor\n<strong>Weapons</strong> dagger, sling with 20 sling bullets\n<strong>Gear</strong> adventurer's pack, alchemist's tools, basic crafter's book, 2 sets of caltrops\n<strong>Options not included</strong> repair kit (2 gp)",
+        "desc": "Alchemist Class Kit (Option A):\n\n<strong>Money left over</strong> 6 gp, 5 sp, 8 cp\n<strong>Armor</strong> studded leather armor\n<strong>Weapons</strong> dagger, sling with 20 sling bullets\n<strong>Gear</strong> adventurer's pack, alchemist's tools, basic crafter's book, 2 sets of caltrops\n<strong>Options not included</strong> repair kit (2 gp)",
         "id": "d28af4f0-9836-4664-a1bb-7de0938bfd02",
         "name": "Class Kit: Alchemist (Option A)",
         "price": 842,
@@ -419,7 +419,7 @@
         "storeBulk": "3 Bulk, 7 light"
     },
     {
-        "desc": "Alchemist Class Kit (Option B):\n\nMoney left over: 4 gp, 5 sp, 8 cp\n<strong>Armor</strong> studded leather armor\n<strong>Weapons</strong> dagger, sling with 20 sling bullets\n<strong>Gear</strong> adventurer's pack, alchemist's tools, basic crafter's book, 2 sets of caltrops, <var>repair kit</var>",
+        "desc": "Alchemist Class Kit (Option B):\n\n<strong>Money left over</strong> 4 gp, 5 sp, 8 cp\n<strong>Armor</strong> studded leather armor\n<strong>Weapons</strong> dagger, sling with 20 sling bullets\n<strong>Gear</strong> adventurer's pack, alchemist's tools, basic crafter's book, 2 sets of caltrops, <var>repair kit</var>",
         "id": "8af1c34b-3220-44c8-9bee-d51997ca0ea5",
         "name": "Class Kit: Alchemist (Option B)",
         "price": 1042,
@@ -466,7 +466,7 @@
         "storeBulk": "4 Bulk, 7 light"
     },
     {
-        "desc": "Barbarian Class Kit (Option A):\n\nMoney left over: 11 gp left over\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> 4 javelins\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greataxe (2 gp), greatclub (1 gp), greatsword (2 gp), or battle axe and steel shield (3 gp)",
+        "desc": "Barbarian Class Kit (Option A):\n\n<strong>Money left over</strong> 11 gp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> 4 javelins\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greataxe (2 gp), greatclub (1 gp), greatsword (2 gp), or battle axe and steel shield (3 gp)",
         "id": "2430f4f5-77e3-4529-a2e8-dd68dc3f518e",
         "name": "Class Kit: Barbarian (Option A)",
         "price": 400,
@@ -503,7 +503,7 @@
         "storeBulk": "3 Bulk, 5 light"
     },
     {
-        "desc": "Barbarian Class Kit (Option B):\n\nMoney left over: 9 gp left over\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> 4 javelins, <var>greataxe</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greatclub (1 gp), greatsword (2 gp), or battle axe and steel shield (3 gp)",
+        "desc": "Barbarian Class Kit (Option B):\n\n<strong>Money left over</strong> 9 gp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> 4 javelins, <var>greataxe</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greatclub (1 gp), greatsword (2 gp), or battle axe and steel shield (3 gp)",
         "id": "46668d32-56f7-4cac-aa3f-2246024f13a8",
         "name": "Class Kit: Barbarian (Option B)",
         "price": 600,
@@ -544,7 +544,7 @@
         "storeBulk": "5 Bulk, 5 light"
     },
     {
-        "desc": "Barbarian Class Kit (Option C):\n\nMoney left over: 9 gp left over\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> 4 javelins, <var>greatsword</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greataxe (2 gp), greatclub (1 gp), or battle axe and steel shield (3 gp)",
+        "desc": "Barbarian Class Kit (Option C):\n\n<strong>Money left over</strong> 9 gp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> 4 javelins, <var>greatsword</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greataxe (2 gp), greatclub (1 gp), or battle axe and steel shield (3 gp)",
         "id": "8c33bb2e-1b91-4413-8ede-0faf2bec6345",
         "name": "Class Kit: Barbarian (Option C)",
         "price": 600,
@@ -585,7 +585,7 @@
         "storeBulk": "5 Bulk, 5 light"
     },
     {
-        "desc": "Barbarian Class Kit (Option D):\n\nMoney left over: 10 gp left over\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> 4 javelins, <var>greatclub</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greataxe (2 gp), greatsword (2 gp), or battle axe and steel shield (3 gp)",
+        "desc": "Barbarian Class Kit (Option D):\n\n<strong>Money left over</strong> 10 gp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> 4 javelins, <var>greatclub</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greataxe (2 gp), greatsword (2 gp), or battle axe and steel shield (3 gp)",
         "id": "cee0c8fe-6ea0-4338-b5b4-f920dc227d1d",
         "name": "Class Kit: Barbarian (Option D)",
         "price": 500,
@@ -626,7 +626,7 @@
         "storeBulk": "5 Bulk, 5 light"
     },
     {
-        "desc": "Barbarian Class Kit (Option E):\n\nMoney left over: 8 gp left over\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> 4 javelins, <var>battle axe and steel shield</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greataxe (2 gp), greatclub (1 gp), greatsword (2 gp)",
+        "desc": "Barbarian Class Kit (Option E):\n\n<strong>Money left over</strong> 8 gp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> 4 javelins, <var>battle axe and steel shield</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greataxe (2 gp), greatclub (1 gp), greatsword (2 gp)",
         "id": "1d89c52a-b854-4a3a-be50-149fab2148de",
         "name": "Class Kit: Barbarian (Option E)",
         "price": 700,
@@ -671,7 +671,7 @@
         "storeBulk": "5 Bulk, 5 light"
     },
     {
-        "desc": "Bard Class Kit:\n\nMoney left over: 7 gp, 4 sp, 8 cp left over\n<strong>Armor</strong> studded leather armor\n<strong>Weapons</strong> dagger, rapier, sling with 20 sling bullets\n<strong>Gear</strong> adventurer's pack, handheld instrument",
+        "desc": "Bard Class Kit:\n\n<strong>Money left over</strong> 7 gp, 4 sp, 8 cp\n<strong>Armor</strong> studded leather armor\n<strong>Weapons</strong> dagger, rapier, sling with 20 sling bullets\n<strong>Gear</strong> adventurer's pack, handheld instrument",
         "id": "31f56859-c8e3-409e-9f49-f8744e60596f",
         "name": "Class Kit: Bard",
         "price": 752,
@@ -709,7 +709,7 @@
         "storeBulk": "4 Bulk, 4 light"
     },
     {
-        "desc": "Champion Class Kit (Option A):\n\nMoney left over: 10 gp, 3 sp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger, 4 javelins\n<strong>Gear</strong> adventurer's pack, crowbar, grappling hook\n<strong>Options not included</strong> steel shield (2 gp), your deity's favored weapon",
+        "desc": "Champion Class Kit (Option A):\n\n<strong>Money left over</strong> 10 gp, 3 sp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger, 4 javelins\n<strong>Gear</strong> adventurer's pack, crowbar, grappling hook\n<strong>Options not included</strong> steel shield (2 gp), your deity's favored weapon",
         "id": "0119b053-70ce-4176-b6ac-3a54449d1e7b",
         "name": "Class Kit: Champion (Option A)",
         "price": 470,
@@ -754,7 +754,7 @@
         "storeBulk": "3 Bulk, 7 light"
     },
     {
-        "desc": "Champion Class Kit (Option B):\n\nMoney left over: 8 gp, 3 sp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger and <var>steel shield</var>, 4 javelins\n<strong>Gear</strong> adventurer's pack, crowbar, grappling hook\n<strong>Options not included</strong> your deity's favored weapon",
+        "desc": "Champion Class Kit (Option B):\n\n<strong>Money left over</strong> 8 gp, 3 sp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger and <var>steel shield</var>, 4 javelins\n<strong>Gear</strong> adventurer's pack, crowbar, grappling hook\n<strong>Options not included</strong> your deity's favored weapon",
         "id": "cde337ec-5639-468d-97d4-3d64d1c75dce",
         "name": "Class Kit: Champion (Option B)",
         "price": 670,
@@ -803,7 +803,7 @@
         "storeBulk": "4 Bulk, 7 light"
     },
     {
-        "desc": "Cleric Class Kit (Option A):\n\nMoney left over: 12 gp, 8 sp\n<strong>Gear</strong> adventurer's pack, 2 sets of caltrops, religious symbol (wooden)\n<strong>Options not included</strong> your deity's favored weapon, hide armor (2 gp)",
+        "desc": "Cleric Class Kit (Option A):\n\n<strong>Money left over</strong> 12 gp, 8 sp\n<strong>Gear</strong> adventurer's pack, 2 sets of caltrops, religious symbol (wooden)\n<strong>Options not included</strong> your deity's favored weapon, hide armor (2 gp)",
         "id": "224cdbb2-f915-4c27-bb64-2c386d9935c7",
         "name": "Class Kit: Cleric (Option A)",
         "price": 220,
@@ -825,7 +825,7 @@
         "storeBulk": "1 Bulk, 3 light"
     },
     {
-        "desc": "Cleric Class Kit (Option B):\n\nMoney left over: 10 gp, 8 sp\n<strong>Armor</strong> <var>hide armor</var>\n<strong>Gear</strong> adventurer's pack, 2 sets of caltrops, religious symbol (wooden)\n<strong>Options not included</strong> your deity's favored weapon",
+        "desc": "Cleric Class Kit (Option B):\n\n<strong>Money left over</strong> 10 gp, 8 sp\n<strong>Armor</strong> <var>hide armor</var>\n<strong>Gear</strong> adventurer's pack, 2 sets of caltrops, religious symbol (wooden)\n<strong>Options not included</strong> your deity's favored weapon",
         "id": "421a21cc-1370-4d1d-8ac3-1fe231d70398",
         "name": "Class Kit: Cleric (Option B)",
         "price": 420,
@@ -851,7 +851,7 @@
         "storeBulk": "3 Bulk, 3 light"
     },
     {
-        "desc": "Druid Class Kit (Option A):\n\nMoney left over: 10 gp, 6 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> 4 javelins, longspear\n<strong>Gear</strong> adventurer's pack, holly and mistletoe\n<strong>Options not included</strong> healer's tools (5 gp)",
+        "desc": "Druid Class Kit (Option A):\n\n<strong>Money left over</strong> 10 gp, 6 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> 4 javelins, longspear\n<strong>Gear</strong> adventurer's pack, holly and mistletoe\n<strong>Options not included</strong> healer's tools (5 gp)",
         "id": "be8aae24-bb40-4f29-b38c-89428aaf5568",
         "name": "Class Kit: Druid (Option A)",
         "price": 440,
@@ -892,7 +892,7 @@
         "storeBulk": "4 Bulk, 4 light"
     },
     {
-        "desc": "Druid Class Kit (Option B):\n\nMoney left over: 5 gp, 6 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> 4 javelins, longspear\n<strong>Gear</strong> adventurer's pack, holly and mistletoe, <var>healer's tools</var>",
+        "desc": "Druid Class Kit (Option B):\n\n<strong>Money left over</strong> 5 gp, 6 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> 4 javelins, longspear\n<strong>Gear</strong> adventurer's pack, holly and mistletoe, <var>healer's tools</var>",
         "id": "2be01195-5c64-4343-bd15-e9f0ec451ea1",
         "name": "Class Kit: Druid (Option B)",
         "price": 940,
@@ -937,7 +937,7 @@
         "storeBulk": "5 Bulk, 4 light"
     },
     {
-        "desc": "Fighter Class Kit (Option A):\n\nMoney left over: 11 gp, 2 sp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greatsword (2 gp), longbow with 20 arrows (6 gp, 2 sp), or longsword and steel shield (3 gp)",
+        "desc": "Fighter Class Kit (Option A):\n\n<strong>Money left over</strong> 11 gp, 2 sp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greatsword (2 gp), longbow with 20 arrows (6 gp, 2 sp), or longsword and steel shield (3 gp)",
         "id": "20c443a3-d773-4b5e-9733-2721506da1ed",
         "name": "Class Kit: Fighter (Option A)",
         "price": 380,
@@ -962,7 +962,7 @@
         "storeBulk": "3 Bulk, 2 light"
     },
     {
-        "desc": "Fighter Class Kit (Option B):\n\nMoney left over: 9 gp, 2 sp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger, <var>greatsword</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> longbow with 20 arrows (6 gp, 2 sp), or longsword and steel shield (3 gp)",
+        "desc": "Fighter Class Kit (Option B):\n\n<strong>Money left over</strong> 9 gp, 2 sp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger, <var>greatsword</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> longbow with 20 arrows (6 gp, 2 sp), or longsword and steel shield (3 gp)",
         "id": "cc2bf302-c9ae-483c-9e15-3e9e5963f253",
         "name": "Class Kit: Fighter (Option B)",
         "price": 580,
@@ -991,7 +991,7 @@
         "storeBulk": "5 Bulk, 2 light"
     },
     {
-        "desc": "Fighter Class Kit (Option C):\n\nMoney left over: 5 gp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger, <var>longbow with 20 arrows</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greatsword (2 gp), or longsword and steel shield (3 gp)",
+        "desc": "Fighter Class Kit (Option C):\n\n<strong>Money left over</strong> 5 gp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger, <var>longbow with 20 arrows</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greatsword (2 gp), or longsword and steel shield (3 gp)",
         "id": "5fd06a51-8835-4523-931f-767313e4f467",
         "name": "Class Kit: Fighter (Option C)",
         "price": 1000,
@@ -1025,7 +1025,7 @@
         "storeBulk": "5 Bulk, 4 light"
     },
     {
-        "desc": "Fighter Class Kit (Option D):\n\nMoney left over: 8 gp, 2 sp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger, <var>longsword and steel shield</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greatsword (2 gp), longbow with 20 arrows (6 gp, 2 sp)",
+        "desc": "Fighter Class Kit (Option D):\n\n<strong>Money left over</strong> 8 gp, 2 sp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger, <var>longsword and steel shield</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greatsword (2 gp), longbow with 20 arrows (6 gp, 2 sp)",
         "id": "07b06a03-2c47-4548-92dc-f597e40c10ee",
         "name": "Class Kit: Fighter (Option D)",
         "price": 680,
@@ -1058,7 +1058,7 @@
         "storeBulk": "5 Bulk, 2 light"
     },
     {
-        "desc": "Monk Class Kit (Option A):\n\nMoney left over: 9 gp, 7 sp\n<strong>Weapons</strong> 10 darts\n<strong>Gear</strong> adventurer's pack, climbing kit, grappling hook, lesser smokestick\n<strong>Options not included</strong> staff (0 sp), longspear (5 sp)",
+        "desc": "Monk Class Kit (Option A):\n\n<strong>Money left over</strong> 9 gp, 7 sp\n<strong>Weapons</strong> 10 darts\n<strong>Gear</strong> adventurer's pack, climbing kit, grappling hook, lesser smokestick\n<strong>Options not included</strong> staff (0 sp), longspear (5 sp)",
         "id": "6138e468-92d5-4efe-9da7-f5454a156995",
         "name": "Class Kit: Monk (Option A)",
         "price": 530,
@@ -1123,7 +1123,7 @@
         "storeBulk": "3 Bulk, 2 light"
     },
     {
-        "desc": "Monk Class Kit (Option B):\n\nMoney left over: 9 gp, 7 sp\n<strong>Weapons</strong> 10 darts, <var>staff</var>\n<strong>Gear</strong> adventurer's pack, climbing kit, grappling hook, lesser smokestick\n<strong>Options not included</strong> longspear (5 sp)",
+        "desc": "Monk Class Kit (Option B):\n\n<strong>Money left over</strong> 9 gp, 7 sp\n<strong>Weapons</strong> 10 darts, <var>staff</var>\n<strong>Gear</strong> adventurer's pack, climbing kit, grappling hook, lesser smokestick\n<strong>Options not included</strong> longspear (5 sp)",
         "id": "fb53e804-f31f-4950-b568-97e29e1f5277",
         "name": "Class Kit: Monk (Option B)",
         "price": 530,
@@ -1192,7 +1192,7 @@
         "storeBulk": "4 Bulk, 2 light"
     },
     {
-        "desc": "Monk Class Kit (Option C):\n\nMoney left over: 9 gp, 2 sp\n<strong>Weapons</strong> 10 darts, <var>longspear</var>\n<strong>Gear</strong> adventurer's pack, climbing kit, grappling hook, lesser smokestick\n<strong>Options not included</strong> staff (0 sp)",
+        "desc": "Monk Class Kit (Option C):\n\n<strong>Money left over</strong> 9 gp, 2 sp\n<strong>Weapons</strong> 10 darts, <var>longspear</var>\n<strong>Gear</strong> adventurer's pack, climbing kit, grappling hook, lesser smokestick\n<strong>Options not included</strong> staff (0 sp)",
         "id": "f9d65265-34fe-4a45-8739-65160f4124d6",
         "name": "Class Kit: Monk (Option C)",
         "price": 580,
@@ -1261,7 +1261,7 @@
         "storeBulk": "5 Bulk, 2 light"
     },
     {
-        "desc": "Ranger Class Kit (Option A):\n\nMoney left over: 11 gp, 3 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger\n<strong>Gear</strong> adventurer's pack\n<strong>Options not included</strong> longbow and 20 arrows (6 gp, 2 sp), longsword and steel shield (3 gp), 2 shortswords (1gp, 8 sp), snare kit (5 gp)",
+        "desc": "Ranger Class Kit (Option A):\n\n<strong>Money left over</strong> 11 gp, 3 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger\n<strong>Gear</strong> adventurer's pack\n<strong>Options not included</strong> longbow and 20 arrows (6 gp, 2 sp), longsword and steel shield (3 gp), 2 shortswords (1gp, 8 sp), snare kit (5 gp)",
         "id": "595a28a7-733a-458f-afa7-0a954823eccf",
         "name": "Class Kit: Ranger (Option A)",
         "price": 370,
@@ -1282,7 +1282,7 @@
         "storeBulk": "2 Bulk, 1 light"
     },
     {
-        "desc": "Ranger Class Kit (Option B):\n\nMoney left over: 5 gp, 1 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger, <var>longbow and 20 arrows</var>\n<strong>Gear</strong> adventurer's pack\n<strong>Options not included</strong> longsword and steel shield (3 gp), 2 shortswords (1gp, 8 sp), snare kit (5 gp)",
+        "desc": "Ranger Class Kit (Option B):\n\n<strong>Money left over</strong> 5 gp, 1 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger, <var>longbow and 20 arrows</var>\n<strong>Gear</strong> adventurer's pack\n<strong>Options not included</strong> longsword and steel shield (3 gp), 2 shortswords (1gp, 8 sp), snare kit (5 gp)",
         "id": "b6cce9ba-0190-4b7e-be6c-34c7d177e2aa",
         "name": "Class Kit: Ranger (Option B)",
         "price": 990,
@@ -1312,7 +1312,7 @@
         "storeBulk": "4 Bulk, 3 light"
     },
     {
-        "desc": "Ranger Class Kit (Option C):\n\nMoney left over: 8 gp, 3 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger, <var>longsword and steel shield</var>\n<strong>Gear</strong> adventurer's pack\n<strong>Options not included</strong> longbow and 20 arrows (6 gp, 2 sp), 2 shortswords (1gp, 8 sp), snare kit (5 gp)",
+        "desc": "Ranger Class Kit (Option C):\n\n<strong>Money left over</strong> 8 gp, 3 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger, <var>longsword and steel shield</var>\n<strong>Gear</strong> adventurer's pack\n<strong>Options not included</strong> longbow and 20 arrows (6 gp, 2 sp), 2 shortswords (1gp, 8 sp), snare kit (5 gp)",
         "id": "aaefdc2f-7369-46c3-91ca-5cd8bf573e06",
         "name": "Class Kit: Ranger (Option C)",
         "price": 670,
@@ -1341,7 +1341,7 @@
         "storeBulk": "4 Bulk, 1 light"
     },
     {
-        "desc": "Ranger Class Kit (Option D):\n\nMoney left over: 11 gp, 3 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger, <var>2 shortswords</var>\n<strong>Gear</strong> adventurer's pack\n<strong>Options not included</strong> longbow and 20 arrows (6 gp, 2 sp), longsword and steel shield (3 gp), snare kit (5 gp)",
+        "desc": "Ranger Class Kit (Option D):\n\n<strong>Money left over</strong> 11 gp, 3 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger, <var>2 shortswords</var>\n<strong>Gear</strong> adventurer's pack\n<strong>Options not included</strong> longbow and 20 arrows (6 gp, 2 sp), longsword and steel shield (3 gp), snare kit (5 gp)",
         "id": "c2966cab-5533-4604-8add-17e962c784af",
         "name": "Class Kit: Ranger (Option D)",
         "price": 550,
@@ -1370,7 +1370,7 @@
         "storeBulk": "2 Bulk, 3 light"
     },
     {
-        "desc": "Rogue Class Kit (Option A):\n\nMoney left over: 8 gp, 8 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger, rapier\n<strong>Gear</strong> adventurer's pack, climbing kit\n<strong>Options not included</strong> thieves' tools (3 gp)",
+        "desc": "Rogue Class Kit (Option A):\n\n<strong>Money left over</strong> 8 gp, 8 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger, rapier\n<strong>Gear</strong> adventurer's pack, climbing kit\n<strong>Options not included</strong> thieves' tools (3 gp)",
         "id": "29fd8cda-68d5-46e5-a4a4-3fdb92e6a6d3",
         "name": "Class Kit: Rogue (Option A)",
         "price": 620,
@@ -1399,7 +1399,7 @@
         "storeBulk": "4 Bulk, 1 light"
     },
     {
-        "desc": "Rogue Class Kit (Option B):\n\nMoney left over: 8 gp, 8 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger, rapier\n<strong>Gear</strong> adventurer's pack, climbing kit, <var>thieves' tools</var>",
+        "desc": "Rogue Class Kit (Option B):\n\n<strong>Money left over</strong> 8 gp, 8 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger, rapier\n<strong>Gear</strong> adventurer's pack, climbing kit, <var>thieves' tools</var>",
         "id": "c5ed3dcd-2d10-4dbf-9f79-8b234522a366",
         "name": "Class Kit: Rogue (Option B)",
         "price": 620,
@@ -1432,7 +1432,7 @@
         "storeBulk": "4 Bulk, 2 light"
     },
     {
-        "desc": "Sorcerer Class Kit:\n\nMoney left over: 12 gp, 6 sp, 8 cp\n<strong>Weapons</strong> dagger, sling with 20 sling bullets\n<strong>Gear</strong> adventurer's pack, 2 sets of caltrops",
+        "desc": "Sorcerer Class Kit:\n\n<strong>Money left over</strong> 12 gp, 6 sp, 8 cp\n<strong>Weapons</strong> dagger, sling with 20 sling bullets\n<strong>Gear</strong> adventurer's pack, 2 sets of caltrops",
         "id": "ee4bccc0-6f73-402a-b55b-661b6196c76a",
         "name": "Class Kit: Sorcerer",
         "price": 232,
@@ -1463,7 +1463,7 @@
         "storeBulk": "1 Bulk, 6 light"
     },
     {
-        "desc": "Wizard Class Kit (Option A):\n\nMoney left over: 12 gp\n<strong>Weapons</strong> staff\n<strong>Gear</strong> adventurer's pack, material component pouch, writing set\n<strong>Options not included</strong> crossbow with 20 bolts (3 gp, 2 sp)",
+        "desc": "Wizard Class Kit (Option A):\n\n<strong>Money left over</strong> 12 gp\n<strong>Weapons</strong> staff\n<strong>Gear</strong> adventurer's pack, material component pouch, writing set\n<strong>Options not included</strong> crossbow with 20 bolts (3 gp, 2 sp)",
         "id": "eba34e9b-1b44-45db-9d54-cf2c685b1a66",
         "name": "Class Kit: Wizard (Option A)",
         "price": 300,
@@ -1488,7 +1488,7 @@
         "storeBulk": "2 Bulk, 2 light"
     },
     {
-        "desc": "Wizard Class Kit (Option B):\n\nMoney left over: 8 gp, 8 sp\n<strong>Weapons</strong> staff, <var>crossbow with 20 bolts</var>\n<strong>Gear</strong> adventurer's pack, material component pouch, writing set",
+        "desc": "Wizard Class Kit (Option B):\n\n<strong>Money left over</strong> 8 gp, 8 sp\n<strong>Weapons</strong> staff, <var>crossbow with 20 bolts</var>\n<strong>Gear</strong> adventurer's pack, material component pouch, writing set",
         "id": "7162fb05-7235-4182-8a49-874bd85d2f49",
         "name": "Class Kit: Wizard (Option B)",
         "price": 620,
