@@ -519,6 +519,54 @@ export class ItemsService {
         return { items: items, inventories: inventories };
     }
 
+    get_CannotMove(creature: Creature, item: Item, target: ItemCollection) {
+        if (target.itemId == item.id) {
+            return "You cannot put a container into itself."
+        }
+        if (this.get_CannotFit(creature, item, target)) {
+            return "The selected inventory does not have enough room for the item."
+        }
+        if (this.get_IsCircularContainer(creature, item, target)) {
+            return "The selected inventory is nested in this container item."
+        }
+        return "";
+    }
+
+    get_CannotFit(creature: Creature, item: Item, target: ItemCollection) {
+        if (target instanceof ItemCollection) {
+            if (target.bulkLimit) {
+                let itemBulk = this.get_RealBulk(item, true);
+                let containedBulk = this.get_ContainedBulk(creature, item, target, true);
+                return (target.get_Bulk(false) + itemBulk + containedBulk > target.bulkLimit)
+            }
+        }
+        return false;
+    }
+    
+    get_IsCircularContainer(creature: Creature, item: Item, target: ItemCollection) {
+        //Check if the target inventory is contained in this item.
+        let found = false;
+        if (item instanceof Equipment && item.gainInventory?.length) {
+            found = this.get_ItemContainsInventory(creature, item, target);
+        }
+        return found;
+    }
+
+    get_ItemContainsInventory(creature: Creature, item: Equipment, inventory: ItemCollection) {
+        //If this item grants any inventories, check those inventories for whether they include any items that grant the target inventory.
+        //Repeat for any included items that grant inventories themselves, until we are certain that this inventory is not in this container, no matter how deep.
+        let found = false;
+        if (item.gainInventory?.length) {
+            found = creature.inventories.filter(inv => inv.itemId == item.id).some(inv => {
+                return inv.allEquipment().some(invItem => invItem.id == inventory.itemId) ||
+                    inv.allEquipment().filter(invItem => invItem.gainInventory.length).some(invItem => {
+                        return this.get_ItemContainsInventory(creature, invItem, inventory);
+                    })
+            })
+        }
+        return found;
+    }
+
     move_GrantedItems(creature: Character | AnimalCompanion, item: Item, targetInventory: ItemCollection, inventory: ItemCollection, characterService: CharacterService) {
         //If you are moving an item that grants other items, move those as well.
         //Only move items from inventories other than the target inventory, and start from the same inventory that the granting item is in.
@@ -530,9 +578,11 @@ export class ItemsService {
                 //Then move as many of them into the new inventory as the amount demands.
                 inv[itemGain.type].filter(invItem => invItem.id == itemGain.id || (invItem.can_Stack() && invItem.name == itemGain.name)).forEach(invItem => {
                     if (toMove) {
-                        let moved = Math.min(toMove, invItem.amount);
-                        toMove -= moved;
-                        this.move_InventoryItemLocally(creature, invItem, targetInventory, inv, characterService, moved);
+                        if (!this.get_CannotMove(creature, invItem, targetInventory)) {
+                            let moved = Math.min(toMove, invItem.amount);
+                            toMove -= moved;
+                            this.move_InventoryItemLocally(creature, invItem, targetInventory, inv, characterService, moved);
+                        }
                     }
                 })
             })

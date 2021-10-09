@@ -294,7 +294,7 @@ export class InventoryComponent implements OnInit {
             let itemKey = event.previousContainer.id.split("|")[1];
             let item = source[itemKey][event.previousIndex];
             if (source && target && item && this.can_Drop(item)) {
-                let cannotMove = this.get_CannotMove(item, target)
+                let cannotMove = this.itemsService.get_CannotMove(this.get_Creature(), item, target);
                 if (cannotMove) {
                     this.toastService.show(cannotMove + " The item was not moved.", [], this.characterService)
                 } else {
@@ -307,54 +307,6 @@ export class InventoryComponent implements OnInit {
                 }
             }
         }
-    }
-
-    get_IsCircularContainer(item: Item, target: ItemCollection) {
-        //Check if the target inventory is contained in this item.
-        let found = false;
-        if (item instanceof Equipment && item.gainInventory?.length) {
-            found = this.get_ItemContainsInventory(item, target);
-        }
-        return found;
-    }
-
-    get_ItemContainsInventory(item: Equipment, inventory: ItemCollection) {
-        //If this item grants any inventories, check those inventories for whether they include any items that grant the target inventory.
-        //Repeat for any included items that grant inventories themselves, until we are certain that this inventory is not in this container, no matter how deep.
-        let found = false;
-        if (item.gainInventory?.length) {
-            found = this.get_Inventories().filter(inv => inv.itemId == item.id).some(inv => {
-                return inv.allEquipment().some(invItem => invItem.id == inventory.itemId) ||
-                    inv.allEquipment().filter(invItem => invItem.gainInventory.length).some(invItem => {
-                        return this.get_ItemContainsInventory(invItem, inventory);
-                    })
-            })
-        }
-        return found;
-    }
-
-    get_CannotMove(item: Item, target: ItemCollection) {
-        if (target.itemId == item.id) {
-            return "The selected container is part of this item's content."
-        }
-        if (this.get_CannotFit(item, target)) {
-            return "The selected container does not have enough room for the item."
-        }
-        if (this.get_IsCircularContainer(item, target)) {
-            return "The selected container is part of this item's content."
-        }
-        return "";
-    }
-
-    get_CannotFit(item: Item, target: ItemCollection) {
-        if (target instanceof ItemCollection) {
-            if (target.bulkLimit) {
-                let itemBulk = this.itemsService.get_RealBulk(item, true);
-                let containedBulk = this.itemsService.get_ContainedBulk(this.get_Creature(), item, target, true);
-                return (target.get_Bulk(false) + itemBulk + containedBulk > target.bulkLimit)
-            }
-        }
-        return false;
     }
 
     get_ItemIDs(itemList: Item[]) {
