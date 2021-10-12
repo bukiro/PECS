@@ -367,15 +367,8 @@ export class EffectsService {
         return (new Speed(name));
     }
 
-    get_SimpleEffects(creature: Creature, characterService: CharacterService, object: any, name: string = "", parentConditionGain: ConditionGain = null, parentItem: Item | Material = null, fakeLevel: number = 0) {
-        //If an object has a simple instruction in effects, such as "Athletics", "+2", turn it into an effect,
-        // then mark the effect as a penalty if the change is negative (except for Bulk).
-        //The effect can have a formula as well, for example "Max HP", "Character.level + 2", which is evaluated with the variables and functions listed here.
-        //Try to get the type, too - if no type is given, set it to untyped.
-        //Return an array of Effect objects
-        let objectEffects: Effect[] = [];
-        //Get the object name unless a name is enforced.
-        let source = name ? name : ((object.get_Name) ? object.get_Name() : object.name);
+    get_ValueFromFormula(formula: string, creature: Creature, characterService: CharacterService, object: any = null, name: string = "", parentConditionGain: ConditionGain = null, parentItem: Item | Material = null, fakeLevel: number = 0) {
+        //This function takes a formula, then evaluates that formula using the variables and functions listed here.
         //Define some values that may be relevant for effect values
         let effectsService = this;
         effectsService = effectsService;
@@ -388,12 +381,15 @@ export class EffectsService {
         //fakeLevel can help determine how strong an effect would be on a certain level.
         let Level: number = fakeLevel || Character.level;
         //Some values specific to conditions for effect values
-        let Duration: number = object.duration;
-        let Value: number = object.value;
-        let Heightened: number = object.heightened;
-        let Choice: string = object.choice;
-        let SpellCastingAbility: string = object.spellCastingAbility;
-        let SpellSource: string = object.spellSource;
+        let Duration: number = object?.duration || null;
+        let Value: number = object?.value || null;
+        let Heightened: number = object?.heightened || null;
+        let Choice: string = object?.choice || null;
+        let SpellCastingAbility: string = object?.spellCastingAbility || null;
+        let SpellSource: string = object?.spellSource || null;
+        //#Experimental, not needed so far
+        //  let CasterData: string | number | null = (object?.foreignPlayerId && object?.casterData) ? object.casterData : (object?.casterDataFormula ? "(" + object.casterDataFormula + ")" : null);
+        //#
         //Hint effects of conditions pass their conditionGain for these values.
         //Conditions pass their own gain as parentConditionGain for effects.
         //Conditions that are caused by conditions also pass the original conditionGain for the evaluation of their activationPrerequisite.
@@ -531,6 +527,31 @@ export class EffectsService {
         function Deity() {
             return characterService.get_CharacterDeities(Character)[0];
         }
+        try {
+            let result = eval(formula);
+            if (result == null || typeof result == "string" || typeof result == "number") {
+                return result;
+            } else {
+                return null;
+            }
+        } catch (error) {
+            return null;
+        };
+
+    }
+
+    get_SimpleEffects(creature: Creature, characterService: CharacterService, object: any, name: string = "", parentConditionGain: ConditionGain = null, parentItem: Item | Material = null, fakeLevel: number = 0) {
+        //If an object has a simple instruction in effects, such as "affected":"Athletics" and "value":"+2", turn it into an Effect here,
+        // then mark the effect as a penalty if the change is negative (except for Bulk).
+        //Formulas are allowed, such as "Character.level / 2".
+        //Try to get the type, too - if no type is given, set it to untyped.
+        //Return an array of Effect objects
+        let objectEffects: Effect[] = [];
+        //Get the object name unless a name is enforced.
+        let source = name ? name : ((object.get_Name) ? object.get_Name() : object.name);
+        let Character: Character = characterService.get_Character();
+        let Companion: AnimalCompanion = characterService.get_Companion();
+        let Familiar: Familiar = characterService.get_Familiar();
         //Effects come as {affected, value, setValue, toggle} where value/setValue is a string that contains a statement.
         //This statement is eval'd here. The statement can use the above functions to check level, skills, abilities etc., but also access a lot of information via characterService.
         //If an effect is resonant, the object needs to be a slotted aeon stone.
@@ -539,22 +560,29 @@ export class EffectsService {
             let type: string = "untyped";
             let penalty: boolean = false;
             let value: string = "0";
+            let valueNumber: number = 0;
             let setValue: string = "";
             let toggle: boolean = effect.toggle;
             if (object === creature) {
                 source = effect.source || "Custom Effect"
             }
             try {
-                value = eval(effect.value).toString();
-                if (parseInt(value) > 0) {
-                    value = "+" + value;
+                valueNumber = this.get_ValueFromFormula(effect.value, creature, characterService, object, name, parentConditionGain, parentItem, fakeLevel);
+                if (!isNaN(valueNumber)) {
+                    valueNumber = parseInt(valueNumber.toString());
+                    if (valueNumber > 0) {
+                        value = "+" + valueNumber;
+                    } else {
+                        value = valueNumber.toString();
+                    }
                 }
             } catch (error) {
+                valueNumber = 0;
                 value = "0";
             };
             if (effect.setValue) {
                 try {
-                    setValue = eval(effect.setValue).toString();
+                    setValue = this.get_ValueFromFormula(effect.setValue, creature, characterService, object, name, parentConditionGain, parentItem, fakeLevel).toString();
                 } catch (error) {
                     setValue = "";
                 };
@@ -569,7 +597,7 @@ export class EffectsService {
                 penalty = false;
                 value = "0";
             } else {
-                penalty = (parseInt(value) < 0) == (effect.affected != "Bulk");
+                penalty = (valueNumber < 0) == (effect.affected != "Bulk");
             }
             if (toggle) {
                 //If an effect is both toggle and has a value or setValue, the toggle is only set if either is nonzero. Both are then nulled, but leave a toggled effect.
@@ -586,7 +614,7 @@ export class EffectsService {
             let title = "";
             if (effect.title) {
                 try {
-                    title = eval(effect.title).toString();
+                    title = this.get_ValueFromFormula(effect.title, creature, characterService, object, name, parentConditionGain, parentItem, fakeLevel).toString();
                 } catch (error) {
                     title = "";
                 };

@@ -87,6 +87,14 @@ export class ConditionGain {
     public copyChoiceFrom: string = "";
     //If acknowledgedInputRequired is true, the inputRequired message is not shown.
     public acknowledgedInputRequired: boolean = false;
+    //#Experimental, not needed so far
+    //For conditions granted by a spell or activity, casterDataFormula contains a formula that evaluates to any value that the caster/originator of a spell/activation can add to the condition gain (like a skill level of the caster's that influences an effect's strength).
+    //It gets evaluated into casterData during processing of the spell or activation conditions, and casterData can then be used in effects.
+    //If the caster is the same character as the target, casterData is instead set to casterDataFormula, so it can be evaluated live.
+    //  public casterDataFormula: string = "";
+    //dataValue is calculated from casterDataFormula and can be used in effects.
+    //  public casterData: string | number | null = null;
+    //#
     recast() {
         this.gainActivities = this.gainActivities.map(obj => Object.assign(new ActivityGain(), obj).recast());
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());

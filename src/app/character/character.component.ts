@@ -60,6 +60,7 @@ export class CharacterComponent implements OnInit {
     private showFixedChangesLevelNumber: number = 0;
     public adventureBackgrounds: boolean = true;
     public regionalBackgrounds: boolean = true;
+    public deityWordFilter: string = "";
     public loadAsGM: boolean = false;
     public blankCharacter: Character = new Character();
     public bonusSource: string = "Bonus";
@@ -379,7 +380,7 @@ export class CharacterComponent implements OnInit {
     }
 
     get_Alignments() {
-        let deity: Deity = this.get_Character().class?.deity ? this.get_AvailableDeities(this.get_Character().class.deity)[0] : null;
+        let deity: Deity = this.get_Character().class?.deity ? this.deitiesService.get_Deities(this.get_Character().class.deity)[0] : null;
         let alignments = [
             "",
             "Lawful Good",
@@ -1161,50 +1162,45 @@ export class CharacterComponent implements OnInit {
         let character = this.get_Character();
         let currentDeities = this.characterService.get_CharacterDeities(character);
         let showOtherOptions = this.get_Character().settings.showOtherOptions;
+        let wordFilter = this.deityWordFilter.toLowerCase();
         //Certain classes need to choose a deity allowing their alignment.
-        if (this.get_Character().class.deityFocused) {
-            return this.deitiesService.get_Deities(name).filter((deity: Deity) =>
+        return this.deitiesService.get_Deities(name).filter(deity =>
+            (
+                showOtherOptions ||
                 (
-                    showOtherOptions ||
-                    (
-                        syncretism ?
-                            !currentDeities[1] :
-                            !currentDeities[0]
-                    ) ||
-                    (
-                        syncretism ?
-                            ([currentDeities[0].name, currentDeities[1].name].includes(deity.name)) :
-                            (deity.name == currentDeities[0].name)
-                    )
-                ) &&
+                    syncretism ?
+                        !currentDeities[1] :
+                        !currentDeities[0]
+                ) ||
+                (
+                    syncretism ?
+                        ([currentDeities[0].name, currentDeities[1].name].includes(deity.name)) :
+                        (deity.name == currentDeities[0].name)
+                )
+            ) &&
+            (
+                !character.class.deityFocused ||
                 (
                     !this.get_Character().alignment ||
                     deity.followerAlignments.includes(this.get_Character().alignment)
                 )
-            ).sort(function (a, b) {
-                if (a.name > b.name) {
-                    return 1
-                }
-                if (a.name < b.name) {
-                    return -1
-                }
-                return 0
-            });
-        } else {
-            return this.deitiesService.get_Deities(name).filter(deity =>
-                showOtherOptions ||
-                !currentDeities[0] ||
-                deity.name == currentDeities[0].name
-            ).sort(function (a, b) {
-                if (a.name > b.name) {
-                    return 1
-                }
-                if (a.name < b.name) {
-                    return -1
-                }
-                return 0
-            });
-        }
+            ) && (
+                !wordFilter ||
+                (
+                    deity.name.toLowerCase().includes(wordFilter) ||
+                    deity.desc.toLowerCase().includes(wordFilter) ||
+                    deity.domains.some(domain => domain.toLowerCase().includes(wordFilter))
+                )
+            )
+        ).sort(function (a, b) {
+            if (a.name > b.name) {
+                return 1
+            }
+            if (a.name < b.name) {
+                return -1
+            }
+            return 0
+        });
     }
 
     on_DeityChange(deity: Deity, taken: boolean) {

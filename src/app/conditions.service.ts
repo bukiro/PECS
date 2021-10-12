@@ -271,10 +271,10 @@ export class ConditionsService {
         //Remove other conditions if applicable
         if (taken) {
             condition.endConditions.forEach(end => {
+                conditionDidSomething = true;
                 characterService.get_AppliedConditions(creature, end)
                     .filter(conditionGain => conditionGain != gain)
                     .forEach(conditionGain => {
-                        conditionDidSomething = true;
                         characterService.remove_Condition(creature, conditionGain, false);
                     })
             })

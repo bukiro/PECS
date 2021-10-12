@@ -60,7 +60,7 @@ export class Condition {
     public _choices: string[] = [];
     //This property is only used to select a default choice before adding the condition. It is not read when evaluating the condition.
     public choice: string = "";
-    //All instances of an unlimited condition are shown in the conditions area.
+    //All instances of an unlimited condition are shown in the conditions area. Limited conditions only show one instance.
     public unlimited: boolean = false;
     recast() {
         this.heightenedDescs = this.heightenedDescs.map(obj => Object.assign(new HeightenedDescSet(), obj).recast());
@@ -88,9 +88,17 @@ export class Condition {
         })
         return this;
     }
+    get_HasInstantEffects() {
+        //Return whether the condition has any effects that are instantly applied even if the condition has no duration.
+        return (this.endConditions.length || this.onceEffects.length);
+    }
+    get_HasDurationEffects() {
+        //Return whether the condition has any effects that persist during its duration.
+        return (this.effects?.length || this.hints.some(hint => hint.effects?.length) || this.gainConditions.length || this.nextCondition.length || this.overrideConditions.length || this.denyConditions.length || this.gainItems.length || this.gainActivities.length || this.senses.length || this.endEffects.length);
+    }
     get_HasEffects() {
         //Return whether the condition has any effects beyond showing text.
-        return (this.effects?.length || this.hints.some(hint => hint.effects?.length) || this.gainConditions.length || this.overrideConditions.length || this.endConditions.length || this.gainItems.length || this.gainActivities.length || this.senses.length || this.nextCondition.length || this.onceEffects.length || this.endEffects.length);
+        return this.get_HasInstantEffects() || this.get_HasDurationEffects();
     }
     get_IsChangeable() {
         //Return whether the condition has values that you can change.

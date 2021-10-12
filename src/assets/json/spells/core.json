@@ -11947,7 +11947,7 @@
         ],
         "range": "touch",
         "targets": "1 object of 1 Bulk or less, either unattended or possessed by you or a willing ally",
-        "target": "object",
+        "target": "ally",
         "singleTarget": true,
         "duration": "until the next time you make your daily preparations",
         "desc": "The object glows, casting bright light in a <var>var1</var>-foot radius (and dim light for the next <var>var2</var> feet) like a torch. If you cast this spell again on a second object, the light spell on the first object ends.",
@@ -11960,9 +11960,33 @@
         "gainConditions": [
             {
                 "duration": -2,
-                "name": "Light",
+                "heightenedFilter": 1,
+                "name": "Light (Caster)",
                 "source": "Light",
                 "targetFilter": "caster"
+            },
+            {
+                "duration": -2,
+                "heightenedFilter": 1,
+                "name": "Light",
+                "radius": 20,
+                "source": "Light",
+                "targetFilter": "target"
+            },
+            {
+                "duration": -2,
+                "heightenedFilter": 4,
+                "name": "Light (Caster)",
+                "source": "Light",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": -2,
+                "heightenedFilter": 4,
+                "name": "Light",
+                "radius": 60,
+                "source": "Light",
+                "targetFilter": "target"
             }
         ],
         "heightenedDescs": [

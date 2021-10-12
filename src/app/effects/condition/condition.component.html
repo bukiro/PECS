@@ -173,7 +173,7 @@
             <input id="{{conditionGain.id+'radius'}}" class="invisible" type="checkbox"
                 [(ngModel)]="conditionGain.showRadius">
             <label for="{{conditionGain.id+'radius'}}" [ngbTooltip]="'Change radius'"
-                *ngIf="conditionGain.radius && !condition.allowRadiusChange"><i class='bi-gear-fill'></i>&nbsp;</label>
+                *ngIf="conditionGain.radius && condition.allowRadiusChange"><i class='bi-gear-fill'></i>&nbsp;</label>
             <strong>Radius&nbsp;</strong><span>
                 <button (click)="change_ConditionRadius(conditionGain, -5)"
                     *ngIf="(condition.allowRadiusChange || conditionGain.showRadius) && conditionGain.radius"
@@ -248,3 +248,37 @@
         <app-description class="newrow" [text]="desc"></app-description>
     </div>
 </div>
+<ng-container *ngFor="let relatedActivityGains of [get_ConditionActivities()]; trackBy: trackByIndex;">
+    <div class="fullwidth icon-list" *ngIf="relatedActivityGains.length">
+        <ng-container *ngFor="let gain of relatedActivityGains; let activityIndex = index; trackBy:trackByIndex;">
+            <ng-container *ngFor="let activity of get_Activities(gain.name); trackBy:trackByIndex;">
+                <ng-container
+                    *ngFor="let maxCharges of [activity.maxCharges(get_Creature(), characterService)]; trackBy:trackByIndex;">
+                    <ng-container
+                        *ngFor="let cannotActivate of [((gain.activeCooldown ? (maxCharges == gain.chargesUsed) : false) && !gain.active)]; trackBy:trackByIndex;">
+                        <ng-template #ActivityTitleTemplate>
+                            <span>{{activity.name}}</span>
+                            <app-actionIcons *ngIf="activity.actions" [actionString]="activity.actions">
+                            </app-actionIcons>
+                            {{(activity.activationType) ? activity.activationType : ""}}
+                        </ng-template>
+                        <ng-template #ActivityTemplate>
+                            <header class="spellHeader popover-keepalive">
+                                <ng-container *ngTemplateOutlet="ActivityTitleTemplate"></ng-container>
+                            </header>
+                            <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]="true">
+                            </app-activity>
+                        </ng-template>
+                        <button [stickyPopover]="ActivityTemplate" triggers="click" ignorePopoverKeepalive="true"
+                            [ngClass]="{'fancy-button':gain.active, 'inactive-button':cannotActivate, 'penalty':!cannotActivate && activity.get_IsHostile(), 'bonus':!cannotActivate && !activity.get_IsHostile()}">
+                            <app-gridIcon
+                                [ngClass]="{'fancy-button':gain.active, 'inactive-button':cannotActivate, 'penalty':!cannotActivate && activity.get_IsHostile(), 'bonus':!cannotActivate && !activity.get_IsHostile()}"
+                                [ngbTooltip]="ActivityTitleTemplate" [title]="activity.name" [activity]="activity">
+                            </app-gridIcon>
+                        </button>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </div>
+</ng-container>

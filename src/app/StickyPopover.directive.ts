@@ -26,11 +26,16 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDest
     //A stickyPopover cannot close while a modal is opened, thereby avoiding this issue.
     //Another issue is caused when a popover is opened within another popover.
     //A stickyPopover cannot close while an element with the class "popover-keepalive" exists.
-    //CAUTION: To avoid a popover keeping itself open, never create a popover that contains an element with the "popover-keepalive" class.
+    //CAUTION: To avoid a popover keeping itself open, never create a stickyPopover that contains an element with the "popover-keepalive" class.
+    // If absolutely necessary, use ignorePopoverKeepalive=true to ignore the keepalive and only respect open modals.
 
-    @Input() stickyPopover: TemplateRef<any>;
+    @Input()
+    stickyPopover: TemplateRef<any>;
+    @Input()
+    ignorePopoverKeepalive: boolean = false;
 
     ngpPopover: TemplateRef<any>;
+
 
     constructor(
         private characterService: CharacterService,
@@ -70,7 +75,7 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDest
 
     close() {
         //Only close if no modal is open or popover-keepalive element exists.
-        if (document.getElementsByTagName("ngb-modal-window").length || document.getElementsByClassName("popover-keepalive").length) {
+        if (document.getElementsByTagName("ngb-modal-window").length || (!this.ignorePopoverKeepalive && document.getElementsByClassName("popover-keepalive").length)) {
         } else {
             super.close();
         }

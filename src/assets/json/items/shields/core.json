@@ -180,12 +180,6 @@
         "id": "5dd7c22d-fc9f-4bae-b5ca-258856007a77",
         "name": "Force Shield (1st Level)",
         "displayName": "Force Shield",
-        "gainActivities": [
-            {
-                "name": "Shield Block",
-                "source": "Force Shield"
-            }
-        ],
         "acbonus": 1,
         "brokenThreshold": 1,
         "hardness": 5,
@@ -198,12 +192,6 @@
         "id": "87f26afe-736c-4b5b-abcf-19da9014940d",
         "name": "Force Shield (3rd Level)",
         "displayName": "Force Shield",
-        "gainActivities": [
-            {
-                "name": "Shield Block",
-                "source": "Force Shield"
-            }
-        ],
         "acbonus": 1,
         "brokenThreshold": 1,
         "hardness": 10,
@@ -216,12 +204,6 @@
         "id": "e0caa889-6183-4b31-b78f-49d33c7fcbb1",
         "name": "Force Shield (5th Level)",
         "displayName": "Force Shield",
-        "gainActivities": [
-            {
-                "name": "Shield Block",
-                "source": "Force Shield"
-            }
-        ],
         "acbonus": 1,
         "brokenThreshold": 1,
         "hardness": 15,
@@ -234,12 +216,6 @@
         "id": "7eee99d1-9b3e-41f6-9d4b-2e167242b00f",
         "name": "Force Shield (7th Level)",
         "displayName": "Force Shield",
-        "gainActivities": [
-            {
-                "name": "Shield Block",
-                "source": "Force Shield"
-            }
-        ],
         "acbonus": 1,
         "brokenThreshold": 1,
         "hardness": 20,
@@ -252,12 +228,6 @@
         "id": "3070634b-bfbe-44e8-b12e-2e5a8fd085c2",
         "name": "Force Shield (9th Level)",
         "displayName": "Force Shield",
-        "gainActivities": [
-            {
-                "name": "Shield Block",
-                "source": "Force Shield"
-            }
-        ],
         "acbonus": 1,
         "brokenThreshold": 1,
         "hardness": 25,

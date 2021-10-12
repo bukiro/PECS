@@ -14255,6 +14255,9 @@
                 "name": "Bit of Luck Immunity",
                 "persistent": true
             }
+        ],
+        "endConditions": [
+            "Bit of Luck"
         ]
     },
     {
@@ -14268,6 +14271,10 @@
             {
                 "duration": 100
             }
+        ],
+        "endConditions": [
+            "Bit of Luck (Caster)",
+            "Bit of Luck"
         ]
     },
     {
@@ -19252,6 +19259,86 @@
     },
     {
         "name": "Light",
+        "desc": "The targeted object glows, casting bright light in a <var>var1</var>-foot radius (and dim light for the next <var>var2</var> feet) like a torch.",
+        "type": "spells",
+        "minLevel": 1,
+        "SortLevel": 1,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -2
+            }
+        ],
+        "unlimited": false,
+        "inputRequired": "Remove the condition if the caster Casts light again.",
+        "hints": [
+            {
+                "desc": "The targeted object glows, casting bright light in a <var>var1</var>-foot radius (and dim light for the next <var>var2</var> feet) like a torch.",
+                "showon": "Perception",
+                "heightenedDescs": [
+                    {
+                        "level": 1,
+                        "descs": [
+                            {
+                                "value": "20",
+                                "variable": "var1"
+                            },
+                            {
+                                "value": "20",
+                                "variable": "var2"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 4,
+                        "descs": [
+                            {
+                                "value": "60",
+                                "variable": "var1"
+                            },
+                            {
+                                "value": "60",
+                                "variable": "var2"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "endConditions": [
+            "Light"
+        ],
+        "heightenedDescs": [
+            {
+                "level": 1,
+                "descs": [
+                    {
+                        "value": "20",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "20",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 4,
+                "descs": [
+                    {
+                        "value": "60",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "60",
+                        "variable": "var2"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Light (Caster)",
         "desc": "The targeted object glows, casting bright light in a <var>var1</var>-foot radius (and dim light for the next <var>var2</var> feet) like a torch. If you cast this spell again on a second object, the light spell on the first object ends.",
         "type": "spells",
         "minLevel": 1,
@@ -19263,6 +19350,10 @@
             }
         ],
         "unlimited": false,
+        "endConditions": [
+            "Light (Caster)",
+            "Light"
+        ],
         "heightenedDescs": [
             {
                 "level": 1,
@@ -22399,6 +22490,12 @@
                         ]
                     }
                 ]
+            }
+        ],
+        "gainActivities": [
+            {
+                "name": "Shield Block",
+                "source": "Shield"
             }
         ],
         "gainItems": [

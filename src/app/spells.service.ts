@@ -150,6 +150,7 @@ export class SpellsService {
                     let conditions: ConditionGain[] = spell.get_HeightenedConditions(spellLevel);
                     let hasTargetCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter != "caster");
                     let hasCasterCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter == "caster");
+                    let casterIsTarget: boolean = targets.some(target => target.id == creature.id);
                     //Do the target and the caster get the same condition?
                     let sameCondition: boolean = hasTargetCondition && hasCasterCondition && Array.from(new Set(conditions.map(conditionGain => conditionGain.name))).length == 1;
                     conditions.forEach((conditionGain, conditionIndex) => {
@@ -188,7 +189,7 @@ export class SpellsService {
                                 (
                                     (
                                         hasTargetCondition &&
-                                        targets.some(target => target.id == creature.id) &&
+                                        casterIsTarget &&
                                         (
                                             sameCondition ||
                                             (
@@ -223,38 +224,51 @@ export class SpellsService {
                             }
                             newConditionGain.spellSource = gain?.source || "";
                             newConditionGain.sourceGainID = gain?.id || "";
-                            //If this spell was cast by an activity, it may have a specified duration. Apply that here.
-                            if (activityDuration) {
-                                newConditionGain.duration = activityDuration;
-                            } else if (newConditionGain.duration == -5) {
-                                //Otherwise, and if the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
-                                newConditionGain.duration = condition.get_DefaultDuration(newConditionGain.choice, newConditionGain.heightened).duration;
-                            }
-                            //Check if an effect changes the duration of this condition.
-                            let effectDuration: number = newConditionGain.duration || 0;
-                            characterService.effectsService.get_AbsolutesOnThese(creature, ["Next Spell Duration", condition.name.replace(" (Originator)", "").replace(" (Caster)", "") + " Duration"]).forEach(effect => {
-                                effectDuration = parseInt(effect.setValue);
-                                conditionsToRemove.push(effect.source);
-                            })
-                            if (effectDuration > 0) {
-                                characterService.effectsService.get_RelativesOnThese(creature, ["Next Spell Duration", condition.name.replace(" (Originator)", "").replace(" (Caster)", "") + " Duration"]).forEach(effect => {
-                                    effectDuration += parseInt(effect.value);
+                            if (
+                                conditionGain.targetFilter == "caster" &&
+                                hasTargetCondition &&
+                                casterIsTarget &&
+                                !condition.alwaysApplyCasterCondition &&
+                                !condition.get_IsChangeable() &&
+                                !condition.get_HasDurationEffects() &&
+                                condition.get_HasInstantEffects()
+                            ) {
+                                //If the condition is only granted because it has instant effects, we set the duration to 0, so it can do its thing and then leave.
+                                newConditionGain.duration = 0;
+                            } else {
+                                //If this spell was cast by an activity, it may have a specified duration. Apply that here.
+                                if (activityDuration) {
+                                    newConditionGain.duration = activityDuration;
+                                } else if (newConditionGain.duration == -5) {
+                                    //Otherwise, and if the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
+                                    newConditionGain.duration = condition.get_DefaultDuration(newConditionGain.choice, newConditionGain.heightened).duration;
+                                }
+                                //Check if an effect changes the duration of this condition.
+                                let effectDuration: number = newConditionGain.duration || 0;
+                                characterService.effectsService.get_AbsolutesOnThese(creature, ["Next Spell Duration", condition.name.replace(" (Originator)", "").replace(" (Caster)", "") + " Duration"]).forEach(effect => {
+                                    effectDuration = parseInt(effect.setValue);
                                     conditionsToRemove.push(effect.source);
                                 })
-                            }
-                            //If an effect has changed the duration, use the effect duration unless it is shorter than the current duration.
-                            if (effectDuration) {
-                                if (effectDuration == -1) {
-                                    //Unlimited is longer than anything.
-                                    newConditionGain.duration = -1;
-                                } else if (newConditionGain.duration != -1) {
-                                    //Anything is shorter than unlimited.
-                                    if (effectDuration < -1 && newConditionGain.duration > 0 && newConditionGain.duration < 144000) {
-                                        //Until Rest and Until Refocus are usually longer than anything below a day.
-                                        newConditionGain.duration = effectDuration;
-                                    } else if (effectDuration > newConditionGain.duration) {
-                                        //If neither are unlimited and the above is not true, a higher value is longer than a lower value.
-                                        newConditionGain.duration = effectDuration;
+                                if (effectDuration > 0) {
+                                    characterService.effectsService.get_RelativesOnThese(creature, ["Next Spell Duration", condition.name.replace(" (Originator)", "").replace(" (Caster)", "") + " Duration"]).forEach(effect => {
+                                        effectDuration += parseInt(effect.value);
+                                        conditionsToRemove.push(effect.source);
+                                    })
+                                }
+                                //If an effect changes the duration, use the effect duration unless it is shorter than the current duration.
+                                if (effectDuration) {
+                                    if (effectDuration == -1) {
+                                        //Unlimited is longer than anything.
+                                        newConditionGain.duration = -1;
+                                    } else if (newConditionGain.duration != -1) {
+                                        //Anything is shorter than unlimited.
+                                        if (effectDuration < -1 && newConditionGain.duration > 0 && newConditionGain.duration < 144000) {
+                                            //Until Rest and Until Refocus are usually longer than anything below a day.
+                                            newConditionGain.duration = effectDuration;
+                                        } else if (effectDuration > newConditionGain.duration) {
+                                            //If neither are unlimited and the above is not true, a higher value is longer than a lower value.
+                                            newConditionGain.duration = effectDuration;
+                                        }
                                     }
                                 }
                             }
@@ -271,6 +285,12 @@ export class SpellsService {
                                 })
                                 newConditionGain.value = effectValue;
                             }
+                            //#Experimental, not needed so far
+                            //Add caster data, if a formula exists.
+                            //  if (conditionGain.casterDataFormula) {
+                            //      newConditionGain.casterData = characterService.effectsService.get_ValueFromFormula(conditionGain.casterDataFormula, creature, characterService, conditionGain);
+                            //  }
+                            //#
                             let conditionTargets: (Creature | SpellTarget)[] = targets;
                             //Caster conditions are applied to the caster creature only. If the spell is durationDependsOnTarget, there are any foreign targets (whose turns don't end when the caster's turn ends)
                             // and it doesn't have a duration of X+1, add 2 for "until another character's turn".
@@ -302,6 +322,7 @@ export class SpellsService {
                         }
                     });
                 } else if (manual) {
+                    //Only if the spell was ended manually, find the matching conditions and end them. If the spell ran out, let the conditions run out by themselves.
                     spell.get_HeightenedConditions(spellLevel).forEach(conditionGain => {
                         let conditionTargets: (Creature | SpellTarget)[] = (conditionGain.targetFilter == "caster" ? [creature] : targets);
                         conditionTargets.filter(target => target.constructor != SpellTarget).forEach(target => {

@@ -280,12 +280,12 @@
                                 <header class="sectionHeader">Custom effects on {{creature.type}}</header>
                             </button>
                             <div class="list-item" *ngIf="get_ShowList()=='customEffects'+creature.type">
-                                <button class="newrow center-aligned" (click)="new_CustomEffect(creature)">Add
-                                    effect</button>
+                                <button class="newrow center-aligned" (click)="new_CustomEffect(creature)">
+                                    Add effect
+                                </button>
                                 <ng-container
                                     *ngFor="let effect of creature.effects; let index = index; trackBy:trackByIndex;">
-                                    <div class="list-item"
-                                        *ngFor="let effectResult of get_EffectValue(creature, effect); trackBy:trackByIndex;">
+                                    <div class="list-item">
                                         <ng-template #FormulaTemplate>
                                             <strong>Formula</strong>
                                             {{effect.setValue || effect.value || ''}}
@@ -322,8 +322,8 @@
                                                     <span>
                                                         <span class="value"
                                                             *ngFor="let value of [get_EffectValue(creature, effect)]; trackBy:trackByIndex;"
-                                                            [ngClass]="{'absolute':value[0]=='=', 'bonus':value[0]=='+', 'penalty':value[0]=='-'}">
-                                                            {{value}}
+                                                            [ngClass]="{'absolute':effect.setValue, 'bonus':!effect.setValue && !value.penalty, 'penalty':!effect.setValue && value.penalty}">
+                                                            {{value.value}}
                                                         </span>
                                                         <i [ngbPopover]="FormulaTemplate"
                                                             *ngIf="get_IsFormula(effect.setValue ? effect.setValue : effect.value)"
@@ -335,7 +335,8 @@
                                                         on
                                                     </span>
                                                 </ng-container>
-                                                <ng-container *ngIf="!effect.toggle && !effect.setValue && !get_IsFormula(effect.value)">
+                                                <ng-container
+                                                    *ngIf="!effect.toggle && !effect.setValue && !get_IsFormula(effect.value)">
                                                     <input type="number" class="number4"
                                                         id="customEffectValue{{creature.type}}{{index}}" maxLength="30"
                                                         [(ngModel)]="effect.value" (blur)="validate(creature, effect)"
@@ -363,7 +364,7 @@
                                 </div>
                                 <div class="newrow">
                                     <input class="newrow" type="text" [(ngModel)]="newEffect[property.key]"
-                                        (blur)="validate_AdvancedEffect(property.key, index)"
+                                        (blur)="validate_AdvancedEffect(property, index)"
                                         *ngIf="!property.type && !property.locked">
                                     <textarea class="newrow" rows=3 [(ngModel)]="newEffect[property.key]"
                                         *ngIf="property.type=='textarea'"></textarea>

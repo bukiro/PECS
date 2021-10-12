@@ -2326,7 +2326,7 @@ MEDIA QUERIES
 
     ngb-popover-window.list-item.sublist {
         max-height: 90vh;
-        min-width: 60vw;
+        min-width: 90vw;
         max-width: 90vw;
         top: 50% !important;
         left: 50% !important;
@@ -2411,8 +2411,8 @@ MEDIA QUERIES
     }
 
     ngb-popover-window.list-item.sublist {
-        min-width: 70vw;
-        max-width: 100vw;
+        min-width: 90vw;
+        max-width: 90vw;
     }
 }
 

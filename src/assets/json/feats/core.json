@@ -46583,6 +46583,8 @@
             "Cleric"
         ],
         "levelreq": 1,
+        "specialreq": "deity && deity.category != 'Philosophies'",
+        "specialreqdesc": "you follow a deity",
         "customData": [
             {
                 "name": "domains",

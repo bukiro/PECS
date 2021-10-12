@@ -1534,11 +1534,8 @@ export class CharacterService {
             //If the condition has an activationPrerequisite, test that first and only activate if it evaluates to a nonzero number.
             if (conditionGain.activationPrerequisite) {
                 let testConditionGain: any = Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))).recast();
-                let testEffectGain: EffectGain = new EffectGain();
-                testEffectGain.value = conditionGain.activationPrerequisite;
-                testConditionGain.effects = [testEffectGain];
-                let effects = this.effectsService.get_SimpleEffects(creature, this, testConditionGain, "", parentConditionGain);
-                if (effects?.[0]?.value == "0" || !(parseInt(effects?.[0]?.value))) {
+                let activationValue = this.effectsService.get_ValueFromFormula(conditionGain.activationPrerequisite, creature, this, testConditionGain, "", parentConditionGain);
+                if (!activationValue || activationValue == "0" || (typeof activationValue == "string" && !parseInt(activationValue))) {
                     activate = false;
                 }
             }
@@ -2126,11 +2123,8 @@ export class CharacterService {
             let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this, { effects: [effectGain], spellSource: effectGain.spellSource, value: conditionValue, heightened: conditionHeightened, choice: conditionChoice, spellCastingAbility: conditionSpellCastingAbility });
             if (effects.length) {
                 let effect = effects[0];
-                if (effect?.value != "0" && (parseInt(effect.value) || parseFloat(effect.value))) {
-                    //I don't understand why this is done. I guess we don't want floats, but why not simply take the int?
-                    if (parseFloat(effect.value) == parseInt(effect.value)) {
-                        value = parseInt(effect.value);
-                    }
+                if (effect?.value != "0" && parseInt(effect.value)) {
+                    value = parseInt(effect.value);
                 }
             } else {
                 value = 0;

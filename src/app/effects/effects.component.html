@@ -8,7 +8,7 @@
                     [conditionGain]="conditionGain" [condition]="condition" [showItem]="get_ShowItem()"
                     [fullDisplay]="fullDisplay"></app-condition>
             </ng-template>
-            <div [ngbPopover]="conditionContent" triggers="click" *ngIf="!fullDisplay" style="display:flex;">
+            <div [stickyPopover]="conditionContent" triggers="click" *ngIf="!fullDisplay" style="display:flex;">
                 <app-gridIcon [updateId]="conditionGain.id" class="condition"
                     [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}" placement="right bottom top"
                     [condition]="conditionGain" [originalCondition]="condition"

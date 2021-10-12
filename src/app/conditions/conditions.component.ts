@@ -340,14 +340,20 @@ export class ConditionsComponent implements OnInit {
 
     get_EffectValue(creature: Creature, effect: EffectGain) {
         //Fit the custom effect into the box defined by get_SimpleEffects
-        let effectsObject = { effects: [effect] }
-        let result = this.effectsService.get_SimpleEffects(creature, this.characterService, effectsObject);
-        if (result.length) {
-            return result;
-        } else {
-            //If the EffectGain did not produce an effect, return a blank effect instead.
-            return [new Effect()];
+        let result: any = null;
+        let penalty: boolean = false;
+        if (effect.setValue) {
+            result = this.effectsService.get_ValueFromFormula(effect.setValue, creature, this.characterService);
+            penalty = false;
+        } else if (effect.value) {
+            result = this.effectsService.get_ValueFromFormula(effect.value, creature, this.characterService);
+            if (!isNaN(result)) {
+                penalty = (result < 0) == (effect.affected != "Bulk");
+            } else {
+                result = null;
+            }
         }
+        return { value: result, penalty: penalty };
     }
 
     numbersOnly(event): boolean {
@@ -368,7 +374,7 @@ export class ConditionsComponent implements OnInit {
 
     get_IsFormula(value: string) {
         if (value && isNaN(parseInt(value))) {
-            if (!value.match("^[0-9-]*$").length) {
+            if (!value.match("^[0-9-]*$")) {
                 return true;
             }
         }

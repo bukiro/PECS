@@ -9,6 +9,7 @@ import { ItemsService } from 'src/app/items.service';
 import { TimeService } from 'src/app/time.service';
 import { TraitsService } from 'src/app/traits.service';
 import { Creature } from 'src/app/Creature';
+import { ActivitiesService } from 'src/app/activities.service';
 
 @Component({
     selector: 'app-condition',
@@ -30,14 +31,15 @@ export class ConditionComponent implements OnInit {
     fullDisplay: boolean = false;
     @Output()
     showItemMessage = new EventEmitter<string>();
-
+    
     constructor(
         private changeDetector: ChangeDetectorRef,
-        private characterService: CharacterService,
+        public characterService: CharacterService,
         private timeService: TimeService,
         private itemsService: ItemsService,
         private conditionsService: ConditionsService,
-        private traitsService: TraitsService
+        private traitsService: TraitsService,
+        private activitiesService: ActivitiesService
     ) { }
 
     toggle_Item(name: string) {
@@ -237,6 +239,7 @@ export class ConditionComponent implements OnInit {
 
     remove_Condition(conditionGain: ConditionGain) {
         this.characterService.remove_Condition(this.get_Creature(), conditionGain, true);
+        this.characterService.set_Changed("close-popovers");
     }
 
     still_loading() {
@@ -260,6 +263,22 @@ export class ConditionComponent implements OnInit {
                     }
                 });
             return true;
+        }
+    }
+
+    get_Activities(name: string = "") {
+        return this.activitiesService.get_Activities(name);
+    }
+
+    get_ConditionActivities() {
+        if (this.conditionGain) {
+            this.conditionGain.gainActivities.forEach(activityGain => {
+                activityGain.heightened = this.conditionGain.heightened;
+                this.get_Activities(activityGain.name).forEach(actualActivity => { actualActivity.get_Cooldown(this.get_Creature(), this.characterService) })
+            })
+            return this.conditionGain.gainActivities;
+        } else {
+            return [];
         }
     }
 

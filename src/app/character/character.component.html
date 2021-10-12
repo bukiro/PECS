@@ -1948,8 +1948,9 @@
                     <header class="box-header sectionHeader">Languages</header>
                 </div>
                 <div id="choiceArea" class="list-item">
-                    <div class="newrow list-item left-aligned">
-                        <strong *ngIf="get_Character().class.ancestry.recommendedLanguages.length">
+                    <div class="newrow list-item left-aligned"
+                        *ngIf="get_Character().class.ancestry.recommendedLanguages.length">
+                        <strong>
                             Recommended Languages
                         </strong>
                         {{get_Character().class.ancestry.recommendedLanguages.join(', ')}}
@@ -1987,23 +1988,29 @@
                         get_Character().class.background.name : ""}}
                     </header>
                 </div>
-                <div id="choiceArea" class="list-item">
-                    <!-- Filter -->
-                    <div class="list-item lower">
-                        <strong>Filter</strong>
-                        <div class="list-item gridicon-fullsizebox">
-                            <input class="character-choice" id="adventureBackgroundsFilter" type="checkbox"
-                                [(ngModel)]="adventureBackgrounds">
-                            <label for="adventureBackgroundsFilter"><strong>Show adventure
-                                    backgrounds</strong></label>
-                        </div>
-                        <div class="list-item gridicon-fullsizebox">
-                            <input class="character-choice" id="regionalBackgroundsFilter" type="checkbox"
-                                [(ngModel)]="regionalBackgrounds">
-                            <label for="regionalBackgroundsFilter"><strong>Show regional
-                                    backgrounds</strong></label>
-                        </div>
+                <!-- Filter -->
+                <div class="list-item" style="margin:0">
+                    <strong>Filter</strong>
+                    <div class="list-item gridicon-fullsizebox">
+                        <input class="character-choice" id="adventureBackgroundsFilter" type="checkbox"
+                            [(ngModel)]="adventureBackgrounds">
+                        <label for="adventureBackgroundsFilter">
+                            <strong>
+                                Show adventure backgrounds
+                            </strong>
+                        </label>
                     </div>
+                    <div class="list-item gridicon-fullsizebox">
+                        <input class="character-choice" id="regionalBackgroundsFilter" type="checkbox"
+                            [(ngModel)]="regionalBackgrounds">
+                        <label for="regionalBackgroundsFilter">
+                            <strong>
+                                Show regional backgrounds
+                            </strong>
+                        </label>
+                    </div>
+                </div>
+                <div id="choiceArea" class="list-item">
                     <!-- End Filter -->
                     <ng-container *ngFor="let background of get_AvailableBackgrounds(); trackBy:trackByIndex;">
                         <ng-container
@@ -2109,8 +2116,15 @@
                         Deity{{get_Character().class.deity ? ": "+get_Character().class.deity : ""}}
                     </header>
                 </div>
+                <!-- Filter -->
+                <div class="list-item lower" style="margin:0">
+                    <strong>Find (in Name, Description or Domains)</strong>
+                    <span class="hlist">
+                        <input id="deityWordFilter" type=text [(ngModel)]="deityWordFilter" />
+                    </span>
+                </div>
                 <div id="choiceArea" class="list-item">
-                    <ng-container *ngFor="let deity of get_AvailableDeities(); trackBy:trackByIndex;">
+                    <ng-container *ngFor="let deity of get_AvailableDeities('', false); trackBy:trackByIndex;">
                         <ng-container
                             *ngFor="let checked of [deity.name === get_Character().class.deity]; trackBy:trackByIndex">
                             <ng-container
@@ -3062,6 +3076,13 @@
                             <header class="box-header sectionHeader">
                                 Second Deity{{finished ? ": " + finished : ""}}
                             </header>
+                        </div>
+                        <!-- Filter -->
+                        <div class="list-item lower">
+                            <strong>Find (in Name, Description or Domains)</strong>
+                            <span class="hlist">
+                                <input id="deityWordFilter" type=text [(ngModel)]="deityWordFilter" />
+                            </span>
                         </div>
                         <div id="choiceArea" class="list-item">
                             <ng-container *ngFor="let deity of get_AvailableDeities('', true); trackBy:trackByIndex;">
