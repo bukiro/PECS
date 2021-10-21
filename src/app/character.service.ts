@@ -2361,11 +2361,11 @@ export class CharacterService {
     get_ActivitiesShowingOn(creature: Creature, objectName: string = "all") {
         return this.get_OwnedActivities(creature)
             //Conflate ActivityGains and their respective Activities into one object...
-            .map(gain => gain instanceof ItemActivity ? [gain, gain] : [gain, this.activitiesService.get_Activities(gain.name)[0]])
+            .map(gain => { return { gain: gain, activity: gain.get_OriginalActivity(this.activitiesService) } })
             //...so that we can find the activities where the gain is active or the activity doesn't need to be toggled...
-            .filter((gainAndActivity: [ActivityGain | ItemActivity, Activity]) => gainAndActivity[1] && (gainAndActivity[0].active || !gainAndActivity[1].toggle))
+            .filter((gainAndActivity: { gain: ActivityGain | ItemActivity, activity: Activity }) => gainAndActivity.activity && (gainAndActivity.gain.active || !gainAndActivity.activity.toggle))
             //...and then keep only the activities.
-            .map((gainAndActivity: [ActivityGain | ItemActivity, Activity]) => gainAndActivity[1])
+            .map((gainAndActivity: { gain: ActivityGain | ItemActivity, activity: Activity }) => gainAndActivity.activity)
             .filter(activity =>
                 activity?.hints.find(hint =>
                     hint.showon?.split(",").find(showon =>

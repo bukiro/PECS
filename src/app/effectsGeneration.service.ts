@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivitiesService } from './activities.service';
-import { Activity } from './Activity';
 import { AnimalCompanion } from './AnimalCompanion';
+import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
 import { Armor } from './Armor';
 import { ArmorRune } from './ArmorRune';
 import { Character } from './Character';
@@ -16,25 +16,35 @@ import { Equipment } from './Equipment';
 import { EvaluationService } from './evaluation.service';
 import { Familiar } from './Familiar';
 import { Feat } from './Feat';
+import { Hint } from './Hint';
 import { Item } from './Item';
-import { ItemActivity } from './ItemActivity';
 import { Material } from './Material';
 import { Oil } from './Oil';
 import { RefreshService } from './refresh.service';
 import { Shield } from './Shield';
-import { TraitsService } from './traits.service';
+import { Specialization } from './Specialization';
 import { WeaponRune } from './WeaponRune';
 import { WornItem } from './WornItem';
 
 type FormulaContext = {
-    creature: Creature,
-    object?: any,
-    parentConditionGain?: ConditionGain,
-    parentItem?: Item | Material
+    readonly creature: Creature,
+    readonly object?: any,
+    readonly parentConditionGain?: ConditionGain,
+    readonly parentItem?: Item | Material
 }
 type FormulaOptions = {
-    name?: string,
-    pretendCharacterLevel?: number
+    readonly name?: string,
+    readonly pretendCharacterLevel?: number
+}
+type HintSet = {
+    hint: Hint,
+    parentItem?: Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material,
+    parentConditionGain?: ConditionGain,
+    objectName: string
+}
+//Create a class that contains a condition gain's data and the original condition's effects, so we can extract effects from this object.
+class ConditionEffectsObject extends ConditionGain {
+    constructor(public effects: EffectGain[]) { super() }
 }
 
 @Injectable({
@@ -45,7 +55,6 @@ export class EffectsGenerationService {
     private checkingActive: boolean = false;
 
     constructor(
-        private traitsService: TraitsService,
         private evaluationService: EvaluationService,
         private activitiesService: ActivitiesService,
         private effectsService: EffectsService,
@@ -53,15 +62,17 @@ export class EffectsGenerationService {
         private refreshService: RefreshService
     ) { }
 
-    private get_IgnoredEffect(creature: Creature, effect: Effect): boolean {
-        return creature.ignoredEffects.some(ignoredEffect =>
-            ignoredEffect.creature == effect.creature &&
-            ignoredEffect.target == effect.target &&
-            ignoredEffect.source == effect.source
-        )
-    }
-
-    get_EffectsFromObject(object: any, services: { characterService: CharacterService }, context: FormulaContext, options: FormulaOptions = {}): Effect[] {
+    public get_EffectsFromObject(object: any, services: { readonly characterService: CharacterService }, context: FormulaContext, options: FormulaOptions = {}): Effect[] {
+        context = Object.assign({
+            creature: context.creature,
+            object: object,
+            parentConditionGain: null,
+            parentItem: null
+        }, context);
+        options = Object.assign({
+            name: "",
+            pretendCharacterLevel: 0
+        }, options);
         //If an object has a simple instruction in effects, such as "affected":"Athletics" and "value":"+2", turn it into an Effect here,
         // then mark the effect as a penalty if the change is negative (except for Bulk).
         //Formulas are allowed, such as "Character.level / 2".
@@ -94,7 +105,10 @@ export class EffectsGenerationService {
             }
             try {
                 valueNumber = get_ValueFromFormula(effect.value) as number;
-                if (!isNaN(Number(valueNumber)) && Number(valueNumber) != Infinity) {
+                function validNumber() {
+                    return !isNaN(Number(valueNumber)) && Number(valueNumber) != Infinity;
+                }
+                if (validNumber()) {
                     valueNumber = Number(valueNumber);
                     if (valueNumber > 0) {
                         value = "+" + valueNumber;
@@ -145,7 +159,10 @@ export class EffectsGenerationService {
                 };
             }
             //Hide all relative effects that come from feats, so we don't see green effects permanently after taking a feat.
-            if (show == undefined && object instanceof Feat) {
+            function shouldHide() {
+                return show == undefined && object instanceof Feat;
+            }
+            if (shouldHide()) {
                 show = false;
             }
             if (source == "Custom Effect") {
@@ -166,23 +183,15 @@ export class EffectsGenerationService {
                 target = Familiar?.id || "";
                 affected = effect.affected.replace("Familiar:", "");
             }
-            //Effects that have neither a value nor title nor a toggle get ignored.
-            if (title || toggle || setValue || parseInt(value) != 0) {
+            //Effects that have neither a value nor title nor a toggle don't get created.
+            function functionalEffect() {
+                return title || toggle || setValue || parseInt(value) != 0;
+            }
+            if (functionalEffect()) {
                 objectEffects.push(new Effect(target, type, affected, value, setValue, toggle, title, source, penalty, undefined, show, effect.duration, effect.maxDuration, effect.cumulative));
             }
         });
         return objectEffects;
-    }
-
-    private generate_CreatureEffectsIndex(creatureType: string): number {
-        switch (creatureType) {
-            case "Character":
-                return 0;
-            case "Companion":
-                return 1;
-            case "Familiar":
-                return 2;
-        }
     }
 
     private get_ForeignEffects(creature: Creature): Effect[] {
@@ -193,393 +202,362 @@ export class EffectsGenerationService {
         return foreignEffects;
     }
 
-    private generate_ObjectEffects(creature: Creature, services: { characterService: CharacterService }, context: { character: Character, companion: AnimalCompanion, familiar: Familiar }): Effect[] {
-        let effectsGenerationService = this;
-        function get_EffectsFromObject(object: any, context: FormulaContext, options: FormulaOptions = {}) {
-            return effectsGenerationService.get_EffectsFromObject(object, services, context, options);
+    private collect_EffectItems(creature: Creature, services: { readonly characterService: CharacterService }): { objects: (Equipment | Specialization | ArmorRune)[], hintSets: HintSet[] } {
+        let objects: (Equipment | Specialization | ArmorRune)[] = [];
+        let hintSets: HintSet[] = [];
+
+        function add_Hints(item: Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material) {
+            item.hints
+                ?.filter(hint => hint.resonant ? (item instanceof WornItem && item.isSlottedAeonStone) : true)
+                .forEach(hint => {
+                    hintSets.push({ hint: hint, parentItem: item, objectName: (item.get_Name ? item.get_Name() : item.name) });
+                })
         }
 
-        //Create object effects from equipped items, feats, conditions etc., starting with the creature itself.
-        let objectEffects: Effect[] = get_EffectsFromObject(creature, { creature: creature });
+        creature.inventories.forEach(inventory => {
+            inventory.allEquipment().filter(item =>
+                (item.equippable ? item.equipped : true) &&
+                (item.can_Invest() ? item.invested : true) &&
+                item.amount &&
+                !item.broken &&
+                !(item instanceof ArmorRune)
+            ).forEach((item: Equipment) => {
+                objects.push(item);
+                add_Hints(item);
+                item.oilsApplied.forEach(oil => {
+                    add_Hints(oil);
+                });
+                if (item instanceof WornItem) {
+                    item.aeonStones.forEach(stone => {
+                        objects.push(stone);
+                        add_Hints(stone);
+                    });
+                }
+                if (item instanceof Armor) {
+                    item.get_ArmorSpecialization(creature, services.characterService).forEach(spec => {
+                        objects.push(spec);
+                    })
+                    item.propertyRunes.forEach(rune => {
+                        objects.push(rune as ArmorRune);
+                        add_Hints(rune as ArmorRune);
+                    });
+                }
+                if (item instanceof Shield) {
+                    item.propertyRunes.forEach(rune => {
+                        add_Hints(rune as ArmorRune);
+                    });
+                }
+                item.material.forEach(material => {
+                    add_Hints(material);
+                });
+            });
+        });
+        return { objects: objects, hintSets: hintSets };
+    }
 
-        //Write active hint effects into a separate list first. All effects from feats should be shown, after which they are moved into objectEffects.
-        let hintEffects: Effect[] = [];
-
-        //Inventory Items
-        creature.inventories[0].allEquipment().filter(item => item.invested && !item.broken && (item.effects?.length || item.propertyRunes?.length || (item instanceof WornItem && item.isWayfinder)) && !(item instanceof ArmorRune)).forEach(item => {
-            objectEffects = objectEffects.concat(get_EffectsFromObject(item, { creature: creature }));
-            item.propertyRunes?.filter(rune => rune instanceof ArmorRune && rune.effects?.length).forEach(rune => {
-                objectEffects = objectEffects.concat(get_EffectsFromObject(rune, { creature: creature }));
+    private collect_TraitEffectHints(creature: Creature, services: { readonly characterService: CharacterService }): HintSet[] {
+        let hintSets: HintSet[] = [];
+        services.characterService.traitsService.get_Traits().filter(trait => trait.hints.length).forEach(trait => {
+            trait.hints.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length && trait.haveOn(creature).length).forEach(hint => {
+                hintSets.push({ hint: hint, objectName: trait.name });
             })
-            if (item instanceof WornItem) {
-                item.aeonStones?.filter(stone => stone.effects.length).forEach(stone => {
-                    objectEffects = objectEffects.concat(get_EffectsFromObject(stone, { creature: creature }));
+        })
+        return hintSets;
+    }
+
+    private collect_EffectConditions(creature: Creature, services: { readonly characterService: CharacterService }): { conditions: ConditionEffectsObject[], hintSets: HintSet[] } {
+        let hintSets: HintSet[] = [];
+        let conditions: (ConditionEffectsObject)[] = [];
+        const appliedConditions = services.characterService.get_AppliedConditions(creature).filter(condition => condition.apply);
+        appliedConditions.forEach(gain => {
+            const originalCondition = services.characterService.get_Conditions(gain.name)[0];
+            if (originalCondition) {
+                const conditionEffectsObject: ConditionEffectsObject = Object.assign(new ConditionEffectsObject(originalCondition.effects), gain);
+                conditions.push(conditionEffectsObject);
+                originalCondition?.hints?.filter(hint => (!hint.conditionChoiceFilter.length || hint.conditionChoiceFilter.includes(gain.choice))).forEach(hint => {
+                    hintSets.push({ hint: hint, parentConditionGain: gain, objectName: originalCondition.name })
                 })
             }
         });
+        return { conditions: conditions, hintSets: hintSets };
+    }
 
-        //Traits that are on currently equipped items
-        services.characterService.traitsService.get_Traits().filter(trait => trait.hints.length).forEach(trait => {
-            trait.hints.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length && trait.haveOn(creature).length).forEach(hint => {
-                hintEffects = hintEffects.concat(get_EffectsFromObject(hint, { creature: creature }, { name: "conditional, " + trait.name }));
+    private collect_ActivityEffectHints(creature: Creature, services: { readonly characterService: CharacterService }): HintSet[] {
+        let hintSets: HintSet[] = [];
+        services.characterService.get_OwnedActivities(creature, creature.level, true).filter(activity => activity.active).forEach(activity => {
+            activity.get_OriginalActivity(this.activitiesService)?.hints?.forEach(hint => {
+                hintSets.push({ hint: hint, objectName: activity.name })
             })
         })
+        return hintSets;
+    }
 
-        //Write passive feat effects into a separate list first. All effects from feats should be hidden, after which they are moved into objectEffects.
+    private generate_ObjectEffects(creature: Creature, services: { readonly characterService: CharacterService }): Effect[] {
+        //Collect objects, conditions and objects' hints to generate effects from. Hint effects will be handled separately at first.
+        let objects: (Creature | Equipment | ArmorRune | Specialization)[] = [];
+        let feats: (Feat | AnimalCompanionSpecialization)[] = [];
+        let hintSets: HintSet[] = [];
+        let conditions: (ConditionEffectsObject)[] = [];
+
+        //Start with the creature itself.
+        objects.push(creature);
+
+        //Collect the creature's feats/abilities/specializations and their hints.
+        const creatureObjects = creature.get_EffectsGenerationObjects(services.characterService);
+        feats = feats.concat(creatureObjects.feats);
+        hintSets = hintSets.concat(creatureObjects.hintSets);
+
+        //Collect inventory items and their hints, if the item is equipped and invested as needed.
+        const effectItems = this.collect_EffectItems(creature, services);
+        objects = objects.concat(effectItems.objects);
+        hintSets = hintSets.concat(effectItems.hintSets);
+
+        //Collect hints of Traits that are on currently equipped items.
+        hintSets = hintSets.concat(this.collect_TraitEffectHints(creature, services));
+
+        //Collect active conditions and their hints.
+        const effectConditions = this.collect_EffectConditions(creature, services);
+        conditions = conditions.concat(effectConditions.conditions);
+        hintSets = hintSets.concat(effectConditions.hintSets);
+
+        //Collect hints of active activities.
+        hintSets = hintSets.concat(this.collect_ActivityEffectHints(creature, services));
+
+
+        //Create object effects from the creature and its items, then add effects from conditions.
+        let objectEffects: Effect[] = [];
+        objects.filter(object => object.effects?.length).forEach(object => {
+            objectEffects = objectEffects.concat(this.get_EffectsFromObject(object, services, { object: object, creature: creature }));
+        })
+        conditions.filter(object => object.effects?.length).forEach(conditionEffectsObject => {
+            objectEffects = objectEffects.concat(this.get_EffectsFromObject(conditionEffectsObject, services, { creature: creature, parentConditionGain: conditionEffectsObject }));
+        })
+
+        //Create object effects from creature feats/abilities and store them in a separate list. All effects from feats should be HIDDEN, after which they are moved into objectEffects.
         let featEffects: Effect[] = [];
-
-        //Character Feats and active hints
-        if (context.character) {
-            services.characterService.get_CharacterFeatsTaken(0, creature.level)
-                .map(gain => services.characterService.get_FeatsAndFeatures(gain.name)[0])
-                .filter(feat => feat && (feat.effects?.length || feat.hints?.length) && feat.have(creature, services.characterService, creature.level))
-                .forEach(feat => {
-                    if (feat.effects?.length) {
-                        featEffects = featEffects.concat(get_EffectsFromObject(feat, { creature: creature }));
-                    }
-                    feat.hints?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
-                        hintEffects = hintEffects.concat(get_EffectsFromObject(hint, { creature: creature }, { name: "conditional, " + feat.name }));
-                    })
-                });
-        }
-        //Companion Specializations and active hints
-        if (context.companion) {
-            context.companion.class?.ancestry?.hints?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
-                hintEffects = hintEffects.concat(get_EffectsFromObject(hint, { creature: creature }, { name: "conditional, " + context.companion.class.ancestry.name }));
-            })
-            context.companion.class?.specializations?.filter(spec => spec.effects?.length || spec.hints?.length).forEach(spec => {
-                if (spec.effects?.length) {
-                    featEffects = featEffects.concat(get_EffectsFromObject(spec, { creature: context.companion }));
-                }
-                spec.hints?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
-                    hintEffects = hintEffects.concat(get_EffectsFromObject(hint, { creature: context.companion }, { name: "conditional, " + spec.name }));
-                })
-            })
-        }
-        //Familiar Feats and active hints
-        if (context.familiar) {
-            services.characterService.familiarsService.get_FamiliarAbilities().filter(ability => ability.have(context.familiar, services.characterService))
-                .filter(ability => ability.effects?.length || ability.hints?.length)
-                .forEach(ability => {
-                    if (ability.effects?.length) {
-                        featEffects = featEffects.concat(get_EffectsFromObject(ability, { creature: context.familiar }));
-                    }
-                    ability.hints?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
-                        hintEffects = hintEffects.concat(get_EffectsFromObject(hint, { creature: context.familiar }, { name: "conditional, " + ability.name }));
-                    })
-                });
-        }
-        //Hide all feat effects and push them into objectEffects.
+        feats.filter(object => object.effects?.length).forEach(object => {
+            featEffects = objectEffects.concat(this.get_EffectsFromObject(object, services, { creature: creature }));
+        })
         featEffects.forEach(effect => {
             effect.show = false;
         })
-        objectEffects.push(...featEffects);
 
-        //Conditions
-        const appliedConditions = services.characterService.get_AppliedConditions(creature).filter(condition => condition.apply);
-        appliedConditions.forEach(gain => {
-            let originalCondition = services.characterService.get_Conditions(gain.name)[0];
-            if (originalCondition?.effects?.length) {
-                //Create an object that contains the condition gain data and the condition effects.
-                class ConditionEffectsObject extends ConditionGain {
-                    effects: EffectGain[] = [];
-                }
-                let conditionEffectsObject: ConditionEffectsObject = Object.assign(new ConditionEffectsObject(), gain);
-                conditionEffectsObject.effects = originalCondition.effects;
-                objectEffects = objectEffects.concat(get_EffectsFromObject(conditionEffectsObject, { creature: creature, parentConditionGain: gain }));
-            }
-            originalCondition?.hints?.filter(hint => (!hint.conditionChoiceFilter.length || hint.conditionChoiceFilter.includes(gain.choice)) && (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
-                hintEffects = hintEffects.concat(get_EffectsFromObject(hint, { creature: creature, parentConditionGain: gain }, { name: "conditional, " + originalCondition.name }));
-            })
-        });
-        //Active activities and active hints
-        services.characterService.get_OwnedActivities(creature, creature.level, true).filter(activity => activity.active).forEach(activity => {
-            let originalActivity: Activity;
-            if (activity instanceof ItemActivity) {
-                originalActivity = activity as ItemActivity;
-            } else {
-                originalActivity = this.activitiesService.get_Activities(activity.name)[0];
-            }
-            originalActivity?.hints?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
-                hintEffects = hintEffects.concat(get_EffectsFromObject(hint, { creature: creature }, { name: "conditional, " + originalActivity.name }));
-            })
+        //Create object effects from active hints and store them in a separate list. All effects from hints should be SHOWN, after which they are moved into objectEffects.
+        let hintEffects: Effect[] = [];
+        hintSets.filter(hintSet => (hintSet.hint.active || hintSet.hint.active2 || hintSet.hint.active3 || hintSet.hint.active4 || hintSet.hint.active5) && hintSet.hint.effects?.length).forEach(hintSet => {
+            hintEffects = hintEffects.concat(this.get_EffectsFromObject(hintSet.hint, services, { creature: creature, parentItem: hintSet.parentItem }, { name: "conditional, " + hintSet.objectName }));
         })
-        //Active hints of equipped items
-        if (!context.familiar) {
-            function add_HintEffects(item: Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material) {
-                item.hints
-                    ?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length)
-                    .filter(hint => hint.resonant ? (item instanceof WornItem && item.isSlottedAeonStone) : true)
-                    .forEach(hint => {
-                        hintEffects = hintEffects.concat(get_EffectsFromObject(hint, { creature: creature, parentItem: item }, { name: "conditional, " + (item.get_Name ? item.get_Name() : item.name) }));
-                    })
-            }
-            creature.inventories.forEach(inventory => {
-                inventory.allEquipment().filter(item => (item.equippable ? item.equipped : true) && item.amount && !item.broken && (item.can_Invest() ? item.invested : true)).forEach(item => {
-                    add_HintEffects(item);
-                    item.oilsApplied.forEach(oil => {
-                        add_HintEffects(oil);
-                    });
-                    if ((item as WornItem).aeonStones) {
-                        (item as WornItem).aeonStones.forEach(stone => {
-                            add_HintEffects(stone);
-                        });
-                    }
-                    if (item instanceof Armor && item.propertyRunes) {
-                        item.propertyRunes.forEach(rune => {
-                            add_HintEffects(rune as ArmorRune);
-                        });
-                    }
-                    if (item instanceof Shield && item.propertyRunes) {
-                        item.propertyRunes.forEach(rune => {
-                            add_HintEffects(rune as ArmorRune);
-                        });
-                    }
-                    if (item instanceof Equipment && item.material) {
-                        (item as Equipment).material.forEach(material => {
-                            add_HintEffects(material);
-                        });
-                    }
-                });
-            });
-        }
-
-        //Add Armor specialization effects if they apply.
-        creature.inventories[0].armors.filter(armor => armor.equipped).forEach(armor => {
-            armor.get_ArmorSpecialization(creature, services.characterService).forEach(spec => {
-                objectEffects = objectEffects.concat(get_EffectsFromObject(spec, { creature: creature }));
-            })
-        });
-
-        //Show all hint effects and push them into objectEffects.
         hintEffects.forEach(effect => {
             effect.show = true;
         })
-        objectEffects.push(...hintEffects);
 
-        return objectEffects;
+        return objectEffects.concat(featEffects).concat(hintEffects);
     }
 
-    private generate_Effects(creatureType: string, services: { characterService: CharacterService }, options: { secondRun?: boolean } = {}): boolean {
-        //This function generates effects for the targeted creature from any possible source that bears effects.
-        //It is never called, except by this.initialize whenever the effects or the entire creature is updated.
-        //The resulting effects are moved into the EffectsService and can be queried there.
+    private generate_ArmorEffects(armor: Armor, services: { readonly characterService: CharacterService }, context: { readonly creature: Creature }, options: { readonly ignoreArmorPenalties: boolean, readonly ignoreArmorSpeedPenalties: boolean }): Effect[] {
+        let itemEffects: Effect[] = [];
+        const armorTraits = armor.get_Traits();
+        function add_Effect(options: { type: "item" | "untyped", target: string, value: string, source: string, penalty: boolean, apply: boolean }): void {
+            itemEffects.push(new Effect(context.creature.id, options.type, options.target, options.value, "", false, "", options.source, true, options.apply));
+        }
+        //For Saving Throws, add any resilient runes on the equipped armor.
+        function applyResilientRune() {
+            return armor.get_ResilientRune() > 0 && !armor.broken;
+        }
+        if (applyResilientRune()) {
+            const resilient = armor.get_ResilientRune();
+            add_Effect({ type: "item", target: "Saving Throws", value: "+" + resilient, source: armor.get_Resilient(resilient), penalty: false, apply: undefined });
+        }
+        //Add broken penalty if the armor is broken.
+        if (armor.broken) {
+            let brokenPenalty: string = "";
+            switch (armor.get_Proficiency()) {
+                case "Light Armor":
+                    brokenPenalty = "-1";
+                    break;
+                case "Medium Armor":
+                    brokenPenalty = "-2";
+                    break;
+                case "Heavy Armor":
+                    brokenPenalty = "-3";
+                    break;
+            }
+            if (brokenPenalty) {
+                add_Effect({ type: "untyped", target: "AC", value: brokenPenalty, source: "Broken Armor", penalty: true, apply: undefined });
+            }
+        }
+        //Add skill and speed penalties from armor strength requirements and certain traits.
+        if (!options.ignoreArmorPenalties) {
+            //If an armor has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement.
+            const strength = services.characterService.get_Abilities("Strength")[0].value(context.creature as Character | AnimalCompanion, services.characterService, this.effectsService).result;
+            const name = armor.get_Name();
+            const skillPenalty = armor.get_SkillPenalty();
+            const skillPenaltyString = skillPenalty.toString();
+            const speedPenalty = armor.get_SpeedPenalty();
+            const speedPenaltyString = speedPenalty.toString();
+            function strengthRequirementMatched() {
+                return strength >= armor.get_Strength();
+            }
+            if (!strengthRequirementMatched) {
+                if (skillPenalty) {
+                    //You are not strong enough to act freely in this armor.
+                    //If the item has the Flexible trait, its penalty doesn't apply to Acrobatics and Athletics.
+                    //We push this as an apply:false effect to each so you can see that (and why) you were spared from it.
+                    //We also add a note to the source for clarity.
+                    if (armorTraits.includes("Flexible")) {
+                        add_Effect({ type: "item", target: "Acrobatics", value: skillPenaltyString, source: name + "(cancelled by Flexible)", penalty: true, apply: false });
+                        add_Effect({ type: "item", target: "Athletics", value: skillPenaltyString, source: name + "(cancelled by Flexible)", penalty: true, apply: false });
+                    } else {
+                        add_Effect({ type: "item", target: "Acrobatics", value: skillPenaltyString, source: name, penalty: true, apply: undefined });
+                        add_Effect({ type: "item", target: "Athletics", value: skillPenaltyString, source: name, penalty: true, apply: undefined });
+                    }
+                    //These two always apply unless you are strong enough.
+                    add_Effect({ type: "item", target: "Stealth", value: skillPenaltyString, source: name, penalty: true, apply: undefined });
+                    add_Effect({ type: "item", target: "Thievery", value: skillPenaltyString, source: name, penalty: true, apply: undefined });
+                }
+                if (speedPenalty && !options.ignoreArmorSpeedPenalties) {
+                    //You are not strong enough to move unhindered in this armor. You get a speed penalty.
+                    add_Effect({ type: "untyped", target: "Speed", value: speedPenaltyString, source: name, penalty: true, apply: undefined });
+                }
+            } else {
+                if (skillPenalty) {
+                    //If you ARE strong enough, we push some not applying effects so you can feel good about that
+                    add_Effect({ type: "item", target: "Acrobatics", value: skillPenaltyString, source: name + " (cancelled by Strength)", penalty: true, apply: false });
+                    add_Effect({ type: "item", target: "Athletics", value: skillPenaltyString, source: name + " (cancelled by Strength)", penalty: true, apply: false });
+                    add_Effect({ type: "item", target: "Thievery", value: skillPenaltyString, source: name + " (cancelled by Strength)", penalty: true, apply: false });
+                    //UNLESS the item is also Noisy, in which case you do get the stealth penalty because you are dummy thicc and the clap of your ass cheeks keeps alerting the guards.
+                    if (armorTraits.includes("Noisy")) {
+                        add_Effect({ type: "item", target: "Stealth", value: skillPenaltyString, source: name + " (Noisy)", penalty: true, apply: undefined });
+                    } else {
+                        add_Effect({ type: "item", target: "Stealth", value: skillPenaltyString, source: name + " (cancelled by Strength)", penalty: true, apply: false });
+                    }
+                }
+                function speedPenaltyApplies() {
+                    return speedPenalty && !options.ignoreArmorSpeedPenalties;
+                }
+                if (speedPenaltyApplies()) {
+                    //You are strong enough to ignore the speed penalty, but if the armor is particularly heavy, your penalty is only lessened.
+                    if (speedPenalty < -5) {
+                        //In this case we push both the avoided and the actual effect so you can feel at least a little good about yourself.
+                        add_Effect({ type: "untyped", target: "Speed", value: (speedPenalty + 5).toString(), source: name, penalty: true, apply: true });
+                        add_Effect({ type: "untyped", target: "Speed", value: speedPenaltyString, source: name + " (cancelled by Strength)", penalty: true, apply: false });
+                    } else {
+                        //If you are strong enough and the armor only gave -5ft penalty, you get a fully avoided effect to gaze at.
+                        add_Effect({ type: "untyped", target: "Speed", value: speedPenaltyString, source: name + " (cancelled by Strength)", penalty: true, apply: false });
+                    }
+                }
+            }
+        }
+        return itemEffects;
+    }
 
-        options = Object.assign({
-            secondRun: false
-        }, options)
+    private generate_ShieldEffects(shield: Shield, services: { readonly characterService: CharacterService }, context: { readonly creature: Creature }): Effect[] {
+        //Get shield bonuses from raised shields
+        //If a shield is raised, add its circumstance bonus to AC with a + in front.
+        let itemEffects: Effect[] = [];
+        function add_Effect(options: { type: "circumstance" | "untyped", target: string, value: string, source: string, penalty: boolean, apply: boolean }): void {
+            itemEffects.push(new Effect(context.creature.id, options.type, options.target, options.value, "", false, "", options.source, true, options.apply));
+        }
+        const name = shield.get_Name();
+        function shieldBonusApplies() {
+            return shield.raised && !shield.broken;
+        }
+        if (shieldBonusApplies()) {
+            const shieldBonus = shield.get_ACBonus();
+            if (shieldBonus) {
+                add_Effect({ type: "circumstance", target: "AC", value: "+" + shieldBonus, source: name, penalty: false, apply: undefined })
+            }
+            function reflexiveShieldApplies() {
+                return context.creature instanceof Character && context.creature.has_Feat("Reflexive Shield", services);
+            }
+            //Reflexive Shield adds the same bonus to your reflex save. Only a Character can have it.
+            if (reflexiveShieldApplies()) {
+                add_Effect({ type: "circumstance", target: "Reflex", value: "+" + shieldBonus, source: "Reflexive Shield", penalty: false, apply: undefined })
+            }
+        }
+        if (shield.speedpenalty) {
+            //Shields don't have a strength requirement for speed penalties. In this case, the penalty just always applies.
+            add_Effect({ type: "untyped", target: "Speed", value: shield.speedpenalty.toString(), source: name, penalty: true, apply: undefined })
+        }
+        return itemEffects;
+    }
 
-        const creature: Creature = services.characterService.get_Creature(creatureType);
-        const character: Character = (creature.type == "Character") ? creature as Character : null;
-        const companion: AnimalCompanion = (creature.type == "Companion") ? creature as AnimalCompanion : null;
-        const familiar: Familiar = (creature.type == "Familiar") ? creature as Familiar : null;
-        const creatureIndex: number = this.generate_CreatureEffectsIndex(creatureType)
-
-        //Fetch any effects from the other creatures that apply to this.
-        let foreignEffects: Effect[] = this.get_ForeignEffects(creature);
-
-        //Generate effects
-        let objectEffects: Effect[] = this.generate_ObjectEffects(creature, services, { character, companion, familiar })
-
-
-
+    private generate_CalculatedItemEffects(creature: Creature, services: { readonly characterService: CharacterService }, options: { readonly ignoreArmorPenalties: boolean, readonly ignoreArmorSpeedPenalties: boolean }): Effect[] {
         let itemEffects: Effect[] = [];
 
-        //Get Item bonuses for Character or Companion only.
-        if (!familiar) {
-            const items = creature.inventories[0];
+        const items = creature.inventories[0];
+        items.armors.filter(armor => armor.equipped).forEach(armor => {
+            itemEffects = itemEffects.concat(this.generate_ArmorEffects(armor, services, { creature: creature }, options));
+        })
 
-            function itemValuesChanged(previousValues: any[], newValues: any[]) {
-                return previousValues.some((previous, index) => previous != newValues[index]);
-            }
+        items.shields.filter(shield => shield.equipped).forEach(shield => {
+            itemEffects = itemEffects.concat(this.generate_ShieldEffects(shield, services, { creature: creature }));
+        });
 
-            //Initialize shoddy values and shield ally/emblazon armament for all shields and weapons.
-            //Set components to update if these values have changed from before.
-            creature.inventories.forEach(inv => {
-                inv.shields.forEach(shield => {
-                    const oldShoddy = shield._shoddy;
-                    shield.get_Shoddy((creature as AnimalCompanion | Character), services.characterService);
-                    if (oldShoddy != shield._shoddy) {
-                        this.refreshService.set_ToChange(creature.type, "inventory");
-                        this.refreshService.set_ToChange(creature.type, "defense");
-                    }
-                    const oldShieldAlly = shield._shieldAlly;
-                    shield.get_ShieldAlly((creature as AnimalCompanion | Character), services.characterService);
-                    const oldEmblazonArmament = shield._emblazonArmament;
-                    const oldEmblazonEnergy = shield._emblazonEnergy;
-                    const oldEmblazonAntimagic = shield._emblazonAntimagic;
-                    shield.get_EmblazonArmament((creature as AnimalCompanion | Character), services.characterService);
-                    const oldValues = [oldShieldAlly, oldEmblazonArmament, oldEmblazonEnergy, oldEmblazonAntimagic];
-                    const newValues = [shield._shieldAlly, shield._emblazonArmament, shield._emblazonEnergy, shield._emblazonAntimagic];
-                    if (itemValuesChanged(oldValues, newValues)) {
-                        this.refreshService.set_ToChange(creature.type, shield.id);
-                        this.refreshService.set_ToChange(creature.type, "defense");
-                        this.refreshService.set_ToChange(creature.type, "inventory");
-                    }
-                })
-                inv.weapons.forEach(weapon => {
-                    const oldEmblazonArmament = weapon._emblazonArmament;
-                    const oldEmblazonEnergy = weapon._emblazonEnergy;
-                    const oldEmblazonAntimagic = weapon._emblazonAntimagic;
-                    weapon.get_EmblazonArmament((creature as AnimalCompanion | Character), services.characterService);
-                    const oldValues = [oldEmblazonArmament, oldEmblazonEnergy, oldEmblazonAntimagic];
-                    const newValues = [weapon._emblazonArmament, weapon._emblazonEnergy, weapon._emblazonAntimagic];
-                    if (itemValuesChanged(oldValues, newValues)) {
-                        this.refreshService.set_ToChange(creature.type, weapon.id);
-                        this.refreshService.set_ToChange(creature.type, "attacks");
-                        this.refreshService.set_ToChange(creature.type, "inventory");
-                    }
-                })
-            })
-            //Get shield bonuses from raised shields
-            //If a shield is raised, add its circumstance bonus to AC with a + in front. If you are taking cover with the shield raised, you gain the "Greater Cover" condition; This doesn't need to be handled here.
-            items.shields.filter(shield => shield.equipped && shield.raised && !shield.broken).forEach(shield => {
-                const shieldBonus = shield.get_ACBonus();
-                if (shieldBonus) {
-                    itemEffects.push(new Effect(creature.id, 'circumstance', "AC", "+" + shieldBonus, "", false, "", shield.get_Name(), false));
-                }
-                //Reflexive Shield
-                if (services.characterService.get_CharacterFeatsTaken(1, character.level, "Reflexive Shield").length) {
-                    itemEffects.push(new Effect(creature.id, 'circumstance', "Reflex", "+" + shieldBonus, "", false, "", "Reflexive Shield", false));
-                }
-            });
-            //Initialize armored skirt and shoddy values for all armor.
-            creature.inventories.forEach(inv => {
-                inv.armors.forEach(armor => {
-                    const oldArmoredSkirt = armor._affectedByArmoredSkirt;
-                    const oldShoddy = armor._shoddy;
-                    armor.get_ArmoredSkirt((creature as AnimalCompanion | Character), services.characterService);
-                    armor.get_Shoddy((creature as AnimalCompanion | Character), services.characterService);
-                    const oldValues = [oldArmoredSkirt, oldShoddy];
-                    const newValues = [armor._affectedByArmoredSkirt, armor._shoddy];
-                    if (itemValuesChanged(oldValues, newValues)) {
-                        this.refreshService.set_ToChange(creature.type, "inventory");
-                    }
-                })
-            })
-            items.armors.filter(armor => armor.equipped).forEach(armor => {
-                //For Saving Throws, add any resilient runes on the equipped armor.
-                if (armor.get_ResilientRune() > 0 && !armor.broken) {
-                    const resilient = armor.get_ResilientRune();
-                    itemEffects.push(new Effect(creature.id, 'item', "Saving Throws", "+" + resilient, "", false, "", armor.get_Resilient(resilient), false))
-                }
-                //Add broken penalty if the armor is broken.
-                if (armor.broken) {
-                    switch (armor.get_Proficiency()) {
-                        case "Light Armor":
-                            itemEffects.push(new Effect(creature.id, "untyped", "AC", "-1", "", false, "", "Broken Armor", true));
-                            break;
-                        case "Medium Armor":
-                            itemEffects.push(new Effect(creature.id, "untyped", "AC", "-2", "", false, "", "Broken Armor", true));
-                            break;
-                        case "Heavy Armor":
-                            itemEffects.push(new Effect(creature.id, "untyped", "AC", "-3", "", false, "", "Broken Armor", true));
-                            break;
-                    }
-                }
-            });
+        return itemEffects;
+    }
 
-            //Get skill and speed penalties from armor
-            //Skip all armor penalties if there is an "Ignore Armor Penalty" effect.
-            const ignoreArmorPenalties = objectEffects.concat(itemEffects).concat(foreignEffects).some(effect => effect.creature == creature.id && effect.target == "Ignore Armor Penalty" && effect.toggle);
-            //Skip speed penalties if there is an "Ignore Armor Speed Penalty" effect.
-            const ignoreArmorSpeedPenalties = objectEffects.concat(itemEffects).concat(foreignEffects).some(effect => effect.creature == creature.id && effect.target == "Ignore Armor Speed Penalty" && effect.toggle);
-            if (!ignoreArmorPenalties) {
-                //If an armor has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement.
-                const strength = services.characterService.get_Abilities("Strength")[0].value(creature as Character | AnimalCompanion, services.characterService, this.effectsService).result;
-
-                items.armors.filter(item => item.equipped).forEach(item => {
-                    const name = item.get_Name();
-                    const skillPenalty = item.get_SkillPenalty();
-                    const skillPenaltyString = skillPenalty.toString();
-                    const speedPenalty = item.get_SpeedPenalty();
-                    const speedPenaltyString = speedPenalty.toString();
-                    if (strength < item.get_Strength()) {
-                        if (skillPenalty) {
-                            //You are not strong enough to act freely in this armor.
-                            //If the item has the Flexible trait, its penalty doesn't apply to Acrobatics and Athletics.
-                            //We push this as an apply:false effect to each so you can see that (and why) you were spared from it.
-                            //We also add a note to the source for clarity.
-                            if (this.traitsService.have_Trait(services.characterService, creature, item, "Flexible")) {
-                                itemEffects.push(new Effect(creature.id, 'item', "Acrobatics", skillPenaltyString, "", false, "", name + " (cancelled by Flexible)", true, false));
-                                itemEffects.push(new Effect(creature.id, 'item', "Athletics", skillPenaltyString, "", false, "", name + " (cancelled by Flexible)", true, false));
-                            } else {
-                                itemEffects.push(new Effect(creature.id, 'item', "Acrobatics", skillPenaltyString, "", false, "", name, true));
-                                itemEffects.push(new Effect(creature.id, 'item', "Athletics", skillPenaltyString, "", false, "", name, true));
-                            }
-                            //These two always apply unless you are strong enough.
-                            itemEffects.push(new Effect(creature.id, 'item', "Stealth", skillPenaltyString, "", false, "", name, true));
-                            itemEffects.push(new Effect(creature.id, 'item', "Thievery", skillPenaltyString, "", false, "", name, true));
-                        }
-                        if (speedPenalty && !ignoreArmorSpeedPenalties) {
-                            //You are not strong enough to move unhindered in this armor. You get a speed penalty.
-                            itemEffects.push(new Effect(creature.id, 'untyped', "Speed", speedPenaltyString, "", false, "", name, true));
-                        }
-                    } else {
-                        if (skillPenalty) {
-                            //If you ARE strong enough, we push some not applying effects so you can feel good about that
-                            itemEffects.push(new Effect(creature.id, 'item', "Acrobatics", skillPenaltyString, "", false, "", name + " (cancelled by Strength)", true, false));
-                            itemEffects.push(new Effect(creature.id, 'item', "Athletics", skillPenaltyString, "", false, "", name + " (cancelled by Strength)", true, false));
-                            itemEffects.push(new Effect(creature.id, 'item', "Thievery", skillPenaltyString, "", false, "", name + " (cancelled by Strength)", true, false));
-                            //UNLESS the item is also Noisy, in which case you do get the stealth penalty because you are dummy thicc and the clap of your ass cheeks keeps alerting the guards.
-                            if (this.traitsService.have_Trait(services.characterService, creature, item, "Noisy")) {
-                                itemEffects.push(new Effect(creature.id, 'item', "Stealth", skillPenaltyString, "", false, "", name + " (Noisy)", true))
-                            } else {
-                                itemEffects.push(new Effect(creature.id, 'item', "Stealth", skillPenaltyString, "", false, "", name + " (cancelled by Strength)", true, false));
-                            }
-                        }
-                        if (speedPenalty && !ignoreArmorSpeedPenalties) {
-                            //You are strong enough to ignore the speed penalty, but if the armor is particularly heavy, your penalty is only lessened.
-                            if (speedPenalty < -5) {
-                                //In this case we push both the avoided and the actual effect so you can feel at least a little good about yourself.
-                                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", (speedPenalty + 5).toString(), "", false, "", name, true));
-                                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", speedPenaltyString, "", false, "", name + " (cancelled by Strength)", true, false));
-                            } else {
-                                //If you are strong enough and the armor only gave -5ft penalty, you get a fully avoided effect to gaze at.
-                                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", speedPenaltyString, "", false, "", name + " (cancelled by Strength)", true, false));
-                            }
-                        }
-                    }
-                });
-            }
-            items.shields.filter(item => item.equipped && item.speedpenalty).forEach(item => {
-                //Shields don't have a strength requirement for speed penalties. In this case, the penalty just always applies.
-                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), "", false, "", item.get_Name(), true));
-            });
-
-        }
-
-        //Push objectEffects and itemEffects into effects together.
-        let allEffects: Effect[] = objectEffects.concat(itemEffects).concat(foreignEffects);
-
+    private apply_UnburdenedIron(effects: Effect[], services: { readonly characterService: CharacterService }, context: { readonly character: Character }): Effect[] {
         //If you have the Unburdened Iron feat and are taking speed penalties, reduce the first of them by 5.
-        if (character && services.characterService.get_CharacterFeatsTaken(0, character.level, "Unburdened Iron").length) {
+        if (context.character.has_Feat("Unburdened Iron", services)) {
             let done: boolean = false;
             //Try global speed penalties first (this is more beneficial to the character).
-            allEffects.filter(effect => effect.target == "Speed" && effect.penalty && !effect.toggle).forEach(effect => {
-                if (!done) {
-                    effect.value = (parseInt(effect.value) + 5).toString();
-                    if (effect.value == "0" || effect.value == "") { effect.apply = false }
+            function lessen_SpeedPenaltyEffect(effect: Effect) {
+                effect.value = (parseInt(effect.value) + 5).toString();
+                if (effect.value == "0" || effect.value == "") {
+                    effect.apply = false;
+                    effect.source = effect.source + " (Cancelled by Unburdened Iron)";
+                } else {
                     effect.source = effect.source + " (Lessened by Unburdened Iron)";
+                }
+                return effect;
+            }
+            effects.filter(effect => effect.target == "Speed" && effect.penalty && !effect.toggle).forEach(effect => {
+                if (!done) {
+                    effect = lessen_SpeedPenaltyEffect(effect);
                     done = true;
                 }
             })
-            allEffects.filter(effect => effect.target == "Land Speed" && effect.penalty && !effect.toggle).forEach(effect => {
+            effects.filter(effect => effect.target == "Land Speed" && effect.penalty && !effect.toggle).forEach(effect => {
                 if (!done) {
-                    effect.value = (parseInt(effect.value) + 5).toString();
-                    if (effect.value == "0" || effect.value == "") { effect.apply = false }
-                    effect.source = effect.source + " (Lessened by Unburdened Iron)";
+                    effect = lessen_SpeedPenaltyEffect(effect);
                     done = true;
                 }
             })
         }
+        return effects;
+    }
 
-        //Split off effects that affect another creature for later. We don't want these to influence or be influenced by the next steps.
-        let effectsForOthers = allEffects.filter(effect => effect.creature != creature.id);
-        allEffects = allEffects.filter(effect => effect.creature == creature.id);
+    private set_EffectsIgnored(effects: Effect[], context: { readonly creature: Creature }): Effect[] {
+        //Reset ignoring all effects before processing ignored effects.
+        effects.forEach(effect => {
+            effect.ignored = false;
+        })
+        function get_EffectIgnored(effect: Effect): boolean {
+            return context.creature.ignoredEffects.some(ignoredEffect =>
+                ignoredEffect.creature == effect.creature &&
+                ignoredEffect.target == effect.target &&
+                ignoredEffect.source == effect.source
+            )
+        }
+        //Ignore all effects that match the creature's ignoredEffects.
+        effects.filter(effect => get_EffectIgnored(effect)).forEach(effect => {
+            effect.ignored = true;
+        })
+        //Cleanup the creature's ignoredEffects and delete each that doesn't match an existing effect.
+        context.creature.ignoredEffects = context.creature.ignoredEffects.filter(ignoredEffect =>
+            effects.some(effect =>
+                ignoredEffect.creature == effect.creature &&
+                ignoredEffect.target == effect.target &&
+                ignoredEffect.source == effect.source
+            )
+        )
+        return effects;
+    }
 
+    private set_EffectsApplied(effects: Effect[]): Effect[] {
         //Toggle effects are always applied.
-        allEffects.filter(effect => effect.toggle).forEach(effect => {
+        effects.filter(effect => effect.toggle).forEach(effect => {
             effect.apply = true;
         })
 
@@ -589,7 +567,7 @@ export class EffectsGenerationService {
 
         let targets: string[] = [];
         //Collect all targets of effects, but each only once
-        allEffects.forEach(effect => {
+        effects.forEach(effect => {
             if (!targets.includes(effect.target)) {
                 targets.push(effect.target);
             }
@@ -597,7 +575,7 @@ export class EffectsGenerationService {
         targets.forEach(target => {
             //Apply all untyped relative effects, but only the highest bonus and lowest penalty for each type for this target.
             //We only apply effects if the decision hasn't already been made (that is, if apply == undefined)
-            this.effectsService.get_TypeFilteredEffects(allEffects
+            this.effectsService.get_TypeFilteredEffects(effects
                 .filter(effect =>
                     effect.target == target && effect.apply == undefined && effect.value
                 ))
@@ -606,7 +584,7 @@ export class EffectsGenerationService {
                 })
             //Apply only the highest absolute effect for each type for this target.
             // (There aren't any absolute penalties, and absolute effects are usually untyped.)
-            this.effectsService.get_TypeFilteredEffects(allEffects
+            this.effectsService.get_TypeFilteredEffects(effects
                 .filter(effect =>
                     effect.target == target && effect.apply == undefined && effect.setValue
                 ), { absolutes: true })
@@ -616,65 +594,61 @@ export class EffectsGenerationService {
         })
 
         //Disable all effects that are not applied so far.
-        allEffects.filter(effect => effect.apply == undefined).forEach(effect => {
+        effects.filter(effect => effect.apply == undefined).forEach(effect => {
             effect.apply = false;
         })
 
-        //Reset ignoring all effects before processing ignored effects.
-        allEffects.forEach(effect => {
-            effect.ignored = false;
-        })
-
-        //Ignore all effects that match the creature's ignoredEffects.
-        allEffects.filter(effect => this.get_IgnoredEffect(creature, effect)).forEach(effect => {
-            effect.ignored = true;
-        })
-
         //If an effect with the target "Ignore <type> bonuses and penalties" exists, all effects of that type are disabled.
+        function ignoreEffectExists(type: string, effectType: string): boolean {
+            return effects.some(effect => !effect.ignored && effect.target.toLowerCase() == "ignore " + type.toLowerCase() + " " + effectType.toLowerCase());
+        }
         this.effectsService.bonusTypes.forEach(type => {
-            if (allEffects.find(effect => !effect.ignored && effect.target.toLowerCase() == "ignore " + type + " bonuses and penalties")) {
-                allEffects.filter(effect => effect.type == type).forEach(effect => {
+            if (ignoreEffectExists(type, "bonuses and penalties")) {
+                effects.filter(effect => effect.type == type).forEach(effect => {
                     effect.apply = false;
                 })
             }
         })
+        function specificIgnoreEffectExists(type: string, effectType: string): boolean {
+            return effects.some(effect => !effect.ignored && effect.target.toLowerCase().includes("ignore " + type.toLowerCase() + " " + effectType.toLowerCase()));
+        }
         //If there is an effect that says to ignore all <type> effects, bonuses or penalties [to a target],
         // all effects (or bonuses or penalties) to that target (or all targets) with that type are disabled.
         this.effectsService.bonusTypes.forEach(type => {
-            allEffects
-                .filter(effect => !effect.ignored && effect.target.toLowerCase().includes("ignore " + type.toLowerCase() + " effects") || effect.target.toLowerCase().includes("ignore " + type.toLowerCase() + " bonuses and penalties"))
+            effects
+                .filter(effect => !effect.ignored && specificIgnoreEffectExists(type, "effects") || specificIgnoreEffectExists(type, "bonuses and penalties"))
                 .forEach(ignoreeffect => {
                     let target = "all";
                     if (ignoreeffect.target.toLowerCase().includes(" to ")) {
                         target = ignoreeffect.target.toLowerCase().split(" to ")[1];
                     }
-                    allEffects
+                    effects
                         .filter(effect => (target == "all" || effect.target.toLowerCase() == target) && effect.type.toLowerCase() == type.toLowerCase())
                         .forEach(effect => {
                             effect.apply = false;
                         })
                 })
-            allEffects
-                .filter(effect => !effect.ignored && effect.target.toLowerCase().includes("ignore " + type.toLowerCase() + " bonuses"))
+            effects
+                .filter(effect => !effect.ignored && specificIgnoreEffectExists(type, "bonuses"))
                 .forEach(ignoreeffect => {
                     let target = "all";
                     if (ignoreeffect.target.toLowerCase().includes(" to ")) {
                         target = ignoreeffect.target.toLowerCase().split(" to ")[1];
                     }
-                    allEffects
+                    effects
                         .filter(effect => (target == "all" || effect.target.toLowerCase() == target) && effect.type == type && !effect.penalty)
                         .forEach(effect => {
                             effect.apply = false;
                         })
                 })
-            allEffects
-                .filter(effect => !effect.ignored && effect.target.toLowerCase().includes("ignore " + type.toLowerCase() + " penalties"))
+            effects
+                .filter(effect => !effect.ignored && specificIgnoreEffectExists(type, "penalties"))
                 .forEach(ignoreeffect => {
                     let target = "all";
                     if (ignoreeffect.target.toLowerCase().includes(" to ")) {
                         target = ignoreeffect.target.toLowerCase().split(" to ")[1];
                     }
-                    allEffects
+                    effects
                         .filter(effect => (target == "all" || effect.target.toLowerCase() == target) && effect.type == type && effect.penalty)
                         .forEach(effect => {
                             effect.apply = false;
@@ -682,14 +656,14 @@ export class EffectsGenerationService {
                 })
         })
         //If an effect with the target "Ignore <name>" exists without a type, all effects of that name are disabled.
-        allEffects.filter(effect => !effect.ignored && effect.target.toLowerCase().includes("ignore ") && !this.effectsService.bonusTypes.some(type => effect.target.toLowerCase().includes(type.toLowerCase()))).forEach(ignoreEffect => {
+        effects.filter(effect => !effect.ignored && effect.target.toLowerCase().includes("ignore ") && !this.effectsService.bonusTypes.some(type => effect.target.toLowerCase().includes(type.toLowerCase()))).forEach(ignoreEffect => {
             const target = ignoreEffect.target.toLowerCase().replace("ignore ", "");
-            allEffects.filter(effect => effect.target.toLowerCase() == target).forEach(effect => {
+            effects.filter(effect => effect.target.toLowerCase() == target).forEach(effect => {
                 effect.apply = false;
             })
         })
         //If an effect with the target "Ignore absolute effects [on <name>]" exists without a type, all absolute effects [on that target] are disabled.
-        allEffects
+        effects
             .filter(effect => !effect.ignored && effect.target.toLowerCase().includes("ignore absolute effects"))
             .forEach(ignoreeffect => {
                 let target = "all";
@@ -698,25 +672,16 @@ export class EffectsGenerationService {
                 } else if (ignoreeffect.target.toLowerCase().includes(" to ")) {
                     target = ignoreeffect.target.toLowerCase().split(" to ")[1];
                 }
-                allEffects
+                effects
                     .filter(effect => (target == "all" || effect.target.toLowerCase() == target) && effect.setValue)
                     .forEach(effect => {
                         effect.apply = false;
                     })
             })
+        return effects;
+    }
 
-        //Cleanup the creature's ignoredEffects and delete each that doesn't match an existing effect.
-        creature.ignoredEffects = creature.ignoredEffects.filter(ignoredEffect =>
-            allEffects.some(effect =>
-                ignoredEffect.creature == effect.creature &&
-                ignoredEffect.target == effect.target &&
-                ignoredEffect.source == effect.source
-            )
-        )
-
-        //Add back the effects that affect another creature.
-        allEffects = allEffects.concat(effectsForOthers);
-
+    private set_EffectsShown(effects: Effect[]): Effect[] {
         //Figure out whether to show or hide an effect if it isn't set already.
         const alwaysShow: string[] = [
             "AC",
@@ -784,7 +749,7 @@ export class EffectsGenerationService {
             "Lore: "
         ].map(name => name.toLowerCase())
 
-        allEffects.filter(effect => effect.show == undefined).forEach(effect => {
+        effects.filter(effect => effect.show == undefined).forEach(effect => {
             if (alwaysShow.includes(effect.target.toLowerCase())) {
                 effect.show = true;
             } else if (alwaysShowWildcard.some(wildcard => effect.target.toLowerCase().includes(wildcard))) {
@@ -794,32 +759,117 @@ export class EffectsGenerationService {
             }
         })
 
-        //Lastly, replace the global effects ONLY if the effects have changed, and if so, repeat the function straight away.
+        return effects;
+    }
+
+    private generate_Effects(creatureType: string, services: { readonly characterService: CharacterService }, options: { readonly secondRun?: boolean } = {}): boolean {
+        //This function generates effects for the targeted creature from any possible source that bears effects.
+        //It is never called, except by this.initialize whenever the effects or the entire creature is updated.
+        //The resulting effects are moved into the EffectsService and can be queried there.
+
+        options = Object.assign({
+            secondRun: false
+        }, options)
+
+        const creature: Creature = services.characterService.get_Creature(creatureType);
+
+        let effects: Effect[] = [];
+
+        //Fetch any effects from the other creatures that apply to this.
+        effects = effects.concat(this.get_ForeignEffects(creature));
+
+        //Generate effects from the creature and any applicable activities, abilities, conditions or items that have an effects[] property or active hints.
+        effects = effects.concat(this.generate_ObjectEffects(creature, services));
+
+        //Generate effects that come from complex calculations based on properties of your equipped items. This is not done for familiars, which don't have items.
+        //We need to take into account whether any previously generated effects could state that armor penalties or armor speed penalties are ignored.
+        if (!(creature instanceof Familiar)) {
+            //Skip all armor penalties if there is an "Ignore Armor Penalty" effect.
+            const ignoreArmorPenalties = effects.some(effect => effect.creature == creature.id && effect.target == "Ignore Armor Penalty" && effect.toggle);
+            //Skip speed penalties if there is an "Ignore Armor Speed Penalty" effect.
+            const ignoreArmorSpeedPenalties = effects.some(effect => effect.creature == creature.id && effect.target == "Ignore Armor Speed Penalty" && effect.toggle);
+            effects = effects.concat(this.generate_CalculatedItemEffects(creature, services, { ignoreArmorPenalties: ignoreArmorPenalties, ignoreArmorSpeedPenalties: ignoreArmorSpeedPenalties }));
+        }
+
+        //Apply any lessening of speed penalties that stems from a character's Unburdened Iron feat.
+        if (creature instanceof Character) {
+            effects = this.apply_UnburdenedIron(effects, services, { character: creature });
+        }
+
+        //Split off effects that affect another creature for later. We don't want these to influence or be influenced by the next steps.
+        let effectsForOthers = effects.filter(effect => effect.creature != creature.id);
+        effects = effects.filter(effect => effect.creature == creature.id);
+
+        //Enable ignored on all effects that match the creature's ignored effects list.
+        effects = this.set_EffectsIgnored(effects, { creature: creature });
+
+        //Enable or disable applied on all effects according to various considerations.
+        effects = this.set_EffectsApplied(effects);
+
+        //Enable or disable shown on all effects depending on whether they match a list of targets.
+        effects = this.set_EffectsShown(effects);
+
+        //Add back the effects that affect another creature.
+        effects = effects.concat(effectsForOthers);
+
+        //Replace the global effects and rerun if needed or finish.
+        return this.finish_EffectsGeneration(effects, services, { creature: creature }, options);
+    }
+
+    private finish_EffectsGeneration(effects: Effect[], services: { readonly characterService: CharacterService }, context: { readonly creature: Creature }, options: { readonly secondRun?: boolean } = {}): boolean {
+        //Replace the global effects ONLY if the effects have changed, and if so, repeat the function straight away.
         //This ensures that any new strength bonuses get applied to any strength-based penalties,
         //and that the effects are always up to date and never need to be regenerated by any other process.
         //When the effects are unchanged after the second or any subsequent run, the generation is finished.
 
-        if ((JSON.stringify(this.effectsService.get_Effects(creatureType).all)) != (JSON.stringify(allEffects))) {
-            this.refreshService.set_ToChangeByEffects(allEffects, this.effectsService.get_Effects(creature.type).all, { creature });
-            this.effectsService.replace_Effects(creatureIndex, allEffects);
+        function effectsChanged(effectsService: EffectsService) {
+            return (JSON.stringify(effectsService.get_Effects(context.creature.type).all)) != (JSON.stringify(effects));
+        }
+
+        if (effectsChanged(this.effectsService)) {
+            this.refreshService.set_ToChangeByEffects(effects, this.effectsService.get_Effects(context.creature.type).all, context);
+            this.effectsService.replace_Effects(context.creature.type, effects);
             if (!services.characterService.still_loading()) {
-                return this.generate_Effects(creature.type, services, { secondRun: true });
+                return this.generate_Effects(context.creature.type, services, { secondRun: true });
             } else {
                 return false;
             }
         } else if (options.secondRun) {
             return true;
         } else {
-            //This stage is only reached if the effects were unchanged in the first run.
+            //This stage is only reached if the effects were unchanged in the first run. No rerun is needed then.
             return false;
         }
     }
 
-    private update_EffectsAndConditions(creatureType: string, services: { characterService: CharacterService }): void {
-        const creature: Creature = services.characterService.get_Creature(creatureType);
+    private run_EffectGenerationPreflightUpdates(creature: Creature, services: { readonly characterService: CharacterService }): void {
         //Add or remove conditions depending on your equipment. This is called here to ensure that the conditions exist before their effects are generated.
         this.conditionsService.generate_BulkConditions(creature, { characterService: services.characterService, effectsService: this.effectsService });
         this.conditionsService.generate_ItemConditions(creature, { characterService: services.characterService, effectsService: this.effectsService });
+        //Update item modifiers that influence their effectiveness and effects.
+        this.update_ItemModifiers(creature, services);
+    }
+
+    private update_ItemModifiers(creature: Creature, services: { readonly characterService: CharacterService }): void {
+        //Update modifiers on all armors, shields and weapons that may influence the effects they generate.
+        //We update weapons even though they don't generate effects with these modifiers, because this is a good spot to keep them up to date.
+        creature.inventories.forEach(inv => {
+            inv.shields.forEach(shield => {
+                shield.update_Modifiers(creature, { characterService: services.characterService, refreshService: this.refreshService })
+            })
+            inv.weapons.forEach(weapon => {
+                weapon.update_Modifiers(creature, { characterService: services.characterService, refreshService: this.refreshService })
+            })
+            inv.armors.forEach(armor => {
+                armor.update_Modifiers(creature, { characterService: services.characterService, refreshService: this.refreshService })
+            })
+        })
+    }
+
+    private update_EffectsAndConditions(creatureType: string, services: { readonly characterService: CharacterService }): void {
+        const creature: Creature = services.characterService.get_Creature(creatureType);
+        //Run certain non-effect updates that influence later effect generation.
+        this.run_EffectGenerationPreflightUpdates(creature, services);
         //Then generate effects for this creature. If anything has changed, update the language list length. The language list is dependent on effects, so needs to run directly afterwards.
         const effectsChanged = this.generate_Effects(creatureType, services);
         if (effectsChanged) {

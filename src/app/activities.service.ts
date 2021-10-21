@@ -458,12 +458,7 @@ export class ActivitiesService {
         //Get all owned activity gains that have a cooldown active or have a current duration of -2 (until rest).
         //Get the original activity information, and if its cooldown is exactly one day or until rest (-2), the activity gain's cooldown is reset.
         characterService.get_OwnedActivities(creature).filter((gain: ActivityGain | ItemActivity) => gain.activeCooldown != 0 || gain.duration == -2).forEach(gain => {
-            let activity: Activity | ItemActivity;
-            if (gain instanceof ItemActivity) {
-                activity = gain;
-            } else {
-                activity = this.get_Activities(gain.name)[0];
-            }
+            let activity: Activity | ItemActivity = gain.get_OriginalActivity(this);
             if (gain.duration == -2 && activity) {
                 this.activate_Activity(creature, creature.type, characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, gain, activity, false, false);
             }
@@ -478,12 +473,7 @@ export class ActivitiesService {
         //Get all owned activity gains that have a cooldown or a current duration of -3 (until refocus).
         //Get the original activity information, and if its cooldown is until refocus (-3), the activity gain's cooldown is reset.
         characterService.get_OwnedActivities(creature).filter((gain: ActivityGain | ItemActivity) => gain.activeCooldown == -3 || gain.duration == -3).forEach(gain => {
-            let activity: Activity | ItemActivity;
-            if (gain instanceof ItemActivity) {
-                activity = gain;
-            } else {
-                activity = this.get_Activities(gain.name)[0];
-            }
+            let activity: Activity | ItemActivity = gain.get_OriginalActivity(this);
             if (gain.duration == -3 && activity) {
                 this.activate_Activity(creature, creature.type, characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, gain, activity, false, false);
             }
@@ -497,13 +487,7 @@ export class ActivitiesService {
     tick_Activities(creature: Creature, characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, turns: number = 10) {
         characterService.get_OwnedActivities(creature, undefined, true).filter(gain => gain.activeCooldown || gain.duration).forEach(gain => {
             //Tick down the duration and the cooldown by the amount of turns.
-            let activity: Activity | ItemActivity;
-            if (gain instanceof ItemActivity) {
-                activity = gain;
-                this.refreshService.set_ToChange(creature.type, "inventory");
-            } else {
-                activity = this.get_Activities(gain.name)[0];
-            }
+            let activity: Activity | ItemActivity = gain.get_OriginalActivity(this);
             // Reduce the turns by the amount you took from the duration, then apply the rest to the cooldown.
             let remainingTurns = turns;
             this.refreshService.set_ToChange(creature.type, "activities");

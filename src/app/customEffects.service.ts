@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ItemProperty } from './ItemProperty';
 import * as json_effectproperties from '../assets/json/effectproperties';
 import { ExtensionsService } from './extensions.service';
-import { CharacterService } from './character.service';
 import { Creature } from './Creature';
 import { RefreshService } from './refresh.service';
 
@@ -18,11 +17,11 @@ export class CustomEffectsService {
         private refreshService: RefreshService
     ) { }
 
-    get get_EffectProperties(): ItemProperty[] {
+    public get get_EffectProperties(): ItemProperty[] {
         return this.effectProperties;
     }
 
-    tick_CustomEffects(creature: Creature, turns: number, services: { characterService: CharacterService }): void {
+    tick_CustomEffects(creature: Creature, turns: number): void {
         //Tick down all custom effects and set them to remove when they expire.
         creature.effects.filter(gain => gain.duration > 0).forEach(gain => {
             //Tick down all custom effects and set them to remove when they expire.

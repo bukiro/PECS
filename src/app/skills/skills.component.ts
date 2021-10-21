@@ -136,11 +136,7 @@ export class SkillsComponent implements OnInit {
         let unique: string[] = [];
         if (this.get_Character().settings.showSkillActivities) {
             this.characterService.get_OwnedActivities(this.get_Creature()).forEach(activity => {
-                if (activity instanceof ItemActivity) {
-                    activity.get_Cooldown(this.get_Creature(), this.characterService)
-                } else {
-                    this.get_Activities(activity.name).forEach(actualActivity => { actualActivity.get_Cooldown(this.get_Creature(), this.characterService) })
-                }
+                activity.get_OriginalActivity(this.activitiesService).get_Cooldown(this.get_Creature(), this.characterService);
                 if (!unique.includes(activity.name)) {
                     unique.push(activity.name);
                     activities.push(activity);
@@ -152,7 +148,7 @@ export class SkillsComponent implements OnInit {
 
     get_SkillActivities(activities: (ActivityGain | ItemActivity)[], skillName: string) {
         //Filter activities whose showonSkill or whose original activity's showonSkill includes this skill's name.
-        return activities.filter(activity => (activity instanceof ItemActivity ? activity.showonSkill : (this.get_Activities(activity.name)[0]?.showonSkill || "")).toLowerCase().includes(skillName.toLowerCase()));
+        return activities.filter(activity => (activity.get_OriginalActivity(this.activitiesService).showonSkill || "").toLowerCase().includes(skillName.toLowerCase()));
     }
 
     get_Senses() {

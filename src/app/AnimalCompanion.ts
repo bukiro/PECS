@@ -9,6 +9,7 @@ import { EffectsService } from './effects.service';
 import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
 import { TypeService } from './type.service';
 import { ItemsService } from './items.service';
+import { Hint } from './Hint';
 
 export class AnimalCompanion extends Creature {
     public class: AnimalCompanionClass = new AnimalCompanionClass();
@@ -161,5 +162,20 @@ export class AnimalCompanion extends Creature {
             });
             return increases;
         }
+    }
+    get_EffectsGenerationObjects(characterService: CharacterService) {
+        //Return the Companion, its Ancestry's Hints and its Specializations and their Hints for effect generation.
+        let feats: AnimalCompanionSpecialization[] = [];
+        let hintSets: { hint: Hint, objectName: string }[] = [];
+        this.class?.ancestry?.hints?.forEach(hint => {
+            hintSets.push({ hint: hint, objectName: this.class.ancestry.name });
+        })
+        this.class?.specializations?.filter(spec => spec.effects?.length || spec.hints?.length).forEach(spec => {
+            feats.push(spec);
+            spec.hints?.forEach(hint => {
+                hintSets.push({ hint: hint, objectName: spec.name });
+            })
+        })
+        return { feats: feats, hintSets: hintSets };
     }
 }

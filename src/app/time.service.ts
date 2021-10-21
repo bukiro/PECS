@@ -133,8 +133,8 @@ export class TimeService {
                 this.refreshService.set_ToChange("Character", "inventory");
                 //Regenerate bonded item charges.
                 character.class.spellCasting.filter(casting => casting.castingType == "Prepared" && casting.className == "Wizard").forEach(casting => {
-                    let superiorBond = characterService.get_CharacterFeatsTaken(1, character.level, "Superior Bond").length;
-                    if (characterService.get_CharacterFeatsTaken(1, character.level, "Universalist Wizard").length) {
+                    let superiorBond = character.has_Feat("Superior Bond", { characterService: characterService });
+                    if (character.has_Feat("Universalist Wizard", { characterService: characterService })) {
                         casting.bondedItemCharges = [superiorBond, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
                     } else {
                         casting.bondedItemCharges = [1 + superiorBond, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -194,7 +194,7 @@ export class TimeService {
                 conditionsService.tick_Conditions(creature, turns, this.yourTurn);
                 this.refreshService.set_ToChange(creature.type, "effects")
             }
-            this.customEffectsService.tick_CustomEffects(creature, turns, {characterService});
+            this.customEffectsService.tick_CustomEffects(creature, turns);
             if (creature.type != "Familiar") {
                 itemsService.tick_Items((creature as AnimalCompanion | Character), characterService, turns);
             }

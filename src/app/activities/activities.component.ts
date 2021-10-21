@@ -135,11 +135,7 @@ export class ActivitiesComponent implements OnInit {
         let activities: (ActivityGain | ItemActivity)[] = [];
         let unique: string[] = [];
         this.characterService.get_OwnedActivities(this.get_Creature()).forEach(activity => {
-            if (activity instanceof ItemActivity) {
-                activity.get_Cooldown(this.get_Creature(), this.characterService)
-            } else {
-                this.get_Activities(activity.name).forEach(actualActivity => { actualActivity.get_Cooldown(this.get_Creature(), this.characterService) })
-            }
+            activity.get_OriginalActivity(this.activitiesService).get_Cooldown(this.get_Creature(), this.characterService);
             if (!unique.includes(activity.name)) {
                 unique.push(activity.name);
                 activities.push(activity);

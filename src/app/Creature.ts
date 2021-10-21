@@ -9,7 +9,6 @@ import { Skill } from './Skill';
 import { Effect } from './Effect';
 import { TypeService } from './type.service';
 import { ItemsService } from './items.service';
-import { RefreshService } from './refresh.service';
 
 export class Creature {
     public name: string = "";
@@ -35,5 +34,9 @@ export class Creature {
         this.speeds = this.speeds.map(obj => Object.assign(new Speed(), obj).recast());
         this.bulk = Object.assign(new Bulk(), this.bulk).recast();
         return this;
+    }
+    get_EffectsGenerationObjects(characterService?) {
+        //Each kind of creature provides its own version of this.
+        return { feats: [], hintSets: [] };
     }
 }

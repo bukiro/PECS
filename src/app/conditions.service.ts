@@ -403,12 +403,7 @@ export class ConditionsService {
                 });
                 characterService.get_OwnedActivities(creature, 20, true).filter(activityGain => activityGain.id == gain.sourceGainID && activityGain.active).forEach(activityGain => {
                     //Tick down the duration and the cooldown.
-                    let activity: Activity | ItemActivity = null;
-                    if (activityGain instanceof ItemActivity) {
-                        activity = activityGain;
-                    } else {
-                        activity = characterService.activitiesService.get_Activities(activityGain.name)[0];
-                    }
+                    let activity: Activity | ItemActivity = activityGain.get_OriginalActivity(characterService.activitiesService);
                     if (activity) {
                         characterService.activitiesService.activate_Activity(creature, activityGain.selectedTarget, characterService, characterService.conditionsService, itemsService, characterService.spellsService, activityGain, activity, false, false)
                     }

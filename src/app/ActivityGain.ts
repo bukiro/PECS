@@ -2,6 +2,7 @@ import { ItemGain } from './ItemGain';
 import { SpellCast } from './SpellCast';
 import { v4 as uuidv4 } from 'uuid';
 import { SpellTarget } from './SpellTarget';
+import { ActivitiesService } from './activities.service';
 
 export class ActivityGain {
     public readonly isActivity: boolean = false;
@@ -41,5 +42,8 @@ export class ActivityGain {
         this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
         this.targets = this.targets.map(obj => Object.assign(new SpellTarget(), obj).recast());
         return this;
+    }
+    get_OriginalActivity(activitiesService: ActivitiesService) {
+        return activitiesService.get_Activities(this.name)[0];
     }
 }

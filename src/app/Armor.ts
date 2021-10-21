@@ -9,6 +9,7 @@ import { Creature } from './Creature';
 import { ItemsService } from './items.service';
 import { TypeService } from './type.service';
 import { ArmorRune } from './ArmorRune';
+import { RefreshService } from './refresh.service';
 
 export class Armor extends Equipment {
     //Armor should be type "armors" to be found in the database
@@ -129,6 +130,17 @@ export class Armor extends Equipment {
         }
 
     }
+    update_Modifiers(creature: Creature, services: { characterService: CharacterService, refreshService: RefreshService }) {
+        //Initialize shoddy values and armored skirt.
+        //Set components to update if these values have changed from before.
+        const oldValues = [this._affectedByArmoredSkirt, this._shoddy];
+        this.get_ArmoredSkirt((creature as AnimalCompanion | Character), services.characterService);
+        this.get_Shoddy((creature as AnimalCompanion | Character), services.characterService);
+        const newValues = [this._affectedByArmoredSkirt, this._shoddy];
+        if (oldValues.some((previous, index) => previous != newValues[index])) {
+            services.refreshService.set_ToChange(creature.type, "inventory");
+        }
+    }
     get_ArmoredSkirt(creature: Creature, characterService: CharacterService) {
         if (["Breastplate", "Chain Shirt", "Chain Mail", "Scale Mail"].includes(this.name)) {
             let armoredSkirt = creature.inventories.map(inventory => inventory.adventuringgear).find(gear => gear.find(item => item.isArmoredSkirt && item.equipped));
@@ -203,7 +215,7 @@ export class Armor extends Equipment {
             return this.prof;
         }
     }
-    get_Traits(characterService: CharacterService, creature: Creature) {
+    get_Traits(characterService?: CharacterService, creature?: Creature) {
         //characterService and creature are not needed for armors, but for other types of item.
         let traits = this.traits.filter(trait => !this.material.some(material => material.removeTraits.includes(trait)));
         if (this._affectedByArmoredSkirt != 0) {

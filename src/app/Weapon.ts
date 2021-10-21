@@ -16,6 +16,7 @@ import { Skill } from './Skill';
 import { ItemsService } from './items.service';
 import { TypeService } from './type.service';
 import { WeaponMaterial } from './WeaponMaterial';
+import { RefreshService } from './refresh.service';
 
 export class Weapon extends Equipment {
     //Weapons should be type "weapons" to be found in the database
@@ -70,6 +71,8 @@ export class Weapon extends Equipment {
     //If useHighestAttackProficiency is true, the proficiency level will be copied from your highest unarmed or weapon proficiency.
     public useHighestAttackProficiency: boolean = false;
     public _traits: string[] = [];
+    //Shoddy weapons take a -2 penalty to attacks.
+    public _shoddy: number = 0;
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
         this.poisonsApplied = this.poisonsApplied.map(obj => Object.assign<AlchemicalPoison, AlchemicalPoison>(new AlchemicalPoison(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
@@ -159,6 +162,32 @@ export class Weapon extends Equipment {
             price += itemsService.get_CleanItems().talismans.find(cleanTalisman => cleanTalisman.name.toLowerCase() == talisman.name.toLowerCase()).price;
         })
         return price;
+    }
+    update_Modifiers(creature: Creature, services: { characterService: CharacterService, refreshService: RefreshService }) {
+        //Initialize shoddy values and shield ally/emblazon armament for all shields and weapons.
+        //Set components to update if these values have changed from before.
+        const oldValues = [this._shoddy, this._emblazonArmament, this._emblazonEnergy, this._emblazonAntimagic];
+        this.get_Shoddy((creature as AnimalCompanion | Character), services.characterService);
+        this.get_EmblazonArmament((creature as AnimalCompanion | Character), services.characterService);
+        const newValues = [this._shoddy, this._emblazonArmament, this._emblazonEnergy, this._emblazonAntimagic];
+        if (oldValues.some((previous, index) => previous != newValues[index])) {
+            services.refreshService.set_ToChange(creature.type, this.id);
+            services.refreshService.set_ToChange(creature.type, "attacks");
+            services.refreshService.set_ToChange(creature.type, "inventory");
+        }
+    }
+    get_Shoddy(creature: Creature, characterService: CharacterService) {
+        //Shoddy items have a -2 penalty to Attack, unless you have the Junk Tinker feat and have crafted the item yourself.
+        if (this.shoddy && characterService.get_Feats("Junk Tinker")[0]?.have(creature, characterService) && this.crafted) {
+            this._shoddy = 0;
+            return 0;
+        } else if (this.shoddy) {
+            this._shoddy = -2;
+            return -2;
+        } else {
+            this._shoddy = 0;
+            return 0;
+        }
     }
     get_RuneSource(creature: Creature, range: string) {
         //Under certain circumstances, other items' runes are applied when calculating attack bonus or damage.
@@ -548,9 +577,9 @@ export class Weapon extends Equipment {
             }
         }
         //Shoddy items have a -2 item penalty to attacks, unless you have the Junk Tinker feat and have crafted the item yourself.
-        if (this.shoddy && characterService.get_Feats("Junk Tinker")[0]?.have(creature, characterService) && this.crafted) {
+        if ((this._shoddy == 0) && this.shoddy) {
             explain += "\nShoddy (canceled by Junk Tinker): -0";
-        } else if (this.shoddy) {
+        } else if (this._shoddy) {
             calculatedEffects.push(new Effect(creature.type, "item", this.name, "-2", "", false, "", "Shoddy", true, true, false, 0))
         }
         //Because of the Potency and Shoddy Effects, we need to filter the types a second time, even though get_RelativesOnThese comes pre-filtered.

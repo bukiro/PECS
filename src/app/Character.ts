@@ -28,6 +28,7 @@ import { ConditionsService } from './conditions.service';
 import { ItemCollection } from './ItemCollection';
 import { WornItem } from './WornItem';
 import { TypeService } from './type.service';
+import { Hint } from './Hint';
 
 export class Character extends Creature {
     readonly type = "Character";
@@ -832,5 +833,26 @@ export class Character extends Creature {
             characterService.refreshService.set_ToChange("Character", "skills");
             characterService.refreshService.set_ToChange("Character", "charactersheet");
         })
+    }
+    get_EffectsGenerationObjects(characterService: CharacterService) {
+        //Return the Character, its Feats and their Hints for effect generation.
+        let feats: Feat[] = [];
+        let hintSets: { hint: Hint, objectName: string }[] = [];
+        characterService.get_CharacterFeatsTaken(0, this.level)
+            .map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
+            .filter(feat => feat && feat.have(this, characterService, this.level))
+            .forEach(feat => {
+                feats.push(feat);
+                feat.hints?.forEach(hint => {
+                    hintSets.push({ hint: hint, objectName: feat.name });
+                })
+            });
+        return { feats: feats, hintSets: hintSets };
+    }
+    has_Feat(featName: string, services: { readonly characterService: CharacterService }, context: { readonly level?: number } = {}): number {
+        context = Object.assign({
+            level: this.level
+        }, context);
+        return services.characterService.get_CharacterFeatsTaken(1, context.level, featName).length;
     }
 }

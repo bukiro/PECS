@@ -1,6 +1,7 @@
 import { Activity } from './Activity';
 import { SpellTarget } from './SpellTarget';
 import { v4 as uuidv4 } from 'uuid';
+import { ActivitiesService } from './activities.service';
 
 //ItemActivity combines Activity and ActivityGain, so that an item can have its own contained activity.
 export class ItemActivity extends Activity {
@@ -45,6 +46,9 @@ export class ItemActivity extends Activity {
     recast() {
         super.recast();
         this.targets = this.targets.map(obj => Object.assign(new SpellTarget(), obj).recast());
+        return this;
+    }
+    get_OriginalActivity(activitiesService: ActivitiesService) {
         return this;
     }
 

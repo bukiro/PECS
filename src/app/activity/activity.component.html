@@ -149,7 +149,7 @@
                 <ng-container
                     *ngFor="let related_gain of get_ActivityGainsShowingOn(activity.name); trackBy:trackByIndex;">
                     <div class="list-item newrow left-aligned"
-                        *ngFor="let related_activity of get_ActivitiesFromGain(related_gain); trackBy:trackByIndex;">
+                        *ngFor="let related_activity of get_ActivityFromGain(related_gain); trackBy:trackByIndex;">
                         <header class="spellHeader">
                             {{related_activity.name}}
                             <app-actionIcons *ngIf="related_activity.actions" [actionString]="related_activity.actions">
@@ -163,7 +163,7 @@
                 <ng-container *ngIf="gain.name == 'Fused Stance'">
                     <ng-container *ngFor="let gain of get_FusedStances(); trackBy:trackByIndex;">
                         <div class="list-item newrow left-aligned"
-                            *ngFor="let related_activity of get_ActivitiesFromGain(gain); trackBy:trackByIndex;">
+                            *ngFor="let related_activity of get_ActivityFromGain(gain); trackBy:trackByIndex;">
                             <header class="spellHeader">
                                 {{related_activity.name}}
                                 <app-actionIcons *ngIf="related_activity.actions"

@@ -13,14 +13,14 @@ import { Speed } from './Speed';
 import { FamiliarsService } from './familiars.service';
 
 type FormulaContext = {
-    creature: Creature,
-    object?: any,
-    parentConditionGain?: ConditionGain,
-    parentItem?: Item | Material
+    readonly creature: Creature,
+    readonly object?: any,
+    readonly parentConditionGain?: ConditionGain,
+    readonly parentItem?: Item | Material
 }
 type FormulaOptions = {
-    name?: string,
-    pretendCharacterLevel?: number
+    readonly name?: string,
+    readonly pretendCharacterLevel?: number
 }
 
 @Injectable({
@@ -33,7 +33,11 @@ export class EvaluationService {
         private familiarsService: FamiliarsService
     ) { }
 
-    get_ValueFromFormula(formula: string, services: { characterService: CharacterService, effectsService: EffectsService }, context: FormulaContext, options: FormulaOptions = {}): number | string | null {
+    private get_TestSpeed(name: string): Speed {
+        return (new Speed(name));
+    }
+
+    public get_ValueFromFormula(formula: string, services: { readonly characterService: CharacterService, readonly effectsService: EffectsService }, context: FormulaContext, options: FormulaOptions = {}): number | string | null {
         context = Object.assign({
             creature: context.creature,
             object: null,
@@ -68,7 +72,7 @@ export class EvaluationService {
         //Hint effects of conditions pass their conditionGain for these values.
         //Conditions pass their own gain as parentConditionGain for effects.
         //Conditions that are caused by conditions also pass the original conditionGain for the evaluation of their activationPrerequisite.
-        let parentConditionGain = context.parentConditionGain;
+        const parentConditionGain = context.parentConditionGain;
         if (parentConditionGain) {
             if (!Duration) {
                 Duration = parentConditionGain.duration;
@@ -214,10 +218,6 @@ export class EvaluationService {
             return null;
         };
 
-    }
-
-    private get_TestSpeed(name: string): Speed {
-        return (new Speed(name));
     }
 
 }

@@ -106,7 +106,7 @@ export class ActivityComponent implements OnInit {
     on_ActivateFuseStance(activated: boolean) {
         this.gain.active = activated;
         this.get_FusedStances().forEach(gain => {
-            let activity = this.get_ActivitiesFromGain(gain)[0];
+            let activity = gain.get_OriginalActivity(this.activitiesService);
             if (activity && activated != gain.active) {
                 this.activitiesService.activate_Activity(this.get_Creature(), "Character", this.characterService, this.conditionsService, this.itemsService, this.spellsService, gain, activity, activated);
             }
@@ -167,14 +167,11 @@ export class ActivityComponent implements OnInit {
         if (objectName) {
             return this.characterService.get_OwnedActivities(this.get_Creature())
                 .filter((gain: ItemActivity | ActivityGain) =>
-                    this.get_ActivitiesFromGain(gain)
-                        .some((activity: ItemActivity | Activity) =>
-                            activity.hints
-                                .some(hint =>
-                                    hint.showon.split(",")
-                                        .some(showon =>
-                                            showon.trim().toLowerCase() == objectName.toLowerCase()
-                                        )
+                    gain.get_OriginalActivity(this.activitiesService)?.hints
+                        .some(hint =>
+                            hint.showon.split(",")
+                                .some(showon =>
+                                    showon.trim().toLowerCase() == objectName.toLowerCase()
                                 )
                         )
                 )
@@ -192,8 +189,9 @@ export class ActivityComponent implements OnInit {
         }
     }
 
-    get_ActivitiesFromGain(gain: ActivityGain | ItemActivity) {
-        return gain instanceof ItemActivity ? [gain] : this.get_Activities(gain.name)
+    get_ActivityFromGain(gain: ActivityGain | ItemActivity) {
+        let activity = gain.get_OriginalActivity(this.activitiesService);
+        return activity ? [activity] : [];
     }
 
     get_FuseStanceData() {
