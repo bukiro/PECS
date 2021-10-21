@@ -10,6 +10,7 @@ import { SpellGain } from 'src/app/SpellGain';
 import { SpellLearned } from 'src/app/SpellLearned';
 import { SignatureSpellGain } from 'src/app/SignatureSpellGain';
 import { DeitiesService } from 'src/app/deities.service';
+import { RefreshService } from 'src/app/refresh.service';
 
 @Component({
     selector: 'app-spellchoice',
@@ -55,6 +56,7 @@ export class SpellchoiceComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
+        private refreshService: RefreshService,
         private spellsService: SpellsService,
         private traitsService: TraitsService,
         private effectsService: EffectsService,
@@ -219,9 +221,9 @@ export class SpellchoiceComponent implements OnInit {
     }
 
     on_SignatureSpell() {
-        this.characterService.set_ToChange("Character", "spellchoices");
-        this.characterService.set_ToChange("Character", "spellbook");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "spellchoices");
+        this.refreshService.set_ToChange("Character", "spellbook");
+        this.refreshService.process_ToChange();
     }
 
     have_Feat(name: string) {
@@ -261,8 +263,8 @@ export class SpellchoiceComponent implements OnInit {
 
     on_SpellBlending(tradeLevel: number, value: number) {
         this.choice.spellBlending[tradeLevel] += value;
-        this.characterService.set_Changed("spellchoices");
-        this.characterService.process_ToChange();
+        this.refreshService.set_Changed("spellchoices");
+        this.refreshService.process_ToChange();
     }
 
     is_SpellBlendingSpell() {
@@ -323,9 +325,9 @@ export class SpellchoiceComponent implements OnInit {
     }
 
     on_InfinitePossibilities() {
-        this.characterService.set_Changed("spellchoices");
-        this.characterService.set_Changed("spellbook");
-        this.characterService.process_ToChange();
+        this.refreshService.set_Changed("spellchoices");
+        this.refreshService.set_Changed("spellbook");
+        this.refreshService.process_ToChange();
     }
 
     get_InfinitePossibilitiesUnlocked(level: number = 0) {
@@ -365,9 +367,9 @@ export class SpellchoiceComponent implements OnInit {
     }
 
     on_AdaptedCantrip() {
-        this.characterService.set_Changed("spellchoices");
-        this.characterService.set_Changed("spellbook");
-        this.characterService.process_ToChange();
+        this.refreshService.set_Changed("spellchoices");
+        this.refreshService.set_Changed("spellbook");
+        this.refreshService.process_ToChange();
     }
 
     get_AdaptedCantripUnlocked() {
@@ -407,9 +409,9 @@ export class SpellchoiceComponent implements OnInit {
     }
 
     on_AdaptiveAdept() {
-        this.characterService.set_Changed("spellchoices");
-        this.characterService.set_Changed("spellbook");
-        this.characterService.process_ToChange();
+        this.refreshService.set_Changed("spellchoices");
+        this.refreshService.set_Changed("spellbook");
+        this.refreshService.process_ToChange();
     }
 
     get_AdaptiveAdeptUnlocked() {
@@ -495,9 +497,9 @@ export class SpellchoiceComponent implements OnInit {
     }
 
     on_CrossbloodedEvolution() {
-        this.characterService.set_Changed("spellchoices");
-        this.characterService.set_ToChange("Character", "spellbook");
-        this.characterService.process_ToChange();
+        this.refreshService.set_Changed("spellchoices");
+        this.refreshService.set_ToChange("Character", "spellbook");
+        this.refreshService.process_ToChange();
     }
 
     on_ChangeSpellLevel(amount: number) {
@@ -506,9 +508,9 @@ export class SpellchoiceComponent implements OnInit {
 
     on_SpellCombination() {
         this.choice.spells.length = 0;
-        this.characterService.set_Changed("spellchoices");
-        this.characterService.set_Changed("spellbook");
-        this.characterService.process_ToChange();
+        this.refreshService.set_Changed("spellchoices");
+        this.refreshService.set_Changed("spellbook");
+        this.refreshService.process_ToChange();
     }
 
     get_HighestSpellLevel() {
@@ -725,8 +727,8 @@ export class SpellchoiceComponent implements OnInit {
         let spellNumber = choice.spells.length;
         choice.spells = this.choice.spells.filter(spell => spell.locked || spell.borrowed || spells.some(availableSpell => availableSpell.spell.name == spell.name))
         if (choice.spells.length < spellNumber) {
-            this.characterService.set_ToChange("Character", "spellbook");
-            this.characterService.process_ToChange();
+            this.refreshService.set_ToChange("Character", "spellbook");
+            this.refreshService.process_ToChange();
         }
         //If any locked or borrowed spells remain that aren't in the list, add them to the list.
         let librarySpells = this.spellsService.get_Spells();
@@ -857,7 +859,7 @@ export class SpellchoiceComponent implements OnInit {
                 }
             }
         });
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
         return anytrue;
     }
 
@@ -938,14 +940,14 @@ export class SpellchoiceComponent implements OnInit {
         //The Interweave Dispel feat is dependent on having Dispel in your repertoire, so we update that here.
         if (spellName == "Dispel Magic" && !taken) {
             if (this.have_Feat("Interweave Dispel")) {
-                this.characterService.set_ToChange("Character", "featchoices");
+                this.refreshService.set_ToChange("Character", "featchoices");
             }
         }
-        this.characterService.set_ToChange("Character", "spells");
-        this.characterService.set_ToChange("Character", "spellchoices");
-        this.characterService.set_ToChange("Character", "spellbook");
-        this.characterService.set_ToChange("Character", "effects");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "spells");
+        this.refreshService.set_ToChange("Character", "spellchoices");
+        this.refreshService.set_ToChange("Character", "spellbook");
+        this.refreshService.set_ToChange("Character", "effects");
+        this.refreshService.process_ToChange();
     }
 
     on_SpellCombinationTaken(spellName: string, taken: boolean) {
@@ -965,13 +967,13 @@ export class SpellchoiceComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["spellchoices", "all", "Character"].includes(target)) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature == "Character" && ["spellchoices", "all"].includes(view.target)) {
                         this.changeDetector.detectChanges();

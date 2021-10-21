@@ -71,6 +71,7 @@ import { SpellTarget } from './SpellTarget';
 import { ExtensionsService } from './extensions.service';
 import { TypeService } from './type.service';
 import { Rune } from './Rune';
+import { RefreshService } from './refresh.service';
 
 @Injectable({
     providedIn: 'root'
@@ -92,7 +93,8 @@ export class ItemsService {
     constructor(
         private typeService: TypeService,
         private toastService: ToastService,
-        private extensionsService: ExtensionsService
+        private extensionsService: ExtensionsService,
+        private refreshService: RefreshService
     ) { }
 
     toggleItemsMenu(position: string = "") {
@@ -592,7 +594,7 @@ export class ItemsService {
     move_InventoryItemLocally(creature: Character | AnimalCompanion, item: Item, targetInventory: ItemCollection, inventory: ItemCollection, characterService: CharacterService, amount: number = 0, including: boolean = true) {
         if (targetInventory && targetInventory != inventory && targetInventory.itemId != item.id) {
             item = this.update_GrantingItem(creature, item);
-            characterService.set_ToChange("Character", item.id);
+            this.refreshService.set_ToChange("Character", item.id);
             if (!amount) {
                 amount = item.amount;
             }
@@ -631,7 +633,7 @@ export class ItemsService {
                     this.move_GrantedItems(creature, movedItem, targetInventory, inventory, characterService);
                 }
                 if (movedItem instanceof Equipment) {
-                    characterService.set_EquipmentViewChanges(creature, movedItem);
+                    this.refreshService.set_EquipmentViewChanges(creature, movedItem, {characterService: characterService});
                 }
 
             }
@@ -658,7 +660,7 @@ export class ItemsService {
                 if (existingItems.length) {
                     existingItems[0].amount += includedItem.amount;
                     //Update the item's gridicon to reflect its changed amount.
-                    characterService.set_Changed(existingItems[0].id);
+                    this.refreshService.set_Changed(existingItems[0].id);
                 } else {
                     let movedItem = this.cast_ItemByType(JSON.parse(JSON.stringify(includedItem))).recast(this.typeService, this);
                     let newLength = targetInventory[includedItem.type].push(movedItem);
@@ -678,10 +680,10 @@ export class ItemsService {
             if (inventory?.[item.type]?.some(invItem => invItem === item)) {
                 characterService.drop_InventoryItem(creature as Character | AnimalCompanion, inventory, item, false, true, true, amount);
             }
-            characterService.set_ToChange(toCreature.type, "inventory");
-            characterService.set_ToChange(creature.type, "inventory");
-            characterService.set_ToChange(toCreature.type, "effects");
-            characterService.set_ToChange(creature.type, "effects");
+            this.refreshService.set_ToChange(toCreature.type, "inventory");
+            this.refreshService.set_ToChange(creature.type, "inventory");
+            this.refreshService.set_ToChange(toCreature.type, "effects");
+            this.refreshService.set_ToChange(creature.type, "effects");
         }
     }
 
@@ -726,7 +728,7 @@ export class ItemsService {
                             grantedItem.grantedBy = "(Granted by " + item.name + ")";
                         };
                     } else {
-                        this.toastService.show("Failed granting " + gainItem.type.toLowerCase() + " item " + gainItem.name + " - item not found.", [], characterService)
+                        this.toastService.show("Failed granting " + gainItem.type.toLowerCase() + " item " + gainItem.name + " - item not found.")
                     }
                 });
             }
@@ -745,7 +747,7 @@ export class ItemsService {
                 inv.allItems().filter(item => item.name == "DELETE").forEach(item => {
                     characterService.drop_InventoryItem(creature, inv, item, false, true, true, item.amount);
                 })
-                characterService.set_ToChange(creature.type, "inventory");
+                this.refreshService.set_ToChange(creature.type, "inventory");
             }
         })
         if (creature.type == "Character") {
@@ -784,10 +786,10 @@ export class ItemsService {
                     })
                 })
                 if (attacksChanged) {
-                    characterService.set_ToChange("Character", "attacks");
+                    this.refreshService.set_ToChange("Character", "attacks");
                 }
                 if (defenseChanged) {
-                    characterService.set_ToChange("Character", "defense");
+                    this.refreshService.set_ToChange("Character", "defense");
                 }
             }
 
@@ -818,7 +820,7 @@ export class ItemsService {
                 inv.allItems().filter(item => item.name == "DELETE").forEach(item => {
                     characterService.drop_InventoryItem(creature, inv, item, false, true, true, item.amount);
                 })
-                characterService.set_ToChange(creature.type, "inventory");
+                this.refreshService.set_ToChange(creature.type, "inventory");
             }
         })
     }
@@ -839,24 +841,24 @@ export class ItemsService {
                         });
                     }
                 }
-                characterService.set_ToChange(creature.type, "inventory");
+                this.refreshService.set_ToChange(creature.type, "inventory");
                 if (item instanceof Shield && item.equipped) {
-                    characterService.set_ToChange(creature.type, "attacks");
+                    this.refreshService.set_ToChange(creature.type, "attacks");
                 }
                 if ((item instanceof Armor || item instanceof Shield) && item.equipped) {
-                    characterService.set_ToChange(creature.type, "defense");
+                    this.refreshService.set_ToChange(creature.type, "defense");
                 }
             })
             inv.wands.filter(wand => wand.cooldown > 0).forEach(wand => {
                 wand.cooldown = Math.max(wand.cooldown - turns, 0);
-                characterService.set_ToChange(creature.type, "inventory");
+                this.refreshService.set_ToChange(creature.type, "inventory");
             })
             //Removing an item brings the index out of order, and some items may be skipped. We just keep deleting items named DELETE until none are left.
             while (inv.allItems().some(item => item.name == "DELETE")) {
                 inv.allItems().filter(item => item.name == "DELETE").forEach(item => {
                     characterService.drop_InventoryItem(creature, inv, item, false, true, true, item.amount);
                 })
-                characterService.set_ToChange(creature.type, "inventory");
+                this.refreshService.set_ToChange(creature.type, "inventory");
             }
             inv.allItems().filter(item => item.oilsApplied && item.oilsApplied.length).forEach(item => {
                 item.oilsApplied.filter(oil => oil.duration != -1).forEach(oil => {
@@ -864,12 +866,12 @@ export class ItemsService {
                     if (oil.duration <= 0) {
                         oil.name = "DELETE";
                     }
-                    characterService.set_ToChange(creature.type, "inventory");
+                    this.refreshService.set_ToChange(creature.type, "inventory");
                     if (item instanceof Weapon && item.equipped) {
-                        characterService.set_ToChange(creature.type, "attacks");
+                        this.refreshService.set_ToChange(creature.type, "attacks");
                     }
                     if ((item instanceof Armor || item instanceof Shield) && item.equipped) {
-                        characterService.set_ToChange(creature.type, "defense");
+                        this.refreshService.set_ToChange(creature.type, "defense");
                     }
                 })
                 item.oilsApplied = item.oilsApplied.filter(oil => oil.name != "DELETE");

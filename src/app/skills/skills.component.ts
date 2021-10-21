@@ -9,6 +9,7 @@ import { Speed } from '../Speed';
 import { ActivityGain } from '../ActivityGain';
 import { ItemActivity } from '../ItemActivity';
 import { ActivitiesService } from '../activities.service';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-skills',
@@ -28,6 +29,7 @@ export class SkillsComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         public skillsService: SkillsService,
         public featsService: FeatsService,
         public effectsService: EffectsService,
@@ -83,8 +85,8 @@ export class SkillsComponent implements OnInit {
 
     toggle_TileMode() {
         this.get_Character().settings.skillsTileMode = !this.get_Character().settings.skillsTileMode;
-        this.characterService.set_ToChange("Character", "skills");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "skills");
+        this.refreshService.process_ToChange();
     }
 
     get_TileMode() {
@@ -219,13 +221,13 @@ export class SkillsComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["skills", "alls", this.creature.toLowerCase()].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["skills", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

@@ -6,6 +6,7 @@ import { Character } from 'src/app/Character';
 import { AnimalCompanion } from 'src/app/AnimalCompanion';
 import { FeatChoice } from 'src/app/FeatChoice';
 import { ItemActivity } from 'src/app/ItemActivity';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-activities',
@@ -27,6 +28,7 @@ export class ActivitiesComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         private activitiesService: ActivitiesService
     ) { }
 
@@ -104,8 +106,8 @@ export class ActivitiesComponent implements OnInit {
 
     toggle_TileMode() {
         this.get_Character().settings.activitiesTileMode = !this.get_Character().settings.activitiesTileMode;
-        this.characterService.set_ToChange("Character", "activities");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "activities");
+        this.refreshService.process_ToChange();
     }
 
     get_TileMode() {
@@ -169,13 +171,13 @@ export class ActivitiesComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (target == "activities" || target == "all" || target.toLowerCase() == this.creature.toLowerCase()) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["activities", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

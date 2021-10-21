@@ -9,6 +9,7 @@ import { DiceService } from '../dice.service';
 import { ItemActivity } from '../ItemActivity';
 import { ActivityGain } from '../ActivityGain';
 import { ActivitiesService } from '../activities.service';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-skill',
@@ -36,6 +37,7 @@ export class SkillComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         public diceService: DiceService,
         public abilitiesService: AbilitiesService,
         public skillsService: SkillsService,
@@ -119,13 +121,13 @@ export class SkillComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["individualskills", "all", this.creature.toLowerCase(), this.skill.name.toLowerCase()].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature == this.creature &&
                         (

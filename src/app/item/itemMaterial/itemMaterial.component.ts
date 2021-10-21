@@ -9,6 +9,7 @@ import { Material } from 'src/app/Material';
 import { ArmorMaterial } from 'src/app/ArmorMaterial';
 import { ShieldMaterial } from 'src/app/ShieldMaterial';
 import { Item } from 'src/app/Item';
+import { RefreshService } from 'src/app/refresh.service';
 
 @Component({
     selector: 'app-itemMaterial',
@@ -31,6 +32,7 @@ export class ItemMaterialComponent implements OnInit {
 
     constructor(
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         private itemsService: ItemsService
     ) { }
 
@@ -146,7 +148,7 @@ export class ItemMaterialComponent implements OnInit {
             }
         }
         this.set_MaterialNames();
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
         this.update_Item();
     }
 
@@ -233,7 +235,7 @@ export class ItemMaterialComponent implements OnInit {
             }
         }
         this.set_MaterialNames();
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
         this.update_Item();
     }
 
@@ -334,7 +336,7 @@ export class ItemMaterialComponent implements OnInit {
             }
         }
         this.set_MaterialNames();
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
         this.update_Item();
     }
 
@@ -400,7 +402,7 @@ export class ItemMaterialComponent implements OnInit {
     }
 
     update_Item() {
-        this.characterService.set_Changed(this.item.id);
+        this.refreshService.set_Changed(this.item.id);
     }
 
     ngOnInit() {

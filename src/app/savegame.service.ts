@@ -15,6 +15,7 @@ import { HistoryService } from './history.service';
 import { ConfigService } from './config.service';
 import { default as package_json } from 'package.json';
 import { Hint } from './Hint';
+import { RefreshService } from './refresh.service';
 import { TypeService } from './type.service';
 import { FeatData } from './FeatData';
 import { Creature } from './Creature';
@@ -32,7 +33,8 @@ export class SavegameService {
     constructor(
         private http: HttpClient,
         private configService: ConfigService,
-        private typeService: TypeService
+        private typeService: TypeService,
+        private refreshService: RefreshService
     ) {
 
     }
@@ -629,8 +631,8 @@ export class SavegameService {
     initialize(characterService: CharacterService) {
         this.loading = true;
         //At this time, the save and load buttons are disabled, and we refresh the character builder and the menu bar so that the browser knows.
-        characterService.set_Changed("charactersheet");
-        characterService.set_Changed("top-bar");
+        this.refreshService.set_Changed("charactersheet");
+        this.refreshService.set_Changed("top-bar");
         if (this.configService.get_HasDBConnectionURL() && this.configService.get_LoggedIn()) {
             this.load_Characters()
                 .subscribe((results: string[]) => {
@@ -638,7 +640,7 @@ export class SavegameService {
                     this.finish_loading(characterService)
                 }, (error) => {
                     if (error.status == 401) {
-                        this.configService.on_LoggedOut(characterService, "Your login is no longer valid.");
+                        this.configService.on_LoggedOut("Your login is no longer valid.");
                     } else {
                         console.log('Error loading characters from database: ' + error.message);
                         this.savegames = [];
@@ -646,9 +648,9 @@ export class SavegameService {
                         this.loading = false;
                         //If the character list couldn't be loaded, the save and load buttons are re-enabled (but will disable on their own because of the error).
                         // We refresh the character builder and the menu bar to update the buttons.
-                        characterService.set_Changed("charactersheet");
-                        characterService.set_Changed("top-bar");
-                        characterService.set_Changed();
+                        this.refreshService.set_Changed("charactersheet");
+                        this.refreshService.set_Changed("top-bar");
+                        this.refreshService.set_Changed();
                     }
                 });
         } else {
@@ -703,10 +705,10 @@ export class SavegameService {
         }
         if (this.loading) { this.loading = false; }
         //Refresh the character builder and menu bar to update the save and load buttons, now that they are enabled again.
-        characterService.set_Changed("charactersheet");
-        characterService.set_Changed("top-bar");
+        this.refreshService.set_Changed("charactersheet");
+        this.refreshService.set_Changed("top-bar");
         //Also update the charactersheet that the character builder is attached to, so it is properly displayed after loading the page.
-        characterService.set_Changed("character-sheet");
+        this.refreshService.set_Changed("character-sheet");
     }
 
 }

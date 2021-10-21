@@ -189,13 +189,13 @@ export class Activity {
         //Add any effects to the activity's cooldown.
         let cooldown = this.cooldown;
         //Use get_AbsolutesOnThese() because it allows to prefer lower values. We still sort the effects in descending setValue.
-        characterService.effectsService.get_AbsolutesOnThese(creature, [this.name + " Cooldown"], true)
+        characterService.effectsService.get_AbsolutesOnThese(creature, [this.name + " Cooldown"], { lowerIsBetter: true })
             .sort((a, b) => parseInt(b.setValue) - parseInt(a.setValue))
             .forEach(effect => {
                 cooldown = parseInt(effect.setValue);
             })
         //Use get_RelativesOnThese() because it allows to prefer lower values. We still sort the effects in descending value.
-        characterService.effectsService.get_RelativesOnThese(creature, [this.name + " Cooldown"], true)
+        characterService.effectsService.get_RelativesOnThese(creature, [this.name + " Cooldown"], { lowerIsBetter: true })
             .sort((a, b) => parseInt(b.value) - parseInt(a.value))
             .forEach(effect => {
                 cooldown += parseInt(effect.value);

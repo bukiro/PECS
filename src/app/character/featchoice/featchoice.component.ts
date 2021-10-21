@@ -8,6 +8,7 @@ import { Familiar } from 'src/app/Familiar';
 import { Character } from 'src/app/Character';
 import { TraitsService } from 'src/app/traits.service';
 import { EffectsService } from 'src/app/effects.service';
+import { RefreshService } from 'src/app/refresh.service';
 
 @Component({
     selector: 'app-featchoice',
@@ -54,6 +55,7 @@ export class FeatchoiceComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
+        private refreshService: RefreshService,
         private featsService: FeatsService,
         private familiarsService: FamiliarsService,
         private traitsService: TraitsService,
@@ -394,7 +396,7 @@ export class FeatchoiceComponent implements OnInit {
                     } else {
                         anytrue += 1;
                     }
-                    this.characterService.process_ToChange();
+                    this.refreshService.process_ToChange();
                 }
             }
         });
@@ -433,7 +435,7 @@ export class FeatchoiceComponent implements OnInit {
             featsToTake.forEach(featSet => {
                 this.get_Character().take_Feat(this.get_Creature(), this.characterService, featSet.feat, featSet.feat.name, true, choice, false, true);
             })
-            this.characterService.process_ToChange();
+            this.refreshService.process_ToChange();
         }
         //If all available feats have been taken, no alternative choices remain, and none of the taken feats were taken manually, the choice will not be displayed.
         return !choice.feats.some(feat => !feat.automatic) && !availableFeatsNotTaken.some(featSet => !this.get_FeatTakenByChoice(featSet.feat, choice));
@@ -697,9 +699,9 @@ export class FeatchoiceComponent implements OnInit {
     on_FeatTaken(feat: Feat, taken: boolean, choice: FeatChoice, locked: boolean) {
         if (taken && this.get_Character().settings.autoCloseChoices && (choice.feats.length == this.get_Available(choice) - 1)) { this.toggle_List(""); }
         this.get_Character().take_Feat(this.get_Creature(), this.characterService, feat, feat.name, taken, choice, locked);
-        this.characterService.set_ToChange("Character", "charactersheet");
-        this.characterService.set_ToChange("Character", "featchoices");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "charactersheet");
+        this.refreshService.set_ToChange("Character", "featchoices");
+        this.refreshService.process_ToChange();
     }
 
     remove_BonusFeatChoice(choice: FeatChoice) {
@@ -713,7 +715,7 @@ export class FeatchoiceComponent implements OnInit {
             level.featChoices.splice(level.featChoices.indexOf(oldChoice), 1);
         }
         this.toggle_List("");
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     still_loading() {
@@ -724,14 +726,14 @@ export class FeatchoiceComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["featchoices", "all", this.creature.toLowerCase()].includes(target.toLowerCase())) {
                         this.featLevel = this.get_ChoiceLevel(this.choice);
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["featchoices", "all"].includes(view.target.toLowerCase())) {
                         this.featLevel = this.get_ChoiceLevel(this.choice);

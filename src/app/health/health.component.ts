@@ -6,6 +6,7 @@ import { TimeService } from '../time.service';
 import { ItemsService } from '../items.service';
 import { SpellsService } from '../spells.service';
 import { ConditionsService } from '../conditions.service';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-health',
@@ -36,6 +37,7 @@ export class HealthComponent implements OnInit {
         private itemsService: ItemsService,
         private spellsService: SpellsService,
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         public effectsService: EffectsService,
         private conditionsService: ConditionsService
     ) { }
@@ -148,8 +150,8 @@ export class HealthComponent implements OnInit {
                 this.die("Failed Dying Save");
             }
         }
-        this.characterService.set_ToChange(this.creature, "effects");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.process_ToChange();
     }
 
     on_HeroPointRecover() {
@@ -157,17 +159,17 @@ export class HealthComponent implements OnInit {
             this.characterService.remove_Condition(this.get_Creature(), gain, false, false, false);
         });
         this.get_Character().heroPoints = 0;
-        this.characterService.set_ToChange(this.creature, "effects");
-        this.characterService.set_ToChange(this.creature, "general");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.set_ToChange(this.creature, "general");
+        this.refreshService.process_ToChange();
     }
 
     on_HealWounded() {
         this.characterService.get_AppliedConditions(this.get_Creature(), "Wounded").forEach(gain => {
             this.characterService.remove_Condition(this.get_Creature(), gain, false);
         })
-        this.characterService.set_ToChange(this.creature, "effects");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.process_ToChange();
     }
 
     get_NumbToDeath() {
@@ -180,41 +182,41 @@ export class HealthComponent implements OnInit {
 
     on_Heal(dying: number) {
         this.get_Health().heal(this.get_Creature(), this.characterService, this.effectsService, this.damage, true, true, dying);
-        this.characterService.set_ToChange(this.creature, "health");
-        this.characterService.set_ToChange(this.creature, "effects");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "health");
+        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.process_ToChange();
     }
 
     on_NumbToDeath(dying: number) {
         this.get_Health().heal(this.get_Creature(), this.characterService, this.effectsService, this.get_Character().level, true, false, dying);
-        this.characterService.set_ToChange(this.creature, "health");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "health");
+        this.refreshService.process_ToChange();
     }
 
     on_TakeDamage(wounded: number, dying: number) {
         this.get_Health().takeDamage(this.get_Creature(), this.characterService, this.effectsService, this.damage, this.nonlethal, wounded, dying);
-        this.characterService.set_ToChange(this.creature, "health");
-        this.characterService.set_ToChange(this.creature, "effects");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "health");
+        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.process_ToChange();
     }
 
     set_TempHP(amount: number) {
         this.get_Health().temporaryHP[0] = { amount: amount, source: "Manual", sourceId: "" };
         this.get_Health().temporaryHP.length = 1;
-        this.characterService.set_ToChange(this.creature, "health");
-        this.characterService.set_ToChange(this.creature, "effects");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "health");
+        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.process_ToChange();
     }
 
     on_TempHPSelected(tempSet: { amount: number, source: string, sourceId: string }) {
         this.get_Health().temporaryHP[0] = tempSet;
         this.get_Health().temporaryHP.length = 1;
-        this.characterService.set_ToChange(this.creature, "health");
-        this.characterService.set_ToChange(this.creature, "effects");
+        this.refreshService.set_ToChange(this.creature, "health");
+        this.refreshService.set_ToChange(this.creature, "effects");
         //Update Health and Time because having multiple temporary HP keeps you from ticking time and resting.
-        this.characterService.set_ToChange("Character", "health");
-        this.characterService.set_ToChange("Character", "time");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "health");
+        this.refreshService.set_ToChange("Character", "time");
+        this.refreshService.process_ToChange();
     }
 
     get_Resistances() {
@@ -282,13 +284,13 @@ export class HealthComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["health", "all", this.creature.toLowerCase()].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["health", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

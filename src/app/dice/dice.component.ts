@@ -4,6 +4,7 @@ import { Creature } from '../Creature';
 import { DiceService } from '../dice.service';
 import { DiceResult } from '../DiceResult';
 import { IntegrationsService } from '../integrations.service';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-dice',
@@ -19,6 +20,7 @@ export class DiceComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
+        private refreshService: RefreshService,
         private diceService: DiceService,
         private integrationsService: IntegrationsService
     ) { }
@@ -50,7 +52,7 @@ export class DiceComponent implements OnInit {
     roll(amount: number, size: number) {
         this.diceService.roll(amount, size, this.bonus, this.characterService, false);
         this.bonus = 0;
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     get_Creature(creatureType: string) {
@@ -67,9 +69,9 @@ export class DiceComponent implements OnInit {
         let amount = this.get_TotalSum();
         let dying = creature.health.dying(creature, this.characterService);
         creature.health.heal(creature, this.characterService, this.characterService.effectsService, amount, true, true, dying);
-        this.characterService.set_ToChange(creature.type, "health");
-        this.characterService.set_ToChange(creature.type, "effects");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(creature.type, "health");
+        this.refreshService.set_ToChange(creature.type, "effects");
+        this.refreshService.process_ToChange();
     }
 
     on_TakeDamage(creature: Creature) {
@@ -77,18 +79,18 @@ export class DiceComponent implements OnInit {
         let wounded = creature.health.wounded(creature, this.characterService);
         let dying = creature.health.dying(creature, this.characterService);
         creature.health.takeDamage(creature, this.characterService, this.characterService.effectsService, amount, false, wounded, dying);
-        this.characterService.set_ToChange(creature.type, "health");
-        this.characterService.set_ToChange(creature.type, "effects");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(creature.type, "health");
+        this.refreshService.set_ToChange(creature.type, "effects");
+        this.refreshService.process_ToChange();
     }
 
     set_TempHP(creature: Creature) {
         let amount = this.get_TotalSum();
         creature.health.temporaryHP[0] = { amount: amount, source: "Manual", sourceId: "" };
         creature.health.temporaryHP.length = 1;
-        this.characterService.set_ToChange(creature.type, "health");
-        this.characterService.set_ToChange(creature.type, "effects");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(creature.type, "health");
+        this.refreshService.set_ToChange(creature.type, "effects");
+        this.refreshService.process_ToChange();
     }
 
     get_DiceSum(diceResult: DiceResult) {
@@ -115,13 +117,13 @@ export class DiceComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["dice", "all"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (["dice", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, Chan
 import { CharacterService } from 'src/app/character.service';
 import { SkillChoice } from 'src/app/SkillChoice';
 import { Skill } from 'src/app/Skill';
+import { RefreshService } from 'src/app/refresh.service';
 
 @Component({
     selector: 'app-skillchoice',
@@ -30,7 +31,8 @@ export class SkillchoiceComponent implements OnInit {
 
     constructor(
         private changeDetector: ChangeDetectorRef,
-        public characterService: CharacterService
+        public characterService: CharacterService,
+        private refreshService: RefreshService
     ) { }
 
     toggle_List(name: string = "") {
@@ -166,7 +168,7 @@ export class SkillchoiceComponent implements OnInit {
             if (!this.get_Skills(increase.name)[0].isLegal(this.get_Character(), this.characterService, levelNumber, choice.maxRank)) {
                 if (!increase.locked) {
                     this.get_Character().increase_Skill(this.characterService, increase.name, false, choice, increase.locked);
-                    this.characterService.process_ToChange();
+                    this.refreshService.process_ToChange();
                 } else {
                     anytrue += 1;
                 }
@@ -242,7 +244,7 @@ export class SkillchoiceComponent implements OnInit {
     on_SkillIncrease(skillName: string, boost: boolean, choice: SkillChoice, locked: boolean = false, maxAvailable: number) {
         if (boost && this.get_Character().settings.autoCloseChoices && (choice.increases.length == maxAvailable - 1)) { this.toggle_List(""); }
         this.get_Character().increase_Skill(this.characterService, skillName, boost, choice, locked);
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     remove_BonusSkillChoice(choice: SkillChoice) {
@@ -251,7 +253,7 @@ export class SkillchoiceComponent implements OnInit {
         })
         this.get_Character().remove_SkillChoice(choice);
         this.toggle_List("");
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     still_loading() {
@@ -262,13 +264,13 @@ export class SkillchoiceComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["skillchoices", "all", "character"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "character" && ["skillchoices", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

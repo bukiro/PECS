@@ -7,6 +7,7 @@ import { ConditionGain } from '../ConditionGain';
 import { ConditionsService } from '../conditions.service';
 import { Feat } from '../Feat';
 import { ItemActivity } from '../ItemActivity';
+import { RefreshService } from '../refresh.service';
 import { SavegameService } from '../savegame.service';
 import { Spell } from '../Spell';
 import { SpellCasting } from '../SpellCasting';
@@ -54,6 +55,7 @@ export class SpellTargetComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
+        private refreshService: RefreshService,
         private conditionsService: ConditionsService,
         private timeService: TimeService,
         private savegameService: SavegameService,
@@ -262,13 +264,13 @@ export class SpellTargetComponent implements OnInit {
     }
 
     finish_Loading() {
-        this.characterService.get_Changed()
+        this.refreshService.get_Changed
             .subscribe((target) => {
                 if (target == "activities" || target == "spellbook" || target == "all" || target.toLowerCase() == this.creature.toLowerCase()) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.characterService.get_ViewChanged()
+        this.refreshService.get_ViewChanged
             .subscribe((view) => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["activities", "spellbook", "all"].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();

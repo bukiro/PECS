@@ -3,6 +3,7 @@ import { Skill } from '../Skill';
 import { CharacterService } from '../character.service';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { Character } from '../Character';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-proficiency-form',
@@ -24,7 +25,8 @@ export class ProficiencyFormComponent implements OnInit {
     excludeTemporary: boolean = false;
 
     constructor(
-        private changeDetector: ChangeDetectorRef
+        private changeDetector: ChangeDetectorRef,
+        private refreshService: RefreshService
     ) { }
 
     trackByIndex(index: number, obj: any): any {
@@ -49,13 +51,13 @@ export class ProficiencyFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.characterService.get_Changed()
+        this.refreshService.get_Changed
             .subscribe((target) => {
                 if (["individualskills", "all", this.creature.toLowerCase(), this.skill.name.toLowerCase()].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges()
                 }
             });
-        this.characterService.get_ViewChanged()
+        this.refreshService.get_ViewChanged
             .subscribe((view) => {
                 if (view.creature == this.creature &&
                     (

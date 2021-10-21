@@ -8,6 +8,7 @@ import { Creature } from './Creature';
 import { Shield } from './Shield';
 import { ConditionsService } from './conditions.service';
 import { ConditionGain } from './ConditionGain';
+import { RefreshService } from './refresh.service';
 
 export class AC {
     public name: string = "AC"
@@ -56,7 +57,7 @@ export class AC {
             let newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: "Cover", choice: coverChoice, source: "Quick Status", duration: -1, locked: true })
             characterService.add_Condition(creature, newCondition, false);
         }
-        characterService.process_ToChange();
+        characterService.refreshService.process_ToChange();
     }
     calculate(creature: Creature, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService) {
         let character = characterService.get_Character();
@@ -232,7 +233,7 @@ export class AC {
         }
         //Sum up the effects
         let effectsSum = 0;
-        characterService.effectsService.get_TypeFilteredEffects(relatives, false)
+        characterService.effectsService.get_TypeFilteredEffects(relatives)
             .forEach(effect => {
                 effectsSum += parseInt(effect.value);
                 explain += "\n" + effect.source + ": " + effect.value;

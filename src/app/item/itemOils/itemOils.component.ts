@@ -7,6 +7,7 @@ import { ItemCollection } from 'src/app/ItemCollection';
 import { TimeService } from 'src/app/time.service';
 import { Weapon } from 'src/app/Weapon';
 import { TypeService } from 'src/app/type.service';
+import { RefreshService } from 'src/app/refresh.service';
 
 @Component({
     selector: 'app-itemOils',
@@ -25,6 +26,7 @@ export class ItemOilsComponent implements OnInit {
 
     constructor(
         private characterService: CharacterService,
+        private refreshService: RefreshService,
         private itemsService: ItemsService,
         private timeService: TimeService,
         private typeService: TypeService
@@ -109,9 +111,9 @@ export class ItemOilsComponent implements OnInit {
             }
             this.newOil = { oil: new Oil(), inv: null };
             this.newOil.oil.name = "";
-            this.characterService.set_ToChange("Character", "inventory");
-            this.characterService.set_ItemViewChanges(this.get_Character(), this.item);
-            this.characterService.process_ToChange();
+            this.refreshService.set_ToChange("Character", "inventory");
+            this.refreshService.set_ItemViewChanges(this.get_Character(), this.item, { characterService: this.characterService });
+            this.refreshService.process_ToChange();
         }
     }
 
@@ -121,9 +123,9 @@ export class ItemOilsComponent implements OnInit {
             this.characterService.remove_RuneLore(this.item.oilsApplied[index].runeEffect);
         }
         this.item.oilsApplied.splice(index, 1);
-        this.characterService.set_ToChange("Character", "inventory");
-        this.characterService.set_ItemViewChanges(this.get_Character(), this.item);
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "inventory");
+        this.refreshService.set_ItemViewChanges(this.get_Character(), this.item, { characterService: this.characterService });
+        this.refreshService.process_ToChange();
     }
 
     ngOnInit() {

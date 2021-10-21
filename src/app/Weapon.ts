@@ -298,8 +298,8 @@ export class Weapon extends Equipment {
                     })
                 })
             })
-            characterService.effectsService.set_TargetsToChange(creature, targets, characterService);
-            characterService.process_ToChange();
+            characterService.set_ToChangeByEffectTargets(creature, targets);
+            characterService.refreshService.process_ToChange();
         }
         return traits;
     }
@@ -510,7 +510,7 @@ export class Weapon extends Equipment {
         effectsService.get_TypeFilteredEffects(
             traitEffects.filter(effect => effect.setValue)
                 .concat(effectsService.get_AbsolutesOnThese(creature, namesList)
-                ), true)
+                ), { absolutes: true })
             .forEach(effect => {
                 if (effect.show) {
                     absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false, type: effect.type });
@@ -558,7 +558,7 @@ export class Weapon extends Equipment {
             calculatedEffects
                 .concat(traitEffects.filter(effect => effect.value != "0"))
                 .concat(effectsService.get_RelativesOnThese(creature, namesList)
-                ), false)
+                ))
             .forEach(effect => {
                 //Powerful Fist ignores the nonlethal penalty on unarmed attacks.
                 if (isPowerfulFist && effect.source == "conditional, Nonlethal") {
@@ -778,7 +778,7 @@ export class Weapon extends Equipment {
                 calculatedEffects
                     .concat(traitEffects.filter(effect => effect.setValue))
                     .concat(effectsService.get_AbsolutesOnThese(creature, namesList)
-                    ), true)
+                    ), { absolutes: true })
                 .forEach(effect => {
                     dicenum = parseInt(effect.setValue);
                     diceExplain += "\n" + effect.source + ": Dice number " + dicenum;
@@ -795,7 +795,7 @@ export class Weapon extends Equipment {
                 calculatedEffects
                     .concat(traitEffects.filter(effect => effect.value != "0"))
                     .concat(effectsService.get_RelativesOnThese(creature, namesList)
-                    ), false)
+                    ))
                 .forEach(effect => {
                     dicenum += parseInt(effect.value);
                     diceExplain += "\n" + effect.source + ": Dice number " + (parseInt(effect.value) >= 0 ? "+" : "") + parseInt(effect.value);
@@ -869,7 +869,7 @@ export class Weapon extends Equipment {
                 calculatedEffects
                     .concat(traitEffects.filter(effect => effect.setValue))
                     .concat(effectsService.get_AbsolutesOnThese(creature, namesList)
-                    ), true)
+                    ), { absolutes: true })
                 .forEach(effect => {
                     dicesize = parseInt(effect.setValue);
                     diceExplain += "\n" + effect.source + ": Dice size d" + dicesize;
@@ -877,7 +877,7 @@ export class Weapon extends Equipment {
             effectsService.get_TypeFilteredEffects(
                 traitEffects.filter(effect => effect.value != "0")
                     .concat(effectsService.get_RelativesOnThese(creature, namesList)
-                    ), false)
+                    ))
                 .forEach(effect => {
                     dicesize += parseInt(effect.value);
                     //Don't raise dice size over 12.
@@ -1111,7 +1111,7 @@ export class Weapon extends Equipment {
             effectsService.get_TypeFilteredEffects(
                 calculatedEffects
                     .concat(effectsService.get_RelativesOnThese(creature, list)
-                    ), false)
+                    ))
                 .forEach(effect => {
                     if (effect.show) {
                         if (parseInt(effect.value) < 0) {

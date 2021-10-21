@@ -17,6 +17,10 @@ import { Activity } from './Activity';
 import { ItemActivity } from './ItemActivity';
 import { ExtensionsService } from './extensions.service';
 import { Familiar } from './Familiar';
+import { Rune } from './Rune';
+import { WeaponRune } from './WeaponRune';
+import { EvaluationService } from './evaluation.service';
+import { RefreshService } from './refresh.service';
 
 @Injectable({
     providedIn: 'root'
@@ -29,7 +33,9 @@ export class ConditionsService {
     private conditionsMap = new Map<string, Condition>();
 
     constructor(
-        private extensionsService: ExtensionsService
+        private extensionsService: ExtensionsService,
+        private evaluationService: EvaluationService,
+        private refreshService: RefreshService
     ) { }
 
     get_ConditionFromName(name: string) {
@@ -185,12 +191,12 @@ export class ConditionsService {
 
     process_Condition(creature: Creature, characterService: CharacterService, effectsService: EffectsService, itemsService: ItemsService, gain: ConditionGain, condition: Condition, taken: boolean, increaseWounded: boolean = true, ignoreEndsWithConditions: boolean = false) {
 
-        //Prepare components for refresh
+        //Prepare components for refresh.
         if (condition.gainActivities.length) {
-            characterService.set_ToChange(creature.type, "activities");
+            this.refreshService.set_ToChange(creature.type, "activities");
         }
         condition.hints.forEach(hint => {
-            characterService.set_TagsToChange(creature.type, hint.showon);
+            this.refreshService.set_TagsToChange(creature, hint.showon, { characterService: characterService });
         });
 
         if (taken) {
@@ -298,8 +304,8 @@ export class ConditionsService {
         //Gain Items
         if (creature && creature.type != "Familiar") {
             if (condition.gainItems.length) {
-                characterService.set_ToChange(creature.type, "attacks");
-                characterService.set_ToChange(creature.type, "inventory");
+                this.refreshService.set_ToChange(creature.type, "attacks");
+                this.refreshService.set_ToChange(creature.type, "inventory");
                 if (taken) {
                     gain.gainItems = condition.get_HeightenedItems(gain.heightened).map(itemGain => Object.assign<ItemGain, ItemGain>(new ItemGain(), JSON.parse(JSON.stringify(itemGain))).recast());
                     gain.gainItems
@@ -329,7 +335,7 @@ export class ConditionsService {
         }
 
         if (condition.senses.length) {
-            characterService.set_ToChange(creature.type, "skills");
+            this.refreshService.set_ToChange(creature.type, "skills");
         }
 
         //Stuff that happens when your Dying value is raised or lowered beyond a limit.
@@ -360,7 +366,7 @@ export class ConditionsService {
                     }
                 }
             }
-            characterService.set_ToChange(creature.type, "health");
+            this.refreshService.set_ToChange(creature.type, "health");
         }
 
         //End the condition's activity if there is one and it is active.
@@ -393,7 +399,7 @@ export class ConditionsService {
                     if (spell) {
                         characterService.spellsService.process_Spell(character, taken.gain.selectedTarget, characterService, itemsService, characterService.conditionsService, null, null, taken.gain, spell, 0, false, false)
                     }
-                    characterService.set_ToChange("Character", "spellbook");
+                    this.refreshService.set_ToChange("Character", "spellbook");
                 });
                 characterService.get_OwnedActivities(creature, 20, true).filter(activityGain => activityGain.id == gain.sourceGainID && activityGain.active).forEach(activityGain => {
                     //Tick down the duration and the cooldown.
@@ -406,7 +412,7 @@ export class ConditionsService {
                     if (activity) {
                         characterService.activitiesService.activate_Activity(creature, activityGain.selectedTarget, characterService, characterService.conditionsService, itemsService, characterService.spellsService, activityGain, activity, false, false)
                     }
-                    characterService.set_ToChange("Character", "activities");
+                    this.refreshService.set_ToChange("Character", "activities");
                 });
             }
         }
@@ -421,40 +427,40 @@ export class ConditionsService {
             characterService.defenseService.get_EquippedShield(creature as Character | AnimalCompanion).forEach(shield => {
                 if (shield.takingCover) {
                     shield.takingCover = false;
-                    characterService.set_ToChange(creature.type, "defense");
+                    this.refreshService.set_ToChange(creature.type, "defense");
                 }
             })
         }
 
         //Update Health when Wounded changes.
         if (condition.name == "Wounded") {
-            characterService.set_ToChange(creature.type, "health");
+            this.refreshService.set_ToChange(creature.type, "health");
         }
 
         //Update Attacks when Hunt Prey or Flurry changes.
         if (["Hunt Prey", "Hunt Prey: Flurry"].includes(condition.name)) {
-            characterService.set_ToChange(creature.type, "attacks");
+            this.refreshService.set_ToChange(creature.type, "attacks");
         }
 
         //Update Attacks if attack restrictions apply.
         if (condition.attackRestrictions.length) {
-            characterService.set_ToChange(creature.type, "attacks");
+            this.refreshService.set_ToChange(creature.type, "attacks");
         }
 
         //Update Defense if Defense conditions are changed.
         if (gain.source == "Defense") {
-            characterService.set_ToChange(creature.type, "defense");
+            this.refreshService.set_ToChange(creature.type, "defense");
         }
 
         //Update Time and Health if the condition needs attention.
         if (gain.duration == 1) {
-            characterService.set_ToChange(creature.type, "time");
-            characterService.set_ToChange(creature.type, "health");
+            this.refreshService.set_ToChange(creature.type, "time");
+            this.refreshService.set_ToChange(creature.type, "health");
         }
 
         //Show a notification if a new condition has no duration and did nothing, because it will be removed in the next cycle.
         if (taken && !conditionDidSomething && gain.duration == 0) {
-            characterService.toastService.show("The condition <strong>" + gain.name + "</strong> was removed because it had no duration and no effect.", [], characterService)
+            characterService.toastService.show("The condition <strong>" + gain.name + "</strong> was removed because it had no duration and no effect.")
         }
 
     }
@@ -498,6 +504,111 @@ export class ConditionsService {
                 characterService.drop_InventoryItem(creature, creature.inventories[0], item, false, true, true);
             }
             gainItem.id = "";
+        }
+    }
+
+    generate_ItemConditions(creature: Creature, services: { characterService: CharacterService, effectsService: EffectsService }): void {
+        //Calculate whether any items should grant a condition under the given circumstances and add or remove conditions accordingly.
+        //Conditions caused by equipment are not calculated for Familiars (who don't have an inventory) or in manual mode.
+        if (!(creature instanceof Familiar) && !services.characterService.get_ManualMode()) {
+            let speedRune: boolean = false;
+            let enfeebledRune: boolean = false;
+            creature.inventories.forEach(inventory => {
+                inventory.allEquipment().forEach(item => {
+                    item.propertyRunes.forEach((rune: Rune) => {
+                        if (rune.name == "Speed" && (item.can_Invest() ? item.invested : item.equipped)) {
+                            speedRune = true;
+                        }
+                        if (rune instanceof WeaponRune && rune.alignmentPenalty) {
+                            if (services.characterService.get_Character().alignment.toLowerCase().includes(rune.alignmentPenalty.toLowerCase())) {
+                                enfeebledRune = true;
+                            }
+                        }
+                    });
+                    item.oilsApplied.forEach(oil => {
+                        if (oil.runeEffect && oil.runeEffect.name == "Speed" && (item.equipped || (item.can_Invest() && item.invested))) {
+                            speedRune = true;
+                        }
+                        if (oil.runeEffect && oil.runeEffect.alignmentPenalty) {
+                            if (services.characterService.get_Character().alignment.toLowerCase().includes(oil.runeEffect.alignmentPenalty.toLowerCase())) {
+                                enfeebledRune = true;
+                            }
+                        }
+                    });
+                });
+            })
+            function get_HaveCondition(name: string, source: string) {
+                return (services.characterService.get_AppliedConditions(creature, name, source, true).length != 0)
+            }
+            function add_Condition(name: string, value: number, source: string) {
+                services.characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: name, value: value, source: source, apply: true }), false)
+            }
+            function remove_Condition(name: string, value: number, source: string) {
+                services.characterService.remove_Condition(creature, Object.assign(new ConditionGain, { name: name, value: value, source: source, apply: true }), false)
+            }
+            if (creature.inventories[0].weapons.find(weapon => weapon.large && weapon.equipped) && !get_HaveCondition("Clumsy", "Large Weapon")) {
+                add_Condition("Clumsy", 1, "Large Weapon");
+            } else if (!creature.inventories[0].weapons.find(weapon => weapon.large && weapon.equipped) && get_HaveCondition("Clumsy", "Large Weapon")) {
+                remove_Condition("Clumsy", 1, "Large Weapon");
+            }
+            if (speedRune && !get_HaveCondition("Quickened", "Speed Rune")) {
+                add_Condition("Quickened", 0, "Speed Rune");
+            } else if (!speedRune && get_HaveCondition("Quickened", "Speed Rune")) {
+                remove_Condition("Quickened", 0, "Speed Rune");
+            }
+            if (enfeebledRune && !get_HaveCondition("Enfeebled", "Alignment Rune")) {
+                add_Condition("Enfeebled", 2, "Alignment Rune");
+            } else if (!enfeebledRune && get_HaveCondition("Enfeebled", "Alignment Rune")) {
+                remove_Condition("Enfeebled", 2, "Alignment Rune");
+            }
+            //Any items that grant permanent conditions need to check if these are still applicable. 
+            creature.inventories[0].allEquipment().filter(item => item.gainConditions.length).forEach(item => {
+                item.gainConditions.forEach(gain => {
+                    //We test alignmentFilter here, but activationPrerequisite is only tested if the condition exists and might need to be removed.
+                    //This is because add_Condition includes its own test of activationPrerequisite.
+                    let activate = false;
+                    if (item.can_Invest() ? item.invested : item.equipped) {
+                        if (gain.alignmentFilter && creature instanceof Character) {
+                            if (gain.alignmentFilter.includes("!") ? !creature.alignment.toLowerCase().includes(gain.alignmentFilter.toLowerCase().replace("!", "")) : creature.alignment.toLowerCase().includes(gain.alignmentFilter.toLowerCase())) {
+                                activate = true;
+                            }
+                        } else {
+                            activate = true;
+                        }
+                    }
+                    if (services.characterService.get_AppliedConditions(creature, gain.name, gain.source, true).length) {
+                        if (!activate) {
+                            services.characterService.remove_Condition(creature, gain, false);
+                        } else {
+                            if (gain.activationPrerequisite) {
+                                let testResult = this.evaluationService.get_ValueFromFormula(gain.activationPrerequisite, { characterService: services.characterService, effectsService: services.effectsService }, { creature: creature, object: gain });
+                                if (testResult == "0" || !(parseInt(testResult as string))) {
+                                    services.characterService.remove_Condition(creature, gain, false);
+                                }
+                            }
+                        }
+                    } else {
+                        if (activate) {
+                            services.characterService.add_Condition(creature, gain, false);
+                        }
+                    }
+                })
+            });
+        }
+    }
+
+    generate_BulkConditions(creature: Creature, services: { characterService: CharacterService, effectsService: EffectsService }): void {
+        //Calculate whether the creature is encumbered and add or remove the condition.
+        //Encumbered conditions are not calculated for Familiars (who don't have an inventory) or in manual mode.
+        if (!(creature instanceof Familiar) && !services.characterService.get_ManualMode()) {
+            let bulk = creature.bulk;
+            let calculatedBulk = bulk.calculate((creature as Character | AnimalCompanion), services.characterService, services.effectsService);
+            if (calculatedBulk.current.value > calculatedBulk.encumbered.value && services.characterService.get_AppliedConditions(creature, "Encumbered", "Bulk").length == 0) {
+                services.characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Encumbered", value: 0, source: "Bulk", apply: true }), true)
+            }
+            if (calculatedBulk.current.value <= calculatedBulk.encumbered.value && services.characterService.get_AppliedConditions(creature, "Encumbered", "Bulk").length > 0) {
+                services.characterService.remove_Condition(creature, Object.assign(new ConditionGain, { name: "Encumbered", value: 0, source: "Bulk", apply: true }), true)
+            }
         }
     }
 
@@ -634,7 +745,7 @@ export class ConditionsService {
                     newCondition.source = effect.source;
                     characterService.add_Condition(creature, newCondition, false);
                     characterService.toastService.show("Added <strong>" + conditionName + "</strong> condition to <strong>" + (creature.name || creature.type) +
-                        "</strong> after resting (caused by <strong>" + effect.source + "</strong>)", [], characterService);
+                        "</strong> after resting (caused by <strong>" + effect.source + "</strong>)");
                 };
             }
         });

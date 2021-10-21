@@ -70,7 +70,7 @@ export class AnimalCompanion extends Creature {
         this.level = Math.min(3, Math.max(1, ...characterService.get_CharacterFeatsAndFeatures()
             .filter(feat => feat.gainAnimalCompanion && feat.have(character, characterService, character.level))
             .map(feat => { switch (feat.gainAnimalCompanion) { case "Young": return 1; case "Mature": return 2; default: return 3; } })));
-        characterService.set_ToChange("Companion", "all");
+        characterService.refreshService.set_ToChange("Companion", "all");
     }
     get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string = "", type: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
         if (this.class) {

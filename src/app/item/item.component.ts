@@ -20,6 +20,7 @@ import { Equipment } from 'src/app/Equipment';
 import { WornItem } from 'src/app/WornItem';
 import { Shield } from 'src/app/Shield';
 import { Armor } from 'src/app/Armor';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-item',
@@ -47,6 +48,7 @@ export class ItemComponent implements OnInit {
         private traitsService: TraitsService,
         private activitiesService: ActivitiesService,
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         private itemsService: ItemsService,
         private spellsService: SpellsService,
         private conditionsService: ConditionsService
@@ -84,21 +86,21 @@ export class ItemComponent implements OnInit {
             this.item.talismans.splice(index, 1)
         }
         if (this.item instanceof Armor || this.item instanceof Shield) {
-            this.characterService.set_ToChange(this.creature, "defense");
+            this.refreshService.set_ToChange(this.creature, "defense");
         }
         if (this.item instanceof Weapon) {
-            this.characterService.set_ToChange(this.creature, "attacks");
+            this.refreshService.set_ToChange(this.creature, "attacks");
         }
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     on_PoisonUse(poison: AlchemicalPoison) {
         this.characterService.on_ConsumableUse(this.get_Creature(), poison);
         if (this.item instanceof Weapon) {
             this.item.poisonsApplied.length = 0;
-            this.characterService.set_ToChange(this.creature, "attacks");
+            this.refreshService.set_ToChange(this.creature, "attacks");
         }
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     get_DoublingRingsOptions(ring: string) {
@@ -111,14 +113,14 @@ export class ItemComponent implements OnInit {
     }
 
     on_DoublingRingsChange() {
-        this.characterService.set_ToChange(this.creature, "inventory");
+        this.refreshService.set_ToChange(this.creature, "inventory");
         let ironItem = this.get_DoublingRingsOptions("iron").find(weapon => weapon.id == this.item.data[0].value);
         if (ironItem && this.item.invested) {
-            this.characterService.set_ToChange(this.creature, "attacks");
-            this.characterService.set_ToChange(this.creature, ironItem.id);
-            this.characterService.set_EquipmentViewChanges(this.get_Creature(), ironItem);
+            this.refreshService.set_ToChange(this.creature, "attacks");
+            this.refreshService.set_ToChange(this.creature, ironItem.id);
+            this.refreshService.set_EquipmentViewChanges(this.get_Creature(), ironItem, { characterService: this.characterService });
         }
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     get_TalismanCordOptions(item: WornItem, index: number) {
@@ -192,24 +194,24 @@ export class ItemComponent implements OnInit {
             }
             spellChoice.spells.shift();
         }
-        this.characterService.set_ToChange("Character", "spellchoices")
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "spellchoices")
+        this.refreshService.process_ToChange();
     }
 
     update_Item() {
         //This updates any gridicon that has this item's id set as its update id.
-        this.characterService.set_Changed(this.item.id);
+        this.refreshService.set_Changed(this.item.id);
     }
 
     finish_Loading() {
         if (this.item.id) {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (target == this.item.id) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.target == this.item.id) {
                         this.changeDetector.detectChanges();

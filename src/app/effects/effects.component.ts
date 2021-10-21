@@ -6,6 +6,7 @@ import { TraitsService } from '../traits.service';
 import { ConditionGain } from '../ConditionGain';
 import { Effect } from '../Effect';
 import { Condition } from '../Condition';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-effects',
@@ -33,6 +34,7 @@ export class EffectsComponent implements OnInit {
         private traitsService: TraitsService,
         private effectsService: EffectsService,
         private characterService: CharacterService,
+        private refreshService: RefreshService,
         private timeService: TimeService
     ) { }
 
@@ -189,21 +191,21 @@ export class EffectsComponent implements OnInit {
                 )
             )
         }
-        this.characterService.set_ToChange(this.creature, "effects");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.process_ToChange();
     }
 
     finish_Loading() {
         if (this.characterService.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["effects", "all", "effects-component", this.creature.toLowerCase()].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["effects", "all", "effects-component"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

@@ -14,6 +14,7 @@ import {
 import { DOCUMENT } from '@angular/common';
 import { NgbPopover, NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CharacterService } from './character.service';
+import { RefreshService } from './refresh.service';
 @Directive({
     // tslint:disable-next-line:directive-selector
     selector: '[stickyPopover]',
@@ -38,7 +39,7 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDest
 
 
     constructor(
-        private characterService: CharacterService,
+        private refreshService: RefreshService,
         private _elRef: ElementRef,
         private _render: Renderer2,
         injector: Injector,
@@ -53,13 +54,13 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDest
     }
 
     finish_Loading() {
-        this.characterService.get_Changed()
+        this.refreshService.get_Changed
             .subscribe((target) => {
                 if (target == "close-popovers") {
                     super.close()
                 }
             });
-        this.characterService.get_ViewChanged()
+        this.refreshService.get_ViewChanged
             .subscribe((view) => {
                 if (view.target == "close-popovers") {
                     super.close()

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, TemplateRef } from '@angular/core';
 import { CharacterService } from '../character.service';
+import { RefreshService } from '../refresh.service';
 import { ToastService } from '../toast.service';
 
 @Component({
@@ -13,6 +14,7 @@ export class ToastContainerComponent {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
+        private refreshService: RefreshService,
         public toastService: ToastService
     ) { }
 
@@ -24,8 +26,8 @@ export class ToastContainerComponent {
 
     on_Click(toast) {
         if (toast.onClickAction) {
-            this.characterService.set_ToChange(toast.onClickCreature || "Character", toast.onClickAction);
-            this.characterService.process_ToChange();
+            this.refreshService.set_ToChange(toast.onClickCreature || "Character", toast.onClickAction);
+            this.refreshService.process_ToChange();
         }
         this.toastService.remove(toast);
     }
@@ -34,13 +36,13 @@ export class ToastContainerComponent {
         if (this.characterService.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["toasts", "all"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (["toasts", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

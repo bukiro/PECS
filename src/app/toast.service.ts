@@ -1,16 +1,21 @@
 import { Injectable, TemplateRef } from '@angular/core';
-import { CharacterService } from './character.service';
+import { RefreshService } from './refresh.service';
 
 @Injectable({ providedIn: 'root' })
 export class ToastService {
     toasts: any[] = [];
 
     constructor(
+        private refreshService: RefreshService
     ) { }
 
-    show(textOrTpl: string | TemplateRef<any>, options: any = {}, characterService: CharacterService) {
+    show(textOrTpl: string | TemplateRef<any>, options: { onClickCreature?: string, onClickAction?: string } = {}) {
+        options = Object.assign({
+            onClickCreature: "",
+            onClickAction: ""
+        }, options)
         this.toasts.push({ textOrTpl, ...options });
-        characterService.set_Changed("toasts");
+        this.refreshService.set_Changed("toasts");
     }
 
     remove(toast) {

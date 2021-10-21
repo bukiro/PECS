@@ -10,7 +10,7 @@ import { Weapon } from '../Weapon';
 import { Armor } from '../Armor';
 import { Consumable } from '../Consumable';
 import { Activity } from '../Activity';
-import { CharacterService } from '../character.service';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-gridIcon',
@@ -48,12 +48,12 @@ export class GridIconComponent implements OnInit {
     activity: Activity = null;
     @Input()
     item: Item = null;
-    //The gridicon will refresh if this ID is updated by CharacterService.set_Changed().
+    //The gridicon will refresh if this ID is updated by this.refreshService.set_Changed().
     @Input()
     updateId: string;
 
     constructor(
-        private characterService: CharacterService,
+        private refreshService: RefreshService,
         private changeDetector: ChangeDetectorRef
     ) { }
 
@@ -384,13 +384,13 @@ export class GridIconComponent implements OnInit {
 
     finish_Loading() {
         if (this.updateId) {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (target == this.updateId || (target == "effects" && this.condition)) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.target == this.updateId || (view.target.toLowerCase() == "effects" && this.condition)) {
                         this.changeDetector.detectChanges();

@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input } 
 import { AbilitiesService } from '../abilities.service';
 import { CharacterService } from '../character.service';
 import { EffectsService } from '../effects.service';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-abilities',
@@ -20,6 +21,7 @@ export class AbilitiesComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         public abilitiesService: AbilitiesService,
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         public effectsService: EffectsService
     ) { }
 
@@ -77,13 +79,13 @@ export class AbilitiesComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["abilities", "all", this.creature.toLowerCase()].includes(target)) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["abilities", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

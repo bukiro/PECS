@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CharacterService } from '../character.service';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-character-sheet',
@@ -47,6 +48,7 @@ export class CharacterSheetComponent implements OnInit {
 
     constructor(
         private characterService: CharacterService,
+        private refreshService: RefreshService,
         private changeDetector: ChangeDetectorRef
     ) { }
 
@@ -206,13 +208,13 @@ export class CharacterSheetComponent implements OnInit {
         if (this.characterService.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["character-sheet", "all", "character"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "character" && ["character-sheet", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

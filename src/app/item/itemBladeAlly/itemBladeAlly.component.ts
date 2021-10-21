@@ -12,6 +12,7 @@ import { ActivitiesService } from 'src/app/activities.service';
 import { SpellsService } from 'src/app/spells.service';
 import { ConditionsService } from 'src/app/conditions.service';
 import { TypeService } from 'src/app/type.service';
+import { RefreshService } from 'src/app/refresh.service';
 
 @Component({
     selector: 'app-itemBladeAlly',
@@ -27,6 +28,7 @@ export class ItemBladeAllyComponent implements OnInit {
 
     constructor(
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         private itemsService: ItemsService,
         private timeService: TimeService,
         private activitiesService: ActivitiesService,
@@ -161,21 +163,21 @@ export class ItemBladeAllyComponent implements OnInit {
                 weapon.bladeAllyRunes[0].amount = 1;
             }
         }
-        this.characterService.set_ToChange("Character", "inventory");
-        this.characterService.set_ToChange("Character", "attacks");
-        this.characterService.set_ToChange("Character", this.item.id);
+        this.refreshService.set_ToChange("Character", "inventory");
+        this.refreshService.set_ToChange("Character", "attacks");
+        this.refreshService.set_ToChange("Character", this.item.id);
         if (rune.activities?.length) {
-            this.characterService.set_ToChange("Character", "activities");
+            this.refreshService.set_ToChange("Character", "activities");
         }
         this.set_PropertyRuneNames();
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     remove_BladeAllyRune() {
         let weapon: Equipment = this.item;
         let oldRune: Rune = weapon.bladeAllyRunes[0];
         if (oldRune.activities?.length) {
-            this.characterService.set_ToChange("Character", "activities");
+            this.refreshService.set_ToChange("Character", "activities");
         }
         //Deactivate any active toggled activities of the removed rune.
         oldRune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {

@@ -28,6 +28,7 @@ import { SpellTarget } from '../SpellTarget';
 import { AdventuringGear } from '../AdventuringGear';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-inventory',
@@ -50,6 +51,7 @@ export class InventoryComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         public itemsService: ItemsService,
         public traitsService: TraitsService,
         public effectsService: EffectsService,
@@ -119,11 +121,11 @@ export class InventoryComponent implements OnInit {
 
     toggle_TileMode() {
         this.get_Character().settings.inventoryTileMode = !this.get_Character().settings.inventoryTileMode;
-        this.characterService.set_ToChange("Character", "inventory");
-        this.characterService.set_ToChange("Companion", "inventory");
+        this.refreshService.set_ToChange("Character", "inventory");
+        this.refreshService.set_ToChange("Companion", "inventory");
         //Inventory Tile Mode affects snares on the attacks component.
-        this.characterService.set_ToChange("Character", "attacks");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "attacks");
+        this.refreshService.process_ToChange();
     }
 
     get_TileMode() {
@@ -254,13 +256,13 @@ export class InventoryComponent implements OnInit {
             //If you are selling a container item, you don't sell its content. If you are dropping it, the content decision gets handled earlier.
             let found = this.characterService.preserve_InventoryContent(this.get_Creature(), item);
             if (found) {
-                this.toastService.show(found + " item" + (found > 1 ? "s" : "") + " were emptied out of <strong>" + item.get_Name() + "</strong> before selling the item. These items can be found in your main inventory unless they were sold as well.", [], this.characterService);
+                this.toastService.show(found + " item" + (found > 1 ? "s" : "") + " were emptied out of <strong>" + item.get_Name() + "</strong> before selling the item. These items can be found in your main inventory unless they were sold as well.");
             }
         }
         this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, false, true, true, item.amount);
-        this.characterService.set_ToChange(this.creature, "inventory");
-        this.characterService.set_ToChange(this.creature, "close-popovers");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "inventory");
+        this.refreshService.set_ToChange(this.creature, "close-popovers");
+        this.refreshService.process_ToChange();
     }
 
     move_InventoryItem(item: Item, inventory: ItemCollection, target: ItemCollection | SpellTarget, amount: number, including: boolean, reload: boolean = true) {
@@ -275,11 +277,11 @@ export class InventoryComponent implements OnInit {
             this.toggle_Item();
         }
         if (reload) {
-            this.characterService.set_Changed("close-popovers");
-            this.characterService.set_Changed(item.id);
-            this.characterService.set_ToChange(this.creature, "inventory");
-            this.characterService.set_ToChange(this.creature, "effects");
-            this.characterService.process_ToChange();
+            this.refreshService.set_Changed("close-popovers");
+            this.refreshService.set_Changed(item.id);
+            this.refreshService.set_ToChange(this.creature, "inventory");
+            this.refreshService.set_ToChange(this.creature, "effects");
+            this.refreshService.process_ToChange();
         }
     }
 
@@ -296,14 +298,14 @@ export class InventoryComponent implements OnInit {
             if (source && target && item && this.can_Drop(item)) {
                 let cannotMove = this.itemsService.get_CannotMove(this.get_Creature(), item, target);
                 if (cannotMove) {
-                    this.toastService.show(cannotMove + " The item was not moved.", [], this.characterService)
+                    this.toastService.show(cannotMove + " The item was not moved.")
                 } else {
                     this.itemsService.move_InventoryItemLocally(this.get_Creature(), item, target, source, this.characterService, item.amount, true);
-                    this.characterService.set_Changed("close-popovers");
-                    this.characterService.set_Changed(item.id);
-                    this.characterService.set_ToChange(this.creature, "inventory");
-                    this.characterService.set_ToChange(this.creature, "effects");
-                    this.characterService.process_ToChange();
+                    this.refreshService.set_Changed("close-popovers");
+                    this.refreshService.set_Changed(item.id);
+                    this.refreshService.set_ToChange(this.creature, "inventory");
+                    this.refreshService.set_ToChange(this.creature, "effects");
+                    this.refreshService.process_ToChange();
                 }
             }
         }
@@ -319,14 +321,14 @@ export class InventoryComponent implements OnInit {
             this.characterService.preserve_InventoryContent(this.get_Creature(), item);
         }
         this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, false, true, false, item.amount);
-        this.characterService.set_ToChange(this.creature, "close-popovers");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "close-popovers");
+        this.refreshService.process_ToChange();
     }
 
     add_NewOtherItem(inventory: ItemCollection) {
         inventory.otheritems.push(new OtherItem());
-        this.characterService.set_ToChange(this.creature, "inventory");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "inventory");
+        this.refreshService.process_ToChange();
     }
 
     bulkOnly(event): boolean {
@@ -344,8 +346,8 @@ export class InventoryComponent implements OnInit {
             item.bulk = "";
         }
         //Update effects to re-calculate your bulk.
-        this.characterService.set_ToChange(this.creature, "effects");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.process_ToChange();
     }
 
     remove_OtherItem(item: OtherItem, inventory: ItemCollection) {
@@ -421,14 +423,14 @@ export class InventoryComponent implements OnInit {
         if (item.broken) {
             if (!this.can_Equip(item, 0) && item.equipped) {
                 this.characterService.on_Equip(this.get_Creature() as Character | AnimalCompanion, this.get_Creature().inventories[0], item, false, false, true)
-                this.toastService.show("Your <strong>" + item.get_Name() + "</strong> was unequipped because it is broken.", [], this.characterService);
+                this.toastService.show("Your <strong>" + item.get_Name() + "</strong> was unequipped because it is broken.");
             }
         }
     }
 
     onItemChange(item: Item) {
-        this.characterService.set_ItemViewChanges(this.get_Creature(), item);
-        this.characterService.process_ToChange();
+        this.refreshService.set_ItemViewChanges(this.get_Creature(), item, { characterService: this.characterService });
+        this.refreshService.process_ToChange();
         this.update_Item(item);
     }
 
@@ -441,8 +443,8 @@ export class InventoryComponent implements OnInit {
                 this.change_Cash(1, Math.floor(this.get_Price(item) / 2));
             }
         }
-        this.characterService.set_ItemViewChanges(this.get_Creature(), item);
-        this.characterService.process_ToChange();
+        this.refreshService.set_ItemViewChanges(this.get_Creature(), item, { characterService: this.characterService });
+        this.refreshService.process_ToChange();
         this.update_Item(item);
     }
 
@@ -462,7 +464,7 @@ export class InventoryComponent implements OnInit {
                 if (item.cooldown) {
                     if (item.overcharged) {
                         this.drop_InventoryItem(item, inventory, false);
-                        this.toastService.show("The <strong>" + item.get_Name() + "</strong> was destroyed because it was overcharged too much. The spell was not cast.", [], this.characterService);
+                        this.toastService.show("The <strong>" + item.get_Name() + "</strong> was destroyed because it was overcharged too much. The spell was not cast.");
                     } else {
                         item.overcharged = true;
                         item.broken = true;
@@ -477,7 +479,7 @@ export class InventoryComponent implements OnInit {
         if (item instanceof Consumable) {
             this.on_ConsumableUse(item, creature, inventory)
         } else {
-            this.characterService.process_ToChange();
+            this.refreshService.process_ToChange();
         }
     }
 
@@ -486,7 +488,7 @@ export class InventoryComponent implements OnInit {
         if (this.can_Drop(item) && !item.can_Stack()) {
             this.drop_InventoryItem(item, inventory, false);
         }
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     can_ApplyTalismans(item: Item) {
@@ -526,7 +528,7 @@ export class InventoryComponent implements OnInit {
     change_Cash(multiplier: number = 1, sum: number = 0, changeafter: boolean = false) {
         this.characterService.change_Cash(multiplier, sum);
         if (changeafter) {
-            this.characterService.process_ToChange();
+            this.refreshService.process_ToChange();
         }
     }
 
@@ -601,8 +603,8 @@ export class InventoryComponent implements OnInit {
         if (type == "snarespecialist") {
             learned.snareSpecialistAvailable--
         }
-        this.characterService.set_ToChange("Character", "inventory");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "inventory");
+        this.refreshService.process_ToChange();
     }
 
     get_SnareSpecialistActions(item: Snare) {
@@ -709,7 +711,7 @@ export class InventoryComponent implements OnInit {
     on_ShieldHPChange(shield: Shield, amount: number) {
         shield.damage += amount;
         if (shield.equipped) {
-            this.characterService.set_ToChange(this.creature, "defense");
+            this.refreshService.set_ToChange(this.creature, "defense");
         }
         if (shield.get_HitPoints() < shield.get_BrokenThreshold()) {
             shield.broken = true;
@@ -717,8 +719,8 @@ export class InventoryComponent implements OnInit {
         } else {
             shield.broken = false;
         }
-        this.characterService.set_ToChange(this.creature, "inventory");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "inventory");
+        this.refreshService.process_ToChange();
     }
 
     get_RepairAllowed(item: Item) {
@@ -733,20 +735,20 @@ export class InventoryComponent implements OnInit {
     }
 
     update_Item(item: Item) {
-        this.characterService.set_Changed(item.id);
+        this.refreshService.set_Changed(item.id);
     }
 
     finish_Loading() {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["inventory", "all", this.creature.toLowerCase()].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["inventory", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

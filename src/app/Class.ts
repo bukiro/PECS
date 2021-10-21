@@ -20,6 +20,7 @@ import { FormulaLearned } from './FormulaLearned';
 import { LanguageGain } from './LanguageGain';
 import { TypeService } from './type.service';
 import { FeatData } from './FeatData';
+import { RefreshService } from './refresh.service';
 
 export class Class {
     public activities: ActivityGain[] = [];
@@ -126,7 +127,7 @@ export class Class {
             let character = characterService.get_Character();
             let level = this.levels[1];
             this.languages = this.languages.filter(language => language.source != this.ancestry.name);
-            characterService.set_ToChange("Character", "general");
+            characterService.refreshService.set_ToChange("Character", "general");
             level.abilityChoices = level.abilityChoices.filter(availableBoost => availableBoost.source != "Ancestry")
             //Of each granted Item, find the item with the stored id and drop it.
             this.ancestry.gainItems.forEach((freeItem: ItemGain) => {
@@ -159,10 +160,10 @@ export class Class {
             let character = characterService.get_Character();
             let level = this.levels[1];
             this.languages.push(...this.ancestry.languages.map(language => Object.assign(new LanguageGain(), { name: language, locked: true, source: this.ancestry.name })));
-            characterService.set_ToChange("Character", "general");
+            characterService.refreshService.set_ToChange("Character", "general");
             level.abilityChoices.push(...this.ancestry.abilityChoices);
             level.featChoices.push(...this.ancestry.featChoices);
-            characterService.set_ToChange("Character", "charactersheet");
+            characterService.refreshService.set_ToChange("Character", "charactersheet");
             //Grant all items and save their id in the ItemGain.
             this.ancestry.gainItems.forEach((freeItem: ItemGain) => {
                 let item: Equipment = itemsService.get_Items()[freeItem.type].find((item: Equipment) => item.name.toLowerCase() == freeItem.name.toLowerCase());
@@ -198,8 +199,8 @@ export class Class {
             })
             heritage.traits.forEach(traitListing => {
                 this.ancestry.traits = this.ancestry.traits.filter(trait => trait != traitListing)
-                characterService.set_ToChange("Character", "general");
-                characterService.set_ToChange("Character", "charactersheet");
+                characterService.refreshService.set_ToChange("Character", "general");
+                characterService.refreshService.set_ToChange("Character", "charactersheet");
             })
             //Of each granted Item, find the item with the stored id and drop it.
             heritage.gainItems.forEach((freeItem: ItemGain) => {

@@ -3,6 +3,7 @@ import { CharacterService } from 'src/app/character.service';
 import { ItemsService } from 'src/app/items.service';
 import { Item } from 'src/app/Item';
 import { Equipment } from 'src/app/Equipment';
+import { RefreshService } from 'src/app/refresh.service';
 
 @Component({
     selector: 'app-itemContent',
@@ -18,6 +19,7 @@ export class ItemContentComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         private itemsService: ItemsService
     ) { }
 
@@ -77,13 +79,13 @@ export class ItemContentComponent implements OnInit {
 
     finish_Loading() {
         if (this.item.id) {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (target == this.item.id) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.target == this.item.id) {
                         this.changeDetector.detectChanges();

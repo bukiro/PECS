@@ -8,6 +8,7 @@ import { Weapon } from 'src/app/Weapon';
 import { Armor } from 'src/app/Armor';
 import { Shield } from 'src/app/Shield';
 import { TypeService } from 'src/app/type.service';
+import { RefreshService } from 'src/app/refresh.service';
 
 @Component({
     selector: 'app-itemTalismans',
@@ -26,6 +27,7 @@ export class ItemTalismansComponent implements OnInit {
 
     constructor(
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         private itemsService: ItemsService,
         private typeService: TypeService
     ) { }
@@ -121,16 +123,16 @@ export class ItemTalismansComponent implements OnInit {
                 }
             }
         }
-        this.characterService.set_ToChange("Character", "inventory");
+        this.refreshService.set_ToChange("Character", "inventory");
         if (this.item instanceof Weapon) {
-            this.characterService.set_ToChange("Character", "attacks");
+            this.refreshService.set_ToChange("Character", "attacks");
         }
         if (this.item instanceof Armor || this.item instanceof Shield) {
-            this.characterService.set_ToChange("Character", "defense");
+            this.refreshService.set_ToChange("Character", "defense");
         }
         this.set_TalismanNames();
-        this.characterService.set_ToChange("Character", this.item.id);
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", this.item.id);
+        this.refreshService.process_ToChange();
     }
 
     remove_Talisman(index: number) {

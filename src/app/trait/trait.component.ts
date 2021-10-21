@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CharacterService } from '../character.service';
+import { RefreshService } from '../refresh.service';
 import { Trait } from '../Trait';
 
 @Component({
@@ -19,7 +20,8 @@ export class TraitComponent implements OnInit {
     object: any = null;
 
     constructor(
-        public characterService: CharacterService
+        public characterService: CharacterService,
+        private refreshService: RefreshService
     ) { }
 
     trackByIndex(index: number, obj: any): any {
@@ -31,8 +33,8 @@ export class TraitComponent implements OnInit {
     }
 
     on_ActivateEffect() {
-        this.characterService.set_ToChange(this.creature, "effects");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.process_ToChange();
     }
 
     get_ObjectTraitActivations() {

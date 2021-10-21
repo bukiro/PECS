@@ -6,7 +6,6 @@ import { Level } from '../Level';
 import { AbilitiesService } from '../abilities.service';
 import { EffectsService } from '../effects.service';
 import { FeatsService } from '../feats.service';
-import { Feat } from '../Feat';
 import { HistoryService } from '../history.service';
 import { Ancestry } from '../Ancestry';
 import { Heritage } from '../Heritage';
@@ -42,6 +41,7 @@ import { Domain } from '../Domain';
 import { ConfigService } from '../config.service';
 import { default as package_json } from 'package.json';
 import { FeatData } from '../FeatData';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-character',
@@ -69,6 +69,7 @@ export class CharacterComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         public configService: ConfigService,
         public classesService: ClassesService,
         public abilitiesService: AbilitiesService,
@@ -211,9 +212,9 @@ export class CharacterComponent implements OnInit {
 
     toggle_TileMode() {
         this.get_Character().settings.characterTileMode = !this.get_Character().settings.characterTileMode;
-        this.characterService.set_ToChange("Character", "featchoices");
-        this.characterService.set_ToChange("Character", "skillchoices");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "featchoices");
+        this.refreshService.set_ToChange("Character", "skillchoices");
+        this.refreshService.process_ToChange();
     }
 
     get_TileMode() {
@@ -237,17 +238,17 @@ export class CharacterComponent implements OnInit {
 
     on_ManualMode() {
         //Manual mode changes some buttons on some components, so we need to refresh these.
-        this.characterService.set_ToChange("Character", "activities");
-        this.characterService.set_ToChange("Companion", "activities");
-        this.characterService.set_ToChange("Familiar", "activities");
-        this.characterService.set_ToChange("Character", "health");
-        this.characterService.set_ToChange("Companion", "health");
-        this.characterService.set_ToChange("Familiar", "health");
-        this.characterService.set_ToChange("Character", "inventory");
-        this.characterService.set_ToChange("Companion", "inventory");
-        this.characterService.set_ToChange("Character", "spellbook");
-        this.characterService.set_ToChange("Character", "top-bar");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "activities");
+        this.refreshService.set_ToChange("Companion", "activities");
+        this.refreshService.set_ToChange("Familiar", "activities");
+        this.refreshService.set_ToChange("Character", "health");
+        this.refreshService.set_ToChange("Companion", "health");
+        this.refreshService.set_ToChange("Familiar", "health");
+        this.refreshService.set_ToChange("Character", "inventory");
+        this.refreshService.set_ToChange("Companion", "inventory");
+        this.refreshService.set_ToChange("Character", "spellbook");
+        this.refreshService.set_ToChange("Character", "top-bar");
+        this.refreshService.process_ToChange();
     }
 
     on_RetryDatabaseConnection() {
@@ -425,44 +426,44 @@ export class CharacterComponent implements OnInit {
                 });
             }
         }
-        this.characterService.set_ToChange("Character", "abilities");
-        this.characterService.set_ToChange("Character", "individualskills", "all");
-        this.characterService.set_ToChange("Character", "charactersheet");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "abilities");
+        this.refreshService.set_ToChange("Character", "individualskills", "all");
+        this.refreshService.set_ToChange("Character", "charactersheet");
+        this.refreshService.process_ToChange();
     }
 
     on_AbilityChange(name: string) {
-        this.characterService.set_AbilityToChange("Character", name);
+        this.refreshService.set_AbilityToChange("Character", name, { characterService: this.characterService });
     }
 
     set_Changed(target: string = "") {
-        this.characterService.set_Changed(target);
+        this.refreshService.set_Changed(target);
     }
 
     on_LanguageChange() {
-        this.characterService.set_ToChange("Character", "general");
-        this.characterService.set_ToChange("Character", "charactersheet");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "general");
+        this.refreshService.set_ToChange("Character", "charactersheet");
+        this.refreshService.process_ToChange();
     }
 
     on_NameChange() {
-        this.characterService.set_ToChange("Character", "general");
-        this.characterService.set_ToChange("Character", "top-bar");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "general");
+        this.refreshService.set_ToChange("Character", "top-bar");
+        this.refreshService.process_ToChange();
     }
 
     on_AlignmentChange() {
-        this.characterService.set_ToChange("Character", "general");
-        this.characterService.set_ToChange("Character", "charactersheet");
-        this.characterService.set_ToChange("Character", "featchoices");
-        this.characterService.set_ToChange("Character", "effects");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "general");
+        this.refreshService.set_ToChange("Character", "charactersheet");
+        this.refreshService.set_ToChange("Character", "featchoices");
+        this.refreshService.set_ToChange("Character", "effects");
+        this.refreshService.process_ToChange();
     }
 
     on_HiddenFeatsChange() {
-        this.characterService.set_ToChange("Character", "charactersheet");
-        this.characterService.set_ToChange("Character", "featchoices");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "charactersheet");
+        this.refreshService.set_ToChange("Character", "featchoices");
+        this.refreshService.process_ToChange();
     }
 
     numbersOnly(event): boolean {
@@ -505,74 +506,74 @@ export class CharacterComponent implements OnInit {
         character.class.levels.filter(level => level.number >= lowerLevel && level.number <= higherLevel).forEach(level => {
             level.featChoices.forEach(choice => {
                 if (choice.showOnSheet) {
-                    this.characterService.set_ToChange("Character", "activities");
+                    this.refreshService.set_ToChange("Character", "activities");
                 }
             })
         })
         character.class.levels.forEach(level => {
             level.featChoices.forEach(choice => {
                 if (choice.dynamicLevel) {
-                    this.characterService.set_ToChange("Character", "featchoices");
+                    this.refreshService.set_ToChange("Character", "featchoices");
                 }
             })
         })
-        this.characterService.set_ToChange("Character", "charactersheet");
-        this.characterService.set_ToChange("Character", "character-sheet");
-        this.characterService.set_ToChange("Character", "effects");
-        this.characterService.set_ToChange("Character", "top-bar");
-        this.characterService.set_ToChange("Character", "health");
-        this.characterService.set_ToChange("Character", "defense");
-        this.characterService.set_ToChange("Character", "attacks");
-        this.characterService.set_ToChange("Character", "general");
-        this.characterService.set_ToChange("Character", "individualskills", "all");
-        this.characterService.set_ToChange("Character", "individualspells", "all");
-        this.characterService.set_ToChange("Character", "activities");
-        this.characterService.set_ToChange("Character", "spells");
-        this.characterService.set_ToChange("Character", "spellbook");
+        this.refreshService.set_ToChange("Character", "charactersheet");
+        this.refreshService.set_ToChange("Character", "character-sheet");
+        this.refreshService.set_ToChange("Character", "effects");
+        this.refreshService.set_ToChange("Character", "top-bar");
+        this.refreshService.set_ToChange("Character", "health");
+        this.refreshService.set_ToChange("Character", "defense");
+        this.refreshService.set_ToChange("Character", "attacks");
+        this.refreshService.set_ToChange("Character", "general");
+        this.refreshService.set_ToChange("Character", "individualskills", "all");
+        this.refreshService.set_ToChange("Character", "individualspells", "all");
+        this.refreshService.set_ToChange("Character", "activities");
+        this.refreshService.set_ToChange("Character", "spells");
+        this.refreshService.set_ToChange("Character", "spellbook");
         if (character.get_AbilityBoosts(lowerLevel, higherLevel).length) {
-            this.characterService.set_ToChange("Character", "abilities");
+            this.refreshService.set_ToChange("Character", "abilities");
         }
         if (character.get_SkillIncreases(this.characterService, lowerLevel, higherLevel)) {
-            this.characterService.set_ToChange("Character", "skillchoices");
-            this.characterService.set_ToChange("Character", "skills");
+            this.refreshService.set_ToChange("Character", "skillchoices");
+            this.refreshService.set_ToChange("Character", "skills");
         }
         this.get_CharacterFeatsAndFeatures().filter(feat => feat.have(character, this.characterService, higherLevel, true, false, lowerLevel))
             .forEach(feat => {
                 feat.hints.forEach(hint => {
-                    this.characterService.set_TagsToChange("Character", hint.showon);
+                    this.refreshService.set_TagsToChange(character, hint.showon, { characterService: this.characterService });
                 })
                 if (feat.gainAbilityChoice.length) {
-                    this.characterService.set_ToChange("Character", "abilities");
+                    this.refreshService.set_ToChange("Character", "abilities");
                 }
                 if (feat.gainSpellCasting.length || feat.gainSpellChoice.length) {
-                    this.characterService.set_ToChange("Character", "spellbook");
+                    this.refreshService.set_ToChange("Character", "spellbook");
                 } else if (feat.gainSpellChoice.length) {
-                    this.characterService.set_ToChange("Character", "spellbook");
+                    this.refreshService.set_ToChange("Character", "spellbook");
                 }
                 if (feat.superType == "Adopted Ancestry") {
-                    this.characterService.set_ToChange("Character", "general");
+                    this.refreshService.set_ToChange("Character", "general");
                 } else if (feat.name == "Different Worlds") {
-                    this.characterService.set_ToChange("Character", "general");
+                    this.refreshService.set_ToChange("Character", "general");
                 }
             });
         //Reload spellbook if spells were learned between the levels
         if (character.get_SpellsLearned().some(learned => learned.level >= lowerLevel && learned.level <= higherLevel)) {
-            this.characterService.set_ToChange("Character", "spellbook");
+            this.refreshService.set_ToChange("Character", "spellbook");
             //if spells were taken between the levels
         } else if (character.get_SpellsTaken(this.characterService, lowerLevel, higherLevel).length) {
-            this.characterService.set_ToChange("Character", "spellbook");
+            this.refreshService.set_ToChange("Character", "spellbook");
             //if any spells have a dynamic level dependent on the character level
         } else if (character.get_SpellsTaken(this.characterService, 0, 20).some(taken => taken.choice.dynamicLevel.toLowerCase().includes("level"))) {
-            this.characterService.set_ToChange("Character", "spellbook");
+            this.refreshService.set_ToChange("Character", "spellbook");
             //or if you have the cantrip connection or spell battery familiar ability.
         } else if (this.characterService.get_FamiliarAvailable()) {
-            this.characterService.set_ToChange("Familiar", "all");
+            this.refreshService.set_ToChange("Familiar", "all");
             this.get_Familiar().abilities.feats.map(gain => this.familiarsService.get_FamiliarAbilities(gain.name)[0]).filter(feat => feat).forEach(feat => {
                 if (feat.name == "Cantrip Connection") {
-                    this.characterService.set_ToChange("Character", "spellbook");
+                    this.refreshService.set_ToChange("Character", "spellbook");
                 }
                 if (feat.name == "Spell Battery") {
-                    this.characterService.set_ToChange("Character", "spellbook");
+                    this.refreshService.set_ToChange("Character", "spellbook");
                 }
             })
         }
@@ -580,20 +581,20 @@ export class CharacterComponent implements OnInit {
             this.get_Companion().set_Level(this.characterService);
         }
         if (this.characterService.get_FamiliarAvailable(newLevel)) {
-            this.characterService.set_ToChange("Familiar", "featchoices");
+            this.refreshService.set_ToChange("Familiar", "featchoices");
         }
 
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     on_UpdateSkills() {
-        this.characterService.set_ToChange("Character", "skills");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "skills");
+        this.refreshService.process_ToChange();
     }
 
     on_UpdateSpellbook() {
-        this.characterService.set_ToChange("Character", "spellbook");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "spellbook");
+        this.refreshService.process_ToChange();
     }
 
     get_LanguagesAvailable(levelNumber: number = 0) {
@@ -689,7 +690,7 @@ export class CharacterComponent implements OnInit {
             if (this.abilityIllegal(levelNumber, this.get_Abilities(boost.name)[0])) {
                 if (!boost.locked) {
                     this.get_Character().boost_Ability(this.characterService, boost.name, false, choice, boost.locked);
-                    this.characterService.process_ToChange();
+                    this.refreshService.process_ToChange();
                 } else {
                     anytrue += 1;
                 }
@@ -748,8 +749,8 @@ export class CharacterComponent implements OnInit {
     on_AbilityBoost(abilityName: string, boost: boolean, choice: AbilityChoice, locked: boolean) {
         if (boost && this.get_Character().settings.autoCloseChoices && choice.boosts.length == choice.available - ((this.get_Character().baseValues.length > 0) ? choice.baseValuesLost : 0) - 1) { this.toggle_List(""); }
         this.get_Character().boost_Ability(this.characterService, abilityName, boost, choice, locked);
-        this.characterService.set_AbilityToChange("Character", abilityName);
-        this.characterService.process_ToChange();
+        this.refreshService.set_AbilityToChange("Character", abilityName, { characterService: this.characterService });
+        this.refreshService.process_ToChange();
     }
 
     get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string, source: string = "", sourceId: string = "", locked: boolean = undefined) {
@@ -832,12 +833,12 @@ export class CharacterComponent implements OnInit {
         } else {
             this.get_Character().remove_Lore(this.characterService, choice);
         }
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     on_LoreNameChange() {
-        this.characterService.set_ToChange("Character", "charactersheet");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "charactersheet");
+        this.refreshService.process_ToChange();
     }
 
     get_Feats(name: string = "", type: string = "") {
@@ -892,8 +893,8 @@ export class CharacterComponent implements OnInit {
         } else {
             this.get_Character().remove_SpellListSpell(spell.name, "Feat: Blessed Blood", levelNumber);
         }
-        this.characterService.set_ToChange("Character", "spells");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "spells");
+        this.refreshService.process_ToChange();
     }
 
     get_SplinterFaithAvailable(levelNumber: number) {
@@ -946,8 +947,8 @@ export class CharacterComponent implements OnInit {
                     }
                 }
             }
-            this.characterService.set_ToChange("Character", "general");
-            this.characterService.process_ToChange();
+            this.refreshService.set_ToChange("Character", "general");
+            this.refreshService.process_ToChange();
         }
     }
 
@@ -978,8 +979,8 @@ export class CharacterComponent implements OnInit {
         } else {
             this.characterService.change_Heritage(new Heritage(), index, source);
         }
-        this.characterService.set_ToChange("Character", "all");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "all");
+        this.refreshService.process_ToChange();
     }
 
     on_DifferentWorldsBackgroundChange(levelNumber: number, data: FeatData, background: Background, taken: boolean) {
@@ -1059,8 +1060,8 @@ export class CharacterComponent implements OnInit {
     }
 
     on_FuseStanceNameChange() {
-        this.characterService.set_ToChange("Character", "activities");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "activities");
+        this.refreshService.process_ToChange();
     }
 
     on_FuseStanceStanceChange(data: FeatData, stance: string, taken: boolean) {
@@ -1070,8 +1071,8 @@ export class CharacterComponent implements OnInit {
         } else {
             data.data["stances"] = data.data["stances"].filter((existingStance: string) => existingStance != stance);
         }
-        this.characterService.set_ToChange("Character", "activities");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "activities");
+        this.refreshService.process_ToChange();
     }
 
     get_SyncretismData(levelNumber: number) {
@@ -1088,10 +1089,10 @@ export class CharacterComponent implements OnInit {
             data.data["deity"] = "";
         }
         this.characterService.deitiesService.clear_CharacterDeities();
-        this.characterService.set_ToChange("Character", "charactersheet");
-        this.characterService.set_ToChange("Character", "featchoices");
-        this.characterService.set_ToChange("Character", "general");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "charactersheet");
+        this.refreshService.set_ToChange("Character", "featchoices");
+        this.refreshService.set_ToChange("Character", "general");
+        this.refreshService.process_ToChange();
     }
 
     get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, filter: string = "", automatic: boolean = undefined) {
@@ -1154,8 +1155,8 @@ export class CharacterComponent implements OnInit {
         } else {
             this.characterService.change_Ancestry(new Ancestry(), this.itemsService);
         }
-        this.characterService.set_ToChange("Character", "all");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "all");
+        this.refreshService.process_ToChange();
     }
 
     get_AvailableDeities(name: string = "", syncretism: boolean = false) {
@@ -1210,7 +1211,7 @@ export class CharacterComponent implements OnInit {
         } else {
             this.characterService.change_Deity(new Deity());
         }
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     get_Conditions(name: string = "") {
@@ -1261,8 +1262,8 @@ export class CharacterComponent implements OnInit {
         } else {
             this.characterService.change_Heritage(new Heritage());
         }
-        this.characterService.set_ToChange("Character", "all");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "all");
+        this.refreshService.process_ToChange();
     }
 
     get_Backgrounds(name: string = "") {
@@ -1307,8 +1308,8 @@ export class CharacterComponent implements OnInit {
         } else {
             this.characterService.change_Background(new Background());
         }
-        this.characterService.set_ToChange("Character", "all");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "all");
+        this.refreshService.process_ToChange();
     }
 
     get_CompanionAvailable(levelNumber: number) {
@@ -1328,7 +1329,7 @@ export class CharacterComponent implements OnInit {
             character.class.animalCompanion = new AnimalCompanion();
             character.class.animalCompanion.class = new AnimalCompanionClass();
             this.characterService.initialize_AnimalCompanion();
-            this.characterService.process_ToChange();
+            this.refreshService.process_ToChange();
         }
     }
 
@@ -1358,8 +1359,8 @@ export class CharacterComponent implements OnInit {
             this.get_Companion().class.on_ChangeAncestry(this.characterService);
             this.animalCompanionsService.change_Type(this.get_Companion(), new AnimalCompanionAncestry());
         }
-        this.characterService.set_ToChange("Companion", "all");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Companion", "all");
+        this.refreshService.process_ToChange();
     }
 
     on_SpecializationChange(spec: AnimalCompanionSpecialization, taken: boolean, levelNumber: number) {
@@ -1371,11 +1372,11 @@ export class CharacterComponent implements OnInit {
         } else {
             this.animalCompanionsService.remove_Specialization(this.get_Companion(), spec);
         }
-        this.characterService.set_ToChange("Companion", "abilities");
-        this.characterService.set_ToChange("Companion", "skills");
-        this.characterService.set_ToChange("Companion", "attacks");
-        this.characterService.set_ToChange("Companion", "defense");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Companion", "abilities");
+        this.refreshService.set_ToChange("Companion", "skills");
+        this.refreshService.set_ToChange("Companion", "attacks");
+        this.refreshService.set_ToChange("Companion", "defense");
+        this.refreshService.process_ToChange();
     }
 
     get_CompanionSpecializationsAvailable(levelNumber: number) {
@@ -1435,7 +1436,7 @@ export class CharacterComponent implements OnInit {
             character.class.familiar = new Familiar();
             character.class.familiar.originClass = originClass;
             this.characterService.initialize_Familiar();
-            this.characterService.process_ToChange();
+            this.refreshService.process_ToChange();
         }
     }
 
@@ -1445,9 +1446,9 @@ export class CharacterComponent implements OnInit {
         } else {
             this.get_Familiar().speeds[1].name = "Land Speed";
         }
-        this.characterService.set_ToChange("Familiar", "general");
-        this.characterService.set_ToChange("Familiar", "familiarabilities");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Familiar", "general");
+        this.refreshService.set_ToChange("Familiar", "familiarabilities");
+        this.refreshService.process_ToChange();
     }
 
     is_FamiliarSwimmer() {
@@ -1484,11 +1485,11 @@ export class CharacterComponent implements OnInit {
     remove_BonusAbilityChoice(choice: AbilityChoice) {
         choice.boosts.forEach(boost => {
             this.get_Character().boost_Ability(this.characterService, boost.name, false, choice, false);
-            this.characterService.set_AbilityToChange("Character", boost.name);
+            this.refreshService.set_AbilityToChange("Character", boost.name, { characterService: this.characterService });
         })
         this.get_Character().remove_AbilityChoice(choice);
         this.toggle_List("");
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     add_BonusSkillChoice(level: Level, type: "Perception" | "Save" | "Skill") {
@@ -1527,7 +1528,7 @@ export class CharacterComponent implements OnInit {
             a.splice(a.indexOf(choice), 1);
         }
         this.toggle_List("");
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     still_loading() {
@@ -1538,13 +1539,13 @@ export class CharacterComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["character", "all", "charactersheet"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "character" && ["charactersheet", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

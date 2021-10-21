@@ -7,6 +7,7 @@ import { FamiliarsService } from '../familiars.service';
 import { FeatChoice } from '../FeatChoice';
 import { DeitiesService } from '../deities.service';
 import { Domain } from '../Domain';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-general',
@@ -26,6 +27,7 @@ export class GeneralComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         public effectsService: EffectsService,
         public traitsService: TraitsService,
         private familiarsService: FamiliarsService,
@@ -234,13 +236,13 @@ export class GeneralComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["general", "all", this.creature.toLowerCase()].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["general", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

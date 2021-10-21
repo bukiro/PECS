@@ -23,6 +23,7 @@ import { SpellChoice } from 'src/app/SpellChoice';
 import { InventoryGain } from 'src/app/InventoryGain';
 import { Hint } from 'src/app/Hint';
 import { SpellGain } from 'src/app/SpellGain';
+import { EvaluationService } from 'src/app/evaluation.service';
 
 @Component({
     selector: 'app-newItemProperty',
@@ -51,7 +52,8 @@ export class NewItemPropertyComponent implements OnInit {
         private effectsService: EffectsService,
         private traitsService: TraitsService,
         private activitiesService: ActivitiesService,
-        private spellsService: SpellsService
+        private spellsService: SpellsService,
+        private evaluationService: EvaluationService
     ) { }
 
     get_Parent() {
@@ -104,74 +106,50 @@ export class NewItemPropertyComponent implements OnInit {
         }
         if (this.propertyKey == "value" && this.propertyData.parent == "effects") {
             if (value && value != "0") {
-                let effectGain = new EffectGain;
-                effectGain.value = value;
-                let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this.characterService, { effects: [effectGain] });
-                if (effects.length) {
-                    let effect = effects[0];
-                    if (effect && effect.value && effect.value != "0" && (parseInt(effect.value) || parseFloat(effect.value))) {
-                        if (parseFloat(effect.value) == parseInt(effect.value)) {
-                            this.validationError = "";
-                            this.validationResult = parseInt(effect.value).toString();
-                        } else {
-                            this.validationError = "This may result in a decimal value, which will be turned into a whole number."
-                            this.validationResult = parseInt(effect.value).toString();
-                        }
+                let validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() }).toString();
+                if (validationResult && validationResult != "0" && (parseInt(validationResult) || parseFloat(validationResult))) {
+                    if (parseFloat(validationResult) == parseInt(validationResult)) {
+                        this.validationError = "";
+                        this.validationResult = parseInt(validationResult).toString();
                     } else {
-                        this.validationError = "This may result in an invalid value or 0. Invalid values will default to 0, and untyped effects without a value will not be displayed."
-                        this.validationResult = parseInt(effect.value).toString();
+                        this.validationError = "This may result in a decimal value and be turned into a whole number."
+                        this.validationResult = parseInt(validationResult).toString();
                     }
                 } else {
                     this.validationError = "This may result in an invalid value or 0. Invalid values will default to 0, and untyped effects without a value will not be displayed."
-                    this.validationResult = "";
+                    this.validationResult = parseInt(validationResult).toString();
                 }
             }
         } else if (this.propertyKey == "setValue" && this.propertyData.parent == "effects") {
             if (value && value != "0") {
-                let effectGain = new EffectGain;
-                effectGain.value = value;
-                let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this.characterService, { effects: [effectGain] });
-                if (effects.length) {
-                    let effect = effects[0];
-                    if (effect && effect.value && (parseInt(effect.value) || parseFloat(effect.value)) || parseInt(effect.value) == 0) {
-                        if (parseFloat(effect.value) == parseInt(effect.value)) {
-                            this.validationError = "";
-                            this.validationResult = parseInt(effect.value).toString();
-                        } else {
-                            this.validationError = "This may result in a decimal value and be turned into a whole number."
-                            this.validationResult = parseInt(effect.value).toString();
-                        }
+                let validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() }).toString();
+                if (validationResult && validationResult != "0" && (parseInt(validationResult) || parseFloat(validationResult))) {
+                    if (parseFloat(validationResult) == parseInt(validationResult)) {
+                        this.validationError = "";
+                        this.validationResult = parseInt(validationResult).toString();
                     } else {
-                        this.validationError = "This may result in an invalid value. Absolute effects with an invalid value will not be applied."
-                        this.validationResult = parseInt(effect.value).toString();
+                        this.validationError = "This may result in a decimal value and be turned into a whole number."
+                        this.validationResult = parseInt(validationResult).toString();
                     }
                 } else {
                     this.validationError = "This may result in an invalid value. Absolute effects with an invalid value will not be applied."
-                    this.validationResult = "";
+                    this.validationResult = parseInt(validationResult).toString();
                 }
             }
         } else if (this.propertyKey == "value" && this.propertyData.parent == "onceEffects") {
             if (value && value != "0") {
-                let effectGain = new EffectGain;
-                effectGain.value = value;
-                let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this.characterService, { effects: [effectGain] });
-                if (effects.length) {
-                    let effect = effects[0];
-                    if (effect && effect.value && effect.value != "0" && (parseInt(effect.value) || parseFloat(effect.value))) {
-                        if (parseFloat(effect.value) == parseInt(effect.value)) {
-                            this.validationError = "";
-                            this.validationResult = parseInt(effect.value).toString();
-                        } else {
-                            this.validationError = "This may result in a decimal value and be turned into a whole number."
-                            this.validationResult = parseInt(effect.value).toString();
-                        }
+                let validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() }).toString();
+                if (validationResult && validationResult != "0" && (parseInt(validationResult) || parseFloat(validationResult))) {
+                    if (parseFloat(validationResult) == parseInt(validationResult)) {
+                        this.validationError = "";
+                        this.validationResult = parseInt(validationResult).toString();
                     } else {
-                        this.validationError = "This may result in an invalid value or 0. This is allowed for languages; for all other targets, invalid values will default to 0, and untyped effects without a value will not be displayed."
-                        this.validationResult = parseInt(effect.value).toString();
+                        this.validationError = "This may result in a decimal value and be turned into a whole number."
+                        this.validationResult = parseInt(validationResult).toString();
                     }
                 } else {
                     this.validationError = "This may result in an invalid value or 0. This is allowed for languages; for all other targets, invalid values will default to 0, and untyped effects without a value will not be displayed."
-                    this.validationResult = "";
+                    this.validationResult = parseInt(validationResult).toString();
                 }
             }
         } else if (this.propertyKey == "bulk" || this.propertyKey == "carryingBulk") {

@@ -14,6 +14,7 @@ import { ConditionsService } from '../conditions.service';
 import { ToastService } from '../toast.service';
 import { Hint } from '../Hint';
 import { ArmorRune } from '../ArmorRune';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-defense',
@@ -33,6 +34,7 @@ export class DefenseComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         private defenseService: DefenseService,
         private traitsService: TraitsService,
         private conditionsService: ConditionsService,
@@ -145,7 +147,7 @@ export class DefenseComponent implements OnInit {
                 this.characterService.remove_Condition(creature, flatFooted, false);
             }
         }
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     get_Hidden() {
@@ -167,7 +169,7 @@ export class DefenseComponent implements OnInit {
                 this.characterService.remove_Condition(creature, hidden, false);
             }
         }
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     get_EquippedArmor() {
@@ -194,13 +196,13 @@ export class DefenseComponent implements OnInit {
         if (shield.get_HitPoints() < shield.get_BrokenThreshold()) {
             shield.broken = true;
             this.characterService.on_Equip(this.get_Creature() as Character | AnimalCompanion, this.get_Creature().inventories[0], shield, false, false, true)
-            this.toastService.show("Your shield broke and was unequipped.", [], this.characterService)
+            this.toastService.show("Your shield broke and was unequipped.")
         } else {
             shield.broken = false;
         }
-        this.characterService.set_ToChange(this.creature, "inventory");
-        this.characterService.set_ToChange(this.creature, "defense");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "inventory");
+        this.refreshService.set_ToChange(this.creature, "defense");
+        this.refreshService.process_ToChange();
     }
 
     get_Skills(name: string = "", type: string = "") {
@@ -229,12 +231,12 @@ export class DefenseComponent implements OnInit {
     }
 
     on_TalismanUse(item: Armor | Shield, talisman: Talisman, index: number, preserve: boolean = false) {
-        this.characterService.set_ToChange(this.creature, "defense");
+        this.refreshService.set_ToChange(this.creature, "defense");
         this.characterService.on_ConsumableUse(this.get_Creature() as Character | AnimalCompanion, talisman, preserve);
         if (!preserve) {
             item.talismans.splice(index, 1)
         }
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     get_SpecialShowon(item: Armor | Shield, savingThrows: boolean = false) {
@@ -286,21 +288,21 @@ export class DefenseComponent implements OnInit {
     }
 
     set_DefenseChanged() {
-        this.characterService.set_ToChange(this.creature, "effects");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.process_ToChange();
     }
 
     finish_Loading() {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["defense", "all", this.creature.toLowerCase()].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["defense", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

@@ -45,8 +45,8 @@ export class Trait {
         }
     };
     get_ObjectEffects(activation: { trait: string, active: boolean, active2: boolean, active3: boolean }, filter: string[] = []) {
-        //Collect all object effect gains of this hint that match the filter, and generate effects from them. This uses a similar process to EffectsService.get_SimpleEffects, but with very reduced options.
-        //Only active, active2, active4 and dynamicValue are available as variables, and no toggle or title effects will be produced. The resulting effects are very minimized, as only their value and setValue are required.
+        //Collect all object effect gains of this hint that match the filter, and generate effects from them. This uses a similar process to EvaluationService.get_ValueFromFormula, but with very reduced options.
+        //Only active, active2, active3 and dynamicValue are available as variables, and no toggle or title effects will be produced. The resulting effects are very minimized, as only their value and setValue are required.
         if (this.objectEffects) {
             let effects = this.objectEffects.filter(effect => !filter.length || filter.includes(effect.affected));
             if (effects.length) {

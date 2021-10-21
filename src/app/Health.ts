@@ -4,6 +4,7 @@ import { ConditionGain } from './ConditionGain';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Creature } from './Creature';
+import { RefreshService } from './refresh.service';
 
 export class Health {
     public damage: number = 0;
@@ -73,8 +74,8 @@ export class Health {
         if (sum < 0) {
             this.damage = Math.max(0, this.damage + sum);
             sum = 0;
-            characterService.set_ToChange(creature.type, "health");
-            characterService.process_ToChange();
+            characterService.refreshService.set_ToChange(creature.type, "health");
+            characterService.refreshService.process_ToChange();
         }
         explain += "\nDamage taken: " + (this.damage);
         return { result: sum, explain: explain };

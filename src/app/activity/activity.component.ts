@@ -8,13 +8,13 @@ import { TimeService } from 'src/app/time.service';
 import { ItemsService } from 'src/app/items.service';
 import { ActivityGain } from 'src/app/ActivityGain';
 import { ItemActivity } from 'src/app/ItemActivity';
-import { Feat } from 'src/app/Feat';
 import { Character } from 'src/app/Character';
 import { ConditionsService } from 'src/app/conditions.service';
 import { Condition } from 'src/app/Condition';
 import { Creature } from 'src/app/Creature';
 import { EffectsService } from 'src/app/effects.service';
 import { ConditionGain } from 'src/app/ConditionGain';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-activity',
@@ -40,6 +40,7 @@ export class ActivityComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         private traitsService: TraitsService,
         private spellsService: SpellsService,
         private activitiesService: ActivitiesService,
@@ -253,19 +254,19 @@ export class ActivityComponent implements OnInit {
     }
 
     on_EffectChoiceChange() {
-        this.characterService.set_ToChange(this.creature, "inventory");
-        this.characterService.set_ToChange(this.creature, "activities");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "inventory");
+        this.refreshService.set_ToChange(this.creature, "activities");
+        this.refreshService.process_ToChange();
     }
 
     finish_Loading() {
-        this.characterService.get_Changed()
+        this.refreshService.get_Changed
             .subscribe((target) => {
                 if (["activities", "all", this.creature.toLowerCase()].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.characterService.get_ViewChanged()
+        this.refreshService.get_ViewChanged
             .subscribe((view) => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["activities", "all"].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();

@@ -8,6 +8,7 @@ import { Weapon } from 'src/app/Weapon';
 import { Armor } from 'src/app/Armor';
 import { Shield } from 'src/app/Shield';
 import { TypeService } from 'src/app/type.service';
+import { RefreshService } from 'src/app/refresh.service';
 
 @Component({
     selector: 'app-itemTalismanCords',
@@ -23,6 +24,7 @@ export class ItemTalismanCordsComponent implements OnInit {
 
     constructor(
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         private itemsService: ItemsService,
         private typeService: TypeService
     ) { }
@@ -93,7 +95,7 @@ export class ItemTalismanCordsComponent implements OnInit {
         }
         this.set_ToChange();
         this.set_TalismanCordNames();
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     remove_TalismanCord(index: number) {
@@ -104,14 +106,14 @@ export class ItemTalismanCordsComponent implements OnInit {
     }
 
     set_ToChange() {
-        this.characterService.set_ToChange("Character", "inventory");
+        this.refreshService.set_ToChange("Character", "inventory");
         if (this.item instanceof Weapon) {
-            this.characterService.set_ToChange("Character", "attacks");
+            this.refreshService.set_ToChange("Character", "attacks");
         }
         if (this.item instanceof Armor || this.item instanceof Shield) {
-            this.characterService.set_ToChange("Character", "defense");
+            this.refreshService.set_ToChange("Character", "defense");
         }
-        this.characterService.set_ToChange("Character", this.item.id);
+        this.refreshService.set_ToChange("Character", this.item.id);
     }
 
     set_TalismanCordNames() {

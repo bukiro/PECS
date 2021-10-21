@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostList
 import { CharacterService } from '../character.service';
 import { EffectsService } from '../effects.service';
 import { FamiliarsService } from '../familiars.service';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-familiar',
@@ -17,6 +18,7 @@ export class FamiliarComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
+        private refreshService: RefreshService,
         private familiarsService: FamiliarsService,
         private effectsService: EffectsService
     ) { }
@@ -47,7 +49,7 @@ export class FamiliarComponent implements OnInit {
     }
 
     set_Changed(target: string) {
-        this.characterService.set_Changed(target);
+        this.refreshService.set_Changed(target);
     }
 
     get_Character() {
@@ -90,13 +92,13 @@ export class FamiliarComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["familiar", "all"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "familiar" && ["familiar", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

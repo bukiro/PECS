@@ -21,6 +21,7 @@ import { ConditionGain } from '../ConditionGain';
 import { WeaponMaterial } from '../WeaponMaterial';
 import { Hint } from '../Hint';
 import { DeitiesService } from '../deities.service';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-attacks',
@@ -45,6 +46,7 @@ export class AttacksComponent implements OnInit {
         private traitsService: TraitsService,
         private deitiesService: DeitiesService,
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         public effectsService: EffectsService,
         public conditionsService: ConditionsService
     ) { }
@@ -192,24 +194,24 @@ export class AttacksComponent implements OnInit {
     }
 
     on_EquipmentChange(item: Equipment) {
-        this.characterService.set_EquipmentViewChanges(this.get_Creature(), item);
-        this.characterService.process_ToChange();
+        this.refreshService.set_EquipmentViewChanges(this.get_Creature(), item, { characterService: this.characterService });
+        this.refreshService.process_ToChange();
     }
 
     on_TalismanUse(weapon: Weapon, talisman: Talisman, index: number, preserve: boolean = false) {
-        this.characterService.set_ToChange(this.creature, "attacks");
+        this.refreshService.set_ToChange(this.creature, "attacks");
         this.characterService.on_ConsumableUse(this.get_Creature(), talisman, preserve);
         if (!preserve) {
             weapon.talismans.splice(index, 1);
         }
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     on_PoisonUse(weapon: Weapon, poison: AlchemicalPoison) {
-        this.characterService.set_ToChange(this.creature, "attacks");
+        this.refreshService.set_ToChange(this.creature, "attacks");
         this.characterService.on_ConsumableUse(this.get_Creature(), poison);
         weapon.poisonsApplied.length = 0;
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     get_AmmoTypes() {
@@ -283,8 +285,8 @@ export class AttacksComponent implements OnInit {
         }
         this.characterService.on_ConsumableUse(this.get_Creature(), item as Consumable);
         if (item.can_Stack()) {
-            this.characterService.set_ToChange(this.creature, "attacks");
-            this.characterService.process_ToChange();
+            this.refreshService.set_ToChange(this.creature, "attacks");
+            this.refreshService.process_ToChange();
         } else {
             this.characterService.drop_InventoryItem(this.get_Creature(), inv, item, true);
         }
@@ -488,7 +490,7 @@ export class AttacksComponent implements OnInit {
             let newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: mapName, choice: mapChoice, source: "Quick Status", duration: 5, locked: true })
             this.characterService.add_Condition(creature, newCondition, false);
         }
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     get_RangePenalty() {
@@ -563,7 +565,7 @@ export class AttacksComponent implements OnInit {
             let newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: "Range Penalty", choice: rapChoice, source: "Quick Status", duration: 5, locked: true })
             this.characterService.add_Condition(creature, newCondition, false);
         }
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     get_FavoredWeapons() {
@@ -586,13 +588,13 @@ export class AttacksComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["attacks", "all", this.creature.toLowerCase()].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["attacks", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input } from '@angular/core';
 import { CharacterService } from 'src/app/character.service';
+import { RefreshService } from 'src/app/refresh.service';
 
 @Component({
     selector: 'app-familiarabilities',
@@ -14,7 +15,8 @@ export class FamiliarabilitiesComponent implements OnInit {
 
     constructor(
         private changeDetector: ChangeDetectorRef,
-        private characterService: CharacterService
+        private characterService: CharacterService,
+        private refreshService: RefreshService
     ) { }
 
     still_loading() {
@@ -41,13 +43,13 @@ export class FamiliarabilitiesComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
             .subscribe((target) => {
                 if (["familiarabilities", "all", "Familiar"].includes(target)) {
                     this.changeDetector.detectChanges();
                 }
             });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
             .subscribe((view) => {
                 if (view.creature == "Familiar" && ["familiarabilities", "all"].includes(view.target)) {
                     this.changeDetector.detectChanges();

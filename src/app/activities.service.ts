@@ -18,6 +18,7 @@ import { Creature } from './Creature';
 import { ToastService } from './toast.service';
 import { SpellTarget } from './SpellTarget';
 import { ExtensionsService } from './extensions.service';
+import { RefreshService } from './refresh.service';
 
 @Injectable({
     providedIn: 'root'
@@ -29,7 +30,8 @@ export class ActivitiesService {
 
     constructor(
         private toastService: ToastService,
-        private extensionsService: ExtensionsService
+        private extensionsService: ExtensionsService,
+        private refreshService: RefreshService
     ) { }
 
     get_Activities(name: string = "") {
@@ -55,7 +57,7 @@ export class ActivitiesService {
         });
 
         if (activity.hints.length) {
-            characterService.set_HintsToChange(creature.type, activity.hints);
+            this.refreshService.set_HintsToChange(creature, activity.hints, { characterService: characterService });
         }
 
         let closePopupsAfterActivation: boolean = false;
@@ -126,8 +128,8 @@ export class ActivitiesService {
             gain.duration = 0;
             gain.selectedTarget = "";
         }
-        characterService.set_ToChange(creature.type, "activities");
-        if (item) { characterService.set_ToChange(creature.type, "inventory"); }
+        this.refreshService.set_ToChange(creature.type, "activities");
+        if (item) { this.refreshService.set_ToChange(creature.type, "inventory"); }
 
         //Process various results of activating the activity
 
@@ -147,7 +149,7 @@ export class ActivitiesService {
                             grantedItem.grantedBy = "(Granted by " + activity.name + ")";
                         };
                     } else {
-                        this.toastService.show("Failed granting " + gainItem.type + " item " + gainItem.name + " - item not found.", [], characterService)
+                        this.toastService.show("Failed granting " + gainItem.type + " item " + gainItem.name + " - item not found.");
                     }
                 });
             } else {
@@ -444,11 +446,11 @@ export class ActivitiesService {
         }
 
         if (closePopupsAfterActivation) {
-            characterService.set_ToChange(creature.type, "close-popovers");
+            this.refreshService.set_ToChange(creature.type, "close-popovers");
         }
 
         if (changeAfter) {
-            characterService.process_ToChange();
+            this.refreshService.process_ToChange();
         }
     }
 
@@ -498,13 +500,13 @@ export class ActivitiesService {
             let activity: Activity | ItemActivity;
             if (gain instanceof ItemActivity) {
                 activity = gain;
-                characterService.set_ToChange(creature.type, "inventory");
+                this.refreshService.set_ToChange(creature.type, "inventory");
             } else {
                 activity = this.get_Activities(gain.name)[0];
             }
             // Reduce the turns by the amount you took from the duration, then apply the rest to the cooldown.
             let remainingTurns = turns;
-            characterService.set_ToChange(creature.type, "activities");
+            this.refreshService.set_ToChange(creature.type, "activities");
             if (gain.duration > 0) {
                 let difference = Math.min(gain.duration, remainingTurns);
                 gain.duration -= difference;
@@ -525,7 +527,7 @@ export class ActivitiesService {
                 }
             }
             if (gain instanceof ItemActivity) {
-                characterService.set_ToChange(creature.type, "inventory");
+                this.refreshService.set_ToChange(creature.type, "inventory");
             }
         });
     }

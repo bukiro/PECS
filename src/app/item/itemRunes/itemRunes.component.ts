@@ -14,6 +14,7 @@ import { ActivitiesService } from 'src/app/activities.service';
 import { SpellsService } from 'src/app/spells.service';
 import { ConditionsService } from 'src/app/conditions.service';
 import { TypeService } from 'src/app/type.service';
+import { RefreshService } from 'src/app/refresh.service';
 
 @Component({
     selector: 'app-itemRunes',
@@ -37,6 +38,7 @@ export class ItemRunesComponent implements OnInit {
 
     constructor(
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         private itemsService: ItemsService,
         private timeService: TimeService,
         private activitiesService: ActivitiesService,
@@ -526,11 +528,11 @@ export class ItemRunesComponent implements OnInit {
                 }
                 break;
         }
-        this.characterService.set_ToChange("Character", this.item.id);
+        this.refreshService.set_ToChange("Character", this.item.id);
         if (this.item.equipped) {
-            this.characterService.set_ToChange("Character", "attacks");
+            this.refreshService.set_ToChange("Character", "attacks");
         }
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
         this.update_Item();
     }
 
@@ -582,9 +584,9 @@ export class ItemRunesComponent implements OnInit {
                 break;
         }
         if (this.item.equipped) {
-            this.characterService.set_ToChange("Character", "defense");
+            this.refreshService.set_ToChange("Character", "defense");
         }
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
         this.update_Item();
     }
 
@@ -616,10 +618,10 @@ export class ItemRunesComponent implements OnInit {
                 }
             }
         }
-        this.characterService.set_ToChange("Character", "inventory");
-        this.characterService.set_ToChange("Character", "attacks");
+        this.refreshService.set_ToChange("Character", "inventory");
+        this.refreshService.set_ToChange("Character", "attacks");
         this.set_PropertyRuneNames();
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
         this.update_Item();
     }
 
@@ -663,10 +665,10 @@ export class ItemRunesComponent implements OnInit {
                 }
             }
         }
-        this.characterService.set_ToChange("Character", "inventory");
+        this.refreshService.set_ToChange("Character", "inventory");
         this.set_ToChange(rune as ArmorRune);
         this.set_PropertyRuneNames();
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
         this.update_Item();
     }
 
@@ -717,15 +719,15 @@ export class ItemRunesComponent implements OnInit {
 
     set_ToChange(rune: ArmorRune) {
         rune.hints?.forEach(hint => {
-            this.characterService.set_TagsToChange("Character", hint.showon);
+            this.refreshService.set_TagsToChange(this.get_Character(), hint.showon, { characterService: this.characterService });
         })
         if (rune.effects?.length) {
-            this.characterService.set_ToChange("Character", "effects");
+            this.refreshService.set_ToChange("Character", "effects");
         }
         if (rune.activities?.length) {
-            this.characterService.set_ToChange("Character", "activities");
+            this.refreshService.set_ToChange("Character", "activities");
         }
-        this.characterService.set_ToChange("Character", this.item.id);
+        this.refreshService.set_ToChange("Character", this.item.id);
     }
 
     set_PropertyRuneNames() {
@@ -754,7 +756,7 @@ export class ItemRunesComponent implements OnInit {
     }
 
     update_Item() {
-        this.characterService.set_Changed(this.item.id);
+        this.refreshService.set_Changed(this.item.id);
     }
 
     ngOnInit() {

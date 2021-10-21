@@ -4,6 +4,7 @@ import { Md5 } from 'ts-md5';
 import { CharacterService } from './character.service';
 import { SavegameService } from './savegame.service';
 import { default as package_json } from 'package.json';
+import { RefreshService } from './refresh.service';
 
 @Injectable({
     providedIn: 'root'
@@ -22,7 +23,8 @@ export class ConfigService {
     private updateURL: string = "http://api.github.com/repos/bukiro/PECS/releases/latest";
 
     constructor(
-        private httpClient: HttpClient
+        private httpClient: HttpClient,
+        private refreshService: RefreshService
     ) { }
 
     still_loading() {
@@ -73,8 +75,8 @@ export class ConfigService {
         //We set loggingIn to true, which changes buttons in the character builder and the top-bar, so we need to update those.
         this.loggingIn = true;
         characterService.set_LoadingStatus("Connecting");
-        characterService.set_ToChange("Character", "charactersheet");
-        characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "charactersheet");
+        this.refreshService.process_ToChange();
         //Try logging in. You will receive false if the password was wrong, a random token if it was correct, or a token of "no-login-required" if no password is needed. 
         this.login(password).subscribe((result: { token: string | false }) => {
             this.cannotLogin = false;
@@ -83,41 +85,41 @@ export class ConfigService {
                 this.loggedIn = true;
                 this.loggingIn = false;
                 this.loggedOutMessage = "";
-                characterService.set_ToChange("Character", "charactersheet");
-                characterService.set_ToChange("Character", "top-bar");
-                characterService.process_ToChange();
+                this.refreshService.set_ToChange("Character", "charactersheet");
+                this.refreshService.set_ToChange("Character", "top-bar");
+                this.refreshService.process_ToChange();
                 savegameService.initialize(characterService);
             } else {
                 this.loggedIn = false;
                 if (password) {
-                    characterService.set_ToChange("Character", "password-failed");
+                    this.refreshService.set_ToChange("Character", "password-failed");
                 } else {
-                    characterService.set_ToChange("Character", "logged-out");
+                    this.refreshService.set_ToChange("Character", "logged-out");
                 }
-                characterService.process_ToChange();
+                this.refreshService.process_ToChange();
             }
             this.loading = false;
         }, (error) => {
             console.log('Error logging in: ' + error.message);
             if (error.status == 0) {
-                characterService.toastService.show("The configured database is not available. Characters can't be saved or loaded.", [], characterService)
+                characterService.toastService.show("The configured database is not available. Characters can't be saved or loaded.")
             }
             this.cannotLogin = true;
             this.loggingIn = false;
             this.loading = false;
-            characterService.set_ToChange("Character", "charactersheet");
-            characterService.set_ToChange("Character", "top-bar");
-            characterService.process_ToChange();
+            this.refreshService.set_ToChange("Character", "charactersheet");
+            this.refreshService.set_ToChange("Character", "top-bar");
+            this.refreshService.process_ToChange();
         });
     }
 
-    on_LoggedOut(characterService: CharacterService, notification: string = "") {
+    on_LoggedOut(notification: string = "") {
         this.loggedIn = false;
         this.loggedOutMessage = notification;
-        characterService.set_ToChange("Character", "character-sheet");
-        characterService.set_ToChange("Character", "top-bar");
-        characterService.set_ToChange("Character", "logged-out");
-        characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "character-sheet");
+        this.refreshService.set_ToChange("Character", "top-bar");
+        this.refreshService.set_ToChange("Character", "logged-out");
+        this.refreshService.process_ToChange();
     }
 
     initialize(characterService: CharacterService, savegameService: SavegameService) {

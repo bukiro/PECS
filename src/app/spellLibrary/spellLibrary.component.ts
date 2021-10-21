@@ -6,6 +6,7 @@ import { SpellCasting } from '../SpellCasting';
 import { SpellChoice } from '../SpellChoice';
 import { SpellGain } from '../SpellGain';
 import { TraitsService } from '../traits.service';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-spellLibrary',
@@ -29,6 +30,7 @@ export class SpellLibraryComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         private spellsService: SpellsService,
         private characterService: CharacterService,
+        private refreshService: RefreshService,
         private traitsService: TraitsService
     ) { }
 
@@ -78,7 +80,7 @@ export class SpellLibraryComponent implements OnInit {
     }
 
     set_Changed(target: string) {
-        this.characterService.set_Changed(target);
+        this.refreshService.set_Changed(target);
     }
 
     check_Filter() {
@@ -103,8 +105,8 @@ export class SpellLibraryComponent implements OnInit {
 
     toggle_TileMode() {
         this.get_Character().settings.spellLibraryTileMode = !this.get_Character().settings.spellLibraryTileMode;
-        this.characterService.set_ToChange("Character", "spelllibrary");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "spelllibrary");
+        this.refreshService.process_ToChange();
     }
 
     get_TileMode() {
@@ -398,8 +400,8 @@ export class SpellLibraryComponent implements OnInit {
     learn_Spell(spell: Spell, source: string) {
         this.get_Character().learn_Spell(spell, source);
         if (this.get_Character().settings.autoCloseChoices) { this.toggle_Item(); }
-        this.characterService.set_ToChange("Character", "spellchoices");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "spellchoices");
+        this.refreshService.process_ToChange();
     }
 
     unlearn_Spell(spell: Spell) {
@@ -501,7 +503,7 @@ export class SpellLibraryComponent implements OnInit {
         newSpellTaken.source = "Feat: Spell Mastery";
         newChoice.spells.push(newSpellTaken);
         this.get_Character().add_SpellChoice(this.characterService, spell.levelreq, newChoice);
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     remove_SpellMasterySpell(casting: SpellCasting, spell: Spell) {
@@ -509,7 +511,7 @@ export class SpellLibraryComponent implements OnInit {
         if (oldChoice) {
             this.get_Character().remove_SpellChoice(this.characterService, oldChoice);
         }
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     get_EsotericPolymathAllowed(casting: SpellCasting, tradition: string) {
@@ -559,13 +561,13 @@ export class SpellLibraryComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["spelllibrary", "all"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "character" && ["spelllibrary", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

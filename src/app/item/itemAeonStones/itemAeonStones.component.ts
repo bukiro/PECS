@@ -5,6 +5,7 @@ import { WornItem } from 'src/app/WornItem';
 import { ItemCollection } from 'src/app/ItemCollection';
 import { TimeService } from 'src/app/time.service';
 import { TypeService } from 'src/app/type.service';
+import { RefreshService } from 'src/app/refresh.service';
 
 @Component({
     selector: 'app-itemAeonStones',
@@ -22,6 +23,7 @@ export class ItemAeonStonesComponent implements OnInit {
 
     constructor(
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         private itemsService: ItemsService,
         private timeService: TimeService,
         private typeService: TypeService
@@ -112,7 +114,7 @@ export class ItemAeonStonesComponent implements OnInit {
         }
         this.set_ToChange(stone);
         this.set_AeonStoneNames();
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     remove_AeonStone(index: number) {
@@ -126,18 +128,18 @@ export class ItemAeonStonesComponent implements OnInit {
 
     set_ToChange(stone: WornItem) {
         stone.hints?.forEach(hint => {
-            this.characterService.set_TagsToChange("Character", hint.showon);
+            this.refreshService.set_TagsToChange(this.get_Character(), hint.showon, { characterService: this.characterService });
         })
         if (stone.effects.length) {
-            this.characterService.set_ToChange("Character", "effects");
+            this.refreshService.set_ToChange("Character", "effects");
         }
         if (stone.activities.length) {
-            this.characterService.set_ToChange("Character", "activities");
+            this.refreshService.set_ToChange("Character", "activities");
         }
         if (stone.gainSpells.length) {
-            this.characterService.set_ToChange("Character", "spellbook");
+            this.refreshService.set_ToChange("Character", "spellbook");
         }
-        this.characterService.set_ToChange("Character", this.item.id);
+        this.refreshService.set_ToChange("Character", this.item.id);
     }
 
     get_Title(stone: WornItem) {

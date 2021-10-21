@@ -6,6 +6,7 @@ import { ConditionGain } from './ConditionGain';
 import { ConfigService } from './config.service';
 import { ItemsService } from './items.service';
 import { PlayerMessage } from './PlayerMessage';
+import { RefreshService } from './refresh.service';
 import { ToastService } from './toast.service';
 import { TypeService } from './type.service';
 
@@ -24,7 +25,8 @@ export class MessageService {
         private configService: ConfigService,
         private toastService: ToastService,
         private typeService: TypeService,
-        private itemsService: ItemsService
+        private itemsService: ItemsService,
+        private refreshService: RefreshService
     ) { }
 
     get_NewMessages(characterService: CharacterService) {
@@ -90,25 +92,25 @@ export class MessageService {
                 // otherwise only announce that new messages are available, then update the component to show the number on the button.
                 if (newMessages.length && characterService.get_Character().settings.applyMessagesAutomatically) {
                     this.on_ApplyMessagesAutomatically(characterService, newMessages);
-                    characterService.set_Changed("top-bar");
+                    this.refreshService.set_Changed("top-bar");
                 } else if (newMessages.length) {
                     this.add_NewMessages(newMessages);
                     this.toastService.show("<strong>" + newMessages.length + "</strong> new message" + (newMessages.length != 1 ? "s are" : " is") + " available.",
-                        { onClickCreature: "character", onClickAction: "check-messages-manually" }, characterService)
-                    characterService.set_Changed("top-bar");
+                        { onClickCreature: "character", onClickAction: "check-messages-manually" })
+                    this.refreshService.set_Changed("top-bar");
                 }
                 this.checkingMessages = false;
             }, (error) => {
                 this.checkingMessages = false;
                 if (error.status == 401) {
-                    this.configService.on_LoggedOut(characterService, "Your login is no longer valid; Messages have not been loaded.");
+                    this.configService.on_LoggedOut("Your login is no longer valid; Messages have not been loaded.");
                 } else {
                     let text = "An error occurred while searching for new messages. See console for more information.";
                     if (characterService.get_Character().settings.checkMessagesAutomatically) {
                         text += " Automatic checks have been disabled.";
                         characterService.get_Character().settings.checkMessagesAutomatically = false;
                     }
-                    this.toastService.show(text, [], characterService)
+                    this.toastService.show(text)
                     console.log('Error loading messages from database: ' + error.message);
                 }
             });
@@ -147,7 +149,7 @@ export class MessageService {
         if (newMessages.length) {
             characterService.apply_TurnChangeMessage(newMessages.filter(message => message.turnChange));
             characterService.apply_ItemAcceptedMessages(newMessages.filter(message => message.acceptedItem || message.rejectedItem));
-            characterService.process_ToChange();
+            this.refreshService.process_ToChange();
             newMessages.filter(message => message.turnChange).forEach(message => {
                 this.mark_MessageAsIgnored(characterService, message);
             })
@@ -169,8 +171,8 @@ export class MessageService {
         messages.forEach(message => {
             this.mark_MessageAsIgnored(characterService, message);
         })
-        characterService.set_ToChange("Character", "top-bar");
-        characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "top-bar");
+        this.refreshService.process_ToChange();
     }
 
     mark_MessageAsIgnored(characterService: CharacterService, message: PlayerMessage) {
@@ -201,11 +203,11 @@ export class MessageService {
                             this.cleaningUpIgnoredMessages = false;
                         }
                         if (error.status == 401) {
-                            this.configService.on_LoggedOut(characterService, "Your login is no longer valid.");
+                            this.configService.on_LoggedOut("Your login is no longer valid.");
                         } else if (!errorMessage) {
                             errorMessage = true;
                             let text = "An error occurred while deleting messages. See console for more information.";
-                            this.toastService.show(text, [], characterService)
+                            this.toastService.show(text)
                             console.log('Error deleting messages: ' + error.message);
                         }
                     })
@@ -244,7 +246,7 @@ export class MessageService {
                     //Every minute, let the database connector clean up messages that are older than 10 minutes.
                     //The timer starts at 0 so this happens immediately upon activating automatic checking (or loading a character with it.)
                     this.cleanup_OldMessages().subscribe(() => { }, error => {
-                        this.toastService.show("An error occurred while cleaning up messages. See console for more information.", [], characterService)
+                        this.toastService.show("An error occurred while cleaning up messages. See console for more information.")
                         console.log('Error cleaning up messages: ' + error.message);
                     })
                     minuteTimer = 60;

@@ -6,6 +6,7 @@ import { ItemsService } from 'src/app/items.service';
 import { TimeService } from 'src/app/time.service';
 import { Weapon } from 'src/app/Weapon';
 import { TypeService } from 'src/app/type.service';
+import { RefreshService } from 'src/app/refresh.service';
 
 @Component({
     selector: 'app-itemPoisons',
@@ -24,6 +25,7 @@ export class ItemPoisonsComponent implements OnInit {
 
     constructor(
         private characterService: CharacterService,
+        private refreshService: RefreshService,
         private itemsService: ItemsService,
         private timeService: TimeService,
         private typeService: TypeService
@@ -68,17 +70,17 @@ export class ItemPoisonsComponent implements OnInit {
             }
             this.newPoison = { poison: new AlchemicalPoison(), inv: null };
             this.newPoison.poison.name = "";
-            this.characterService.set_ToChange("Character", "inventory");
-            this.characterService.set_ItemViewChanges(this.get_Character(), this.item);
-            this.characterService.process_ToChange();
+            this.refreshService.set_ToChange("Character", "inventory");
+            this.refreshService.set_ItemViewChanges(this.get_Character(), this.item, { characterService: this.characterService });
+            this.refreshService.process_ToChange();
         }
     }
 
     remove_Poison(index: number) {
         this.item.poisonsApplied.splice(index, 1);
-        this.characterService.set_ToChange("Character", "inventory");
-        this.characterService.set_ItemViewChanges(this.get_Character(), this.item);
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "inventory");
+        this.refreshService.set_ItemViewChanges(this.get_Character(), this.item, { characterService: this.characterService });
+        this.refreshService.process_ToChange();
     }
 
     ngOnInit() {

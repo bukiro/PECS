@@ -4,6 +4,7 @@ import { ActivitiesService } from 'src/app/activities.service';
 import { CharacterService } from 'src/app/character.service';
 import { Creature } from 'src/app/Creature';
 import { Item } from 'src/app/Item';
+import { RefreshService } from 'src/app/refresh.service';
 
 @Component({
     selector: 'app-hintItem',
@@ -22,7 +23,8 @@ export class HintItemComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         private traitsService: TraitsService,
         private activitiesService: ActivitiesService,
-        public characterService: CharacterService
+        public characterService: CharacterService,
+        private refreshService: RefreshService
     ) { }
 
     trackByIndex(index: number, obj: any): any {
@@ -43,13 +45,13 @@ export class HintItemComponent implements OnInit {
 
     finish_Loading() {
         if (this.item.id) {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (target == this.item.id) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.target == this.item.id) {
                         this.changeDetector.detectChanges();

@@ -3,6 +3,7 @@ import { CharacterService } from '../character.service';
 import { SpellsService } from '../spells.service';
 import { SpellChoice } from '../SpellChoice';
 import { SpellCasting } from '../SpellCasting';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-spells',
@@ -23,6 +24,7 @@ export class SpellsComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
+        private refreshService: RefreshService,
         private spellsService: SpellsService
     ) { }
 
@@ -32,8 +34,8 @@ export class SpellsComponent implements OnInit {
 
     toggle_TileMode() {
         this.get_Character().settings.spellsTileMode = !this.get_Character().settings.spellsTileMode;
-        this.characterService.set_ToChange("Character", "spellchoices");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "spellchoices");
+        this.refreshService.process_ToChange();
     }
 
     get_Minimized() {
@@ -207,13 +209,13 @@ export class SpellsComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["spells", "all", "character"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "character" && ["spells", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

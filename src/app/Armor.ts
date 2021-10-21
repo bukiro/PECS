@@ -131,7 +131,7 @@ export class Armor extends Equipment {
     }
     get_ArmoredSkirt(creature: Creature, characterService: CharacterService) {
         if (["Breastplate", "Chain Shirt", "Chain Mail", "Scale Mail"].includes(this.name)) {
-            let armoredSkirt = characterService.get_Inventories(creature).map(inventory => inventory.adventuringgear).find(gear => gear.find(item => item.isArmoredSkirt && item.equipped));
+            let armoredSkirt = creature.inventories.map(inventory => inventory.adventuringgear).find(gear => gear.find(item => item.isArmoredSkirt && item.equipped));
             if (armoredSkirt?.length) {
                 this._affectedByArmoredSkirt = 1;
                 return armoredSkirt[0];
@@ -140,7 +140,7 @@ export class Armor extends Equipment {
                 return null;
             }
         } else if (["Half Plate", "Full Plate", "Hellknight Plate"].includes(this.name)) {
-            let armoredSkirt = characterService.get_Inventories(creature).map(inventory => inventory.adventuringgear).find(gear => gear.find(item => item.isArmoredSkirt && item.equipped));
+            let armoredSkirt = creature.inventories.map(inventory => inventory.adventuringgear).find(gear => gear.find(item => item.isArmoredSkirt && item.equipped));
             if (armoredSkirt?.length) {
                 this._affectedByArmoredSkirt = -1;
                 return armoredSkirt[0];

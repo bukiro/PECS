@@ -8,6 +8,7 @@ import { ConditionSet } from '../ConditionSet';
 import { AnimalCompanionSpecialization } from '../AnimalCompanionSpecialization';
 import { AnimalCompanionAncestry } from '../AnimalCompanionAncestry';
 import { Feat } from '../Feat';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-tags',
@@ -42,6 +43,7 @@ export class TagsComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         private traitsService: TraitsService,
         private effectsService: EffectsService,
         private timeService: TimeService
@@ -191,21 +193,21 @@ export class TagsComponent implements OnInit {
     }
 
     on_ActivateEffect() {
-        this.characterService.set_ToChange(this.creature, "effects");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.process_ToChange();
     }
 
     finish_Loading() {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["tags", "all", this.creature, this.objectName].includes(target)) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature == this.creature &&
                         (

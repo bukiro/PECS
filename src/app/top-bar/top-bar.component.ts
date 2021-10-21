@@ -9,6 +9,7 @@ import { ToastService } from '../toast.service';
 import { ConfigService } from '../config.service';
 import { TypeService } from '../type.service';
 import { ItemsService } from '../items.service';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-top-bar',
@@ -31,6 +32,7 @@ export class TopBarComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
+        private refreshService: RefreshService,
         private configService: ConfigService,
         private savegameService: SavegameService,
         private messageService: MessageService,
@@ -87,7 +89,7 @@ export class TopBarComponent implements OnInit {
     }
 
     set_Changed() {
-        this.characterService.set_Changed();
+        this.refreshService.set_Changed();
     }
 
     get_Darkmode() {
@@ -96,8 +98,8 @@ export class TopBarComponent implements OnInit {
 
     toggle_Menu(menu: string) {
         this.characterService.toggle_Menu(menu);
-        this.characterService.set_ToChange("Character", "character-sheet");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "character-sheet");
+        this.refreshService.process_ToChange();
     }
 
     get_ItemsMenuState() {
@@ -195,7 +197,7 @@ export class TopBarComponent implements OnInit {
             if (this.messageService.get_NewMessages(this.characterService).length) {
                 this.open_NewMessagesModal();
             } else {
-                this.toastService.show("No new effects are available.", [], this.characterService);
+                this.toastService.show("No new effects are available.");
             }
         } else {
             //Clean up old messages, then check for new messages, then open the dialog if any are found.
@@ -210,17 +212,17 @@ export class TopBarComponent implements OnInit {
                         if (this.messageService.get_NewMessages(this.characterService).length) {
                             this.open_NewMessagesModal();
                         } else {
-                            this.toastService.show("No new effects are available.", [], this.characterService);
+                            this.toastService.show("No new effects are available.");
                         }
                     }, (error) => {
-                        this.toastService.show("An error occurred while searching for new effects. See console for more information.", [], this.characterService)
+                        this.toastService.show("An error occurred while searching for new effects. See console for more information.")
                         console.log('Error loading messages from database: ' + error.message);
                     });
             }, error => {
                 if (error.status == 401) {
-                    this.configService.on_LoggedOut(this.characterService, "Your login is no longer valid. New effects could not be checked. Please try again after logging in.");
+                    this.configService.on_LoggedOut("Your login is no longer valid. New effects could not be checked. Please try again after logging in.");
                 } else {
-                    this.toastService.show("An error occurred while cleaning up messages. See console for more information.", [], this.characterService)
+                    this.toastService.show("An error occurred while cleaning up messages. See console for more information.")
                     console.log('Error cleaning up messages: ' + error.message);
                 }
             })
@@ -258,14 +260,14 @@ export class TopBarComponent implements OnInit {
                 //Prepare to refresh the effects of all affected creatures;
                 this.characterService.get_Creatures().forEach(creature => {
                     if (this.newMessages.some(message => message.id == creature.id)) {
-                        this.characterService.set_ToChange(creature.type, "effects");
+                        this.refreshService.set_ToChange(creature.type, "effects");
                     }
                 })
                 this.characterService.apply_MessageConditions(this.newMessages.filter(message => message.gainCondition.length));
                 this.characterService.apply_MessageItems(this.newMessages.filter(message => message.offeredItem.length));
                 this.newMessages.length = 0;
-                this.characterService.set_ToChange("Character", "top-bar");
-                this.characterService.process_ToChange();
+                this.refreshService.set_ToChange("Character", "top-bar");
+                this.refreshService.process_ToChange();
                 this.modalOpen = false;
             }
         }, (reason) => {
@@ -318,13 +320,13 @@ export class TopBarComponent implements OnInit {
         if (!this.get_Database() && !this.configService.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["top-bar", "all", "character"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "character" && ["top-bar", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

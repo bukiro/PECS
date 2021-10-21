@@ -1,7 +1,8 @@
-import { Component, DefaultIterableDiffer, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CharacterService } from 'src/app/character.service';
 import { DiceService } from 'src/app/dice.service';
 import { IntegrationsService } from 'src/app/integrations.service';
+import { RefreshService } from 'src/app/refresh.service';
 import { SpellCasting } from 'src/app/SpellCasting';
 
 @Component({
@@ -28,6 +29,7 @@ export class QuickdiceComponent implements OnInit {
 
     constructor(
         private characterService: CharacterService,
+        private refreshService: RefreshService,
         private diceService: DiceService,
         private integrationsService: IntegrationsService
     ) { }
@@ -160,7 +162,7 @@ export class QuickdiceComponent implements OnInit {
                 });
             }
         }
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     get_Description() {

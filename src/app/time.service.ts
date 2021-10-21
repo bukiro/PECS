@@ -10,6 +10,8 @@ import { Character } from './Character';
 import { EffectGain } from './EffectGain';
 import { AnimalCompanion } from './AnimalCompanion';
 import { ToastService } from './toast.service';
+import { CustomEffectsService } from './customEffects.service';
+import { RefreshService } from './refresh.service';
 
 @Injectable({
     providedIn: 'root'
@@ -21,8 +23,10 @@ export class TimeService {
 
     constructor(
         private activitiesService: ActivitiesService,
+        private customEffectsService: CustomEffectsService,
         private effectsService: EffectsService,
-        private toastService: ToastService
+        private toastService: ToastService,
+        private refreshService: RefreshService
     ) { }
 
     get_YourTurn() {
@@ -47,9 +51,9 @@ export class TimeService {
                     fastHealing += parseInt(effect.value);
                 })
                 if (fastHealing && creature.health.currentHP(creature, characterService, effectsService).result > 0) {
-                    characterService.set_ToChange(creature.type, "health");
+                    this.refreshService.set_ToChange(creature.type, "health");
                     creature.health.heal(creature, characterService, effectsService, fastHealing);
-                    this.toastService.show((creature.type == "Character" ? "You" : (creature.name ? creature.name : "Your " + creature.type.toLowerCase())) + " gained " + (fastHealing).toString() + " HP from fast healing.", [], characterService)
+                    this.toastService.show((creature.type == "Character" ? "You" : (creature.name ? creature.name : "Your " + creature.type.toLowerCase())) + " gained " + (fastHealing).toString() + " HP from fast healing.")
                 }
             })
         }
@@ -62,7 +66,7 @@ export class TimeService {
             characterService.send_TurnChangeToPlayers();
         }
 
-        characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     end_Turn(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService) {
@@ -79,8 +83,8 @@ export class TimeService {
         let charLevel: number = characterService.get_Character().level;
         this.tick(characterService, conditionsService, itemsService, spellsService, 48000, false);
         characterService.get_Creatures().forEach(creature => {
-            characterService.set_ToChange(creature.type, "health");
-            characterService.set_ToChange(creature.type, "effects");
+            this.refreshService.set_ToChange(creature.type, "health");
+            this.refreshService.set_ToChange(creature.type, "effects");
             let con = 1;
             if (creature.type != "Familiar") {
                 con = Math.max(characterService.abilitiesService.get_Abilities("Constitution")[0].mod((creature as AnimalCompanion | Character), characterService, characterService.effectsService).result, 1);
@@ -101,7 +105,7 @@ export class TimeService {
             })
             multiplier = Math.max(1, multiplier);
             characterService.get_Health(creature).heal(creature, characterService, characterService.effectsService, heal * multiplier, true, true);
-            this.toastService.show((creature.type == "Character" ? "You" : (creature.name ? creature.name : "Your " + creature.type.toLowerCase())) + " gained " + (heal * multiplier).toString() + " HP from resting.", [], characterService)
+            this.toastService.show((creature.type == "Character" ? "You" : (creature.name ? creature.name : "Your " + creature.type.toLowerCase())) + " gained " + (heal * multiplier).toString() + " HP from resting.")
             //Reset all "once per day" activity cooldowns.
             this.activitiesService.rest(creature, characterService);
             //Reset all conditions that are "until the next time you make your daily preparations".
@@ -126,7 +130,7 @@ export class TimeService {
                 character.class.formulaBook.filter(learned => learned.snareSpecialistPrepared).forEach(learned => {
                     learned.snareSpecialistAvailable = learned.snareSpecialistPrepared;
                 });
-                characterService.set_ToChange("Character", "inventory");
+                this.refreshService.set_ToChange("Character", "inventory");
                 //Regenerate bonded item charges.
                 character.class.spellCasting.filter(casting => casting.castingType == "Prepared" && casting.className == "Wizard").forEach(casting => {
                     let superiorBond = characterService.get_CharacterFeatsTaken(1, character.level, "Superior Bond").length;
@@ -139,7 +143,7 @@ export class TimeService {
             }
         });
 
-        characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     refocus(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, recoverPoints: number = 1, reload: boolean = true, tick: boolean = true) {
@@ -174,7 +178,7 @@ export class TimeService {
 
         character.class.focusPointsLast = character.class.focusPoints;
         if (reload) {
-            characterService.process_ToChange();
+            this.refreshService.process_ToChange();
         }
     }
 
@@ -184,13 +188,13 @@ export class TimeService {
             this.activitiesService.tick_Activities(creature, characterService, conditionsService, itemsService, spellsService, turns)
             if (creature.conditions.length) {
                 if (creature.conditions.filter(gain => gain.nextStage > 0)) {
-                    characterService.set_ToChange(creature.type, "time");
-                    characterService.set_ToChange(creature.type, "health");
+                    this.refreshService.set_ToChange(creature.type, "time");
+                    this.refreshService.set_ToChange(creature.type, "health");
                 }
                 conditionsService.tick_Conditions(creature, turns, this.yourTurn);
-                characterService.set_ToChange(creature.type, "effects")
+                this.refreshService.set_ToChange(creature.type, "effects")
             }
-            this.effectsService.tick_CustomEffects(creature, characterService, turns);
+            this.customEffectsService.tick_CustomEffects(creature, turns, {characterService});
             if (creature.type != "Familiar") {
                 itemsService.tick_Items((creature as AnimalCompanion | Character), characterService, turns);
             }
@@ -204,7 +208,7 @@ export class TimeService {
         })
         this.yourTurn = (this.yourTurn + turns) % 10;
         if (reload) {
-            characterService.process_ToChange();
+            this.refreshService.process_ToChange();
         }
     }
 

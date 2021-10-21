@@ -6,6 +6,7 @@ import { Shield } from 'src/app/Shield';
 import { ActivityGain } from 'src/app/ActivityGain';
 import { Hint } from 'src/app/Hint';
 import { EffectGain } from 'src/app/EffectGain';
+import { RefreshService } from 'src/app/refresh.service';
 
 @Component({
     selector: 'app-itemEmblazonArmament',
@@ -25,7 +26,8 @@ export class ItemEmblazonArmamentComponent implements OnInit {
     public newPropertyRune: { rune: Rune, disabled?: boolean };
 
     constructor(
-        public characterService: CharacterService
+        public characterService: CharacterService,
+        private refreshService: RefreshService
     ) { }
 
     trackByIndex(index: number, obj: any): any {
@@ -224,15 +226,15 @@ export class ItemEmblazonArmamentComponent implements OnInit {
                 }
                 break;
         }
-        this.characterService.set_ToChange("Character", "inventory");
+        this.refreshService.set_ToChange("Character", "inventory");
         if (this.item instanceof Weapon) {
-            this.characterService.set_ToChange("Character", "attacks");
+            this.refreshService.set_ToChange("Character", "attacks");
         } else {
-            this.characterService.set_ToChange("Character", "activities");
-            this.characterService.set_ToChange("Character", "effects");
-            this.characterService.set_ToChange("Character", "defense");
+            this.refreshService.set_ToChange("Character", "activities");
+            this.refreshService.set_ToChange("Character", "effects");
+            this.refreshService.set_ToChange("Character", "defense");
         }
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     get_Deity(type: string) {

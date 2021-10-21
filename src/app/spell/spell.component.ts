@@ -3,6 +3,7 @@ import { Spell } from 'src/app/Spell';
 import { TraitsService } from 'src/app/traits.service';
 import { CharacterService } from 'src/app/character.service';
 import { SpellCasting } from 'src/app/SpellCasting';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-spell',
@@ -24,6 +25,7 @@ export class SpellComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         private traitsService: TraitsService
     ) { }
 
@@ -43,13 +45,13 @@ export class SpellComponent implements OnInit {
         if (this.characterService.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["individualspells", "all", "character"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "character" &&
                         (

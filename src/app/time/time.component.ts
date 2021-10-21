@@ -5,6 +5,7 @@ import { EffectsService } from '../effects.service';
 import { ItemsService } from '../items.service';
 import { SpellsService } from '../spells.service';
 import { ConditionsService } from '../conditions.service';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-time',
@@ -24,6 +25,7 @@ export class TimeComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
+        private refreshService: RefreshService,
         private timeService: TimeService,
         private itemsService: ItemsService,
         private spellsService: SpellsService,
@@ -87,13 +89,13 @@ export class TimeComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["time", "all", "character"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "character" && ["time", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

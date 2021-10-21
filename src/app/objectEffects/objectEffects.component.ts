@@ -1,9 +1,9 @@
-import { ThrowStmt } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 import { CharacterService } from '../character.service';
-import { Effect } from '../Effect';
 import { EffectGain } from '../EffectGain';
 import { EffectsService } from '../effects.service';
+import { EvaluationService } from '../evaluation.service';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-objectEffects',
@@ -19,7 +19,9 @@ export class ObjectEffectsComponent implements OnInit {
 
     constructor(
         private characterService: CharacterService,
-        private effectsService: EffectsService
+        private refreshService: RefreshService,
+        private effectsService: EffectsService,
+        private evaluationService: EvaluationService
     ) { }
 
     get_Creature() {
@@ -50,7 +52,7 @@ export class ObjectEffectsComponent implements OnInit {
     }
 
     get_BonusTypes() {
-        return this.effectsService.get_BonusTypes().map(type => type == "untyped" ? "" : type);
+        return this.effectsService.bonusTypes.map(type => type == "untyped" ? "" : type);
     }
 
     new_CustomEffectOnThis() {
@@ -63,8 +65,8 @@ export class ObjectEffectsComponent implements OnInit {
     }
 
     update_Effects() {
-        this.characterService.set_ToChange(this.creature, "effects");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.process_ToChange();
     }
 
     get_IsFormula(value: string) {
@@ -77,20 +79,16 @@ export class ObjectEffectsComponent implements OnInit {
     }
 
     get_EffectValue(effect: EffectGain) {
-        //Fit the custom effect into the box defined by get_SimpleEffects
-        let effectsObject = { effects: [effect] }
-        let result = this.effectsService.get_SimpleEffects(this.get_Creature(), this.characterService, effectsObject);
-        if (result.length) {
-            if (result[0].setValue) {
-                return "= " + result[0].setValue;
+        //Send the effect's setValue or value to the EvaluationService to get its result.
+        let value = effect.setValue || effect.value || null;
+        if (value) {
+            let result = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Creature() });
+            if (result) {
+                return "= " + result;
             }
-            if (result[0].value) {
-                return result[0].value;
-            }
-        } else {
-            //If the EffectGain did not produce an effect, return a blank effect instead.
-            return "0";
         }
+        //If the EffectGain did not produce a value, return a zero value instead.
+        return "0";
     }
 
     ngOnInit() {

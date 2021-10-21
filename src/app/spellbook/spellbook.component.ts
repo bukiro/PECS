@@ -14,6 +14,7 @@ import { EffectGain } from '../EffectGain';
 import { Condition } from '../Condition';
 import { ConditionsService } from '../conditions.service';
 import { Feat } from '../Feat';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-spellbook',
@@ -35,6 +36,7 @@ export class SpellbookComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         private traitsService: TraitsService,
         private spellsService: SpellsService,
         private itemsService: ItemsService,
@@ -112,8 +114,8 @@ export class SpellbookComponent implements OnInit {
 
     toggle_TileMode() {
         this.get_Character().settings.spellbookTileMode = !this.get_Character().settings.spellbookTileMode;
-        this.characterService.set_ToChange("Character", "spellbook");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "spellbook");
+        this.refreshService.process_ToChange();
     }
 
     get_TileMode() {
@@ -485,7 +487,7 @@ export class SpellbookComponent implements OnInit {
                 divineFontSpell.gain.prepared = false;
             }
             //Update effects because Channeled Succor gets disabled after you expend all your divine font heal spells.
-            this.characterService.set_ToChange("Character", "effects");
+            this.refreshService.set_ToChange("Character", "effects");
         } else if (gain.cooldown) {
             //Spells with a cooldown don't use any resources. They will start their cooldown in spell processing.
         } else {
@@ -577,7 +579,7 @@ export class SpellbookComponent implements OnInit {
         if (casting.castingType == "Prepared" && !spell.traits.includes("Cantrip")) {
             gain.prepared = false;
         }
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     can_Counterspell(casting: SpellCasting) {
@@ -634,7 +636,7 @@ export class SpellbookComponent implements OnInit {
 
     on_Restore(gain: SpellGain, casting: SpellCasting, level: number) {
         let character = this.get_Character();
-        this.characterService.set_ToChange("Character", "effects");
+        this.refreshService.set_ToChange("Character", "effects");
         if (this.have_Feat("Linked Focus")) {
             this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+1" }))
         }
@@ -655,7 +657,7 @@ export class SpellbookComponent implements OnInit {
             }
         }
         gain.prepared = true;
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     can_Reprepare(level: number, spell: Spell, casting: SpellCasting) {
@@ -673,9 +675,9 @@ export class SpellbookComponent implements OnInit {
     }
 
     on_Reprepare(gain: SpellGain) {
-        this.characterService.set_ToChange("Character", "effects");
+        this.refreshService.set_ToChange("Character", "effects");
         gain.prepared = true;
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
     }
 
     is_SignatureSpell(casting: SpellCasting, taken: SpellGain) {
@@ -715,13 +717,13 @@ export class SpellbookComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["spellbook", "all", "character"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "character" && ["spellbook", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

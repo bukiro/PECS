@@ -106,7 +106,7 @@ export class IntegrationsService {
                     setTimeout(() => {
                         foundryWindow.close();
                     }, foundryVTTTimeout);
-                    integrationsService.toastService.show("Dice roll sent to Foundry VTT.", [], characterService);
+                    integrationsService.toastService.show("Dice roll sent to Foundry VTT.");
                 }
             }
             prepareAndSend(this);
@@ -120,7 +120,7 @@ export class IntegrationsService {
             //If checking the URL takes too long, let the user know that you're working on it every second.
             //This interval will be cancelled as soon as the website is found or has timed out.
             let interval = setInterval(() => {
-                this.toastService.show("Testing if Foundry VTT is online...", [], characterService);
+                this.toastService.show("Testing if Foundry VTT is online...");
                 clearInterval(interval);
             }, 1000);
             //If an error comes after 4 seconds or longer, it's a timeout. If the response comes immediately, it's a CORS error - which is fine.
@@ -138,15 +138,15 @@ export class IntegrationsService {
                     prepareAndSend(this);
                 } else {
                     if (quickDiceComponent) {
-                        this.toastService.show("Foundry VTT was not responsive. The dice roll was performed in PECS instead.", [], characterService);
+                        this.toastService.show("Foundry VTT was not responsive. The dice roll was performed in PECS instead.");
                         quickDiceComponent.roll(true);
                     } else {
-                        this.toastService.show("Foundry VTT was not responsive. The dice roll was not sent.", [], characterService);
+                        this.toastService.show("Foundry VTT was not responsive. The dice roll was not sent.");
                     }
                 }
             });*/
         } else {
-            this.toastService.show("No Foundry VTT URL is configured. The dice roll was not sent.", [], characterService);
+            this.toastService.show("No Foundry VTT URL is configured. The dice roll was not sent.");
         }
     }
 

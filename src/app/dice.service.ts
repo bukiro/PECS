@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CharacterService } from './character.service';
 import { DiceResult } from './DiceResult';
+import { RefreshService } from './refresh.service';
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +10,9 @@ export class DiceService {
 
     private diceResults: DiceResult[] = [];
 
-    constructor() { }
+    constructor(
+        private refreshService: RefreshService
+    ) { }
 
     get_DiceResults() {
         return this.diceResults;
@@ -49,9 +52,9 @@ export class DiceService {
         if (characterService.get_DiceMenuState() == "out") {
             characterService.toggle_Menu("dice");
         }
-        characterService.set_ToChange("character", "dice");
-        characterService.set_ToChange("character", "character-sheet");
-        characterService.set_ToChange("character", "top-bar");
+        this.refreshService.set_ToChange("character", "dice");
+        this.refreshService.set_ToChange("character", "character-sheet");
+        this.refreshService.set_ToChange("character", "top-bar");
     }
 
     unselectAll() {

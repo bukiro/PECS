@@ -87,6 +87,7 @@ import { Weapon } from './Weapon';
 import { WeaponMaterial } from './WeaponMaterial';
 import { WeaponRune } from './WeaponRune';
 import { WornItem } from './WornItem';
+import { RefreshService } from './refresh.service';
 
 @Injectable({
     providedIn: 'root'

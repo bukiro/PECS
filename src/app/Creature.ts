@@ -9,6 +9,7 @@ import { Skill } from './Skill';
 import { Effect } from './Effect';
 import { TypeService } from './type.service';
 import { ItemsService } from './items.service';
+import { RefreshService } from './refresh.service';
 
 export class Creature {
     public name: string = "";

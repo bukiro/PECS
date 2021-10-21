@@ -10,6 +10,7 @@ import { TimeService } from 'src/app/time.service';
 import { TraitsService } from 'src/app/traits.service';
 import { Creature } from 'src/app/Creature';
 import { ActivitiesService } from 'src/app/activities.service';
+import { RefreshService } from 'src/app/refresh.service';
 
 @Component({
     selector: 'app-condition',
@@ -31,10 +32,11 @@ export class ConditionComponent implements OnInit {
     fullDisplay: boolean = false;
     @Output()
     showItemMessage = new EventEmitter<string>();
-    
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         private timeService: TimeService,
         private itemsService: ItemsService,
         private conditionsService: ConditionsService,
@@ -78,16 +80,16 @@ export class ConditionComponent implements OnInit {
     set_ConditionDuration(gain: ConditionGain, turns: number) {
         gain.duration = turns;
         gain.maxDuration = gain.duration;
-        this.characterService.set_ToChange(this.creature, "effects");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.process_ToChange();
         this.update_Condition();
     }
 
     change_ConditionDuration(gain: ConditionGain, turns: number) {
         gain.duration += turns;
         gain.maxDuration = gain.duration;
-        this.characterService.set_ToChange(this.creature, "effects");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.process_ToChange();
         this.update_Condition();
     }
 
@@ -104,8 +106,8 @@ export class ConditionComponent implements OnInit {
             this.get_Creature().health.damage == Math.max(0, (this.get_Creature().health.damage - (this.get_Creature().level * change)));
         }
         gain.showValue = false;
-        this.characterService.set_ToChange(this.creature, "effects");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.process_ToChange();
         this.update_Condition();
     }
 
@@ -168,7 +170,7 @@ export class ConditionComponent implements OnInit {
             }
             //If the current duration is locking the time buttons, refresh the time bar after the change.
             if (gain.duration == 1 || gain.nextStage) {
-                this.characterService.set_ToChange("Character", "time");
+                this.refreshService.set_ToChange("Character", "time");
             }
             //If the current duration is the default duration of the previous choice, then set the default duration for the current choice. This lets us change the choice directly after adding the condition if we made a mistake.
             if (gain.duration == condition.get_DefaultDuration(oldChoice, gain.heightened).duration) {
@@ -177,7 +179,7 @@ export class ConditionComponent implements OnInit {
                 gain.maxDuration = gain.duration;
                 //If the new duration is locking the time buttons, refresh the time bar after the change.
                 if (gain.duration == 1) {
-                    this.characterService.set_ToChange("Character", "time");
+                    this.refreshService.set_ToChange("Character", "time");
                 }
             } else if (gain.duration == condition.get_DefaultDuration(oldChoice, gain.heightened).duration + 2) {
                 //If the current duration is the default duration of the previous choice PLUS 2, then set the default duration for the current choice, plus 2.
@@ -187,20 +189,20 @@ export class ConditionComponent implements OnInit {
             }
             //Show a notification if the new condition has no duration and did nothing, because it will be removed in the next cycle.
             if (!conditionDidSomething && gain.duration == 0) {
-                this.characterService.toastService.show("The condition <strong>" + gain.name + "</strong> was removed because it had no duration and no effect.", [], this.characterService)
+                this.characterService.toastService.show("The condition <strong>" + gain.name + "</strong> was removed because it had no duration and no effect.")
             }
 
         }
-        this.characterService.set_ToChange(this.creature, "effects");
+        this.refreshService.set_ToChange(this.creature, "effects");
         if (condition.attackRestrictions.length) {
-            this.characterService.set_ToChange(this.creature, "attacks");
+            this.refreshService.set_ToChange(this.creature, "attacks");
         }
         if (condition.senses.length) {
-            this.characterService.set_ToChange(this.creature, "skills");
+            this.refreshService.set_ToChange(this.creature, "skills");
         }
         gain.showChoices = false;
-        this.characterService.set_HintsToChange(this.creature, this.condition.hints);
-        this.characterService.process_ToChange();
+        this.refreshService.set_HintsToChange(creature, this.condition.hints, { characterService: this.characterService });
+        this.refreshService.process_ToChange();
         this.update_Condition();
     }
 
@@ -208,23 +210,23 @@ export class ConditionComponent implements OnInit {
         if (change == 0) {
             //If no change, the condition remains, but the onset is reset.
             gain.nextStage = condition.get_ChoiceNextStage(gain.choice);
-            this.characterService.set_ToChange(this.creature, "time");
-            this.characterService.set_ToChange(this.creature, "health");
-            this.characterService.set_ToChange(this.creature, "effects");
+            this.refreshService.set_ToChange(this.creature, "time");
+            this.refreshService.set_ToChange(this.creature, "health");
+            this.refreshService.set_ToChange(this.creature, "effects");
         } else {
             let newChoice = choices[choices.indexOf(gain.choice) + change];
             if (newChoice) {
                 gain.nextStage = condition.get_ChoiceNextStage(newChoice);
                 if (gain.nextStage) {
-                    this.characterService.set_ToChange(this.creature, "time");
-                    this.characterService.set_ToChange(this.creature, "health");
+                    this.refreshService.set_ToChange(this.creature, "time");
+                    this.refreshService.set_ToChange(this.creature, "health");
                 }
                 let oldChoice = gain.choice;
                 gain.choice = newChoice;
                 this.change_ConditionChoice(gain, condition, oldChoice);
             }
         }
-        this.characterService.process_ToChange();
+        this.refreshService.process_ToChange();
         this.update_Condition();
     }
 
@@ -239,7 +241,7 @@ export class ConditionComponent implements OnInit {
 
     remove_Condition(conditionGain: ConditionGain) {
         this.characterService.remove_Condition(this.get_Creature(), conditionGain, true);
-        this.characterService.set_Changed("close-popovers");
+        this.refreshService.set_Changed("close-popovers");
     }
 
     still_loading() {
@@ -250,13 +252,13 @@ export class ConditionComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (target == "effects" || target == "all" || target == this.creature) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature == this.creature && ["effects", "all"].includes(view.target)) {
                         this.changeDetector.detectChanges();
@@ -285,7 +287,7 @@ export class ConditionComponent implements OnInit {
     update_Condition() {
         //This updates any gridicon that has this condition gain's id set as its update id.
         if (this.conditionGain.id) {
-            this.characterService.set_Changed(this.conditionGain.id);
+            this.refreshService.set_Changed(this.conditionGain.id);
         }
     }
 

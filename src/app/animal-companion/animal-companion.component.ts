@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { AnimalCompanionsService } from '../animalcompanions.service';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-animal-companion',
@@ -17,14 +18,15 @@ export class AnimalCompanionComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
+        private refreshService: RefreshService,
         private animalCompanionsService: AnimalCompanionsService
     ) { }
 
     minimize() {
         this.characterService.get_Character().settings.companionMinimized = !this.characterService.get_Character().settings.companionMinimized;
-        this.characterService.set_ToChange("Companion", "companion");
-        this.characterService.set_ToChange("Companion", "abilities");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Companion", "companion");
+        this.refreshService.set_ToChange("Companion", "abilities");
+        this.refreshService.process_ToChange();
     }
 
     get_Minimized() {
@@ -48,7 +50,7 @@ export class AnimalCompanionComponent implements OnInit {
     }
 
     set_Changed(target: string) {
-        this.characterService.set_Changed(target);
+        this.refreshService.set_Changed(target);
     }
 
     //If you don't use trackByIndex on certain inputs, you lose focus everytime the value changes. I don't get that, but I'm using it now.
@@ -76,13 +78,13 @@ export class AnimalCompanionComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["companion", "all"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "companion" && ["companion", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

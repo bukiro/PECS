@@ -5,6 +5,7 @@ import { ConditionSet } from 'src/app/ConditionSet';
 import { Feat } from 'src/app/Feat';
 import { Hint } from 'src/app/Hint';
 import { Item } from 'src/app/Item';
+import { RefreshService } from 'src/app/refresh.service';
 import { Shield } from 'src/app/Shield';
 import { TraitsService } from 'src/app/traits.service';
 import { WornItem } from 'src/app/WornItem';
@@ -29,6 +30,7 @@ export class HintComponent implements OnInit {
 
     constructor(
         public characterService: CharacterService,
+        private refreshService: RefreshService,
         private traitsService: TraitsService
     ) { }
 
@@ -136,8 +138,8 @@ export class HintComponent implements OnInit {
     }
 
     on_ActivateEffect() {
-        this.characterService.set_ToChange(this.creature, "effects");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.process_ToChange();
     }
 
     get_Traits(traitName: string = "") {

@@ -16,7 +16,9 @@ import { Activity } from '../Activity';
 import { ActivitiesService } from '../activities.service';
 import { Equipment } from '../Equipment';
 import { Consumable } from '../Consumable';
-import { Effect } from '../Effect';
+import { EvaluationService } from '../evaluation.service';
+import { CustomEffectsService } from '../customEffects.service';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-conditions',
@@ -50,12 +52,15 @@ export class ConditionsComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
+        private refreshService: RefreshService,
         private activitiesService: ActivitiesService,
         private conditionsService: ConditionsService,
         private effectsService: EffectsService,
         private itemsService: ItemsService,
         private timeService: TimeService,
-        private traitsService: TraitsService
+        private traitsService: TraitsService,
+        private evaluationService: EvaluationService,
+        private customEffectsService: CustomEffectsService
     ) { }
 
     set_Range(amount: number) {
@@ -105,8 +110,8 @@ export class ConditionsComponent implements OnInit {
 
     toggle_TileMode() {
         this.get_Character().settings.conditionsTileMode = !this.get_Character().settings.conditionsTileMode;
-        this.characterService.set_ToChange("Character", "conditions");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "conditions");
+        this.refreshService.process_ToChange();
     }
 
     get_TileMode() {
@@ -335,18 +340,18 @@ export class ConditionsComponent implements OnInit {
     }
 
     get_EffectsProperty() {
-        return this.effectsService.get_EffectProperties().find(property => !property.parent && property.key == "effects");
+        return this.customEffectsService.get_EffectProperties.find(property => !property.parent && property.key == "effects");
     }
 
     get_EffectValue(creature: Creature, effect: EffectGain) {
-        //Fit the custom effect into the box defined by get_SimpleEffects
+        //Send the effect's setValue or value to the EvaluationService to get its result.
         let result: any = null;
         let penalty: boolean = false;
         if (effect.setValue) {
-            result = this.effectsService.get_ValueFromFormula(effect.setValue, creature, this.characterService);
+            result = this.evaluationService.get_ValueFromFormula(effect.setValue, { characterService: this.characterService, effectsService: this.effectsService }, { creature: creature });
             penalty = false;
         } else if (effect.value) {
-            result = this.effectsService.get_ValueFromFormula(effect.value, creature, this.characterService);
+            result = this.evaluationService.get_ValueFromFormula(effect.value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: creature });
             if (!isNaN(result)) {
                 penalty = (result < 0) == (effect.affected != "Bulk");
             } else {
@@ -396,9 +401,9 @@ export class ConditionsComponent implements OnInit {
             creature.effects[newLength - 1].duration = duration + (this.endOn == this.timeService.get_YourTurn() ? 0 : 5);
         }
         creature.effects[newLength - 1].maxDuration = creature.effects[newLength - 1].duration;
-        this.characterService.set_ToChange(creature.type, "effects");
-        this.characterService.set_ToChange(creature.type, "conditions");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(creature.type, "effects");
+        this.refreshService.set_ToChange(creature.type, "conditions");
+        this.refreshService.process_ToChange();
     }
 
     new_CustomEffect(creature: Creature) {
@@ -407,15 +412,15 @@ export class ConditionsComponent implements OnInit {
 
     remove_Effect(creature: Creature, effect: EffectGain) {
         creature.effects.splice(creature.effects.indexOf(effect), 1);
-        this.characterService.set_ToChange(creature.type, "effects");
-        this.characterService.set_ToChange(creature.type, "conditions");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(creature.type, "effects");
+        this.refreshService.set_ToChange(creature.type, "conditions");
+        this.refreshService.process_ToChange();
     }
 
     update_Effects(creature: Creature) {
-        this.characterService.set_ToChange(creature.type, "effects");
-        this.characterService.set_ToChange(creature.type, "conditions");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange(creature.type, "effects");
+        this.refreshService.set_ToChange(creature.type, "conditions");
+        this.refreshService.process_ToChange();
     }
 
     validate(creature: Creature, effect: EffectGain) {
@@ -429,50 +434,34 @@ export class ConditionsComponent implements OnInit {
         let value = this.newEffect[propertyData.key]
         if (propertyData.key == "value" && propertyData.parent == "effects") {
             if (value && value != "0") {
-                let effectGain = new EffectGain;
-                effectGain.value = value;
-                let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this.characterService, { effects: [effectGain] });
-                if (effects.length) {
-                    let effect = effects[0];
-                    if (effect && effect.value && effect.value != "0" && (parseInt(effect.value) || parseFloat(effect.value))) {
-                        if (parseFloat(effect.value) == parseInt(effect.value)) {
-                            this.validationError[index] = "";
-                            this.validationResult[index] = parseInt(effect.value).toString();
-                        } else {
-                            this.validationError[index] = "This may result in a decimal value and be turned into a whole number."
-                            this.validationResult[index] = parseInt(effect.value).toString();
-                        }
+                let validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() }).toString();
+                if (validationResult && validationResult != "0" && (parseInt(validationResult) || parseFloat(validationResult))) {
+                    if (parseFloat(validationResult) == parseInt(validationResult)) {
+                        this.validationError[index] = "";
+                        this.validationResult[index] = parseInt(validationResult).toString();
                     } else {
-                        this.validationError[index] = "This may result in an invalid value or 0. Invalid values will default to 0, and untyped effects without a value will not be displayed."
-                        this.validationResult[index] = parseInt(effect.value).toString();
+                        this.validationError[index] = "This may result in a decimal value and be turned into a whole number."
+                        this.validationResult[index] = parseInt(validationResult).toString();
                     }
                 } else {
                     this.validationError[index] = "This may result in an invalid value or 0. Invalid values will default to 0, and untyped effects without a value will not be displayed."
-                    this.validationResult[index] = "";
+                    this.validationResult[index] = parseInt(validationResult).toString();
                 }
             }
         } else if (propertyData.key == "setValue" && propertyData.parent == "effects") {
             if (value && value != "0") {
-                let effectGain = new EffectGain;
-                effectGain.value = value;
-                let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this.characterService, { effects: [effectGain] });
-                if (effects.length) {
-                    let effect = effects[0];
-                    if (effect && effect.value && (parseInt(effect.value) || parseFloat(effect.value)) || parseInt(effect.value) == 0) {
-                        if (parseFloat(effect.value) == parseInt(effect.value)) {
-                            this.validationError[index] = "";
-                            this.validationResult[index] = parseInt(effect.value).toString();
-                        } else {
-                            this.validationError[index] = "This may result in a decimal value and be turned into a whole number."
-                            this.validationResult[index] = parseInt(effect.value).toString();
-                        }
+                let validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() }).toString();
+                if (validationResult && (parseInt(validationResult) || parseFloat(validationResult)) || parseInt(validationResult) == 0) {
+                    if (parseFloat(validationResult) == parseInt(validationResult)) {
+                        this.validationError[index] = "";
+                        this.validationResult[index] = parseInt(validationResult).toString();
                     } else {
-                        this.validationError[index] = "This may result in an invalid value. Absolute effects with an invalid value will not be applied."
-                        this.validationResult[index] = parseInt(effect.value).toString();
+                        this.validationError[index] = "This may result in a decimal value and be turned into a whole number."
+                        this.validationResult[index] = parseInt(validationResult).toString();
                     }
                 } else {
                     this.validationError[index] = "This may result in an invalid value. Absolute effects with an invalid value will not be applied."
-                    this.validationResult[index] = "";
+                    this.validationResult[index] = parseInt(validationResult).toString();
                 }
             }
         } else if (propertyData.validation == "1plus") {
@@ -503,10 +492,11 @@ export class ConditionsComponent implements OnInit {
     }
 
     get_CustomEffectProperties() {
-        function get_PropertyData(key: string, effectsService: EffectsService) {
-            return effectsService.get_EffectProperties().find(property => property.key == key);
+        let customEffectsService = this.customEffectsService;
+        function get_PropertyData(key: string) {
+            return customEffectsService.get_EffectProperties.find(property => property.key == key);
         }
-        return Object.keys(this.newEffect).map((key) => get_PropertyData(key, this.effectsService)).filter(property => property != undefined).sort((a, b) => {
+        return Object.keys(this.newEffect).map((key) => get_PropertyData(key)).filter(property => property != undefined).sort((a, b) => {
             if (a.priority > b.priority) {
                 return 1;
             }
@@ -619,20 +609,20 @@ export class ConditionsComponent implements OnInit {
     }
 
     get_BonusTypes() {
-        return this.effectsService.get_BonusTypes().map(type => type == "untyped" ? "" : type);
+        return this.effectsService.bonusTypes.map(type => type == "untyped" ? "" : type);
     }
 
     finish_Loading() {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["conditions", "all"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "character" && ["conditions", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

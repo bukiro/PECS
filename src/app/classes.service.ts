@@ -4,6 +4,7 @@ import * as json_classes from '../assets/json/classes';
 import { ExtensionsService } from './extensions.service';
 import { TypeService } from './type.service';
 import { ItemsService } from './items.service';
+import { RefreshService } from './refresh.service';
 
 @Injectable({
     providedIn: 'root'

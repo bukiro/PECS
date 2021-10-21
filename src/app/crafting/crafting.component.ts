@@ -10,6 +10,7 @@ import { OtherConsumableBomb } from '../OtherConsumableBomb';
 import { Equipment } from '../Equipment';
 import { AdventuringGear } from '../AdventuringGear';
 import { Consumable } from '../Consumable';
+import { RefreshService } from '../refresh.service';
 
 @Component({
     selector: 'app-crafting',
@@ -34,7 +35,8 @@ export class CraftingComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private itemsService: ItemsService,
-        private characterService: CharacterService
+        private characterService: CharacterService,
+        private refreshService: RefreshService
     ) { }
 
     set_Range(amount: number) {
@@ -60,8 +62,8 @@ export class CraftingComponent implements OnInit {
 
     toggle_TileMode() {
         this.get_Character().settings.craftingTileMode = !this.get_Character().settings.craftingTileMode;
-        this.characterService.set_ToChange("Character", "crafting");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "crafting");
+        this.refreshService.process_ToChange();
     }
 
     get_TileMode() {
@@ -178,7 +180,7 @@ export class CraftingComponent implements OnInit {
     change_Cash(multiplier: number = 1, sum: number = 0, changeafter: boolean = false) {
         this.characterService.change_Cash(multiplier, sum, this.cashP, this.cashG, this.cashS, this.cashC);
         if (changeafter) {
-            this.characterService.set_Changed("inventory");
+            this.refreshService.set_Changed("inventory");
         }
     }
 
@@ -287,9 +289,9 @@ export class CraftingComponent implements OnInit {
         if (this.get_FormulasLearned(item.id).length) {
             this.get_FormulasLearned(item.id)[0].snareSpecialistPrepared += amount;
         }
-        this.characterService.set_ToChange("Character", "inventory");
-        //this.characterService.set_ToChange("Character", "crafting");
-        this.characterService.process_ToChange();
+        this.refreshService.set_ToChange("Character", "inventory");
+        //this.refreshService.set_ToChange("Character", "crafting");
+        this.refreshService.process_ToChange();
     }
 
     get_PreparedForQuickCrafting(item: Item) {
@@ -308,13 +310,13 @@ export class CraftingComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.characterService.get_Changed()
+            this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["crafting", "all"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.characterService.get_ViewChanged()
+            this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["crafting", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
