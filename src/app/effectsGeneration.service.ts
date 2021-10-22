@@ -203,6 +203,8 @@ export class EffectsGenerationService {
     }
 
     private collect_EffectItems(creature: Creature, services: { readonly characterService: CharacterService }): { objects: (Equipment | Specialization | ArmorRune)[], hintSets: HintSet[] } {
+        //Collect items and item specializations that may have effects, and their hints, and return them in two lists.
+
         let objects: (Equipment | Specialization | ArmorRune)[] = [];
         let hintSets: HintSet[] = [];
 
@@ -257,8 +259,8 @@ export class EffectsGenerationService {
 
     private collect_TraitEffectHints(creature: Creature, services: { readonly characterService: CharacterService }): HintSet[] {
         let hintSets: HintSet[] = [];
-        services.characterService.traitsService.get_Traits().filter(trait => trait.hints.length).forEach(trait => {
-            trait.hints.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length && trait.haveOn(creature).length).forEach(hint => {
+        services.characterService.traitsService.get_Traits().filter(trait => trait.hints.length && trait.haveOn(creature).length).forEach(trait => {
+            trait.hints.forEach(hint => {
                 hintSets.push({ hint: hint, objectName: trait.name });
             })
         })
