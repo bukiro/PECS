@@ -195,9 +195,7 @@ export class ConditionsService {
         if (condition.gainActivities.length) {
             this.refreshService.set_ToChange(creature.type, "activities");
         }
-        condition.hints.forEach(hint => {
-            this.refreshService.set_TagsToChange(creature, hint.showon, { characterService: characterService });
-        });
+        this.refreshService.set_HintsToChange(creature, condition.hints, { characterService: characterService });
 
         if (taken) {
             gain.maxDuration = gain.duration;

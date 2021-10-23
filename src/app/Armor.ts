@@ -10,6 +10,8 @@ import { ItemsService } from './items.service';
 import { TypeService } from './type.service';
 import { ArmorRune } from './ArmorRune';
 import { RefreshService } from './refresh.service';
+import { Rune } from './Rune';
+import { HintEffectsObject } from './effectsGeneration.service';
 
 export class Armor extends Equipment {
     //Armor should be type "armors" to be found in the database
@@ -237,7 +239,7 @@ export class Armor extends Equipment {
         skillLevel = Math.min(Math.max(armorIncreases.length * 2, profIncreases.length * 2), 8)
         return skillLevel;
     }
-    get_ArmorSpecialization(creature: Creature, characterService: CharacterService) {
+    get_ArmorSpecialization(creature: Creature, characterService: CharacterService): Specialization[] {
         let SpecializationGains: SpecializationGain[] = [];
         let specializations: Specialization[] = [];
         let prof = this.get_Proficiency();
@@ -269,5 +271,14 @@ export class Armor extends Equipment {
             });
         }
         return specializations;
+    }
+    get_EffectsGenerationObjects(creature: Creature, characterService: CharacterService): (Equipment | Specialization | Rune)[] {
+        return super.get_EffectsGenerationObjects(creature, characterService)
+            .concat(...this.get_ArmorSpecialization(creature, characterService))
+            .concat(this.propertyRunes);
+    }
+    get_EffectsGenerationHints(): HintEffectsObject[] {
+        return super.get_EffectsGenerationHints()
+        .concat(...this.propertyRunes.map(rune => rune.get_EffectsGenerationHints()));
     }
 }

@@ -248,9 +248,17 @@ export class FeatsService {
         if (feats.length) {
             let feat = feats[0];
 
-            feat.hints.forEach(hint => {
-                this.refreshService.set_TagsToChange(creature, hint.showon, { characterService: characterService });
-            })
+            //If the character takes a feat, add it to the runtime list of all of the character's feats.
+            // If it is removed, remove it from the list. The function checks for feats that may have been taken multiple times and keeps them.
+            if (creature === character) {
+                if (taken) {
+                    this.add_CharacterFeat(character, feat, gain, level.number);
+                } else {
+                    this.remove_CharacterFeat(feat, gain, level.number);
+                }
+            }
+
+            this.refreshService.set_HintsToChange(creature, feat.hints, { characterService: characterService });
             if (feat.effects.length) {
                 this.refreshService.set_ToChange(creature.type, "effects");
             }
@@ -680,20 +688,19 @@ export class FeatsService {
             }
 
             //Feats that level up the animal companion to Mature, Nimble or Savage (or another advanced option).
-            if (feat.gainAnimalCompanion && !["Young", "Specialized"].includes(feat.gainAnimalCompanion) && characterService.get_Companion()) {
+            if (feat.gainAnimalCompanion && !["Young", "Mature", "Specialized"].includes(feat.gainAnimalCompanion) && characterService.get_Companion()) {
                 let companion = characterService.get_Companion();
                 if (companion.class.levels.length) {
                     if (taken) {
                         if (!["Young", "Specialized"].includes(feat.gainAnimalCompanion)) {
                             companion.class.levels[3] = Object.assign(new AnimalCompanionLevel(), companion.class.levels.find(level => level.name == feat.gainAnimalCompanion)).recast();
                             companion.class.levels[3].number = 3;
-                            companion.class.name = "Placeholder";
                         }
                     } else {
                         if (!["Young", "Specialized"].includes(feat.gainAnimalCompanion)) {
                             companion.class.levels[3] = new AnimalCompanionLevel();
                             companion.class.levels[3].number = 3;
-                            companion.class.name = "Placeholder";
+                            companion.class.levels[3].name = "Placeholder";
                         }
                     }
                     companion.set_Level(characterService);
@@ -1000,16 +1007,6 @@ export class FeatsService {
             feat.hints.forEach(hint => {
                 hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
             })
-
-            //If the character takes a feat, add it to the runtime list of all of the character's feats.
-            // If it is removed, remove it from the list. The function checks for feats that may have been taken multiple times and keeps them.
-            if (creature === character) {
-                if (taken) {
-                    this.add_CharacterFeat(character, feat, gain, level.number);
-                } else {
-                    this.remove_CharacterFeat(feat, gain, level.number);
-                }
-            }
 
             //Splinter Faith changes your domains and needs to clear out the runtime variables and update general.
             if (feat.name == "Splinter Faith") {

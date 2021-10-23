@@ -9,10 +9,9 @@ export class AnimalCompanionClass {
     public ancestry: AnimalCompanionAncestry = new AnimalCompanionAncestry();
     public hitPoints: number = 6;
     public levels: AnimalCompanionLevel[] = [];
-    public name: string = "";
     public specializations: AnimalCompanionSpecialization[] = [];
     recast() {
-        this.ancestry = Object.assign(new AnimalCompanionAncestry(), this.ancestry);
+        this.ancestry = Object.assign(new AnimalCompanionAncestry(), this.ancestry).recast();
         this.levels = this.levels.map(obj => Object.assign(new AnimalCompanionLevel(), obj).recast());
         this.specializations = this.specializations.map(obj => Object.assign(new AnimalCompanionSpecialization(), obj).recast());
         return this;

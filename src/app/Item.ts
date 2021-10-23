@@ -14,8 +14,7 @@ export class Item {
     //Allow changing of "equippable" by custom item creation
     public allowEquippable: boolean;
     //Number of items of this kind in your inventory.
-    //Items that can be equipped or invested, or come with an activity,
-    // get duplicated and not stacked - the amount remains 1.
+    //Items that can't be stacked will always remain at amount 1; Adding another item of that id will add a separate item to the inventory.
     public amount: number = 1;
     //Bulk: Either "" or "L" or "<number>"
     public bulk: string = "";
@@ -73,7 +72,7 @@ export class Item {
     public traits: string[] = [];
     //Some items may recalculate their traits and store them here temporarily for easier access.
     public _traits: string[] = [];
-    //Items can store whether they have activated effects on any of their hints here.
+    //Items can store whether they have activated effects on any of their trait's hints here.
     public traitActivations: { trait: string, active: boolean, active2: boolean, active3: boolean }[] = [];
     //Type of item - very important. Must be set by the specific Item class and decides which database is searched for the item
     public type: string;
@@ -118,8 +117,8 @@ export class Item {
         });
         return oilBulk || this.bulk;
     }
-    can_Invest() {
-        return (this.traits.includes("Invested"));
+    can_Invest(): boolean {
+        return this.traits.includes("Invested");
     }
     can_Stack() {
         //Equipment, Runes and Snares have their own version of can_Stack.
@@ -136,5 +135,8 @@ export class Item {
         } else {
             return this.name;
         }
+    }
+    get_EffectsGenerationHints() {
+        return [];
     }
 }

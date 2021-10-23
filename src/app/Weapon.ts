@@ -529,7 +529,7 @@ export class Weapon extends Equipment {
         if (!traits.includes("Agile")) {
             namesList.push("Non-Agile Attack Rolls");
         }
-        //For any activated traits of this weapon, check if any effects on Attack apply. These need to be calculated in the effects service.
+        //For any activated traits of this weapon, check if any effects on Attack apply. These need to be evaluated in the Trait class.
         let traitEffects: Effect[] = [];
         this.get_ActivatedTraits().forEach(activation => {
             let realTrait = characterService.traitsService.get_Traits(activation.trait)[0];

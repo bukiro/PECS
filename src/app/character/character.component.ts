@@ -539,9 +539,7 @@ export class CharacterComponent implements OnInit {
         }
         this.get_CharacterFeatsAndFeatures().filter(feat => feat.have(character, this.characterService, higherLevel, true, false, lowerLevel))
             .forEach(feat => {
-                feat.hints.forEach(hint => {
-                    this.refreshService.set_TagsToChange(character, hint.showon, { characterService: this.characterService });
-                })
+                this.refreshService.set_HintsToChange(character, feat.hints, { characterService: this.characterService });
                 if (feat.gainAbilityChoice.length) {
                     this.refreshService.set_ToChange("Character", "abilities");
                 }

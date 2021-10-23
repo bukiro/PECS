@@ -116,9 +116,7 @@ export class ItemComponent implements OnInit {
         this.refreshService.set_ToChange(this.creature, "inventory");
         let ironItem = this.get_DoublingRingsOptions("iron").find(weapon => weapon.id == this.item.data[0].value);
         if (ironItem && this.item.invested) {
-            this.refreshService.set_ToChange(this.creature, "attacks");
-            this.refreshService.set_ToChange(this.creature, ironItem.id);
-            this.refreshService.set_EquipmentViewChanges(this.get_Creature(), ironItem, { characterService: this.characterService });
+            this.refreshService.set_ItemViewChanges(this.get_Creature(), ironItem, { characterService: this.characterService });
         }
         this.refreshService.process_ToChange();
     }

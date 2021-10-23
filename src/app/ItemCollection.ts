@@ -113,7 +113,6 @@ export class ItemCollection {
     }
     allEquipment(): Equipment[] {
         return [].concat(this.adventuringgear, this.alchemicalbombs, this.otherconsumablesbombs, this.armors, this.helditems, this.shields, this.weapons, this.wornitems, this.wands);
-
     }
     allConsumables(): Consumable[] {
         return [].concat(this.alchemicalelixirs, this.alchemicaltools, this.ammunition, this.oils, this.otherconsumables, this.potions, this.scrolls, this.talismans, this.snares, this.alchemicalpoisons);

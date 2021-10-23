@@ -718,16 +718,7 @@ export class ItemRunesComponent implements OnInit {
     }
 
     set_ToChange(rune: ArmorRune) {
-        rune.hints?.forEach(hint => {
-            this.refreshService.set_TagsToChange(this.get_Character(), hint.showon, { characterService: this.characterService });
-        })
-        if (rune.effects?.length) {
-            this.refreshService.set_ToChange("Character", "effects");
-        }
-        if (rune.activities?.length) {
-            this.refreshService.set_ToChange("Character", "activities");
-        }
-        this.refreshService.set_ToChange("Character", this.item.id);
+        this.refreshService.set_ItemViewChanges(this.get_Character(), rune, { characterService: this.characterService });
     }
 
     set_PropertyRuneNames() {

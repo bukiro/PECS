@@ -194,7 +194,7 @@ export class AttacksComponent implements OnInit {
     }
 
     on_EquipmentChange(item: Equipment) {
-        this.refreshService.set_EquipmentViewChanges(this.get_Creature(), item, { characterService: this.characterService });
+        this.refreshService.set_ItemViewChanges(this.get_Creature(), item, { characterService: this.characterService });
         this.refreshService.process_ToChange();
     }
 

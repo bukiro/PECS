@@ -3,6 +3,7 @@ import { Item } from './Item';
 import { ItemActivity } from './ItemActivity';
 import { ActivityGain } from './ActivityGain';
 import { Rune } from './Rune';
+import { Oil } from './Oil';
 import { ItemsService } from './items.service';
 import { InventoryGain } from './InventoryGain';
 import { Talisman } from './Talisman';
@@ -13,6 +14,10 @@ import { SpellChoice } from './SpellChoice';
 import { WornItem } from './WornItem';
 import { TypeService } from './type.service';
 import { SpellGain } from './SpellGain';
+import { HintEffectsObject } from './effectsGeneration.service';
+import { Specialization } from './Specialization';
+import { Creature } from './Creature';
+import { CharacterService } from './character.service';
 
 export class Equipment extends Item {
     //Allow changing of "equippable" by custom item creation
@@ -103,6 +108,12 @@ export class Equipment extends Item {
         this.talismanCords = this.talismanCords.map(obj => (typeService.classCast(typeService.restore_Item(obj, itemsService), "WornItem") as WornItem).recast(typeService, itemsService));
         return this;
     }
+    investedOrEquipped(): boolean {
+        return this.can_Invest() ? this.invested : (this.equipped == this.equippable);
+    }
+    can_Invest() {
+        return (this.traits.includes("Invested"));
+    }
     can_Stack() {
         //Additionally to the usual considerations, equipment can't stack if it adds an inventory or any activities.
         return (
@@ -185,7 +196,6 @@ export class Equipment extends Item {
                 words.push(potency);
             }
             let secondary: string = "";
-            let properties: string[] = [];
             if (this.type == "weapons" || this["isHandwrapsOfMightyBlows"]) {
                 secondary = this.get_Striking(this.get_StrikingRune());
             } else if (this.type == "armors") {
@@ -236,5 +246,16 @@ export class Equipment extends Item {
     }
     get_Price(itemsService: ItemsService) {
         return this.price;
+    }
+    get_EffectsGenerationObjects(creature: Creature, characterService: CharacterService): (Equipment | Specialization | Rune)[] {
+        return [this];
+    }
+    get_EffectsGenerationHints(): HintEffectsObject[] {
+        function convert_Hints(item: Equipment | Oil | Material) {
+            return item.hints.map(hint => { return { hint: hint, parentItem: this, objectName: item.get_Name() } })
+        }
+        return convert_Hints(this)
+            .concat(...this.oilsApplied.map(oil => convert_Hints(oil)))
+            .concat(...this.material.map(material => convert_Hints(material)));
     }
 }

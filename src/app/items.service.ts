@@ -632,10 +632,7 @@ export class ItemsService {
                 if (including) {
                     this.move_GrantedItems(creature, movedItem, targetInventory, inventory, characterService);
                 }
-                if (movedItem instanceof Equipment) {
-                    this.refreshService.set_EquipmentViewChanges(creature, movedItem, {characterService: characterService});
-                }
-
+                this.refreshService.set_ItemViewChanges(creature, movedItem, {characterService: characterService});
             }
         }
     }

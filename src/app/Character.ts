@@ -279,13 +279,13 @@ export class Character extends Creature {
                 choices.push(...level.loreChoices);
             });
             this.inventories.forEach(inventory => {
-                inventory.allEquipment().filter(item => item.propertyRunes.filter(rune => rune.loreChoices && rune.loreChoices.length).length && item.equipped && (item.can_Invest() ? item.invested : true))
+                inventory.allEquipment().filter(item => item.propertyRunes.filter(rune => rune.loreChoices && rune.loreChoices.length).length && item.investedOrEquipped())
                     .forEach(item => {
                         item.propertyRunes.filter(rune => rune.loreChoices && rune.loreChoices.length).forEach(rune => {
                             choices.push(...rune.loreChoices);
                         })
                     });
-                inventory.allEquipment().filter(item => item.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.loreChoices && oil.runeEffect.loreChoices.length).length && item.equipped && (item.can_Invest() ? item.invested : true))
+                inventory.allEquipment().filter(item => item.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.loreChoices && oil.runeEffect.loreChoices.length).length && item.investedOrEquipped())
                     .forEach(item => {
                         item.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.loreChoices && oil.runeEffect.loreChoices.length).forEach(oil => {
                             choices.push(...oil.runeEffect.loreChoices);
@@ -646,7 +646,7 @@ export class Character extends Creature {
     get_EquipmentSpellsGranted(characterService: CharacterService, spellLevel: number = -1, spellName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, cantripAllowed: boolean = true) {
         let spellsGranted: { choice: SpellChoice, gain: SpellGain }[] = [];
         //Collect innate spells gained from worn items.
-        this.inventories[0].allEquipment().filter(equipment => equipment.can_Invest() ? equipment.invested : equipment.equipped).forEach(equipment => {
+        this.inventories[0].allEquipment().filter(equipment => equipment.investedOrEquipped()).forEach(equipment => {
             equipment.gainSpells.forEach(choice => {
                 if (
                     (

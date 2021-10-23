@@ -1,6 +1,7 @@
 import { Character } from './Character';
 import { CharacterService } from './character.service';
 import { Creature } from './Creature';
+import { HintEffectsObject } from './effectsGeneration.service';
 import { Equipment } from './Equipment';
 import { ItemsService } from './items.service';
 import { RefreshService } from './refresh.service';
@@ -166,5 +167,9 @@ export class Shield extends Equipment {
     get_SpeedPenalty() {
         //The function is needed for compatibility with other equipment.
         return this.speedpenalty;
+    }
+    get_EffectsGenerationHints(): HintEffectsObject[] {
+        return super.get_EffectsGenerationHints()
+        .concat(...this.propertyRunes.map(rune => rune.get_EffectsGenerationHints()));
     }
 }

@@ -4,12 +4,15 @@ import { LoreChoice } from './LoreChoice';
 import { Hint } from './Hint';
 import { TypeService } from './type.service';
 import { ItemsService } from './items.service';
+import { EffectGain } from './EffectGain';
 
 export class Rune extends Item {
     public activities: ItemActivity[] = [];
     public desc: string = "";
-    //For weapon runes, the hints are shown directly on the weapon.
+    //For weapon runes, the hints are shown directly on the weapon. They don't have effects and are not taken into account when collecting hints or generating effects.
+    //The hints on armor runes can have effects and are taken into account when collecting hints and generating effects.
     public hints: Hint[] = [];
+    public effects: EffectGain[] = [];
     //One rune trains a lore skill while equipped.
     public loreChoices: LoreChoice[] = [];
     public potency: number = 0;

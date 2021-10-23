@@ -65,9 +65,9 @@ export class AnimalCompanion extends Creature {
     set_Level(characterService: CharacterService) {
         let character = characterService.get_Character();
         //Get all taken feats at this character level that grow the animal companion, then set the companion level to the highest option (or 1).
-        //Level 3 is a placeholder, Levels 4 and 5 are Nimble and Savage - when you take a feat with growAnimalCompanion > 3,
-        //  level 3 gets replaced with that level
-        //  That means that level 3 is the highest we need to go, as Nimble or Savage will be placed there.
+        //Level 3 is a placeholder, Levels 4 and 5 are Nimble and Savage - when you take a feat with growAnimalCompanion other than "Young" or "Specialized",
+        //  level 3 gets replaced with that level.
+        //  That means that level 3 is the highest we need to go, as Nimble, Savage or other avanced options will be placed there.
         this.level = Math.min(3, Math.max(1, ...characterService.get_CharacterFeatsAndFeatures()
             .filter(feat => feat.gainAnimalCompanion && feat.have(character, characterService, character.level))
             .map(feat => { switch (feat.gainAnimalCompanion) { case "Young": return 1; case "Mature": return 2; default: return 3; } })));

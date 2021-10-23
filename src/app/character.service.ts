@@ -818,16 +818,12 @@ export class CharacterService {
         if (((item instanceof Equipment) || (item instanceof Rune)) && item.activities?.length) {
             item.activities.forEach(activity => {
                 activity.active = false;
-                activity.hints?.forEach((hint: Hint) => {
-                    this.refreshService.set_TagsToChange(creature, hint.showon, { characterService: this });
-                })
+                this.refreshService.set_HintsToChange(creature, activity.hints, { characterService: this });
             });
             this.refreshService.set_ToChange(creature.type, "activities");
         }
         if ((item instanceof Equipment) || (item instanceof Rune) || (item instanceof Oil)) {
-            item.hints.forEach((hint: Hint) => {
-                this.refreshService.set_TagsToChange(creature, hint.showon, { characterService: this });
-            })
+            this.refreshService.set_HintsToChange(creature, item.hints, { characterService: this });
         }
         if (item instanceof Equipment) {
             if (item.gainActivities?.length) {
@@ -904,9 +900,7 @@ export class CharacterService {
             this.refreshService.set_ToChange("Character", item.id);
         } else {
             if ((item instanceof Equipment) || (item instanceof Rune) || (item instanceof Oil)) {
-                item.hints?.forEach((hint: Hint) => {
-                    this.refreshService.set_TagsToChange(creature, hint.showon, { characterService: this });
-                })
+                this.refreshService.set_HintsToChange(creature, item.hints, { characterService: this });
             }
             if ((item instanceof Equipment) || (item instanceof Rune)) {
                 item.activities.forEach(activity => {
@@ -1071,17 +1065,25 @@ export class CharacterService {
     }
 
     on_Equip(creature: Character | AnimalCompanion, inventory: ItemCollection, item: Equipment, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
-        //Only allow equipping or unequipping for items that the creature can wear. Only allow equipping items in inventories that aren't containers.
+        //Only allow equipping or unequipping for items that the creature can wear. Only allow equipping items in inventories that aren't containers (i.e. the first two).
         //Unequip any item that lands here and can't be equipped.
         let oldequipped = item.equipped;
-        if ((creature.type == "Character" && !item.traits.includes("Companion")) || (creature.type == "Companion" && item.traits.includes("Companion")) || item.name == "Unarmored" && !inventory.itemId) {
+        function canEquip() {
+            return (
+                !inventory.itemId &&
+                (
+                    item.name == "Unarmored" ||
+                    ((creature instanceof AnimalCompanion) == item.traits.includes("Companion"))
+                )
+            )
+        }
+        if (canEquip()) {
             item.equipped = equipped;
         } else {
             item.equipped = false;
         }
         this.refreshService.set_ToChange(creature.type, "inventory");
-        this.refreshService.set_ToChange(creature.type, item.id);
-        this.refreshService.set_EquipmentViewChanges(creature, item, { characterService: this });
+        this.refreshService.set_ItemViewChanges(creature, item, { characterService: this });
         if (!oldequipped && item.equipped) {
             if (item instanceof Armor || item instanceof Shield) {
                 let allOfType = inventory[item.type];
@@ -1199,11 +1201,12 @@ export class CharacterService {
         if (item instanceof WornItem && item.gainSpells.length) {
             this.refreshService.set_ToChange(creature.type, "spellbook");
         }
+        //Items are automatically equipped if they are invested.
         if (item.invested) {
             if (!item.equipped) {
                 this.on_Equip(creature, inventory, item, true, false);
             } else {
-                this.refreshService.set_EquipmentViewChanges(creature, item, { characterService: this });
+                this.refreshService.set_ItemViewChanges(creature, item, { characterService: this });
             }
         } else {
             item.gainActivities.filter(gainActivity => gainActivity.active).forEach((gainActivity: ActivityGain) => {
@@ -1215,7 +1218,7 @@ export class CharacterService {
             item.activities.filter(itemActivity => itemActivity.active).forEach((itemActivity: ItemActivity) => {
                 this.activitiesService.activate_Activity(creature, "", this, this.conditionsService, this.itemsService, this.spellsService, itemActivity, itemActivity, false);
             })
-            this.refreshService.set_EquipmentViewChanges(creature, item, { characterService: this });
+            this.refreshService.set_ItemViewChanges(creature, item, { characterService: this });
         }
         if (changeAfter) {
             this.refreshService.process_ToChange();

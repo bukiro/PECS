@@ -1,7 +1,12 @@
 import { Equipment } from './Equipment';
+import { HintEffectsObject } from './effectsGeneration.service';
 import { ItemsService } from './items.service';
 import { TypeService } from './type.service';
 import { WeaponRune } from './WeaponRune';
+import { CharacterService } from './character.service';
+import { Creature } from './Creature';
+import { Specialization } from './Specialization';
+import { Rune } from './Rune';
 
 export class WornItem extends Equipment {
     //Allow changing of "equippable" by custom item creation.
@@ -89,5 +94,17 @@ export class WornItem extends Equipment {
             price += itemsService.get_CleanItems().wornitems.find(wornItem => wornItem.name.toLowerCase() == aeonStone.name.toLowerCase()).price;
         })
         return price;
+    }
+    get_EffectsGenerationObjects(creature: Creature, characterService: CharacterService): (Equipment | Specialization | Rune)[] {
+        return super.get_EffectsGenerationObjects(creature, characterService)
+            .concat(...this.aeonStones);
+    }
+    get_EffectsGenerationHints(): HintEffectsObject[] {
+        //Aeon Stones have hints that can be resonant, meaning they are only displayed if the stone is slotted.
+        //After collecting the hints, we keep those that are either noth resonant and slotted, or neither.
+        //Then we add the hints of any slotted aeon stones of this item, with the same rules.
+        return super.get_EffectsGenerationHints()
+            .filter(hintSet => hintSet.hint.resonant == this.isSlottedAeonStone)
+            .concat(...this.aeonStones.map(stone => stone.get_EffectsGenerationHints()));
     }
 }

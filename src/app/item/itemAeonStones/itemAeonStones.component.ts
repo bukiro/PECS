@@ -127,19 +127,7 @@ export class ItemAeonStonesComponent implements OnInit {
     }
 
     set_ToChange(stone: WornItem) {
-        stone.hints?.forEach(hint => {
-            this.refreshService.set_TagsToChange(this.get_Character(), hint.showon, { characterService: this.characterService });
-        })
-        if (stone.effects.length) {
-            this.refreshService.set_ToChange("Character", "effects");
-        }
-        if (stone.activities.length) {
-            this.refreshService.set_ToChange("Character", "activities");
-        }
-        if (stone.gainSpells.length) {
-            this.refreshService.set_ToChange("Character", "spellbook");
-        }
-        this.refreshService.set_ToChange("Character", this.item.id);
+        this.refreshService.set_ItemViewChanges(this.get_Character(), stone, { characterService: this.characterService });
     }
 
     get_Title(stone: WornItem) {

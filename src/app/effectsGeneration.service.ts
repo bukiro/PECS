@@ -21,6 +21,7 @@ import { Item } from './Item';
 import { Material } from './Material';
 import { Oil } from './Oil';
 import { RefreshService } from './refresh.service';
+import { Rune } from './Rune';
 import { Shield } from './Shield';
 import { Specialization } from './Specialization';
 import { WeaponRune } from './WeaponRune';
@@ -36,15 +37,15 @@ type FormulaOptions = {
     readonly name?: string,
     readonly pretendCharacterLevel?: number
 }
-type HintSet = {
-    hint: Hint,
-    parentItem?: Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material,
-    parentConditionGain?: ConditionGain,
-    objectName: string
-}
 //Create a class that contains a condition gain's data and the original condition's effects, so we can extract effects from this object.
 class ConditionEffectsObject extends ConditionGain {
     constructor(public effects: EffectGain[]) { super() }
+}
+export type HintEffectsObject = {
+    hint: Hint,
+    parentItem?: Equipment | Oil | WornItem | Rune | WeaponRune | Material,
+    parentConditionGain?: ConditionGain,
+    objectName: string
 }
 
 @Injectable({
@@ -202,63 +203,31 @@ export class EffectsGenerationService {
         return foreignEffects;
     }
 
-    private collect_EffectItems(creature: Creature, services: { readonly characterService: CharacterService }): { objects: (Equipment | Specialization | ArmorRune)[], hintSets: HintSet[] } {
+    private collect_EffectItems(creature: Creature, services: { readonly characterService: CharacterService }): { objects: (Equipment | Specialization | Rune)[], hintSets: HintEffectsObject[] } {
         //Collect items and item specializations that may have effects, and their hints, and return them in two lists.
 
-        let objects: (Equipment | Specialization | ArmorRune)[] = [];
-        let hintSets: HintSet[] = [];
+        let objects: (Equipment | Specialization | Rune)[] = [];
+        let hintSets: HintEffectsObject[] = [];
 
-        function add_Hints(item: Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material) {
-            item.hints
-                ?.filter(hint => hint.resonant ? (item instanceof WornItem && item.isSlottedAeonStone) : true)
-                .forEach(hint => {
-                    hintSets.push({ hint: hint, parentItem: item, objectName: (item.get_Name ? item.get_Name() : item.name) });
-                })
+        function ItemEffectsApply(item: Equipment) {
+            return item.investedOrEquipped() &&
+                item.amount &&
+                !item.broken
         }
 
         creature.inventories.forEach(inventory => {
             inventory.allEquipment().filter(item =>
-                (item.equippable ? item.equipped : true) &&
-                (item.can_Invest() ? item.invested : true) &&
-                item.amount &&
-                !item.broken &&
-                !(item instanceof ArmorRune)
+                ItemEffectsApply(item)
             ).forEach((item: Equipment) => {
-                objects.push(item);
-                add_Hints(item);
-                item.oilsApplied.forEach(oil => {
-                    add_Hints(oil);
-                });
-                if (item instanceof WornItem) {
-                    item.aeonStones.forEach(stone => {
-                        objects.push(stone);
-                        add_Hints(stone);
-                    });
-                }
-                if (item instanceof Armor) {
-                    item.get_ArmorSpecialization(creature, services.characterService).forEach(spec => {
-                        objects.push(spec);
-                    })
-                    item.propertyRunes.forEach(rune => {
-                        objects.push(rune as ArmorRune);
-                        add_Hints(rune as ArmorRune);
-                    });
-                }
-                if (item instanceof Shield) {
-                    item.propertyRunes.forEach(rune => {
-                        add_Hints(rune as ArmorRune);
-                    });
-                }
-                item.material.forEach(material => {
-                    add_Hints(material);
-                });
+                objects = objects.concat(item.get_EffectsGenerationObjects(creature, services.characterService));
+                hintSets = hintSets.concat(item.get_EffectsGenerationHints());
             });
         });
         return { objects: objects, hintSets: hintSets };
     }
 
-    private collect_TraitEffectHints(creature: Creature, services: { readonly characterService: CharacterService }): HintSet[] {
-        let hintSets: HintSet[] = [];
+    private collect_TraitEffectHints(creature: Creature, services: { readonly characterService: CharacterService }): HintEffectsObject[] {
+        let hintSets: HintEffectsObject[] = [];
         services.characterService.traitsService.get_Traits().filter(trait => trait.hints.length && trait.haveOn(creature).length).forEach(trait => {
             trait.hints.forEach(hint => {
                 hintSets.push({ hint: hint, objectName: trait.name });
@@ -267,8 +236,8 @@ export class EffectsGenerationService {
         return hintSets;
     }
 
-    private collect_EffectConditions(creature: Creature, services: { readonly characterService: CharacterService }): { conditions: ConditionEffectsObject[], hintSets: HintSet[] } {
-        let hintSets: HintSet[] = [];
+    private collect_EffectConditions(creature: Creature, services: { readonly characterService: CharacterService }): { conditions: ConditionEffectsObject[], hintSets: HintEffectsObject[] } {
+        let hintSets: HintEffectsObject[] = [];
         let conditions: (ConditionEffectsObject)[] = [];
         const appliedConditions = services.characterService.get_AppliedConditions(creature).filter(condition => condition.apply);
         appliedConditions.forEach(gain => {
@@ -284,8 +253,8 @@ export class EffectsGenerationService {
         return { conditions: conditions, hintSets: hintSets };
     }
 
-    private collect_ActivityEffectHints(creature: Creature, services: { readonly characterService: CharacterService }): HintSet[] {
-        let hintSets: HintSet[] = [];
+    private collect_ActivityEffectHints(creature: Creature, services: { readonly characterService: CharacterService }): HintEffectsObject[] {
+        let hintSets: HintEffectsObject[] = [];
         services.characterService.get_OwnedActivities(creature, creature.level, true).filter(activity => activity.active).forEach(activity => {
             activity.get_OriginalActivity(this.activitiesService)?.hints?.forEach(hint => {
                 hintSets.push({ hint: hint, objectName: activity.name })
@@ -296,10 +265,10 @@ export class EffectsGenerationService {
 
     private generate_ObjectEffects(creature: Creature, services: { readonly characterService: CharacterService }): Effect[] {
         //Collect objects, conditions and objects' hints to generate effects from. Hint effects will be handled separately at first.
-        let objects: (Creature | Equipment | ArmorRune | Specialization)[] = [];
+        let objects: (Creature | Equipment | Rune | Specialization)[] = [];
         let feats: (Feat | AnimalCompanionSpecialization)[] = [];
-        let hintSets: HintSet[] = [];
-        let conditions: (ConditionEffectsObject)[] = [];
+        let hintSets: HintEffectsObject[] = [];
+        let conditions: ConditionEffectsObject[] = [];
 
         //Start with the creature itself.
         objects.push(creature);
@@ -325,20 +294,19 @@ export class EffectsGenerationService {
         //Collect hints of active activities.
         hintSets = hintSets.concat(this.collect_ActivityEffectHints(creature, services));
 
-
         //Create object effects from the creature and its items, then add effects from conditions.
         let objectEffects: Effect[] = [];
-        objects.filter(object => object.effects?.length).forEach(object => {
+        objects.filter(object => object.effects.length).forEach(object => {
             objectEffects = objectEffects.concat(this.get_EffectsFromObject(object, services, { object: object, creature: creature }));
         })
-        conditions.filter(object => object.effects?.length).forEach(conditionEffectsObject => {
+        conditions.filter(object => object.effects.length).forEach(conditionEffectsObject => {
             objectEffects = objectEffects.concat(this.get_EffectsFromObject(conditionEffectsObject, services, { creature: creature, parentConditionGain: conditionEffectsObject }));
         })
 
         //Create object effects from creature feats/abilities and store them in a separate list. All effects from feats should be HIDDEN, after which they are moved into objectEffects.
         let featEffects: Effect[] = [];
         feats.filter(object => object.effects?.length).forEach(object => {
-            featEffects = objectEffects.concat(this.get_EffectsFromObject(object, services, { creature: creature }));
+            featEffects = featEffects.concat(this.get_EffectsFromObject(object, services, { creature: creature }));
         })
         featEffects.forEach(effect => {
             effect.show = false;
@@ -347,7 +315,7 @@ export class EffectsGenerationService {
         //Create object effects from active hints and store them in a separate list. All effects from hints should be SHOWN, after which they are moved into objectEffects.
         let hintEffects: Effect[] = [];
         hintSets.filter(hintSet => (hintSet.hint.active || hintSet.hint.active2 || hintSet.hint.active3 || hintSet.hint.active4 || hintSet.hint.active5) && hintSet.hint.effects?.length).forEach(hintSet => {
-            hintEffects = hintEffects.concat(this.get_EffectsFromObject(hintSet.hint, services, { creature: creature, parentItem: hintSet.parentItem }, { name: "conditional, " + hintSet.objectName }));
+            hintEffects = hintEffects.concat(this.get_EffectsFromObject(hintSet.hint, services, { creature: creature, parentItem: hintSet.parentItem, parentConditionGain: hintSet.parentConditionGain }, { name: "conditional, " + hintSet.objectName }));
         })
         hintEffects.forEach(effect => {
             effect.show = true;

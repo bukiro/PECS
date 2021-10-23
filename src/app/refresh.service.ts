@@ -98,6 +98,9 @@ export class RefreshService {
             if (this.get_ActivitiesAffected(creature, hint.showon, services)) {
                 this.set_ToChange(creature.type, "activities")
             }
+            if (hint.effects.length) {
+                this.set_ToChange(creature.type, "effects");
+            }
         })
         this.set_ToChange(creature.type, "character-sheet");
     }
@@ -167,28 +170,24 @@ export class RefreshService {
 
     set_ItemViewChanges(creature: Character | AnimalCompanion, item: Item, services: { characterService: CharacterService }) {
         this.set_ToChange(creature.type, item.id);
+        item.traits.map(trait => this.traitsService.get_Traits(trait)[0]).forEach(trait => {
+            this.set_HintsToChange(creature, trait.hints, services);
+        })
         if (item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb || item instanceof AlchemicalPoison || item instanceof Ammunition || item instanceof Snare) {
             this.set_ToChange(creature.type, "attacks");
         }
-        if (item instanceof Equipment || item instanceof Rune || item instanceof Oil) {
-            item.hints?.forEach((hint: Hint) => {
-                this.set_TagsToChange(creature, hint.showon, services);
-                if (hint.effects.length) {
-                    this.set_ToChange(creature.type, "effects");
-                }
-            })
+        if (item instanceof Oil) {
+            this.set_HintsToChange(creature, item.hints, services);
         }
-        if (item instanceof Equipment || item instanceof ArmorRune) {
-            if (item.effects?.length) {
-                this.set_ToChange(creature.type, "effects");
-            }
+        if (item instanceof Rune) {
+            this.set_RuneViewChanges(creature, item, services);
         }
         if (item instanceof Equipment) {
             this.set_EquipmentViewChanges(creature, item as Equipment, services);
         }
     }
 
-    set_EquipmentViewChanges(creature: Character | AnimalCompanion, item: Equipment, services: { characterService: CharacterService }) {
+    private set_EquipmentViewChanges(creature: Character | AnimalCompanion, item: Equipment, services: { characterService: CharacterService }) {
         //Prepare refresh list according to the item's properties.
         if (item instanceof Shield || item instanceof Armor || item instanceof Weapon) {
             this.set_ToChange(creature.type, "defense");
@@ -202,14 +201,6 @@ export class RefreshService {
             //That means we have to check the effects whenever we equip or unequip one of those.
             this.set_ToChange(creature.type, "effects");
         }
-        item.hints.forEach(hint => {
-            this.set_TagsToChange(creature, hint.showon, services);
-        })
-        item.traits.map(trait => this.traitsService.get_Traits(trait)[0])?.filter(trait => trait?.hints?.length).forEach(trait => {
-            trait.hints.forEach(hint => {
-                this.set_TagsToChange(creature, hint.showon, services);
-            })
-        })
         if (item.effects.length) {
             this.set_ToChange(creature.type, "effects");
         }
@@ -222,11 +213,12 @@ export class RefreshService {
         if (item.gainActivities?.length) {
             this.set_ToChange(creature.type, "activities");
         }
+        if (item.gainSpells.length) {
+            this.set_ToChange("Character", "spellbook");
+        }
         item.propertyRunes.forEach((rune: Rune) => {
             if (item instanceof Armor) {
-                rune.hints?.forEach(hint => {
-                    this.set_TagsToChange(creature, hint.showon, services);
-                })
+                this.set_HintsToChange(creature, rune.hints, services);
                 if ((rune as ArmorRune).effects?.length) {
                     this.set_ToChange(creature.type, "effects");
                 }
@@ -250,6 +242,17 @@ export class RefreshService {
                 this.set_ToChange(creature.type, "inventory");
                 this.set_ToChange(creature.type, "attacks");
             }
+        }
+    }
+
+    private set_RuneViewChanges(creature: Character | AnimalCompanion, rune: Rune, services: { characterService: CharacterService }) {
+        //Prepare refresh list according to the rune's properties.
+        this.set_HintsToChange(creature, rune.hints, services);
+        if (rune.effects.length) {
+            this.set_ToChange("Character", "effects");
+        }
+        if (rune.activities.length) {
+            this.set_ToChange("Character", "activities");
         }
     }
 
