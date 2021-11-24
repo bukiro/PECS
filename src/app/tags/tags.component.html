@@ -47,8 +47,7 @@
                     <span>
                         <strong
                             [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}">
-                            {{effect.target}} {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ?
-                            "= " + effect.setValue : ''}}
+                            {{effect.target}} {{effect.get_DisplayTitle(true)}}
                         </strong>
                     </span>
                 </div>
@@ -81,7 +80,7 @@
             <cite class="effect"
                 [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}"
                 [ngbPopover]="effectPopover">
-                {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? effect.setValue : ''}}
+                {{effect.get_DisplayTitle(false)}}
                 ({{effect.source}})
             </cite>
         </ng-container>

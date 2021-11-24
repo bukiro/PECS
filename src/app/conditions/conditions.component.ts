@@ -393,14 +393,14 @@ export class ConditionsComponent implements OnInit {
     }
 
     add_Effect(creature: Creature) {
-        let duration: number = this.get_ConditionDuration(false);
-        let newLength = creature.effects.push(Object.assign<EffectGain, EffectGain>(new EffectGain(), JSON.parse(JSON.stringify(this.newEffect))).recast());
+        const duration: number = this.get_ConditionDuration(false);
+        const newLength = creature.effects.push(Object.assign<EffectGain, EffectGain>(new EffectGain(), JSON.parse(JSON.stringify(this.newEffect))).recast());
+        const newEffect = creature.effects[newLength - 1];
         if (duration == -1) {
-            creature.effects[newLength - 1].duration = duration;
+            newEffect.maxDuration = newEffect.duration = duration;
         } else {
-            creature.effects[newLength - 1].duration = duration + (this.endOn == this.timeService.get_YourTurn() ? 0 : 5);
+            newEffect.maxDuration = newEffect.duration = duration + (this.endOn == this.timeService.get_YourTurn() ? 0 : 5);
         }
-        creature.effects[newLength - 1].maxDuration = creature.effects[newLength - 1].duration;
         this.refreshService.set_ToChange(creature.type, "effects");
         this.refreshService.set_ToChange(creature.type, "conditions");
         this.refreshService.process_ToChange();
@@ -431,10 +431,12 @@ export class ConditionsComponent implements OnInit {
     }
 
     validate_AdvancedEffect(propertyData: ItemProperty, index: number) {
+        this.validationError[index] = "";
+        this.validationResult[index] = "";
         let value = this.newEffect[propertyData.key]
         if (propertyData.key == "value" && propertyData.parent == "effects") {
             if (value && value != "0") {
-                let validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() }).toString();
+                let validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || "0";
                 if (validationResult && validationResult != "0" && (parseInt(validationResult) || parseFloat(validationResult))) {
                     if (parseFloat(validationResult) == parseInt(validationResult)) {
                         this.validationError[index] = "";
@@ -450,7 +452,7 @@ export class ConditionsComponent implements OnInit {
             }
         } else if (propertyData.key == "setValue" && propertyData.parent == "effects") {
             if (value && value != "0") {
-                let validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() }).toString();
+                let validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || null;
                 if (validationResult && (parseInt(validationResult) || parseFloat(validationResult)) || parseInt(validationResult) == 0) {
                     if (parseFloat(validationResult) == parseInt(validationResult)) {
                         this.validationError[index] = "";
@@ -595,7 +597,7 @@ export class ConditionsComponent implements OnInit {
                 break;
         }
 
-        let uniqueExamples = Array.from(new Set(examples))
+        let uniqueExamples = Array.from(new Set(examples.filter(example => example.length <= 90)))
         return uniqueExamples
             .sort(function (a, b) {
                 if (a > b) {

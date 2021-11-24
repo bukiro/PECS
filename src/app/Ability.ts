@@ -33,7 +33,7 @@ export class Ability {
     penalties(creature: Character | AnimalCompanion, effectsService: EffectsService, name: string) {
         return effectsService.show_PenaltiesOnThis(creature, name)
     }
-    baseValue(creature: Character | AnimalCompanion, characterService, charLevel: number = characterService.get_Character().level) {
+    baseValue(creature: Character | AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return { result: 10, explain: "Base value: 10" }; }
         //Get baseValues from the character if they exist, otherwise 10
         let baseValue = 10;
@@ -42,7 +42,6 @@ export class Ability {
                 baseValue = ownValue.baseValue;
             })
         }
-        baseValue = (baseValue) ? baseValue : 10;
         let explain = "Base value: " + baseValue;
         //Get any boosts from the character and sum them up
         //Boosts are +2 until 18, then +1 for Character

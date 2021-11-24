@@ -11,8 +11,9 @@ export class EffectGain {
     // Hint: "you gain an X Speed" effects do not stack and should use setValue.
     public setValue: string = "";
     //Set if the effect does not need a value, but still needs to be applied.
-    //An effect that has a value and is toggle==true will be toggled only if the value is nonzero, and not keep its value.
     public toggle: boolean = false;
+    //An effect that has a conditional toggle will be toggle==true if the condition evaluates to a nonzero value.
+    public conditionalToggle: string = "";
     //Effects will be shown if show = true, not shown if show = false, or otherwise shown if they match a certain list of effects that should always show.
     public show: boolean = undefined;
     public type: string = "";

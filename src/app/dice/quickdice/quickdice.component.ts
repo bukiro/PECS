@@ -44,6 +44,14 @@ export class QuickdiceComponent implements OnInit {
         return this.characterService.abilitiesService.get_Abilities(ability)?.[0]?.mod(character, this.characterService, this.characterService.effectsService, character.level).result || 0;
     }
 
+    space_ArithmeticSymbols(text: string) {
+        return text.replace(/\+/g, " + ").replace(/\-/g, " - ").replace(/\s+/g, " ");
+    }
+
+    expand_DamageTypes(text: string) {
+        return text.replace(/( |^)B( |$)/g, "$1Bludgeoning$2").replace(/( |^)P( |$)/g, "$1Piercing$2").replace(/( |^)S( |$)/g, "$1Slashing$2");
+    }
+
     replace_AbilityModifiers(diceString: string) {
         //If any ability modifiers are named in this dicestring, replace them with the real modifier.
         return diceString.split(" ").map(part => {
@@ -104,7 +112,7 @@ export class QuickdiceComponent implements OnInit {
                 //For an existing diceString, we need to make sure there is no flavor text included. Only #d#, #, + or - are kept and sent to Foundry.
                 let diceString = this.diceString.split("\n").join(" ");
                 //Insert spaces between the arithmetic symbols.
-                diceString = diceString.split("+").join(" + ").split("-").join(" - ").split("  ").join(" ");
+                diceString = this.space_ArithmeticSymbols(diceString);
                 //Replace modifiers
                 if (diceString.toLowerCase().includes("mod")) {
                     diceString = this.replace_AbilityModifiers(diceString);
@@ -119,11 +127,12 @@ export class QuickdiceComponent implements OnInit {
             }
         } else {
             if (this.diceNum && this.diceSize) {
-                this.diceService.roll(this.diceNum, this.diceSize, this.bonus, this.characterService, true, (this.type ? " " + this.type : ""));
+                this.diceService.roll(this.diceNum, this.diceSize, this.bonus, this.characterService, true, (this.type ? " " + this.expand_DamageTypes(this.type) : ""));
             } else if (this.diceString) {
                 let diceString = this.diceString.split("\n").join(" ");
                 //Insert spaces between the arithmetic symbols.
-                diceString = diceString.split("+").join(" + ").split("-").join(" - ").split("  ").join(" ");
+                diceString = this.space_ArithmeticSymbols(diceString);
+                diceString = this.expand_DamageTypes(diceString);
                 if (diceString.toLowerCase().includes("mod")) {
                     diceString = this.replace_AbilityModifiers(diceString);
                 }
@@ -169,7 +178,8 @@ export class QuickdiceComponent implements OnInit {
         if (this.diceString) {
             let diceString = this.diceString.split("\n").join(" ");
             //Insert spaces between the arithmetic symbols.
-            diceString = diceString.split("+").join(" + ").split("-").join(" - ").split("  ").join(" ");
+            diceString = this.space_ArithmeticSymbols(diceString);
+            diceString = this.expand_DamageTypes(diceString);
             if (diceString.toLowerCase().includes("mod")) {
                 diceString = this.replace_AbilityModifiers(diceString);
             }
@@ -184,7 +194,7 @@ export class QuickdiceComponent implements OnInit {
                 }
             }
             if (this.type) {
-                description += " " + this.type;
+                description += " " + this.expand_DamageTypes(this.type);
             }
             return description;
         }

@@ -280,10 +280,11 @@ export class SpellbookComponent implements OnInit {
     }
 
     get_FocusPoints() {
-        return Math.min(this.get_Character().class.focusPoints, this.get_MaxFocusPoints());
+        const maxFocusPoints = this.get_MaxFocusPoints();
+        return { now: Math.min(this.get_Character().class.focusPoints, maxFocusPoints), max: maxFocusPoints };
     }
 
-    get_MaxFocusPoints() {
+    private get_MaxFocusPoints() {
         return this.characterService.get_MaxFocusPoints();
     }
 
@@ -525,7 +526,7 @@ export class SpellbookComponent implements OnInit {
         //All Conditions that have affected the resource use of this spell are now removed (provided they have duration 1, so they count only for the next spell).
         if (conditionsToRemove.length) {
             this.characterService.get_AppliedConditions(character, "", "", true).filter(conditionGain => conditionsToRemove.includes(conditionGain.name)).forEach(conditionGain => {
-                if (conditionGain.duration == 1) {
+                if (conditionGain.durationIsInstant) {
                     this.characterService.remove_Condition(character, conditionGain, false);
                 }
             });

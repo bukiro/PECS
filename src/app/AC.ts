@@ -216,17 +216,17 @@ export class AC {
             //As long as Potency is calculated like this, it is cumulative with item effects on AC.
             let potency = armor.get_PotencyRune();
             if (potency) {
-                relatives.push(new Effect(creature.type, "item", this.name, potency.toString(), "", false, "", "Potency", false, true, true, 0))
+                relatives.push(Object.assign(new Effect(potency.toString()), { creature: creature.type, type: "item", target: this.name, source: "Potency", apply: true, show: true}))
             }
             if (armor.battleforged) {
-                relatives.push(new Effect(creature.type, "item", this.name, "+1", "", false, "", "Battleforged", false, true, true, 0))
+                relatives.push(Object.assign(new Effect("+1"), { creature: creature.type, type: "item", target: this.name, source: "Battleforged", apply: true, show: true}))
             }
             //Shoddy items have a -2 item penalty to attacks, unless you have the Junk Tinker feat and have crafted the item yourself.
             if (shoddy && characterService.get_Feats("Junk Tinker")[0]?.have(creature, characterService) && armor.crafted) {
                 explain += "\nShoddy (canceled by Junk Tinker): -0";
-                relatives.push(new Effect(creature.type, "item", this.name, "0", "", false, "", " (canceled by Junk Tinker)", true, true, true, 0))
+                relatives.push(Object.assign(new Effect("0"), { creature: creature.type, type: "item", target: this.name, source: "Shoddy (canceled by Junk Tinker)", penalty: true, apply: true, show: true}))
             } else if (shoddy) {
-                relatives.push(new Effect(creature.type, "item", this.name, "-2", "", false, "", "Shoddy", true, true, true, 0))
+                relatives.push(Object.assign(new Effect("-2"), { creature: creature.type, type: "item", target: this.name, source: "Shoddy", penalty: true, apply: true, show: true}))
             }
             //Add up all modifiers and return the AC gained from this armor
             armorBonus += skillLevel + charLevelBonus + armorItemBonus + dexBonus;

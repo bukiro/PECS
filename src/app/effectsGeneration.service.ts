@@ -42,10 +42,10 @@ class ConditionEffectsObject extends ConditionGain {
     constructor(public effects: EffectGain[]) { super() }
 }
 export type HintEffectsObject = {
-    hint: Hint,
-    parentItem?: Equipment | Oil | WornItem | Rune | WeaponRune | Material,
-    parentConditionGain?: ConditionGain,
-    objectName: string
+    readonly hint: Hint,
+    readonly parentItem?: Equipment | Oil | WornItem | Rune | WeaponRune | Material,
+    readonly parentConditionGain?: ConditionGain,
+    readonly objectName: string
 }
 
 @Injectable({
@@ -101,6 +101,7 @@ export class EffectsGenerationService {
             let valueNumber: number = 0;
             let setValue: string = "";
             let toggle: boolean = effect.toggle;
+            let sourceId = "";
             if (object === context.creature) {
                 source = effect.source || "Custom Effect"
             }
@@ -111,11 +112,7 @@ export class EffectsGenerationService {
                 }
                 if (validNumber()) {
                     valueNumber = Number(valueNumber);
-                    if (valueNumber > 0) {
-                        value = "+" + valueNumber;
-                    } else {
-                        value = valueNumber.toString();
-                    }
+                    value = valueNumber.toString();
                 }
             } catch (error) {
                 valueNumber = 0;
@@ -138,16 +135,10 @@ export class EffectsGenerationService {
                 //Negative values are penalties unless Bulk is affected.
                 penalty = (valueNumber < 0) == (effect.affected != "Bulk");
             }
-            if (toggle) {
-                //If an effect is both toggle and has a value or setValue, the toggle is only set if either is nonzero. Both are then nulled, but leave a toggled effect.
-                //This allows us to have a toggled effect that is enabled depending on a calculation.
-                if (
-                    (effect.setValue ? setValue : true) &&
-                    ((effect.value && effect.value != "0") ? value != "0" : true)
-                ) {
-                    setValue = "";
-                    value = "0";
-                } else {
+            if (effect.conditionalToggle) {
+                try {
+                    toggle = get_ValueFromFormula(effect.setValue).toString() && true;
+                } catch (error) {
                     toggle = false;
                 }
             }
@@ -184,12 +175,19 @@ export class EffectsGenerationService {
                 target = Familiar?.id || "";
                 affected = effect.affected.replace("Familiar:", "");
             }
+            if (context.parentConditionGain) {
+                sourceId = context.parentConditionGain.id;
+            } else if (context.parentItem instanceof Item) {
+                sourceId = context.parentItem.id;
+            } else if (context.object instanceof Creature) {
+                sourceId = context.object.id;
+            }
             //Effects that have neither a value nor title nor a toggle don't get created.
             function functionalEffect() {
                 return title || toggle || setValue || parseInt(value) != 0;
             }
             if (functionalEffect()) {
-                objectEffects.push(new Effect(target, type, affected, value, setValue, toggle, title, source, penalty, undefined, show, effect.duration, effect.maxDuration, effect.cumulative));
+                objectEffects.push(Object.assign(new Effect(value), {creature: target, type: type, target: affected, setValue: setValue, toggle: toggle, title: title, source: source, penalty: penalty, show: show, duration: effect.duration, maxDuration: effect.maxDuration, cumulative: effect.cumulative}));
             }
         });
         return objectEffects;
@@ -265,13 +263,10 @@ export class EffectsGenerationService {
 
     private generate_ObjectEffects(creature: Creature, services: { readonly characterService: CharacterService }): Effect[] {
         //Collect objects, conditions and objects' hints to generate effects from. Hint effects will be handled separately at first.
-        let objects: (Creature | Equipment | Rune | Specialization)[] = [];
+        let objects: (Equipment | Rune | Specialization)[] = [];
         let feats: (Feat | AnimalCompanionSpecialization)[] = [];
         let hintSets: HintEffectsObject[] = [];
         let conditions: ConditionEffectsObject[] = [];
-
-        //Start with the creature itself.
-        objects.push(creature);
 
         //Collect the creature's feats/abilities/specializations and their hints.
         const creatureObjects = creature.get_EffectsGenerationObjects(services.characterService);
@@ -294,13 +289,20 @@ export class EffectsGenerationService {
         //Collect hints of active activities.
         hintSets = hintSets.concat(this.collect_ActivityEffectHints(creature, services));
 
-        //Create object effects from the creature and its items, then add effects from conditions.
+        //Create object effects from abilities and items, then add effects from conditions.
         let objectEffects: Effect[] = [];
         objects.filter(object => object.effects.length).forEach(object => {
-            objectEffects = objectEffects.concat(this.get_EffectsFromObject(object, services, { object: object, creature: creature }));
+            objectEffects = objectEffects.concat(this.get_EffectsFromObject(object, services, { creature: creature }));
         })
         conditions.filter(object => object.effects.length).forEach(conditionEffectsObject => {
             objectEffects = objectEffects.concat(this.get_EffectsFromObject(conditionEffectsObject, services, { creature: creature, parentConditionGain: conditionEffectsObject }));
+        })
+
+        //Create object effects the creature. All effects from the creature should be SHOWN, after which they are moved into objectEffects.
+        let creatureEffects: Effect[] = [];
+        creatureEffects = creatureEffects.concat(this.get_EffectsFromObject(creature, services, { creature: creature }));
+        creatureEffects.forEach(effect => {
+            effect.show = true;
         })
 
         //Create object effects from creature feats/abilities and store them in a separate list. All effects from feats should be HIDDEN, after which they are moved into objectEffects.
@@ -321,21 +323,34 @@ export class EffectsGenerationService {
             effect.show = true;
         })
 
-        return objectEffects.concat(featEffects).concat(hintEffects);
+        return objectEffects.concat(creatureEffects).concat(featEffects).concat(hintEffects);
     }
 
     private generate_ArmorEffects(armor: Armor, services: { readonly characterService: CharacterService }, context: { readonly creature: Creature }, options: { readonly ignoreArmorPenalties: boolean, readonly ignoreArmorSpeedPenalties: boolean }): Effect[] {
         let itemEffects: Effect[] = [];
         const armorTraits = armor.get_Traits();
         function add_Effect(options: { type: "item" | "untyped", target: string, value: string, source: string, penalty: boolean, apply: boolean }): void {
-            itemEffects.push(new Effect(context.creature.id, options.type, options.target, options.value, "", false, "", options.source, true, options.apply));
+            itemEffects.push(Object.assign(new Effect,
+                {
+                    creature: context.creature.id,
+                    type: options.type,
+                    target: options.target,
+                    value: options.value,
+                    setValue: "",
+                    toggle: false,
+                    title: "",
+                    source: options.source,
+                    penalty: options.penalty,
+                    apply: options.apply
+                }
+            ));
         }
         //For Saving Throws, add any resilient runes on the equipped armor.
+        const resilient = armor.get_ResilientRune();
         function applyResilientRune() {
-            return armor.get_ResilientRune() > 0 && !armor.broken;
+            return resilient > 0 && !armor.broken;
         }
         if (applyResilientRune()) {
-            const resilient = armor.get_ResilientRune();
             add_Effect({ type: "item", target: "Saving Throws", value: "+" + resilient, source: armor.get_Resilient(resilient), penalty: false, apply: undefined });
         }
         //Add broken penalty if the armor is broken.
@@ -426,7 +441,7 @@ export class EffectsGenerationService {
         //If a shield is raised, add its circumstance bonus to AC with a + in front.
         let itemEffects: Effect[] = [];
         function add_Effect(options: { type: "circumstance" | "untyped", target: string, value: string, source: string, penalty: boolean, apply: boolean }): void {
-            itemEffects.push(new Effect(context.creature.id, options.type, options.target, options.value, "", false, "", options.source, true, options.apply));
+            itemEffects.push(Object.assign(new Effect(options.value), {creature: context.creature.id, type: options.type, target: options.target, source: options.source, penalty: options.penalty, apply: options.apply}));
         }
         const name = shield.get_Name();
         function shieldBonusApplies() {

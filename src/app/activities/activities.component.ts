@@ -20,7 +20,6 @@ export class ActivitiesComponent implements OnInit {
     creature: string = "Character";
     @Input()
     public sheetSide: string = "left";
-    private id: number = 0;
     private showAction: number = 0;
     private showItem: string = "";
     private showList: string = "";
@@ -95,11 +94,6 @@ export class ActivitiesComponent implements OnInit {
         return this.showList;
     }
 
-    get_ID() {
-        this.id++;
-        return this.id;
-    }
-
     get_Character() {
         return this.characterService.get_Character();
     }
@@ -131,12 +125,11 @@ export class ActivitiesComponent implements OnInit {
     }
 
     get_OwnedActivities() {
-        this.id = 0;
         let activities: (ActivityGain | ItemActivity)[] = [];
         let unique: string[] = [];
         this.characterService.get_OwnedActivities(this.get_Creature()).forEach(activity => {
-            activity.get_OriginalActivity(this.activitiesService).get_Cooldown(this.get_Creature(), this.characterService);
-            if (!unique.includes(activity.name)) {
+            activity.get_OriginalActivity(this.activitiesService)?.get_Cooldown(this.get_Creature(), this.characterService);
+            if (!unique.includes(activity.name) || activity instanceof ItemActivity) {
                 unique.push(activity.name);
                 activities.push(activity);
             }

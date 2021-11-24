@@ -29,31 +29,32 @@ export class SpellsService {
         private refreshService: RefreshService
     ) { }
 
-    get_SpellFromName(name: string) {
-        //Returns a named spell from the map.
-        return this.spellsMap.get(name.toLowerCase());
+    get_ReplacementSpell(name?: string): Spell {
+        return Object.assign(new Spell(), { name: "Spell not found", "desc": (name ? name : "The requested spell") + " does not exist in the spells list." });
     }
 
-    get_Spells(name: string = "", type: string = "", tradition: string = "") {
+    get_SpellFromName(name: string): Spell {
+        //Returns a named spell from the map.
+        return this.spellsMap.get(name.toLowerCase()) || this.get_ReplacementSpell(name);
+    }
+
+    get_Spells(name: string = "", type: string = "", tradition: string = ""): Spell[] {
         if (!this.still_loading()) {
             //If only a name is given, try to find a spell by that name in the index map. This should be much quicker.
             if (name && !type && !tradition) {
-                let spell = this.get_SpellFromName(name);
-                if (spell) {
-                    return [spell];
-                }
+                return [this.get_SpellFromName(name)];
+            } else {
+                return this.spells.filter(spell =>
+                    (spell.name.toLowerCase() == (name.toLowerCase()) || name == "") &&
+                    (spell.traits.includes(type) || type == "") &&
+                    (spell.traditions.includes(tradition) || tradition == "")
+                );
             }
-            return this.spells.filter(spell =>
-                (spell.name.toLowerCase() == (name.toLowerCase()) || name == "") &&
-                (spell.traits.includes(type) || type == "") &&
-                (spell.traditions.includes(tradition) || tradition == "")
-            );
-        } else {
-            return [new Spell()];
         }
+        return [this.get_ReplacementSpell()];
     }
 
-    get_DynamicSpellLevel(casting: SpellCasting, choice: SpellChoice, characterService: CharacterService) {
+    get_DynamicSpellLevel(casting: SpellCasting, choice: SpellChoice, characterService: CharacterService): number {
         //highestSpellLevel is used in the eval() process.
         let highestSpellLevel = 1;
         let Character = characterService.get_Character();
@@ -241,7 +242,7 @@ export class SpellsService {
                                 //If this spell was cast by an activity, it may have a specified duration. Apply that here.
                                 if (activityDuration) {
                                     newConditionGain.duration = activityDuration;
-                                } else if (newConditionGain.duration == -5) {
+                                } else if (newConditionGain.durationIsDynamic) {
                                     //Otherwise, and if the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
                                     newConditionGain.duration = condition.get_DefaultDuration(newConditionGain.choice, newConditionGain.heightened).duration;
                                 }
@@ -299,7 +300,7 @@ export class SpellsService {
                             // This allows the condition to persist until after the caster's last turn, simulating that it hasn't been the target's last turn yet.
                             if (conditionGain.targetFilter == "caster") {
                                 conditionTargets = [creature];
-                                if (spell.durationDependsOnTarget && targets.some(target => target instanceof SpellTarget) && newConditionGain.duration >= 0 && newConditionGain.duration % 5 == 0) {
+                                if (spell.durationDependsOnTarget && targets.some(target => target instanceof SpellTarget) && newConditionGain.duration > 0 && !newConditionGain.durationDependsOnOther) {
                                     newConditionGain.duration += 2;
                                 }
                             }
@@ -316,7 +317,7 @@ export class SpellsService {
                             if (conditionGain.targetFilter != "caster" && conditionTargets.some(target => target instanceof SpellTarget)) {
                                 //For foreign targets (whose turns don't end when the caster's turn ends), if the spell is not durationDependsOnTarget, and it doesn't have a duration of X+1, add 2 for "until another character's turn".
                                 // This allows the condition to persist until after the target's last turn, simulating that it hasn't been the caster's last turn yet.
-                                if (!spell.durationDependsOnTarget && newConditionGain.duration >= 0 && newConditionGain.duration % 5 == 0) {
+                                if (!spell.durationDependsOnTarget && newConditionGain.duration > 0 && !newConditionGain.durationDependsOnOther) {
                                     newConditionGain.duration += 2;
                                 }
                                 characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget && !creatures.some(creature => creature.id == target.id)) as SpellTarget[], newConditionGain);

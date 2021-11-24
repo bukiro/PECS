@@ -109,7 +109,7 @@ export class FamiliarComponent implements OnInit {
     }
 
     set_Mobile() {
-        this.mobile = (window.innerWidth < 992);
+        this.mobile = this.characterService.get_Mobile();
     }
 
     ngOnInit() {

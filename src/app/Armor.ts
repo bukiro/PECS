@@ -136,14 +136,14 @@ export class Armor extends Equipment {
         //Initialize shoddy values and armored skirt.
         //Set components to update if these values have changed from before.
         const oldValues = [this._affectedByArmoredSkirt, this._shoddy];
-        this.get_ArmoredSkirt((creature as AnimalCompanion | Character), services.characterService);
+        this.get_ArmoredSkirt(creature as AnimalCompanion | Character);
         this.get_Shoddy((creature as AnimalCompanion | Character), services.characterService);
         const newValues = [this._affectedByArmoredSkirt, this._shoddy];
         if (oldValues.some((previous, index) => previous != newValues[index])) {
             services.refreshService.set_ToChange(creature.type, "inventory");
         }
     }
-    get_ArmoredSkirt(creature: Creature, characterService: CharacterService) {
+    get_ArmoredSkirt(creature: Creature) {
         if (["Breastplate", "Chain Shirt", "Chain Mail", "Scale Mail"].includes(this.name)) {
             let armoredSkirt = creature.inventories.map(inventory => inventory.adventuringgear).find(gear => gear.find(item => item.isArmoredSkirt && item.equipped));
             if (armoredSkirt?.length) {
@@ -231,7 +231,7 @@ export class Armor extends Equipment {
     }
     profLevel(creature: Character | AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
-        this.get_ArmoredSkirt(creature, characterService);
+        this.get_ArmoredSkirt(creature);
         let skillLevel: number = 0;
         let armorIncreases = creature.get_SkillIncreases(characterService, 0, charLevel, this.name);
         let profIncreases = creature.get_SkillIncreases(characterService, 0, charLevel, this.get_Proficiency());

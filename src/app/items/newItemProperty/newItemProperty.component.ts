@@ -89,7 +89,9 @@ export class NewItemPropertyComponent implements OnInit {
     }
 
     validate() {
-        let value = this.get_Parent()[this.propertyKey]
+        this.validationError = "";
+        this.validationResult = "";
+        let value = this.get_Parent()[this.propertyKey];
         if (this.propertyKey == "name" && !this.propertyData.parent) {
             if (!value) {
                 this.get_Parent()[this.propertyKey] = "New Item"
@@ -101,12 +103,12 @@ export class NewItemPropertyComponent implements OnInit {
             } else if (existingItems.length) {
                 this.validationError = "You already own an item with this name and type.";
             } else if (existingCleanItems.length) {
-                this.validationError = "An item with this name and type already exists.";
+                this.validationError = "An item with this name and type already exists, but you don't own it.";
             }
         }
         if (this.propertyKey == "value" && this.propertyData.parent == "effects") {
             if (value && value != "0") {
-                let validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() }).toString();
+                let validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || "0";
                 if (validationResult && validationResult != "0" && (parseInt(validationResult) || parseFloat(validationResult))) {
                     if (parseFloat(validationResult) == parseInt(validationResult)) {
                         this.validationError = "";
@@ -122,7 +124,7 @@ export class NewItemPropertyComponent implements OnInit {
             }
         } else if (this.propertyKey == "setValue" && this.propertyData.parent == "effects") {
             if (value && value != "0") {
-                let validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() }).toString();
+                let validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || null;
                 if (validationResult && validationResult != "0" && (parseInt(validationResult) || parseFloat(validationResult))) {
                     if (parseFloat(validationResult) == parseInt(validationResult)) {
                         this.validationError = "";
@@ -138,7 +140,7 @@ export class NewItemPropertyComponent implements OnInit {
             }
         } else if (this.propertyKey == "value" && this.propertyData.parent == "onceEffects") {
             if (value && value != "0") {
-                let validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() }).toString();
+                let validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || "0";
                 if (validationResult && validationResult != "0" && (parseInt(validationResult) || parseFloat(validationResult))) {
                     if (parseFloat(validationResult) == parseInt(validationResult)) {
                         this.validationError = "";
@@ -555,7 +557,7 @@ export class NewItemPropertyComponent implements OnInit {
 
         }
 
-        let uniqueExamples = Array.from(new Set(examples))
+        let uniqueExamples = Array.from(new Set(examples.filter(example => example.toString().length <= 90)))
         return uniqueExamples.sort((a, b) => {
             if (a > b) {
                 return 1;

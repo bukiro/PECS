@@ -63,12 +63,16 @@ export class Spell {
     public traditions: string[] = [];
     public traits: string[] = [];
     public trigger: string = "";
+    public requirements: string = "";
     //The target number determines how many allies you can target with a non-hostile activity, or how many enemies you can target with a hostile one (not actually implemented).
     //The spell can have multiple target numbers that are dependent on the character level and whether you have a feat.
     public targetNumbers: SpellTargetNumber[] = [];
     recast() {
         this.heightenedDescs = this.heightenedDescs.map(obj => Object.assign(new HeightenedDescSet(), obj).recast());
         this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
+        this.gainConditions.forEach(conditionGain => {
+            conditionGain.source = this.name;
+        })
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         this.showSpells = this.showSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
         this.targetNumbers = this.targetNumbers.map(obj => Object.assign(new SpellTargetNumber(), obj).recast());

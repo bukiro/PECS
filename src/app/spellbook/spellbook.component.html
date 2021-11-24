@@ -84,7 +84,7 @@
                                     + (get_UsedSpellSlots(12, casting) == 0 ? 1 : 0) != 1 ? "s" : ""}} available
                                 </div>
                             </header>
-                            <ng-container *ngFor="let maxFocusPoints of [get_MaxFocusPoints()]; trackBy:trackByIndex;">
+                            <ng-container *ngFor="let focusPoints of [get_FocusPoints()]; trackBy:trackByIndex;">
                                 <ng-container
                                     *ngFor="let level of [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; trackBy:trackByIndex;">
                                     <ng-container *ngIf="level <= get_MaxSpellLevel(casting)">
@@ -130,33 +130,32 @@
                                                         </strong>
                                                     </div>
                                                     <div class="list-item"
-                                                        [ngClass]="{'problem':(get_FocusPoints() > maxFocusPoints)}"
-                                                        *ngIf="casting.castingType == 'Focus' && level == -1 && (spellTakenList.length || maxFocusPoints)">
+                                                        *ngIf="casting.castingType == 'Focus' && level == -1 && (spellTakenList.length || focusPoints.max)">
                                                         <div class="newrow">
                                                             <strong>Focus Points</strong>
                                                             <span class="hlist center-aligned">
                                                                 <div class="value"
                                                                     style="margin-left:0; margin-right:0;">
-                                                                    {{get_FocusPoints()}}
+                                                                    {{focusPoints.now}}
                                                                 </div>
                                                                 <ng-container *ngIf="get_ManualMode()">
                                                                     <button (click)="on_ManualFocusPointChange(-1)"
-                                                                        [disabled]="get_FocusPoints() <= 0">
+                                                                        [disabled]="focusPoints.now <= 0">
                                                                         -
                                                                     </button>
                                                                     <button (click)="on_ManualFocusPointChange(1)"
-                                                                        [disabled]="get_FocusPoints() >= maxFocusPoints">
+                                                                        [disabled]="focusPoints.now >= focusPoints.max">
                                                                         +
                                                                     </button>
                                                                 </ng-container>
                                                             </span>
                                                             <strong>Focus Pool</strong>
                                                             <div class="value">
-                                                                {{maxFocusPoints}}
+                                                                {{focusPoints.max}}
                                                             </div>
                                                         </div>
                                                         <button class="newrow center-aligned" (click)="refocus()"
-                                                            [disabled]="get_FocusPoints() >= maxFocusPoints">
+                                                            [disabled]="focusPoints.now >= focusPoints.max">
                                                             Refocus
                                                         </button>
                                                         <app-tags [creature]="'Character'" [objectName]="'Focus'"
@@ -312,11 +311,11 @@
                                                                                 </app-spellTarget>
                                                                                 <div class="newrow"
                                                                                     *ngIf="casting.castingType == 'Focus' && spell.allowReturnFocusPoint"
-                                                                                    [ngbTooltip]="get_FocusPoints() >= get_MaxFocusPoints() ? 'Focus points are full.' : ''">
+                                                                                    [ngbTooltip]="focusPoints.now >= focusPoints.max ? 'Focus points are full.' : ''">
                                                                                     <button
                                                                                         class="newrow center-aligned"
                                                                                         (click)="on_RestoreFocusPoint()"
-                                                                                        [disabled]="get_FocusPoints() >= get_MaxFocusPoints()">
+                                                                                        [disabled]="focusPoints.now >= focusPoints.max">
                                                                                         <span class="center-aligned">
                                                                                             Return Focus Point
                                                                                         </span>

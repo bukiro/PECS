@@ -2478,6 +2478,7 @@
       ],
       "ammunition": "Blowgun Darts",
       "dicesize": 1,
+      "dicenum": 0,
       "dmgType": "P",
       "group": "Dart",
       "hands": "1",

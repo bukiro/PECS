@@ -23,12 +23,16 @@ export class DeitiesService {
         private extensionsService: ExtensionsService
     ) { }
 
-    get_DeityFromName(name: string) {
-        //Returns a named deity from the map.
-        return this.deitiesMap.get(name.toLowerCase());
+    private get_ReplacementDeity(name?: string): Deity {
+        return Object.assign(new Deity(), { name: "Deity not found", "desc": (name ? name : "The requested deity") + " does not exist in the deities list." });
     }
 
-    get_CharacterDeities(characterService: CharacterService, character: Character, source: string = "", level: number = character.level) {
+    get_DeityFromName(name: string): Deity {
+        //Returns a named deity from the map.
+        return this.deitiesMap.get(name.toLowerCase()) || this.get_ReplacementDeity(name);
+    }
+
+    get_CharacterDeities(characterService: CharacterService, character: Character, source: string = "", level: number = character.level): Deity[] {
         if (!this.$characterDeities.length && character.class.deity) {
             //Recreate the character deities list from the main deity and the Syncretism feat data.
             let mainDeity = this.get_Deities(character.class.deity)[0];
@@ -50,24 +54,22 @@ export class DeitiesService {
         return this.$characterDeities.filter(deitySet => deitySet.level <= level && (!source || deitySet.source == source)).map(deitySet => deitySet.deity);
     }
 
-    clear_CharacterDeities() {
+    clear_CharacterDeities(): void {
         this.$characterDeities.length = 0;
     }
 
-    get_Deities(name: string = "") {
+    get_Deities(name: string = ""): Deity[] {
         if (!this.still_loading()) {
             //If a name is given, try to find a deity by that name in the index map. This should be much quicker.
             if (name) {
-                let deity = this.get_DeityFromName(name);
-                if (deity) {
-                    return [deity];
-                }
+                return [this.get_DeityFromName(name)];
+            } else {
+                return this.deities.filter(deity => deity.name.toLowerCase() == name.toLowerCase() || name == "")
             }
-            return this.deities.filter(deity => deity.name.toLowerCase() == name.toLowerCase() || name == "")
-        } else { return [new Deity()] }
+        } else { return [this.get_ReplacementDeity()] }
     }
 
-    get_Domains(name: string = "") {
+    get_Domains(name: string = ""): Domain[] {
         if (!this.still_loading()) {
             return this.domains.filter(domain => domain.name.toLowerCase() == name.toLowerCase() || name == "")
         } else { return [new Domain()] }

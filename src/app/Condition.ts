@@ -15,6 +15,20 @@ import { Creature } from './Creature';
 import { HeightenedDesc } from './HeightenedDesc';
 import { HeightenedDescSet } from './HeightenedDescSet';
 
+type ConditionEnd = {
+    name: string,
+    increaseWounded?: boolean,
+    sameCasterOnly?: boolean
+}
+export type ConditionOverride = {
+    name: string,
+    conditionChoiceFilter?: string[]
+}
+export type EndsWithCondition = {
+    name: string,
+    source?: string
+}
+
 export class Condition {
     public name: string = "";
     public type: string = "";
@@ -23,6 +37,8 @@ export class Condition {
     public hasValue: boolean = false;
     public decreasingValue: boolean = false;
     public value: number = 0;
+    public automaticStages: boolean = false;
+    public circularStages: boolean = false;
     public heightenedDescs: HeightenedDescSet[] = [];
     public desc: string = "";
     public hints: Hint[] = [];
@@ -34,13 +50,15 @@ export class Condition {
     public gainConditions: ConditionGain[] = [];
     public gainItems: ItemGain[] = [];
     public hide: boolean = false;
-    public overrideConditions: string[] = [];
+    public overrideConditions: ConditionOverride[] = [];
     public denyConditions: string[] = [];
-    public endConditions: string[] = [];
+    public endConditions: ConditionEnd[] = [];
     //If alwaysApplyCasterCondition is true and this is a caster condition, it is applied even when it is informational and the caster is already getting the target condition.
     public alwaysApplyCasterCondition: boolean = false;
     //Remove this condition if any of the endsWithConditions is removed.
-    public endsWithConditions: { name: string, source: string }[] = [];
+    public endsWithConditions: EndsWithCondition[] = [];
+    //If the stopTimeChoiceFilter matches the condition choice or is "All", no time elapses for anything other than the condition that causes the time stop.
+    public stopTimeChoiceFilter: string[] = [];
     public attackRestrictions: AttackRestriction[] = [];
     public source: string = "";
     public senses: SenseGain[] = [];
@@ -69,7 +87,13 @@ export class Condition {
         this.endEffects = this.endEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
         this.gainActivities = this.gainActivities.map(obj => Object.assign(new ActivityGain(), obj).recast());
+        this.gainActivities.forEach(activityGain => {
+            activityGain.source = this.name;
+        })
         this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
+        this.gainConditions.forEach(conditionGain => {
+            conditionGain.source = this.name;
+        })
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         this.attackRestrictions = this.attackRestrictions.map(obj => Object.assign(new AttackRestriction(), obj).recast());
         this.senses = this.senses.map(obj => Object.assign(new SenseGain(), obj).recast());
@@ -107,25 +131,50 @@ export class Condition {
     get_HasHints() {
         return this.hints.length;
     }
+    get_IsStoppingTime(conditionGain: ConditionGain = null) {
+        return this.stopTimeChoiceFilter.some(filter => ["All", (conditionGain?.choice || "All")].includes(filter));
+    }
     get_IsInformationalCondition(creature: Creature, characterService: CharacterService, conditionGain: ConditionGain = null) {
-        //Return whether the condition has any effects beyond showing text, and if it causes or overrides any conditions, whether these currently exist.
+        //Return whether the condition has any effects beyond showing text, and if it causes or overrides any currently existing conditions.
         return !(
             this.effects?.length ||
-            this.hints.some(hint => hint.effects?.length) ||
             this.endConditions.length ||
             this.gainItems.length ||
             this.gainActivities.length ||
             this.senses.length ||
             this.nextCondition.length ||
             this.endEffects.length ||
-            (
-                conditionGain ?
-                    (this.gainConditions.length ? characterService.get_AppliedConditions(creature, "", "", true).some(existingCondition => existingCondition.parentID == conditionGain?.id) : false) :
-                    this.gainConditions.length
-            ) ||
             this.denyConditions.length ||
-            (this.overrideConditions.length ? characterService.get_AppliedConditions(creature, "", "", true).some(existingCondition => this.overrideConditions.includes(existingCondition.name)) : false)
-
+            this.get_IsStoppingTime(conditionGain) ||
+            (
+                this.hints.some(hint =>
+                    hint.effects?.length &&
+                    (
+                        !conditionGain ||
+                        hint.conditionChoiceFilter.includes(conditionGain.choice)
+                    )
+                )
+            ) ||
+            (
+                this.gainConditions.length ?
+                    characterService.get_AppliedConditions(creature, "", "", true)
+                        .some(existingCondition => !conditionGain || existingCondition.parentID == conditionGain.id) :
+                    false
+            ) ||
+            (
+                this.overrideConditions.length ?
+                    characterService.get_AppliedConditions(creature, "", "", true)
+                        .some(existingCondition =>
+                            this.overrideConditions.some(override =>
+                                override.name == existingCondition.name &&
+                                (
+                                    !override.conditionChoiceFilter?.length ||
+                                    override.conditionChoiceFilter.includes(conditionGain?.choice || "")
+                                )
+                            )
+                        ) :
+                    false
+            )
         )
     }
     get_Choices(characterService: CharacterService, filtered: boolean = false, spellLevel: number = this.minLevel) {

@@ -247,7 +247,7 @@ export class GridIconComponent implements OnInit {
             } else if (this.effect.value) {
                 superTitle = this.effect.value;
             }
-        } else if (this.condition?.duration == 1 || this.condition?.nextStage == -1) {
+        } else if (this.condition?.durationIsInstant || this.condition?.nextStage == -1) {
             //If a condition has a duration of 1, it needs to be handled immediately, and we show an exclamation diamond to point that out.
             return "<i class='bi-exclamation-diamond'></i>";
         } else if (this.condition?.lockedByParent || this.condition?.valueLockedByParent) {
@@ -363,9 +363,9 @@ export class GridIconComponent implements OnInit {
 
     get_DurationOverlays() {
         if (this.condition?.duration || this.effect?.duration) {
-            let duration = this.condition?.duration || this.effect?.duration || 0;
-            let maxDuration = this.condition?.maxDuration || this.effect?.maxDuration || 0;
-            let percentage = 100 - Math.floor((duration / maxDuration) * 100);
+            const duration = (this.condition || this.effect).duration || 0;
+            const maxDuration = (this.condition || this.effect).maxDuration || 0;
+            const percentage = 100 - Math.floor((duration / maxDuration) * 100);
             if (percentage > 50) {
                 return [
                     { offset: 0, percentage: 50, over50: 1 },

@@ -37,9 +37,9 @@
                         </span>
                     </div>
                     <ng-container *ngFor="let casting of get_SpellCastings(); let index = index; trackBy:trackByIndex;">
-                        <header class="sectionHeader">{{(casting.className + " " + casting.tradition +
-                            ((casting.castingType ==
-                            "Focus") ? (" " + casting.source) : " Spells")).trim()}}
+                        <header class="sectionHeader">
+                            {{(casting.className + " " + casting.tradition + ((casting.castingType == "Focus") ?
+                            (" " + casting.source) : " Spells")).trim()}}
                             <span class="lower" *ngIf="['Prepared', 'Spontaneous'].includes(casting.castingType)">
                                 <span class="lower">
                                     {{casting.castingType}}

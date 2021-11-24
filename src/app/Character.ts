@@ -569,23 +569,20 @@ export class Character extends Creature {
         }
     }
     take_Feat(creature: Character | Familiar, characterService: CharacterService, feat: Feat, featName: string, taken: boolean, choice: FeatChoice, locked: boolean, automatic: boolean = false) {
-        let levelNumber = parseInt(choice.id.split("-")[0]);
-        let level: Level = creature instanceof Character ? creature.class.levels[levelNumber] : characterService.get_Level(levelNumber);
+        const levelNumber = parseInt(choice.id.split("-")[0]);
+        const level: Level = creature instanceof Character ? creature.class.levels[levelNumber] : characterService.get_Level(levelNumber);
         if (taken) {
-            if (feat) {
-                featName = feat.name;
-            }
-            let newLength = choice.feats.push(Object.assign(new FeatTaken(), { name: (feat?.name || featName), source: choice.source, locked: locked, automatic: automatic, sourceId: choice.id, countAsFeat: (feat?.countAsFeat || feat?.superType || "") }));
-            let gain = choice.feats[newLength - 1];
+            const newLength = choice.feats.push(Object.assign(new FeatTaken(), { name: (feat?.name || featName), source: choice.source, locked: locked, automatic: automatic, sourceId: choice.id, countAsFeat: (feat?.countAsFeat || feat?.superType || "") }));
+            const gain = choice.feats[newLength - 1];
             characterService.process_Feat(creature, feat, gain, choice, level, taken);
         } else {
-            let a = choice.feats;
-            let gain = a.find(existingFeat =>
+            const choiceFeats = choice.feats;
+            const gain = choiceFeats.find(existingFeat =>
                 existingFeat.name == featName &&
                 existingFeat.locked == locked
             )
             characterService.process_Feat(creature, feat, gain, choice, level, taken);
-            a.splice(a.indexOf(gain, 1));
+            choiceFeats.splice(choiceFeats.indexOf(gain, 1));
         }
     }
     get_SpellsTaken(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, spellLevel: number = -1, spellName: string = "", spellCasting: SpellCasting = undefined, className: string = "", tradition: string = "", castingType: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, signatureAllowed: boolean = false, cantripAllowed: boolean = true) {

@@ -759,7 +759,7 @@
         "priority": "10",
         "group": "5-Influence",
         "name": "Act as Handwraps of Mighty Blows",
-        "desc": "Set if this item uses the 'Handwraps of Mighty Blows' functionality to enhance unarmed attacks with its own runes. The item's modification type will be set to 'weapon' automatically.",
+        "desc": "Set if this item uses the 'Handwraps of Mighty Blows' functionality to enhance unarmed attacks with its own runes. The item's will be able to bear weapon runes if this is enabled.",
         "type": "checkbox"
     },
     {

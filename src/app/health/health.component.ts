@@ -77,20 +77,8 @@ export class HealthComponent implements OnInit {
         return index;
     }
 
-    get_Waiting(duration: number) {
-        let result: string = "";
-        this.characterService.get_Creatures().forEach(creature => {
-            if (this.characterService.get_AppliedConditions(creature, "", "", true).some(gain => (gain.nextStage < duration && gain.nextStage > 0) || gain.nextStage == -1 || gain.duration == 1)) {
-                result = "One or more conditions" + (creature.type != "Character" ? " on your " + creature.type : "") + " need to be resolved before you can rest.";
-            }
-            if (this.characterService.get_Health(creature).temporaryHP.length > 1) {
-                result = "You need to select one set of temporary Hit Points" + (creature.type != "Character" ? " on your " + creature.type : "") + " before you can rest.";
-            }
-            if (this.effectsService.get_EffectsOnThis(creature, "Resting Blocked").length) {
-                result = "An effect" + (creature.type != "Character" ? " on your " + creature.type : "") + " is keeping you from resting."
-            }
-        })
-        return result;
+    get_Waiting(duration: number): string {
+        return this.timeService.get_Waiting(duration, {characterService: this.characterService, conditionsService: this.conditionsService}, {includeResting: true});
     }
 
     rest() {
@@ -221,27 +209,27 @@ export class HealthComponent implements OnInit {
 
     get_Resistances() {
         //There should be no absolutes in resistances. If there are, they will be treated as relatives here.
-        let effects = this.effectsService.get_Effects(this.creature).all.filter(effect =>
+        const effects = this.effectsService.get_Effects(this.creature).all.filter(effect =>
             effect.creature == this.get_Creature().id && (effect.target.toLowerCase().includes("resistance") ||
                 effect.target.toLowerCase().includes("hardness")) && effect.apply && !effect.ignored);
         let resistances: { target: string, value: number, source: string }[] = [];
         //Build a list of all resistances other than "Resistances" and add up their respective value.
         effects.filter(effect => effect.target.toLowerCase() != "resistances").forEach(effect => {
-            let value = effect.value || effect.setValue;
-            let resistance = resistances.find(res => res.target == effect.target);
+            const value = parseInt(effect.value) || parseInt(effect.setValue);
+            const resistance = resistances.find(res => res.target == effect.target);
             if (resistance) {
-                resistance.value += parseInt(value);
-                resistance.source += "\n" + effect.source + ': ' + parseInt(value);
+                resistance.value += value;
+                resistance.source += "\n" + effect.source + ': ' + value;
             } else {
-                resistances.push({ target: effect.target, value: parseInt(value), source: effect.source + ': ' + parseInt(value) });
+                resistances.push({ target: effect.target, value: value, source: effect.source + ': ' + value });
             }
         });
         //Globally apply any effects on "Resistances".
         effects.filter(effect => effect.target.toLowerCase() == "resistances").forEach(effect => {
-            let value = effect.value || effect.setValue;
+            const value = parseInt(effect.value) || parseInt(effect.setValue);
             resistances.forEach(resistance => {
-                resistance.value += parseInt(value);
-                resistance.source += "\n" + effect.source + ': ' + parseInt(value);
+                resistance.value += value;
+                resistance.source += "\n" + effect.source + ': ' + value;
             })
         })
         resistances.forEach((res: { target: string, value: number, source: string }) => {

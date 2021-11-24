@@ -82,7 +82,7 @@ export class Item {
     public markedForDeletion: boolean = false;
     //If restoredFromSave is set, the item doesn't need to be merged with its reference item again.
     public restoredFromSave: boolean = false;
-    recast(typeService: TypeService, itemsService: ItemsService) {
+    recast(typeService: TypeService, itemsService: ItemsService): Item {
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         //Oils need to be cast blindly in order to avoid circular dependency warnings.
         this.oilsApplied = this.oilsApplied.map(obj => (typeService.classCast(typeService.restore_Item(obj, itemsService), "Oil") as Oil).recast(typeService, itemsService));

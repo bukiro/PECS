@@ -165,7 +165,11 @@ export class GeneralComponent implements OnInit {
     }
 
     get_Languages() {
-        return this.get_Character().class.languages.filter(language => (!language.level || language.level <= this.get_Character().level) && language.name != "").map(language => language.name).join(', ')
+        return this.get_Character().class.languages
+            .filter(language => (!language.level || language.level <= this.get_Character().level) && language.name != "")
+            .map(language => language.name)
+            .sort()
+            .join(', ')
     }
 
     get_DifferentWorldsData() {
@@ -210,22 +214,20 @@ export class GeneralComponent implements OnInit {
     }
 
     get_CharacterTraits() {
-        let character = this.get_Character();
+        const character = this.get_Character();
+        let traits: string[] = JSON.parse(JSON.stringify(character.class.ancestry.traits));
         //Verdant Metamorphosis adds the Plant trait and removes the Humanoid, Animal or Fungus trait.
         if (this.characterService.get_CharacterFeatsTaken(1, character.level, "Verdant Metamorphosis").length) {
-            return ["Plant"].concat(this.get_Character().class.ancestry.traits.filter(trait => !["Humanoid", "Animal", "Fungus"].includes(trait)))
-                .sort(function (a, b) {
-                    if (a > b) {
-                        return 1;
-                    }
-                    if (a < b) {
-                        return -1;
-                    }
-                    return 0;
-                })
-        } else {
-            return this.get_Character().class.ancestry.traits
+            traits = ["Plant"].concat(traits.filter(trait => !["Humanoid", "Animal", "Fungus"].includes(trait)))
         }
+        this.effectsService.get_ToggledOnThese(character, ["Character Gain Trait", "Character Lose Trait"]).filter(effect => effect.title).forEach(effect => {
+            if (effect.target.toLowerCase().includes("gain trait")) {
+                traits.push(effect.title);
+            } else if (effect.target.toLowerCase().includes("lose trait")) {
+                traits = traits.filter(trait => trait != effect.title);
+            }
+        })
+        return traits.sort();
     }
 
     get_Traits(name: string = "") {

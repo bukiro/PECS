@@ -2603,6 +2603,49 @@
         ]
     },
     {
+        "name": "Cape of the Mountebank",
+        "id": "ac9ec2cf-e9aa-413e-905e-4ef2dfb78c33",
+        "desc": "This bright red-and-gold cape is often interlaced with glittery threads and serves as a distraction. While wearing the cape, you gain a +2 item bonus to Deception checks.",
+        "level": 10,
+        "bulk": "L",
+        "price": 98000,
+        "traits": [
+            "Uncommon",
+            "Conjuration",
+            "Invested",
+            "Magical"
+        ],
+        "usage": "worn cloak",
+        "activities": [
+            {
+                "name": "Cape of the Mountebank",
+                "source": "ac9ec2cf-e9aa-413e-905e-4ef2dfb78c33",
+                "actions": "2A",
+                "activationType": "Interact",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "target": "self",
+                "desc": "You cast dimension door. The space you leave and the one you appear in are filled with puffs of smoke that make anyone within concealed until they leave the smoke or the end of your next turn, at which point the smoke dissipates. Strong winds immediately disperse the smoke.",
+                "castSpells": [
+                    {
+                        "name": "Dimension Door"
+                    }
+                ],
+                "gainConditions": [
+                    {
+                        "name": "Cape of the Mountebank"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Conjuration",
+                    "Invested",
+                    "Magical"
+                ]
+            }
+        ]
+    },
+    {
         "name": "Clandestine Cloak (Greater)",
         "id": "9acbe7d9-081e-4058-9329-4b5dfe8e448c",
         "desc": "When you pull up the hood of this nondescript gray cloak (an Interact action), you become drab and uninteresting, gaining a +1 item bonus to Stealth checks and to Deception checks to Impersonate a forgettable background character, such as a servant, but also taking a -1 item penalty to Diplomacy and Intimidation checks.",

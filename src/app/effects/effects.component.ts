@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input } from '@angular/core';
 import { EffectsService } from '../effects.service';
 import { CharacterService } from '../character.service';
+import { ConditionsService } from '../conditions.service';
 import { TimeService } from '../time.service';
 import { TraitsService } from '../traits.service';
 import { ConditionGain } from '../ConditionGain';
@@ -34,6 +35,7 @@ export class EffectsComponent implements OnInit {
         private traitsService: TraitsService,
         private effectsService: EffectsService,
         private characterService: CharacterService,
+        private conditionsService: ConditionsService,
         private refreshService: RefreshService,
         private timeService: TimeService
     ) { }
@@ -118,7 +120,7 @@ export class EffectsComponent implements OnInit {
     }
 
     get_Conditions(name: string = "") {
-        return this.characterService.get_Conditions(name);
+        return this.conditionsService.get_Conditions(name);
     }
 
     get_AppliedEffects() {
@@ -158,7 +160,7 @@ export class EffectsComponent implements OnInit {
     }
 
     get_AppliedConditions(apply: boolean, instant: boolean = false) {
-        return this.characterService.get_AppliedConditions(this.get_Creature()).filter(condition => condition.apply == apply || (instant && condition.duration == 1)).sort(function (a, b) {
+        return this.characterService.get_AppliedConditions(this.get_Creature()).filter(condition => condition.apply == apply || (instant && condition.durationIsInstant)).sort(function (a, b) {
             if (a.name + a.value + a.choice > b.name + b.value + b.choice) {
                 return 1;
             }
@@ -177,12 +179,24 @@ export class EffectsComponent implements OnInit {
         return condition.get_IsInformationalCondition(this.get_Creature(), this.characterService, conditionGain);
     }
 
+    get_ConditionSuperTitle(conditionGain: ConditionGain, condition: Condition) {
+        if (condition.get_IsStoppingTime(conditionGain)) {
+            return "icon-ra ra-hourglass";
+        }
+        if (condition.get_IsInformationalCondition(this.get_Creature(), this.characterService, conditionGain)) {
+            return "icon-bi-info-circle";
+        }
+        return "";
+    }
+
+    get_TimeStopped() {
+        return this.get_AppliedConditions(true, true).some(gain => this.conditionsService.get_ConditionFromName(gain.name).get_IsStoppingTime(gain));
+    }
+
     on_IgnoreEffect(effect: Effect, ignore: boolean) {
         if (ignore) {
             this.get_Creature().ignoredEffects.push(effect);
-            effect.ignored = true;
         } else {
-            effect.ignored = false;
             this.get_Creature().ignoredEffects = this.get_Creature().ignoredEffects.filter(ignoredEffect =>
                 !(
                     ignoredEffect.creature == effect.creature &&

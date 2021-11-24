@@ -522,7 +522,7 @@
         ]
     },
     {
-        "name": "Call on Ancient Blood: Fortitude",
+        "name": "Call on Ancient Blood",
         "actions": "Reaction",
         "trigger": "You attempt a saving throw against a magical effect, but you haven't rolled yet.",
         "target": "self",
@@ -3351,7 +3351,7 @@
             {
                 "duration": 0,
                 "name": "Setup Perfect Distraction Decoy",
-                "source": "Setup Perfect Distraction Decoy"
+                "source": "Perfect Distraction: Setup Decoy"
             }
         ]
     },
@@ -4632,8 +4632,8 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Dragon Rage's Wings",
-                "source": "Dragon Rage's Wings"
+                "name": "Dragon's Rage's Wings",
+                "source": "Dragon's Rage Wings"
             }
         ]
     },
@@ -5043,7 +5043,7 @@
             {
                 "duration": 0,
                 "name": "True Shapeshifter",
-                "source": "True Shapeshifter"
+                "source": "True Shapeshifter: Nature Incarnate"
             }
         ],
         "showSpells": [
@@ -5151,7 +5151,7 @@
             {
                 "duration": 5,
                 "name": "Slowed",
-                "source": "Crushing Despair: Failed Save",
+                "source": "Crushing Despair: Fail Save",
                 "value": 1
             }
         ]
@@ -5841,6 +5841,172 @@
                     {
                         "value": "10d6",
                         "variable": "var2"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Bottle the Storm Discharge",
+        "actions": "1A",
+        "traits": [
+            "Attack"
+        ],
+        "target": "self",
+        "desc": "When lightning was turned at you, you stored the charge safely within yourself, unleashing it when the time is right. If you have successfully prevented damage with the electricity resistance granted by bottle the storm, at any time during the spell's duration, you can spend a single action, which has the attack trait, to expend the charge and make a melee spell attack at an adjacent target or a ranged spell attack at a target within 60 feet.<var>var2</var> This attack deals electricity damage equal to the damage prevented by bottle the storm.",
+        "gainConditions": [
+            {
+                "duration": 0,
+                "name": "Bottle the Storm Discharge",
+                "source": "Bottle the Storm Discharge"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 4,
+                "descs": [
+                    {
+                        "value": "10",
+                        "variable": "var1"
+                    },
+                    {
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "20",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": " You can immediately make the spell attack roll granted by bottle the storm as part of the reaction used to cast the spell.",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "20",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": " You can immediately make the spell attack roll granted by bottle the storm as part of the reaction used to cast the spell.",
+                        "variable": "var2"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Diamond Dust Bonus",
+        "inputRequired": "You can target any ally with this activity that should gain the status bonus against a light effect scattered by the diamond dust cloud.",
+        "target": "area",
+        "desc": "You have supercooled the nearby air, forming a cloud of dancing ice crystals in an emanation around you. The crystals scatter and refract light; if a light effect enters diamond dust's area, any creatures that effect goes on to affect gain a +2 status bonus to AC and saves against it.",
+        "gainConditions": [
+            {
+                "duration": 1,
+                "name": "Diamond Dust Bonus",
+                "source": "Diamond Dust Bonus"
+            }
+        ]
+    },
+    {
+        "name": "Font of Serenity: Touch the Font",
+        "actions": "1A",
+        "inputRequired": "The spell attempts to counteract one emotion effect affecting the targeted ally.",
+        "traits": [
+            "Interact"
+        ],
+        "target": "ally",
+        "desc": "A divine beacon radiates serenity, soothing you and nearby allies. You can touch the font as an Interact action; if you do so, the spell attempts to counteract one emotion effect affecting the ally of your choice, after which that emotion effect is temporarily immune for 1 day. If the spell succeeds at the counteract check, it removes the emotion effect from your ally, though not from any other creatures the effect might be affecting.",
+        "gainConditions": [
+            {
+                "duration": -5,
+                "name": "Font of Serenity Counteract Immunity",
+                "source": "Font of Serenity: Touch the Font"
+            }
+        ]
+    },
+    {
+        "name": "Positive Luminance: Increase Reservoir",
+        "actions": "Free",
+        "target": "self",
+        "desc": "At the start of each of your turns, you can use a free action to increase the luminance reservoir by <var>var1</var>. If you do, the radius of your light increases by 10 feet.",
+        "gainConditions": [
+            {
+                "addValue": 1,
+                "increaseRadius": 10,
+                "duration": 0,
+                "name": "Positive Luminance",
+                "source": "Positive Luminance: Increase Reservoir"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 4,
+                "descs": [
+                    {
+                        "value": "4",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 5,
+                "descs": [
+                    {
+                        "value": "5",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "7",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "8",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "9",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "10",
+                        "variable": "var1"
                     }
                 ]
             }

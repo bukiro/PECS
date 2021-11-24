@@ -12,6 +12,8 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { ToastService } from './toast.service';
 import { CustomEffectsService } from './customEffects.service';
 import { RefreshService } from './refresh.service';
+import { ConditionGain } from './ConditionGain';
+import { Creature } from './Creature';
 
 @Injectable({
     providedIn: 'root'
@@ -39,29 +41,32 @@ export class TimeService {
     }
 
     start_Turn(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, effectsService: EffectsService) {
-
         //Apply Fast Healing.
         let fastHealing: number = 0;
         if (!characterService.get_Character().settings.manualMode) {
             characterService.get_Creatures().forEach(creature => {
+
                 effectsService.get_AbsolutesOnThis(creature, "Fast Healing").forEach((effect: Effect) => {
                     fastHealing = parseInt(effect.setValue);
                 })
                 effectsService.get_RelativesOnThis(creature, "Fast Healing").forEach((effect: Effect) => {
                     fastHealing += parseInt(effect.value);
                 })
-                if (fastHealing && creature.health.currentHP(creature, characterService, effectsService).result > 0) {
-                    this.refreshService.set_ToChange(creature.type, "health");
-                    creature.health.heal(creature, characterService, effectsService, fastHealing);
-                    this.toastService.show((creature.type == "Character" ? "You" : (creature.name ? creature.name : "Your " + creature.type.toLowerCase())) + " gained " + (fastHealing).toString() + " HP from fast healing.")
+                if (!this.effectsService.get_EffectsOnThis(creature, "Time Stop").length) {
+                    if (fastHealing && creature.health.currentHP(creature, characterService, effectsService).result > 0) {
+                        this.refreshService.set_ToChange(creature.type, "health");
+                        creature.health.heal(creature, characterService, effectsService, fastHealing);
+                        this.toastService.show((creature.type == "Character" ? "You" : (creature.name ? creature.name : "Your " + creature.type.toLowerCase())) + " gained " + (fastHealing).toString() + " HP from fast healing.")
+                    }
                 }
+
             })
         }
 
         this.tick(characterService, conditionsService, itemsService, spellsService, 5);
 
         //If the character is in a party and sendTurnStartMessage is set, send a turn end event to all your party members.
-        let character = characterService.get_Character();
+        const character = characterService.get_Character();
         if (character.partyName && character.settings.sendTurnStartMessage && !character.settings.sendTurnEndMessage) {
             characterService.send_TurnChangeToPlayers();
         }
@@ -73,7 +78,7 @@ export class TimeService {
         this.tick(characterService, conditionsService, itemsService, spellsService, 5);
 
         //If the character is in a party and sendTurnEndMessage is set, send a turn end event to all your party members.
-        let character = characterService.get_Character();
+        const character = characterService.get_Character();
         if (character.partyName && character.settings.sendTurnStartMessage && character.settings.sendTurnEndMessage) {
             characterService.send_TurnChangeToPlayers();
         }
@@ -184,26 +189,45 @@ export class TimeService {
 
     tick(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, turns: number = 10, reload: boolean = true) {
         characterService.get_Creatures().forEach(creature => {
-            //Tick activities before conditions because activities can end conditions, which might go wrong if the condition has already ended (particularly where cooldowns are concerned).
-            this.activitiesService.tick_Activities(creature, characterService, conditionsService, itemsService, spellsService, turns)
-            if (creature.conditions.length) {
-                if (creature.conditions.filter(gain => gain.nextStage > 0)) {
-                    this.refreshService.set_ToChange(creature.type, "time");
-                    this.refreshService.set_ToChange(creature.type, "health");
+            //If any conditions are currently stopping time, process these first before continuing with the rest.
+            const timeStopDurations: number[] = creature.conditions.filter(gain => gain.apply && conditionsService.get_ConditionFromName(gain.name).get_IsStoppingTime(gain)).map(gain => gain.duration);
+            //If any time stopping condition is permanent, no time passes at all.
+            if (!timeStopDurations.includes(-1)) {
+                let timeStopDuration: number = Math.max(0, ...timeStopDurations);
+                //Round the duration up to half turns, but no longer than the entered amount of turns.
+                timeStopDuration = Math.min(Math.ceil(timeStopDuration / 5) * 5, turns);
+                if (timeStopDuration) {
+                    if (creature.conditions.filter(gain => gain.nextStage > 0)) {
+                        this.refreshService.set_ToChange(creature.type, "time");
+                        this.refreshService.set_ToChange(creature.type, "health");
+                    }
+                    conditionsService.tick_Conditions(creature, timeStopDuration, this.yourTurn, characterService, itemsService);
+                    this.refreshService.set_ToChange(creature.type, "effects")
                 }
-                conditionsService.tick_Conditions(creature, turns, this.yourTurn);
-                this.refreshService.set_ToChange(creature.type, "effects")
-            }
-            this.customEffectsService.tick_CustomEffects(creature, turns);
-            if (creature.type != "Familiar") {
-                itemsService.tick_Items((creature as AnimalCompanion | Character), characterService, turns);
-            }
-            if (creature.type == "Character") {
-                spellsService.tick_Spells((creature as Character), characterService, itemsService, conditionsService, turns);
-            }
-            //If you are at full health and rest for 10 minutes, you lose the wounded condition.
-            if (turns >= 1000 && characterService.get_Health(creature).damage == 0) {
-                characterService.get_AppliedConditions(creature, "Wounded").forEach(gain => characterService.remove_Condition(creature, gain, false));
+                const creatureTurns = turns - timeStopDuration;
+                if (creatureTurns > 0) {
+                    //Tick activities before conditions because activities can end conditions, which might go wrong if the condition has already ended (particularly where cooldowns are concerned).
+                    this.activitiesService.tick_Activities(creature, characterService, conditionsService, itemsService, spellsService, creatureTurns)
+                    if (creature.conditions.length) {
+                        if (creature.conditions.filter(gain => gain.nextStage > 0)) {
+                            this.refreshService.set_ToChange(creature.type, "time");
+                            this.refreshService.set_ToChange(creature.type, "health");
+                        }
+                        conditionsService.tick_Conditions(creature, creatureTurns, this.yourTurn, characterService, itemsService);
+                        this.refreshService.set_ToChange(creature.type, "effects")
+                    }
+                    this.customEffectsService.tick_CustomEffects(creature, creatureTurns);
+                    if (creature.type != "Familiar") {
+                        itemsService.tick_Items((creature as AnimalCompanion | Character), characterService, creatureTurns);
+                    }
+                    if (creature.type == "Character") {
+                        spellsService.tick_Spells((creature as Character), characterService, itemsService, conditionsService, creatureTurns);
+                    }
+                    //If you are at full health and rest for 10 minutes, you lose the wounded condition.
+                    if (creatureTurns >= 1000 && characterService.get_Health(creature).damage == 0) {
+                        characterService.get_AppliedConditions(creature, "Wounded").forEach(gain => characterService.remove_Condition(creature, gain, false));
+                    }
+                }
             }
         })
         this.yourTurn = (this.yourTurn + turns) % 10;
@@ -221,7 +245,7 @@ export class TimeService {
             return inASentence ? "permanently" : "Permanent";
         } else if (duration == 2) {
             return inASentence ? "until another character's turn" : "Ends on another character's turn";
-        } else if (duration == 1) {
+        } else if ([1,3].includes(duration)) {
             return inASentence ? "until resolved" : "Until resolved";
         } else {
             let returnString: string = ""
@@ -271,6 +295,40 @@ export class TimeService {
             }
             return returnString.trim();
         }
+    }
+
+    get_Waiting(duration: number, services: { characterService: CharacterService, conditionsService: ConditionsService }, options: { includeResting: boolean }) {
+        let result: string = "";
+        const characterService = services.characterService;
+        const conditionsService = services.conditionsService;
+        const effectsService = this.effectsService;
+        function AfflictionOnsetsWithinDuration(creature: Creature): boolean {
+            return characterService.get_AppliedConditions(creature, "", "", true).some(gain => (!conditionsService.get_ConditionFromName(gain.name).automaticStages && gain.nextStage < duration && gain.nextStage > 0) || gain.nextStage == -1 || gain.durationIsInstant)
+        }
+        function TimeStopConditionsActive(creature: Creature): boolean {
+            return characterService.get_AppliedConditions(creature, "", "", true).some(gain => conditionsService.get_ConditionFromName(gain.name).stopTimeChoiceFilter.some(filter => [gain.choice, "All"].includes(filter)))
+        }
+        function MultipleTempHPAvailable(creature: Creature): boolean {
+            return characterService.get_Health(creature).temporaryHP.length > 1;
+        }
+        function RestingBlockingEffectsActive(creature: Creature): boolean {
+            return effectsService.get_EffectsOnThis(creature, "Resting Blocked").some(effect => !effect.ignored);
+        }
+        characterService.get_Creatures().forEach(creature => {
+            if (AfflictionOnsetsWithinDuration(creature)) {
+                result = "One or more conditions" + (creature.type != "Character" ? " on your " + creature.type : "") + " need to be resolved before you can rest.";
+            }
+            if (TimeStopConditionsActive(creature)) {
+                result = "Time is stopped for " + (creature.type != "Character" ? " your " + creature.type : " you") + ", and you cannot rest until this effect has ended."
+            }
+            if (MultipleTempHPAvailable(creature)) {
+                result = "You need to select one set of temporary Hit Points" + (creature.type != "Character" ? " on your " + creature.type : "") + " before you can rest.";
+            }
+            if (options.includeResting && RestingBlockingEffectsActive(creature)) {
+                result = "An effect" + (creature.type != "Character" ? " on your " + creature.type : "") + " is keeping you from resting."
+            }
+        })
+        return result;
     }
 
 }

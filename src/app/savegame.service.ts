@@ -491,20 +491,6 @@ export class SavegameService {
                 character.customFeats = character.customFeats.filter(feat => feat.name != "DELETE THIS");
             }
 
-            //endsWithConditions changes from a string to an object on condition gains with 1.0.12. Existing condition gains on creatures need to be patched.
-            if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 12) {
-                [character as Creature].concat(character.class.animalCompanion as Creature).concat(character.class.familiar as Creature).forEach(creature => {
-                    creature?.conditions?.forEach(gain => {
-                        //Read endsWithConditions blindly because it is assumed not to be a string. If it is a string after all, change it to a suitable object.
-                        gain["endsWithConditions"].forEach((endsWith, index) => {
-                            if (typeof endsWith === "string") {
-                                gain.endsWithConditions[index] = { name: endsWith, source: "" };
-                            }
-                        })
-                    })
-                })
-            }
-
         }
 
         return character;

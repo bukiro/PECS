@@ -93,7 +93,7 @@ export class Trait {
                     let affected: string = effect.affected;
                     //Effects that have no value get ignored.
                     if (setValue || parseInt(value) != 0) {
-                        resultingEffects.push(new Effect(target, type, affected, value, setValue, false, "", "conditional, " + this.name, penalty, undefined, show, 0, 0, []));
+                        resultingEffects.push(Object.assign(new Effect(value), { creature: target, type: type, target: affected, setValue: setValue, toggle: false, source: "conditional, " + this.name, penalty: penalty, show: show }));
                     }
                 })
                 return resultingEffects;

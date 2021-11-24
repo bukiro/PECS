@@ -63,6 +63,14 @@ export class SpellTargetComponent implements OnInit {
         public modal: NgbActiveModal
     ) { }
 
+    public get action() {
+        return this.spell || this.activity;
+    }
+
+    public get actionGain() {
+        return this.parentActivityGain || this.gain;
+    }
+
     trackByIndex(index: number, obj: any): any {
         return index;
     }
@@ -184,6 +192,75 @@ export class SpellTargetComponent implements OnInit {
         )
     }
 
+    private gainActive(): boolean {
+        return this.actionGain.active;
+    }
+
+    private cannotTargetCaster(): boolean {
+        return (this.action.cannotTargetCaster && this.action.target != 'self');
+    }
+
+    private isHostile(ignoreOverride: boolean = false): boolean {
+        return this.action.get_IsHostile(ignoreOverride);
+    }
+
+    private canTarget(list: string[]): boolean {
+        return list.includes(this.action.target)
+    }
+
+    public can_TargetSelf(): boolean {
+        return (
+            !this.gainActive() &&
+            !this.cannotTargetCaster() &&
+            this.canTarget(["self", "ally"]) &&
+            !this.isHostile(true)
+        )
+    }
+
+    public can_TargetCharacter(): boolean {
+        return (
+            !this.gainActive() &&
+            this.creature != 'Character' &&
+            this.canTarget(["ally"]) &&
+            !this.isHostile(true)
+        )
+    }
+
+    public can_TargetCompanion(): boolean {
+        return (
+            !this.gainActive() &&
+            this.creature != 'Companion' &&
+            this.canTarget(["companion"]) &&
+            this.get_CompanionAvailable() &&
+            !this.isHostile(true)
+        )
+    }
+
+    public can_TargetFamiliar(): boolean {
+        return (
+            !this.gainActive() &&
+            this.creature != 'Familiar' &&
+            this.canTarget(["familiar"]) &&
+            this.get_FamiliarAvailable() &&
+            !this.isHostile(true)
+        )
+    }
+
+    public can_TargetAlly(targetNumber: number): boolean {
+        return (
+            !this.gainActive() &&
+            targetNumber != 0 &&
+            !this.isHostile(true)
+        )
+    }
+
+    public can_Cast(): boolean {
+        return (
+            !this.gainActive() &&
+            this.canTarget(['ally', 'area', 'minion', 'object', 'other'])
+        )
+    }
+
     open_SpellTargetModal(content) {
         this.modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then((result) => {
             if (result == "Cast click") {
@@ -221,19 +298,13 @@ export class SpellTargetComponent implements OnInit {
         return this.gain.targets;
     }
 
-    on_SelectAllTargets(targetNumber: number, checked: boolean) {
+    on_SelectAllTargets(checked: boolean) {
         if (checked) {
-            if (targetNumber == -1) {
-                this.gain.targets.forEach(target => {
-                    if (!target.isPlayer || !(this.spell || this.activity).cannotTargetCaster) {
-                        target.selected = true;
-                    }
-                })
-            } else {
-                for (let index = 0 + ((this.spell || this.activity).cannotTargetCaster ? 1 : 0); index < Math.min(targetNumber + ((this.spell || this.activity).cannotTargetCaster ? 1 : 0), this.gain.targets.length); index++) {
-                    this.gain.targets[index].selected = true;
+            this.gain.targets.forEach(target => {
+                if (!target.isPlayer || !(this.spell || this.activity).cannotTargetCaster) {
+                    target.selected = true;
                 }
-            }
+            })
         } else {
             this.gain.targets.forEach(target => {
                 target.selected = false;

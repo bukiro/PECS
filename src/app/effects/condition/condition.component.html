@@ -8,9 +8,8 @@
                     <label for="{{conditionGain.id+'notes'}}" [ngbTooltip]="'Edit notes'">
                         <i class='bi-pencil-square'></i>&nbsp;
                     </label>
-                    <strong class="no-shadow"
-                        [ngClass]="condition.buff ? 'bonus' : 'penalty'">{{conditionGain.name}}{{conditionGain.choice ?
-                        ": " : ""}}
+                    <strong class="no-shadow" [ngClass]="condition.buff ? 'bonus' : 'penalty'">
+                        {{conditionGain.name}}{{conditionGain.choice ? ": " : ""}}
                         <input id="{{conditionGain.id+'choice'}}" class="invisible" type="checkbox"
                             [(ngModel)]="conditionGain.showChoices"
                             *ngIf="(choices.length || conditionGain.name == 'Persistent Damage') && !conditionGain.choiceLocked">
@@ -19,7 +18,7 @@
                             *ngIf="(choices.length || conditionGain.name == 'Persistent Damage') && !conditionGain.choiceLocked">
                             <i class='bi-list-stars'></i>
                             <span *ngIf="conditionGain.choice && !conditionGain.showChoices">
-                                &nbsp;{{conditionGain.choice}}
+                                {{conditionGain.choice}}
                             </span>
                         </label>
                         <app-quickdice *ngIf="conditionGain.name == 'Persistent Damage' && conditionGain.choice"
@@ -75,12 +74,12 @@
                 *ngIf="!((conditionGain.lockedByParent || conditionGain.valueLockedByParent) && conditionGain.parentID)"
                 [ngbTooltip]="conditionGain.source.includes('Feat: ') ? 'Conditions gained from feats cannot be removed.' : ''">
                 <button (click)="remove_Condition(conditionGain)" [disabled]="conditionGain.source.includes('Feat: ')"
-                    *ngIf="conditionGain.duration != 1">
+                    *ngIf="!conditionGain.durationIsInstant">
                     Remove
                 </button>
                 <button (click)="remove_Condition(conditionGain)"
                     [ngbTooltip]="'This condition should be resolved immediately and then ended.'"
-                    *ngIf="conditionGain.duration == 1">
+                    *ngIf="conditionGain.durationIsInstant">
                     Done
                 </button>
             </span>
@@ -164,9 +163,17 @@
             </span>
         </div>
         <div class="newrow left-aligned lower" *ngIf="get_IsInformationalCondition()">
-            <span
+            <span class="gap-text"
                 [ngbTooltip]="'This condition has no numeral effects and is currently not causing any other conditions.'">
+                <i class="bi-info-circle"></i>
                 <strong>Informational</strong>
+            </span>
+        </div>
+        <div class="newrow left-aligned lower" *ngIf="condition.get_IsStoppingTime(conditionGain)">
+            <span class="gap-text"
+                [ngbTooltip]="'This condition is currently keeping time from passing for the character. This affects every elapsing duration, expiration or cooldown except for the duration of this condition.'">
+                <i class="ra ra-hourglass"></i>
+                <strong>Stopping time</strong>
             </span>
         </div>
         <div class="newrow left-aligned lower" *ngIf="conditionGain.radius">
@@ -182,42 +189,48 @@
                     *ngIf="(condition.allowRadiusChange || conditionGain.showRadius) && conditionGain.radius">+5</button>
             </span>
         </div>
-        <div class="newrow" *ngIf="conditionGain.nextStage > 0">
-            <span>
-                <strong>Affliction onset&nbsp;</strong>{{get_Duration(conditionGain.nextStage)}}
-            </span>
-        </div>
-        <div class="newrow" *ngIf="conditionGain.nextStage == -1 && conditionGain.choice && choices.length">
-            <div class="list-item lower newrow problem">
-                <strong class="no-shadow">Affliction onset reached</strong>
-                <div class="newrow left-aligned">
-                    <p>Make {{condition.traits.includes("Virulent") ? "two saving throws" : "a saving throw"}} to
-                        determine the next stage of the affliction.</p>
+        <ng-container *ngIf="!condition.automaticStages">
+            <div class="newrow" *ngIf="conditionGain.nextStage > 0">
+                <span>
+                    <strong>Affliction onset&nbsp;</strong>{{get_Duration(conditionGain.nextStage)}}
+                </span>
+            </div>
+            <div class="newrow" *ngIf="conditionGain.nextStage == -1 && conditionGain.choice && choices.length">
+                <div class="list-item lower newrow problem">
+                    <strong class="no-shadow">Affliction onset reached</strong>
+                    <div class="newrow left-aligned">
+                        <p>Make {{condition.traits.includes("Virulent") ? "two saving throws" : "a saving throw"}} to
+                            determine the next stage of the affliction.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="newrow left-aligned" *ngIf="conditionGain.nextStage != 0 && conditionGain.choice && choices.length">
-            <span
-                *ngIf="choices.indexOf(conditionGain.choice) < 1 || choices[choices.indexOf(conditionGain.choice) - 1] == 'Onset'">
-                <button (click)="remove_Condition(conditionGain)">{{conditionGain.nextStage == -1 ? "Success: " :
-                    ""}}Recover
-                </button>
-            </span>
-            <span
-                *ngIf="choices.indexOf(conditionGain.choice) > 0 && choices[choices.indexOf(conditionGain.choice) - 1] != 'Onset'">
-                <button (click)="change_ConditionStage(conditionGain, condition, choices, -1)">{{conditionGain.nextStage
-                    == -1 ? "Success: " : ""}}Previous stage</button>
-            </span>
-            <span *ngIf="choices.indexOf(conditionGain.choice) < choices.length - 1">
-                <button (click)="change_ConditionStage(conditionGain, condition, choices, 1)">{{conditionGain.nextStage
-                    == -1 ? "Failure: " : ""}}Next stage</button>
-            </span>
-            <span *ngIf="choices.indexOf(conditionGain.choice) == choices.length - 1">
-                <button (click)="change_ConditionStage(conditionGain, condition, choices, 0)">{{conditionGain.nextStage
-                    == -1 ? "Failure: " : ""}}Remain at this stage
-                </button>
-            </span>
-        </div>
+            <div class="newrow left-aligned"
+                *ngIf="conditionGain.nextStage != 0 && conditionGain.choice && choices.length">
+                <span
+                    *ngIf="choices.indexOf(conditionGain.choice) < 1 || choices[choices.indexOf(conditionGain.choice) - 1] == 'Onset'">
+                    <button (click)="remove_Condition(conditionGain)">{{conditionGain.nextStage == -1 ? "Success: " :
+                        ""}}Recover
+                    </button>
+                </span>
+                <span
+                    *ngIf="choices.indexOf(conditionGain.choice) > 0 && choices[choices.indexOf(conditionGain.choice) - 1] != 'Onset'">
+                    <button
+                        (click)="change_ConditionStage(conditionGain, condition, choices, -1)">{{conditionGain.nextStage
+                        == -1 ? "Success: " : ""}}Previous stage</button>
+                </span>
+                <span *ngIf="choices.indexOf(conditionGain.choice) < choices.length - 1">
+                    <button
+                        (click)="change_ConditionStage(conditionGain, condition, choices, 1)">{{conditionGain.nextStage
+                        == -1 ? "Failure: " : ""}}Next stage</button>
+                </span>
+                <span *ngIf="choices.indexOf(conditionGain.choice) == choices.length - 1">
+                    <button
+                        (click)="change_ConditionStage(conditionGain, condition, choices, 0)">{{conditionGain.nextStage
+                        == -1 ? "Failure: " : ""}}Remain at this stage
+                    </button>
+                </span>
+            </div>
+        </ng-container>
         <div class="newrow" *ngIf="condition.inputRequired && !conditionGain.acknowledgedInputRequired">
             <div class="list-item lower newrow problem">
                 <strong class="no-shadow">Player input required:</strong>

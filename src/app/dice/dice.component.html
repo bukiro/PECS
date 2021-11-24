@@ -133,6 +133,7 @@
                     <header class="sectionHeader">Clear all</header>
                 </button>
             </div>
+            <header class="sectionHeader">Health Operations</header>
             <ng-container *ngFor="let creatureType of ['Character','Companion','Familiar']; trackBy:trackByIndex">
                 <div class="newrow center-aligned"
                     *ngFor="let creature of get_Creature(creatureType); trackBy:trackByIndex">
@@ -151,7 +152,7 @@
                         <i class="ra ra-raven desktop-hide" *ngIf="creatureType=='Familiar'"></i>
                     </button>
                     <button class="center-aligned" (click)="set_TempHP(creature)">
-                        <span class="mobile-hide">Temp HP for {{creature.name || creatureType}}</span>
+                        <span class="mobile-hide">Set as Temp HP for {{creature.name || creatureType}}</span>
                         <i class="ra ra-health-increase desktop-hide"></i>
                         <i class="ra ra-player desktop-hide" *ngIf="creatureType=='Character'"></i>
                         <i class="ra ra-wolf-howl desktop-hide" *ngIf="creatureType=='Companion'"></i>

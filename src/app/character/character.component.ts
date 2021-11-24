@@ -137,12 +137,15 @@ export class CharacterComponent implements OnInit {
             this.showList = name;
             this.showContentLevelNumber = levelNumber;
             this.showContent = content;
+            this.reset_ChoiceArea();
         }
-        this.reset_ChoiceArea();
     }
 
     reset_ChoiceArea() {
-        document.getElementById("character-choiceArea-top").scrollIntoView({ behavior: 'smooth' });
+        //Scroll up to the top of the choice area. This is only needed in desktop mode, where you can switch between choices without closing the first.
+        if (this.characterService.get_Mobile()) {
+            document.getElementById("character-choiceArea-top").scrollIntoView({ behavior: 'smooth' });
+        }
     }
 
     receive_ChoiceMessage(message: { name: string, levelNumber: number, choice: SkillChoice }) {
@@ -491,7 +494,7 @@ export class CharacterComponent implements OnInit {
         let newLevel = character.level;
         //If we went up levels, repeat any onceEffects of Feats that apply inbetween, such as recovering Focus Points for a larger Focus Pool
         if (newLevel > oldLevel) {
-            this.get_CharacterFeatsAndFeatures().filter(feat => feat.onceEffects.length && feat.have(character, this.characterService, newLevel, true, false, oldLevel))
+            this.get_CharacterFeatsAndFeatures().filter(feat => feat.onceEffects.length && feat.have(character, this.characterService, newLevel, true, false, oldLevel + 1))
                 .forEach(feat => {
                     feat.onceEffects.forEach(effect => {
                         this.characterService.process_OnceEffect(character, effect);
@@ -1096,7 +1099,10 @@ export class CharacterComponent implements OnInit {
     get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, filter: string = "", automatic: boolean = undefined) {
         let character = this.get_Character();
         return this.characterService.get_CharacterFeatsTaken(minLevelNumber, maxLevelNumber, featName, source, sourceId, locked, undefined, undefined, automatic)
-            .filter(taken => filter == "feature" ? taken.source == character.class.name : (filter == "feat" ? taken.source != character.class.name : true));
+            .filter(taken =>
+                !filter ||
+                (filter == "feature") == (taken.source == character.class.name || (taken.locked && taken.source.includes(" Dedication")))
+            );
     }
 
     get_Classes(name: string = "") {
@@ -1188,7 +1194,8 @@ export class CharacterComponent implements OnInit {
                 (
                     deity.name.toLowerCase().includes(wordFilter) ||
                     deity.desc.toLowerCase().includes(wordFilter) ||
-                    deity.domains.some(domain => domain.toLowerCase().includes(wordFilter))
+                    deity.domains.some(domain => domain.toLowerCase().includes(wordFilter)) ||
+                    deity.alternateDomains.some(domain => domain.toLowerCase().includes(wordFilter))
                 )
             )
         ).sort(function (a, b) {

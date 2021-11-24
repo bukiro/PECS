@@ -50,10 +50,7 @@ import { Ammunition } from './Ammunition';
 import { Shield } from './Shield';
 import { AlchemicalBomb } from './AlchemicalBomb';
 import { Snare } from './Snare';
-import { AlchemicalPoison } from './AlchemicalPoison';
 import { OtherConsumableBomb } from './OtherConsumableBomb';
-import { AdventuringGear } from './AdventuringGear';
-import { Hint } from './Hint';
 import { Creature } from './Creature';
 import { LanguageGain } from './LanguageGain';
 import { ConfigService } from './config.service';
@@ -1353,11 +1350,12 @@ export class CharacterService {
                 conditionGain.notes = originalCondition.notes;
                 conditionGain.showNotes = conditionGain.notes && true;
                 let newLength: number = 0;
-                if (conditionGain.addValue) {
+                if (conditionGain.addValue || conditionGain.increaseRadius) {
                     let existingConditions = creature.conditions.filter(gain => gain.name == conditionGain.name);
                     if (existingConditions.length) {
                         existingConditions.forEach(gain => {
                             gain.value += conditionGain.addValue;
+                            gain.radius = Math.max(0, gain.radius + conditionGain.increaseRadius);
                             if (conditionGain.addValueUpperLimit) {
                                 gain.value = Math.min(gain.value, conditionGain.addValueUpperLimit);
                             }
@@ -1388,13 +1386,17 @@ export class CharacterService {
                                 conditionGain.value = Math.max(conditionGain.value, conditionGain.addValueLowerLimit);
                             }
                         }
+                        if (!conditionGain.radius) {
+                            conditionGain.radius = conditionGain.increaseRadius;
+                        }
                         if (conditionGain.value > 0) {
                             newLength = creature.conditions.push(conditionGain);
                         }
                     }
                 } else {
                     //Don't add permanent persistent conditions without a value if the same condition already exists with these parameters.
-                    if (!(!conditionGain.value && conditionGain.persistent && conditionGain.duration == -1 && this.get_AppliedConditions(creature, "", "", true).some(existingGain => existingGain.name == conditionGain.name && !existingGain.value && existingGain.persistent && existingGain.duration == -1))) {
+                    //These will not automatically go away because they are persistent, so we don't need multiple instances of them.
+                    if (!(!conditionGain.value && conditionGain.persistent && conditionGain.durationIsPermanent && this.get_AppliedConditions(creature, "", "", true).some(existingGain => existingGain.name == conditionGain.name && !existingGain.value && existingGain.persistent && existingGain.durationIsPermanent))) {
                         newLength = creature.conditions.push(conditionGain);
                     }
                 }
@@ -1434,7 +1436,7 @@ export class CharacterService {
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
         //If this condition is locked by its parent, it can't be removed.
         if (oldConditionGain && (ignoreLockedByParent || !oldConditionGain.lockedByParent)) {
-            if (oldConditionGain.nextStage || oldConditionGain.duration == 1) {
+            if (oldConditionGain.nextStage || oldConditionGain.durationIsInstant) {
                 this.refreshService.set_ToChange(creature.type, "time");
                 this.refreshService.set_ToChange(creature.type, "health");
             }
@@ -1561,7 +1563,7 @@ export class CharacterService {
             let removed: boolean = false;
             this.get_Creatures().forEach(creature => {
                 this.get_AppliedConditions(creature)
-                    .filter(existingConditionGain => existingConditionGain.foreignPlayerId == senderId && existingConditionGain.duration == 2)
+                    .filter(existingConditionGain => existingConditionGain.foreignPlayerId == senderId && existingConditionGain.durationDependsOnOther)
                     .forEach(existingConditionGain => {
                         removed = this.remove_Condition(creature, existingConditionGain, false);
                         if (removed) {
@@ -2007,7 +2009,7 @@ export class CharacterService {
                     if (result.unconsciousAdded) {
                         results = " " + recipientName + " " + recipientIs + " now Unconscious."
                     }
-                    if (result.dyingAdded) {
+                    if (result.dyingAdded && effectGain.source != "Dead") {
                         results = " " + recipientName2 + " " + recipientIs + " now Dying " + result.dyingAdded + "."
                     }
                     if (result.wokeUp) {
@@ -2132,7 +2134,12 @@ export class CharacterService {
         this.get_AppliedConditions(creature).filter(gain => gain.apply).forEach(gain => {
             let condition = this.conditionsService.get_Conditions(gain.name)[0]
             if (condition?.senses.length) {
-                senses.push(...condition.senses.filter(sense => !sense.conditionChoiceFilter.length || sense.conditionChoiceFilter.includes(gain.choice)).map(sense => sense.name))
+                //Add all non-excluding senses.
+                senses.push(...condition.senses.filter(sense => !sense.excluding && (!sense.conditionChoiceFilter.length || sense.conditionChoiceFilter.includes(gain.choice))).map(sense => sense.name))
+                //Remove all excluding senses.
+                condition.senses.filter(sense => sense.excluding && (!sense.conditionChoiceFilter.length || sense.conditionChoiceFilter.includes(gain.choice))).forEach(sense => {
+                    senses = senses.filter(existingSense => existingSense != sense.name);
+                })
             }
         });
         return Array.from(new Set(senses));
@@ -2490,6 +2497,10 @@ export class CharacterService {
 
     get_AC() {
         return this.defenseService.get_AC();
+    }
+
+    get_Mobile() {
+        return (window.innerWidth < 992);
     }
 
     set_ToChangeByEffectTargets(creature: Creature, targets: string[]) {

@@ -44,6 +44,6 @@ export class ActivityGain {
         return this;
     }
     get_OriginalActivity(activitiesService: ActivitiesService) {
-        return activitiesService.get_Activities(this.name)[0];
+        return activitiesService.get_ActivityFromName(this.name);
     }
 }

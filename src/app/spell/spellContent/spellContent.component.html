@@ -37,6 +37,12 @@
         {{spell.cost}}
     </ng-container>
 </div>
+<div class="newrow left-aligned" *ngIf="spell.requirements">
+    <span>
+        <strong>Requirements</strong>
+        {{spell.requirements}}
+    </span>
+</div>
 <div class="newrow left-aligned" *ngIf="spell.trigger">
     <span>
         <strong>Trigger</strong>

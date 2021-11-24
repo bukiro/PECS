@@ -266,6 +266,9 @@ export class RefreshService {
         const healthWildcard: string[] = ["Resistance", "Immunity"].map(name => name.toLowerCase());
         const defense: string[] = ["AC", "Saving Throws", "Fortitude", "Reflex", "Will", "Dexterity-based Checks and DCs", "Constitution-based Checks and DCs",
             "Wisdom-based Checks and DCs", "All Checks and DCs", "Ignore Armor Penalty", "Ignore Armor Speed Penalty", "Proficiency Level", "Dexterity Modifier Cap"].map(name => name.toLowerCase());
+        const fortitude: string[] = ["Constitution-based Checks and DCs"].map(name => name.toLowerCase());
+        const reflex: string[] = ["Dexterity-based Checks and DCs"].map(name => name.toLowerCase());
+        const will: string[] = ["Wisdom-based Checks and DCs"].map(name => name.toLowerCase());
         const defenseWildcard: string[] = ["Proficiency Level"].map(name => name.toLowerCase());
         const attacks: string[] = ["Damage Rolls", "Dexterity-based Checks and DCs", "Strength-based Checks and DCs", "All Checks and DCs",
             "Unarmed Damage per Die", "Weapon Damage per Die"].map(name => name.toLowerCase());
@@ -289,9 +292,13 @@ export class RefreshService {
             }
             if (abilities.includes(lowerCaseTarget)) {
                 this.set_ToChange(context.creature.type, "abilities");
+                this.set_ToChange(context.creature.type, "skills");
+                this.set_ToChange(context.creature.type, "effects");
             }
             abilitiesWildcard.filter(name => lowerCaseTarget.includes(name)).forEach(name => {
-                this.set_ToChange(context.creature.type, "individualskills", name);
+                this.set_ToChange(context.creature.type, "abilities");
+                this.set_ToChange(context.creature.type, "skills");
+                this.set_ToChange(context.creature.type, "effects");
             });
             if (health.includes(lowerCaseTarget) || healthWildcard.some(name => lowerCaseTarget.includes(name))) {
                 this.set_ToChange(context.creature.type, "health");
@@ -308,6 +315,15 @@ export class RefreshService {
             }
             if (individualskills.includes(lowerCaseTarget)) {
                 this.set_ToChange(context.creature.type, "individualskills", lowerCaseTarget);
+            }
+            if (fortitude.includes(lowerCaseTarget)) {
+                this.set_ToChange(context.creature.type, "individualskills", "fortitude");
+            }
+            if (reflex.includes(lowerCaseTarget)) {
+                this.set_ToChange(context.creature.type, "individualskills", "reflex");
+            }
+            if (will.includes(lowerCaseTarget)) {
+                this.set_ToChange(context.creature.type, "individualskills", "will");
             }
             if (individualSkillsWildcard.some(name => lowerCaseTarget.includes(name))) {
                 this.set_ToChange(context.creature.type, "individualskills", lowerCaseTarget);
@@ -348,12 +364,12 @@ export class RefreshService {
 
         let changedEffects: Effect[] = [];
         //Collect all new feats that don't exist in the old list or old feats that don't exist in the new list - that is, everything that has changed.
-        newEffects.filter(effect => effect.apply && !effect.ignored).forEach(newEffect => {
+        newEffects.forEach(newEffect => {
             if (!oldEffects.some(oldEffect => JSON.stringify(oldEffect) == JSON.stringify(newEffect))) {
                 changedEffects.push(newEffect);
             }
         })
-        oldEffects.filter(effect => effect.apply && !effect.ignored).forEach(oldEffect => {
+        oldEffects.forEach(oldEffect => {
             if (!newEffects.some(newEffect => JSON.stringify(newEffect) == JSON.stringify(oldEffect))) {
                 changedEffects.push(oldEffect);
             }

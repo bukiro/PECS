@@ -18,47 +18,48 @@ export class TraitsService {
         private extensionsService: ExtensionsService
     ) { }
 
-    get_TraitFromName(name: string) {
-        //Returns a named trait from the map.
-        return this.traitsMap.get(name.toLowerCase());
+    get_ReplacementTrait(name?: string): Trait {
+        return Object.assign(new Trait(), { name: "Trait not found", "desc": (name ? name : "The requested trait") + " does not exist in the traits list." });
     }
 
-    get_Traits(traitName: string = "") {
+    get_TraitFromName(name: string): Trait {
+        //Returns a named trait from the map.
+        return this.traitsMap.get(name.toLowerCase()) || this.get_ReplacementTrait(name);
+    }
+
+    get_Traits(traitName: string = ""): Trait[] {
         if (!this.still_loading()) {
             //If only a name is given, try to find a feat by that name in the index map. This should be much quicker.
+            //If no trait is found with that exact name, continue the search, considering composite trait names.
             if (traitName) {
-                let trait = this.get_TraitFromName(traitName);
-                if (trait) {
+                const trait = this.get_TraitFromName(traitName);
+                if (trait?.name == traitName) {
                     return [trait];
                 }
             }
             //Some trait instances have information after the trait name, so we allow traits that are included in the name as long as they have the dynamic attribute.
-            let traits = this.traits
+            const traits = this.traits
                 .filter(trait =>
-                    traitName == "" ||
+                    !traitName ||
                     trait.name == traitName ||
                     (
-                        traitName.includes(trait.name + " ") &&
-                        trait.dynamic
+                        trait.dynamic &&
+                        traitName.includes(trait.name + " ")
+
                     )
                 )
             if (traits.length) {
                 return traits;
-            } else {
-                console.error("Trait missing: " + traitName)
-                return [Object.assign(new Trait(), { name: ("Trait missing: " + traitName), desc: "This trait does not exist in the database." })]
             }
-        } else {
-            return [new Trait()];
         }
+        return [this.get_ReplacementTrait()];
     }
 
-    get_TraitsForThis(creature: Creature, name: string) {
+    get_TraitsForThis(creature: Creature, name: string): Trait[] {
         if (!this.still_loading()) {
             //Return all traits that are set to SHOW ON this named object and that are on any equipped equipment in your inventory
             //uses the haveOn() method of Trait that returns any equipment that has this trait
-            let traits = this.traits;
-            return traits.filter(trait =>
+            return this.traits.filter(trait =>
                 trait.hints.some(hint =>
                     hint.showon.split(",").some(showon =>
                         showon.trim().toLowerCase() == name.toLowerCase() ||
@@ -76,11 +77,11 @@ export class TraitsService {
         }
     }
 
-    still_loading() {
+    still_loading(): boolean {
         return (this.loading);
     }
 
-    initialize() {
+    initialize(): void {
         //Initialize only once.
         if (!this.traits.length) {
             this.loading = true;
@@ -98,7 +99,7 @@ export class TraitsService {
         }
     }
 
-    load_Traits() {
+    load_Traits(): void {
         this.traits = [];
         let data = this.extensionsService.extend(json_traits, "traits");
         Object.keys(data).forEach(key => {

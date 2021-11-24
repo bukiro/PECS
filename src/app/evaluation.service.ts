@@ -169,7 +169,7 @@ export class EvaluationService {
             if (Creature.type == "Familiar") {
                 return null;
             } else {
-                return Creature.inventories[0].wornitems.filter(wornItem => wornItem.can_Invest() ? wornItem.invested : true);
+                return Creature.inventories[0].wornitems.filter(wornItem => wornItem.investedOrEquipped());
             }
         }
         function Has_Feat(creature: string, name: string) {
@@ -207,8 +207,15 @@ export class EvaluationService {
         function Deity() {
             return characterService.get_CharacterDeities(Character)[0];
         }
+        function CleanupLeadingZeroes(text: string) {
+            let cleanedText = text;
+            while (cleanedText[0] == "0" && cleanedText != "0") {
+                cleanedText = cleanedText.substr(1);
+            }
+            return cleanedText;
+        }
         try {
-            const result: number | string | null = eval(formula);
+            const result: number | string | null = eval(CleanupLeadingZeroes(formula));
             if (result == null || typeof result == "string" || typeof result == "number") {
                 return result;
             } else {

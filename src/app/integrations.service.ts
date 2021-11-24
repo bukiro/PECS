@@ -4,6 +4,14 @@ import { QuickdiceComponent } from './dice/quickdice/quickdice.component';
 import { DiceResult } from './DiceResult';
 import { ToastService } from './toast.service';
 
+type FoundryRoll = {
+    class: string,
+    formula: string,
+    terms: (object | string | number)[],
+    results: (string | number)[],
+    _total: number
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -13,9 +21,9 @@ export class IntegrationsService {
         private toastService: ToastService
     ) { }
 
-    prepare_RollForFoundry(diceString: string = "", diceResults: DiceResult[] = []) {
+    prepare_RollForFoundry(diceString: string = "", diceResults: DiceResult[] = []): FoundryRoll|string {
         //Create a readable message for the External Dice Roll API - either a formula string or a fake Roll object - and send it to Foundry.
-        let roll: { class: string, formula: string, terms: (object | string | number)[], results: (string | number)[], _total: number } | string = "";
+        let roll: FoundryRoll|string = "";
         if (diceString) {
             //If a formula is given, just pass the formula.
             roll = diceString;

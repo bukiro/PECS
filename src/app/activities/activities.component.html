@@ -40,7 +40,7 @@
         </div>
         <div class="vlist">
             <header class="subsectionHeader">Actions and Activities</header>
-            <ng-container *ngFor="let activityGains of [get_OwnedActivities()]; trackBy:trackByIndex;">
+            <ng-container *ngFor="let activityGains of [get_OwnedActivities()]; let activityIndex = index; trackBy:trackByIndex;">
                 <div *ngIf="activityGains.length" [ngClass]="{'icon-list':get_TileMode(), 'vlist':!get_TileMode()}">
                     <ng-container *ngFor="let gain of activityGains; trackBy:trackByIndex;">
                         <ng-container
@@ -71,16 +71,15 @@
                                         </app-activity>
                                     </ng-template>
                                     <ng-container *ngIf="!get_TileMode()">
-                                        <div class="list-item"
-                                            *ngFor="let activityID of [get_ID()]; trackBy:trackByIndex;">
+                                        <div class="list-item">
                                             <button class="newrow left-aligned sublist-toggle"
                                                 [ngClass]="{'fancy-button':gain.active, 'inactive-button':((gain.activeCooldown ? (maxCharges == gain.chargesUsed) : false) && !gain.active)}"
-                                                (click)="toggle_Action(activityID)">
+                                                (click)="toggle_Action(activityIndex)">
                                                 <ng-container *ngTemplateOutlet="ActivityTitleTemplate"></ng-container>
                                             </button>
                                             <div class="list-item sublist lower"
                                                 [ngClass]="{'fancy-list':gain.active, 'inactive-list':((gain.activeCooldown ? (maxCharges == gain.chargesUsed) : false) && !gain.active)}"
-                                                *ngIf="get_ShowAction()==activityID">
+                                                *ngIf="get_ShowAction()==activityIndex">
                                                 <ng-container *ngTemplateOutlet="ActivityTemplate"></ng-container>
                                             </div>
                                         </div>

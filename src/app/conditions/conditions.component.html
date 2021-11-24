@@ -140,7 +140,8 @@
                                                                 *ngFor="let valueNumber of [1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
                                                                 [ngValue]="valueNumber"
                                                                 [disabled]="valueNumber < condition.minLevel">
-                                                                {{valueNumber}}
+                                                                {{(valueNumber >= condition.minLevel || valueNumber !=
+                                                                heightened ) ? valueNumber : condition.minLevel}}
                                                             </option>
                                                         </select><br>
                                                     </span>
@@ -382,7 +383,7 @@
                                 </div>
                                 <div class="list-item" style="margin: initial 0"
                                     *ngIf="property.type!='textarea' && property.type!='checkbox'">
-                                    <select class="newrow" [(ngModel)]="newEffect[property.key]"
+                                    <select class="newrow left-aligned" [(ngModel)]="newEffect[property.key]"
                                         [disabled]="!get_Examples(property).length"
                                         (ngModelChange)="validate_AdvancedEffect(property, index)">
                                         <option *ngFor="let example of get_Examples(property); trackBy:trackByIndex;"

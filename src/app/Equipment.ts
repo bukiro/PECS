@@ -33,7 +33,6 @@ export class Equipment extends Item {
     //Is the item currently equipped - items with equippable==false are always equipped
     public equipped: boolean = false;
     //List EffectGain for every Effect that comes from equipping and investing the item
-    //effects get eval'ed, so can use values like "-characterService.get_Character().level"
     public effects: EffectGain[] = [];
     //Amount of propertyRunes you can still apply
     public get freePropertyRunes(): number {
@@ -80,7 +79,7 @@ export class Equipment extends Item {
     public talismans: Talisman[] = [];
     //List any Talisman Cords attached to this item.
     public talismanCords: WornItem[] = [];
-    recast(typeService: TypeService, itemsService: ItemsService) {
+    recast(typeService: TypeService, itemsService: ItemsService): Equipment {
         super.recast(typeService, itemsService);
         this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
         this.activities.forEach(activity => { activity.source = this.id });

@@ -6,6 +6,7 @@ export class ConditionGain {
     public addValue: number = 0;
     public addValueUpperLimit: number = 0;
     public addValueLowerLimit: number = 0;
+    public increaseRadius: number = 0;
     public id = uuidv4();
     public foreignPlayerId: string = "";
     public apply: boolean = true;
@@ -37,8 +38,6 @@ export class ConditionGain {
     public source: string = "";
     public parentID: string = "";
     public value: number = 0;
-    //Remove this condition if any of the endsWithConditions is removed.
-    public endsWithConditions: { name: string, source: string }[] = [];
     //Only activate this condition if this string evaluates to a numeral nonzero value (so use "<evaluation> ? 1 : null"). This is tested at the add_condition stage, so it can be combined with conditionChoiceFilter.
     public activationPrerequisite: string = "";
     //For conditions within conditions, activate this condition only if this choice was made on the original condition.
@@ -99,5 +98,23 @@ export class ConditionGain {
         this.gainActivities = this.gainActivities.map(obj => Object.assign(new ActivityGain(), obj).recast());
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         return this;
+    }
+    get durationIsDynamic() {
+        return this.duration == -5;
+    }
+    get durationIsPermanent() {
+        return this.duration == -1;
+    }
+    get durationIsUntilRest() {
+        return this.duration == -2;
+    }
+    get durationIsUntilRefocus() {
+        return this.duration == -3;
+    }
+    get durationIsInstant() {
+        return [1,3].includes(this.duration);
+    }
+    get durationDependsOnOther() {
+        return this.duration % 5 == 2 || this.duration == 3;
     }
 }

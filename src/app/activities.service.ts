@@ -27,6 +27,7 @@ export class ActivitiesService {
 
     private activities: Activity[] = [];
     private loading: boolean = false;
+    private activitiesMap = new Map<string, Activity>();
 
     constructor(
         private toastService: ToastService,
@@ -34,11 +35,25 @@ export class ActivitiesService {
         private refreshService: RefreshService
     ) { }
 
-    get_Activities(name: string = "") {
+    private get_ReplacementActivity(name?: string): Activity {
+        return Object.assign(new Activity(), { name: "Activity not found", "desc": (name ? name : "The requested activity") + " does not exist in the activities list.", displayOnly: true });
+    }
+
+    get_ActivityFromName(name: string): Activity {
+        //Returns a named activity from the map.
+        return this.activitiesMap.get(name.toLowerCase()) || this.get_ReplacementActivity(name);
+    }
+
+    get_Activities(name: string = ""): Activity[] {
         if (!this.still_loading()) {
-            return this.activities.filter(action => action.name == name || name == "");
+            //If only a name is given, try to find an activity by that name in the index map. This should be much quicker.
+            if (name) {
+                return [this.get_ActivityFromName(name)];
+            } else {
+                return this.activities.filter(action => action.name == name || name == "");
+            }
         } else {
-            return [new Activity()];
+            return [this.get_ReplacementActivity()];
         }
     }
 
@@ -211,8 +226,8 @@ export class ActivitiesService {
                     conditions.forEach((conditionGain, conditionIndex) => {
                         conditionGain.source = activity.name;
                         let newConditionGain = Object.assign(new ConditionGain(), conditionGain).recast();
-                        let condition = conditionsService.get_Conditions(conditionGain.name)[0];
-                        if (condition.endConditions.some(endCondition => endCondition.toLowerCase() == gain.source.toLowerCase())) {
+                        let condition = conditionsService.get_ConditionFromName(conditionGain.name);
+                        if (condition.endConditions.some(endCondition => endCondition.name.toLowerCase() == gain.source.toLowerCase())) {
                             //If any condition ends the condition that this activity came from, close all popovers after the activity is processed. 
                             // This ensures that conditions in stickyPopovers don't remain open even after they have been removed.
                             closePopupsAfterActivation = true;
@@ -280,7 +295,7 @@ export class ActivitiesService {
                             if (condition.minLevel) {
                                 newConditionGain.heightened = newConditionGain.heightened || gain.heightened || condition.minLevel;
                             }
-                            if (newConditionGain.duration == -5) {
+                            if (newConditionGain.durationIsDynamic) {
                                 //If the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
                                 newConditionGain.duration = condition.get_DefaultDuration(newConditionGain.choice, newConditionGain.heightened).duration;
                             }
@@ -350,7 +365,7 @@ export class ActivitiesService {
                             // This allows the condition to persist until after the caster's last turn, simulating that it hasn't been the target's last turn yet.
                             if (conditionGain.targetFilter == "caster") {
                                 conditionTargets = [creature];
-                                if (activity.durationDependsOnTarget && targets.some(target => target instanceof SpellTarget) && newConditionGain.duration >= 0 && newConditionGain.duration % 5 == 0) {
+                                if (activity.durationDependsOnTarget && targets.some(target => target instanceof SpellTarget) && newConditionGain.duration > 0 && !newConditionGain.durationDependsOnOther) {
                                     newConditionGain.duration += 2;
                                 }
                             }
@@ -367,7 +382,7 @@ export class ActivitiesService {
                             if (conditionGain.targetFilter != "caster" && conditionTargets.some(target => target instanceof SpellTarget)) {
                                 //For foreign targets (whose turns don't end when the caster's turn ends), if the spell is not durationDependsOnTarget, and it doesn't have a duration of X+1, add 2 for "until another character's turn".
                                 // This allows the condition to persist until after the target's last turn, simulating that it hasn't been the caster's last turn yet.
-                                if (!activity.durationDependsOnTarget && newConditionGain.duration >= 0 && newConditionGain.duration % 5 == 0) {
+                                if (!activity.durationDependsOnTarget && newConditionGain.duration > 0 && !newConditionGain.durationDependsOnOther) {
                                     newConditionGain.duration += 2;
                                 }
                                 characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget && !creatures.some(creature => creature.id == target.id)) as SpellTarget[], newConditionGain);
@@ -525,6 +540,10 @@ export class ActivitiesService {
         if (!this.activities.length) {
             this.loading = true;
             this.load_Activities();
+            this.activitiesMap.clear();
+            this.activities.forEach(activity => {
+                this.activitiesMap.set(activity.name.toLowerCase(), activity);
+            })
             this.loading = false;
         } else {
             //Disable any active hint effects when loading a character.
