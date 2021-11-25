@@ -491,6 +491,16 @@ export class SavegameService {
                 character.customFeats = character.customFeats.filter(feat => feat.name != "DELETE THIS");
             }
 
+            //Archetype spell choices before 1.0.13 may include a bug concerning the related "... Breadth" feat, where the top 3 spell levels are excluded instead of the top 2.
+            //From the way that spell choices are saved, this needs to be patched on the character.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 13) {
+                character.class.spellCasting.forEach(casting => {
+                    casting.spellChoices.filter(choice => choice.dynamicAvailable.includes("Breadth") && choice.dynamicAvailable.includes("(choice.level >= Highest_Spell_Level() - 2)")).forEach(choice => {
+                        choice.dynamicAvailable = choice.dynamicAvailable.replace("choice.level >= Highest_Spell_Level()", "choice.level > Highest_Spell_Level()");
+                    })
+                })
+            }
+
         }
 
         return character;

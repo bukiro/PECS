@@ -21,7 +21,6 @@ import { AttackRestriction } from 'src/app/classes/AttackRestriction';
 import { Background } from 'src/app/classes/Background';
 import { BloodMagic } from 'src/app/classes/BloodMagic';
 import { Bulk } from 'src/app/classes/Bulk';
-import { Creature } from 'src/app/classes/Creature';
 import { Character } from 'src/app/classes/Character';
 import { Class } from 'src/app/classes/Class';
 import { Condition } from 'src/app/classes/Condition';
@@ -29,6 +28,7 @@ import { ConditionChoice } from 'src/app/classes/ConditionChoice';
 import { ConditionDuration } from 'src/app/classes/ConditionDuration';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Consumable } from 'src/app/classes/Consumable';
+import { Creature } from 'src/app/classes/Creature';
 import { Deity } from 'src/app/classes/Deity';
 import { Effect } from 'src/app/classes/Effect';
 import { EffectGain } from 'src/app/classes/EffectGain';
@@ -54,6 +54,7 @@ import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { Level } from 'src/app/classes/Level';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { Material } from 'src/app/classes/Material';
+import { MaterialItem } from '../classes/MaterialItem';
 import { Oil } from 'src/app/classes/Oil';
 import { OtherConsumable } from 'src/app/classes/OtherConsumable';
 import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
@@ -87,7 +88,6 @@ import { Weapon } from 'src/app/classes/Weapon';
 import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { WornItem } from 'src/app/classes/WornItem';
-import { RefreshService } from 'src/app/services/refresh.service';
 
 @Injectable({
     providedIn: 'root'
@@ -153,6 +153,7 @@ export class TypeService {
             case "Level": return Object.assign(new Level(), obj);
             case "LoreChoice": return Object.assign(new LoreChoice(), obj);
             case "Material": return Object.assign(new Material(), obj);
+            case "MaterialItem": return Object.assign(new MaterialItem(), obj);
             case "Oil": return Object.assign(new Oil(), obj);
             case "OtherConsumable": return Object.assign(new OtherConsumable(), obj);
             case "OtherConsumableBomb": return Object.assign(new OtherConsumableBomb(), obj);

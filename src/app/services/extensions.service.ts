@@ -46,6 +46,7 @@ export class ExtensionsService {
             this.load_Extensions("assets/json/items/armorrunes", "items_armorrunes");
             this.load_Extensions("assets/json/items/armors", "items_armors");
             this.load_Extensions("assets/json/items/helditems", "items_helditems");
+            this.load_Extensions("assets/json/items/materialitems", "items_materialitems");
             this.load_Extensions("assets/json/items/oils", "items_oils");
             this.load_Extensions("assets/json/items/otherconsumables", "items_otherconsumables");
             this.load_Extensions("assets/json/items/otherconsumablesbombs", "items_otherconsumablesbombs");

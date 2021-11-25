@@ -481,7 +481,7 @@
                                                         <button *ngIf="item.invested"
                                                             (click)="on_Invest(item, inventory, false)">Uninvest</button>
                                                     </span>
-                                                    <span *ngIf="item.can_Stack()">
+                                                    <span class="gap-text" *ngIf="item.can_Stack()">
                                                         <button (click)="onAmountChange(item, -1)"
                                                             [disabled]="item.amount <= 0">-1</button>
                                                         <button (click)="onAmountChange(item, 1)">+1</button>
@@ -520,7 +520,7 @@
                                                     </span>
                                                 </div>
                                                 <div class="newrow" *ngIf="get_Price(item) && item.tradeable">
-                                                    <span *ngIf="item.can_Stack()">
+                                                    <span class="gap-text" *ngIf="item.can_Stack()">
                                                         <span
                                                             [ngbTooltip]="(item.broken || item.shoddy) ? 'The item is worthless in this state' : 'Sell at half price'">
                                                             <button (click)="onAmountChange(item, -1, true)"

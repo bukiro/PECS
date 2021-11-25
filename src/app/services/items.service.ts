@@ -1,77 +1,79 @@
 import { Injectable } from '@angular/core';
-import { Weapon } from 'src/app/classes/Weapon';
-import { Armor } from 'src/app/classes/Armor';
-import { Shield } from 'src/app/classes/Shield';
 import { CharacterService } from 'src/app/services/character.service';
-import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { WornItem } from 'src/app/classes/WornItem';
-import { AlchemicalElixir } from 'src/app/classes/AlchemicalElixir';
-import { Consumable } from 'src/app/classes/Consumable';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { OtherConsumable } from 'src/app/classes/OtherConsumable';
-import { AdventuringGear } from 'src/app/classes/AdventuringGear';
-import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { ItemProperty } from 'src/app/classes/ItemProperty';
-import { Item } from 'src/app/classes/Item';
-import { HeldItem } from 'src/app/classes/HeldItem';
-import { v4 as uuidv4 } from 'uuid';
-import { WeaponRune } from 'src/app/classes/WeaponRune';
-import { ArmorRune } from 'src/app/classes/ArmorRune';
-import { Potion } from 'src/app/classes/Potion';
-import { Specialization } from 'src/app/classes/Specialization';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { Character } from 'src/app/classes/Character';
-import { Ammunition } from 'src/app/classes/Ammunition';
-import { SpellChoice } from 'src/app/classes/SpellChoice';
-import { Equipment } from 'src/app/classes/Equipment';
-import { Scroll } from 'src/app/classes/Scroll';
-import { Oil } from 'src/app/classes/Oil';
-import { Talisman } from 'src/app/classes/Talisman';
-import { SpellsService } from 'src/app/services/spells.service';
-import { SpellCast } from 'src/app/classes/SpellCast';
-import { AlchemicalBomb } from 'src/app/classes/AlchemicalBomb';
-import { AlchemicalTool } from 'src/app/classes/AlchemicalTool';
-import { Snare } from 'src/app/classes/Snare';
-import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
-import { AlchemicalPoison } from 'src/app/classes/AlchemicalPoison';
-import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
-import { Wand } from 'src/app/classes/Wand';
 import { ConditionsService } from 'src/app/services/conditions.service';
-import * as json_itemproperties from 'src/assets/json/itemproperties';
-import * as json_armormaterials from 'src/assets/json/armormaterials';
-import * as json_shieldmaterials from 'src/assets/json/shieldmaterials';
-import * as json_weaponmaterials from 'src/assets/json/weaponmaterials';
-import * as json_specializations from 'src/assets/json/specializations';
+import { ExtensionsService } from 'src/app/services/extensions.service';
+import { RefreshService } from 'src/app/services/refresh.service';
+import { SpellsService } from 'src/app/services/spells.service';
+import { ToastService } from 'src/app/services/toast.service';
+import { TypeService } from 'src/app/services/type.service';
+import { AdventuringGear } from 'src/app/classes/AdventuringGear';
+import { AlchemicalBomb } from 'src/app/classes/AlchemicalBomb';
+import { AlchemicalElixir } from 'src/app/classes/AlchemicalElixir';
+import { AlchemicalPoison } from 'src/app/classes/AlchemicalPoison';
+import { AlchemicalTool } from 'src/app/classes/AlchemicalTool';
+import { Ammunition } from 'src/app/classes/Ammunition';
+import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
+import { Armor } from 'src/app/classes/Armor';
+import { ArmorMaterial } from 'src/app/classes/ArmorMaterial';
+import { ArmorRune } from 'src/app/classes/ArmorRune';
+import { Character } from 'src/app/classes/Character';
+import { ConditionGain } from 'src/app/classes/ConditionGain';
+import { Consumable } from 'src/app/classes/Consumable';
+import { Creature } from 'src/app/classes/Creature';
+import { Equipment } from 'src/app/classes/Equipment';
+import { HeldItem } from 'src/app/classes/HeldItem';
+import { Item } from 'src/app/classes/Item';
+import { ItemActivity } from 'src/app/classes/ItemActivity';
+import { ItemCollection } from 'src/app/classes/ItemCollection';
+import { ItemProperty } from 'src/app/classes/ItemProperty';
+import { MaterialItem } from '../classes/MaterialItem';
+import { Oil } from 'src/app/classes/Oil';
+import { OtherConsumable } from 'src/app/classes/OtherConsumable';
+import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
+import { Potion } from 'src/app/classes/Potion';
+import { Rune } from 'src/app/classes/Rune';
+import { Scroll } from 'src/app/classes/Scroll';
+import { Shield } from 'src/app/classes/Shield';
+import { ShieldMaterial } from 'src/app/classes/ShieldMaterial';
+import { Snare } from 'src/app/classes/Snare';
+import { Specialization } from 'src/app/classes/Specialization';
+import { SpellCast } from 'src/app/classes/SpellCast';
+import { SpellChoice } from 'src/app/classes/SpellChoice';
+import { SpellTarget } from 'src/app/classes/SpellTarget';
+import { Talisman } from 'src/app/classes/Talisman';
+import { Wand } from 'src/app/classes/Wand';
+import { Weapon } from 'src/app/classes/Weapon';
+import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
+import { WeaponRune } from 'src/app/classes/WeaponRune';
+import { WornItem } from 'src/app/classes/WornItem';
+import { v4 as uuidv4 } from 'uuid';
 import * as json_adventuringgear from 'src/assets/json/items/adventuringgear';
 import * as json_alchemicalbombs from 'src/assets/json/items/alchemicalbombs';
 import * as json_alchemicalelixirs from 'src/assets/json/items/alchemicalelixirs';
-import * as json_alchemicaltools from 'src/assets/json/items/alchemicaltools';
 import * as json_alchemicalpoisons from 'src/assets/json/items/alchemicalpoisons';
+import * as json_alchemicaltools from 'src/assets/json/items/alchemicaltools';
 import * as json_ammunition from 'src/assets/json/items/ammunition';
+import * as json_armormaterials from 'src/assets/json/armormaterials';
 import * as json_armorrunes from 'src/assets/json/items/armorrunes';
 import * as json_armors from 'src/assets/json/items/armors';
 import * as json_helditems from 'src/assets/json/items/helditems';
+import * as json_itemproperties from 'src/assets/json/itemproperties';
+import * as json_materialitems from 'src/assets/json/items/materialitems';
 import * as json_oils from 'src/assets/json/items/oils';
 import * as json_otherconsumables from 'src/assets/json/items/otherconsumables';
 import * as json_otherconsumablesbombs from 'src/assets/json/items/otherconsumablesbombs';
 import * as json_potions from 'src/assets/json/items/potions';
 import * as json_scrolls from 'src/assets/json/items/scrolls';
+import * as json_shieldmaterials from 'src/assets/json/shieldmaterials';
 import * as json_shields from 'src/assets/json/items/shields';
 import * as json_snares from 'src/assets/json/items/snares';
+import * as json_specializations from 'src/assets/json/specializations';
 import * as json_talismans from 'src/assets/json/items/talismans';
 import * as json_wands from 'src/assets/json/items/wands';
+import * as json_weaponmaterials from 'src/assets/json/weaponmaterials';
 import * as json_weaponrunes from 'src/assets/json/items/weaponrunes';
 import * as json_weapons from 'src/assets/json/items/weapons';
 import * as json_wornitems from 'src/assets/json/items/wornitems';
-import { Creature } from 'src/app/classes/Creature';
-import { ToastService } from 'src/app/services/toast.service';
-import { ArmorMaterial } from 'src/app/classes/ArmorMaterial';
-import { ShieldMaterial } from 'src/app/classes/ShieldMaterial';
-import { SpellTarget } from 'src/app/classes/SpellTarget';
-import { ExtensionsService } from 'src/app/services/extensions.service';
-import { TypeService } from 'src/app/services/type.service';
-import { Rune } from 'src/app/classes/Rune';
-import { RefreshService } from 'src/app/services/refresh.service';
 
 @Injectable({
     providedIn: 'root'
@@ -190,48 +192,50 @@ export class ItemsService {
     cast_ItemByType(item: Item, type: string = item.type) {
         if (type) {
             switch (type) {
-                case "weapons":
-                    return Object.assign(new Weapon(), item);
-                case "armors":
-                    return Object.assign(new Armor(), item);
-                case "shields":
-                    return Object.assign(new Shield(), item);
-                case "wornitems":
-                    return Object.assign(new WornItem(), item);
-                case "helditems":
-                    return Object.assign(new HeldItem(), item);
-                case "alchemicalelixirs":
-                    return Object.assign(new AlchemicalElixir(), item);
+                case "adventuringgear":
+                    return Object.assign(new AdventuringGear(), item);
                 case "alchemicalbombs":
                     return Object.assign(new AlchemicalBomb(), item);
+                case "alchemicalelixirs":
+                    return Object.assign(new AlchemicalElixir(), item);
                 case "alchemicalpoisons":
                     return Object.assign(new AlchemicalPoison(), item);
                 case "alchemicaltools":
                     return Object.assign(new AlchemicalTool(), item);
-                case "potions":
-                    return Object.assign(new Potion(), item);
-                case "otherconsumables":
-                    return Object.assign(new OtherConsumable(), item);
-                case "otherconsumablesbombs":
-                    return Object.assign(new OtherConsumableBomb(), item);
-                case "adventuringgear":
-                    return Object.assign(new AdventuringGear(), item);
                 case "ammunition":
                     return Object.assign(new Ammunition(), item);
                 case "armorrunes":
                     return Object.assign(new ArmorRune(), item);
-                case "weaponrunes":
-                    return Object.assign(new WeaponRune(), item);
-                case "scrolls":
-                    return Object.assign(new Scroll(), item);
+                case "armors":
+                    return Object.assign(new Armor(), item);
+                case "helditems":
+                    return Object.assign(new HeldItem(), item);
+                case "materialitems":
+                    return Object.assign(new MaterialItem(), item);
                 case "oils":
                     return Object.assign(new Oil(), item);
-                case "talismans":
-                    return Object.assign(new Talisman(), item);
+                case "otherconsumables":
+                    return Object.assign(new OtherConsumable(), item);
+                case "otherconsumablesbombs":
+                    return Object.assign(new OtherConsumableBomb(), item);
+                case "potions":
+                    return Object.assign(new Potion(), item);
+                case "scrolls":
+                    return Object.assign(new Scroll(), item);
+                case "shields":
+                    return Object.assign(new Shield(), item);
                 case "snares":
                     return Object.assign(new Snare(), item);
-                case "wands":
+                case "talismans":
                     return Object.assign(new Snare(), item);
+                case "wands":
+                    return Object.assign(new Talisman(), item);
+                case "weaponrunes":
+                    return Object.assign(new WeaponRune(), item);
+                case "weapons":
+                    return Object.assign(new Weapon(), item);
+                case "wornitems":
+                    return Object.assign(new WornItem(), item);
             }
         } else {
             return item;
@@ -375,7 +379,7 @@ export class ItemsService {
                             stackBulk = invItem.carryingBulk || invItem.bulk;
                             stackSize = invItem.stack || 1;
                         } else {
-                            bulk += this.get_RealBulk(invItem, true);
+                            bulk += this.get_RealBulk(invItem, { carrying: true });
                             //If the granted item includes more items, add their bulk as well.
                             bulk += this.get_ContainedBulk(creature, invItem, targetInventory);
                         }
@@ -387,7 +391,7 @@ export class ItemsService {
                     testItem.bulk = stackBulk.toString();
                     testItem.amount = Math.min(itemGain.amount, found);
                     testItem.stack = stackSize;
-                    bulk += this.get_RealBulk(testItem, false);
+                    bulk += this.get_RealBulk(testItem, { carrying: false });
                 }
             })
         }
@@ -400,27 +404,31 @@ export class ItemsService {
         return bulk;
     }
 
-    get_RealBulk(item: Item, carrying: boolean = false) {
+    get_RealBulk(item: Item, options: { carrying?: boolean, amount?: number }) {
+        options = Object.assign({
+            carrying: false,
+            amount: item.amount
+        }, options)
         //All bulk gets calculated at *10 to avoid rounding issues with decimals,
         //Then returned at /10
         let itemBulk = 0;
         //Use the item's carrying bulk if carrying is true.
-        let bulkString = (carrying && (item as Equipment).carryingBulk) ? (item as Equipment).carryingBulk : item.get_Bulk()
+        let bulkString = (options.carrying && (item as Equipment).carryingBulk) ? (item as Equipment).carryingBulk : item.get_Bulk()
         switch (bulkString) {
             case "":
                 break;
             case "-":
                 break;
             case "L":
-                if (item.amount) {
-                    itemBulk += Math.floor(item.amount / ((item as Consumable).stack ? (item as Consumable).stack : 1));
+                if (options.amount) {
+                    itemBulk += Math.floor(options.amount / ((item as Consumable).stack ? (item as Consumable).stack : 1));
                 } else {
                     itemBulk += 1;
                 }
                 break;
             default:
-                if (item.amount) {
-                    itemBulk += parseInt(bulkString) * 10 * Math.floor(item.amount / ((item as Consumable).stack ? (item as Consumable).stack : 1));
+                if (options.amount) {
+                    itemBulk += parseInt(bulkString) * 10 * Math.floor(options.amount / ((item as Consumable).stack ? (item as Consumable).stack : 1));
                 } else {
                     itemBulk += parseInt(bulkString) * 10;
                 }
@@ -534,17 +542,29 @@ export class ItemsService {
         return "";
     }
 
-    get_CannotFit(creature: Creature, item: Item, target: ItemCollection) {
+    get_CannotFit(creature: Creature, item: Item, target: ItemCollection, options: { amount?: number, including?: boolean } = {}) {
+        //All bulk results are multiplied by 10 to avoid decimal addition bugs.
+        options = Object.assign({
+            amount: 0,
+            including: true
+        }, options)
+        let bulkLimit = target.bulkLimit;
+        if (bulkLimit >= 1 && Math.floor(bulkLimit) == bulkLimit) {
+            //For full bulk limits (2 rather than 4L, for example), allow 9 light items extra.
+            bulkLimit = (bulkLimit * 10) + 9;
+        } else {
+            bulkLimit *= 10;
+        }
         if (target instanceof ItemCollection) {
-            if (target.bulkLimit) {
-                let itemBulk = this.get_RealBulk(item, true);
-                let containedBulk = this.get_ContainedBulk(creature, item, target, true);
-                return (target.get_Bulk(false) + itemBulk + containedBulk > target.bulkLimit)
+            if (bulkLimit) {
+                let itemBulk = this.get_RealBulk(item, { carrying: true, amount: options.amount }) * 10;
+                let containedBulk = this.get_ContainedBulk(creature, item, target, options.including) * 10;
+                return ((target.get_Bulk(false) * 10) + itemBulk + containedBulk > bulkLimit)
             }
         }
         return false;
     }
-    
+
     get_IsCircularContainer(creature: Creature, item: Item, target: ItemCollection) {
         //Check if the target inventory is contained in this item.
         let found = false;
@@ -632,7 +652,7 @@ export class ItemsService {
                 if (including) {
                     this.move_GrantedItems(creature, movedItem, targetInventory, inventory, characterService);
                 }
-                this.refreshService.set_ItemViewChanges(creature, movedItem, {characterService: characterService});
+                this.refreshService.set_ItemViewChanges(creature, movedItem, { characterService: characterService });
             }
         }
     }
@@ -905,24 +925,25 @@ export class ItemsService {
             //Oils need to load after WeaponRunes, because they have to copy some of them.
             this.load(json_oils, "oils", Oil, "item", "oils");
 
-            this.load(json_weapons, "weapons", Weapon, "item", "weapons");
-            this.load(json_armors, "armors", Armor, "item", "armors");
-            this.load(json_shields, "shields", Shield, "item", "shields");
-            this.load(json_wornitems, "wornitems", WornItem, "item", "worn items");
-            this.load(json_helditems, "helditems", HeldItem, "item", "held items");
-            this.load(json_ammunition, "ammunition", Ammunition, "item", "ammunition");
+            this.load(json_adventuringgear, "adventuringgear", AdventuringGear, "item", "adventuring gear");
+            this.load(json_alchemicalbombs, "alchemicalbombs", AlchemicalBomb, "item", "alchemical bombs");
             this.load(json_alchemicalelixirs, "alchemicalelixirs", AlchemicalElixir, "item", "alchemical elixirs");
-            this.load(json_potions, "potions", Potion, "item", "potions");
+            this.load(json_alchemicalpoisons, "alchemicalpoisons", AlchemicalPoison, "item", "alchemical poisons");
+            this.load(json_alchemicaltools, "alchemicaltools", AlchemicalTool, "item", "alchemical tools");
+            this.load(json_ammunition, "ammunition", Ammunition, "item", "ammunition");
+            this.load(json_armors, "armors", Armor, "item", "armors");
+            this.load(json_helditems, "helditems", HeldItem, "item", "held items");
+            this.load(json_materialitems, "materialitems", MaterialItem, "item", "materials");
             this.load(json_otherconsumables, "otherconsumables", OtherConsumable, "item", "other consumables");
             this.load(json_otherconsumablesbombs, "otherconsumablesbombs", OtherConsumableBomb, "item", "other consumables (bombs)");
-            this.load(json_adventuringgear, "adventuringgear", AdventuringGear, "item", "adventuring gear");
+            this.load(json_potions, "potions", Potion, "item", "potions");
             this.load(json_scrolls, "scrolls", Scroll, "item", "scrolls");
-            this.load(json_talismans, "talismans", Talisman, "item", "talismans");
-            this.load(json_alchemicalbombs, "alchemicalbombs", AlchemicalBomb, "item", "alchemical bombs");
-            this.load(json_alchemicaltools, "alchemicaltools", AlchemicalTool, "item", "alchemical tools");
+            this.load(json_shields, "shields", Shield, "item", "shields");
             this.load(json_snares, "snares", Snare, "item", "snares");
-            this.load(json_alchemicalpoisons, "alchemicalpoisons", AlchemicalPoison, "item", "alchemical poisons");
+            this.load(json_talismans, "talismans", Talisman, "item", "talismans");
             this.load(json_wands, "wands", Wand, "item", "wands");
+            this.load(json_weapons, "weapons", Weapon, "item", "weapons");
+            this.load(json_wornitems, "wornitems", WornItem, "item", "worn items");
 
             /*
             this.load(json_REPLACE0, "REPLACE0", REPLACE1, "item");
