@@ -344,20 +344,14 @@ export class Weapon extends Equipment {
         traits = traits.filter(trait => !this.material.some(material => material.removeTraits.includes(trait)));
         traits = Array.from(new Set(traits)).sort();
         if (JSON.stringify(this._traits) != JSON.stringify(traits)) {
-            //If any traits have changed, we need to update elements that these traits show on. First we save the traits, so we don't start a loop if anyhing wants to update attacks again.
+            //If any traits have changed, we need to update elements that these traits show on. First we save the traits, so we don't start a loop if anything wants to update attacks again.
             let changed: string[] = this._traits.filter(trait => !traits.includes(trait)).concat(traits.filter(trait => !this._traits.includes(trait)));
             this._traits = traits;
-            let targets: string[] = [];
             changed.forEach(trait => {
                 characterService.traitsService.get_Traits(trait).forEach(trait => {
-                    trait.hints.forEach(hint => {
-                        hint.showon.split(",").forEach(split => {
-                            targets.push(split.trim());
-                        })
-                    })
+                    characterService.refreshService.set_HintsToChange(creature, trait.hints, {characterService: characterService})
                 })
             })
-            characterService.set_ToChangeByEffectTargets(creature, targets);
             characterService.refreshService.process_ToChange();
         }
         return traits;

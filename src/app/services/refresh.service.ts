@@ -88,7 +88,6 @@ export class RefreshService {
     }
 
     set_HintsToChange(creature: Creature, hints: Hint[] = [], services: { characterService: CharacterService }): void {
-        //For transition between single showon strings and multiple hints, we are currently doing both.
         hints.forEach(hint => {
             //Update the tags for every element that is named here.
             hint.showon.split(",").forEach(subtarget => {
@@ -102,21 +101,6 @@ export class RefreshService {
                 this.set_ToChange(creature.type, "effects");
             }
         })
-        this.set_ToChange(creature.type, "character-sheet");
-    }
-
-    set_TagsToChange(creature: Creature, showonString: string = "", services: { characterService: CharacterService }): void {
-        //For transition between single showon strings and multiple hints, we are currently doing both.
-        //  Ideally, we can eventually delete this function and clean up every place that uses it.
-
-        //Update the tags for every element that is named here.
-        showonString.split(",").forEach(subtarget => {
-            this.set_ToChange(creature.type, "tags", subtarget.trim())
-        })
-        //If any activities are named, also update the activities area.
-        if (this.get_ActivitiesAffected(creature, showonString, services)) {
-            this.set_ToChange(creature.type, "activities")
-        }
         this.set_ToChange(creature.type, "character-sheet");
     }
 
@@ -170,7 +154,7 @@ export class RefreshService {
 
     set_ItemViewChanges(creature: Character | AnimalCompanion, item: Item, services: { characterService: CharacterService }) {
         this.set_ToChange(creature.type, item.id);
-        item.traits.map(trait => this.traitsService.get_Traits(trait)[0]).forEach(trait => {
+        item.traits.map(trait => this.traitsService.get_TraitFromName(trait)).forEach(trait => {
             this.set_HintsToChange(creature, trait.hints, services);
         })
         if (item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb || item instanceof AlchemicalPoison || item instanceof Ammunition || item instanceof Snare) {
