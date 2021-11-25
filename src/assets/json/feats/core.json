@@ -6950,7 +6950,7 @@
                     {
                         "affected": "Performance",
                         "type": "circumstance",
-                        "value": "Skill_Level('Performance') >= 6 ? 2: 1"
+                        "value": "Skill_Level('Performance') >= 6 ? 2 : 1"
                     }
                 ]
             }
@@ -6981,7 +6981,7 @@
                     {
                         "affected": "Performance",
                         "type": "circumstance",
-                        "value": "Skill_Level('Performance') >= 6 ? 2: 1"
+                        "value": "Skill_Level('Performance') >= 6 ? 2 : 1"
                     }
                 ]
             }
@@ -7012,7 +7012,7 @@
                     {
                         "affected": "Performance",
                         "type": "circumstance",
-                        "value": "Skill_Level('Performance') >= 6 ? 2: 1"
+                        "value": "Skill_Level('Performance') >= 6 ? 2 : 1"
                     }
                 ]
             }
@@ -7043,7 +7043,7 @@
                     {
                         "affected": "Performance",
                         "type": "circumstance",
-                        "value": "Skill_Level('Performance') >= 6 ? 2: 1"
+                        "value": "Skill_Level('Performance') >= 6 ? 2 : 1"
                     }
                 ]
             }
@@ -7074,7 +7074,7 @@
                     {
                         "affected": "Performance",
                         "type": "circumstance",
-                        "value": "Skill_Level('Performance') >= 6 ? 2: 1"
+                        "value": "Skill_Level('Performance') >= 6 ? 2 : 1"
                     }
                 ]
             }
@@ -7105,7 +7105,7 @@
                     {
                         "affected": "Performance",
                         "type": "circumstance",
-                        "value": "Skill_Level('Performance') >= 6 ? 2: 1"
+                        "value": "Skill_Level('Performance') >= 6 ? 2 : 1"
                     }
                 ]
             }
@@ -7136,7 +7136,7 @@
                     {
                         "affected": "Performance",
                         "type": "circumstance",
-                        "value": "Skill_Level('Performance') >= 6 ? 2: 1"
+                        "value": "Skill_Level('Performance') >= 6 ? 2 : 1"
                     }
                 ]
             }
@@ -7167,7 +7167,7 @@
                     {
                         "affected": "Performance",
                         "type": "circumstance",
-                        "value": "Skill_Level('Performance') >= 6 ? 2: 1"
+                        "value": "Skill_Level('Performance') >= 6 ? 2 : 1"
                     }
                 ]
             }
@@ -7198,7 +7198,7 @@
                     {
                         "affected": "Performance",
                         "type": "circumstance",
-                        "value": "Skill_Level('Performance') >= 6 ? 2: 1"
+                        "value": "Skill_Level('Performance') >= 6 ? 2 : 1"
                     }
                 ]
             }
@@ -9839,12 +9839,28 @@
         "subTypes": true
     },
     {
+        "name": "Divine Skill: Free",
+        "desc": "You are trained in a skill of your choice.",
+        "subType": "Free",
+        "superType": "Divine Skill",
+        "specialreq": "deity && !(Has_Feat('Character', 'Divine Skill') && !this.have(character, characterService, charLevel)) && !deity.divineSkill.some(skillName => Skill_Level('Character', skillName) == 0)",
+        "specialreqdesc": "you are already trained in your deity's divine skill",
+        "gainSkillChoice": [
+            {
+                "available": 1,
+                "maxRank": 2,
+                "source": "Divine Skill: Free",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
         "name": "Divine Skill: Acrobatics",
         "desc": "You are trained in Acrobatics.",
         "subType": "Acrobatics",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
-        "specialreqdesc": "your deity's divine skill is Acrobatics",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (this.have(character, characterService, charLevel) ? 2 : 0))",
+        "specialreqdesc": "your deity's divine skill is Acrobatics, you are untrained in Acrobatics",
         "gainSkillChoice": [
             {
                 "increases": [
@@ -9866,8 +9882,8 @@
         "desc": "You are trained in Arcana.",
         "subType": "Arcana",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
-        "specialreqdesc": "your deity's divine skill is Arcana",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (this.have(character, characterService, charLevel) ? 2 : 0))",
+        "specialreqdesc": "your deity's divine skill is Arcana, you are untrained in Arcana",
         "gainSkillChoice": [
             {
                 "increases": [
@@ -9889,8 +9905,8 @@
         "desc": "You are trained in Athletics.",
         "subType": "Athletics",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
-        "specialreqdesc": "your deity's divine skill is Athletics",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (this.have(character, characterService, charLevel) ? 2 : 0))",
+        "specialreqdesc": "your deity's divine skill is Athletics, you are untrained in Athletics",
         "gainSkillChoice": [
             {
                 "increases": [
@@ -9912,8 +9928,8 @@
         "desc": "You are trained in Crafting.",
         "subType": "Crafting",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
-        "specialreqdesc": "your deity's divine skill is Crafting",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (this.have(character, characterService, charLevel) ? 2 : 0))",
+        "specialreqdesc": "your deity's divine skill is Crafting, you are untrained in Crafting",
         "gainSkillChoice": [
             {
                 "increases": [
@@ -9935,8 +9951,8 @@
         "desc": "You are trained in Deception.",
         "subType": "Deception",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
-        "specialreqdesc": "your deity's divine skill is Deception",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (this.have(character, characterService, charLevel) ? 2 : 0))",
+        "specialreqdesc": "your deity's divine skill is Deception, you are untrained in Deception",
         "gainSkillChoice": [
             {
                 "increases": [
@@ -9958,8 +9974,8 @@
         "desc": "You are trained in Diplomacy.",
         "subType": "Diplomacy",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
-        "specialreqdesc": "your deity's divine skill is Diplomacy",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (this.have(character, characterService, charLevel) ? 2 : 0))",
+        "specialreqdesc": "your deity's divine skill is Diplomacy, you are untrained in Diplomacy",
         "gainSkillChoice": [
             {
                 "increases": [
@@ -9981,8 +9997,8 @@
         "desc": "You are trained in Intimidation.",
         "subType": "Intimidation",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
-        "specialreqdesc": "your deity's divine skill is Intimidation",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (this.have(character, characterService, charLevel) ? 2 : 0))",
+        "specialreqdesc": "your deity's divine skill is Intimidation, you are untrained in Intimidation",
         "gainSkillChoice": [
             {
                 "increases": [
@@ -10004,8 +10020,8 @@
         "desc": "You are trained in Medicine.",
         "subType": "Medicine",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
-        "specialreqdesc": "your deity's divine skill is Medicine",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (this.have(character, characterService, charLevel) ? 2 : 0))",
+        "specialreqdesc": "your deity's divine skill is Medicine, you are untrained in Medicine",
         "gainSkillChoice": [
             {
                 "increases": [
@@ -10027,8 +10043,8 @@
         "desc": "You are trained in Nature.",
         "subType": "Nature",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
-        "specialreqdesc": "your deity's divine skill is Nature",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (this.have(character, characterService, charLevel) ? 2 : 0))",
+        "specialreqdesc": "your deity's divine skill is Nature, you are untrained in Nature",
         "gainSkillChoice": [
             {
                 "increases": [
@@ -10050,8 +10066,8 @@
         "desc": "You are trained in Occultism.",
         "subType": "Occultism",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
-        "specialreqdesc": "your deity's divine skill is Occultism",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (this.have(character, characterService, charLevel) ? 2 : 0))",
+        "specialreqdesc": "your deity's divine skill is Occultism, you are untrained in Occultism",
         "gainSkillChoice": [
             {
                 "increases": [
@@ -10073,8 +10089,8 @@
         "desc": "You are trained in Performance.",
         "subType": "Performance",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
-        "specialreqdesc": "your deity's divine skill is Performance",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (this.have(character, characterService, charLevel) ? 2 : 0))",
+        "specialreqdesc": "your deity's divine skill is Performance, you are untrained in Performance",
         "gainSkillChoice": [
             {
                 "increases": [
@@ -10096,8 +10112,8 @@
         "desc": "You are trained in Religion.",
         "subType": "Religion",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
-        "specialreqdesc": "your deity's divine skill is Religion",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (this.have(character, characterService, charLevel) ? 2 : 0))",
+        "specialreqdesc": "your deity's divine skill is Religion, you are untrained in Religion",
         "gainSkillChoice": [
             {
                 "increases": [
@@ -10119,8 +10135,8 @@
         "desc": "You are trained in Society.",
         "subType": "Society",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
-        "specialreqdesc": "your deity's divine skill is Society",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (this.have(character, characterService, charLevel) ? 2 : 0))",
+        "specialreqdesc": "your deity's divine skill is Society, you are untrained in Society",
         "gainSkillChoice": [
             {
                 "increases": [
@@ -10142,8 +10158,8 @@
         "desc": "You are trained in Stealth.",
         "subType": "Stealth",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
-        "specialreqdesc": "your deity's divine skill is Stealth",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (this.have(character, characterService, charLevel) ? 2 : 0))",
+        "specialreqdesc": "your deity's divine skill is Stealth, you are untrained in Stealth",
         "gainSkillChoice": [
             {
                 "increases": [
@@ -10165,8 +10181,8 @@
         "desc": "You are trained in Survival.",
         "subType": "Survival",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
-        "specialreqdesc": "your deity's divine skill is Survival",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (this.have(character, characterService, charLevel) ? 2 : 0))",
+        "specialreqdesc": "your deity's divine skill is Survival, you are untrained in Survival",
         "gainSkillChoice": [
             {
                 "increases": [
@@ -10188,8 +10204,8 @@
         "desc": "You are trained in Thievery.",
         "subType": "Thievery",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
-        "specialreqdesc": "your deity's divine skill is Thievery",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (this.have(character, characterService, charLevel) ? 2 : 0))",
+        "specialreqdesc": "your deity's divine skill is Thievery, you are untrained in Thievery",
         "gainSkillChoice": [
             {
                 "increases": [
@@ -22022,7 +22038,7 @@
         "featreq": [
             "Fighter Dedication"
         ],
-        "specialreq": "characterService.get_Skills(character, '', 'Weapon Proficiency').concat(characterService.get_Skills(character, '', 'Specific Weapon Proficiency')).find(skill => Skill_Level('Character', skill.name) >= 4)",
+        "specialreq": "characterService.get_Skills(character, '', 'Weapon Proficiency').concat(characterService.get_Skills(character, '', 'Specific Weapon Proficiency')).some(skill => Skill_Level('Character', skill.name) >= 4)",
         "specialreqdesc": "expert in any kind of weapon or unarmed attack",
         "gainSkillChoice": [
             {
