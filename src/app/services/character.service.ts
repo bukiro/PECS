@@ -2647,6 +2647,7 @@ export class CharacterService {
             //Check that every feat's specialreq makes sense. This is a debugging thing and should only run in development.
             if (isDevMode()) {
                 this.verify_Feats();
+                this.deitiesService.get_CharacterDeities(this, this.get_Character()).forEach(deity => deity.clear_TemporaryDomains())
             }
             //Set your turn state according to the saved state.
             this.timeService.set_YourTurn(this.get_Character().yourTurn);

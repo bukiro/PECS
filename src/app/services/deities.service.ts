@@ -90,7 +90,6 @@ export class DeitiesService {
             this.deities.forEach(deity => {
                 this.deitiesMap.set(deity.name.toLowerCase(), deity);
             })
-
             this.loading = false;
         }
     }

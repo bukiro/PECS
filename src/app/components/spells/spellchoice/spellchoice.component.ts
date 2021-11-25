@@ -649,7 +649,7 @@ export class SpellchoiceComponent implements OnInit {
                     }
                 } else if (traditionFilter) {
                     //If the tradition filter comes from the spellcasting, also include all spells that are on the spell list regardless of their tradition.
-                    //For (main class) clerics, include all spells that are on your deity's cleric spell list
+                    //For main class clerics, include all spells that are on your deity's cleric spell list
                     let deity = character.class.deity ? this.deitiesService.get_CharacterDeities(this.characterService, character)[0] : null;
                     if (!choice.tradition && this.spellCasting.tradition) {
                         spells.push(...allSpells.filter(spell =>

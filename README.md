@@ -64,7 +64,7 @@ You can build characters from level 1 through 20, with the following classes and
 - [x] Barbarian
 - [x] Bard
 - [ ] Champion (feats missing)
-- [ ] Cleric (advanced domain spells missing)
+- [x] Cleric
 - [x] Druid
 - [x] Fighter
 - [x] Monk

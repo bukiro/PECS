@@ -25506,11 +25506,16 @@
         "desc": "You don't accept the fact that once spells are prepared, they can't be changed until your next daily preparation, and you have uncovered a shortcut allowing you to substitute new spells for those you originally prepared. You can spend 10 minutes to empty one of your prepared spell slots and prepare a different spell from your spellbook in its place. If you are interrupted during such a swap, the original spell remains prepared and can still be cast. You can try again to swap out the spell later, but you must start the process over again.",
         "hints": [
             {
-                "desc": "You can spend 10 minutes to empty one of your prepared spell slots and prepare a different spell from your spellbook in its place. You can make this change in the spellbook menu. If you are interrupted during such a swap, the original spell remains prepared and can still be cast. You can try again to swap out the spell later, but you must start the process over again.",
-                "showon": "Spellbook, Wizard Prepared Spells"
+                "desc": "You can spend 10 minutes to empty one of your prepared spell slots and prepare a different spell from your spellbook in its place. If you are interrupted during such a swap, the original spell remains prepared and can still be cast. You can try again to swap out the spell later, but you must start the process over again.\n\nYou can make this change in the spellbook menu. When this hint's effect is activated, selected spells are immediately prepared, as if you had used Spell Substitution to replace a currently prepared spell.",
+                "showon": "Spellbook, Wizard Prepared Spells",
+                "effects": [
+                    {
+                        "affected": "Allow Switching Prepared Spells",
+                        "toggle": true
+                    }
+                ]
             }
         ],
-        "internalNote": "Spell Substitution is hardcoded.",
         "shortdesc": "You don't accept the fact that once spells are prepared, they can't be changed until your next daily preparation, and you have uncovered a shortcut allowing you to substitute new spells for those you originally prepared.",
         "gainActivities": [
             "Drain Bonded Item"
@@ -26467,7 +26472,7 @@
         "hints": [
             {
                 "desc": "You can spend 10 minutes to prepare a spell that you already cast today, regaining access to that spell slot. The spell must be of 4th level or lower and one that does not have a duration. You can reprepare a spell in this way even if you've already reprepared that spell previously in the same day. If you have the spell substitution arcane thesis, you can instead prepare a different spell in an expended slot (in the spellbook menu), as long as the new spell doesn't have a duration. Once you've reprepared a spell in that slot even once, you can use your arcane thesis to substitute only spells without durations into that spell slot.",
-                "showon": "Spellbook, Spell Substitution"
+                "showon": "Spellbook, Wizard Prepared Spells"
             }
         ],
         "internalNote": "Repreparing Spells is hardcoded.",
@@ -27128,7 +27133,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 4,
                 "className": "Wizard",
@@ -27138,7 +27143,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 6,
                 "className": "Wizard",
@@ -27148,7 +27153,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 8,
                 "className": "Wizard",
@@ -27184,7 +27189,6 @@
     {
         "name": "Arcane Breadth",
         "desc": "You can cast more arcane spells each day. Increase the spell slots you gain from wizard archetype feats by 1 for each spell level other than your two highest wizard spell slots.",
-        "internalNote": "The effect is hardcoded in the spellchoice component.",
         "shortdesc": "You can cast more arcane spells each day.",
         "archetype": "Wizard",
         "traits": [
@@ -27259,7 +27263,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 12,
                 "className": "Wizard",
@@ -27269,7 +27273,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 14,
                 "className": "Wizard",
@@ -27279,7 +27283,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 16,
                 "className": "Wizard",
@@ -27353,7 +27357,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 18,
                 "className": "Wizard",
@@ -27363,7 +27367,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Arcane Breadth'), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 20,
                 "className": "Wizard",
@@ -30128,7 +30132,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 4,
                 "className": "Bard",
@@ -30138,7 +30142,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 6,
                 "className": "Bard",
@@ -30148,7 +30152,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 8,
                 "className": "Bard",
@@ -30273,7 +30277,7 @@
     {
         "name": "Occult Breadth",
         "desc": "Your repertoire expands, and you can cast more occult spells each day. Increase the number of spells in your repertoire and the number of spell slots you gain from bard archetype feats by 1 for each spell level other than your two highest bard spell slots.",
-        "internalNote": "The effect is hardcoded in the spellchoice component.",
+        "internalNote": "The effect is hardcoded in the spellbook component.",
         "shortdesc": "Your repertoire expands, and you can cast more occult spells each day.",
         "archetype": "Bard",
         "traits": [
@@ -30332,7 +30336,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 12,
                 "className": "Bard",
@@ -30342,7 +30346,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 14,
                 "className": "Bard",
@@ -30352,7 +30356,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 16,
                 "className": "Bard",
@@ -30410,7 +30414,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 18,
                 "className": "Bard",
@@ -30420,7 +30424,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Occult Breadth'), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 20,
                 "className": "Bard",
@@ -39441,8 +39445,14 @@
         "desc": "You call upon the creatures of nature to come to your aid. You can spend 10 minutes in concert with nature to replace one of the spells you've prepared in one of your druid spell slots with a summon animal or summon plants and fungus spell of the same level.",
         "hints": [
             {
-                "desc": "You can spend 10 minutes in concert with nature to replace one of the spells you've prepared in one of your druid spell slots with a summon animal or summon plants and fungus spell of the same level. You can make this change in the spellbook menu.",
-                "showon": "Spellbook, Druid Prepared Spells"
+                "desc": "You can spend 10 minutes in concert with nature to replace one of the spells you've prepared in one of your druid spell slots with a summon animal or summon plants and fungus spell of the same level.\n\nYou can make this change in the spellbook menu. When this hint's effect is activated, selected spells are immediately prepared, as if you had used Call of the Wild to replace a currently prepared spell.",
+                "showon": "Spellbook, Druid Prepared Spells",
+                "effects": [
+                    {
+                        "affected": "Allow Switching Prepared Spells",
+                        "toggle": true
+                    }
+                ]
             }
         ],
         "shortdesc": "You call upon the creatures of nature to come to your aid.",
@@ -40750,7 +40760,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 4,
                 "className": "Druid",
@@ -40760,7 +40770,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 6,
                 "className": "Druid",
@@ -40770,7 +40780,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 8,
                 "className": "Druid",
@@ -41013,7 +41023,6 @@
     {
         "name": "Primal Breadth",
         "desc": "Increase the spell slots you gain from druid archetype feats by 1 for each spell level other than your two highest druid spell slots.",
-        "internalNote": "The effect is hardcoded in the spellchoice component.",
         "shortdesc": "Increase the spell slots you gain from druid archetype feats by 1 for each spell level other than your two highest druid spell slots.",
         "archetype": "Druid",
         "traits": [
@@ -41060,7 +41069,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 12,
                 "className": "Druid",
@@ -41070,7 +41079,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 14,
                 "className": "Druid",
@@ -41080,7 +41089,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 16,
                 "className": "Druid",
@@ -41126,7 +41135,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 18,
                 "className": "Druid",
@@ -41136,7 +41145,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Primal Breadth'), 0)",
                 "castingType": "Prepared",
                 "charLevelAvailable": 20,
                 "className": "Druid",
@@ -43048,7 +43057,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 4,
                 "className": "Sorcerer",
@@ -43058,7 +43067,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 6,
                 "className": "Sorcerer",
@@ -43068,7 +43077,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 8,
                 "className": "Sorcerer",
@@ -43104,6 +43113,7 @@
     {
         "name": "Bloodline Breadth",
         "desc": "Your repertoire expands, and you can cast more spells of your bloodline's tradition each day. Increase the number of spells in your repertoire and number of spell slots you gain from sorcerer archetype feats by 1 for each spell level other than your two highest sorcerer spell slots.",
+        "internalNote": "The effect is hardcoded in the spellbook component.",
         "shortdesc": "Your repertoire expands, and you can cast more spells of your bloodline's tradition each day.",
         "archetype": "Sorcerer",
         "traits": [
@@ -43201,7 +43211,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 12,
                 "className": "Sorcerer",
@@ -43211,7 +43221,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 14,
                 "className": "Sorcerer",
@@ -43221,7 +43231,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 16,
                 "className": "Sorcerer",
@@ -43318,7 +43328,7 @@
         "gainSpellChoice": [
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 18,
                 "className": "Sorcerer",
@@ -43328,7 +43338,7 @@
             },
             {
                 "available": 1,
-                "dynamicAvailable": "(choice.level >= Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Bloodline Breadth'), 0)",
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 20,
                 "className": "Sorcerer",
@@ -54353,7 +54363,7 @@
     },
     {
         "name": "Emblazon Divinity",
-        "desc": "Your sacred etchings imbue objects with power. It takes you only 1 minute to emblazon a symbol using Emblazon Armament, and you can have up to four symbols emblazoned at a time. Each item can still have only one symbol emblazoned upon it, and if you exceed the limit of four, the oldest symbol disappears. These symbols can benefit even those who don’t follow the deity, provided they aren't directly opposed (as determined by the GM).\n\nYou can select a different benefit for each emblazoned symbol, chosen from any you have from Emblazon Armament or other feats such as Emblazon Energy or Emblazon Antimagic.",
+        "desc": "Your sacred etchings imbue objects with power. It takes you only 1 minute to emblazon a symbol using Emblazon Armament, and you can have up to four symbols emblazoned at a time. Each item can still have only one symbol emblazoned upon it, and if you exceed the limit of four, the oldest symbol disappears. These symbols can benefit even those who don't follow the deity, provided they aren't directly opposed (as determined by the GM).\n\nYou can select a different benefit for each emblazoned symbol, chosen from any you have from Emblazon Armament or other feats such as Emblazon Energy or Emblazon Antimagic.",
         "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock all of the following uncommon class feats.",
         "internalNote": "The effects are hardcoded in a separate component, the weapon and shield classes and in several other places.",
         "shortdesc": "Emblazon more equipment at the same time.",
@@ -54400,6 +54410,317 @@
         "levelreq": 20,
         "gainActivities": [
             "Metamagic Channel"
+        ]
+    },
+    {
+        "name": "Cleric Dedication",
+        "desc": "You cast spells like a cleric. You gain access to the Cast a Spell activity. You can prepare two common cantrips each day from the divine spell list in this book or any other divine cantrips you learn or discover. You're trained in spell attack rolls and spell DCs for divine spells. Your key spellcasting ability for cleric archetype spells is Wisdom, and they are divine cleric spells. Choose a deity as you would if you were a cleric. You become bound by that deity's anathema. You become trained in Religion and your deity's associated skill; for each of these skills in which you were already trained, you instead become trained in a skill of your choice. You don't gain any other abilities from your choice of deity.",
+        "hints": [
+            {
+                "desc": "You are bound by your deity's anathema.",
+                "showon": "Tenets"
+            }
+        ],
+        "specialdesc": "You cannot select another dedication feat until you have gained two other feats from the cleric archetype.",
+        "shortdesc": "You are an ordained priest of your deity and have even learned how to cast a few divine spells. Though your main training lies elsewhere, your religious calling provides you divine gifts.",
+        "archetype": "Cleric",
+        "traits": [
+            "Archetype",
+            "Dedication",
+            "Multiclass"
+        ],
+        "levelreq": 2,
+        "abilityreq": [
+            {
+                "ability": "Wisdom",
+                "value": 14
+            }
+        ],
+        "gainFeatChoice": [
+            {
+                "available": 1,
+                "filter": [
+                    "Divine Skill"
+                ],
+                "autoSelectIfPossible": true,
+                "source": "Cleric Dedication",
+                "specialChoice": true,
+                "type": "Divine Skill"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "filter": [
+                    "Religion"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Religion",
+                        "source": "Feat: Cleric Dedication"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Cleric Dedication",
+                "type": "Skill"
+            },
+            {
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Cleric Divine Spell DC",
+                        "source": "Feat: Cleric Dedication"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Cleric Dedication",
+                "type": "Spell DC"
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "ability": "Wisdom",
+                "castingType": "Prepared",
+                "className": "Cleric",
+                "source": "Cleric Dedication",
+                "tradition": "Divine"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "available": 2,
+                "castingType": "Prepared",
+                "className": "Cleric",
+                "id": "f1c803ee-5019-4b1c-b203-7e13b7656f3d",
+                "level": 0,
+                "source": "Feat: Cleric Dedication"
+            }
+        ]
+    },
+    {
+        "name": "Basic Cleric Spellcasting",
+        "desc": "You gain the basic spellcasting benefits:\n\nAt 4th level, you gain a 1st-level spell slot. At 6th level, you gain a 2nd-level spell slot. At 8th level, you gain a 3rd-level spell slot.",
+        "shortdesc": "You gain the basic spellcasting benefits.",
+        "archetype": "Cleric",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Cleric Dedication"
+        ],
+        "gainSpellChoice": [
+            {
+                "available": 1,
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Divine Breadth'), 0)",
+                "castingType": "Prepared",
+                "charLevelAvailable": 4,
+                "className": "Cleric",
+                "id": "6b09b174-aabc-4647-95d4-a4ddace89ef2",
+                "level": 1,
+                "source": "Feat: Basic Cleric Spellcasting"
+            },
+            {
+                "available": 1,
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Divine Breadth'), 0)",
+                "castingType": "Prepared",
+                "charLevelAvailable": 6,
+                "className": "Cleric",
+                "id": "5cdd44e4-62d6-4a2c-95f8-56080b8e6844",
+                "level": 2,
+                "source": "Feat: Basic Cleric Spellcasting"
+            },
+            {
+                "available": 1,
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Divine Breadth'), 0)",
+                "castingType": "Prepared",
+                "charLevelAvailable": 8,
+                "className": "Cleric",
+                "id": "7d51a6de-8849-496e-a496-025853119dea",
+                "level": 3,
+                "source": "Feat: Basic Cleric Spellcasting"
+            }
+        ]
+    },
+    {
+        "name": "Basic Dogma",
+        "desc": "You gain a 1st- or 2nd-level cleric feat.",
+        "shortdesc": "You gain a 1st- or 2nd-level cleric feat.",
+        "archetype": "Cleric",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Cleric Dedication"
+        ],
+        "gainFeatChoice": [
+            {
+                "available": 1,
+                "level": 2,
+                "source": "Feat: Basic Dogma",
+                "type": "Cleric"
+            }
+        ]
+    },
+    {
+        "name": "Advanced Dogma",
+        "desc": "You gain one cleric feat. For the purpose of meeting its prerequisites, your cleric level is equal to half your character level.",
+        "specialdesc": "You can select this feat more than once. Each time you select it, you gain another cleric feat.",
+        "shortdesc": "You gain one cleric feat. For the purpose of meeting its prerequisites, your cleric level is equal to half your character level.",
+        "archetype": "Cleric",
+        "unlimited": true,
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Basic Dogma"
+        ],
+        "gainFeatChoice": [
+            {
+                "available": 1,
+                "dynamicLevel": "level.number / 2",
+                "source": "Feat: Advanced Dogma",
+                "type": "Cleric"
+            }
+        ]
+    },
+    {
+        "name": "Divine Breadth",
+        "desc": "Increase the spell slots you gain from cleric archetype feats by 1 for each spell level other than your two highest cleric spell slots.",
+        "shortdesc": "Increase the spell slots you gain from cleric archetype feats by 1 for each spell level other than your two highest cleric spell slots.",
+        "archetype": "Cleric",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Basic Cleric Spellcasting"
+        ]
+    },
+    {
+        "name": "Expert Cleric Spellcasting",
+        "desc": "You gain the expert spellcasting benefits:\n\nYou become an expert in spell attack rolls and spell DCs for primal spells. At 12th level, you gain a 4th-level spell slot. At 14th level, you gain a 5th-level spell slot. At 16th level, you gain a 6th-level spell slot.",
+        "shortdesc": "You gain the expert spellcasting benefits.",
+        "archetype": "Cleric",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "Basic Cleric Spellcasting"
+        ],
+        "skillreq": [
+            {
+                "skill": "Religion",
+                "value": 6
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Cleric Divine Spell DC",
+                        "source": "Feat: Expert Cleric Spellcasting"
+                    }
+                ],
+                "maxRank": 4,
+                "source": "Feat: Expert Cleric Spellcasting",
+                "type": "Spell DC"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "available": 1,
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Divine Breadth'), 0)",
+                "castingType": "Prepared",
+                "charLevelAvailable": 12,
+                "className": "Cleric",
+                "id": "93d104e1-e27e-4cbe-ae74-e3efc6c5a8b5",
+                "level": 4,
+                "source": "Feat: Expert Cleric Spellcasting"
+            },
+            {
+                "available": 1,
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Divine Breadth'), 0)",
+                "castingType": "Prepared",
+                "charLevelAvailable": 14,
+                "className": "Cleric",
+                "id": "35024570-a659-43ca-9b2b-9d27816f32f8",
+                "level": 5,
+                "source": "Feat: Expert Cleric Spellcasting"
+            },
+            {
+                "available": 1,
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat('Divine Breadth'), 0)",
+                "castingType": "Prepared",
+                "charLevelAvailable": 16,
+                "className": "Cleric",
+                "id": "b8c51ece-a3e0-4591-8c91-7a21a4c21a48",
+                "level": 6,
+                "source": "Feat: Expert Cleric Spellcasting"
+            }
+        ]
+    },
+    {
+        "name": "Master Cleric Spellcasting",
+        "desc": "You gain the master spellcasting benefits:\n\nYou become a master in spell attack rolls and spell DCs for primal spells. At 18th level, you gain a 7th-level spell slot. At 20th level, you gain a 8th-level spell slot.",
+        "shortdesc": "You gain the master spellcasting benefits.",
+        "archetype": "Cleric",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 18,
+        "featreq": [
+            "Expert Cleric Spellcasting"
+        ],
+        "skillreq": [
+            {
+                "skill": "Religion",
+                "value": 8
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Cleric Divine Spell DC",
+                        "source": "Feat: Master Cleric Spellcasting"
+                    }
+                ],
+                "maxRank": 6,
+                "source": "Feat: Master Cleric Spellcasting",
+                "type": "Spell DC"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "available": 1,
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat(Divine Breadth'), 0)",
+                "castingType": "Prepared",
+                "charLevelAvailable": 18,
+                "className": "Cleric",
+                "id": "7ab15d02-3c27-481d-828a-5edcdeffca78",
+                "level": 7,
+                "source": "Feat: Master Cleric Spellcasting"
+            },
+            {
+                "available": 1,
+                "dynamicAvailable": "(choice.level > Highest_Spell_Level() - 2) ? choice.available : Math.max(choice.available + Has_Feat(Divine Breadth'), 0)",
+                "castingType": "Prepared",
+                "charLevelAvailable": 20,
+                "className": "Cleric",
+                "id": "e6c2e48d-2c3d-4d9b-9b92-3ee194c140c6",
+                "level": 8,
+                "source": "Feat: Master Cleric Spellcasting"
+            }
         ]
     },
     {

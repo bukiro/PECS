@@ -47,6 +47,11 @@ export class EffectsService {
         return this.effects[index].all.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored);
     }
 
+    public get_ToggledOnThis(creature: Creature, ObjectName: string): Effect[] {
+        let index = this.get_CreatureEffectsIndex(creature.type);
+        return this.effects[index].all.filter(effect => effect.toggle && effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored);
+    }
+
     public get_ToggledOnThese(creature: Creature, ObjectNames: string[]): Effect[] {
         let index = this.get_CreatureEffectsIndex(creature.type);
         return this.effects[index].all.filter(effect => effect.toggle && effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored);

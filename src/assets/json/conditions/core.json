@@ -716,8 +716,7 @@
         "inputRequired": "If the result of the augury was \"nothing,\" remove the condition.",
         "gainActivities": [
             {
-                "name": "Call Upon the Brightness",
-                "source": "Brightness Seeker"
+                "name": "Call Upon the Brightness"
             }
         ]
     },
@@ -2127,8 +2126,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Dragon Form Breath Weapon",
-                "source": "Dragon Transformation"
+                "name": "Dragon Form Breath Weapon"
             }
         ],
         "gainItems": [
@@ -5679,8 +5677,7 @@
         "persistent": true,
         "gainActivities": [
             {
-                "name": "Perfect Distraction: Setup Decoy",
-                "source": "Perfect Distraction Exhaustion"
+                "name": "Perfect Distraction: Setup Decoy"
             }
         ]
     },
@@ -7752,8 +7749,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Energy Mutagen (Acid, Greater)",
-                "source": "Energy Mutagen (Acid, Greater)"
+                "name": "Energy Mutagen (Acid, Greater)"
             }
         ],
         "overrideConditions": [
@@ -7838,8 +7834,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Energy Mutagen (Acid, Major)",
-                "source": "Energy Mutagen (Acid, Major)"
+                "name": "Energy Mutagen (Acid, Major)"
             }
         ],
         "overrideConditions": [
@@ -7932,8 +7927,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Energy Mutagen (Cold, Greater)",
-                "source": "Energy Mutagen (Cold, Greater)"
+                "name": "Energy Mutagen (Cold, Greater)"
             }
         ],
         "overrideConditions": [
@@ -8018,8 +8012,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Energy Mutagen (Cold, Major)",
-                "source": "Energy Mutagen (Cold, Major)"
+                "name": "Energy Mutagen (Cold, Major)"
             }
         ],
         "overrideConditions": [
@@ -8112,8 +8105,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Energy Mutagen (Electricity, Greater)",
-                "source": "Energy Mutagen (Electricity, Greater)"
+                "name": "Energy Mutagen (Electricity, Greater)"
             }
         ],
         "overrideConditions": [
@@ -8198,8 +8190,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Energy Mutagen (Electricity, Major)",
-                "source": "Energy Mutagen (Electricity, Major)"
+                "name": "Energy Mutagen (Electricity, Major)"
             }
         ],
         "overrideConditions": [
@@ -8292,8 +8283,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Energy Mutagen (Fire, Greater)",
-                "source": "Energy Mutagen (Fire, Greater)"
+                "name": "Energy Mutagen (Fire, Greater)"
             }
         ],
         "overrideConditions": [
@@ -8378,8 +8368,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Energy Mutagen (Fire, Major)",
-                "source": "Energy Mutagen (Fire, Major)"
+                "name": "Energy Mutagen (Fire, Major)"
             }
         ],
         "overrideConditions": [
@@ -12713,8 +12702,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Black Dragon's Breath Potion (Adult)",
-                "source": "Black Dragon's Breath Potion (Adult)"
+                "name": "Black Dragon's Breath Potion (Adult)"
             }
         ],
         "overrideConditions": [
@@ -12736,8 +12724,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Black Dragon's Breath Potion (Wyrm)",
-                "source": "Black Dragon's Breath Potion (Wyrm)"
+                "name": "Black Dragon's Breath Potion (Wyrm)"
             }
         ],
         "overrideConditions": [
@@ -12762,8 +12749,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Black Dragon's Breath Potion (Young)",
-                "source": "Black Dragon's Breath Potion (Young)"
+                "name": "Black Dragon's Breath Potion (Young)"
             }
         ]
     },
@@ -12780,8 +12766,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Blue Dragon's Breath Potion (Adult)",
-                "source": "Blue Dragon's Breath Potion (Adult)"
+                "name": "Blue Dragon's Breath Potion (Adult)"
             }
         ],
         "overrideConditions": [
@@ -12803,8 +12788,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Blue Dragon's Breath Potion (Wyrm)",
-                "source": "Blue Dragon's Breath Potion (Wyrm)"
+                "name": "Blue Dragon's Breath Potion (Wyrm)"
             }
         ],
         "overrideConditions": [
@@ -12829,8 +12813,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Blue Dragon's Breath Potion (Young)",
-                "source": "Blue Dragon's Breath Potion (Young)"
+                "name": "Blue Dragon's Breath Potion (Young)"
             }
         ]
     },
@@ -12847,8 +12830,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Brass Dragon's Breath Potion (Adult)",
-                "source": "Brass Dragon's Breath Potion (Adult)"
+                "name": "Brass Dragon's Breath Potion (Adult)"
             }
         ],
         "overrideConditions": [
@@ -12870,8 +12852,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Brass Dragon's Breath Potion (Wyrm)",
-                "source": "Brass Dragon's Breath Potion (Wyrm)"
+                "name": "Brass Dragon's Breath Potion (Wyrm)"
             }
         ],
         "overrideConditions": [
@@ -12896,8 +12877,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Brass Dragon's Breath Potion (Young)",
-                "source": "Brass Dragon's Breath Potion (Young)"
+                "name": "Brass Dragon's Breath Potion (Young)"
             }
         ]
     },
@@ -12914,8 +12894,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Bronze Dragon's Breath Potion (Adult)",
-                "source": "Bronze Dragon's Breath Potion (Adult)"
+                "name": "Bronze Dragon's Breath Potion (Adult)"
             }
         ],
         "overrideConditions": [
@@ -12937,8 +12916,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Bronze Dragon's Breath Potion (Wyrm)",
-                "source": "Bronze Dragon's Breath Potion (Wyrm)"
+                "name": "Bronze Dragon's Breath Potion (Wyrm)"
             }
         ],
         "overrideConditions": [
@@ -12963,8 +12941,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Bronze Dragon's Breath Potion (Young)",
-                "source": "Bronze Dragon's Breath Potion (Young)"
+                "name": "Bronze Dragon's Breath Potion (Young)"
             }
         ]
     },
@@ -12981,8 +12958,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Copper Dragon's Breath Potion (Adult)",
-                "source": "Copper Dragon's Breath Potion (Adult)"
+                "name": "Copper Dragon's Breath Potion (Adult)"
             }
         ],
         "overrideConditions": [
@@ -13004,8 +12980,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Copper Dragon's Breath Potion (Wyrm)",
-                "source": "Copper Dragon's Breath Potion (Wyrm)"
+                "name": "Copper Dragon's Breath Potion (Wyrm)"
             }
         ],
         "overrideConditions": [
@@ -13030,8 +13005,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Copper Dragon's Breath Potion (Young)",
-                "source": "Copper Dragon's Breath Potion (Young)"
+                "name": "Copper Dragon's Breath Potion (Young)"
             }
         ]
     },
@@ -13048,8 +13022,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Gold Dragon's Breath Potion (Adult)",
-                "source": "Gold Dragon's Breath Potion (Adult)"
+                "name": "Gold Dragon's Breath Potion (Adult)"
             }
         ],
         "overrideConditions": [
@@ -13071,8 +13044,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Gold Dragon's Breath Potion (Wyrm)",
-                "source": "Gold Dragon's Breath Potion (Wyrm)"
+                "name": "Gold Dragon's Breath Potion (Wyrm)"
             }
         ],
         "overrideConditions": [
@@ -13097,8 +13069,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Gold Dragon's Breath Potion (Young)",
-                "source": "Gold Dragon's Breath Potion (Young)"
+                "name": "Gold Dragon's Breath Potion (Young)"
             }
         ]
     },
@@ -13115,8 +13086,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Green Dragon's Breath Potion (Adult)",
-                "source": "Green Dragon's Breath Potion (Adult)"
+                "name": "Green Dragon's Breath Potion (Adult)"
             }
         ],
         "overrideConditions": [
@@ -13138,8 +13108,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Green Dragon's Breath Potion (Wyrm)",
-                "source": "Green Dragon's Breath Potion (Wyrm)"
+                "name": "Green Dragon's Breath Potion (Wyrm)"
             }
         ],
         "overrideConditions": [
@@ -13164,8 +13133,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Green Dragon's Breath Potion (Young)",
-                "source": "Green Dragon's Breath Potion (Young)"
+                "name": "Green Dragon's Breath Potion (Young)"
             }
         ]
     },
@@ -13327,8 +13295,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Red Dragon's Breath Potion (Adult)",
-                "source": "Red Dragon's Breath Potion (Adult)"
+                "name": "Red Dragon's Breath Potion (Adult)"
             }
         ],
         "overrideConditions": [
@@ -13350,8 +13317,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Red Dragon's Breath Potion (Wyrm)",
-                "source": "Red Dragon's Breath Potion (Wyrm)"
+                "name": "Red Dragon's Breath Potion (Wyrm)"
             }
         ],
         "overrideConditions": [
@@ -13376,8 +13342,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Red Dragon's Breath Potion (Young)",
-                "source": "Red Dragon's Breath Potion (Young)"
+                "name": "Red Dragon's Breath Potion (Young)"
             }
         ]
     },
@@ -13413,8 +13378,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Silver Dragon's Breath Potion (Adult)",
-                "source": "Silver Dragon's Breath Potion (Adult)"
+                "name": "Silver Dragon's Breath Potion (Adult)"
             }
         ],
         "overrideConditions": [
@@ -13436,8 +13400,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Silver Dragon's Breath Potion (Wyrm)",
-                "source": "Silver Dragon's Breath Potion (Wyrm)"
+                "name": "Silver Dragon's Breath Potion (Wyrm)"
             }
         ],
         "overrideConditions": [
@@ -13462,8 +13425,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Silver Dragon's Breath Potion (Young)",
-                "source": "Silver Dragon's Breath Potion (Young)"
+                "name": "Silver Dragon's Breath Potion (Young)"
             }
         ]
     },
@@ -13521,8 +13483,7 @@
         ],
         "gainActivities": [
             {
-                "name": "White Dragon's Breath Potion (Adult)",
-                "source": "White Dragon's Breath Potion (Adult)"
+                "name": "White Dragon's Breath Potion (Adult)"
             }
         ],
         "overrideConditions": [
@@ -13544,8 +13505,7 @@
         ],
         "gainActivities": [
             {
-                "name": "White Dragon's Breath Potion (Wyrm)",
-                "source": "White Dragon's Breath Potion (Wyrm)"
+                "name": "White Dragon's Breath Potion (Wyrm)"
             }
         ],
         "overrideConditions": [
@@ -13570,8 +13530,7 @@
         ],
         "gainActivities": [
             {
-                "name": "White Dragon's Breath Potion (Young)",
-                "source": "White Dragon's Breath Potion (Young)"
+                "name": "White Dragon's Breath Potion (Young)"
             }
         ]
     },
@@ -16584,8 +16543,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Draconic Barrage Energy Missile",
-                "source": "Draconic Barrage"
+                "name": "Draconic Barrage Energy Missile"
             }
         ],
         "heightenedDescs": [
@@ -17509,7 +17467,7 @@
                 "defaultDuration": 144000
             }
         ],
-        "gainConditions":[
+        "gainConditions": [
             {
                 "conditionChoiceFilter": [
                     "Success",
@@ -17558,7 +17516,7 @@
                 "defaultDuration": 144000
             }
         ],
-        "gainConditions":[
+        "gainConditions": [
             {
                 "conditionChoiceFilter": [
                     "Success",
@@ -23010,8 +22968,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Shield Block",
-                "source": "Shield"
+                "name": "Shield Block"
             }
         ],
         "gainItems": [
@@ -26326,8 +26283,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Vibrant Thorns: Positive Spell Cast",
-                "source": "Vibrant Thorns"
+                "name": "Vibrant Thorns: Positive Spell Cast"
             }
         ],
         "heightenedDescs": [
@@ -38932,8 +38888,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Diamond Dust Bonus",
-                "source": "Diamond Dust"
+                "name": "Diamond Dust Bonus"
             }
         ],
         "heightenedDescs": [
@@ -41208,8 +41163,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Font of Serenity: Touch the Font",
-                "source": "Font of Serenity"
+                "name": "Font of Serenity: Touch the Font"
             }
         ],
         "heightenedDescs": [
@@ -42507,8 +42461,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Positive Luminance: Increase Reservoir",
-                "source": "Positive Luminance"
+                "name": "Positive Luminance: Increase Reservoir"
             }
         ],
         "endConditions": [
@@ -43234,8 +43187,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Reflective Scales Discharge",
-                "source": "Reflective Scales"
+                "name": "Reflective Scales Discharge"
             }
         ],
         "heightenedDescs": [
@@ -44941,7 +44893,7 @@
                 "desc": "You believe the caster is in the designated location and can't see them in their actual location.",
                 "showon": "Perception"
             }
-        ],        
+        ],
         "choice": "Success",
         "choices": [
             {
@@ -46446,8 +46398,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Crushing Despair: Fail Save",
-                "source": "Crushing Despair"
+                "name": "Crushing Despair: Fail Save"
             }
         ],
         "gainConditions": [
@@ -49181,7 +49132,7 @@
         "endsWithConditions": [
             {
                 "name": "Stunned",
-                "source": "Synaptic Pulse (Caster)"
+                "source": "Synaptic Pulse"
             }
         ],
         "choice": "Success",
@@ -50183,8 +50134,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Dragon Form Breath Weapon",
-                "source": "Dragon Form"
+                "name": "Dragon Form Breath Weapon"
             }
         ],
         "gainItems": [
@@ -50869,8 +50819,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Impaling Briars: Impale",
-                "source": "Impaling Briars"
+                "name": "Impaling Briars: Impale"
             }
         ],
         "gainConditions": [
@@ -51022,12 +50971,10 @@
         ],
         "gainActivities": [
             {
-                "name": "Shroud of Flame",
-                "source": "Monstrosity Form"
+                "name": "Shroud of Flame"
             },
             {
-                "name": "Spine Rake",
-                "source": "Monstrosity Form"
+                "name": "Spine Rake"
             }
         ],
         "gainItems": [
@@ -51409,8 +51356,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Storm Lord: Call Lightning Bolt",
-                "source": "Storm Lord"
+                "name": "Storm Lord: Call Lightning Bolt"
             }
         ],
         "gainConditions": [
@@ -51658,8 +51604,7 @@
         ],
         "gainActivities": [
             {
-                "name": "Trample",
-                "source": "Nature Incarnate"
+                "name": "Trample"
             }
         ],
         "gainConditions": [

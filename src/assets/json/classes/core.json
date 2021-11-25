@@ -5101,7 +5101,6 @@
     },
     {
         "name": "Cleric",
-        "warning": "Advanced domain spells can be chosen, but are not yet functional. The Cleric is otherwise fully implemented.",
         "deityFocused": true,
         "showDeityAnathema": true,
         "showDeityEdicts": true,

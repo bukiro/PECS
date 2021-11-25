@@ -1,5 +1,20 @@
 [
     {
+        "version": "1.0.13",
+        "changes": [
+            {
+                "header": "",
+                "desc": "With the advanced domain spells and the archetype feats finished, the core Cleric is now fully implemented. This seems as good a time as any for a new release.",
+                "images": []
+            },
+            {
+                "header": "",
+                "desc": "Implementing advanced domain spells has added a lot of new and fun capabilities to conditions, including circular and automatically processing stages as well as a time stopping effect, that can be used in custom content.",
+                "images": []
+            }
+        ]
+    },
+    {
         "version": "1.0.12",
         "changes": [
             {

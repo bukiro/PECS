@@ -21,8 +21,7 @@
         "gainConditions": [
             {
                 "duration": -5,
-                "name": "Adapt Self",
-                "source": "Adapt Self"
+                "name": "Adapt Self"
             }
         ]
     },
@@ -47,8 +46,7 @@
         "gainConditions": [
             {
                 "duration": 5,
-                "name": "Agile Feet",
-                "source": "Agile Feet"
+                "name": "Agile Feet"
             }
         ]
     },
@@ -79,8 +77,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Ancestral Memories",
-                "source": "Ancestral Memories"
+                "name": "Ancestral Memories"
             }
         ],
         "heightenedDescs": [
@@ -129,13 +126,11 @@
             {
                 "duration": 100,
                 "name": "Angelic Halo (Caster)",
-                "source": "Angelic Halo",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Angelic Halo",
-                "source": "Angelic Halo",
                 "targetFilter": "target"
             }
         ]
@@ -169,7 +164,6 @@
             {
                 "duration": 100,
                 "name": "Appearance of Wealth (Caster)",
-                "source": "Appearance of Wealth",
                 "targetFilter": "caster"
             }
         ]
@@ -195,8 +189,7 @@
         "gainConditions": [
             {
                 "duration": 10,
-                "name": "Athletic Rush",
-                "source": "Athletic Rush"
+                "name": "Athletic Rush"
             }
         ]
     },
@@ -224,7 +217,6 @@
             {
                 "duration": 100,
                 "name": "Augment Summoning (Caster)",
-                "source": "Augment Summoning",
                 "targetFilter": "caster"
             }
         ]
@@ -255,13 +247,11 @@
             {
                 "duration": 100,
                 "name": "Bit of Luck (Caster)",
-                "source": "Bit of Luck",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Bit of Luck",
-                "source": "Bit of Luck",
                 "targetFilter": "target"
             }
         ]
@@ -298,7 +288,6 @@
             {
                 "duration": -5,
                 "name": "Blind Ambition (Caster)",
-                "source": "Blind Ambition",
                 "targetFilter": "caster"
             }
         ]
@@ -332,7 +321,6 @@
             {
                 "duration": -5,
                 "name": "Call of the Grave (Caster)",
-                "source": "Call of the Grave",
                 "targetFilter": "caster"
             }
         ]
@@ -374,14 +362,12 @@
             {
                 "duration": -5,
                 "name": "Charged Javelin (Caster)",
-                "source": "Charged Javelin",
                 "targetFilter": "caster"
             },
             {
                 "duration": -5,
                 "copyChoiceFrom": "Charged Javelin (Caster)",
                 "name": "Charged Javelin (Ally)",
-                "source": "Charged Javelin",
                 "targetFilter": "target"
             }
         ],
@@ -551,7 +537,6 @@
             {
                 "duration": -5,
                 "name": "Charming Touch (Caster)",
-                "source": "Charming Touch",
                 "targetFilter": "caster"
             }
         ]
@@ -590,7 +575,6 @@
             {
                 "duration": -5,
                 "name": "Charming Words",
-                "source": "Charming Words",
                 "targetFilter": "caster"
             }
         ]
@@ -622,7 +606,6 @@
             {
                 "duration": 100,
                 "name": "Cloak of Shadow (Caster)",
-                "source": "Cloak of Shadow",
                 "targetFilter": "caster"
             },
             {
@@ -630,7 +613,6 @@
                 "choice": "Cloak Worn",
                 "hideChoices": true,
                 "name": "Cloak of Shadow",
-                "source": "Cloak of Shadow",
                 "targetFilter": "target"
             }
         ]
@@ -852,7 +834,6 @@
             {
                 "duration": -5,
                 "name": "Dazzling Flash (Caster)",
-                "source": "Dazzling Flash",
                 "targetFilter": "caster"
             }
         ],
@@ -899,8 +880,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Death's Call",
-                "source": "Death's Call"
+                "name": "Death's Call"
             }
         ]
     },
@@ -929,13 +909,11 @@
             {
                 "duration": 10,
                 "name": "Delay Consequence (Caster)",
-                "source": "Delay Consequence",
                 "targetFilter": "caster"
             },
             {
                 "duration": 10,
                 "name": "Delay Consequence",
-                "source": "Delay Consequence",
                 "targetFilter": "target"
             }
         ]
@@ -965,13 +943,11 @@
             {
                 "duration": 10,
                 "name": "Diabolic Edict (Caster)",
-                "source": "Diabolic Edict",
                 "targetFilter": "caster"
             },
             {
                 "duration": 10,
                 "name": "Diabolic Edict",
-                "source": "Diabolic Edict",
                 "targetFilter": "target"
             }
         ]
@@ -1009,7 +985,6 @@
             {
                 "duration": -5,
                 "name": "Divine Plagues (Caster)",
-                "source": "Divine Plagues",
                 "targetFilter": "caster"
             }
         ],
@@ -1068,13 +1043,11 @@
             {
                 "duration": 15,
                 "name": "Diviner's Sight (Caster)",
-                "source": "Diviner's Sight",
                 "targetFilter": "caster"
             },
             {
                 "duration": 15,
                 "name": "Diviner's Sight",
-                "source": "Diviner's Sight",
                 "targetFilter": "target"
             }
         ]
@@ -1108,70 +1081,60 @@
                 "duration": 100,
                 "heightenedFilter": 1,
                 "name": "Draconic Barrage",
-                "source": "Draconic Barrage",
                 "value": 1
             },
             {
                 "duration": 100,
                 "heightenedFilter": 2,
                 "name": "Draconic Barrage",
-                "source": "Draconic Barrage",
                 "value": 2
             },
             {
                 "duration": 100,
                 "heightenedFilter": 3,
                 "name": "Draconic Barrage",
-                "source": "Draconic Barrage",
                 "value": 3
             },
             {
                 "duration": 100,
                 "heightenedFilter": 4,
                 "name": "Draconic Barrage",
-                "source": "Draconic Barrage",
                 "value": 4
             },
             {
                 "duration": 100,
                 "heightenedFilter": 5,
                 "name": "Draconic Barrage",
-                "source": "Draconic Barrage",
                 "value": 5
             },
             {
                 "duration": 100,
                 "heightenedFilter": 6,
                 "name": "Draconic Barrage",
-                "source": "Draconic Barrage",
                 "value": 6
             },
             {
                 "duration": 100,
                 "heightenedFilter": 7,
                 "name": "Draconic Barrage",
-                "source": "Draconic Barrage",
                 "value": 7
             },
             {
                 "duration": 100,
                 "heightenedFilter": 8,
                 "name": "Draconic Barrage",
-                "source": "Draconic Barrage",
                 "value": 8
             },
             {
                 "duration": 100,
                 "heightenedFilter": 9,
                 "name": "Draconic Barrage",
-                "source": "Draconic Barrage",
                 "value": 9
             },
             {
                 "duration": 100,
                 "heightenedFilter": 10,
                 "name": "Draconic Barrage",
-                "source": "Draconic Barrage",
                 "value": 10
             }
         ],
@@ -1341,8 +1304,7 @@
             {
                 "duration": 100,
                 "choiceBySubType": "Dragon Type",
-                "name": "Dragon Claws",
-                "source": "Dragon Claws"
+                "name": "Dragon Claws"
             }
         ],
         "heightenedDescs": [
@@ -1422,14 +1384,12 @@
             {
                 "duration": -5,
                 "name": "Eject Soul (Caster)",
-                "source": "Eject Soul",
                 "targetFilter": "caster"
             },
             {
                 "duration": -5,
                 "copyChoiceFrom": "Eject Soul (Caster)",
                 "name": "Eject Soul",
-                "source": "Eject Soul",
                 "targetFilter": "target"
             }
         ],
@@ -1677,13 +1637,11 @@
             {
                 "duration": 100,
                 "name": "Face in the Crowd (Caster)",
-                "source": "Face in the Crowd",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Face in the Crowd",
-                "source": "Face in the Crowd",
                 "targetFilter": "target"
             }
         ],
@@ -1744,7 +1702,6 @@
                 "heightenedFilter": 1,
                 "name": "Faerie Dust (Caster)",
                 "radius": 5,
-                "source": "Faerie Dust",
                 "targetFilter": "caster"
             },
             {
@@ -1752,7 +1709,6 @@
                 "heightenedFilter": 4,
                 "name": "Faerie Dust (Caster)",
                 "radius": 10,
-                "source": "Faerie Dust",
                 "targetFilter": "caster"
             },
             {
@@ -1760,7 +1716,6 @@
                 "heightenedFilter": 7,
                 "name": "Faerie Dust (Caster)",
                 "radius": 15,
-                "source": "Faerie Dust",
                 "targetFilter": "caster"
             },
             {
@@ -1768,7 +1723,6 @@
                 "heightenedFilter": 10,
                 "name": "Faerie Dust (Caster)",
                 "radius": 20,
-                "source": "Faerie Dust",
                 "targetFilter": "caster"
             }
         ],
@@ -2075,7 +2029,6 @@
             {
                 "duration": -5,
                 "name": "Forced Quiet (Caster)",
-                "source": "Forced Quiet",
                 "targetFilter": "caster"
             }
         ]
@@ -2108,8 +2061,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Glutton's Jaw",
-                "source": "Glutton's Jaw"
+                "name": "Glutton's Jaw"
             }
         ],
         "heightenedDescs": [
@@ -2192,7 +2144,6 @@
                 "duration": 1000,
                 "heightenedFilter": 1,
                 "name": "Goodberry",
-                "source": "Goodberry",
                 "targetFilter": "caster",
                 "value": 1
             },
@@ -2200,7 +2151,6 @@
                 "duration": 1000,
                 "heightenedFilter": 2,
                 "name": "Goodberry",
-                "source": "Goodberry",
                 "targetFilter": "caster",
                 "value": 2
             },
@@ -2208,7 +2158,6 @@
                 "duration": 1000,
                 "heightenedFilter": 3,
                 "name": "Goodberry",
-                "source": "Goodberry",
                 "targetFilter": "caster",
                 "value": 3
             },
@@ -2216,7 +2165,6 @@
                 "duration": 1000,
                 "heightenedFilter": 4,
                 "name": "Goodberry",
-                "source": "Goodberry",
                 "targetFilter": "caster",
                 "value": 4
             },
@@ -2224,7 +2172,6 @@
                 "duration": 1000,
                 "heightenedFilter": 5,
                 "name": "Goodberry",
-                "source": "Goodberry",
                 "targetFilter": "caster",
                 "value": 5
             },
@@ -2232,7 +2179,6 @@
                 "duration": 1000,
                 "heightenedFilter": 6,
                 "name": "Goodberry",
-                "source": "Goodberry",
                 "targetFilter": "caster",
                 "value": 6
             },
@@ -2240,7 +2186,6 @@
                 "duration": 1000,
                 "heightenedFilter": 7,
                 "name": "Goodberry",
-                "source": "Goodberry",
                 "targetFilter": "caster",
                 "value": 7
             },
@@ -2248,7 +2193,6 @@
                 "duration": 1000,
                 "heightenedFilter": 8,
                 "name": "Goodberry",
-                "source": "Goodberry",
                 "targetFilter": "caster",
                 "value": 8
             },
@@ -2256,7 +2200,6 @@
                 "duration": 1000,
                 "heightenedFilter": 9,
                 "name": "Goodberry",
-                "source": "Goodberry",
                 "targetFilter": "caster",
                 "value": 9
             },
@@ -2264,7 +2207,6 @@
                 "duration": 1000,
                 "heightenedFilter": 10,
                 "name": "Goodberry",
-                "source": "Goodberry",
                 "targetFilter": "caster",
                 "value": 10
             }
@@ -2575,13 +2517,11 @@
             {
                 "duration": 100,
                 "name": "Healer's Blessing (Caster)",
-                "source": "Healer's Blessing",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Healer's Blessing",
-                "source": "Healer's Blessing",
                 "targetFilter": "target"
             }
         ],
@@ -2854,14 +2794,12 @@
             {
                 "duration": -5,
                 "name": "Hyperfocus (Caster)",
-                "source": "Hyperfocus",
                 "targetFilter": "caster"
             },
             {
                 "duration": -5,
                 "copyChoiceFrom": "Hyperfocus (Caster)",
                 "name": "Hyperfocus",
-                "source": "Hyperfocus",
                 "targetFilter": "target"
             }
         ],
@@ -2923,14 +2861,12 @@
             {
                 "duration": 10,
                 "name": "Inspire Competence (Caster)",
-                "source": "Inspire Competence",
                 "targetFilter": "caster"
             },
             {
                 "duration": 10,
                 "copyChoiceFrom": "Inspire Competence (Caster)",
                 "name": "Inspire Competence",
-                "source": "Inspire Competence",
                 "targetFilter": "target"
             }
         ]
@@ -2963,7 +2899,6 @@
             {
                 "duration": 10,
                 "name": "Inspire Courage",
-                "source": "Inspire Courage",
                 "targetFilter": "caster",
                 "value": 1
             },
@@ -2971,7 +2906,6 @@
                 "duration": 10,
                 "copyChoiceFrom": "Inspire Courage",
                 "name": "Inspire Courage",
-                "source": "Inspire Courage",
                 "targetFilter": "target",
                 "value": 1
             }
@@ -3008,7 +2942,6 @@
             {
                 "duration": -5,
                 "name": "Jealous Hex (Caster)",
-                "source": "Jealous Hex",
                 "targetFilter": "caster"
             }
         ]
@@ -3033,8 +2966,7 @@
         "gainConditions": [
             {
                 "duration": 10,
-                "name": "Concealed",
-                "source": "Ki Rush"
+                "name": "Concealed"
             }
         ]
     },
@@ -3064,8 +2996,7 @@
         "gainConditions": [
             {
                 "duration": 1,
-                "name": "Ki Strike",
-                "source": "Ki Strike"
+                "name": "Ki Strike"
             }
         ],
         "heightenedDescs": [
@@ -3421,13 +3352,11 @@
             {
                 "duration": -5,
                 "name": "Lift Nature's Caul (Caster)",
-                "source": "Lift Nature's Caul",
                 "targetFilter": "caster"
             },
             {
                 "duration": -5,
                 "name": "Lift Nature's Caul (Ally)",
-                "source": "Lift Nature's Caul",
                 "targetFilter": "target"
             }
         ],
@@ -3523,8 +3452,7 @@
         "gainConditions": [
             {
                 "duration": -5,
-                "name": "Lingering Composition",
-                "source": "Lingering Composition"
+                "name": "Lingering Composition"
             }
         ]
     },
@@ -3576,14 +3504,12 @@
             {
                 "duration": 100,
                 "name": "Magic's Vessel (Caster)",
-                "source": "Magic's Vessel",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "hideChoices": true,
                 "name": "Magic's Vessel",
-                "source": "Magic's Vessel",
                 "targetFilter": "target"
             }
         ]
@@ -3621,7 +3547,6 @@
             {
                 "duration": -5,
                 "name": "Moonbeam (Caster)",
-                "source": "Moonbeam",
                 "targetFilter": "caster"
             }
         ],
@@ -3758,8 +3683,7 @@
         "gainConditions": [
             {
                 "duration": -5,
-                "name": "Oathkeeper's Insignia",
-                "source": "Oathkeeper's Insignia"
+                "name": "Oathkeeper's Insignia"
             }
         ],
         "heightenedDescs": [
@@ -3839,7 +3763,6 @@
             {
                 "duration": 100,
                 "name": "Object Memory",
-                "source": "Object Memory",
                 "targetFilter": "caster"
             }
         ],
@@ -3893,7 +3816,6 @@
             {
                 "duration": -5,
                 "name": "Overstuff (Caster)",
-                "source": "Overstuff",
                 "targetFilter": "caster"
             }
         ]
@@ -3944,7 +3866,6 @@
             {
                 "duration": -5,
                 "name": "Parch (Caster)",
-                "source": "Parch",
                 "targetFilter": "caster"
             }
         ],
@@ -4013,14 +3934,12 @@
             {
                 "duration": 15,
                 "name": "Physical Boost (Caster)",
-                "source": "Physical Boost",
                 "targetFilter": "caster"
             },
             {
                 "duration": 15,
                 "copyChoiceFrom": "Physical Boost (Caster)",
                 "name": "Physical Boost",
-                "source": "Physical Boost",
                 "targetFilter": "target"
             }
         ]
@@ -4051,13 +3970,11 @@
             {
                 "duration": 1,
                 "name": "Practice Makes Perfect (Caster)",
-                "source": "Practice Makes Perfect",
                 "targetFilter": "caster"
             },
             {
                 "duration": 1,
                 "name": "Practice Makes Perfect",
-                "source": "Practice Makes Perfect",
                 "targetFilter": "target"
             }
         ]
@@ -4087,13 +4004,11 @@
             {
                 "duration": 100,
                 "name": "Protective Ward (Caster)",
-                "source": "Protective Ward",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Protective Ward",
-                "source": "Protective Ward",
                 "targetFilter": "target"
             }
         ]
@@ -4271,7 +4186,6 @@
             {
                 "duration": 144000,
                 "name": "Read Fate Immunity",
-                "source": "Read Fate",
                 "targetFilter": "target"
             }
         ]
@@ -4310,7 +4224,6 @@
             {
                 "duration": -5,
                 "name": "Redact",
-                "source": "Redact",
                 "targetFilter": "caster"
             }
         ],
@@ -4390,7 +4303,6 @@
             {
                 "duration": -5,
                 "name": "Savor the Sting (Caster)",
-                "source": "Savor the Sting",
                 "targetFilter": "caster"
             }
         ],
@@ -4557,14 +4469,12 @@
             {
                 "duration": 10,
                 "name": "Silver's Refrain (Caster)",
-                "source": "Silver's Refrain",
                 "targetFilter": "caster"
             },
             {
                 "duration": 10,
                 "copyChoiceFrom": "Silver's Refrain (Caster)",
                 "name": "Silver's Refrain",
-                "source": "Silver's Refrain",
                 "targetFilter": "target"
             }
         ]
@@ -4602,13 +4512,11 @@
             {
                 "duration": 10,
                 "name": "Soothing Words (Caster)",
-                "source": "Soothing Words",
                 "targetFilter": "caster"
             },
             {
                 "duration": 10,
                 "name": "Soothing Words",
-                "source": "Soothing Words",
                 "targetFilter": "target"
             }
         ],
@@ -4666,7 +4574,6 @@
             {
                 "duration": -5,
                 "name": "Splash of Art (Caster)",
-                "source": "Splash of Art",
                 "targetFilter": "caster"
             }
         ]
@@ -4706,7 +4613,6 @@
             {
                 "duration": -5,
                 "name": "Split the Tongue (Caster)",
-                "source": "Split the Tongue",
                 "targetFilter": "caster"
             }
         ],
@@ -4826,8 +4732,7 @@
         "gainConditions": [
             {
                 "duration": 10,
-                "name": "Concealed",
-                "source": "Sudden Shift"
+                "name": "Concealed"
             }
         ]
     },
@@ -4871,8 +4776,7 @@
         "gainConditions": [
             {
                 "duration": 10,
-                "name": "Swarmsense",
-                "source": "Swarmsense"
+                "name": "Swarmsense"
             }
         ],
         "heightenedDescs": [
@@ -4956,14 +4860,12 @@
             {
                 "duration": 1000,
                 "name": "Sweet Dream (Caster)",
-                "source": "Sweet Dream",
                 "targetFilter": "caster"
             },
             {
                 "duration": 1000,
                 "copyChoiceFrom": "Sweet Dream (Caster)",
                 "name": "Sweet Dream",
-                "source": "Sweet Dream",
                 "targetFilter": "target"
             }
         ]
@@ -5158,8 +5060,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Tentacular Limbs",
-                "source": "Tentacular Limbs"
+                "name": "Tentacular Limbs"
             }
         ],
         "heightenedDescs": [
@@ -5266,7 +5167,6 @@
             {
                 "duration": -5,
                 "name": "Touch of Obedience (Caster)",
-                "source": "Touch of Obedience",
                 "targetFilter": "caster"
             }
         ]
@@ -5307,7 +5207,6 @@
             {
                 "duration": -5,
                 "name": "Touch of Undeath (Caster)",
-                "source": "Touch of Undeath",
                 "targetFilter": "caster"
             }
         ],
@@ -5440,14 +5339,12 @@
             {
                 "duration": -5,
                 "name": "Undeath's Blessing (Caster)",
-                "source": "Undeath's Blessing",
                 "targetFilter": "caster"
             },
             {
                 "duration": -5,
                 "copyChoiceFrom": "Undeath's Blessing (Caster)",
                 "name": "Undeath's Blessing",
-                "source": "Undeath's Blessing",
                 "targetFilter": "target"
             }
         ],
@@ -5564,8 +5461,7 @@
         "gainConditions": [
             {
                 "duration": 1,
-                "name": "Unimpeded Stride",
-                "source": "Unimpeded Stride"
+                "name": "Unimpeded Stride"
             }
         ]
     },
@@ -5591,8 +5487,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Veil of Confidence",
-                "source": "Veil of Confidence"
+                "name": "Veil of Confidence"
             }
         ]
     },
@@ -5625,8 +5520,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Vibrant Thorns",
-                "source": "Vibrant Thorns"
+                "name": "Vibrant Thorns"
             }
         ],
         "heightenedDescs": [
@@ -5795,7 +5689,6 @@
             {
                 "duration": -5,
                 "name": "Waking Nightmare (Caster)",
-                "source": "Waking Nightmare",
                 "targetFilter": "caster"
             }
         ]
@@ -5831,7 +5724,6 @@
             {
                 "duration": 100,
                 "name": "Warped Terrain",
-                "source": "Warped Terrain",
                 "targetFilter": "caster"
             }
         ],
@@ -5879,7 +5771,6 @@
             {
                 "duration": 10,
                 "name": "Weapon Surge",
-                "source": "Weapon Surge",
                 "targetFilter": "caster"
             }
         ]
@@ -5918,8 +5809,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Wild Morph",
-                "source": "Wild Morph"
+                "name": "Wild Morph"
             }
         ],
         "heightenedDescs": [
@@ -6002,8 +5892,7 @@
         "gainConditions": [
             {
                 "duration": -5,
-                "name": "Wild Shape",
-                "source": "Wild Shape"
+                "name": "Wild Shape"
             }
         ],
         "heightenedDescs": [
@@ -6061,7 +5950,6 @@
             {
                 "duration": -5,
                 "name": "Winter Bolt (Caster)",
-                "source": "Winter Bolt",
                 "targetFilter": "caster"
             }
         ],
@@ -6232,7 +6120,6 @@
             {
                 "duration": -5,
                 "name": "Withering Grasp (Caster)",
-                "source": "Withering Grasp",
                 "targetFilter": "caster"
             }
         ],
@@ -6471,8 +6358,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Word of Truth",
-                "source": "Word of Truth"
+                "name": "Word of Truth"
             }
         ]
     },
@@ -6516,7 +6402,6 @@
             {
                 "duration": -5,
                 "name": "Zenith Star (Caster)",
-                "source": "Zenith Star",
                 "targetFilter": "caster"
             }
         ],
@@ -6640,7 +6525,6 @@
             {
                 "duration": 10,
                 "name": "Inspire Defense",
-                "source": "Inspire Defense",
                 "targetFilter": "caster",
                 "value": 1
             },
@@ -6648,7 +6532,6 @@
                 "duration": 10,
                 "copyChoiceFrom": "Inspire Defense",
                 "name": "Inspire Defense",
-                "source": "Inspire Defense",
                 "targetFilter": "target",
                 "value": 1
             }
@@ -6682,14 +6565,12 @@
             {
                 "duration": 10,
                 "name": "Triple Time",
-                "source": "Triple Time",
                 "targetFilter": "caster"
             },
             {
                 "duration": 10,
                 "copyChoiceFrom": "Triple Time",
                 "name": "Triple Time",
-                "source": "Triple Time",
                 "targetFilter": "target"
             }
         ]
@@ -6841,7 +6722,6 @@
                 "heightenedFilter": 3,
                 "name": "Aberrant Whispers (Caster)",
                 "radius": 5,
-                "source": "Aberrant Whispers",
                 "targetFilter": "caster"
             },
             {
@@ -6849,7 +6729,6 @@
                 "heightenedFilter": 6,
                 "name": "Aberrant Whispers (Caster)",
                 "radius": 10,
-                "source": "Aberrant Whispers",
                 "targetFilter": "caster"
             },
             {
@@ -6857,7 +6736,6 @@
                 "heightenedFilter": 9,
                 "name": "Aberrant Whispers (Caster)",
                 "radius": 15,
-                "source": "Aberrant Whispers",
                 "targetFilter": "caster"
             }
         ],
@@ -6918,8 +6796,7 @@
         "gainConditions": [
             {
                 "duration": -5,
-                "name": "Angelic Wings",
-                "source": "Angelic Wings"
+                "name": "Angelic Wings"
             }
         ],
         "heightenedDescs": [
@@ -6970,7 +6847,6 @@
             {
                 "duration": 10,
                 "name": "Dirge of Doom",
-                "source": "Dirge of Doom",
                 "targetFilter": "caster"
             }
         ]
@@ -7107,7 +6983,6 @@
             {
                 "duration": 100,
                 "name": "Drain Life",
-                "source": "Drain Life",
                 "targetFilter": "caster"
             }
         ],
@@ -7218,8 +7093,7 @@
             {
                 "duration": 100,
                 "choiceBySubType": "Elemental Type",
-                "name": "Elemental Motion",
-                "source": "Elemental Motion"
+                "name": "Elemental Motion"
             }
         ],
         "heightenedDescs": [
@@ -7280,8 +7154,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Embrace the Pit",
-                "source": "Embrace the Pit"
+                "name": "Embrace the Pit"
             }
         ],
         "heightenedDescs": [
@@ -7377,8 +7250,7 @@
         "gainConditions": [
             {
                 "duration": 1,
-                "name": "Extend Spell",
-                "source": "Extend Spell"
+                "name": "Extend Spell"
             }
         ]
     },
@@ -7409,8 +7281,7 @@
         "gainConditions": [
             {
                 "duration": 15,
-                "name": "Fey Disappearance",
-                "source": "Fey Disappearance"
+                "name": "Fey Disappearance"
             }
         ],
         "heightenedDescs": [
@@ -7724,7 +7595,6 @@
                 "heightenedFilter": 3,
                 "name": "Swamp of Sloth",
                 "radius": 5,
-                "source": "Swamp of Sloth",
                 "targetFilter": "caster"
             },
             {
@@ -7732,7 +7602,6 @@
                 "heightenedFilter": 5,
                 "name": "Swamp of Sloth",
                 "radius": 10,
-                "source": "Swamp of Sloth",
                 "targetFilter": "caster"
             },
             {
@@ -7740,7 +7609,6 @@
                 "heightenedFilter": 7,
                 "name": "Swamp of Sloth",
                 "radius": 15,
-                "source": "Swamp of Sloth",
                 "targetFilter": "caster"
             },
             {
@@ -7748,7 +7616,6 @@
                 "heightenedFilter": 9,
                 "name": "Swamp of Sloth",
                 "radius": 20,
-                "source": "Swamp of Sloth",
                 "targetFilter": "caster"
             }
         ],
@@ -7854,8 +7721,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Adaptive Ablation",
-                "source": "Adaptive Ablation"
+                "name": "Adaptive Ablation"
             }
         ],
         "heightenedDescs": [
@@ -7938,14 +7804,12 @@
             {
                 "duration": 1000,
                 "name": "Artistic Flourish (Caster)",
-                "source": "Artistic Flourish",
                 "targetFilter": "caster"
             },
             {
                 "duration": 1000,
                 "copyChoiceFrom": "Artistic Flourish (Caster)",
                 "name": "Artistic Flourish",
-                "source": "Artistic Flourish",
                 "targetFilter": "target"
             }
         ],
@@ -8008,8 +7872,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Asterism",
-                "source": "Asterism"
+                "name": "Asterism"
             }
         ],
         "heightenedDescs": [
@@ -8111,8 +7974,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Bottle the Storm",
-                "source": "Bottle the Storm"
+                "name": "Bottle the Storm"
             }
         ],
         "heightenedDescs": [
@@ -8195,7 +8057,6 @@
                 "heightenedFilter": 4,
                 "name": "Captivating Adoration (Caster)",
                 "radius": 15,
-                "source": "Captivating Adoration",
                 "targetFilter": "caster"
             },
             {
@@ -8203,7 +8064,6 @@
                 "heightenedFilter": 5,
                 "name": "Captivating Adoration (Caster)",
                 "radius": 30,
-                "source": "Captivating Adoration",
                 "targetFilter": "caster"
             },
             {
@@ -8211,7 +8071,6 @@
                 "heightenedFilter": 6,
                 "name": "Captivating Adoration (Caster)",
                 "radius": 45,
-                "source": "Captivating Adoration",
                 "targetFilter": "caster"
             },
             {
@@ -8219,7 +8078,6 @@
                 "heightenedFilter": 7,
                 "name": "Captivating Adoration (Caster)",
                 "radius": 60,
-                "source": "Captivating Adoration",
                 "targetFilter": "caster"
             },
             {
@@ -8227,7 +8085,6 @@
                 "heightenedFilter": 8,
                 "name": "Captivating Adoration (Caster)",
                 "radius": 75,
-                "source": "Captivating Adoration",
                 "targetFilter": "caster"
             },
             {
@@ -8235,7 +8092,6 @@
                 "heightenedFilter": 9,
                 "name": "Captivating Adoration (Caster)",
                 "radius": 90,
-                "source": "Captivating Adoration",
                 "targetFilter": "caster"
             },
             {
@@ -8243,7 +8099,6 @@
                 "heightenedFilter": 9,
                 "name": "Captivating Adoration (Caster)",
                 "radius": 105,
-                "source": "Captivating Adoration",
                 "targetFilter": "caster"
             }
         ],
@@ -8348,7 +8203,6 @@
             {
                 "duration": 10,
                 "name": "Command (Caster)",
-                "source": "Commanding Lash",
                 "targetFilter": "caster"
             }
         ]
@@ -8383,8 +8237,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Competitive Edge",
-                "source": "Competitive Edge"
+                "name": "Competitive Edge"
             }
         ],
         "heightenedDescs": [
@@ -8447,7 +8300,6 @@
             {
                 "duration": -5,
                 "name": "Darkened Eyes (Caster)",
-                "source": "Darkened Eyes",
                 "targetFilter": "caster"
             }
         ]
@@ -8484,7 +8336,6 @@
             {
                 "duration": -5,
                 "name": "Delusional Pride (Caster)",
-                "source": "Delusional Pride",
                 "targetFilter": "caster"
             }
         ]
@@ -8521,13 +8372,11 @@
             {
                 "duration": 100,
                 "name": "Destructive Aura (Caster)",
-                "source": "Destructive Aura",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Destructive Aura",
-                "source": "Destructive Aura",
                 "targetFilter": "target"
             }
         ],
@@ -8602,7 +8451,6 @@
                 "duration": 100,
                 "hideChoices": true,
                 "name": "Diamond Dust",
-                "source": "Diamond Dust",
                 "targetFilter": "caster"
             }
         ],
@@ -8759,8 +8607,7 @@
         "gainConditions": [
             {
                 "duration": 10,
-                "name": "Disperse into Air",
-                "source": "Disperse into Air"
+                "name": "Disperse into Air"
             }
         ]
     },
@@ -8798,7 +8645,6 @@
             {
                 "duration": 100,
                 "name": "Door to Beyond",
-                "source": "Door to Beyond",
                 "targetFilter": "caster"
             }
         ],
@@ -8898,7 +8744,6 @@
             {
                 "duration": 100,
                 "name": "Downpour (Caster)",
-                "source": "Downpour",
                 "targetFilter": "caster"
             },
             {
@@ -8906,7 +8751,6 @@
                 "choice": "In the area",
                 "hideChoices": true,
                 "name": "Downpour",
-                "source": "Downpour",
                 "targetFilter": "target"
             }
         ],
@@ -9003,7 +8847,6 @@
             {
                 "duration": 100,
                 "name": "Dread Aura",
-                "source": "Dread Aura",
                 "targetFilter": "caster"
             }
         ]
@@ -9040,7 +8883,6 @@
             {
                 "duration": 10,
                 "name": "Dreamer's Call (Caster)",
-                "source": "Dreamer's Call",
                 "targetFilter": "caster"
             }
         ]
@@ -9082,7 +8924,6 @@
             {
                 "duration": 100,
                 "name": "Dust Storm",
-                "source": "Dust Storm",
                 "targetFilter": "caster"
             }
         ],
@@ -9156,7 +8997,6 @@
             {
                 "duration": 100,
                 "name": "Dutiful Challenge (Caster)",
-                "source": "Dutiful Challenge",
                 "targetFilter": "caster"
             }
         ],
@@ -9215,7 +9055,6 @@
             {
                 "duration": 100,
                 "name": "Ectoplasmic Interstice (Caster)",
-                "source": "Ectoplasmic Interstice",
                 "targetFilter": "caster"
             }
         ]
@@ -9266,8 +9105,7 @@
         "gainConditions": [
             {
                 "duration": 1,
-                "name": "Enduring Might",
-                "source": "Enduring Might"
+                "name": "Enduring Might"
             }
         ],
         "heightenedDescs": [
@@ -9363,8 +9201,7 @@
         "gainConditions": [
             {
                 "duration": 1,
-                "name": "Energy Absorption",
-                "source": "Energy Absorption"
+                "name": "Energy Absorption"
             }
         ],
         "heightenedDescs": [
@@ -9467,7 +9304,6 @@
             {
                 "duration": 100,
                 "name": "Ephemeral Hazards (Caster)",
-                "source": "Ephemeral Hazards",
                 "targetFilter": "caster"
             }
         ],
@@ -9659,7 +9495,6 @@
             {
                 "duration": 100,
                 "name": "Fallow Field (Caster)",
-                "source": "Fallow Field",
                 "targetFilter": "caster"
             }
         ]
@@ -9796,13 +9631,11 @@
             {
                 "duration": 5,
                 "name": "Flame Barrier (Caster)",
-                "source": "Flame Barrier",
                 "targetFilter": "caster"
             },
             {
                 "duration": 1,
                 "name": "Flame Barrier",
-                "source": "Flame Barrier",
                 "targetFilter": "target"
             }
         ],
@@ -9877,13 +9710,11 @@
             {
                 "duration": 100,
                 "name": "Font of Serenity (Caster)",
-                "source": "Font of Serenity",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Font of Serenity",
-                "source": "Font of Serenity",
                 "targetFilter": "target"
             }
         ],
@@ -9939,7 +9770,6 @@
             {
                 "duration": -5,
                 "name": "Foul Miasma (Caster)",
-                "source": "Foul Miasma",
                 "targetFilter": "caster"
             }
         ]
@@ -9970,14 +9800,12 @@
             {
                 "duration": 100,
                 "name": "Ghostly Transcription (Caster)",
-                "source": "Ghostly Transcription",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "copyChoiceFrom": "Ghostly Transcription (Caster)",
                 "name": "Ghostly Transcription",
-                "source": "Ghostly Transcription",
                 "targetFilter": "target"
             }
         ]
@@ -10023,14 +9851,12 @@
             {
                 "duration": 10,
                 "name": "Glimpse the Truth (Caster)",
-                "source": "Glimpse the Truth",
                 "targetFilter": "caster"
             },
             {
                 "duration": 10,
                 "heightenedFilter": 7,
                 "name": "Glimpse the Truth",
-                "source": "Glimpse the Truth",
                 "targetFilter": "target"
             }
         ],
@@ -10079,8 +9905,7 @@
         "gainConditions": [
             {
                 "duration": -5,
-                "name": "Inspire Heroics",
-                "source": "Inspire Heroics"
+                "name": "Inspire Heroics"
             }
         ]
     },
@@ -10123,22 +9948,19 @@
                 "duration": 100,
                 "heightened": 2,
                 "heightenedFilter": 4,
-                "name": "Invisibility",
-                "source": "Invisibility Cloak"
+                "name": "Invisibility"
             },
             {
                 "duration": 1000,
                 "heightened": 2,
                 "heightenedFilter": 6,
-                "name": "Invisibility",
-                "source": "Invisibility Cloak"
+                "name": "Invisibility"
             },
             {
                 "duration": 6000,
                 "heightened": 2,
                 "heightenedFilter": 8,
-                "name": "Invisibility",
-                "source": "Invisibility Cloak"
+                "name": "Invisibility"
             }
         ],
         "heightenedDescs": [
@@ -10330,8 +10152,7 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "name": "Lucky Break Immunity",
-                "source": "Lucky Break"
+                "name": "Lucky Break Immunity"
             }
         ]
     },
@@ -10367,13 +10188,11 @@
             {
                 "duration": 100,
                 "name": "Malignant Sustenance (Caster)",
-                "source": "Malignant Sustenance",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Malignant Sustenance",
-                "source": "Malignant Sustenance",
                 "targetFilter": "target"
             }
         ],
@@ -10468,13 +10287,11 @@
             {
                 "duration": 10,
                 "name": "Mystic Beacon (Caster)",
-                "source": "Mystic Beacon",
                 "targetFilter": "caster"
             },
             {
                 "duration": 10,
                 "name": "Mystic Beacon",
-                "source": "Mystic Beacon",
                 "targetFilter": "target"
             }
         ]
@@ -10508,8 +10325,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Nature's Bounty",
-                "source": "Nature's Bounty"
+                "name": "Nature's Bounty"
             }
         ],
         "heightenedDescs": [
@@ -10614,7 +10430,6 @@
             {
                 "duration": 10,
                 "name": "Ordained Purpose (Caster)",
-                "source": "Ordained Purpose",
                 "targetFilter": "caster"
             }
         ],
@@ -10725,7 +10540,6 @@
                 "heightenedFilter": 4,
                 "name": "Overflowing Sorrow (Caster)",
                 "radius": 15,
-                "source": "Overflowing Sorrow",
                 "targetFilter": "caster"
             },
             {
@@ -10733,7 +10547,6 @@
                 "heightenedFilter": 6,
                 "name": "Overflowing Sorrow (Caster)",
                 "radius": 20,
-                "source": "Overflowing Sorrow",
                 "targetFilter": "caster"
             },
             {
@@ -10741,7 +10554,6 @@
                 "heightenedFilter": 8,
                 "name": "Overflowing Sorrow (Caster)",
                 "radius": 25,
-                "source": "Overflowing Sorrow",
                 "targetFilter": "caster"
             },
             {
@@ -10749,7 +10561,6 @@
                 "heightenedFilter": 10,
                 "name": "Overflowing Sorrow (Caster)",
                 "radius": 30,
-                "source": "Overflowing Sorrow",
                 "targetFilter": "caster"
             }
         ],
@@ -10841,7 +10652,6 @@
             {
                 "duration": 100,
                 "name": "Positive Luminance",
-                "source": "Positive Luminance",
                 "value": 1
             }
         ],
@@ -10941,14 +10751,12 @@
             {
                 "duration": 100,
                 "name": "Precious Metals (Caster)",
-                "source": "Precious Metals",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "copyChoiceFrom": "Precious Metals (Caster)",
                 "name": "Precious Metals",
-                "source": "Precious Metals",
                 "targetFilter": "target"
             }
         ],
@@ -11010,13 +10818,11 @@
             {
                 "duration": 100,
                 "name": "Protector's Sphere (Caster)",
-                "source": "Protector's Sphere",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Protector's Sphere",
-                "source": "Protector's Sphere",
                 "targetFilter": "target"
             }
         ],
@@ -11114,8 +10920,7 @@
         "gainConditions": [
             {
                 "duration": 144000,
-                "name": "Pulse of the City",
-                "source": "Pulse of the City"
+                "name": "Pulse of the City"
             }
         ],
         "heightenedDescs": [
@@ -11175,7 +10980,6 @@
             {
                 "duration": 0,
                 "name": "Rebuke Death",
-                "source": "Rebuke Death",
                 "targetFilter": "target"
             }
         ],
@@ -11423,7 +11227,6 @@
             {
                 "duration": 1000,
                 "name": "Roar of the Wyrm (Caster)",
-                "source": "Roar of the Wyrm",
                 "targetFilter": "caster"
             }
         ]
@@ -11459,13 +11262,11 @@
             {
                 "duration": 6000,
                 "name": "Safeguard Secret (Caster)",
-                "source": "Safeguard Secret",
                 "targetFilter": "caster"
             },
             {
                 "duration": 6000,
                 "name": "Safeguard Secret",
-                "source": "Safeguard Secret",
                 "targetFilter": "target"
             }
         ]
@@ -11503,7 +11304,6 @@
             {
                 "duration": -5,
                 "name": "Shared Nightmare (Caster)",
-                "source": "Shared Nightmare",
                 "targetFilter": "caster"
             }
         ]
@@ -11530,8 +11330,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Shifting Form",
-                "source": "Shifting Form"
+                "name": "Shifting Form"
             }
         ]
     },
@@ -11566,7 +11365,6 @@
             {
                 "duration": -5,
                 "name": "Stasis (Caster)",
-                "source": "Stasis",
                 "targetFilter": "caster"
             }
         ]
@@ -11599,8 +11397,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Stormwind Flight",
-                "source": "Stormwind Flight"
+                "name": "Stormwind Flight"
             }
         ],
         "heightenedDescs": [
@@ -11651,8 +11448,7 @@
         "gainConditions": [
             {
                 "duration": 500,
-                "name": "Swarm Form",
-                "source": "Swarm Form"
+                "name": "Swarm Form"
             }
         ],
         "heightenedDescs": [
@@ -11724,14 +11520,12 @@
             {
                 "duration": 5,
                 "name": "Take its Course (Caster)",
-                "source": "Take its Course",
                 "targetFilter": "caster"
             },
             {
                 "duration": 1,
                 "copyChoiceFrom": "Take its Course (Caster)",
                 "name": "Take its Course",
-                "source": "Take its Course",
                 "targetFilter": "target"
             }
         ],
@@ -11789,13 +11583,11 @@
             {
                 "duration": 5,
                 "name": "Tempt Fate (Caster)",
-                "source": "Tempt Fate",
                 "targetFilter": "caster"
             },
             {
                 "duration": 1,
                 "name": "Tempt Fate",
-                "source": "Tempt Fate",
                 "targetFilter": "target"
             }
         ],
@@ -11848,14 +11640,12 @@
             {
                 "duration": 100,
                 "name": "Tireless Worker (Caster)",
-                "source": "Tireless Worker",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "copyChoiceFrom": "Tireless Worker (Caster)",
                 "name": "Tireless Worker",
-                "source": "Tireless Worker",
                 "targetFilter": "target"
             }
         ]
@@ -11889,7 +11679,6 @@
                 "choice": "New Moon",
                 "hideChoices": true,
                 "name": "Touch of the Moon (Caster)",
-                "source": "Touch of the Moon",
                 "targetFilter": "caster"
             },
             {
@@ -11897,7 +11686,6 @@
                 "choice": "New Moon",
                 "hideChoices": true,
                 "name": "Touch of the Moon",
-                "source": "Touch of the Moon",
                 "targetFilter": "target"
             }
         ]
@@ -11929,8 +11717,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Traveler's Transit",
-                "source": "Traveler's Transit"
+                "name": "Traveler's Transit"
             }
         ],
         "heightenedDescs": [
@@ -11984,7 +11771,6 @@
             {
                 "duration": -5,
                 "name": "Trickster's Twin (Caster)",
-                "source": "Trickster's Twin",
                 "targetFilter": "caster"
             }
         ]
@@ -12039,8 +11825,7 @@
         "gainConditions": [
             {
                 "duration": 6000,
-                "name": "Clairvoyance",
-                "source": "Vigilant Eye"
+                "name": "Clairvoyance"
             }
         ]
     },
@@ -12068,8 +11853,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Wild Winds Stance",
-                "source": "Wild Winds Stance"
+                "name": "Wild Winds Stance"
             }
         ]
     },
@@ -12098,14 +11882,12 @@
             {
                 "duration": 10,
                 "name": "Word of Freedom (Caster)",
-                "source": "Word of Freedom",
                 "targetFilter": "caster"
             },
             {
                 "duration": 10,
                 "copyChoiceFrom": "Word of Freedom (Caster)",
                 "name": "Word of Freedom",
-                "source": "Word of Freedom",
                 "targetFilter": "target"
             }
         ]
@@ -12137,13 +11919,11 @@
             {
                 "duration": 1,
                 "name": "Zeal for Battle (Caster)",
-                "source": "Zeal for Battle",
                 "targetFilter": "caster"
             },
             {
                 "duration": 1,
                 "name": "Zeal for Battle",
-                "source": "Zeal for Battle",
                 "targetFilter": "target"
             }
         ]
@@ -12283,14 +12063,12 @@
             {
                 "duration": -5,
                 "name": "Arcane Countermeasure (Caster)",
-                "source": "Arcane Countermeasure",
                 "targetFilter": "caster"
             },
             {
                 "duration": -5,
                 "copyChoiceFrom": "Arcane Countermeasure (Caster)",
                 "name": "Arcane Countermeasure",
-                "source": "Arcane Countermeasure",
                 "targetFilter": "target"
             }
         ]
@@ -12327,7 +12105,6 @@
             {
                 "duration": 10,
                 "name": "Celestial Brand (Caster and allies)",
-                "source": "Celestial Brand",
                 "targetFilter": "caster"
             }
         ],
@@ -12390,8 +12167,7 @@
         "gainConditions": [
             {
                 "duration": -5,
-                "name": "Dragon Wings",
-                "source": "Dragon Wings"
+                "name": "Dragon Wings"
             }
         ],
         "heightenedDescs": [
@@ -12527,14 +12303,12 @@
             {
                 "duration": 1000,
                 "name": "Fey Glamour (Caster)",
-                "source": "Fey Glamour",
                 "targetFilter": "caster"
             },
             {
                 "duration": 0,
                 "copyChoiceFrom": "Fey Glamour (Caster)",
                 "name": "Fey Glamour",
-                "source": "Fey Glamour",
                 "targetFilter": "target"
             }
         ]
@@ -12573,7 +12347,6 @@
             {
                 "duration": 10,
                 "name": "Grasping Grave (Caster)",
-                "source": "Grasping Grave",
                 "targetFilter": "caster"
             }
         ],
@@ -12746,7 +12519,6 @@
                 "duration": 10,
                 "heightenedFilter": 5,
                 "name": "House of Imaginary Walls",
-                "source": "House of Imaginary Walls",
                 "targetFilter": "caster",
                 "value": 20
             },
@@ -12754,7 +12526,6 @@
                 "duration": 10,
                 "heightenedFilter": 6,
                 "name": "House of Imaginary Walls",
-                "source": "House of Imaginary Walls",
                 "targetFilter": "caster",
                 "value": 24
             },
@@ -12762,7 +12533,6 @@
                 "duration": 10,
                 "heightenedFilter": 7,
                 "name": "House of Imaginary Walls",
-                "source": "House of Imaginary Walls",
                 "targetFilter": "caster",
                 "value": 28
             },
@@ -12770,7 +12540,6 @@
                 "duration": 10,
                 "heightenedFilter": 8,
                 "name": "House of Imaginary Walls",
-                "source": "House of Imaginary Walls",
                 "targetFilter": "caster",
                 "value": 32
             },
@@ -12778,7 +12547,6 @@
                 "duration": 10,
                 "heightenedFilter": 9,
                 "name": "House of Imaginary Walls",
-                "source": "House of Imaginary Walls",
                 "targetFilter": "caster",
                 "value": 36
             },
@@ -12786,7 +12554,6 @@
                 "duration": 10,
                 "heightenedFilter": 10,
                 "name": "House of Imaginary Walls",
-                "source": "House of Imaginary Walls",
                 "targetFilter": "caster",
                 "value": 40
             }
@@ -12839,8 +12606,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Unusual Anatomy",
-                "source": "Unusual Anatomy"
+                "name": "Unusual Anatomy"
             }
         ],
         "heightenedDescs": [
@@ -12913,8 +12679,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Wind Jump",
-                "source": "Wind Jump"
+                "name": "Wind Jump"
             }
         ],
         "heightenedDescs": [
@@ -12976,7 +12741,6 @@
             {
                 "duration": -5,
                 "name": "You're Mine (Caster)",
-                "source": "You're Mine",
                 "targetFilter": "caster"
             }
         ],
@@ -13046,7 +12810,6 @@
             {
                 "duration": -1,
                 "name": "Primal Summons",
-                "source": "Primal Summons",
                 "targetFilter": "caster"
             }
         ],
@@ -13089,13 +12852,11 @@
             {
                 "duration": 10,
                 "name": "Allegro (Caster)",
-                "source": "Allegro",
                 "targetFilter": "caster"
             },
             {
                 "duration": 10,
                 "name": "Allegro",
-                "source": "Allegro",
                 "targetFilter": "target"
             }
         ]
@@ -13217,7 +12978,6 @@
                 "duration": 100,
                 "hideChoices": true,
                 "name": "Impaling Briars",
-                "source": "Impaling Briars",
                 "targetFilter": "caster"
             }
         ],
@@ -13266,7 +13026,6 @@
             {
                 "duration": 4032000,
                 "name": "Quivering Palm (Caster)",
-                "source": "Quivering Palm",
                 "targetFilter": "caster"
             }
         ],
@@ -13340,8 +13099,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Ethereal Jaunt",
-                "source": "Empty Body"
+                "name": "Ethereal Jaunt"
             }
         ]
     },
@@ -13373,7 +13131,6 @@
                 "duration": 100,
                 "hideChoices": true,
                 "name": "Storm Lord",
-                "source": "Storm Lord",
                 "targetFilter": "caster"
             }
         ]
@@ -13405,13 +13162,11 @@
             {
                 "duration": 100,
                 "name": "Apex Companion (Caster)",
-                "source": "Apex Companion",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Apex Companion",
-                "source": "Apex Companion",
                 "targetFilter": "target"
             }
         ]
@@ -13497,7 +13252,6 @@
             {
                 "duration": 100,
                 "name": "Song of the Fallen (Caster)",
-                "source": "Song of the Fallen",
                 "targetFilter": "caster"
             }
         ]
@@ -13797,8 +13551,7 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "name": "Dancing Lights",
-                "source": "Dancing Lights"
+                "name": "Dancing Lights"
             }
         ]
     },
@@ -13837,7 +13590,6 @@
             {
                 "duration": -5,
                 "name": "Daze (Caster)",
-                "source": "Daze",
                 "targetFilter": "caster"
             }
         ],
@@ -14345,13 +14097,11 @@
             {
                 "duration": 100,
                 "name": "Forbidding Ward (Caster)",
-                "source": "Forbidding Ward",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Forbidding Ward",
-                "source": "Forbidding Ward",
                 "targetFilter": "target"
             }
         ],
@@ -14410,8 +14160,7 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "name": "Ghost Sound",
-                "source": "Ghost Sound"
+                "name": "Ghost Sound"
             }
         ],
         "heightenedDescs": [
@@ -14469,13 +14218,11 @@
             {
                 "duration": 10,
                 "name": "Guidance (Caster)",
-                "source": "Guidance",
                 "targetFilter": "caster"
             },
             {
                 "duration": 10,
                 "name": "Guidance",
-                "source": "Guidance",
                 "targetFilter": "target"
             }
         ]
@@ -14554,13 +14301,11 @@
             {
                 "duration": 10,
                 "name": "Join Pasts (Caster)",
-                "source": "Join Pasts",
                 "targetFilter": "caster"
             },
             {
                 "duration": 10,
                 "name": "Join Pasts",
-                "source": "Join Pasts",
                 "targetFilter": "target"
             }
         ],
@@ -14737,7 +14482,6 @@
                 "heightenedFilter": 1,
                 "name": "Light (Caster)",
                 "radius": 20,
-                "source": "Light",
                 "targetFilter": "caster"
             },
             {
@@ -14745,7 +14489,6 @@
                 "heightenedFilter": 1,
                 "name": "Light",
                 "radius": 20,
-                "source": "Light",
                 "targetFilter": "target"
             },
             {
@@ -14753,7 +14496,6 @@
                 "heightenedFilter": 4,
                 "name": "Light (Caster)",
                 "radius": 60,
-                "source": "Light",
                 "targetFilter": "caster"
             },
             {
@@ -14761,7 +14503,6 @@
                 "heightenedFilter": 4,
                 "name": "Light",
                 "radius": 60,
-                "source": "Light",
                 "targetFilter": "target"
             }
         ],
@@ -14834,7 +14575,6 @@
             {
                 "duration": 1000,
                 "name": "Mage Hand",
-                "source": "Mage Hand",
                 "targetFilter": "caster"
             }
         ],
@@ -14911,13 +14651,11 @@
             {
                 "duration": 10,
                 "name": "Message (Caster)",
-                "source": "Message",
                 "targetFilter": "caster"
             },
             {
                 "duration": 10,
                 "name": "Message",
-                "source": "Message",
                 "targetFilter": "target"
             }
         ],
@@ -14969,7 +14707,6 @@
             {
                 "duration": 1000,
                 "name": "Prestidigitation",
-                "source": "Prestidigitation",
                 "targetFilter": "caster"
             }
         ]
@@ -15368,8 +15105,7 @@
         "gainConditions": [
             {
                 "duration": 10,
-                "name": "Shield",
-                "source": "Shield"
+                "name": "Shield"
             }
         ],
         "heightenedDescs": [
@@ -15460,8 +15196,7 @@
         "gainConditions": [
             {
                 "duration": -5,
-                "name": "Sigil",
-                "source": "Sigil"
+                "name": "Sigil"
             }
         ],
         "heightenedDescs": [
@@ -15528,8 +15263,7 @@
         "gainConditions": [
             {
                 "duration": 0,
-                "name": "Stabilize",
-                "source": "Stabilize"
+                "name": "Stabilize"
             }
         ]
     },
@@ -15875,7 +15609,6 @@
             {
                 "duration": -5,
                 "name": "Agitate (Caster)",
-                "source": "Agitate",
                 "targetFilter": "caster"
             }
         ],
@@ -15999,13 +15732,11 @@
             {
                 "duration": 100,
                 "name": "Air Bubble (Caster)",
-                "source": "Air Bubble",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Air Bubble",
-                "source": "Air Bubble",
                 "targetFilter": "target"
             }
         ]
@@ -16042,7 +15773,6 @@
             {
                 "duration": 48000,
                 "name": "Alarm",
-                "source": "Alarm",
                 "targetFilter": "caster"
             }
         ],
@@ -16090,13 +15820,11 @@
             {
                 "duration": 48000,
                 "name": "Ant Haul (Caster)",
-                "source": "Ant Haul",
                 "targetFilter": "caster"
             },
             {
                 "duration": 48000,
                 "name": "Ant Haul",
-                "source": "Ant Haul",
                 "targetFilter": "target"
             }
         ]
@@ -16132,13 +15860,11 @@
             {
                 "duration": 1000,
                 "name": "Anticipate Peril (Caster)",
-                "source": "Anticipate Peril",
                 "targetFilter": "caster"
             },
             {
                 "duration": 1000,
                 "name": "Anticipate Peril",
-                "source": "Anticipate Peril",
                 "targetFilter": "target"
             }
         ],
@@ -16206,7 +15932,6 @@
             {
                 "duration": 100,
                 "name": "Bane (Caster)",
-                "source": "Bane",
                 "targetFilter": "caster"
             }
         ]
@@ -16242,7 +15967,6 @@
             {
                 "duration": -5,
                 "name": "Befuddle (Caster)",
-                "source": "Befuddle",
                 "targetFilter": "caster"
             }
         ]
@@ -16272,13 +15996,11 @@
             {
                 "duration": 100,
                 "name": "Bless (Caster)",
-                "source": "Bless",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Bless",
-                "source": "Bless",
                 "targetFilter": "target"
             }
         ]
@@ -16454,7 +16176,6 @@
             {
                 "duration": -5,
                 "name": "Charm (Caster)",
-                "source": "Charm",
                 "targetFilter": "caster"
             }
         ],
@@ -16646,7 +16367,6 @@
             {
                 "duration": 0,
                 "name": "Color Spray (Caster)",
-                "source": "Color Spray",
                 "targetFilter": "caster"
             }
         ]
@@ -16700,7 +16420,6 @@
             {
                 "duration": 10,
                 "name": "Command (Caster)",
-                "source": "Command",
                 "targetFilter": "caster"
             }
         ],
@@ -16747,7 +16466,6 @@
             {
                 "duration": 144000,
                 "name": "Create Water",
-                "source": "Create Water",
                 "targetFilter": "caster"
             }
         ]
@@ -16890,13 +16608,11 @@
             {
                 "duration": 100,
                 "name": "Disrupting Weapons (Caster)",
-                "source": "Disrupting Weapons",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Disrupting Weapons",
-                "source": "Disrupting Weapons",
                 "targetFilter": "target"
             }
         ],
@@ -16972,13 +16688,11 @@
             {
                 "duration": 10,
                 "name": "Endure (Caster)",
-                "source": "Endure",
                 "targetFilter": "caster"
             },
             {
                 "duration": 10,
                 "name": "Endure",
-                "source": "Endure",
                 "targetFilter": "target"
             }
         ],
@@ -17111,14 +16825,12 @@
             {
                 "duration": 6000,
                 "name": "Exchange Image (Caster)",
-                "source": "Exchange Image",
                 "targetFilter": "caster"
             },
             {
                 "duration": 6000,
                 "copyChoiceFrom": "Exchange Image (Caster)",
                 "name": "Exchange Image",
-                "source": "Exchange Image",
                 "targetFilter": "target"
             }
         ]
@@ -17173,7 +16885,6 @@
             {
                 "duration": -1,
                 "name": "Fear (Caster)",
-                "source": "Fear",
                 "targetFilter": "caster"
             }
         ],
@@ -17222,13 +16933,11 @@
             {
                 "duration": 100,
                 "name": "Feather Fall (Caster)",
-                "source": "Feather Fall",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Feather Fall",
-                "source": "Feather Fall",
                 "targetFilter": "target"
             }
         ]
@@ -17253,8 +16962,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Fleet Step",
-                "source": "Fleet Step"
+                "name": "Fleet Step"
             }
         ]
     },
@@ -17279,8 +16987,7 @@
         "gainConditions": [
             {
                 "duration": 48000,
-                "name": "Floating Disk",
-                "source": "Floating Disk"
+                "name": "Floating Disk"
             }
         ]
     },
@@ -17312,7 +17019,6 @@
             {
                 "duration": -5,
                 "name": "Goblin Pox (Caster)",
-                "source": "Goblin Pox",
                 "targetFilter": "caster"
             }
         ]
@@ -17341,13 +17047,11 @@
             {
                 "duration": 100,
                 "name": "Grease (Caster)",
-                "source": "Grease",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Grease",
-                "source": "Grease",
                 "targetFilter": "target"
             }
         ]
@@ -17541,7 +17245,6 @@
             {
                 "duration": 10,
                 "name": "Gust of Wind",
-                "source": "Gust of Wind",
                 "targetFilter": "caster"
             }
         ]
@@ -18067,7 +17770,6 @@
             {
                 "duration": -5,
                 "name": "Ill Omen (Caster)",
-                "source": "Ill Omen",
                 "targetFilter": "caster"
             }
         ]
@@ -18103,8 +17805,7 @@
         "gainConditions": [
             {
                 "duration": 6000,
-                "name": "Illusory Disguise",
-                "source": "Illusory Disguise"
+                "name": "Illusory Disguise"
             }
         ],
         "heightenedDescs": [
@@ -18171,7 +17872,6 @@
             {
                 "duration": -5,
                 "name": "Illusory Object",
-                "source": "Illusory Object",
                 "targetFilter": "caster"
             }
         ],
@@ -18228,8 +17928,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Imprint Message",
-                "source": "Imprint Message"
+                "name": "Imprint Message"
             }
         ]
     },
@@ -18268,7 +17967,6 @@
             {
                 "duration": -5,
                 "name": "Item Facade",
-                "source": "Item Facade",
                 "targetFilter": "caster"
             }
         ],
@@ -18339,14 +18037,12 @@
                 "duration": 100,
                 "heightenedFilter": 3,
                 "name": "Jump (Caster)",
-                "source": "Jump",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "heightenedFilter": 3,
                 "name": "Jump",
-                "source": "Jump",
                 "targetFilter": "target"
             }
         ],
@@ -18422,7 +18118,6 @@
             {
                 "duration": -5,
                 "name": "Lock",
-                "source": "Lock",
                 "targetFilter": "caster"
             }
         ],
@@ -18472,8 +18167,7 @@
         "gainConditions": [
             {
                 "duration": -5,
-                "name": "Longstrider",
-                "source": "Longstrider"
+                "name": "Longstrider"
             }
         ],
         "heightenedDescs": [
@@ -18535,8 +18229,7 @@
         "gainConditions": [
             {
                 "duration": -2,
-                "name": "Mage Armor",
-                "source": "Mage Armor"
+                "name": "Mage Armor"
             }
         ],
         "heightenedDescs": [
@@ -18647,13 +18340,11 @@
             {
                 "duration": -2,
                 "name": "Magic Aura (Caster)",
-                "source": "Magic Aura",
                 "targetFilter": "caster"
             },
             {
                 "duration": -1,
                 "name": "Magic Aura",
-                "source": "Magic Aura",
                 "targetFilter": "target"
             }
         ],
@@ -18700,13 +18391,11 @@
             {
                 "duration": 100,
                 "name": "Magic Fang (Caster)",
-                "source": "Magic Fang",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Magic Fang",
-                "source": "Magic Fang",
                 "targetFilter": "target"
             }
         ]
@@ -18850,13 +18539,11 @@
             {
                 "duration": 100,
                 "name": "Magic Weapon (Caster)",
-                "source": "Magic Weapon",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Magic Weapon",
-                "source": "Magic Weapon",
                 "targetFilter": "target"
             }
         ]
@@ -18947,7 +18634,6 @@
             {
                 "duration": 144000,
                 "name": "Message Rune",
-                "source": "Message Rune",
                 "targetFilter": "caster"
             }
         ]
@@ -19012,13 +18698,11 @@
             {
                 "duration": 6000,
                 "name": "Negate Aroma (Caster)",
-                "source": "Negate Aroma",
                 "targetFilter": "caster"
             },
             {
                 "duration": 6000,
                 "name": "Negate Aroma",
-                "source": "Negate Aroma",
                 "targetFilter": "target"
             }
         ],
@@ -19180,7 +18864,6 @@
             {
                 "duration": -5,
                 "name": "Pass without Trace",
-                "source": "Pass without Trace",
                 "targetFilter": "caster"
             },
             {
@@ -19188,7 +18871,6 @@
                 "heightenedFilter": 4,
                 "name": "Pass without Trace",
                 "radius": 20,
-                "source": "Pass without Trace",
                 "targetFilter": "target"
             }
         ],
@@ -19249,14 +18931,12 @@
             {
                 "duration": -5,
                 "name": "Penumbral Shroud (Caster)",
-                "source": "Penumbral Shroud",
                 "targetFilter": "caster"
             },
             {
                 "duration": -5,
                 "copyChoiceFrom": "Penumbral Shroud (Caster)",
                 "name": "Penumbral Shroud",
-                "source": "Penumbral Shroud",
                 "targetFilter": "target"
             }
         ]
@@ -19295,13 +18975,11 @@
             {
                 "duration": 100,
                 "name": "Personal Rain Cloud (Caster)",
-                "source": "Personal Rain Cloud",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Personal Rain Cloud",
-                "source": "Personal Rain Cloud",
                 "targetFilter": "target"
             }
         ],
@@ -19425,8 +19103,7 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "name": "Pest Form",
-                "source": "Pest Form"
+                "name": "Pest Form"
             }
         ],
         "heightenedDescs": [
@@ -19485,7 +19162,6 @@
             {
                 "duration": -5,
                 "name": "Phantom Pain (Caster)",
-                "source": "Phantom Pain",
                 "targetFilter": "caster"
             }
         ],
@@ -19647,14 +19323,12 @@
             {
                 "duration": 100,
                 "name": "Protection (Caster)",
-                "source": "Protection",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "copyChoiceFrom": "Protection (Caster)",
                 "name": "Protection",
-                "source": "Protection",
                 "targetFilter": "target"
             }
         ]
@@ -19709,7 +19383,6 @@
             {
                 "duration": -5,
                 "name": "Ray of Enfeeblement (Caster)",
-                "source": "Ray of Enfeeblement",
                 "targetFilter": "caster"
             }
         ]
@@ -19742,13 +19415,11 @@
             {
                 "duration": 100,
                 "name": "Sanctuary (Caster)",
-                "source": "Sanctuary",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Sanctuary",
-                "source": "Sanctuary",
                 "targetFilter": "target"
             }
         ]
@@ -19793,7 +19464,6 @@
             {
                 "duration": 100,
                 "name": "Scouring Sand",
-                "source": "Scouring Sand",
                 "targetFilter": "caster"
             }
         ],
@@ -19881,13 +19551,11 @@
             {
                 "duration": -5,
                 "name": "Share Lore",
-                "source": "Share Lore",
                 "targetFilter": "caster"
             },
             {
                 "duration": -5,
                 "name": "Share Lore",
-                "source": "Share Lore",
                 "targetFilter": "target"
             }
         ],
@@ -19952,13 +19620,11 @@
             {
                 "duration": 100,
                 "name": "Shattering Gem (Caster)",
-                "source": "Shattering Gem",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Shattering Gem",
-                "source": "Shattering Gem",
                 "targetFilter": "target"
             }
         ],
@@ -20119,7 +19785,6 @@
             {
                 "duration": 100,
                 "name": "Shillelagh",
-                "source": "Shillelagh",
                 "targetFilter": "caster"
             }
         ]
@@ -20443,7 +20108,6 @@
                 "duration": -5,
                 "heightenedFilter": 1,
                 "name": "Sleep (Caster)",
-                "source": "Sleep",
                 "targetFilter": "caster"
             }
         ],
@@ -20633,13 +20297,11 @@
             {
                 "duration": 100,
                 "name": "Soothe (Caster)",
-                "source": "Soothe",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Soothe",
-                "source": "Soothe",
                 "targetFilter": "target"
             }
         ],
@@ -20794,13 +20456,11 @@
             {
                 "duration": 1000,
                 "name": "Spirit Link (Caster)",
-                "source": "Spirit Link",
                 "targetFilter": "caster"
             },
             {
                 "duration": 1000,
                 "name": "Spirit Link",
-                "source": "Spirit Link",
                 "targetFilter": "target"
             }
         ],
@@ -20958,7 +20618,6 @@
             {
                 "duration": 100,
                 "name": "Summon Animal",
-                "source": "Summon Animal",
                 "targetFilter": "caster"
             }
         ],
@@ -21120,7 +20779,6 @@
             {
                 "duration": 100,
                 "name": "Summon Construct",
-                "source": "Summon Construct",
                 "targetFilter": "caster"
             }
         ],
@@ -21283,7 +20941,6 @@
             {
                 "duration": 100,
                 "name": "Summon Fey",
-                "source": "Summon Fey",
                 "targetFilter": "caster"
             }
         ],
@@ -21446,7 +21103,6 @@
             {
                 "duration": 100,
                 "name": "Summon Plant or Fungus",
-                "source": "Summon Plant or Fungus",
                 "targetFilter": "caster"
             }
         ],
@@ -21563,8 +21219,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Temporary Tool",
-                "source": "Temporary Tool"
+                "name": "Temporary Tool"
             }
         ]
     },
@@ -21604,7 +21259,6 @@
             {
                 "duration": -5,
                 "name": "Tether (Caster)",
-                "source": "Tether",
                 "targetFilter": "caster"
             }
         ],
@@ -21762,8 +21416,7 @@
         "gainConditions": [
             {
                 "duration": 5,
-                "name": "True Strike",
-                "source": "True Strike"
+                "name": "True Strike"
             }
         ]
     },
@@ -21789,8 +21442,7 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "name": "Unseen Servant",
-                "source": "Unseen Servant"
+                "name": "Unseen Servant"
             }
         ]
     },
@@ -21824,8 +21476,7 @@
             {
                 "duration": -5,
                 "heightenedFilter": 1,
-                "name": "Ventriloquism",
-                "source": "Ventriloquism"
+                "name": "Ventriloquism"
             }
         ],
         "heightenedDescs": [
@@ -21877,8 +21528,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Verdant Sprout",
-                "source": "Verdant Sprout"
+                "name": "Verdant Sprout"
             }
         ],
         "heightenedDescs": [
@@ -22102,8 +21752,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Animal Form",
-                "source": "Animal Form"
+                "name": "Animal Form"
             }
         ],
         "heightenedDescs": [
@@ -22292,8 +21941,7 @@
         "gainConditions": [
             {
                 "duration": 144000,
-                "name": "Animal Messenger",
-                "source": "Animal Messenger"
+                "name": "Animal Messenger"
             }
         ]
     },
@@ -22329,8 +21977,7 @@
         "gainConditions": [
             {
                 "duration": 6000,
-                "name": "Animus Mine",
-                "source": "Animus Mine"
+                "name": "Animus Mine"
             }
         ],
         "heightenedDescs": [
@@ -22465,13 +22112,11 @@
             {
                 "duration": 1000,
                 "name": "Barkskin (Caster)",
-                "source": "Barkskin",
                 "targetFilter": "caster"
             },
             {
                 "duration": 1000,
                 "name": "Barkskin",
-                "source": "Barkskin",
                 "targetFilter": "target"
             }
         ],
@@ -22568,13 +22213,11 @@
             {
                 "duration": 100,
                 "name": "Blur (Caster)",
-                "source": "Blur",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Blur",
-                "source": "Blur",
                 "targetFilter": "target"
             }
         ]
@@ -22609,7 +22252,6 @@
             {
                 "duration": -5,
                 "name": "Brand the Impenitent (Caster)",
-                "source": "Brand the Impenitent",
                 "targetFilter": "caster"
             }
         ]
@@ -22653,7 +22295,6 @@
             {
                 "duration": 1000,
                 "name": "Breath of Drought (Caster)",
-                "source": "Breath of Drought",
                 "targetFilter": "caster"
             }
         ],
@@ -22728,7 +22369,6 @@
             {
                 "duration": 100,
                 "name": "Calm Emotions (Caster)",
-                "source": "Calm Emotions",
                 "targetFilter": "caster"
             }
         ]
@@ -22778,13 +22418,11 @@
             {
                 "duration": 6000,
                 "name": "Comprehend Language (Caster)",
-                "source": "Comprehend Language",
                 "targetFilter": "caster"
             },
             {
                 "duration": 6000,
                 "name": "Comprehend Language",
-                "source": "Comprehend Language",
                 "targetFilter": "target"
             }
         ],
@@ -22861,7 +22499,6 @@
             {
                 "duration": -1,
                 "name": "Continual Flame",
-                "source": "Continual Flame",
                 "targetFilter": "caster"
             }
         ],
@@ -22983,8 +22620,7 @@
         "gainConditions": [
             {
                 "duration": 144000,
-                "name": "Create Food",
-                "source": "Create Food"
+                "name": "Create Food"
             }
         ],
         "heightenedDescs": [
@@ -23058,7 +22694,6 @@
             {
                 "duration": 100,
                 "name": "Darkness",
-                "source": "Darkness",
                 "targetFilter": "caster"
             }
         ],
@@ -23127,21 +22762,18 @@
                 "duration": 6000,
                 "heightenedFilter": 2,
                 "name": "Darkvision",
-                "source": "Darkvision",
                 "targetFilter": "caster"
             },
             {
                 "duration": -5,
                 "heightenedFilter": 3,
                 "name": "Darkvision (Caster)",
-                "source": "Darkvision",
                 "targetFilter": "caster"
             },
             {
                 "duration": -5,
                 "heightenedFilter": 3,
                 "name": "Darkvision",
-                "source": "Darkvision",
                 "targetFilter": "target"
             }
         ],
@@ -23229,7 +22861,6 @@
             {
                 "duration": -5,
                 "name": "Death Knell",
-                "source": "Death Knell",
                 "targetFilter": "caster"
             }
         ]
@@ -23291,14 +22922,12 @@
             {
                 "duration": -2,
                 "name": "Endure Elements (Caster)",
-                "source": "Endure Elements",
                 "targetFilter": "caster"
             },
             {
                 "duration": -2,
                 "copyChoiceFrom": "Endure Elements (Caster)",
                 "name": "Endure Elements",
-                "source": "Endure Elements",
                 "targetFilter": "target"
             }
         ],
@@ -23362,7 +22991,6 @@
             {
                 "duration": 6000,
                 "name": "Enhance Victuals",
-                "source": "Enhance Victuals",
                 "targetFilter": "caster"
             }
         ],
@@ -23497,7 +23125,6 @@
                 "choiceLocked": true,
                 "heightenedFilter": 2,
                 "name": "Enlarge",
-                "source": "Enlarge",
                 "targetFilter": "target"
             },
             {
@@ -23506,20 +23133,17 @@
                 "choiceLocked": true,
                 "heightenedFilter": 4,
                 "name": "Enlarge",
-                "source": "Enlarge",
                 "targetFilter": "target"
             },
             {
                 "duration": 500,
                 "heightenedFilter": 6,
                 "name": "Enlarge",
-                "source": "Enlarge",
                 "targetFilter": "target"
             },
             {
                 "duration": 500,
                 "name": "Enlarge (Caster)",
-                "source": "Enlarge",
                 "targetFilter": "caster"
             }
         ],
@@ -23622,7 +23246,6 @@
             {
                 "duration": 100,
                 "name": "Entangle (Caster)",
-                "source": "Entangle",
                 "targetFilter": "caster"
             }
         ]
@@ -23748,7 +23371,6 @@
             {
                 "duration": 500,
                 "name": "Faerie Fire",
-                "source": "Faerie Fire",
                 "targetFilter": "caster"
             }
         ]
@@ -23779,8 +23401,7 @@
         "gainConditions": [
             {
                 "duration": 48000,
-                "name": "False Life",
-                "source": "False Life"
+                "name": "False Life"
             }
         ],
         "heightenedDescs": [
@@ -23905,7 +23526,6 @@
             {
                 "duration": -5,
                 "name": "Feast of Ashes (Caster)",
-                "source": "Feast of Ashes",
                 "targetFilter": "caster"
             }
         ],
@@ -24061,7 +23681,6 @@
             {
                 "duration": 100,
                 "name": "Flaming Sphere",
-                "source": "Flaming Sphere",
                 "targetFilter": "caster"
             }
         ],
@@ -24179,8 +23798,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Fungal Hyphae",
-                "source": "Fungal Hyphae"
+                "name": "Fungal Hyphae"
             }
         ],
         "heightenedDescs": [
@@ -24243,8 +23861,7 @@
         "gainConditions": [
             {
                 "duration": -5,
-                "name": "Gentle Repose",
-                "source": "Gentle Repose"
+                "name": "Gentle Repose"
             }
         ],
         "heightenedDescs": [
@@ -24321,7 +23938,6 @@
             {
                 "duration": -5,
                 "name": "Glitterdust (Caster)",
-                "source": "Glitterdust",
                 "targetFilter": "caster"
             }
         ]
@@ -24358,7 +23974,6 @@
             {
                 "duration": -5,
                 "name": "Hideous Laughter (Caster)",
-                "source": "Hideous Laughter",
                 "targetFilter": "caster"
             }
         ]
@@ -24395,8 +24010,7 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "name": "Humanoid Form",
-                "source": "Humanoid Form"
+                "name": "Humanoid Form"
             }
         ],
         "heightenedDescs": [
@@ -24470,8 +24084,7 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "name": "Illusory Creature",
-                "source": "Illusory Creature"
+                "name": "Illusory Creature"
             }
         ],
         "heightenedDescs": [
@@ -24624,13 +24237,11 @@
             {
                 "duration": -5,
                 "name": "Invisibility (Caster)",
-                "source": "Invisibility",
                 "targetFilter": "caster"
             },
             {
                 "duration": -5,
                 "name": "Invisibility",
-                "source": "Invisibility",
                 "targetFilter": "target"
             }
         ],
@@ -24682,8 +24293,7 @@
         "gainConditions": [
             {
                 "duration": -5,
-                "name": "Iron Gut",
-                "source": "Iron Gut"
+                "name": "Iron Gut"
             }
         ],
         "heightenedDescs": [
@@ -24731,13 +24341,11 @@
             {
                 "duration": 100,
                 "name": "Knock",
-                "source": "Knock",
                 "targetFilter": "target"
             },
             {
                 "duration": 1,
                 "name": "Knock (Caster)",
-                "source": "Knock",
                 "targetFilter": "caster"
             }
         ]
@@ -24768,7 +24376,6 @@
             {
                 "duration": -1,
                 "name": "Magic Mouth",
-                "source": "Magic Mouth",
                 "targetFilter": "caster"
             }
         ]
@@ -24795,7 +24402,6 @@
             {
                 "duration": 100,
                 "name": "Mirror Image",
-                "source": "Mirror Image",
                 "value": 3
             }
         ]
@@ -24828,7 +24434,6 @@
             {
                 "duration": -2,
                 "name": "Misdirection",
-                "source": "Misdirection",
                 "targetFilter": "caster"
             }
         ]
@@ -24857,7 +24462,6 @@
             {
                 "duration": 100,
                 "name": "Obscuring Mist",
-                "source": "Obscuring Mist",
                 "targetFilter": "caster"
             }
         ]
@@ -24907,7 +24511,6 @@
             {
                 "duration": -5,
                 "name": "Paranoia (Caster)",
-                "source": "Paranoia",
                 "targetFilter": "caster"
             }
         ],
@@ -24967,8 +24570,7 @@
         "gainConditions": [
             {
                 "duration": 48000,
-                "name": "Phantom Steed",
-                "source": "Phantom Steed"
+                "name": "Phantom Steed"
             }
         ],
         "heightenedDescs": [
@@ -25174,14 +24776,12 @@
             {
                 "duration": 1000,
                 "name": "Resist Energy (Caster)",
-                "source": "Resist Energy",
                 "targetFilter": "caster"
             },
             {
                 "duration": 1000,
                 "copyChoiceFrom": "Resist Energy (Caster)",
                 "name": "Resist Energy",
-                "source": "Resist Energy",
                 "targetFilter": "target"
             }
         ],
@@ -25405,7 +25005,6 @@
             {
                 "duration": 100,
                 "name": "Rime Slick",
-                "source": "Rime Slick",
                 "targetFilter": "caster"
             }
         ],
@@ -25477,7 +25076,6 @@
             {
                 "duration": 11,
                 "name": "Sea Surge",
-                "source": "Sea Surge",
                 "targetFilter": "caster"
             }
         ],
@@ -25550,8 +25148,7 @@
         "gainConditions": [
             {
                 "duration": -5,
-                "name": "See Invisibility",
-                "source": "See Invisibility"
+                "name": "See Invisibility"
             }
         ],
         "heightenedDescs": [
@@ -25764,13 +25361,11 @@
             {
                 "duration": 1000,
                 "name": "Shield Other (Caster)",
-                "source": "Shield Other",
                 "targetFilter": "caster"
             },
             {
                 "duration": 1000,
                 "name": "Shield Other",
-                "source": "Shield Other",
                 "targetFilter": "target"
             }
         ]
@@ -25806,13 +25401,11 @@
             {
                 "duration": 500,
                 "name": "Shrink (Caster)",
-                "source": "Shrink",
                 "targetFilter": "caster"
             },
             {
                 "duration": 500,
                 "name": "Shrink",
-                "source": "Shrink",
                 "targetFilter": "target"
             }
         ],
@@ -25866,14 +25459,12 @@
             {
                 "duration": 100,
                 "name": "Silence (Caster)",
-                "source": "Silence",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "heightenedFilter": 2,
                 "name": "Silence",
-                "source": "Silence",
                 "targetFilter": "target"
             },
             {
@@ -25881,7 +25472,6 @@
                 "heightenedFilter": 4,
                 "name": "Silence",
                 "radius": 10,
-                "source": "Silence",
                 "targetFilter": "target"
             }
         ],
@@ -25925,8 +25515,7 @@
         "gainConditions": [
             {
                 "duration": 6000,
-                "name": "Slough Skin",
-                "source": "Slough Skin"
+                "name": "Slough Skin"
             }
         ]
     },
@@ -26064,8 +25653,7 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "name": "Speak with Animals",
-                "source": "Speak with Animals"
+                "name": "Speak with Animals"
             }
         ]
     },
@@ -26090,8 +25678,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Spectral Hand",
-                "source": "Spectral Hand"
+                "name": "Spectral Hand"
             }
         ]
     },
@@ -26125,13 +25712,11 @@
             {
                 "duration": -5,
                 "name": "Spider Climb (Caster)",
-                "source": "Spider Climb",
                 "targetFilter": "caster"
             },
             {
                 "duration": -5,
                 "name": "Spider Climb",
-                "source": "Spider Climb",
                 "targetFilter": "target"
             }
         ]
@@ -26166,8 +25751,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Spiritual Weapon",
-                "source": "Spiritual Weapon"
+                "name": "Spiritual Weapon"
             }
         ],
         "heightenedDescs": [
@@ -26260,7 +25844,6 @@
             {
                 "duration": 144000,
                 "name": "Status",
-                "source": "Status",
                 "targetFilter": "caster"
             }
         ],
@@ -26458,8 +26041,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Summon Elemental",
-                "source": "Summon Elemental"
+                "name": "Summon Elemental"
             }
         ],
         "heightenedDescs": [
@@ -26597,7 +26179,6 @@
             {
                 "duration": -5,
                 "name": "Touch of Idiocy (Caster)",
-                "source": "Touch of Idiocy",
                 "targetFilter": "caster"
             }
         ]
@@ -26623,8 +26204,7 @@
         "gainConditions": [
             {
                 "duration": 48000,
-                "name": "Tree Shape",
-                "source": "Tree Shape"
+                "name": "Tree Shape"
             }
         ]
     },
@@ -26652,13 +26232,11 @@
             {
                 "duration": -2,
                 "name": "Undetectable Alignment (Caster)",
-                "source": "Undetectable Alignment",
                 "targetFilter": "caster"
             },
             {
                 "duration": -2,
                 "name": "Undetectable Alignment",
-                "source": "Undetectable Alignment",
                 "targetFilter": "target"
             }
         ]
@@ -26703,13 +26281,11 @@
             {
                 "duration": -5,
                 "name": "Water Breathing (Caster)",
-                "source": "Water Breathing",
                 "targetFilter": "caster"
             },
             {
                 "duration": -5,
                 "name": "Water Breathing",
-                "source": "Water Breathing",
                 "targetFilter": "target"
             }
         ],
@@ -26783,13 +26359,11 @@
             {
                 "duration": -5,
                 "name": "Water Walk (Caster)",
-                "source": "Water Walk",
                 "targetFilter": "caster"
             },
             {
                 "duration": -5,
                 "name": "Water Walk",
-                "source": "Water Walk",
                 "targetFilter": "target"
             }
         ],
@@ -26846,7 +26420,6 @@
             {
                 "duration": 100,
                 "name": "Web (Caster)",
-                "source": "Web",
                 "targetFilter": "caster"
             }
         ],
@@ -26894,7 +26467,6 @@
             {
                 "duration": 6000,
                 "name": "Animal Vision",
-                "source": "Animal Vision",
                 "targetFilter": "caster"
             }
         ]
@@ -26924,7 +26496,6 @@
             {
                 "duration": 144000,
                 "name": "Bind Undead (Caster)",
-                "source": "Bind Undead",
                 "targetFilter": "caster"
             }
         ]
@@ -27125,14 +26696,12 @@
             {
                 "duration": -5,
                 "name": "Circle of Protection (Caster)",
-                "source": "Circle of Protection",
                 "targetFilter": "caster"
             },
             {
                 "duration": -5,
                 "copyChoiceFrom": "Circle of Protection (Caster)",
                 "name": "Circle of Protection",
-                "source": "Circle of Protection",
                 "targetFilter": "target"
             }
         ],
@@ -27178,8 +26747,7 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "name": "Clairaudience",
-                "source": "Clairaudience"
+                "name": "Clairaudience"
             }
         ]
     },
@@ -27217,7 +26785,6 @@
             {
                 "duration": -5,
                 "name": "Crisis of Faith (Caster)",
-                "source": "Crisis of Faith",
                 "targetFilter": "caster"
             }
         ],
@@ -27366,7 +26933,6 @@
             {
                 "duration": -5,
                 "name": "Cup of Dust (Caster)",
-                "source": "Cup of Dust",
                 "targetFilter": "caster"
             }
         ],
@@ -27454,7 +27020,6 @@
             {
                 "duration": 144000,
                 "name": "Dream Message",
-                "source": "Dream Message",
                 "targetFilter": "caster"
             }
         ],
@@ -27514,7 +27079,6 @@
             {
                 "duration": -5,
                 "name": "Earthbind (Caster)",
-                "source": "Earthbind",
                 "targetFilter": "caster"
             }
         ]
@@ -27550,7 +27114,6 @@
             {
                 "duration": 1000,
                 "name": "Enthrall (Caster)",
-                "source": "Enthrall",
                 "targetFilter": "caster"
             }
         ]
@@ -27586,13 +27149,11 @@
             {
                 "duration": -5,
                 "name": "Feet to Fins (Caster)",
-                "source": "Feet to Fins",
                 "targetFilter": "caster"
             },
             {
                 "duration": -5,
                 "name": "Feet to Fins",
-                "source": "Feet to Fins",
                 "targetFilter": "target"
             }
         ],
@@ -27740,13 +27301,11 @@
             {
                 "duration": 500,
                 "name": "Ghostly Weapon (Caster)",
-                "source": "Ghostly Weapon",
                 "targetFilter": "caster"
             },
             {
                 "duration": 500,
                 "name": "Ghostly Weapon",
-                "source": "Ghostly Weapon",
                 "targetFilter": "target"
             }
         ]
@@ -27775,8 +27334,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Glyph of Warding",
-                "source": "Glyph of Warding"
+                "name": "Glyph of Warding"
             }
         ]
     },
@@ -27836,13 +27394,11 @@
             {
                 "duration": 100,
                 "name": "Haste (Caster)",
-                "source": "Haste",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Haste",
-                "source": "Haste",
                 "targetFilter": "target"
             }
         ],
@@ -27901,14 +27457,12 @@
             {
                 "duration": 1000,
                 "name": "Heroism (Caster)",
-                "source": "Heroism",
                 "targetFilter": "caster"
             },
             {
                 "duration": 1000,
                 "heightenedFilter": 3,
                 "name": "Heroism",
-                "source": "Heroism",
                 "targetFilter": "target",
                 "value": 1
             },
@@ -27916,7 +27470,6 @@
                 "duration": 1000,
                 "heightenedFilter": 6,
                 "name": "Heroism",
-                "source": "Heroism",
                 "targetFilter": "target",
                 "value": 2
             },
@@ -27924,7 +27477,6 @@
                 "duration": 1000,
                 "heightenedFilter": 9,
                 "name": "Heroism",
-                "source": "Heroism",
                 "targetFilter": "target",
                 "value": 3
             }
@@ -28004,7 +27556,6 @@
             {
                 "duration": 100,
                 "name": "Hypnotic Pattern (Caster)",
-                "source": "Hypnotic Pattern",
                 "targetFilter": "caster"
             }
         ]
@@ -28039,8 +27590,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Insect Form",
-                "source": "Insect Form"
+                "name": "Insect Form"
             }
         ],
         "heightenedDescs": [
@@ -28183,13 +27733,11 @@
             {
                 "duration": -5,
                 "name": "Invisibility Sphere",
-                "source": "Invisibility Sphere",
                 "targetFilter": "caster"
             },
             {
                 "duration": -5,
                 "name": "Invisibility Sphere",
-                "source": "Invisibility Sphere",
                 "targetFilter": "target"
             }
         ],
@@ -28237,13 +27785,11 @@
             {
                 "duration": 500,
                 "name": "Levitate (Caster)",
-                "source": "Levitate",
                 "targetFilter": "caster"
             },
             {
                 "duration": 500,
-                "name": "Levitate",
-                "source": "Levitate"
+                "name": "Levitate"
             }
         ]
     },
@@ -28380,8 +27926,7 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "name": "Locate",
-                "source": "Locate"
+                "name": "Locate"
             }
         ],
         "heightenedDescs": [
@@ -28436,7 +27981,6 @@
             {
                 "duration": -5,
                 "name": "Magical Fetters (Caster)",
-                "source": "Magical Fetters",
                 "targetFilter": "caster"
             }
         ]
@@ -28462,8 +28006,7 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "name": "Meld into Stone",
-                "source": "Meld into Stone"
+                "name": "Meld into Stone"
             }
         ]
     },
@@ -28498,8 +28041,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Mind Reading (Caster)",
-                "source": "Mind Reading"
+                "name": "Mind Reading (Caster)"
             }
         ]
     },
@@ -28551,13 +28093,11 @@
             {
                 "duration": 48000,
                 "name": "Nondetection (Caster)",
-                "source": "Nondetection",
                 "targetFilter": "caster"
             },
             {
                 "duration": 48000,
                 "name": "Nondetection",
-                "source": "Nondetection",
                 "targetFilter": "target"
             }
         ]
@@ -28599,7 +28139,6 @@
             {
                 "duration": -5,
                 "name": "Paralyze (Caster)",
-                "source": "Paralyze",
                 "targetFilter": "caster"
             }
         ],
@@ -28647,8 +28186,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Pillar of Water",
-                "source": "Pillar of Water"
+                "name": "Pillar of Water"
             }
         ]
     },
@@ -28680,7 +28218,6 @@
             {
                 "duration": 100,
                 "name": "Pyrotechnics (Caster)",
-                "source": "Pyrotechnics",
                 "targetFilter": "caster"
             }
         ]
@@ -28730,14 +28267,12 @@
             {
                 "duration": 144000,
                 "name": "Sanctified Ground (Caster)",
-                "source": "Sanctified Ground",
                 "targetFilter": "caster"
             },
             {
                 "duration": 144000,
                 "copyChoiceFrom": "Sanctified Ground (Caster)",
                 "name": "Sanctified Ground",
-                "source": "Sanctified Ground",
                 "targetFilter": "target"
             }
         ]
@@ -28903,8 +28438,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Secret Page",
-                "source": "Secret Page"
+                "name": "Secret Page"
             }
         ]
     },
@@ -28952,7 +28486,6 @@
             {
                 "duration": 100,
                 "name": "Shifting Sand (Caster)",
-                "source": "Shifting Sand",
                 "targetFilter": "caster"
             }
         ],
@@ -29042,13 +28575,11 @@
             {
                 "duration": 48000,
                 "name": "Show the Way",
-                "source": "Show the Way",
                 "targetFilter": "caster"
             },
             {
                 "duration": 48000,
                 "name": "Show the Way",
-                "source": "Show the Way",
                 "targetFilter": "target"
             }
         ],
@@ -29095,8 +28626,7 @@
         "gainConditions": [
             {
                 "duration": 144000,
-                "name": "Shrink Item",
-                "source": "Shrink Item"
+                "name": "Shrink Item"
             }
         ]
     },
@@ -29136,7 +28666,6 @@
             {
                 "duration": -5,
                 "name": "Slow (Caster)",
-                "source": "Slow",
                 "targetFilter": "caster"
             }
         ],
@@ -29194,7 +28723,6 @@
             {
                 "duration": 100,
                 "name": "Stinking Cloud (Caster)",
-                "source": "Stinking Cloud",
                 "targetFilter": "caster"
             }
         ]
@@ -29228,7 +28756,6 @@
             {
                 "duration": 10,
                 "name": "Unseasonable Squall",
-                "source": "Unseasonable Squall",
                 "targetFilter": "caster"
             }
         ]
@@ -29267,7 +28794,6 @@
             {
                 "duration": 100,
                 "name": "Vampiric Touch",
-                "source": "Vampiric Touch",
                 "targetFilter": "caster"
             }
         ],
@@ -29373,8 +28899,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Wall of Thorns",
-                "source": "Wall of Thorns"
+                "name": "Wall of Thorns"
             }
         ],
         "heightenedDescs": [
@@ -29510,8 +29035,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Wall of Wind",
-                "source": "Wall of Wind"
+                "name": "Wall of Wind"
             }
         ]
     },
@@ -29535,8 +29059,7 @@
         "gainConditions": [
             {
                 "duration": -2,
-                "name": "Wanderer's Guide",
-                "source": "Wanderer's Guide"
+                "name": "Wanderer's Guide"
             }
         ]
     },
@@ -29567,8 +29090,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Whirling Scarves",
-                "source": "Whirling Scarves"
+                "name": "Whirling Scarves"
             }
         ],
         "heightenedDescs": [
@@ -29656,13 +29178,11 @@
             {
                 "duration": 1000,
                 "name": "Zone of Truth (Caster)",
-                "source": "Zone of Truth",
                 "targetFilter": "caster"
             },
             {
                 "duration": 1000,
                 "name": "Zone of Truth",
-                "source": "Zone of Truth",
                 "targetFilter": "target"
             }
         ]
@@ -29698,8 +29218,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Aerial Form",
-                "source": "Aerial Form"
+                "name": "Aerial Form"
             }
         ],
         "heightenedDescs": [
@@ -29875,13 +29394,11 @@
             {
                 "duration": 500,
                 "name": "Air Walk (Caster)",
-                "source": "Air Walk",
                 "targetFilter": "caster"
             },
             {
                 "duration": 500,
                 "name": "Air Walk",
-                "source": "Air Walk",
                 "targetFilter": "target"
             }
         ]
@@ -30018,7 +29535,6 @@
             {
                 "duration": -5,
                 "name": "Aromatic Lure (Caster)",
-                "source": "Aromatic Lure",
                 "targetFilter": "caster"
             }
         ],
@@ -30087,8 +29603,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Blink",
-                "source": "Blink"
+                "name": "Blink"
             }
         ],
         "heightenedDescs": [
@@ -30152,8 +29667,7 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "name": "Clairvoyance",
-                "source": "Clairvoyance"
+                "name": "Clairvoyance"
             }
         ]
     },
@@ -30192,7 +29706,6 @@
             {
                 "duration": -5,
                 "name": "Clownish Curse (Caster)",
-                "source": "Clownish Curse",
                 "targetFilter": "caster"
             }
         ]
@@ -30234,7 +29747,6 @@
             {
                 "duration": -5,
                 "name": "Confusion (Caster)",
-                "source": "Confusion",
                 "targetFilter": "caster"
             }
         ],
@@ -30285,8 +29797,7 @@
         "gainConditions": [
             {
                 "duration": 6000,
-                "name": "Creation",
-                "source": "Creation"
+                "name": "Creation"
             }
         ],
         "heightenedDescs": [
@@ -30340,7 +29851,6 @@
             {
                 "duration": -5,
                 "name": "Detect Scrying",
-                "source": "Detect Scrying",
                 "targetFilter": "caster"
             }
         ],
@@ -30392,8 +29902,7 @@
             {
                 "duration": 6000,
                 "heightenedFilter": 5,
-                "name": "Dimension Door Immunity",
-                "source": "Dimension Door"
+                "name": "Dimension Door Immunity"
             }
         ],
         "heightenedDescs": [
@@ -30461,7 +29970,6 @@
             {
                 "duration": -5,
                 "name": "Dimensional Anchor (Caster)",
-                "source": "Dimensional Anchor",
                 "targetFilter": "caster"
             }
         ]
@@ -30496,8 +30004,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Dinosaur Form",
-                "source": "Dinosaur Form"
+                "name": "Dinosaur Form"
             }
         ],
         "heightenedDescs": [
@@ -30684,8 +30191,7 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "name": "Discern Lies",
-                "source": "Discern Lies"
+                "name": "Discern Lies"
             }
         ]
     },
@@ -30721,7 +30227,6 @@
             {
                 "duration": -5,
                 "name": "Divine Wrath (Caster)",
-                "source": "Divine Wrath",
                 "targetFilter": "caster"
             }
         ],
@@ -30829,13 +30334,11 @@
             {
                 "duration": 1008000,
                 "name": "Favorable Review (Failures)",
-                "source": "Favorable Review",
                 "targetFilter": "caster"
             },
             {
                 "duration": -1,
                 "name": "Favorable Review (Critical Failures)",
-                "source": "Favorable Review",
                 "targetFilter": "caster"
             }
         ],
@@ -30886,8 +30389,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Fire Shield",
-                "source": "Fire Shield"
+                "name": "Fire Shield"
             }
         ],
         "heightenedDescs": [
@@ -30976,13 +30478,11 @@
             {
                 "duration": -5,
                 "name": "Fly (Caster)",
-                "source": "Fly",
                 "targetFilter": "caster"
             },
             {
                 "duration": -5,
                 "name": "Fly",
-                "source": "Fly",
                 "targetFilter": "target"
             }
         ],
@@ -31105,13 +30605,11 @@
             {
                 "duration": 1000,
                 "name": "Freedom of Movement (Caster)",
-                "source": "Freedom of Movement",
                 "targetFilter": "caster"
             },
             {
                 "duration": 1000,
                 "name": "Freedom of Movement",
-                "source": "Freedom of Movement",
                 "targetFilter": "target"
             }
         ]
@@ -31143,13 +30641,11 @@
             {
                 "duration": 500,
                 "name": "Gaseous Form (Caster)",
-                "source": "Gaseous Form",
                 "targetFilter": "caster"
             },
             {
                 "duration": 500,
                 "name": "Gaseous Form",
-                "source": "Gaseous Form",
                 "targetFilter": "target"
             }
         ]
@@ -31175,8 +30671,7 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "name": "Glibness",
-                "source": "Glibness"
+                "name": "Glibness"
             }
         ]
     },
@@ -31205,13 +30700,11 @@
             {
                 "duration": 1000,
                 "name": "Globe of Invulnerability (Caster)",
-                "source": "Globe of Invulnerability",
                 "targetFilter": "caster"
             },
             {
                 "duration": 1000,
                 "name": "Globe of Invulnerability",
-                "source": "Globe of Invulnerability",
                 "targetFilter": "target"
             }
         ]
@@ -31241,7 +30734,6 @@
             {
                 "duration": -2,
                 "name": "Hallucinatory Terrain",
-                "source": "Hallucinatory Terrain",
                 "targetFilter": "caster"
             }
         ],
@@ -31513,7 +31005,6 @@
             {
                 "duration": 500,
                 "name": "Modify Memory",
-                "source": "Modify Memory",
                 "targetFilter": "caster"
             }
         ],
@@ -31576,7 +31067,6 @@
             {
                 "duration": -5,
                 "name": "Necrotic Radiation",
-                "source": "Necrotic Radiation",
                 "targetFilter": "caster"
             }
         ],
@@ -31649,7 +31139,6 @@
             {
                 "duration": 144000,
                 "name": "Nightmare (Caster)",
-                "source": "Nightmare",
                 "targetFilter": "caster"
             }
         ]
@@ -31686,7 +31175,6 @@
             {
                 "duration": -5,
                 "name": "Outcast's Curse (Caster)",
-                "source": "Outcast's Curse",
                 "targetFilter": "caster"
             }
         ]
@@ -31843,7 +31331,6 @@
             {
                 "duration": 144000,
                 "name": "Private Sanctum",
-                "source": "Private Sanctum",
                 "targetFilter": "caster"
             }
         ]
@@ -32013,8 +31500,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Reflective Scales",
-                "source": "Reflective Scales"
+                "name": "Reflective Scales"
             }
         ],
         "heightenedDescs": [
@@ -32138,13 +31624,11 @@
             {
                 "duration": -5,
                 "name": "Resilient Sphere (Caster)",
-                "source": "Resilient Sphere",
                 "targetFilter": "caster"
             },
             {
                 "duration": -5,
                 "name": "Resilient Sphere",
-                "source": "Resilient Sphere",
                 "targetFilter": "target"
             }
         ]
@@ -32175,7 +31659,6 @@
             {
                 "duration": 48000,
                 "name": "Rope Trick",
-                "source": "Rope Trick",
                 "targetFilter": "caster"
             }
         ]
@@ -32234,7 +31717,6 @@
             {
                 "duration": 100,
                 "name": "Solid Fog",
-                "source": "Solid Fog",
                 "targetFilter": "caster"
             }
         ]
@@ -32259,8 +31741,7 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "name": "Speak with Plants",
-                "source": "Speak with Plants"
+                "name": "Speak with Plants"
             }
         ]
     },
@@ -32289,13 +31770,11 @@
             {
                 "duration": 144000,
                 "name": "Spell Immunity (Caster)",
-                "source": "Spell Immunity",
                 "targetFilter": "caster"
             },
             {
                 "duration": 144000,
                 "name": "Spell Immunity",
-                "source": "Spell Immunity",
                 "targetFilter": "target"
             }
         ]
@@ -32332,7 +31811,6 @@
             {
                 "duration": -5,
                 "name": "Spiritual Anamnesis (Caster)",
-                "source": "Spiritual Anamnesis",
                 "targetFilter": "caster"
             }
         ]
@@ -32376,13 +31854,11 @@
             {
                 "duration": 2000,
                 "name": "Stoneskin (Caster)",
-                "source": "Stoneskin",
                 "targetFilter": "caster"
             },
             {
                 "duration": 2000,
                 "name": "Stoneskin",
-                "source": "Stoneskin",
                 "targetFilter": "target"
             }
         ],
@@ -32463,7 +31939,6 @@
             {
                 "duration": -5,
                 "name": "Suggestion (Caster)",
-                "source": "Suggestion",
                 "targetFilter": "caster"
             }
         ],
@@ -32545,7 +32020,6 @@
             {
                 "duration": 1000,
                 "name": "Talking Corpse",
-                "source": "Talking Corpse",
                 "targetFilter": "caster"
             }
         ]
@@ -32578,8 +32052,7 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "name": "Telepathy",
-                "source": "Telepathy"
+                "name": "Telepathy"
             }
         ],
         "heightenedDescs": [
@@ -32649,13 +32122,11 @@
             {
                 "duration": 6000,
                 "name": "Veil (Caster)",
-                "source": "Veil",
                 "targetFilter": "caster"
             },
             {
                 "duration": 6000,
                 "name": "Veil",
-                "source": "Veil",
                 "targetFilter": "target"
             }
         ],
@@ -32730,7 +32201,6 @@
             {
                 "duration": -2,
                 "name": "Vital Beacon",
-                "source": "Vital Beacon",
                 "value": 4
             }
         ],
@@ -32912,8 +32382,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Wall of Fire",
-                "source": "Wall of Fire"
+                "name": "Wall of Fire"
             }
         ],
         "heightenedDescs": [
@@ -33107,7 +32576,6 @@
             {
                 "duration": -5,
                 "name": "Abyssal Plague (Caster)",
-                "source": "Abyssal Plague",
                 "targetFilter": "caster"
             }
         ],
@@ -33199,7 +32667,6 @@
             {
                 "duration": 100,
                 "name": "Acid Storm",
-                "source": "Acid Storm",
                 "targetFilter": "caster"
             }
         ],
@@ -33280,7 +32747,6 @@
             {
                 "duration": 0,
                 "name": "Banishment (Caster)",
-                "source": "Banishment",
                 "targetFilter": "caster"
             }
         ],
@@ -33334,7 +32800,6 @@
             {
                 "duration": 100,
                 "name": "Black Tentacles",
-                "source": "Black Tentacles",
                 "targetFilter": "caster"
             }
         ]
@@ -33374,7 +32839,6 @@
             {
                 "duration": 100,
                 "name": "Blood Feast",
-                "source": "Blood Feast",
                 "targetFilter": "caster"
             }
         ],
@@ -33484,8 +32948,7 @@
         "gainConditions": [
             {
                 "duration": 0,
-                "name": "Breath of Life",
-                "source": "Breath of Life"
+                "name": "Breath of Life"
             }
         ]
     },
@@ -33517,7 +32980,6 @@
             {
                 "duration": -5,
                 "name": "Chromatic Wall",
-                "source": "Chromatic Wall",
                 "targetFilter": "caster"
             }
         ],
@@ -33609,13 +33071,11 @@
             {
                 "duration": 100,
                 "name": "Cloak of Colors (Caster)",
-                "source": "Cloak of Colors",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Cloak of Colors",
-                "source": "Cloak of Colors",
                 "targetFilter": "target"
             }
         ]
@@ -33657,7 +33117,6 @@
             {
                 "duration": 100,
                 "name": "Cloudkill",
-                "source": "Cloudkill",
                 "targetFilter": "caster"
             }
         ],
@@ -33854,7 +33313,6 @@
             {
                 "duration": 100,
                 "name": "Crushing Despair (Caster)",
-                "source": "Crushing Despair",
                 "targetFilter": "caster"
             }
         ],
@@ -33903,13 +33361,11 @@
             {
                 "duration": 1000,
                 "name": "Death Ward (Caster)",
-                "source": "Death Ward",
                 "targetFilter": "caster"
             },
             {
                 "duration": 1000,
                 "name": "Death Ward",
-                "source": "Death Ward",
                 "targetFilter": "target"
             }
         ]
@@ -33939,13 +33395,11 @@
             {
                 "duration": 48000,
                 "name": "Dreaming Potential (Caster)",
-                "source": "Dreaming Potential",
                 "targetFilter": "caster"
             },
             {
                 "duration": 48000,
                 "name": "Dreaming Potential",
-                "source": "Dreaming Potential",
                 "targetFilter": "target"
             }
         ]
@@ -33984,13 +33438,11 @@
             {
                 "duration": 100,
                 "name": "Drop Dead (Caster)",
-                "source": "Drop Dead",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Drop Dead",
-                "source": "Drop Dead",
                 "targetFilter": "target"
             }
         ],
@@ -34046,8 +33498,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Elemental Form",
-                "source": "Elemental Form"
+                "name": "Elemental Form"
             }
         ],
         "heightenedDescs": [
@@ -34199,7 +33650,6 @@
             {
                 "duration": -2,
                 "name": "False Vision",
-                "source": "False Vision",
                 "targetFilter": "caster"
             }
         ]
@@ -34342,7 +33792,6 @@
             {
                 "duration": 0,
                 "name": "Hallucination (Caster) Duration",
-                "source": "Hallucination",
                 "targetFilter": "caster"
             }
         ],
@@ -34410,7 +33859,6 @@
             {
                 "duration": -5,
                 "name": "Illusory Scene",
-                "source": "Illusory Scene",
                 "targetFilter": "caster"
             }
         ],
@@ -34484,7 +33932,6 @@
             {
                 "duration": -5,
                 "name": "Mariner's Curse (Caster)",
-                "source": "Mariner's Curse",
                 "targetFilter": "caster"
             }
         ]
@@ -34521,7 +33968,6 @@
             {
                 "duration": -5,
                 "name": "Mind Probe (Caster)",
-                "source": "Mind Probe",
                 "targetFilter": "caster"
             }
         ]
@@ -34565,13 +34011,11 @@
             {
                 "duration": 100,
                 "name": "Moon Frenzy (Caster)",
-                "source": "Moon Frenzy",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Moon Frenzy",
-                "source": "Moon Frenzy",
                 "targetFilter": "target"
             }
         ],
@@ -34660,7 +34104,6 @@
             {
                 "duration": 6000,
                 "name": "Passwall",
-                "source": "Passwall",
                 "targetFilter": "caster"
             }
         ],
@@ -34717,7 +34160,6 @@
             {
                 "duration": 100,
                 "name": "Pillars of Sand",
-                "source": "Pillars of Sand",
                 "targetFilter": "caster"
             }
         ],
@@ -34853,8 +34295,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Plant Form",
-                "source": "Plant Form"
+                "name": "Plant Form"
             }
         ],
         "heightenedDescs": [
@@ -34966,7 +34407,6 @@
             {
                 "duration": 1000,
                 "name": "Prying Eye",
-                "source": "Prying Eye",
                 "targetFilter": "caster"
             }
         ]
@@ -35006,7 +34446,6 @@
             {
                 "duration": 30,
                 "name": "Ravening Maw (Caster)",
-                "source": "Ravening Maw",
                 "targetFilter": "caster"
             }
         ],
@@ -35273,13 +34712,11 @@
             {
                 "duration": 48000,
                 "name": "Shadow Walk",
-                "source": "Shadow Walk",
                 "targetFilter": "caster"
             },
             {
                 "duration": 48000,
                 "name": "Shadow Walk",
-                "source": "Shadow Walk",
                 "targetFilter": "target"
             }
         ]
@@ -35313,7 +34750,6 @@
             {
                 "duration": 100,
                 "name": "Spiritual Guardian",
-                "source": "Spiritual Guardian",
                 "targetFilter": "caster"
             }
         ],
@@ -35407,7 +34843,6 @@
             {
                 "duration": -5,
                 "name": "Subconscious Suggestion (Caster)",
-                "source": "Subconscious Suggestion",
                 "targetFilter": "caster"
             }
         ],
@@ -35475,7 +34910,6 @@
             {
                 "duration": 100,
                 "name": "Summon Celestial",
-                "source": "Summon Celestial",
                 "targetFilter": "caster"
             }
         ],
@@ -35580,7 +35014,6 @@
             {
                 "duration": 100,
                 "name": "Summon Dragon",
-                "source": "Summon Dragon",
                 "targetFilter": "caster"
             }
         ],
@@ -35685,7 +35118,6 @@
             {
                 "duration": 100,
                 "name": "Summon Entity",
-                "source": "Summon Entity",
                 "targetFilter": "caster"
             }
         ],
@@ -35790,7 +35222,6 @@
             {
                 "duration": 100,
                 "name": "Summon Fiend",
-                "source": "Summon Fiend",
                 "targetFilter": "caster"
             }
         ],
@@ -35895,7 +35326,6 @@
             {
                 "duration": 100,
                 "name": "Summon Giant",
-                "source": "Summon Giant",
                 "targetFilter": "caster"
             }
         ],
@@ -35985,7 +35415,6 @@
             {
                 "duration": 10,
                 "name": "Synaptic Pulse (Caster)",
-                "source": "Synaptic Pulse",
                 "targetFilter": "caster"
             }
         ]
@@ -36035,7 +35464,6 @@
             {
                 "duration": -5,
                 "name": "Synesthesia (Caster)",
-                "source": "Synesthesia",
                 "targetFilter": "caster"
             }
         ],
@@ -36084,7 +35512,6 @@
             {
                 "duration": 100,
                 "name": "Telekinetic Haul",
-                "source": "Telekinetic Haul",
                 "targetFilter": "caster"
             }
         ]
@@ -36120,13 +35547,11 @@
             {
                 "duration": 48000,
                 "name": "Telepathic Bond",
-                "source": "Telepathic Bond",
                 "targetFilter": "caster"
             },
             {
                 "duration": 48000,
                 "name": "Telepathic Bond",
-                "source": "Telepathic Bond",
                 "targetFilter": "target"
             }
         ]
@@ -36163,13 +35588,11 @@
             {
                 "duration": -5,
                 "name": "Tongues (Caster)",
-                "source": "Tongues",
                 "targetFilter": "caster"
             },
             {
                 "duration": -5,
                 "name": "Tongues",
-                "source": "Tongues",
                 "targetFilter": "target"
             }
         ],
@@ -36294,7 +35717,6 @@
             {
                 "duration": 100,
                 "name": "Wall of Ice",
-                "source": "Wall of Ice",
                 "targetFilter": "caster"
             }
         ],
@@ -36368,7 +35790,6 @@
             {
                 "duration": -1,
                 "name": "Wall of Stone",
-                "source": "Wall of Stone",
                 "targetFilter": "caster"
             }
         ],
@@ -36432,7 +35853,6 @@
             {
                 "duration": -5,
                 "name": "Wyvern Sting (Caster)",
-                "source": "Wyvern Sting",
                 "targetFilter": "caster"
             }
         ]
@@ -36565,8 +35985,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Dragon Form",
-                "source": "Dragon Form"
+                "name": "Dragon Form"
             }
         ],
         "heightenedDescs": [
@@ -36756,8 +36175,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Mislead",
-                "source": "Mislead"
+                "name": "Mislead"
             }
         ]
     },
@@ -36939,8 +36357,7 @@
         "gainConditions": [
             {
                 "duration": 0,
-                "name": "Stone to Flesh",
-                "source": "Stone to Flesh"
+                "name": "Stone to Flesh"
             }
         ]
     },
@@ -36999,8 +36416,7 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "name": "True Seeing",
-                "source": "True Seeing"
+                "name": "True Seeing"
             }
         ]
     },
@@ -37226,13 +36642,11 @@
             {
                 "duration": -5,
                 "name": "Ethereal Jaunt",
-                "source": "Ethereal Jaunt",
                 "targetFilter": "caster"
             },
             {
                 "duration": -5,
                 "name": "Ethereal Jaunt",
-                "source": "Ethereal Jaunt",
                 "targetFilter": "target"
             }
         ],
@@ -37719,7 +37133,6 @@
             {
                 "duration": 10,
                 "name": "Earthquake (Caster)",
-                "source": "Earthquake",
                 "targetFilter": "caster"
             }
         ],
@@ -37801,8 +37214,7 @@
         "gainConditions": [
             {
                 "duration": -2,
-                "name": "Mind Blank",
-                "source": "Mind Blank"
+                "name": "Mind Blank"
             }
         ]
     },
@@ -37849,8 +37261,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Monstrosity Form",
-                "source": "Monstrosity Form"
+                "name": "Monstrosity Form"
             }
         ],
         "heightenedDescs": [
@@ -38529,8 +37940,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Nature Incarnate",
-                "source": "Nature Incarnate"
+                "name": "Nature Incarnate"
             }
         ]
     },

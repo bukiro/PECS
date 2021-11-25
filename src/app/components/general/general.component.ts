@@ -8,6 +8,7 @@ import { FeatChoice } from 'src/app/classes/FeatChoice';
 import { DeitiesService } from 'src/app/services/deities.service';
 import { Domain } from 'src/app/classes/Domain';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { ClassesService } from 'src/app/services/classes.service';
 
 @Component({
     selector: 'app-general',
@@ -31,7 +32,8 @@ export class GeneralComponent implements OnInit {
         public effectsService: EffectsService,
         public traitsService: TraitsService,
         private familiarsService: FamiliarsService,
-        private deitiesService: DeitiesService
+        private deitiesService: DeitiesService,
+        private classesService: ClassesService
     ) { }
 
     minimize() {
@@ -105,10 +107,15 @@ export class GeneralComponent implements OnInit {
         return this.get_Creature().get_Size(this.effectsService);
     }
 
+    get_ArchetypeFeats() {
+        return this.characterService.get_CharacterFeatsAndFeatures().filter(feat => feat.traits.includes("Dedication") && feat.have(this.get_Character(), this.characterService))
+    }
+
     get_Domains() {
-        let character = this.get_Character();
-        if (character.class.deityFocused) {
-            let deity = this.characterService.get_CharacterDeities(character)[0];
+        const character = this.get_Character();
+        const archetypesDeityFocused = this.get_ArchetypeFeats().some(feat => this.classesService.get_ClassFromName(feat.archetype).deityFocused);
+        if (character.class.deityFocused || archetypesDeityFocused) {
+            const deity = this.characterService.get_CharacterDeities(character)[0];
             if (deity) {
                 let domainFeats = this.characterService.get_CharacterFeatsAndFeatures()
                     .filter(feat => feat.gainDomains?.length && feat.have(character, this.characterService));
@@ -125,7 +132,7 @@ export class GeneralComponent implements OnInit {
     }
 
     get_Tenets() {
-        let character = this.get_Character();
+        const character = this.get_Character();
         //Collect tenets from all feats and features you have that include them.
         return [].concat(...this.characterService.get_CharacterFeatsAndFeatures()
             .filter(feat => feat.tenets?.length && feat.have(character, this.characterService))
@@ -135,7 +142,8 @@ export class GeneralComponent implements OnInit {
 
     get_Edicts() {
         let character = this.get_Character();
-        if (character.class.showDeityEdicts) {
+        const archetypesShowDeityEdicts = this.get_ArchetypeFeats().some(feat => this.classesService.get_ClassFromName(feat.archetype).showDeityEdicts);
+        if (character.class.showDeityEdicts || archetypesShowDeityEdicts) {
             //Collect edicts from all deities you have (usually one);
             let deityEdicts: string[] = [];
             this.characterService.get_CharacterDeities(character).forEach(deity => {
@@ -148,10 +156,11 @@ export class GeneralComponent implements OnInit {
     }
 
     get_Anathema() {
-        let character = this.get_Character();
+        const character = this.get_Character();
 
         let deityAnathema: string[] = [];
-        if (character.class.showDeityAnathema) {
+        const archetypesShowDeityAnathema = this.get_ArchetypeFeats().some(feat => this.classesService.get_ClassFromName(feat.archetype).showDeityAnathema);
+        if (character.class.showDeityAnathema || archetypesShowDeityAnathema) {
             //If your Collect anathema from all deities you have (usually one);
             this.characterService.get_CharacterDeities(character).forEach(deity => {
                 deityAnathema.push(...deity.anathema.map(anathema => anathema[0].toUpperCase() + anathema.substr(1)));
@@ -183,9 +192,9 @@ export class GeneralComponent implements OnInit {
         //Get the basic decisions for your class and all archetypes.
         // These decisions are feat choices identified by being .specialChoice==true, having exactly one feat, and having the class name (or the dedication feat name) as its source.
         let results: { name: string, choice: string, subChoice: boolean }[] = [];
-        let character = this.get_Character();
+        const character = this.get_Character();
         let featChoices: FeatChoice[] = [];
-        let className = character.class?.name || "";
+        const className = character.class?.name || "";
         if (className) {
             results.push({ name: "Class", choice: className, subChoice: false });
             character.class.levels.forEach(level => {
@@ -200,12 +209,11 @@ export class GeneralComponent implements OnInit {
                 results.push({ name: choice.type, choice: choiceName, subChoice: true })
             })
             //Archetypes are identified by you having a dedication feat.
-            let archetypes = this.characterService.get_CharacterFeatsAndFeatures().filter(feat => feat.traits.includes("Dedication") && feat.have(this.get_Character(), this.characterService));
-            archetypes.forEach(archetype => {
+            this.get_ArchetypeFeats().forEach(archetype => {
                 results.push({ name: "Archetype", choice: archetype.archetype, subChoice: false });
                 //Find specialchoices that have this dedication feat as their source.
                 featChoices.filter(choice => choice.source == "Feat: " + archetype.name).forEach(choice => {
-                    let choiceName = choice.feats[0].name;
+                    const choiceName = choice.feats[0].name;
                     results.push({ name: choice.type, choice: choiceName, subChoice: true })
                 })
             })

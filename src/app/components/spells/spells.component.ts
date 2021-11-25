@@ -4,6 +4,7 @@ import { SpellsService } from 'src/app/services/spells.service';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { EffectsService } from 'src/app/services/effects.service';
 
 @Component({
     selector: 'app-spells',
@@ -16,7 +17,6 @@ export class SpellsComponent implements OnInit {
     public showSpell: string = "";
     public showChoice: string = "";
     public allowBorrow: boolean = false;
-    public prepared: boolean = false;
     private showContent: SpellChoice = null;
     private showSpellCasting: SpellCasting = null;
     private showContentLevelNumber: number = 0;
@@ -25,7 +25,8 @@ export class SpellsComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
         private refreshService: RefreshService,
-        private spellsService: SpellsService
+        private spellsService: SpellsService,
+        private effectsService: EffectsService
     ) { }
 
     minimize() {
@@ -135,10 +136,8 @@ export class SpellsComponent implements OnInit {
         return (casting.castingType == "Prepared" && casting.className == "Wizard") || casting.spellChoices.some(choice => choice.spellBookOnly);
     }
 
-    apply_SpellSubstitution(casting: SpellCasting) {
-        return casting.castingType == "Prepared" &&
-            casting.className == "Wizard" &&
-            this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, "Spell Substitution").length > 0;
+    get_AllowSwitchingPreparedSpells() {
+        return this.effectsService.get_ToggledOnThis(this.get_Character(), "Allow Switching Prepared Spells").length > 0;
     }
 
     apply_ReprepareSpell(casting: SpellCasting) {

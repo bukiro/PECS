@@ -13,6 +13,7 @@ export class ClassesService {
 
     classes: Class[] = [];
     private loading: boolean = false;
+    private classesMap = new Map<string, Class>();
 
     constructor(
         private typeService: TypeService,
@@ -20,9 +21,22 @@ export class ClassesService {
         private extensionsService: ExtensionsService
     ) { }
 
+    private get_ReplacementClass(name?: string): Class {
+        return Object.assign(new Class(), { name: "Class not found", "desc": (name ? name : "The requested class") + " does not exist in the class list." });
+    }
+
+    get_ClassFromName(name: string): Class {
+        //Returns a named class from the map.
+        return this.classesMap.get(name.toLowerCase()) || this.get_ReplacementClass(name);
+    }
+
     get_Classes(name: string = "") {
         if (!this.still_loading()) {
-            return this.classes.filter($class => $class.name == name || name == "")
+            if (name) {
+                return [this.get_ClassFromName(name)];
+            } else {
+                return this.classes.filter($class => $class.name == name || name == "")
+            }
         } else { return [new Class()] }
     }
 
@@ -81,6 +95,10 @@ export class ClassesService {
         if (!this.classes.length) {
             this.loading = true;
             this.load_Classes();
+            this.classesMap.clear();
+            this.classes.forEach($class => {
+                this.classesMap.set($class.name.toLowerCase(), $class);
+            })
             this.loading = false;
         }
     }

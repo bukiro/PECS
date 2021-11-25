@@ -14,8 +14,8 @@ export class AboutComponent implements OnInit {
     public version: string = "";
 
     welcome: { header: string, desc: string }[] = welcome;
-    hints: { header: string, desc: string, images: string[] }[] = hints;
-    changelog: { version: string, changes: { desc: string, images: string[] }[] }[] = changelog;
+    hints: { header: string, desc: string, images: { file: string, title: string }[] }[] = hints;
+    changelog: { version: string, changes: { desc: string, images: { file: string, title: string }[] }[] }[] = changelog;
 
     constructor(
         private configService: ConfigService
