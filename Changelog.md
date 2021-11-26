@@ -58,3 +58,4 @@ This log tracks only major changes, as well as changes that need characters to b
 ## 1.0.11
 
 - The path for the local data file has been changed, and the file will automatically be moved.
+- The angular version used for PECS has been updated to 13.

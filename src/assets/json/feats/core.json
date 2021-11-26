@@ -6191,7 +6191,7 @@
         "skillreq": [
             {
                 "skill": "Survival",
-                "value": 3
+                "value": 2
             }
         ]
     },
@@ -6222,7 +6222,7 @@
         "skillreq": [
             {
                 "skill": "Survival",
-                "value": 4
+                "value": 2
             }
         ]
     },
@@ -6253,7 +6253,7 @@
         "skillreq": [
             {
                 "skill": "Survival",
-                "value": 5
+                "value": 2
             }
         ]
     },
@@ -6284,7 +6284,7 @@
         "skillreq": [
             {
                 "skill": "Survival",
-                "value": 6
+                "value": 2
             }
         ]
     },
@@ -6315,7 +6315,7 @@
         "skillreq": [
             {
                 "skill": "Survival",
-                "value": 7
+                "value": 2
             }
         ]
     },
@@ -6346,7 +6346,7 @@
         "skillreq": [
             {
                 "skill": "Survival",
-                "value": 8
+                "value": 2
             }
         ]
     },
@@ -6377,7 +6377,7 @@
         "skillreq": [
             {
                 "skill": "Survival",
-                "value": 9
+                "value": 2
             }
         ]
     },
@@ -6408,7 +6408,7 @@
         "skillreq": [
             {
                 "skill": "Survival",
-                "value": 10
+                "value": 2
             }
         ]
     },
@@ -6439,7 +6439,7 @@
         "skillreq": [
             {
                 "skill": "Survival",
-                "value": 11
+                "value": 2
             }
         ]
     },

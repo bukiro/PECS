@@ -24,7 +24,7 @@ Remember to open and/or forward your firewall ports. If everyone is running thei
 
 # Running PECS in Node.js
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.4. If you run it in Node.js directly for some reason, it does not serve a database for your characters or an effect exchange service for play. In that case, you need to configure a database connection in `src/assets/config.json` in order to save characters and exchange effects (see `src/assets/config.json.example` for an example). The database connection needs to be able to handle certain web queries - see `Database.md` for details, or just go ahead and use [my PECS Data Service](https://github.com/bukiro/PECS-Data-Service). The service is available as a Windows and Linux executable. PECS 1.0.10 requires at least version 1.0.4 of the service.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version `13.0.2`. If you run it in Node.js directly for some reason, it does not serve a database for your characters or an effect exchange service for play. In that case, you need to configure a database connection in `src/assets/config.json` in order to save characters and exchange effects (see `src/assets/config.json.example` for an example). The database connection needs to be able to handle certain web queries - see `Database.md` for details, or just go ahead and use [my PECS Data Service](https://github.com/bukiro/PECS-Data-Service). The service is available as a Windows and Linux executable. PECS 1.0.10 and further requires at least version 1.0.4 of the service.
 
 With the releases available, you only need to run PECS in Node.js if you want to test development or don't trust my executables. The executables were compiled with [nexe](https://github.com/nexe/nexe) from the .js file in the same package.
 
@@ -35,7 +35,7 @@ git clone https://github.com/bukiro/PECS
 npm install
 ```
 
-Run `ng serve` for a dev server, navigate to `http://localhost:4200` and never bother to go productive. Alternatively, run `ng build --prod --optimization=false` flag for a production build. CAUTION: You MUST use `--optimization=false`. PECS is a very complex piece of code and does not take kindly to minification.
+Run `npm start` for a dev server without host checks and navigate to `http://localhost:4200` for playing and testing. Alternatively, run `ng build --configuration=production` for a production build that you can package or whatever. CAUTION: PECS is configured not to use optimization, and must stay that way. It is a very complex piece of code and does not take kindly to minification.
 
 # Integration with Foundry VTT
 
@@ -56,7 +56,7 @@ You can place any custom content in JSON format in the appropriate folder in /sr
 
 # State of development
 
-I generally avoid content from the Advanced Character Guide for now, while there is still core content to do.
+I generally avoid content from the Advanced Character Guide and younger books for now, while there is still core content to do.
 
 You can build characters from level 1 through 20, with the following classes and ancestries fully implemented:
 
@@ -107,4 +107,4 @@ Spells are implemented up to and including `5th level`.
 
 # Contributing
 
-If you'd like to contribute missing content, feel free to take a look at the files in `/src/assets/json`, and if you really want to deal with THAT, [drop me a line](mailto:pecs-dev@outlook.com)! If you don't have the time or the nerve, but really want me to feel good about my work, I am of course happy to take donations on [ko-fi](https://ko-fi.com/bukiro) and [patreon](https://patreon.com/bukiro).
+Implementing content in PECS is slow work, while publishing new content is apparently not, so I could use a lot of help working on catching up. If you'd like to contribute missing content, feel free to take a look at the files in `/src/assets/json`, and if you really want to deal with THAT, [drop me a line](mailto:pecs-dev@outlook.com)! If you don't have the time or the nerve, but really want me to feel good about my work, I am of course happy to take donations on [ko-fi](https://ko-fi.com/bukiro) and [patreon](https://patreon.com/bukiro).

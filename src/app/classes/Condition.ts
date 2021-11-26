@@ -151,6 +151,7 @@ export class Condition {
                     hint.effects?.length &&
                     (
                         !conditionGain ||
+                        !hint.conditionChoiceFilter.length ||
                         hint.conditionChoiceFilter.includes(conditionGain.choice)
                     )
                 )
