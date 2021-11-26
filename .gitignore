@@ -62,6 +62,7 @@ Thumbs.db
 pecs.code-workspace
 work assets
 .npmrc
+.angular
 
 # production files
 /build
