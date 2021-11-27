@@ -17,8 +17,8 @@
     "build": "ng build --configuration=production --outputPath=./build",
     "build-demo": "ng build --configuration=production --outputPath=../build/docs --baseHref=/PECS-Demo/",
     "publish": "ng build --configuration=production --outputPath=./publish/src",
-    "publish-win": "cd publish && nexe ./pecs.js -t win-x64 && cd ..",
-    "publish-linux": "cd publish && nexe ./pecs.js -t linux-x64 && cd ..",
+    "publish-win": "cd publish && nexe ./pecs.js -t win-x64 --build && cd ..",
+    "publish-linux": "cd publish && nexe ./pecs.js -t linux-x64 --build && cd ..",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
