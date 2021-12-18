@@ -17,6 +17,7 @@ import { ItemsService } from 'src/app/services/items.service';
 import { TypeService } from 'src/app/services/type.service';
 import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Item } from './Item';
 
 type AttackResult = {
     range: string,
@@ -105,9 +106,9 @@ export class Weapon extends Equipment {
     public _shoddy: number = 0;
     recast(typeService: TypeService, itemsService: ItemsService): Weapon {
         super.recast(typeService, itemsService);
-        this.poisonsApplied = this.poisonsApplied.map(obj => Object.assign<AlchemicalPoison, AlchemicalPoison>(new AlchemicalPoison(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
+        this.poisonsApplied = this.poisonsApplied.map(obj => Object.assign<AlchemicalPoison, Item>(new AlchemicalPoison(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         this.material = this.material.map(obj => Object.assign(new WeaponMaterial(), obj).recast());
-        this.propertyRunes = this.propertyRunes.map(obj => Object.assign<WeaponRune, WeaponRune>(new WeaponRune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
+        this.propertyRunes = this.propertyRunes.map(obj => Object.assign<WeaponRune, Item>(new WeaponRune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         return this;
     }
     get_Name(): string {

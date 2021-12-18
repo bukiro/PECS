@@ -3,7 +3,6 @@ import {
     Directive, Input, TemplateRef,
     Renderer2,
     Injector,
-    ComponentFactoryResolver,
     ViewContainerRef,
     NgZone,
     OnInit,
@@ -13,7 +12,6 @@ import {
 
 import { DOCUMENT } from '@angular/common';
 import { NgbPopover, NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
-import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 @Directive({
     // tslint:disable-next-line:directive-selector
@@ -40,17 +38,16 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDest
 
     constructor(
         private refreshService: RefreshService,
-        private _elRef: ElementRef,
-        private _render: Renderer2,
+        _elRef: ElementRef,
+        _render: Renderer2,
         injector: Injector,
-        componentFactoryResolver: ComponentFactoryResolver,
-        private viewContainerRef: ViewContainerRef,
+        viewContainerRef: ViewContainerRef,
         config: NgbPopoverConfig,
         ngZone: NgZone,
         changeRef: ChangeDetectorRef,
         applicationRef: ApplicationRef,
         @Inject(DOCUMENT) _document: any) {
-        super(_elRef, _render, injector, componentFactoryResolver, viewContainerRef, config, ngZone, _document, changeRef, applicationRef);
+        super(_elRef, _render, injector, viewContainerRef, config, ngZone, _document, changeRef, applicationRef);
     }
 
     finish_Loading() {

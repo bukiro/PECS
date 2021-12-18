@@ -765,10 +765,6 @@ export class CharacterService {
         this.refreshService.set_ToChange(creature.type, "effects");
         this.refreshService.set_ToChange("Character", "top-bar");
         let newInventoryItem = this.itemsService.initialize_Item(item, false, newId);
-        //Assign the library's item id as the new item's refId. This allows us to read the default information from the library later.
-        if (!newInventoryItem.refId) {
-            newInventoryItem.refId = item.id;
-        }
         let returnedItem: Item;
         //Check if this item already exists in the inventory, and if it is stackable and doesn't expire. Don't make that check if this item expires.
         let existingItems: Item[] = [];
@@ -857,21 +853,7 @@ export class CharacterService {
                 //Add all Items that you get from being granted this one
                 if (item.gainItems.length) {
                     item.gainItems.filter(gainItem => gainItem.on == "grant" && gainItem.amount > 0).forEach(gainItem => {
-                        let extraItem: Item = this.get_CleanItems()[gainItem.type.toLowerCase()].find((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase());
-                        if (extraItem.can_Stack()) {
-                            this.grant_InventoryItem(creature, inventory, extraItem, true, false, false, gainItem.amount + (gainItem.amountPerLevel * creature.level));
-                        } else {
-                            let equip = true;
-                            //Don't equip the new item if it's a shield or armor and this one is too - only one shield or armor can be equipped
-                            if ((extraItem instanceof Armor || extraItem instanceof Shield) && extraItem instanceof item.constructor) {
-                                equip = false;
-                            }
-                            extraItem = this.grant_InventoryItem(creature, inventory, extraItem, true, false, equip);
-                            gainItem.id = extraItem.id;
-                            if (!extraItem.can_Stack()) {
-                                extraItem.grantedBy = "(Granted by " + item.name + ")";
-                            };
-                        }
+                        gainItem.grant_GrantedItem(creature as Character|AnimalCompanion, {sourceName: item.get_Name(), grantingItem: item}, {characterService: this, itemsService: this.itemsService})
                     });
                 }
             }
@@ -882,7 +864,7 @@ export class CharacterService {
         return item;
     }
 
-    drop_InventoryItem(creature: Character | AnimalCompanion, inventory: ItemCollection, item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true, including: boolean = true, amount: number = 1) {
+    drop_InventoryItem(creature: Character | AnimalCompanion, inventory: ItemCollection, item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true, including: boolean = true, amount: number = 1, keepInventoryContent: boolean = false) {
         //Don't handle items that are already being dropped.
         if (item.markedForDeletion) {
             return false;
@@ -925,16 +907,20 @@ export class CharacterService {
                     })
                 }
                 if (item.gainInventory?.length) {
-                    creature.inventories.filter(existingInventory => existingInventory.itemId == item.id).forEach(gainedInventory => {
-                        gainedInventory.allItems().forEach(inventoryItem => {
-                            this.drop_InventoryItem(creature, gainedInventory, inventoryItem, false, false, including);
-                        })
-                    });
+                    if (keepInventoryContent) {
+                        this.preserve_InventoryContent(creature, item);
+                    } else {
+                        creature.inventories.filter(existingInventory => existingInventory.itemId == item.id).forEach(gainedInventory => {
+                            gainedInventory.allItems().forEach(inventoryItem => {
+                                this.drop_InventoryItem(creature, gainedInventory, inventoryItem, false, false, including);
+                            });
+                        });
+                    }
                     creature.inventories = creature.inventories.filter(existingInventory => existingInventory.itemId != item.id);
                 }
                 if (including) {
-                    item.gainItems.filter((gainItem: ItemGain) => gainItem.on == "grant").forEach(gainItem => {
-                        this.lose_GainedItem(creature, gainItem);
+                    item.gainItems.filter(gainItem => gainItem.on == "grant").forEach(gainItem => {
+                        gainItem.drop_GrantedItem(creature, {}, {characterService: this})
                     });
                 }
             }
@@ -1103,22 +1089,8 @@ export class CharacterService {
             }
             //Add all Items that you get from equipping this one
             if (item.gainItems && item.gainItems.length) {
-                item.gainItems.filter((gainItem: ItemGain) => gainItem.on == "equip").forEach(gainItem => {
-                    let newItem: Item = this.itemsService.get_Items()[gainItem.type.toLowerCase()].find((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase());
-                    if (newItem.can_Stack()) {
-                        this.grant_InventoryItem(creature, inventory, newItem, false, false, false, gainItem.amount + (gainItem.amountPerLevel * creature.level));
-                    } else {
-                        let equip = true;
-                        //Don't equip the new item if it's a shield or armor and this one is too - only one shield or armor can be equipped
-                        if ((item instanceof Armor || item instanceof Shield) && newItem.type == item.type) {
-                            equip = false;
-                        }
-                        let grantedItem = this.grant_InventoryItem(creature, inventory, newItem, false, false, equip);
-                        gainItem.id = grantedItem.id;
-                        if (grantedItem.get_Name) {
-                            grantedItem.grantedBy = "(Granted by " + item.name + ")"
-                        };
-                    }
+                item.gainItems.filter(gainItem => gainItem.on == "equip").forEach(gainItem => {
+                    gainItem.grant_GrantedItem(creature as Character|AnimalCompanion, {sourceName: item.get_Name(), grantingItem: item}, {characterService: this, itemsService: this.itemsService})
                 });
             }
         } else if (oldequipped && !item.equipped) {
@@ -1138,8 +1110,8 @@ export class CharacterService {
                 this.on_Invest(creature, inventory, item, false, false);
             }
             if (item.gainItems?.length) {
-                item.gainItems.filter((gainItem: ItemGain) => gainItem.on == "equip").forEach(gainItem => {
-                    this.lose_GainedItem(creature, gainItem);
+                item.gainItems.filter(gainItem => gainItem.on == "equip").forEach(gainItem => {
+                    gainItem.drop_GrantedItem(creature, {}, {characterService: this})
                 });
             }
             item.propertyRunes?.forEach(rune => {
@@ -1154,29 +1126,6 @@ export class CharacterService {
         }
     }
 
-    lose_GainedItem(creature: Character | AnimalCompanion, gainedItem: ItemGain) {
-        let toDrop: number = gainedItem.amount;
-        creature.inventories.forEach(inventory => {
-            //Find items that either have this ItemGain's id or, if stackable, its name.
-            //Then drop as many of them as the amount demands.
-            inventory[gainedItem.type].filter(invItem => invItem.id == gainedItem.id || (invItem.can_Stack() && invItem.name == gainedItem.name)).forEach(invItem => {
-                if (toDrop) {
-                    let dropped = Math.min(toDrop, invItem.amount);
-                    toDrop -= dropped;
-                    //When dropping included items, empty their inventories first.
-                    if (invItem instanceof Equipment && invItem.gainInventory.length) {
-                        let found = this.preserve_InventoryContent(creature, invItem);
-                        if (found) {
-                            this.toastService.show(found + " item" + (found > 1 ? "s" : "") + " were emptied out of <strong>" + invItem.get_Name() + "</strong> before dropping the item as part of a bundle. These items can be found in your inventory, unless they were dropped in the same bundle.");
-                        }
-                    }
-                    this.drop_InventoryItem(creature, inventory, invItem, false, false, true, dropped);
-                }
-            })
-        })
-        gainedItem.id = "";
-    }
-
     preserve_InventoryContent(creature: Character | AnimalCompanion, item: Equipment) {
         //This gets all inventories granted by an item and dumps them into the main inventory. That way, content isn't lost when you drop an inventory item.
         let found = 0;
@@ -1188,7 +1137,9 @@ export class CharacterService {
                 }
             })
         })
-        return found;
+        if (found) {
+            this.toastService.show(found + " item" + (found > 1 ? "s" : "") + " were emptied out of <strong>" + item.get_Name() + "</strong> before dropping the item. These items can be found in your inventory, unless they were dropped in the same process.");
+        }
     }
 
     on_Invest(creature: Character | AnimalCompanion, inventory: ItemCollection, item: Equipment, invested: boolean = true, changeAfter: boolean = true) {
@@ -1239,10 +1190,9 @@ export class CharacterService {
             }, 500)
         } else {
             this.basicItems = [];
-            let newBasicWeapon: Weapon = Object.assign(new Weapon(), this.itemsService.get_ItemsOfType("weapons", "Fist")[0]).recast(this.typeService, this.itemsService);
+            const newBasicWeapon: Weapon = Object.assign(new Weapon(), this.itemsService.get_CleanItemByID("08693211-8daa-11ea-abca-ffb46fbada73")).recast(this.typeService, this.itemsService);
             this.basicItems.push(newBasicWeapon);
-            let newBasicArmor: Armor;
-            newBasicArmor = Object.assign(new Armor(), this.itemsService.get_ItemsOfType("armors", "Unarmored")[0]).recast(this.typeService, this.itemsService);
+            const newBasicArmor: Armor = Object.assign(new Armor(), this.itemsService.get_CleanItemByID("89c1a2c2-8e09-11ea-9fab-e92c63c14723")).recast(this.typeService, this.itemsService);
             this.basicItems.push(newBasicArmor);
             this.equip_BasicItems(this.get_Character(), false)
             this.equip_BasicItems(this.get_Companion(), false)

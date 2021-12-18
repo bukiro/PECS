@@ -542,7 +542,7 @@ export class SavegameService {
                         delete object[key];
                     }
                 })
-                //Delete the "save" list last so it can be referenced during the cleanup, but still updated when loading.
+                //Delete the "save" and "neversave" lists last so they can be referenced during the cleanup, but still updated when loading.
                 if (object.save) {
                     delete object.save;
                 }

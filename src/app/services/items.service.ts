@@ -281,7 +281,7 @@ export class ItemsService {
                 newItem.runeEffect.activities.forEach((activity: ItemActivity) => { activity.name += " (" + newItem.name + ")" });
             }
         }
-        //For base items that come with property Runes with name only, load the rune into the item here. Runes of loaded items will be largely 
+        //For base items that come with property Runes with name only, load the rune into the item here.
         if (resetPropertyRunes && (newItem instanceof Weapon || (newItem instanceof WornItem && newItem.isHandwrapsOfMightyBlows)) && newItem.propertyRunes?.length) {
             let newRunes: WeaponRune[] = [];
             newItem.propertyRunes.forEach((rune: WeaponRune) => {
@@ -369,15 +369,15 @@ export class ItemsService {
         if (including) {
             item.gainItems?.forEach(itemGain => {
                 let found: number = 0;
-                let stackBulk = 0;
+                let stackBulk = "";
                 let stackSize = 1;
                 creature.inventories.filter(inventory => !targetInventory || inventory !== targetInventory).forEach(inventory => {
                     //Count how many items you have that either have this ItemGain's id or, if stackable, its name.
-                    inventory[itemGain.type].filter(invItem => invItem.id == itemGain.id || (invItem.can_Stack() && invItem.name == itemGain.name)).forEach(invItem => {
+                    inventory[itemGain.type].filter((invItem: Item) => itemGain.get_IsMatchingExistingItem(invItem)).forEach((invItem: Item) => {
                         if (invItem.can_Stack()) {
                             found += invItem.amount;
-                            stackBulk = invItem.carryingBulk || invItem.bulk;
-                            stackSize = invItem.stack || 1;
+                            stackBulk = (invItem as Equipment).carryingBulk || invItem.bulk;
+                            stackSize = (invItem as Consumable).stack || 1;
                         } else {
                             bulk += this.get_RealBulk(invItem, { carrying: true });
                             //If the granted item includes more items, add their bulk as well.
@@ -388,7 +388,7 @@ export class ItemsService {
                 if (found && stackBulk && stackSize) {
                     //If one ore more stacked items were found, calculate the stack bulk accordingly.
                     let testItem = new Consumable();
-                    testItem.bulk = stackBulk.toString();
+                    testItem.bulk = stackBulk;
                     testItem.amount = Math.min(itemGain.amount, found);
                     testItem.stack = stackSize;
                     bulk += this.get_RealBulk(testItem, { carrying: false });
@@ -444,7 +444,7 @@ export class ItemsService {
             let found: number = 0;
             creature.inventories.forEach(inventory => {
                 //Count how many items you have that either have this ItemGain's id or, if stackable, its name.
-                inventory[itemGain.type].filter(invItem => invItem.id == itemGain.id || (invItem.can_Stack() && invItem.name == itemGain.name)).forEach(invItem => {
+                inventory[itemGain.type].filter((invItem: Item) => itemGain.get_IsMatchingExistingItem(invItem)).forEach((invItem: Item) => {
                     found += invItem.amount;
                     //Take the opportunity to update this item as well, in case it grants further items.
                     //Ideally, the granting items should not contain the same kind of stackable items, or the numbers will be wrong.
@@ -472,7 +472,7 @@ export class ItemsService {
             creature.inventories.forEach(inventory => {
                 //Find items that either have this ItemGain's id or, if stackable, its name.
                 //Then add as many of them into the package as the amount demands, and pack their contents as well.
-                inventory[itemGain.type].filter(invItem => invItem.id == itemGain.id || (invItem.can_Stack() && invItem.name == itemGain.name)).forEach(invItem => {
+                inventory[itemGain.type].filter((invItem: Item) => itemGain.get_IsMatchingExistingItem(invItem)).forEach((invItem: Item) => {
                     if (toPack) {
                         let moved = Math.min(toPack, invItem.amount);
                         toPack -= moved;
@@ -598,7 +598,7 @@ export class ItemsService {
             [inventory].concat(creature.inventories.filter(inv => inv !== targetInventory && inv !== inventory)).forEach(inv => {
                 //Find items that either have this ItemGain's id or, if stackable, its name.
                 //Then move as many of them into the new inventory as the amount demands.
-                inv[itemGain.type].filter(invItem => invItem.id == itemGain.id || (invItem.can_Stack() && invItem.name == itemGain.name)).forEach(invItem => {
+                inv[itemGain.type].filter((invItem: Item) => itemGain.get_IsMatchingExistingItem(invItem)).forEach(invItem => {
                     if (toMove) {
                         if (!this.get_CannotMove(creature, invItem, targetInventory)) {
                             let moved = Math.min(toMove, invItem.amount);
@@ -736,17 +736,7 @@ export class ItemsService {
             //Gain Items on Activation
             if (item.gainItems.length && creature.type != "Familiar") {
                 item.gainItems.forEach(gainItem => {
-                    let newItem: Item = itemsService.get_CleanItems()[gainItem.type.toLowerCase()].find((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase());
-                    if (newItem) {
-                        let grantedItem = characterService.grant_InventoryItem(creature as Character | AnimalCompanion, creature.inventories[0], newItem, false, false, true);
-                        gainItem.id = grantedItem.id;
-                        grantedItem.expiration = gainItem.expiration;
-                        if (grantedItem.get_Name) {
-                            grantedItem.grantedBy = "(Granted by " + item.name + ")";
-                        };
-                    } else {
-                        this.toastService.show("Failed granting " + gainItem.type.toLowerCase() + " item " + gainItem.name + " - item not found.")
-                    }
+                    gainItem.grant_GrantedItem(creature as Character|AnimalCompanion, {sourceName: item.get_Name(), grantingItem: item}, {characterService: characterService, itemsService: this})
                 });
             }
 
@@ -815,13 +805,7 @@ export class ItemsService {
                 .filter(feat => feat.gainItems.find(gain => gain.on == "rest") && feat.have(creature, characterService, creature.level))
                 .forEach(feat => {
                     feat.gainItems.filter(gain => gain.on == "rest").forEach(gainItem => {
-                        let newItem: Item = this.get_CleanItemsOfType(gainItem.type.toLowerCase(), gainItem.name)[0];
-                        let grantedItem: Item;
-                        if (newItem && newItem.can_Stack() && (gainItem.amount + (gainItem.amountPerLevel * creature.level))) {
-                            grantedItem = characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, true, false, false, (gainItem.amount + (gainItem.amountPerLevel * creature.level)), undefined, -2);
-                        } else if (newItem) {
-                            grantedItem = characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, true, false, true, 1, undefined, -2);
-                        }
+                        gainItem.grant_GrantedItem(creature as Character|AnimalCompanion, {sourceName: feat.name}, {characterService: characterService, itemsService: this})
                     });
                 });
         }

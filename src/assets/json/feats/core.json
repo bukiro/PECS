@@ -27990,8 +27990,9 @@
         ],
         "gainItems": [
             {
-                "name": "Rogue Poison",
+                "id": "dc4f55f5-83d4-4188-a1b6-9b62bfd9273f",
                 "amountPerLevel": 1,
+                "expiration": -2,
                 "on": "rest",
                 "type": "alchemicalpoisons"
             }
@@ -30560,7 +30561,7 @@
         "heritagereq": "irongut goblin",
         "gainItems": [
             {
-                "name": "Fang Sharpener Goblin Jaws",
+                "id": "d46e3051-4451-4d0b-bf74-3f249457cb9c",
                 "on": "grant",
                 "type": "weapons"
             }
@@ -30722,7 +30723,7 @@
         "heritagereq": "tailed goblin",
         "gainItems": [
             {
-                "name": "Tailed Goblin Tail",
+                "id": "e62fdedd-b087-4fba-b9fb-fb7ebf87cc82",
                 "on": "grant",
                 "type": "weapons"
             }
@@ -35263,7 +35264,7 @@
         "levelreq": 1,
         "gainItems": [
             {
-                "name": "Lizardfolk Fangs",
+                "id": "74cf862b-eb12-46e4-8d7d-6455b2690589",
                 "on": "grant",
                 "type": "weapons"
             }
@@ -35280,7 +35281,7 @@
         "levelreq": 1,
         "gainItems": [
             {
-                "name": "Lizardfolk Tail",
+                "id": "b3f9d9f4-dbdd-4d4f-952e-f3de3048dcc0",
                 "on": "grant",
                 "type": "weapons"
             }
@@ -35759,7 +35760,7 @@
         "specialreqdesc": "1st level only",
         "gainItems": [
             {
-                "name": "Orc Tusks",
+                "id": "3ceccceb-31f3-42ef-b6c5-a37b1b8fdc2a",
                 "on": "grant",
                 "type": "weapons"
             }

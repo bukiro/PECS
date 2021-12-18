@@ -16,7 +16,6 @@ import { Speed } from 'src/app/classes/Speed';
 import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
 import { Heritage } from 'src/app/classes/Heritage';
 import { ItemGain } from 'src/app/classes/ItemGain';
-import { Item } from 'src/app/classes/Item';
 import * as json_feats from 'src/assets/json/feats';
 import * as json_features from 'src/assets/json/features';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
@@ -530,25 +529,13 @@ export class FeatsService {
             //Gain items. Only items with on == "grant" are given at the moment the feat is taken.
             if (feat.gainItems.length) {
                 if (taken) {
-                    feat.gainItems.filter(freeItem => freeItem.on == "grant").forEach((freeItem: ItemGain) => {
-                        const item: Item = characterService.itemsService.get_Items()[freeItem.type].find((item: Item) => item.name.toLowerCase() == freeItem.name.toLowerCase());
-                        if (item) {
-                            characterService.grant_InventoryItem(characterService.get_Character(), characterService.get_Character().inventories[0], item, false, false, true, freeItem.amount);
-                        }
+                    feat.gainItems.filter(freeItem => freeItem.on == "grant").forEach(freeItem => {
+                        freeItem.grant_GrantedItem(character, {}, {characterService: characterService, itemsService: characterService.itemsService})
+                        freeItem.grantedItemID = "";
                     });
                 } else {
-                    feat.gainItems.filter(freeItem => freeItem.on == "grant").forEach((freeItem: ItemGain) => {
-                        let done: boolean = false;
-                        character.inventories.forEach(inv => {
-                            if (!done) {
-                                inv[freeItem.type].filter((item: Item) => item.name == freeItem.name).forEach(item => {
-                                    if (!done) {
-                                        characterService.drop_InventoryItem(character, inv, item, false, true, true, freeItem.amount);
-                                        done = true;
-                                    }
-                                });
-                            }
-                        })
+                    feat.gainItems.filter(freeItem => freeItem.on == "grant").forEach(freeItem => {
+                        freeItem.drop_GrantedItem(character, {requireGrantedItemID: false}, {characterService: characterService});
                     });
                 }
             }

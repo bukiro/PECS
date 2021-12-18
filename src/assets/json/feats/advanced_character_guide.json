@@ -59,7 +59,7 @@
         "specialreqdesc": "1st level only",
         "gainItems": [
             {
-                "name": "Orc Tusks",
+                "id": "3ceccceb-31f3-42ef-b6c5-a37b1b8fdc2a",
                 "on": "grant",
                 "type": "weapons"
             }

@@ -8,6 +8,9 @@ import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 
 export class Item {
+    public readonly save: string[] = [
+        "refId"
+    ]
     public readonly neversave: string[] = [
         "restoredFromSave"
     ]
@@ -50,7 +53,7 @@ export class Item {
     public oilsApplied: Oil[] = [];
     //Price in Copper
     public price: number = 0;
-    //This is the id of the library item this one is based on. It is used when loading the character.
+    //This is the id of the library item this one is based on. It is used when loading the character and set when the item is first initialized.
     public refId: string = ""
     //Is the notes input shown in the inventory
     public showNotes: boolean = false;
@@ -91,6 +94,9 @@ export class Item {
             choice.source = this.id;
             choice.id = "0-Spell-" + this.id + index;
         });
+        if (!this.refId) {
+            this.refId = this.id;
+        }
         return this;
     }
     get_Traits(characterService: CharacterService, creature: Creature) {

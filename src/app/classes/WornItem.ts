@@ -7,6 +7,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { Creature } from 'src/app/classes/Creature';
 import { Specialization } from 'src/app/classes/Specialization';
 import { Rune } from 'src/app/classes/Rune';
+import { Item } from './Item';
 
 export class WornItem extends Equipment {
     //Allow changing of "equippable" by custom item creation.
@@ -37,8 +38,8 @@ export class WornItem extends Equipment {
     public battleforged: boolean = false;
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
-        this.aeonStones = this.aeonStones.map(obj => Object.assign<WornItem, WornItem>(new WornItem(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
-        this.propertyRunes = this.propertyRunes.map(obj => Object.assign<WeaponRune, WeaponRune>(new WeaponRune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
+        this.aeonStones = this.aeonStones.map(obj => Object.assign<WornItem, Item>(new WornItem(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
+        this.propertyRunes = this.propertyRunes.map(obj => Object.assign<WeaponRune, Item>(new WeaponRune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         return this;
     }
     get_Name() {

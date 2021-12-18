@@ -8,7 +8,6 @@ import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { Skill } from 'src/app/classes/Skill';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { Equipment } from 'src/app/classes/Equipment';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
@@ -20,7 +19,6 @@ import { FormulaLearned } from 'src/app/classes/FormulaLearned';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { TypeService } from 'src/app/services/type.service';
 import { FeatData } from 'src/app/classes/FeatData';
-import { RefreshService } from 'src/app/services/refresh.service';
 
 export class Class {
     public activities: ActivityGain[] = [];
@@ -70,15 +68,8 @@ export class Class {
     on_ChangeClass(characterService: CharacterService) {
         let character = characterService.get_Character();
         //Of each granted Item, find the item with the stored id and drop it.
-        this.gainItems.forEach((freeItem: ItemGain) => {
-            if (freeItem.id) {
-                character.inventories.forEach(inv => {
-                    inv[freeItem.type].filter((item: Equipment) => item.id == freeItem.id).forEach(item => {
-                        characterService.drop_InventoryItem(character, inv, item, false, true, true, freeItem.amount);
-                        freeItem.id = "";
-                    });
-                })
-            }
+        this.gainItems.forEach(freeItem => {
+            freeItem.drop_GrantedItem(character, {}, {characterService: characterService})
         });
         //Some feats get specially processed when taken.
         //We can't just delete these feats, but must specifically un-take them to undo their effects.
@@ -97,12 +88,8 @@ export class Class {
         if (this.name) {
             let character = characterService.get_Character();
             //Grant all items and save their id in the ItemGain.
-            this.gainItems.forEach((freeItem: ItemGain) => {
-                let item: Equipment = itemsService.get_Items()[freeItem.type].find((item: Equipment) => item.name.toLowerCase() == freeItem.name.toLowerCase());
-                if (item) {
-                    let grantedItem = characterService.grant_InventoryItem(characterService.get_Character(), characterService.get_Character().inventories[0], item, false, false, true, freeItem.amount);
-                    freeItem.id = grantedItem.id;
-                }
+            this.gainItems.forEach(freeItem => {
+                freeItem.grant_GrantedItem(character, {}, {characterService: characterService, itemsService: itemsService})
             });
             //Some feats get specially processed when taken.
             //We have to explicitly take these feats to process them.
@@ -130,15 +117,8 @@ export class Class {
             characterService.refreshService.set_ToChange("Character", "general");
             level.abilityChoices = level.abilityChoices.filter(availableBoost => availableBoost.source != "Ancestry")
             //Of each granted Item, find the item with the stored id and drop it.
-            this.ancestry.gainItems.forEach((freeItem: ItemGain) => {
-                if (freeItem.id) {
-                    character.inventories.forEach(inv => {
-                        inv[freeItem.type].filter((item: Equipment) => item.id == freeItem.id).forEach(item => {
-                            characterService.drop_InventoryItem(character, inv, item, false, true, true, freeItem.amount);
-                            freeItem.id = "";
-                        });
-                    })
-                }
+            this.ancestry.gainItems.forEach(freeItem => {
+                freeItem.drop_GrantedItem(character, {}, {characterService: characterService})
             });
             //Some feats get specially processed when taken.
             //We can't just delete these feats, but must specifically un-take them to undo their effects.
@@ -165,12 +145,8 @@ export class Class {
             level.featChoices.push(...this.ancestry.featChoices);
             characterService.refreshService.set_ToChange("Character", "charactersheet");
             //Grant all items and save their id in the ItemGain.
-            this.ancestry.gainItems.forEach((freeItem: ItemGain) => {
-                let item: Equipment = itemsService.get_Items()[freeItem.type].find((item: Equipment) => item.name.toLowerCase() == freeItem.name.toLowerCase());
-                if (item) {
-                    let grantedItem = characterService.grant_InventoryItem(characterService.get_Character(), characterService.get_Character().inventories[0], item, false, false, true, freeItem.amount);
-                    freeItem.id = grantedItem.id;
-                }
+            this.ancestry.gainItems.forEach(freeItem => {
+                freeItem.grant_GrantedItem(character, {}, {characterService: characterService, itemsService: itemsService})
             });
             //Some feats get specially processed when taken.
             //We have to explicitly take these feats to process them.
@@ -203,15 +179,8 @@ export class Class {
                 characterService.refreshService.set_ToChange("Character", "charactersheet");
             })
             //Of each granted Item, find the item with the stored id and drop it.
-            heritage.gainItems.forEach((freeItem: ItemGain) => {
-                if (freeItem.id) {
-                    character.inventories.forEach(inv => {
-                        inv[freeItem.type].filter((item: Equipment) => item.id == freeItem.id).forEach(item => {
-                            characterService.drop_InventoryItem(character, inv, item, false, true, true, freeItem.amount);
-                            freeItem.id = "";
-                        });
-                    })
-                }
+            heritage.gainItems.forEach(freeItem => {
+                freeItem.drop_GrantedItem(character, {}, {characterService: characterService})
             });
             //Some feats get specially processed when taken.
             //We can't just delete these feats, but must specifically un-take them to undo their effects.
@@ -269,12 +238,8 @@ export class Class {
             level.featChoices.push(...heritage.featChoices);
             level.skillChoices.push(...heritage.skillChoices);
             //Grant all items and save their id in the ItemGain.
-            heritage.gainItems.forEach((freeItem: ItemGain) => {
-                let item: Equipment = itemsService.get_CleanItems()[freeItem.type].find((item: Equipment) => item.name.toLowerCase() == freeItem.name.toLowerCase());
-                if (item) {
-                    let grantedItem = characterService.grant_InventoryItem(characterService.get_Character(), characterService.get_Character().inventories[0], item, false, false, true, freeItem.amount);
-                    freeItem.id = grantedItem.id;
-                }
+            heritage.gainItems.forEach(freeItem => {
+                freeItem.grant_GrantedItem(character, {}, {characterService: characterService, itemsService: itemsService})
             });
             //Some feats get specially processed when taken.
             //We have to explicitly take these feats to process them.

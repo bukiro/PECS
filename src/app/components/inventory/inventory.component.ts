@@ -252,14 +252,8 @@ export class InventoryComponent implements OnInit {
                 }
             }
         }
-        if (pay && item instanceof Equipment && item.gainInventory.length) {
-            //If you are selling a container item, you don't sell its content. If you are dropping it, the content decision gets handled earlier.
-            let found = this.characterService.preserve_InventoryContent(this.get_Creature(), item);
-            if (found) {
-                this.toastService.show(found + " item" + (found > 1 ? "s" : "") + " were emptied out of <strong>" + item.get_Name() + "</strong> before selling the item. These items can be found in your main inventory unless they were sold as well.");
-            }
-        }
-        this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, false, true, true, item.amount);
+        let preserveInventoryContent = (pay && item instanceof Equipment && item.gainInventory.length != 0);
+        this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, false, true, true, item.amount, preserveInventoryContent);
         this.refreshService.set_ToChange(this.creature, "inventory");
         this.refreshService.set_ToChange(this.creature, "close-popovers");
         this.refreshService.process_ToChange();
@@ -317,10 +311,7 @@ export class InventoryComponent implements OnInit {
 
     drop_ContainerOnly(item: Item, inventory: ItemCollection) {
         this.toggle_Item();
-        if (item instanceof Equipment && item.gainInventory?.length) {
-            this.characterService.preserve_InventoryContent(this.get_Creature(), item);
-        }
-        this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, false, true, false, item.amount);
+        this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, false, true, false, item.amount, true);
         this.refreshService.set_ToChange(this.creature, "close-popovers");
         this.refreshService.process_ToChange();
     }

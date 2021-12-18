@@ -100,9 +100,9 @@ export class Equipment extends Item {
         })
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.material = this.material.map(obj => Object.assign(new Material(), obj).recast());
-        this.propertyRunes = this.propertyRunes.map(obj => Object.assign<Rune, Rune>(new Rune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
-        this.bladeAllyRunes = this.bladeAllyRunes.map(obj => Object.assign<Rune, Rune>(new Rune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
-        this.talismans = this.talismans.map(obj => Object.assign<Talisman, Talisman>(new Talisman(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
+        this.propertyRunes = this.propertyRunes.map(obj => Object.assign<Rune, Item>(new Rune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
+        this.bladeAllyRunes = this.bladeAllyRunes.map(obj => Object.assign<Rune, Item>(new Rune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
+        this.talismans = this.talismans.map(obj => Object.assign<Talisman, Item>(new Talisman(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         //Talisman Cords need to be cast blindly to avoid circular dependency warnings.
         this.talismanCords = this.talismanCords.map(obj => (typeService.classCast(typeService.restore_Item(obj, itemsService), "WornItem") as WornItem).recast(typeService, itemsService));
         return this;

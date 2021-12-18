@@ -3,7 +3,6 @@ import { Activity } from 'src/app/classes/Activity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { CharacterService } from 'src/app/services/character.service';
 import { ItemsService } from 'src/app/services/items.service';
-import { Item } from 'src/app/classes/Item';
 import { Equipment } from 'src/app/classes/Equipment';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
@@ -155,21 +154,11 @@ export class ActivitiesService {
                     gain.gainItems = activity.gainItems.map(gainItem => Object.assign(new ItemGain(), gainItem).recast());
                 }
                 gain.gainItems.forEach(gainItem => {
-                    let newItem: Item = itemsService.get_CleanItems()[gainItem.type.toLowerCase()].find((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase());
-                    if (newItem) {
-                        let grantedItem = characterService.grant_InventoryItem(creature as Character | AnimalCompanion, creature.inventories[0], newItem, false, false, true);
-                        gainItem.id = grantedItem.id;
-                        grantedItem.expiration = gainItem.expiration;
-                        if (grantedItem.get_Name) {
-                            grantedItem.grantedBy = "(Granted by " + activity.name + ")";
-                        };
-                    } else {
-                        this.toastService.show("Failed granting " + gainItem.type + " item " + gainItem.name + " - item not found.");
-                    }
+                    gainItem.grant_GrantedItem(creature as Character|AnimalCompanion, {sourceName: activity.name}, {characterService: characterService, itemsService: itemsService})
                 });
             } else {
                 gain.gainItems.forEach(gainItem => {
-                    characterService.lose_GainedItem(creature as Character | AnimalCompanion, gainItem);
+                    gainItem.drop_GrantedItem(creature as Character | AnimalCompanion, {}, {characterService: characterService})
                 });
                 if (gain instanceof ActivityGain) {
                     gain.gainItems = [];

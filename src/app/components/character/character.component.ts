@@ -1461,7 +1461,7 @@ export class CharacterComponent implements OnInit {
     }
 
     get_ItemFromGain(gain: ItemGain) {
-        return this.characterService.get_CleanItems()[gain.type].filter((item: Item) => item.name.toLowerCase() == gain.name.toLowerCase());
+        return this.characterService.get_CleanItems()[gain.type].filter((item: Item) => gain.get_IsMatchingItem(item));
     }
 
     get_AnimalCompanionAbilities(type: AnimalCompanionAncestry) {

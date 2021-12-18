@@ -4,6 +4,7 @@ import { ItemsService } from 'src/app/services/items.service';
 import { SpellCast } from 'src/app/classes/SpellCast';
 import { TypeService } from 'src/app/services/type.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
+import { Item } from './Item';
 
 export class Oil extends Consumable {
     //Oils should be type "oils" to be found in the database
@@ -33,7 +34,7 @@ export class Oil extends Consumable {
         super.recast(typeService, itemsService);
         this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
-        this.runeEffect = this.runeEffect ? Object.assign<WeaponRune, WeaponRune>(new WeaponRune(), typeService.restore_Item(this.runeEffect, itemsService)).recast(typeService, itemsService) : null;
+        this.runeEffect = this.runeEffect ? Object.assign<WeaponRune, Item>(new WeaponRune(), typeService.restore_Item(this.runeEffect, itemsService)).recast(typeService, itemsService) : null;
         return this;
     }
 }

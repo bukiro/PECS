@@ -7,9 +7,7 @@ import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemGain } from 'src/app/classes/ItemGain';
-import { Item } from 'src/app/classes/Item';
 import { ItemsService } from 'src/app/services/items.service';
-import { Equipment } from 'src/app/classes/Equipment';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import * as json_conditions from 'src/assets/json/conditions';
 import { Creature } from 'src/app/classes/Creature';
@@ -325,7 +323,7 @@ export class ConditionsService {
                         )
                         ).forEach(gainItem => {
                             conditionDidSomething = true;
-                            this.add_ConditionItem((creature as AnimalCompanion | Character), characterService, itemsService, gainItem, condition);
+                            gainItem.grant_GrantedItem(creature as Character | AnimalCompanion, { sourceName: condition.name }, { characterService: characterService, itemsService: itemsService })
                         });
                 } else {
                     gain.gainItems
@@ -335,8 +333,7 @@ export class ConditionsService {
                             gainItem.conditionChoiceFilter.includes(gain.choice)
                         )
                         ).forEach(gainItem => {
-                            conditionDidSomething = true;
-                            this.remove_ConditionItem((creature as AnimalCompanion | Character), characterService, itemsService, gainItem);
+                            gainItem.drop_GrantedItem((creature as AnimalCompanion | Character), {}, { characterService: characterService });
                         });
                     gain.gainItems = [];
                 }
@@ -469,46 +466,8 @@ export class ConditionsService {
 
     }
 
-    add_ConditionItem(creature: Character | AnimalCompanion, characterService: CharacterService, itemsService: ItemsService, gainItem: ItemGain, condition: Condition) {
-        let newItem: Item = itemsService.get_CleanItems()[gainItem.type.toLowerCase()].find((item: Item) => item.name.toLowerCase() == gainItem.name.toLowerCase());
-        if (newItem) {
-            if (newItem.can_Stack()) {
-                //For consumables, add the appropriate amount and don't track them.
-                characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, false, false, false, gainItem.amount);
-            } else {
-                //For equipment, track the ID of the newly added item for removal.
-                let grantedItem = characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, false, false, true);
-                gainItem.id = grantedItem.id;
-                if (grantedItem.get_Name) {
-                    grantedItem.grantedBy = "(Granted by " + condition.name + ")";
-                };
-            }
-        }
-    }
-
     remove_ConditionItem(creature: Character | AnimalCompanion, characterService: CharacterService, itemsService: ItemsService, gainItem: ItemGain) {
-        if (itemsService.get_Items()[gainItem.type.toLowerCase()].find((item: Item) => item.name.toLowerCase() == gainItem.name.toLowerCase())?.can_Stack()) {
-            let items: Item[] = creature.inventories[0][gainItem.type.toLowerCase()].filter((item: Item) => item.name == gainItem.name);
-            //For consumables, remove the same amount as previously given. This is not ideal, but you can easily add more in the inventory.
-            if (items.length) {
-                characterService.drop_InventoryItem(creature, creature.inventories[0], items[0], false, true, true, gainItem.amount);
-            }
-        } else {
-            //For equipment, we have saved the ID and remove exactly that item.
-            let item: Item = creature.inventories[0][gainItem.type.toLowerCase()].find((item: Item) => item.id == gainItem.id);
-            if (item) {
-                if ((item as Equipment).gainInventory && (item as Equipment).gainInventory.length) {
-                    //If a temporary container is destroyed, return all contained items to the main inventory.
-                    creature.inventories.filter(inv => inv.itemId == item.id).forEach(inv => {
-                        inv.allItems().forEach(invItem => {
-                            itemsService.move_InventoryItemLocally(creature, invItem, creature.inventories[0], inv, characterService);
-                        });
-                    });
-                }
-                characterService.drop_InventoryItem(creature, creature.inventories[0], item, false, true, true);
-            }
-            gainItem.id = "";
-        }
+        gainItem.drop_GrantedItem(creature, {}, { characterService: characterService });
     }
 
     generate_ItemConditions(creature: Creature, services: { characterService: CharacterService, effectsService: EffectsService }): void {
@@ -783,14 +742,14 @@ export class ConditionsService {
             //Remove any items that were granted by the previous choice.
             if (oldChoice) {
                 gain.gainItems.filter(gainItem => gainItem.conditionChoiceFilter.includes(oldChoice)).forEach(gainItem => {
-                    this.remove_ConditionItem(creature as Character | AnimalCompanion, characterService, itemsService, gainItem);
+                    gainItem.drop_GrantedItem((creature as AnimalCompanion | Character), {}, { characterService: characterService });
                 });
             }
             //Add any items that are granted by the new choice.
             if (gain.choice) {
                 gain.gainItems.filter(gainItem => gainItem.conditionChoiceFilter.includes(gain.choice)).forEach(gainItem => {
                     conditionDidSomething = true;
-                    this.add_ConditionItem(creature as Character | AnimalCompanion, characterService, itemsService, gainItem, condition);
+                    gainItem.grant_GrantedItem(creature as Character | AnimalCompanion, { sourceName: condition.name }, { characterService: characterService, itemsService: itemsService })
                 });
             }
         }

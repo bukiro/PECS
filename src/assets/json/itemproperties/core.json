@@ -590,15 +590,23 @@
         "key": "name",
         "priority": "01",
         "group": "",
-        "name": "Item",
-        "desc": "Choose a known item that will be granted when receiving or equipping this item.",
+        "name": "Item (by name)",
+        "desc": "Choose the name of a known item that will be granted when receiving or equipping this item.",
         "locked": true,
         "examples": "gainitems name"
     },
     {
         "parent": "gainItems",
-        "key": "amount",
+        "key": "id",
         "priority": "02",
+        "group": "",
+        "name": "Item (by ID)",
+        "desc": "You can optionally enter the ID of an item to grant instead of a name. An ID will be preferred over a name, but IDs are not visible inside the app."
+    },
+    {
+        "parent": "gainItems",
+        "key": "amount",
+        "priority": "03",
         "group": "",
         "name": "Amount",
         "desc": "The number of items of this type you will receive.",
@@ -608,7 +616,7 @@
     {
         "parent": "gainItems",
         "key": "on",
-        "priority": "03",
+        "priority": "04",
         "group": "",
         "name": "Granting condition",
         "desc": "The extra item is either granted when receiving this item, or granted when equipping and lost when unequipping it. For consumables, the extra item can be granted when using this item. The default is on grant, and the choice does not make a difference for an activity.",
@@ -618,7 +626,7 @@
     {
         "parent": "gainItems",
         "key": "expiration",
-        "priority": "04",
+        "priority": "05",
         "group": "",
         "name": "Expiration",
         "desc": "For temporary items, the number of turns (* 10) that the item will exist after granting it.",

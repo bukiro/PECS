@@ -220,7 +220,7 @@ export class TypeService {
         }
     }
 
-    restore_Item(object: any, itemsService: ItemsService = null) {
+    restore_Item(object: Item, itemsService: ItemsService = null) {
         if (itemsService && object.refId && !object.restoredFromSave) {
             let libraryItem = itemsService.get_CleanItemByID(object.refId);
             if (libraryItem) {

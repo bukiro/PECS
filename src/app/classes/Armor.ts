@@ -12,6 +12,7 @@ import { ArmorMaterial } from 'src/app/classes/ArmorMaterial';
 import { Creature } from 'src/app/classes/Creature';
 import { ArmorRune } from 'src/app/classes/ArmorRune';
 import { Rune } from 'src/app/classes/Rune';
+import { Item } from './Item';
 
 export class Armor extends Equipment {
     //Armor should be type "armors" to be found in the database
@@ -46,7 +47,7 @@ export class Armor extends Equipment {
     public battleforged: boolean = false;
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
-        this.propertyRunes = this.propertyRunes.map(obj => Object.assign<ArmorRune, ArmorRune>(new ArmorRune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
+        this.propertyRunes = this.propertyRunes.map(obj => Object.assign<ArmorRune, Item>(new ArmorRune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         this.material = this.material.map(obj => Object.assign(new ArmorMaterial(), obj).recast());
         return this;
     }
