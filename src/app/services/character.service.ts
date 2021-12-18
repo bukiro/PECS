@@ -1563,7 +1563,7 @@ export class CharacterService {
             let removed: boolean = false;
             this.get_Creatures().forEach(creature => {
                 this.get_AppliedConditions(creature)
-                    .filter(existingConditionGain => existingConditionGain.foreignPlayerId == senderId && existingConditionGain.durationDependsOnOther)
+                    .filter(existingConditionGain => existingConditionGain.foreignPlayerId == senderId && existingConditionGain.durationEndsOnOtherTurnChange)
                     .forEach(existingConditionGain => {
                         removed = this.remove_Condition(creature, existingConditionGain, false);
                         if (removed) {

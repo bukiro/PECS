@@ -117,4 +117,7 @@ export class ConditionGain {
     get durationDependsOnOther() {
         return this.duration % 5 == 2 || this.duration == 3;
     }
+    get durationEndsOnOtherTurnChange() {
+        return [2,3].includes(this.duration);
+    }
 }

@@ -2000,6 +2000,40 @@
         ]
     },
     {
+        "name": "Boots of Bounding",
+        "id": "255e8b1a-a021-4b65-b1ae-e58f558fd177",
+        "desc": "The springy soles of these sturdy leather boots cushion your feet and make each step lighter. These boots give you a +5-foot item bonus to your Speed and a +2 item bonus to Athletics checks to High Jump and Long Jump. In addition, when you use the Leap action, you can move 5 feet further if jumping horizontally or 3 feet higher if jumping vertically.",
+        "level": 7,
+        "bulk": "L",
+        "price": 34000,
+        "traits": [
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "usage": "worn cloak",
+        "hints": [
+            {
+                "desc": "You gain a +2 item bonus to Athletics checks to High Jump and Long Jump. In addition, when you use the Leap action, you can move 5 feet further if jumping horizontally or 3 feet higher if jumping vertically.",
+                "showon": "Athletics",
+                "effects": [
+                    {
+                        "affected": "Athletics",
+                        "type": "item",
+                        "value": "+2"
+                    }
+                ]
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Land Speed",
+                "type": "item",
+                "value": "+5"
+            }
+        ]
+    },
+    {
         "name": "Cloak of Elvenkind",
         "id": "b0a0fc41-b6cc-4dba-870c-efdd0468e448",
         "desc": "This cloak is deep green with a voluminous hood, embroidered with gold trim and symbols significant in elven culture. The cloak allows you to cast the ghost sound cantrip as an arcane innate spell. When you adjust the cloak's clasp (an Interact action), the cloak transforms to match the environment around you and muffles your sounds, granting you a +1 item bonus to Stealth checks.",
@@ -2016,7 +2050,7 @@
             {
                 "affected": "Stealth",
                 "type": "item",
-                "value": 1
+                "value": "+1"
             }
         ],
         "activities": [
@@ -2448,6 +2482,64 @@
                 "affected": "Survival",
                 "type": "item",
                 "value": 2
+            }
+        ]
+    },
+    {
+        "name": "Hat of the Magi (Greater)",
+        "id": "3577b394-43c4-47bc-983b-c1c1a69da026",
+        "desc": "This hat comes in many forms, such as a colorful turban or a pointy hat with a brim, and can bear symbols or runes. It grants you a +1 item bonus to Arcana checks and allows you to cast the prestidigitation cantrip as an arcane innate spell.",
+        "level": 9,
+        "bulk": "L",
+        "price": 65000,
+        "subType": "Greater",
+        "subTypeDesc": "This larger, fancier hat grants a +2 bonus and can be activated.",
+        "traits": [
+            "Arcane",
+            "Conjuration",
+            "Invested"
+        ],
+        "usage": "worn headwear",
+        "effects": [
+            {
+                "affected": "Arcana",
+                "type": "item",
+                "value": "+2"
+            }
+        ],
+        "activities": [
+            {
+                "name": "Hat of the Magi (Greater)",
+                "source": "3577b394-43c4-47bc-983b-c1c1a69da026",
+                "actions": "3A",
+                "activationType": "Cast a Spell",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "desc": "You cast a 4th-level arcane summon elemental spell.",
+                "castSpells": [
+                    {
+                        "level": 4,
+                        "name": "Summon Elemental"
+                    }
+                ],
+                "traits": [
+                    "Arcane",
+                    "Conjuration",
+                    "Invested"
+                ]
+            }
+        ],
+        "gainSpells": [
+            {
+                "frequency": "at will",
+                "level": 0,
+                "tradition": "Arcane",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Prestidigitation"
+                    }
+                ]
             }
         ]
     },

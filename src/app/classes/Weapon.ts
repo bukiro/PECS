@@ -225,22 +225,22 @@ export class Weapon extends Equipment {
         let runeSource: RuneSourceSet = { fundamentalRunes: this, propertyRunes: this };
         //For unarmed attacks, return Handwraps of Mighty Blows if invested.
         if (this.prof == "Unarmed Attacks") {
-            let handwraps = creature.inventories[0].wornitems.filter(item => item.isHandwrapsOfMightyBlows && item.invested)
-            if (handwraps.length) {
-                runeSource = { fundamentalRunes: handwraps[0], propertyRunes: handwraps[0], reason: handwraps[0] };
+            let handwraps = creature.inventories[0].wornitems.find(item => item.isHandwrapsOfMightyBlows && item.investedOrEquipped())
+            if (handwraps) {
+                runeSource = { fundamentalRunes: handwraps, propertyRunes: handwraps, reason: handwraps };
             }
         }
         //Apply doubling rings to return a different item's runes if needed.
         if (range == "melee") {
-            let doublingRings = creature.inventories[0].wornitems.filter(item => item.isDoublingRings && item.data[1].value == this.id && item.invested);
-            if (doublingRings.length) {
-                if (doublingRings[0].data[0].value) {
-                    let goldItem = creature.inventories[0].weapons.filter(weapon => weapon.id == doublingRings[0].data[0].value);
-                    if (goldItem.length) {
-                        if (doublingRings[0].isDoublingRings == "Doubling Rings (Greater)" && doublingRings[0].data[2]) {
-                            runeSource = { fundamentalRunes: goldItem[0], propertyRunes: goldItem[0], reason: doublingRings[0] };
+            let doublingRings = creature.inventories[0].wornitems.find(item => item.isDoublingRings && item.data[1].value == this.id && item.investedOrEquipped());
+            if (doublingRings) {
+                if (doublingRings.data[0].value) {
+                    let goldItem = creature.inventories[0].weapons.find(weapon => weapon.id == doublingRings.data[0].value);
+                    if (goldItem?.investedOrEquipped()) {
+                        if (doublingRings.isDoublingRings == "Doubling Rings (Greater)" && doublingRings.data[2]) {
+                            runeSource = { fundamentalRunes: goldItem, propertyRunes: goldItem, reason: doublingRings };
                         } else {
-                            runeSource = { fundamentalRunes: goldItem[0], propertyRunes: this, reason: doublingRings[0] };
+                            runeSource = { fundamentalRunes: goldItem, propertyRunes: this, reason: doublingRings };
                         }
                     }
                 }

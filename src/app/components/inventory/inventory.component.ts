@@ -206,11 +206,11 @@ export class InventoryComponent implements OnInit {
     }
 
     can_Equip(item: Item, inventoryIndex: number) {
-        return (inventoryIndex == 0 && item.equippable && this.creature == "Character" && (!(item as Equipment).broken || item instanceof Armor) && !item.traits.includes("Companion")) || (item.traits.includes("Companion") && this.creature == "Companion") || item.name == "Unarmored"
+        return inventoryIndex == 0 && item.equippable && (!(item as Equipment).broken || item instanceof Armor) && ((this.creature == (item.traits.includes("Companion") ? "Companion" : "Character")) || item.name == "Unarmored")
     }
 
     can_Invest(item: Item, inventoryIndex: number) {
-        return inventoryIndex == 0 && item.can_Invest() && ((this.creature == "Character" && !item.traits.includes("Companion")) || (item.traits.includes("Companion") && this.creature == "Companion"))
+        return inventoryIndex == 0 && item.can_Invest() && (this.creature == (item.traits.includes("Companion") ? "Companion" : "Character"))
     }
 
     can_Drop(item: Item) {

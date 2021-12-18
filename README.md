@@ -10,7 +10,7 @@ You can create new items on the fly, or if you're the one running the server, yo
 
 PECS was gratefully created under the [Paizo Inc. Community Use Policy](https://paizo.com/community/communityuse) and the [Open Gaming License v1.0a](https://paizo.com/pathfinder/compatibility/ogl), and is neither endorsed nor recognized bz Paizo. It is completely free.
 
-A modern computer or tablet should have no issues running PECS in a browser and is largely responsive for mobile. PECS looks best in the Edge browser and has some issues in Safari.
+A modern computer or tablet should have no issues running PECS in a browser, and it is largely responsive for mobile. PECS looks best in the Edge browser and has some issues in Safari.
 
 PECS is not a public website, but is intended to be hosted by you for yourself and your group of players.
 

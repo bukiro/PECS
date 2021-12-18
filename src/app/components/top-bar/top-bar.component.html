@@ -44,7 +44,7 @@
             [ngbTooltip]="'In GM mode, the character can\'t be saved and can\'t send effects to other players.'">
             GM Mode
         </button>
-        <ng-container *ngIf="!get_SavegamesInitializing() && !get_LoggingIn() && !get_GMMode()">
+        <ng-container *ngIf="!get_SavegamesInitializing() && !get_LoggingIn()">
             <span *ngIf="get_CannotLogin()" style="flex-grow: initial" [ngbTooltip]="'Database connection failed'">
                 <button class="fancy-button" disabled><i class="bi-file-earmark-break"></i></button>
             </span>

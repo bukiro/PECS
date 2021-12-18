@@ -455,7 +455,7 @@
                 "actions": "1A",
                 "activationType": "Command, Interact",
                 "target": "object",
-                "showSpells": [
+                "castSpells": [
                     {
                         "name": "Hydraulic Push"
                     }
