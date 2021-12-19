@@ -31,6 +31,8 @@ export class Item {
     public desc: string = "";
     //For summoned items or infused reagents, the expiration ticks down, and the item is then dropped or the amount reduced. Expiration is turns * 10.
     public expiration: number = 0;
+    //ExpiresOnlyIf controls whether the item's expiration only ticks down while it is equipped or while it is unequipped.
+    public expiresOnlyIf: "" | "equipped" | "unequipped" = "";
     //If this name is set, always show it instead of the expanded base name
     public displayName: string = "";
     //Can this item be equipped (and apply its effect only then)
@@ -144,5 +146,8 @@ export class Item {
     }
     get_EffectsGenerationHints() {
         return [];
+    }
+    investedOrEquipped() {
+        return false;
     }
 }

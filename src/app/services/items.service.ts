@@ -736,7 +736,7 @@ export class ItemsService {
             //Gain Items on Activation
             if (item.gainItems.length && creature.type != "Familiar") {
                 item.gainItems.forEach(gainItem => {
-                    gainItem.grant_GrantedItem(creature as Character|AnimalCompanion, {sourceName: item.get_Name(), grantingItem: item}, {characterService: characterService, itemsService: this})
+                    gainItem.grant_GrantedItem(creature as Character | AnimalCompanion, { sourceName: item.get_Name(), grantingItem: item }, { characterService: characterService, itemsService: this })
                 });
             }
 
@@ -805,7 +805,7 @@ export class ItemsService {
                 .filter(feat => feat.gainItems.find(gain => gain.on == "rest") && feat.have(creature, characterService, creature.level))
                 .forEach(feat => {
                     feat.gainItems.filter(gain => gain.on == "rest").forEach(gainItem => {
-                        gainItem.grant_GrantedItem(creature as Character|AnimalCompanion, {sourceName: feat.name}, {characterService: characterService, itemsService: this})
+                        gainItem.grant_GrantedItem(creature as Character | AnimalCompanion, { sourceName: feat.name }, { characterService: characterService, itemsService: this })
                     });
                 });
         }
@@ -829,7 +829,14 @@ export class ItemsService {
     tick_Items(creature: Character | AnimalCompanion, characterService: CharacterService, turns: number) {
         creature.inventories.forEach(inv => {
             //Tick down and remove all items that expire.
-            inv.allItems().filter(item => item.expiration > 0).forEach(item => {
+            function expirationApplies(item: Item): boolean {
+                switch (item.expiresOnlyIf) {
+                    case "equipped": return item.investedOrEquipped();
+                    case "unequipped": return !item.investedOrEquipped();
+                    default: return true;
+                }
+            }
+            inv.allItems().filter(item => item.expiration > 0 && expirationApplies(item)).forEach(item => {
                 item.expiration -= turns;
                 if (item.expiration <= 0) {
                     item.name = "DELETE";

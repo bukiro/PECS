@@ -5202,5 +5202,68 @@
       "melee": 5,
       "prof": "Unarmed Attacks",
       "craftable": false
+   },
+   {
+      "bulk": "L",
+      "desc": "This small, bladed weapon is held in one hand and used to stab a creature in close combat. It can also be thrown.\n\nThis steel dagger will fade away 1 round after it leaves your hand.",
+      "id": "a86c588a-aedb-4fa5-8c30-e4d4d991dd44",
+      "name": "Necklave of Knives Steel Dagger",
+      "displayName": "Steel Dagger",
+      "weaponBase": "Dagger",
+      "price": 0,
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Thrown 10 ft.",
+         "Versatile S"
+      ],
+      "dicesize": 4,
+      "dmgType": "P/S",
+      "group": "Knife",
+      "hands": "1",
+      "melee": 5,
+      "ranged": 10
+   },
+   {
+      "bulk": "L",
+      "desc": "This small, bladed weapon is held in one hand and used to stab a creature in close combat. It can also be thrown.\n\nThis stone dagger will fade away 1 round after it leaves your hand.",
+      "id": "cde099b4-05b9-48a0-86a3-316c2b485722",
+      "name": "Necklave of Knives Stone Dagger",
+      "displayName": "Stone Dagger",
+      "weaponBase": "Dagger",
+      "price": 0,
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Thrown 10 ft.",
+         "Versatile S"
+      ],
+      "dicesize": 4,
+      "dmgType": "P/S",
+      "group": "Knife",
+      "hands": "1",
+      "melee": 5,
+      "ranged": 10
+   },
+   {
+      "bulk": "L",
+      "desc": "This small, bladed weapon is held in one hand and used to stab a creature in close combat. It can also be thrown.\n\nThis wooden dagger is as effective as an ordinary steel dagger and can be useful to stake vampires. It will fade away 1 round after it leaves your hand.",
+      "id": "85062217-d2f6-457b-92e7-5b9e26215a12",
+      "name": "Necklave of Knives Wooden Dagger",
+      "displayName": "Wooden Dagger",
+      "weaponBase": "Dagger",
+      "price": 0,
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Thrown 10 ft.",
+         "Versatile S"
+      ],
+      "dicesize": 4,
+      "dmgType": "P/S",
+      "group": "Knife",
+      "hands": "1",
+      "melee": 5,
+      "ranged": 10
    }
 ]

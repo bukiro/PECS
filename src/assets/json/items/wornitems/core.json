@@ -187,6 +187,83 @@
         ]
     },
     {
+        "name": "Necklace of Knives",
+        "id": "e123c192-0b00-4ad3-afd9-026efe8960be",
+        "desc": "This necklace strung with miniature stone throwing knives. As long as you wear it, you are never without a weapon, a crude surgical tool, or stake for a vampire, if necessary in following Pharasma's teachings.",
+        "sourceBook": "Gods & Magic",
+        "level": 2,
+        "price": 2500,
+        "traits": [
+            "Uncommon",
+            "Conjuration",
+            "Invested",
+            "Magical"
+        ],
+        "usage": "worn",
+        "activities": [
+            {
+                "name": "Necklace of Knives: Steel Dagger",
+                "actions": "1A",
+                "activationType": "Interact",
+                "desc": "You pluck a miniature knife from the necklace, and it grows into a normal steel dagger for as long as you hold it, fading away 1 round after it leaves your hand. No matter how many knives you pull from the necklace, you never seem to deplete them.",
+                "gainItems": [
+                    {
+                        "id": "a86c588a-aedb-4fa5-8c30-e4d4d991dd44",
+                        "expiration": 10,
+                        "expiresOnlyIf": "unequipped",
+                        "type": "weapons"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Conjuration",
+                    "Invested",
+                    "Magical"
+                ]
+            },
+            {
+                "name": "Necklace of Knives: Stone Dagger",
+                "actions": "1A",
+                "activationType": "Interact",
+                "desc": "You pluck a miniature knife from the necklace, and it grows into a normal stone dagger for as long as you hold it, fading away 1 round after it leaves your hand. No matter how many knives you pull from the necklace, you never seem to deplete them.",
+                "gainItems": [
+                    {
+                        "id": "cde099b4-05b9-48a0-86a3-316c2b485722",
+                        "expiration": 10,
+                        "expiresOnlyIf": "unequipped",
+                        "type": "weapons"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Conjuration",
+                    "Invested",
+                    "Magical"
+                ]
+            },
+            {
+                "name": "Necklace of Knives: Wooden Dagger",
+                "actions": "1A",
+                "activationType": "Interact",
+                "desc": "You pluck a miniature knife from the necklace, and it grows into a normal wooden dagger for as long as you hold it, fading away 1 round after it leaves your hand. No matter how many knives you pull from the necklace, you never seem to deplete them. Wooden daggers from the necklace are as effective as ordinary steel daggers and can be useful to stake vampires.",
+                "gainItems": [
+                    {
+                        "id": "85062217-d2f6-457b-92e7-5b9e26215a12",
+                        "expiration": 10,
+                        "expiresOnlyIf": "unequipped",
+                        "type": "weapons"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Conjuration",
+                    "Invested",
+                    "Magical"
+                ]
+            }
+        ]
+    },
+    {
         "name": "Wayfinder",
         "id": "4c5d0fa0-fb67-4e5a-80af-dd450eba7cf4",
         "desc": "This compact compass repurposes ancient technology to draw fantastic powers from the mysterious magical items called aeon stones. It serves as a badge of office for agents of the Pathfinder Society and as a status symbol among adventurers of any stripe. A wayfinder functions as a compass.\n\nAn indentation in the middle of the wayfinder can hold a single aeon stone. Placing an aeon stone in this indentation provides you all the benefits of having the aeon stone orbiting your head, but it protects the stone from being noticed or stolen as easily. You invest a wayfinder and the aeon stone within it simultaneously, and they count as only one item toward your investiture limit. An invested aeon stone slotted in a wayfinder also grants its resonant power.\n\nIf you have more than one wayfinder with an invested aeon stone on your person at a given time, destructive interference from their resonance prevents you from gaining benefits from any of them. You can still benefit from additional aeon stones orbiting your head, just not in wayfinders.\n\nAll Pathfinders have access.",

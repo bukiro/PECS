@@ -313,9 +313,16 @@
                                                         {{item.group}}
                                                     </span>
                                                 </div>
-                                                <div class="newrow" *ngIf="item.expiration">
-                                                    <span><strong>Duration</strong>
-                                                        {{get_Duration(item.expiration)}}</span>
+                                                <div class="newrow lower" *ngIf="item.expiration">
+                                                    <span>
+                                                        <strong>Duration</strong>
+                                                        {{get_Duration(item.expiration)}}
+                                                        <span *ngIf="item.expiresOnlyIf">
+                                                            {{item.expiresOnlyIf == "equipped" ? "(The item only expires
+                                                            while equipped.)" : "(The item only expires while not
+                                                            equipped.)"}}
+                                                        </span>
+                                                    </span>
                                                 </div>
                                                 <button class="newrow center-aligned" [disabled]="!item.amount"
                                                     (click)="on_ConsumableUse(item, creature, inventory)"

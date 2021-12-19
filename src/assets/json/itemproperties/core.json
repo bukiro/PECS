@@ -609,7 +609,7 @@
         "priority": "03",
         "group": "",
         "name": "Amount",
-        "desc": "The number of items of this type you will receive.",
+        "desc": "The number of items of this type you will receive. If the received item is not stackable, you will only receive one item regardless of this number. (Equipment is usually not stackable.)",
         "type": "number",
         "validation": "1plus"
     },
@@ -632,6 +632,16 @@
         "desc": "For temporary items, the number of turns (* 10) that the item will exist after granting it.",
         "type": "number",
         "validation": "-1plus"
+    },
+    {
+        "parent": "gainItems",
+        "key": "expiresOnlyIf",
+        "priority": "06",
+        "group": "",
+        "name": "Expiration condition",
+        "desc": "If set, this item's expiration duration will only progress while it fulfills the selected condition.",
+        "locked": true,
+        "examples": "gainitems expirationcondition"
     },
     {
         "key": "storedSpells",

@@ -12,11 +12,13 @@ export class ItemGain {
     //Only for on==rest: Gain this amount per level additionally to the amount.
     public amountPerLevel: number = 0;
     public expiration: number = 0;
+    public expiresOnlyIf: "" | "equipped" | "unequipped" = "";
     //The id is copied from the item after granting it, so that it can be removed again.
     public grantedItemID: string = "";
     public name: string = "";
     public id: string = "";
-    public on: "grant" | "equip" | "use" | "rest" | "" = "grant";
+    //The 'on' property is ignored for activities.
+    public on: "" | "grant" | "equip" | "use" | "rest" = "grant";
     public type: string = "weapons";
     //Spells choose from multiple item gains those that match their level.
     //For example, if a spell has an ItemGain with heightenedFilter 1 and one with heightenedFilter 2, and the spell is cast at 2nd level, only the heightenedFilter 2 ItemGain is used.
@@ -50,7 +52,9 @@ export class ItemGain {
                     equip = false;
                 }
                 const grantedItem = services.characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, false, false, equip, 1, undefined, this.expiration);
+
                 this.grantedItemID = grantedItem.id;
+                grantedItem.expiresOnlyIf = this.expiresOnlyIf;
                 if (!grantedItem.can_Stack() && context.sourceName) {
                     grantedItem.grantedBy = "(Granted by " + context.sourceName + ")";
                 };
@@ -63,7 +67,7 @@ export class ItemGain {
             }
         }
     }
-    public drop_GrantedItem(creature: Character | AnimalCompanion, options: {requireGrantedItemID?: boolean}, services: { characterService: CharacterService }): void {
+    public drop_GrantedItem(creature: Character | AnimalCompanion, options: { requireGrantedItemID?: boolean }, services: { characterService: CharacterService }): void {
         options = Object.assign(
             {
                 requireGrantedItemID: true

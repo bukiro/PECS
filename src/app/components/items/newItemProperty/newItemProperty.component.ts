@@ -543,6 +543,9 @@ export class NewItemPropertyComponent implements OnInit {
             case "gainitems on":
                 examples = ["", "equip", "grant", "use"];
                 break;
+            case "gainitems expirationcondition":
+                examples = ["", "equipped", "unequipped"];
+                break;
             case "dicesize":
                 examples = [1, 2, 3, 4, 6, 8, 10, 12];
                 break;
