@@ -190,6 +190,7 @@
         "name": "Necklace of Knives",
         "id": "e123c192-0b00-4ad3-afd9-026efe8960be",
         "desc": "This necklace strung with miniature stone throwing knives. As long as you wear it, you are never without a weapon, a crude surgical tool, or stake for a vampire, if necessary in following Pharasma's teachings.",
+        "access": "follower of Pharasma",
         "sourceBook": "Gods & Magic",
         "level": 2,
         "price": 2500,

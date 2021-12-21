@@ -82,7 +82,11 @@ export class SpellsComponent implements OnInit {
     }
 
     reset_ChoiceArea() {
-        document.getElementById("spells-choiceArea-top").scrollIntoView({ behavior: 'smooth' });
+        //Scroll up to the top of the choice area. This is only needed in desktop mode, where you can switch between choices without closing the first,
+        // and it would cause the top bar to scroll away in mobile mode.
+        if (!this.characterService.get_Mobile()) {
+            document.getElementById("spells-choiceArea-top").scrollIntoView({ behavior: 'smooth' });
+        }
     }
 
     receive_ChoiceMessage(message: { name: string, levelNumber: number, choice: SpellChoice, casting: SpellCasting }) {

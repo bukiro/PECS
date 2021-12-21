@@ -129,7 +129,8 @@ export class CharacterComponent implements OnInit {
         //Set the currently shown list name, level number and content so that the correct choice with the correct data can be shown in the choice area.
         if (this.showList == name &&
             (!levelNumber || this.showContentLevelNumber == levelNumber) &&
-            (!content || JSON.stringify(this.showContent) == JSON.stringify(content))) {
+            (!content || JSON.stringify(this.showContent) == JSON.stringify(content))
+        ) {
             this.showList = "";
             this.showContentLevelNumber = 0;
             this.showContent = null;
@@ -142,8 +143,9 @@ export class CharacterComponent implements OnInit {
     }
 
     reset_ChoiceArea() {
-        //Scroll up to the top of the choice area. This is only needed in desktop mode, where you can switch between choices without closing the first.
-        if (this.characterService.get_Mobile()) {
+        //Scroll up to the top of the choice area. This is only needed in desktop mode, where you can switch between choices without closing the first,
+        // and it would cause the top bar to scroll away in mobile mode.
+        if (!this.characterService.get_Mobile()) {
             document.getElementById("character-choiceArea-top").scrollIntoView({ behavior: 'smooth' });
         }
     }
