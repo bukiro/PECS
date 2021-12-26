@@ -156,24 +156,8 @@ export class AttacksComponent implements OnInit {
         return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.equipped && weapon.equippable && !weapon.broken)
             .concat(...this.get_Creature().inventories.map(inv => inv.alchemicalbombs))
             .concat(...this.get_Creature().inventories.map(inv => inv.otherconsumablesbombs))
-            .sort(function (a, b) {
-                if (a.name > b.name) {
-                    return 1
-                }
-                if (a.name < b.name) {
-                    return -1
-                }
-                return 0;
-            })
-            .sort(function (a, b) {
-                if (a.type < b.type) {
-                    return 1
-                }
-                if (a.type > b.type) {
-                    return -1
-                }
-                return 0;
-            })
+            .sort((a, b) => (a.name > b.name) ? 1 : -1)
+            .sort((a, b) => (a.type < b.type) ? 1 : -1)
     }
 
     get_TalismanTitle(talisman: Talisman, withCord: boolean = false) {
@@ -233,15 +217,8 @@ export class AttacksComponent implements OnInit {
                 ammoList.push({ item: ammo, name: ammo.get_Name(), inventory: inv })
             })
         });
-        return ammoList.sort((a, b) => {
-            if (a.name > b.name) {
-                return 1;
-            }
-            if (a.name < b.name) {
-                return -1;
-            }
-            return 0;
-        });;
+        return ammoList
+            .sort((a, b) => (a.name > b.name) ? 1 : -1);
     }
 
     get_Snares() {
@@ -251,15 +228,8 @@ export class AttacksComponent implements OnInit {
                 snares.push({ item: snare, name: snare.get_Name(), inventory: inv })
             })
         });
-        return snares.sort((a, b) => {
-            if (a.name > b.name) {
-                return 1;
-            }
-            if (a.name < b.name) {
-                return -1;
-            }
-            return 0;
-        });;
+        return snares
+            .sort((a, b) => (a.name > b.name) ? 1 : -1);
     }
 
     get_Spells(name: string = "", type: string = "", tradition: string = "") {

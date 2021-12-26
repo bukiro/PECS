@@ -3994,7 +3994,7 @@
     },
     {
         "name": "Rage",
-        "desc": "You gain a number of temporary Hit Points equal to your level plus your Constitution modifier. This frenzy lasts for 1 minute, until there are no enemies you can perceive, or until you fall unconscious, whichever comes first. You can't voluntarily stop raging. While you are raging: \n\nYou deal 2 additional damage with melee weapons and unarmed attacks. This additional damage is halved if your weapon or unarmed attack is agile.\nYou take a -1 penalty to AC.\nYou can't use actions with the concentrate trait unless they also have the rage trait. You can Seek while raging.\n\nAfter you stop raging, you lose any remaining temporary Hit Points from Rage, and you can't Rage again for 1 minute.",
+        "desc": "You gain a number of temporary Hit Points equal to your level plus your Constitution modifier. This frenzy lasts for 1 minute, until there are no enemies you can perceive, or until you fall unconscious, whichever comes first. You can't voluntarily stop raging. While you are raging:\n\nYou deal 2 additional damage with melee weapons and unarmed attacks. This additional damage is halved if your weapon or unarmed attack is agile.\nYou take a -1 penalty to AC.\nYou can't use actions with the concentrate trait unless they also have the rage trait. You can Seek while raging.\n\nAfter you stop raging, you lose any remaining temporary Hit Points from Rage, and you can't Rage again for 1 minute.",
         "type": "activities",
         "SortLevel": 0,
         "buff": true,
@@ -4606,7 +4606,7 @@
     },
     {
         "name": "Share Rage",
-        "desc": "Your ally stokes your fury. While they are raging, you gain the effects of the Rage action, except you can still use concentrate actions.\n\nIf your ally has the Contagious Rage feat, you can accept their anathema for the duration of the Rage and gain their instinct ability and the specialization ability it gains from weapon specialization, but not greater weapon specialization.\n\n<strong>Rage</strong>\n\nYou gain a number of temporary Hit Points equal to your level plus your Constitution modifier. This frenzy lasts for 1 minute, until there are no enemies you can perceive, or until you fall unconscious, whichever comes first. You can't voluntarily stop raging. While you are raging: \n\nYou deal 2 additional damage with melee weapons and unarmed attacks. This additional damage is halved if your weapon or unarmed attack is agile.\nYou take a -1 penalty to AC.\nYou can't use actions with the concentrate trait unless they also have the rage trait. You can Seek while raging.\n\nAfter you stop raging, you lose any remaining temporary Hit Points from Rage, and you can't Rage again for 1 minute.\n\n<strong>Animal Instinct</strong>\n\nFlagrantly disrespecting an animal of your ally's chosen kind is anathema to your instinct, as is using weapons while raging.\nYou gain the chosen animal's unarmed attack (or attacks). Increase the damage die size for these unarmed attacks by one step, and increase the additional damage from Rage from 2 to 5 for them. The frog's tongue attack and deer's antler attack gain reach 10 feet.\n\n<strong>Dragon Instinct</strong>\n\nLetting a personal insult against you slide is anathema to your instinct. If your ally respects their dragon type, defying such a dragon is anathema, and if they abhor it, failing to defeat such a dragon you come across is anathema.\nWhile raging, you can increase the additional damage from Rage from 2 to 8 and change its damage type to match that of your dragon's breath weapon instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<strong>Fury Instinct</strong>\n\nYou don't have an anathema or an instinct ability.\nIncrease the additional damage from Rage from 2 to 6. \n\n<strong>Giant Instinct</strong>\n\nFailing to face a personal challenge of strength is anathema.\nYou can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging). If you're not Small or Medium, you can use a weapon built for a creature one size larger than you. When wielding such a weapon in combat, increase your additional damage from Rage from 2 to 6, but you have the clumsy 1 condition because of the weapon's unwieldy size. You can't remove this clumsy condition or ignore its penalties by any means while wielding the weapon.\n\n<strong>Spirit Instinct</strong>\n\nDisrespecting corpses or spirits is anathema to your instinct; defending yourself against undead creatures is not.\nWhile raging, you can increase the additional damage from Rage from 2 to 7 and change its damage type to negative or positive, instead of the damage type for your weapon or unarmed attack (choose each time you Rage). If you choose to deal negative or positive damage, your weapon or unarmed attack gains the effects of the ghost touch property rune, which makes it more effective against incorporeal creatures, and your Rage action gains the divine and necromancy traits, plus negative or positive, as appropriate.",
+        "desc": "Your ally stokes your fury. While they are raging, you gain the effects of the Rage action, except you can still use concentrate actions.\n\nIf your ally has the Contagious Rage feat, you can accept their anathema for the duration of the Rage and gain their instinct ability and the specialization ability it gains from weapon specialization, but not greater weapon specialization.\n\n<strong>Rage</strong>\n\nYou gain a number of temporary Hit Points equal to your level plus your Constitution modifier. This frenzy lasts for 1 minute, until there are no enemies you can perceive, or until you fall unconscious, whichever comes first. You can't voluntarily stop raging. While you are raging:\n\nYou deal 2 additional damage with melee weapons and unarmed attacks. This additional damage is halved if your weapon or unarmed attack is agile.\nYou take a -1 penalty to AC.\nYou can't use actions with the concentrate trait unless they also have the rage trait. You can Seek while raging.\n\nAfter you stop raging, you lose any remaining temporary Hit Points from Rage, and you can't Rage again for 1 minute.\n\n<strong>Animal Instinct</strong>\n\nFlagrantly disrespecting an animal of your ally's chosen kind is anathema to your instinct, as is using weapons while raging.\nYou gain the chosen animal's unarmed attack (or attacks). Increase the damage die size for these unarmed attacks by one step, and increase the additional damage from Rage from 2 to 5 for them. The frog's tongue attack and deer's antler attack gain reach 10 feet.\n\n<strong>Dragon Instinct</strong>\n\nLetting a personal insult against you slide is anathema to your instinct. If your ally respects their dragon type, defying such a dragon is anathema, and if they abhor it, failing to defeat such a dragon you come across is anathema.\nWhile raging, you can increase the additional damage from Rage from 2 to 8 and change its damage type to match that of your dragon's breath weapon instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<strong>Fury Instinct</strong>\n\nYou don't have an anathema or an instinct ability.\nIncrease the additional damage from Rage from 2 to 6.\n\n<strong>Giant Instinct</strong>\n\nFailing to face a personal challenge of strength is anathema.\nYou can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging). If you're not Small or Medium, you can use a weapon built for a creature one size larger than you. When wielding such a weapon in combat, increase your additional damage from Rage from 2 to 6, but you have the clumsy 1 condition because of the weapon's unwieldy size. You can't remove this clumsy condition or ignore its penalties by any means while wielding the weapon.\n\n<strong>Spirit Instinct</strong>\n\nDisrespecting corpses or spirits is anathema to your instinct; defending yourself against undead creatures is not.\nWhile raging, you can increase the additional damage from Rage from 2 to 7 and change its damage type to negative or positive, instead of the damage type for your weapon or unarmed attack (choose each time you Rage). If you choose to deal negative or positive damage, your weapon or unarmed attack gains the effects of the ghost touch property rune, which makes it more effective against incorporeal creatures, and your Rage action gains the divine and necromancy traits, plus negative or positive, as appropriate.",
         "type": "activities",
         "SortLevel": 0,
         "buff": true,
@@ -6978,7 +6978,7 @@
     },
     {
         "name": "Cat's Eye Elixir",
-        "desc": "Your vision sharpens and you become sensitive to even the most minute movements. You reduce the flat check to target hidden creatures to 5, and you don't need to attempt a flat check to target concealed creatures. These benefits apply only against creatures within 30 feet of you. ",
+        "desc": "Your vision sharpens and you become sensitive to even the most minute movements. You reduce the flat check to target hidden creatures to 5, and you don't need to attempt a flat check to target concealed creatures. These benefits apply only against creatures within 30 feet of you.",
         "type": "alchemicalelixirs",
         "SortLevel": 0,
         "buff": true,
@@ -7037,7 +7037,7 @@
     },
     {
         "name": "Cognitive Mutagen (Greater)",
-        "desc": "Your mind becomes clear and cognition flows freely, but physical matters seem ephemeral. \n\n<strong>Benefit</strong> You gain a +3 item bonus to Arcana, Crafting, Lore, Occultism, and Society checks and all checks to Recall Knowledge. Your critical failures on Recall Knowledge checks become failures instead. You become trained in one Intelligence-based skill, chosen at creation.\n<strong>Drawback</strong> You take a -2 penalty to weapon and unarmed attack rolls, Athletics checks, and Acrobatics checks. You can carry 2 less Bulk than normal before becoming encumbered, and the maximum Bulk you can carry is reduced by 4.",
+        "desc": "Your mind becomes clear and cognition flows freely, but physical matters seem ephemeral.\n\n<strong>Benefit</strong> You gain a +3 item bonus to Arcana, Crafting, Lore, Occultism, and Society checks and all checks to Recall Knowledge. Your critical failures on Recall Knowledge checks become failures instead. You become trained in one Intelligence-based skill, chosen at creation.\n<strong>Drawback</strong> You take a -2 penalty to weapon and unarmed attack rolls, Athletics checks, and Acrobatics checks. You can carry 2 less Bulk than normal before becoming encumbered, and the maximum Bulk you can carry is reduced by 4.",
         "type": "alchemicalelixirs",
         "SortLevel": 0,
         "buff": true,
@@ -7118,7 +7118,7 @@
     },
     {
         "name": "Cognitive Mutagen (Lesser)",
-        "desc": "Your mind becomes clear and cognition flows freely, but physical matters seem ephemeral. \n\n<strong>Benefit</strong> You gain a +1 item bonus to Arcana, Crafting, Lore, Occultism, and Society checks and all checks to Recall Knowledge. Your critical failures on Recall Knowledge checks become failures instead. \n<strong>Drawback</strong> You take a -2 penalty to weapon and unarmed attack rolls, Athletics checks, and Acrobatics checks. You can carry 2 less Bulk than normal before becoming encumbered, and the maximum Bulk you can carry is reduced by 4.",
+        "desc": "Your mind becomes clear and cognition flows freely, but physical matters seem ephemeral.\n\n<strong>Benefit</strong> You gain a +1 item bonus to Arcana, Crafting, Lore, Occultism, and Society checks and all checks to Recall Knowledge. Your critical failures on Recall Knowledge checks become failures instead.\n<strong>Drawback</strong> You take a -2 penalty to weapon and unarmed attack rolls, Athletics checks, and Acrobatics checks. You can carry 2 less Bulk than normal before becoming encumbered, and the maximum Bulk you can carry is reduced by 4.",
         "type": "alchemicalelixirs",
         "SortLevel": 0,
         "buff": true,
@@ -7129,7 +7129,7 @@
         ],
         "hints": [
             {
-                "desc": "You gain a +1 item bonus to all checks to Recall Knowledge. Your critical failures on Recall Knowledge checks become failures instead. ",
+                "desc": "You gain a +1 item bonus to all checks to Recall Knowledge. Your critical failures on Recall Knowledge checks become failures instead.",
                 "showon": "Arcana, Crafting, Lore, Medicine, Nature, Occultism, Religion, Society",
                 "effects": [
                     {
@@ -7191,7 +7191,7 @@
     },
     {
         "name": "Cognitive Mutagen (Major)",
-        "desc": "Your mind becomes clear and cognition flows freely, but physical matters seem ephemeral. \n\n<strong>Benefit</strong> You gain a +4 item bonus to Arcana, Crafting, Lore, Occultism, and Society checks and all checks to Recall Knowledge. Your critical failures on Recall Knowledge checks become failures instead. You become trained in one, chosen at creation.\n<strong>Drawback</strong> You take a -2 penalty to weapon and unarmed attack rolls, Athletics checks, and Acrobatics checks. You can carry 2 less Bulk than normal before becoming encumbered, and the maximum Bulk you can carry is reduced by 4.",
+        "desc": "Your mind becomes clear and cognition flows freely, but physical matters seem ephemeral.\n\n<strong>Benefit</strong> You gain a +4 item bonus to Arcana, Crafting, Lore, Occultism, and Society checks and all checks to Recall Knowledge. Your critical failures on Recall Knowledge checks become failures instead. You become trained in one, chosen at creation.\n<strong>Drawback</strong> You take a -2 penalty to weapon and unarmed attack rolls, Athletics checks, and Acrobatics checks. You can carry 2 less Bulk than normal before becoming encumbered, and the maximum Bulk you can carry is reduced by 4.",
         "type": "alchemicalelixirs",
         "SortLevel": 0,
         "buff": true,
@@ -7275,7 +7275,7 @@
     },
     {
         "name": "Cognitive Mutagen (Moderate)",
-        "desc": "Your mind becomes clear and cognition flows freely, but physical matters seem ephemeral. \n\n<strong>Benefit</strong> You gain a +2 item bonus to Arcana, Crafting, Lore, Occultism, and Society checks and all checks to Recall Knowledge. Your critical failures on Recall Knowledge checks become failures instead. \n<strong>Drawback</strong> You take a -2 penalty to weapon and unarmed attack rolls, Athletics checks, and Acrobatics checks. You can carry 2 less Bulk than normal before becoming encumbered, and the maximum Bulk you can carry is reduced by 4.",
+        "desc": "Your mind becomes clear and cognition flows freely, but physical matters seem ephemeral.\n\n<strong>Benefit</strong> You gain a +2 item bonus to Arcana, Crafting, Lore, Occultism, and Society checks and all checks to Recall Knowledge. Your critical failures on Recall Knowledge checks become failures instead.\n<strong>Drawback</strong> You take a -2 penalty to weapon and unarmed attack rolls, Athletics checks, and Acrobatics checks. You can carry 2 less Bulk than normal before becoming encumbered, and the maximum Bulk you can carry is reduced by 4.",
         "type": "alchemicalelixirs",
         "SortLevel": 0,
         "buff": true,
@@ -7286,7 +7286,7 @@
         ],
         "hints": [
             {
-                "desc": "You gain a +2 item bonus to all checks to Recall Knowledge. Your critical failures on Recall Knowledge checks become failures instead. ",
+                "desc": "You gain a +2 item bonus to all checks to Recall Knowledge. Your critical failures on Recall Knowledge checks become failures instead.",
                 "showon": "Arcana, Crafting, Lore, Medicine, Nature, Occultism, Religion, Society",
                 "effects": [
                     {
@@ -7423,7 +7423,7 @@
     },
     {
         "name": "Eagle-Eye Elixir",
-        "desc": "You notice subtle visual details. You gain an Item bonus to Perception checks equal to the value that is improved by 1 when attempting to find secret doors and traps. ",
+        "desc": "You notice subtle visual details. You gain an Item bonus to Perception checks equal to the value that is improved by 1 when attempting to find secret doors and traps.",
         "type": "alchemicalelixirs",
         "SortLevel": 0,
         "buff": true,
@@ -8489,7 +8489,7 @@
     },
     {
         "name": "Juggernaut Mutagen (Greater)",
-        "desc": "After you drink this mutagen, your body becomes thick and sturdy. You exhibit a healthy glow, though you tend to be ponderous and unobservant. \n\n<strong>Benefit</strong> You gain a +3 item bonus to Fortitude saves and 30 temporary Hit Points. When you roll a success on a Fortitude save, you get a critical success instead. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points. \n<strong>Drawback</strong> You take a -2 penalty to Will saves, Perception checks, and initiative rolls. ",
+        "desc": "After you drink this mutagen, your body becomes thick and sturdy. You exhibit a healthy glow, though you tend to be ponderous and unobservant.\n\n<strong>Benefit</strong> You gain a +3 item bonus to Fortitude saves and 30 temporary Hit Points. When you roll a success on a Fortitude save, you get a critical success instead. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points.\n<strong>Drawback</strong> You take a -2 penalty to Will saves, Perception checks, and initiative rolls.",
         "type": "alchemicalelixirs",
         "SortLevel": 0,
         "buff": true,
@@ -8551,7 +8551,7 @@
     },
     {
         "name": "Juggernaut Mutagen (Lesser)",
-        "desc": "After you drink this mutagen, your body becomes thick and sturdy. You exhibit a healthy glow, though you tend to be ponderous and unobservant. \n\n<strong>Benefit</strong> You gain a +1 item bonus to Fortitude saves and 5 temporary Hit Points. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points. \n<strong>Drawback</strong> You take a -2 penalty to Will saves, Perception checks, and initiative rolls. ",
+        "desc": "After you drink this mutagen, your body becomes thick and sturdy. You exhibit a healthy glow, though you tend to be ponderous and unobservant.\n\n<strong>Benefit</strong> You gain a +1 item bonus to Fortitude saves and 5 temporary Hit Points. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points.\n<strong>Drawback</strong> You take a -2 penalty to Will saves, Perception checks, and initiative rolls.",
         "type": "alchemicalelixirs",
         "SortLevel": 0,
         "buff": true,
@@ -8601,7 +8601,7 @@
     },
     {
         "name": "Juggernaut Mutagen (Major)",
-        "desc": "After you drink this mutagen, your body becomes thick and sturdy. You exhibit a healthy glow, though you tend to be ponderous and unobservant. \n\n<strong>Benefit</strong> You gain a +4 item bonus to Fortitude saves and 45 temporary Hit Points. When you roll a success on a Fortitude save, you get a critical success instead, and your critical failures on Fortitude saves become failures instead. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points. \n<strong>Drawback</strong> You take a -2 penalty to Will saves, Perception checks, and initiative rolls. ",
+        "desc": "After you drink this mutagen, your body becomes thick and sturdy. You exhibit a healthy glow, though you tend to be ponderous and unobservant.\n\n<strong>Benefit</strong> You gain a +4 item bonus to Fortitude saves and 45 temporary Hit Points. When you roll a success on a Fortitude save, you get a critical success instead, and your critical failures on Fortitude saves become failures instead. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points.\n<strong>Drawback</strong> You take a -2 penalty to Will saves, Perception checks, and initiative rolls.",
         "type": "alchemicalelixirs",
         "SortLevel": 0,
         "buff": true,
@@ -8666,7 +8666,7 @@
     },
     {
         "name": "Juggernaut Mutagen (Moderate)",
-        "desc": "After you drink this mutagen, your body becomes thick and sturdy. You exhibit a healthy glow, though you tend to be ponderous and unobservant. \n\n<strong>Benefit</strong> You gain a +2 item bonus to Fortitude saves and 10 temporary Hit Points. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points. \n<strong>Drawback</strong> You take a -2 penalty to Will saves, Perception checks, and initiative rolls. ",
+        "desc": "After you drink this mutagen, your body becomes thick and sturdy. You exhibit a healthy glow, though you tend to be ponderous and unobservant.\n\n<strong>Benefit</strong> You gain a +2 item bonus to Fortitude saves and 10 temporary Hit Points. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points.\n<strong>Drawback</strong> You take a -2 penalty to Will saves, Perception checks, and initiative rolls.",
         "type": "alchemicalelixirs",
         "SortLevel": 0,
         "buff": true,
@@ -8856,7 +8856,7 @@
     },
     {
         "name": "Quicksilver Mutagen",
-        "desc": "Your features become thin and angular. You become swifter and nimbler, but your body also becomes fragile. \n\n<strong>Benefit</strong> You gain an item bonus equal to the value to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and ranged attack rolls, and you gain a status bonus equal to the value * 5 to your Speed.\n<strong>Drawback</strong> You take damage equal to twice your level; you can't recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves.",
+        "desc": "Your features become thin and angular. You become swifter and nimbler, but your body also becomes fragile.\n\n<strong>Benefit</strong> You gain an item bonus equal to the value to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and ranged attack rolls, and you gain a status bonus equal to the value * 5 to your Speed.\n<strong>Drawback</strong> You take damage equal to twice your level; you can't recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves.",
         "type": "alchemicalelixirs",
         "SortLevel": 0,
         "buff": true,
@@ -9141,7 +9141,7 @@
     },
     {
         "name": "Serene Mutagen (Lesser)",
-        "desc": "You gain inner serenity, focused on fine details and steeled against mental assaults, but you find violence off-putting.\n\n<strong>Benefit</strong> You gain a +1 item bonus to Will saves and Perception, Medicine, Nature, Religion, and Survival checks. This bonus improves by 1 when you attempt Will saves against mental effects. \n<strong>Drawback</strong> You take a -1 penalty to attack rolls and save DCs of offensive spells, and a -1 penalty per damage die to all weapon, unarmed attack, and spell damage.",
+        "desc": "You gain inner serenity, focused on fine details and steeled against mental assaults, but you find violence off-putting.\n\n<strong>Benefit</strong> You gain a +1 item bonus to Will saves and Perception, Medicine, Nature, Religion, and Survival checks. This bonus improves by 1 when you attempt Will saves against mental effects.\n<strong>Drawback</strong> You take a -1 penalty to attack rolls and save DCs of offensive spells, and a -1 penalty per damage die to all weapon, unarmed attack, and spell damage.",
         "type": "alchemicalelixirs",
         "SortLevel": 0,
         "buff": true,
@@ -9309,7 +9309,7 @@
     },
     {
         "name": "Serene Mutagen (Moderate)",
-        "desc": "You gain inner serenity, focused on fine details and steeled against mental assaults, but you find violence off-putting.\n\n<strong>Benefit</strong> You gain a +2 item bonus to Will saves and Perception, Medicine, Nature, Religion, and Survival checks. This bonus improves by 1 when you attempt Will saves against mental effects. \n<strong>Drawback</strong> You take a -1 penalty to attack rolls and save DCs of offensive spells, and a -1 penalty per damage die to all weapon, unarmed attack, and spell damage.",
+        "desc": "You gain inner serenity, focused on fine details and steeled against mental assaults, but you find violence off-putting.\n\n<strong>Benefit</strong> You gain a +2 item bonus to Will saves and Perception, Medicine, Nature, Religion, and Survival checks. This bonus improves by 1 when you attempt Will saves against mental effects.\n<strong>Drawback</strong> You take a -1 penalty to attack rolls and save DCs of offensive spells, and a -1 penalty per damage die to all weapon, unarmed attack, and spell damage.",
         "type": "alchemicalelixirs",
         "SortLevel": 0,
         "buff": true,
@@ -11050,12 +11050,12 @@
     },
     {
         "name": "Deafened",
-        "desc": "You can't hear. You automatically critically fail Perception checks that require you to be able to hear. You take a -2 status penalty to Perception checks for initiative and checks that involve sound but also rely on other senses. If you perform an action with the auditory trait, you must succeed at a DC 5 flat check or the action is lost; attempt the check after spending the action but before any effects are applied. You are immune to auditory effects. ",
+        "desc": "You can't hear. You automatically critically fail Perception checks that require you to be able to hear. You take a -2 status penalty to Perception checks for initiative and checks that involve sound but also rely on other senses. If you perform an action with the auditory trait, you must succeed at a DC 5 flat check or the action is lost; attempt the check after spending the action but before any effects are applied. You are immune to auditory effects.",
         "type": "generic",
         "SortLevel": 0,
         "hints": [
             {
-                "desc": "You can't hear. You automatically critically fail Perception checks that require you to be able to hear. You take a -2 status penalty to Perception checks for initiative and checks that involve sound but also rely on other senses. You are immune to auditory effects. ",
+                "desc": "You can't hear. You automatically critically fail Perception checks that require you to be able to hear. You take a -2 status penalty to Perception checks for initiative and checks that involve sound but also rely on other senses. You are immune to auditory effects.",
                 "showon": "Perception",
                 "effects": [
                     {
@@ -11070,7 +11070,7 @@
                 "showon": "Activities"
             },
             {
-                "desc": "You are immune to auditory effects. ",
+                "desc": "You are immune to auditory effects.",
                 "showon": "Saving Throws"
             }
         ]
@@ -11598,7 +11598,7 @@
     },
     {
         "name": "Slowed",
-        "desc": "You have fewer actions. Slowed always includes a value. When you regain your actions at the start of your turn, reduce the number of actions you regain by your slowed value. Because slowed has its effect at the start of your turn, you don't immediately lose actions if you become slowed during your turn. ",
+        "desc": "You have fewer actions. Slowed always includes a value. When you regain your actions at the start of your turn, reduce the number of actions you regain by your slowed value. Because slowed has its effect at the start of your turn, you don't immediately lose actions if you become slowed during your turn.",
         "type": "generic",
         "SortLevel": 0,
         "hasValue": true,
@@ -18779,7 +18779,7 @@
                 ]
             },
             {
-                "desc": "Any imprecise senses you have are sharpened to precise senses (though they do not receive the status bonus from Hyperfocus). However, you cannot perceive anything beyond a range of <var>20</var> feet with any of your senses. ",
+                "desc": "Any imprecise senses you have are sharpened to precise senses (though they do not receive the status bonus from Hyperfocus). However, you cannot perceive anything beyond a range of <var>20</var> feet with any of your senses.",
                 "showon": "Senses",
                 "conditionChoiceFilter": [
                     "Success",
@@ -18801,7 +18801,7 @@
                 ]
             },
             {
-                "desc": "Any imprecise senses you have are sharpened to precise senses (though they do not receive the status bonus from Hyperfocus). However, you cannot perceive anything beyond a range of <var>10</var> feet with any of your senses. ",
+                "desc": "Any imprecise senses you have are sharpened to precise senses (though they do not receive the status bonus from Hyperfocus). However, you cannot perceive anything beyond a range of <var>10</var> feet with any of your senses.",
                 "showon": "Senses",
                 "conditionChoiceFilter": [
                     "Critical Failure"
@@ -49497,7 +49497,7 @@
     },
     {
         "name": "Wall of Ice",
-        "desc": "You have sculpted a barrier of ice that blocks sight and, once shattered, freezes foes. The ice that makes up the wall is opaque. \n\nEach 10-foot-by-10-foot section of the wall has AC 10, Hardness 10, and <var>var1</var> Hit Points, and it's immune to critical hits, cold damage, and precision damage. A section also has weakness to fire 15; a section of the wall destroyed by fire melts, evaporating into water and steam. A section destroyed by means other than fire leaves behind a chilling mass of ice that is difficult terrain and deals |dice=var2 Cold| <var>var2</var> cold damage to any creature passing through it.",
+        "desc": "You have sculpted a barrier of ice that blocks sight and, once shattered, freezes foes. The ice that makes up the wall is opaque.\n\nEach 10-foot-by-10-foot section of the wall has AC 10, Hardness 10, and <var>var1</var> Hit Points, and it's immune to critical hits, cold damage, and precision damage. A section also has weakness to fire 15; a section of the wall destroyed by fire melts, evaporating into water and steam. A section destroyed by means other than fire leaves behind a chilling mass of ice that is difficult terrain and deals |dice=var2 Cold| <var>var2</var> cold damage to any creature passing through it.",
         "type": "spells",
         "minLevel": 5,
         "SortLevel": 5,
@@ -50686,7 +50686,7 @@
     },
     {
         "name": "Earthquake",
-        "desc": "The ground shakes, creatures are toppled into fissures, and structures collapse in the target area.\n\nThe GM might add additional effects in certain areas. Cliffs might collapse, causing creatures to fall, or a lake might drain as fissures open up below its surface, leaving a morass of quicksand.\n\n<strong>Shaking Ground</strong> The ground is difficult terrain, and creatures on it take a -2 circumstance penalty to attack rolls, AC, and skill checks.\n<strong>Fissures</strong> Each creature on the ground must attempt a Reflex save at the start of its turn to keep its footing and avoid falling into 40-foot-deep fissures that open beneath it. The fissures are permanent, and their sides require DC 15 Athletics to Climb.\n<strong>Collapse Structures</strong> and ceilings might collapse. The GM rolls a flat check for each (DC 16 for a sturdy structure, DC 14 for an average structure and most natural formations, DC 9 for a shoddy structure, all adjusted higher or lower as the GM sees fit). A collapse deals 11d6 bludgeoning damage; each creature caught in a collapse must attempt a Reflex save to avoid it.\n\n \n\n<strong>Critical Success</strong> The creature takes half the collapse damage.\n<strong>Success</strong> The creature takes half the collapse damage and falls prone.\n<strong>Failure</strong> The creature takes the full collapse damage and falls prone.\n<strong>Critical Failure</strong> The creature takes the full collapse damage and falls into a fissure.",
+        "desc": "The ground shakes, creatures are toppled into fissures, and structures collapse in the target area.\n\nThe GM might add additional effects in certain areas. Cliffs might collapse, causing creatures to fall, or a lake might drain as fissures open up below its surface, leaving a morass of quicksand.\n\n<strong>Shaking Ground</strong> The ground is difficult terrain, and creatures on it take a -2 circumstance penalty to attack rolls, AC, and skill checks.\n<strong>Fissures</strong> Each creature on the ground must attempt a Reflex save at the start of its turn to keep its footing and avoid falling into 40-foot-deep fissures that open beneath it. The fissures are permanent, and their sides require DC 15 Athletics to Climb.\n<strong>Collapse Structures</strong> and ceilings might collapse. The GM rolls a flat check for each (DC 16 for a sturdy structure, DC 14 for an average structure and most natural formations, DC 9 for a shoddy structure, all adjusted higher or lower as the GM sees fit). A collapse deals 11d6 bludgeoning damage; each creature caught in a collapse must attempt a Reflex save to avoid it.\n\n\n\n<strong>Critical Success</strong> The creature takes half the collapse damage.\n<strong>Success</strong> The creature takes half the collapse damage and falls prone.\n<strong>Failure</strong> The creature takes the full collapse damage and falls prone.\n<strong>Critical Failure</strong> The creature takes the full collapse damage and falls into a fissure.",
         "type": "spells",
         "minLevel": 8,
         "SortLevel": 8,

@@ -194,32 +194,25 @@ export class CraftingComponent implements OnInit {
 
     get_VisibleItems(items: Item[]) {
         let have_CraftingBook = this.get_Character().inventories.find(inv => inv.adventuringgear.find(gear => gear.name == "Basic Crafter's Book"));
-        return items.filter((item: Item) =>
-            (
-                this.get_FormulasLearned(item.id).length ||
+        return items
+            .filter((item: Item) =>
                 (
-                    item.level == 0 && have_CraftingBook
-                )
-            ) &&
-            !item.hide &&
-            (
-                !this.wordFilter || (
-                    this.wordFilter && (
-                        item.name.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
-                        item.desc.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
-                        item.traits.filter(trait => trait.toLowerCase().includes(this.wordFilter.toLowerCase())).length
+                    this.get_FormulasLearned(item.id).length ||
+                    (
+                        item.level == 0 && have_CraftingBook
+                    )
+                ) &&
+                !item.hide &&
+                (
+                    !this.wordFilter || (
+                        this.wordFilter && (
+                            item.name.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
+                            item.desc.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
+                            item.traits.filter(trait => trait.toLowerCase().includes(this.wordFilter.toLowerCase())).length
+                        )
                     )
                 )
-            )
-        ).sort((a, b) => {
-            if (a[this.sorting] > b[this.sorting]) {
-                return 1;
-            }
-            if (a[this.sorting] < b[this.sorting]) {
-                return -1;
-            }
-            return 0;
-        });
+            ).sort((a, b) => (a[this.sorting] > b[this.sorting]) ? 1 : -1);
     }
 
     cannot_Craft(item: Item) {

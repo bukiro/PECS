@@ -251,26 +251,13 @@ export class NewItemPropertyComponent implements OnInit {
     }
 
     get_NewItemSubProperties(object: object) {
-        return Object.keys(object).map((key) =>
-            this.itemsService.get_ItemProperties().filter(property => property.parent == this.propertyData.key && property.key == key)[0])
+        return Object.keys(object)
+            .map((key) =>
+                this.itemsService.get_ItemProperties().filter(property => property.parent == this.propertyData.key && property.key == key)[0]
+            )
             .filter(property => property != undefined)
-            .sort((a, b) => {
-                if (a.priority > b.priority) {
-                    return 1;
-                }
-                if (a.priority < b.priority) {
-                    return -1;
-                }
-                return 0;
-            }).sort((a, b) => {
-                if (a.group > b.group) {
-                    return 1;
-                }
-                if (a.group < b.group) {
-                    return -1;
-                }
-                return 0;
-            });
+            .sort((a, b) => (a.priority > b.priority) ? 1 : -1)
+            .sort((a, b) => (a.group > b.group) ? 1 : -1);
     }
 
     get_Examples() {
@@ -561,15 +548,7 @@ export class NewItemPropertyComponent implements OnInit {
         }
 
         let uniqueExamples = Array.from(new Set(examples.filter(example => example.toString().length <= 90)))
-        return uniqueExamples.sort((a, b) => {
-            if (a > b) {
-                return 1;
-            }
-            if (a < b) {
-                return -1;
-            }
-            return 0;
-        });
+        return uniqueExamples.sort();
     }
 
     get_ItemSets() {

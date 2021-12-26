@@ -236,25 +236,18 @@ export class ConditionsComponent implements OnInit {
         }
 
         if (typeKey) {
-            return this.get_Conditions("", typeKey).filter(condition =>
-                !condition.hide &&
-                (
-                    !this.wordFilter || (
-                        this.wordFilter && (
-                            condition.name.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
-                            condition.desc.toLowerCase().includes(this.wordFilter.toLowerCase())
+            return this.get_Conditions("", typeKey)
+                .filter(condition =>
+                    !condition.hide &&
+                    (
+                        !this.wordFilter || (
+                            this.wordFilter && (
+                                condition.name.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
+                                condition.desc.toLowerCase().includes(this.wordFilter.toLowerCase())
+                            )
                         )
                     )
-                )
-            ).sort((a, b) => {
-                if (a.name > b.name) {
-                    return 1;
-                }
-                if (a.name < b.name) {
-                    return -1;
-                }
-                return 0;
-            })
+                ).sort((a, b) => (a.name > b.name) ? 1 : -1);
         }
     }
 
@@ -498,23 +491,11 @@ export class ConditionsComponent implements OnInit {
         function get_PropertyData(key: string) {
             return customEffectsService.get_EffectProperties.find(property => property.key == key);
         }
-        return Object.keys(this.newEffect).map((key) => get_PropertyData(key)).filter(property => property != undefined).sort((a, b) => {
-            if (a.priority > b.priority) {
-                return 1;
-            }
-            if (a.priority < b.priority) {
-                return -1;
-            }
-            return 0;
-        }).sort((a, b) => {
-            if (a.group > b.group) {
-                return 1;
-            }
-            if (a.group < b.group) {
-                return -1;
-            }
-            return 0;
-        });
+        return Object.keys(this.newEffect)
+            .map((key) => get_PropertyData(key))
+            .filter(property => property != undefined)
+            .sort((a, b) => (a.priority > b.priority) ? 1 : -1)
+            .sort((a, b) => (a.group > b.group) ? 1 : -1);
     }
 
     get_Examples(propertyData: ItemProperty) {
@@ -598,16 +579,7 @@ export class ConditionsComponent implements OnInit {
         }
 
         let uniqueExamples = Array.from(new Set(examples.filter(example => example.length <= 90)))
-        return uniqueExamples
-            .sort(function (a, b) {
-                if (a > b) {
-                    return 1;
-                }
-                if (a < b) {
-                    return -1;
-                }
-                return 0;
-            });;
+        return uniqueExamples.sort();
     }
 
     get_BonusTypes() {

@@ -767,15 +767,8 @@ export class SpellchoiceComponent implements OnInit {
                         let availableSpells: { spell: Spell, borrowed: boolean }[] = spells.filter(spell =>
                             this.get_SpellTakenByThis(spell.spell.name)
                         );
-                        return availableSpells.sort(function (a, b) {
-                            if (choice.spells[0].name == a.spell.name) {
-                                return -1;
-                            }
-                            if (choice.spells[0].name == b.spell.name) {
-                                return 1;
-                            }
-                            return 0
-                        });
+                        return availableSpells
+                            .sort((a, b) => (choice.spells[0].name == b.spell.name) ? 1 : -1);
                     }
                     let existingSpell = this.get_Spells(choice.spells[0].name)[0];
                     spells = spells.filter(spell =>
@@ -789,15 +782,7 @@ export class SpellchoiceComponent implements OnInit {
                     this.cannotTake(spell.spell).length == 0 || this.get_SpellTakenByThis(spell.spell.name)
                 )
                 return availableSpells
-                    .sort(function (a, b) {
-                        if (a.spell.name > b.spell.name) {
-                            return 1;
-                        }
-                        if (a.spell.name < b.spell.name) {
-                            return -1;
-                        }
-                        return 0
-                    });
+                    .sort((a, b) => (a.spell.name > b.spell.name) ? 1 : -1);
             }
             //Don't show spells of a different level unless heightened spells are allowed. Never show spells of a different level if this is a level 0 choice.
             if (!(this.showHeightened || choice.alwaysShowHeightened) && (spellLevel > 0)) {
@@ -810,30 +795,14 @@ export class SpellchoiceComponent implements OnInit {
             // If the available spells are exhausted, only show the selected ones unless showOtherOptions is true.
             if (choice.spells.length < this.get_Available()) {
                 return spells
-                    .sort(function (a, b) {
-                        if (a.spell.name > b.spell.name) {
-                            return 1;
-                        }
-                        if (a.spell.name < b.spell.name) {
-                            return -1;
-                        }
-                        return 0
-                    });
+                    .sort((a, b) => (a.spell.name > b.spell.name) ? 1 : -1);
             } else {
                 let showOtherOptions = this.get_Character().settings.showOtherOptions;
                 let availableSpells: { spell: Spell, borrowed: boolean }[] = spells.filter(spell =>
                     this.get_SpellTakenByThis(spell.spell.name) || showOtherOptions
                 )
                 return availableSpells
-                    .sort(function (a, b) {
-                        if (a.spell.name > b.spell.name) {
-                            return 1;
-                        }
-                        if (a.spell.name < b.spell.name) {
-                            return -1;
-                        }
-                        return 0
-                    });
+                    .sort((a, b) => (a.spell.name > b.spell.name) ? 1 : -1);
             }
         }
     }

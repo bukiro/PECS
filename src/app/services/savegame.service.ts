@@ -113,7 +113,7 @@ export class SavegameService {
 
             //Monks below version 1.0.2 will lose their Path to Perfection skill increases and gain the feat choices instead.
             //The matching feats will be added in stage 2.
-            if (character.class.name == "Monk" && character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 2) {
+            if (character.class.name == "Monk" && character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 2) {
 
                 //Delete the feats that give you the old feature, if they.
                 let oldFirstPathChoice = character.class?.levels?.[7]?.featChoices?.find(choice => choice.id == "7-Feature-Monk-0") || null;
@@ -176,7 +176,7 @@ export class SavegameService {
             }
 
             //Characters before version 1.0.3 need their item hints reassigned.
-            if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 3) {
+            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 3) {
                 if (character.inventories.length) {
                     character.inventories.forEach(inventory => {
                         Object.keys(inventory).forEach(key => {
@@ -215,7 +215,7 @@ export class SavegameService {
             }
 
             //Rogues before version 1.0.3 need to rename their class choice type.
-            if (character.class?.name == "Rogue" && character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 3) {
+            if (character.class?.name == "Rogue" && character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 3) {
                 let racketChoice = character.class?.levels?.[1]?.featChoices?.find(choice => choice.id == "1-Racket-Rogue-1") || null;
                 if (racketChoice) {
                     racketChoice.id = "1-Rogue's Racket-Rogue-1";
@@ -227,7 +227,7 @@ export class SavegameService {
             //The activity and Condition of the Bracelet of Dashing have been renamed and can be updated at this point.
             //Slotted aeon stones now reflect that information on their own, for better detection of resonant hints and effects.
             //The moddable property has changed from string to boolean and needs to be updated on all items.
-            if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 4) {
+            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 4) {
                 character.inventories?.forEach(inv => {
                     inv.wornitems?.forEach(invItem => {
                         if ([
@@ -277,7 +277,7 @@ export class SavegameService {
             //Remove any chosen doctrine because doctrines were blank before 1.0.5 and need to be re-selected.
             //Add the Favored Weapon proficiency on level 1.
             //Remove the Focus Spellcasting that was granted by the class object.
-            if (character.class?.name == "Cleric" && character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 5) {
+            if (character.class?.name == "Cleric" && character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 5) {
                 //Remove Divine Font from the initial feats, if it exists.
                 let divineFontfeatChoice = character.class.levels?.[1]?.featChoices?.find(choice => choice.id == "1-Feature-Cleric-0") || null;
                 if (divineFontfeatChoice) {
@@ -342,7 +342,7 @@ export class SavegameService {
 
             //Clerics before 1.0.6 need to change Divine Font: Harm and Divine Font: Heal to Healing Font and Harmful Font respectively in feat choices.
             //Some feats that were taken automatically should be marked as automatic.
-            if (character.class?.name == "Cleric" && character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 6) {
+            if (character.class?.name == "Cleric" && character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 6) {
                 character.class.levels?.[1]?.featChoices?.forEach(choice => {
                     choice.feats?.forEach(taken => {
                         if (choice.autoSelectIfPossible && taken.name == "Deadly Simplicity") {
@@ -369,9 +369,22 @@ export class SavegameService {
             }
 
             //Wizards and Wizard Archetypes before 1.0.6 need to change their main spellcasting to spellBookOnly=true.
-            if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 6) {
+            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 6) {
                 character.class?.spellCasting?.filter(casting => casting.className == "Wizard" && casting.castingType == "Prepared").forEach(casting => {
                     casting.spellBookOnly = true;
+                })
+            }
+
+            //The feat "Arrow Snatching " needs to be changed to "Arrow Snatching" in feat choices for characters before 1.0.14.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 14) {
+                character.class.levels?.forEach(level => {
+                    level.featChoices?.forEach(choice => {
+                        choice.feats?.forEach(taken => {
+                            if (taken.name == "Arrow Snatching ") {
+                                taken.name = "Arrow Snatching";
+                            }
+                        })
+                    })
                 })
             }
 
@@ -383,14 +396,14 @@ export class SavegameService {
         if (stage == 2) {
 
             //Characters below version 1.0.1 need a Worn Tools inventory added at index 1.
-            if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 1) {
+            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 1) {
                 if (!character.inventories[1] || character.inventories[1].itemId) {
                     character.inventories.splice(1, 0, new ItemCollection(2));
                 }
             }
 
             //Monks below version 1.0.2 have lost their Path to Perfection skill increases and now get feat choices instead.
-            if (character.class.name == "Monk" && character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 2) {
+            if (character.class.name == "Monk" && character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 2) {
                 //Get the original choices back from the savedCharacter.
                 let firstPath: string = savedCharacter.class?.levels?.[7]?.skillChoices?.find(choice => choice.source == "Path to Perfection")?.increases?.[0]?.name || "";
                 let secondPath: string = savedCharacter.class?.levels?.[11]?.skillChoices?.find(choice => choice.source == "Second Path to Perfection")?.increases?.[0]?.name || "";
@@ -426,7 +439,7 @@ export class SavegameService {
             }
 
             //Characters with Druid dedication before version 1.0.3 need to change their Druidic Order choice type and ID, since these were renamed.
-            if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 3) {
+            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 3) {
                 character.class.levels.forEach(level => {
                     let choice = level.featChoices.find(choice => choice.specialChoice && choice.type == "Order" && choice.source == "Feat: Druid Dedication");
                     if (choice) {
@@ -440,7 +453,7 @@ export class SavegameService {
             }
 
             //Characters before version 1.0.5 need to update certain spell choices to have a dynamicAvailable value.
-            if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 5) {
+            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 5) {
                 character.class.spellCasting.forEach(casting => {
                     casting.spellChoices.forEach(choice => {
                         if (
@@ -475,7 +488,7 @@ export class SavegameService {
             }
 
             //Feats do not have data after 1.0.12, so all custom feats' data has to be moved to class.featData. These custom feats can be removed afterwards.
-            if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 12) {
+            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 12) {
                 let baseFeats = characterService.get_Feats().filter(feat => feat.lorebase || feat.weaponfeatbase).map(feat => feat.name.toLowerCase());
                 characterService.featsService.build_CharacterFeats(character);
                 //Only proceed with feats that were not generated from lore or weapon feat bases, and that have data.
@@ -493,7 +506,7 @@ export class SavegameService {
 
             //Archetype spell choices before 1.0.13 may include a bug concerning the related "... Breadth" feat, where the top 3 spell levels are excluded instead of the top 2.
             //From the way that spell choices are saved, this needs to be patched on the character.
-            if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 13) {
+            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 13) {
                 character.class.spellCasting.forEach(casting => {
                     casting.spellChoices.filter(choice => choice.dynamicAvailable.includes("Breadth") && choice.dynamicAvailable.includes("(choice.level >= Highest_Spell_Level() - 2)")).forEach(choice => {
                         choice.dynamicAvailable = choice.dynamicAvailable.replace("choice.level >= Highest_Spell_Level()", "choice.level > Highest_Spell_Level()");

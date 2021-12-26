@@ -1243,7 +1243,7 @@
    },
    {
       "bulk": "L",
-      "desc": "This short, curved, and crude makeshift blade often has holes drilled into it to reduce its weight. It's a favored weapon of goblins. ",
+      "desc": "This short, curved, and crude makeshift blade often has holes drilled into it to reduce its weight. It's a favored weapon of goblins.",
       "id": "08693251-8daa-11ea-abca-ffb46fbada73",
       "name": "Dogslicer",
       "price": 10,
@@ -1262,7 +1262,7 @@
    },
    {
       "bulk": "2",
-      "desc": "Essentially a longer version of the scimitar, this traditional elven weapon has a thinner blade than its cousin. ",
+      "desc": "Essentially a longer version of the scimitar, this traditional elven weapon has a thinner blade than its cousin.",
       "id": "08693253-8daa-11ea-abca-ffb46fbada73",
       "name": "Elven Curve Blade",
       "price": 400,
@@ -1361,7 +1361,7 @@
    },
    {
       "bulk": "1",
-      "desc": "This weapon consists of a wooden handle attached to a spiked ball or cylinder by a chain, rope, or strap of leather. ",
+      "desc": "This weapon consists of a wooden handle attached to a spiked ball or cylinder by a chain, rope, or strap of leather.",
       "id": "0869325d-8daa-11ea-abca-ffb46fbada73",
       "name": "Flail",
       "price": 100,
@@ -1415,7 +1415,7 @@
    },
    {
       "bulk": "2",
-      "desc": "This large battle axe is too heavy to wield with only one hand. Many greataxes incorporate two blades, and they are often “bearded,” having a hook at the bottom to increase the strength of their chopping power. ",
+      "desc": "This large battle axe is too heavy to wield with only one hand. Many greataxes incorporate two blades, and they are often “bearded,” having a hook at the bottom to increase the strength of their chopping power.",
       "id": "08693263-8daa-11ea-abca-ffb46fbada73",
       "name": "Greataxe",
       "price": 100,
@@ -1497,7 +1497,7 @@
    },
    {
       "bulk": "2",
-      "desc": "This polearm has a relatively short, 5-foot shaft. The business end is a long spike with an axe blade attached. ",
+      "desc": "This polearm has a relatively short, 5-foot shaft. The business end is a long spike with an axe blade attached.",
       "id": "0869326d-8daa-11ea-abca-ffb46fbada73",
       "name": "Halberd",
       "price": 200,
@@ -1570,7 +1570,7 @@
    },
    {
       "bulk": "1",
-      "desc": "A katana is a curved, single-edged sword known for its wickedly sharped blade. ",
+      "desc": "A katana is a curved, single-edged sword known for its wickedly sharped blade.",
       "id": "08693275-8daa-11ea-abca-ffb46fbada73",
       "name": "Katana",
       "price": 200,
@@ -1605,7 +1605,7 @@
    },
    {
       "bulk": "L",
-      "desc": "The blade of this foot-long knife curves inward and lacks a cross guard at the hilt. ",
+      "desc": "The blade of this foot-long knife curves inward and lacks a cross guard at the hilt.",
       "id": "08693279-8daa-11ea-abca-ffb46fbada73",
       "name": "Kukri",
       "price": 60,
@@ -1675,7 +1675,7 @@
    },
    {
       "bulk": "1",
-      "desc": "Longswords can be one-edged or two‑edged swords. Their blades are heavy and they're between 3 and 4 feet in length. ",
+      "desc": "Longswords can be one-edged or two‑edged swords. Their blades are heavy and they're between 3 and 4 feet in length.",
       "id": "08693281-8daa-11ea-abca-ffb46fbada73",
       "name": "Longsword",
       "price": 100,
@@ -1708,7 +1708,7 @@
    },
    {
       "bulk": "L",
-      "desc": "This parrying dagger features a robust guard to protect the wielder's hand. ",
+      "desc": "This parrying dagger features a robust guard to protect the wielder's hand.",
       "id": "08693285-8daa-11ea-abca-ffb46fbada73",
       "name": "Main-gauche",
       "price": 50,
@@ -1905,7 +1905,7 @@
    },
    {
       "bulk": "1",
-      "desc": "The rapier is a long and thin piercing blade with a basket hilt. It is prized among many as a dueling weapon. ",
+      "desc": "The rapier is a long and thin piercing blade with a basket hilt. It is prized among many as a dueling weapon.",
       "id": "08695932-8daa-11ea-abca-ffb46fbada73",
       "name": "Rapier",
       "price": 200,
@@ -1943,7 +1943,7 @@
    },
    {
       "bulk": "L",
-      "desc": "A sap has a soft wrapping around a dense core, typically a leather sheath around a lead rod. Its head is wider than its grip to disperse the force of a blow, as the weapon's purpose is to knock out its victim rather than to draw blood. ",
+      "desc": "A sap has a soft wrapping around a dense core, typically a leather sheath around a lead rod. Its head is wider than its grip to disperse the force of a blow, as the weapon's purpose is to knock out its victim rather than to draw blood.",
       "id": "08695936-8daa-11ea-abca-ffb46fbada73",
       "name": "Sap",
       "price": 10,
@@ -2073,7 +2073,7 @@
    },
    {
       "bulk": "L",
-      "desc": "These blades come in a variety of shapes and styles, but they are typically 2 feet long. ",
+      "desc": "These blades come in a variety of shapes and styles, but they are typically 2 feet long.",
       "id": "08695946-8daa-11ea-abca-ffb46fbada73",
       "name": "Shortsword",
       "price": 90,
@@ -2169,7 +2169,7 @@
    },
    {
       "bulk": "1",
-      "desc": "This three-pronged, spear-like weapon typically has a 4-foot shaft. Like a spear, it can be wielded with one hand or thrown. ",
+      "desc": "This three-pronged, spear-like weapon typically has a 4-foot shaft. Like a spear, it can be wielded with one hand or thrown.",
       "id": "08695950-8daa-11ea-abca-ffb46fbada73",
       "name": "Trident",
       "price": 100,
@@ -2240,7 +2240,7 @@
    },
    {
       "bulk": "1",
-      "desc": "This weapon has a wooden shaft ending in a large, heavy metal head. The head of the hammer might be single-sided or double-sided, but it's always capable of delivering powerful bludgeoning blows. ",
+      "desc": "This weapon has a wooden shaft ending in a large, heavy metal head. The head of the hammer might be single-sided or double-sided, but it's always capable of delivering powerful bludgeoning blows.",
       "id": "08695958-8daa-11ea-abca-ffb46fbada73",
       "name": "Warhammer",
       "price": 100,
@@ -2468,7 +2468,7 @@
    },
    {
       "bulk": "L",
-      "desc": "This long, narrow tube is used for shooting blowgun darts, using only the power of a forcefully exhaled breath. ",
+      "desc": "This long, narrow tube is used for shooting blowgun darts, using only the power of a forcefully exhaled breath.",
       "id": "0869803b-8daa-11ea-abca-ffb46fbada73",
       "name": "Blowgun",
       "price": 10,
@@ -2546,7 +2546,7 @@
    },
    {
       "bulk": "L",
-      "desc": "This thin spear is well balanced for throwing but is not designed for melee use. ",
+      "desc": "This thin spear is well balanced for throwing but is not designed for melee use.",
       "id": "08698045-8daa-11ea-abca-ffb46fbada73",
       "name": "Javelin",
       "price": 10,

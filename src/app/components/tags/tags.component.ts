@@ -107,7 +107,8 @@ export class TagsComponent implements OnInit {
 
     get_TraitsForThis(name: string) {
         if (this.showTraits && name) {
-            return this.sortByName(this.traitsService.get_TraitsForThis(this.get_Creature(), name));
+            return this.traitsService.get_TraitsForThis(this.get_Creature(), name)
+                .sort((a, b) => (a.name > b.name) ? 1 : -1);
         } else {
             return [];
         }
@@ -115,11 +116,14 @@ export class TagsComponent implements OnInit {
 
     get_FeatsShowingOn(name: string, show: boolean): (AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat)[] {
         if (show && name && this.creature == "Character") {
-            return this.sortByName(this.characterService.get_FeatsShowingOn(name));
+            return this.characterService.get_FeatsShowingOn(name)
+                .sort((a, b) => (a.name > b.name) ? 1 : -1);
         } else if (show && name && this.creature == "Companion") {
-            return this.sortByName(this.characterService.get_CompanionShowingOn(name));
+            return this.characterService.get_CompanionShowingOn(name)
+                .sort((a, b) => (a.name > b.name) ? 1 : -1);
         } else if (show && name && this.creature == "Familiar") {
-            return this.sortByName(this.characterService.get_FamiliarShowingOn(name));
+            return this.characterService.get_FamiliarShowingOn(name)
+                .sort((a, b) => (a.name > b.name) ? 1 : -1);
         } else {
             return [];
         }
@@ -127,10 +131,9 @@ export class TagsComponent implements OnInit {
 
     get_EffectsOnThis(name: string) {
         if (this.showEffects && name) {
-            return this.sortByName(
-                this.effectsService.get_AbsolutesOnThis(this.get_Creature(), name)
+            return this.effectsService.get_AbsolutesOnThis(this.get_Creature(), name)
                     .concat(this.effectsService.get_RelativesOnThis(this.get_Creature(), name))
-            );
+                    .sort((a, b) => (a.source > b.source) ? 1 : -1);
         } else {
             return [];
         }
@@ -138,7 +141,8 @@ export class TagsComponent implements OnInit {
 
     get_ConditionsShowingOn(name: string) {
         if (this.showConditions && name) {
-            return this.sortConditionSetByName(this.characterService.get_ConditionsShowingOn(this.get_Creature(), name));
+            return this.characterService.get_ConditionsShowingOn(this.get_Creature(), name)
+                .sort((a, b) => (a.condition.name > b.condition.name) ? 1 : -1);
         } else {
             return [];
         }
@@ -146,7 +150,8 @@ export class TagsComponent implements OnInit {
 
     get_ActivitiesShowingOn(name: string) {
         if (this.showActivities && name) {
-            return this.sortByName(this.characterService.get_ActivitiesShowingOn(this.get_Creature(), name));
+            return this.characterService.get_ActivitiesShowingOn(this.get_Creature(), name)
+                .sort((a, b) => (a.name > b.name) ? 1 : -1);
         } else {
             return [];
         }
@@ -154,7 +159,8 @@ export class TagsComponent implements OnInit {
 
     get_ItemsShowingOn(name: string) {
         if (this.showItems && name) {
-            return this.sortByName(this.characterService.get_ItemsShowingOn(this.get_Creature(), name));
+            return this.characterService.get_ItemsShowingOn(this.get_Creature(), name)
+                .sort((a, b) => (a.name > b.name) ? 1 : -1);
         } else {
             return [];
         }
@@ -162,34 +168,11 @@ export class TagsComponent implements OnInit {
 
     get_SpecializationsShowingOn(name: string) {
         if (this.showItems && name) {
-            return this.sortByName(this.characterService.get_ArmorSpecializationsShowingOn(this.get_Creature(), name));
+            return this.characterService.get_ArmorSpecializationsShowingOn(this.get_Creature(), name)
+                .sort((a, b) => (a.name > b.name) ? 1 : -1);
         } else {
             return [];
         }
-    }
-
-    sortConditionSetByName(list: ConditionSet[]) {
-        return list.sort(function (a, b) {
-            if (a.condition.name > b.condition.name) {
-                return 1;
-            }
-            if (a.condition.name < b.condition.name) {
-                return -1;
-            }
-            return 0;
-        })
-    }
-
-    sortByName(list: any[]) {
-        return list.sort(function (a, b) {
-            if (a.name > b.name) {
-                return 1;
-            }
-            if (a.name < b.name) {
-                return -1;
-            }
-            return 0;
-        })
     }
 
     on_ActivateEffect() {

@@ -166,37 +166,17 @@ export class SpellbookComponent implements OnInit {
     get_SpellCastings() {
         let character = this.get_Character();
         //Return all spellcastings that have spells available, and the Innate spellcasting if any items grant you innate spells.
-        return character.class.spellCasting.filter(casting =>
-            (
-                casting.charLevelAvailable && casting.charLevelAvailable <= character.level
-            ) || (
-                casting.castingType == "Innate" && character.get_EquipmentSpellsGranted(this.characterService, -1, "", "", "", undefined, true).length
+        return character.class.spellCasting
+            .filter(casting =>
+                (
+                    casting.charLevelAvailable && casting.charLevelAvailable <= character.level
+                ) || (
+                    casting.castingType == "Innate" && character.get_EquipmentSpellsGranted(this.characterService, -1, "", "", "", undefined, true).length
+                )
             )
-        ).sort(function (a, b) {
-            if (a.tradition > b.tradition) {
-                return 1;
-            }
-            if (a.tradition < b.tradition) {
-                return -1;
-            }
-            return 0;
-        }).sort(function (a, b) {
-            if (a.className > b.className) {
-                return 1;
-            }
-            if (a.className < b.className) {
-                return -1;
-            }
-            return 0;
-        }).sort(function (a, b) {
-            if (a.castingType > b.castingType || (b.castingType == "Innate" ? a.castingType != "Innate" : false)) {
-                return 1;
-            }
-            if (a.castingType < b.castingType || (a.castingType == "Innate" ? b.castingType != "Innate" : false)) {
-                return -1;
-            }
-            return 0;
-        })
+            .sort((a, b) => (a.tradition > b.tradition) ? 1 : -1)
+            .sort((a, b) => (a.className > b.className) ? 1 : -1)
+            .sort((a, b) => (a.castingType > b.castingType || (b.castingType == "Innate" ? a.castingType != "Innate" : false)) ? 1 : -1);
     }
 
     get_MaxSpellLevel(casting: SpellCasting) {
@@ -223,29 +203,18 @@ export class SpellbookComponent implements OnInit {
     }
 
     get_SpellsByLevel(levelNumber: number, casting: SpellCasting) {
-        function spellSort(list: { choice: SpellChoice, gain: SpellGain }[]) {
-            return list.sort(function (a, b) {
-                if (a.gain.name > b.gain.name) {
-                    return 1;
-                }
-
-                if (a.gain.name < b.gain.name) {
-                    return -1;
-                }
-
-                return 0;
-            });
-        }
         this.id = levelNumber * 1000;
         let character = this.get_Character();
         if (levelNumber == -1) {
             if (casting.castingType == "Focus") {
-                return spellSort(character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed(casting), false));
+                return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed(casting), false)
+                    .sort((a, b) => (a.gain.name > b.gain.name) ? 1 : -1);
             } else {
                 return [];
             }
         } else {
-            return spellSort(character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed(casting)));
+            return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed(casting))
+                .sort((a, b) => (a.gain.name > b.gain.name) ? 1 : -1);
         }
     }
 

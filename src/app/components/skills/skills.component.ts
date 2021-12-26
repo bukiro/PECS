@@ -99,16 +99,7 @@ export class SkillsComponent implements OnInit {
             .filter(skill =>
                 !skill.name.includes("Lore") ||
                 skill.level(creature as Character, this.characterService, creature.level)
-            ).sort((a, b) => {
-                if (a.name > b.name) {
-                    return 1;
-                }
-
-                if (a.name < b.name) {
-                    return -1;
-                }
-                return 0;
-            });
+            ).sort((a, b) => (a.name > b.name) ? 1 : -1);
     }
 
     trackByIndex(index: number, obj: any): any {

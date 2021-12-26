@@ -145,15 +145,7 @@ export class SkillchoiceComponent implements OnInit {
                         (choice.showOnSheet ? !this.cannotIncrease(skill, levelNumber, choice).length : true)
                     )
                 ))
-                .sort(function (a, b) {
-                    if (a.name > b.name) {
-                        return 1;
-                    }
-                    if (a.name < b.name) {
-                        return -1;
-                    }
-                    return 0;
-                });
+                .sort((a, b) => (a.name > b.name) ? 1 : -1);
         }
     }
 

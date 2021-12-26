@@ -23,8 +23,6 @@ export class ItemTalismansComponent implements OnInit {
     itemStore: boolean = false;
     newTalisman: { talisman: Talisman, inv: ItemCollection }[];
 
-    public newPropertyRuneName: string[] = ["", "", ""];
-
     constructor(
         public characterService: CharacterService,
         private refreshService: RefreshService,
@@ -45,13 +43,16 @@ export class ItemTalismansComponent implements OnInit {
     }
 
     get_Slots() {
+        //Items can have one talisman.
+        //Add as many slots as the item has talismans inserted (should be one, but just in case).
+        //If none are inserted, add one slot as long as any talismans are available to insert.
         let indexes: number[] = [];
-        for (let index = 0; index < this.item.talismans.length; index++) {
-            indexes.push(index);
-        }
-        //If Talismans are available, add one more slot.
-        if (this.itemStore || this.get_Character().inventories.some(inv => this.get_Talismans(inv).length)) {
-            indexes.push(indexes.length);
+        if (this.item.talismans.length) {
+            for (let index = 0; index < this.item.talismans.length; index++) {
+                indexes.push(index);
+            }
+        } else if (this.itemStore || this.get_Character().inventories.some(inv => this.get_Talismans(inv).length)) {
+            indexes.push(0);
         }
         return indexes;
     }
@@ -69,7 +70,7 @@ export class ItemTalismansComponent implements OnInit {
         //Start with one empty talisman to select nothing.
         let allTalismans: { talisman: Talisman, inv: ItemCollection }[] = [{ talisman: new Talisman(), inv: null }];
         allTalismans[0].talisman.name = "";
-        //Add the current choice, if the item has a rune at that index.
+        //Add the current choice, if the item has a talisman at that index.
         if (item.talismans[index]) {
             allTalismans.push(this.newTalisman[index] as { talisman: Talisman, inv: ItemCollection });
         }
@@ -88,15 +89,9 @@ export class ItemTalismansComponent implements OnInit {
                         (this.item as Weapon).melee && talisman.talisman.targets.includes("melee weapons")
                     )
                 )
-            ).sort(function (a, b) {
-                if (a.talisman.name > b.talisman.name) {
-                    return 1;
-                }
-                if (a.talisman.name < b.talisman.name) {
-                    return -1;
-                }
-                return 0;
-            }).sort((a, b) => a.talisman.level - b.talisman.level);;
+            )
+            .sort((a, b) => (a.talisman.name > b.talisman.name) ? 1 : -1)
+            .sort((a, b) => (a.talisman.level > b.talisman.level) ? 1 : -1);
     }
 
     add_Talisman(index: number) {

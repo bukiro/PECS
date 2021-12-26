@@ -207,15 +207,7 @@ export class DefenseComponent implements OnInit {
 
     get_Skills(name: string = "", type: string = "") {
         return this.characterService.get_Skills(this.get_Creature(), name, type)
-            .sort(function (a, b) {
-                if (a.name > b.name) {
-                    return 1;
-                }
-                if (a.name < b.name) {
-                    return -1;
-                }
-                return 0;
-            });;
+            .sort((a, b) => (a.name > b.name) ? 1 : -1);
     }
 
     get_Traits(traitName: string = "") {

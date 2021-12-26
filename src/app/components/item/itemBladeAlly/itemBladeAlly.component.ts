@@ -136,15 +136,9 @@ export class ItemBladeAllyComponent implements OnInit {
                 rune.disabled = true;
             }
         })
-        return allRunes.sort(function (a, b) {
-            if (a.rune.name > b.rune.name) {
-                return 1;
-            }
-            if (a.rune.name < b.rune.name) {
-                return -1;
-            }
-            return 0;
-        }).sort((a, b) => a.rune.level - b.rune.level);
+        return allRunes
+            .sort((a, b) => (a.rune.name > b.rune.name) ? 1 : -1)
+            .sort((a, b) => (a.rune.level > b.rune.level) ? 1 : -1);
     }
 
     add_BladeAllyRune() {

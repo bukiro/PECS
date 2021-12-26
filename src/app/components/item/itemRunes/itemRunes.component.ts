@@ -96,15 +96,7 @@ export class ItemRunesComponent implements OnInit {
             })
         }
         return Array.from(new Set(runes))
-            .sort(function (a, b) {
-                if (a.potency > b.potency) {
-                    return 1;
-                }
-                if (a.potency < b.potency) {
-                    return -1;
-                }
-                return 0;
-            });;
+            .sort((a, b) => (a.potency > b.potency) ? 1 : -1);
     }
 
     get_ArmorPotencyRunes() {
@@ -144,15 +136,7 @@ export class ItemRunesComponent implements OnInit {
             })
         }
         return Array.from(new Set(runes))
-            .sort(function (a, b) {
-                if (a.potency > b.potency) {
-                    return 1;
-                }
-                if (a.potency < b.potency) {
-                    return -1;
-                }
-                return 0;
-            });
+            .sort((a, b) => (a.potency > b.potency) ? 1 : -1);
     }
 
     get_StrikingRunes() {
@@ -191,15 +175,7 @@ export class ItemRunesComponent implements OnInit {
             })
         }
         return Array.from(new Set(runes))
-            .sort(function (a, b) {
-                if (a.striking > b.striking) {
-                    return 1;
-                }
-                if (a.striking < b.striking) {
-                    return -1;
-                }
-                return 0;
-            });
+            .sort((a, b) => (a.striking > b.striking) ? 1 : -1);
     }
 
     get_ResilientRunes() {
@@ -238,15 +214,7 @@ export class ItemRunesComponent implements OnInit {
             })
         }
         return Array.from(new Set(runes))
-            .sort(function (a, b) {
-                if (a.resilient > b.resilient) {
-                    return 1;
-                }
-                if (a.resilient < b.resilient) {
-                    return -1;
-                }
-                return 0;
-            });
+            .sort((a, b) => (a.resilient > b.resilient) ? 1 : -1);
     }
 
     get_PropertyRunes() {
@@ -394,15 +362,9 @@ export class ItemRunesComponent implements OnInit {
                 rune.disabled = true;
             }
         })
-        return allRunes.sort(function (a, b) {
-            if (a.rune.name > b.rune.name) {
-                return 1;
-            }
-            if (a.rune.name < b.rune.name) {
-                return -1;
-            }
-            return 0;
-        }).sort((a, b) => a.rune.level - b.rune.level);
+        return allRunes
+            .sort((a, b) => (a.rune.name > b.rune.name) ? 1 : -1)
+            .sort((a, b) => (a.rune.level > b.rune.level) ? 1 : -1);
     }
 
     get_ArmorPropertyRunes(index: number, inv: ItemCollection) {
@@ -470,15 +432,9 @@ export class ItemRunesComponent implements OnInit {
             }
         })
 
-        return allRunes.sort(function (a, b) {
-            if (a.rune.name > b.rune.name) {
-                return 1;
-            }
-            if (a.rune.name < b.rune.name) {
-                return -1;
-            }
-            return 0;
-        }).sort((a, b) => a.rune.level - b.rune.level);
+        return allRunes
+            .sort((a, b) => (a.rune.name > b.rune.name) ? 1 : -1)
+            .sort((a, b) => (a.rune.level > b.rune.level) ? 1 : -1);
     }
 
     on_WeaponRuneChange(runeType: string, previousRune: number) {

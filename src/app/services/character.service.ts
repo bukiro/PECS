@@ -608,24 +608,8 @@ export class CharacterService {
                     }
                     return 0;
                 })
-                .sort(function (a, b) {
-                    if (a.source > b.source) {
-                        return 1;
-                    }
-                    if (a.source < b.source) {
-                        return -1;
-                    }
-                    return 0;
-                })
-                .sort(function (a, b) {
-                    if (a.level > b.level) {
-                        return 1;
-                    }
-                    if (a.level < b.level) {
-                        return -1;
-                    }
-                    return 0;
-                })
+                .sort((a, b) => (a.source > b.source) ? 1 : -1)
+                .sort((a, b) => (a.level > b.level) ? 1 : -1)
                 .sort(function (a, b) {
                     if (!a.locked && b.locked) {
                         return 1;
@@ -853,7 +837,7 @@ export class CharacterService {
                 //Add all Items that you get from being granted this one
                 if (item.gainItems.length) {
                     item.gainItems.filter(gainItem => gainItem.on == "grant" && gainItem.amount > 0).forEach(gainItem => {
-                        gainItem.grant_GrantedItem(creature as Character|AnimalCompanion, {sourceName: item.get_Name(), grantingItem: item}, {characterService: this, itemsService: this.itemsService})
+                        gainItem.grant_GrantedItem(creature as Character | AnimalCompanion, { sourceName: item.get_Name(), grantingItem: item }, { characterService: this, itemsService: this.itemsService })
                     });
                 }
             }
@@ -920,7 +904,7 @@ export class CharacterService {
                 }
                 if (including) {
                     item.gainItems.filter(gainItem => gainItem.on == "grant").forEach(gainItem => {
-                        gainItem.drop_GrantedItem(creature, {}, {characterService: this})
+                        gainItem.drop_GrantedItem(creature, {}, { characterService: this })
                     });
                 }
             }
@@ -1090,7 +1074,7 @@ export class CharacterService {
             //Add all Items that you get from equipping this one
             if (item.gainItems && item.gainItems.length) {
                 item.gainItems.filter(gainItem => gainItem.on == "equip").forEach(gainItem => {
-                    gainItem.grant_GrantedItem(creature as Character|AnimalCompanion, {sourceName: item.get_Name(), grantingItem: item}, {characterService: this, itemsService: this.itemsService})
+                    gainItem.grant_GrantedItem(creature as Character | AnimalCompanion, { sourceName: item.get_Name(), grantingItem: item }, { characterService: this, itemsService: this.itemsService })
                 });
             }
         } else if (oldequipped && !item.equipped) {
@@ -1111,7 +1095,7 @@ export class CharacterService {
             }
             if (item.gainItems?.length) {
                 item.gainItems.filter(gainItem => gainItem.on == "equip").forEach(gainItem => {
-                    gainItem.drop_GrantedItem(creature, {}, {characterService: this})
+                    gainItem.drop_GrantedItem(creature, {}, { characterService: this })
                 });
             }
             item.propertyRunes?.forEach(rune => {
@@ -2307,15 +2291,8 @@ export class CharacterService {
                     })
             }
         }
-        return activities.sort(function (a, b) {
-            if (a.name > b.name) {
-                return 1;
-            }
-            if (a.name < b.name) {
-                return -1;
-            }
-            return 0;
-        })
+        return activities
+            .sort((a, b) => (a.name > b.name) ? 1 : -1);
     }
 
     get_ActivitiesShowingOn(creature: Creature, objectName: string = "all") {

@@ -135,44 +135,35 @@ export class SpellLibraryComponent implements OnInit {
     }
 
     get_VisibleSpells(level: number) {
-        return this.get_SpellsFromSource().filter((spell: Spell) =>
-            (
-                (spell.levelreq == level && !spell.traits.includes("Cantrip")) ||
-                (level == 0 && spell.traits.includes("Cantrip"))
-            ) &&
-            (
-                !this.wordFilter || (
-                    this.wordFilter && (
-                        spell.name
-                            .concat(spell.desc)
-                            .concat(spell.desc2)
-                            .concat(spell.area)
-                            .concat(spell.targets)
-                            .concat(spell.range)
-                            .concat(spell.heightenedDescs.map(hdesc => hdesc.descs.map(desc => desc.value).join(" ")).join(" "))
-                            .toLowerCase()
-                            .includes(this.wordFilter.toLowerCase()) ||
-                        spell.traits.filter(trait => trait.toLowerCase().includes(this.wordFilter.toLowerCase())).length
+        return this.get_SpellsFromSource()
+            .filter((spell: Spell) =>
+                (
+                    (spell.levelreq == level && !spell.traits.includes("Cantrip")) ||
+                    (level == 0 && spell.traits.includes("Cantrip"))
+                ) &&
+                (
+                    !this.wordFilter || (
+                        this.wordFilter && (
+                            spell.name
+                                .concat(spell.desc)
+                                .concat(spell.desc2)
+                                .concat(spell.area)
+                                .concat(spell.targets)
+                                .concat(spell.range)
+                                .concat(spell.heightenedDescs.map(hdesc => hdesc.descs.map(desc => desc.value).join(" ")).join(" "))
+                                .toLowerCase()
+                                .includes(this.wordFilter.toLowerCase()) ||
+                            spell.traits.filter(trait => trait.toLowerCase().includes(this.wordFilter.toLowerCase())).length
+                        )
+                    )
+                ) && (
+                    (
+                        !this.traditionFilter && !spell.traditions.includes("Focus")
+                    ) || (
+                        this.traditionFilter && spell.traditions.includes(this.traditionFilter)
                     )
                 )
-            ) && (
-                (
-                    !this.traditionFilter && !spell.traditions.includes("Focus")
-                ) || (
-                    this.traditionFilter && spell.traditions.includes(this.traditionFilter)
-                )
-            )
-        ).sort((a, b) => {
-            if (a.name > b.name) {
-                return 1;
-            }
-
-            if (a.name < b.name) {
-                return -1;
-            }
-
-            return 0;
-        });
+            ).sort((a, b) => (a.name > b.name) ? 1 : -1);
     }
 
     get_WizardSpellCasting() {
@@ -440,17 +431,11 @@ export class SpellLibraryComponent implements OnInit {
                 if (selected.length) {
                     result += " You have already selected the following spells:\n"
                 }
-                selected.sort(function (a, b) {
-                    if (a.level > b.level) {
-                        return 1
-                    }
-                    if (a.level < b.level) {
-                        return -1
-                    }
-                    return 0;
-                }).forEach(choice => {
-                    result += "\n" + choice.spells[0].name + " (level " + choice.level + ")"
-                });
+                selected
+                    .sort((a, b) => (a.level > b.level) ? 1 : -1)
+                    .forEach(choice => {
+                        result += "\n" + choice.spells[0].name + " (level " + choice.level + ")"
+                    });
                 return result;
             } else {
                 return ""

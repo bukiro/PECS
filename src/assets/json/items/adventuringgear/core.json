@@ -1,12 +1,12 @@
 [
     {
-        "desc": "Plants of supernatural significance provide a primal focus for primal spellcasters, such as druids, when using certain abilities and casting some spells. A bundle of holly and mistletoe must be held in one hand to use it. Other primal foci exist for druids focused on other aspects of nature. ",
+        "desc": "Plants of supernatural significance provide a primal focus for primal spellcasters, such as druids, when using certain abilities and casting some spells. A bundle of holly and mistletoe must be held in one hand to use it. Other primal foci exist for druids focused on other aspects of nature.",
         "id": "89c6d2e2-8e09-11ea-9fab-e92c63c14723",
         "name": "Holly and Mistletoe",
         "hands": 1
     },
     {
-        "desc": "A lit candle sheds dim light in a 10-foot radius. ",
+        "desc": "A lit candle sheds dim light in a 10-foot radius.",
         "id": "89c6d2e5-8e09-11ea-9fab-e92c63c14723",
         "name": "Candle",
         "price": 1,
@@ -25,14 +25,14 @@
         "hands": 1
     },
     {
-        "desc": "You can use oil to fuel lanterns, but you can also set a pint of oil aflame and throw it. You must first spend an Interact action preparing the oil, then throw it with another action as a ranged attack. If you hit, it splatters on the creature or in a single 5-foot square you target. You must succeed at a DC 10 flat check for the oil to ignite successfully when it hits. If the oil ignites, the target takes |dice=1d6 Fire| 1d6 fire damage. ",
+        "desc": "You can use oil to fuel lanterns, but you can also set a pint of oil aflame and throw it. You must first spend an Interact action preparing the oil, then throw it with another action as a ranged attack. If you hit, it splatters on the creature or in a single 5-foot square you target. You must succeed at a DC 10 flat check for the oil to ignite successfully when it hits. If the oil ignites, the target takes |dice=1d6 Fire| 1d6 fire damage.",
         "id": "89c6d2ee-8e09-11ea-9fab-e92c63c14723",
         "name": "Oil",
         "price": 1,
         "hands": 2
     },
     {
-        "desc": "These small spikes can be used as anchors to make climbing easier. To affix a piton, you must hold it in one hand and use a hammer to drive it in with your other hand. You can attach a rope to the hammered piton so that you don't fall all the way to the ground on a critical failure while Climbing. ",
+        "desc": "These small spikes can be used as anchors to make climbing easier. To affix a piton, you must hold it in one hand and use a hammer to drive it in with your other hand. You can attach a rope to the hammered piton so that you don't fall all the way to the ground on a critical failure while Climbing.",
         "id": "89c6d2f1-8e09-11ea-9fab-e92c63c14723",
         "name": "Piton",
         "price": 1,
@@ -45,7 +45,7 @@
     },
     {
         "bulk": "L",
-        "desc": "A sack can hold up to 8 Bulk worth of items. A sack containing 2 Bulk or less can be worn on the body, usually tucked into a belt. You can carry a sack with one hand, but must use two hands to transfer items in and out. ",
+        "desc": "A sack can hold up to 8 Bulk worth of items. A sack containing 2 Bulk or less can be worn on the body, usually tucked into a belt. You can carry a sack with one hand, but must use two hands to transfer items in and out.",
         "id": "89c6d2f4-8e09-11ea-9fab-e92c63c14723",
         "name": "Sack",
         "price": 1,
@@ -58,7 +58,7 @@
     },
     {
         "bulk": "1",
-        "desc": "When wielding this long pole, you can use Seek to search a square up to 10 feet away. The pole is not sturdy enough to use as a weapon. ",
+        "desc": "When wielding this long pole, you can use Seek to search a square up to 10 feet away. The pole is not sturdy enough to use as a weapon.",
         "id": "89c6f9f0-8e09-11ea-9fab-e92c63c14723",
         "name": "Ten-Foot Pole",
         "price": 1,
@@ -71,7 +71,7 @@
     },
     {
         "bulk": "L",
-        "desc": "A torch sheds bright light in a 20-foot radius (and dim light to the next 20 feet). It can be used as an improvised weapon that deals |dice=1d4 + 1 Fire| 1d4 bludgeoning damage plus 1 fire damage. ",
+        "desc": "A torch sheds bright light in a 20-foot radius (and dim light to the next 20 feet). It can be used as an improvised weapon that deals |dice=1d4 + 1 Fire| 1d4 bludgeoning damage plus 1 fire damage.",
         "id": "89c6f9f3-8e09-11ea-9fab-e92c63c14723",
         "name": "Torch",
         "price": 1,
@@ -97,7 +97,7 @@
         "hands": 2
     },
     {
-        "desc": "Flint and steel are useful in creating a fire if you have the time to catch a spark, though using them is typically too time-consuming to be practical during an encounter. Even in ideal conditions, using flint and steel to light a flame requires using at least 3 actions, and often significantly longer. ",
+        "desc": "Flint and steel are useful in creating a fire if you have the time to catch a spark, though using them is typically too time-consuming to be practical during an encounter. Even in ideal conditions, using flint and steel to light a flame requires using at least 3 actions, and often significantly longer.",
         "id": "89c6fa02-8e09-11ea-9fab-e92c63c14723",
         "name": "Flint and Steel",
         "price": 5,
@@ -105,14 +105,14 @@
     },
     {
         "bulk": "L",
-        "desc": "When it's full, a waterskin contains roughly 1 day's worth of water for a Small or Medium creature. ",
+        "desc": "When it's full, a waterskin contains roughly 1 day's worth of water for a Small or Medium creature.",
         "id": "89c6fa08-8e09-11ea-9fab-e92c63c14723",
         "name": "Waterskin",
         "price": 5,
         "hands": 1
     },
     {
-        "desc": "When sounded, a signal whistle can be heard clearly up to half a mile away across open terrain. ",
+        "desc": "When sounded, a signal whistle can be heard clearly up to half a mile away across open terrain.",
         "id": "89c6fa0b-8e09-11ea-9fab-e92c63c14723",
         "name": "Signal Whistle",
         "price": 8,
@@ -132,7 +132,7 @@
     },
     {
         "bulk": "L",
-        "desc": "You can throw a grappling hook with a rope tied to it to make a climb easier. To anchor a grappling hook, make an attack roll with the secret trait against a DC depending on the target, typically at least DC 20. On a success, your hook has a firm hold, but on a critical failure, the hook seems like it will hold but actually falls when you're partway up. ",
+        "desc": "You can throw a grappling hook with a rope tied to it to make a climb easier. To anchor a grappling hook, make an attack roll with the secret trait against a DC depending on the target, typically at least DC 20. On a success, your hook has a firm hold, but on a critical failure, the hook seems like it will hold but actually falls when you're partway up.",
         "id": "89c6fa14-8e09-11ea-9fab-e92c63c14723",
         "name": "Grappling Hook",
         "price": 10,
@@ -174,7 +174,7 @@
     },
     {
         "bulk": "L",
-        "desc": "This book contains formulas for Crafting common items. ",
+        "desc": "This book contains formulas for Crafting common items.",
         "id": "89c6fa29-8e09-11ea-9fab-e92c63c14723",
         "name": "Basic Crafter's Book",
         "price": 10,
@@ -240,7 +240,7 @@
     },
     {
         "bulk": "L",
-        "desc": "Winter clothing allows you to negate the damage from severe environmental cold and reduce the damage from extreme cold to that of severe cold. ",
+        "desc": "Winter clothing allows you to negate the damage from severe environmental cold and reduce the damage from extreme cold to that of severe cold.",
         "id": "89c72116-8e09-11ea-9fab-e92c63c14723",
         "name": "Clothing (Winter)",
         "price": 40,
@@ -288,7 +288,7 @@
     },
     {
         "bulk": "L",
-        "desc": "When Forcing Open an object that doesn't have an easy grip, a crowbar makes it easier to gain the necessary leverage. Without a crowbar, prying something open takes a -2 item penalty to the Athletics check to Force Open (similar to using a shoddy item). A levered crowbar grants you a +1 item bonus to Athletics checks to Force Open anything that can be pried open. ",
+        "desc": "When Forcing Open an object that doesn't have an easy grip, a crowbar makes it easier to gain the necessary leverage. Without a crowbar, prying something open takes a -2 item penalty to the Athletics check to Force Open (similar to using a shoddy item). A levered crowbar grants you a +1 item bonus to Athletics checks to Force Open anything that can be pried open.",
         "id": "89c72122-8e09-11ea-9fab-e92c63c14723",
         "name": "Crowbar",
         "price": 50,
@@ -301,7 +301,7 @@
     },
     {
         "bulk": "L",
-        "desc": "This pouch contains material components for those spells that require them. Though the components are used up over time, you can refill spent components during your daily preparations. ",
+        "desc": "This pouch contains material components for those spells that require them. Though the components are used up over time, you can refill spent components during your daily preparations.",
         "id": "89c72125-8e09-11ea-9fab-e92c63c14723",
         "name": "Material Component Pouch",
         "price": 50,
@@ -316,7 +316,7 @@
     },
     {
         "bulk": "2",
-        "desc": "A wooden chest can hold up to 8 Bulk of items. ",
+        "desc": "A wooden chest can hold up to 8 Bulk of items.",
         "id": "89c7212b-8e09-11ea-9fab-e92c63c14723",
         "name": "Chest",
         "price": 60,
@@ -1523,7 +1523,7 @@
     },
     {
         "bulk": "L",
-        "desc": "A lantern sheds bright light and requires 1 pint of oil to function for 6 hours.\n\nA hooded lantern sheds light in a 30-foot radius (and dim light in the next 30 feet) and is equipped with shutters, which you can close to block the light. Closing or opening the shutters takes an Interact action. ",
+        "desc": "A lantern sheds bright light and requires 1 pint of oil to function for 6 hours.\n\nA hooded lantern sheds light in a 30-foot radius (and dim light in the next 30 feet) and is equipped with shutters, which you can close to block the light. Closing or opening the shutters takes an Interact action.",
         "id": "89c74815-8e09-11ea-9fab-e92c63c14723",
         "name": "Lantern (Hooded)",
         "price": 70,
@@ -1579,7 +1579,7 @@
     },
     {
         "bulk": "L",
-        "desc": "A formula book holds the formulas necessary to make items other than the common equipment from this chapter; alchemists typically get one for free. Each formula book can hold the formulas for up to 100 different items. Formulas can also appear on parchment sheets, tablets, and almost any other medium; there's no need for you to copy them into a specific book as long as you can keep them on hand to reference them. ",
+        "desc": "A formula book holds the formulas necessary to make items other than the common equipment from this chapter; alchemists typically get one for free. Each formula book can hold the formulas for up to 100 different items. Formulas can also appear on parchment sheets, tablets, and almost any other medium; there's no need for you to copy them into a specific book as long as you can keep them on hand to reference them.",
         "equippable": true,
         "id": "89c74827-8e09-11ea-9fab-e92c63c14723",
         "name": "Formula Book",
@@ -1602,7 +1602,7 @@
     },
     {
         "bulk": "L",
-        "desc": "This manuscript contains scripture of a particular religion. Some divine spellcasters, such as clerics, can use a religious text as a divine focus to use certain abilities and cast some spells. A religious text must be held in one hand to use it. ",
+        "desc": "This manuscript contains scripture of a particular religion. Some divine spellcasters, such as clerics, can use a religious text as a divine focus to use certain abilities and cast some spells. A religious text must be held in one hand to use it.",
         "id": "89c74830-8e09-11ea-9fab-e92c63c14723",
         "name": "Religious Text",
         "price": 100,
@@ -1610,7 +1610,7 @@
     },
     {
         "bulk": "L",
-        "desc": "A spellbook holds the written knowledge necessary to learn and prepare various spells, a necessity for wizards (who typically get one for free) and a useful luxury for other spellcasters looking to learn additional spells. Each spellbook can hold up to 100 spells. The Price listed is for a blank spellbook. ",
+        "desc": "A spellbook holds the written knowledge necessary to learn and prepare various spells, a necessity for wizards (who typically get one for free) and a useful luxury for other spellcasters looking to learn additional spells. Each spellbook can hold up to 100 spells. The Price listed is for a blank spellbook.",
         "equippable": true,
         "id": "89c74833-8e09-11ea-9fab-e92c63c14723",
         "name": "Spellbook",
@@ -1689,7 +1689,7 @@
     },
     {
         "bulk": "L",
-        "desc": "These bioluminescent jellyfish are as bright as candles, come in a variety of colors, and can act as living lanterns. They dry up and die if removed from the water for more than 1 hour, but as long as they're allowed access to seawater, they can usually survive for up to 1 year by feeding on micronutrients. Rarely, a well-treated jellyfish lamp might live longer and potentially develop stronger light or additional abilities. ",
+        "desc": "These bioluminescent jellyfish are as bright as candles, come in a variety of colors, and can act as living lanterns. They dry up and die if removed from the water for more than 1 hour, but as long as they're allowed access to seawater, they can usually survive for up to 1 year by feeding on micronutrients. Rarely, a well-treated jellyfish lamp might live longer and potentially develop stronger light or additional abilities.",
         "id": "89c7484b-8e09-11ea-9fab-e92c63c14723",
         "name": "Jellyfish Lamp",
         "price": 200,
@@ -1697,7 +1697,7 @@
     },
     {
         "bulk": "1",
-        "desc": "These armor-plated skirts, which are also known as armored kilts, are favored by Knights of Lastwall for their versatility and aesthetic appeal. An armored skirt can be donned with 2 Interact actions when it's worn with light or medium armor, or as part of donning heavy armor.\n\nWhen worn with a breastplate, chain shirt, chain mail, or scale mail, an armored skirt increases the armor's item bonus to AC by 1, worsens the armor's check penalty by 1, reduces the armor's Dex cap by 1, increases the Strength score required to ignore the check penalty and reduce the Speed penalty by 2, and adds the noisy trait. This also makes the armor one step heavier (from light to medium, or medium to heavy), and you use the proficiency bonus appropriate to this adjusted armor type.\n\nAlternatively, when wearing an armored skirt to replace appropriate portions of a set of half plate or full plate, reduce the armor's item bonus to AC by 1, lessen the check penalty by 1, decrease the Strength score required to ignore the check penalty and reduce the Speed penalty by 2, increase the armor's Dex cap by 1, and add the noisy trait to the armor. An armored skirt grants no benefit when worn by itself or with armors other than those listed here. ",
+        "desc": "These armor-plated skirts, which are also known as armored kilts, are favored by Knights of Lastwall for their versatility and aesthetic appeal. An armored skirt can be donned with 2 Interact actions when it's worn with light or medium armor, or as part of donning heavy armor.\n\nWhen worn with a breastplate, chain shirt, chain mail, or scale mail, an armored skirt increases the armor's item bonus to AC by 1, worsens the armor's check penalty by 1, reduces the armor's Dex cap by 1, increases the Strength score required to ignore the check penalty and reduce the Speed penalty by 2, and adds the noisy trait. This also makes the armor one step heavier (from light to medium, or medium to heavy), and you use the proficiency bonus appropriate to this adjusted armor type.\n\nAlternatively, when wearing an armored skirt to replace appropriate portions of a set of half plate or full plate, reduce the armor's item bonus to AC by 1, lessen the check penalty by 1, decrease the Strength score required to ignore the check penalty and reduce the Speed penalty by 2, increase the armor's Dex cap by 1, and add the noisy trait to the armor. An armored skirt grants no benefit when worn by itself or with armors other than those listed here.",
         "id": "89c76f22-8e09-11ea-9fab-e92c63c14723",
         "name": "Armored Skirt",
         "price": 200,
@@ -1706,7 +1706,7 @@
     },
     {
         "bulk": "1",
-        "desc": "This mobile collection of vials and chemicals can be used for simple alchemical tasks. ",
+        "desc": "This mobile collection of vials and chemicals can be used for simple alchemical tasks.",
         "id": "89c76f25-8e09-11ea-9fab-e92c63c14723",
         "name": "Alchemist's Tools",
         "price": 300,
@@ -1749,7 +1749,7 @@
     },
     {
         "bulk": "1",
-        "desc": "Tack includes all the gear required to outfit a riding animal, including a saddle, bit and bridle, and stirrups if necessary. Especially large or oddly shaped animals might require specialty saddles. These can be more expensive or hard to find, as determined by the GM. The Bulk value given is for tack worn by a creature. If carried, the Bulk increases to 2. ",
+        "desc": "Tack includes all the gear required to outfit a riding animal, including a saddle, bit and bridle, and stirrups if necessary. Especially large or oddly shaped animals might require specialty saddles. These can be more expensive or hard to find, as determined by the GM. The Bulk value given is for tack worn by a creature. If carried, the Bulk increases to 2.",
         "id": "89c76f34-8e09-11ea-9fab-e92c63c14723",
         "name": "Tack",
         "price": 400,
@@ -1771,7 +1771,7 @@
     },
     {
         "bulk": "L",
-        "desc": "These flippers attach to your feet like tight shoes - donning or removing them requires three Interact actions. While worn, you gain a +5-foot item bonus to the distance you move when rolling Athletics to Swim, not when using a swim Speed, and you take a -10-foot item penalty to your Speed. ",
+        "desc": "These flippers attach to your feet like tight shoes - donning or removing them requires three Interact actions. While worn, you gain a +5-foot item bonus to the distance you move when rolling Athletics to Swim, not when using a swim Speed, and you take a -10-foot item penalty to your Speed.",
         "id": "89c76f3a-8e09-11ea-9fab-e92c63c14723",
         "name": "Swim Fins",
         "price": 500,
@@ -2005,7 +2005,7 @@
     },
     {
         "bulk": "L",
-        "desc": "When Forcing Open an object that doesn't have an easy grip, a crowbar makes it easier to gain the necessary leverage. Without a crowbar, prying something open takes a -2 item penalty to the Athletics check to Force Open (similar to using a shoddy item). A levered crowbar grants you a +1 item bonus to Athletics checks to Force Open anything that can be pried open. ",
+        "desc": "When Forcing Open an object that doesn't have an easy grip, a crowbar makes it easier to gain the necessary leverage. Without a crowbar, prying something open takes a -2 item penalty to the Athletics check to Force Open (similar to using a shoddy item). A levered crowbar grants you a +1 item bonus to Athletics checks to Force Open anything that can be pried open.",
         "id": "89c7964d-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Crowbar (Levered)",
@@ -2160,7 +2160,7 @@
     },
     {
         "bulk": "1",
-        "desc": "Handheld instruments include bagpipes, a small set of chimes, small drums, fiddles and viols, flutes and recorders, small harps, lutes, trumpets, and similarly sized instruments. The GM might rule that an especially large handheld instrument (like a tuba) has greater Bulk.\n\nA virtuoso instrument gives a +1 item bonus to Performance checks using that instrument. ",
+        "desc": "Handheld instruments include bagpipes, a small set of chimes, small drums, fiddles and viols, flutes and recorders, small harps, lutes, trumpets, and similarly sized instruments. The GM might rule that an especially large handheld instrument (like a tuba) has greater Bulk.\n\nA virtuoso instrument gives a +1 item bonus to Performance checks using that instrument.",
         "id": "89c79668-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Musical Instrument (Virtuoso Handheld)",
@@ -2273,7 +2273,7 @@
     },
     {
         "bulk": "16",
-        "desc": "Heavy instruments such as large drums, a full set of chimes, and keyboard instruments are less portable than handheld instruments and generally need to be stationary while played.\n\nA virtuoso instrument gives a +1 item bonus to Performance checks using that instrument. ",
+        "desc": "Heavy instruments such as large drums, a full set of chimes, and keyboard instruments are less portable than handheld instruments and generally need to be stationary while played.\n\nA virtuoso instrument gives a +1 item bonus to Performance checks using that instrument.",
         "id": "89c7967a-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Musical Instrument (Virtuoso Heavy)",

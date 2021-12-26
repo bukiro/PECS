@@ -27,15 +27,7 @@ export class Scroll extends Consumable {
             let spell = characterService.spellsService.get_Spells(this.storedSpells[0].spells[0].name)[0];
             if (spell) {
 
-                traits = Array.from(new Set(this.traits.concat(spell.traits))).sort(function (a, b) {
-                    if (a > b) {
-                        return 1;
-                    }
-                    if (a < b) {
-                        return -1;
-                    }
-                    return 0;
-                });
+                traits = Array.from(new Set(this.traits.concat(spell.traits))).sort();
             }
         }
         this._traits = traits;

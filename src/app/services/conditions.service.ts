@@ -175,23 +175,8 @@ export class ConditionsService {
             this.appliedConditions[creatureIndex] = activeConditions.map(gain => Object.assign(new ConditionGain(), gain).recast());
         }
         return activeConditions
-            .sort((a, b) => {
-                if (a.name > b.name) {
-                    return 1;
-                }
-                if (a.name < b.name) {
-                    return -1;
-                }
-                return 0;
-            }).sort((a, b) => {
-                if (a.duration > b.duration) {
-                    return 1;
-                }
-                if (a.duration < b.duration) {
-                    return -1;
-                }
-                return 0;
-            })
+            .sort((a, b) => (a.name > b.name) ? 1 : -1)
+            .sort((a, b) => (a.duration > b.duration) ? 1 : -1);
     }
 
     process_Condition(creature: Creature, characterService: CharacterService, effectsService: EffectsService, itemsService: ItemsService, gain: ConditionGain, condition: Condition, taken: boolean, increaseWounded: boolean = true, ignoreEndsWithConditions: boolean = false) {

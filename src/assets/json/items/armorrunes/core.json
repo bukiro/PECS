@@ -82,7 +82,7 @@
             "Medium Armor"
         ],
         "nonmetallic": true,
-        "desc": "Armor with this rune becomes hazy black. You gain a +1 item bonus to Stealth checks while wearing the armor. ",
+        "desc": "Armor with this rune becomes hazy black. You gain a +1 item bonus to Stealth checks while wearing the armor.",
         "traits": [
             "Magical",
             "Transmutation"
@@ -310,7 +310,7 @@
             "Medium Armor"
         ],
         "nonmetallic": true,
-        "desc": "Armor with this rune becomes hazy black. You gain a +1 item bonus to Stealth checks while wearing the armor. ",
+        "desc": "Armor with this rune becomes hazy black. You gain a +1 item bonus to Stealth checks while wearing the armor.",
         "traits": [
             "Magical",
             "Transmutation"
@@ -646,8 +646,8 @@
         ]
     },
     {
-        "name": "Shadow (Greater)",
-        "id": "9caa60f4-aa4a-11ea-bb37-0242ac130002",
+        "name": "Shadow (Major)",
+        "id": "9313861f-372d-49b0-bead-bf02eb7169c3",
         "level": 17,
         "price": 1400000,
         "usage": "etched onto light or medium nonmetallic armor",
@@ -656,7 +656,7 @@
             "Medium Armor"
         ],
         "nonmetallic": true,
-        "desc": "Armor with this rune becomes hazy black. You gain a +1 item bonus to Stealth checks while wearing the armor. ",
+        "desc": "Armor with this rune becomes hazy black. You gain a +1 item bonus to Stealth checks while wearing the armor.",
         "traits": [
             "Magical",
             "Transmutation"

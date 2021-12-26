@@ -216,16 +216,10 @@ export class FeatchoiceComponent implements OnInit {
                 let cannotTakeSubFeat = this.cannotTake(feat, choice);
                 let available = (cannotTakeSubFeat.length == 0 || (this.get_FeatTakenByChoice(feat, choice) && true));
                 return { available: available, subfeat: feat, cannotTake: cannotTakeSubFeat }
-            }).filter(featSet => showOtherOptions || choice.filter.length || this.get_FeatTakenByChoice(featSet.subfeat, choice))
+            })
+                .filter(featSet => showOtherOptions || choice.filter.length || this.get_FeatTakenByChoice(featSet.subfeat, choice))
+                .sort((a, b) => (a.subfeat.subType > b.subfeat.subType) ? 1 : -1)
                 .sort(function (a, b) {
-                    if (a.subfeat.subType < b.subfeat.subType) {
-                        return -1;
-                    }
-                    if (a.subfeat.subType > b.subfeat.subType) {
-                        return 1;
-                    }
-                    return 0;
-                }).sort(function (a, b) {
                     if (a.available && !b.available) {
                         return -1;
                     }

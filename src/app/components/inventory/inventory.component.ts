@@ -190,15 +190,8 @@ export class InventoryComponent implements OnInit {
     }
 
     sort_ItemSet(itemSet: Item[]) {
-        return itemSet.sort((a, b) => {
-            if (a.name > b.name) {
-                return 1;
-            }
-            if (a.name < b.name) {
-                return -1;
-            }
-            return 0;
-        });
+        return itemSet
+        .sort((a, b) => (a.name > b.name) ? 1 : -1);
     }
 
     get_IsEquipment(item: Item) {
@@ -546,15 +539,7 @@ export class InventoryComponent implements OnInit {
             return this.get_FormulasLearned()
                 .filter(learned => learned.snareSpecialistPrepared)
                 .map(learned => { return { learned: learned, item: this.itemsService.get_CleanItemByID(learned.id) } })
-                .sort(function (a, b) {
-                    if (a.item.name > b.item.name) {
-                        return 1;
-                    }
-                    if (a.item.name < b.item.name) {
-                        return -1;
-                    }
-                    return 0;
-                })
+                .sort((a, b) => (a.item.name > b.item.name) ? 1 : -1);
         }
     }
 

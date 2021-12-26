@@ -41,15 +41,7 @@ export class Deity {
                     })
                 }
             }
-            this.$domains = this.$domains.sort(function (a, b) {
-                if (a > b) {
-                    return 1;
-                }
-                if (a < b) {
-                    return -1;
-                }
-                return 0;
-            })
+            this.$domains = this.$domains.sort()
         }
         return this.$domains;
     }
@@ -71,15 +63,7 @@ export class Deity {
                     }
                 }
             }
-            this.$alternateDomains = this.$alternateDomains.sort(function (a, b) {
-                if (a > b) {
-                    return 1;
-                }
-                if (a < b) {
-                    return -1;
-                }
-                return 0;
-            })
+            this.$alternateDomains = this.$alternateDomains.sort();
         }
         return this.$alternateDomains;
     }

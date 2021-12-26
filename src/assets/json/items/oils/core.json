@@ -160,7 +160,7 @@
         "price": 4000,
         "bulk": "L",
         "usage": "held in 2 hands",
-        "desc": "Applying this filmy salve to a creature helps it overcome magical paralysis. The creature recovers as if it were the target of a 3rd-level remove paralysis spell. ",
+        "desc": "Applying this filmy salve to a creature helps it overcome magical paralysis. The creature recovers as if it were the target of a 3rd-level remove paralysis spell.",
         "actions": "1A",
         "activationType": "Interact",
         "castSpells": [
@@ -184,7 +184,7 @@
         "price": 7000,
         "usage": "held in 1 hand",
         "inputRequired": "Restore |dice=3d8 + 10| 3d8+10 Hit Points to a creature within reach.",
-        "desc": "This luminescent paste is made from the powdered bones of a long-forgotten saint, mixed with herbs and blessed by a priest. It typically comes in a tightly sealed, palm-sized dish etched with holy symbols. Applying saints' balm to yourself or a creature within reach restores |dice=3d8 + 10| 3d8+10 Hit Points to the creature to which it's applied. ",
+        "desc": "This luminescent paste is made from the powdered bones of a long-forgotten saint, mixed with herbs and blessed by a priest. It typically comes in a tightly sealed, palm-sized dish etched with holy symbols. Applying saints' balm to yourself or a creature within reach restores |dice=3d8 + 10| 3d8+10 Hit Points to the creature to which it's applied.",
         "actions": "1A",
         "activationType": "Interact",
         "traits": [
@@ -346,7 +346,7 @@
         "runeEffect": {
             "name": "Keen"
         },
-        "desc": "When this silvery salve is applied to a melee weapon that deals piercing or slashing damage, the weapon grows sharper and more dangerous for 1 minute, granting it the benefits of the keen rune. ",
+        "desc": "When this silvery salve is applied to a melee weapon that deals piercing or slashing damage, the weapon grows sharper and more dangerous for 1 minute, granting it the benefits of the keen rune.",
         "actions": "1A",
         "activationType": "Interact",
         "traits": [
@@ -366,7 +366,7 @@
         "subType": "Greater",
         "subTypeDesc": "A greater salve of antiparalysis can potentially remove petrification. The creature recovers as if it were the target of both a 6th-level remove paralysis spell and a stone to flesh spell.",
         "usage": "held in 2 hands",
-        "desc": "Applying this filmy salve to a creature helps it overcome magical paralysis. The creature recovers as if it were the target of a 3rd-level remove paralysis spell. ",
+        "desc": "Applying this filmy salve to a creature helps it overcome magical paralysis. The creature recovers as if it were the target of a 3rd-level remove paralysis spell.",
         "actions": "1A",
         "activationType": "Interact",
         "castSpells": [

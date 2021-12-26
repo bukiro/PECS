@@ -124,31 +124,10 @@ export class EffectsComponent implements OnInit {
     }
 
     get_AppliedEffects() {
-        return this.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.apply && effect.show).sort(function (a, b) {
-            if (a.value > b.value) {
-                return 1;
-            }
-            if (a.value < b.value) {
-                return -1;
-            }
-            return 0;
-        }).sort(function (a, b) {
-            if (a.setValue > b.setValue) {
-                return 1;
-            }
-            if (a.setValue < b.setValue) {
-                return -1;
-            }
-            return 0;
-        }).sort(function (a, b) {
-            if (a.target > b.target) {
-                return 1;
-            }
-            if (a.target < b.target) {
-                return -1;
-            }
-            return 0;
-        });
+        return this.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.apply && effect.show)
+            .sort((a, b) => (a.value > b.value) ? 1 : -1)
+            .sort((a, b) => (a.setValue > b.setValue) ? 1 : -1)
+            .sort((a, b) => (a.target > b.target) ? 1 : -1);
     }
 
     get_NotAppliedEffects() {
@@ -160,15 +139,9 @@ export class EffectsComponent implements OnInit {
     }
 
     get_AppliedConditions(apply: boolean, instant: boolean = false) {
-        return this.characterService.get_AppliedConditions(this.get_Creature()).filter(condition => condition.apply == apply || (instant && condition.durationIsInstant)).sort(function (a, b) {
-            if (a.name + a.value + a.choice > b.name + b.value + b.choice) {
-                return 1;
-            }
-            if (a.name + a.value + a.choice < b.name + b.value + b.choice) {
-                return -1;
-            }
-            return 0;
-        });
+        return this.characterService.get_AppliedConditions(this.get_Creature())
+            .filter(condition => condition.apply == apply || (instant && condition.durationIsInstant))
+            .sort((a, b) => (a.name + a.value + a.choice > b.name + b.value + b.choice) ? 1 : -1);
     }
 
     get_Duration(duration: number) {

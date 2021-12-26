@@ -179,16 +179,8 @@ export class ItemsComponent implements OnInit {
     }
 
     get_SortByName(obj: Item[]) {
-        return obj.sort((a, b) => {
-            if (a.name > b.name) {
-                return 1;
-            }
-
-            if (a.name < b.name) {
-                return -1;
-            }
-            return 0;
-        });
+        return obj
+            .sort((a, b) => (a.name > b.name) ? 1 : -1);
     }
 
     get_CanUse(item: Item) {
@@ -258,17 +250,9 @@ export class ItemsComponent implements OnInit {
     }
 
     get_CopyItems(type: string) {
-        return this.itemsService.get_CleanItems()[type].filter((item: Item) => !item.hide).sort((a, b) => {
-            if (a.name > b.name) {
-                return 1;
-            }
-
-            if (a.name < b.name) {
-                return -1;
-            }
-
-            return 0;
-        });
+        return this.itemsService.get_CleanItems()[type]
+            .filter((item: Item) => !item.hide)
+            .sort((a: Item, b: Item) => (a.name > b.name) ? 1 : -1);
     }
 
     get_InventoryItems(type: string) {
@@ -276,17 +260,9 @@ export class ItemsComponent implements OnInit {
         this.characterService.get_Character().inventories.map(inventory => inventory[type]).forEach(itemSet => {
             items.push(...itemSet);
         })
-        return items.filter(item => !item.hide).sort((a, b) => {
-            if (a.name > b.name) {
-                return 1;
-            }
-
-            if (a.name < b.name) {
-                return -1;
-            }
-
-            return 0;
-        });
+        return items
+            .filter(item => !item.hide)
+            .sort((a, b) => (a.name > b.name) ? 1 : -1);
     }
 
     get_VisibleItems(items: Item[], creatureType: string = "") {
@@ -295,52 +271,37 @@ export class ItemsComponent implements OnInit {
         if (this.purpose == "scrollsavant") {
             casting = this.get_ScrollSavantCasting();
         }
-        return items.filter((item: Item) =>
-            (
-                //Show companion items in the companion list and not in the character list.
-                (creatureType == "Character" && !item.traits.includes("Companion")) ||
-                (creatureType == "Companion" && item.traits.includes("Companion"))
-            ) &&
-            !item.hide &&
-            (
-                !this.wordFilter || (
-                    this.wordFilter && (
-                        item.name.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
-                        item.desc.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
-                        item.traits.filter(trait => trait.toLowerCase().includes(this.wordFilter.toLowerCase())).length
+        return items
+            .filter((item: Item) =>
+                (
+                    //Show companion items in the companion list and not in the character list.
+                    (creatureType == "Character" && !item.traits.includes("Companion")) ||
+                    (creatureType == "Companion" && item.traits.includes("Companion"))
+                ) &&
+                !item.hide &&
+                (
+                    !this.wordFilter || (
+                        this.wordFilter && (
+                            item.name.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
+                            item.desc.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
+                            item.traits.filter(trait => trait.toLowerCase().includes(this.wordFilter.toLowerCase())).length
+                        )
                     )
+                ) &&
+                (this.purpose == "formulas" ? item.craftable : true) &&
+                (
+                    this.purpose == "scrollsavant" ?
+                        (
+                            creatureType == "Character" &&
+                            item.type == "scrolls" &&
+                            (item as Scroll).storedSpells[0]?.level <= character.get_SpellLevel(character.level) - 2 &&
+                            casting && !casting.scrollSavant.find(scroll => scroll.refId == item.id)
+                        )
+                        : true
                 )
-            ) &&
-            (this.purpose == "formulas" ? item.craftable : true) &&
-            (
-                this.purpose == "scrollsavant" ?
-                    (
-                        creatureType == "Character" &&
-                        item.type == "scrolls" &&
-                        (item as Scroll).storedSpells[0]?.level <= character.get_SpellLevel(character.level) - 2 &&
-                        casting && !casting.scrollSavant.find(scroll => scroll.refId == item.id)
-                    )
-                    : true
             )
-        ).sort((a, b) => {
-            if ((a.level / 100) + a.name > (b.level / 100) + b.name) {
-                return 1;
-            }
-
-            if ((a.level / 100) + a.name < (b.level / 100) + b.name) {
-                return -1;
-            }
-
-            return 0;
-        }).sort((a, b) => {
-            if (a[this.sorting] > b[this.sorting]) {
-                return 1;
-            }
-            if (a[this.sorting] < b[this.sorting]) {
-                return -1;
-            }
-            return 0;
-        });
+            .sort((a, b) => ((a.level / 100) + a.name > (b.level / 100) + b.name) ? 1 : -1)
+            .sort((a, b) => (a[this.sorting] > b[this.sorting]) ? 1 : -1);
     }
 
     can_ApplyTalismans(item: Item) {
@@ -434,23 +395,11 @@ export class ItemsComponent implements OnInit {
         function get_PropertyData(key: string, itemsService: ItemsService) {
             return itemsService.get_ItemProperties().find(property => !property.parent && property.key == key);
         }
-        return Object.keys(this.newItem).map((key) => get_PropertyData(key, this.itemsService)).filter(property => property != undefined).sort((a, b) => {
-            if (a.priority > b.priority) {
-                return 1;
-            }
-            if (a.priority < b.priority) {
-                return -1;
-            }
-            return 0;
-        }).sort((a, b) => {
-            if (a.group > b.group) {
-                return 1;
-            }
-            if (a.group < b.group) {
-                return -1;
-            }
-            return 0;
-        });
+        return Object.keys(this.newItem)
+            .map((key) => get_PropertyData(key, this.itemsService))
+            .filter(property => property != undefined)
+            .sort((a, b) => (a.priority > b.priority) ? 1 : -1)
+            .sort((a, b) => (a.group > b.group) ? 1 : -1);
     }
 
     copy_Item(item: Equipment | Consumable) {

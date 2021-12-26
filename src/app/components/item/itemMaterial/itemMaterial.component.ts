@@ -122,15 +122,9 @@ export class ItemMaterialComponent implements OnInit {
                 !allMaterials.slice(0, index).some(othermaterial => othermaterial !== material && othermaterial.material.name == material.material.name && othermaterial.disabled)
             )
         );
-        return materials.sort(function (a, b) {
-            if (a.material.name > b.material.name) {
-                return 1;
-            }
-            if (a.material.name < b.material.name) {
-                return -1;
-            }
-            return 0;
-        }).sort((a, b) => a.material.level - b.material.level);
+        return materials
+            .sort((a, b) => (a.material.name > b.material.name) ? 1 : -1)
+            .sort((a, b) => (a.material.level > b.material.level) ? 1 : -1);
     }
 
     add_ArmorMaterial() {
@@ -209,15 +203,9 @@ export class ItemMaterialComponent implements OnInit {
                 !allMaterials.slice(0, index).some(othermaterial => othermaterial !== material && othermaterial.material.name == material.material.name && othermaterial.disabled)
             )
         );
-        return materials.sort(function (a, b) {
-            if (a.material.name > b.material.name) {
-                return 1;
-            }
-            if (a.material.name < b.material.name) {
-                return -1;
-            }
-            return 0;
-        }).sort((a, b) => a.material.level - b.material.level);
+        return materials
+            .sort((a, b) => (a.material.name > b.material.name) ? 1 : -1)
+            .sort((a, b) => (a.material.level > b.material.level) ? 1 : -1);
     }
 
     add_ShieldMaterial() {
@@ -310,15 +298,9 @@ export class ItemMaterialComponent implements OnInit {
                 !allMaterials.slice(0, index).some(othermaterial => othermaterial !== material && othermaterial.material.name == material.material.name && othermaterial.disabled)
             )
         );
-        return materials.sort(function (a, b) {
-            if (a.material.name > b.material.name) {
-                return 1;
-            }
-            if (a.material.name < b.material.name) {
-                return -1;
-            }
-            return 0;
-        }).sort((a, b) => a.material.level - b.material.level);
+        return materials
+            .sort((a, b) => (a.material.name > b.material.name) ? 1 : -1)
+            .sort((a, b) => (a.material.level > b.material.level) ? 1 : -1);
     }
 
     add_WeaponMaterial() {
