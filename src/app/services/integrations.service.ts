@@ -7,7 +7,7 @@ import { ToastService } from 'src/app/services/toast.service';
 type FoundryRoll = {
     class: string,
     formula: string,
-    terms: (object | string | number)[],
+    terms: object[],
     results: (string | number)[],
     _total: number
 }
@@ -21,9 +21,9 @@ export class IntegrationsService {
         private toastService: ToastService
     ) { }
 
-    prepare_RollForFoundry(diceString: string = "", diceResults: DiceResult[] = []): FoundryRoll|string {
+    prepare_RollForFoundry(diceString: string = "", diceResults: DiceResult[] = []): FoundryRoll | string {
         //Create a readable message for the External Dice Roll API - either a formula string or a fake Roll object - and send it to Foundry.
-        let roll: FoundryRoll|string = "";
+        let roll: FoundryRoll | string = "";
         if (diceString) {
             //If a formula is given, just pass the formula.
             roll = diceString;
@@ -33,37 +33,39 @@ export class IntegrationsService {
             let results = JSON.parse(JSON.stringify(diceResults.filter(result => result.included)));
             if (results.length) {
                 results.reverse();
-                let rollObject = { class: "Roll", formula: "", terms: [], results: [], _total: 0 }
+                let rollObject = { formula: "", terms: [], results: [], _total: 0 }
                 results.forEach((result: DiceResult, index) => {
-                    if (index > 0) {
+                    if (index > 0 && ((result.diceNum && result.diceSize) || result.bonus >= 0)) {
                         rollObject.formula += " + ";
+                        rollObject.terms.push({ operator: "+" });
+                        rollObject.results.push("+");
+                    } else if (!(result.diceNum && result.diceSize) && result.bonus < 0) {
+                        rollObject.formula += " - ";
+                        rollObject.terms.push({ operator: "-" });
+                        rollObject.results.push("-");
                     }
                     //For a result made from a dice roll, add fake Die objects to the Roll's terms and include the results of the roll, then add the sum to the Roll's results.
                     if (result.diceNum && result.diceSize) {
-                        let die = { class: "Die", number: result.diceNum, faces: result.diceSize, results: [] };
+                        let die = { number: result.diceNum, faces: result.diceSize, results: [], options: { flavor: result.type.trim() } };
                         die.results = result.rolls.map(roll => { return { result: roll, active: true } });
                         rollObject.terms.push(die);
                         rollObject.results.push(result.rolls.reduce((a, b) => a + b, 0));
                     }
                     //For a result that is just a number, add the number to the Roll's terms and results (subtracting negatives instead).
                     if (result.bonus) {
-                        if (result.bonus > 0) {
-                            if ((result.diceNum && result.diceSize) || index > 0) {
-                                rollObject.terms.push("+");
-                                rollObject.results.push("+");
-                            }
-                            rollObject.terms.push(result.bonus);
-                            rollObject.results.push(result.bonus);
-                        }
+                        let operator = "+";
+                        let longOperator = " + ";
                         if (result.bonus < 0) {
-                            if ((result.diceNum && result.diceSize) || index > 0) {
-                                rollObject.formula += " - ";
-                                rollObject.terms.push("-");
-                                rollObject.results.push("-");
-                            }
-                            rollObject.terms.push(result.bonus * -1);
-                            rollObject.results.push(result.bonus * -1);
+                            operator = "-";
+                            longOperator = " - ";
                         }
+                        const bonus = Math.abs(result.bonus);
+                        if ((result.diceNum && result.diceSize) || index > 0) {
+                            rollObject.terms.push({ operator: operator });
+                            rollObject.results.push(operator);
+                        }
+                        rollObject.terms.push({ number: bonus, options: { flavor: result.type.trim() } });
+                        rollObject.results.push(bonus);
                     }
                     //Add the result's formula to the Roll's formula, omitting the flavor text.
                     rollObject.formula += result.desc.replace(result.type, "").trim();

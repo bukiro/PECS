@@ -49,7 +49,7 @@ export class QuickdiceComponent implements OnInit {
     }
 
     expand_DamageTypes(text: string) {
-        return text.replace(/( |^)B( |$)/g, "$1Bludgeoning$2").replace(/( |^)P( |$)/g, "$1Piercing$2").replace(/( |^)S( |$)/g, "$1Slashing$2");
+        return text.replace(/( |^|\/)B( |$|\/)/g, "$1Bludgeoning$2").replace(/( |^|\/)P( |$|\/)/g, "$1Piercing$2").replace(/( |^|\/)S( |$|\/)/g, "$1Slashing$2");
     }
 
     replace_AbilityModifiers(diceString: string) {
