@@ -50,6 +50,52 @@
         ]
     },
     {
+        "name": "Maestro's Instrument (Lesser)",
+        "id": "4f207081-0665-4145-9311-4bb7162a7986",
+        "level": 3,
+        "price": 6000,
+        "bulk": "1",
+        "desc": "A maestro's instrument can be crafted in the form of any variety of handheld musical instrument. A maestro's instrument grants you a +1 item bonus to Performance checks while playing music with the instrument.",
+        "traits": [
+            "Enchantment",
+            "Magical"
+        ],
+        "usage": "held in 2 hands",
+        "hints": [
+            {
+                "desc": "A lesser maestro's instrument grants you a +1 item bonus to Performance checks while playing music with the instrument.",
+                "showon": "Performance",
+                "effects": [
+                    {
+                        "affected": "Performance",
+                        "value": "1"
+                    }
+                ]
+            }
+        ],
+        "activities": [
+            {
+                "actions": "2A",
+                "activationType": "Interact",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "desc": "You can play the instrument to produce the effects of a DC 17 charm spell.",
+                "castSpells": [
+                    {
+                        "level": 1,
+                        "name": "Charm"
+                    }
+                ],
+                "name": "Maestro's Instrument (Lesser)",
+                "traits": [
+                    "Enchantment",
+                    "Magical"
+                ]
+            }
+        ],
+        "craftRequirement": "You must supply a casting of charm of the appropriate level."
+    },
+    {
         "desc": "Though it appears to be a cloth sack decorated with panels of richly colored silk or stylish embroidery, a bag of holding opens into an extradimensional space larger than its outside dimensions. The Bulk held inside the bag doesn't change the Bulk of the bag of holding itself. The amount of Bulk the bag's extradimensional space can hold depends on its type.\n\nYou can Interact with the bag of holding to put items in or remove them just like a mundane sack. Though the bag can hold a great amount of material, an object still needs to be able to fit through the opening of the sack to be stored inside.\n\nIf the bag is overloaded or broken, it ruptures and is ruined, causing the items inside to be lost forever. If it's turned inside out, the items inside spill out unharmed, but the bag must be put right before it can be used again. A living creature placed inside the bag has enough air for 10 minutes before it begins to suffocate, and it can attempt to Escape against a DC of 13. An item inside the bag provides no benefits unless it's retrieved first. An item in the bag can't be detected by magic that detects only things on the same plane.",
         "id": "7a2c6faf-bdf4-4901-b178-df2cd772543c",
         "bulk": "1",
@@ -1188,6 +1234,54 @@
         ]
     },
     {
+        "name": "Maestro's Instrument (Moderate)",
+        "id": "5fd1b3cb-f515-4328-960d-2f88b535de81",
+        "level": 10,
+        "price": 90000,
+        "bulk": "1",
+        "desc": "A maestro's instrument can be crafted in the form of any variety of handheld musical instrument. A maestro's instrument grants you a +1 item bonus to Performance checks while playing music with the instrument.",
+        "traits": [
+            "Enchantment",
+            "Magical"
+        ],
+        "usage": "held in 2 hands",
+        "hints": [
+            {
+                "desc": "A moderate maestro's instrument grants you a +2 item bonus to Performance checks while playing music with the instrument.",
+                "showon": "Performance",
+                "effects": [
+                    {
+                        "affected": "Performance",
+                        "value": "2"
+                    }
+                ]
+            }
+        ],
+        "activities": [
+            {
+                "actions": "2A",
+                "activationType": "Interact",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "desc": "You can play the instrument to produce the effects of 4th level charm spell (DC 27).",
+                "castSpells": [
+                    {
+                        "level": 4,
+                        "name": "Charm"
+                    }
+                ],
+                "name": "Maestro's Instrument (Moderate)",
+                "traits": [
+                    "Enchantment",
+                    "Magical"
+                ]
+            }
+        ],
+        "subType": "Moderate",
+        "subTypeDesc": "The item bonus is +2, and the charm spell is 4th level (DC 27).",
+        "craftRequirement": "You must supply a casting of charm of the appropriate level."
+    },
+    {
         "name": "Thurible of Revelation (Moderate)",
         "id": "8de9eeb2-2417-11eb-adc1-0242ac120002",
         "level": 10,
@@ -1243,6 +1337,54 @@
                 ]
             }
         ]
+    },
+    {
+        "name": "Maestro's Instrument (Greater)",
+        "id": "df3d1ce4-397e-4a2b-b5c5-3ba89c667875",
+        "level": 18,
+        "price": 1900000,
+        "bulk": "1",
+        "desc": "A maestro's instrument can be crafted in the form of any variety of handheld musical instrument. A maestro's instrument grants you a +1 item bonus to Performance checks while playing music with the instrument.",
+        "traits": [
+            "Enchantment",
+            "Magical"
+        ],
+        "usage": "held in 2 hands",
+        "hints": [
+            {
+                "desc": "A greater maestro's instrument grants you a +3 item bonus to Performance checks while playing music with the instrument.",
+                "showon": "Performance",
+                "effects": [
+                    {
+                        "affected": "Performance",
+                        "value": "3"
+                    }
+                ]
+            }
+        ],
+        "activities": [
+            {
+                "actions": "2A",
+                "activationType": "Interact",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "desc": "You can play the instrument to produce the effects of 8th level charm spell (DC 38).",
+                "castSpells": [
+                    {
+                        "level": 8,
+                        "name": "Charm"
+                    }
+                ],
+                "name": "Maestro's Instrument (Greater)",
+                "traits": [
+                    "Enchantment",
+                    "Magical"
+                ]
+            }
+        ],
+        "subType": "Greater",
+        "subTypeDesc": "The item bonus is +3, and the charm spell is 8th level (DC 38).",
+        "craftRequirement": "You must supply a casting of charm of the appropriate level."
     },
     {
         "name": "Thurible of Revelation (Greater)",

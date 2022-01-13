@@ -597,27 +597,17 @@ export class InventoryComponent implements OnInit {
         }
     }
 
-    get_CanUse(item: Item) {
+    get_CanUse(item: Item): boolean {
         let canUse = undefined;
-        let character = this.get_Character();
-        if (item instanceof Weapon) {
+        let creature = this.get_Creature();
+        if (item instanceof Weapon || item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb) {
             if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes(item.prof)) {
-                return item.profLevel(character, this.characterService, item, character.level) > 0;
+                return item.profLevel(creature, this.characterService, item) > 0;
             }
         }
         if (item instanceof Armor) {
             if (["Unarmored Defense", "Light Armor", "Medium Armor", "Heavy Armor"].includes(item.get_Proficiency())) {
-                return item.profLevel(character, this.characterService, character.level) > 0;
-            }
-        }
-        if (item instanceof AlchemicalBomb) {
-            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes(item.prof)) {
-                return item.profLevel(character, this.characterService, item, character.level) > 0;
-            }
-        }
-        if (item instanceof OtherConsumableBomb) {
-            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes(item.prof)) {
-                return item.profLevel(character, this.characterService, item, character.level) > 0;
+                return item.profLevel(creature, this.characterService) > 0;
             }
         }
         return canUse;
