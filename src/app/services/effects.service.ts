@@ -43,74 +43,63 @@ export class EffectsService {
     }
 
     public get_EffectsOnThis(creature: Creature, ObjectName: string): Effect[] {
-        let index = this.get_CreatureEffectsIndex(creature.type);
-        return this.effects[index].all.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored);
+        return this.effects[creature.typeId].all.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored);
     }
 
     public get_ToggledOnThis(creature: Creature, ObjectName: string): Effect[] {
-        let index = this.get_CreatureEffectsIndex(creature.type);
-        return this.effects[index].all.filter(effect => effect.toggle && effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored);
+        return this.effects[creature.typeId].all.filter(effect => effect.toggle && effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored);
     }
 
     public get_ToggledOnThese(creature: Creature, ObjectNames: string[]): Effect[] {
-        let index = this.get_CreatureEffectsIndex(creature.type);
-        return this.effects[index].all.filter(effect => effect.toggle && effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored);
+        return this.effects[creature.typeId].all.filter(effect => effect.toggle && effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored);
     }
 
     public get_RelativesOnThis(creature: Creature, ObjectName: string): Effect[] {
-        let index = this.get_CreatureEffectsIndex(creature.type);
-        return this.effects[index].relatives.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored);
+        return this.effects[creature.typeId].relatives.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored);
     }
 
     public get_RelativesOnThese(creature: Creature, ObjectNames: string[], options: { readonly lowerIsBetter?: boolean } = {}): Effect[] {
         options = Object.assign({
             lowerIsBetter: false
         }, options)
-        const creatureIndex = this.get_CreatureEffectsIndex(creature.type);
         //Since there can be an overlap between the different effects we're asking about, we need to break them down to one bonus and one penalty per effect type.
         return this.get_TypeFilteredEffects(
-            this.effects[creatureIndex].relatives.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored)
+            this.effects[creature.typeId].relatives.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored)
             , options);
     }
 
     public get_AbsolutesOnThis(creature: Creature, ObjectName: string): Effect[] {
-        let index = this.get_CreatureEffectsIndex(creature.type);
-        return this.effects[index].absolutes.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored);
+        return this.effects[creature.typeId].absolutes.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored);
     }
 
     public get_AbsolutesOnThese(creature: Creature, ObjectNames: string[], options: { readonly lowerIsBetter?: boolean } = {}): Effect[] {
         options = Object.assign({
             lowerIsBetter: false
         }, options)
-        let creatureIndex = this.get_CreatureEffectsIndex(creature.type);
         //Since there can be an overlap between the different effects we're asking about, we need to break them down to one bonus and one penalty per effect type.
         return this.get_TypeFilteredEffects(
-            this.effects[creatureIndex].absolutes.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored),
+            this.effects[creature.typeId].absolutes.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored),
             { absolutes: true, lowerIsBetter: options.lowerIsBetter });
     }
 
     public show_BonusesOnThis(creature: Creature, ObjectName: string): boolean {
         //This function is usually only used to determine if a value should be highlighted as a bonus. Because we don't want to highlight values if their bonus comes from a feat, we exclude hidden effects here.
-        let index = this.get_CreatureEffectsIndex(creature.type);
-        return this.effects[index].bonuses.some(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored && effect.show);
+        return this.effects[creature.typeId].bonuses.some(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored && effect.show);
     }
 
     public show_BonusesOnThese(creature: Creature, ObjectNames: string[]): boolean {
         //This function is usually only used to determine if a value should be highlighted as a bonus. Because we don't want to highlight values if their bonus comes from a feat, we exclude hidden effects here.
-        let index = this.get_CreatureEffectsIndex(creature.type);
-        return this.effects[index].bonuses.some(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored && effect.show);
+        return this.effects[creature.typeId].bonuses.some(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored && effect.show);
     }
 
     public show_PenaltiesOnThis(creature: Creature, ObjectName: string): boolean {
         //This function is usually only used to determine if a value should be highlighted as a penalty. Because we don't want to highlight values if their penalty comes from a feat, we exclude hidden effects here.
-        let index = this.get_CreatureEffectsIndex(creature.type);
-        return this.effects[index].penalties.some(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored && effect.show);
+        return this.effects[creature.typeId].penalties.some(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored && effect.show);
     }
 
     public show_PenaltiesOnThese(creature: Creature, ObjectNames: string[]): boolean {
         //This function is usually only used to determine if a value should be highlighted as a penalty. Because we don't want to highlight values if their penalty comes from a feat, we exclude hidden effects here.
-        let index = this.get_CreatureEffectsIndex(creature.type);
-        return this.effects[index].penalties.some(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored && effect.show);
+        return this.effects[creature.typeId].penalties.some(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored && effect.show);
     }
 
     public get_TypeFilteredEffects(effects: Effect[], options: { readonly absolutes?: boolean, readonly lowerIsBetter?: boolean } = {}): Effect[] {

@@ -13,7 +13,8 @@ import { ItemsService } from 'src/app/services/items.service';
 export class Creature {
     public name: string = "";
     public id = uuidv4();
-    public type: string = "";
+    public type: "Character"|"Companion"|"Familiar" = "Character";
+    public typeId: number = 0;
     public level: number = 1;
     public customSkills: Skill[] = [];
     public health: Health = new Health();

@@ -12,6 +12,10 @@ export class Skill {
     public notes: string = "";
     public showNotes: boolean = false;
     public showEffects: boolean = false;
+    public _level: Map<string, { value: number, cached: number }> = new Map<string, { value: number, cached: number }>();
+    public _ability: Map<string, { value: string, cached: number }> = new Map<string, { value: string, cached: number }>();
+    public _baseValue: Map<string, { value: number, cached: number }> = new Map<string, { value: number, cached: number }>();
+    public _value: Map<string, { value: number, cached: number }> = new Map<string, { value: number, cached: number }>();
     constructor(
         public ability: string = "",
         public name: string = "",
@@ -21,6 +25,18 @@ export class Skill {
         public recallKnowledge: boolean = false
     ) { }
     recast() {
+        if (!(this._level instanceof Map)) {
+            this._level = new Map<string, { value: number, cached: number }>();
+        }
+        if (!(this._ability instanceof Map)) {
+            this._ability = new Map<string, { value: string, cached: number }>();
+        }
+        if (!(this._baseValue instanceof Map)) {
+            this._baseValue = new Map<string, { value: number, cached: number }>();
+        }
+        if (!(this._value instanceof Map)) {
+            this._value = new Map<string, { value: number, cached: number }>();
+        }
         return this;
     }
     calculate(creature: Creature, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level, isDC: boolean = false) {
@@ -118,15 +134,34 @@ export class Skill {
             if (this.ability) {
                 return this.ability;
             } else {
+                const character = characterService.get_Character();
+                const cachedAbility = this._ability.get(creature.type + "-" + character.level);
+                if (cachedAbility) {
+                    const checkList = {
+                        abilities: [
+                            { name: "Class Key Ability", cached: cachedAbility.cached },
+                            { name: this.name.split(" ")[0] + " Key Ability", cached: cachedAbility.cached }
+                        ],
+                        level: creature.type == "Companion" ? cachedAbility.cached : 0
+                    }
+                    if (!characterService.cacheService.get_HasChanged(checkList, {creatureTypeId: creature.typeId, level: character.level, name: "Skill Ability: " + this.name})) {
+                        return cachedAbility.value;
+                    }
+                }
                 //Get the correct ability by finding the first key ability boost for the main class or the archetype class.
                 // Some effects ask for your Unarmed Attacks modifier without any weapon, so we need to apply your strength modifier. But Unarmed Attacks is not a real skill and does not have an ability.
                 if (this.name == "Unarmed Attacks") {
-                    return "Strength"
+                    this._ability.set(creature.type + "-" + character.level, { value: "Strength", cached: Date.now() });
+                    return "Strength";
                 }
-                if (this.name == characterService.get_Character().class.name + " Class DC") {
-                    return characterService.get_Character().get_AbilityBoosts(1, 1, "", "", "Class Key Ability")[0]?.name;
-                } else if (this.name.includes(" Class DC") && !this.name.includes(characterService.get_Character().class.name)) {
-                    return characterService.get_Character().get_AbilityBoosts(1, characterService.get_Character().level, "", "", this.name.split(" ")[0] + " Key Ability")[0]?.name;
+                if (this.name == character.class.name + " Class DC") {
+                    const ability = character.get_AbilityBoosts(1, 1, "", "", "Class Key Ability")[0]?.name;
+                    this._ability.set(creature.type + "-" + character.level, { value: ability, cached: Date.now() });
+                    return ability;
+                } else if (this.name.includes(" Class DC") && !this.name.includes(character.class.name)) {
+                    const ability = character.get_AbilityBoosts(1, character.level, "", "", this.name.split(" ")[0] + " Key Ability")[0]?.name;
+                    this._ability.set(creature.type + "-" + character.level, { value: ability, cached: Date.now() });
+                    return ability;
                 }
             }
         }
@@ -136,29 +171,49 @@ export class Skill {
         if (characterService.still_loading()) { return 0; }
         let effectsService = characterService.effectsService;
         let skillLevel: number = 0;
-        //If the skill is set by an effect, we can skip every other calculation.
-        let list: string[] = [];
-        list.push(this.name + " Proficiency Level");
+        let relevantSkillList: string[] = [this.name];
+        if (this.name.includes("Innate") && this.name.includes("Spell DC")) {
+            relevantSkillList.push("Any Spell DC");
+        }
+        let effectTargetList: string[] = [this.name + " Proficiency Level"];
         switch (this.type) {
             case "Skill":
-                list.push("All Skill Proficiency Levels")
+                effectTargetList.push("All Skill Proficiency Levels")
                 break;
             case "Save":
-                list.push("All Saving Throw Proficiency Levels")
+                effectTargetList.push("All Saving Throw Proficiency Levels")
                 break;
             case "Weapon Proficiency":
-                list.push("All Weapon Proficiency Levels")
+                effectTargetList.push("All Weapon Proficiency Levels")
                 break;
             case "Specific Weapon Proficiency":
-                list.push("All Weapon Proficiency Levels")
+                effectTargetList.push("All Weapon Proficiency Levels")
                 break;
             case "Armor Proficiency":
-                list.push("All Armor Proficiency Levels")
+                effectTargetList.push("All Armor Proficiency Levels")
                 break;
         }
-        let skillLevelEffects = effectsService.get_AbsolutesOnThese(creature, list);
-        if (skillLevelEffects.length) {
-            skillLevelEffects.forEach(effect => {
+        const cachedLevel = this._level.get(creature.type + "-" + charLevel + "-" + excludeTemporary);
+        if (cachedLevel) {
+            const checkList = {
+                skills: relevantSkillList.map(name => {
+                    return { name: name, cached: cachedLevel.cached }
+                }),
+                effects: effectTargetList.map(name => {
+                    return { name: name, cached: cachedLevel.cached }
+                }),
+                proficiencyCopies: cachedLevel.cached,
+                level: creature.type == "Companion" ? cachedLevel.cached : 0
+            }
+            if (!characterService.cacheService.get_HasChanged(checkList, {creatureTypeId: creature.typeId, level: charLevel, name: "Skill Level: " + this.name})) {
+                //If none of the dependencies have changed, return the cached value.
+                return cachedLevel.value;
+            }
+        }
+        const absoluteEffects = excludeTemporary ? [] : effectsService.get_AbsolutesOnThese(creature, effectTargetList);
+        if (absoluteEffects.length) {
+            //If the skill is set by an effect, we can skip every other calculation.
+            absoluteEffects.forEach(effect => {
                 skillLevel = parseInt(effect.setValue);
             })
         } else {
@@ -176,7 +231,7 @@ export class Skill {
             let proficiencyCopies: ProficiencyCopy[] = [];
             //Collect all the available proficiency copy instructions,
             // (i.e. "Whenever you gain a class feature that grants you expert or greater proficiency in a given weapon or weapons, you also gain that proficiency in...").
-            //We check whether you meet the minimum proficiency level by comparing if your skillLevel up to this point.
+            //We check whether you meet the minimum proficiency level for the copy by comparing your skillLevel up to this point.
             characterService.get_CharacterFeatsAndFeatures()
                 .filter(feat => feat.copyProficiency.length && feat.have(creature, characterService, charLevel))
                 .forEach(feat => {
@@ -204,28 +259,20 @@ export class Skill {
             skillLevel = Math.max(...copyLevels, skillLevel);
         }
         //Add any relative proficiency level bonuses.
-        skillLevelEffects = effectsService.get_RelativesOnThese(creature, list);
-        skillLevelEffects.forEach(effect => {
-            if ([-8, -6, -4, -2, 2, 4, 6].includes(parseInt(effect.value))) {
+        const relativeEffects = excludeTemporary ? [] : effectsService.get_RelativesOnThese(creature, effectTargetList);
+        relativeEffects.forEach(effect => {
+            if ([-8, -6, -4, -2, 2, 4, 6, 8].includes(parseInt(effect.value))) {
                 skillLevel += parseInt(effect.value);
             }
         })
         skillLevel = Math.max(Math.min(skillLevel, 8), 0);
+        this._level.set(creature.type + "-" + charLevel + "-" + excludeTemporary, { value: skillLevel, cached: Date.now() });
         return skillLevel;
     }
     baseValue(creature: Creature, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level, skillLevel: number = undefined) {
         let result: number = 0;
         let explain: string = "";
-        let index = 0;
         let ability = "";
-        switch (creature.type) {
-            case "Companion":
-                index = 1;
-                break;
-            case "Familiar":
-                index = 2;
-                break;
-        }
         if (!characterService.still_loading()) {
             if (creature.type == "Familiar") {
                 //Familiars have special rules:

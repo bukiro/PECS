@@ -8,11 +8,40 @@ import { ExtensionsService } from 'src/app/services/extensions.service';
 })
 export class SkillsService {
     private skills: Skill[] = [];
+    private tempSkills: Skill[] = [];
     private loading: boolean = true;
 
     constructor(
         private extensionsService: ExtensionsService
     ) { }
+
+    get_TempSkill(name: string = "", filter: { ability?: string, type?: string, locked?: boolean, recallKnowledge?: boolean }): Skill {
+        filter = Object.assign({
+            ability: "",
+            type: "",
+            locked: undefined,
+            recallKnowledge: undefined
+        })
+        const skill = this.tempSkills.find(skill =>
+            (
+                skill.name.toLowerCase().includes(name.toLowerCase())
+            ) && (
+                filter.ability ? skill.ability.toLowerCase() == filter.ability.toLowerCase() : true
+            ) && (
+                filter.type ? skill.type.toLowerCase() == filter.type.toLowerCase() : true
+            ) && (
+                filter.locked != undefined ? skill.locked == filter.locked : true
+            ) && (
+                filter.recallKnowledge != undefined ? skill.recallKnowledge == filter.recallKnowledge : true
+            )
+        )
+        if (skill) {
+            return skill;
+        } else {
+            const newLength = this.tempSkills.push(new Skill(filter.ability, name, filter.type, filter.locked, filter.recallKnowledge));
+            return this.tempSkills[newLength - 1];
+        }
+    }
 
     get_Skills(customSkills: Skill[], name: string = "", type: string = "", locked: boolean = undefined) {
         if (!this.still_loading()) {
@@ -25,7 +54,8 @@ export class SkillsService {
                         type ? skill.type.toLowerCase() == type.toLowerCase() : true
                     ) && (
                         locked != undefined ? skill.locked == locked : true
-                    ));
+                    )
+                );
             }
             return skills.filter(skill =>
                 (
@@ -51,12 +81,13 @@ export class SkillsService {
     }
 
     initialize() {
-        //Initialize only once.
+        //Initialize only once, but clear temp skills at every load.
         if (!this.skills.length) {
             this.loading = true;
             this.load_Skills();
             this.loading = false;
         }
+        this.tempSkills.length = 0;
     }
 
     load_Skills() {

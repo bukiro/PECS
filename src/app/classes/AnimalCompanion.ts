@@ -14,15 +14,15 @@ import { Hint } from 'src/app/classes/Hint';
 export class AnimalCompanion extends Creature {
     public class: AnimalCompanionClass = new AnimalCompanionClass();
     public customSkills: Skill[] = [
-        Object.assign(new Skill(), { name: "Light Barding", type: "Armor Proficiency" }),
-        Object.assign(new Skill(), { name: "Heavy Barding", type: "Armor Proficiency" })
+        new Skill("", "Light Barding", "Armor Proficiency"),
+        new Skill("", "Heavy Barding", "Armor Proficiency")
     ];
     public species: string = "";
     public readonly type = "Companion";
+    readonly typeId = 1;
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService)
         this.class = Object.assign(new AnimalCompanionClass(), this.class).recast();
-        this.customSkills = this.customSkills.map(obj => Object.assign(new Skill(), obj).recast());
         return this;
     }
     get_BaseSize() {
@@ -63,14 +63,35 @@ export class AnimalCompanion extends Creature {
         }
     }
     set_Level(characterService: CharacterService) {
-        let character = characterService.get_Character();
         //Get all taken feats at this character level that grow the animal companion, then set the companion level to the highest option (or 1).
-        //Level 3 is a placeholder, Levels 4 and 5 are Nimble and Savage - when you take a feat with growAnimalCompanion other than "Young" or "Specialized",
-        //  level 3 gets replaced with that level.
-        //  That means that level 3 is the highest we need to go, as Nimble, Savage or other avanced options will be placed there.
+        //Level 3 is a placeholder, Levels 4 and 5 are Nimble and Savage - 
+        //  when you take a feat with gainAnimalCompanion other than "Young", "Mature" or "Specialized", level 3 gets replaced with that level.
+        //  That means that level 3 is the highest we need to go, as Nimble, Savage or other advanced options will be placed there.
+        let character = characterService.get_Character();
+        let advancedOption = "";
         this.level = Math.min(3, Math.max(1, ...characterService.get_CharacterFeatsAndFeatures()
             .filter(feat => feat.gainAnimalCompanion && feat.have(character, characterService, character.level))
-            .map(feat => { switch (feat.gainAnimalCompanion) { case "Young": return 1; case "Mature": return 2; default: return 3; } })));
+            .map(feat => {
+                switch (feat.gainAnimalCompanion) {
+                    case "Young":
+                        return 1;
+                    case "Mature":
+                        return 2;
+                    default:
+                        advancedOption = feat.gainAnimalCompanion;
+                        return 3;
+                }
+            })
+        ));
+        if (advancedOption && (this.class.levels[3].name != advancedOption)) {
+            this.class.levels[3] = Object.assign(new AnimalCompanionLevel(), this.class.levels.find(level => level.name == advancedOption)).recast();
+            this.class.levels[3].number = 3;
+        } else if (!advancedOption && (this.class.levels[2].name != "Placeholder")) {
+            this.class.levels[3] = new AnimalCompanionLevel();
+            this.class.levels[3].number = 3;
+            this.class.levels[3].name = "Placeholder";
+        }
+        characterService.cacheService.set_LevelChanged({ creatureTypeId: 1, minLevel: 0 });
         characterService.refreshService.set_ToChange("Companion", "all");
     }
     get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string = "", type: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
@@ -122,10 +143,10 @@ export class AnimalCompanion extends Creature {
                 .forEach(level => {
                     level.skillChoices.forEach(choice => {
                         choice.increases.filter(increase =>
-                            (increase.name == skillName || skillName == "") &&
-                            (increase.source == source || source == "") &&
-                            (increase.sourceId == sourceId || sourceId == "") &&
-                            (increase.locked == locked || locked == undefined)
+                            (!skillName || increase.name == skillName) &&
+                            (!source || increase.source == source) &&
+                            (!sourceId || increase.sourceId == sourceId) &&
+                            (locked == undefined || increase.locked == locked)
                         ).forEach(increase => {
                             increases.push(increase);
                         })
@@ -134,26 +155,26 @@ export class AnimalCompanion extends Creature {
             if (this.class.ancestry.name) {
                 this.class.ancestry.skillChoices.forEach(choice => {
                     choice.increases.filter(increase =>
-                        (increase.name == skillName || skillName == "") &&
-                        (increase.source == source || source == "") &&
-                        (increase.sourceId == sourceId || sourceId == "") &&
-                        (increase.locked == locked || locked == undefined)
+                        (!skillName || increase.name == skillName) &&
+                        (!source || increase.source == source) &&
+                        (!sourceId || increase.sourceId == sourceId) &&
+                        (locked == undefined || increase.locked == locked)
                     ).forEach(increase => {
                         increases.push(increase);
                     })
                 })
             }
-            //When specializations are checked for skill increases, we want to be certain we don't get a specialization that is taken on a higher character level (maxLevelNumber)
+            //When specializations are checked for skill increases, we want to be certain we don't get a specialization that is taken on a higher character level (maxLevelNumber).
             let specializations: (AnimalCompanionSpecialization)[] = this.class.specializations.filter(spec => spec.level >= minLevelNumber && spec.level <= maxLevelNumber);
             //Only the first specialization may add the "First specialization" increases.
             specializations.forEach((spec: AnimalCompanionSpecialization, index) => {
                 spec.skillChoices.forEach(choice => {
                     if ((choice.source == "First specialization") ? index == 0 : true) {
                         choice.increases.filter(increase =>
-                            (increase.name == skillName || skillName == "") &&
-                            (increase.source == source || source == "") &&
-                            (increase.sourceId == sourceId || sourceId == "") &&
-                            (increase.locked == locked || locked == undefined)
+                            (!skillName|| increase.name == skillName) &&
+                            (!source || increase.source == source) &&
+                            (!sourceId || increase.sourceId == sourceId) &&
+                            (locked == undefined || increase.locked == locked)
                         ).forEach(increase => {
                             increases.push(increase);
                         });

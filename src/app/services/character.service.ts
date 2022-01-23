@@ -71,6 +71,7 @@ import { EvaluationService } from 'src/app/services/evaluation.service';
 import { EffectsGenerationService } from 'src/app/services/effectsGeneration.service';
 import { CustomEffectsService } from 'src/app/services/customEffects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { CacheService } from 'src/app/services/cache.service';
 
 @Injectable({
     providedIn: 'root'
@@ -100,7 +101,7 @@ export class CharacterService {
         private extensionsService: ExtensionsService,
         private savegameService: SavegameService,
         public abilitiesService: AbilitiesService,
-        private skillsService: SkillsService,
+        public skillsService: SkillsService,
         public classesService: ClassesService,
         public featsService: FeatsService,
         public traitsService: TraitsService,
@@ -122,6 +123,7 @@ export class CharacterService {
         private effectsGenerationService: EffectsGenerationService,
         private customEffectsService: CustomEffectsService,
         public refreshService: RefreshService,
+        public cacheService: CacheService,
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig,
     ) {
@@ -1996,6 +1998,10 @@ export class CharacterService {
         return this.skillsService.get_Skills(creature.customSkills, name, type, locked)
     }
 
+    get_TempSkill(name: string = "", filter: { ability?: string, type?: string, locked?: boolean, recallKnowledge?: boolean }) {
+        return this.skillsService.get_TempSkill(name, filter);
+    }
+
     get_SkillLevelName(level: number, short: boolean = false) {
         return this.skillsService.get_SkillLevelName(level, short);
     }
@@ -2436,11 +2442,12 @@ export class CharacterService {
 
     initialize_AnimalCompanion() {
         let character = this.get_Character();
+        this.cacheService.reset_CreatureCache(1);
         if (character.class.animalCompanion) {
             character.class.animalCompanion = Object.assign(new AnimalCompanion(), character.class.animalCompanion).recast(this.typeService, this.itemsService);
-            character.class.animalCompanion.set_Level(this);
+            character.class.animalCompanion.class.levels = this.get_AnimalCompanionLevels();
             this.equip_BasicItems(character.class.animalCompanion);
-            this.refreshService.set_ToChange("Companion", "all");
+            character.class.animalCompanion.set_Level(this);
         }
     }
 
@@ -2452,6 +2459,7 @@ export class CharacterService {
 
     initialize_Familiar() {
         let character = this.get_Character();
+        this.cacheService.reset_CreatureCache(2);
         if (character.class.familiar) {
             character.class.familiar = Object.assign(new Familiar(), character.class.familiar).recast(this.typeService, this.itemsService);
             this.refreshService.set_ToChange("Familiar", "all");
@@ -2460,6 +2468,7 @@ export class CharacterService {
 
     initialize(id: string, loadAsGM: boolean = false) {
         this.loading = true;
+        this.cacheService.initialize();
         this.refreshService.initialize();
         this.set_LoadingStatus("Loading extensions");
         this.extensionsService.initialize();

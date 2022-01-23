@@ -45,7 +45,6 @@ export class TraitsService {
                     (
                         trait.dynamic &&
                         traitName.includes(trait.name + " ")
-
                     )
                 )
             if (traits.length) {

@@ -31,7 +31,8 @@ import { TypeService } from 'src/app/services/type.service';
 import { Hint } from 'src/app/classes/Hint';
 
 export class Character extends Creature {
-    readonly type = "Character";
+    public readonly type = "Character";
+    public readonly typeId = 0;
     public appVersionMajor: number = 0;
     public appVersion: number = 0;
     public appVersionMinor: number = 0;
@@ -42,7 +43,6 @@ export class Character extends Creature {
     public cash: number[] = [0, 15, 0, 0];
     public class: Class = new Class();
     public customFeats: Feat[] = [];
-    public customSkills: Skill[] = [];
     public heroPoints: number = 1;
     //Characters get one extra inventory for worn items.
     public inventories: ItemCollection[] = [new ItemCollection(), new ItemCollection(2)];
@@ -55,7 +55,6 @@ export class Character extends Creature {
         super.recast(typeService, itemsService);
         this.class = Object.assign(new Class(), this.class).recast(typeService, itemsService);
         this.customFeats = this.customFeats.map(obj => Object.assign(new Feat(), obj).recast());
-        this.customSkills = this.customSkills.map(obj => Object.assign(new Skill(), obj).recast());
         this.settings = Object.assign(new Settings(), this.settings);
         return this;
     }
@@ -337,11 +336,15 @@ export class Character extends Creature {
         this.process_Skill(characterService, skillName, train, choice, locked);
     }
     process_Skill(characterService: CharacterService, skillName: string, train: boolean, choice: SkillChoice, locked: boolean) {
+        const level = parseInt(choice.id.split("-")[0]);
+        characterService.cacheService.set_SkillChanged(skillName, { creatureTypeId: 0, minLevel: level });
+        if (skillName.toLowerCase().includes("spell dc")) {
+            characterService.cacheService.set_SkillChanged("Any Spell DC", { creatureTypeId: 0, minLevel: level });
+        }
         characterService.refreshService.set_ToChange("Character", "individualskills", skillName);
         characterService.refreshService.set_ToChange("Character", "skillchoices", skillName);
         if (train) {
             //The skill that you increase with Skilled Heritage at level 1 automatically gets increased at level 5 as well.
-            let level = parseInt(choice.id.split("-")[0]);
             if (level == 1 && choice.source == "Skilled Heritage") {
                 let newChoice = this.add_SkillChoice(characterService.get_Level(5), Object.assign(new SkillChoice(), {
                     available: 0,
@@ -480,7 +483,6 @@ export class Character extends Creature {
             characterService.refreshService.set_ToChange("Character", "effects");
         } else {
             //If you are deselecting a skill that you increased with Skilled Heritage at level 1, you also lose the skill increase at level 5.
-            let level = parseInt(choice.id.split("-")[0]);
             if (level == 1 && choice.source == "Skilled Heritage") {
                 characterService.get_Level(5).skillChoices = characterService.get_Level(5).skillChoices.filter(choice => choice.source != "Skilled Heritage");
             }

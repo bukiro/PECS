@@ -11,6 +11,7 @@ import { TypeService } from 'src/app/services/type.service';
 
 export class Familiar extends Creature {
     public readonly type = "Familiar";
+    public readonly typeId = 2;
     public abilities: FeatChoice = Object.assign(new FeatChoice, {
         available: 2,
         id: "0-Feat-Familiar-0",
@@ -18,7 +19,7 @@ export class Familiar extends Creature {
         type: "Familiar"
     });
     public customSkills: Skill[] = [
-        Object.assign(new Skill(), { name: "Attack Rolls", type: "Familiar Proficiency" })
+        new Skill("", "Attack Rolls", "Familiar Proficiency")
     ];
     public originClass: string = "";
     public senses: string[] = ["Low-Light Vision"];
@@ -27,7 +28,6 @@ export class Familiar extends Creature {
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
         this.abilities = Object.assign(new FeatChoice(), this.abilities).recast();
-        this.customSkills = this.customSkills.map(obj => Object.assign(new Skill(), obj).recast());
         return this;
     }
     get_BaseSize() {

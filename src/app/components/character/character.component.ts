@@ -42,6 +42,7 @@ import { ConfigService } from 'src/app/services/config.service';
 import { default as package_json } from 'package.json';
 import { FeatData } from 'src/app/classes/FeatData';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { CacheService } from 'src/app/services/cache.service';
 
 @Component({
     selector: 'app-character',
@@ -85,6 +86,7 @@ export class CharacterComponent implements OnInit {
         private savegameService: SavegameService,
         private traitsService: TraitsService,
         private familiarsService: FamiliarsService,
+        private cacheService: CacheService,
         private modalService: NgbModal,
         public modal: NgbActiveModal
     ) { }
@@ -481,7 +483,7 @@ export class CharacterComponent implements OnInit {
     on_LevelChange(oldLevel: number) {
         let character = this.get_Character();
         let newLevel = character.level;
-        //If we went up levels, repeat any onceEffects of Feats that apply inbetween, such as recovering Focus Points for a larger Focus Pool
+        //If we went up levels, repeat any onceEffects of Feats that apply inbetween, such as recovering Focus Points for a larger Focus Pool.
         if (newLevel > oldLevel) {
             this.get_CharacterFeatsAndFeatures().filter(feat => feat.onceEffects.length && feat.have(character, this.characterService, newLevel, true, false, oldLevel + 1))
                 .forEach(feat => {
@@ -504,9 +506,12 @@ export class CharacterComponent implements OnInit {
         })
         character.class.levels.forEach(level => {
             level.featChoices.forEach(choice => {
-                if (choice.dynamicLevel) {
+                if (choice.showOnCurrentLevel) {
                     this.refreshService.set_ToChange("Character", "featchoices");
                 }
+                choice.feats.forEach(taken => {
+                    this.cacheService.set_FeatChanged(taken.name, { creatureTypeId: 0, minLevel: lowerLevel, maxLevel: higherLevel })
+                })
             })
         })
         this.refreshService.set_ToChange("Character", "charactersheet");
@@ -517,20 +522,22 @@ export class CharacterComponent implements OnInit {
         this.refreshService.set_ToChange("Character", "defense");
         this.refreshService.set_ToChange("Character", "attacks");
         this.refreshService.set_ToChange("Character", "general");
-        this.refreshService.set_ToChange("Character", "individualskills", "all");
         this.refreshService.set_ToChange("Character", "individualspells", "all");
         this.refreshService.set_ToChange("Character", "activities");
         this.refreshService.set_ToChange("Character", "spells");
         this.refreshService.set_ToChange("Character", "spellbook");
-        if (character.get_AbilityBoosts(lowerLevel, higherLevel).length) {
+        character.get_AbilityBoosts(lowerLevel, higherLevel).forEach(boost => {
             this.refreshService.set_ToChange("Character", "abilities");
-        }
-        if (character.get_SkillIncreases(this.characterService, lowerLevel, higherLevel)) {
+            this.cacheService.set_AbilityChanged(boost.name, { creatureTypeId: 0, minLevel: lowerLevel });
+        })
+        character.get_SkillIncreases(this.characterService, lowerLevel, higherLevel).forEach(increase => {
             this.refreshService.set_ToChange("Character", "skillchoices");
-            this.refreshService.set_ToChange("Character", "skills");
-        }
+            this.refreshService.set_ToChange("Character", "individualSkills", increase.name);
+            this.cacheService.set_SkillChanged(increase.name, { creatureTypeId: 0, minLevel: lowerLevel });
+        })
         this.get_CharacterFeatsAndFeatures().filter(feat => feat.have(character, this.characterService, higherLevel, true, false, lowerLevel))
             .forEach(feat => {
+                this.cacheService.set_FeatChanged(feat.name, { creatureTypeId: 0, minLevel: lowerLevel })
                 this.refreshService.set_HintsToChange(character, feat.hints, { characterService: this.characterService });
                 if (feat.gainAbilityChoice.length) {
                     this.refreshService.set_ToChange("Character", "abilities");
@@ -546,13 +553,13 @@ export class CharacterComponent implements OnInit {
                     this.refreshService.set_ToChange("Character", "general");
                 }
             });
-        //Reload spellbook if spells were learned between the levels
+        //Reload spellbook if spells were learned between the levels,
         if (character.get_SpellsLearned().some(learned => learned.level >= lowerLevel && learned.level <= higherLevel)) {
             this.refreshService.set_ToChange("Character", "spellbook");
-            //if spells were taken between the levels
+            //if spells were taken between the levels,
         } else if (character.get_SpellsTaken(this.characterService, lowerLevel, higherLevel).length) {
             this.refreshService.set_ToChange("Character", "spellbook");
-            //if any spells have a dynamic level dependent on the character level
+            //if any spells have a dynamic level dependent on the character level,
         } else if (character.get_SpellsTaken(this.characterService, 0, 20).some(taken => taken.choice.dynamicLevel.toLowerCase().includes("level"))) {
             this.refreshService.set_ToChange("Character", "spellbook");
             //or if you have the cantrip connection or spell battery familiar ability.
@@ -1280,8 +1287,13 @@ export class CharacterComponent implements OnInit {
     on_NewCompanion() {
         if (this.characterService.get_Character().class.animalCompanion) {
             let character = this.characterService.get_Character();
+            //Keep the specializations and ID; When the animal companion is reset, any later feats and specializations still remain, and foreign effects still need to apply.
+            const id = character.class.animalCompanion.id;
+            const specializations: AnimalCompanionSpecialization[] = character.class.animalCompanion.class.specializations;
             character.class.animalCompanion = new AnimalCompanion();
             character.class.animalCompanion.class = new AnimalCompanionClass();
+            if (id) { character.class.animalCompanion.id = id; }
+            if (specializations.length) { character.class.animalCompanion.class.specializations = specializations; }
             this.characterService.initialize_AnimalCompanion();
             this.refreshService.process_ToChange();
         }
@@ -1306,6 +1318,7 @@ export class CharacterComponent implements OnInit {
             this.animalCompanionsService.change_Type(this.get_Companion(), new AnimalCompanionAncestry());
         }
         this.refreshService.set_ToChange("Companion", "all");
+        this.cacheService.set_LevelChanged({ creatureTypeId: 1, minLevel: 0 });
         this.refreshService.process_ToChange();
     }
 
@@ -1322,6 +1335,7 @@ export class CharacterComponent implements OnInit {
         this.refreshService.set_ToChange("Companion", "skills");
         this.refreshService.set_ToChange("Companion", "attacks");
         this.refreshService.set_ToChange("Companion", "defense");
+        this.cacheService.set_LevelChanged({ creatureTypeId: 1, minLevel: 0 });
         this.refreshService.process_ToChange();
     }
 
@@ -1368,11 +1382,13 @@ export class CharacterComponent implements OnInit {
     on_NewFamiliar() {
         if (this.get_Character().class.familiar) {
             let character = this.characterService.get_Character();
-            //Preserve the origin class and set it again after resetting
-            let originClass = character.class.familiar.originClass;
+            //Preserve the origin class and set it again after resetting. Also preserve the ID so that old foreign effects still match.
+            const originClass = character.class.familiar.originClass;
+            const id = character.class.familiar.id;
             this.characterService.cleanup_Familiar();
             character.class.familiar = new Familiar();
-            character.class.familiar.originClass = originClass;
+            if (originClass) { character.class.familiar.originClass = originClass; }
+            if (id) { character.class.familiar.id = id; }
             this.characterService.initialize_Familiar();
             this.refreshService.process_ToChange();
         }

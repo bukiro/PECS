@@ -15,7 +15,6 @@ import { Character } from 'src/app/classes/Character';
 import { Speed } from 'src/app/classes/Speed';
 import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
 import { Heritage } from 'src/app/classes/Heritage';
-import { ItemGain } from 'src/app/classes/ItemGain';
 import * as json_feats from 'src/assets/json/feats';
 import * as json_features from 'src/assets/json/features';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
@@ -216,22 +215,17 @@ export class FeatsService {
 
     process_Feat(creature: Character | Familiar, characterService: CharacterService, feat: Feat, gain: FeatTaken, choice: FeatChoice, level: Level, taken: boolean): void {
         const character = characterService.get_Character();
-        //Get feats and features via the characterService in order to include custom feats
-        let feats: Feat[] = [];
         const featName = gain?.name || feat?.name || "";
-        if (feat) {
-            feats = [feat];
-        } else if (featName) {
+        if (!feat && featName) {
             if (creature.type == "Familiar") {
-                feats = characterService.familiarsService.get_FamiliarAbilities(featName);
+                feat = characterService.familiarsService.get_FamiliarAbilities(featName)[0];
             } else {
-                //Use characterService.get_FeatsAndFeatueres() instead of this.get_All(), because it automatically checks the character's custom feats.
-                feats = characterService.get_FeatsAndFeatures(featName);
+                //Use characterService.get_FeatsAndFeatures() instead of this.get_All(), because it automatically checks the character's custom feats.
+                feat = characterService.get_FeatsAndFeatures(featName)[0];
             }
         }
 
-        if (feats.length) {
-            const feat = feats[0];
+        if (feat) {
 
             //If the character takes a feat, add it to the runtime list of all of the character's feats.
             // If it is removed, remove it from the list. The function checks for feats that may have been taken multiple times and keeps them.
@@ -530,12 +524,12 @@ export class FeatsService {
             if (feat.gainItems.length) {
                 if (taken) {
                     feat.gainItems.filter(freeItem => freeItem.on == "grant").forEach(freeItem => {
-                        freeItem.grant_GrantedItem(character, {}, {characterService: characterService, itemsService: characterService.itemsService})
+                        freeItem.grant_GrantedItem(character, {}, { characterService: characterService, itemsService: characterService.itemsService })
                         freeItem.grantedItemID = "";
                     });
                 } else {
                     feat.gainItems.filter(freeItem => freeItem.on == "grant").forEach(freeItem => {
-                        freeItem.drop_GrantedItem(character, {requireGrantedItemID: false}, {characterService: characterService});
+                        freeItem.drop_GrantedItem(character, { requireGrantedItemID: false }, { characterService: characterService });
                     });
                 }
             }
@@ -657,24 +651,10 @@ export class FeatsService {
                 this.refreshService.set_ToChange("Character", "top-bar");
             }
 
-            //Feats that level up the animal companion to Mature, Nimble or Savage (or another advanced option).
-            if (feat.gainAnimalCompanion && !["Young", "Mature", "Specialized"].includes(feat.gainAnimalCompanion) && characterService.get_Companion()) {
+            //Feats that level up the animal companion to Mature or an advanced option (like Nimble or Savage).
+            if (feat.gainAnimalCompanion && !["Young", "Specialized"].includes(feat.gainAnimalCompanion) && characterService.get_Companion()) {
                 const companion = characterService.get_Companion();
-                if (companion.class.levels.length) {
-                    if (taken) {
-                        if (!["Young", "Specialized"].includes(feat.gainAnimalCompanion)) {
-                            companion.class.levels[3] = Object.assign(new AnimalCompanionLevel(), companion.class.levels.find(level => level.name == feat.gainAnimalCompanion)).recast();
-                            companion.class.levels[3].number = 3;
-                        }
-                    } else {
-                        if (!["Young", "Specialized"].includes(feat.gainAnimalCompanion)) {
-                            companion.class.levels[3] = new AnimalCompanionLevel();
-                            companion.class.levels[3].number = 3;
-                            companion.class.levels[3].name = "Placeholder";
-                        }
-                    }
-                    companion.set_Level(characterService);
-                }
+                companion.set_Level(characterService);
                 this.refreshService.set_ToChange("Companion", "all");
             }
 
@@ -682,7 +662,7 @@ export class FeatsService {
             if (feat.gainAnimalCompanion == "Specialized") {
                 const companion = characterService.get_Companion();
                 if (!taken) {
-                    //Remove the latest specialization chosen on this level, only if all choices are taken
+                    //Remove the latest specialization chosen on this level, only if all choices are taken.
                     const specializations = companion.class.specializations.filter(spec => spec.level == level.number);
                     if (specializations.length) {
                         if (specializations.length >= characterService.get_CharacterFeatsTaken(level.number, level.number)
@@ -1006,6 +986,8 @@ export class FeatsService {
 
             //  Updating Components
 
+            characterService.cacheService.set_FeatChanged(feat.name, { creatureTypeId: creature.typeId, minLevel: level.number, maxLevel: 20 });
+
             //Familiar abilities should update the familiar's general information.
             if (creature.type == "Familiar") {
                 this.refreshService.set_ToChange(creature.type, "general");
@@ -1033,9 +1015,15 @@ export class FeatsService {
             }
 
             //Feats that grant specializations or change proficiencies need to update defense and attacks.
-            if (feat.gainSpecialization || feat.changeProficiency.length || feat.copyProficiency.length) {
+            if (feat.gainSpecialization || feat.copyProficiency.length || feat.changeProficiency.length) {
                 this.refreshService.set_ToChange(creature.type, "defense");
                 this.refreshService.set_ToChange(creature.type, "attacks");
+                if (feat.changeProficiency.length) {
+                    characterService.cacheService.set_ProficiencyChangesChanged({ creatureTypeId: creature.typeId, minLevel: level.number, maxLevel: 20 });
+                }
+                if (feat.copyProficiency.length) {
+                    characterService.cacheService.set_ProficiencyCopiesChanged({ creatureTypeId: creature.typeId, minLevel: level.number, maxLevel: 20 });
+                }
                 feat.changeProficiency.forEach(change => {
                     if (change.name) { this.refreshService.set_ToChange(creature.type, "individualskills", change.name); }
                     if (change.group) { this.refreshService.set_ToChange(creature.type, "individualskills", change.group); }

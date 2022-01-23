@@ -22,6 +22,7 @@ import { Snare } from 'src/app/classes/Snare';
 import { TraitsService } from 'src/app/services/traits.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
+import { CacheService } from 'src/app/services/cache.service';
 
 @Injectable({
     providedIn: 'root'
@@ -35,7 +36,8 @@ export class RefreshService {
     private viewChanged: BehaviorSubject<{ creature: string, target: string, subtarget: string }> = new BehaviorSubject<{ creature: string, target: string, subtarget: string }>({ target: "", creature: "", subtarget: "" });
 
     constructor(
-        private traitsService: TraitsService
+        private traitsService: TraitsService,
+        private cacheService: CacheService
     ) { }
 
     get get_Changed(): Observable<string> {
@@ -361,6 +363,10 @@ export class RefreshService {
 
         //Update various components depending on effect targets.
         this.set_ToChangeByEffectTargets(changedEffects.map(effect => effect.target), context);
+
+        changedEffects.forEach(effect => {
+            this.cacheService.set_EffectChanged(effect.target, { creatureTypeId: context.creature.typeId });
+        })
 
         //If any equipped weapon is affected, update attacks, and if any equipped armor or shield is affected, update defense.
         if (context.creature.inventories[0].weapons.some(weapon => weapon.equipped && changedEffects.some(effect => effect.target.toLowerCase() == weapon.name.toLowerCase()))) {

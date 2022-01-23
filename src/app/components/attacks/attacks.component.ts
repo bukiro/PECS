@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Input } from '@angular/core';
 import { Weapon } from 'src/app/classes/Weapon';
 import { TraitsService } from 'src/app/services/traits.service';
 import { CharacterService } from 'src/app/services/character.service';
@@ -22,6 +22,7 @@ import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
 import { Hint } from 'src/app/classes/Hint';
 import { DeitiesService } from 'src/app/services/deities.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-attacks',
@@ -29,7 +30,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     styleUrls: ['./attacks.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AttacksComponent implements OnInit {
+export class AttacksComponent implements OnInit, OnDestroy {
 
     @Input()
     public creature: string = "Character";
@@ -554,17 +555,20 @@ export class AttacksComponent implements OnInit {
         return [];
     }
 
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
     finish_Loading() {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["attacks", "all", this.creature.toLowerCase()].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["attacks", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
@@ -576,6 +580,11 @@ export class AttacksComponent implements OnInit {
 
     ngOnInit() {
         this.finish_Loading();
+    }
+
+    ngOnDestroy() {
+        this.changeSubscription.unsubscribe();
+        this.viewChangeSubscription.unsubscribe();
     }
 
 }
