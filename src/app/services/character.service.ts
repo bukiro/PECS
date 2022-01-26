@@ -1994,12 +1994,8 @@ export class CharacterService {
         return this.abilitiesService.get_Abilities(name)
     }
 
-    get_Skills(creature: Creature, name: string = "", type: string = "", locked: boolean = undefined) {
-        return this.skillsService.get_Skills(creature.customSkills, name, type, locked)
-    }
-
-    get_TempSkill(name: string = "", filter: { ability?: string, type?: string, locked?: boolean, recallKnowledge?: boolean }) {
-        return this.skillsService.get_TempSkill(name, filter);
+    public get_Skills(creature: Creature, name: string = "", filter: {type?: string, locked?: boolean} = {}, options: {noSubstitutions?: boolean} = {}): Skill[] {
+        return this.skillsService.get_Skills(creature.customSkills, name, filter, options);
     }
 
     get_SkillLevelName(level: number, short: boolean = false) {

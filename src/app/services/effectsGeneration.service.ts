@@ -187,7 +187,7 @@ export class EffectsGenerationService {
                 return title || toggle || setValue || parseInt(value) != 0;
             }
             if (functionalEffect()) {
-                objectEffects.push(Object.assign(new Effect(value), {creature: target, type: type, target: affected, setValue: setValue, toggle: toggle, title: title, source: source, penalty: penalty, show: show, duration: effect.duration, maxDuration: effect.maxDuration, cumulative: effect.cumulative}));
+                objectEffects.push(Object.assign(new Effect(value), { creature: target, type: type, target: affected, setValue: setValue, toggle: toggle, title: title, source: source, penalty: penalty, show: show, duration: effect.duration, maxDuration: effect.maxDuration, cumulative: effect.cumulative }));
             }
         });
         return objectEffects;
@@ -383,7 +383,7 @@ export class EffectsGenerationService {
             function strengthRequirementMatched() {
                 return strength >= armor.get_Strength();
             }
-            if (!strengthRequirementMatched) {
+            if (!strengthRequirementMatched()) {
                 if (skillPenalty) {
                     //You are not strong enough to act freely in this armor.
                     //If the item has the Flexible trait, its penalty doesn't apply to Acrobatics and Athletics.
@@ -438,10 +438,10 @@ export class EffectsGenerationService {
 
     private generate_ShieldEffects(shield: Shield, services: { readonly characterService: CharacterService }, context: { readonly creature: Creature }): Effect[] {
         //Get shield bonuses from raised shields
-        //If a shield is raised, add its circumstance bonus to AC with a + in front.
+        //If a shield is raised, add its circumstance bonus to AC with a + in front, but subtract 2 if it's shoddy.
         let itemEffects: Effect[] = [];
-        function add_Effect(options: { type: "circumstance" | "untyped", target: string, value: string, source: string, penalty: boolean, apply: boolean }): void {
-            itemEffects.push(Object.assign(new Effect(options.value), {creature: context.creature.id, type: options.type, target: options.target, source: options.source, penalty: options.penalty, apply: options.apply}));
+        function add_Effect(options: { type: "circumstance" | "untyped" | "item", target: string, value: string, source: string, penalty: boolean, apply: boolean }): void {
+            itemEffects.push(Object.assign(new Effect(options.value), { creature: context.creature.id, type: options.type, target: options.target, source: options.source, penalty: options.penalty, apply: options.apply }));
         }
         const name = shield.get_Name();
         function shieldBonusApplies() {
@@ -451,6 +451,9 @@ export class EffectsGenerationService {
             const shieldBonus = shield.get_ACBonus();
             if (shieldBonus) {
                 add_Effect({ type: "circumstance", target: "AC", value: "+" + shieldBonus, source: name, penalty: false, apply: undefined })
+                if (shield._shoddy) {
+                    add_Effect({ type: "item", target: "AC", value: "-2", source: "Shoddy Shield", penalty: true, apply: undefined })
+                }
             }
             function reflexiveShieldApplies() {
                 return context.creature instanceof Character && context.creature.has_Feat("Reflexive Shield", services);

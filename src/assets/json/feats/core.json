@@ -7404,7 +7404,7 @@
                 "value": 2
             }
         ],
-        "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0]?.level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 4)",
+        "specialreq": "Skill_Level(character, this.subType) < 2 || (this.have(character, characterService, charLevel) && Skill_Level(character, this.subType) < 4)",
         "specialreqdesc": "Untrained in Advanced Weapon",
         "gainSkillChoice": [
             {
@@ -7438,7 +7438,7 @@
                 "value": 2
             }
         ],
-        "specialreq": "characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 4)",
+        "specialreq": "Skill_Level(character, this.subType) < 2 || (this.have(character, characterService, charLevel) && Skill_Level(character, this.subType) < 4)",
         "specialreqdesc": "Untrained in Martial Weapons",
         "gainSkillChoice": [
             {
@@ -7466,7 +7466,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 4)",
+        "specialreq": "Skill_Level(character, this.subType) < 2 || (this.have(character, characterService, charLevel) && Skill_Level(character, this.subType) < 4)",
         "specialreqdesc": "Untrained in Simple Weapons",
         "gainSkillChoice": [
             {
@@ -34238,7 +34238,7 @@
         "featreq": [
             "Unconventional Weaponry: Uncommon Ancestry Simple Weapon"
         ],
-        "specialreq": "characterService.get_Skills(character, 'Simple Weapons')[0]?.level(character, characterService) >= 2 || characterService.get_Skills(character, this.subType)[0]?.level(character, characterService) >= 2",
+        "specialreq": "Skill_Level(character, 'Simple Weapons') >= 2 || Skill_Level(character, this.subType) >= 2",
         "specialreqdesc": "trained in the Uncommon Ancestry Simple Weapon",
         "copyProficiency": [
             {
@@ -34278,7 +34278,7 @@
         "featreq": [
             "Unconventional Weaponry: Uncommon Ancestry Martial Weapon"
         ],
-        "specialreq": "characterService.get_Skills(character, 'Martial Weapons')[0]?.level(character, characterService) >= 2 || characterService.get_Skills(character, this.subType)[0]?.level(character, characterService) >= 2",
+        "specialreq": "Skill_Level(character, 'Martial Weapons') >= 2 || Skill_Level(character, this.subType) >= 2",
         "specialreqdesc": "trained in the Uncommon Ancestry Martial Weapon",
         "copyProficiency": [
             {
@@ -34318,7 +34318,7 @@
         "featreq": [
             "Unconventional Weaponry: Uncommon Ancestry Advanced Weapon"
         ],
-        "specialreq": "characterService.get_Skills(character, 'Advanced Weapons')[0]?.level(character, characterService) >= 2 || characterService.get_Skills(character, this.subType)[0]?.level(character, characterService) >= 2",
+        "specialreq": "Skill_Level(character, 'Advanced Weapons') >= 2 || Skill_Level(character, this.subType) >= 2",
         "specialreqdesc": "trained in the Uncommon Ancestry Advanced Weapon",
         "copyProficiency": [
             {
@@ -37569,7 +37569,7 @@
             "Dwarf"
         ],
         "levelreq": 1,
-        "specialreq": "characterService.get_Skills(character, 'Simple Weapons')[0]?.level(character, characterService) >= 2 || characterService.get_Skills(character, 'Clan Dagger')[0]?.level(character, characterService) >= 2",
+        "specialreq": "Skill_Level(character, 'Simple Weapons') >= 2 || Skill_Level(character, 'Clan Dagger') >= 2",
         "specialreqdesc": "trained in clan daggers",
         "gainActivities": [
             "Clan's Edge"

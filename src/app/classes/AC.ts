@@ -8,7 +8,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { Shield } from 'src/app/classes/Shield';
 import { ConditionsService } from 'src/app/services/conditions.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { Familiar } from './Familiar';
 
 export class AC {
     public name: string = "AC"
@@ -144,16 +144,11 @@ export class AC {
     value(creature: Creature, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService, absolutes: Effect[] = undefined, relatives: Effect[] = undefined) {
         if (characterService.still_loading()) { return { result: 0, explain: "" }; }
         //Get the bonus from the worn armor. This includes the basic 10
-        let armorBonus: number = 10;
+        let basicBonus: number = 10;
         let explain: string = "DC Basis: 10";
-        let armorCreature: AnimalCompanion | Character;
-        let character: Character = characterService.get_Character();
-        //Familiars get the Character's AC
-        if (creature.type == "Familiar") {
-            armorCreature = character;
-        } else {
-            armorCreature = creature as AnimalCompanion | Character;
-        }
+        const character: Character = characterService.get_Character();
+        //Familiars calculate their AC based on the character.
+        const armorCreature: AnimalCompanion | Character = creature instanceof Familiar ? character : (creature as AnimalCompanion | Character);
         //Familiars get the Character's AC without status and circumstance effects, and add their own of those.
         if (relatives == undefined) {
             relatives = this.relatives(creature, character, effectsService);
@@ -171,17 +166,17 @@ export class AC {
         }
         absolutes.forEach(effect => {
             armorSet = true;
-            armorBonus = parseInt(effect.setValue)
+            basicBonus = parseInt(effect.setValue)
             explain = effect.source + ": " + effect.setValue;
         });
-        let armors = defenseService.get_EquippedArmor(armorCreature);
+        const armors = defenseService.get_EquippedArmor(armorCreature);
         if (!armorSet && armors.length > 0) {
-            let armor = armors[0];
-            let charLevel = characterService.get_Character().level;
-            let dex = characterService.get_Abilities("Dexterity")[0].mod(armorCreature, characterService, effectsService).result;
+            const armor = armors[0];
+            const charLevel = characterService.get_Character().level;
+            const dex = characterService.get_Abilities("Dexterity")[0].mod(armorCreature, characterService, effectsService).result;
             //Get the profiency with either this armor or its category
             //Familiars have the same AC as the Character before circumstance or status effects.
-            let skillLevel = armor.profLevel(armorCreature, characterService);
+            const skillLevel = armor.profLevel(armorCreature, characterService);
             let charLevelBonus = 0;
             if (skillLevel) {
                 explain += "\nProficiency: " + skillLevel;
@@ -199,8 +194,8 @@ export class AC {
                 dexcap += parseInt(effect.value);
                 explain += "\n" + effect.source + ": Dexterity modifier cap " + parseInt(effect.value);
             })
-            let dexBonus = (dexcap != -1) ? Math.max(Math.min(dex, dexcap), 0) : dex;
-            if (dexBonus) {
+            const dexBonus = (dexcap != -1) ? Math.max(Math.min(dex, dexcap), 0) : dex;
+            if (dexBonus || dex) {
                 if (dexcap != -1 && dexcap < dex) {
                     explain += "\nDexterity Modifier (capped): " + dexBonus;
                 } else {
@@ -209,27 +204,24 @@ export class AC {
             }
             //Explain the Armor Bonus
             let armorItemBonus = armor.get_ACBonus();
-            let shoddy = armor._shoddy;
-            if (armorItemBonus || shoddy) {
-                explain += "\nArmor Bonus: " + (armorItemBonus + (shoddy ? 2 : 0));
-            }
-            //As long as Potency is calculated like this, it is cumulative with item effects on AC.
-            let potency = armor.get_PotencyRune();
-            if (potency) {
-                relatives.push(Object.assign(new Effect(potency.toString()), { creature: creature.type, type: "item", target: this.name, source: "Potency", apply: true, show: true}))
+            if (armorItemBonus) {
+                //Potency increases the armor bonus; it does not add a separate bonus on armors.
+                const potency = armor.get_PotencyRune();
+                if (potency) {
+                    armorItemBonus += potency;
+                }
+                relatives.push(Object.assign(new Effect(armorItemBonus.toString()), { creature: creature.type, type: "item", target: this.name, source: "Armor bonus" + (potency ? " (+" + potency + " Potency)" : ""), apply: true, show: true }))
             }
             if (armor.battleforged) {
-                relatives.push(Object.assign(new Effect("+1"), { creature: creature.type, type: "item", target: this.name, source: "Battleforged", apply: true, show: true}))
+                relatives.push(Object.assign(new Effect("+1"), { creature: creature.type, type: "item", target: this.name, source: "Battleforged", apply: true, show: true }))
             }
-            //Shoddy items have a -2 item penalty to attacks, unless you have the Junk Tinker feat and have crafted the item yourself.
-            if (shoddy && characterService.get_Feats("Junk Tinker")[0]?.have(creature, characterService) && armor.crafted) {
-                explain += "\nShoddy (canceled by Junk Tinker): -0";
-                relatives.push(Object.assign(new Effect("0"), { creature: creature.type, type: "item", target: this.name, source: "Shoddy (canceled by Junk Tinker)", penalty: true, apply: true, show: true}))
-            } else if (shoddy) {
-                relatives.push(Object.assign(new Effect("-2"), { creature: creature.type, type: "item", target: this.name, source: "Shoddy", penalty: true, apply: true, show: true}))
+            //Shoddy items have a -2 item penalty to ac, unless you have the Junk Tinker feat and have crafted the item yourself.
+            //This is considered when _shoddy is calculated.
+            if (armor._shoddy) {
+                relatives.push(Object.assign(new Effect("-2"), { creature: creature.type, type: "item", target: this.name, source: "Shoddy Armor", penalty: true, apply: true, show: true }))
             }
             //Add up all modifiers and return the AC gained from this armor
-            armorBonus += skillLevel + charLevelBonus + armorItemBonus + dexBonus;
+            basicBonus += skillLevel + charLevelBonus + dexBonus;
         }
         //Sum up the effects
         let effectsSum = 0;
@@ -239,7 +231,7 @@ export class AC {
                 explain += "\n" + effect.source + ": " + effect.value;
             });
         //Add up the armor bonus and all active effects and return the sum
-        let result: number = armorBonus + effectsSum;
+        let result: number = basicBonus + effectsSum;
         return { result: result, explain: explain };
     }
 }

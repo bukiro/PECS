@@ -2315,7 +2315,7 @@
                     <ng-container
                         *ngFor="let checked of [get_SkillIncreases(loreContent.levelNumber, loreContent.levelNumber, 'Lore: '+loreContent.choice.loreName, loreContent.choice.source, loreContent.choice.id).length]; trackBy:trackByIndex">
                         <ng-container
-                            *ngFor="let illegal of [get_Skills('Lore: '+loreContent.choice.loreName).length && !checked]; trackBy:trackByIndex">
+                            *ngFor="let illegal of [get_Skills('Lore: '+loreContent.choice.loreName, {}, {noSubstitutions: true}).length && !checked]; trackBy:trackByIndex">
                             <ng-container
                                 *ngFor="let disabled of [!loreContent.choice.loreName || illegal]; trackBy:trackByIndex">
                                 <div class="newrow left-aligned list-item" *ngIf="loreContent.choice.loreDesc">

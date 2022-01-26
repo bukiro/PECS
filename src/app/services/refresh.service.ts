@@ -252,6 +252,7 @@ export class RefreshService {
         const healthWildcard: string[] = ["Resistance", "Immunity"].map(name => name.toLowerCase());
         const defense: string[] = ["AC", "Saving Throws", "Fortitude", "Reflex", "Will", "Dexterity-based Checks and DCs", "Constitution-based Checks and DCs",
             "Wisdom-based Checks and DCs", "All Checks and DCs", "Ignore Armor Penalty", "Ignore Armor Speed Penalty", "Proficiency Level", "Dexterity Modifier Cap"].map(name => name.toLowerCase());
+        const effects: string[] = ["Encumbered Limit"].map(name => name.toLowerCase());
         const fortitude: string[] = ["Constitution-based Checks and DCs"].map(name => name.toLowerCase());
         const reflex: string[] = ["Dexterity-based Checks and DCs"].map(name => name.toLowerCase());
         const will: string[] = ["Wisdom-based Checks and DCs"].map(name => name.toLowerCase());
@@ -294,6 +295,11 @@ export class RefreshService {
             }
             if (defenseWildcard.some(name => lowerCaseTarget.includes(name))) {
                 this.set_ToChange(context.creature.type, "defense");
+            }
+            if (effects.includes(lowerCaseTarget)) {
+                //Effects need to be re-generated if new effects are likely to change the effect generation procedure itself
+                // or its preflight functions.
+                this.set_ToChange(context.creature.type, "effects");
             }
             if (attacks.includes(lowerCaseTarget) || attacksWildcard.some(name => lowerCaseTarget.includes(name))) {
                 this.set_ToChange(context.creature.type, "attacks");

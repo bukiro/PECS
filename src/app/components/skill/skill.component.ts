@@ -46,10 +46,6 @@ export class SkillComponent implements OnInit {
         private activitiesService: ActivitiesService
     ) { }
 
-    get_Skills(name: string = "", type: string = "") {
-        return this.characterService.get_Skills(this.get_Creature(), name, type);
-    }
-
     trackByIndex(index: number, obj: any): any {
         return index;
     }

@@ -289,11 +289,11 @@ export class NewItemPropertyComponent implements OnInit {
             case "prof":
                 switch (this.get_Parent()["type"]) {
                     case "weapons":
-                        examples = this.characterService.get_Skills(this.get_Character(), "", "Weapon Proficiency").map(item => item.name)
+                        examples = this.characterService.get_Skills(this.get_Character(), "", { type: "Weapon Proficiency" }).map(item => item.name)
                         examples.push("Advanced Weapons");
                         break;
                     case "armors":
-                        examples = this.characterService.get_Skills(this.get_Character(), "", "Armor Proficiency").map(item => item.name);
+                        examples = this.characterService.get_Skills(this.get_Character(), "", { type: "Armor Proficiency" }).map(item => item.name);
                         examples.push("Light Barding");
                         examples.push("Heavy Barding");
                         break;

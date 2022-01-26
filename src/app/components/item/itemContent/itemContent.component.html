@@ -15,38 +15,48 @@
     </span>
     <span *ngIf="item.acbonus">
         <strong>AC Bonus</strong>
-        <span
-            [ngClass]="{'penalty':item.get_ACBonus && (item.get_ACBonus() < item.acbonus), 'bonus':item.get_ACBonus && (item.get_ACBonus() > item.acbonus)}">
-            {{item.get_ACBonus ? item.get_ACBonus() : item.acbonus}}{{item.coverbonus ? " (" +
-            (item.acbonus+item.coverbonus) + ")" : ""}}
-        </span>
+        <ng-container
+            *ngFor="let acBonus of [item.get_ACBonus ? item.get_ACBonus() : item.acbonus]; trackBy:trackByIndex;">
+            <span [ngClass]="{'penalty':acBonus < item.acbonus, 'bonus':acBonus > item.acbonus}">
+                {{acBonus}}{{item.coverbonus ? " (" + (item.acbonus+item.coverbonus) + ")" : ""}}
+            </span>
+        </ng-container>
     </span>
-    <span *ngIf="(item.type == 'armors' && (item.get_DexCap ? item.get_DexCap() != -1 : item.dexcap != -1))">
+    <span *ngIf="(item.type == 'armors' && (item.get_DexCap ? item.get_DexCap() : item.dexcap) != -1)">
         <strong>Dex Cap</strong>
-        <span
-            [ngClass]="{'penalty':item.get_DexCap() < item.dexcap, 'bonus':item.get_DexCap() > item.dexcap || (!item.get_DexCap() && item.dexcap)}">
-            {{(item.get_DexCap ? item.get_DexCap() : item.dexcap)}}
-        </span>
+        <ng-container *ngFor="let dexCap of [item.get_DexCap ? item.get_DexCap() : item.dexcap]; trackBy:trackByIndex;">
+            <span
+                [ngClass]="{'penalty':dexCap < item.dexcap, 'bonus':dexCap > item.dexcap || (!dexCap && item.dexcap)}">
+                {{dexCap}}
+            </span>
+        </ng-container>
     </span>
     <span *ngIf="item.skillpenalty">
         <strong>Check Penalty</strong>
-        <span
-            [ngClass]="{'penalty':item.get_SkillPenalty() < item.skillpenalty, 'bonus':item.get_SkillPenalty() > item.skillpenalty}">
-            {{(item.get_SkillPenalty ? item.get_SkillPenalty() : item.skillpenalty)}}
-        </span>
+        <ng-container
+            *ngFor="let skillPenalty of [item.get_SkillPenalty ? item.get_SkillPenalty() : item.skillpenalty]; trackBy:trackByIndex;">
+            <span [ngClass]="{'penalty':skillPenalty < item.skillpenalty, 'bonus':skillPenalty > item.skillpenalty}">
+                {{skillPenalty}}
+            </span>
+        </ng-container>
     </span>
     <span *ngIf="item.speedpenalty">
         <strong>Speed Penalty</strong>
-        <span
-            [ngClass]="{'penalty':item.get_SpeedPenalty() < item.speedpenalty, 'bonus':item.get_SpeedPenalty() > item.speedpenalty}">
-            {{(item.get_SpeedPenalty ? item.get_SpeedPenalty() : item.speedpenalty)}}
-        </span>
+        <ng-container
+            *ngFor="let speedPenalty of [item.get_SpeedPenalty ? item.get_SpeedPenalty() : item.speedpenalty]; trackBy:trackByIndex;">
+            <span [ngClass]="{'penalty':speedPenalty < item.speedpenalty, 'bonus':speedPenalty > item.speedpenalty}">
+                {{speedPenalty}}
+            </span>
+        </ng-container>
     </span>
     <span *ngIf="(item.get_Strength ? item.get_Strength() : item.strength)">
         <strong>Strength</strong>
-        <span [ngClass]="{'penalty':item.get_Strength() > item.strength, 'bonus':item.get_Strength() < item.strength}">
-            {{(item.get_Strength ? item.get_Strength() : item.strength)}}
-        </span>
+        <ng-container
+            *ngFor="let strength of [item.get_Strength ? item.get_Strength() : item.strength]; trackBy:trackByIndex;">
+            <span [ngClass]="{'penalty':strength > item.strength, 'bonus':strength < item.strength}">
+                {{strength}}
+            </span>
+        </ng-container>
     </span>
     <span *ngIf="item.usage">
         <strong>Usage</strong>
@@ -68,20 +78,27 @@
     </span>
     <span *ngIf="item.hardness">
         <strong>Hardness</strong>
-        <span
-            [ngClass]="{'penalty':(item.get_Hardness() < item.hardness), 'bonus':(item.get_Hardness() > item.hardness)}">
-            {{item.get_Hardness ? item.get_Hardness() : item.hardness}}
-        </span>
+        <ng-container
+            *ngFor="let hardness of [item.get_Hardness ? item.get_Hardness() : item.hardness]; trackBy:trackByIndex;">
+            <span [ngClass]="{'penalty':hardness < item.hardness, 'bonus':hardness > item.hardness}">
+                {{hardness}}
+            </span>
+        </ng-container>
     </span>
     <span *ngIf="item.hitpoints">
         <strong>HP</strong><strong *ngIf="item.brokenThreshold"> (BT)</strong>
-        <span [ngClass]="{'penalty':(item.get_MaxHP() < item.hitpoints), 'bonus':(item.get_MaxHP() > item.hitpoints)}">
-            {{item.get_MaxHP ? item.get_MaxHP() : item.hitpoints}}
-        </span>
-        <span *ngIf="item.brokenThreshold"
-            [ngClass]="{'penalty':(item.get_BrokenThreshold() < item.brokenThreshold), 'bonus':(item.get_BrokenThreshold() > item.brokenThreshold)}">({{item.get_BrokenThreshold
-            ? item.get_BrokenThreshold() : item.brokenThreshold}})
-        </span>
+        <ng-container *ngFor="let maxHP of [item.get_MaxHP ? item.get_MaxHP() : item.hitpoints]; trackBy:trackByIndex;">
+            <span [ngClass]="{'penalty':maxHP < item.hitpoints, 'bonus':maxHP > item.hitpoints}">
+                {{maxHP}}
+            </span>
+        </ng-container>
+        <ng-container
+            *ngFor="let brokenThreshold of [item.get_BrokenThreshold ? item.get_BrokenThreshold() : item.brokenThreshold]; trackBy:trackByIndex;">
+            <span *ngIf="item.brokenThreshold"
+                [ngClass]="{'penalty':brokenThreshold < item.brokenThreshold, 'bonus':brokenThreshold > item.brokenThreshold}">
+                ({{brokenThreshold}})
+            </span>
+        </ng-container>
     </span>
 </div>
 <div class="newrow left-aligned">
@@ -115,8 +132,8 @@
 </div>
 <div class="newrow left-aligned">
     <span *ngIf="item.ammunition">
-        <strong>Ammunition</strong>
         {{item.ammunition}}
+        <strong>Ammunition</strong>
     </span>
 </div>
 <div class="newrow left-aligned">

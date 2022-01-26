@@ -188,7 +188,7 @@ export class Feat {
         if (skillreq.length) {
             skillreq.forEach(requirement => {
                 let requiredSkillName: string = requirement.skill;
-                let requiredSkill: Skill[] = characterService.get_Skills(character, requiredSkillName);
+                let requiredSkill: Skill[] = characterService.get_Skills(character, requiredSkillName, {}, {noSubstitutions: true});
                 let expected: number = requirement.value;
                 if (requiredSkill.length > 0) {
                     if (requiredSkill
@@ -285,7 +285,7 @@ export class Feat {
         let secondDeity = deities[1];
         function Skill_Level(creature: string, name: string) {
             if (creature != "Familiar") {
-                return characterService.get_Skills(characterService.get_Creature(creature), name)[0]?.level(characterService.get_Creature(creature) as Character | AnimalCompanion, characterService, charLevel) || 0;
+                return characterService.get_Skills(characterService.get_Creature(creature), name)[0].level(characterService.get_Creature(creature) as Character | AnimalCompanion, characterService, charLevel);
             } else {
                 return 0;
             }

@@ -121,7 +121,7 @@ export class ActivitiesComponent implements OnInit {
     }
 
     get_ClassDCs() {
-        return this.characterService.get_Skills(this.get_Creature(), "", "Class DC").filter(skill => skill.level(this.get_Creature() as Character | AnimalCompanion, this.characterService) > 0);
+        return this.characterService.get_Skills(this.get_Creature(), "", { type: "Class DC" }).filter(skill => skill.level(this.get_Creature() as Character | AnimalCompanion, this.characterService) > 0);
     }
 
     get_OwnedActivities() {

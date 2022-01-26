@@ -37,7 +37,7 @@ export class Shield extends Equipment {
     public _emblazonEnergy: boolean = false;
     public _emblazonAntimagic: boolean = false;
     //Shoddy shields take a -2 penalty to AC.
-    public _shoddy: number = 0;
+    public _shoddy: 0|-2 = 0;
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
         this.material = this.material.map(obj => Object.assign(new ShieldMaterial(), obj).recast());
@@ -154,7 +154,7 @@ export class Shield extends Equipment {
         return brokenThreshold + (this._shieldAlly ? (Math.floor(brokenThreshold / 2)) : 0);
     }
     get_ACBonus() {
-        return this.acbonus + this._shoddy;
+        return this.acbonus;
     }
     get_HitPoints() {
         this.damage = Math.max(Math.min(this.get_MaxHP(), this.damage), 0);

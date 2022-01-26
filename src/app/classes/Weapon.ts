@@ -350,7 +350,7 @@ export class Weapon extends Equipment {
             this._traits = traits;
             changed.forEach(trait => {
                 characterService.traitsService.get_Traits(trait).forEach(trait => {
-                    characterService.refreshService.set_HintsToChange(creature, trait.hints, {characterService: characterService})
+                    characterService.refreshService.set_HintsToChange(creature, trait.hints, { characterService: characterService })
                 })
             })
             characterService.refreshService.process_ToChange();
@@ -400,43 +400,40 @@ export class Weapon extends Equipment {
         let levels: number[] = [];
         //If useHighestAttackProficiency is true, the proficiency level will be copied from your highest unarmed or weapon proficiency.
         if (this.useHighestAttackProficiency) {
-            const highestProficiencySkill = characterService.get_TempSkill("Highest Attack Proficiency", {type: "Specific Weapon Proficiency"});
-            levels.push((characterService.get_Skills(creature, this.name)[0] || highestProficiencySkill).level(creature, characterService, charLevel) || 0);
+            const highestProficiencySkill = characterService.get_Skills(creature, "Highest Attack Proficiency", { type: "Specific Weapon Proficiency" });
+            levels.push((characterService.get_Skills(creature, this.name)[0] || highestProficiencySkill[0]).level(creature, characterService, charLevel) || 0);
         }
         //Weapon name, e.g. Demon Sword.
-        let nameSkill: Skill = characterService.skillsService.get_TempSkill(this.name, {type: "Specific Weapon Proficiency"});
-        levels.push((characterService.get_Skills(creature, this.name)[0] || nameSkill).level(creature, characterService, charLevel) || 0);
+        levels.push(characterService.get_Skills(creature, this.name, { type: "Specific Weapon Proficiency" })[0].level(creature, characterService, charLevel) || 0);
         //Weapon base, e.g. Longsword.
-        let baseSkill: Skill = characterService.get_TempSkill(this.weaponBase, {type: "Specific Weapon Proficiency"});
-        levels.push(this.weaponBase ? (characterService.get_Skills(creature, this.weaponBase)[0] || baseSkill).level(creature, characterService, charLevel) : 0);
+        levels.push(this.weaponBase ? characterService.get_Skills(creature, this.weaponBase, { type: "Specific Weapon Proficiency" })[0].level(creature, characterService, charLevel) : 0);
         //Proficiency and Group, e.g. Martial Sword.
         //There are proficiencies for "Simple Sword" or "Advanced Bow" that we need to consider, so we build that phrase here.
         let profAndGroup = prof.split(" ")[0] + " " + this.group;
-        let profAndGroupSkill: Skill = characterService.get_TempSkill(profAndGroup, {type: "Specific Weapon Proficiency"});
-        levels.push((characterService.get_Skills(creature, profAndGroup)[0] || profAndGroupSkill).level(creature, characterService, charLevel) || 0);
+        levels.push(characterService.get_Skills(creature, profAndGroup, { type: "Specific Weapon Proficiency" })[0].level(creature, characterService, charLevel) || 0);
         //Proficiency, e.g. Martial Weapons.
         levels.push(characterService.get_Skills(creature, prof)[0]?.level(creature, characterService, charLevel) || 0);
         //Any traits, e.g. Monk. Will include, for instance, "Thrown 20 ft", so we also test the first word of any multi-word trait.
-        levels.push(...this.traits.map(trait => (characterService.get_Skills(creature, trait)[0] || characterService.get_TempSkill(trait, {type: "Specific Weapon Proficiency"})).level(creature, characterService, charLevel) || 0))
-        levels.push(...this.traits.filter(trait => trait.includes(" ")).map(trait => (characterService.get_Skills(creature, trait.split(" ")[0])[0] || characterService.get_TempSkill(trait.split(" ")[0], {type: "Specific Weapon Proficiency"})).level(creature, characterService, charLevel) || 0))
+        levels.push(...this.traits.map(trait => characterService.get_Skills(creature, trait, { type: "Specific Weapon Proficiency" })[0].level(creature, characterService, charLevel) || 0))
+        levels.push(...this.traits.filter(trait => trait.includes(" ")).map(trait => characterService.get_Skills(creature, trait.split(" ")[0], { type: "Specific Weapon Proficiency" })[0].level(creature, characterService, charLevel) || 0))
         //Favored Weapon.
-        levels.push(this.get_IsFavoredWeapon(creature, characterService) ? (characterService.get_Skills(creature, "Favored Weapon")[0] || characterService.get_TempSkill(this.name, {type: "Favored Weapon"})).level(creature, characterService, charLevel) : 0);
+        levels.push(this.get_IsFavoredWeapon(creature, characterService) ? characterService.get_Skills(creature, "Favored Weapon", { type: "Favored Weapon" })[0].level(creature, characterService, charLevel) : 0);
         //Get the skill level by applying the result with the most increases, but no higher than 8.
         skillLevel = Math.min(Math.max(...levels.filter(level => level != undefined)), 8);
         //If you have an Ancestral Echoing rune on this weapon, you get to raise the item's proficiency by one level, up to the highest proficiency you have.
         let bestSkillLevel: number = skillLevel;
         if (runeSource.propertyRunes.some(rune => rune.name == "Ancestral Echoing")) {
             //First, we get all the weapon proficiencies...
-            let skills: number[] = characterService.get_Skills(creature, "", "Weapon Proficiency").map(skill => skill.level(creature, characterService, charLevel));
-            skills.push(...characterService.get_Skills(creature, "", "Specific Weapon Proficiency").map(skill => skill.level(creature, characterService, charLevel)));
+            let skills: number[] = characterService.get_Skills(creature, "", {type: "Weapon Proficiency"}).map(skill => skill.level(creature, characterService, charLevel));
+            skills.push(...characterService.get_Skills(creature, "", { type: "Specific Weapon Proficiency" }).map(skill => skill.level(creature, characterService, charLevel)));
             //Then we set this skill level to either this level +2 or the highest of the found proficiencies - whichever is lower.
             bestSkillLevel = Math.min(skillLevel + 2, Math.max(...skills));
         }
         //If you have an oil applied that emulates an Ancestral Echoing rune, apply the same rule (there is no such oil, but things can change)
         if (this.oilsApplied.some(oil => oil.runeEffect && oil.runeEffect.name == "Ancestral Echoing")) {
             //First, we get all the weapon proficiencies...
-            let skills: number[] = characterService.get_Skills(creature, "", "Weapon Proficiency").map(skill => skill.level(creature, characterService, charLevel));
-            skills.push(...characterService.get_Skills(creature, "", "Specific Weapon Proficiency").map(skill => skill.level(creature, characterService, charLevel)));
+            let skills: number[] = characterService.get_Skills(creature, "", { type: "Weapon Proficiency" }).map(skill => skill.level(creature, characterService, charLevel));
+            skills.push(...characterService.get_Skills(creature, "", { type: "Specific Weapon Proficiency" }).map(skill => skill.level(creature, characterService, charLevel)));
             //Then we set this skill level to either this level +2 or the highest of the found proficiencies - whichever is lower.
             bestSkillLevel = Math.min(skillLevel + 2, Math.max(...skills));
         }
@@ -586,7 +583,7 @@ export class Weapon extends Equipment {
             if (runeSource.reason) {
                 source = "Potency (" + runeSource.reason.get_Name() + ")";
             }
-            calculatedEffects.push(Object.assign(new Effect(potencyRune.toString()), {creature: creature.type, type: "item", target: this.name, source: source, apply: true, show: false}));
+            calculatedEffects.push(Object.assign(new Effect(potencyRune.toString()), { creature: creature.type, type: "item", target: this.name, source: source, apply: true, show: false }));
         }
         if (runeSource.fundamentalRunes.battleforged) {
             let source = "Battleforged";
@@ -594,7 +591,7 @@ export class Weapon extends Equipment {
             if (runeSource.reason) {
                 source = "Battleforged (" + runeSource.reason.get_Name() + ")";
             }
-            calculatedEffects.push(Object.assign(new Effect("+1"), {creature: creature.type, type: "item", target: this.name, source: source, apply: true, show: false}));
+            calculatedEffects.push(Object.assign(new Effect("+1"), { creature: creature.type, type: "item", target: this.name, source: source, apply: true, show: false }));
         }
         //Powerful Fist ignores the nonlethal penalty on unarmed attacks.
         let hasPowerfulFist = false;
@@ -608,7 +605,7 @@ export class Weapon extends Equipment {
         if ((this._shoddy == 0) && this.shoddy) {
             explain += "\nShoddy (canceled by Junk Tinker): -0";
         } else if (this._shoddy) {
-            calculatedEffects.push(Object.assign(new Effect("-2"), {creature: creature.type, type: "item", target: this.name, source: "Shoddy", penalty: true, apply: true, show: false}));
+            calculatedEffects.push(Object.assign(new Effect("-2"), { creature: creature.type, type: "item", target: this.name, source: "Shoddy", penalty: true, apply: true, show: false }));
         }
         //Because of the Potency and Shoddy Effects, we need to filter the types a second time, even though get_RelativesOnThese comes pre-filtered.
         effectsService.get_TypeFilteredEffects(

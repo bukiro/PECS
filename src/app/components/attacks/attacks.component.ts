@@ -265,7 +265,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     get_Skills(name: string = "", type: string = "") {
-        return this.characterService.get_Skills(this.get_Creature(), name, type);
+        return this.characterService.get_Skills(this.get_Creature(), name, { type: type });
     }
 
     get_Traits(traitName: string = "") {

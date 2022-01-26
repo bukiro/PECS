@@ -15,7 +15,7 @@ export class SkillsService {
         private extensionsService: ExtensionsService
     ) { }
 
-    get_TempSkill(name: string = "", filter: { ability?: string, type?: string, locked?: boolean, recallKnowledge?: boolean }): Skill {
+    private get_TempSkill(name: string = "", filter: { type?: string }): Skill {
         filter = Object.assign({
             ability: "",
             type: "",
@@ -26,45 +26,53 @@ export class SkillsService {
             (
                 skill.name.toLowerCase().includes(name.toLowerCase())
             ) && (
-                filter.ability ? skill.ability.toLowerCase() == filter.ability.toLowerCase() : true
-            ) && (
                 filter.type ? skill.type.toLowerCase() == filter.type.toLowerCase() : true
-            ) && (
-                filter.locked != undefined ? skill.locked == filter.locked : true
-            ) && (
-                filter.recallKnowledge != undefined ? skill.recallKnowledge == filter.recallKnowledge : true
             )
         )
         if (skill) {
             return skill;
         } else {
-            const newLength = this.tempSkills.push(new Skill(filter.ability, name, filter.type, filter.locked, filter.recallKnowledge));
+            const newLength = this.tempSkills.push(new Skill("", name, filter.type, false, false));
             return this.tempSkills[newLength - 1];
         }
     }
 
-    get_Skills(customSkills: Skill[], name: string = "", type: string = "", locked: boolean = undefined) {
+    public get_Skills(customSkills: Skill[], name: string = "", filter: {type?: string, locked?: boolean} = {}, options: {noSubstitutions?: boolean} = {}): Skill[] {
+        //Gets all skills, including a provided custom skill list, filtered by name, type and locked.
+        //Some exotic skills don't exist until queried. If a named skill is not found, a temporary skill is created for the rest of the session.
+        //If you want to check if a skill exists, use noSubstitutions to prevent returning a temporary skill.
+        filter = Object.assign({
+            type: "",
+            locked: undefined,
+            noSubstitution: false
+        }, filter)
         if (!this.still_loading()) {
-            let skills: Skill[] = this.skills.concat(customSkills);
             if (name == "Lore") {
-                return skills.filter(skill =>
+                return this.skills.concat(customSkills).filter(skill =>
                     (
                         skill.name.toLowerCase().includes(name.toLowerCase())
                     ) && (
-                        type ? skill.type.toLowerCase() == type.toLowerCase() : true
+                        filter.type ? skill.type.toLowerCase() == filter.type.toLowerCase() : true
                     ) && (
-                        locked != undefined ? skill.locked == locked : true
+                        filter.locked != undefined ? skill.locked == filter.locked : true
                     )
                 );
             }
-            return skills.filter(skill =>
+            const skills = this.skills.concat(customSkills).filter(skill =>
                 (
                     name ? skill.name.toLowerCase() == name.toLowerCase() : true
                 ) && (
-                    type ? skill.type.toLowerCase() == type.toLowerCase() : true
+                    filter.type ? skill.type.toLowerCase() == filter.type.toLowerCase() : true
                 ) && (
-                    locked != undefined ? skill.locked == locked : true
+                    filter.locked != undefined ? skill.locked == filter.locked : true
                 ));
+            if (skills.length) {
+                return skills;
+            } else if (name && !options.noSubstitutions) {
+                return [this.get_TempSkill(name, { type: filter.type })];
+            } else {
+                return [];
+            }
         } else { return [new Skill()] }
     }
 

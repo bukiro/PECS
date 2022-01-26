@@ -205,8 +205,12 @@ export class DefenseComponent implements OnInit {
         this.refreshService.process_ToChange();
     }
 
-    get_Skills(name: string = "", type: string = "") {
-        return this.characterService.get_Skills(this.get_Creature(), name, type)
+    get_Skills(name: string = "", filter: { type?: string, locked?: boolean }) {
+        filter = Object.assign({
+            type: "",
+            locked: undefined
+        }, filter)
+        return this.characterService.get_Skills(this.get_Creature(), name, filter)
             .sort((a, b) => (a.name > b.name) ? 1 : -1);
     }
 

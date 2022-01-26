@@ -514,6 +514,35 @@ export class SavegameService {
                 })
             }
 
+            //Mage Armor and Shield no longer grant items in 1.0.14. Currently existing Mage Armor and Shield items need to be removed.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 14) {
+                const companion = character.class.animalCompanion;
+                const mageArmorIDs: string[] = [
+                    "b936f378-1fcb-4d29-a4b8-57cbe0dab245",
+                    "5571d980-072e-40df-8228-bbce52245fe5",
+                    "b2838fa8-a5b4-11ea-bb37-0242ac130002",
+                    "b2839412-a5b4-11ea-bb37-0242ac130002",
+                    "b2839548-a5b4-11ea-bb37-0242ac130002"
+                ];
+                const shieldIDs: string[] = [
+                    "5dd7c22d-fc9f-4bae-b5ca-258856007a77",
+                    "87f26afe-736c-4b5b-abcf-19da9014940d",
+                    "e0caa889-6183-4b31-b78f-49d33c7fcbb1",
+                    "7eee99d1-9b3e-41f6-9d4b-2e167242b00f",
+                    "3070634b-bfbe-44e8-b12e-2e5a8fd085c2"
+                ];
+                [character, companion].forEach(creature => {
+                    creature?.inventories?.forEach(inventory => {
+                        inventory.armors.filter(armor => mageArmorIDs.includes(armor.refId)).forEach(armor => {
+                            characterService.drop_InventoryItem(creature, inventory, armor, false, true);
+                        })
+                        inventory.shields.filter(shield => shieldIDs.includes(shield.refId)).forEach(shield => {
+                            characterService.drop_InventoryItem(creature, inventory, shield, false, true);
+                        })
+                    })
+                })
+            }
+
         }
 
         return character;

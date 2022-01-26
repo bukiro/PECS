@@ -381,7 +381,7 @@ export class Character extends Creature {
             }
             //If you are getting trained in a skill you don't already know, it's usually a weapon proficiency or a class/spell DC.
             //We have to create that skill here then
-            if (characterService.get_Skills(this, skillName).length == 0) {
+            if (characterService.get_Skills(this, skillName, {}, {noSubstitutions: true}).length == 0) {
                 if (skillName.includes("Class DC")) {
                     switch (skillName) {
                         case "Alchemist Class DC":
@@ -445,7 +445,7 @@ export class Character extends Creature {
             //Set components to update according to the skill type.
             characterService.refreshService.set_ToChange("Character", "featchoices");
             characterService.refreshService.set_ToChange("Character", "skillchoices");
-            switch (characterService.get_Skills(characterService.get_Character(), skillName)[0]?.type) {
+            switch (characterService.get_Skills(characterService.get_Character(), skillName)[0].type) {
                 case "Skill":
                     characterService.refreshService.set_ToChange("Character", "skills");
                     break;

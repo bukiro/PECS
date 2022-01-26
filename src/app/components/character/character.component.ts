@@ -754,8 +754,12 @@ export class CharacterComponent implements OnInit {
         return this.get_Character().get_SkillIncreases(this.characterService, minLevelNumber, maxLevelNumber, skillName, source, sourceId, locked);
     }
 
-    get_Skills(name: string = "", type: string = "", locked: boolean = undefined) {
-        return this.characterService.get_Skills(this.get_Character(), name, type, locked)
+    get_Skills(name: string = "", filter: { type?: string, locked?: boolean } = {}, options: { noSubstitutions?: boolean } = {}) {
+        filter = Object.assign({
+            type: "",
+            locked: undefined
+        }, filter);
+        return this.characterService.get_Skills(this.get_Character(), name, filter, options);
     }
 
     size(size: number) {
@@ -990,7 +994,7 @@ export class CharacterComponent implements OnInit {
                 let newChoice: LoreChoice = character.add_LoreChoice(level, choice);
                 newChoice.source = "Different Worlds";
                 if (newChoice.loreName) {
-                    if (this.characterService.get_Skills(this.get_Character(), 'Lore: ' + newChoice.loreName).length) {
+                    if (this.get_Skills('Lore: ' + newChoice.loreName, {}, {noSubstitutions: true}).length) {
                         let increases = character.get_SkillIncreases(this.characterService, 1, 20, 'Lore: ' + newChoice.loreName).filter(increase =>
                             increase.sourceId.includes("-Lore-")
                         );

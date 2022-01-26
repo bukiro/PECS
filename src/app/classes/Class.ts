@@ -355,7 +355,7 @@ export class Class {
                 })
             });
             if (this.background.loreChoices[0].loreName) {
-                if (characterService.get_Skills(character, 'Lore: ' + this.background.loreChoices[0].loreName).length) {
+                if (characterService.get_Skills(character, 'Lore: ' + this.background.loreChoices[0].loreName, {}, {noSubstitutions: true}).length) {
                     let increases = character.get_SkillIncreases(characterService, 1, 20, 'Lore: ' + this.background.loreChoices[0].loreName).filter(increase =>
                         increase.sourceId.includes("-Lore-")
                     );

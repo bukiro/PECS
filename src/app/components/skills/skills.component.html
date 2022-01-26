@@ -21,7 +21,7 @@
     <ng-container *ngIf="!still_loading()">
         <header class="sectionHeader box-header">Perception</header>
         <ng-container *ngFor="let activityGains of [get_OwnedActivities()]; trackBy:trackByIndex;">
-            <ng-container *ngFor="let skill of get_Skills('', 'Perception'); trackBy:trackByIndex;">
+            <ng-container *ngFor="let skill of get_Skills('', {type: 'Perception'}); trackBy:trackByIndex;">
                 <app-skill [creature]="creature" [skill]=skill
                     [relatedActivityGains]="get_SkillActivities(activityGains, skill.name)"
                     [showAction]="get_ShowAction()" (showActionMessage)="receive_ActionMessage($event)"></app-skill>
@@ -37,7 +37,8 @@
                 [showActivities]=true [showConditions]=true></app-tags>
             <ng-container *ngIf="creature=='Familiar'">
                 <header class="sectionHeader box-header">Attack Rolls</header>
-                <ng-container *ngFor="let skill of get_Skills('', 'Familiar Proficiency'); trackBy:trackByIndex;">
+                <ng-container
+                    *ngFor="let skill of get_Skills('', {type: 'Familiar Proficiency'}); trackBy:trackByIndex;">
                     <app-skill [creature]="creature" [skill]=skill></app-skill>
                 </ng-container>
             </ng-container>
@@ -101,7 +102,7 @@
                 [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <app-tags [creature]="creature" [objectName]="'Skill Checks'" [showTraits]=true [showFeats]=true
                 [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-            <ng-container *ngFor="let skill of get_Skills('', 'Skill'); trackBy:trackByIndex;">
+            <ng-container *ngFor="let skill of get_Skills('', {type: 'Skill'}); trackBy:trackByIndex;">
                 <app-skill [creature]="creature" [skill]=skill
                     [relatedActivityGains]="get_SkillActivities(activityGains, skill.name)"
                     [showAction]="get_ShowAction()" (showActionMessage)="receive_ActionMessage($event)"></app-skill>

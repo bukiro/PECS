@@ -18204,7 +18204,7 @@
         "traits": [
             "Abjuration"
         ],
-        "inputRequired": "Mage armor unequips your regular armor. You may need to equip the correct armor after the spell ends.",
+        "internalNote": "Changing the armor's proficiency is hardcoded.",
         "target": "self",
         "duration": "until the next time you make your daily preparations",
         "desc": "You ward yourself with shimmering magical energy, gaining a <var>var1</var> item bonus to AC and a maximum Dexterity modifier of +5. <var>var2</var>While wearing mage armor, you use your unarmored proficiency to calculate your AC.",

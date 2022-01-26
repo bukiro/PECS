@@ -19899,56 +19899,20 @@
                 "duration": -2
             }
         ],
-        "gainItems": [
+        "effects": [
             {
-                "heightenedFilter": 1,
-                "name": "Mage Armor (1st Level)",
-                "type": "armors"
+                "affected": "AC",
+                "type": "item",
+                "value": "[0,1,1,1,1,1,2,2,2,2,3][Heightened]"
             },
             {
-                "heightenedFilter": 2,
-                "name": "Mage Armor (1st Level)",
-                "type": "armors"
+                "affected": "Saving Throws",
+                "type": "item",
+                "value": "[0,0,0,0,1,1,1,1,2,2,3][Heightened]"
             },
             {
-                "heightenedFilter": 3,
-                "name": "Mage Armor (1st Level)",
-                "type": "armors"
-            },
-            {
-                "heightenedFilter": 4,
-                "name": "Mage Armor (4th Level)",
-                "type": "armors"
-            },
-            {
-                "heightenedFilter": 5,
-                "name": "Mage Armor (4th Level)",
-                "type": "armors"
-            },
-            {
-                "heightenedFilter": 6,
-                "name": "Mage Armor (6th Level)",
-                "type": "armors"
-            },
-            {
-                "heightenedFilter": 7,
-                "name": "Mage Armor (6th Level)",
-                "type": "armors"
-            },
-            {
-                "heightenedFilter": 8,
-                "name": "Mage Armor (8th Level)",
-                "type": "armors"
-            },
-            {
-                "heightenedFilter": 9,
-                "name": "Mage Armor (8th Level)",
-                "type": "armors"
-            },
-            {
-                "heightenedFilter": 10,
-                "name": "Mage Armor (10th Level)",
-                "type": "armors"
+                "affected": "Dexterity Modifier Cap",
+                "setValue": "5"
             }
         ],
         "heightenedDescs": [
@@ -22916,7 +22880,7 @@
         "hints": [
             {
                 "desc": "While the spell is in effect, you can use the Shield Block reaction with your magic shield. The shield has Hardness <var>var1</var>. After you use Shield Block, the spell ends and you can't cast it again for 10 minutes. Unlike a normal Shield Block, you can use the spell's reaction against the magic missile spell.",
-                "showon": "Shield Block",
+                "showon": "Shield Block, Defense, Shield",
                 "heightenedDescs": [
                     {
                         "level": 1,
@@ -22966,61 +22930,16 @@
                 ]
             }
         ],
+        "effects": [
+            {
+                "affected": "AC",
+                "type": "circumstance",
+                "value": "1"
+            }
+        ],
         "gainActivities": [
             {
                 "name": "Shield Block"
-            }
-        ],
-        "gainItems": [
-            {
-                "heightenedFilter": 1,
-                "name": "Force Shield (1st Level)",
-                "type": "shields"
-            },
-            {
-                "heightenedFilter": 2,
-                "name": "Force Shield (1st Level)",
-                "type": "shields"
-            },
-            {
-                "heightenedFilter": 3,
-                "name": "Force Shield (3rd Level)",
-                "type": "shields"
-            },
-            {
-                "heightenedFilter": 4,
-                "name": "Force Shield (3rd Level)",
-                "type": "shields"
-            },
-            {
-                "heightenedFilter": 5,
-                "name": "Force Shield (5th Level)",
-                "type": "shields"
-            },
-            {
-                "heightenedFilter": 6,
-                "name": "Force Shield (5th Level)",
-                "type": "shields"
-            },
-            {
-                "heightenedFilter": 7,
-                "name": "Force Shield (7th Level)",
-                "type": "shields"
-            },
-            {
-                "heightenedFilter": 8,
-                "name": "Force Shield (7th Level)",
-                "type": "shields"
-            },
-            {
-                "heightenedFilter": 9,
-                "name": "Force Shield (9th Level)",
-                "type": "shields"
-            },
-            {
-                "heightenedFilter": 10,
-                "name": "Force Shield (9th Level)",
-                "type": "shields"
             }
         ],
         "heightenedDescs": [
@@ -38801,9 +38720,6 @@
             {
                 "affected": "Resistances",
                 "value": "[0,0,0,0,-2,-2,-4,-4,-6,-6,-8][Heightened]"
-            },
-            {
-                "affected": " "
             }
         ],
         "heightenedDescs": [

@@ -93,13 +93,17 @@ export class SkillsComponent implements OnInit {
         return this.get_Character().settings.skillsTileMode;
     }
 
-    get_Skills(name: string = "", type: string = "") {
+    get_Skills(name: string = "", filter: { type?: string, locked?: boolean } = {}) {
+        filter = Object.assign({
+            type: "",
+            locked: undefined
+        }, filter);
         let creature = this.get_Creature();
-        return this.characterService.get_Skills(creature, name, type)
-            .filter(skill =>
-                !skill.name.includes("Lore") ||
-                skill.level(creature as Character, this.characterService, creature.level)
-            ).sort((a, b) => (a.name > b.name) ? 1 : -1);
+        return this.characterService.get_Skills(creature, name, filter)
+        .filter(skill =>
+            !skill.name.includes("Lore") ||
+            skill.level(creature as Character, this.characterService, creature.level)
+        ).sort((a, b) => (a.name > b.name) ? 1 : -1);;
     }
 
     trackByIndex(index: number, obj: any): any {

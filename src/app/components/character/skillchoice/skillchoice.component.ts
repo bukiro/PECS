@@ -83,8 +83,12 @@ export class SkillchoiceComponent implements OnInit {
         return this.characterService.get_Abilities(name)
     }
 
-    get_Skills(name: string = "", type: string = "", locked: boolean = undefined) {
-        return this.characterService.get_Skills(this.get_Character(), name, type, locked)
+    get_Skills(name: string = "", filter: { type?: string, locked?: boolean } = {}) {
+        filter = Object.assign({
+            type: "",
+            locked: undefined
+        }, filter)
+        return this.characterService.get_Skills(this.get_Character(), name, filter)
     }
 
     get_SkillLevel(skill: Skill) {
@@ -120,7 +124,7 @@ export class SkillchoiceComponent implements OnInit {
     }
 
     get_AvailableSkills(choice: SkillChoice, levelNumber: number, maxAvailable: number) {
-        let skills = this.get_Skills('', choice.type, false);
+        let skills = this.get_Skills('', { type: choice.type, locked: false });
         if (choice.filter.length) {
             //Only filter the choice if enough of the filtered skills can be raised.
             if (choice.filter.map(skillName => this.get_Skills(skillName)[0]).filter(skill => skill && !this.cannotIncrease(skill, levelNumber, choice).length).length >= maxAvailable) {

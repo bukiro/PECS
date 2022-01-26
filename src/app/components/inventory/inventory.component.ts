@@ -190,8 +190,9 @@ export class InventoryComponent implements OnInit {
     }
 
     sort_ItemSet(itemSet: Item[]) {
+        //Sorting just by name can lead to jumping in the list.
         return itemSet
-        .sort((a, b) => (a.name > b.name) ? 1 : -1);
+        .sort((a, b) => (a.name + a.id > b.name + b.id) ? 1 : -1);
     }
 
     get_IsEquipment(item: Item) {

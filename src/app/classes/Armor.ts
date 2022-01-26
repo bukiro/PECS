@@ -182,7 +182,7 @@ export class Armor extends Equipment {
         }
     }
     get_ACBonus() {
-        return this.acbonus + this._affectedByArmoredSkirt + this._shoddy;
+        return this.acbonus + this._affectedByArmoredSkirt;
     }
     get_SkillPenalty() {
         return Math.min(0, this.skillpenalty - this._affectedByArmoredSkirt + this._shoddy + this.material.map(material => (material as ArmorMaterial).skillPenaltyModifier).reduce((a, b) => a + b, 0));
@@ -206,7 +206,10 @@ export class Armor extends Equipment {
         return this.strength + (this._affectedByArmoredSkirt * 2) + fortification + material;
     }
     get_Proficiency(creature: Creature = null, characterService: CharacterService = null) {
-        //creature and characterService are not needed for armors, but for weapons.
+        if (creature && characterService.get_AppliedConditions(creature, "Mage Armor", "", true).length) {
+            //While wearing mage armor, you use your unarmored proficiency to calculate your AC.
+            return "Unarmored Defense";
+        }
         if (this._affectedByArmoredSkirt == 1) {
             switch (this.prof) {
                 case "Light Armor":
@@ -234,16 +237,16 @@ export class Armor extends Equipment {
         if (characterService.still_loading()) { return 0; }
         this.get_ArmoredSkirt(creature);
         let skillLevel: number = 0;
-        let armorIncreases = creature.get_SkillIncreases(characterService, 0, charLevel, this.name);
-        let profIncreases = creature.get_SkillIncreases(characterService, 0, charLevel, this.get_Proficiency());
+        let armorLevel = characterService.get_Skills(creature, this.name, {type: "Specific Weapon Proficiency"})[0].level(creature, characterService, charLevel);
+        let proficiencyLevel = characterService.get_Skills(creature, this.get_Proficiency(creature, characterService))[0].level(creature, characterService, charLevel);
         //Add either the armor category proficiency or the armor proficiency, whichever is better
-        skillLevel = Math.min(Math.max(armorIncreases.length * 2, profIncreases.length * 2), 8)
+        skillLevel = Math.min(Math.max(armorLevel, proficiencyLevel), 8)
         return skillLevel;
     }
     get_ArmorSpecialization(creature: Creature, characterService: CharacterService): Specialization[] {
         let SpecializationGains: SpecializationGain[] = [];
         let specializations: Specialization[] = [];
-        let prof = this.get_Proficiency();
+        let prof = this.get_Proficiency(creature, characterService);
         if (creature.type == "Character" && this.group) {
             let character = creature as Character;
             let skillLevel = this.profLevel(character, characterService);
@@ -280,6 +283,6 @@ export class Armor extends Equipment {
     }
     get_EffectsGenerationHints(): HintEffectsObject[] {
         return super.get_EffectsGenerationHints()
-        .concat(...this.propertyRunes.map(rune => rune.get_EffectsGenerationHints()));
+            .concat(...this.propertyRunes.map(rune => rune.get_EffectsGenerationHints()));
     }
 }

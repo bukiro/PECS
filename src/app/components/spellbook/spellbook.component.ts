@@ -160,7 +160,7 @@ export class SpellbookComponent implements OnInit {
     }
 
     get_SpellDCs() {
-        return this.characterService.get_Skills(this.get_Character(), "", "Spell DC").filter(skill => skill.level(this.get_Character(), this.characterService) > 0);
+        return this.characterService.get_Skills(this.get_Character(), "", { type: "Spell DC" }).filter(skill => skill.level(this.get_Character(), this.characterService) > 0);
     }
 
     get_SpellCastings() {
