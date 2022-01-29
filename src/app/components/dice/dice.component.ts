@@ -5,6 +5,7 @@ import { DiceService } from 'src/app/services/dice.service';
 import { DiceResult } from 'src/app/classes/DiceResult';
 import { IntegrationsService } from 'src/app/services/integrations.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-dice',
@@ -117,13 +118,13 @@ export class DiceComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["dice", "all"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (["dice", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
@@ -135,6 +136,14 @@ export class DiceComponent implements OnInit {
 
     ngOnInit() {
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

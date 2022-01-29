@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { TraitsService } from 'src/app/services/traits.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
@@ -19,6 +19,7 @@ import { Consumable } from 'src/app/classes/Consumable';
 import { EvaluationService } from 'src/app/services/evaluation.service';
 import { CustomEffectsService } from 'src/app/services/customEffects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-conditions',
@@ -26,7 +27,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     styleUrls: ['./conditions.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ConditionsComponent implements OnInit {
+export class ConditionsComponent implements OnInit, OnDestroy {
 
     public endOn: number = 5;
     public value: number = 1;
@@ -590,13 +591,13 @@ export class ConditionsComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["conditions", "all"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "character" && ["conditions", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
@@ -610,5 +611,12 @@ export class ConditionsComponent implements OnInit {
         this.finish_Loading();
     }
 
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
+    }
 
 }

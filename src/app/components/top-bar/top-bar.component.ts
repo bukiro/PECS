@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { SavegameService } from 'src/app/services/savegame.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -10,6 +10,7 @@ import { ConfigService } from 'src/app/services/config.service';
 import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-top-bar',
@@ -17,7 +18,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     styleUrls: ['./top-bar.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TopBarComponent implements OnInit {
+export class TopBarComponent implements OnInit, OnDestroy {
 
     public newMessages: PlayerMessage[] = [];
     public modalOpen: boolean = false;
@@ -201,7 +202,7 @@ export class TopBarComponent implements OnInit {
             }
         } else {
             //Clean up old messages, then check for new messages, then open the dialog if any are found.
-            this.messageService.cleanup_OldMessages().subscribe(() => {
+            const cleanupSubscription = this.messageService.cleanup_OldMessages().subscribe(() => {
                 this.messageService.load_Messages(this.characterService.get_Character().id)
                     .subscribe((results: string[]) => {
                         //Get any new messages.
@@ -225,6 +226,8 @@ export class TopBarComponent implements OnInit {
                     this.toastService.show("An error occurred while cleaning up messages. See console for more information.")
                     console.log('Error cleaning up messages: ' + error.message);
                 }
+            }, () => {
+                cleanupSubscription.unsubscribe()
             })
         }
     }
@@ -320,13 +323,13 @@ export class TopBarComponent implements OnInit {
         if (!this.get_Database() && !this.configService.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["top-bar", "all", "character"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "character" && ["top-bar", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
@@ -348,6 +351,14 @@ export class TopBarComponent implements OnInit {
     ngOnInit() {
         this.characterService.initialize("");
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

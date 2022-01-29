@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Activity } from 'src/app/classes/Activity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
@@ -14,6 +14,7 @@ import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { TimeService } from 'src/app/services/time.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-spellTarget',
@@ -21,7 +22,7 @@ import { TimeService } from 'src/app/services/time.service';
     styleUrls: ['./spellTarget.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SpellTargetComponent implements OnInit {
+export class SpellTargetComponent implements OnInit, OnDestroy {
 
     @Input()
     creature: string;
@@ -335,13 +336,13 @@ export class SpellTargetComponent implements OnInit {
     }
 
     finish_Loading() {
-        this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.get_Changed
             .subscribe((target) => {
                 if (target == "activities" || target == "spellbook" || target == "all" || target.toLowerCase() == this.creature.toLowerCase()) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.get_ViewChanged
             .subscribe((view) => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["activities", "spellbook", "all"].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
@@ -351,6 +352,14 @@ export class SpellTargetComponent implements OnInit {
 
     ngOnInit() {
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

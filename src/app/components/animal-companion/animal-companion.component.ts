@@ -1,7 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { AnimalCompanionsService } from 'src/app/services/animalcompanions.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-animal-companion',
@@ -9,7 +10,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     styleUrls: ['./animal-companion.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AnimalCompanionComponent implements OnInit {
+export class AnimalCompanionComponent implements OnInit, OnDestroy {
 
     public hover: string = '';
     private showMode: string = "";
@@ -78,13 +79,13 @@ export class AnimalCompanionComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["companion", "all"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "companion" && ["companion", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
@@ -101,6 +102,14 @@ export class AnimalCompanionComponent implements OnInit {
     ngOnInit() {
         this.set_Mobile();
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
     @HostListener('window:resize', ['$event'])

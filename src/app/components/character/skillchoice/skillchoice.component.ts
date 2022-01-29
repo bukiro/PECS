@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { Skill } from 'src/app/classes/Skill';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-skillchoice',
@@ -10,7 +11,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     styleUrls: ['./skillchoice.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkillchoiceComponent implements OnInit {
+export class SkillchoiceComponent implements OnInit, OnDestroy {
 
     @Input()
     choice: SkillChoice
@@ -260,13 +261,13 @@ export class SkillchoiceComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["skillchoices", "all", "character"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "character" && ["skillchoices", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
@@ -281,6 +282,14 @@ export class SkillchoiceComponent implements OnInit {
             this.levelNumber = this.get_Character().level;
         }
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

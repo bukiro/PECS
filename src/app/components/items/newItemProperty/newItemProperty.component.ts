@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ItemsService } from 'src/app/services/items.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
@@ -30,7 +30,7 @@ import { SpellGain } from 'src/app/classes/SpellGain';
     templateUrl: './newItemProperty.component.html',
     styleUrls: ['./newItemProperty.component.css']
 })
-export class NewItemPropertyComponent implements OnInit {
+export class NewItemPropertyComponent {
 
     @Input()
     propertyKey: string;
@@ -557,9 +557,6 @@ export class NewItemPropertyComponent implements OnInit {
 
     set_ItemType() {
         this.get_Parent()["name"] = this.itemsService.get_Items()[this.get_Parent()["type"]][0]["name"];
-    }
-
-    ngOnInit() {
     }
 
 }

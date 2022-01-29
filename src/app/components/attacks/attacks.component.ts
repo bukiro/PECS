@@ -555,9 +555,6 @@ export class AttacksComponent implements OnInit, OnDestroy {
         return [];
     }
 
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
-
     finish_Loading() {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
@@ -582,9 +579,12 @@ export class AttacksComponent implements OnInit, OnDestroy {
         this.finish_Loading();
     }
 
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
     ngOnDestroy() {
-        this.changeSubscription.unsubscribe();
-        this.viewChangeSubscription.unsubscribe();
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

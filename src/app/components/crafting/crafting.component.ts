@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { ItemsService } from 'src/app/services/items.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { Item } from 'src/app/classes/Item';
@@ -11,6 +11,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { Consumable } from 'src/app/classes/Consumable';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-crafting',
@@ -18,7 +19,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     styleUrls: ['./crafting.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CraftingComponent implements OnInit {
+export class CraftingComponent implements OnInit, OnDestroy {
 
     private showList: string = "";
     private showItem: number = 0;
@@ -303,13 +304,13 @@ export class CraftingComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["crafting", "all"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["crafting", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
@@ -321,5 +322,13 @@ export class CraftingComponent implements OnInit {
 
     ngOnInit() {
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 }

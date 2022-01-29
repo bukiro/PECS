@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { SpellsService } from 'src/app/services/spells.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { Spell } from 'src/app/classes/Spell';
@@ -7,6 +7,7 @@ import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { TraitsService } from 'src/app/services/traits.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-spellLibrary',
@@ -14,7 +15,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     styleUrls: ['./spellLibrary.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SpellLibraryComponent implements OnInit {
+export class SpellLibraryComponent implements OnInit, OnDestroy {
 
     private showList: number = -1;
     private showItem: string = "";
@@ -546,13 +547,13 @@ export class SpellLibraryComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["spelllibrary", "all"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "character" && ["spelllibrary", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
@@ -564,6 +565,14 @@ export class SpellLibraryComponent implements OnInit {
 
     ngOnInit() {
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

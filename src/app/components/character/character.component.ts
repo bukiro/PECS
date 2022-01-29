@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { ClassesService } from 'src/app/services/classes.service';
 import { Class } from 'src/app/classes/Class';
@@ -43,6 +43,7 @@ import { default as package_json } from 'package.json';
 import { FeatData } from 'src/app/classes/FeatData';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { CacheService } from 'src/app/services/cache.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-character',
@@ -50,7 +51,7 @@ import { CacheService } from 'src/app/services/cache.service';
     styleUrls: ['./character.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CharacterComponent implements OnInit {
+export class CharacterComponent implements OnInit, OnDestroy {
 
     public newClass: Class = new Class();
     private showLevel: number = 0;
@@ -1497,13 +1498,13 @@ export class CharacterComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["character", "all", "charactersheet"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "character" && ["charactersheet", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
@@ -1517,6 +1518,14 @@ export class CharacterComponent implements OnInit {
         //Start with the about page in desktop mode, and without it on mobile.
         this.showList = (window.innerWidth < 992) ? "" : "about";
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

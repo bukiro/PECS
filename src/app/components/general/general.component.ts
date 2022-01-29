@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { TraitsService } from 'src/app/services/traits.service';
@@ -9,6 +9,7 @@ import { DeitiesService } from 'src/app/services/deities.service';
 import { Domain } from 'src/app/classes/Domain';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ClassesService } from 'src/app/services/classes.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-general',
@@ -16,7 +17,7 @@ import { ClassesService } from 'src/app/services/classes.service';
     styleUrls: ['./general.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GeneralComponent implements OnInit {
+export class GeneralComponent implements OnInit, OnDestroy {
 
     @Input()
     creature: string = "Character";
@@ -246,13 +247,13 @@ export class GeneralComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["general", "all", this.creature.toLowerCase()].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["general", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
@@ -264,6 +265,14 @@ export class GeneralComponent implements OnInit {
 
     ngOnInit() {
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Activity } from 'src/app/classes/Activity';
 import { CharacterService } from 'src/app/services/character.service';
 import { ConditionSet } from 'src/app/classes/ConditionSet';
@@ -15,7 +15,7 @@ import { WornItem } from 'src/app/classes/WornItem';
     templateUrl: './hint.component.html',
     styleUrls: ['./hint.component.scss']
 })
-export class HintComponent implements OnInit {
+export class HintComponent {
 
     @Input()
     creature: string = "Character";
@@ -176,9 +176,6 @@ export class HintComponent implements OnInit {
             return "DescOnly"
         }
         return "";
-    }
-
-    ngOnInit() {
     }
 
 }

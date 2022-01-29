@@ -85,7 +85,7 @@ export class MessageService {
             return false;
         }
         this.checkingMessages = true;
-        this.load_Messages(characterService.get_Character().id)
+        const messagesSubscription = this.load_Messages(characterService.get_Character().id)
             .subscribe((results: string[]) => {
                 let newMessages = this.process_Messages(characterService, results)
                 //If the check was automatic, and any messages are left, apply them automatically if applyMessagesAutomatically is set,
@@ -113,6 +113,8 @@ export class MessageService {
                     this.toastService.show(text)
                     console.log('Error loading messages from database: ' + error.message);
                 }
+            }, () => {
+                messagesSubscription.unsubscribe()
             });
     }
 
@@ -190,7 +192,7 @@ export class MessageService {
                 message.ttl--;
                 if (message.ttl == 0 && characterService.get_LoggedIn()) {
                     messagesToDelete++;
-                    this.delete_MessageFromDB(Object.assign(new PlayerMessage(), { id: message.id })).subscribe(() => {
+                    const deleteSubscription = this.delete_MessageFromDB(Object.assign(new PlayerMessage(), { id: message.id })).subscribe(() => {
                         messagesToDelete--;
                         if (!messagesToDelete) {
                             this.cleaningUpIgnoredMessages = false;
@@ -210,6 +212,8 @@ export class MessageService {
                             this.toastService.show(text)
                             console.log('Error deleting messages: ' + error.message);
                         }
+                    }, () => {
+                        deleteSubscription.unsubscribe()
                     })
                 }
             })
@@ -245,9 +249,13 @@ export class MessageService {
                 if (minuteTimer <= 0) {
                     //Every minute, let the database connector clean up messages that are older than 10 minutes.
                     //The timer starts at 0 so this happens immediately upon activating automatic checking (or loading a character with it.)
-                    this.cleanup_OldMessages().subscribe(() => { }, error => {
+                    const cleanupSubscription = this.cleanup_OldMessages().subscribe(() => {
+                        //No need to process anything if the connector does its work properly.
+                    }, error => {
                         this.toastService.show("An error occurred while cleaning up messages. See console for more information.")
                         console.log('Error cleaning up messages: ' + error.message);
+                    }, () => {
+                        cleanupSubscription.unsubscribe();
                     })
                     minuteTimer = 60;
                 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { FeatsService } from 'src/app/services/feats.service';
 import { Feat } from 'src/app/classes/Feat';
@@ -9,6 +9,7 @@ import { Character } from 'src/app/classes/Character';
 import { TraitsService } from 'src/app/services/traits.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-featchoice',
@@ -16,7 +17,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     styleUrls: ['./featchoice.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FeatchoiceComponent implements OnInit {
+export class FeatchoiceComponent implements OnInit, OnDestroy {
 
     @Input()
     choice: FeatChoice
@@ -720,14 +721,14 @@ export class FeatchoiceComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["featchoices", "all", this.creature.toLowerCase()].includes(target.toLowerCase())) {
                         this.featLevel = this.get_ChoiceLevel(this.choice);
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["featchoices", "all"].includes(view.target.toLowerCase())) {
                         this.featLevel = this.get_ChoiceLevel(this.choice);
@@ -741,6 +742,14 @@ export class FeatchoiceComponent implements OnInit {
     ngOnInit() {
         this.featLevel = this.get_ChoiceLevel(this.choice);
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { FamiliarsService } from 'src/app/services/familiars.service';
@@ -10,7 +11,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     styleUrls: ['./familiar.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FamiliarComponent implements OnInit {
+export class FamiliarComponent implements OnInit, OnDestroy {
 
     private showMode: string = "";
     public mobile: boolean = false;
@@ -88,17 +89,21 @@ export class FamiliarComponent implements OnInit {
         return choice.feats.length >= available;
     }
 
+    set_Mobile() {
+        this.mobile = this.characterService.get_Mobile();
+    }
+
     finish_Loading() {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["familiar", "all"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "familiar" && ["familiar", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
@@ -108,13 +113,17 @@ export class FamiliarComponent implements OnInit {
         }
     }
 
-    set_Mobile() {
-        this.mobile = this.characterService.get_Mobile();
-    }
-
     ngOnInit() {
         this.set_Mobile();
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
     @HostListener('window:resize', ['$event'])

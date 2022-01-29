@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Feat } from 'src/app/classes/Feat';
 import { Effect } from 'src/app/classes/Effect';
@@ -11,6 +11,7 @@ import { Armor } from 'src/app/classes/Armor';
 import { Consumable } from 'src/app/classes/Consumable';
 import { Activity } from 'src/app/classes/Activity';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-gridIcon',
@@ -18,7 +19,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     styleUrls: ['./gridIcon.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GridIconComponent implements OnInit {
+export class GridIconComponent implements OnInit, OnDestroy {
 
     @Input()
     title: string = "";
@@ -384,13 +385,13 @@ export class GridIconComponent implements OnInit {
 
     finish_Loading() {
         if (this.updateId) {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (target == this.updateId || (target == "effects" && this.condition)) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.target == this.updateId || (view.target.toLowerCase() == "effects" && this.condition)) {
                         this.changeDetector.detectChanges();
@@ -401,6 +402,14 @@ export class GridIconComponent implements OnInit {
 
     ngOnInit() {
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

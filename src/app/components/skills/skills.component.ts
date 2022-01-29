@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Input, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { SkillsService } from 'src/app/services/skills.service';
 import { FeatsService } from 'src/app/services/feats.service';
@@ -10,6 +10,7 @@ import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-skills',
@@ -17,7 +18,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     styleUrls: ['./skills.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkillsComponent implements OnInit {
+export class SkillsComponent implements OnInit, OnDestroy {
 
     @Input()
     creature: string = "Character";
@@ -212,13 +213,13 @@ export class SkillsComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["skills", "alls", this.creature.toLowerCase()].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["skills", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
@@ -230,6 +231,14 @@ export class SkillsComponent implements OnInit {
 
     ngOnInit() {
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

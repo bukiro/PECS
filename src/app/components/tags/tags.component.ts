@@ -1,21 +1,21 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { TraitsService } from 'src/app/services/traits.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { Effect } from 'src/app/classes/Effect';
 import { TimeService } from 'src/app/services/time.service';
-import { ConditionSet } from 'src/app/classes/ConditionSet';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
 import { Feat } from 'src/app/classes/Feat';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-tags',
     templateUrl: './tags.component.html',
     styleUrls: ['./tags.component.css']
 })
-export class TagsComponent implements OnInit {
+export class TagsComponent implements OnInit, OnDestroy {
 
     @Input()
     creature: string = "Character";
@@ -184,13 +184,13 @@ export class TagsComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["tags", "all", this.creature, this.objectName].includes(target)) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature == this.creature &&
                         (
@@ -206,6 +206,14 @@ export class TagsComponent implements OnInit {
 
     ngOnInit() {
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

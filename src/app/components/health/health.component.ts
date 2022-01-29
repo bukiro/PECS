@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
@@ -7,6 +7,7 @@ import { ItemsService } from 'src/app/services/items.service';
 import { SpellsService } from 'src/app/services/spells.service';
 import { ConditionsService } from 'src/app/services/conditions.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-health',
@@ -14,7 +15,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     styleUrls: ['./health.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HealthComponent implements OnInit {
+export class HealthComponent implements OnInit, OnDestroy {
 
     @Input()
     creature: string = "Character";
@@ -272,13 +273,13 @@ export class HealthComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["health", "all", this.creature.toLowerCase()].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["health", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
@@ -290,6 +291,14 @@ export class HealthComponent implements OnInit {
 
     ngOnInit() {
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

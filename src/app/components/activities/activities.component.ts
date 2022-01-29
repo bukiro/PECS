@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
@@ -7,6 +7,7 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { FeatChoice } from 'src/app/classes/FeatChoice';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-activities',
@@ -14,7 +15,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     styleUrls: ['./activities.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ActivitiesComponent implements OnInit {
+export class ActivitiesComponent implements OnInit, OnDestroy {
 
     @Input()
     creature: string = "Character";
@@ -160,13 +161,13 @@ export class ActivitiesComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (target == "activities" || target == "all" || target.toLowerCase() == this.creature.toLowerCase()) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["activities", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
@@ -178,6 +179,14 @@ export class ActivitiesComponent implements OnInit {
 
     ngOnInit() {
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { Item } from 'src/app/classes/Item';
 import { Equipment } from 'src/app/classes/Equipment';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-itemContent',
@@ -11,7 +12,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     styleUrls: ['./itemContent.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ItemContentComponent implements OnInit {
+export class ItemContentComponent implements OnInit, OnDestroy {
 
     @Input()
     item: Item | any;
@@ -79,13 +80,13 @@ export class ItemContentComponent implements OnInit {
 
     finish_Loading() {
         if (this.item.id) {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (target == this.item.id) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.target == this.item.id) {
                         this.changeDetector.detectChanges();
@@ -96,6 +97,14 @@ export class ItemContentComponent implements OnInit {
 
     ngOnInit() {
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

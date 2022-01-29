@@ -1,10 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { SpellsService } from 'src/app/services/spells.service';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { EffectsService } from 'src/app/services/effects.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-spells',
@@ -12,7 +13,7 @@ import { EffectsService } from 'src/app/services/effects.service';
     styleUrls: ['./spells.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SpellsComponent implements OnInit {
+export class SpellsComponent implements OnInit, OnDestroy {
 
     public showSpell: string = "";
     public showChoice: string = "";
@@ -190,13 +191,13 @@ export class SpellsComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["spells", "all", "character"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "character" && ["spells", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
@@ -211,6 +212,14 @@ export class SpellsComponent implements OnInit {
 
     ngOnInit() {
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

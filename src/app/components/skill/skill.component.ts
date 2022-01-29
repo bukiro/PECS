@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { SkillsService } from 'src/app/services/skills.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { TraitsService } from 'src/app/services/traits.service';
@@ -10,6 +10,7 @@ import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-skill',
@@ -17,7 +18,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     styleUrls: ['./skill.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkillComponent implements OnInit {
+export class SkillComponent implements OnInit, OnDestroy {
 
     @Input()
     creature: string = "Character";
@@ -117,13 +118,13 @@ export class SkillComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["individualskills", "all", this.creature.toLowerCase(), this.skill.name.toLowerCase()].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature == this.creature &&
                         (
@@ -159,6 +160,14 @@ export class SkillComponent implements OnInit {
 
     ngOnInit() {
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

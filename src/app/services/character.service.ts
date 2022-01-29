@@ -1449,11 +1449,10 @@ export class CharacterService {
         if (this.get_GMMode() || this.get_ManualMode() || !this.get_LoggedIn()) {
             return false;
         }
-        let timeStamp: number = 0;
-        let character = this.get_Character();
-        let targets = this.savegameService.get_Savegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id);
-        this.messageService.get_Time().subscribe((result: string[]) => {
-            timeStamp = result["time"];
+        const timeSubscription = this.messageService.get_Time().subscribe((result: string[]) => {
+            const timeStamp = result["time"];
+            const character = this.get_Character();
+            const targets = this.savegameService.get_Savegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id);
             let messages: PlayerMessage[] = [];
             targets.forEach(target => {
                 let message = new PlayerMessage();
@@ -1467,7 +1466,7 @@ export class CharacterService {
                 messages.push(message);
             })
             if (messages.length) {
-                this.messageService.send_Messages(messages).subscribe((result) => {
+                const messagesSubscription = this.messageService.send_Messages(messages).subscribe((result) => {
                     //Don't notify the user that a turn change was sent. It proved more annoying than useful.
                     //this.toastService.show("Sent turn change to " + (messages.length) + " targets.");
                 }, (error) => {
@@ -1477,7 +1476,9 @@ export class CharacterService {
                         this.toastService.show("An error occurred while sending effects. See console for more information.");
                         console.log('Error saving effect messages to database: ' + error.message);
                     }
-                });;
+                }, () => {
+                    messagesSubscription.unsubscribe();
+                });
             }
         }, (error) => {
             if (error.status == 401) {
@@ -1486,6 +1487,8 @@ export class CharacterService {
                 this.toastService.show("An error occurred while sending effects. See console for more information.");
                 console.log('Error saving effect messages to database: ' + error.message);
             }
+        }, () => {
+            timeSubscription.unsubscribe();
         });
     }
 
@@ -1522,10 +1525,9 @@ export class CharacterService {
         if (this.get_GMMode() || this.get_ManualMode() || !this.get_LoggedIn()) {
             return false;
         }
-        let timeStamp: number = 0;
-        let creatures = this.get_Creatures();
-        this.messageService.get_Time().subscribe((result: string[]) => {
-            timeStamp = result["time"];
+        const timeSubscription = this.messageService.get_Time().subscribe((result: string[]) => {
+            const timeStamp = result["time"];
+            const creatures = this.get_Creatures();
             let messages: PlayerMessage[] = [];
             targets.forEach(target => {
                 if (creatures.some(creature => creature.id == target.id)) {
@@ -1549,7 +1551,7 @@ export class CharacterService {
                 }
             })
             if (messages.length) {
-                this.messageService.send_Messages(messages).subscribe((result) => {
+                const messagesSubscription = this.messageService.send_Messages(messages).subscribe((result) => {
                     //If messages were sent, send a summary toast.
                     this.toastService.show("Sent effects to " + (messages.length) + " targets.");
                 }, (error) => {
@@ -1559,6 +1561,8 @@ export class CharacterService {
                         this.toastService.show("An error occurred while sending effects. See console for more information.");
                         console.log('Error saving effect messages to database: ' + error.message);
                     }
+                }, () => {
+                    messagesSubscription.unsubscribe();
                 });;
             }
         }, (error) => {
@@ -1568,6 +1572,8 @@ export class CharacterService {
                 this.toastService.show("An error occurred while sending effects. See console for more information.");
                 console.log('Error saving effect messages to database: ' + error.message);
             }
+        }, () => {
+            timeSubscription.unsubscribe();
         });
     }
 
@@ -1621,14 +1627,13 @@ export class CharacterService {
         if (this.get_GMMode() || this.get_ManualMode() || !this.get_LoggedIn()) {
             return false;
         }
-        if (!amount) {
-            amount == item.amount;
-        }
-        item = this.itemsService.update_GrantingItem(sender, item);
-        let included: { items: Item[], inventories: ItemCollection[] } = this.itemsService.pack_GrantingItem(sender, item);
-        let timeStamp: number = 0;
-        this.messageService.get_Time().subscribe((result: string[]) => {
-            timeStamp = result["time"];
+        const timeSubscription = this.messageService.get_Time().subscribe((result: string[]) => {
+            const timeStamp = result["time"];
+            if (!amount) {
+                amount == item.amount;
+            }
+            item = this.itemsService.update_GrantingItem(sender, item);
+            const included: { items: Item[], inventories: ItemCollection[] } = this.itemsService.pack_GrantingItem(sender, item);
             //Build a message to the correct player and creature, with the timestamp just received from the database connector.
             let message = new PlayerMessage();
             message.recipientId = target.playerId;
@@ -1641,7 +1646,7 @@ export class CharacterService {
             message.itemAmount = amount;
             message.includedItems = included.items;
             message.includedInventories = included.inventories;
-            this.messageService.send_Messages([message]).subscribe((result) => {
+            const messageSubscription = this.messageService.send_Messages([message]).subscribe((result) => {
                 //If the message was sent, send a summary toast.
                 this.toastService.show("Sent item offer to <strong>" + target.name + "</strong>.");
             }, (error) => {
@@ -1651,6 +1656,8 @@ export class CharacterService {
                     this.toastService.show("An error occurred while sending item. See console for more information.");
                     console.log('Error saving item message to database: ' + error.message);
                 }
+            }, () => {
+                messageSubscription.unsubscribe();
             });
         }, (error) => {
             if (error.status == 401) {
@@ -1659,6 +1666,8 @@ export class CharacterService {
                 this.toastService.show("An error occurred while sending item. See console for more information.");
                 console.log('Error saving item message to database: ' + error.message);
             }
+        }, () => {
+            timeSubscription.unsubscribe();
         });
     }
 
@@ -1753,9 +1762,8 @@ export class CharacterService {
         if (this.get_GMMode() || this.get_ManualMode() || !this.get_LoggedIn()) {
             return false;
         }
-        let timeStamp: number = 0;
-        this.messageService.get_Time().subscribe((result: string[]) => {
-            timeStamp = result["time"];
+        const timeSubscription = this.messageService.get_Time().subscribe((result: string[]) => {
+            const timeStamp = result["time"];
             //Build a message to the correct player and creature, with the timestamp just received from the database connector.
             let response = new PlayerMessage();
             response.recipientId = message.senderId;
@@ -1771,7 +1779,7 @@ export class CharacterService {
             } else {
                 response.rejectedItem = message.offeredItem[0].id;
             }
-            this.messageService.send_Messages([response]).subscribe((result) => {
+            const messageSubscription = this.messageService.send_Messages([response]).subscribe((result) => {
                 //If the message was sent, send a summary toast.
                 if (accepted) {
                     this.toastService.show("Sent acceptance response to <strong>" + target + "</strong>.");
@@ -1785,7 +1793,9 @@ export class CharacterService {
                     this.toastService.show("An error occurred while sending response. See console for more information.");
                     console.log('Error saving response message to database: ' + error.message);
                 }
-            });;
+            }, () => {
+                messageSubscription.unsubscribe();
+            });
         }, (error) => {
             if (error.status == 401) {
                 this.configService.on_LoggedOut("Your login is no longer valid; The item acceptance message could not be sent. Your companion should drop the item manually.");
@@ -1793,6 +1803,8 @@ export class CharacterService {
                 this.toastService.show("An error occurred while sending response. See console for more information.");
                 console.log('Error saving response message to database: ' + error.message);
             }
+        }, () => {
+            timeSubscription.unsubscribe();
         });
     }
 
@@ -1994,7 +2006,7 @@ export class CharacterService {
         return this.abilitiesService.get_Abilities(name)
     }
 
-    public get_Skills(creature: Creature, name: string = "", filter: {type?: string, locked?: boolean} = {}, options: {noSubstitutions?: boolean} = {}): Skill[] {
+    public get_Skills(creature: Creature, name: string = "", filter: { type?: string, locked?: boolean } = {}, options: { noSubstitutions?: boolean } = {}): Skill[] {
         return this.skillsService.get_Skills(creature.customSkills, name, filter, options);
     }
 
@@ -2498,7 +2510,7 @@ export class CharacterService {
             this.effectsGenerationService.initialize(this);
             if (id) {
                 this.set_LoadingStatus("Loading character");
-                this.load_CharacterFromDB(id)
+                const loadSubscription = this.load_CharacterFromDB(id)
                     .subscribe((results: string[]) => {
                         this.loader = results;
                         if (this.loader) {
@@ -2516,6 +2528,8 @@ export class CharacterService {
                             console.log('Error loading character from database: ' + error.message);
                             this.cancel_Loading();
                         }
+                    }, () => {
+                        loadSubscription.unsubscribe();
                     });
             } else {
                 this.me = new Character();
@@ -2529,7 +2543,7 @@ export class CharacterService {
     }
 
     delete_Character(savegame: Savegame) {
-        this.savegameService.delete_CharacterFromDB(savegame).subscribe((results) => {
+        const deleteSubscription = this.savegameService.delete_CharacterFromDB(savegame).subscribe((results) => {
             this.toastService.show("Deleted " + (savegame.name || "character") + " from database.");
             this.savegameService.initialize(this);
         }, (error) => {
@@ -2539,6 +2553,8 @@ export class CharacterService {
                 this.toastService.show("An error occurred while deleting the character. See console for more information.");
                 console.log('Error deleting from database: ' + error.message);
             }
+        }, () => {
+            deleteSubscription.unsubscribe();
         });
     }
 
@@ -2621,7 +2637,7 @@ export class CharacterService {
     save_Character() {
         this.get_Character().yourTurn = this.timeService.get_YourTurn();
         this.toastService.show("Saving...");
-        this.savegameService.save_Character(this.get_Character(), this.itemsService, this.classesService, this.historyService, this.animalCompanionsService).subscribe((result) => {
+        const saveSubscription = this.savegameService.save_Character(this.get_Character(), this.itemsService, this.classesService, this.historyService, this.animalCompanionsService).subscribe((result) => {
             if (result["lastErrorObject"] && result["lastErrorObject"].updatedExisting) {
                 this.toastService.show("Saved " + (this.get_Character().name || "character") + ".");
             } else {
@@ -2635,6 +2651,8 @@ export class CharacterService {
                 this.toastService.show("An error occurred while saving the character. See console for more information.");
                 console.log('Error saving to database: ' + error.message);
             }
+        }, () => {
+            saveSubscription.unsubscribe();
         });
 
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Activity } from 'src/app/classes/Activity';
 import { TraitsService } from 'src/app/services/traits.service';
 import { SpellsService } from 'src/app/services/spells.service';
@@ -15,6 +15,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { EffectsService } from 'src/app/services/effects.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-activity',
@@ -22,7 +23,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     styleUrls: ['./activity.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ActivityComponent implements OnInit {
+export class ActivityComponent implements OnInit, OnDestroy {
 
     @Input()
     creature: string = "Character";
@@ -234,13 +235,13 @@ export class ActivityComponent implements OnInit {
     }
 
     finish_Loading() {
-        this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.get_Changed
             .subscribe((target) => {
                 if (["activities", "all", this.creature.toLowerCase()].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.get_ViewChanged
             .subscribe((view) => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["activities", "all"].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
@@ -254,6 +255,14 @@ export class ActivityComponent implements OnInit {
         } else {
             this.finish_Loading();
         }
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

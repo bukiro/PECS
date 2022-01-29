@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Character } from 'src/app/classes/Character';
 import { CharacterService } from 'src/app/services/character.service';
@@ -11,6 +11,7 @@ import { TraitsService } from 'src/app/services/traits.service';
 import { Creature } from 'src/app/classes/Creature';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-condition',
@@ -18,12 +19,12 @@ import { RefreshService } from 'src/app/services/refresh.service';
     styleUrls: ['./condition.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ConditionComponent implements OnInit {
+export class ConditionComponent implements OnInit, OnDestroy {
 
     @Input()
     conditionGain: ConditionGain;
     @Input()
-    condition: Condition;
+    condition: Condition;F
     @Input()
     showItem: string = "";
     @Input()
@@ -145,30 +146,6 @@ export class ConditionComponent implements OnInit {
         this.refreshService.set_Changed("close-popovers");
     }
 
-    still_loading() {
-        return this.characterService.still_loading();
-    }
-
-    finish_Loading() {
-        if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
-        } else {
-            this.refreshService.get_Changed
-                .subscribe((target) => {
-                    if (target == "effects" || target == "all" || target == this.creature) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            this.refreshService.get_ViewChanged
-                .subscribe((view) => {
-                    if (view.creature == this.creature && ["effects", "all"].includes(view.target)) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            return true;
-        }
-    }
-
     get_Activities(name: string = "") {
         return this.activitiesService.get_Activities(name);
     }
@@ -192,8 +169,40 @@ export class ConditionComponent implements OnInit {
         }
     }
 
+    still_loading() {
+        return this.characterService.still_loading();
+    }
+
+    finish_Loading() {
+        if (this.still_loading()) {
+            setTimeout(() => this.finish_Loading(), 500)
+        } else {
+            this.changeSubscription = this.refreshService.get_Changed
+                .subscribe((target) => {
+                    if (target == "effects" || target == "all" || target == this.creature) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
+                .subscribe((view) => {
+                    if (view.creature == this.creature && ["effects", "all"].includes(view.target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
+            return true;
+        }
+    }
+
     ngOnInit() {
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

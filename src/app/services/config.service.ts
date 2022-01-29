@@ -78,7 +78,7 @@ export class ConfigService {
         this.refreshService.set_ToChange("Character", "charactersheet");
         this.refreshService.process_ToChange();
         //Try logging in. You will receive false if the password was wrong, a random token if it was correct, or a token of "no-login-required" if no password is needed. 
-        this.login(password).subscribe((result: { token: string | false }) => {
+        const loginSubscription = this.login(password).subscribe((result: { token: string | false }) => {
             this.cannotLogin = false;
             if (result.token != false) {
                 this.xAccessToken = result.token;
@@ -110,6 +110,8 @@ export class ConfigService {
             this.refreshService.set_ToChange("Character", "charactersheet");
             this.refreshService.set_ToChange("Character", "top-bar");
             this.refreshService.process_ToChange();
+        }, () => {
+            loginSubscription.unsubscribe();
         });
     }
 

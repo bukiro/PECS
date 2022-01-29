@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ItemsService } from 'src/app/services/items.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { Weapon } from 'src/app/classes/Weapon';
@@ -20,6 +20,7 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
 import { AlchemicalBomb } from 'src/app/classes/AlchemicalBomb';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-items',
@@ -27,7 +28,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     styleUrls: ['./items.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ItemsComponent implements OnInit {
+export class ItemsComponent implements OnInit, OnDestroy {
 
     private showList: string = "";
     private showItem: number = 0;
@@ -596,13 +597,13 @@ export class ItemsComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["items", "all"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (["items", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
@@ -615,4 +616,13 @@ export class ItemsComponent implements OnInit {
     ngOnInit() {
         this.finish_Loading();
     }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
+    }
+    
 }

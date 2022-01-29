@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 
 @Component({
@@ -6,7 +6,7 @@ import { SpellCasting } from 'src/app/classes/SpellCasting';
     templateUrl: './description.component.html',
     styleUrls: ['./description.component.scss']
 })
-export class DescriptionComponent implements OnInit {
+export class DescriptionComponent {
 
     @Input()
     text: string = "";
@@ -19,9 +19,6 @@ export class DescriptionComponent implements OnInit {
 
     trackByIndex(index: number, obj: any): any {
         return index;
-    }
-
-    ngOnInit() {
     }
 
 }

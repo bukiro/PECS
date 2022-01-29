@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellsService } from 'src/app/services/spells.service';
 import { CharacterService } from 'src/app/services/character.service';
@@ -11,6 +11,7 @@ import { SpellLearned } from 'src/app/classes/SpellLearned';
 import { SignatureSpellGain } from 'src/app/classes/SignatureSpellGain';
 import { DeitiesService } from 'src/app/services/deities.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-spellchoice',
@@ -18,7 +19,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     styleUrls: ['./spellchoice.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SpellchoiceComponent implements OnInit {
+export class SpellchoiceComponent implements OnInit, OnDestroy {
 
     @Input()
     spellCasting: SpellCasting = undefined;
@@ -936,13 +937,13 @@ export class SpellchoiceComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["spellchoices", "all", "Character"].includes(target)) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature == "Character" && ["spellchoices", "all"].includes(view.target)) {
                         this.changeDetector.detectChanges();
@@ -957,6 +958,14 @@ export class SpellchoiceComponent implements OnInit {
             this.level = this.choice.level;
         }
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

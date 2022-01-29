@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { TraitsService } from 'src/app/services/traits.service';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { CharacterService } from 'src/app/services/character.service';
@@ -21,6 +21,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Shield } from 'src/app/classes/Shield';
 import { Armor } from 'src/app/classes/Armor';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-item',
@@ -28,7 +29,7 @@ import { Armor } from 'src/app/classes/Armor';
     styleUrls: ['./item.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ItemComponent implements OnInit {
+export class ItemComponent implements OnInit, OnDestroy {
 
     @Input()
     creature: string = "Character";
@@ -203,13 +204,13 @@ export class ItemComponent implements OnInit {
 
     finish_Loading() {
         if (this.item.id) {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (target == this.item.id) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.target == this.item.id) {
                         this.changeDetector.detectChanges();
@@ -223,6 +224,14 @@ export class ItemComponent implements OnInit {
             this.allowActivate = false;
         }
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { EffectsService } from 'src/app/services/effects.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { ConditionsService } from 'src/app/services/conditions.service';
@@ -8,6 +8,7 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Effect } from 'src/app/classes/Effect';
 import { Condition } from 'src/app/classes/Condition';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-effects',
@@ -15,7 +16,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     styleUrls: ['./effects.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EffectsComponent implements OnInit {
+export class EffectsComponent implements OnInit, OnDestroy {
 
     @Input()
     creature: string = "Character";
@@ -186,13 +187,13 @@ export class EffectsComponent implements OnInit {
         if (this.characterService.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["effects", "all", "effects-component", this.creature.toLowerCase()].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["effects", "all", "effects-component"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
@@ -204,6 +205,14 @@ export class EffectsComponent implements OnInit {
 
     ngOnInit() {
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

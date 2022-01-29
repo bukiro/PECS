@@ -1,7 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener, OnDestroy } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-character-sheet',
@@ -41,7 +42,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CharacterSheetComponent implements OnInit {
+export class CharacterSheetComponent implements OnInit, OnDestroy {
 
     public showMode: string = "";
     public mobile: boolean = false;
@@ -208,13 +209,13 @@ export class CharacterSheetComponent implements OnInit {
         if (this.characterService.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["character-sheet", "all", "character"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "character" && ["character-sheet", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
@@ -231,6 +232,14 @@ export class CharacterSheetComponent implements OnInit {
     ngOnInit() {
         this.set_Mobile();
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
     @HostListener('window:resize', ['$event'])

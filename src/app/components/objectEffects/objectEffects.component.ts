@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { EffectsService } from 'src/app/services/effects.service';
@@ -10,7 +10,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     templateUrl: './objectEffects.component.html',
     styleUrls: ['./objectEffects.component.css']
 })
-export class ObjectEffectsComponent implements OnInit {
+export class ObjectEffectsComponent {
 
     @Input()
     objectName: string = "";
@@ -89,9 +89,6 @@ export class ObjectEffectsComponent implements OnInit {
         }
         //If the EffectGain did not produce a value, return a zero value instead.
         return "0";
-    }
-
-    ngOnInit() {
     }
 
 }

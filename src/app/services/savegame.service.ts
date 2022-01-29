@@ -672,7 +672,7 @@ export class SavegameService {
         this.refreshService.set_Changed("charactersheet");
         this.refreshService.set_Changed("top-bar");
         if (this.configService.get_HasDBConnectionURL() && this.configService.get_LoggedIn()) {
-            this.load_Characters()
+            const loadSubscription = this.load_Characters()
                 .subscribe((results: string[]) => {
                     this.loader = results;
                     this.finish_loading(characterService)
@@ -690,6 +690,8 @@ export class SavegameService {
                         this.refreshService.set_Changed("top-bar");
                         this.refreshService.set_Changed();
                     }
+                }, () => {
+                    loadSubscription.unsubscribe();
                 });
         } else {
             this.loading = false;

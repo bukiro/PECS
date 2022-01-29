@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { TimeService } from 'src/app/services/time.service';
 import { EffectsService } from 'src/app/services/effects.service';
@@ -6,6 +6,7 @@ import { ItemsService } from 'src/app/services/items.service';
 import { SpellsService } from 'src/app/services/spells.service';
 import { ConditionsService } from 'src/app/services/conditions.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-time',
@@ -13,7 +14,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     styleUrls: ['./time.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TimeComponent implements OnInit {
+export class TimeComponent implements OnInit, OnDestroy {
 
     @Input()
     public showTurn: boolean = true;
@@ -77,13 +78,13 @@ export class TimeComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["time", "all", "character"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "character" && ["time", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
@@ -95,6 +96,14 @@ export class TimeComponent implements OnInit {
 
     ngOnInit() {
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }

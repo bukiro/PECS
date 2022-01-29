@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Input, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { Spell } from 'src/app/classes/Spell';
 import { TraitsService } from 'src/app/services/traits.service';
@@ -15,6 +15,7 @@ import { Condition } from 'src/app/classes/Condition';
 import { ConditionsService } from 'src/app/services/conditions.service';
 import { Feat } from 'src/app/classes/Feat';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-spellbook',
@@ -22,7 +23,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     styleUrls: ['./spellbook.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SpellbookComponent implements OnInit {
+export class SpellbookComponent implements OnInit, OnDestroy {
 
     @Input()
     public sheetSide: string = "left";
@@ -687,13 +688,13 @@ export class SpellbookComponent implements OnInit {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
-            this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
                     if (["spellbook", "all", "character"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "character" && ["spellbook", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
@@ -705,6 +706,14 @@ export class SpellbookComponent implements OnInit {
 
     ngOnInit() {
         this.finish_Loading();
+    }
+
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.changeSubscription?.unsubscribe();
+        this.viewChangeSubscription?.unsubscribe();
     }
 
 }
