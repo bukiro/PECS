@@ -188,7 +188,7 @@ export class Feat {
         if (skillreq.length) {
             skillreq.forEach(requirement => {
                 let requiredSkillName: string = requirement.skill;
-                let requiredSkill: Skill[] = characterService.get_Skills(character, requiredSkillName, {}, {noSubstitutions: true});
+                let requiredSkill: Skill[] = characterService.get_Skills(character, requiredSkillName, {}, { noSubstitutions: true });
                 let expected: number = requirement.value;
                 if (requiredSkill.length > 0) {
                     if (requiredSkill
@@ -284,10 +284,10 @@ export class Feat {
         let deity = deities[0];
         let secondDeity = deities[1];
         function Skill_Level(creature: string, name: string) {
-            if (creature != "Familiar") {
-                return characterService.get_Skills(characterService.get_Creature(creature), name)[0].level(characterService.get_Creature(creature) as Character | AnimalCompanion, characterService, charLevel);
-            } else {
+            if (creature == "Familiar") {
                 return 0;
+            } else {
+                return characterService.get_Skills(characterService.get_Creature(creature), name)[0].level(characterService.get_Creature(creature) as Character | AnimalCompanion, characterService, charLevel);
             }
         }
         function Speed(creature: string, name: string) {
@@ -372,10 +372,10 @@ export class Feat {
     }
     have(creature: Creature, characterService: CharacterService, charLevel: number = (characterService?.get_Character().level || 0), excludeTemporary: boolean = false, includeCountAs: boolean = false, minLevel: number = 1) {
         if (characterService?.still_loading()) { return 0 }
-        if (creature.type == "Character") {
+        if (creature instanceof Character) {
             return characterService.get_CharacterFeatsTaken(minLevel, charLevel, this.name, "", "", undefined, excludeTemporary, includeCountAs)?.length || 0;
-        } else if (creature.type == "Familiar") {
-            return (creature as Familiar).abilities.feats.filter(gain => gain.name.toLowerCase() == this.name.toLowerCase())?.length || 0;
+        } else if (creature instanceof Familiar) {
+            return creature.abilities.feats.filter(gain => gain.name.toLowerCase() == this.name.toLowerCase())?.length || 0;
         } else {
             return 0;
         }

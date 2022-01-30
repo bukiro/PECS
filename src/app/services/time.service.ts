@@ -14,6 +14,7 @@ import { CustomEffectsService } from 'src/app/services/customEffects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
+import { Familiar } from '../classes/Familiar';
 
 @Injectable({
     providedIn: 'root'
@@ -56,7 +57,7 @@ export class TimeService {
                     if (fastHealing && creature.health.currentHP(creature, characterService, effectsService).result > 0) {
                         this.refreshService.set_ToChange(creature.type, "health");
                         creature.health.heal(creature, characterService, effectsService, fastHealing);
-                        this.toastService.show((creature.type == "Character" ? "You" : (creature.name ? creature.name : "Your " + creature.type.toLowerCase())) + " gained " + (fastHealing).toString() + " HP from fast healing.")
+                        this.toastService.show((creature instanceof Character ? "You" : (creature.name ? creature.name : "Your " + creature.type.toLowerCase())) + " gained " + (fastHealing).toString() + " HP from fast healing.")
                     }
                 }
 
@@ -91,9 +92,7 @@ export class TimeService {
             this.refreshService.set_ToChange(creature.type, "health");
             this.refreshService.set_ToChange(creature.type, "effects");
             let con = 1;
-            if (creature.type != "Familiar") {
-                con = Math.max(characterService.abilitiesService.get_Abilities("Constitution")[0].mod((creature as AnimalCompanion | Character), characterService, characterService.effectsService).result, 1);
-            }
+            con = Math.max(characterService.abilitiesService.get_Abilities("Constitution")[0].mod(creature, characterService, characterService.effectsService).result, 1);
             let heal: number = con * charLevel;
             this.effectsService.get_AbsolutesOnThis(creature, "Resting HP Gain").forEach(effect => {
                 heal = parseInt(effect.setValue);
@@ -110,17 +109,15 @@ export class TimeService {
             })
             multiplier = Math.max(1, multiplier);
             characterService.get_Health(creature).heal(creature, characterService, characterService.effectsService, heal * multiplier, true, true);
-            this.toastService.show((creature.type == "Character" ? "You" : (creature.name ? creature.name : "Your " + creature.type.toLowerCase())) + " gained " + (heal * multiplier).toString() + " HP from resting.")
+            this.toastService.show((creature instanceof Character ? "You" : (creature.name ? creature.name : "Your " + creature.type.toLowerCase())) + " gained " + (heal * multiplier).toString() + " HP from resting.")
             //Reset all "once per day" activity cooldowns.
             this.activitiesService.rest(creature, characterService);
             //Reset all conditions that are "until the next time you make your daily preparations".
             conditionsService.rest(creature, characterService);
             //Remove all items that expire when you make your daily preparations.
-            if (creature.type != "Familiar") {
-                itemsService.rest((creature as AnimalCompanion | Character), characterService);
-            }
+            itemsService.rest(creature, characterService);
             //For the Character, reset all "once per day" spells, and regenerate spell slots, prepared formulas and bonded item charges.
-            if (creature.type == "Character") {
+            if (creature instanceof Character) {
                 let character = creature as Character;
                 //Reset all "once per day" spell cooldowns and re-prepare spells.
                 spellsService.rest(character, characterService);
@@ -157,12 +154,15 @@ export class TimeService {
         }
         let character = characterService.get_Character();
 
-        //Reset all "until you refocus" activity cooldowns.
-        this.activitiesService.refocus(character, characterService);
-        //Reset all conditions that are "until you refocus".
-        conditionsService.refocus(character, characterService);
-        //Remove all items that expire when you refocus.
-        itemsService.refocus(character, characterService);
+        characterService.get_Creatures().forEach(creature => {
+            //Reset all "until you refocus" activity cooldowns.
+            this.activitiesService.refocus(creature, characterService);
+            //Reset all conditions that are "until you refocus".
+            conditionsService.refocus(creature, characterService);
+            //Remove all items that expire when you refocus.
+            itemsService.refocus(creature, characterService);
+        })
+
         //Reset all "once per day" spell cooldowns and re-prepare spells.
         spellsService.refocus(character, characterService);
 
@@ -217,10 +217,8 @@ export class TimeService {
                         this.refreshService.set_ToChange(creature.type, "effects")
                     }
                     this.customEffectsService.tick_CustomEffects(creature, creatureTurns);
-                    if (creature.type != "Familiar") {
-                        itemsService.tick_Items((creature as AnimalCompanion | Character), characterService, creatureTurns);
-                    }
-                    if (creature.type == "Character") {
+                    itemsService.tick_Items((creature as AnimalCompanion | Character), characterService, creatureTurns);
+                    if (creature instanceof Character) {
                         spellsService.tick_Spells((creature as Character), characterService, itemsService, conditionsService, creatureTurns);
                     }
                     //If you are at full health and rest for 10 minutes, you lose the wounded condition.
@@ -245,7 +243,7 @@ export class TimeService {
             return inASentence ? "permanently" : "Permanent";
         } else if (duration == 2) {
             return inASentence ? "until another character's turn" : "Ends on another character's turn";
-        } else if ([1,3].includes(duration)) {
+        } else if ([1, 3].includes(duration)) {
             return inASentence ? "until resolved" : "Until resolved";
         } else {
             let returnString: string = ""
@@ -316,16 +314,16 @@ export class TimeService {
         }
         characterService.get_Creatures().forEach(creature => {
             if (AfflictionOnsetsWithinDuration(creature)) {
-                result = "One or more conditions" + (creature.type != "Character" ? " on your " + creature.type : "") + " need to be resolved before you can rest.";
+                result = "One or more conditions" + (creature instanceof Character ? "" : " on your " + creature.type) + " need to be resolved before you can rest.";
             }
             if (TimeStopConditionsActive(creature)) {
-                result = "Time is stopped for " + (creature.type != "Character" ? " your " + creature.type : " you") + ", and you cannot rest until this effect has ended."
+                result = "Time is stopped for " + (creature instanceof Character ? " you" : " your " + creature.type) + ", and you cannot rest until this effect has ended."
             }
             if (MultipleTempHPAvailable(creature)) {
-                result = "You need to select one set of temporary Hit Points" + (creature.type != "Character" ? " on your " + creature.type : "") + " before you can rest.";
+                result = "You need to select one set of temporary Hit Points" + (creature instanceof Character ? "" : " on your " + creature.type) + " before you can rest.";
             }
             if (options.includeResting && RestingBlockingEffectsActive(creature)) {
-                result = "An effect" + (creature.type != "Character" ? " on your " + creature.type : "") + " is keeping you from resting."
+                result = "An effect" + (creature instanceof Character ? "" : " on your " + creature.type) + " is keeping you from resting."
             }
         })
         return result;

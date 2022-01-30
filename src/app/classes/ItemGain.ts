@@ -1,8 +1,7 @@
 import { CharacterService } from "../services/character.service";
 import { ItemsService } from "../services/items.service";
-import { AnimalCompanion } from "./AnimalCompanion";
 import { Armor } from "./Armor";
-import { Character } from "./Character";
+import { Creature } from "./Creature";
 import { Item } from "./Item";
 import { Shield } from "./Shield";
 
@@ -15,6 +14,9 @@ export class ItemGain {
     public expiresOnlyIf: "" | "equipped" | "unequipped" = "";
     //The id is copied from the item after granting it, so that it can be removed again.
     public grantedItemID: string = "";
+    //If unhideAfterGrant is set, the item is no longer hidden after it has been granted.
+    // This will allow it to be moved and dropped even if it is a type of Item that is only granted by another item or by a condition.
+    public unhideAfterGrant: boolean = false;
     public name: string = "";
     public id: string = "";
     //The 'on' property is ignored for activities.
@@ -38,7 +40,7 @@ export class ItemGain {
     public get_IsMatchingExistingItem(item: Item): boolean {
         return (item.id == this.grantedItemID) || (item.can_Stack() && this.get_IsMatchingItem(item));
     }
-    public grant_GrantedItem(creature: Character | AnimalCompanion, context: { sourceName?: string, grantingItem?: Item } = {}, services: { characterService: CharacterService, itemsService: ItemsService }): void {
+    public grant_GrantedItem(creature: Creature, context: { sourceName?: string, grantingItem?: Item } = {}, services: { characterService: CharacterService, itemsService: ItemsService }): void {
         const newItem: Item = services.itemsService.get_CleanItems()[this.type.toLowerCase()].find((item: Item) => this.get_IsMatchingItem(item));
         if (newItem) {
             if (newItem.can_Stack()) {
@@ -55,6 +57,9 @@ export class ItemGain {
 
                 this.grantedItemID = grantedItem.id;
                 grantedItem.expiresOnlyIf = this.expiresOnlyIf;
+                if (this.unhideAfterGrant) {
+                    grantedItem.hide = false;
+                }
                 if (!grantedItem.can_Stack() && context.sourceName) {
                     grantedItem.grantedBy = "(Granted by " + context.sourceName + ")";
                 };
@@ -67,7 +72,7 @@ export class ItemGain {
             }
         }
     }
-    public drop_GrantedItem(creature: Character | AnimalCompanion, options: { requireGrantedItemID?: boolean }, services: { characterService: CharacterService }): void {
+    public drop_GrantedItem(creature: Creature, options: { requireGrantedItemID?: boolean }, services: { characterService: CharacterService }): void {
         options = Object.assign(
             {
                 requireGrantedItemID: true

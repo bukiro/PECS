@@ -148,17 +148,17 @@ export class ActivitiesService {
         //Process various results of activating the activity
 
         //Gain Items on Activation
-        if (activity.gainItems.length && creature.type != "Familiar") {
+        if (activity.gainItems.length) {
             if (activated) {
                 if (gain.constructor instanceof ActivityGain) {
                     gain.gainItems = activity.gainItems.map(gainItem => Object.assign(new ItemGain(), gainItem).recast());
                 }
                 gain.gainItems.forEach(gainItem => {
-                    gainItem.grant_GrantedItem(creature as Character|AnimalCompanion, {sourceName: activity.name}, {characterService: characterService, itemsService: itemsService})
+                    gainItem.grant_GrantedItem(creature, {sourceName: activity.name}, {characterService: characterService, itemsService: itemsService})
                 });
             } else {
                 gain.gainItems.forEach(gainItem => {
-                    gainItem.drop_GrantedItem(creature as Character | AnimalCompanion, {}, {characterService: characterService})
+                    gainItem.drop_GrantedItem(creature, {}, {characterService: characterService})
                 });
                 if (gain instanceof ActivityGain) {
                     gain.gainItems = [];

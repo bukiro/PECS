@@ -84,7 +84,7 @@ export class HintComponent {
                 hint.showon.split(",")
                     .some(showon =>
                         showon.trim().toLowerCase() == this.objectName.toLowerCase() ||
-                        showon.trim().toLowerCase() == (this.creature + ":" + name).toLowerCase() ||
+                        showon.trim().toLowerCase() == (this.creature + ":" + this.objectName).toLowerCase() ||
                         (
                             this.objectName.toLowerCase().includes("lore") &&
                             showon.trim().toLowerCase() == "lore"

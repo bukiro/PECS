@@ -374,7 +374,7 @@ export class EffectsGenerationService {
         //Add skill and speed penalties from armor strength requirements and certain traits.
         if (!options.ignoreArmorPenalties) {
             //If an armor has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement.
-            const strength = services.characterService.get_Abilities("Strength")[0].value(context.creature as Character | AnimalCompanion, services.characterService, this.effectsService).result;
+            const strength = (context.creature instanceof Familiar) ? 0 : services.characterService.get_Abilities("Strength")[0].value(context.creature as Character | AnimalCompanion, services.characterService, this.effectsService).result;
             const name = armor.get_Name();
             const skillPenalty = armor.get_SkillPenalty();
             const skillPenaltyString = skillPenalty.toString();
@@ -543,11 +543,18 @@ export class EffectsGenerationService {
         return effects;
     }
 
-    private set_EffectsApplied(effects: Effect[]): Effect[] {
+    private set_EffectsApplied(effects: Effect[], context: { readonly creature: Creature }): Effect[] {
         //Toggle effects are always applied.
         effects.filter(effect => effect.toggle).forEach(effect => {
             effect.apply = true;
         })
+
+        //On Familiars, item bonuses never apply.
+        if (context.creature instanceof Familiar) {
+            effects.filter(effect => !effect.penalty && effect.type == "item").forEach(effect => {
+                effect.apply = false;
+            })
+        }
 
         //Now we need to go over all the effects.
         // If one target is affected by two bonuses of the same type, only the bigger one is applied.
@@ -771,13 +778,12 @@ export class EffectsGenerationService {
 
         //Generate effects that come from complex calculations based on properties of your equipped items. This is not done for familiars, which don't have items.
         //We need to take into account whether any previously generated effects could state that armor penalties or armor speed penalties are ignored.
-        if (!(creature instanceof Familiar)) {
-            //Skip all armor penalties if there is an "Ignore Armor Penalty" effect.
-            const ignoreArmorPenalties = effects.some(effect => effect.creature == creature.id && effect.target == "Ignore Armor Penalty" && effect.toggle);
-            //Skip speed penalties if there is an "Ignore Armor Speed Penalty" effect.
-            const ignoreArmorSpeedPenalties = effects.some(effect => effect.creature == creature.id && effect.target == "Ignore Armor Speed Penalty" && effect.toggle);
-            effects = effects.concat(this.generate_CalculatedItemEffects(creature, services, { ignoreArmorPenalties: ignoreArmorPenalties, ignoreArmorSpeedPenalties: ignoreArmorSpeedPenalties }));
-        }
+
+        //Skip all armor penalties if there is an "Ignore Armor Penalty" effect.
+        const ignoreArmorPenalties = effects.some(effect => effect.creature == creature.id && effect.target == "Ignore Armor Penalty" && effect.toggle);
+        //Skip speed penalties if there is an "Ignore Armor Speed Penalty" effect.
+        const ignoreArmorSpeedPenalties = effects.some(effect => effect.creature == creature.id && effect.target == "Ignore Armor Speed Penalty" && effect.toggle);
+        effects = effects.concat(this.generate_CalculatedItemEffects(creature, services, { ignoreArmorPenalties: ignoreArmorPenalties, ignoreArmorSpeedPenalties: ignoreArmorSpeedPenalties }));
 
         //Apply any lessening of speed penalties that stems from a character's Unburdened Iron feat.
         if (creature instanceof Character) {
@@ -792,7 +798,7 @@ export class EffectsGenerationService {
         effects = this.set_EffectsIgnored(effects, { creature: creature });
 
         //Enable or disable applied on all effects according to various considerations.
-        effects = this.set_EffectsApplied(effects);
+        effects = this.set_EffectsApplied(effects, { creature: creature });
 
         //Enable or disable shown on all effects depending on whether they match a list of targets.
         effects = this.set_EffectsShown(effects);

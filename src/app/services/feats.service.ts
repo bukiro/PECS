@@ -217,7 +217,7 @@ export class FeatsService {
         const character = characterService.get_Character();
         const featName = gain?.name || feat?.name || "";
         if (!feat && featName) {
-            if (creature.type == "Familiar") {
+            if (creature instanceof Familiar) {
                 feat = characterService.familiarsService.get_FamiliarAbilities(featName)[0];
             } else {
                 //Use characterService.get_FeatsAndFeatures() instead of this.get_All(), because it automatically checks the character's custom feats.
@@ -989,7 +989,7 @@ export class FeatsService {
             characterService.cacheService.set_FeatChanged(feat.name, { creatureTypeId: creature.typeId, minLevel: level.number, maxLevel: 20 });
 
             //Familiar abilities should update the familiar's general information.
-            if (creature.type == "Familiar") {
+            if (creature instanceof Familiar) {
                 this.refreshService.set_ToChange(creature.type, "general");
             }
 
@@ -1060,7 +1060,7 @@ export class FeatsService {
             }
 
             //Update the areas where feat choices can be made.
-            if (creature.type == "Familiar") {
+            if (creature instanceof Familiar) {
                 this.refreshService.set_ToChange("Familiar", "familiarabilities");
             } else {
                 this.refreshService.set_ToChange("Character", "charactersheet");

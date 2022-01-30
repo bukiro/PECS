@@ -5,7 +5,7 @@ import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 
 export class Consumable extends Item {
-    //Allow changing of "equippable" by custom item creation
+    //Allow changing of "equippable" by custom item creation.
     readonly allowEquippable = false;
     //Consumables can not be equipped.
     readonly equippable = false;

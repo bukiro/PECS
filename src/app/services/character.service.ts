@@ -31,7 +31,6 @@ import { TimeService } from 'src/app/services/time.service';
 import { DefenseService } from 'src/app/services/defense.service';
 import { Equipment } from 'src/app/classes/Equipment';
 import { EffectGain } from 'src/app/classes/EffectGain';
-import { ItemGain } from 'src/app/classes/ItemGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { Rune } from 'src/app/classes/Rune';
 import { DeitiesService } from 'src/app/services/deities.service';
@@ -323,7 +322,7 @@ export class CharacterService {
         return this.get_Character().class.levels[number];
     }
 
-    get_Creature(type: string) {
+    get_Creature(type: string): Character | AnimalCompanion | Familiar {
         switch (type) {
             case "Character":
                 return this.get_Character();
@@ -746,7 +745,7 @@ export class CharacterService {
         })
     }
 
-    grant_InventoryItem(creature: Character | AnimalCompanion, inventory: ItemCollection, item: Item, resetRunes: boolean = true, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1, newId: boolean = true, expiration: number = 0) {
+    grant_InventoryItem(creature: Creature, inventory: ItemCollection, item: Item, resetRunes: boolean = true, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1, newId: boolean = true, expiration: number = 0) {
         this.refreshService.set_ToChange(creature.type, "inventory");
         this.refreshService.set_ToChange(creature.type, "effects");
         this.refreshService.set_ToChange("Character", "top-bar");
@@ -791,7 +790,7 @@ export class CharacterService {
         return returnedItem;
     }
 
-    process_GrantedItem(creature: Character | AnimalCompanion, item: Item, inventory: ItemCollection, equip: boolean = true, resetRunes: boolean = true, skipGrantedItems: boolean = false, skipGainedInventories: boolean = false) {
+    process_GrantedItem(creature: Creature, item: Item, inventory: ItemCollection, equip: boolean = true, resetRunes: boolean = true, skipGrantedItems: boolean = false, skipGainedInventories: boolean = false) {
         this.refreshService.set_ToChange(creature.type, "inventory");
         //Disable and refresh activities on equipment and runes.
         if (((item instanceof Equipment) || (item instanceof Rune)) && item.activities?.length) {
@@ -839,7 +838,7 @@ export class CharacterService {
                 //Add all Items that you get from being granted this one
                 if (item.gainItems.length) {
                     item.gainItems.filter(gainItem => gainItem.on == "grant" && gainItem.amount > 0).forEach(gainItem => {
-                        gainItem.grant_GrantedItem(creature as Character | AnimalCompanion, { sourceName: item.get_Name(), grantingItem: item }, { characterService: this, itemsService: this.itemsService })
+                        gainItem.grant_GrantedItem(creature, { sourceName: item.get_Name(), grantingItem: item }, { characterService: this, itemsService: this.itemsService })
                     });
                 }
             }
@@ -850,7 +849,7 @@ export class CharacterService {
         return item;
     }
 
-    drop_InventoryItem(creature: Character | AnimalCompanion, inventory: ItemCollection, item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true, including: boolean = true, amount: number = 1, keepInventoryContent: boolean = false) {
+    drop_InventoryItem(creature: Creature, inventory: ItemCollection, item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true, including: boolean = true, amount: number = 1, keepInventoryContent: boolean = false) {
         //Don't handle items that are already being dropped.
         if (item.markedForDeletion) {
             return false;
@@ -1033,7 +1032,7 @@ export class CharacterService {
         this.change_Cash(1, sum);
     }
 
-    on_Equip(creature: Character | AnimalCompanion, inventory: ItemCollection, item: Equipment, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
+    on_Equip(creature: Creature, inventory: ItemCollection, item: Equipment, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
         //Only allow equipping or unequipping for items that the creature can wear. Only allow equipping items in inventories that aren't containers (i.e. the first two).
         //Unequip any item that lands here and can't be equipped.
         let oldequipped = item.equipped;
@@ -1042,7 +1041,10 @@ export class CharacterService {
                 !inventory.itemId &&
                 (
                     item.name == "Unarmored" ||
-                    ((creature instanceof AnimalCompanion) == item.traits.includes("Companion"))
+                    ((creature instanceof Character) != item.traits.includes("Companion"))
+                ) && (
+                    !(creature instanceof Familiar) ||
+                    !(item instanceof Armor || item instanceof Weapon || item instanceof Shield)
                 )
             )
         }
@@ -1076,7 +1078,7 @@ export class CharacterService {
             //Add all Items that you get from equipping this one
             if (item.gainItems && item.gainItems.length) {
                 item.gainItems.filter(gainItem => gainItem.on == "equip").forEach(gainItem => {
-                    gainItem.grant_GrantedItem(creature as Character | AnimalCompanion, { sourceName: item.get_Name(), grantingItem: item }, { characterService: this, itemsService: this.itemsService })
+                    gainItem.grant_GrantedItem(creature, { sourceName: item.get_Name(), grantingItem: item }, { characterService: this, itemsService: this.itemsService })
                 });
             }
         } else if (oldequipped && !item.equipped) {
@@ -1112,7 +1114,7 @@ export class CharacterService {
         }
     }
 
-    preserve_InventoryContent(creature: Character | AnimalCompanion, item: Equipment) {
+    preserve_InventoryContent(creature: Creature, item: Equipment) {
         //This gets all inventories granted by an item and dumps them into the main inventory. That way, content isn't lost when you drop an inventory item.
         let found = 0;
         creature.inventories.filter(inv => inv.itemId == item.id).forEach(inv => {
@@ -1128,7 +1130,7 @@ export class CharacterService {
         }
     }
 
-    on_Invest(creature: Character | AnimalCompanion, inventory: ItemCollection, item: Equipment, invested: boolean = true, changeAfter: boolean = true) {
+    on_Invest(creature: Creature, inventory: ItemCollection, item: Equipment, invested: boolean = true, changeAfter: boolean = true) {
         item.invested = invested;
         this.refreshService.set_ToChange(creature.type, "inventory");
         this.refreshService.set_ToChange(creature.type, item.id);
@@ -1159,7 +1161,7 @@ export class CharacterService {
         }
     }
 
-    on_ConsumableUse(creature: Character | AnimalCompanion, item: Consumable, preserveItem: boolean = false) {
+    on_ConsumableUse(creature: Creature, item: Consumable, preserveItem: boolean = false) {
         if (!preserveItem) {
             item.amount--
         }
@@ -1185,9 +1187,9 @@ export class CharacterService {
         }
     }
 
-    equip_BasicItems(creature: Character | AnimalCompanion, changeAfter: boolean = true) {
-        if (!this.still_loading() && this.basicItems.length) {
-            if (!creature.inventories[0].weapons.length && creature.type == "Character") {
+    equip_BasicItems(creature: Creature, changeAfter: boolean = true) {
+        if (!this.still_loading() && this.basicItems.length && !(creature instanceof Familiar)) {
+            if (!creature.inventories[0].weapons.length && (creature instanceof Character)) {
                 this.grant_InventoryItem(creature, creature.inventories[0], this.basicItems[0], true, false, false);
             }
             if (!creature.inventories[0].armors.length) {
@@ -1622,7 +1624,7 @@ export class CharacterService {
         })
     }
 
-    send_ItemsToPlayer(sender: Character | AnimalCompanion, target: SpellTarget, item: Item, amount: number = 0) {
+    send_ItemsToPlayer(sender: Creature, target: SpellTarget, item: Item, amount: number = 0) {
         //Don't send messages in GM mode or manual mode, or if not logged in.
         if (this.get_GMMode() || this.get_ManualMode() || !this.get_LoggedIn()) {
             return false;
@@ -1710,7 +1712,7 @@ export class CharacterService {
                                 if (item.id === message.offeredItem[0].id) {
                                     addedPrimaryItem = addedItem;
                                 }
-                                addedItem = this.process_GrantedItem((targetCreature as Character | AnimalCompanion), addedItem, targetInventory, true, false, true, true);
+                                addedItem = this.process_GrantedItem((targetCreature), addedItem, targetInventory, true, false, true, true);
                             }
                         })
                         //Add included inventories and process all items inside them.
@@ -1718,7 +1720,7 @@ export class CharacterService {
                             let newLength = targetCreature.inventories.push(inventory);
                             let newInventory = targetCreature.inventories[newLength - 1];
                             newInventory.allItems().forEach(invItem => {
-                                invItem = this.process_GrantedItem((targetCreature as Character | AnimalCompanion), invItem, newInventory, true, false, true, true);
+                                invItem = this.process_GrantedItem((targetCreature), invItem, newInventory, true, false, true, true);
                             })
                         })
                         if (addedPrimaryItem) {
@@ -1838,7 +1840,7 @@ export class CharacterService {
                 if (message.acceptedItem) {
                     this.toastService.show("<strong>" + sender + "</strong> has accepted the <strong>" + itemName + "</strong>. The item is dropped from your inventory.");
                     if (foundItem) {
-                        this.drop_InventoryItem(foundCreature as Character | AnimalCompanion, foundInventory, foundItem, false, true, true, message.itemAmount);
+                        this.drop_InventoryItem(foundCreature, foundInventory, foundItem, false, true, true, message.itemAmount);
                     }
                 } else if (message.rejectedItem) {
                     this.toastService.show("<strong>" + sender + "</strong> has rejected the <strong>" + itemName + "</strong>. The item will remain in your inventory.");
@@ -1869,16 +1871,16 @@ export class CharacterService {
         let recipientGenitive = "its";
         let recipientIs = "is";
         let recipientHas = "has";
-        if (creature.type == "Character") {
+        if (creature instanceof Character) {
             recipientName = "You";
             recipientName2 = "You";
             recipientName3 = "you";
             recipientGenitive = "your";
             recipientIs = "are";
             recipientHas = "have";
-        } else if (creature.type == "Companion") {
+        } else if (creature instanceof AnimalCompanion) {
             recipientName = this.get_Companion().name || 'Your animal companion';
-        } else if (creature.type == "Familiar") {
+        } else if (creature instanceof Familiar) {
             recipientName = this.get_Familiar().name || 'Your familiar';
         }
         switch (effectGain.affected) {
@@ -2053,29 +2055,27 @@ export class CharacterService {
         let senses: string[] = [];
 
         let ancestrySenses: string[];
-        if (creature.type == "Familiar") {
-            ancestrySenses = (creature as Familiar).senses;
+        if (creature instanceof Familiar) {
+            ancestrySenses = creature.senses;
         } else {
             ancestrySenses = (creature as AnimalCompanion | Character).class?.ancestry?.senses;
         }
         if (ancestrySenses.length) {
             senses.push(...ancestrySenses)
         }
-        if (creature.type == "Character") {
-            let character = creature as Character;
-            let heritageSenses = character.class.heritage.senses
+        if (creature instanceof Character) {
+            let heritageSenses = creature.class.heritage.senses
             if (heritageSenses.length) {
                 senses.push(...heritageSenses)
             }
             this.get_CharacterFeatsAndFeatures()
-                .filter(feat => feat.senses?.length && feat.have(character, this, charLevel))
+                .filter(feat => feat.senses?.length && feat.have(creature, this, charLevel))
                 .forEach(feat => {
                     senses.push(...feat.senses);
                 });
         }
-        if (creature.type == "Familiar") {
-            let familiar = creature as Familiar;
-            familiar.abilities.feats.map(gain => this.familiarsService.get_FamiliarAbilities(gain.name)[0]).filter(ability => ability?.senses.length).forEach(ability => {
+        if (creature instanceof Familiar) {
+            creature.abilities.feats.map(gain => this.familiarsService.get_FamiliarAbilities(gain.name)[0]).filter(ability => ability?.senses.length).forEach(ability => {
                 senses.push(...ability.senses);
             })
         }
@@ -2199,11 +2199,11 @@ export class CharacterService {
     get_OwnedActivities(creature: Creature, levelNumber: number = creature.level, all: boolean = false) {
         let activities: (ActivityGain | ItemActivity)[] = []
         if (!this.still_loading()) {
-            if (creature.type == "Character") {
-                activities.push(...(creature as Character).class.activities.filter(gain => gain.level <= levelNumber));
+            if (creature instanceof Character) {
+                activities.push(...creature.class.activities.filter(gain => gain.level <= levelNumber));
             }
-            if (creature.type == "Companion") {
-                activities.push(...(creature as AnimalCompanion).class?.ancestry?.activities.filter(gain => gain.level <= levelNumber));
+            if (creature instanceof AnimalCompanion) {
+                activities.push(...creature.class?.ancestry?.activities.filter(gain => gain.level <= levelNumber));
             }
             //Get all applied condition gains' activity gains. These were copied from the condition when it was added. Also set the condition gain's spell level to the activity gain.
             this.get_AppliedConditions(creature, "", "", true).filter(gain => gain.apply).forEach(gain => {
@@ -2401,7 +2401,7 @@ export class CharacterService {
     }
 
     get_ArmorSpecializationsShowingOn(creature: Creature, objectName: string = "all") {
-        if (creature.type == "Character") {
+        if (creature instanceof Character) {
             return creature.inventories[0].armors.find(armor => armor.equipped).get_ArmorSpecialization(creature, this)
                 .filter(spec =>
                     spec?.hints

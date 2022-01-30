@@ -2,7 +2,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { Oil } from 'src/app/classes/Oil';
 import { ItemGain } from 'src/app/classes/ItemGain';
-import { Creature } from 'src/app/classes/Creature';
 import { CharacterService } from 'src/app/services/character.service';
 import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
@@ -101,7 +100,7 @@ export class Item {
         }
         return this;
     }
-    get_Traits(characterService: CharacterService, creature: Creature) {
+    get_Traits(characterService: CharacterService, creature) {
         //Some types of items have more complicated methods of determining traits, and need characterService and creature in the function.
         this._traits = this.traits;
         return this._traits;

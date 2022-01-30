@@ -213,26 +213,22 @@ export class ItemCollection {
         let name: string = ""
         if (!this.itemId) {
             characterService.get_Creatures().forEach(creature => {
-                if (creature.type != "Familiar") {
-                    if (creature.inventories[0] === this) {
-                        name = creature.name || creature.type;
-                    }
-                    if (creature.inventories[1] === this) {
-                        name = "Worn Tools";
-                    }
+                if (creature.inventories[0] === this) {
+                    name = creature.name || creature.type;
+                }
+                if (creature.inventories[1] === this) {
+                    name = "Worn Tools";
                 }
             })
         } else {
             characterService.get_Creatures().forEach(creature => {
-                if (creature.type != "Familiar") {
-                    if (creature.inventories.some(inventory => inventory === this)) {
-                        creature.inventories.forEach(creatureInventory => {
-                            let items = creatureInventory.allEquipment().filter(item => item.id == this.itemId);
-                            if (items.length) {
-                                name = items[0].get_Name();
-                            }
-                        });
-                    }
+                if (creature.inventories.some(inventory => inventory === this)) {
+                    creature.inventories.forEach(creatureInventory => {
+                        let items = creatureInventory.allEquipment().filter(item => item.id == this.itemId);
+                        if (items.length) {
+                            name = items[0].get_Name();
+                        }
+                    });
                 }
             })
         }

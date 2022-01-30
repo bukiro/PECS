@@ -9,7 +9,6 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { OtherItem } from 'src/app/classes/OtherItem';
 import { Item } from 'src/app/classes/Item';
 import { Character } from 'src/app/classes/Character';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { WornItem } from 'src/app/classes/WornItem';
 import { TimeService } from 'src/app/services/time.service';
@@ -30,6 +29,7 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { Familiar } from 'src/app/classes/Familiar';
 
 @Component({
     selector: 'app-inventory',
@@ -73,6 +73,8 @@ export class InventoryComponent implements OnInit, OnDestroy {
                 return this.characterService.get_Character().settings.inventoryMinimized;
             case "Companion":
                 return this.characterService.get_Character().settings.companionMinimized;
+            case "Familiar":
+                return this.characterService.get_Character().settings.familiarMinimized;
         }
     }
 
@@ -124,6 +126,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         this.get_Character().settings.inventoryTileMode = !this.get_Character().settings.inventoryTileMode;
         this.refreshService.set_ToChange("Character", "inventory");
         this.refreshService.set_ToChange("Companion", "inventory");
+        this.refreshService.set_ToChange("Familiar", "inventory");
         //Inventory Tile Mode affects snares on the attacks component.
         this.refreshService.set_ToChange("Character", "attacks");
         this.refreshService.process_ToChange();
@@ -142,7 +145,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     get_Creature(creature: string = this.creature) {
-        return this.characterService.get_Creature(creature) as Character | AnimalCompanion;
+        return this.characterService.get_Creature(creature);
     }
 
     get_CompanionAvailable() {
@@ -193,7 +196,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     sort_ItemSet(itemSet: Item[]) {
         //Sorting just by name can lead to jumping in the list.
         return itemSet
-        .sort((a, b) => (a.name + a.id > b.name + b.id) ? 1 : -1);
+            .sort((a, b) => (a.name + a.id > b.name + b.id) ? 1 : -1);
     }
 
     get_IsEquipment(item: Item) {
@@ -201,11 +204,25 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     can_Equip(item: Item, inventoryIndex: number) {
-        return inventoryIndex == 0 && item.equippable && (!(item as Equipment).broken || item instanceof Armor) && ((this.creature == (item.traits.includes("Companion") ? "Companion" : "Character")) || item.name == "Unarmored")
+        return (
+            inventoryIndex == 0 &&
+            item.equippable &&
+            (!(item as Equipment).broken || item instanceof Armor) &&
+            (
+                (
+                    (this.creature == "Character") == !item.traits.includes("Companion")
+                ) ||
+                item.name == "Unarmored"
+            ) &&
+            (
+                (this.creature != "Familiar") ||
+                !(item instanceof Armor || item instanceof Shield || item instanceof Weapon)
+            )
+        )
     }
 
     can_Invest(item: Item, inventoryIndex: number) {
-        return inventoryIndex == 0 && item.can_Invest() && (this.creature == (item.traits.includes("Companion") ? "Companion" : "Character"))
+        return inventoryIndex == 0 && item.can_Invest() && ((this.creature == "Character") == !item.traits.includes("Companion"))
     }
 
     can_Drop(item: Item) {
@@ -362,7 +379,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         if (this.creature == "Character") {
             maxInvest = 10;
             explain = "Base limit: 10";
-        } else if (this.creature == "Companion") {
+        } else {
             maxInvest = 2;
             explain = "Base limit: 2";
         }
@@ -408,7 +425,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     onItemBroken(item: Equipment) {
         if (item.broken) {
             if (!this.can_Equip(item, 0) && item.equipped) {
-                this.characterService.on_Equip(this.get_Creature() as Character | AnimalCompanion, this.get_Creature().inventories[0], item, false, false, true)
+                this.characterService.on_Equip(this.get_Creature(), this.get_Creature().inventories[0], item, false, false, true)
                 this.toastService.show("Your <strong>" + item.get_Name() + "</strong> was unequipped because it is broken.");
             }
         }
@@ -602,14 +619,16 @@ export class InventoryComponent implements OnInit, OnDestroy {
     get_CanUse(item: Item): boolean {
         let canUse = undefined;
         let creature = this.get_Creature();
-        if (item instanceof Weapon || item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb) {
-            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes(item.prof)) {
-                return item.profLevel(creature, this.characterService, item) > 0;
+        if (!(creature instanceof Familiar)) {
+            if (item instanceof Weapon || item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb) {
+                if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes(item.prof)) {
+                    return item.profLevel(creature, this.characterService, item) > 0;
+                }
             }
-        }
-        if (item instanceof Armor) {
-            if (["Unarmored Defense", "Light Armor", "Medium Armor", "Heavy Armor"].includes(item.get_Proficiency())) {
-                return item.profLevel(creature, this.characterService) > 0;
+            if (item instanceof Armor) {
+                if (["Unarmored Defense", "Light Armor", "Medium Armor", "Heavy Armor"].includes(item.get_Proficiency())) {
+                    return item.profLevel(creature, this.characterService) > 0;
+                }
             }
         }
         return canUse;

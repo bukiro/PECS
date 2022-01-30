@@ -107,14 +107,14 @@ export class EvaluationService {
             return Creature.health.maxHP(Creature, characterService, effectsService).result;
         }
         function Ability(name: string) {
-            if (Creature.type == "Familiar") {
+            if (Creature === Familiar) {
                 return 0;
             } else {
                 return characterService.get_Abilities(name)[0]?.value((Creature as AnimalCompanion | Character), characterService, effectsService).result;
             }
         }
         function Modifier(name: string) {
-            if (Creature.type == "Familiar") {
+            if (Creature === Familiar) {
                 return 0;
             } else {
                 return characterService.get_Abilities(name)[0]?.mod((Creature as AnimalCompanion | Character), characterService, effectsService).result;
@@ -123,14 +123,14 @@ export class EvaluationService {
         function BaseSize() {
             return (Creature as AnimalCompanion | Character | Familiar).get_BaseSize();
         }
-        function Size() {
-            return (Creature as AnimalCompanion | Character | Familiar).get_Size(effectsService);
+        function Size(asNumber: boolean = false) {
+            return (Creature as AnimalCompanion | Character | Familiar).get_Size(effectsService, { asNumber: asNumber });
         }
         function Skill(name: string) {
             return characterService.get_Skills(Creature, name)[0]?.baseValue((Creature as AnimalCompanion | Character), characterService, abilitiesService, effectsService, Level).result;
         }
         function Skill_Level(name: string) {
-            if (Creature.type == "Familiar") {
+            if (Creature === Familiar) {
                 return 0;
             } else {
                 return characterService.get_Skills(Creature, name)[0]?.level((Creature as AnimalCompanion | Character), characterService, Level);
@@ -145,28 +145,28 @@ export class EvaluationService {
             return characterService.get_AppliedConditions(Creature, name, "", true).length
         }
         function Armor() {
-            if (Creature.type == "Familiar") {
+            if (Creature === Familiar) {
                 return null;
             } else {
                 return Creature.inventories[0].armors.find(armor => armor.equipped);
             }
         }
         function Shield() {
-            if (Creature.type == "Familiar") {
+            if (Creature === Familiar) {
                 return null;
             } else {
                 return Creature.inventories[0].shields.find(shield => shield.equipped);
             }
         }
         function Weapons() {
-            if (Creature.type == "Familiar") {
+            if (Creature === Familiar) {
                 return null;
             } else {
                 return Creature.inventories[0].weapons.filter(weapon => weapon.equipped);
             }
         }
         function WornItems() {
-            if (Creature.type == "Familiar") {
+            if (Creature === Familiar) {
                 return null;
             } else {
                 return Creature.inventories[0].wornitems.filter(wornItem => wornItem.investedOrEquipped());

@@ -51,7 +51,9 @@
                                 style="line-height: 1.5;"></i>
                             <i class="ra ra-wolf-howl" *ngIf="get_TargetType(target)=='Companion'"
                                 style="line-height: 1.5;"></i>
-                            <i class="ra ra-player" *ngIf="get_TargetType(target)=='Character'"
+                            <i class="ra ra-raven" *ngIf="get_TargetType(target)=='Familiar'"
+                                style="line-height: 1.5;"></i>
+                            <i class="ra ra-player" *ngIf="['Character','Player'].includes(get_TargetType(target))"
                                 style="line-height: 1.5;"></i>
                             <strong>{{get_TargetName(target)}}</strong>
                             <span>{{get_ContainerBulk(target)}}</span>
@@ -63,10 +65,11 @@
                                 disabled>Current</button>
                             <button class="btn btn-primary" *ngIf="!get_IsSameInventory(target)"
                                 style="background-color: rgb(var(--accent))"
-                                (click)="set_Target(target); modal.close('Move click')" [disabled]="cannotMove || (item.amount && !selectedAmount)">
+                                (click)="set_Target(target); modal.close('Move click')"
+                                [disabled]="cannotMove || (item.amount && !selectedAmount)">
                                 <span *ngIf="get_TargetType(target)=='Inventory'">Move</span>
-                                <span *ngIf="get_TargetType(target)=='Companion'">Give</span>
-                                <span *ngIf="get_TargetType(target)=='Character'">Offer</span>
+                                <span *ngIf="!['Inventory','Player'].includes(get_TargetType(target))">Give</span>
+                                <span *ngIf="get_TargetType(target)=='Player'">Offer</span>
                             </button>
                         </span>
                     </div>

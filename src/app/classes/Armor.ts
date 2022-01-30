@@ -237,7 +237,7 @@ export class Armor extends Equipment {
         if (characterService.still_loading()) { return 0; }
         this.get_ArmoredSkirt(creature);
         let skillLevel: number = 0;
-        let armorLevel = characterService.get_Skills(creature, this.name, {type: "Specific Weapon Proficiency"})[0].level(creature, characterService, charLevel);
+        let armorLevel = characterService.get_Skills(creature, this.name, { type: "Specific Weapon Proficiency" })[0].level(creature, characterService, charLevel);
         let proficiencyLevel = characterService.get_Skills(creature, this.get_Proficiency(creature, characterService))[0].level(creature, characterService, charLevel);
         //Add either the armor category proficiency or the armor proficiency, whichever is better
         skillLevel = Math.min(Math.max(armorLevel, proficiencyLevel), 8)
@@ -247,7 +247,7 @@ export class Armor extends Equipment {
         let SpecializationGains: SpecializationGain[] = [];
         let specializations: Specialization[] = [];
         let prof = this.get_Proficiency(creature, characterService);
-        if (creature.type == "Character" && this.group) {
+        if (creature instanceof Character && this.group) {
             let character = creature as Character;
             let skillLevel = this.profLevel(character, characterService);
             characterService.get_CharacterFeatsAndFeatures()

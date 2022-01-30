@@ -438,7 +438,7 @@ export class ItemsService {
         return itemBulk;
     }
 
-    update_GrantingItem(creature: Character | AnimalCompanion, item: Item) {
+    update_GrantingItem(creature: Creature, item: Item) {
         //If this item has granted other items, check how many of those still exist, and update the item's granting list.
         item.gainItems?.forEach(itemGain => {
             let found: number = 0;
@@ -458,7 +458,7 @@ export class ItemsService {
         return item;
     }
 
-    pack_GrantingItem(creature: Character | AnimalCompanion, item: Item, primaryItem: Item = null) {
+    pack_GrantingItem(creature: Creature, item: Item, primaryItem: Item = null) {
         if (!primaryItem) {
             primaryItem = item;
         }
@@ -589,7 +589,7 @@ export class ItemsService {
         return found;
     }
 
-    move_GrantedItems(creature: Character | AnimalCompanion, item: Item, targetInventory: ItemCollection, inventory: ItemCollection, characterService: CharacterService) {
+    move_GrantedItems(creature: Creature, item: Item, targetInventory: ItemCollection, inventory: ItemCollection, characterService: CharacterService) {
         //If you are moving an item that grants other items, move those as well.
         //Only move items from inventories other than the target inventory, and start from the same inventory that the granting item is in.
         //If any of the contained items contain the the target inventory, that should be caught in move_InventoryItem.
@@ -611,7 +611,7 @@ export class ItemsService {
         })
     }
 
-    move_InventoryItemLocally(creature: Character | AnimalCompanion, item: Item, targetInventory: ItemCollection, inventory: ItemCollection, characterService: CharacterService, amount: number = 0, including: boolean = true) {
+    move_InventoryItemLocally(creature: Creature, item: Item, targetInventory: ItemCollection, inventory: ItemCollection, characterService: CharacterService, amount: number = 0, including: boolean = true) {
         if (targetInventory && targetInventory != inventory && targetInventory.itemId != item.id) {
             item = this.update_GrantingItem(creature, item);
             this.refreshService.set_ToChange("Character", item.id);
@@ -657,7 +657,7 @@ export class ItemsService {
         }
     }
 
-    move_InventoryItemToCreature(creature: Character | AnimalCompanion, targetCreature: SpellTarget, item: Item, inventory: ItemCollection, characterService: CharacterService, amount: number = 0) {
+    move_InventoryItemToCreature(creature: Creature, targetCreature: SpellTarget, item: Item, inventory: ItemCollection, characterService: CharacterService, amount: number = 0) {
         if (creature.type != targetCreature.type) {
             item = this.update_GrantingItem(creature, item);
             if (!amount) {
@@ -682,7 +682,7 @@ export class ItemsService {
                     let movedItem = this.cast_ItemByType(JSON.parse(JSON.stringify(includedItem))).recast(this.typeService, this);
                     let newLength = targetInventory[includedItem.type].push(movedItem);
                     let newItem = targetInventory[includedItem.type][newLength - 1];
-                    newItem = characterService.process_GrantedItem(toCreature as Character | AnimalCompanion, newItem, targetInventory, true, false, true, true);
+                    newItem = characterService.process_GrantedItem(toCreature, newItem, targetInventory, true, false, true, true);
                 }
             })
             //Add included inventories and process all items inside them.
@@ -690,12 +690,12 @@ export class ItemsService {
                 let newLength = toCreature.inventories.push(inventory);
                 let newInventory = toCreature.inventories[newLength - 1];
                 newInventory.allItems().forEach(invItem => {
-                    invItem = characterService.process_GrantedItem((toCreature as Character | AnimalCompanion), invItem, newInventory, true, false, true, true);
+                    invItem = characterService.process_GrantedItem(toCreature, invItem, newInventory, true, false, true, true);
                 })
             })
             //If the item still exists on the inventory, drop it with all its contents.
             if (inventory?.[item.type]?.some(invItem => invItem === item)) {
-                characterService.drop_InventoryItem(creature as Character | AnimalCompanion, inventory, item, false, true, true, amount);
+                characterService.drop_InventoryItem(creature, inventory, item, false, true, true, amount);
             }
             this.refreshService.set_ToChange(toCreature.type, "inventory");
             this.refreshService.set_ToChange(creature.type, "inventory");
@@ -734,9 +734,9 @@ export class ItemsService {
             }
 
             //Gain Items on Activation
-            if (item.gainItems.length && creature.type != "Familiar") {
+            if (item.gainItems.length) {
                 item.gainItems.forEach(gainItem => {
-                    gainItem.grant_GrantedItem(creature as Character | AnimalCompanion, { sourceName: item.get_Name(), grantingItem: item }, { characterService: characterService, itemsService: this })
+                    gainItem.grant_GrantedItem(creature, { sourceName: item.get_Name(), grantingItem: item }, { characterService: characterService, itemsService: this })
                 });
             }
 
@@ -744,7 +744,7 @@ export class ItemsService {
 
     }
 
-    rest(creature: Character | AnimalCompanion, characterService: CharacterService) {
+    rest(creature: Creature, characterService: CharacterService) {
         creature.inventories.forEach(inv => {
             inv.allItems().filter(item => item.expiration == -2).forEach(item => {
                 item.name = "DELETE";
@@ -757,22 +757,21 @@ export class ItemsService {
                 this.refreshService.set_ToChange(creature.type, "inventory");
             }
         })
-        if (creature.type == "Character") {
-            let character = creature as Character;
+        if (creature instanceof Character) {
             //If you have Scroll Savant, get a copy of each prepared scroll that lasts until the next rest.
-            if (characterService.get_CharacterFeatsTaken(1, character.level, "Scroll Savant").length) {
-                character.class.spellCasting.filter(casting => casting.scrollSavant.length).forEach(casting => {
+            if (characterService.get_CharacterFeatsTaken(1, creature.level, "Scroll Savant").length) {
+                creature.class.spellCasting.filter(casting => casting.scrollSavant.length).forEach(casting => {
                     casting.scrollSavant.forEach(scroll => {
-                        characterService.grant_InventoryItem(character, character.inventories[0], scroll, false, false, false);
+                        characterService.grant_InventoryItem(creature, creature.inventories[0], scroll, false, false, false);
                     });
                 });
             }
 
             //If you have Battleforger, all your battleforged items are reset.
-            if (characterService.get_CharacterFeatsTaken(1, character.level, "Battleforger").length) {
+            if (characterService.get_CharacterFeatsTaken(1, creature.level, "Battleforger").length) {
                 let attacksChanged: boolean = false;
                 let defenseChanged: boolean = false;
-                character.inventories.forEach(inv => {
+                creature.inventories.forEach(inv => {
                     inv.weapons.forEach(weapon => {
                         if (weapon.battleforged) {
                             attacksChanged = true;
@@ -805,13 +804,13 @@ export class ItemsService {
                 .filter(feat => feat.gainItems.find(gain => gain.on == "rest") && feat.have(creature, characterService, creature.level))
                 .forEach(feat => {
                     feat.gainItems.filter(gain => gain.on == "rest").forEach(gainItem => {
-                        gainItem.grant_GrantedItem(creature as Character | AnimalCompanion, { sourceName: feat.name }, { characterService: characterService, itemsService: this })
+                        gainItem.grant_GrantedItem(creature, { sourceName: feat.name }, { characterService: characterService, itemsService: this })
                     });
                 });
         }
     }
 
-    refocus(creature: Character | AnimalCompanion, characterService: CharacterService) {
+    refocus(creature: Creature, characterService: CharacterService) {
         creature.inventories.forEach(inv => {
             inv.allItems().filter(item => item.expiration == -3).forEach(item => {
                 item.name = "DELETE";
@@ -826,7 +825,7 @@ export class ItemsService {
         })
     }
 
-    tick_Items(creature: Character | AnimalCompanion, characterService: CharacterService, turns: number) {
+    tick_Items(creature: Creature, characterService: CharacterService, turns: number) {
         creature.inventories.forEach(inv => {
             //Tick down and remove all items that expire.
             function expirationApplies(item: Item): boolean {

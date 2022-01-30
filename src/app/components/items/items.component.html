@@ -41,7 +41,9 @@
                         <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowCreature()=='Character'}"
                             (click)="toggle_Creature('Character')">Character</button>
                         <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowCreature()=='Companion'}"
-                            (click)="toggle_Creature('Companion')">Companion</button>
+                            (click)="toggle_Creature('Companion')" *ngIf="get_CompanionAvailable()">Companion</button>
+                        <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowCreature()=='Familiar'}"
+                            (click)="toggle_Creature('Familiar')" *ngIf="get_FamiliarAvailable()">Familiar</button>
                     </div>
                 </div>
                 <div class="fullsize-scroll-box vlist">
@@ -95,8 +97,8 @@
                         <ng-container
                             *ngFor="let creatureType of (get_ShowCreature()=='Character' ? ['Character','Companion'] : ['Companion','Character']);trackBy:trackByIndex">
                             <header class="sectionHeader"
-                                *ngIf="get_ShowPurpose()=='items' || get_ShowCreature()=='Companion'">
-                                Get {{creatureType == "Companion" ? "Animal Companion " : ""}}Items
+                                *ngIf="get_ShowPurpose()=='items' || get_ShowCreature()!='Character'">
+                                Get {{creatureType == "Companion" ? "Companion " : ""}}Items
                             </header>
                             <header class="sectionHeader"
                                 *ngIf="get_ShowPurpose()=='scrollsavant' && creatureType == 'Character' && get_ShowCreature()=='Character'">
@@ -104,7 +106,7 @@
                             </header>
                             <header class="sectionHeader"
                                 *ngIf="get_ShowPurpose()=='formulas' && get_ShowCreature()=='Character'">
-                                Learn {{creatureType == "Companion" ? "Animal Companion " : ""}}Formulas
+                                Learn {{creatureType == "Companion" ? "Companion " : ""}}Formulas
                             </header>
                             <!--Formulas available through feats-->
                             <ng-container
@@ -170,7 +172,7 @@
                             </ng-container>
                             <!--End Scroll Savant-->
                             <ng-container
-                                *ngIf="get_ShowPurpose()!='createcustomitem' || get_ShowCreature()=='Companion'">
+                                *ngIf="get_ShowPurpose()!='createcustomitem' || get_ShowCreature()!='Character'">
                                 <ng-container
                                     *ngFor="let itemSet of items.names; let index = index; trackBy:trackByIndex;">
                                     <ng-container
@@ -247,7 +249,7 @@
                                                                 <span *ngIf="['weapons','armors'].includes(item.type)">
                                                                     |
                                                                 </span>
-                                                                <span *ngIf="item.type == 'armors'"> 
+                                                                <span *ngIf="item.type == 'armors'">
                                                                     {{(["Light Barding", "Heavy
                                                                     Barding"].includes(item.prof)) ? item.prof :
                                                                     item.prof.split(" ")[0]}}
@@ -256,7 +258,7 @@
                                                                     Barding"].includes(item.prof))) ? " Armor" :
                                                                     ""}}
                                                                 </span>
-                                                                <span *ngIf="item.type == 'weapons'"> 
+                                                                <span *ngIf="item.type == 'weapons'">
                                                                     {{(item.prof == 'Unarmed Attacks') ? item.prof :
                                                                     item.prof.substr(0, item.prof.length - 8)}}
                                                                     {{item.group}}
@@ -269,7 +271,7 @@
                                                                     </ng-container>
                                                                 </header>
                                                                 <ng-container
-                                                                    *ngIf="get_ShowPurpose()=='items' || get_ShowCreature()=='Companion'">
+                                                                    *ngIf="get_ShowPurpose()=='items' || get_ShowCreature()!='Character'">
                                                                     <div class="list-item"
                                                                         *ngIf="itemSet.name == 'Snares'">
                                                                         Snares cannot be bought or sold. They must be
@@ -473,11 +475,13 @@
                 </div>
             </div>
             <div class="charactersheet-column mobile-hide">
-                <div class="list-item newrow" *ngIf="get_CompanionAvailable()">
+                <div class="list-item newrow" *ngIf="get_CompanionAvailable() || get_FamiliarAvailable()">
                     <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowCreature()=='Character'}"
                         (click)="toggle_Creature('Character')">Character</button>
                     <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowCreature()=='Companion'}"
                         *ngIf="get_CompanionAvailable()" (click)="toggle_Creature('Companion')">Companion</button>
+                    <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowCreature()=='Familiar'}"
+                        *ngIf="get_FamiliarAvailable()" (click)="toggle_Creature('Familiar')">Familiar</button>
                 </div>
                 <app-inventory [itemStore]="true" id="ItemStore-inventory" [sheetSide]="'right'" [creature]="creature"
                     [ngClass]="{'minimized':(get_InventoryMinimized())}" style="position:relative"></app-inventory>

@@ -48,19 +48,11 @@ export class ItemTargetComponent implements OnInit {
     }
 
     get_Creature() {
-        return this.characterService.get_Creature(this.creature) as Character | AnimalCompanion;
+        return this.characterService.get_Creature(this.creature);
     }
 
     get_Character() {
         return this.characterService.get_Character();
-    }
-
-    get_CompanionAvailable() {
-        return this.characterService.get_CompanionAvailable();
-    }
-
-    get_Companion() {
-        return this.characterService.get_Companion();
     }
 
     get_ManualMode() {
@@ -79,13 +71,13 @@ export class ItemTargetComponent implements OnInit {
 
     get_ItemTargets() {
         //Collect all possible targets for the item.
-        //This includes your own inventories, your companion or your allies.
+        //This includes your own inventories, your companions or your allies.
         let targets: (ItemCollection | SpellTarget)[] = [];
         let creature = this.get_Creature();
         let character = this.get_Character();
         targets.push(...creature.inventories.filter(inv => inv.itemId != this.item.id));
         if (!this.excluding) {
-            this.characterService.get_Creatures().filter(otherCreature => otherCreature != creature && !(otherCreature instanceof Familiar)).forEach(otherCreature => {
+            this.characterService.get_Creatures().filter(otherCreature => otherCreature != creature).forEach(otherCreature => {
                 targets.push(Object.assign(new SpellTarget(), { name: otherCreature.name || otherCreature.type, id: otherCreature.id, playerId: character.id, type: otherCreature.type, selected: false }));
             })
         }
@@ -177,7 +169,7 @@ export class ItemTargetComponent implements OnInit {
 
     get_CannotFit(target: ItemCollection | SpellTarget) {
         if (target instanceof ItemCollection) {
-            return this.itemsService.get_CannotFit(this.get_Creature(), this.item, target, {including: !this.excluding, amount: this.selectedAmount});
+            return this.itemsService.get_CannotFit(this.get_Creature(), this.item, target, { including: !this.excluding, amount: this.selectedAmount });
         }
         return false;
     }
@@ -209,7 +201,11 @@ export class ItemTargetComponent implements OnInit {
         if (target instanceof ItemCollection) {
             return "Inventory";
         } else {
-            return target.type;
+            if (target.type == "Character" && target.id != this.get_Character().id) {
+                return "Player";
+            } else {
+                return target.type;
+            }
         }
     }
 

@@ -375,7 +375,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         let creature = this.get_Creature();
         let character = this.characterService.get_Character();
         this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true).filter(gain => gain.name == "Hunt Prey").length
-        if (creature.type == "Character" || (creature.type == "Companion" && this.characterService.get_CharacterFeatsTaken(1, character.level, "Animal Companion (Ranger)").length)) {
+        if (creature === character || (creature instanceof AnimalCompanion && this.characterService.get_CharacterFeatsTaken(1, character.level, "Animal Companion (Ranger)").length)) {
             return (
                 (
                     this.characterService.get_CharacterFeatsTaken(1, character.level, "Flurry").length &&

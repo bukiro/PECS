@@ -1,6 +1,5 @@
 import { CharacterService } from 'src/app/services/character.service';
-import { Creature } from 'src/app/classes/Creature';
-import { EffectsService } from 'src/app/services/effects.service';
+import { Creature } from './Creature';
 import { Feat } from 'src/app/classes/Feat';
 import { FeatChoice } from 'src/app/classes/FeatChoice';
 import { FeatTaken } from 'src/app/classes/FeatTaken';
@@ -32,34 +31,6 @@ export class Familiar extends Creature {
     }
     get_BaseSize() {
         return -2;
-    }
-    get_Size(effectsService: EffectsService) {
-        let size: number = this.get_BaseSize();
-
-        let setSizeEffects = effectsService.get_AbsolutesOnThis(this, "Size");
-        if (setSizeEffects.length) {
-            size = Math.max(...setSizeEffects.map(effect => parseInt(effect.setValue)));
-        }
-
-        let sizeEffects = effectsService.get_RelativesOnThis(this, "Size");
-        sizeEffects.forEach(effect => {
-            size += parseInt(effect.value)
-        })
-
-        switch (size) {
-            case -2:
-                return "Tiny";
-            case -1:
-                return "Small";
-            case 0:
-                return "Medium"
-            case 1:
-                return "Large"
-            case 2:
-                return "Huge"
-            case 3:
-                return "Gargantuan"
-        }
     }
     get_FeatsTaken(featName: string = "") {
         let featsTaken: string[] = [];

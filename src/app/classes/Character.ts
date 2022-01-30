@@ -61,34 +61,6 @@ export class Character extends Creature {
     get_BaseSize() {
         return this.class.ancestry.size ? this.class.ancestry.size : 0;
     }
-    get_Size(effectsService: EffectsService) {
-        let size: number = this.get_BaseSize();
-
-        let setSizeEffects = effectsService.get_AbsolutesOnThis(this, "Size");
-        if (setSizeEffects.length) {
-            size = Math.max(...setSizeEffects.map(effect => parseInt(effect.setValue)));
-        }
-
-        let sizeEffects = effectsService.get_RelativesOnThis(this, "Size");
-        sizeEffects.forEach(effect => {
-            size += parseInt(effect.value)
-        })
-
-        switch (size) {
-            case -2:
-                return "Tiny";
-            case -1:
-                return "Small";
-            case 0:
-                return "Medium"
-            case 1:
-                return "Large"
-            case 2:
-                return "Huge"
-            case 3:
-                return "Gargantuan"
-        }
-    }
     get_SpellLevel(levelNumber: number = this.level) {
         return Math.ceil(levelNumber / 2);
     }
@@ -381,7 +353,7 @@ export class Character extends Creature {
             }
             //If you are getting trained in a skill you don't already know, it's usually a weapon proficiency or a class/spell DC.
             //We have to create that skill here then
-            if (characterService.get_Skills(this, skillName, {}, {noSubstitutions: true}).length == 0) {
+            if (characterService.get_Skills(this, skillName, {}, { noSubstitutions: true }).length == 0) {
                 if (skillName.includes("Class DC")) {
                     switch (skillName) {
                         case "Alchemist Class DC":

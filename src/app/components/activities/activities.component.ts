@@ -114,7 +114,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     }
 
     get_Creature() {
-        return this.characterService.get_Creature(this.creature) as Character | AnimalCompanion;
+        return this.characterService.get_Creature(this.creature);
     }
 
     get_Activities(name: string = "") {
@@ -122,7 +122,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     }
 
     get_ClassDCs() {
-        return this.characterService.get_Skills(this.get_Creature(), "", { type: "Class DC" }).filter(skill => skill.level(this.get_Creature() as Character | AnimalCompanion, this.characterService) > 0);
+        return this.characterService.get_Skills(this.get_Creature(), "", { type: "Class DC" }).filter(skill => skill.level(this.get_Creature(), this.characterService) > 0);
     }
 
     get_OwnedActivities() {

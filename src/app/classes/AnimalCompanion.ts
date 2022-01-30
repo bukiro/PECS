@@ -34,34 +34,6 @@ export class AnimalCompanion extends Creature {
         })
         return size;
     }
-    get_Size(effectsService: EffectsService) {
-        let size: number = this.get_BaseSize()
-
-        let setSizeEffects = effectsService.get_AbsolutesOnThis(this, "Size");
-        if (setSizeEffects.length) {
-            size = Math.max(...setSizeEffects.map(effect => parseInt(effect.setValue)));
-        }
-
-        let sizeEffects = effectsService.get_RelativesOnThis(this, "Size");
-        sizeEffects.forEach(effect => {
-            size += parseInt(effect.value)
-        })
-
-        switch (size) {
-            case -2:
-                return "Tiny";
-            case -1:
-                return "Small";
-            case 0:
-                return "Medium"
-            case 1:
-                return "Large"
-            case 2:
-                return "Huge"
-            case 3:
-                return "Gargantuan"
-        }
-    }
     set_Level(characterService: CharacterService) {
         //Get all taken feats at this character level that grow the animal companion, then set the companion level to the highest option (or 1).
         //Level 3 is a placeholder, Levels 4 and 5 are Nimble and Savage - 

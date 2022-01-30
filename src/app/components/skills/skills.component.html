@@ -37,6 +37,8 @@
                 [showActivities]=true [showConditions]=true></app-tags>
             <ng-container *ngIf="creature=='Familiar'">
                 <header class="sectionHeader box-header">Attack Rolls</header>
+                <app-tags [creature]="creature" [objectName]="'Attacks'" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
                 <ng-container
                     *ngFor="let skill of get_Skills('', {type: 'Familiar Proficiency'}); trackBy:trackByIndex;">
                     <app-skill [creature]="creature" [skill]=skill></app-skill>

@@ -16,12 +16,12 @@ export class DefenseService {
         return this.AC;
     }
 
-    get_EquippedArmor(creature: Character | AnimalCompanion) {
+    get_EquippedArmor(creature) {
         let armor = creature.inventories[0].armors;
         return armor.filter(armor => armor.equipped);
     }
 
-    get_EquippedShield(creature: Character | AnimalCompanion) {
+    get_EquippedShield(creature) {
         let shield = creature.inventories[0].shields;
         return shield.filter(shield => shield.equipped && !shield.broken);
     }

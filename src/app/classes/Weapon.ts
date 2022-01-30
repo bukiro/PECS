@@ -362,10 +362,9 @@ export class Weapon extends Equipment {
         //Some feats allow you to apply another proficiency to certain weapons, e.g.:
         // "For the purpose of determining your proficiency, martial goblin weapons are simple weapons and advanced goblin weapons are martial weapons."
         let proficiencyChanges: ProficiencyChange[] = [];
-        if (creature.type == "Character") {
-            let character = creature as Character;
+        if (creature instanceof Character) {
             characterService.get_CharacterFeatsAndFeatures()
-                .filter(feat => feat.changeProficiency.length && feat.have(character, characterService, charLevel))
+                .filter(feat => feat.changeProficiency.length && feat.have(creature, characterService, charLevel))
                 .forEach(feat => {
                     proficiencyChanges.push(...feat.changeProficiency.filter(change =>
                         (change.name ? this.name.toLowerCase() == change.name.toLowerCase() : true) &&
@@ -391,7 +390,7 @@ export class Weapon extends Equipment {
         }
         return proficiency;
     }
-    profLevel(creature: Character | AnimalCompanion, characterService: CharacterService, runeSource: Weapon | WornItem, charLevel: number = characterService.get_Character().level) {
+    profLevel(creature: Character|AnimalCompanion, characterService: CharacterService, runeSource: Weapon | WornItem, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;
         const prof = this.get_Proficiency(creature, characterService, charLevel);
@@ -980,7 +979,7 @@ export class Weapon extends Equipment {
             } else {
                 //If the weapon is Finesse and you have the Thief Racket, you apply your Dexterity modifier to damage if it is higher.
                 if (traits.includes("Finesse") &&
-                    creature.type == "Character" &&
+                    creature instanceof Character &&
                     characterService.get_CharacterFeatsTaken(1, creature.level, "Thief Racket").length) {
                     //Check if dex or str would give you more damage by comparing your modifiers and any penalties and bonuses.
                     //The Enfeebled condition affects all Strength damage

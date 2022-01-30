@@ -3,6 +3,7 @@ import { EffectsService } from 'src/app/services/effects.service';
 import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Creature } from 'src/app/classes/Creature';
+import { Familiar } from './Familiar';
 
 export class Speed {
     constructor(
@@ -45,10 +46,9 @@ export class Speed {
         if (characterService.still_loading()) { return 0; }
         let sum = 0;
         let explain: string = "";
-        //Penalties cannot lower a speed below 5. We need to track if one ever reaches 5, then never let it get lower again.
-        let above5 = false;
-        //Get the base land speed from the ancestry
-        if (creature.type == "Familiar") {
+        //Get the base land speed from the ancestry.
+        //We cannot use instanceof Familiar here because of circular dependencies. We test typeId == 2 (Familiar) instead.
+        if (creature.typeId == 2) {
             if (this.name == creature.speeds[1].name) {
                 sum = 25;
                 explain = "\nBase speed: " + sum;
@@ -72,6 +72,7 @@ export class Speed {
             sum += parseInt(effect.value);
             explain += "\n" + effect.source + ": " + effect.value;
         });
+        //Penalties cannot lower a speed below 5.
         if (!isNull && sum < 5 && this.name != "Speed") {
             sum = 5;
             explain += "\nEffects cannot lower a speed below 5."

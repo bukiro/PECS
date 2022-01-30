@@ -21,6 +21,7 @@ import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
 import { AlchemicalBomb } from 'src/app/classes/AlchemicalBomb';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { Creature } from 'src/app/classes/Creature';
 
 @Component({
     selector: 'app-items',
@@ -133,6 +134,10 @@ export class ItemsComponent implements OnInit, OnDestroy {
         return this.characterService.get_CompanionAvailable();
     }
 
+    get_FamiliarAvailable() {
+        return this.characterService.get_FamiliarAvailable();
+    }
+
     set_ItemsMenuTarget() {
         this.characterService.set_ItemsMenuTarget(this.creature);
     }
@@ -143,11 +148,15 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
     get_ItemsMenuTarget() {
         this.creature = this.characterService.get_ItemsMenuTarget();
-        let companionAvailable = this.get_CompanionAvailable();
+        const companionAvailable = this.get_CompanionAvailable();
         if (this.creature == "Companion" && !companionAvailable) {
             this.characterService.set_ItemsMenuTarget("Character");
         }
-        return companionAvailable;
+        const familiarAvailable = this.get_FamiliarAvailable();
+        if (this.creature == "Familiar" && !familiarAvailable) {
+            this.characterService.set_ItemsMenuTarget("Character");
+        }
+        return companionAvailable || familiarAvailable;
     }
 
     check_Filter() {
@@ -276,8 +285,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
             .filter((item: Item) =>
                 (
                     //Show companion items in the companion list and not in the character list.
-                    (creatureType == "Character" && !item.traits.includes("Companion")) ||
-                    (creatureType == "Companion" && item.traits.includes("Companion"))
+                    ((creatureType == "Character") == !item.traits.includes("Companion"))
                 ) &&
                 !item.hide &&
                 (
@@ -301,8 +309,8 @@ export class ItemsComponent implements OnInit, OnDestroy {
                         : true
                 )
             )
-            .sort((a, b) => ((a.level / 100) + a.name > (b.level / 100) + b.name) ? 1 : -1)
-            .sort((a, b) => (a[this.sorting] > b[this.sorting]) ? 1 : -1);
+            .sort((a, b) => (a.name > b.name) ? 1 : -1)
+            .sort((a, b) => (a[this.sorting] < b[this.sorting]) ? -1 : 1);
     }
 
     can_ApplyTalismans(item: Item) {
@@ -325,12 +333,8 @@ export class ItemsComponent implements OnInit, OnDestroy {
         if (item instanceof AdventuringGear || item instanceof Consumable) {
             amount = item.stack;
         }
-        if (creature == "Character") {
-            this.characterService.grant_InventoryItem(this.characterService.get_Character(), this.characterService.get_Character().inventories[0], item, false, true, true, amount);
-        } else if (creature == "Companion") {
-            this.characterService.grant_InventoryItem(this.characterService.get_Companion(), this.characterService.get_Companion().inventories[0], item, false, true, true, amount);
-        }
-
+        const target: Creature = this.characterService.get_Creature(creature);
+        this.characterService.grant_InventoryItem(target, target.inventories[0], item, false, true, true, amount);
     }
 
     get_NewItemFilter() {
@@ -624,5 +628,5 @@ export class ItemsComponent implements OnInit, OnDestroy {
         this.changeSubscription?.unsubscribe();
         this.viewChangeSubscription?.unsubscribe();
     }
-    
+
 }

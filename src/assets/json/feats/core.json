@@ -25577,6 +25577,24 @@
             "Sorcerer",
             "Wizard"
         ],
+        "hints": [
+            {
+                "desc": "Your familiar's save modifiers and AC are equal to yours before applying circumstance or status bonuses or penalties.",
+                "showon": "Familiar:Saving Throws, Familiar:AC"
+            },
+            {
+                "desc": "Your familiar's Perception, Acrobatics, and Stealth modifiers are equal to your level plus your spellcasting ability modifier (Charisma if you don't have one, unless otherwise specified). It can use trained skill actions for skills for these skills. If it attempts another skill check, it uses your level as its modifier.",
+                "showon": "Familiar:Perception, Familiar:Skills"
+            },
+            {
+                "desc": "Your familiar can't make Strikes. If it attempts an attack roll, it uses your level as its modifier.",
+                "showon": "Familiar:Attacks"
+            },
+            {
+                "desc": "Your familiar can never benefit from item bonuses.",
+                "showon": "Familiar:Effects, Familiar:Inventory"
+            }
+        ],
         "levelreq": 1,
         "specialreq": "!characterService.get_FamiliarAvailable() || this.have(character, characterService, charLevel)",
         "specialreqdesc": "no familiar",
@@ -39403,6 +39421,28 @@
         "shortdesc": "You gain a leshy familiar, a tiny plant that embodies one of the many spirits of nature.",
         "traits": [
             "Druid"
+        ],
+        "hints": [
+            {
+                "desc": "Your familiar's save modifiers and AC are equal to yours before applying circumstance or status bonuses or penalties.",
+                "showon": "Familiar:Saving Throws, Familiar:AC",
+                "replaceTitle": "Familiar"
+            },
+            {
+                "desc": "Your familiar's Perception, Acrobatics, and Stealth modifiers are equal to your level plus your spellcasting ability modifier (Charisma if you don't have one, unless otherwise specified). It can use trained skill actions for skills for these skills. If it attempts another skill check, it uses your level as its modifier.",
+                "showon": "Familiar:Perception, Familiar:Skills",
+                "replaceTitle": "Familiar"
+            },
+            {
+                "desc": "Your familiar can't make Strikes. If it attempts an attack roll, it uses your level as its modifier.",
+                "showon": "Familiar:Attacks",
+                "replaceTitle": "Familiar"
+            },
+            {
+                "desc": "Your familiar can never benefit from item bonuses.",
+                "showon": "Familiar:Effects, Familiar:Inventory",
+                "replaceTitle": "Familiar"
+            }
         ],
         "levelreq": 1,
         "featreq": [
@@ -54750,6 +54790,28 @@
         "shortdesc": "You build a rapport with an animal, which becomes magically bonded to you.",
         "traits": [
             "Gnome"
+        ],
+        "hints": [
+            {
+                "desc": "Your familiar's save modifiers and AC are equal to yours before applying circumstance or status bonuses or penalties.",
+                "showon": "Familiar:Saving Throws, Familiar:AC",
+                "replaceTitle": "Familiar"
+            },
+            {
+                "desc": "Your familiar's Perception, Acrobatics, and Stealth modifiers are equal to your level plus your spellcasting ability modifier (Charisma if you don't have one, unless otherwise specified). It can use trained skill actions for skills for these skills. If it attempts another skill check, it uses your level as its modifier.",
+                "showon": "Familiar:Perception, Familiar:Skills",
+                "replaceTitle": "Familiar"
+            },
+            {
+                "desc": "Your familiar can't make Strikes. If it attempts an attack roll, it uses your level as its modifier.",
+                "showon": "Familiar:Attacks",
+                "replaceTitle": "Familiar"
+            },
+            {
+                "desc": "Your familiar can never benefit from item bonuses.",
+                "showon": "Familiar:Effects, Familiar:Inventory",
+                "replaceTitle": "Familiar"
+            }
         ],
         "levelreq": 1,
         "specialreq": "!characterService.get_FamiliarAvailable() || this.have(character, characterService, charLevel)",

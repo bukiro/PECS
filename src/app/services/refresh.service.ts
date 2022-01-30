@@ -154,7 +154,7 @@ export class RefreshService {
         }
     }
 
-    set_ItemViewChanges(creature: Character | AnimalCompanion, item: Item, services: { characterService: CharacterService }) {
+    set_ItemViewChanges(creature: Creature, item: Item, services: { characterService: CharacterService }) {
         this.set_ToChange(creature.type, item.id);
         item.traits.map(trait => this.traitsService.get_TraitFromName(trait)).forEach(trait => {
             this.set_HintsToChange(creature, trait.hints, services);
@@ -173,7 +173,7 @@ export class RefreshService {
         }
     }
 
-    private set_EquipmentViewChanges(creature: Character | AnimalCompanion, item: Equipment, services: { characterService: CharacterService }) {
+    private set_EquipmentViewChanges(creature: Creature, item: Equipment, services: { characterService: CharacterService }) {
         //Prepare refresh list according to the item's properties.
         if (item instanceof Shield || item instanceof Armor || item instanceof Weapon) {
             this.set_ToChange(creature.type, "defense");
@@ -231,14 +231,14 @@ export class RefreshService {
         }
     }
 
-    private set_RuneViewChanges(creature: Character | AnimalCompanion, rune: Rune, services: { characterService: CharacterService }) {
+    private set_RuneViewChanges(creature: Creature, rune: Rune, services: { characterService: CharacterService }) {
         //Prepare refresh list according to the rune's properties.
         this.set_HintsToChange(creature, rune.hints, services);
         if (rune.effects.length) {
-            this.set_ToChange("Character", "effects");
+            this.set_ToChange(creature.type, "effects");
         }
         if (rune.activities.length) {
-            this.set_ToChange("Character", "activities");
+            this.set_ToChange(creature.type, "activities");
         }
     }
 

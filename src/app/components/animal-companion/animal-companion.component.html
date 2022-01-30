@@ -11,98 +11,105 @@
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <div class="animalcompanion-box"
         *ngIf="!still_loading() && get_Character().class && get_CompanionAvailable() && get_CompanionMenuState() == 'in'">
-        <app-effects [creature]="'Companion'" id="Companion-effects" class="charactersheet-app charactersheet-row mobile-hide"
-            [sheetSide]="'center'" *ngIf="!mobile"></app-effects>
-        <div class="charactersheet-column-container mobile-hide" *ngIf="!mobile">
-            <div class="charactersheet-column">
-                <app-general [creature]="'Companion'" [sheetSide]="'left'" id="Companion-general"
-                    class="charactersheet-app"></app-general>
-                <app-health [creature]="'Companion'" [sheetSide]="'left'" id="Companion-health"
-                    class="charactersheet-app"></app-health>
-                <app-skills [creature]="'Companion'" [sheetSide]="'left'" id="Companion-skills"
-                    class="charactersheet-app"></app-skills>
-                <app-activities [creature]="'Companion'" [sheetSide]="'left'" id="Companion-activities"
-                    class="charactersheet-app"></app-activities>
-            </div>
-            <div class="charactersheet-column">
-                <app-abilities [creature]="'Companion'" [sheetSide]="'right'" id="Companion-abilities"
-                    class="charactersheet-app"></app-abilities>
-                <app-defense [creature]="'Companion'" [sheetSide]="'right'" id="Companion-defense"
-                    class="charactersheet-app"></app-defense>
-                <app-attacks [creature]="'Companion'" [sheetSide]="'right'" id="Companion-attacks"
-                    class="charactersheet-app"></app-attacks>
-                <app-inventory [creature]="'Companion'" [sheetSide]="'right'" id="Companion-inventory"
-                    class="charactersheet-app"></app-inventory>
-            </div>
-        </div>
-        <!--Mobile-Only buttons and views-->
-        <div class="charactersheet-app charactersheet-row desktop-hide" id="mobile-tabs" *ngIf="mobile">
-            <button [ngClass]="{'fancy-button':get_ShowMode()==''}" (click)="toggle_Mode('')">
-                <i class="bi-info-circle-fill"></i>
-            </button>
-            <button [ngClass]="{'fancy-button':get_ShowMode()=='Health'}" (click)="toggle_Mode('Health')">
-                <i class="ra ra-health"></i>
-            </button>
-            <button [ngClass]="{'fancy-button':get_ShowMode()=='Defense'}" (click)="toggle_Mode('Defense')">
-                <i class="ra ra-shield"></i>
-            </button>
-            <button [ngClass]="{'fancy-button':get_ShowMode()=='Attacks'}" (click)="toggle_Mode('Attacks')">
-                <i class="ra ra-sword"></i>
-            </button>
-            <button [ngClass]="{'fancy-button':get_ShowMode()=='Skills'}" (click)="toggle_Mode('Skills')">
-                <i class="ra ra-muscle-up"></i>
-            </button>
-            <button [ngClass]="{'fancy-button':get_ShowMode()=='Actions'}" (click)="toggle_Mode('Actions')">
-                <app-actionIcons [actionString]="'1A'" style="margin:.12rem -.16rem -.14rem -.16rem"></app-actionIcons>
-            </button>
-            <button [ngClass]="{'fancy-button':get_ShowMode()=='Inventory'}" (click)="toggle_Mode('Inventory')">
-                <i class="bi-box"></i>
-            </button>
-            <button [ngClass]="{'fancy-button':get_ShowMode()=='ConditionsEffects'}"
-                (click)="toggle_Mode('ConditionsEffects')">
-                <i class="ra ra-lightning-bolt"></i>
-            </button>
-        </div>
-        <ng-container *ngIf="!still_loading() && mobile">
-            <div class="charactersheet-column-container desktop-hide">
+        <!--Desktop-only view-->
+        <ng-container *ngIf="!mobile">
+            <app-effects [creature]="'Companion'" id="Companion-effects"
+                class="charactersheet-app charactersheet-row mobile-hide" [sheetSide]="'center'">
+            </app-effects>
+            <div class="charactersheet-column-container mobile-hide">
                 <div class="charactersheet-column">
-                    <app-general id="Character-general" class="charactersheet-app" [creature]="'Companion'"
-                        [sheetSide]="'center'" [ngClass]="{'minimized':(get_Minimized())}"
-                        *ngIf="!get_ShowMode() || !['Health','Defense','Attacks','Spells','Skills','Actions','Inventory','ConditionsEffects'].includes(get_ShowMode())">
-                    </app-general>
-                    <app-abilities id="Character-abilities" class="charactersheet-app" [creature]="'Companion'"
-                        [sheetSide]="'center'" [ngClass]="{'minimized':(get_Minimized())}" *ngIf="!get_ShowMode()">
-                    </app-abilities>
-                    <app-health id="Character-health" class="charactersheet-app" [creature]="'Companion'"
-                        [sheetSide]="'center'" [showMinimizeButton]="(get_ShowMode() != 'Downtime')"
-                        [ngClass]="{'minimized':(get_Minimized() || (get_ShowMode() == 'Downtime'))}"
-                        *ngIf="get_ShowMode()=='Health'">
-                    </app-health>
-                    <app-defense id="Character-defense" class="charactersheet-app" [creature]="'Companion'"
-                        [sheetSide]="'center'" [ngClass]="{'minimized':(get_Minimized())}"
-                        *ngIf="get_ShowMode()=='Defense'">
-                    </app-defense>
-                    <app-attacks id="Character-attacks" class="charactersheet-app" [creature]="'Companion'"
-                        [sheetSide]="'center'" [ngClass]="{'minimized':(get_Minimized())}"
-                        *ngIf="get_ShowMode()=='Attacks'">
-                    </app-attacks>
-                    <app-skills id="Character-skills" class="charactersheet-app" [creature]="'Companion'"
-                        [sheetSide]="'center'" [ngClass]="{'minimized':(get_Minimized())}"
-                        *ngIf="get_ShowMode()=='Skills'">
-                    </app-skills>
-                    <app-activities id="Character-activities" class="charactersheet-app" [creature]="'Companion'"
-                        [sheetSide]="'center'" [ngClass]="{'minimized':(get_Minimized())}"
-                        *ngIf="get_ShowMode()=='Actions'">
-                    </app-activities>
-                    <app-inventory id="Character-inventory" class="charactersheet-app" [creature]="'Companion'"
-                        [sheetSide]="'center'" [ngClass]="{'minimized':(get_Minimized())}"
-                        *ngIf="get_ShowMode()=='Inventory'">
-                    </app-inventory>
-                    <app-effects id="Character-effects" class="charactersheet-app" [creature]="'Companion'"
-                        [fullDisplay]="true" [sheetSide]="'center'" *ngIf="get_ShowMode()=='ConditionsEffects'">
-                    </app-effects>
+                    <app-general [creature]="'Companion'" [sheetSide]="'left'" id="Companion-general"
+                        class="charactersheet-app"></app-general>
+                    <app-health [creature]="'Companion'" [sheetSide]="'left'" id="Companion-health"
+                        class="charactersheet-app"></app-health>
+                    <app-skills [creature]="'Companion'" [sheetSide]="'left'" id="Companion-skills"
+                        class="charactersheet-app"></app-skills>
+                    <app-activities [creature]="'Companion'" [sheetSide]="'left'" id="Companion-activities"
+                        class="charactersheet-app"></app-activities>
+                </div>
+                <div class="charactersheet-column">
+                    <app-abilities [creature]="'Companion'" [sheetSide]="'right'" id="Companion-abilities"
+                        class="charactersheet-app"></app-abilities>
+                    <app-defense [creature]="'Companion'" [sheetSide]="'right'" id="Companion-defense"
+                        class="charactersheet-app"></app-defense>
+                    <app-attacks [creature]="'Companion'" [sheetSide]="'right'" id="Companion-attacks"
+                        class="charactersheet-app"></app-attacks>
+                    <app-inventory [creature]="'Companion'" [sheetSide]="'right'" id="Companion-inventory"
+                        class="charactersheet-app"></app-inventory>
                 </div>
             </div>
+        </ng-container>
+        <!--Mobile-only buttons and views-->
+        <ng-container *ngIf="mobile">
+            <div class="charactersheet-app charactersheet-row desktop-hide" id="mobile-tabs">
+                <button [ngClass]="{'fancy-button':get_ShowMode()==''}" (click)="toggle_Mode('')">
+                    <i class="bi-info-circle-fill"></i>
+                </button>
+                <button [ngClass]="{'fancy-button':get_ShowMode()=='Health'}" (click)="toggle_Mode('Health')">
+                    <i class="ra ra-health"></i>
+                </button>
+                <button [ngClass]="{'fancy-button':get_ShowMode()=='Defense'}" (click)="toggle_Mode('Defense')">
+                    <i class="ra ra-shield"></i>
+                </button>
+                <button [ngClass]="{'fancy-button':get_ShowMode()=='Attacks'}" (click)="toggle_Mode('Attacks')">
+                    <i class="ra ra-sword"></i>
+                </button>
+                <button [ngClass]="{'fancy-button':get_ShowMode()=='Skills'}" (click)="toggle_Mode('Skills')">
+                    <i class="ra ra-muscle-up"></i>
+                </button>
+                <button [ngClass]="{'fancy-button':get_ShowMode()=='Actions'}" (click)="toggle_Mode('Actions')">
+                    <app-actionIcons [actionString]="'1A'" style="margin:.12rem -.16rem -.14rem -.16rem">
+                    </app-actionIcons>
+                </button>
+                <button [ngClass]="{'fancy-button':get_ShowMode()=='Inventory'}" (click)="toggle_Mode('Inventory')">
+                    <i class="bi-box"></i>
+                </button>
+                <button [ngClass]="{'fancy-button':get_ShowMode()=='ConditionsEffects'}"
+                    (click)="toggle_Mode('ConditionsEffects')">
+                    <i class="ra ra-lightning-bolt"></i>
+                </button>
+            </div>
+            <ng-container *ngIf="!still_loading()">
+                <div class="charactersheet-column-container desktop-hide">
+                    <div class="charactersheet-column">
+                        <app-general id="Character-general" class="charactersheet-app" [creature]="'Companion'"
+                            [sheetSide]="'center'" [ngClass]="{'minimized':(get_Minimized())}"
+                            *ngIf="!get_ShowMode() || !['Health','Defense','Attacks','Spells','Skills','Actions','Inventory','ConditionsEffects'].includes(get_ShowMode())">
+                        </app-general>
+                        <app-abilities id="Character-abilities" class="charactersheet-app" [creature]="'Companion'"
+                            [sheetSide]="'center'" [ngClass]="{'minimized':(get_Minimized())}" *ngIf="!get_ShowMode()">
+                        </app-abilities>
+                        <app-health id="Character-health" class="charactersheet-app" [creature]="'Companion'"
+                            [sheetSide]="'center'" [showMinimizeButton]="(get_ShowMode() != 'Downtime')"
+                            [ngClass]="{'minimized':(get_Minimized() || (get_ShowMode() == 'Downtime'))}"
+                            *ngIf="get_ShowMode()=='Health'">
+                        </app-health>
+                        <app-defense id="Character-defense" class="charactersheet-app" [creature]="'Companion'"
+                            [sheetSide]="'center'" [ngClass]="{'minimized':(get_Minimized())}"
+                            *ngIf="get_ShowMode()=='Defense'">
+                        </app-defense>
+                        <app-attacks id="Character-attacks" class="charactersheet-app" [creature]="'Companion'"
+                            [sheetSide]="'center'" [ngClass]="{'minimized':(get_Minimized())}"
+                            *ngIf="get_ShowMode()=='Attacks'">
+                        </app-attacks>
+                        <app-skills id="Character-skills" class="charactersheet-app" [creature]="'Companion'"
+                            [sheetSide]="'center'" [ngClass]="{'minimized':(get_Minimized())}"
+                            *ngIf="get_ShowMode()=='Skills'">
+                        </app-skills>
+                        <app-activities id="Character-activities" class="charactersheet-app" [creature]="'Companion'"
+                            [sheetSide]="'center'" [ngClass]="{'minimized':(get_Minimized())}"
+                            *ngIf="get_ShowMode()=='Actions'">
+                        </app-activities>
+                        <app-inventory id="Character-inventory" class="charactersheet-app" [creature]="'Companion'"
+                            [sheetSide]="'center'" [ngClass]="{'minimized':(get_Minimized())}"
+                            *ngIf="get_ShowMode()=='Inventory'">
+                        </app-inventory>
+                        <app-effects id="Character-effects" class="charactersheet-app" [creature]="'Companion'"
+                            [fullDisplay]="true" [sheetSide]="'center'" *ngIf="get_ShowMode()=='ConditionsEffects'">
+                        </app-effects>
+                    </div>
+                </div>
+            </ng-container>
         </ng-container>
     </div>
 </div>

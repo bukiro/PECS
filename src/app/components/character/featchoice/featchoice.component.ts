@@ -494,7 +494,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
                 let excludeTemporary = !choice.showOnSheet;
                 let haveUpToNow: number = feat.have(creature, this.characterService, levelNumber, excludeTemporary, true);
                 //Familiar abilities are independent of level. Don't check haveLater for them, because it will be the same result as haveUpToNow.
-                let haveLater: number = creature.type == "Character" ? feat.have(creature, this.characterService, 20, excludeTemporary, true, levelNumber + 1) : 0;
+                let haveLater: number = creature instanceof Character ? feat.have(creature, this.characterService, 20, excludeTemporary, true, levelNumber + 1) : 0;
                 if (feat.limited) {
                     //Has it already been taken up to this level, excluding this FeatChoice, and more often than the limit?
                     //  Don't count temporary choices (showOnSheet == true) unless this is also temporary.

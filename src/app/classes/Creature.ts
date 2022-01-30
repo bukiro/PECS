@@ -9,11 +9,12 @@ import { Skill } from 'src/app/classes/Skill';
 import { Effect } from 'src/app/classes/Effect';
 import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
+import { EffectsService } from '../services/effects.service';
 
 export class Creature {
     public name: string = "";
     public id = uuidv4();
-    public type: "Character"|"Companion"|"Familiar" = "Character";
+    public type: "Character" | "Companion" | "Familiar" = "Character";
     public typeId: number = 0;
     public level: number = 1;
     public customSkills: Skill[] = [];
@@ -35,6 +36,42 @@ export class Creature {
         this.speeds = this.speeds.map(obj => Object.assign(new Speed(), obj).recast());
         this.bulk = Object.assign(new Bulk(), this.bulk).recast();
         return this;
+    }
+    get_BaseSize() {
+        //Each kind of creature provides its own version of this.
+        return 0;
+    }
+    get_Size(effectsService: EffectsService, options: { asNumber?: boolean } = {}): string | number {
+        let size: number = this.get_BaseSize();
+
+        let setSizeEffects = effectsService.get_AbsolutesOnThis(this, "Size");
+        if (setSizeEffects.length) {
+            size = Math.max(...setSizeEffects.map(effect => parseInt(effect.setValue)));
+        }
+
+        let sizeEffects = effectsService.get_RelativesOnThis(this, "Size");
+        sizeEffects.forEach(effect => {
+            size += parseInt(effect.value)
+        })
+
+        if (options.asNumber) {
+            return size
+        } else {
+            switch (size) {
+                case -2:
+                    return "Tiny";
+                case -1:
+                    return "Small";
+                case 1:
+                    return "Large"
+                case 2:
+                    return "Huge"
+                case 3:
+                    return "Gargantuan"
+                default:
+                    return "Medium"
+            }
+        }
     }
     get_EffectsGenerationObjects(characterService?) {
         //Each kind of creature provides its own version of this.

@@ -8,6 +8,7 @@ import { SpellsService } from 'src/app/services/spells.service';
 import { ConditionsService } from 'src/app/services/conditions.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { Character } from 'src/app/classes/Character';
 
 @Component({
     selector: 'app-health',
@@ -79,7 +80,7 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     get_Waiting(duration: number): string {
-        return this.timeService.get_Waiting(duration, {characterService: this.characterService, conditionsService: this.conditionsService}, {includeResting: true});
+        return this.timeService.get_Waiting(duration, { characterService: this.characterService, conditionsService: this.conditionsService }, { includeResting: true });
     }
 
     rest() {
@@ -162,7 +163,7 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     get_NumbToDeath() {
-        if (this.get_Creature().type == "Character") {
+        if (this.get_Creature() instanceof Character) {
             return this.characterService.get_CharacterFeatsTaken(0, this.get_Character().level, "Numb to Death").length;
         } else {
             return 0;

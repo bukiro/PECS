@@ -40257,7 +40257,7 @@
                 "effects": [
                     {
                         "affected": "Strength Modifier",
-                        "setValue": "(Creature.type != 'Familiar' && Ability('Strength') == 0) ? 4 : null"
+                        "setValue": "(Creature !== Familiar && Ability('Strength') == 0) ? 4 : null"
                     }
                 ]
             }

@@ -294,7 +294,7 @@ export class ConditionsService {
         }
 
         //Gain Items
-        if (creature && creature.type != "Familiar") {
+        if (creature) {
             if (condition.gainItems.length) {
                 this.refreshService.set_ToChange(creature.type, "attacks");
                 this.refreshService.set_ToChange(creature.type, "inventory");
@@ -308,7 +308,7 @@ export class ConditionsService {
                         )
                         ).forEach(gainItem => {
                             conditionDidSomething = true;
-                            gainItem.grant_GrantedItem(creature as Character | AnimalCompanion, { sourceName: condition.name }, { characterService: characterService, itemsService: itemsService })
+                            gainItem.grant_GrantedItem(creature, { sourceName: condition.name }, { characterService: characterService, itemsService: itemsService })
                         });
                 } else {
                     gain.gainItems
@@ -318,7 +318,7 @@ export class ConditionsService {
                             gainItem.conditionChoiceFilter.includes(gain.choice)
                         )
                         ).forEach(gainItem => {
-                            gainItem.drop_GrantedItem((creature as AnimalCompanion | Character), {}, { characterService: characterService });
+                            gainItem.drop_GrantedItem(creature, {}, { characterService: characterService });
                         });
                     gain.gainItems = [];
                 }
@@ -410,7 +410,7 @@ export class ConditionsService {
 
         //Leave cover behind shield if the Cover condition is removed (not for Familiars).
         if (!(creature instanceof Familiar) && condition.name == "Cover" && (!taken || (gain.choice != "Greater"))) {
-            characterService.defenseService.get_EquippedShield(creature as Character | AnimalCompanion).forEach(shield => {
+            characterService.defenseService.get_EquippedShield(creature).forEach(shield => {
                 if (shield.takingCover) {
                     shield.takingCover = false;
                     this.refreshService.set_ToChange(creature.type, "defense");
@@ -451,7 +451,7 @@ export class ConditionsService {
 
     }
 
-    remove_ConditionItem(creature: Character | AnimalCompanion, characterService: CharacterService, itemsService: ItemsService, gainItem: ItemGain) {
+    remove_ConditionItem(creature, characterService: CharacterService, itemsService: ItemsService, gainItem: ItemGain) {
         gainItem.drop_GrantedItem(creature, {}, { characterService: characterService });
     }
 
@@ -550,7 +550,7 @@ export class ConditionsService {
         //Encumbered conditions are not calculated for Familiars (who don't have an inventory) or in manual mode.
         if (!(creature instanceof Familiar) && !services.characterService.get_ManualMode()) {
             let bulk = creature.bulk;
-            let calculatedBulk = bulk.calculate((creature as Character | AnimalCompanion), services.characterService, services.effectsService);
+            let calculatedBulk = bulk.calculate(creature, services.characterService, services.effectsService);
             if (calculatedBulk.current.value > calculatedBulk.encumbered.value && services.characterService.get_AppliedConditions(creature, "Encumbered", "Bulk").length == 0) {
                 services.characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Encumbered", value: 0, source: "Bulk", apply: true }), true)
             }
@@ -673,7 +673,7 @@ export class ConditionsService {
             if (
                 //If you have Fast Recovery or have activated the effect of Forge-Day's Rest, reduce the value by 2 instead of 1.
                 (
-                    creature.type == "Character" &&
+                    (creature instanceof Character) &&
                     characterService.get_CharacterFeatsTaken(1, creature.level, "Fast Recovery").length
                 ) ||
                 characterService.featsService.get_Feats([], "Forge-Day's Rest")?.[0]?.hints.some(hint => hint.active)
@@ -723,7 +723,7 @@ export class ConditionsService {
 
     change_ConditionChoice(creature: Creature, gain: ConditionGain, condition: Condition, oldChoice: string, characterService: CharacterService, itemsService: ItemsService) {
         let conditionDidSomething: boolean = false;
-        if (creature.type != "Familiar" && oldChoice != gain.choice) {
+        if (oldChoice != gain.choice) {
             //Remove any items that were granted by the previous choice.
             if (oldChoice) {
                 gain.gainItems.filter(gainItem => gainItem.conditionChoiceFilter.includes(oldChoice)).forEach(gainItem => {
@@ -734,7 +734,7 @@ export class ConditionsService {
             if (gain.choice) {
                 gain.gainItems.filter(gainItem => gainItem.conditionChoiceFilter.includes(gain.choice)).forEach(gainItem => {
                     conditionDidSomething = true;
-                    gainItem.grant_GrantedItem(creature as Character | AnimalCompanion, { sourceName: condition.name }, { characterService: characterService, itemsService: itemsService })
+                    gainItem.grant_GrantedItem(creature, { sourceName: condition.name }, { characterService: characterService, itemsService: itemsService })
                 });
             }
         }

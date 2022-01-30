@@ -5,6 +5,7 @@ import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Creature } from 'src/app/classes/Creature';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Familiar } from './Familiar';
 
 export class Health {
     public damage: number = 0;
@@ -32,7 +33,8 @@ export class Health {
         let classHP = 0;
         let ancestryHP = 0;
         let charLevel = characterService.get_Character().level
-        if (creature.type == "Familiar") {
+        //We cannot use instanceof Familiar here because of circular dependencies. We test typeId == 2 (Familiar) instead.
+        if (creature.typeId == 2) {
             //Your familiar has 5 Hit Points for each of your levels.
             classHP = 5 * charLevel;
             explain = "Familiar base HP: " + classHP;

@@ -2496,7 +2496,8 @@
         "gainItems": [
             {
                 "name": "Bracelet of Empathy",
-                "type": "wornitems"
+                "type": "wornitems",
+                "unhideAfterGrant": true
             }
         ]
     },
