@@ -173,7 +173,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
                 uniqueSpeeds.push(speed);
             }
         })
-        return uniqueSpeeds.filter(speed => speed.value(this.get_Creature(), this.characterService, this.effectsService)[0] != 0);
+        return uniqueSpeeds.filter(speed => speed.value(this.get_Creature(), this.characterService, this.effectsService).result != 0);
     }
 
     get_SkillChoices() {

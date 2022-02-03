@@ -139,7 +139,7 @@ export class EvaluationService {
         //Get_TestSpeed just provides a blank speed, but this dependency doesn't work within the evaluation. We need to use this.get_TestSpeed instead.
         const get_TestSpeed = this.get_TestSpeed;
         function Speed(name: string) {
-            return (get_TestSpeed(name))?.value((Creature as AnimalCompanion | Character), characterService, effectsService)[0] || 0;
+            return (get_TestSpeed(name))?.value(Creature, characterService, effectsService).result || 0;
         }
         function Has_Condition(name: string) {
             return characterService.get_AppliedConditions(Creature, name, "", true).length
@@ -207,6 +207,7 @@ export class EvaluationService {
         function Deity() {
             return characterService.get_CharacterDeities(Character)[0];
         }
+        //This function is to avoid evaluating a string like "01" as a base-8 number.
         function CleanupLeadingZeroes(text: string) {
             let cleanedText = text;
             while (cleanedText[0] == "0" && cleanedText != "0") {

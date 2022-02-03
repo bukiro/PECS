@@ -12,7 +12,6 @@ import { AlchemicalPoison } from 'src/app/classes/AlchemicalPoison';
 import { ProficiencyChange } from 'src/app/classes/ProficiencyChange';
 import { Effect } from 'src/app/classes/Effect';
 import { Creature } from 'src/app/classes/Creature';
-import { Skill } from 'src/app/classes/Skill';
 import { ItemsService } from 'src/app/services/items.service';
 import { TypeService } from 'src/app/services/type.service';
 import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';

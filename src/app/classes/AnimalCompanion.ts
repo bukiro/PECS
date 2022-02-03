@@ -10,6 +10,7 @@ import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSp
 import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { Hint } from 'src/app/classes/Hint';
+import { Feat } from './Feat';
 
 export class AnimalCompanion extends Creature {
     public class: AnimalCompanionClass = new AnimalCompanionClass();
@@ -25,7 +26,7 @@ export class AnimalCompanion extends Creature {
         this.class = Object.assign(new AnimalCompanionClass(), this.class).recast();
         return this;
     }
-    get_BaseSize() {
+    get_BaseSize(): number {
         let size: number = (this.class.ancestry.size ? this.class.ancestry.size : 0);
         this.class.levels.filter(level => level.number <= this.level).forEach(level => {
             if (level.sizeChange) {
@@ -33,6 +34,34 @@ export class AnimalCompanion extends Creature {
             }
         })
         return size;
+    }
+    get_BaseHP(services: {characterService: CharacterService}): { result: number, explain: string } {
+        let explain = "";
+        let classHP = 0;
+        let ancestryHP = 0;
+        let charLevel = services.characterService.get_Character().level;
+        if (this.class.hitPoints) {
+            if (this.class.ancestry.name) {
+                ancestryHP = this.class.ancestry.hitPoints;
+                explain = "Ancestry base HP: " + ancestryHP;
+            }
+            let constitution = services.characterService.get_Abilities("Constitution")[0].baseValue(this, services.characterService, charLevel).result;
+            let CON: number = Math.floor((constitution - 10) / 2);
+            classHP = (this.class.hitPoints + CON) * charLevel;
+            explain += "\nClass: " + this.class.hitPoints + " + CON: " + (this.class.hitPoints + CON) + " per Level: " + classHP;
+        }
+        return { result: classHP + ancestryHP, explain: explain.trim() };
+    }
+    get_BaseSpeed(speedName: string): { result: number, explain: string } {
+        let explain = "";
+        let sum = 0;
+        if (this.class.ancestry.name) {
+            this.class.ancestry.speeds.filter(speed => speed.name == speedName).forEach(speed => {
+                sum = speed.value;
+                explain = "\n" + this.class.ancestry.name + " base speed: " + sum;
+            });
+        }
+        return { result: sum, explain: explain.trim() };
     }
     set_Level(characterService: CharacterService) {
         //Get all taken feats at this character level that grow the animal companion, then set the companion level to the highest option (or 1).
@@ -156,7 +185,7 @@ export class AnimalCompanion extends Creature {
             return increases;
         }
     }
-    get_EffectsGenerationObjects(characterService: CharacterService) {
+    get_EffectsGenerationObjects(characterService: CharacterService): { feats: (Feat|AnimalCompanionSpecialization)[], hintSets: { hint: Hint, objectName: string }[] } {
         //Return the Companion, its Ancestry's Hints and its Specializations and their Hints for effect generation.
         let feats: AnimalCompanionSpecialization[] = [];
         let hintSets: { hint: Hint, objectName: string }[] = [];

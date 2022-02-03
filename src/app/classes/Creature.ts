@@ -10,6 +10,9 @@ import { Effect } from 'src/app/classes/Effect';
 import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { EffectsService } from '../services/effects.service';
+import { Feat } from './Feat';
+import { Hint } from './Hint';
+import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
 
 export class Creature {
     public name: string = "";
@@ -73,7 +76,13 @@ export class Creature {
             }
         }
     }
-    get_EffectsGenerationObjects(characterService?) {
+    get_BaseHP(services: {characterService?}): { result: number, explain: string } {
+        return { result: 0, explain: "" };
+    }
+    get_BaseSpeed(speedName: string): { result: number, explain: string } {
+        return { result: 0, explain: "" };
+    }
+    get_EffectsGenerationObjects(characterService?): { feats: (Feat|AnimalCompanionSpecialization)[], hintSets: { hint: Hint, objectName: string }[] } {
         //Each kind of creature provides its own version of this.
         return { feats: [], hintSets: [] };
     }

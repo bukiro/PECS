@@ -29,43 +29,22 @@ export class Health {
         return result;
     }
     maxHP(creature: Creature, characterService: CharacterService, effectsService: EffectsService) {
-        let explain = "";
-        let classHP = 0;
-        let ancestryHP = 0;
-        let charLevel = characterService.get_Character().level
-        //We cannot use instanceof Familiar here because of circular dependencies. We test typeId == 2 (Familiar) instead.
-        if (creature.typeId == 2) {
-            //Your familiar has 5 Hit Points for each of your levels.
-            classHP = 5 * charLevel;
-            explain = "Familiar base HP: " + classHP;
-        } else {
-            let classCreature = creature as AnimalCompanion | Character;
-            if (classCreature.class.hitPoints) {
-                if (classCreature.class.ancestry.name) {
-                    ancestryHP = classCreature.class.ancestry.hitPoints;
-                    explain = "Ancestry base HP: " + ancestryHP;
-                }
-                let constitution = characterService.get_Abilities("Constitution")[0].baseValue(classCreature, characterService, charLevel).result;
-                let CON: number = Math.floor((constitution - 10) / 2);
-                classHP = (classCreature.class.hitPoints + CON) * charLevel;
-                explain += "\nClass: " + classCreature.class.hitPoints + " + CON: " + (classCreature.class.hitPoints + CON) + " per Level: " + classHP;
-            }
-        }
-        let baseHP = ancestryHP + classHP;
+        let baseHP = creature.get_BaseHP({ characterService: characterService });
         let effectsSum = 0
         effectsService.get_AbsolutesOnThis(creature, "Max HP").forEach(effect => {
             effectsSum = parseInt(effect.setValue);
-            explain = effect.source + ": " + effect.setValue;
+            baseHP.explain = effect.source + ": " + effect.setValue;
         });
         effectsService.get_RelativesOnThis(creature, "Max HP").forEach(effect => {
             effectsSum += parseInt(effect.value);
-            explain += "\n" + effect.source + ": " + effect.value;
+            baseHP.explain += "\n" + effect.source + ": " + effect.value;
         });
-        let result = Math.max(0, baseHP + effectsSum);
-        return { result: result, explain: explain.trim() }
+        baseHP.result = Math.max(0, baseHP.result + effectsSum);
+        baseHP.explain = baseHP.explain.trim();
+        return baseHP;
     }
     currentHP(creature: Creature, characterService: CharacterService, effectsService: EffectsService) {
-        let maxHP = this.maxHP(creature, characterService, effectsService)
+        let maxHP = this.maxHP(creature, characterService, effectsService);
         let sum = maxHP.result + this.temporaryHP[0].amount - this.damage;
         let explain = "Max HP: " + maxHP.result;
         if (this.temporaryHP[0].amount) {

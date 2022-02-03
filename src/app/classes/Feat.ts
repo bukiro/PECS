@@ -293,7 +293,7 @@ export class Feat {
         function Speed(creature: string, name: string) {
             let speeds: Speed[] = characterService.get_Speeds(characterService.get_Creature(creature)).filter(speed => speed.name == name);
             if (speeds.length) {
-                return speeds[0].value(characterService.get_Creature(creature), characterService, characterService.effectsService)[0];
+                return speeds[0].value(characterService.get_Creature(creature), characterService, characterService.effectsService).result;
             } else {
                 return 0;
             }

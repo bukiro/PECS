@@ -13660,6 +13660,7 @@
         ],
         "area": "30-foot emanation",
         "target": "area",
+        "overrideHostile": "friendly",
         "desc": "You send out a pulse that registers the presence of magic. <var>var1</var> You can choose to ignore magic you're fully aware of, such as the magic items and ongoing spells of you and your allies.\n\nYou detect illusion magic only if that magic's effect has a lower level than the level of your detect magic spell. However, items that have an illusion aura but aren't deceptive in appearance (such as an invisibility potion) typically are detected normally.",
         "heightened": [
             {

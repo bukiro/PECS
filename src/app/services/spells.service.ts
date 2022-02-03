@@ -64,7 +64,8 @@ export class SpellsService {
         //Get the available spell level of this casting. This is the highest spell level of the spell choices that are available at your character level (and don't have a dynamic level).
         highestSpellLevel = Math.max(...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= Character.level).map(spellChoice => spellChoice.level));
         try {
-            return parseInt(eval(choice.dynamicLevel));
+            choice._level = parseInt(eval(choice.dynamicLevel));
+            return choice._level;
         } catch (e) {
             console.log("Error parsing spell level requirement (" + choice.dynamicLevel + "): " + e)
             return 1;

@@ -249,7 +249,8 @@ export class AttacksComponent implements OnInit, OnDestroy {
                     if (spell.target == 'self') {
                         target = "Character";
                     }
-                    this.characterService.spellsService.process_Spell(this.get_Creature('Character'), target, this.characterService, this.characterService.itemsService, this.characterService.conditionsService, null, null, tempGain, spell, spellChoice.level, true, true, false);
+                    const character = this.get_Character();
+                    this.characterService.spellsService.process_Spell(character, target, this.characterService, this.characterService.itemsService, this.characterService.conditionsService, null, null, tempGain, spell, spellChoice.level, true, true, false);
                 }
                 spellChoice.spells.shift();
             }

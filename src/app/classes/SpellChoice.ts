@@ -27,6 +27,7 @@ export class SpellChoice {
     public level: number = 0;
     //For spell choices that are "three levels below your highest spell level"
     //Example: "character.get_SpellLevel() - 3"
+    //Only available on character spellcasting, i.e. in spell choices gained via class, features, feats or invested items.
     public dynamicLevel: string = "";
     //Don't display this choice or its spells if the character level is lower than charLevelAvailable.
     //If a feat adds a spellChoice with charLevelAvailable = 0, it gets set to the level the feat was taken
@@ -69,8 +70,12 @@ export class SpellChoice {
     //If target is set to "Allies", you can only choose spells with target "ally".
     //If target is set to "Enemies", you can only choose spells with no target property (so it's likely not beneficial).
     public target: string = "";
+    public _level: number = 0;
     recast() {
         this.spells = this.spells.map(obj => Object.assign(new SpellGain(), obj).recast());
+        if (!this.dynamicLevel && this.level) {
+            this._level = this.level;
+        }
         return this;
     }
 }

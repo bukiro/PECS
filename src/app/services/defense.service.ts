@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AC } from 'src/app/classes/AC';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { Character } from 'src/app/classes/Character';
+import { Creature } from 'src/app/classes/Creature';
+import { Armor } from '../classes/Armor';
+import { Shield } from '../classes/Shield';
 
 @Injectable({
     providedIn: 'root'
@@ -16,14 +17,14 @@ export class DefenseService {
         return this.AC;
     }
 
-    get_EquippedArmor(creature) {
-        let armor = creature.inventories[0].armors;
-        return armor.filter(armor => armor.equipped);
+    public get_EquippedArmor(creature: Creature): Armor[] {
+        const armors = creature.inventories[0].armors;
+        return armors.filter(armor => armor.equipped);
     }
 
-    get_EquippedShield(creature) {
-        let shield = creature.inventories[0].shields;
-        return shield.filter(shield => shield.equipped && !shield.broken);
+    public get_EquippedShield(creature: Creature): Shield[] {
+        const shields = creature.inventories[0].shields;
+        return shields.filter(shield => shield.equipped && !shield.broken);
     }
 
 }

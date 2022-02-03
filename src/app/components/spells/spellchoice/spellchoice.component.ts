@@ -517,7 +517,8 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
     get_HighestSpellLevel() {
         if (this.spellCasting) {
             //Get the available spell level of this casting. This is the higest spell level of the spell choices that are available at your character level.
-            return Math.max(...this.spellCasting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= this.get_Character().level).map(spellChoice => spellChoice.dynamicLevel ? this.get_DynamicLevel(spellChoice) : spellChoice.level), 0);
+            const character = this.get_Character();
+            return Math.max(...this.spellCasting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= character.level).map(spellChoice => spellChoice.dynamicLevel ? this.get_DynamicLevel(spellChoice) : spellChoice.level), 0);
         } else {
             return 1;
         }

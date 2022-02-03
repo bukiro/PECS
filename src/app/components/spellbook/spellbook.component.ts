@@ -17,6 +17,49 @@ import { Feat } from 'src/app/classes/Feat';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 
+type ComponentParameters = {
+    bloodMagicFeats: Feat[],
+    focusPoints: { now: number, max: number }
+}
+type SpellcastingParameters = {
+    casting: SpellCasting,
+    maxStudiousCapacitySlots: number,
+    usedStudiousCapacitySlots: number,
+    maxFirstGreaterVitalEvolutionSlot: number,
+    usedFirstGreaterVitalEvolutionSlot: number,
+    maxSecondGreaterVitalEvolutionSlot: number,
+    usedSecondGreaterVitalEvolutionSlot: number,
+    maxSpellLevel: number,
+    canCounterSpell: boolean
+}
+type SpellCastingLevelParameters = {
+    level: number,
+    spellTakenList: { choice: SpellChoice, gain: SpellGain }[],
+    temporaryChoiceList: SpellChoice[],
+    maxSpellSlots: number,
+    usedSpellSlots: number,
+    extraSpellSlots: string,
+    canRestore: boolean
+}
+type SpellParameters = {
+    spell: Spell,
+    choice: SpellChoice,
+    gain: SpellGain,
+    externallyDisabled: boolean,
+    effectiveSpellLevel: number,
+    cannotCast: string,
+    cannotExpend: string,
+    canChannelSmite: boolean,
+    canSwiftBanish: boolean,
+    isSignatureSpell: boolean,
+    isSpellCombinationSpell: boolean,
+    isInfinitePossibilitiesSpell: boolean,
+    isSpellMasterySpell: boolean,
+    isCrossbloodedEvolutionSpell: boolean,
+    canReprepare: boolean,
+    isHostile: boolean
+}
+
 @Component({
     selector: 'app-spellbook',
     templateUrl: './spellbook.component.html',
@@ -27,11 +70,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     @Input()
     public sheetSide: string = "left";
-    private showSpell: number = 0;
-    private id: number = 0;
-    public hover: number = 0;
-    public Math = Math;
-    private showItem: string = "";
+    private showSpell: string = "";
     private showList: string = "";
 
     constructor(
@@ -54,20 +93,11 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         return this.characterService.get_Character().settings.spellbookMinimized;
     }
 
-    toggle_Spell(id: number = 0) {
+    toggle_Spell(id: string = "") {
         if (this.showSpell == id) {
-            this.showSpell = 0;
+            this.showSpell = "";
         } else {
             this.showSpell = id;
-        }
-    }
-
-    toggle_Item(name: string) {
-        if (this.showItem == name) {
-            this.showItem = "";
-        } else {
-            this.showItem = name;
-            this.showList = "";
         }
     }
 
@@ -76,7 +106,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             this.showList = "";
         } else {
             this.showList = name;
-            this.showSpell = 0;
+            this.showSpell = "";
         }
     }
 
@@ -85,15 +115,11 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     receive_SpellMessage(name: string) {
-        this.toggle_Spell(0);
+        this.toggle_Spell();
     }
 
     get_ShowSpell() {
         return this.showSpell;
-    }
-
-    get_ShowItem() {
-        return this.showItem;
     }
 
     get_ShowList() {
@@ -102,11 +128,6 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     trackByIndex(index: number, obj: any): any {
         return index;
-    }
-
-    get_ID() {
-        this.id++;
-        return this.id;
     }
 
     get_Character() {
@@ -167,6 +188,18 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     get_SpellCastings() {
         let character = this.get_Character();
         //Return all spellcastings that have spells available, and the Innate spellcasting if any items grant you innate spells.
+        enum CastingTypeSort {
+            Innate,
+            Focus,
+            Prepared,
+            Spontaneous
+        }
+        enum TraditionSort {
+            Arcane,
+            Divine,
+            Occult,
+            Primal
+        }
         return character.class.spellCasting
             .filter(casting =>
                 (
@@ -175,9 +208,116 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                     casting.castingType == "Innate" && character.get_EquipmentSpellsGranted(this.characterService, -1, "", "", "", undefined, true).length
                 )
             )
-            .sort((a, b) => (a.tradition > b.tradition) ? 1 : -1)
-            .sort((a, b) => (a.className > b.className) ? 1 : -1)
-            .sort((a, b) => (a.castingType > b.castingType || (b.castingType == "Innate" ? a.castingType != "Innate" : false)) ? 1 : -1);
+            .sort((a, b) => TraditionSort[a.tradition] - TraditionSort[b.tradition])
+            .sort((a, b) => CastingTypeSort[a.castingType] - CastingTypeSort[b.castingType])
+            .sort((a, b) => {
+                if (a.className == b.className) {
+                    return 0;
+                }
+                if (a.className == "Innate" && b.className != "Innate") {
+                    return -1;
+                }
+                if (a.className != "Innate" && b.className == "Innate") {
+                    return 1;
+                }
+                if (a.className > b.className) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            });
+    }
+
+    get_ComponentParameters(): ComponentParameters {
+        const bloodMagicFeats = this.get_BloodMagicFeats();
+        const focusPoints = this.get_FocusPoints();
+        return {
+            bloodMagicFeats: bloodMagicFeats,
+            focusPoints: focusPoints
+        };
+    }
+
+    get_SpellCastingParameters(): SpellcastingParameters[] {
+        return this.get_SpellCastings().map(casting => {
+            const maxStudiousCapacitySlots = this.get_MaxSpellSlots(0, casting);
+            const usedStudiousCapacitySlots = this.get_UsedSpellSlots(0, casting);
+            const maxFirstGreaterVitalEvolutionSlot = this.get_MaxSpellSlots(11, casting);
+            const usedFirstGreaterVitalEvolutionSlot = this.get_UsedSpellSlots(11, casting);
+            const maxSecondGreaterVitalEvolutionSlot = this.get_MaxSpellSlots(12, casting);
+            const usedSecondGreaterVitalEvolutionSlot = this.get_UsedSpellSlots(12, casting);
+            const maxSpellLevel = this.get_MaxSpellLevel(casting);
+            const canCounterSpell = this.can_Counterspell(casting);
+            return {
+                casting: casting,
+                maxStudiousCapacitySlots: maxStudiousCapacitySlots,
+                usedStudiousCapacitySlots: usedStudiousCapacitySlots,
+                maxFirstGreaterVitalEvolutionSlot: maxFirstGreaterVitalEvolutionSlot,
+                usedFirstGreaterVitalEvolutionSlot: usedFirstGreaterVitalEvolutionSlot,
+                maxSecondGreaterVitalEvolutionSlot: maxSecondGreaterVitalEvolutionSlot,
+                usedSecondGreaterVitalEvolutionSlot: usedSecondGreaterVitalEvolutionSlot,
+                maxSpellLevel: maxSpellLevel,
+                canCounterSpell: canCounterSpell
+            };
+        })
+    }
+
+    get_SpellCastingLevelParameters(spellCastingParameters: SpellcastingParameters): SpellCastingLevelParameters[] {
+        return [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].filter(level => level <= spellCastingParameters.maxSpellLevel).map(level => {
+            const spellTakenList = this.get_SpellsByLevel(level, spellCastingParameters.casting);
+            const temporaryChoiceList = this.get_TemporarySpellChoices(spellCastingParameters.casting, level);
+            const maxSpellSlots = this.get_MaxSpellSlots(level, spellCastingParameters.casting);
+            const usedSpellSlots = this.get_UsedSpellSlots(level, spellCastingParameters.casting);
+            const extraSpellSlots = this.get_ExtraSpellSlots(level, spellCastingParameters.casting, maxSpellSlots, spellCastingParameters.maxStudiousCapacitySlots, spellCastingParameters.maxFirstGreaterVitalEvolutionSlot, spellCastingParameters.maxSecondGreaterVitalEvolutionSlot);
+            const canRestore = this.can_Restore(spellCastingParameters.casting, level);
+            return {
+                level: level,
+                spellTakenList: spellTakenList,
+                temporaryChoiceList: temporaryChoiceList,
+                maxSpellSlots: maxSpellSlots,
+                usedSpellSlots: usedSpellSlots,
+                extraSpellSlots: extraSpellSlots,
+                canRestore: canRestore
+            };
+        })
+    }
+
+    get_SpellParameters(casting: SpellCasting, spellCastingLevelParameters: SpellCastingLevelParameters): SpellParameters[] {
+        return spellCastingLevelParameters.spellTakenList.map(spellTaken => {
+            const choice = spellTaken.choice;
+            const gain = spellTaken.gain;
+            const spell = this.get_Spells(gain.name)[0];
+            const externallyDisabled = this.get_ExternallyDisabled(spell, choice);
+            const effectiveSpellLevel = this.get_EffectiveSpellLevel(spell, choice._level);
+            const cannotCast = this.cannot_Cast(spell, spellCastingLevelParameters.level, casting, choice, gain, spellCastingLevelParameters.maxSpellSlots, externallyDisabled);
+            const cannotExpend = this.cannot_Cast(spell, spellCastingLevelParameters.level, casting, choice, gain, spellCastingLevelParameters.maxSpellSlots, false);
+            const canChannelSmite = this.can_ChannelSmite(spell);
+            const canSwiftBanish = this.can_SwiftBanish(casting, spell, spellCastingLevelParameters.level);
+            const isSignatureSpell = this.is_SignatureSpell(casting, gain);
+            const isSpellCombinationSpell = choice.spellCombination;
+            const isInfinitePossibilitiesSpell = this.is_InfinitePossibilitiesSpell(choice);
+            const isSpellMasterySpell = this.is_SpellMasterySpell(choice);
+            const isCrossbloodedEvolutionSpell = choice.crossbloodedEvolution;
+            const canReprepare = this.can_Reprepare(spellCastingLevelParameters.level, spell, casting);
+            const isHostile = spell.get_IsHostile();
+            return {
+                spell: spell,
+                choice: choice,
+                gain: gain,
+                externallyDisabled: externallyDisabled,
+                effectiveSpellLevel: effectiveSpellLevel,
+                cannotCast: cannotCast,
+                cannotExpend: cannotExpend,
+                canChannelSmite: canChannelSmite,
+                canSwiftBanish: canSwiftBanish,
+                isSignatureSpell: isSignatureSpell,
+                isSpellCombinationSpell: isSpellCombinationSpell,
+                isInfinitePossibilitiesSpell: isInfinitePossibilitiesSpell,
+                isSpellMasterySpell: isSpellMasterySpell,
+                isCrossbloodedEvolutionSpell: isCrossbloodedEvolutionSpell,
+                canReprepare: canReprepare,
+                isHostile: isHostile
+            }
+        })
     }
 
     get_MaxSpellLevel(casting: SpellCasting) {
@@ -185,13 +325,15 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         //Focus spells are heightened to half your level rounded up.
         //Dynamic spell levels need to be evaluated.
         //Innate spellcasting needs to consider spells granted by items.
+        //All spells with dynamic level have their level evaluated in this procedure and can use _level afterwards.
+        const character = this.get_Character();
         if (casting.castingType == "Focus") {
             return this.get_Character().get_SpellLevel();
         }
         if (casting.castingType == "Innate") {
-            return Math.max(...this.get_Character().get_EquipmentSpellsGranted(this.characterService, -1, "", "", "", undefined, true).map(spellChoice => spellChoice.choice.dynamicLevel ? this.get_DynamicLevel(casting, spellChoice.choice) : spellChoice.choice.level), ...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= this.get_Character().level).map(spellChoice => spellChoice.dynamicLevel ? this.get_DynamicLevel(casting, spellChoice) : spellChoice.level), 0);
+            return Math.max(...this.get_Character().get_EquipmentSpellsGranted(this.characterService, -1, "", "", "", undefined, true).map(spellChoice => spellChoice.choice.dynamicLevel ? this.get_DynamicLevel(casting, spellChoice.choice) : spellChoice.choice.level), ...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= character.level).map(spellChoice => spellChoice.dynamicLevel ? this.get_DynamicLevel(casting, spellChoice) : spellChoice.level), 0);
         }
-        return Math.max(...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= this.get_Character().level).map(spellChoice => spellChoice.dynamicLevel ? this.get_DynamicLevel(casting, spellChoice) : spellChoice.level), 0);
+        return Math.max(...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= character.level).map(spellChoice => spellChoice.dynamicLevel ? this.get_DynamicLevel(casting, spellChoice) : spellChoice.level), 0);
     }
 
     get_DynamicLevel(casting: SpellCasting, choice: SpellChoice) {
@@ -204,7 +346,6 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     get_SpellsByLevel(levelNumber: number, casting: SpellCasting) {
-        this.id = levelNumber * 1000;
         let character = this.get_Character();
         if (levelNumber == -1) {
             if (casting.castingType == "Focus") {
@@ -226,12 +367,11 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     get_SpellConditions(spell: Spell, levelNumber: number, gain: SpellGain) {
         //For all conditions that are included with this spell on this level, create an effectChoice on the gain and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
         let conditionSets: { gain: ConditionGain, condition: Condition }[] = [];
-        let spellLevel: number = this.get_EffectiveSpellLevel(spell, levelNumber);
-        spell.get_HeightenedConditions(spellLevel)
+        spell.get_HeightenedConditions(levelNumber)
             .map(conditionGain => { return { gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] } })
             .forEach((conditionSet, index) => {
                 //Create the temporary list of currently available choices.
-                conditionSet.condition?.get_Choices(this.characterService, true, (conditionSet.gain.heightened ? conditionSet.gain.heightened : spellLevel));
+                conditionSet.condition?.get_Choices(this.characterService, true, (conditionSet.gain.heightened ? conditionSet.gain.heightened : levelNumber));
                 //Add the condition to the selection list. Conditions with no choices or with automatic choices will not be displayed.
                 conditionSets.push(conditionSet);
                 //Then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.
@@ -359,21 +499,18 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         return this.timeService.get_Duration(turns, includeTurnState, inASentence);
     }
 
-    get_ExternallyDisabled(spell: Spell, choice: SpellChoice) {
-        return this.effectsService.get_EffectsOnThis(this.get_Character(), spell.name + " Disabled").length + this.effectsService.get_EffectsOnThis(this.get_Character(), choice.source.replace("Feat: ", "") + " Disabled").length;
+    get_ExternallyDisabled(spell: Spell, choice: SpellChoice): boolean {
+        return this.effectsService.get_EffectsOnThis(this.get_Character(), spell.name + " Disabled").length + this.effectsService.get_EffectsOnThis(this.get_Character(), choice.source.replace("Feat: ", "") + " Disabled").length > 0;
     }
 
-    cannot_Cast(spell: Spell, levelNumber: number, casting: SpellCasting, choice: SpellChoice, gain: SpellGain, maxSpellSlots: number, externallyDisabled: number) {
+    cannot_Cast(spell: Spell, levelNumber: number, casting: SpellCasting, choice: SpellChoice, gain: SpellGain, maxSpellSlots: number, externallyDisabled: boolean) {
         if ((gain.activeCooldown || choice.spells.find(spellGain => spellGain.activeCooldown)) && !gain.active) {
             return "Cannot cast " + this.get_Duration(gain.activeCooldown, true, true);
         }
         if (externallyDisabled) {
             return "Disabled by effect."
         }
-        let spellLevel = choice.level;
-        if (choice.dynamicLevel) {
-            spellLevel = this.get_DynamicLevel(casting, choice);
-        }
+        let spellLevel = choice._level;
         switch (casting.castingType) {
             case "Focus":
                 if (spellLevel == -1) {
@@ -429,7 +566,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         return this.characterService.get_Feats().filter(feat => feat.bloodMagic.length && feat.have(character, this.characterService, character.level));
     }
 
-    on_Cast(levelNumber: number, gain: SpellGain, casting: SpellCasting, choice: SpellChoice, target: string = "", spell: Spell, activated: boolean, bloodMagicFeats: Feat[]) {
+    on_Cast(levelNumber: number, effectiveSpellLevel: number, gain: SpellGain, casting: SpellCasting, choice: SpellChoice, target: string = "", spell: Spell, activated: boolean, bloodMagicFeats: Feat[]) {
         let character = this.get_Character();
         let highestSpellPreservationLevel = 0;
         let highestNoDurationSpellPreservationLevel = 0;
@@ -517,7 +654,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                         conditionGain.name = bloodMagic.condition;
                         conditionGain.duration = bloodMagic.duration;
                         conditionGain.source = feat.name;
-                        conditionGain.heightened = spell.get_EffectiveSpellLevel(this.get_Character(), choice.level, this.characterService, this.effectsService);
+                        conditionGain.heightened = effectiveSpellLevel;
                         if (conditionGain.name) {
                             this.characterService.add_Condition(this.get_Character(), conditionGain, false);
                         }
@@ -525,11 +662,11 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                 })
             })
         }
-        this.spellsService.process_Spell(character, target, this.characterService, this.itemsService, this.conditionsService, casting, choice, gain, spell, levelNumber, activated, true);
+        this.spellsService.process_Spell(character, target, this.characterService, this.itemsService, this.conditionsService, casting, choice, gain, spell, choice._level, activated, true);
         if (gain.combinationSpellName) {
             let secondSpell = this.get_Spells(gain.combinationSpellName)[0];
             if (secondSpell) {
-                this.spellsService.process_Spell(character, target, this.characterService, this.itemsService, this.conditionsService, casting, choice, gain, secondSpell, levelNumber, activated, true);
+                this.spellsService.process_Spell(character, target, this.characterService, this.itemsService, this.conditionsService, casting, choice, gain, secondSpell, choice._level, activated, true);
             }
         }
     }
@@ -553,30 +690,30 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
-    can_Counterspell(casting: SpellCasting) {
+    can_Counterspell(casting: SpellCasting): boolean {
         let character = this.get_Character();
         if (["Prepared", "Spontaneous"].includes(casting.castingType)) {
-            return this.characterService.get_CharacterFeatsTaken(1, character.level, "Counterspell (" + casting.castingType + ")").length;
+            return this.characterService.get_CharacterFeatsTaken(1, character.level, "Counterspell (" + casting.castingType + ")").length > 0;
         }
     }
 
-    can_ChannelSmite(spell: Spell) {
+    can_ChannelSmite(spell: Spell): boolean {
         let character = this.get_Character();
         if (["Heal", "Harm"].includes(spell.name)) {
-            return this.characterService.get_CharacterFeatsTaken(1, character.level, "Channel Smite").length;
+            return this.characterService.get_CharacterFeatsTaken(1, character.level, "Channel Smite").length > 0;
         }
     }
 
-    can_SwiftBanish(casting: SpellCasting, spell: Spell, level: number) {
+    can_SwiftBanish(casting: SpellCasting, spell: Spell, level: number): boolean {
         let character = this.get_Character();
         if (["Banishment"].includes(spell.name)) {
-            return this.characterService.get_CharacterFeatsTaken(1, character.level, "Swift Banishment").length;
+            return this.characterService.get_CharacterFeatsTaken(1, character.level, "Swift Banishment").length > 0;
         } else if (level >= 5 && casting.castingType == "Prepared") {
-            return this.characterService.get_CharacterFeatsTaken(1, character.level, "Improved Swift Banishment").length;
+            return this.characterService.get_CharacterFeatsTaken(1, character.level, "Improved Swift Banishment").length > 0;
         }
     }
 
-    can_Restore(casting: SpellCasting, level: number) {
+    can_Restore(casting: SpellCasting, level: number): boolean {
         //True if you have the "Free Bonded Item Charge" effect (usually from Bond Conversation)
         if (this.effectsService.get_EffectsOnThis(this.get_Character(), "Free Bonded Item Charge").length) {
             return true;
@@ -631,7 +768,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
-    can_Reprepare(level: number, spell: Spell, casting: SpellCasting) {
+    can_Reprepare(level: number, spell: Spell, casting: SpellCasting): boolean {
         if (this.get_ManualMode()) {
             //You can reprepare all spells in manual mode.
             return true;
@@ -651,36 +788,33 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
-    is_SignatureSpell(casting: SpellCasting, taken: SpellGain) {
+    is_SignatureSpell(casting: SpellCasting, taken: SpellGain): boolean {
         return this.get_SignatureSpellsAllowed(casting) && taken.signatureSpell;
     }
 
-    is_InfinitePossibilitiesSpell(choice: SpellChoice) {
+    is_InfinitePossibilitiesSpell(choice: SpellChoice): boolean {
         return choice.source == "Feat: Infinite Possibilities";
     }
 
-    is_SpellMasterySpell(choice: SpellChoice) {
+    is_SpellMasterySpell(choice: SpellChoice): boolean {
         return choice.source == "Feat: Spell Mastery";
     }
 
     get_TemporarySpellChoices(casting: SpellCasting, level: number) {
         return casting.spellChoices.filter(choice =>
             choice.showOnSheet &&
-            (
-                (!choice.dynamicLevel && choice.level == level) ||
-                (choice.dynamicLevel && this.get_DynamicLevel(casting, choice) == level)
-            ) &&
+            ((choice.dynamicLevel ? this.get_DynamicLevel(casting, choice) : choice.level) == level) &&
             this.get_TemporarySpellChoiceUnlocked(casting, choice, level));
     }
 
-    get_TemporarySpellChoiceUnlocked(casting: SpellCasting, choice: SpellChoice, level: number = 0) {
+    get_TemporarySpellChoiceUnlocked(casting: SpellCasting, choice: SpellChoice, level: number = 0): boolean {
         //This function is so far only used to unlock the Infinite Possibilities bonus spell slot.
         if (choice.source == "Infinite Possibilities") {
             //Check if the spell slot on this level has been unlocked.
-            return casting.spellChoices.find(choice => choice.level == level + 2 && choice.infinitePossibilities) ? 1 : 0;
+            return casting.spellChoices.some(choice => choice.level == level + 2 && choice.infinitePossibilities);
         } else {
             //If the spell slot doesn't need to be unlocked, just return a positive value.
-            return 1;
+            return true;
         }
     }
 

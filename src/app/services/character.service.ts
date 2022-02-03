@@ -1823,16 +1823,14 @@ export class CharacterService {
                 let foundInventory: ItemCollection;
                 let foundCreature: Creature;
                 let itemName = "item";
-                this.get_Creatures().filter(creature => !(creature instanceof Familiar)).forEach(creature => {
-                    if (!(creature instanceof Familiar)) {
-                        creature.inventories.forEach(inventory => {
-                            if (!foundItem) {
-                                foundItem = inventory.allItems().find(invItem => invItem.id == (message.acceptedItem || message.rejectedItem));
-                                foundInventory = inventory;
-                                foundCreature = creature;
-                            }
-                        })
-                    }
+                this.get_Creatures().forEach(creature => {
+                    creature.inventories.forEach(inventory => {
+                        if (!foundItem) {
+                            foundItem = inventory.allItems().find(invItem => invItem.id == (message.acceptedItem || message.rejectedItem));
+                            foundInventory = inventory;
+                            foundCreature = creature;
+                        }
+                    })
                 })
                 if (foundItem) {
                     itemName = foundItem.get_Name();
@@ -2601,6 +2599,8 @@ export class CharacterService {
             this.timeService.set_YourTurn(this.get_Character().yourTurn);
             //Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
             this.featsService.build_CharacterFeats(this.get_Character());
+            //Reset cache for all creatures.
+            this.cacheService.initialize();
             //Set accent color and dark mode according to the settings.
             this.set_Accent();
             this.set_Darkmode();

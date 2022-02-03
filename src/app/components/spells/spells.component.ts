@@ -161,10 +161,37 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
     get_SpellCastings() {
         let character = this.get_Character();
+        enum CastingTypeSort {
+            Innate,
+            Focus,
+            Prepared,
+            Spontaneous
+        }
+        enum TraditionSort {
+            Arcane,
+            Divine,
+            Occult,
+            Primal
+        }
         return character.class.spellCasting.filter(casting => casting.charLevelAvailable && casting.charLevelAvailable <= character.level)
-            .sort((a, b) => (a.tradition > b.tradition) ? 1 : -1)
-            .sort((a, b) => (a.className > b.className) ? 1 : -1)
-            .sort((a, b) => (a.castingType > b.castingType || (b.castingType == "Innate" ? a.castingType != "Innate" : false)) ? 1 : -1);
+            .sort((a, b) => TraditionSort[a.tradition] - TraditionSort[b.tradition])
+            .sort((a, b) => CastingTypeSort[a.castingType] - CastingTypeSort[b.castingType])
+            .sort((a, b) => {
+                if (a.className == b.className) {
+                    return 0;
+                }
+                if (a.className == "Innate" && b.className != "Innate") {
+                    return -1;
+                }
+                if (a.className != "Innate" && b.className == "Innate") {
+                    return 1;
+                }
+                if (a.className > b.className) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            });
     }
 
     get_DynamicLevel(casting: SpellCasting, choice: SpellChoice) {
@@ -173,14 +200,14 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
     get_SpellChoices(casting: SpellCasting, levelNumber: number) {
         //Get all spellchoices that have this spell level and are available at this character level.
-        return casting.spellChoices.filter(choice => choice.charLevelAvailable <= this.get_Character().level && !choice.showOnSheet &&
+        const character = this.get_Character();
+        return casting.spellChoices.filter(choice => choice.charLevelAvailable <= character.level && !choice.showOnSheet &&
             ((choice.level == levelNumber && !choice.dynamicLevel) || (choice.dynamicLevel && this.get_DynamicLevel(casting, choice) == levelNumber))
         )
     }
 
     get_SpellsTaken(minLevelNumber: number, maxLevelNumber: number, spellLevel: number, spellName: string, casting: SpellCasting, source: string = "", sourceId: string = "", locked: boolean = undefined) {
-        let cantripAllowed: boolean = (spellLevel == 0);
-        return this.get_Character().get_SpellsTaken(this.characterService, minLevelNumber, maxLevelNumber, spellLevel, spellName, casting, "", "", "", source, sourceId, locked, false, cantripAllowed);
+        return this.get_Character().get_SpellsTaken(this.characterService, minLevelNumber, maxLevelNumber, spellLevel, spellName, casting, "", "", "", source, sourceId, locked, false, (spellLevel == 0));
     }
 
     still_loading() {

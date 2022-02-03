@@ -29,6 +29,7 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { WornItem } from 'src/app/classes/WornItem';
 import { TypeService } from 'src/app/services/type.service';
 import { Hint } from 'src/app/classes/Hint';
+import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
 
 export class Character extends Creature {
     public readonly type = "Character";
@@ -58,8 +59,36 @@ export class Character extends Creature {
         this.settings = Object.assign(new Settings(), this.settings);
         return this;
     }
-    get_BaseSize() {
+    get_BaseSize(): number {
         return this.class.ancestry.size ? this.class.ancestry.size : 0;
+    }
+    get_BaseHP(services: { characterService: CharacterService }): { result: number, explain: string } {
+        let explain = "";
+        let classHP = 0;
+        let ancestryHP = 0;
+        let charLevel = this.level;
+        if (this.class.hitPoints) {
+            if (this.class.ancestry.name) {
+                ancestryHP = this.class.ancestry.hitPoints;
+                explain = "Ancestry base HP: " + ancestryHP;
+            }
+            let constitution = services.characterService.get_Abilities("Constitution")[0].baseValue(this, services.characterService, charLevel).result;
+            let CON: number = Math.floor((constitution - 10) / 2);
+            classHP = (this.class.hitPoints + CON) * charLevel;
+            explain += "\nClass: " + this.class.hitPoints + " + CON: " + (this.class.hitPoints + CON) + " per Level: " + classHP;
+        }
+        return { result: classHP + ancestryHP, explain: explain.trim() };
+    }
+    get_BaseSpeed(speedName: string): { result: number, explain: string } {
+        let explain = "";
+        let sum = 0;
+        if (this.class.ancestry.name) {
+            this.class.ancestry.speeds.filter(speed => speed.name == speedName).forEach(speed => {
+                sum = speed.value;
+                explain = "\n" + this.class.ancestry.name + " base speed: " + sum;
+            });
+        }
+        return { result: sum, explain: explain.trim() };
     }
     get_SpellLevel(levelNumber: number = this.level) {
         return Math.ceil(levelNumber / 2);
@@ -559,7 +588,7 @@ export class Character extends Creature {
             choiceFeats.splice(choiceFeats.indexOf(gain, 1));
         }
     }
-    get_SpellsTaken(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, spellLevel: number = -1, spellName: string = "", spellCasting: SpellCasting = undefined, className: string = "", tradition: string = "", castingType: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, signatureAllowed: boolean = false, cantripAllowed: boolean = true) {
+    get_SpellsTaken(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, spellLevel: number = -1, spellName: string = "", spellCasting: SpellCasting = undefined, className: string = "", tradition: string = "", castingType: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, signatureAllowed: boolean = false, cantripAllowed: boolean = true): { choice: SpellChoice, gain: SpellGain }[] {
         if (this.class) {
             let spellsTaken: { choice: SpellChoice, gain: SpellGain }[] = [];
             function get_DynamicLevel(choice: SpellChoice, casting: SpellCasting, characterService: CharacterService) {
@@ -573,16 +602,14 @@ export class Character extends Creature {
                     casting.spellChoices.filter(choice => choice.charLevelAvailable >= minLevelNumber && choice.charLevelAvailable <= maxLevelNumber).forEach(choice => {
                         if (
                             (
+                                spellLevel == -1 ||
                                 (
-                                    spellLevel == -1 ||
-                                    (
-                                        !choice.dynamicLevel &&
-                                        choice.level == spellLevel
-                                    ) ||
-                                    (
-                                        choice.dynamicLevel &&
-                                        get_DynamicLevel(choice, casting, characterService) == spellLevel
-                                    )
+                                    !choice.dynamicLevel &&
+                                    choice.level == spellLevel
+                                ) ||
+                                (
+                                    choice.dynamicLevel &&
+                                    get_DynamicLevel(choice, casting, characterService) == spellLevel
                                 )
                             ) ||
                             (
@@ -805,7 +832,7 @@ export class Character extends Creature {
             characterService.refreshService.set_ToChange("Character", "charactersheet");
         })
     }
-    get_EffectsGenerationObjects(characterService: CharacterService) {
+    get_EffectsGenerationObjects(characterService: CharacterService): { feats: (Feat | AnimalCompanionSpecialization)[], hintSets: { hint: Hint, objectName: string }[] } {
         //Return the Character, its Feats and their Hints for effect generation.
         let feats: Feat[] = [];
         let hintSets: { hint: Hint, objectName: string }[] = [];

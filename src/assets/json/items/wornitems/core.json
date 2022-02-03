@@ -596,7 +596,7 @@
             {
                 "name": "propertyRunes",
                 "show": false,
-                "value": "FALSE"
+                "value": false
             }
         ]
     },
@@ -1814,7 +1814,10 @@
                 "charges": 1,
                 "desc": "You detach a sphere from the necklace, causing it to glow with orange light. After you activate a sphere, if you or anyone else hurls it (an Interact action), it detonates as a fireball where it lands. Your toss can place the center of the fireball anywhere within 70 feet, though at the GM's discretion you might need to make an attack roll if the throw is unusually challenging. If no one hurls the sphere by the start of your next turn, it turns into a non-magical red bead.",
                 "showSpells": [
-                    "Fireball"
+                    {
+                        "level": 3,
+                        "name": "Fireball"
+                    }
                 ],
                 "traits": [
                     "Evocation",
@@ -1830,7 +1833,10 @@
                 "charges": 2,
                 "desc": "You detach a sphere from the necklace, causing it to glow with orange light. After you activate a sphere, if you or anyone else hurls it (an Interact action), it detonates as a fireball where it lands. Your toss can place the center of the fireball anywhere within 70 feet, though at the GM's discretion you might need to make an attack roll if the throw is unusually challenging. If no one hurls the sphere by the start of your next turn, it turns into a non-magical red bead.",
                 "showSpells": [
-                    "Fireball"
+                    {
+                        "level": 3,
+                        "name": "Fireball"
+                    }
                 ],
                 "traits": [
                     "Evocation",
@@ -3310,7 +3316,7 @@
             {
                 "name": "propertyRunes",
                 "show": false,
-                "value": "false"
+                "value": true
             }
         ]
     },

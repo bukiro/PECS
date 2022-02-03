@@ -13,6 +13,7 @@ import { SpellCast } from 'src/app/classes/SpellCast';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { Spell } from 'src/app/classes/Spell';
 
 @Component({
     selector: 'app-activityContent',
@@ -82,11 +83,15 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
         return this.timeService.get_Duration(duration, includeTurnState, inASentence);
     }
 
-    get_Activities(name: string) {
+    public get_Activities(name: string): Activity[] {
         return this.activitiesService.get_Activities(name);
     }
 
-    get_Spells(name: string = "", type: string = "", tradition: string = "") {
+    public get_Spells(name: string = "", type: string = "", tradition: string = ""): Spell[] {
+        //If there is a mistake in writing the activity, it shouldn't return ALL spells.
+        if (!name && !type && !tradition) {
+            return [];
+        }
         return this.spellsService.get_Spells(name, type, tradition);
     }
 

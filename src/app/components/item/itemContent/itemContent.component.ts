@@ -5,6 +5,7 @@ import { Item } from 'src/app/classes/Item';
 import { Equipment } from 'src/app/classes/Equipment';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { Consumable } from 'src/app/classes/Consumable';
 
 @Component({
     selector: 'app-itemContent',
@@ -14,6 +15,7 @@ import { Subscription } from 'rxjs';
 })
 export class ItemContentComponent implements OnInit, OnDestroy {
 
+    //This component queries many aspects of different types of item, not all of which exist on the Item class, so we allow any.
     @Input()
     item: Item | any;
 

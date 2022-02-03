@@ -7,6 +7,7 @@ import { Hint } from 'src/app/classes/Hint';
 import { ItemsService } from 'src/app/services/items.service';
 import { Skill } from 'src/app/classes/Skill';
 import { TypeService } from 'src/app/services/type.service';
+import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
 
 export class Familiar extends Creature {
     public readonly type = "Familiar";
@@ -32,6 +33,24 @@ export class Familiar extends Creature {
     get_BaseSize() {
         return -2;
     }
+    get_BaseHP(services: { characterService: CharacterService }): { result: number, explain: string } {
+        let explain = "";
+        let classHP = 0;
+        let charLevel = services.characterService.get_Character().level;
+        //Your familiar has 5 Hit Points for each of your levels.
+        classHP = 5 * charLevel;
+        explain = "Familiar base HP: " + classHP;
+        return { result: classHP, explain: explain.trim() };
+    }
+    get_BaseSpeed(speedName: string): { result: number, explain: string } {
+        let explain = "";
+        let sum = 0;
+        if (speedName == this.speeds[1].name) {
+            sum = 25;
+            explain = "\nBase speed: " + sum;
+        }
+        return { result: sum, explain: explain.trim() };
+    }
     get_FeatsTaken(featName: string = "") {
         let featsTaken: string[] = [];
         this.abilities.feats.filter((feat: FeatTaken) => feat.name.toLowerCase() == featName.toLowerCase() || featName == "")
@@ -40,7 +59,7 @@ export class Familiar extends Creature {
             })
         return featsTaken;
     }
-    get_EffectsGenerationObjects(characterService: CharacterService) {
+    get_EffectsGenerationObjects(characterService: CharacterService): { feats: (Feat | AnimalCompanionSpecialization)[], hintSets: { hint: Hint, objectName: string }[] } {
         //Return the Familiar, its Feats and their hints for effect generation.
         let feats: Feat[] = [];
         let hintSets: { hint: Hint, objectName: string }[] = [];

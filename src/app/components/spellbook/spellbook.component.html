@@ -46,467 +46,358 @@
         </ng-container>
         <app-tags [creature]="'Character'" [objectName]="'Spell DC'" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-        <ng-container *ngFor="let bloodMagicFeats of [get_BloodMagicFeats()]; trackBy:trackByIndex">
-            <ng-container *ngFor="let casting of get_SpellCastings(); trackBy:trackByIndex;">
+        <ng-container *ngFor="let componentParameters of [get_ComponentParameters()]; trackBy:trackByIndex">
+            <ng-container *ngFor="let spellCastingParameters of get_SpellCastingParameters(); trackBy:trackByIndex;">
+                <header class="sectionHeader">
+                    {{(spellCastingParameters.casting.className + (spellCastingParameters.casting.tradition != "Innate"
+                    ? " " + spellCastingParameters.casting.tradition : "") +
+                    ((spellCastingParameters.casting.castingType == "Focus") ? (" " +
+                    spellCastingParameters.casting.source) : " Spells")).trim()}}
+                    <span class="lower"
+                        *ngIf="['Prepared', 'Spontaneous'].includes(spellCastingParameters.casting.castingType)">
+                        <span class="lower">
+                            {{spellCastingParameters.casting.castingType}}
+                        </span>
+                    </span>
+                    <ng-container *ngFor="let superiorBond of [have_Feat('Superior Bond')]; trackBy:trackByIndex;">
+                        <div class="newrow lower" *ngIf="spellCastingParameters.casting.bondedItemCharges[0]"
+                            [ngbPopover]="superiorBond ? 'You can use Drain Bonded Item one additional time per day, but only to cast a spell 2 or more levels lower than your highest-level spell.' : ''">
+                            {{spellCastingParameters.casting.bondedItemCharges[0]}}{{superiorBond ? "*" : ""}} bonded
+                            item charge{{spellCastingParameters.casting.bondedItemCharges[0] != 1 ? "s" : ""}} available
+                        </div>
+                    </ng-container>
+                    <div class="newrow lower" *ngIf="spellCastingParameters.maxStudiousCapacitySlots"
+                        [ngbPopover]="'You can cast one spell each day even after you\'ve run out of spell slots of the appropriate spell level, but you can\'t use this ability to cast a spell of your highest spell level.'">
+                        {{spellCastingParameters.maxStudiousCapacitySlots -
+                        spellCastingParameters.spellusedStudiousCapacitySlots}} extra spell
+                        casting{{spellCastingParameters.maxStudiousCapacitySlots -
+                        spellCastingParameters.spellusedStudiousCapacitySlots != 1 ? "s" : ""}} available
+                    </div>
+                    <div class="newrow lower"
+                        *ngIf="spellCastingParameters.maxFirstGreaterVitalEvolutionSlot || spellCastingParameters.maxSecondGreaterVitalEvolutionSlot"
+                        [ngbPopover]="'Twice per day, you can cast a spell after you\'ve run out of spell slots of the appropriate spell level; the two spells you cast with this feat must be of different spell levels.'">
+                        {{(spellCastingParameters.usedFirstGreaterVitalEvolutionSlot == 0 ? 1 : 0) +
+                        (spellCastingParameters.usedSecondGreaterVitalEvolutionSlot == 0 ? 1 : 0)}} extra spell
+                        casting{{(spellCastingParameters.usedFirstGreaterVitalEvolutionSlot == 0 ? 1 : 0) +
+                        (spellCastingParameters.usedSecondGreaterVitalEvolutionSlot == 0 ? 1 : 0) != 1 ? "s" : ""}}
+                        available
+                    </div>
+                </header>
                 <ng-container
-                    *ngFor="let studiouscapacityslots of [get_MaxSpellSlots(0, casting)]; trackBy:trackByIndex;">
-                    <ng-container
-                        *ngFor="let firstgreatervitalevolutionslot of [get_MaxSpellSlots(11, casting)]; trackBy:trackByIndex;">
+                    *ngFor="let spellCastingLevelParameters of get_SpellCastingLevelParameters(spellCastingParameters); trackBy:trackByIndex;">
+                    <div class="list-item newrow" style="background-color:transparent"
+                        *ngIf="(spellCastingLevelParameters.spellTakenList.length || spellCastingLevelParameters.temporaryChoiceList.length)">
+                        <strong>
+                            {{spellCastingLevelParameters.level == -1 ? "Focus Spells" :
+                            (spellCastingLevelParameters.level == 0 ? "Cantrips" : "Level
+                            "+spellCastingLevelParameters.level)}}
+                        </strong>
+                        <span class="hlist right-aligned"
+                            *ngIf="spellCastingLevelParameters.maxSpellSlots && spellCastingLevelParameters.level != 0">
+                            <strong>
+                                {{(spellCastingLevelParameters.maxSpellSlots -
+                                spellCastingLevelParameters.usedSpellSlots)}}{{spellCastingLevelParameters.extraSpellSlots}}
+                                / {{spellCastingLevelParameters.maxSpellSlots}}
+                            </strong>
+                            <ng-container *ngIf="get_ManualMode()">
+                                <button
+                                    (click)="on_ManualSpellSlotsChange(spellCastingParameters.casting, spellCastingLevelParameters.level, -1)"
+                                    [disabled]="spellCastingLevelParameters.usedSpellSlots >= spellCastingLevelParameters.maxSpellSlots">
+                                    -
+                                </button>
+                                <button
+                                    (click)="on_ManualSpellSlotsChange(spellCastingParameters.casting, spellCastingLevelParameters.level, 1)"
+                                    [disabled]="spellCastingLevelParameters.usedSpellSlots <= 0">
+                                    +
+                                </button>
+                            </ng-container>
+                        </span>
+                        <strong
+                            *ngIf="spellCastingParameters.casting.bondedItemCharges[spellCastingLevelParameters.level] && spellCastingLevelParameters.level != 0">
+                            {{spellCastingParameters.casting.bondedItemCharges[spellCastingLevelParameters.level]}}
+                            bonded item charge available
+                        </strong>
+                    </div>
+                    <div class="list-item"
+                        *ngIf="spellCastingParameters.casting.castingType == 'Focus' && spellCastingLevelParameters.level == -1 && (spellCastingLevelParameters.spellTakenList.length || componentParameters.focusPoints.max)">
+                        <div class="newrow">
+                            <strong>Focus Points</strong>
+                            <span class="hlist center-aligned">
+                                <div class="value" style="margin-left:0; margin-right:0;">
+                                    {{componentParameters.focusPoints.now}}
+                                </div>
+                                <ng-container *ngIf="get_ManualMode()">
+                                    <button (click)="on_ManualFocusPointChange(-1)"
+                                        [disabled]="componentParameters.focusPoints.now <= 0">
+                                        -
+                                    </button>
+                                    <button (click)="on_ManualFocusPointChange(1)"
+                                        [disabled]="componentParameters.focusPoints.now >= componentParameters.focusPoints.max">
+                                        +
+                                    </button>
+                                </ng-container>
+                            </span>
+                            <strong>Focus Pool</strong>
+                            <div class="value">
+                                {{componentParameters.focusPoints.max}}
+                            </div>
+                        </div>
+                        <button class="newrow center-aligned" (click)="refocus()"
+                            [disabled]="componentParameters.focusPoints.now >= componentParameters.focusPoints.max">
+                            Refocus
+                        </button>
+                        <app-tags [creature]="'Character'" [objectName]="'Focus'" [showTraits]=true [showFeats]=true
+                            [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true>
+                        </app-tags>
+                    </div>
+                    <div class="vlist" *ngIf="spellCastingLevelParameters.temporaryChoiceList.length">
+                        <header class="subsectionHeader box-header">Level {{spellCastingLevelParameters.level}}
+                            Temporary Spell Selections
+                        </header>
+                        <div class="list-item"
+                            *ngFor="let choice of spellCastingLevelParameters.temporaryChoiceList; let choicesIndex = index; trackBy:trackByIndex;">
+                            <app-spellchoice class="newrow" (showChoiceMessage)="receive_ChoiceMessage($event)"
+                                (showSpellMessage)="receive_SpellMessage($event)"
+                                [spellCasting]="spellCastingParameters.casting" [choice]="choice"
+                                [showHeightened]="true" [allowBorrow]="false" [showChoice]="get_ShowList()"
+                                [showSpell]="get_ShowSpell()" [level]="choice._level"
+                                [prepared]="choice.source == 'Infinite Possibilities'" [spellbook]="true">
+                            </app-spellchoice>
+                        </div>
+                    </div>
+                    <div [ngClass]="{'icon-list':get_TileMode(), 'list-item':!get_TileMode()}"
+                        *ngIf="spellCastingLevelParameters.spellTakenList.length">
                         <ng-container
-                            *ngFor="let secondgreatervitalevolutionslot of [get_MaxSpellSlots(12, casting)]; trackBy:trackByIndex;">
-                            <header class="sectionHeader">
-                                {{(casting.className + (casting.tradition != "Innate" ? " " + casting.tradition : "") +
-                                ((casting.castingType == "Focus") ? (" " + casting.source) : " Spells")).trim()}}
-                                <span class="lower" *ngIf="['Prepared', 'Spontaneous'].includes(casting.castingType)">
-                                    <span class="lower">
-                                        {{casting.castingType}}
-                                    </span>
+                            *ngFor="let spellParameters of get_SpellParameters(spellCastingParameters.casting, spellCastingLevelParameters); let spellIndex = index; trackBy:trackByIndex;">
+                            <ng-template #SpellTitleTemplate>
+                                <span *ngIf="!get_TileMode()">
+                                    <i class="value bi-patch-plus bonus" *ngIf="!spellParameters.isHostile"
+                                        [ngbTooltip]="'Beneficial spell'"></i>
+                                    <i class="value bi-patch-minus-fill penalty" *ngIf="spellParameters.isHostile"
+                                        [ngbTooltip]="'Hostile spell'"></i>
                                 </span>
+                                <span [ngbTooltip]="'Signature spell'" *ngIf="spellParameters.isSignatureSpell">
+                                    <i class='bi-stars'></i>
+                                </span>
+                                <span [ngbTooltip]="'Combination spell'"
+                                    *ngIf="spellParameters.isSpellCombinationSpell">
+                                    <i class='ra ra-frostfire'></i>
+                                </span>
+                                <span [ngbTooltip]="'Infinite Possibilities spell'"
+                                    *ngIf="spellParameters.isInfinitePossibilitiesSpell">
+                                    <i class='ra ra-kaleidoscope'></i>
+                                </span>
+                                <span [ngbTooltip]="'Spell Mastery spell'" *ngIf="spellParameters.isSpellMasterySpell">
+                                    <i class='ra ra-crown'></i>
+                                </span>
+                                <span [ngbTooltip]="'Crossblooded Evolution spell'"
+                                    *ngIf="spellParameters.choice.crossbloodedEvolution">
+                                    <i class='ra ra-zigzag-leaf'></i>
+                                </span>
+                                {{spellParameters.spell.name}} {{spellParameters.gain.combinationSpellName ? " & " +
+                                spellParameters.gain.combinationSpellName : ""}}
+                                <ng-container *ngIf="!spellParameters.gain.combinationSpellName">
+                                    <app-actionIcons [actionString]="spellParameters.spell.actions">
+                                    </app-actionIcons>
+                                    {{spellParameters.spell.castType}}
+                                </ng-container>
+                                {{(spellCastingParameters.casting.tradition != spellParameters.choice.tradition &&
+                                spellParameters.choice.tradition) ? "(" + spellParameters.choice.tradition + ")" : ""}}
+                                {{spellParameters.gain.frequency ? spellParameters.gain.frequency : ""}}
+                            </ng-template>
+                            <ng-template #SpellTooltipTemplate>
+                                <span *ngIf="spellParameters.isSignatureSpell">
+                                    <i class='bi-stars'></i>
+                                </span>
+                                <span *ngIf="spellParameters.isSpellCombinationSpell">
+                                    <i class='ra ra-frostfire'></i>
+                                </span>
+                                <span *ngIf="spellParameters.isInfinitePossibilitiesSpell">
+                                    <i class='ra ra-kaleidoscope'></i>
+                                </span>
+                                <span *ngIf="spellParameters.isSpellMasterySpell">
+                                    <i class='ra ra-crown'></i>
+                                </span>
+                                <span *ngIf="spellParameters.choice.crossbloodedEvolution">
+                                    <i class='ra ra-zigzag-leaf'></i>
+                                </span>
+                                {{spellParameters.spell.name}} {{spellParameters.gain.combinationSpellName ? " & " +
+                                spellParameters.gain.combinationSpellName : ""}}
+                                <ng-container *ngIf="!spellParameters.gain.combinationSpellName">
+                                    <app-actionIcons [actionString]="spellParameters.spell.actions">
+                                    </app-actionIcons>
+                                    {{spellParameters.spell.castType}}
+                                </ng-container>
+                                {{(spellCastingParameters.casting.tradition != spellParameters.choice.tradition &&
+                                spellParameters.choice.tradition) ? "(" + spellParameters.choice.tradition + ")" : ""}}
+                                {{spellParameters.gain.frequency ? spellParameters.gain.frequency : ""}}
+                            </ng-template>
+                            <ng-template #SpellTemplate>
+                                <header class="spellHeader left-aligned newrow" *ngIf="get_TileMode()">
+                                    <ng-container *ngTemplateOutlet="SpellTitleTemplate">
+                                    </ng-container>
+                                </header>
+                                <div class="newrow list-item left-aligned"
+                                    *ngIf="spellParameters.effectiveSpellLevel != spellCastingLevelParameters.level">
+                                    Effective spell level: {{spellParameters.effectiveSpellLevel}}
+                                </div>
+                                <app-spellTarget class="newrow vlist" [creature]="'Character'"
+                                    [spell]="spellParameters.spell" [gain]="spellParameters.gain"
+                                    [casting]="spellCastingParameters.casting" [cannotCast]="spellParameters.cannotCast"
+                                    [effectiveSpellLevel]="spellParameters.effectiveSpellLevel"
+                                    [bloodMagicFeats]="componentParameters.bloodMagicFeats" [showDismiss]="true"
+                                    (castMessage)="on_Cast(spellCastingLevelParameters.level, spellParameters.effectiveSpellLevel, spellParameters.gain, spellCastingParameters.casting, spellParameters.choice, $event.target, spellParameters.spell, $event.activated, componentParameters.bloodMagicFeats)">
+                                </app-spellTarget>
+                                <div class="newrow"
+                                    *ngIf="spellCastingParameters.casting.castingType == 'Focus' && spellParameters.spell.allowReturnFocusPoint"
+                                    [ngbTooltip]="componentParameters.focusPoints.now >= componentParameters.focusPoints.max ? 'Focus points are full.' : ''">
+                                    <button class="newrow center-aligned" (click)="on_RestoreFocusPoint()"
+                                        [disabled]="componentParameters.focusPoints.now >= componentParameters.focusPoints.max">
+                                        <span class="center-aligned">
+                                            Return Focus Point
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="newrow"
+                                    *ngIf="spellCastingParameters.casting.castingType == 'Prepared' && spellCastingParameters.casting.className == 'Wizard' && !spellParameters.gain.prepared && spellCastingLevelParameters.level > 0 && !spellParameters.gain.duration"
+                                    [ngbTooltip]="!spellCastingLevelParameters.canRestore ? 'No bonded item charges remaining.' : ''">
+                                    <button class="newrow center-aligned"
+                                        (click)="on_Restore(spellParameters.gain, spellCastingParameters.casting, spellCastingLevelParameters.level)"
+                                        [disabled]="!spellCastingLevelParameters.canRestore">
+                                        <span class="center-aligned">
+                                            Restore with bonded item
+                                            <app-actionIcons [actionString]="'Free'">
+                                            </app-actionIcons>
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="newrow"
+                                    *ngIf="spellCastingParameters.casting.castingType == 'Prepared' && !spellParameters.gain.prepared && spellCastingLevelParameters.level > 0 && spellParameters.canReprepare">
+                                    <button class="newrow center-aligned" (click)="on_Reprepare(spellParameters.gain)">
+                                        <span class="center-aligned">
+                                            Reprepare
+                                            <app-actionIcons *ngIf="!get_ManualMode()" [actionString]="'10 minutes'">
+                                            </app-actionIcons>
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="newrow" *ngIf="get_ManualMode() && spellParameters.gain.activeCooldown">
+                                    <button class="newrow center-aligned"
+                                        (click)="on_ManualEndCooldown(spellParameters.gain)">
+                                        <span class="center-aligned">
+                                            End cooldown
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="newrow"
+                                    *ngIf="spellCastingParameters.canCounterSpell && !spellParameters.gain.active && spellCastingLevelParameters.level > 0"
+                                    [ngbTooltip]="spellParameters.cannotExpend">
+                                    <button class="newrow center-aligned"
+                                        (click)="on_Expend(spellParameters.gain, spellCastingParameters.casting, spellParameters.choice, spellParameters.spell, spellCastingLevelParameters.level)"
+                                        [disabled]="spellParameters.cannotExpend">
+                                        Expend to counter spell
+                                    </button>
+                                </div>
+                                <div class="newrow"
+                                    *ngIf="spellParameters.canChannelSmite && !spellParameters.gain.active && spellCastingLevelParameters.level > 0"
+                                    [ngbTooltip]="spellParameters.cannotExpend">
+                                    <button class="newrow center-aligned"
+                                        (click)="on_Expend(spellParameters.gain, spellCastingParameters.casting, spellParameters.choice, spellParameters.spell, spellCastingLevelParameters.level)"
+                                        [disabled]="spellParameters.cannotExpend">
+                                        Expend for channel smite
+                                    </button>
+                                </div>
+                                <div class="newrow"
+                                    *ngIf="spellParameters.canSwiftBanish && !spellParameters.gain.active && spellCastingLevelParameters.level > 0"
+                                    [ngbTooltip]="spellParameters.cannotExpend">
+                                    <button class="newrow center-aligned"
+                                        (click)="on_Expend(spellParameters.gain, spellCastingParameters.casting, spellParameters.choice, spellParameters.spell, spellCastingLevelParameters.level)"
+                                        [disabled]="spellParameters.cannotExpend">
+                                        Expend for swift banishment
+                                    </button>
+                                </div>
                                 <ng-container
-                                    *ngFor="let superiorBond of [have_Feat('Superior Bond')]; trackBy:trackByIndex;">
-                                    <div class="newrow lower" *ngIf="casting.bondedItemCharges[0]"
-                                        [ngbPopover]="superiorBond ? 'You can use Drain Bonded Item one additional time per day, but only to cast a spell 2 or more levels lower than your highest-level spell.' : ''">
-                                        {{casting.bondedItemCharges[0]}}{{superiorBond ? "*" : ""}}
-                                        bonded item charge{{casting.bondedItemCharges[0] != 1 ? "s" : ""}} available
+                                    *ngFor="let conditionSet of get_SpellConditions(spellParameters.spell, spellParameters.effectiveSpellLevel, spellParameters.gain); let conditionSetIndex = index; trackBy:trackByIndex">
+                                    <div class="newrow list-item left-aligned"
+                                        *ngIf="conditionSet.condition && conditionSet.condition._choices.length && !conditionSet.gain.choiceBySubType && !conditionSet.gain.choiceLocked && !conditionSet.gain.copyChoiceFrom && !conditionSet.gain.hideChoices">
+                                        <span>
+                                            {{conditionSet.condition.name}} effect selection:
+                                            <select
+                                                [(ngModel)]="spellParameters.gain.effectChoices[conditionSetIndex].choice">
+                                                <option
+                                                    *ngFor="let choice of conditionSet.condition._choices; trackBy:trackByIndex;"
+                                                    [ngValue]="choice">
+                                                    {{choice}}
+                                                </option>
+                                            </select>
+                                        </span>
                                     </div>
                                 </ng-container>
-                                <div class="newrow lower" *ngIf="studiouscapacityslots"
-                                    [ngbPopover]="'You can cast one spell each day even after you\'ve run out of spell slots of the appropriate spell level, but you can\'t use this ability to cast a spell of your highest spell level.'">
-                                    {{studiouscapacityslots - get_UsedSpellSlots(0, casting)}} extra spell
-                                    casting{{studiouscapacityslots - get_UsedSpellSlots(0, casting) != 1 ? "s" : ""}}
-                                    available
-                                </div>
-                                <div class="newrow lower"
-                                    *ngIf="firstgreatervitalevolutionslot || secondgreatervitalevolutionslot"
-                                    [ngbPopover]="'Twice per day, you can cast a spell after you\'ve run out of spell slots of the appropriate spell level; the two spells you cast with this feat must be of different spell levels.'">
-                                    {{(get_UsedSpellSlots(11, casting) == 0 ? 1 : 0) + (get_UsedSpellSlots(12, casting)
-                                    == 0 ? 1 : 0)}} extra spell casting{{(get_UsedSpellSlots(11, casting) == 0 ? 1 : 0)
-                                    + (get_UsedSpellSlots(12, casting) == 0 ? 1 : 0) != 1 ? "s" : ""}} available
-                                </div>
-                            </header>
-                            <ng-container *ngFor="let focusPoints of [get_FocusPoints()]; trackBy:trackByIndex;">
-                                <ng-container
-                                    *ngFor="let level of [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; trackBy:trackByIndex;">
-                                    <ng-container *ngIf="level <= get_MaxSpellLevel(casting)">
-                                        <ng-container
-                                            *ngFor="let spellTakenList of [get_SpellsByLevel(level, casting)]; trackBy:trackByIndex;">
-                                            <ng-container
-                                                *ngFor="let choiceList of [get_TemporarySpellChoices(casting, level)]; trackBy:trackByIndex;">
-                                                <ng-container
-                                                    *ngFor="let maxspellslots of [get_MaxSpellSlots(level, casting)]; let index = index; trackBy:trackByIndex;">
-                                                    <div class="list-item newrow" style="background-color:transparent"
-                                                        *ngIf="index == 0 && (spellTakenList.length || choiceList.length)">
-                                                        <strong>
-                                                            {{level == -1 ? "Focus Spells" : (level == 0 ? "Cantrips" :
-                                                            "Level "+level)}}
-                                                        </strong>
-                                                        <span class="hlist right-aligned"
-                                                            *ngIf="maxspellslots && level != 0">
-                                                            <strong>
-                                                                {{(maxspellslots - get_UsedSpellSlots(level,
-                                                                casting))}}{{get_ExtraSpellSlots(level, casting,
-                                                                maxspellslots, studiouscapacityslots,
-                                                                firstgreatervitalevolutionslot,
-                                                                secondgreatervitalevolutionslot)}}
-                                                                /
-                                                                {{maxspellslots}}
-                                                            </strong>
-                                                            <ng-container *ngIf="get_ManualMode()">
-                                                                <button
-                                                                    (click)="on_ManualSpellSlotsChange(casting, level, -1)"
-                                                                    [disabled]="get_UsedSpellSlots(level, casting) >= maxspellslots">
-                                                                    -
-                                                                </button>
-                                                                <button
-                                                                    (click)="on_ManualSpellSlotsChange(casting, level, 1)"
-                                                                    [disabled]="get_UsedSpellSlots(level, casting) <= 0">
-                                                                    +
-                                                                </button>
-                                                            </ng-container>
-                                                        </span>
-                                                        <strong *ngIf="casting.bondedItemCharges[level] && level != 0">
-                                                            {{casting.bondedItemCharges[level]}} bonded item charge
-                                                            available
-                                                        </strong>
-                                                    </div>
-                                                    <div class="list-item"
-                                                        *ngIf="casting.castingType == 'Focus' && level == -1 && (spellTakenList.length || focusPoints.max)">
-                                                        <div class="newrow">
-                                                            <strong>Focus Points</strong>
-                                                            <span class="hlist center-aligned">
-                                                                <div class="value"
-                                                                    style="margin-left:0; margin-right:0;">
-                                                                    {{focusPoints.now}}
-                                                                </div>
-                                                                <ng-container *ngIf="get_ManualMode()">
-                                                                    <button (click)="on_ManualFocusPointChange(-1)"
-                                                                        [disabled]="focusPoints.now <= 0">
-                                                                        -
-                                                                    </button>
-                                                                    <button (click)="on_ManualFocusPointChange(1)"
-                                                                        [disabled]="focusPoints.now >= focusPoints.max">
-                                                                        +
-                                                                    </button>
-                                                                </ng-container>
-                                                            </span>
-                                                            <strong>Focus Pool</strong>
-                                                            <div class="value">
-                                                                {{focusPoints.max}}
-                                                            </div>
-                                                        </div>
-                                                        <button class="newrow center-aligned" (click)="refocus()"
-                                                            [disabled]="focusPoints.now >= focusPoints.max">
-                                                            Refocus
-                                                        </button>
-                                                        <app-tags [creature]="'Character'" [objectName]="'Focus'"
-                                                            [showTraits]=true [showFeats]=true [showItems]=true
-                                                            [showActivities]=true [showConditions]=true
-                                                            [showEffects]=true>
-                                                        </app-tags>
-                                                    </div>
-                                                    <div class="vlist" *ngIf="choiceList.length">
-                                                        <header class="subsectionHeader box-header">Level {{level}}
-                                                            Temporary Spell Selections
-                                                        </header>
-                                                        <div class="list-item"
-                                                            *ngFor="let choice of choiceList; let choicesIndex = index; trackBy:trackByIndex;">
-                                                            <app-spellchoice class="newrow"
-                                                                (showChoiceMessage)="receive_ChoiceMessage($event)"
-                                                                (showSpellMessage)="receive_SpellMessage($event)"
-                                                                [spellCasting]="casting" [choice]="choice"
-                                                                [showHeightened]="true" [allowBorrow]="false"
-                                                                [showChoice]="get_ShowList()"
-                                                                [showSpell]="get_ShowItem()" [level]="choice.level"
-                                                                [prepared]="choice.source == 'Infinite Possibilities'"
-                                                                [spellbook]="true">
-                                                            </app-spellchoice>
-                                                        </div>
-                                                    </div>
-                                                    <div [ngClass]="{'icon-list':get_TileMode(), 'list-item':!get_TileMode()}"
-                                                        *ngIf="spellTakenList.length">
-                                                        <ng-container
-                                                            *ngFor="let spellTaken of spellTakenList; let spellIndex = index; trackBy:trackByIndex;">
-                                                            <ng-container
-                                                                *ngFor="let spell of get_Spells(spellTaken.gain.name); trackBy:trackByIndex;">
-                                                                <ng-container
-                                                                    *ngFor="let externallyDisabled of [get_ExternallyDisabled(spell, spellTaken.choice)]; trackBy:trackByIndex;">
-                                                                    <ng-container
-                                                                        *ngFor="let effectiveSpellLevel of [get_EffectiveSpellLevel(spell, level)]; trackBy:trackByIndex;">
-                                                                        <ng-container
-                                                                            *ngFor="let cannotCast of [cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots, externallyDisabled)]; trackBy:trackByIndex;">
-                                                                            <ng-template #SpellTitleTemplate>
-                                                                                <span *ngIf="!get_TileMode()">
-                                                                                    <i class="value bi-patch-plus bonus"
-                                                                                        *ngIf="!spell.get_IsHostile()"
-                                                                                        [ngbTooltip]="'Beneficial spell'"></i>
-                                                                                    <i class="value bi-patch-minus-fill penalty"
-                                                                                        *ngIf="spell.get_IsHostile()"
-                                                                                        [ngbTooltip]="'Hostile spell'"></i>
-                                                                                </span>
-                                                                                <span [ngbTooltip]="'Signature spell'"
-                                                                                    *ngIf="is_SignatureSpell(casting, spellTaken.gain)">
-                                                                                    <i class='bi-stars'></i>
-                                                                                </span>
-                                                                                <span [ngbTooltip]="'Combination spell'"
-                                                                                    *ngIf="spellTaken.choice.spellCombination">
-                                                                                    <i class='ra ra-frostfire'></i>
-                                                                                </span>
-                                                                                <span
-                                                                                    [ngbTooltip]="'Infinite Possibilities spell'"
-                                                                                    *ngIf="is_InfinitePossibilitiesSpell(spellTaken.choice)">
-                                                                                    <i class='ra ra-kaleidoscope'></i>
-                                                                                </span>
-                                                                                <span
-                                                                                    [ngbTooltip]="'Spell Mastery spell'"
-                                                                                    *ngIf="is_SpellMasterySpell(spellTaken.choice)">
-                                                                                    <i class='ra ra-crown'></i>
-                                                                                </span>
-                                                                                <span
-                                                                                    [ngbTooltip]="'Crossblooded Evolution spell'"
-                                                                                    *ngIf="spellTaken.choice.crossbloodedEvolution">
-                                                                                    <i class='ra ra-zigzag-leaf'></i>
-                                                                                </span>
-                                                                                {{spell.name}}
-                                                                                {{spellTaken.gain.combinationSpellName ?
-                                                                                " & " +
-                                                                                spellTaken.gain.combinationSpellName :
-                                                                                ""}}
-                                                                                <ng-container
-                                                                                    *ngIf="!spellTaken.gain.combinationSpellName">
-                                                                                    <app-actionIcons
-                                                                                        [actionString]="spell.actions">
-                                                                                    </app-actionIcons>
-                                                                                    {{spell.castType}}
-                                                                                </ng-container>
-                                                                                {{(casting.tradition !=
-                                                                                spellTaken.choice.tradition &&
-                                                                                spellTaken.choice.tradition) ? "(" +
-                                                                                spellTaken.choice.tradition + ")" : ""}}
-                                                                                {{spellTaken.gain.frequency ?
-                                                                                spellTaken.gain.frequency : ""}}
-                                                                            </ng-template>
-                                                                            <ng-template #SpellTooltipTemplate>
-                                                                                <span
-                                                                                    *ngIf="is_SignatureSpell(casting, spellTaken.gain)">
-                                                                                    <i class='bi-stars'></i>
-                                                                                </span>
-                                                                                <span
-                                                                                    *ngIf="spellTaken.choice.spellCombination">
-                                                                                    <i class='ra ra-frostfire'></i>
-                                                                                </span>
-                                                                                <span
-                                                                                    *ngIf="is_InfinitePossibilitiesSpell(spellTaken.choice)">
-                                                                                    <i class='ra ra-kaleidoscope'></i>
-                                                                                </span>
-                                                                                <span
-                                                                                    *ngIf="is_SpellMasterySpell(spellTaken.choice)">
-                                                                                    <i class='ra ra-crown'></i>
-                                                                                </span>
-                                                                                <span
-                                                                                    *ngIf="spellTaken.choice.crossbloodedEvolution">
-                                                                                    <i class='ra ra-zigzag-leaf'></i>
-                                                                                </span>
-                                                                                {{spell.name}}
-                                                                                {{spellTaken.gain.combinationSpellName ?
-                                                                                " & " +
-                                                                                spellTaken.gain.combinationSpellName :
-                                                                                ""}}
-                                                                                <ng-container
-                                                                                    *ngIf="!spellTaken.gain.combinationSpellName">
-                                                                                    <app-actionIcons
-                                                                                        [actionString]="spell.actions">
-                                                                                    </app-actionIcons>
-                                                                                    {{spell.castType}}
-                                                                                </ng-container>
-                                                                                {{(casting.tradition !=
-                                                                                spellTaken.choice.tradition &&
-                                                                                spellTaken.choice.tradition) ? "(" +
-                                                                                spellTaken.choice.tradition + ")" : ""}}
-                                                                                {{spellTaken.gain.frequency ?
-                                                                                spellTaken.gain.frequency : ""}}
-                                                                            </ng-template>
-                                                                            <ng-template #SpellTemplate>
-                                                                                <header
-                                                                                    class="spellHeader left-aligned newrow"
-                                                                                    *ngIf="get_TileMode()">
-                                                                                    <ng-container
-                                                                                        *ngTemplateOutlet="SpellTitleTemplate">
-                                                                                    </ng-container>
-                                                                                </header>
-                                                                                <div class="newrow list-item left-aligned"
-                                                                                    *ngIf="effectiveSpellLevel != level">
-                                                                                    Effective spell level:
-                                                                                    {{effectiveSpellLevel}}
-                                                                                </div>
-                                                                                    <app-spellTarget class="newrow vlist"
-                                                                                    [creature]="'Character'"
-                                                                                    [spell]="spell"
-                                                                                    [gain]="spellTaken.gain"
-                                                                                    [casting]="casting"
-                                                                                    [cannotCast]="cannotCast"
-                                                                                    [effectiveSpellLevel]="effectiveSpellLevel"
-                                                                                    [bloodMagicFeats]="bloodMagicFeats"
-                                                                                    [showDismiss]="true"
-                                                                                    (castMessage)="on_Cast(level, spellTaken.gain, casting, spellTaken.choice, $event.target, spell, $event.activated, bloodMagicFeats)">
-                                                                                </app-spellTarget>
-                                                                                <div class="newrow"
-                                                                                    *ngIf="casting.castingType == 'Focus' && spell.allowReturnFocusPoint"
-                                                                                    [ngbTooltip]="focusPoints.now >= focusPoints.max ? 'Focus points are full.' : ''">
-                                                                                    <button
-                                                                                        class="newrow center-aligned"
-                                                                                        (click)="on_RestoreFocusPoint()"
-                                                                                        [disabled]="focusPoints.now >= focusPoints.max">
-                                                                                        <span class="center-aligned">
-                                                                                            Return Focus Point
-                                                                                        </span>
-                                                                                    </button>
-                                                                                </div>
-                                                                                <div class="newrow"
-                                                                                    *ngIf="casting.castingType == 'Prepared' && casting.className == 'Wizard' && !spellTaken.gain.prepared && level > 0 && !spellTaken.gain.duration"
-                                                                                    [ngbTooltip]="!can_Restore(casting, level) ? 'No bonded item charges remaining.' : ''">
-                                                                                    <button
-                                                                                        class="newrow center-aligned"
-                                                                                        (click)="on_Restore(spellTaken.gain, casting, level)"
-                                                                                        [disabled]="!can_Restore(casting, level)">
-                                                                                        <span class="center-aligned">
-                                                                                            Restore with bonded item
-                                                                                            <app-actionIcons
-                                                                                                [actionString]="'Free'">
-                                                                                            </app-actionIcons>
-                                                                                        </span>
-                                                                                    </button>
-                                                                                </div>
-                                                                                <div class="newrow"
-                                                                                    *ngIf="casting.castingType == 'Prepared' && !spellTaken.gain.prepared && level > 0 && can_Reprepare(level, spell, casting)">
-                                                                                    <button
-                                                                                        class="newrow center-aligned"
-                                                                                        (click)="on_Reprepare(spellTaken.gain)">
-                                                                                        <span class="center-aligned">
-                                                                                            Reprepare
-                                                                                            <app-actionIcons
-                                                                                                *ngIf="!get_ManualMode()"
-                                                                                                [actionString]="'10 minutes'">
-                                                                                            </app-actionIcons>
-                                                                                        </span>
-                                                                                    </button>
-                                                                                </div>
-                                                                                <div class="newrow"
-                                                                                    *ngIf="get_ManualMode() && spellTaken.gain.activeCooldown">
-                                                                                    <button
-                                                                                        class="newrow center-aligned"
-                                                                                        (click)="on_ManualEndCooldown(spellTaken.gain)">
-                                                                                        <span class="center-aligned">
-                                                                                            End cooldown
-                                                                                        </span>
-                                                                                    </button>
-                                                                                </div>
-                                                                                <ng-container
-                                                                                    *ngFor="let cannotExpend of [cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots, 0)]; trackBy:trackByIndex">
-                                                                                    <div class="newrow"
-                                                                                        *ngIf="can_Counterspell(casting) && !spellTaken.gain.active && level > 0"
-                                                                                        [ngbTooltip]="cannotExpend">
-                                                                                        <button
-                                                                                            class="newrow center-aligned"
-                                                                                            (click)="on_Expend(spellTaken.gain, casting, spellTaken.choice, spell, level)"
-                                                                                            [disabled]="cannotExpend">
-                                                                                            Expend to counter spell
-                                                                                        </button>
-                                                                                    </div>
-                                                                                    <div class="newrow"
-                                                                                        *ngIf="can_ChannelSmite(spell) && !spellTaken.gain.active && level > 0"
-                                                                                        [ngbTooltip]="cannotExpend">
-                                                                                        <button
-                                                                                            class="newrow center-aligned"
-                                                                                            (click)="on_Expend(spellTaken.gain, casting, spellTaken.choice, spell, level)"
-                                                                                            [disabled]="cannotExpend">
-                                                                                            Expend for channel smite
-                                                                                        </button>
-                                                                                    </div>
-                                                                                    <div class="newrow"
-                                                                                        *ngIf="can_SwiftBanish(casting, spell, level) && !spellTaken.gain.active && level > 0"
-                                                                                        [ngbTooltip]="cannotExpend">
-                                                                                        <button
-                                                                                            class="newrow center-aligned"
-                                                                                            (click)="on_Expend(spellTaken.gain, casting, spellTaken.choice, spell, level)"
-                                                                                            [disabled]="cannotExpend">
-                                                                                            Expend for swift banishment
-                                                                                        </button>
-                                                                                    </div>
-                                                                                </ng-container>
-                                                                                <ng-container
-                                                                                    *ngFor="let conditionSet of get_SpellConditions(spell, effectiveSpellLevel, spellTaken.gain); let conditionSetIndex = index; trackBy:trackByIndex">
-                                                                                    <div class="newrow list-item left-aligned"
-                                                                                        *ngIf="conditionSet.condition && conditionSet.condition._choices.length && !conditionSet.gain.choiceBySubType && !conditionSet.gain.choiceLocked && !conditionSet.gain.copyChoiceFrom && !conditionSet.gain.hideChoices">
-                                                                                        <span>{{conditionSet.condition.name}}
-                                                                                            effect selection:
-                                                                                            <select
-                                                                                                [(ngModel)]="spellTaken.gain.effectChoices[conditionSetIndex].choice">
-                                                                                                <option
-                                                                                                    *ngFor="let choice of conditionSet.condition._choices; trackBy:trackByIndex;"
-                                                                                                    [ngValue]="choice">
-                                                                                                    {{choice}}
-                                                                                                </option>
-                                                                                            </select>
-                                                                                        </span>
-                                                                                    </div>
-                                                                                </ng-container>
-                                                                                <ng-container
-                                                                                    *ngIf="!spellTaken.gain.combinationSpellName">
-                                                                                    <app-spell class="list-item"
-                                                                                        [spell]="spell"
-                                                                                        [spellLevel]="effectiveSpellLevel"
-                                                                                        [source]="spellTaken.gain.source"
-                                                                                        [casting]="casting">
-                                                                                    </app-spell>
-                                                                                </ng-container>
-                                                                                <ng-container
-                                                                                    *ngIf="spellTaken.gain.combinationSpellName">
-                                                                                    <header
-                                                                                        class="spellHeader left-aligned">
-                                                                                        {{spell.name}}
-                                                                                        <app-actionIcons
-                                                                                            [actionString]="spell.actions">
-                                                                                        </app-actionIcons>
-                                                                                        {{(spell.castType) ?
-                                                                                        spell.castType
-                                                                                        : ""}}
-                                                                                    </header>
-                                                                                    <app-spell class="list-item"
-                                                                                        [spell]="spell"
-                                                                                        [spellLevel]="effectiveSpellLevel"
-                                                                                        [source]="spellTaken.gain.source"
-                                                                                        [casting]="casting">
-                                                                                    </app-spell>
-                                                                                    <ng-container
-                                                                                        *ngFor="let secondSpell of get_Spells(spellTaken.gain.combinationSpellName); trackBy:trackByIndex;">
-                                                                                        <header
-                                                                                            class="spellHeader left-aligned">
-                                                                                            {{secondSpell.name}}
-                                                                                            <app-actionIcons
-                                                                                                [actionString]="secondSpell.actions">
-                                                                                            </app-actionIcons>
-                                                                                            {{(secondSpell.castType) ?
-                                                                                            secondSpell.castType : ""}}
-                                                                                        </header>
-                                                                                        <app-spell class="list-item"
-                                                                                            [spell]="secondSpell"
-                                                                                            [spellLevel]="effectiveSpellLevel"
-                                                                                            [source]="spellTaken.gain.source"
-                                                                                            [casting]="casting">
-                                                                                        </app-spell>
-                                                                                    </ng-container>
-                                                                                </ng-container>
-                                                                            </ng-template>
-                                                                            <ng-container
-                                                                                *ngFor="let spellID of [get_ID()]; trackBy:trackByIndex;">
-                                                                                <ng-container *ngIf="!get_TileMode()">
-                                                                                    <div class="list-item">
-                                                                                        <button
-                                                                                            class="newrow sublist-toggle left-aligned"
-                                                                                            (click)="toggle_Spell(casting.castingType+casting.class+spellTaken.gain.name+spellID)"
-                                                                                            [ngClass]="{'inactive-button': cannotCast}">
-                                                                                            <ng-container
-                                                                                                *ngTemplateOutlet="SpellTitleTemplate">
-                                                                                            </ng-container>
-                                                                                        </button>
-                                                                                        <div class="list-item sublist lower"
-                                                                                            [ngClass]="{'inactive-list': cannotCast}"
-                                                                                            *ngIf="get_ShowSpell()==casting.castingType+casting.class+spellTaken.gain.name+spellID">
-                                                                                            <ng-container
-                                                                                                *ngTemplateOutlet="SpellTemplate">
-                                                                                            </ng-container>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </ng-container>
-                                                                                <ng-container *ngIf="get_TileMode()">
-                                                                                    <button
-                                                                                        [stickyPopover]="SpellTemplate"
-                                                                                        triggers="click"
-                                                                                        [ngClass]="{'inactive-button': cannotCast, 'penalty':!cannotCast && spell.get_IsHostile(), 'bonus':!cannotCast && !spell.get_IsHostile()}">
-                                                                                        <app-gridIcon
-                                                                                            [ngClass]="{'inactive-button': cannotCast, 'penalty':!cannotCast && spell.get_IsHostile(), 'bonus':!cannotCast && !spell.get_IsHostile()}"
-                                                                                            [ngbTooltip]="SpellTooltipTemplate"
-                                                                                            [title]="spell.name + (spellTaken.gain.combinationSpellName ? ' & ' + spellTaken.gain.combinationSpellName : '')"
-                                                                                            [superTitle]="(is_SignatureSpell(casting, spellTaken.gain) ? 'icon-bi-stars|' : '') + (spellTaken.choice.spellCombination ? 'icon-ra ra-frostfire|' : '') + (is_InfinitePossibilitiesSpell(spellTaken.choice) ? 'icon-ra ra-kaleidoscope|' : '') + (is_SpellMasterySpell(spellTaken.choice) ? 'icon-ra ra-crown|' : '') + (spellTaken.choice.crossbloodedEvolution ? 'icon-ra ra-zigzag-leaf|' : '')"
-                                                                                            [spell]="spell">
-                                                                                        </app-gridIcon>
-                                                                                    </button>
-                                                                                </ng-container>
-                                                                            </ng-container>
-                                                                        </ng-container>
-                                                                    </ng-container>
-                                                                </ng-container>
-                                                            </ng-container>
-                                                        </ng-container>
-                                                    </div>
-                                                </ng-container>
-                                            </ng-container>
-                                        </ng-container>
+                                <ng-container *ngIf="!spellParameters.gain.combinationSpellName">
+                                    <app-spell class="list-item" [spell]="spellParameters.spell"
+                                        [spellLevel]="spellParameters.effectiveSpellLevel"
+                                        [source]="spellParameters.gain.source"
+                                        [casting]="spellCastingParameters.casting">
+                                    </app-spell>
+                                </ng-container>
+                                <ng-container *ngIf="spellParameters.gain.combinationSpellName">
+                                    <header class="spellHeader left-aligned">
+                                        {{spellParameters.spell.name}}
+                                        <app-actionIcons [actionString]="spellParameters.spell.actions">
+                                        </app-actionIcons>
+                                        {{(spellParameters.spell.castType) ? spellParameters.spell.castType : ""}}
+                                    </header>
+                                    <app-spell class="list-item" [spell]="spellParameters.spell"
+                                        [spellLevel]="spellParameters.effectiveSpellLevel"
+                                        [source]="spellParameters.gain.source"
+                                        [casting]="spellCastingParameters.casting">
+                                    </app-spell>
+                                    <ng-container
+                                        *ngFor="let secondSpell of get_Spells(spellParameters.gain.combinationSpellName); trackBy:trackByIndex;">
+                                        <header class="spellHeader left-aligned">
+                                            {{secondSpell.name}}
+                                            <app-actionIcons [actionString]="secondSpell.actions">
+                                            </app-actionIcons>
+                                            {{(secondSpell.castType) ? secondSpell.castType : ""}}
+                                        </header>
+                                        <app-spell class="list-item" [spell]="secondSpell"
+                                            [spellLevel]="spellParameters.effectiveSpellLevel"
+                                            [source]="spellParameters.gain.source"
+                                            [casting]="spellCastingParameters.casting">
+                                        </app-spell>
                                     </ng-container>
                                 </ng-container>
+                            </ng-template>
+                            <ng-container *ngIf="!get_TileMode()">
+                                <div class="list-item">
+                                    <button class="newrow sublist-toggle left-aligned"
+                                        (click)="toggle_Spell(spellCastingParameters.casting.castingType+spellCastingParameters.casting.class+spellParameters.gain.name+spellIndex)"
+                                        [ngClass]="{'inactive-button': spellParameters.cannotCast}">
+                                        <ng-container *ngTemplateOutlet="SpellTitleTemplate">
+                                        </ng-container>
+                                    </button>
+                                    <div class="list-item sublist lower"
+                                        [ngClass]="{'inactive-list': spellParameters.cannotCast}"
+                                        *ngIf="get_ShowSpell()==spellCastingParameters.casting.castingType+spellCastingParameters.casting.class+spellParameters.gain.name+spellIndex">
+                                        <ng-container *ngTemplateOutlet="SpellTemplate">
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="get_TileMode()">
+                                <button [stickyPopover]="SpellTemplate" triggers="click"
+                                    [ngClass]="{'inactive-button': spellParameters.cannotCast, 'penalty':!spellParameters.cannotCast && spellParameters.isHostile, 'bonus':!spellParameters.cannotCast && !spellParameters.isHostile}">
+                                    <app-gridIcon
+                                        [ngClass]="{'inactive-button': spellParameters.cannotCast, 'penalty':!spellParameters.cannotCast && spellParameters.isHostile, 'bonus':!spellParameters.cannotCast && !spellParameters.isHostile}"
+                                        [ngbTooltip]="SpellTooltipTemplate"
+                                        [title]="spellParameters.spell.name + (spellParameters.gain.combinationSpellName ? ' & ' + spellParameters.gain.combinationSpellName : '')"
+                                        [superTitle]="(spellParameters.isSignatureSpell ? 'icon-bi-stars|' : '') + (spellParameters.isSpellCombinationSpell ? 'icon-ra ra-frostfire|' : '') + (spellParameters.isInfinitePossibilitiesSpell ? 'icon-ra ra-kaleidoscope|' : '') + (spellParameters.isSpellMasterySpell ? 'icon-ra ra-crown|' : '') + (spellParameters.choice.crossbloodedEvolution ? 'icon-ra ra-zigzag-leaf|' : '')"
+                                        [spell]="spellParameters.spell">
+                                    </app-gridIcon>
+                                </button>
                             </ng-container>
                         </ng-container>
-                    </ng-container>
+                    </div>
                 </ng-container>
             </ng-container>
         </ng-container>

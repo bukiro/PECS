@@ -65,7 +65,6 @@ export class Bulk {
             result.explain += effect.source + ": " + effect.value;
         });
         result.value = Math.floor(Math.max(0, result.value));
-        //Cut the first newline
         result.explain = result.explain.trim();
         return result;
     }
@@ -73,8 +72,7 @@ export class Bulk {
         //Gets the basic bulk and adds all effects
         let result: { value: number, explain: string } = { value: 5, explain: "Base limit: 5" };
         if (characterService.still_loading()) { return result; }
-        //We cannot use instanceof Familiar here because of circular dependencies. We test typeId == 2 (Familiar) instead.
-        const str = (creature.typeId == 2) ? 0 : characterService.get_Abilities("Strength")[0].mod(creature as Character | AnimalCompanion, characterService, effectsService).result;
+        const str = characterService.get_Abilities("Strength")[0].mod(creature, characterService, effectsService).result;
         if (str != 0) {
             result.value += str;
             result.explain += "\nStrength Modifier: " + str;
@@ -90,6 +88,7 @@ export class Bulk {
             result.value += parseInt(effect.value);
             result.explain += "\n" + effect.source + ": " + effect.value;
         });
+        result.explain = result.explain.trim();
         return result;
     }
     max(creature: Creature, characterService: CharacterService, effectsService: EffectsService, absolutes: Effect[] = undefined) {

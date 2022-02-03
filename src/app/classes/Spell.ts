@@ -221,8 +221,8 @@ export class Spell {
         return spellsTaken.length;
     }
     get_EffectiveSpellLevel(creature: Creature, baseLevel: number, characterService: CharacterService, effectsService: EffectsService) {
-        //Cantrips and Focus spells are automatically heightened to your maximum available spell level.
-        if (!baseLevel || baseLevel == -1) {
+        //Focus spells are automatically heightened to your maximum available spell level.
+        if ([0, -1].includes(baseLevel)) {
             baseLevel = characterService.get_Character().get_SpellLevel();
         }
 

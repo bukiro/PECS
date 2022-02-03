@@ -34,7 +34,7 @@
         </select>
     </div>
     <div class="newrow left-aligned" *ngIf="item.isDoublingRings == 'Doubling Rings (Greater)'">
-        <input id="{{item.id}}doublingRingsApplyPropertyRunes" type="checkbox" [(ngModel)]="item.data[2]"
+        <input id="{{item.id}}doublingRingsApplyPropertyRunes" type="checkbox" [(ngModel)]="item.data[2].value"
             (ngModelChange)="on_DoublingRingsChange()">
         <label for="{{item.id}}doublingRingsApplyPropertyRunes">Apply property runes</label>
     </div>

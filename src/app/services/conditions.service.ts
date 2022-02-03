@@ -385,7 +385,6 @@ export class ConditionsService {
             //If no other conditions have this ConditionGain's sourceGainID, find the matching Spellgain or ActivityGain and disable it.
             if (!characterService.get_AppliedConditions(character).some(conditionGain => conditionGain !== gain && conditionGain.sourceGainID == gain.sourceGainID)) {
                 character.get_SpellsTaken(characterService, 0, 20).filter(taken => taken.gain.id == gain.sourceGainID && taken.gain.active).forEach(taken => {
-                    //
                     let spell = characterService.spellsService.get_Spells(taken.gain.name)[0];
                     if (spell) {
                         characterService.spellsService.process_Spell(character, taken.gain.selectedTarget, characterService, itemsService, characterService.conditionsService, null, null, taken.gain, spell, 0, false, false)
@@ -408,8 +407,8 @@ export class ConditionsService {
             hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
         })
 
-        //Leave cover behind shield if the Cover condition is removed (not for Familiars).
-        if (!(creature instanceof Familiar) && condition.name == "Cover" && (!taken || (gain.choice != "Greater"))) {
+        //Leave cover behind shield if the Cover condition is removed.
+        if (condition.name == "Cover" && (!taken || (gain.choice != "Greater"))) {
             characterService.defenseService.get_EquippedShield(creature).forEach(shield => {
                 if (shield.takingCover) {
                     shield.takingCover = false;
@@ -457,8 +456,8 @@ export class ConditionsService {
 
     generate_ItemConditions(creature: Creature, services: { characterService: CharacterService, effectsService: EffectsService }): void {
         //Calculate whether any items should grant a condition under the given circumstances and add or remove conditions accordingly.
-        //Conditions caused by equipment are not calculated for Familiars (who don't have an inventory) or in manual mode.
-        if (!(creature instanceof Familiar) && !services.characterService.get_ManualMode()) {
+        //Conditions caused by equipment are not calculated in manual mode.
+        if (!services.characterService.get_ManualMode()) {
             let speedRune: boolean = false;
             let enfeebledRune: boolean = false;
             creature.inventories.forEach(inventory => {
@@ -467,7 +466,7 @@ export class ConditionsService {
                         if (rune.name == "Speed" && (item.can_Invest() ? item.invested : item.equipped)) {
                             speedRune = true;
                         }
-                        if (rune instanceof WeaponRune && rune.alignmentPenalty) {
+                        if (rune instanceof WeaponRune && rune.alignmentPenalty && creature instanceof Character) {
                             if (services.characterService.get_Character().alignment.toLowerCase().includes(rune.alignmentPenalty.toLowerCase())) {
                                 enfeebledRune = true;
                             }
@@ -477,7 +476,7 @@ export class ConditionsService {
                         if (oil.runeEffect && oil.runeEffect.name == "Speed" && (item.equipped || (item.can_Invest() && item.invested))) {
                             speedRune = true;
                         }
-                        if (oil.runeEffect && oil.runeEffect.alignmentPenalty) {
+                        if (oil.runeEffect && oil.runeEffect.alignmentPenalty && creature instanceof Character) {
                             if (services.characterService.get_Character().alignment.toLowerCase().includes(oil.runeEffect.alignmentPenalty.toLowerCase())) {
                                 enfeebledRune = true;
                             }
@@ -547,8 +546,8 @@ export class ConditionsService {
 
     generate_BulkConditions(creature: Creature, services: { characterService: CharacterService, effectsService: EffectsService }): void {
         //Calculate whether the creature is encumbered and add or remove the condition.
-        //Encumbered conditions are not calculated for Familiars (who don't have an inventory) or in manual mode.
-        if (!(creature instanceof Familiar) && !services.characterService.get_ManualMode()) {
+        //Encumbered conditions are not calculated in manual mode.
+        if (!services.characterService.get_ManualMode()) {
             let bulk = creature.bulk;
             let calculatedBulk = bulk.calculate(creature, services.characterService, services.effectsService);
             if (calculatedBulk.current.value > calculatedBulk.encumbered.value && services.characterService.get_AppliedConditions(creature, "Encumbered", "Bulk").length == 0) {
