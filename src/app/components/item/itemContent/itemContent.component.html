@@ -4,6 +4,12 @@
         <i> {{item.sourceBook}}</i>
     </span>
 </div>
+<div class="newrow left-aligned" *ngIf="item.PFSnote">
+    <span>
+        <strong>PFS Note</strong>
+        <i> {{item.PFSnote}}</i>
+    </span>
+</div>
 <div class="newrow left-aligned">
     <span *ngIf="item.price">
         <strong>Price</strong>
@@ -115,6 +121,12 @@
         {{item.reload}}
     </span>
 </div>
+<div class="newrow left-aligned" *ngIf="item.access">
+    <span>
+        <strong>Access</strong>
+        <i> {{item.access}}</i>
+    </span>
+</div>
 <!--Activation text for activated standalone items, such as wands (identified by not having a trigger or requirements)-->
 <div class="newrow gap-text left-aligned"
     *ngIf="(item.activationType || (item.actions && item.actions != ' ')) && (!item.trigger && !item.requirements)">
@@ -144,8 +156,10 @@
     <ng-container *ngFor="let data of item.data; let dataIndex = index; trackBy:trackByIndex;">
         <p *ngIf="data.show" class="gap-text">
             <strong>{{data.name}}</strong>
-            <input id="{{item.id}}data{{dataIndex}}value" type="text" [(ngModel)]="data.value" *ngIf="data.type == 'string'">
-            <input id="{{item.id}}data{{dataIndex}}value" type="checkbox" [(ngModel)]="data.value" *ngIf="data.type == 'boolean'">
+            <input id="{{item.id}}data{{dataIndex}}value" type="text" [(ngModel)]="data.value"
+                *ngIf="data.type == 'string'">
+            <input id="{{item.id}}data{{dataIndex}}value" type="checkbox" [(ngModel)]="data.value"
+                *ngIf="data.type == 'boolean'">
         </p>
     </ng-container>
     <p *ngIf="item.benefit" class="gap-text">
