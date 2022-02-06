@@ -190,7 +190,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
     get_SortByName(obj: Item[]) {
         return obj
-            .sort((a, b) => (a.name > b.name) ? 1 : -1);
+            .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
     get_CanUse(item: Item) {
@@ -272,7 +272,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         })
         return items
             .filter(item => !item.hide)
-            .sort((a, b) => (a.name > b.name) ? 1 : -1);
+            .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
     get_VisibleItems(items: Item[], creatureType: string = "") {
@@ -309,8 +309,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
                         : true
                 )
             )
-            .sort((a, b) => (a.name > b.name) ? 1 : -1)
-            .sort((a, b) => (a[this.sorting] < b[this.sorting]) ? -1 : 1);
+            .sort((a, b) => (a[this.sorting] + a.name == b[this.sorting] + b.name) ? 0 : (a[this.sorting] + a.name < b[this.sorting] + b.name) ? -1 : 1);
     }
 
     can_ApplyTalismans(item: Item) {
@@ -403,8 +402,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         return Object.keys(this.newItem)
             .map((key) => get_PropertyData(key, this.itemsService))
             .filter(property => property != undefined)
-            .sort((a, b) => (a.priority > b.priority) ? 1 : -1)
-            .sort((a, b) => (a.group > b.group) ? 1 : -1);
+            .sort((a, b) => (a.group + a.priority == b.group + b.priority) ? 0 : ((a.group + a.priority > b.group + b.priority) ? 1 : -1));
     }
 
     copy_Item(item: Equipment | Consumable) {

@@ -157,8 +157,8 @@ export class AttacksComponent implements OnInit, OnDestroy {
         return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.equipped && weapon.equippable && !weapon.broken)
             .concat(...this.get_Creature().inventories.map(inv => inv.alchemicalbombs))
             .concat(...this.get_Creature().inventories.map(inv => inv.otherconsumablesbombs))
-            .sort((a, b) => (a.name > b.name) ? 1 : -1)
-            .sort((a, b) => (a.type < b.type) ? 1 : -1)
+            .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1))
+            .sort((a, b) => (a.type == b.type) ? 0 : ((a.type < b.type) ? 1 : -1));
     }
 
     get_TalismanTitle(talisman: Talisman, withCord: boolean = false) {
@@ -219,7 +219,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
             })
         });
         return ammoList
-            .sort((a, b) => (a.name > b.name) ? 1 : -1);
+            .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
     get_Snares() {
@@ -230,7 +230,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
             })
         });
         return snares
-            .sort((a, b) => (a.name > b.name) ? 1 : -1);
+            .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
     get_Spells(name: string = "", type: string = "", tradition: string = "") {

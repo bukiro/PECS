@@ -104,7 +104,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
         .filter(skill =>
             !skill.name.includes("Lore") ||
             skill.level(creature as Character, this.characterService, creature.level)
-        ).sort((a, b) => (a.name > b.name) ? 1 : -1);;
+        ).sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));;
     }
 
     trackByIndex(index: number, obj: any): any {

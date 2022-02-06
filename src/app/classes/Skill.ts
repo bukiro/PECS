@@ -218,7 +218,7 @@ export class Skill {
             } else {
                 let increases = (creature as Character | AnimalCompanion).get_SkillIncreases(characterService, 0, charLevel, this.name, "", "", undefined, excludeTemporary);
                 // Add 2 for each increase, but keep them to their max Rank
-                increases = increases.sort((a, b) => ((a.maxRank || 8) > (b.maxRank || 8)) ? 1 : -1)
+                increases = increases.sort((a, b) => ((a.maxRank || 8) == (b.maxRank || 8)) ? 0 : (((a.maxRank || 8) > (b.maxRank || 8)) ? 1 : -1))
                 increases.forEach(increase => {
                     skillLevel = Math.min(skillLevel + 2, (increase.maxRank || 8));
                 })

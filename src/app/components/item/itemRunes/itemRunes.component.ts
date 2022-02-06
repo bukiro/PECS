@@ -96,7 +96,7 @@ export class ItemRunesComponent implements OnInit {
             })
         }
         return Array.from(new Set(runes))
-            .sort((a, b) => (a.potency > b.potency) ? 1 : -1);
+            .sort((a, b) => (a.potency == b.potency) ? 0 : ((a.potency > b.potency) ? 1 : -1));
     }
 
     get_ArmorPotencyRunes() {
@@ -136,7 +136,7 @@ export class ItemRunesComponent implements OnInit {
             })
         }
         return Array.from(new Set(runes))
-            .sort((a, b) => (a.potency > b.potency) ? 1 : -1);
+            .sort((a, b) => (a.potency == b.potency) ? 0 : ((a.potency > b.potency) ? 1 : -1));
     }
 
     get_StrikingRunes() {
@@ -175,7 +175,7 @@ export class ItemRunesComponent implements OnInit {
             })
         }
         return Array.from(new Set(runes))
-            .sort((a, b) => (a.striking > b.striking) ? 1 : -1);
+            .sort((a, b) => (a.striking == b.striking) ? 0 : ((a.striking > b.striking) ? 1 : -1));
     }
 
     get_ResilientRunes() {
@@ -214,7 +214,7 @@ export class ItemRunesComponent implements OnInit {
             })
         }
         return Array.from(new Set(runes))
-            .sort((a, b) => (a.resilient > b.resilient) ? 1 : -1);
+            .sort((a, b) => (a.resilient == b.resilient) ? 0 : ((a.resilient > b.resilient) ? 1 : -1));
     }
 
     get_PropertyRunes() {
@@ -363,8 +363,7 @@ export class ItemRunesComponent implements OnInit {
             }
         })
         return allRunes
-            .sort((a, b) => (a.rune.name > b.rune.name) ? 1 : -1)
-            .sort((a, b) => (a.rune.level > b.rune.level) ? 1 : -1);
+            .sort((a, b) => (a.rune.level + a.rune.name == b.rune.level + b.rune.name) ? 0 : ((a.rune.level + a.rune.name > b.rune.level + b.rune.name) ? 1 : -1));
     }
 
     get_ArmorPropertyRunes(index: number, inv: ItemCollection) {
@@ -433,8 +432,7 @@ export class ItemRunesComponent implements OnInit {
         })
 
         return allRunes
-            .sort((a, b) => (a.rune.name > b.rune.name) ? 1 : -1)
-            .sort((a, b) => (a.rune.level > b.rune.level) ? 1 : -1);
+            .sort((a, b) => (a.rune.level + a.rune.name == b.rune.level + b.rune.name) ? 0 : ((a.rune.level + a.rune.name > b.rune.level + b.rune.name) ? 1 : -1));
     }
 
     on_WeaponRuneChange(runeType: string, previousRune: number) {

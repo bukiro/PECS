@@ -256,8 +256,7 @@ export class NewItemPropertyComponent {
                 this.itemsService.get_ItemProperties().filter(property => property.parent == this.propertyData.key && property.key == key)[0]
             )
             .filter(property => property != undefined)
-            .sort((a, b) => (a.priority > b.priority) ? 1 : -1)
-            .sort((a, b) => (a.group > b.group) ? 1 : -1);
+            .sort((a, b) => (a.group + a.priority == b.group + b.priority) ? 0 : ((a.group + a.priority > b.group + b.priority) ? 1 : -1));
     }
 
     get_Examples() {

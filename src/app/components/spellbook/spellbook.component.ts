@@ -194,12 +194,6 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             Prepared,
             Spontaneous
         }
-        enum TraditionSort {
-            Arcane,
-            Divine,
-            Occult,
-            Primal
-        }
         return character.class.spellCasting
             .filter(casting =>
                 (
@@ -208,17 +202,20 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                     casting.castingType == "Innate" && character.get_EquipmentSpellsGranted(this.characterService, -1, "", "", "", undefined, true).length
                 )
             )
-            .sort((a, b) => TraditionSort[a.tradition] - TraditionSort[b.tradition])
-            .sort((a, b) => CastingTypeSort[a.castingType] - CastingTypeSort[b.castingType])
             .sort((a, b) => {
-                if (a.className == b.className) {
-                    return 0;
-                }
                 if (a.className == "Innate" && b.className != "Innate") {
                     return -1;
                 }
                 if (a.className != "Innate" && b.className == "Innate") {
                     return 1;
+                }
+                if (a.className == b.className) {
+                    return (
+                        (CastingTypeSort[a.castingType] + a.tradition == CastingTypeSort[b.castingType] + b.tradition) ? 0 :
+                            (
+                                (CastingTypeSort[a.castingType] + a.tradition > CastingTypeSort[b.castingType] + b.tradition) ? 1 : -1
+                            )
+                    )
                 }
                 if (a.className > b.className) {
                     return 1;
@@ -287,7 +284,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             const gain = spellTaken.gain;
             const spell = this.get_Spells(gain.name)[0];
             const externallyDisabled = this.get_ExternallyDisabled(spell, choice);
-            const effectiveSpellLevel = this.get_EffectiveSpellLevel(spell, choice._level);
+            const effectiveSpellLevel = this.get_EffectiveSpellLevel(spell, gain.signatureSpell ? spellCastingLevelParameters.level : choice._level);
             const cannotCast = this.cannot_Cast(spell, spellCastingLevelParameters.level, casting, choice, gain, spellCastingLevelParameters.maxSpellSlots, externallyDisabled);
             const cannotExpend = this.cannot_Cast(spell, spellCastingLevelParameters.level, casting, choice, gain, spellCastingLevelParameters.maxSpellSlots, false);
             const canChannelSmite = this.can_ChannelSmite(spell);
@@ -350,13 +347,13 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         if (levelNumber == -1) {
             if (casting.castingType == "Focus") {
                 return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed(casting), false)
-                    .sort((a, b) => (a.gain.name > b.gain.name) ? 1 : -1);
+                    .sort((a, b) => (a.gain.name == b.gain.name) ? 0 : ((a.gain.name > b.gain.name) ? 1 : -1));
             } else {
                 return [];
             }
         } else {
             return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed(casting))
-                .sort((a, b) => (a.gain.name > b.gain.name) ? 1 : -1);
+                .sort((a, b) => (a.gain.name == b.gain.name) ? 0 : ((a.gain.name > b.gain.name) ? 1 : -1));
         }
     }
 
@@ -662,11 +659,11 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                 })
             })
         }
-        this.spellsService.process_Spell(character, target, this.characterService, this.itemsService, this.conditionsService, casting, choice, gain, spell, choice._level, activated, true);
+        this.spellsService.process_Spell(character, target, this.characterService, this.itemsService, this.conditionsService, casting, choice, gain, spell, gain.signatureSpell ? levelNumber : choice._level, activated, true);
         if (gain.combinationSpellName) {
             let secondSpell = this.get_Spells(gain.combinationSpellName)[0];
             if (secondSpell) {
-                this.spellsService.process_Spell(character, target, this.characterService, this.itemsService, this.conditionsService, casting, choice, gain, secondSpell, choice._level, activated, true);
+                this.spellsService.process_Spell(character, target, this.characterService, this.itemsService, this.conditionsService, casting, choice, gain, secondSpell, gain.signatureSpell ? levelNumber : choice._level, activated, true);
             }
         }
     }

@@ -123,8 +123,7 @@ export class ItemMaterialComponent implements OnInit {
             )
         );
         return materials
-            .sort((a, b) => (a.material.name > b.material.name) ? 1 : -1)
-            .sort((a, b) => (a.material.level > b.material.level) ? 1 : -1);
+            .sort((a, b) => (a.material.level + a.material.name == b.material.level + b.material.name) ? 0 : ((a.material.level + a.material.name > b.material.level + b.material.name) ? 1 : -1));
     }
 
     add_ArmorMaterial() {
@@ -204,8 +203,7 @@ export class ItemMaterialComponent implements OnInit {
             )
         );
         return materials
-            .sort((a, b) => (a.material.name > b.material.name) ? 1 : -1)
-            .sort((a, b) => (a.material.level > b.material.level) ? 1 : -1);
+        .sort((a, b) => (a.material.level + a.material.name == b.material.level + b.material.name) ? 0 : ((a.material.level + a.material.name > b.material.level + b.material.name) ? 1 : -1));
     }
 
     add_ShieldMaterial() {
@@ -299,8 +297,7 @@ export class ItemMaterialComponent implements OnInit {
             )
         );
         return materials
-            .sort((a, b) => (a.material.name > b.material.name) ? 1 : -1)
-            .sort((a, b) => (a.material.level > b.material.level) ? 1 : -1);
+        .sort((a, b) => (a.material.level + a.material.name == b.material.level + b.material.name) ? 0 : ((a.material.level + a.material.name > b.material.level + b.material.name) ? 1 : -1));
     }
 
     add_WeaponMaterial() {

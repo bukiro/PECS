@@ -167,24 +167,21 @@ export class SpellsComponent implements OnInit, OnDestroy {
             Prepared,
             Spontaneous
         }
-        enum TraditionSort {
-            Arcane,
-            Divine,
-            Occult,
-            Primal
-        }
         return character.class.spellCasting.filter(casting => casting.charLevelAvailable && casting.charLevelAvailable <= character.level)
-            .sort((a, b) => TraditionSort[a.tradition] - TraditionSort[b.tradition])
-            .sort((a, b) => CastingTypeSort[a.castingType] - CastingTypeSort[b.castingType])
             .sort((a, b) => {
-                if (a.className == b.className) {
-                    return 0;
-                }
                 if (a.className == "Innate" && b.className != "Innate") {
                     return -1;
                 }
                 if (a.className != "Innate" && b.className == "Innate") {
                     return 1;
+                }
+                if (a.className == b.className) {
+                    return (
+                        (CastingTypeSort[a.castingType] + a.tradition == CastingTypeSort[b.castingType] + b.tradition) ? 0 :
+                            (
+                                (CastingTypeSort[a.castingType] + a.tradition > CastingTypeSort[b.castingType] + b.tradition) ? 1 : -1
+                            )
+                    )
                 }
                 if (a.className > b.className) {
                     return 1;

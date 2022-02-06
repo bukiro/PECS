@@ -9,6 +9,11 @@ import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry
 import { Feat } from 'src/app/classes/Feat';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { Condition } from 'src/app/classes/Condition';
+import { Item } from 'src/app/classes/Item';
+import { Material } from 'src/app/classes/Material';
+import { Specialization } from 'src/app/classes/Specialization';
+import { Activity } from 'src/app/classes/Activity';
 
 @Component({
     selector: 'app-tags',
@@ -108,22 +113,29 @@ export class TagsComponent implements OnInit, OnDestroy {
     get_TraitsForThis(name: string) {
         if (this.showTraits && name) {
             return this.traitsService.get_TraitsForThis(this.get_Creature(), name)
-                .sort((a, b) => (a.name > b.name) ? 1 : -1);
+                .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
         } else {
             return [];
         }
     }
 
+    nameSort(
+        a: AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat | Condition | Item | Material | Specialization | Activity,
+        b: AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat | Condition | Item | Material | Specialization | Activity
+    ) {
+        return (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1)
+    }
+
     get_FeatsShowingOn(name: string, show: boolean): (AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat)[] {
         if (show && name && this.creature == "Character") {
             return this.characterService.get_FeatsShowingOn(name)
-                .sort((a, b) => (a.name > b.name) ? 1 : -1);
+                .sort((a, b) => this.nameSort(a, b));
         } else if (show && name && this.creature == "Companion") {
             return this.characterService.get_CompanionShowingOn(name)
-                .sort((a, b) => (a.name > b.name) ? 1 : -1);
+                .sort((a, b) => this.nameSort(a, b));
         } else if (show && name && this.creature == "Familiar") {
             return this.characterService.get_FamiliarShowingOn(name)
-                .sort((a, b) => (a.name > b.name) ? 1 : -1);
+                .sort((a, b) => this.nameSort(a, b));
         } else {
             return [];
         }
@@ -132,8 +144,8 @@ export class TagsComponent implements OnInit, OnDestroy {
     get_EffectsOnThis(name: string) {
         if (this.showEffects && name) {
             return this.effectsService.get_AbsolutesOnThis(this.get_Creature(), name)
-                    .concat(this.effectsService.get_RelativesOnThis(this.get_Creature(), name))
-                    .sort((a, b) => (a.source > b.source) ? 1 : -1);
+                .concat(this.effectsService.get_RelativesOnThis(this.get_Creature(), name))
+                .sort((a, b) => (a.source == b.source) ? 0 : ((a.source > b.source) ? 1 : -1));
         } else {
             return [];
         }
@@ -142,7 +154,7 @@ export class TagsComponent implements OnInit, OnDestroy {
     get_ConditionsShowingOn(name: string) {
         if (this.showConditions && name) {
             return this.characterService.get_ConditionsShowingOn(this.get_Creature(), name)
-                .sort((a, b) => (a.condition.name > b.condition.name) ? 1 : -1);
+                .sort((a, b) => this.nameSort(a.condition, b.condition));
         } else {
             return [];
         }
@@ -151,7 +163,7 @@ export class TagsComponent implements OnInit, OnDestroy {
     get_ActivitiesShowingOn(name: string) {
         if (this.showActivities && name) {
             return this.characterService.get_ActivitiesShowingOn(this.get_Creature(), name)
-                .sort((a, b) => (a.name > b.name) ? 1 : -1);
+                .sort((a, b) => this.nameSort(a, b));
         } else {
             return [];
         }
@@ -160,7 +172,7 @@ export class TagsComponent implements OnInit, OnDestroy {
     get_ItemsShowingOn(name: string) {
         if (this.showItems && name) {
             return this.characterService.get_ItemsShowingOn(this.get_Creature(), name)
-                .sort((a, b) => (a.name > b.name) ? 1 : -1);
+                .sort((a, b) => this.nameSort(a, b));
         } else {
             return [];
         }
@@ -169,7 +181,7 @@ export class TagsComponent implements OnInit, OnDestroy {
     get_SpecializationsShowingOn(name: string) {
         if (this.showItems && name) {
             return this.characterService.get_ArmorSpecializationsShowingOn(this.get_Creature(), name)
-                .sort((a, b) => (a.name > b.name) ? 1 : -1);
+                .sort((a, b) => this.nameSort(a, b));
         } else {
             return [];
         }

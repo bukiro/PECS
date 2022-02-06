@@ -1650,6 +1650,10 @@ GRIDICONS
     display: flex;
 }
 
+.icon-list:not(.vertical) > div {
+    max-height: 4rem;
+}
+
 .icon-list button {
     /* We use pixel-precise padding here because the button is fit around a gridIcon, and rem-padding looks wonky */
     padding: 3px;

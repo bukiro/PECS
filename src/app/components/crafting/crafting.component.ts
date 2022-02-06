@@ -213,7 +213,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
                         )
                     )
                 )
-            ).sort((a, b) => (a[this.sorting] < b[this.sorting]) ? -1 : 1);
+            ).sort((a, b) => (a[this.sorting] == b[this.sorting]) ? 0 : (a[this.sorting] < b[this.sorting]) ? -1 : 1);
     }
 
     cannot_Craft(item: Item) {

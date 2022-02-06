@@ -1,5 +1,5 @@
 import {
-    ElementRef, Directive, Input, TemplateRef, Renderer2, Injector, ViewContainerRef, NgZone, OnInit, Inject, ChangeDetectorRef, ApplicationRef
+    ElementRef, Directive, Input, TemplateRef, Renderer2, Injector, ViewContainerRef, NgZone, OnInit, Inject, ChangeDetectorRef, ApplicationRef, OnDestroy
 } from '@angular/core';
 
 import { DOCUMENT } from '@angular/common';
@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
     selector: '[stickyPopover]',
     exportAs: 'stickyPopover'
 })
-export class StickyPopoverDirective extends NgbPopover implements OnInit {
+export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDestroy {
     //Most popovers in this app are configured to close when clicking outside them.
     //This causes an issue in spells, items and activities when you open a target selection modal from inside the popover, with the popover closing when you click the modal.
     //If the popover is closed when the modal finishes, the context for the modal is gone, and the spell/item/activity is not activated.
@@ -27,7 +27,6 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit {
     private ignorePopoverKeepalive: boolean = false;
 
     ngpPopover: TemplateRef<any>;
-
 
     constructor(
         private refreshService: RefreshService,
@@ -47,14 +46,12 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit {
         this.changeSubscription = this.refreshService.get_Changed
             .subscribe((target) => {
                 if (target == "close-popovers") {
-                    this.unsubscribe()
                     super.close()
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
             .subscribe((view) => {
                 if (view.target == "close-popovers") {
-                    this.unsubscribe()
                     super.close()
                 }
             });
@@ -70,13 +67,17 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit {
         //Only close if no modal is open or popover-keepalive element exists.
         if (document.getElementsByTagName("ngb-modal-window").length || (!this.ignorePopoverKeepalive && document.getElementsByClassName("popover-keepalive").length)) {
         } else {
-            this.unsubscribe()
             super.close();
         }
     }
 
     private changeSubscription: Subscription;
     private viewChangeSubscription: Subscription;
+
+    ngOnDestroy() {
+        this.unsubscribe();
+        super.ngOnDestroy();
+    }
 
     private unsubscribe(): void {
         this.changeSubscription?.unsubscribe();

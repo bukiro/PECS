@@ -133,7 +133,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     get_FeatsShowingOn(activityName: string) {
         if (activityName) {
             return this.characterService.get_FeatsShowingOn(activityName)
-                .sort((a, b) => (a.name > b.name) ? 1 : -1);
+                .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
         } else {
             return []
         }
@@ -142,7 +142,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     get_ConditionsShowingOn(activityName: string) {
         if (activityName) {
             return this.characterService.get_ConditionsShowingOn(this.get_Creature(), activityName)
-                .sort((a, b) => (a.condition.name > b.condition.name) ? 1 : -1);
+                .sort((a, b) => (a.condition.name == b.condition.name) ? 0 : ((a.condition.name > b.condition.name) ? 1 : -1));
         } else {
             return []
         }
@@ -160,7 +160,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
                                 )
                         )
                 )
-                .sort((a, b) => (a.name > b.name) ? 1 : -1);
+                .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
         } else {
             return []
         }

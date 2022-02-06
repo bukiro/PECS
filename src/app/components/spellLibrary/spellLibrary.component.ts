@@ -164,7 +164,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
                         this.traditionFilter && spell.traditions.includes(this.traditionFilter)
                     )
                 )
-            ).sort((a, b) => (a.name > b.name) ? 1 : -1);
+            ).sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
     get_WizardSpellCasting() {
@@ -433,7 +433,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
                     result += " You have already selected the following spells:\n"
                 }
                 selected
-                    .sort((a, b) => (a.level > b.level) ? 1 : -1)
+                    .sort((a, b) => (a.level == b.level) ? 0 : ((a.level > b.level) ? 1 : -1))
                     .forEach(choice => {
                         result += "\n" + choice.spells[0].name + " (level " + choice.level + ")"
                     });

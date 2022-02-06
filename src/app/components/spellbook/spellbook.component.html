@@ -371,14 +371,14 @@
                             <ng-container *ngIf="!get_TileMode()">
                                 <div class="list-item">
                                     <button class="newrow sublist-toggle left-aligned"
-                                        (click)="toggle_Spell(spellCastingParameters.casting.castingType+spellCastingParameters.casting.class+spellParameters.gain.name+spellIndex)"
+                                        (click)="toggle_Spell(spellCastingLevelParameters.level+spellCastingParameters.casting.castingType+spellCastingParameters.casting.class+spellParameters.gain.name+spellIndex)"
                                         [ngClass]="{'inactive-button': spellParameters.cannotCast}">
                                         <ng-container *ngTemplateOutlet="SpellTitleTemplate">
                                         </ng-container>
                                     </button>
                                     <div class="list-item sublist lower"
                                         [ngClass]="{'inactive-list': spellParameters.cannotCast}"
-                                        *ngIf="get_ShowSpell()==spellCastingParameters.casting.castingType+spellCastingParameters.casting.class+spellParameters.gain.name+spellIndex">
+                                        *ngIf="get_ShowSpell()==spellCastingLevelParameters.level+spellCastingParameters.casting.castingType+spellCastingParameters.casting.class+spellParameters.gain.name+spellIndex">
                                         <ng-container *ngTemplateOutlet="SpellTemplate">
                                         </ng-container>
                                     </div>

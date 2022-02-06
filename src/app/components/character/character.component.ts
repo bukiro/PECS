@@ -290,8 +290,6 @@ export class CharacterComponent implements OnInit, OnDestroy {
     get_Savegames() {
         if (!this.savegameService.get_LoadingError()) {
             return this.savegameService.get_Savegames()
-                .sort((a, b) => (a.name > b.name) ? 1 : -1)
-                .sort((a, b) => (a.partyName > b.partyName) ? 1 : -1)
                 .sort(function (a, b) {
                     if (b.partyName == "No Party" && a.partyName != "No Party") {
                         return 1;
@@ -299,7 +297,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                     if (a.partyName == "No Party" && b.partyName != "No Party") {
                         return -1;
                     }
-                    return 0;
+                    return (a.partyName + a.name == b.partyName + b.name) ? 0 : ((a.partyName + a.name > b.partyName + b.name) ? 1 : -1)
                 });
         } else {
             return null;
@@ -1114,7 +1112,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         let showOtherOptions = this.get_Character().settings.showOtherOptions;
         return this.get_Classes()
             .filter($class => showOtherOptions || !this.get_Character().class?.name || $class.name == this.get_Character().class.name)
-            .sort((a, b) => (a.name > b.name) ? 1 : -1);
+            .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
     onClassChange($class: Class, taken: boolean) {
@@ -1134,7 +1132,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         let showOtherOptions = this.get_Character().settings.showOtherOptions;
         return this.get_Ancestries()
             .filter(ancestry => showOtherOptions || !this.get_Character().class.ancestry?.name || ancestry.name == this.get_Character().class.ancestry.name)
-            .sort((a, b) => (a.name > b.name) ? 1 : -1);
+            .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
     onAncestryChange(ancestry: Ancestry, taken: boolean) {
@@ -1183,7 +1181,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                     deity.alternateDomains.some(domain => domain.toLowerCase().includes(wordFilter))
                 )
             )
-        ).sort((a, b) => (a.name > b.name) ? 1 : -1);
+        ).sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
     on_DeityChange(deity: Deity, taken: boolean) {
@@ -1222,7 +1220,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 availableHeritage.name == heritage.name ||
                 availableHeritage.subTypes?.some(subType => subType.name == heritage.name))
             )
-            .sort((a, b) => (a.name > b.name) ? 1 : -1);
+            .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
     get_HaveHeritage(name: string = "") {
@@ -1256,7 +1254,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 !this.get_Character().class.background?.name ||
                 background.name == this.get_Character().class.background.name ||
                 background.name == this.get_Character().class.background.superType
-            ).sort((a, b) => (a.name > b.name) ? 1 : -1);
+            ).sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
     get_SubBackgrounds(superType: string = "") {
@@ -1309,7 +1307,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         let showOtherOptions = this.get_Character().settings.showOtherOptions;
         return this.animalCompanionsService.get_CompanionTypes()
             .filter(type => showOtherOptions || !existingCompanionName || type.name == existingCompanionName)
-            .sort((a, b) => (a.name > b.name) ? 1 : -1);
+            .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
     on_CompanionTypeChange(type: AnimalCompanionAncestry, taken: boolean) {
@@ -1362,7 +1360,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 existingCompanionSpecs.find(spec => spec.name == type.name && spec.level == levelNumber) ||
                 (existingCompanionSpecs.filter(spec => spec.level == levelNumber).length < available) &&
                 !existingCompanionSpecs.find(spec => spec.name == type.name)
-            ).sort((a, b) => (a.name > b.name) ? 1 : -1);
+            ).sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
     get_TakenCompanionSpecializations(levelNumber: number) {

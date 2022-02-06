@@ -90,8 +90,7 @@ export class ItemTalismansComponent implements OnInit {
                     )
                 )
             )
-            .sort((a, b) => (a.talisman.name > b.talisman.name) ? 1 : -1)
-            .sort((a, b) => (a.talisman.level > b.talisman.level) ? 1 : -1);
+            .sort((a, b) => (a.talisman.level + a.talisman.name == b.talisman.level + b.talisman.name) ? 0 : ((a.talisman.level + a.talisman.name > b.talisman.level + b.talisman.name) ? 1 : -1));
     }
 
     add_Talisman(index: number) {

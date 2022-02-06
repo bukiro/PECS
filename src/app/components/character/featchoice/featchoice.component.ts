@@ -219,7 +219,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
                 return { available: available, subfeat: feat, cannotTake: cannotTakeSubFeat }
             })
                 .filter(featSet => showOtherOptions || choice.filter.length || this.get_FeatTakenByChoice(featSet.subfeat, choice))
-                .sort((a, b) => (a.subfeat.subType > b.subfeat.subType) ? 1 : -1)
+                .sort((a, b) => (a.subfeat.subType == b.subfeat.subType) ? 0 : ((a.subfeat.subType > b.subfeat.subType) ? 1 : -1))
                 .sort(function (a, b) {
                     if (a.available && !b.available) {
                         return -1;

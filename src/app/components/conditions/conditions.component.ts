@@ -248,7 +248,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                             )
                         )
                     )
-                ).sort((a, b) => (a.name > b.name) ? 1 : -1);
+                ).sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
         }
     }
 
@@ -495,8 +495,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         return Object.keys(this.newEffect)
             .map((key) => get_PropertyData(key))
             .filter(property => property != undefined)
-            .sort((a, b) => (a.priority > b.priority) ? 1 : -1)
-            .sort((a, b) => (a.group > b.group) ? 1 : -1);
+            .sort((a, b) => (a.group + a.priority == b.group + b.priority) ? 0 : ((a.group + a.priority > b.group + b.priority) ? 1 : -1));
     }
 
     get_Examples(propertyData: ItemProperty) {

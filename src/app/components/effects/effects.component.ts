@@ -126,9 +126,7 @@ export class EffectsComponent implements OnInit, OnDestroy {
 
     get_AppliedEffects() {
         return this.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.apply && effect.show)
-            .sort((a, b) => (a.value > b.value) ? 1 : -1)
-            .sort((a, b) => (a.setValue > b.setValue) ? 1 : -1)
-            .sort((a, b) => (a.target > b.target) ? 1 : -1);
+            .sort((a, b) => (a.target + "-" + a.setValue + "-" + a.value == b.target + "-" + b.setValue + "-" + b.value) ? 0 : ((a.target + "-" + a.setValue + "-" + a.value > b.target + "-" + b.setValue + "-" + b.value) ? 1 : -1));
     }
 
     get_NotAppliedEffects() {
@@ -142,7 +140,6 @@ export class EffectsComponent implements OnInit, OnDestroy {
     get_AppliedConditions(apply: boolean, instant: boolean = false) {
         return this.characterService.get_AppliedConditions(this.get_Creature())
             .filter(condition => condition.apply == apply || (instant && condition.durationIsInstant))
-            .sort((a, b) => (a.name + a.value + a.choice > b.name + b.value + b.choice) ? 1 : -1);
     }
 
     get_Duration(duration: number) {

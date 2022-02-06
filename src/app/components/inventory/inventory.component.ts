@@ -196,7 +196,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     sort_ItemSet(itemSet: Item[]) {
         //Sorting just by name can lead to jumping in the list.
         return itemSet
-            .sort((a, b) => (a.name + a.id > b.name + b.id) ? 1 : -1);
+            .sort((a, b) => (a.name + a.id == b.name + b.id) ? 0 : (a.name + a.id > b.name + b.id) ? 1 : -1);
     }
 
     get_IsEquipment(item: Item) {
@@ -558,7 +558,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             return this.get_FormulasLearned()
                 .filter(learned => learned.snareSpecialistPrepared)
                 .map(learned => { return { learned: learned, item: this.itemsService.get_CleanItemByID(learned.id) } })
-                .sort((a, b) => (a.item.name > b.item.name) ? 1 : -1);
+                .sort((a, b) => (a.item.name == b.item.name) ? 0 : ((a.item.name > b.item.name) ? 1 : -1));
         }
     }
 

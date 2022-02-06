@@ -150,7 +150,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
                         (choice.showOnSheet ? !this.cannotIncrease(skill, levelNumber, choice).length : true)
                     )
                 ))
-                .sort((a, b) => (a.name > b.name) ? 1 : -1);
+                .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
         }
     }
 

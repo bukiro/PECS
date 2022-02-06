@@ -609,8 +609,7 @@ export class CharacterService {
                     }
                     return 0;
                 })
-                .sort((a, b) => (a.source > b.source) ? 1 : -1)
-                .sort((a, b) => (a.level > b.level) ? 1 : -1)
+                .sort((a, b) => (a.level + a.source == b.level + b.source) ? 0 : ((a.level + a.source > b.level + b.source) ? 1 : -1))
                 .sort(function (a, b) {
                     if (!a.locked && b.locked) {
                         return 1;
@@ -2304,7 +2303,7 @@ export class CharacterService {
             }
         }
         return activities
-            .sort((a, b) => (a.name > b.name) ? 1 : -1);
+            .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
     get_ActivitiesShowingOn(creature: Creature, objectName: string = "all") {

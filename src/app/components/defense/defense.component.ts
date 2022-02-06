@@ -212,7 +212,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
             locked: undefined
         }, filter)
         return this.characterService.get_Skills(this.get_Creature(), name, filter)
-            .sort((a, b) => (a.name > b.name) ? 1 : -1);
+            .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
     get_Traits(traitName: string = "") {

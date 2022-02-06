@@ -137,8 +137,7 @@ export class ItemBladeAllyComponent implements OnInit {
             }
         })
         return allRunes
-            .sort((a, b) => (a.rune.name > b.rune.name) ? 1 : -1)
-            .sort((a, b) => (a.rune.level > b.rune.level) ? 1 : -1);
+            .sort((a, b) => (a.rune.level + a.rune.name == b.rune.level + b.rune.name) ? 0 : ((a.rune.level + a.rune.name > b.rune.level + b.rune.name) ? 1 : -1));
     }
 
     add_BladeAllyRune() {
