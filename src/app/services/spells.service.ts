@@ -64,10 +64,10 @@ export class SpellsService {
         //Get the available spell level of this casting. This is the highest spell level of the spell choices that are available at your character level (and don't have a dynamic level).
         highestSpellLevel = Math.max(...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= Character.level).map(spellChoice => spellChoice.level));
         try {
-            choice._level = parseInt(eval(choice.dynamicLevel));
-            return choice._level;
+            const level = parseInt(eval(choice.dynamicLevel));
+            return level;
         } catch (e) {
-            console.log("Error parsing spell level requirement (" + choice.dynamicLevel + "): " + e)
+            console.log("Error parsing dynamic spell level (" + choice.dynamicLevel + "): " + e)
             return 1;
         }
     }
@@ -76,7 +76,7 @@ export class SpellsService {
 
         //Cantrips and Focus spells are automatically heightened to your maximum available spell level.
         //If a spell is cast with a lower level than its minimum, the level is raised to the minimum.
-        let spellLevel: number = spell.get_EffectiveSpellLevel(creature, level, characterService, characterService.effectsService);
+        let spellLevel: number = spell.get_EffectiveSpellLevel({ baseLevel: level, creature: creature, gain: gain }, { characterService: characterService, effectsService: characterService.effectsService });
 
         //If this spell was cast by an activity, it may have a specified duration in the spellGain. Keep that here before the duration is changed to keep the spell active (or not).
         //That spellGain is a temporary object with its duration coming from the spellCast object, and its duration can be freely changed without influencing the next time you cast the spell.

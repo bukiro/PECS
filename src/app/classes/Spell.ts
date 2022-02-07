@@ -8,6 +8,7 @@ import { EffectsService } from 'src/app/services/effects.service';
 import { Creature } from 'src/app/classes/Creature';
 import { SpellTargetNumber } from 'src/app/classes/SpellTargetNumber';
 import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
+import { SpellGain } from './SpellGain';
 
 export class Spell {
     public actions: string = "1A";
@@ -220,10 +221,22 @@ export class Spell {
         let spellsTaken = character.get_SpellsTaken(characterService, 1, 20, spellLevel, this.name, undefined, className, "", "", "", "", locked);
         return spellsTaken.length;
     }
-    get_EffectiveSpellLevel(creature: Creature, baseLevel: number, characterService: CharacterService, effectsService: EffectsService) {
+    public get_EffectiveSpellLevel(context: { baseLevel: number, creature: Creature, gain: SpellGain }, services: { characterService: CharacterService, effectsService: EffectsService }): number {
         //Focus spells are automatically heightened to your maximum available spell level.
-        if ([0, -1].includes(baseLevel)) {
-            baseLevel = characterService.get_Character().get_SpellLevel();
+        let level = context.baseLevel;
+        
+        //If needed, calculate the dynamic effective spell level.
+        let Character = services.characterService.get_Character();
+        if (context.gain.dynamicEffectiveSpellLevel) {
+            try {
+                level = parseInt(eval(context.gain.dynamicEffectiveSpellLevel));
+            } catch (e) {
+                console.log("Error parsing effective spell level (" + context.gain.dynamicEffectiveSpellLevel + "): " + e)
+            }
+        }
+
+        if ([0, -1].includes(level)) {
+            level = Character.get_SpellLevel();
         }
 
         //Apply all effects that might change the effective spell level of this spell.
@@ -237,18 +250,18 @@ export class Spell {
         if (this.traits.includes("Cantrip")) {
             list.push("Cantrip Spell Levels");
         }
-        effectsService.get_AbsolutesOnThese(creature, list).forEach(effect => {
+        services.effectsService.get_AbsolutesOnThese(context.creature, list).forEach(effect => {
             if (parseInt(effect.setValue)) {
-                baseLevel = parseInt(effect.setValue);
+                level = parseInt(effect.setValue);
             }
         })
-        effectsService.get_RelativesOnThese(creature, list).forEach(effect => {
+        services.effectsService.get_RelativesOnThese(context.creature, list).forEach(effect => {
             if (parseInt(effect.value)) {
-                baseLevel += parseInt(effect.value);
+                level += parseInt(effect.value);
             }
         })
 
         //If a spell is cast with a lower level than its minimum, the level is raised to the minimum.
-        return Math.max(baseLevel, (this.levelreq || 0))
+        return Math.max(level, (this.levelreq || 0))
     }
 }

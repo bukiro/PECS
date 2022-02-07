@@ -2,7 +2,7 @@ import { SpellGain } from 'src/app/classes/SpellGain';
 import { v4 as uuidv4 } from 'uuid';
 
 export class SpellChoice {
-        //This is a list of all the attributes that should not be discarded when saving the character.
+    //This is a list of all the attributes that should not be discarded when saving the character.
     //For SpellChoices, if the choice is part of a class, the class may designate this choice as a signature spell.
     //A regular SpellChoice does not do that, so if you disable the signature spell on the choice, it is false == false and gets discarded.
     //Loading the character recreates the class and overwrites attributes that aren't set, so the SpellChoice will be a signature spell again.
@@ -70,12 +70,8 @@ export class SpellChoice {
     //If target is set to "Allies", you can only choose spells with target "ally".
     //If target is set to "Enemies", you can only choose spells with no target property (so it's likely not beneficial).
     public target: string = "";
-    public _level: number = 0;
     recast() {
         this.spells = this.spells.map(obj => Object.assign(new SpellGain(), obj).recast());
-        if (!this.dynamicLevel && this.level) {
-            this._level = this.level;
-        }
         return this;
     }
 }

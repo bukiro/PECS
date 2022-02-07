@@ -59,13 +59,11 @@
                             {{spellCastingParameters.casting.castingType}}
                         </span>
                     </span>
-                    <ng-container *ngFor="let superiorBond of [have_Feat('Superior Bond')]; trackBy:trackByIndex;">
-                        <div class="newrow lower" *ngIf="spellCastingParameters.casting.bondedItemCharges[0]"
-                            [ngbPopover]="superiorBond ? 'You can use Drain Bonded Item one additional time per day, but only to cast a spell 2 or more levels lower than your highest-level spell.' : ''">
-                            {{spellCastingParameters.casting.bondedItemCharges[0]}}{{superiorBond ? "*" : ""}} bonded
-                            item charge{{spellCastingParameters.casting.bondedItemCharges[0] != 1 ? "s" : ""}} available
-                        </div>
-                    </ng-container>
+                    <div class="newrow lower" *ngIf="spellCastingParameters.casting.bondedItemCharges[0]"
+                        [ngbPopover]="componentParameters.hasSuperiorBond ? 'You can use Drain Bonded Item one additional time per day, but only to cast a spell 2 or more levels lower than your highest-level spell.' : ''">
+                        {{spellCastingParameters.casting.bondedItemCharges[0]}}{{componentParameters.hasSuperiorBond ? "*" : ""}} bonded
+                        item charge{{spellCastingParameters.casting.bondedItemCharges[0] != 1 ? "s" : ""}} available
+                    </div>
                     <div class="newrow lower" *ngIf="spellCastingParameters.maxStudiousCapacitySlots"
                         [ngbPopover]="'You can cast one spell each day even after you\'ve run out of spell slots of the appropriate spell level, but you can\'t use this ability to cast a spell of your highest spell level.'">
                         {{spellCastingParameters.maxStudiousCapacitySlots -
@@ -84,7 +82,7 @@
                     </div>
                 </header>
                 <ng-container
-                    *ngFor="let spellCastingLevelParameters of get_SpellCastingLevelParameters(spellCastingParameters); trackBy:trackByIndex;">
+                    *ngFor="let spellCastingLevelParameters of get_SpellCastingLevelParameters(spellCastingParameters, componentParameters); trackBy:trackByIndex;">
                     <div class="list-item newrow" style="background-color:transparent"
                         *ngIf="(spellCastingLevelParameters.spellTakenList.length || spellCastingLevelParameters.temporaryChoiceList.length)">
                         <strong>
@@ -160,7 +158,7 @@
                                 (showSpellMessage)="receive_SpellMessage($event)"
                                 [spellCasting]="spellCastingParameters.casting" [choice]="choice"
                                 [showHeightened]="true" [allowBorrow]="false" [showChoice]="get_ShowList()"
-                                [showSpell]="get_ShowSpell()" [level]="choice._level"
+                                [showSpell]="get_ShowSpell()" [level]="spellCastingLevelParameters.level"
                                 [prepared]="choice.source == 'Infinite Possibilities'" [spellbook]="true">
                             </app-spellchoice>
                         </div>
@@ -168,7 +166,7 @@
                     <div [ngClass]="{'icon-list':get_TileMode(), 'list-item':!get_TileMode()}"
                         *ngIf="spellCastingLevelParameters.spellTakenList.length">
                         <ng-container
-                            *ngFor="let spellParameters of get_SpellParameters(spellCastingParameters.casting, spellCastingLevelParameters); let spellIndex = index; trackBy:trackByIndex;">
+                            *ngFor="let spellParameters of get_SpellParameters(spellCastingParameters, spellCastingLevelParameters); let spellIndex = index; trackBy:trackByIndex;">
                             <ng-template #SpellTitleTemplate>
                                 <span *ngIf="!get_TileMode()">
                                     <i class="value bi-patch-plus bonus" *ngIf="!spellParameters.isHostile"

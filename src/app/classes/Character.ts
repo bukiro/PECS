@@ -594,44 +594,45 @@ export class Character extends Creature {
             function get_DynamicLevel(choice: SpellChoice, casting: SpellCasting, characterService: CharacterService) {
                 return characterService.spellsService.get_DynamicSpellLevel(casting, choice, characterService);
             }
+            function choiceLevelMatches(choice: SpellChoice) {
+                return choice.charLevelAvailable >= minLevelNumber && choice.charLevelAvailable <= maxLevelNumber;
+            }
+            function spellLevelMatches(casting: SpellCasting, choice: SpellChoice) {
+                return (
+                    spellLevel == -1 ||
+                    (choice.dynamicLevel ? get_DynamicLevel(choice, casting, characterService) : choice.level) == spellLevel
+                );
+            }
+            function signatureSpellLevelMatches(choice: SpellChoice) {
+                return (
+                    signatureAllowed &&
+                    choice.spells.some(spell => spell.signatureSpell) &&
+                    ![0, -1].includes(spellLevel)
+                );
+            }
+            function spellMatches(casting: SpellCasting, choice: SpellChoice, gain: SpellGain) {
+                return (
+                    (spellName ? gain.name == spellName : true) &&
+                    (className ? casting.className == className : true) &&
+                    (tradition ? casting.tradition == tradition : true) &&
+                    (source ? choice.source == source : true) &&
+                    (sourceId ? gain.sourceId == sourceId : true) &&
+                    ((locked != undefined) ? gain.locked == locked : true) &&
+                    ((signatureAllowed && gain.signatureSpell) ? (spellLevel >= characterService.spellsService.get_Spells(gain.name)[0]?.levelreq) : true) &&
+                    (cantripAllowed || (!characterService.spellsService.get_Spells(gain.name)[0]?.traits.includes("Cantrip")))
+                );
+            }
             this.class.spellCasting
                 .filter(casting => (spellCasting == undefined || casting === spellCasting) &&
                     casting.charLevelAvailable >= minLevelNumber && casting.charLevelAvailable <= maxLevelNumber &&
                     (casting.castingType == castingType || castingType == ""))
                 .forEach(casting => {
-                    casting.spellChoices.filter(choice => choice.charLevelAvailable >= minLevelNumber && choice.charLevelAvailable <= maxLevelNumber).forEach(choice => {
-                        if (
-                            (
-                                spellLevel == -1 ||
-                                (
-                                    !choice.dynamicLevel &&
-                                    choice.level == spellLevel
-                                ) ||
-                                (
-                                    choice.dynamicLevel &&
-                                    get_DynamicLevel(choice, casting, characterService) == spellLevel
-                                )
-                            ) ||
-                            (
-                                signatureAllowed &&
-                                choice.spells.some(spell => spell.signatureSpell) &&
-                                spellLevel != 0 &&
-                                spellLevel != -1
-                            )
-                        ) {
-                            choice.spells.filter(gain =>
-                                (gain.name == spellName || spellName == "") &&
-                                (casting.className == className || className == "") &&
-                                (casting.tradition == tradition || tradition == "") &&
-                                (choice.source == source || source == "") &&
-                                (gain.sourceId == sourceId || sourceId == "") &&
-                                (gain.locked == locked || locked == undefined) &&
-                                ((signatureAllowed && gain.signatureSpell) ? (spellLevel >= characterService.spellsService.get_Spells(gain.name)[0]?.levelreq) : true) &&
-                                (cantripAllowed || (!characterService.spellsService.get_Spells(gain.name)[0]?.traits.includes("Cantrip")))
-                            ).forEach(gain => {
-                                spellsTaken.push({ choice: choice, gain: gain });
-                            })
-                        }
+                    casting.spellChoices.filter(choice => choiceLevelMatches(choice) && (signatureSpellLevelMatches(choice) || spellLevelMatches(casting, choice))).forEach(choice => {
+                        choice.spells.filter(gain =>
+                            spellMatches(casting, choice, gain)
+                        ).forEach(gain => {
+                            spellsTaken.push({ choice: choice, gain: gain });
+                        })
                     })
                 })
             //For your innate spellcasting, or for all spells, also collect innate spells gained from worn items.
@@ -644,43 +645,42 @@ export class Character extends Creature {
     get_EquipmentSpellsGranted(characterService: CharacterService, spellLevel: number = -1, spellName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, cantripAllowed: boolean = true) {
         let spellsGranted: { choice: SpellChoice, gain: SpellGain }[] = [];
         //Collect innate spells gained from worn items.
+        function get_DynamicLevel(choice: SpellChoice, casting: SpellCasting, characterService: CharacterService) {
+            return characterService.spellsService.get_DynamicSpellLevel(casting, choice, characterService);
+        }
+        function spellLevelMatches(choice: SpellChoice) {
+            return (
+                spellLevel == -1 ||
+                (choice.dynamicLevel ? get_DynamicLevel(choice, innateSpellcasting, characterService) : choice.level) == spellLevel
+            )
+        }
+        function spellMatches(choice: SpellChoice, gain: SpellGain) {
+            return (
+                (spellName ? gain.name == spellName : true) &&
+                (source ? choice.source == source : true) &&
+                (sourceId ? gain.sourceId == sourceId : true) &&
+                ((locked != undefined) ? gain.locked == locked : true) &&
+                (cantripAllowed || (!characterService.spellsService.get_Spells(gain.name)[0]?.traits.includes("Cantrip")))
+            )
+        }
+        const innateSpellcasting = this.class.spellCasting.find(casting => casting.castingType == "Innate");
         this.inventories[0].allEquipment().filter(equipment => equipment.investedOrEquipped()).forEach(equipment => {
-            equipment.gainSpells.forEach(choice => {
-                if (
-                    (
-                        spellLevel == -1 ||
-                        choice.level == spellLevel
-                    ) &&
-                    !choice.resonant
-                ) {
-                    choice.spells.filter(gain =>
-                        (gain.name == spellName || spellName == "") &&
-                        (choice.source == source || source == "") &&
-                        (gain.sourceId == sourceId || sourceId == "") &&
-                        (gain.locked == locked || locked == undefined) &&
-                        (cantripAllowed || (!characterService.spellsService.get_Spells(gain.name)[0]?.traits.includes("Cantrip")))
-                    ).forEach(gain => {
-                        spellsGranted.push({ choice: choice, gain: gain });
-                    })
-                }
+            equipment.gainSpells.filter(choice => spellLevelMatches(choice) && !choice.resonant).forEach(choice => {
+                choice.spells.filter(gain =>
+                    spellMatches(choice, gain)
+                ).forEach(gain => {
+                    spellsGranted.push({ choice: choice, gain: gain });
+                })
             })
             if (equipment instanceof WornItem) {
                 equipment.aeonStones.filter(stone => stone.gainSpells.length).forEach(stone => {
-                    stone.gainSpells.forEach(choice => {
-                        if (
-                            spellLevel == -1 ||
-                            choice.level == spellLevel
-                        ) {
-                            choice.spells.filter(gain =>
-                                (gain.name == spellName || spellName == "") &&
-                                (choice.source == source || source == "") &&
-                                (gain.sourceId == sourceId || sourceId == "") &&
-                                (gain.locked == locked || locked == undefined) &&
-                                (cantripAllowed || (!characterService.spellsService.get_Spells(gain.name)[0]?.traits.includes("Cantrip")))
-                            ).forEach(gain => {
-                                spellsGranted.push({ choice: choice, gain: gain });
-                            })
-                        }
+                    stone.gainSpells.filter(choice => spellLevelMatches(choice)).forEach(choice => {
+
+                        choice.spells.filter(gain =>
+                            spellMatches(choice, gain)
+                        ).forEach(gain => {
+                            spellsGranted.push({ choice: choice, gain: gain });
+                        })
                     })
                 })
             }

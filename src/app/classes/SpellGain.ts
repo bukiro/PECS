@@ -3,13 +3,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 
 export class SpellGain {
-        //Set if sustained spell is activated
+    //Set if sustained spell is activated
     public active: boolean = false;
     public activeCooldown: number = 0;
-    //Copied from SpellChoice. How often the spell can be used, human readable for display.
-    public frequency: string = "";
     public prepared: boolean = false;
     public borrowed: boolean = false;
+    //Copied from SpellChoice. How often the spell can be used, human readable for display.
+    public frequency: string = "";
     //Copied from SpellChoice. Turns * 10 to wait before casting again.
     public cooldown: number = 0;
     //Copied from SpellCast, these choices can override the spell condition choices. This applies only if the choice exists on the condition.
@@ -23,7 +23,7 @@ export class SpellGain {
     public locked: boolean = false;
     public name: string = "";
     public combinationSpellName: string = "";
-    //Signature Spells are automatically available as heightened spells on every lower and higher level (down to its minimum)
+    //Signature Spells are automatically available as heightened spells on every lower and higher level (down to its minimum).
     public signatureSpell: boolean = false;
     public source: string = "";
     //Copied from SpellChoice. For looking up details in the Choice - ideally always include the choice in the function so we don't have to look it up.
@@ -34,6 +34,8 @@ export class SpellGain {
     public targets: SpellTarget[] = [];
     //Don't trigger blood magic poweres when the spell is cast. Is set by the player.
     public ignoreBloodMagicTrigger = false;
+    //If dynamic effective spell level is set, its formula gets evaluated when calculating effective spell level (before effects).
+    public dynamicEffectiveSpellLevel = "";
     //Condition gains save this id so they can be found and removed when the spell ends, or end the spell when the condition ends.
     public id = uuidv4();
     recast() {
