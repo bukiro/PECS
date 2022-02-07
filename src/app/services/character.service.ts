@@ -631,6 +631,7 @@ export class CharacterService {
         character.class.on_ChangeClass(this);
         character.class = Object.assign<Class, Class>(new Class(), JSON.parse(JSON.stringify($class))).recast(this.typeService, this.itemsService);
         character.class.on_NewClass(this, this.itemsService);
+        this.cacheService.reset_CreatureCache(character.typeId);
         this.refreshService.set_Changed();
     }
 
@@ -641,6 +642,7 @@ export class CharacterService {
         character.class.ancestry = new Ancestry();
         character.class.ancestry = Object.assign<Ancestry, Ancestry>(new Ancestry(), JSON.parse(JSON.stringify(ancestry))).recast();
         character.class.on_NewAncestry(this, itemsService);
+        this.cacheService.reset_CreatureCache(character.typeId);
         this.update_LanguageList();
     }
 
@@ -667,6 +669,7 @@ export class CharacterService {
             character.class.additionalHeritages[index].source = source;
         }
         character.class.on_NewHeritage(this, this.itemsService, index);
+        this.cacheService.reset_CreatureCache(character.typeId);
     }
 
     change_Background(background: Background) {
@@ -675,6 +678,7 @@ export class CharacterService {
         character.class.background = new Background();
         character.class.background = Object.assign<Background, Background>(new Background(), JSON.parse(JSON.stringify(background))).recast();
         character.class.on_NewBackground(this);
+        this.cacheService.reset_CreatureCache(character.typeId);
     }
 
     get_CleanItems() {

@@ -517,6 +517,7 @@ export class Weapon extends Equipment {
             abilityName = "Dexterity";
         }
         const prof = this.get_Proficiency(creature, characterService, charLevel);
+        const levelNames = ["Untrained", "Untrained", "Trained", "Trained", "Expert", "Expert", "Master", "Master", "Legendary"];
         //Create names list for effects
         let namesList = [
             this.name,
@@ -537,10 +538,12 @@ export class Weapon extends Equipment {
             prof.split(" ")[0] + this.weaponBase + " Attack Rolls",
             //"Melee Attack Rolls", "Ranged Attack Rolls"
             range + " Attack Rolls",
-            //"Strength-based Checks and DCs"
+            //"Strength-based Checks and DCs", "Dexterity-based Checks and DCs"
             abilityName + "-based Checks and DCs",
-            //"Strength-based Checks and DCs"
-            abilityName + "-based Attack Rolls"
+            //"Strength-based Attack Rolls", "Dexterity-based Attack Rolls"
+            abilityName + "-based Attack Rolls",
+            //"Untrained Attack Rolls", "Expert Attack Rolls"
+            levelNames[skillLevel] + " Attack Rolls"
         ];
         traits.forEach(trait => {
             if (trait.includes(" ft")) {

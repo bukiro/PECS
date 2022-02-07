@@ -79,7 +79,7 @@ export class Skill {
         }
     }
     get_NamesList(creature: Creature, isDC: boolean = false, skillLevel: number = 0, ability: string = "") {
-        let levelNames = ["Untrained", "Untrained", "Trained", "Trained", "Expert", "Expert", "Master", "Master", "Legendary"];
+        const levelNames = ["Untrained", "Untrained", "Trained", "Trained", "Expert", "Expert", "Master", "Master", "Legendary"];
         let list: string[] = [
             this.name,
             "All Checks and DCs",
