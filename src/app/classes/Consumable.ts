@@ -14,7 +14,6 @@ export class Consumable extends Item {
     public actions: string = "1A";
     //What needs to be done to activate? Example: "Command", "Manipulate"
     public activationType: string = "";
-    public inputRequired: string = "";
     //List ConditionGain for every condition that you gain from using this item
     public gainConditions: ConditionGain[] = [];
     //List EffectGain for every effect that happens instantly when the item is used

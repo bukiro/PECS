@@ -22,7 +22,7 @@
         <header class="sectionHeader box-header">Perception</header>
         <ng-container *ngFor="let activityGains of [get_OwnedActivities()]; trackBy:trackByIndex;">
             <ng-container *ngFor="let skill of get_Skills('', {type: 'Perception'}); trackBy:trackByIndex;">
-                <app-skill [creature]="creature" [skill]=skill
+                <app-skill [creature]="creature" [skill]=skill [minimized]="get_Minimized()"
                     [relatedActivityGains]="get_SkillActivities(activityGains, skill.name)"
                     [showAction]="get_ShowAction()" (showActionMessage)="receive_ActionMessage($event)"></app-skill>
             </ng-container>
@@ -41,7 +41,7 @@
                     [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
                 <ng-container
                     *ngFor="let skill of get_Skills('', {type: 'Familiar Proficiency'}); trackBy:trackByIndex;">
-                    <app-skill [creature]="creature" [skill]=skill></app-skill>
+                    <app-skill [creature]="creature" [minimized]="get_Minimized()" [skill]=skill></app-skill>
                 </ng-container>
             </ng-container>
             <ng-template #SpeedEffectsPopoverContent>
@@ -70,15 +70,14 @@
                 Movement
             </header>
             <ng-container *ngFor="let speed of get_Speeds(); trackBy:trackByIndex;">
-                <div class="list-item" *ngFor="let calculatedSpeed of [speed.value(get_Creature(), characterService, effectsService)]; trackBy:trackByIndex;">
+                <div class="list-item"
+                    *ngFor="let calculatedSpeed of [speed.value(get_Creature(), characterService, effectsService)]; trackBy:trackByIndex;">
                     <div class="newrow">
                         <span>
                             <strong>{{(speed.name=="Speed") ? "All Speeds" : speed.name}}</strong>
                         </span>
                         <span>
-                            <div class="value"
-                                [ngbPopover]="calculatedSpeed.explain"
-                                [ngClass]="{'penalty':speed.penalties(get_Creature(), effectsService, speed.name, true),
+                            <div class="value" [ngbPopover]="calculatedSpeed.explain" [ngClass]="{'penalty':speed.penalties(get_Creature(), effectsService, speed.name, true),
                         'bonus':speed.bonuses(get_Creature(), effectsService, speed.name, true),
                         'absolute':speed.absolutes(get_Creature(), effectsService, speed.name, true).length}">
                                 {{calculatedSpeed.result}}
@@ -105,7 +104,7 @@
             <app-tags [creature]="creature" [objectName]="'Skill Checks'" [showTraits]=true [showFeats]=true
                 [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <ng-container *ngFor="let skill of get_Skills('', {type: 'Skill'}); trackBy:trackByIndex;">
-                <app-skill [creature]="creature" [skill]=skill
+                <app-skill [creature]="creature" [skill]=skill [minimized]="get_Minimized()"
                     [relatedActivityGains]="get_SkillActivities(activityGains, skill.name)"
                     [showAction]="get_ShowAction()" (showActionMessage)="receive_ActionMessage($event)"></app-skill>
             </ng-container>

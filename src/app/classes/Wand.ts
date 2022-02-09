@@ -13,7 +13,7 @@ export class Wand extends Equipment {
     public effect: string = "You Cast the Spell at the indicated level."
     public overcharged: boolean = false;
     public cooldown: number = 0;
-    public inputRequired = "After the spell is cast from the wand for the day, you can use it one more time, but the wand is immediately broken. Roll a DC 10 flat check. On a failure, drop the wand as it is destroyed. If you overcharge the wand when it's already been overcharged that day, the wand is automatically destroyed and dropped (even if it had been repaired) and no spell is cast."
+    readonly inputRequired = "After the spell is cast from the wand for the day, you can use it one more time, but the wand is immediately broken. Roll a DC 10 flat check. On a failure, drop the wand as it is destroyed. If you overcharge the wand when it's already been overcharged that day, the wand is automatically destroyed and dropped (even if it had been repaired) and no spell is cast."
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
         return this;

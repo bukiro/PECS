@@ -44,54 +44,80 @@ export class QuickdiceComponent implements OnInit {
         return this.characterService.abilitiesService.get_Abilities(ability)?.[0]?.mod(character, this.characterService, this.characterService.effectsService, character.level).result || 0;
     }
 
+    cleanup_DiceString(diceString: string) {
+        diceString = this.space_ArithmeticSymbols(diceString);
+        diceString = this.expand_DamageTypes(diceString);
+        diceString = this.replace_Modifiers(diceString);
+        diceString = this.replace_AbilityModifiers(diceString);
+        return diceString;
+    }
+
     space_ArithmeticSymbols(text: string) {
         return text.replace(/\+/g, " + ").replace(/\-/g, " - ").replace(/\s+/g, " ");
     }
 
-    expand_DamageTypes(text: string) {
-        return text.replace(/( |^|\/)B( |$|\/)/g, "$1Bludgeoning$2").replace(/( |^|\/)P( |$|\/)/g, "$1Piercing$2").replace(/( |^|\/)S( |$|\/)/g, "$1Slashing$2");
+    expand_DamageTypes(diceString: string) {
+        return diceString.replace(/( |^|\/)B( |$|\/)/g, "$1Bludgeoning$2").replace(/( |^|\/)P( |$|\/)/g, "$1Piercing$2").replace(/( |^|\/)S( |$|\/)/g, "$1Slashing$2");
+    }
+
+    replace_Modifiers(diceString: string) {
+        if (diceString.toLowerCase().includes("charlevel")) {
+            return diceString.split(" ").map(part => {
+                if (part.toLowerCase() == "charlevel") {
+                    return this.characterService.get_Character().level;
+                } else {
+                    return part;
+                }
+            }).join(" ");
+        } else {
+            return diceString;
+        }
     }
 
     replace_AbilityModifiers(diceString: string) {
-        //If any ability modifiers are named in this dicestring, replace them with the real modifier.
-        return diceString.split(" ").map(part => {
-            if (part.toLowerCase().includes("mod")) {
-                let abilityName = "";
-                switch (part.toLowerCase()) {
-                    case "strmod":
-                        abilityName = "Strength";
-                        break;
-                    case "dexmod":
-                        abilityName = "Dexterity";
-                        break;
-                    case "conmod":
-                        abilityName = "Constitution";
-                        break;
-                    case "intmod":
-                        abilityName = "Intelligence";
-                        break;
-                    case "wismod":
-                        abilityName = "Wisdom";
-                        break;
-                    case "chamod":
-                        abilityName = "Charisma";
-                        break;
-                    case "spellmod":
-                        abilityName = this.casting?.ability || "Charisma";
-                        break;
-                    default:
-                        return part;
-                }
-                if (abilityName) {
-                    let character = this.characterService.get_Character();
-                    return this.characterService.abilitiesService.get_Abilities(abilityName)?.[0]?.mod(character, this.characterService, this.characterService.effectsService, character.level).result.toString() || "0";
+        if (diceString.toLowerCase().includes("mod")) {
+            //If any ability modifiers are named in this dicestring, replace them with the real modifier.
+            return diceString.split(" ").map(part => {
+                if (part.toLowerCase().includes("mod")) {
+                    let abilityName = "";
+                    switch (part.toLowerCase()) {
+                        case "strmod":
+                            abilityName = "Strength";
+                            break;
+                        case "dexmod":
+                            abilityName = "Dexterity";
+                            break;
+                        case "conmod":
+                            abilityName = "Constitution";
+                            break;
+                        case "intmod":
+                            abilityName = "Intelligence";
+                            break;
+                        case "wismod":
+                            abilityName = "Wisdom";
+                            break;
+                        case "chamod":
+                            abilityName = "Charisma";
+                            break;
+                        case "spellmod":
+                            abilityName = this.casting?.ability || "Charisma";
+                            break;
+                        default:
+                            return part;
+                    }
+                    if (abilityName) {
+                        let character = this.characterService.get_Character();
+                        return this.characterService.abilitiesService.get_Abilities(abilityName)?.[0]?.mod(character, this.characterService, this.characterService.effectsService, character.level).result.toString() || "0";
+                    } else {
+                        return "0";
+                    }
                 } else {
-                    return "0";
+                    return part;
                 }
-            } else {
-                return part;
-            }
-        }).join(" ");
+            }).join(" ");
+        } else {
+            return diceString;
+        }
     }
 
     roll(forceLocal: boolean = false) {
@@ -109,15 +135,10 @@ export class QuickdiceComponent implements OnInit {
                 }
                 this.integrationsService.send_RollToFoundry(this.creature, formula, [], this.characterService, this);
             } else if (this.diceString) {
-                //For an existing diceString, we need to make sure there is no flavor text included. Only #d#, #, + or - are kept and sent to Foundry.
                 let diceString = this.diceString.split("\n").join(" ");
-                //Insert spaces between the arithmetic symbols.
-                diceString = this.space_ArithmeticSymbols(diceString);
-                //Replace modifiers
-                if (diceString.toLowerCase().includes("mod")) {
-                    diceString = this.replace_AbilityModifiers(diceString);
-                }
+                diceString = this.cleanup_DiceString(diceString);
                 let formulaParts: string[] = [];
+                //For an existing diceString, we need to make sure there is no flavor text included. Only #d#, #, + or - are kept and sent to Foundry.
                 diceString.split(" ").map(part => part.trim()).forEach(dicePart => {
                     if (dicePart.match("^[0-9]+d[0-9]+$") || dicePart == "+" || dicePart == "-" || dicePart.match("^[0-9]+$")) {
                         formulaParts.push(dicePart);
@@ -130,12 +151,7 @@ export class QuickdiceComponent implements OnInit {
                 this.diceService.roll(this.diceNum, this.diceSize, this.bonus, this.characterService, true, (this.type ? " " + this.expand_DamageTypes(this.type) : ""));
             } else if (this.diceString) {
                 let diceString = this.diceString.split("\n").join(" ");
-                //Insert spaces between the arithmetic symbols.
-                diceString = this.space_ArithmeticSymbols(diceString);
-                diceString = this.expand_DamageTypes(diceString);
-                if (diceString.toLowerCase().includes("mod")) {
-                    diceString = this.replace_AbilityModifiers(diceString);
-                }
+                diceString = this.cleanup_DiceString(diceString);
                 let diceRolls: { diceNum: number, diceSize: number, bonus: number, type: string }[] = [];
                 let index = 0;
                 let arithmetic: string = "";
@@ -177,12 +193,7 @@ export class QuickdiceComponent implements OnInit {
     get_Description() {
         if (this.diceString) {
             let diceString = this.diceString.split("\n").join(" ");
-            //Insert spaces between the arithmetic symbols.
-            diceString = this.space_ArithmeticSymbols(diceString);
-            diceString = this.expand_DamageTypes(diceString);
-            if (diceString.toLowerCase().includes("mod")) {
-                diceString = this.replace_AbilityModifiers(diceString);
-            }
+            diceString = this.cleanup_DiceString(diceString);
             return diceString;
         } else if (this.diceNum && this.diceSize) {
             let description = this.diceNum + "d" + this.diceSize;

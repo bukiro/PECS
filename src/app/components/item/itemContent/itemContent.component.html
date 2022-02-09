@@ -168,13 +168,11 @@
     <div class="newrow list-item" *ngIf="has_ShownData()">
         <ng-container *ngFor="let data of item.data; let dataIndex = index; trackBy:trackByIndex;">
             <div class="newrow" *ngIf="data.show">
-                <span>
-                    <strong>{{data.name}}</strong>
-                    <input id="{{item.id}}data{{dataIndex}}value" type="text" [(ngModel)]="data.value"
-                        *ngIf="data.type == 'string'">
-                    <input id="{{item.id}}data{{dataIndex}}value" type="checkbox" [(ngModel)]="data.value"
-                        *ngIf="data.type == 'boolean'">
-                </span>
+                <strong>{{data.name}}</strong>
+                <input id="{{item.id}}data{{dataIndex}}value" type="text" [(ngModel)]="data.value"
+                    *ngIf="data.type == 'string'">
+                <input id="{{item.id}}data{{dataIndex}}value" type="checkbox" [(ngModel)]="data.value"
+                    *ngIf="data.type == 'boolean'">
             </div>
         </ng-container>
     </div>
@@ -222,8 +220,9 @@
             {{item.requirements}}
         </span>
     </div>
-    <p *ngIf="item.subType">
-        <strong>{{item.subType}}</strong> {{item.subTypeDesc}}
+    <p *ngIf="item.subTypeDesc">
+        <strong *ngIf="item.subType">{{item.subType}}</strong>
+        {{item.subTypeDesc}}
     </p>
     <p *ngIf="item.craftRequirement">
         <strong>Craft Requirement</strong> {{item.craftRequirement}}

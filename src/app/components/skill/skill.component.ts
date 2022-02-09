@@ -32,6 +32,8 @@ export class SkillComponent implements OnInit, OnDestroy {
     relatedActivityGains: (ActivityGain | ItemActivity)[] = [];
     @Input()
     showAction: string = "";
+    @Input()
+    minimized: boolean = false;
     @Output()
     showActionMessage = new EventEmitter<string>();
 

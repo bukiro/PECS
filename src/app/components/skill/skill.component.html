@@ -1,8 +1,7 @@
 <ng-container
     *ngFor="let calculatedSkill of [skill.calculate(get_Creature(), this.characterService,this.abilitiesService,this.effectsService, get_Character().level, isDC)]; trackBy:trackByIndex;">
-    <div class="list-item"
-        [ngClass]="{'fullsize-only':(calculatedSkill.value.result == 0), 'character-only':(calculatedSkill.level == 0 && creature == 'Companion')}"
-        *ngIf="!(calculatedSkill.level == 0 && creature == 'Companion')">
+    <div class="list-item" [ngClass]="{'fullsize-only':(calculatedSkill.value.result == 0)}"
+        *ngIf="minimized ? (calculatedSkill.value.result != 0) : !(calculatedSkill.value.result == 0 && creature == 'Companion')">
         <div class="newrow">
             <ng-template #AbilityPopoverContent>
                 <strong>Ability</strong> {{calculatedSkill.ability}}

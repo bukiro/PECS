@@ -87,6 +87,7 @@ export class Item {
     //If restoredFromSave is set, the item doesn't need to be merged with its reference item again.
     public restoredFromSave: boolean = false;
     public PFSnote: string = "";
+    public inputRequired: string = "";
     recast(typeService: TypeService, itemsService: ItemsService): Item {
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         //Oils need to be cast blindly in order to avoid circular dependency warnings.

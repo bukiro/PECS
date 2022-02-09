@@ -11,6 +11,7 @@ import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { Skill } from 'src/app/classes/Skill';
 
 @Component({
     selector: 'app-skills',
@@ -94,17 +95,18 @@ export class SkillsComponent implements OnInit, OnDestroy {
         return this.get_Character().settings.skillsTileMode;
     }
 
-    get_Skills(name: string = "", filter: { type?: string, locked?: boolean } = {}) {
+    get_Skills(name: string = "", filter: { type?: string, locked?: boolean } = {}): Skill[] {
         filter = Object.assign({
             type: "",
             locked: undefined
         }, filter);
-        let creature = this.get_Creature();
+        const creature = this.get_Creature();
         return this.characterService.get_Skills(creature, name, filter)
-        .filter(skill =>
-            !skill.name.includes("Lore") ||
-            skill.level(creature as Character, this.characterService, creature.level)
-        ).sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));;
+            .filter(skill =>
+                skill.name.includes("Lore") ?
+                    skill.level(creature, this.characterService, creature.level) :
+                    true
+            ).sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
     trackByIndex(index: number, obj: any): any {
