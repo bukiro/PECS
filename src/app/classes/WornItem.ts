@@ -8,6 +8,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { Specialization } from 'src/app/classes/Specialization';
 import { Rune } from 'src/app/classes/Rune';
 import { Item } from './Item';
+import { LanguageGain } from './LanguageGain';
 
 export class WornItem extends Equipment {
     //Allow changing of "equippable" by custom item creation.
@@ -36,6 +37,8 @@ export class WornItem extends Equipment {
     public usage: string = "";
     //A Dwarf with the Battleforger feat can sharpen a weapon to grant the effect of a +1 potency rune. This applies to Handwraps of Mighty Blows only.
     public battleforged: boolean = false;
+    //A worn item can grant you languages while invested, which can be listed here. If the language is not locked, a text box will be available on the item to enter one.
+    public gainLanguages: LanguageGain[] = [];
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
         this.aeonStones = this.aeonStones.map(obj => Object.assign<WornItem, Item>(new WornItem(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
@@ -102,7 +105,7 @@ export class WornItem extends Equipment {
     }
     get_EffectsGenerationHints(): HintEffectsObject[] {
         //Aeon Stones have hints that can be resonant, meaning they are only displayed if the stone is slotted.
-        //After collecting the hints, we keep those that are either noth resonant and slotted, or neither.
+        //After collecting the hints, we keep those that are either both resonant and slotted, or neither.
         //Then we add the hints of any slotted aeon stones of this item, with the same rules.
         return super.get_EffectsGenerationHints()
             .filter(hintSet => hintSet.hint.resonant == this.isSlottedAeonStone)

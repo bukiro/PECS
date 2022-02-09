@@ -12,9 +12,7 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { ToastService } from 'src/app/services/toast.service';
 import { CustomEffectsService } from 'src/app/services/customEffects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
-import { Familiar } from '../classes/Familiar';
 
 @Injectable({
     providedIn: 'root'

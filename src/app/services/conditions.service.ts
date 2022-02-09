@@ -14,11 +14,11 @@ import { Creature } from 'src/app/classes/Creature';
 import { Activity } from 'src/app/classes/Activity';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ExtensionsService } from 'src/app/services/extensions.service';
-import { Familiar } from 'src/app/classes/Familiar';
-import { Rune } from 'src/app/classes/Rune';
-import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { EvaluationService } from 'src/app/services/evaluation.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { Equipment } from 'src/app/classes/Equipment';
+import { WornItem } from 'src/app/classes/WornItem';
+import { WeaponRune } from 'src/app/classes/WeaponRune';
 
 @Injectable({
     providedIn: 'root'
@@ -461,7 +461,7 @@ export class ConditionsService {
             let enfeebledRune: boolean = false;
             creature.inventories.forEach(inventory => {
                 inventory.allEquipment().forEach(item => {
-                    item.propertyRunes.forEach((rune: Rune) => {
+                    item.propertyRunes.forEach(rune => {
                         if (rune.name == "Speed" && (item.can_Invest() ? item.invested : item.equipped)) {
                             speedRune = true;
                         }
@@ -508,26 +508,32 @@ export class ConditionsService {
                 remove_Condition("Enfeebled", 2, "Alignment Rune");
             }
             //Any items that grant permanent conditions need to check if these are still applicable. 
-            creature.inventories[0].allEquipment().filter(item => item.gainConditions.length).forEach(item => {
+            function refresh_PermanentConditions(item: Equipment, evaluationService: EvaluationService) {
                 item.gainConditions.forEach(gain => {
-                    //We test alignmentFilter here, but activationPrerequisite is only tested if the condition exists and might need to be removed.
+                    //We test alignmentFilter and resonant here, but activationPrerequisite is only tested if the condition exists and might need to be removed.
                     //This is because add_Condition includes its own test of activationPrerequisite.
                     let activate = false;
-                    if (item.can_Invest() ? item.invested : item.equipped) {
-                        if (gain.alignmentFilter && creature instanceof Character) {
-                            if (gain.alignmentFilter.includes("!") ? !creature.alignment.toLowerCase().includes(gain.alignmentFilter.toLowerCase().replace("!", "")) : creature.alignment.toLowerCase().includes(gain.alignmentFilter.toLowerCase())) {
-                                activate = true;
-                            }
-                        } else {
-                            activate = true;
-                        }
+                    if (
+                        (
+                            gain.resonant ?
+                                (item instanceof WornItem && item.isSlottedAeonStone) :
+                                true
+                        ) && (
+                            gain.alignmentFilter ?
+                                (
+                                    gain.alignmentFilter.includes("!") != creature.alignment.toLowerCase().includes(gain.alignmentFilter.toLowerCase().replace("!", ""))
+                                ) :
+                                true
+                        )
+                    ) {
+                        activate = true;
                     }
                     if (services.characterService.get_AppliedConditions(creature, gain.name, gain.source, true).length) {
                         if (!activate) {
                             services.characterService.remove_Condition(creature, gain, false);
                         } else {
                             if (gain.activationPrerequisite) {
-                                let testResult = this.evaluationService.get_ValueFromFormula(gain.activationPrerequisite, { characterService: services.characterService, effectsService: services.effectsService }, { creature: creature, object: gain });
+                                const testResult = evaluationService.get_ValueFromFormula(gain.activationPrerequisite, { characterService: services.characterService, effectsService: services.effectsService }, { creature: creature, object: gain });
                                 if (testResult == "0" || !(parseInt(testResult as string))) {
                                     services.characterService.remove_Condition(creature, gain, false);
                                 }
@@ -539,7 +545,15 @@ export class ConditionsService {
                         }
                     }
                 })
+            }
+            creature.inventories[0].allEquipment().filter(item => item.gainConditions.length && item.investedOrEquipped()).forEach(item => {
+                refresh_PermanentConditions(item, this.evaluationService);
             });
+            creature.inventories[0].wornitems.filter(item => item.isWayfinder).forEach(item => {
+                item.aeonStones.forEach(stone => {
+                    refresh_PermanentConditions(stone, this.evaluationService);
+                })
+            })
         }
     }
 

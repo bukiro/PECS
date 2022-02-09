@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AC } from 'src/app/classes/AC';
 import { Creature } from 'src/app/classes/Creature';
-import { Armor } from '../classes/Armor';
-import { Shield } from '../classes/Shield';
+import { Armor } from 'src/app/classes/Armor';
+import { Shield } from 'src/app/classes/Shield';
 
 @Injectable({
     providedIn: 'root'

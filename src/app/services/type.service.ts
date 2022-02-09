@@ -54,7 +54,7 @@ import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { Level } from 'src/app/classes/Level';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { Material } from 'src/app/classes/Material';
-import { MaterialItem } from '../classes/MaterialItem';
+import { MaterialItem } from 'src/app/classes/MaterialItem';
 import { Oil } from 'src/app/classes/Oil';
 import { OtherConsumable } from 'src/app/classes/OtherConsumable';
 import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';

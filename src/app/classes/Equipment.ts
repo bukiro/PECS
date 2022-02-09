@@ -13,7 +13,6 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { WornItem } from 'src/app/classes/WornItem';
 import { TypeService } from 'src/app/services/type.service';
-import { SpellGain } from 'src/app/classes/SpellGain';
 import { HintEffectsObject } from 'src/app/services/effectsGeneration.service';
 import { Specialization } from 'src/app/classes/Specialization';
 import { Creature } from 'src/app/classes/Creature';
@@ -88,12 +87,17 @@ export class Equipment extends Item {
         this.gainActivities.forEach(gain => { gain.source = this.id });
         this.gainInventory = this.gainInventory.map(obj => Object.assign(new InventoryGain(), obj).recast());
         this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
+        this.gainConditions.forEach(conditionGain => {
+            if (!conditionGain.source) {
+                conditionGain.source == this.name;
+            }
+        })
         this.gainSpells = this.gainSpells.map(obj => Object.assign(new SpellChoice(), obj).recast());
-        this.gainSpells.forEach((choice: SpellChoice) => {
+        this.gainSpells.forEach(choice => {
             choice.castingType = "Innate";
             choice.source = this.name;
             choice.available = 0;
-            choice.spells.forEach((gain: SpellGain) => {
+            choice.spells.forEach(gain => {
                 gain.locked = true;
                 gain.sourceId = choice.id;
             })

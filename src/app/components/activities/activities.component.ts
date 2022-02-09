@@ -3,7 +3,6 @@ import { CharacterService } from 'src/app/services/character.service';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Character } from 'src/app/classes/Character';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { FeatChoice } from 'src/app/classes/FeatChoice';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { RefreshService } from 'src/app/services/refresh.service';

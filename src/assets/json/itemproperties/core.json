@@ -756,8 +756,40 @@
         "locked": true
     },
     {
+        "key": "gainLanguages",
+        "priority": "07",
+        "group": "5-Influence",
+        "name": "Gain Languages",
+        "desc": "Allow this item to grant you specific languages. They will be listed in the known language list, but not in the language selection in the character menu."
+    },
+    {
+        "parent": "gainLanguages",
+        "key": "locked",
+        "priority": "01",
+        "group": "",
+        "name": "Fixed language",
+        "desc": "Check this if the granted language should not be chosen or changed on the item in the inventory.",
+        "type": "checkbox"
+    },
+    {
+        "parent": "gainLanguages",
+        "key": "title",
+        "priority": "02",
+        "group": "",
+        "name": "Language title",
+        "desc": "The language will be listed on the item with this title, e.g. 'Granted language'."
+    },
+    {
+        "parent": "gainLanguages",
+        "key": "name",
+        "priority": "03",
+        "group": "",
+        "name": "Language name",
+        "desc": "If the language is fixed, name it here, e.g. 'Gnomish'. If it is not fixed, the name can be changed on the item later."
+    },
+    {
         "key": "isArmoredSkirt",
-        "priority": "08",
+        "priority": "09",
         "group": "5-Influence",
         "name": "Act as Armored Skirt",
         "desc": "Set if this item changes the effectiveness and weight of certain armors, like an armored skirt.",
@@ -765,7 +797,7 @@
     },
     {
         "key": "isDoublingRings",
-        "priority": "09",
+        "priority": "10",
         "group": "5-Influence",
         "name": "Act as Doubling Rings",
         "desc": "Set if this item can be used to copy runes from one weapon to the other, like a doubling ring.",
@@ -774,7 +806,7 @@
     },
     {
         "key": "isHandwrapsOfMightyBlows",
-        "priority": "10",
+        "priority": "11",
         "group": "5-Influence",
         "name": "Act as Handwraps of Mighty Blows",
         "desc": "Set if this item uses the 'Handwraps of Mighty Blows' functionality to enhance unarmed attacks with its own runes. The item's will be able to bear weapon runes if this is enabled.",
@@ -782,7 +814,7 @@
     },
     {
         "key": "isTalismanCord",
-        "priority": "11",
+        "priority": "12",
         "group": "5-Influence",
         "name": "Act as Talisman Cord",
         "desc": "Set if this item is attached to an item that can bear affixed talismans in order to preserve the talisman on use. Set to the number of schools to which it can be attuned.",
@@ -792,7 +824,7 @@
     },
     {
         "key": "isWayfinder",
-        "priority": "12",
+        "priority": "13",
         "group": "5-Influence",
         "name": "Act as Wayfinder",
         "desc": "Set if this item slots aeon stones to unlock their resonant abilities. Set to the number of aeon stones allowed in this wayfinder.",
@@ -802,7 +834,7 @@
     },
     {
         "key": "isAeonStone",
-        "priority": "13",
+        "priority": "14",
         "group": "5-Influence",
         "name": "Act as Aeon Stone",
         "desc": "Set if this item should be treated as an aeon stone and allowed to slot into a wayfinder. See unique activities, gained spells and hints can all set to activate only in a slotted aeon stone.",
@@ -990,7 +1022,7 @@
         "priority": "10",
         "group": "8-Weapons",
         "name": "Dexterity-based",
-        "desc": "A dexterity-based weapon uses your dexterity modifier for its attack and damage bonus instead of your strength modifier, even if it doen't have the Finesse trait.",
+        "desc": "A dexterity-based weapon uses your dexterity modifier for its melee attack and damage bonus instead of your strength modifier, even if it doen't have the Finesse trait.",
         "type": "checkbox"
     },
     {
@@ -1133,8 +1165,17 @@
     },
     {
         "parent": "gainConditions",
-        "key": "source",
+        "key": "resonant",
         "priority": "07",
+        "group": "",
+        "name": "Resonant power",
+        "desc": "Check this box if the condition is only unlocked when the item is slotted into a Wayfinder. This applies only to aeon stones.",
+        "type": "checkbox"
+    },
+    {
+        "parent": "gainConditions",
+        "key": "source",
+        "priority": "08",
         "group": "",
         "name": "Condition source",
         "desc": "The condition will show this as its source. Should usually be the item name."

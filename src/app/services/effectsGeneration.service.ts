@@ -90,7 +90,7 @@ export class EffectsGenerationService {
 
         //EffectGains come with values that contain a statement.
         //This statement is evaluated by the EvaluationService and then validated here in order to build a working Effect.
-        object.effects.filter((effect: EffectGain) => effect.resonant ? object.isSlottedAeonStone : true).forEach((effect: EffectGain) => {
+        object.effects.filter((effect: EffectGain) => effect.resonant ? (object instanceof WornItem && object.isSlottedAeonStone) : true).forEach((effect: EffectGain) => {
             function get_ValueFromFormula(value: string) {
                 return evaluationService.get_ValueFromFormula(value, { characterService: services.characterService, effectsService: effectsService }, context, options);
             }
@@ -145,7 +145,9 @@ export class EffectsGenerationService {
             let title = "";
             if (effect.title) {
                 try {
-                    title = get_ValueFromFormula(effect.title).toString();
+                    //We insert value and setValue here (if needed) because they will not be available in the evaluation.
+                    const testTitle = effect.title.replace(/(^|[^\w])value($|[^\w])/g, "$1"+value+"$2").replace(/(^|[^\w])setValue($|[^\w])/g, "$1"+setValue+"$2");
+                    title = get_ValueFromFormula(testTitle).toString();
                 } catch (error) {
                     title = "";
                 };
@@ -187,7 +189,7 @@ export class EffectsGenerationService {
                 return title || toggle || setValue || parseInt(value) != 0;
             }
             if (functionalEffect()) {
-                objectEffects.push(Object.assign(new Effect(value), { creature: target, type: type, target: affected, setValue: setValue, toggle: toggle, title: title, source: source, penalty: penalty, show: show, duration: effect.duration, maxDuration: effect.maxDuration, cumulative: effect.cumulative }));
+                objectEffects.push(Object.assign(new Effect(value), { creature: target, type: type, target: affected, setValue: setValue, toggle: toggle, title: title, source: source, penalty: penalty, show: show, duration: effect.duration, maxDuration: effect.maxDuration, cumulative: effect.cumulative, sourceId: sourceId }));
             }
         });
         return objectEffects;

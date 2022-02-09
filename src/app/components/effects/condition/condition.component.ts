@@ -1,6 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { Character } from 'src/app/classes/Character';
 import { CharacterService } from 'src/app/services/character.service';
 import { Condition } from 'src/app/classes/Condition';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
@@ -12,6 +10,8 @@ import { Creature } from 'src/app/classes/Creature';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { ActivityGain } from 'src/app/classes/ActivityGain';
+import { Activity } from 'src/app/classes/Activity';
 
 @Component({
     selector: 'app-condition',
@@ -24,7 +24,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
     @Input()
     conditionGain: ConditionGain;
     @Input()
-    condition: Condition;F
+    condition: Condition;
     @Input()
     showItem: string = "";
     @Input()
@@ -146,11 +146,15 @@ export class ConditionComponent implements OnInit, OnDestroy {
         this.refreshService.set_Changed("close-popovers");
     }
 
-    get_Activities(name: string = "") {
+    public get_Activities(name: string = ""): Activity[] {
+        //Don't show all existing activities if a name is missing.
+        if (!name) {
+            return [];
+        }
         return this.activitiesService.get_Activities(name);
     }
 
-    get_ConditionActivities() {
+    public get_ConditionActivities(): ActivityGain[] {
         if (this.conditionGain) {
             this.conditionGain.gainActivities.forEach(activityGain => {
                 activityGain.heightened = this.conditionGain.heightened;

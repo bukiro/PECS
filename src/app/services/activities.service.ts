@@ -7,17 +7,17 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ItemGain } from 'src/app/classes/ItemGain';
-import { Character } from 'src/app/classes/Character';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { SpellsService } from 'src/app/services/spells.service';
 import { SpellCast } from 'src/app/classes/SpellCast';
 import { ConditionsService } from 'src/app/services/conditions.service';
-import * as json_activities from 'src/assets/json/activities';
 import { Creature } from 'src/app/classes/Creature';
-import { ToastService } from 'src/app/services/toast.service';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { ExtensionsService } from 'src/app/services/extensions.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { WornItem } from 'src/app/classes/WornItem';
+import { Armor } from 'src/app/classes/Armor';
+import { Rune } from 'src/app/classes/Rune';
+import * as json_activities from 'src/assets/json/activities';
 
 @Injectable({
     providedIn: 'root'
@@ -29,7 +29,6 @@ export class ActivitiesService {
     private activitiesMap = new Map<string, Activity>();
 
     constructor(
-        private toastService: ToastService,
         private extensionsService: ExtensionsService,
         private refreshService: RefreshService
     ) { }
@@ -56,19 +55,44 @@ export class ActivitiesService {
         }
     }
 
-    activate_Activity(creature: Creature, target: string, characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, gain: ActivityGain | ItemActivity, activity: Activity | ItemActivity, activated: boolean, changeAfter: boolean = true) {
-        //Find item, if it exists
-        let item: Equipment = null;
+    get_ItemFromActivityGain(creature: Creature, gain: ActivityGain | ItemActivity): Equipment | Rune {
+        let item: Equipment | Rune = null;
         creature.inventories.forEach(inventory => {
-            inventory.allEquipment().filter((equipment: Equipment) => equipment.id == gain.source).forEach((equipment: Equipment) => {
-                if (equipment.activities.some((itemActivity: ItemActivity) => itemActivity === activity)) {
+            inventory.allEquipment().forEach(equipment => {
+                if (gain.isActivity && equipment.activities.some(itemActivity => itemActivity === gain)) {
                     item = equipment;
                 }
-                if (equipment.gainActivities.some((activityGain: ActivityGain) => activityGain === gain)) {
+                else if (!gain.isActivity && equipment.gainActivities.some(activityGain => activityGain === gain)) {
                     item = equipment;
+                }
+                else if (gain.isActivity) {
+                    if (equipment instanceof Armor) {
+                        equipment.propertyRunes.forEach(rune => {
+                            if (rune.activities.some(itemActivity => itemActivity === gain)) {
+                                item = rune;
+                            }
+                        })
+                    } else if (equipment instanceof WornItem && equipment.isWayfinder) {
+                        equipment.aeonStones.forEach(stone => {
+                            if (stone.activities.some(itemActivity => itemActivity === gain)) {
+                                item = stone;
+                            }
+                        })
+                    }
+                    equipment.oilsApplied.forEach(oil => {
+                        if (oil.runeEffect?.activities.some(itemActivity => itemActivity === gain)) {
+                            item = oil.runeEffect;
+                        }
+                    })
                 }
             });
         });
+        return item;
+    }
+
+    activate_Activity(creature: Creature, target: string, characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, gain: ActivityGain | ItemActivity, activity: Activity | ItemActivity, activated: boolean, changeAfter: boolean = true) {
+        //Find item, if it exists.
+        let item: Equipment | Rune = this.get_ItemFromActivityGain(creature, gain);
 
         if (activity.hints.length) {
             this.refreshService.set_HintsToChange(creature, activity.hints, { characterService: characterService });
@@ -76,7 +100,7 @@ export class ActivitiesService {
 
         let closePopupsAfterActivation: boolean = false;
 
-        let cooldown = activity.get_Cooldown(creature, characterService);
+        const cooldown = activity.get_Cooldown(creature, characterService);
         if (activated || activity.cooldownAfterEnd) {
             //Start cooldown, unless one is already in effect.
             //If the activity ends and cooldownAfterEnd is set, start the cooldown anew.
@@ -85,7 +109,7 @@ export class ActivitiesService {
             }
             if (activated) {
                 //Use charges
-                let maxCharges = activity.maxCharges(creature, characterService);
+                const maxCharges = activity.maxCharges(creature, characterService);
                 if (maxCharges || gain.sharedChargesID) {
                     //If this activity belongs to an item and has a sharedCharges ID, spend a charge for every activity with the same sharedChargesID and start their cooldown if necessary.
                     if (item && gain.sharedChargesID) {
@@ -100,7 +124,7 @@ export class ActivitiesService {
                                     itemActivity.activeCooldown = otherCooldown;
                                 }
                             })
-                        item.gainActivities
+                        item instanceof Equipment && item.gainActivities
                             .filter(activityGain => activityGain.sharedChargesID == gain.sharedChargesID)
                             .forEach(activityGain => {
                                 let originalActivity = this.get_Activities(activityGain.name)[0];
@@ -154,11 +178,11 @@ export class ActivitiesService {
                     gain.gainItems = activity.gainItems.map(gainItem => Object.assign(new ItemGain(), gainItem).recast());
                 }
                 gain.gainItems.forEach(gainItem => {
-                    gainItem.grant_GrantedItem(creature, {sourceName: activity.name}, {characterService: characterService, itemsService: itemsService})
+                    gainItem.grant_GrantedItem(creature, { sourceName: activity.name }, { characterService: characterService, itemsService: itemsService })
                 });
             } else {
                 gain.gainItems.forEach(gainItem => {
-                    gainItem.drop_GrantedItem(creature, {}, {characterService: characterService})
+                    gainItem.drop_GrantedItem(creature, {}, { characterService: characterService })
                 });
                 if (gain instanceof ActivityGain) {
                     gain.gainItems = [];
@@ -206,16 +230,16 @@ export class ActivitiesService {
             //The condition source is the activity name.
             if (activity.gainConditions) {
                 if (activated) {
-                    let conditions: ConditionGain[] = activity.gainConditions;
-                    let hasTargetCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter != "caster");
-                    let hasCasterCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter == "caster");
-                    let casterIsTarget: boolean = targets.some(target => target.id == creature.id);
+                    const conditions: ConditionGain[] = activity.gainConditions.filter(conditionGain => (conditionGain.resonant && item) ? (item instanceof WornItem && item.isSlottedAeonStone) : true);
+                    const hasTargetCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter != "caster");
+                    const hasCasterCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter == "caster");
+                    const casterIsTarget: boolean = targets.some(target => target.id == creature.id);
                     //Do the target and the caster get the same condition?
-                    let sameCondition: boolean = hasTargetCondition && hasCasterCondition && Array.from(new Set(conditions.map(conditionGain => conditionGain.name))).length == 1;
+                    const sameCondition: boolean = hasTargetCondition && hasCasterCondition && Array.from(new Set(conditions.map(conditionGain => conditionGain.name))).length == 1;
                     conditions.forEach((conditionGain, conditionIndex) => {
                         conditionGain.source = activity.name;
                         let newConditionGain = Object.assign(new ConditionGain(), conditionGain).recast();
-                        let condition = conditionsService.get_ConditionFromName(conditionGain.name);
+                        const condition = conditionsService.get_ConditionFromName(conditionGain.name);
                         if (condition.endConditions.some(endCondition => endCondition.name.toLowerCase() == gain.source.toLowerCase())) {
                             //If any condition ends the condition that this activity came from, close all popovers after the activity is processed. 
                             // This ensures that conditions in stickyPopovers don't remain open even after they have been removed.
@@ -231,7 +255,7 @@ export class ActivitiesService {
                                 newConditionGain.choice = gain.effectChoices.find(choice => choice.condition == conditionGain.copyChoiceFrom)?.choice || condition.choice;
                             } else if (newConditionGain.choiceBySubType) {
                                 //If there is a choiceBySubType value, and you have a feat with superType == choiceBySubType, set the choice to that feat's subType as long as it's a valid choice for the condition.
-                                let subType = (characterService.get_CharacterFeatsAndFeatures(newConditionGain.choiceBySubType, "", true, true).find(feat => feat.superType == newConditionGain.choiceBySubType && feat.have(creature, characterService, creature.level)));
+                                const subType = (characterService.get_CharacterFeatsAndFeatures(newConditionGain.choiceBySubType, "", true, true).find(feat => feat.superType == newConditionGain.choiceBySubType && feat.have(creature, characterService, creature.level)));
                                 if (subType && condition.choices.map(choice => choice.name).includes(subType.subType)) {
                                     newConditionGain.choice = subType.subType;
                                 }
@@ -363,7 +387,7 @@ export class ActivitiesService {
                                 characterService.add_Condition(target as Creature, newConditionGain, false);
                             })
                             //Apply to any non-creature targets whose ID matches your own creatures.
-                            let creatures = characterService.get_Creatures();
+                            const creatures = characterService.get_Creatures();
                             conditionTargets.filter(target => target instanceof SpellTarget && creatures.some(creature => creature.id == target.id)).forEach(target => {
                                 characterService.add_Condition(characterService.get_Creature(target.type), newConditionGain, false);
                             })
@@ -432,8 +456,8 @@ export class ActivitiesService {
         //Exclusive activity activation
         //If you activate one activity of an Item that has an exclusiveActivityID, deactivate the other active activities on it that have the same ID.
         if (item && activated && activity.toggle && gain.exclusiveActivityID) {
-            if (item.activities.length + item.gainActivities.length > 1) {
-                item.gainActivities.filter((activityGain: ActivityGain) => activityGain !== gain && activityGain.active && activityGain.exclusiveActivityID == gain.exclusiveActivityID).forEach((activityGain: ActivityGain) => {
+            if (item.activities.length + (item instanceof Equipment && item.gainActivities).length > 1) {
+                item instanceof Equipment && item.gainActivities.filter((activityGain: ActivityGain) => activityGain !== gain && activityGain.active && activityGain.exclusiveActivityID == gain.exclusiveActivityID).forEach((activityGain: ActivityGain) => {
                     this.activate_Activity(creature, creature.type, characterService, conditionsService, itemsService, spellsService, activityGain, this.get_Activities(activityGain.name)[0], false, false)
                 })
                 item.activities.filter((itemActivity: ItemActivity) => itemActivity !== gain && itemActivity.active && itemActivity.exclusiveActivityID == gain.exclusiveActivityID).forEach((itemActivity: ItemActivity) => {

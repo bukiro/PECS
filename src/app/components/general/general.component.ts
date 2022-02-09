@@ -176,10 +176,22 @@ export class GeneralComponent implements OnInit, OnDestroy {
 
     get_Languages() {
         return this.get_Character().class.languages
-            .filter(language => (!language.level || language.level <= this.get_Character().level) && language.name != "")
+            .filter(language => (!language.level || language.level <= this.get_Character().level) && language.name)
             .map(language => language.name)
+            .concat(this.get_EquipmentLanguages())
             .sort()
             .join(', ')
+    }
+
+    get_EquipmentLanguages() {
+        let languages: string[] = [];
+        this.get_Character().inventories[0].wornitems.forEach(wornItem => {
+            languages = languages.concat(wornItem.gainLanguages.filter(language => language.name).map(language => language.name))
+            wornItem.aeonStones.forEach(stone => {
+                languages = languages.concat(stone.gainLanguages.filter(language => language.name).map(language => language.name))
+            })
+        });
+        return languages;
     }
 
     get_DifferentWorldsData() {

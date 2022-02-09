@@ -24,6 +24,7 @@ import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { InventoryGain } from 'src/app/classes/InventoryGain';
 import { Hint } from 'src/app/classes/Hint';
 import { SpellGain } from 'src/app/classes/SpellGain';
+import { LanguageGain } from 'src/app/classes/LanguageGain';
 
 @Component({
     selector: 'app-newItemProperty',
@@ -242,6 +243,9 @@ export class NewItemPropertyComponent {
                 break;
             case "gainInventory":
                 this.get_Parent()[this.propertyKey].push(new InventoryGain())
+                break;
+            case "gainLanguages":
+                this.get_Parent()[this.propertyKey].push(new LanguageGain())
                 break;
         }
     }

@@ -9,13 +9,14 @@ import { Skill } from 'src/app/classes/Skill';
 import { Effect } from 'src/app/classes/Effect';
 import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
-import { EffectsService } from '../services/effects.service';
-import { Feat } from './Feat';
-import { Hint } from './Hint';
+import { EffectsService } from 'src/app/services/effects.service';
+import { Feat } from 'src/app/classes/Feat';
+import { Hint } from 'src/app/classes/Hint';
 import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
 
 export class Creature {
     public name: string = "";
+    public alignment: string = "Neutral";
     public id = uuidv4();
     public type: "Character" | "Companion" | "Familiar" = "Character";
     public typeId: number = 0;

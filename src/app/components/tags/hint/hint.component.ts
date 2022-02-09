@@ -50,13 +50,13 @@ export class HintComponent {
         return this.characterService.get_Character().level;
     }
 
-    get_Hints() {
-        let isConditionSet = this.object instanceof ConditionSet;
+    get_Hints(): Hint[] {
+        const isConditionSet = this.object instanceof ConditionSet;
         if (this.noFilter) {
             return (isConditionSet ? this.object.condition.hints : this.object.hints);
         }
-        let isAeonStone = this.object instanceof WornItem && this.object.isAeonStone;
-        let isEmblazonArmamentShield = (this.object instanceof Shield && this.object.emblazonArmament.length) ? this.object : null;
+        const isSlottedAeonStone = this.object instanceof WornItem && this.object.isSlottedAeonStone;
+        const isEmblazonArmamentShield = (this.object instanceof Shield && this.object.emblazonArmament.length) ? this.object : null;
         return (isConditionSet ? this.object.condition.hints : this.object.hints)
             .filter((hint: Hint) =>
                 (hint.minLevel ? this.get_CharacterLevel() >= hint.minLevel : true) &&
@@ -73,11 +73,7 @@ export class HintComponent {
                         true
                 ) &&
                 (
-                    isAeonStone ?
-                        (
-                            hint.resonant ? this.object.isSlottedAeonStone : true
-                        ) :
-                        true
+                    hint.resonant ? isSlottedAeonStone : true
                 )
             )
             .filter((hint: Hint) =>

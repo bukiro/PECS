@@ -261,9 +261,9 @@
         <app-description class="newrow" [text]="desc"></app-description>
     </div>
 </div>
-<ng-container *ngFor="let relatedActivityGains of [get_ConditionActivities()]; trackBy: trackByIndex;">
-    <div class="fullwidth icon-list" *ngIf="relatedActivityGains.length">
-        <ng-container *ngFor="let gain of relatedActivityGains; let activityIndex = index; trackBy:trackByIndex;">
+<ng-container *ngFor="let conditionActivities of [get_ConditionActivities()]; trackBy: trackByIndex;">
+    <div class="fullwidth icon-list" *ngIf="conditionActivities.length">
+        <ng-container *ngFor="let gain of conditionActivities; let activityIndex = index; trackBy:trackByIndex;">
             <ng-container *ngFor="let activity of get_Activities(gain.name); trackBy:trackByIndex;">
                 <ng-container
                     *ngFor="let maxCharges of [activity.maxCharges(get_Creature(), characterService)]; trackBy:trackByIndex;">

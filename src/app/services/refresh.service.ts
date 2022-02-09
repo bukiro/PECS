@@ -4,10 +4,8 @@ import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { AlchemicalBomb } from 'src/app/classes/AlchemicalBomb';
 import { AlchemicalPoison } from 'src/app/classes/AlchemicalPoison';
 import { Ammunition } from 'src/app/classes/Ammunition';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Armor } from 'src/app/classes/Armor';
 import { ArmorRune } from 'src/app/classes/ArmorRune';
-import { Character } from 'src/app/classes/Character';
 import { CharacterService } from 'src/app/services/character.service';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
@@ -170,6 +168,7 @@ export class RefreshService {
         }
         if (item instanceof Equipment) {
             this.set_EquipmentViewChanges(creature, item as Equipment, services);
+            this.set_HintsToChange(creature, item.hints, services);
         }
     }
 

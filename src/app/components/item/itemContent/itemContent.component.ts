@@ -80,6 +80,15 @@ export class ItemContentComponent implements OnInit, OnDestroy {
         }
     }
 
+    on_LanguageUpdate() {
+        this.refreshService.set_ToChange("Character", "general");
+        this.refreshService.process_ToChange();
+    }
+
+    public has_ShownData(): boolean {
+        return this.item.data?.filter(data => data.show).length > 0;
+    }
+
     finish_Loading() {
         if (this.item.id) {
             this.changeSubscription = this.refreshService.get_Changed

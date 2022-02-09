@@ -408,9 +408,9 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
     get_Invested() {
         //Sum up the invested items: 1 for each item other than Wayfinders,
-        //  and for Wayfinders: 1 for the Wayfinder, and 1 for each Aeon Stone but the first. That is represented by 1 for each Aeon Stone (but at least 1).
-        return this.get_InvestedItems().map((item: WornItem) =>
-            (item.isWayfinder && item.aeonStones) ? Math.max(item.aeonStones.length, 1) : 1
+        // and for Wayfinders: 1 for the Wayfinder, and 1 for each Aeon Stone but the first. That is represented by 1 for each Aeon Stone (but at least 1).
+        return this.get_InvestedItems().map(item =>
+            (item instanceof WornItem && item.aeonStones.length) ? Math.max(item.aeonStones.length, 1) : 1
         ).reduce((a, b) => a + b, 0);
     }
 

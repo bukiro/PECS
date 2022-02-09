@@ -1628,6 +1628,7 @@
             "Transmutation"
         ],
         "usage": "worn",
+        "isAeonStone": true,
         "hints": [
             {
                 "desc": "The resonant power causes the augury spell from the aeon stone to always succeed at the DC 6 flat check to give an answer other than \"nothing.\"",

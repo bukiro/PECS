@@ -144,8 +144,8 @@
 </div>
 <div class="newrow left-aligned">
     <span *ngIf="item.ammunition">
-        {{item.ammunition}}
         <strong>Ammunition</strong>
+        {{item.ammunition}}
     </span>
 </div>
 <div class="newrow left-aligned">
@@ -153,15 +153,31 @@
     <ng-container *ngFor="let desc of item.desc.split('\n\n'); trackBy:trackByIndex;">
         <app-description class="newrow" [text]="desc"></app-description>
     </ng-container>
-    <ng-container *ngFor="let data of item.data; let dataIndex = index; trackBy:trackByIndex;">
-        <p *ngIf="data.show" class="gap-text">
-            <strong>{{data.name}}</strong>
-            <input id="{{item.id}}data{{dataIndex}}value" type="text" [(ngModel)]="data.value"
-                *ngIf="data.type == 'string'">
-            <input id="{{item.id}}data{{dataIndex}}value" type="checkbox" [(ngModel)]="data.value"
-                *ngIf="data.type == 'boolean'">
-        </p>
-    </ng-container>
+    <div class="newrow list-item" *ngIf="item.gainLanguages && item.gainLanguages.length">
+        <ng-container *ngFor="let gainLanguage of item.gainLanguages; let languageIndex = index; trackBy:trackByIndex;">
+            <div class="newrow">
+                <strong>{{gainLanguage.title}}</strong>
+                <input id="{{item.id}}language{{languageIndex}}name" type="text" [(ngModel)]="gainLanguage.name"
+                    (blur)="on_LanguageUpdate()" *ngIf="!gainLanguage.locked">
+                <ng-container *ngIf="gainLanguage.locked">
+                    {{gainLanguage.name}}
+                </ng-container>
+            </div>
+        </ng-container>
+    </div>
+    <div class="newrow list-item" *ngIf="has_ShownData()">
+        <ng-container *ngFor="let data of item.data; let dataIndex = index; trackBy:trackByIndex;">
+            <div class="newrow" *ngIf="data.show">
+                <span>
+                    <strong>{{data.name}}</strong>
+                    <input id="{{item.id}}data{{dataIndex}}value" type="text" [(ngModel)]="data.value"
+                        *ngIf="data.type == 'string'">
+                    <input id="{{item.id}}data{{dataIndex}}value" type="checkbox" [(ngModel)]="data.value"
+                        *ngIf="data.type == 'boolean'">
+                </span>
+            </div>
+        </ng-container>
+    </div>
     <p *ngIf="item.benefit" class="gap-text">
         <strong>Benefit</strong>
         <app-description [text]="item.benefit" [oneLiner]="true"></app-description>

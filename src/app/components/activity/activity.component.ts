@@ -16,6 +16,9 @@ import { EffectsService } from 'src/app/services/effects.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { Equipment } from 'src/app/classes/Equipment';
+import { WornItem } from 'src/app/classes/WornItem';
+import { Rune } from 'src/app/classes/Rune';
 
 @Component({
     selector: 'app-activity',
@@ -37,6 +40,8 @@ export class ActivityComponent implements OnInit, OnDestroy {
     isSubItem: boolean = false;
     @Input()
     closeAfterActivation: boolean = false;
+
+    item: Equipment | Rune;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -228,6 +233,17 @@ export class ActivityComponent implements OnInit, OnDestroy {
         return conditionSets;
     }
 
+    get_ShowConditionChoice(conditionSet: { gain: ConditionGain, condition: Condition }) {
+        return this.allowActivate &&
+            conditionSet.condition &&
+            conditionSet.condition._choices.length &&
+            !conditionSet.gain.choiceBySubType &&
+            !conditionSet.gain.choiceLocked &&
+            !conditionSet.gain.copyChoiceFrom &&
+            !conditionSet.gain.hideChoices &&
+            (conditionSet.gain.resonant ? (this.item && this.item instanceof WornItem && this.item.isSlottedAeonStone) : true)
+    }
+
     on_EffectChoiceChange() {
         this.refreshService.set_ToChange(this.creature, "inventory");
         this.refreshService.set_ToChange(this.creature, "activities");
@@ -252,9 +268,9 @@ export class ActivityComponent implements OnInit, OnDestroy {
     ngOnInit() {
         if (this.activity.displayOnly) {
             this.allowActivate = false;
-        } else {
-            this.finish_Loading();
         }
+        this.item = this.activitiesService.get_ItemFromActivityGain(this.get_Creature(), this.gain);
+        this.finish_Loading();
     }
 
     private changeSubscription: Subscription;

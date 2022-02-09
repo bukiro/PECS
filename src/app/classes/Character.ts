@@ -39,7 +39,6 @@ export class Character extends Creature {
     public appVersionMinor: number = 0;
     public ignoredMessages: { id: string, ttl: number }[] = []
     public partyName: string = "";
-    public alignment: string = "";
     public baseValues: { name: string, baseValue: number }[] = [];
     public cash: number[] = [0, 15, 0, 0];
     public class: Class = new Class();

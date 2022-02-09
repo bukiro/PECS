@@ -51,5 +51,4 @@ export class ItemActivity extends Activity {
     get_OriginalActivity(activitiesService: ActivitiesService) {
         return this;
     }
-
 }

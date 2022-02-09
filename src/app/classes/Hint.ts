@@ -26,7 +26,6 @@ export class Hint {
     //If conditionChoiceFilter is set, only show this hint if the condition that the hint comes from has a matching choice active.
     public conditionChoiceFilter: string[] = [];
     //On an aeon stone, hints can be resonant powers. These only get shown if the aeon stone is slotted in a wayfinder.
-    //NOTE: At this point, if any hint is not resonant, all hints are shown even if the aeon stone is not slotted in a wayfinder.
     public resonant: boolean = false;
     //Replace the object that is loaded when more information is shown. Does not replace the title.
     public replaceSource: { source: string, type: "feat" }[] = [];
