@@ -169,12 +169,18 @@ export class AC {
             //Add the dexterity modifier up to the armor's dex cap, unless there is no cap
             let dexcap = armor.get_DexCap();
             effectsService.get_AbsolutesOnThis(armorCreature, "Dexterity Modifier Cap").forEach(effect => {
-                dexcap = parseInt(effect.setValue);
-                explain += "\n" + effect.source + ": Dexterity modifier cap " + dexcap;
+                //The dexterity modifier should not become higher through effects, only lower, but not below 0.
+                if (parseInt(effect.setValue) < dexcap) {
+                    dexcap = Math.max(0, parseInt(effect.setValue));
+                    explain += "\n" + effect.source + ": Dexterity modifier cap " + dexcap;
+                }
             })
             effectsService.get_RelativesOnThis(armorCreature, "Dexterity Modifier Cap").forEach(effect => {
-                dexcap += parseInt(effect.value);
-                explain += "\n" + effect.source + ": Dexterity modifier cap " + parseInt(effect.value);
+                //The dexterity modifier should not become higher through effects, only lower, but not below 0.
+                if (parseInt(effect.value) < 0) {
+                    dexcap = Math.max(0, dexcap + parseInt(effect.value));
+                    explain += "\n" + effect.source + ": Dexterity modifier cap " + parseInt(effect.value);
+                }
             })
             const dexBonus = (dexcap != -1) ? Math.max(Math.min(dex, dexcap), 0) : dex;
             if (dexBonus || dex) {

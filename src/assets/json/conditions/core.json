@@ -3734,7 +3734,7 @@
             },
             {
                 "affected": "Dexterity Modifier Cap",
-                "setValue": "(Has_Feat('Character', 'Mountain Quake') ? 1 : (Has_Feat('Character', 'Mountain Stronghold') ? 1 : 0))"
+                "setValue": "(Has_Feat('Character', 'Mountain Quake') ? 2 : (Has_Feat('Character', 'Mountain Stronghold') ? 1 : 0))"
             },
             {
                 "affected": "Speed",
