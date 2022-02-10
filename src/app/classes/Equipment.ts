@@ -94,13 +94,10 @@ export class Equipment extends Item {
         })
         this.gainSpells = this.gainSpells.map(obj => Object.assign(new SpellChoice(), obj).recast());
         this.gainSpells.forEach(choice => {
-            choice.castingType = "Innate";
+            if (!choice.castingType) {
+                choice.castingType = "Innate";
+            }
             choice.source = this.name;
-            choice.available = 0;
-            choice.spells.forEach(gain => {
-                gain.locked = true;
-                gain.sourceId = choice.id;
-            })
         })
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.material = this.material.map(obj => Object.assign(new Material(), obj).recast());

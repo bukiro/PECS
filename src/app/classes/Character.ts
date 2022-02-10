@@ -634,52 +634,65 @@ export class Character extends Creature {
                         })
                     })
                 })
-            //For your innate spellcasting, or for all spells, also collect innate spells gained from worn items.
-            if (spellCasting == undefined || spellCasting.castingType == "Innate") {
-                spellsTaken.push(...this.get_EquipmentSpellsGranted(characterService, spellLevel, spellName, source, sourceId, locked, cantripAllowed));
-            }
             return spellsTaken;
         }
     }
-    get_EquipmentSpellsGranted(characterService: CharacterService, spellLevel: number = -1, spellName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, cantripAllowed: boolean = true) {
+    get_AllEquipmentSpellsGranted() {
         let spellsGranted: { choice: SpellChoice, gain: SpellGain }[] = [];
-        //Collect innate spells gained from worn items.
-        function get_DynamicLevel(choice: SpellChoice, casting: SpellCasting, characterService: CharacterService) {
-            return characterService.spellsService.get_DynamicSpellLevel(casting, choice, characterService);
-        }
-        function spellLevelMatches(choice: SpellChoice) {
-            return (
-                spellLevel == -1 ||
-                (choice.dynamicLevel ? get_DynamicLevel(choice, innateSpellcasting, characterService) : choice.level) == spellLevel
-            )
-        }
-        function spellMatches(choice: SpellChoice, gain: SpellGain) {
-            return (
-                (spellName ? gain.name == spellName : true) &&
-                (source ? choice.source == source : true) &&
-                (sourceId ? gain.sourceId == sourceId : true) &&
-                ((locked != undefined) ? gain.locked == locked : true) &&
-                (cantripAllowed || (!characterService.spellsService.get_Spells(gain.name)[0]?.traits.includes("Cantrip")))
-            )
-        }
-        const innateSpellcasting = this.class.spellCasting.find(casting => casting.castingType == "Innate");
         this.inventories[0].allEquipment().filter(equipment => equipment.investedOrEquipped()).forEach(equipment => {
-            equipment.gainSpells.filter(choice => spellLevelMatches(choice) && !choice.resonant).forEach(choice => {
-                choice.spells.filter(gain =>
-                    spellMatches(choice, gain)
-                ).forEach(gain => {
+            equipment.gainSpells.forEach(choice => {
+                choice.spells.forEach(gain => {
                     spellsGranted.push({ choice: choice, gain: gain });
                 })
             })
             if (equipment instanceof WornItem) {
                 equipment.aeonStones.filter(stone => stone.gainSpells.length).forEach(stone => {
-                    stone.gainSpells.filter(choice => spellLevelMatches(choice)).forEach(choice => {
-
+                    stone.gainSpells.forEach(choice => {
+                        choice.spells.forEach(gain => {
+                            spellsGranted.push({ choice: choice, gain: gain });
+                        })
+                    })
+                })
+            }
+        })
+        return spellsGranted;
+    }
+    get_EquipmentSpellsGranted(casting: SpellCasting, services: { characterService: CharacterService }, options: { cantripAllowed?: boolean, emptyChoiceAllowed?: boolean } = {}): { choice: SpellChoice, gain: SpellGain }[] {
+        let spellsGranted: { choice: SpellChoice, gain: SpellGain }[] = [];
+        //Collect spells gained from worn items.
+        function choiceMatchesCasting(choice: SpellChoice) {
+            return (
+                (choice.className ? choice.className == casting.className : true) &&
+                (choice.castingType ? choice.castingType == casting.castingType : true)
+            )
+        }
+        function spellMatches(gain: SpellGain) {
+            return (
+                (options.cantripAllowed || (!services.characterService.spellsService.get_Spells(gain.name)[0]?.traits.includes("Cantrip")))
+            );
+        }
+        this.inventories[0].allEquipment().filter(equipment => equipment.investedOrEquipped()).forEach(equipment => {
+            equipment.gainSpells.filter(choice => choiceMatchesCasting(choice) && !choice.resonant).forEach(choice => {
+                choice.spells.filter(gain =>
+                    spellMatches(gain)
+                ).forEach(gain => {
+                    spellsGranted.push({ choice: choice, gain: gain });
+                })
+                if (options.emptyChoiceAllowed && !choice.spells.length) {
+                    spellsGranted.push({ choice: choice, gain: null });
+                }
+            })
+            if (equipment instanceof WornItem) {
+                equipment.aeonStones.filter(stone => stone.gainSpells.length).forEach(stone => {
+                    stone.gainSpells.filter(choice => choiceMatchesCasting(choice)).forEach(choice => {
                         choice.spells.filter(gain =>
-                            spellMatches(choice, gain)
+                            spellMatches(gain)
                         ).forEach(gain => {
                             spellsGranted.push({ choice: choice, gain: gain });
                         })
+                        if (options.emptyChoiceAllowed && !choice.spells.length) {
+                            spellsGranted.push({ choice: choice, gain: null });
+                        }
                     })
                 })
             }

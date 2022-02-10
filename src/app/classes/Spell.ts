@@ -215,12 +215,6 @@ export class Spell {
     hasTargetConditions() {
         return this.gainConditions.some(gain => gain.targetFilter != "caster");
     }
-    have(characterService: CharacterService, casting: SpellCasting = undefined, spellLevel = this.levelreq, className: string = "", locked: boolean = undefined) {
-        if (characterService.still_loading()) { return false }
-        let character = characterService.get_Character();
-        let spellsTaken = character.get_SpellsTaken(characterService, 1, 20, spellLevel, this.name, undefined, className, "", "", "", "", locked);
-        return spellsTaken.length;
-    }
     public get_EffectiveSpellLevel(context: { baseLevel: number, creature: Creature, gain: SpellGain }, services: { characterService: CharacterService, effectsService: EffectsService }): number {
         //Focus spells are automatically heightened to your maximum available spell level.
         let level = context.baseLevel;

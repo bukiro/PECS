@@ -8,8 +8,6 @@ import { ConditionsService } from 'src/app/services/conditions.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { Item } from 'src/app/classes/Item';
-import { Character } from 'src/app/classes/Character';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Talisman } from 'src/app/classes/Talisman';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { AlchemicalPoison } from 'src/app/classes/AlchemicalPoison';
@@ -18,10 +16,13 @@ import { Spell } from 'src/app/classes/Spell';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Condition } from 'src/app/classes/Condition';
 import { Equipment } from 'src/app/classes/Equipment';
-import { WornItem } from 'src/app/classes/WornItem';
+import { RingOfWizardrySlot, WornItem } from 'src/app/classes/WornItem';
 import { Shield } from 'src/app/classes/Shield';
 import { Armor } from 'src/app/classes/Armor';
 import { Subscription } from 'rxjs';
+import { SpellCasting } from 'src/app/classes/SpellCasting';
+import { SpellChoice } from 'src/app/classes/SpellChoice';
+import { EffectGain } from 'src/app/classes/EffectGain';
 
 @Component({
     selector: 'app-item',
@@ -61,6 +62,10 @@ export class ItemComponent implements OnInit, OnDestroy {
 
     get_Creature(type: string = this.creature) {
         return this.characterService.get_Creature(type);
+    }
+
+    get_Character() {
+        return this.characterService.get_Character();
     }
 
     get_Traits(name: string = "") {
@@ -118,6 +123,82 @@ export class ItemComponent implements OnInit, OnDestroy {
         let ironItem = this.get_DoublingRingsOptions("iron").find(weapon => weapon.id == this.item.data[0].value);
         if (ironItem && this.item.invested) {
             this.refreshService.set_ItemViewChanges(this.get_Creature(), ironItem, { characterService: this.characterService });
+        }
+        this.refreshService.process_ToChange();
+    }
+
+    get_RingOfWizardrySlotName(wizardrySlot: RingOfWizardrySlot) {
+        const spellLevels = [
+            "cantrip",
+            "1st-level spell",
+            "2nd-level spell",
+            "3rd-level spell",
+            "4th-level spell",
+            "5th-level spell",
+            "6th-level spell",
+            "7th-level spell",
+            "8th-level spell",
+            "9th-level spell",
+            "10th-level spell",
+        ]
+        return (wizardrySlot.tradition ? wizardrySlot.tradition + " " : "") + spellLevels[wizardrySlot.level] + " slot";
+    }
+
+    get_RingOfWizardryOptions(wizardrySlot: RingOfWizardrySlot): string[] {
+        if (this.get_Character().class) {
+            return ["no spellcasting selected"]
+                .concat(this.get_Character().class?.spellCasting
+                    .filter(casting =>
+                        !["focus", "innate"].includes(casting.castingType.toLowerCase()) &&
+                        (wizardrySlot.tradition ? casting.tradition.toLowerCase() == wizardrySlot.tradition.toLowerCase() : true)
+                    )
+                    .map(casting => casting.className + " " + casting.tradition + " " + casting.castingType + " Spells"));
+        }
+    }
+
+    on_RingOfWizardryChange(wizardrySlot: RingOfWizardrySlot, wizardrySlotIndex: number) {
+        //Remove any spellgain or effectgain that comes from this ring of wizardry slot.
+        const item = this.item as WornItem;
+        let spellGainFound = false;
+        for (let index = 0; index < item.gainSpells.length; index++) {
+            if (!spellGainFound && item.gainSpells[index].ringOfWizardry == (wizardrySlotIndex + 1)) {
+                spellGainFound = true;
+                item.gainSpells.splice(index, 1);
+                break;
+            }
+        }
+        let effectFound = false;
+        for (let index = 0; index < item.effects.length; index++) {
+            if (!effectFound && item.effects[index].source == "Ring of Wizardry Slot " + (wizardrySlotIndex + 1)) {
+                effectFound = true;
+                item.effects.splice(index, 1);
+                break;
+            }
+        }
+        //If a new spellcasting has been selected, either add a new spellgain or effectgain.
+        if (item.data[wizardrySlotIndex].value != "no spellcasting selected") {
+            const className = item.data[wizardrySlotIndex].value.split(" ")[0];
+            const tradition = item.data[wizardrySlotIndex].value.split(" ")[1];
+            const castingType = item.data[wizardrySlotIndex].value.split(" ")[2];
+            if (castingType.toLowerCase() == "prepared") {
+                let newSpellGain = new SpellChoice();
+                newSpellGain.available = 1;
+                newSpellGain.className = className;
+                newSpellGain.castingType = "Prepared";
+                newSpellGain.tradition = tradition;
+                newSpellGain.level = wizardrySlot.level;
+                newSpellGain.ringOfWizardry = (wizardrySlotIndex + 1);
+                newSpellGain.source = item.name;
+                item.gainSpells.push(newSpellGain)
+                this.refreshService.set_ToChange("Character", "Spells");
+            } else if (castingType.toLowerCase() == "spontaneous") {
+                let newEffectGain = new EffectGain();
+                newEffectGain.affected = className + " " + castingType + " Level " + wizardrySlot.level + " Spell Slots";
+                newEffectGain.value = "1"
+                newEffectGain.source = "Ring of Wizardry Slot " + (wizardrySlotIndex + 1);
+                item.effects.push(newEffectGain);
+                this.refreshService.set_ToChange("Character", "effects");
+            }
         }
         this.refreshService.process_ToChange();
     }

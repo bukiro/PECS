@@ -559,7 +559,10 @@ export class CharacterComponent implements OnInit, OnDestroy {
         } else if (character.get_SpellsTaken(this.characterService, lowerLevel, higherLevel).length) {
             this.refreshService.set_ToChange("Character", "spellbook");
             //if any spells have a dynamic level dependent on the character level,
-        } else if (character.get_SpellsTaken(this.characterService, 0, 20).some(taken => taken.choice.dynamicLevel.toLowerCase().includes("level"))) {
+        } else if (character.get_SpellsTaken(this.characterService, 0, 20)
+            .concat(character.get_AllEquipmentSpellsGranted())
+            .some(taken => taken.choice.dynamicLevel.toLowerCase().includes("level"))
+        ) {
             this.refreshService.set_ToChange("Character", "spellbook");
             //or if you have the cantrip connection or spell battery familiar ability.
         } else if (this.characterService.get_FamiliarAvailable()) {
@@ -993,7 +996,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 let newChoice: LoreChoice = character.add_LoreChoice(level, choice);
                 newChoice.source = "Different Worlds";
                 if (newChoice.loreName) {
-                    if (this.get_Skills('Lore: ' + newChoice.loreName, {}, {noSubstitutions: true}).length) {
+                    if (this.get_Skills('Lore: ' + newChoice.loreName, {}, { noSubstitutions: true }).length) {
                         let increases = character.get_SkillIncreases(this.characterService, 1, 20, 'Lore: ' + newChoice.loreName).filter(increase =>
                             increase.sourceId.includes("-Lore-")
                         );

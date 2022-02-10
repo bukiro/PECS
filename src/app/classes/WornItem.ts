@@ -10,6 +10,11 @@ import { Rune } from 'src/app/classes/Rune';
 import { Item } from './Item';
 import { LanguageGain } from './LanguageGain';
 
+export type RingOfWizardrySlot = {
+    tradition: string,
+    level: number
+}
+
 export class WornItem extends Equipment {
     //Allow changing of "equippable" by custom item creation.
     readonly allowEquippable = false;
@@ -39,10 +44,40 @@ export class WornItem extends Equipment {
     public battleforged: boolean = false;
     //A worn item can grant you languages while invested, which can be listed here. If the language is not locked, a text box will be available on the item to enter one.
     public gainLanguages: LanguageGain[] = [];
+    //Is this a Ring of Wizardry and lets you pick a spellcasting to add one or more spells?
+    public isRingOfWizardry: RingOfWizardrySlot[] = [];
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
         this.aeonStones = this.aeonStones.map(obj => Object.assign<WornItem, Item>(new WornItem(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         this.propertyRunes = this.propertyRunes.map(obj => Object.assign<WeaponRune, Item>(new WeaponRune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
+        if (this.isDoublingRings) {
+            if (!this.data[0]) {
+                this.data.push({name: "gold", show: false, type: "string", value: ""});
+            }
+            if (!this.data[1]) {
+                this.data.push({name: "iron", show: false, type: "string", value: ""});
+            }
+            if (!this.data[2]) {
+                this.data.push({name: "propertyRunes", show: false, type: "string", value: ""});
+            }
+        } else if (this.isTalismanCord) {
+            if (!this.data[0]) {
+                this.data.push({name: "Attuned magic school", show: false, type: "string", value: "no school attuned"});
+            }
+            if (!this.data[1]) {
+                this.data.push({name: "Second attuned magic school", show: false, type: "string", value: "no school attuned"});
+            }
+            if (!this.data[2]) {
+                this.data.push({name: "Third attuned magic school", show: false, type: "string", value: "no school attuned"});
+            }
+        } else if (this.isRingOfWizardry.length) {
+            this.isRingOfWizardry.forEach((wizardrySlot, index) => {
+                wizardrySlot.level = Math.max(Math.min(10, wizardrySlot.level), 0);
+                if (!this.data[index]) {
+                    this.data.push({name: "wizardrySlot", show: false, type: "string", value: "no spellcasting selected"});
+                }
+            })
+        }
         return this;
     }
     get_Name() {

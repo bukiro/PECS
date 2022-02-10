@@ -866,17 +866,19 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         //Returns false for spontaneous spell choices that draw from your spellbook (i.e. Esoteric Polymath and Arcane Evolution) and for spell choices with a cooldown.
         let choice = this.choice;
         if (!spellLevel) {
-            spellLevel = choice.level;
-            if (choice.dynamicLevel) {
-                spellLevel = this.get_DynamicLevel(choice);
-            }
+            spellLevel = choice.dynamicLevel ? this.get_DynamicLevel(choice) : choice.level;
         }
         return (
             !choice.spellBookOnly &&
             !choice.cooldown &&
             this.spellCasting?.castingType == "Spontaneous" &&
             !this.itemSpell &&
-            spell.have(this.characterService, this.spellCasting, spellLevel, choice.className, false)
+            this.spellCasting.spellChoices.some(otherChoice =>
+                (choice.dynamicLevel ? this.get_DynamicLevel(choice) : choice.level) == spellLevel &&
+                otherChoice.spells.some(gain =>
+                    !gain.locked && gain.name == spell.name
+                )
+            )
         );
     }
 

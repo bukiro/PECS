@@ -61,8 +61,9 @@
                     </span>
                     <div class="newrow lower" *ngIf="spellCastingParameters.casting.bondedItemCharges[0]"
                         [ngbPopover]="componentParameters.hasSuperiorBond ? 'You can use Drain Bonded Item one additional time per day, but only to cast a spell 2 or more levels lower than your highest-level spell.' : ''">
-                        {{spellCastingParameters.casting.bondedItemCharges[0]}}{{componentParameters.hasSuperiorBond ? "*" : ""}} bonded
-                        item charge{{spellCastingParameters.casting.bondedItemCharges[0] != 1 ? "s" : ""}} available
+                        {{spellCastingParameters.casting.bondedItemCharges[0]}}{{componentParameters.hasSuperiorBond ?
+                        "*" : ""}} bonded item charge{{spellCastingParameters.casting.bondedItemCharges[0] != 1 ? "s" :
+                        ""}} available
                     </div>
                     <div class="newrow lower" *ngIf="spellCastingParameters.maxStudiousCapacitySlots"
                         [ngbPopover]="'You can cast one spell each day even after you\'ve run out of spell slots of the appropriate spell level, but you can\'t use this ability to cast a spell of your highest spell level.'">
@@ -166,7 +167,7 @@
                     <div [ngClass]="{'icon-list':get_TileMode(), 'list-item':!get_TileMode()}"
                         *ngIf="spellCastingLevelParameters.spellTakenList.length">
                         <ng-container
-                            *ngFor="let spellParameters of get_SpellParameters(spellCastingParameters, spellCastingLevelParameters); let spellIndex = index; trackBy:trackByIndex;">
+                            *ngFor="let spellParameters of get_SpellParameters(spellCastingLevelParameters, spellCastingParameters); let spellIndex = index; trackBy:trackByIndex;">
                             <ng-template #SpellTitleTemplate>
                                 <span *ngIf="!get_TileMode()">
                                     <i class="value bi-patch-plus bonus" *ngIf="!spellParameters.isHostile"
@@ -244,7 +245,7 @@
                                     [casting]="spellCastingParameters.casting" [cannotCast]="spellParameters.cannotCast"
                                     [effectiveSpellLevel]="spellParameters.effectiveSpellLevel"
                                     [bloodMagicFeats]="componentParameters.bloodMagicFeats" [showDismiss]="true"
-                                    (castMessage)="on_Cast(spellCastingLevelParameters.level, spellParameters.effectiveSpellLevel, spellParameters.gain, spellCastingParameters.casting, spellParameters.choice, $event.target, spellParameters.spell, $event.activated, componentParameters.bloodMagicFeats)">
+                                    (castMessage)="on_Cast($event.target, $event.activated, { spellParameters: spellParameters, spellCastingLevelParameters: spellCastingLevelParameters, spellCastingParameters: spellCastingParameters, componentParameters: componentParameters })">
                                 </app-spellTarget>
                                 <div class="newrow"
                                     *ngIf="spellCastingParameters.casting.castingType == 'Focus' && spellParameters.spell.allowReturnFocusPoint"

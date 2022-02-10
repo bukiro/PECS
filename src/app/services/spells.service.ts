@@ -363,11 +363,14 @@ export class SpellsService {
     rest(character: Character, characterService: CharacterService) {
         //Get all owned spell gains that have a cooldown active.
         //If its cooldown is exactly one day or until rest (-2), the spell gain's cooldown is reset.
-        character.get_SpellsTaken(characterService, 0, 20).filter(taken => taken.gain.activeCooldown).forEach(taken => {
-            if ([-2, 144000].includes(taken.gain.cooldown)) {
-                taken.gain.activeCooldown = 0;
-            }
-        });
+        character.get_SpellsTaken(characterService, 0, 20)
+            .concat(character.get_AllEquipmentSpellsGranted())
+            .filter(taken => taken.gain.activeCooldown)
+            .forEach(taken => {
+                if ([-2, 144000].includes(taken.gain.cooldown)) {
+                    taken.gain.activeCooldown = 0;
+                }
+            });
         character.class.spellCasting.filter(casting => casting.castingType == "Prepared").forEach(casting => {
             casting.spellChoices.forEach(choice => {
                 choice.spells.forEach(gain => {
@@ -375,6 +378,9 @@ export class SpellsService {
                 });
             });
         });
+        character.get_AllEquipmentSpellsGranted().filter(granted => granted.choice.castingType == "Prepared").forEach(granted => {
+            granted.gain.prepared = true;
+        })
         character.class.spellCasting.filter(casting => casting.className == "Sorcerer" && casting.castingType == "Spontaneous").forEach(casting => {
             casting.spellChoices.filter(choice => choice.source == "Feat: Occult Evolution").forEach(choice => {
                 choice.spells.length = 0;
@@ -387,31 +393,37 @@ export class SpellsService {
     refocus(character: Character, characterService: CharacterService) {
         //Get all owned spell gains that have a cooldown active.
         //If its cooldown is until refocus (-3), the spell gain's cooldown is reset.
-        character.get_SpellsTaken(characterService, 0, 20).filter(taken => taken.gain.activeCooldown).forEach(taken => {
-            if (taken.gain.cooldown == -3) {
-                taken.gain.activeCooldown = 0;
-            }
-        });
+        character.get_SpellsTaken(characterService, 0, 20)
+            .concat(character.get_AllEquipmentSpellsGranted())
+            .filter(taken => taken.gain.activeCooldown)
+            .forEach(taken => {
+                if (taken.gain.cooldown == -3) {
+                    taken.gain.activeCooldown = 0;
+                }
+            });
         this.refreshService.set_ToChange("Character", "spellbook");
     }
 
     tick_Spells(character: Character, characterService: CharacterService, itemsService: ItemsService, conditionsService: ConditionsService, turns: number = 10) {
-        character.get_SpellsTaken(characterService, 0, 20).filter(taken => taken.gain.activeCooldown || taken.gain.duration).forEach(taken => {
-            //Tick down the duration and the cooldown.
-            if (taken.gain.duration > 0) {
-                taken.gain.duration = Math.max(taken.gain.duration - turns, 0)
-                if (taken.gain.duration == 0) {
-                    let spell: Spell = this.get_Spells(taken.gain.name)[0];
-                    if (spell) {
-                        this.process_Spell(character, taken.gain.selectedTarget, characterService, itemsService, conditionsService, null, null, taken.gain, spell, 0, false, false)
+        character.get_SpellsTaken(characterService, 0, 20)
+            .concat(character.get_AllEquipmentSpellsGranted())
+            .filter(taken => taken.gain.activeCooldown || taken.gain.duration)
+            .forEach(taken => {
+                //Tick down the duration and the cooldown.
+                if (taken.gain.duration > 0) {
+                    taken.gain.duration = Math.max(taken.gain.duration - turns, 0)
+                    if (taken.gain.duration == 0) {
+                        let spell: Spell = this.get_Spells(taken.gain.name)[0];
+                        if (spell) {
+                            this.process_Spell(character, taken.gain.selectedTarget, characterService, itemsService, conditionsService, null, null, taken.gain, spell, 0, false, false)
+                        }
                     }
                 }
-            }
-            this.refreshService.set_ToChange("Character", "spellbook");
-            if (taken.gain.activeCooldown) {
-                taken.gain.activeCooldown = Math.max(taken.gain.activeCooldown - turns, 0)
-            }
-        });
+                this.refreshService.set_ToChange("Character", "spellbook");
+                if (taken.gain.activeCooldown) {
+                    taken.gain.activeCooldown = Math.max(taken.gain.activeCooldown - turns, 0)
+                }
+            });
     }
 
     still_loading() {

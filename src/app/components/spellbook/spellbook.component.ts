@@ -24,6 +24,7 @@ type ComponentParameters = {
 }
 type SpellCastingParameters = {
     casting: SpellCasting,
+    equipmentSpells: { choice: SpellChoice, gain: SpellGain }[],
     maxStudiousCapacitySlots: number,
     usedStudiousCapacitySlots: number,
     maxFirstGreaterVitalEvolutionSlot: number,
@@ -196,13 +197,6 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             Spontaneous
         }
         return character.class.spellCasting
-            .filter(casting =>
-                (
-                    casting.charLevelAvailable && casting.charLevelAvailable <= character.level
-                ) || (
-                    casting.castingType == "Innate" && character.get_EquipmentSpellsGranted(this.characterService, -1, "", "", "", undefined, true).length
-                )
-            )
             .sort((a, b) => {
                 if (a.className == "Innate" && b.className != "Innate") {
                     return -1;
@@ -226,116 +220,103 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             });
     }
 
-    get_ComponentParameters(): ComponentParameters {
-        const bloodMagicFeats = this.get_BloodMagicFeats();
-        const focusPoints = this.get_FocusPoints();
-        const hasSuperiorBond = this.have_Feat('Superior Bond');
+    public get_ComponentParameters(): ComponentParameters {
         return {
-            bloodMagicFeats: bloodMagicFeats,
-            focusPoints: focusPoints,
-            hasSuperiorBond: hasSuperiorBond
+            bloodMagicFeats: this.get_BloodMagicFeats(),
+            focusPoints: this.get_FocusPoints(),
+            hasSuperiorBond: this.have_Feat('Superior Bond')
         };
     }
 
-    get_SpellCastingParameters(): SpellCastingParameters[] {
+    public get_SpellCastingParameters(): SpellCastingParameters[] {
         return this.get_SpellCastings().map(casting => {
-            const maxStudiousCapacitySlots = this.get_MaxSpellSlots(0, casting);
-            const usedStudiousCapacitySlots = this.get_UsedSpellSlots(0, casting);
-            const maxGreaterVitalEvolutionSlot = this.get_MaxSpellSlots(11, casting);
-            const usedFirstGreaterVitalEvolutionSlot = this.get_UsedSpellSlots(11, casting);
-            const usedSecondGreaterVitalEvolutionSlot = this.get_UsedSpellSlots(12, casting);
-            const maxSpellLevel = this.get_MaxSpellLevel(casting);
-            const canCounterSpell = this.can_Counterspell(casting);
+            const equipmentSpells = this.get_Character().get_EquipmentSpellsGranted(casting, { characterService: this.characterService }, { cantripAllowed: true });
+            //Don't list castings that have no spells available.
+            const castingAvailable = (
+                casting.charLevelAvailable &&
+                casting.charLevelAvailable <= this.get_Character().level
+            ) || equipmentSpells.length;
+            if (!castingAvailable) {
+                return null;
+            }
+            const maxSpellLevel = this.get_MaxSpellLevel(casting, equipmentSpells);
+            const maxGreaterVitalEvolutionSlot = this.get_MaxSpellSlots(11, casting, maxSpellLevel);
             return {
                 casting: casting,
-                maxStudiousCapacitySlots: maxStudiousCapacitySlots,
-                usedStudiousCapacitySlots: usedStudiousCapacitySlots,
+                equipmentSpells: equipmentSpells,
+                maxStudiousCapacitySlots: this.get_MaxSpellSlots(0, casting, maxSpellLevel),
+                usedStudiousCapacitySlots: this.get_UsedSpellSlots(0, casting),
                 maxFirstGreaterVitalEvolutionSlot: maxGreaterVitalEvolutionSlot,
-                usedFirstGreaterVitalEvolutionSlot: usedFirstGreaterVitalEvolutionSlot,
+                usedFirstGreaterVitalEvolutionSlot: this.get_UsedSpellSlots(11, casting),
                 maxSecondGreaterVitalEvolutionSlot: maxGreaterVitalEvolutionSlot,
-                usedSecondGreaterVitalEvolutionSlot: usedSecondGreaterVitalEvolutionSlot,
+                usedSecondGreaterVitalEvolutionSlot: this.get_UsedSpellSlots(12, casting),
                 maxSpellLevel: maxSpellLevel,
-                canCounterSpell: canCounterSpell
+                canCounterSpell: this.can_Counterspell(casting)
             };
-        })
+        }).filter(castingParameters => castingParameters);
     }
 
-    get_SpellCastingLevelParameters(spellCastingParameters: SpellCastingParameters, componentParameters: ComponentParameters): SpellCastingLevelParameters[] {
+    public get_SpellCastingLevelParameters(spellCastingParameters: SpellCastingParameters, componentParameters: ComponentParameters): SpellCastingLevelParameters[] {
         return [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].filter(level => level <= spellCastingParameters.maxSpellLevel).map(level => {
-            const spellTakenList = this.get_SpellsByLevel(level, spellCastingParameters.casting);
-            const temporaryChoiceList = this.get_TemporarySpellChoices(spellCastingParameters.casting, level);
-            const maxSpellSlots = this.get_MaxSpellSlots(level, spellCastingParameters.casting);
-            const usedSpellSlots = this.get_UsedSpellSlots(level, spellCastingParameters.casting);
-            const extraSpellSlots = this.get_ExtraSpellSlots(level, spellCastingParameters.casting, spellCastingParameters.maxStudiousCapacitySlots, spellCastingParameters.maxFirstGreaterVitalEvolutionSlot, spellCastingParameters.maxSecondGreaterVitalEvolutionSlot);
-            const canRestore = this.can_Restore(spellCastingParameters.casting, level, componentParameters.hasSuperiorBond);
+            const maxSpellSlots = this.get_MaxSpellSlots(level, spellCastingParameters.casting, spellCastingParameters.maxSpellLevel);
             return {
                 level: level,
-                spellTakenList: spellTakenList,
-                temporaryChoiceList: temporaryChoiceList,
+                spellTakenList: this.get_SpellsByLevel(level, spellCastingParameters),
+                temporaryChoiceList: this.get_TemporarySpellChoices(spellCastingParameters, level),
                 maxSpellSlots: maxSpellSlots,
-                usedSpellSlots: usedSpellSlots,
-                extraSpellSlots: extraSpellSlots,
-                canRestore: canRestore
+                usedSpellSlots: this.get_UsedSpellSlots(level, spellCastingParameters.casting),
+                extraSpellSlots: this.get_ExtraSpellSlots(level, maxSpellSlots, spellCastingParameters),
+                canRestore: this.can_Restore(spellCastingParameters, level, componentParameters.hasSuperiorBond)
             };
         })
     }
 
-    get_SpellParameters(spellCastingParameters: SpellCastingParameters, spellCastingLevelParameters: SpellCastingLevelParameters): SpellParameters[] {
+    public get_SpellParameters(spellCastingLevelParameters: SpellCastingLevelParameters, spellCastingParameters: SpellCastingParameters): SpellParameters[] {
         return spellCastingLevelParameters.spellTakenList.map(spellTaken => {
             const choice = spellTaken.choice;
             const gain = spellTaken.gain;
             const spell = this.get_Spells(gain.name)[0];
             const externallyDisabled = this.get_ExternallyDisabled(spell, choice);
-            const effectiveSpellLevel = this.get_EffectiveSpellLevel(spell, { baseLevel: spellCastingLevelParameters.level, gain: gain });
-            const cannotCast = this.cannot_Cast({ spellCastingLevelParameters: spellCastingLevelParameters, spellCastingParameters: spellCastingParameters, choice: choice, gain: gain, externallyDisabled: externallyDisabled });
-            const cannotExpend = this.cannot_Cast({ spellCastingLevelParameters: spellCastingLevelParameters, spellCastingParameters: spellCastingParameters, choice: choice, gain: gain, externallyDisabled: false });
-            const canChannelSmite = this.can_ChannelSmite(spell);
-            const canSwiftBanish = this.can_SwiftBanish(spellCastingParameters.casting, spell, spellCastingLevelParameters.level);
-            const isSignatureSpell = this.is_SignatureSpell(spellCastingParameters.casting, gain);
-            const isSpellCombinationSpell = choice.spellCombination;
-            const isInfinitePossibilitiesSpell = this.is_InfinitePossibilitiesSpell(choice);
-            const isSpellMasterySpell = this.is_SpellMasterySpell(choice);
-            const isCrossbloodedEvolutionSpell = choice.crossbloodedEvolution;
-            const canReprepare = this.can_Reprepare(spellCastingLevelParameters.level, spell, spellCastingParameters.casting);
-            const isHostile = spell.get_IsHostile();
             return {
                 spell: spell,
                 choice: choice,
                 gain: gain,
                 externallyDisabled: externallyDisabled,
-                effectiveSpellLevel: effectiveSpellLevel,
-                cannotCast: cannotCast,
-                cannotExpend: cannotExpend,
-                canChannelSmite: canChannelSmite,
-                canSwiftBanish: canSwiftBanish,
-                isSignatureSpell: isSignatureSpell,
-                isSpellCombinationSpell: isSpellCombinationSpell,
-                isInfinitePossibilitiesSpell: isInfinitePossibilitiesSpell,
-                isSpellMasterySpell: isSpellMasterySpell,
-                isCrossbloodedEvolutionSpell: isCrossbloodedEvolutionSpell,
-                canReprepare: canReprepare,
-                isHostile: isHostile
+                effectiveSpellLevel: this.get_EffectiveSpellLevel(spell, { baseLevel: spellCastingLevelParameters.level, gain: gain }),
+                cannotCast: this.cannot_Cast({ spellCastingLevelParameters: spellCastingLevelParameters, spellCastingParameters: spellCastingParameters, choice: choice, gain: gain, externallyDisabled: externallyDisabled }),
+                cannotExpend: this.cannot_Cast({ spellCastingLevelParameters: spellCastingLevelParameters, spellCastingParameters: spellCastingParameters, choice: choice, gain: gain, externallyDisabled: false }),
+                canChannelSmite: this.can_ChannelSmite(spell),
+                canSwiftBanish: this.can_SwiftBanish(spellCastingParameters.casting, spell, spellCastingLevelParameters.level),
+                isSignatureSpell: this.is_SignatureSpell(spellCastingParameters.casting, gain),
+                isSpellCombinationSpell: choice.spellCombination,
+                isInfinitePossibilitiesSpell: this.is_InfinitePossibilitiesSpell(choice),
+                isSpellMasterySpell: this.is_SpellMasterySpell(choice),
+                isCrossbloodedEvolutionSpell: choice.crossbloodedEvolution,
+                canReprepare: this.can_Reprepare(spellCastingLevelParameters.level, spell, spellCastingParameters.casting),
+                isHostile: spell.get_IsHostile()
             }
         })
     }
 
-    get_MaxSpellLevel(casting: SpellCasting) {
+    get_MaxSpellLevel(casting: SpellCasting, equipmentSpells: { choice: SpellChoice, gain: SpellGain }[]) {
         //Get the available spell level of this casting. This is the highest spell level of the spell choices that are available at your character level.
         //Focus spells are heightened to half your level rounded up.
         //Dynamic spell levels need to be evaluated.
-        //Innate spellcasting needs to consider spells granted by items.
-        //All spells with dynamic level have their level evaluated in this procedure and can use _level afterwards.
+        //Non-Focus spellcastings need to consider spells granted by items.
         const character = this.get_Character();
         if (casting.castingType == "Focus") {
             return this.get_Character().get_SpellLevel();
         }
-        if (casting.castingType == "Innate") {
-            return Math.max(...this.get_Character().get_EquipmentSpellsGranted(this.characterService, -1, "", "", "", undefined, true).map(spellChoice => spellChoice.choice.dynamicLevel ? this.get_DynamicLevel(casting, spellChoice.choice) : spellChoice.choice.level), ...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= character.level).map(spellChoice => spellChoice.dynamicLevel ? this.get_DynamicLevel(casting, spellChoice) : spellChoice.level), 0);
-        }
-        return Math.max(...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= character.level).map(spellChoice => spellChoice.dynamicLevel ? this.get_DynamicLevel(casting, spellChoice) : spellChoice.level), 0);
+        return Math.max(
+            ...equipmentSpells
+                .map(spellSet => spellSet.choice.dynamicLevel ? this.get_DynamicLevel(spellSet.choice, casting) : spellSet.choice.level),
+            ...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= character.level)
+                .map(spellChoice => spellChoice.dynamicLevel ? this.get_DynamicLevel(spellChoice, casting) : spellChoice.level),
+            0
+        );
     }
 
-    get_DynamicLevel(casting: SpellCasting, choice: SpellChoice) {
+    get_DynamicLevel(choice: SpellChoice, casting: SpellCasting) {
         return this.spellsService.get_DynamicSpellLevel(casting, choice, this.characterService);
     }
 
@@ -344,17 +325,18 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             .some(feat => feat.allowSignatureSpells.some(gain => gain.className == casting.className) && feat.have(this.get_Character(), this.characterService))
     }
 
-    get_SpellsByLevel(levelNumber: number, casting: SpellCasting) {
+    get_SpellsByLevel(levelNumber: number, spellCastingParameters: SpellCastingParameters) {
         let character = this.get_Character();
         if (levelNumber == -1) {
-            if (casting.castingType == "Focus") {
-                return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed(casting), false)
+            if (spellCastingParameters.casting.castingType == "Focus") {
+                return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", spellCastingParameters.casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed(spellCastingParameters.casting), false)
                     .sort((a, b) => (a.gain.name == b.gain.name) ? 0 : ((a.gain.name > b.gain.name) ? 1 : -1));
             } else {
                 return [];
             }
         } else {
-            return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed(casting))
+            return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", spellCastingParameters.casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed(spellCastingParameters.casting), true)
+                .concat(...spellCastingParameters.equipmentSpells.filter(spellSet => (spellSet.choice.dynamicLevel ? this.get_DynamicLevel(spellSet.choice, spellCastingParameters.casting) : spellSet.choice.level) == levelNumber))
                 .sort((a, b) => (a.gain.name == b.gain.name) ? 0 : ((a.gain.name > b.gain.name) ? 1 : -1));
         }
     }
@@ -405,24 +387,21 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         }
     }
 
-    get_ExtraSpellSlots(level: number, casting: SpellCasting, studiouscapacityslots: number, firstgreatervitalevolutionslot: number, secondgreatervitalevolutionslot: number) {
+    get_ExtraSpellSlots(level: number, maxSpellLevel: number, spellCastingParameters: SpellCastingParameters) {
         let extraSpellSlots = "";
-        let studiouscapacityslotsused = this.get_UsedSpellSlots(0, casting);
-        let firstgreatervitalevolutionslotused = this.get_UsedSpellSlots(11, casting);
-        let secondgreatervitalevolutionslotused = this.get_UsedSpellSlots(12, casting);
-        if (level < this.get_MaxSpellLevel(casting) && (studiouscapacityslots - studiouscapacityslotsused > 0)) {
-            extraSpellSlots += "+" + (studiouscapacityslots - studiouscapacityslotsused).toString();
+        if (level < maxSpellLevel && (spellCastingParameters.maxStudiousCapacitySlots - spellCastingParameters.usedStudiousCapacitySlots > 0)) {
+            extraSpellSlots += "+" + (spellCastingParameters.maxStudiousCapacitySlots - spellCastingParameters.usedStudiousCapacitySlots).toString();
         }
         if (
             (
-                firstgreatervitalevolutionslot ||
-                secondgreatervitalevolutionslot
+                spellCastingParameters.maxFirstGreaterVitalEvolutionSlot ||
+                spellCastingParameters.maxSecondGreaterVitalEvolutionSlot
             ) && (
-                firstgreatervitalevolutionslotused == 0 ||
-                secondgreatervitalevolutionslotused == 0
+                spellCastingParameters.usedFirstGreaterVitalEvolutionSlot == 0 ||
+                spellCastingParameters.usedFirstGreaterVitalEvolutionSlot == 0
             ) && (
-                firstgreatervitalevolutionslotused != level &&
-                secondgreatervitalevolutionslotused != level
+                spellCastingParameters.usedFirstGreaterVitalEvolutionSlot != level &&
+                spellCastingParameters.usedSecondGreaterVitalEvolutionSlot != level
             )
         ) {
             extraSpellSlots += "+1";
@@ -435,7 +414,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         casting.spellSlotsUsed[level] -= amount;
     }
 
-    get_MaxSpellSlots(spellLevel: number, casting: SpellCasting) {
+    get_MaxSpellSlots(spellLevel: number, casting: SpellCasting, maxSpellLevel: number) {
         if (casting.castingType == "Spontaneous") {
             let spellslots: number = 0;
             //You have as many spontaneous spell slots as you have original spells (e.g. spells with source "*Sorcerer Spellcasting" for Sorcerers),
@@ -454,10 +433,10 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                 ).forEach(choice => {
                     spellslots += choice.available;
                 });
-                if (spellLevel <= this.get_MaxSpellLevel(casting) - 2 && (casting.className == "Bard" && this.have_Feat("Occult Breadth"))) {
+                if (spellLevel <= maxSpellLevel - 2 && (casting.className == "Bard" && this.have_Feat("Occult Breadth"))) {
                     spellslots += 1;
                 }
-                if (spellLevel <= this.get_MaxSpellLevel(casting) - 2 && (casting.className == "Sorcerer" && this.have_Feat("Bloodline Breadth"))) {
+                if (spellLevel <= maxSpellLevel - 2 && (casting.className == "Sorcerer" && this.have_Feat("Bloodline Breadth"))) {
                     spellslots += 1;
                 }
             }
@@ -559,7 +538,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         return this.characterService.get_Feats().filter(feat => feat.bloodMagic.length && feat.have(character, this.characterService, character.level));
     }
 
-    on_Cast(levelNumber: number, effectiveSpellLevel: number, gain: SpellGain, casting: SpellCasting, choice: SpellChoice, target: string = "", spell: Spell, activated: boolean, bloodMagicFeats: Feat[]) {
+    on_Cast(target: string = "", activated: boolean, context: {spellParameters: SpellParameters, spellCastingLevelParameters: SpellCastingLevelParameters, spellCastingParameters: SpellCastingParameters, componentParameters: ComponentParameters}) {
         let character = this.get_Character();
         let highestSpellPreservationLevel = 0;
         let highestNoDurationSpellPreservationLevel = 0;
@@ -581,7 +560,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             highestNoDurationSpellPreservationLevel += parseInt(effect.value);
             conditionsToRemove.push(effect.source);
         })
-        if (choice.source == "Feat: Channeled Succor") {
+        if (context.spellParameters.choice.source == "Feat: Channeled Succor") {
             //When you use a Channeled Succor spell, you instead expend a heal spell from your divine font.
             let divineFontSpell = character.get_SpellsTaken(this.characterService, 1, character.level, -1, 'Heal', null, '', '', '', 'Divine Font').find(taken => taken.gain.prepared);
             if (divineFontSpell) {
@@ -589,35 +568,35 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             }
             //Update effects because Channeled Succor gets disabled after you expend all your divine font heal spells.
             this.refreshService.set_ToChange("Character", "effects");
-        } else if (gain.cooldown) {
+        } else if (context.spellParameters.gain.cooldown) {
             //Spells with a cooldown don't use any resources. They will start their cooldown in spell processing.
         } else {
             //Casting cantrips and deactivating spells doesn't use resources.
-            if (activated && !spell.traits.includes("Cantrip")) {
+            if (activated && !context.spellParameters.spell.traits.includes("Cantrip")) {
                 //Non-Cantrip Focus spells cost Focus points when activated.
-                if (casting.castingType == "Focus") {
+                if (context.spellCastingParameters.casting.castingType == "Focus") {
                     //Limit focus points to the maximum before removing one.
                     character.class.focusPoints = Math.min(character.class.focusPoints, this.get_MaxFocusPoints());
                     character.class.focusPoints -= 1;
                 } else {
-                    if (!((levelNumber <= highestSpellPreservationLevel) || (levelNumber <= highestNoDurationSpellPreservationLevel && !spell.duration))) {
+                    if (!((context.spellCastingLevelParameters.level <= highestSpellPreservationLevel) || (context.spellCastingLevelParameters.level <= highestNoDurationSpellPreservationLevel && !context.spellParameters.spell.duration))) {
                         //Spontaneous spells use up spell slots. If you don't have spell slots of this level left, use a Studious Capacity one as a bard (0th level) or a Greater Vital Evolution one as a Sorcerer (11th and 12th level).
-                        if (casting.castingType == "Spontaneous" && !spell.traits.includes("Cantrip") && activated) {
-                            if (this.get_UsedSpellSlots(levelNumber, casting) < this.get_MaxSpellSlots(levelNumber, casting)) {
-                                casting.spellSlotsUsed[levelNumber] += 1;
-                            } else if (casting.className == "Bard") {
-                                casting.spellSlotsUsed[0] += 1;
-                            } else if (casting.className == "Sorcerer") {
-                                if (casting.spellSlotsUsed[11] == 0) {
-                                    casting.spellSlotsUsed[11] = levelNumber;
-                                } else if (casting.spellSlotsUsed[12] == 0) {
-                                    casting.spellSlotsUsed[12] = levelNumber;
+                        if (context.spellCastingParameters.casting.castingType == "Spontaneous" && !context.spellParameters.spell.traits.includes("Cantrip") && activated) {
+                            if (context.spellCastingLevelParameters.usedSpellSlots < context.spellCastingLevelParameters.maxSpellSlots) {
+                                context.spellCastingParameters.casting.spellSlotsUsed[context.spellCastingLevelParameters.level] += 1;
+                            } else if (context.spellCastingParameters.casting.className == "Bard") {
+                                context.spellCastingParameters.casting.spellSlotsUsed[0] += 1;
+                            } else if (context.spellCastingParameters.casting.className == "Sorcerer") {
+                                if (context.spellCastingParameters.casting.spellSlotsUsed[11] == 0) {
+                                    context.spellCastingParameters.casting.spellSlotsUsed[11] = context.spellCastingLevelParameters.level;
+                                } else if (context.spellCastingParameters.casting.spellSlotsUsed[12] == 0) {
+                                    context.spellCastingParameters.casting.spellSlotsUsed[12] = context.spellCastingLevelParameters.level;
                                 }
                             }
                         }
                         //Prepared spells get locked until the next preparation.
-                        if (casting.castingType == "Prepared" && !spell.traits.includes("Cantrip") && activated) {
-                            gain.prepared = false;
+                        if (context.spellCastingParameters.casting.castingType == "Prepared" && !context.spellParameters.spell.traits.includes("Cantrip") && activated) {
+                            context.spellParameters.gain.prepared = false;
                         }
                     }
                 };
@@ -633,21 +612,21 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         }
         //Trigger bloodline powers or other additional effects.
         //Do not process in manual mode or when explicitly disabled.
-        if (!this.get_ManualMode() && !gain.ignoreBloodMagicTrigger) {
-            bloodMagicFeats.forEach(feat => {
+        if (!this.get_ManualMode() && !context.spellParameters.gain.ignoreBloodMagicTrigger) {
+            context.componentParameters.bloodMagicFeats.forEach(feat => {
                 feat.bloodMagic.forEach(bloodMagic => {
-                    if (bloodMagic.trigger.includes(spell.name) ||
+                    if (bloodMagic.trigger.includes(context.spellParameters.spell.name) ||
                         bloodMagic.sourceTrigger.some(sourceTrigger =>
                             [
-                                casting?.source.toLowerCase() || "",
-                                gain?.source.toLowerCase() || ""
+                                context.spellCastingParameters.casting?.source.toLowerCase() || "",
+                                context.spellParameters.gain?.source.toLowerCase() || ""
                             ].includes(sourceTrigger.toLowerCase())
                         )) {
                         let conditionGain = new ConditionGain();
                         conditionGain.name = bloodMagic.condition;
                         conditionGain.duration = bloodMagic.duration;
                         conditionGain.source = feat.name;
-                        conditionGain.heightened = effectiveSpellLevel;
+                        conditionGain.heightened = context.spellParameters.effectiveSpellLevel;
                         if (conditionGain.name) {
                             this.characterService.add_Condition(this.get_Character(), conditionGain, false);
                         }
@@ -655,11 +634,11 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                 })
             })
         }
-        this.spellsService.process_Spell(character, target, this.characterService, this.itemsService, this.conditionsService, casting, choice, gain, spell, levelNumber, activated, true);
-        if (gain.combinationSpellName) {
-            let secondSpell = this.get_Spells(gain.combinationSpellName)[0];
+        this.spellsService.process_Spell(character, target, this.characterService, this.itemsService, this.conditionsService, context.spellCastingParameters.casting, context.spellParameters.choice, context.spellParameters.gain, context.spellParameters.spell, context.spellCastingLevelParameters.level, activated, true);
+        if (context.spellParameters.gain.combinationSpellName) {
+            let secondSpell = this.get_Spells(context.spellParameters.gain.combinationSpellName)[0];
             if (secondSpell) {
-                this.spellsService.process_Spell(character, target, this.characterService, this.itemsService, this.conditionsService, casting, choice, gain, secondSpell, levelNumber, activated, true);
+                this.spellsService.process_Spell(character, target, this.characterService, this.itemsService, this.conditionsService, context.spellCastingParameters.casting, context.spellParameters.choice, context.spellParameters.gain, secondSpell, context.spellCastingLevelParameters.level, activated, true);
             }
         }
     }
@@ -706,23 +685,23 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         }
     }
 
-    can_Restore(casting: SpellCasting, level: number, hasSuperiorBond: boolean): boolean {
+    can_Restore(spellCastingParameters: SpellCastingParameters, level: number, hasSuperiorBond: boolean): boolean {
         //True if you have the "Free Bonded Item Charge" effect (usually from Bond Conversation)
         if (this.effectsService.get_EffectsOnThis(this.get_Character(), "Free Bonded Item Charge").length) {
             return true;
         }
         //True if there is a charge available for this level
-        if (casting.bondedItemCharges[level]) {
+        if (spellCastingParameters.casting.bondedItemCharges[level]) {
             return true;
         }
         //True if there is more than one general charge available - it means we have Superior Bond, and the first charge can be applied to every level.
-        if (casting.bondedItemCharges[0] > 1) {
+        if (spellCastingParameters.casting.bondedItemCharges[0] > 1) {
             return true;
         }
         //If there is only one charge, we need to check if this came from the Superior Bond feat.
         //If we have that feat, the last charge is the Superior Bond charge and can only be applied to a spell 2 or more levels lower than the highest-level spell.
-        if (casting.bondedItemCharges[0] > 0) {
-            if (level <= this.get_MaxSpellLevel(casting) - 2) {
+        if (spellCastingParameters.casting.bondedItemCharges[0] > 0) {
+            if (level <= spellCastingParameters.maxSpellLevel - 2) {
                 return true;
             } else {
                 if (hasSuperiorBond) {
@@ -793,11 +772,11 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         return choice.source == "Feat: Spell Mastery";
     }
 
-    get_TemporarySpellChoices(casting: SpellCasting, level: number) {
-        return casting.spellChoices.filter(choice =>
+    get_TemporarySpellChoices(spellCastingParameters: SpellCastingParameters, level: number) {
+        return spellCastingParameters.casting.spellChoices.concat(spellCastingParameters.equipmentSpells.map(spellSet => spellSet.choice)).filter(choice =>
             choice.showOnSheet &&
-            ((choice.dynamicLevel ? this.get_DynamicLevel(casting, choice) : choice.level) == level) &&
-            this.get_TemporarySpellChoiceUnlocked(casting, choice, level));
+            ((choice.dynamicLevel ? this.get_DynamicLevel(choice, spellCastingParameters.casting) : choice.level) == level) &&
+            this.get_TemporarySpellChoiceUnlocked(spellCastingParameters.casting, choice, level));
     }
 
     get_TemporarySpellChoiceUnlocked(casting: SpellCasting, choice: SpellChoice, level: number = 0): boolean {

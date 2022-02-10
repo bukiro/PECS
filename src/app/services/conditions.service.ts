@@ -383,21 +383,26 @@ export class ConditionsService {
             let character = characterService.get_Character();
             //If no other conditions have this ConditionGain's sourceGainID, find the matching Spellgain or ActivityGain and disable it.
             if (!characterService.get_AppliedConditions(character).some(conditionGain => conditionGain !== gain && conditionGain.sourceGainID == gain.sourceGainID)) {
-                character.get_SpellsTaken(characterService, 0, 20).filter(taken => taken.gain.id == gain.sourceGainID && taken.gain.active).forEach(taken => {
-                    let spell = characterService.spellsService.get_Spells(taken.gain.name)[0];
-                    if (spell) {
-                        characterService.spellsService.process_Spell(character, taken.gain.selectedTarget, characterService, itemsService, characterService.conditionsService, null, null, taken.gain, spell, 0, false, false)
-                    }
-                    this.refreshService.set_ToChange("Character", "spellbook");
-                });
-                characterService.get_OwnedActivities(creature, 20, true).filter(activityGain => activityGain.id == gain.sourceGainID && activityGain.active).forEach(activityGain => {
-                    //Tick down the duration and the cooldown.
-                    let activity: Activity | ItemActivity = activityGain.get_OriginalActivity(characterService.activitiesService);
-                    if (activity) {
-                        characterService.activitiesService.activate_Activity(creature, activityGain.selectedTarget, characterService, characterService.conditionsService, itemsService, characterService.spellsService, activityGain, activity, false, false)
-                    }
-                    this.refreshService.set_ToChange("Character", "activities");
-                });
+                character.get_SpellsTaken(characterService, 0, 20)
+                    .concat(character.get_AllEquipmentSpellsGranted())
+                    .filter(taken => taken.gain.id == gain.sourceGainID && taken.gain.active)
+                    .forEach(taken => {
+                        let spell = characterService.spellsService.get_Spells(taken.gain.name)[0];
+                        if (spell) {
+                            characterService.spellsService.process_Spell(character, taken.gain.selectedTarget, characterService, itemsService, characterService.conditionsService, null, null, taken.gain, spell, 0, false, false)
+                        }
+                        this.refreshService.set_ToChange("Character", "spellbook");
+                    });
+                characterService.get_OwnedActivities(creature, 20, true)
+                    .filter(activityGain => activityGain.id == gain.sourceGainID && activityGain.active)
+                    .forEach(activityGain => {
+                        //Tick down the duration and the cooldown.
+                        let activity: Activity | ItemActivity = activityGain.get_OriginalActivity(characterService.activitiesService);
+                        if (activity) {
+                            characterService.activitiesService.activate_Activity(creature, activityGain.selectedTarget, characterService, characterService.conditionsService, itemsService, characterService.spellsService, activityGain, activity, false, false)
+                        }
+                        this.refreshService.set_ToChange("Character", "activities");
+                    });
             }
         }
 

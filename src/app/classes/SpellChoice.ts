@@ -63,6 +63,8 @@ export class SpellChoice {
     public adaptiveAdept: boolean = false;
     //Crossblooded Evolution tracks whether one of the spell slots of this choice can be filled with a spell from another tradition.
     public crossbloodedEvolution: boolean = false;
+    //Ring of wizardry spell choices need to be found and replaced when the selected spellcasting changes.
+    public ringOfWizardry: number = 0;
     //If this spellchoice is resonant, you can only use it while the granting aeon stone is slotted in a wayfinder.
     public resonant: boolean = false;
     //If target is set to "Others", you can only choose spells with target != "self".
