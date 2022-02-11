@@ -110,7 +110,7 @@ export class ItemTalismanCordsComponent implements OnInit {
         if (this.item instanceof Weapon) {
             this.refreshService.set_ToChange("Character", "attacks");
         }
-        if (this.item instanceof Armor || this.item instanceof Shield) {
+        if (this.item instanceof Armor || this.item instanceof Shield || this.item instanceof WornItem) {
             this.refreshService.set_ToChange("Character", "defense");
         }
         this.refreshService.set_ToChange("Character", this.item.id);

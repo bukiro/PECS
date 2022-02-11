@@ -9,6 +9,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { Weapon } from 'src/app/classes/Weapon';
 import { Armor } from 'src/app/classes/Armor';
 import { Shield } from 'src/app/classes/Shield';
+import { WornItem } from 'src/app/classes/WornItem';
 
 @Component({
     selector: 'app-itemTalismans',
@@ -51,7 +52,7 @@ export class ItemTalismansComponent implements OnInit {
             for (let index = 0; index < this.item.talismans.length; index++) {
                 indexes.push(index);
             }
-        } else if (this.itemStore || this.get_Character().inventories.some(inv => this.get_Talismans(inv).length)) {
+        } else if (this.itemStore || this.get_Character().inventories.some(inv => inv.talismans.length)) {
             indexes.push(0);
         }
         return indexes;
@@ -85,8 +86,12 @@ export class ItemTalismansComponent implements OnInit {
                 (
                     talisman.talisman.targets.includes(this.item.type) ||
                     (
-                        //One Exception: The jade bauble is affixed to a melee weapon, which is not a weapon type.
-                        (this.item as Weapon).melee && talisman.talisman.targets.includes("melee weapons")
+                        //One exception: The jade bauble is affixed to a melee weapon, which is not a weapon type.
+                        this.item instanceof Weapon && this.item.melee && talisman.talisman.targets.includes("melee weapons")
+                    ) ||
+                    (
+                        //Two exceptions: Worn items with the bracers of armor functionality can attach armor talismans.
+                        this.item instanceof WornItem && this.item.isBracersOfArmor && talisman.talisman.targets.includes("armors")
                     )
                 )
             )
@@ -121,7 +126,7 @@ export class ItemTalismansComponent implements OnInit {
         if (this.item instanceof Weapon) {
             this.refreshService.set_ToChange("Character", "attacks");
         }
-        if (this.item instanceof Armor || this.item instanceof Shield) {
+        if (this.item instanceof Armor || this.item instanceof Shield || this.item instanceof WornItem) {
             this.refreshService.set_ToChange("Character", "defense");
         }
         this.set_TalismanNames();

@@ -494,18 +494,18 @@ export class InventoryComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
-    can_ApplyTalismans(item: Item) {
-        return (["armors", "shields", "weapons"].includes(item.type)) &&
+    can_ApplyTalismans(item: Equipment) {
+        return (["armors", "shields", "weapons"].includes(item.type) || (item instanceof WornItem && item.isBracersOfArmor)) &&
             (
-                (item as Equipment).talismans.length ||
-                this.get_Creature().inventories.some(inv => inv.talismans.some(talisman => talisman.targets.includes(item.type)))
+                item.talismans.length ||
+                this.get_Creature().inventories.some(inv => inv.talismans.length)
             )
     }
 
-    can_ApplyTalismanCords(item: Item) {
-        return (["armors", "shields", "weapons"].includes(item.type)) &&
+    can_ApplyTalismanCords(item: Equipment) {
+        return (["armors", "shields", "weapons"].includes(item.type) || (item instanceof WornItem && item.isBracersOfArmor)) &&
             (
-                (item as Equipment).talismanCords.length ||
+                item.talismanCords.length ||
                 this.get_Creature().inventories.some(inv => inv.wornitems.some(wornitem => wornitem.isTalismanCord))
             )
     }

@@ -14,7 +14,7 @@
         ],
         "usage": "affixed to armor",
         "targets": [
-            "armor"
+            "armors"
         ],
         "actions": "1A",
         "activationType": "Envision",
@@ -111,7 +111,7 @@
         ],
         "usage": "affixed to armor",
         "targets": [
-            "armor"
+            "armors"
         ],
         "actions": "Free",
         "activationType": "Envision",

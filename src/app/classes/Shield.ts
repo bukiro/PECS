@@ -22,8 +22,8 @@ export class Shield extends Equipment {
     //Are you currently taking cover behind the shield?
     public takingCover: boolean = false;
     public brokenThreshold: number = 0;
-    //The additional AC bonus received when taking cover behind the shield.
-    public coverbonus: number = 0;
+    //Allow taking cover behind the shield when it is raised.
+    public coverbonus: boolean = false;
     public damage: number = 0;
     public hardness: number = 0;
     public hitpoints: number = 0;

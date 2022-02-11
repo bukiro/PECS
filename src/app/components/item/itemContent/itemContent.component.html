@@ -24,7 +24,7 @@
         <ng-container
             *ngFor="let acBonus of [item.get_ACBonus ? item.get_ACBonus() : item.acbonus]; trackBy:trackByIndex;">
             <span [ngClass]="{'penalty':acBonus < item.acbonus, 'bonus':acBonus > item.acbonus}">
-                {{acBonus}}{{item.coverbonus ? " (" + (item.acbonus+item.coverbonus) + ")" : ""}}
+                {{acBonus}}{{item.coverbonus ? " (4)" : ""}}
             </span>
         </ng-container>
     </span>

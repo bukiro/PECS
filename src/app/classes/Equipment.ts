@@ -78,6 +78,8 @@ export class Equipment extends Item {
     public talismans: Talisman[] = [];
     //List any Talisman Cords attached to this item.
     public talismanCords: WornItem[] = [];
+    //List any senses you gain when the item is equipped or invested.
+    public gainSenses: string[] = [];
     recast(typeService: TypeService, itemsService: ItemsService): Equipment {
         super.recast(typeService, itemsService);
         this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
@@ -115,12 +117,8 @@ export class Equipment extends Item {
         return (this.traits.includes("Invested"));
     }
     can_Stack() {
-        //Additionally to the usual considerations, equipment can't stack if it adds an inventory or any activities.
-        return (
-            super.can_Stack() &&
-            !this.gainInventory.length &&
-            !this.activities.some((activity: ItemActivity) => !activity.displayOnly)
-        )
+        //Equipment cannot stack.
+        return false;
     }
     get_Bulk() {
         //Return either the bulk set by an oil, or the bulk of the item, possibly reduced by the material.

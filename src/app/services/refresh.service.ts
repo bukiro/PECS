@@ -199,7 +199,11 @@ export class RefreshService {
             this.set_ToChange(creature.type, "activities");
         }
         if (item.gainSpells.length) {
-            this.set_ToChange("Character", "spellbook");
+            this.set_ToChange(creature.type, "spellbook");
+            this.set_ToChange(creature.type, "spells");
+        }
+        if (item.gainSenses.length) {
+            this.set_ToChange(creature.type, "skills");
         }
         item.propertyRunes.forEach((rune: Rune) => {
             if (item instanceof Armor) {
@@ -226,6 +230,18 @@ export class RefreshService {
             if (item.isHandwrapsOfMightyBlows) {
                 this.set_ToChange(creature.type, "inventory");
                 this.set_ToChange(creature.type, "attacks");
+            }
+            if (item.isBracersOfArmor) {
+                this.set_ToChange(creature.type, "inventory");
+                this.set_ToChange(creature.type, "defense");
+            }
+            if (item.isRingOfWizardry) {
+                this.set_ToChange(creature.type, "inventory");
+                this.set_ToChange(creature.type, "spellbook");
+                this.set_ToChange(creature.type, "spells");
+            }
+            if (item.gainLanguages.length) {
+                this.set_ToChange(creature.type, "general");
             }
         }
     }

@@ -3,6 +3,7 @@ import { AC } from 'src/app/classes/AC';
 import { Creature } from 'src/app/classes/Creature';
 import { Armor } from 'src/app/classes/Armor';
 import { Shield } from 'src/app/classes/Shield';
+import { WornItem } from '../classes/WornItem';
 
 @Injectable({
     providedIn: 'root'
@@ -18,13 +19,15 @@ export class DefenseService {
     }
 
     public get_EquippedArmor(creature: Creature): Armor[] {
-        const armors = creature.inventories[0].armors;
-        return armors.filter(armor => armor.equipped);
+        return creature.inventories[0].armors.filter(armor => armor.equipped);
+    }
+
+    public get_EquippedBracersOfArmor(creature: Creature): WornItem[] {
+        return creature.inventories[0].wornitems.filter(wornItem => wornItem.isBracersOfArmor && wornItem.investedOrEquipped());
     }
 
     public get_EquippedShield(creature: Creature): Shield[] {
-        const shields = creature.inventories[0].shields;
-        return shields.filter(shield => shield.equipped && !shield.broken);
+        return creature.inventories[0].shields.filter(shield => shield.equipped && !shield.broken);
     }
 
 }

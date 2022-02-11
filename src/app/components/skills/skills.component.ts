@@ -150,7 +150,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     get_Senses() {
-        return this.characterService.get_Senses(this.get_Creature());
+        return this.characterService.get_Senses(this.get_Creature(), undefined, true);
     }
 
     get_Speeds() {
@@ -204,6 +204,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
                 if (sense.includes("Tremorsense")) {
                     return "You can feel the vibrations through a solid surface caused by movement."
                 }
+                return "";
         }
     }
 

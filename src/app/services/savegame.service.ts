@@ -18,7 +18,6 @@ import { Hint } from 'src/app/classes/Hint';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { TypeService } from 'src/app/services/type.service';
 import { FeatData } from 'src/app/classes/FeatData';
-import { Creature } from 'src/app/classes/Creature';
 
 @Injectable({
     providedIn: 'root'
@@ -388,6 +387,19 @@ export class SavegameService {
                 })
             }
 
+            //Shield cover bonus has changed from number to boolean in 1.0.14. Currently existing shields need to change that.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 14) {
+                const companion = character.class.animalCompanion;
+                const familiar = character.class.familiar;
+                [character, companion, familiar].forEach(creature => {
+                    creature?.inventories?.forEach(inventory => {
+                        inventory.shields.forEach(shield => {
+                            shield.coverbonus = shield.coverbonus ? true : false;
+                        })
+                    })
+                })
+            }
+
         }
 
         // STAGE 2
@@ -516,7 +528,6 @@ export class SavegameService {
 
             //Mage Armor and Shield no longer grant items in 1.0.14. Currently existing Mage Armor and Shield items need to be removed.
             if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 14) {
-                const companion = character.class.animalCompanion;
                 const mageArmorIDs: string[] = [
                     "b936f378-1fcb-4d29-a4b8-57cbe0dab245",
                     "5571d980-072e-40df-8228-bbce52245fe5",
@@ -531,7 +542,7 @@ export class SavegameService {
                     "7eee99d1-9b3e-41f6-9d4b-2e167242b00f",
                     "3070634b-bfbe-44e8-b12e-2e5a8fd085c2"
                 ];
-                [character, companion].forEach(creature => {
+                [character, character.class.animalCompanion, character.class.familiar].forEach(creature => {
                     creature?.inventories?.forEach(inventory => {
                         inventory.armors.filter(armor => mageArmorIDs.includes(armor.refId)).forEach(armor => {
                             characterService.drop_InventoryItem(creature, inventory, armor, false, true);

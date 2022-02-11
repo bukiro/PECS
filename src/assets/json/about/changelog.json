@@ -1,5 +1,25 @@
 [
     {
+        "version": "1.0.14",
+        "changes": [
+            {
+                "header": "",
+                "desc": "Core worn items have been finished and added many new capabilities to worn items and other equipment. Most of these can be used in the custom item creation menu.",
+                "images": []
+            },
+            {
+                "header": "",
+                "desc": "Some item functionalities have changed, and affected items are patched on the character",
+                "images": []
+            },
+            {
+                "header": "",
+                "desc": "The mage armor spell and the shield spell used to grant equipment items that were equipped automatically. That was a nice idea, but isn't how those spells work, and leads to complications with actual worn armor and shields, so now they just grant appropriate bonuses. The items are patched out of your inventory automatically.",
+                "images": []
+            }
+        ]
+    },
+    {
         "version": "1.0.13",
         "changes": [
             {

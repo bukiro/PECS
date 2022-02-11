@@ -65,7 +65,7 @@
         "acbonus": 2,
         "speedpenalty": -5,
         "brokenThreshold": 10,
-        "coverbonus": 2,
+        "coverbonus": true,
         "hardness": 5,
         "hitpoints": 20
     },

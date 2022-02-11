@@ -59,3 +59,15 @@ This log tracks only major changes, as well as changes that need characters to b
 
 - The path for the local data file has been changed, and the file will automatically be moved.
 - The angular version used for PECS has been updated to 13.
+
+## 1.0.12
+
+- Mostly functionality and usability updates that require character patching.
+
+## 1.0.13
+
+- Cleric domain spells have been finished and come with new condition capabilities.
+
+## 1.0.14
+
+- (In progress) Worn items have been finished and come with many new item capabilities.

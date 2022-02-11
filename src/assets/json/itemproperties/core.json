@@ -163,7 +163,7 @@
         "priority": "00",
         "group": "4-Actions and Activities",
         "name": "Unique actions or activities",
-        "desc": "Add a definition of what happens when this item is activated. It can include, for example, numeral effects, casting spells or adding items for the duration. If an item has multiple activities, only one of them can be active at the same time."
+        "desc": "Add a definition of what happens when this item is activated. It can include, for example, numeral effects, casting spells or adding items for the duration."
     },
     {
         "parent": "activities",
@@ -328,7 +328,7 @@
         "name": "Spell level",
         "desc": "The spell level on which the spell is cast, between 0 and 10. 0 means the spell is heightened to the half the character level, rounded up.",
         "locked": true,
-        "examples": "spelllevel"
+        "examples": "spelllevels"
     },
     {
         "parent": "castSpells",
@@ -444,7 +444,7 @@
         "priority": "01",
         "group": "4-Actions and Activities",
         "name": "Known actions or activities",
-        "desc": "Add a known action or activity that should be triggered when this item is activated. If an item has multiple activities, only one of them can be active at the same time."
+        "desc": "Add a known action or activity that should be triggered when this item is activated. These are actions and activities that are usually granted by a feat or a condition, for example."
     },
     {
         "parent": "gainActivities",
@@ -669,7 +669,7 @@
         "desc": "0 for Cantrips, or 1-10 for spell levels.",
         "type": "number",
         "locked": true,
-        "examples": "storedspelllevel"
+        "examples": "spelllevels"
     },
     {
         "parent": "storedSpells",
@@ -757,7 +757,7 @@
     },
     {
         "key": "gainLanguages",
-        "priority": "07",
+        "priority": "08",
         "group": "5-Influence",
         "name": "Gain Languages",
         "desc": "Allow this item to grant you specific languages. They will be listed in the known language list, but not in the language selection in the character menu."
@@ -788,16 +788,40 @@
         "desc": "If the language is fixed, name it here, e.g. 'Gnomish'. If it is not fixed, the name can be changed on the item later."
     },
     {
-        "key": "isArmoredSkirt",
+        "key": "gainSenses",
         "priority": "09",
+        "group": "5-Influence",
+        "name": "Gain Senses",
+        "desc": "Allow this item to grant you specific senses. They will be listed in the senses list, but not count toward prerequisites for feats.",
+        "examples": "senses"
+    },
+    {
+        "key": "isAeonStone",
+        "priority": "10",
+        "group": "5-Influence",
+        "name": "Act as Aeon Stone",
+        "desc": "Set if this item should be treated as an aeon stone and allowed to slot into a wayfinder. See unique activities, gained spells and hints can all set to activate only in a slotted aeon stone.",
+        "type": "checkbox"
+    },
+    {
+        "key": "isArmoredSkirt",
+        "priority": "11",
         "group": "5-Influence",
         "name": "Act as Armored Skirt",
         "desc": "Set if this item changes the effectiveness and weight of certain armors, like an armored skirt.",
         "type": "checkbox"
     },
     {
+        "key": "isBracersOfArmor",
+        "priority": "12",
+        "group": "5-Influence",
+        "name": "Act as Bracers of Armor",
+        "desc": "Set if this item can be used to attach talismans as if it were light armor, like bracers of armor.",
+        "type": "checkbox"
+    },
+    {
         "key": "isDoublingRings",
-        "priority": "10",
+        "priority": "13",
         "group": "5-Influence",
         "name": "Act as Doubling Rings",
         "desc": "Set if this item can be used to copy runes from one weapon to the other, like a doubling ring.",
@@ -806,15 +830,42 @@
     },
     {
         "key": "isHandwrapsOfMightyBlows",
-        "priority": "11",
+        "priority": "14",
         "group": "5-Influence",
         "name": "Act as Handwraps of Mighty Blows",
-        "desc": "Set if this item uses the 'Handwraps of Mighty Blows' functionality to enhance unarmed attacks with its own runes. The item's will be able to bear weapon runes if this is enabled.",
+        "desc": "Set if this item can bear weapon runes and apply their functionality to unarmed attacks, like handwraps of mighty blows. The item's will be able to bear weapon runes if this is enabled.",
         "type": "checkbox"
     },
     {
+        "key": "isRingOfWizardry",
+        "priority": "15",
+        "group": "5-Influence",
+        "name": "Act as Ring of Wizardry",
+        "desc": "If this function is used, the item can grant extra spell slots to the character's spellcasting like a ring of wizardry. Each added item grants a single spell slot to a prepared or spontaneous spellcasting that can be selected in the inventory."
+    },
+    {
+        "parent": "isRingOfWizardry",
+        "key": "tradition",
+        "priority": "01",
+        "group": "",
+        "name": "Required tradition",
+        "desc": "Set a tradition that the selected spellcasting must have, or leave this blank for no required tradition.",
+        "locked": true,
+        "examples": "spelltraditions"
+    },
+    {
+        "parent": "isRingOfWizardry",
+        "key": "level",
+        "priority": "02",
+        "group": "",
+        "name": "Spell level",
+        "desc": "This is the spell level that will gain an extra spell slot.",
+        "locked": true,
+        "examples": "spelllevels"
+    },
+    {
         "key": "isTalismanCord",
-        "priority": "12",
+        "priority": "16",
         "group": "5-Influence",
         "name": "Act as Talisman Cord",
         "desc": "Set if this item is attached to an item that can bear affixed talismans in order to preserve the talisman on use. Set to the number of schools to which it can be attuned.",
@@ -824,21 +875,13 @@
     },
     {
         "key": "isWayfinder",
-        "priority": "13",
+        "priority": "17",
         "group": "5-Influence",
         "name": "Act as Wayfinder",
         "desc": "Set if this item slots aeon stones to unlock their resonant abilities. Set to the number of aeon stones allowed in this wayfinder.",
         "type": "number",
         "locked": true,
         "examples":"iswayfinder"
-    },
-    {
-        "key": "isAeonStone",
-        "priority": "14",
-        "group": "5-Influence",
-        "name": "Act as Aeon Stone",
-        "desc": "Set if this item should be treated as an aeon stone and allowed to slot into a wayfinder. See unique activities, gained spells and hints can all set to activate only in a slotted aeon stone.",
-        "type": "checkbox"
     },
     {
         "key": "group",
@@ -853,7 +896,7 @@
         "priority": "00",
         "group": "7-Armor & Shields",
         "name": "Base armor type",
-        "desc": "If this armor is based on another armor, the base armor should be named here. This allows applying a specific armor proficiency and specialization effect to the item even if it is not named after the armor. Example: If you are creating a magical Leather Armor named Nightshroud, and you have master proficiency in leather armor, but trained in light armor, setting this to 'Leather Armor' will allow you to apply that master proficiency.",
+        "desc": "If this armor is based on another armor, the base armor should be named here. This allows applying a specific armor proficiency and specialization effect to the item even if it is not named after the armor. Example: If you are creating a magical Leather Armor named Nightshroud, and you have master proficiency in leather armor, but are only trained in light armor, setting this to 'Leather Armor' will allow you to apply that master proficiency.",
         "examples": "armorBase"
     },
     {
@@ -861,7 +904,7 @@
         "priority": "01",
         "group": "7-Armor & Shields",
         "name": "AC bonus",
-        "desc": "The armor's or shield's inherent bonus to armor class. A shield must be raised in order to apply its AC bonus.",
+        "desc": "The armor's or shield's item bonus to armor class. A shield must be raised in order to apply its AC bonus.",
         "type": "number",
         "validation": "0plus"
     },
@@ -933,10 +976,9 @@
         "key": "coverbonus",
         "priority": "09",
         "group": "7-Armor & Shields",
-        "name": "Shield cover bonus",
-        "desc": "If this shield has a cover bonus value, you can take cover behind it while it is raised and gain this additional bonus to AC.",
-        "type": "number",
-        "validation": "0plus"
+        "name": "Allow shield cover",
+        "desc": "If this is set, you can take cover behind the shield while it is raised and gain a bonus to AC from cover.",
+        "type": "checkbox"
     },
     {
         "key": "weaponBase",

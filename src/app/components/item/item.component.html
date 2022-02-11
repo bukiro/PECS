@@ -58,10 +58,7 @@
     <ng-container *ngFor="let talismanCordIndex of [0, 1, 2]; trackBy:trackByIndex;">
         <div class="newrow" *ngIf="item.isTalismanCord > talismanCordIndex && item.data[talismanCordIndex]">
             <strong>{{item.data[talismanCordIndex].name}}</strong>
-            <span *ngIf="!itemStore">
-                {{item.data[talismanCordIndex].value}}
-            </span>
-            <select *ngIf="itemStore" [(ngModel)]="item.data[talismanCordIndex].value">
+            <select [(ngModel)]="item.data[talismanCordIndex].value">
                 <option *ngFor="let school of get_TalismanCordOptions(item, talismanCordIndex); trackBy:trackByIndex;"
                     [ngValue]="school">
                     {{school}}

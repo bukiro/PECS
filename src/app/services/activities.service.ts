@@ -56,6 +56,9 @@ export class ActivitiesService {
     }
 
     get_ItemFromActivityGain(creature: Creature, gain: ActivityGain | ItemActivity): Equipment | Rune {
+        if (!gain) {
+            return null;
+        }
         let item: Equipment | Rune = null;
         creature.inventories.forEach(inventory => {
             inventory.allEquipment().forEach(equipment => {

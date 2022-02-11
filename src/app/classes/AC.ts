@@ -10,9 +10,17 @@ import { ConditionsService } from 'src/app/services/conditions.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Familiar } from './Familiar';
 
+export type CalculatedAC = {
+    absolutes: Effect[],
+    relatives: Effect[],
+    bonuses: boolean,
+    penalties: boolean,
+    value: { result: number, explain: string }
+}
+
 export class AC {
     public name: string = "AC"
-    set_Cover(creature: Creature, cover: number, shield: Shield = null, characterService: CharacterService, conditionsService: ConditionsService) {
+    public set_Cover(creature: Creature, cover: number, shield: Shield = null, characterService: CharacterService, conditionsService: ConditionsService): void {
         let conditions: ConditionGain[] = conditionsService.get_AppliedConditions(creature, characterService, creature.conditions, true)
             .filter(gain => gain.name == "Cover" && gain.source == "Quick Status");
         let lesserCover = conditions.find(gain => gain.name == "Cover" && gain.choice == "Lesser");
@@ -59,7 +67,7 @@ export class AC {
         }
         characterService.refreshService.process_ToChange();
     }
-    calculate(creature: Creature, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService) {
+    public calculate(creature: Creature, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService): CalculatedAC {
         let character = characterService.get_Character();
         let absolutes: Effect[] = this.absolutes(creature, effectsService);
         let relatives: Effect[] = this.relatives(creature, character, effectsService);
@@ -67,23 +75,23 @@ export class AC {
         let result = {
             absolutes: absolutes,
             relatives: relatives,
-            bonuses: this.bonuses(creature, character, effectsService),
-            penalties: this.penalties(creature, character, effectsService),
+            bonuses: this.bonuses(creature, effectsService),
+            penalties: this.penalties(creature, effectsService),
             value: this.value(creature, characterService, defenseService, effectsService, absolutes, relatives)
         }
         return result;
     }
-    get_NamesList() {
+    private get_NamesList(): string[] {
         return [
             "AC",
             "All Checks and DCs",
             "Dexterity-based Checks and DCs"
         ]
     }
-    absolutes(creature: Creature, effectsService: EffectsService) {
+    private absolutes(creature: Creature, effectsService: EffectsService): Effect[] {
         return effectsService.get_AbsolutesOnThese(creature, this.get_NamesList());
     }
-    relatives(creature: Creature, character: Character, effectsService: EffectsService) {
+    private relatives(creature: Creature, character: Character, effectsService: EffectsService): Effect[] {
         //Familiars get the Character's AC without status and circumstance effects, and add their own of those.
         if (creature instanceof Familiar) {
             let effects = effectsService.get_RelativesOnThese(character, this.get_NamesList()).filter(effect => effect.type != "circumstance" && effect.type != "status")
@@ -93,7 +101,7 @@ export class AC {
             return effectsService.get_RelativesOnThese(creature, this.get_NamesList());
         }
     }
-    bonuses(creature: Creature, character: Character, effectsService: EffectsService) {
+    private bonuses(creature: Creature, effectsService: EffectsService): boolean {
         //We need to copy show_BonusesOnThese and adapt it because Familiars only apply their own status and circumstance effects.
         if (creature instanceof Familiar) {
             return effectsService.get_Effects(creature.type).bonuses.some(effect =>
@@ -108,7 +116,7 @@ export class AC {
             return effectsService.show_BonusesOnThese(creature, this.get_NamesList());
         }
     }
-    penalties(creature: Creature, character: Character, effectsService: EffectsService) {
+    private penalties(creature: Creature, effectsService: EffectsService): boolean {
         //We need to copy show_PenaltiesOnThese and adapt it because Familiars only apply their own status and circumstance effects.
         if (creature instanceof Familiar) {
             return effectsService.get_Effects(creature.type).penalties.some(effect =>
@@ -123,7 +131,7 @@ export class AC {
             return effectsService.show_PenaltiesOnThese(creature, this.get_NamesList());
         }
     }
-    value(creature: Creature, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService, absolutes: Effect[] = undefined, relatives: Effect[] = undefined) {
+    private value(creature: Creature, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService, absolutes: Effect[] = undefined, relatives: Effect[] = undefined): { result: number, explain: string } {
         if (characterService.still_loading()) { return { result: 0, explain: "" }; }
         //Get the bonus from the worn armor. This includes the basic 10
         let basicBonus: number = 10;
@@ -169,14 +177,14 @@ export class AC {
             //Add the dexterity modifier up to the armor's dex cap, unless there is no cap
             let dexcap = armor.get_DexCap();
             effectsService.get_AbsolutesOnThis(armorCreature, "Dexterity Modifier Cap").forEach(effect => {
-                //The dexterity modifier should not become higher through effects, only lower, but not below 0.
-                if (parseInt(effect.setValue) < dexcap) {
+                //The dexterity modifier should only become worse through effects.
+                if (dexcap == -1 || parseInt(effect.setValue) < dexcap) {
                     dexcap = Math.max(0, parseInt(effect.setValue));
                     explain += "\n" + effect.source + ": Dexterity modifier cap " + dexcap;
                 }
             })
             effectsService.get_RelativesOnThis(armorCreature, "Dexterity Modifier Cap").forEach(effect => {
-                //The dexterity modifier should not become higher through effects, only lower, but not below 0.
+                //The dexterity modifier should only become worse through effects.
                 if (parseInt(effect.value) < 0) {
                     dexcap = Math.max(0, dexcap + parseInt(effect.value));
                     explain += "\n" + effect.source + ": Dexterity modifier cap " + parseInt(effect.value);

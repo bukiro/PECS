@@ -2052,7 +2052,7 @@ export class CharacterService {
         return this.animalCompanionsService.get_CompanionLevels();
     }
 
-    get_Senses(creature: Creature, charLevel: number = this.get_Character().level) {
+    get_Senses(creature: Creature, charLevel: number = this.get_Character().level, allowTemporary: boolean = false) {
         let senses: string[] = [];
 
         let ancestrySenses: string[];
@@ -2080,18 +2080,29 @@ export class CharacterService {
                 senses.push(...ability.senses);
             })
         }
-        this.get_AppliedConditions(creature).filter(gain => gain.apply).forEach(gain => {
-            let condition = this.conditionsService.get_Conditions(gain.name)[0]
-            if (condition?.senses.length) {
-                //Add all non-excluding senses.
-                senses.push(...condition.senses.filter(sense => !sense.excluding && (!sense.conditionChoiceFilter.length || sense.conditionChoiceFilter.includes(gain.choice))).map(sense => sense.name))
-                //Remove all excluding senses.
-                condition.senses.filter(sense => sense.excluding && (!sense.conditionChoiceFilter.length || sense.conditionChoiceFilter.includes(gain.choice))).forEach(sense => {
-                    senses = senses.filter(existingSense => existingSense != sense.name);
-                })
-            }
-        });
+        if (allowTemporary) {
+            senses.push(...this.get_EquipmentSenses(creature));
+            this.get_AppliedConditions(creature).filter(gain => gain.apply).forEach(gain => {
+                let condition = this.conditionsService.get_Conditions(gain.name)[0]
+                if (condition?.senses.length) {
+                    //Add all non-excluding senses.
+                    senses.push(...condition.senses.filter(sense => !sense.excluding && (!sense.conditionChoiceFilter.length || sense.conditionChoiceFilter.includes(gain.choice))).map(sense => sense.name))
+                    //Remove all excluding senses.
+                    condition.senses.filter(sense => sense.excluding && (!sense.conditionChoiceFilter.length || sense.conditionChoiceFilter.includes(gain.choice))).forEach(sense => {
+                        senses = senses.filter(existingSense => existingSense != sense.name);
+                    })
+                }
+            });
+        }
         return Array.from(new Set(senses));
+    }
+
+    get_EquipmentSenses(creature: Creature): string[] {
+        let senses: string[] = [];
+        creature.inventories[0].allEquipment().filter(equipment => equipment.gainSenses.length && equipment.investedOrEquipped()).forEach(equipment => {
+            senses.push(...equipment.gainSenses);
+        })
+        return senses;
     }
 
     process_Feat(creature: Character | Familiar, feat: Feat, gain: FeatTaken, choice: FeatChoice, level: Level, taken: boolean) {

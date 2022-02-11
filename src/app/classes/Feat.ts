@@ -318,7 +318,7 @@ export class Feat {
             }
         }
         function Has_Sense(creature: string, name: string) {
-            return (characterService.get_Senses(characterService.get_Creature(creature), charLevel).includes(name));
+            return characterService.get_Senses(characterService.get_Creature(creature), charLevel, false).includes(name);
         }
         let result: { met: boolean, desc: string };
         if (this.specialreq) {

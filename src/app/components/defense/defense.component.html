@@ -70,7 +70,7 @@
             </div>
             <ng-container *ngIf="creature != 'Familiar'">
                 <header class="subsectionHeader fullsize-only">Armor</header>
-                <div class="fullsize-only list-item" *ngFor="let armor of get_EquippedArmor(); trackBy:trackByIndex;">
+                <div class="fullsize-only list-item" *ngFor="let armor of get_EquippedArmor(); let armorIndex = index; trackBy:trackByIndex;">
                     <div>
                         {{armor.get_Name()}}
                     </div>
@@ -81,7 +81,7 @@
                         </cite>
                     </div>
                     <app-tags [creature]="creature" [objectName]="'Armor'" [showTraits]=true [showFeats]=true
-                        [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                        [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true *ngIf="armorIndex == 0"></app-tags>
                     <app-tags [creature]="creature" [objectName]="armor.name" [showItems]=true></app-tags>
                     <div class="fullsize-only newrow left-aligned"
                         *ngFor="let runes of [get_HintRunes(armor)]; trackBy:trackByIndex;" style="margin-top:initial">
@@ -132,9 +132,8 @@
                         </ng-template>
                         <button [ngbPopover]="TalismanTemplate" triggers="click">
                             <span>
-                                {{talisman.name}}
-                                {{get_HaveMatchingTalismanCord(armor, talisman) ? "(matching talisman cord attached)" :
-                                ""}}
+                                {{talisman.name}} {{get_HaveMatchingTalismanCord(armor, talisman) ? "(matching talisman
+                                cord attached)" : ""}}
                             </span>
                         </button>
                     </div>
@@ -143,6 +142,7 @@
                         <strong>Armor specialization effect&nbsp;</strong>{{spec.desc}}
                     </div>
                 </div>
+
                 <ng-container *ngFor="let shield of get_EquippedShield(); trackBy:trackByIndex;">
                     <header class="subsectionHeader fullsize-only">Shield</header>
                     <div class="vlist list-item">
@@ -258,12 +258,13 @@
                 <app-tags [creature]="creature" [objectName]="'Saving Throws'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true
                     [specialNames]="get_SpecialShowon(null, true)"></app-tags>
-                <ng-container *ngFor="let skill of get_Skills('', {type: 'Save'}); trackBy:trackByIndex;">
+                <ng-container *ngFor="let skill of get_Skills('Save'); trackBy:trackByIndex;">
                     <app-skill [creature]="creature" [skill]=skill></app-skill>
                 </ng-container>
                 <ng-container *ngIf="!still_loading()">
                     <header class="sectionHeader fullsize-only box-header">Armor Proficiencies</header>
-                    <ng-container *ngFor="let skill of get_Skills('', {type: 'Armor Proficiency'}); trackBy:trackByIndex;">
+                    <ng-container
+                        *ngFor="let skill of get_Skills('Armor Proficiency'); trackBy:trackByIndex;">
                         <app-skill class="fullsize-only" [creature]="creature" [skill]=skill [showValue]=false>
                         </app-skill>
                     </ng-container>
@@ -271,7 +272,7 @@
             </ng-container>
             <ng-container *ngIf="creature == 'Familiar'">
                 <header class="sectionHeader fullsize-only box-header" *ngIf="!still_loading()">Saving Throws</header>
-                <ng-container *ngFor="let skill of get_Skills('', {type: 'Save'}); trackBy:trackByIndex;">
+                <ng-container *ngFor="let skill of get_Skills('Save'); trackBy:trackByIndex;">
                     <app-skill [creature]="creature" [skill]=skill></app-skill>
                 </ng-container>
                 <app-tags [creature]="creature" [objectName]="'Saving Throws'" [showTraits]=true [showFeats]=true

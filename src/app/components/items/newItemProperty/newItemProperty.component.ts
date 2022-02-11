@@ -25,6 +25,7 @@ import { InventoryGain } from 'src/app/classes/InventoryGain';
 import { Hint } from 'src/app/classes/Hint';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
+import { RingOfWizardrySlot } from 'src/app/classes/WornItem';
 
 @Component({
     selector: 'app-newItemProperty',
@@ -119,7 +120,7 @@ export class NewItemPropertyComponent {
                         this.validationResult = parseInt(validationResult).toString();
                     }
                 } else {
-                    this.validationError = "This may result in an invalid value or 0. Invalid values will default to 0, and untyped effects without a value will not be displayed."
+                    this.validationError = "This may result in an invalid value or 0. Invalid values will default to 0, and relative effects with value 0 will not be applied."
                     this.validationResult = parseInt(validationResult).toString();
                 }
             }
@@ -247,6 +248,12 @@ export class NewItemPropertyComponent {
             case "gainLanguages":
                 this.get_Parent()[this.propertyKey].push(new LanguageGain())
                 break;
+            case "isRingOfWizardry":
+                this.get_Parent()[this.propertyKey].push({ tradition: "", level: 1 } as RingOfWizardrySlot);
+                break;
+            case "gainSenses":
+                this.get_Parent()[this.propertyKey].push("" as string)
+                break;
         }
     }
 
@@ -345,10 +352,7 @@ export class NewItemPropertyComponent {
             case "spellname":
                 examples.push(...this.spellsService.get_Spells().map(spell => spell.name));
                 break;
-            case "spelllevel":
-                examples = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-                break;
-            case "storedspelllevel":
+            case "spelllevels":
                 examples = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
                 break;
             case "spelltraditions":
@@ -539,6 +543,8 @@ export class NewItemPropertyComponent {
             case "dicesize":
                 examples = [1, 2, 3, 4, 6, 8, 10, 12];
                 break;
+            case "senses":
+                examples = ["", "Low-Light Vision", "Darkvision", "Greater Darkvision", "Scent 30 feet (imprecise)", "Tremorsense 30 feet (imprecise)"]
             default:
                 this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).forEach((item: Equipment) => {
                     extract_Example(item, this.propertyData.key, this.get_IsObject, this.propertyData.parent);

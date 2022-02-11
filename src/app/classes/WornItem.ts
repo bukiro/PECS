@@ -46,6 +46,8 @@ export class WornItem extends Equipment {
     public gainLanguages: LanguageGain[] = [];
     //Is this a Ring of Wizardry and lets you pick a spellcasting to add one or more spells?
     public isRingOfWizardry: RingOfWizardrySlot[] = [];
+    //Is this a pair of Bracers of Armor and lets you attach talismans like a light armor?
+    public isBracersOfArmor: boolean = false;
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
         this.aeonStones = this.aeonStones.map(obj => Object.assign<WornItem, Item>(new WornItem(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
