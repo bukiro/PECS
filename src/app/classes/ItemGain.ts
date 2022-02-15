@@ -15,7 +15,7 @@ export class ItemGain {
     //The id is copied from the item after granting it, so that it can be removed again.
     public grantedItemID: string = "";
     //If unhideAfterGrant is set, the item is no longer hidden after it has been granted.
-    // This will allow it to be moved and dropped even if it is a type of Item that is only granted by another item or by a condition.
+    // This will allow it to be moved and dropped even if it is a type of item that is only granted by another item or by a condition.
     public unhideAfterGrant: boolean = false;
     public name: string = "";
     public id: string = "";
@@ -45,7 +45,10 @@ export class ItemGain {
         if (newItem) {
             if (newItem.can_Stack()) {
                 //For stackables, add the appropriate amount and don't track them.
-                services.characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, false, false, false, (this.amount + (this.amountPerLevel * creature.level)), undefined, this.expiration);
+                const grantedItem = services.characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, false, false, false, (this.amount + (this.amountPerLevel * creature.level)), undefined, this.expiration);
+                if (this.unhideAfterGrant) {
+                    grantedItem.hide = false;
+                }
             } else {
                 //For non-stackables, track the ID of the newly added item for removal.
                 //Don't equip the new item if it's a shield or armor and the granting one is too - only one shield or armor can be equipped.

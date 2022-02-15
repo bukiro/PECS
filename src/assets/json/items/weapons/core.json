@@ -1114,7 +1114,7 @@
             "activationType": "Envision",
             "target": "self",
             "desc": "You absorb light, gaining a +2 status bonus to the Stealth check.",
-            "trigger": "You attempt a Stealth check to Hide or Sneak, but you haven’t rolled yet",
+            "trigger": "You attempt a Stealth check to Hide or Sneak, but you haven't rolled yet",
             "frequency": "three times per day",
             "charges": 3,
             "cooldown": 144000,

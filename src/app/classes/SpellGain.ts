@@ -6,12 +6,9 @@ export class SpellGain {
     //Set if sustained spell is activated
     public active: boolean = false;
     public activeCooldown: number = 0;
+    public chargesUsed: number = 0;
     public prepared: boolean = false;
     public borrowed: boolean = false;
-    //Copied from SpellChoice. How often the spell can be used, human readable for display.
-    public frequency: string = "";
-    //Copied from SpellChoice. Turns * 10 to wait before casting again.
-    public cooldown: number = 0;
     //Copied from SpellCast, these choices can override the spell condition choices. This applies only if the choice exists on the condition.
     public overrideChoices: { condition: string, choice: string }[] = [];
     //In order to select a choice from the spell before casting it, the choice is saved here for each condition.
@@ -26,8 +23,6 @@ export class SpellGain {
     //Signature Spells are automatically available as heightened spells on every lower and higher level (down to its minimum).
     public signatureSpell: boolean = false;
     public source: string = "";
-    //Copied from SpellChoice. For looking up details in the Choice - ideally always include the choice in the function so we don't have to look it up.
-    public sourceId: string = "";
     //The target word ("self", "Character", "Companion", "Familiar" or "Selected") is saved here for processing in the spell service.
     public selectedTarget: string = "";
     //The selected targets are saved here for applying conditions.

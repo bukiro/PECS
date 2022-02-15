@@ -242,7 +242,7 @@ export class FeatsService {
                 this.refreshService.set_ToChange(creature.type, "effects");
             }
 
-            //Gain another Feat
+            //Gain another feat
             if (feat.gainFeatChoice.length) {
                 if (taken) {
                     feat.gainFeatChoice.forEach(newFeatChoice => {
@@ -291,7 +291,7 @@ export class FeatsService {
                 }
             }
 
-            //Boost Ability (may happen in class subtype choices)
+            //Boost ability
             if (feat.gainAbilityChoice.length) {
                 if (taken) {
                     feat.gainAbilityChoice.forEach(newAbilityChoice => {
@@ -314,7 +314,7 @@ export class FeatsService {
 
             }
 
-            //Train free Skill or increase existing Skill
+            //Train free skill or increase existing skill
             if (feat.gainSkillChoice.length) {
                 if (taken) {
                     feat.gainSkillChoice.forEach(newSkillChoice => {
@@ -408,7 +408,7 @@ export class FeatsService {
                 this.refreshService.set_ToChange("Character", "top-bar");
             }
 
-            //Gain Spell or Spell Option
+            //Gain spell or spell choice
             if (feat.gainSpellChoice.length) {
                 if (taken) {
                     feat.gainSpellChoice.forEach(newSpellChoice => {
@@ -431,14 +431,6 @@ export class FeatsService {
                                     insertSpellChoice.tradition = character.class.heritage.subType;
                                 }
                             }
-                            //Copy some information for functions that know the SpellGain, but not the SpellChoice.
-                            insertSpellChoice.spells.forEach(gain => {
-                                gain.sourceId = insertSpellChoice.id;
-                                gain.source = insertSpellChoice.source;
-                                gain.frequency = insertSpellChoice.frequency;
-                                gain.cooldown = insertSpellChoice.cooldown;
-                            })
-                            insertSpellChoice.source == "Feat: " + feat.name;
                             character.add_SpellChoice(characterService, level.number, insertSpellChoice);
                         }
                     });
@@ -453,7 +445,7 @@ export class FeatsService {
                 this.refreshService.set_ToChange("Character", "top-bar");
             }
 
-            //Gain Lore
+            //Gain lore
             if (feat.gainLoreChoice.length) {
                 if (taken) {
                     feat.gainLoreChoice.forEach(choice => {
@@ -483,7 +475,7 @@ export class FeatsService {
                 }
             }
 
-            //Gain Action or Activity
+            //Gain action or activity
             if (feat.gainActivities.length) {
                 if (taken) {
                     feat.gainActivities.forEach((gainActivity: string) => {
@@ -503,7 +495,7 @@ export class FeatsService {
                 }
             }
 
-            //Gain conditions. Some Feats do give you a permanent condition.
+            //Gain conditions. Some feats do give you a permanent condition.
             if (feat.gainConditions.length) {
                 if (taken) {
                     feat.gainConditions.forEach(gain => {

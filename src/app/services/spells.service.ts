@@ -86,10 +86,13 @@ export class SpellsService {
             customDuration = activityDuration = gain.duration;
         }
 
-        if (activated && gain.cooldown && !gain.activeCooldown) {
+        if (activated && choice.cooldown && !gain.activeCooldown) {
             //Start cooldown.
-            gain.activeCooldown = gain.cooldown;
+            gain.activeCooldown = choice.cooldown;
             this.refreshService.set_ToChange(creature.type, "spellbook");
+        }
+        if (choice.charges) {
+            gain.chargesUsed += 1;
         }
 
         //The conditions listed in conditionsToRemove will be removed after the spell is processed.
@@ -367,8 +370,9 @@ export class SpellsService {
             .concat(character.get_AllEquipmentSpellsGranted())
             .filter(taken => taken.gain.activeCooldown)
             .forEach(taken => {
-                if ([-2, 144000].includes(taken.gain.cooldown)) {
+                if ([-2, 144000].includes(taken.choice.cooldown)) {
                     taken.gain.activeCooldown = 0;
+                    taken.gain.chargesUsed = 0;
                 }
             });
         character.class.spellCasting.filter(casting => casting.castingType == "Prepared").forEach(casting => {
@@ -397,8 +401,9 @@ export class SpellsService {
             .concat(character.get_AllEquipmentSpellsGranted())
             .filter(taken => taken.gain.activeCooldown)
             .forEach(taken => {
-                if (taken.gain.cooldown == -3) {
+                if (taken.choice.cooldown == -3) {
                     taken.gain.activeCooldown = 0;
+                    taken.gain.chargesUsed = 0;
                 }
             });
         this.refreshService.set_ToChange("Character", "spellbook");
@@ -422,6 +427,9 @@ export class SpellsService {
                 this.refreshService.set_ToChange("Character", "spellbook");
                 if (taken.gain.activeCooldown) {
                     taken.gain.activeCooldown = Math.max(taken.gain.activeCooldown - turns, 0)
+                }
+                if (!taken.gain.activeCooldown) {
+                    taken.gain.chargesUsed = 0;
                 }
             });
     }

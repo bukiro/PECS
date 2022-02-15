@@ -755,6 +755,12 @@ export class ItemsService {
                 })
                 this.refreshService.set_ToChange(creature.type, "inventory");
             }
+            //Grant items that are granted by other items on rest.
+            inv.allItems().filter(item => item.gainItems.length && item.investedOrEquipped()).forEach(item => {
+                item.gainItems.filter(gain => gain.on == "rest").forEach(gainItem => {
+                    gainItem.grant_GrantedItem(creature, { sourceName: item.get_Name(), grantingItem: item }, { characterService: characterService, itemsService: this })
+                });
+            })
         })
         if (creature instanceof Character) {
             //If you have Scroll Savant, get a copy of each prepared scroll that lasts until the next rest.
@@ -800,7 +806,7 @@ export class ItemsService {
 
             //For feats that grant you an item on rest, grant these here and set an expiration until the next rest.
             characterService.featsService.get_CharacterFeats(creature.customFeats)
-                .filter(feat => feat.gainItems.find(gain => gain.on == "rest") && feat.have(creature, characterService, creature.level))
+                .filter(feat => feat.gainItems.some(gain => gain.on == "rest") && feat.have(creature, characterService, creature.level))
                 .forEach(feat => {
                     feat.gainItems.filter(gain => gain.on == "rest").forEach(gainItem => {
                         gainItem.grant_GrantedItem(creature, { sourceName: feat.name }, { characterService: characterService, itemsService: this })

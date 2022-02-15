@@ -57,7 +57,7 @@ export class Equipment extends Item {
     //What hint should show up for this item? This allows to be more concise and not use the entire description.
     //If no hint is set, desc will show instead
     public hints: Hint[] = [];
-    //Is the item currently invested - items without the Invested trait are always invested and don't count against the limit
+    //Is the item currently invested - items without the Invested trait are always invested and don't count against the limit.
     public invested: boolean = false;
     public material: Material[] = [];
     //Can runes and material be applied to this item? Armor, shields, weapons and handwraps of mighty blows can usually be modded, but other equipment and specific magic versions of them should not.
@@ -100,6 +100,9 @@ export class Equipment extends Item {
                 choice.castingType = "Innate";
             }
             choice.source = this.name;
+            choice.spells.forEach(gain => {
+                gain.source = choice.source;
+            })
         })
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.material = this.material.map(obj => Object.assign(new Material(), obj).recast());

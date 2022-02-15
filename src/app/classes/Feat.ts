@@ -114,6 +114,14 @@ export class Feat {
         this.gainSkillChoice = this.gainSkillChoice.map(obj => Object.assign(new SkillChoice(), obj).recast());
         this.gainSpellCasting = this.gainSpellCasting.map(obj => Object.assign(new SpellCasting(obj.castingType), obj).recast());
         this.gainSpellChoice = this.gainSpellChoice.map(obj => Object.assign(new SpellChoice(), obj).recast());
+        this.gainSpellChoice.forEach(choice => {
+            if (!choice.source) {
+                choice.source = "Feat: " + this.name;
+                choice.spells.forEach(gain => {
+                    gain.source = choice.source;
+                })
+            }
+        })
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.allowSignatureSpells = this.allowSignatureSpells.map(obj => Object.assign(new SignatureSpellGain(), obj).recast());
         return this;

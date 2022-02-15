@@ -202,7 +202,7 @@
                                 </ng-container>
                                 {{(spellCastingParameters.casting.tradition != spellParameters.choice.tradition &&
                                 spellParameters.choice.tradition) ? "(" + spellParameters.choice.tradition + ")" : ""}}
-                                {{spellParameters.gain.frequency ? spellParameters.gain.frequency : ""}}
+                                {{spellParameters.choice.frequency ? spellParameters.choice.frequency : ""}}
                             </ng-template>
                             <ng-template #SpellTooltipTemplate>
                                 <span *ngIf="spellParameters.isSignatureSpell">
@@ -229,7 +229,7 @@
                                 </ng-container>
                                 {{(spellCastingParameters.casting.tradition != spellParameters.choice.tradition &&
                                 spellParameters.choice.tradition) ? "(" + spellParameters.choice.tradition + ")" : ""}}
-                                {{spellParameters.gain.frequency ? spellParameters.gain.frequency : ""}}
+                                {{spellParameters.choice.frequency ? spellParameters.choice.frequency : ""}}
                             </ng-template>
                             <ng-template #SpellTemplate>
                                 <header class="spellHeader left-aligned newrow" *ngIf="get_TileMode()">
@@ -242,6 +242,7 @@
                                 </div>
                                 <app-spellTarget class="newrow vlist" [creature]="'Character'"
                                     [spell]="spellParameters.spell" [gain]="spellParameters.gain"
+                                    [phrase]="'Cast' + (spellParameters.maxCharges ? ' (' + (spellParameters.maxCharges - spellParameters.usedCharges) + ' of ' + spellParameters.maxCharges + ' charges)' : '')"
                                     [casting]="spellCastingParameters.casting" [cannotCast]="spellParameters.cannotCast"
                                     [effectiveSpellLevel]="spellParameters.effectiveSpellLevel"
                                     [bloodMagicFeats]="componentParameters.bloodMagicFeats" [showDismiss]="true"
@@ -281,11 +282,19 @@
                                     </button>
                                 </div>
                                 <div class="newrow" *ngIf="get_ManualMode() && spellParameters.gain.activeCooldown">
+                                    <!-- End cooldown button in manual mode-->
                                     <button class="newrow center-aligned"
                                         (click)="on_ManualEndCooldown(spellParameters.gain)">
                                         <span class="center-aligned">
                                             End cooldown
                                         </span>
+                                    </button>
+                                </div>
+                                <div class="newrow" *ngIf="get_ManualMode() && spellParameters.gain.chargesUsed">
+                                    <!-- Restore charges button in manual mode-->
+                                    <button class="newrow center-aligned"
+                                        (click)="on_ManualRestoreCharge(spellParameters.gain)">
+                                        <span>Restore charge</span>
                                     </button>
                                 </div>
                                 <div class="newrow"

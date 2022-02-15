@@ -281,6 +281,8 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                 spell: spell,
                 choice: choice,
                 gain: gain,
+                maxCharges: choice.charges,
+                usedCharges: gain.chargesUsed,
                 externallyDisabled: externallyDisabled,
                 effectiveSpellLevel: this.get_EffectiveSpellLevel(spell, { baseLevel: spellCastingLevelParameters.level, gain: gain }),
                 cannotCast: this.cannot_Cast({ spellCastingLevelParameters: spellCastingLevelParameters, spellCastingParameters: spellCastingParameters, choice: choice, gain: gain, externallyDisabled: externallyDisabled }),
@@ -469,8 +471,16 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         character.class.focusPoints = Math.max(Math.min(character.class.focusPoints + amount, this.get_MaxFocusPoints()), 0);
     }
 
+    on_ManualRestoreCharge(gain: SpellGain) {
+        gain.chargesUsed = Math.max(gain.chargesUsed - 1, 0);
+        if (gain.chargesUsed == 0) {
+            gain.activeCooldown = 0;
+        }
+    }
+
     on_ManualEndCooldown(gain: SpellGain) {
         gain.activeCooldown = 0;
+        gain.chargesUsed = 0;
     }
 
     get_Duration(turns: number, includeTurnState: boolean = true, inASentence: boolean = false) {
@@ -482,8 +492,16 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     cannot_Cast(context: { spellCastingLevelParameters: SpellCastingLevelParameters, spellCastingParameters: SpellCastingParameters, choice: SpellChoice, gain: SpellGain, externallyDisabled: boolean }) {
-        if ((context.gain.activeCooldown || context.choice.spells.some(spellGain => spellGain.activeCooldown)) && !context.gain.active) {
-            return "Cannot cast " + this.get_Duration(context.gain.activeCooldown, true, true);
+        if (
+            !context.gain.active &&
+            context.choice.cooldown &&
+            context.choice.spells.some(spellGain => spellGain.activeCooldown) &&
+            (
+                context.choice.charges &&
+                context.choice.spells.reduce((previous, current) => previous + current.chargesUsed, 0) >= context.choice.charges
+            )
+        ) {
+            return (context.choice.charges ? "Recharged in " : "Cooldown: ") + this.get_Duration(context.gain.activeCooldown, true);
         }
         if (context.externallyDisabled) {
             return "Disabled by effect."
@@ -538,7 +556,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         return this.characterService.get_Feats().filter(feat => feat.bloodMagic.length && feat.have(character, this.characterService, character.level));
     }
 
-    on_Cast(target: string = "", activated: boolean, context: {spellParameters: SpellParameters, spellCastingLevelParameters: SpellCastingLevelParameters, spellCastingParameters: SpellCastingParameters, componentParameters: ComponentParameters}) {
+    on_Cast(target: string = "", activated: boolean, context: { spellParameters: SpellParameters, spellCastingLevelParameters: SpellCastingLevelParameters, spellCastingParameters: SpellCastingParameters, componentParameters: ComponentParameters }) {
         let character = this.get_Character();
         let highestSpellPreservationLevel = 0;
         let highestNoDurationSpellPreservationLevel = 0;
@@ -568,7 +586,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             }
             //Update effects because Channeled Succor gets disabled after you expend all your divine font heal spells.
             this.refreshService.set_ToChange("Character", "effects");
-        } else if (context.spellParameters.gain.cooldown) {
+        } else if (context.spellParameters.choice.cooldown) {
             //Spells with a cooldown don't use any resources. They will start their cooldown in spell processing.
         } else {
             //Casting cantrips and deactivating spells doesn't use resources.

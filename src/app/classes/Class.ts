@@ -276,12 +276,6 @@ export class Class {
             //Gain Spell or Spell Option
             heritage.spellChoices.forEach(newSpellChoice => {
                 let insertSpellChoice = Object.assign<SpellChoice, SpellChoice>(new SpellChoice(), JSON.parse(JSON.stringify(newSpellChoice))).recast();
-                insertSpellChoice.spells.forEach((gain: SpellGain) => {
-                    gain.sourceId = insertSpellChoice.id;
-                    gain.source = insertSpellChoice.source;
-                    gain.frequency = insertSpellChoice.frequency;
-                    gain.cooldown = insertSpellChoice.cooldown;
-                })
                 character.add_SpellChoice(characterService, level.number, insertSpellChoice);
             });
             //Wellspring Gnome changes primal spells to another tradition.

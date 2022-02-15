@@ -387,13 +387,13 @@ export class SavegameService {
                 })
             }
 
-            //Shield cover bonus has changed from number to boolean in 1.0.14. Currently existing shields need to change that.
+            //Shield cover bonus has changed from number to boolean in 1.0.14. Currently existing shields need to be updated.
             if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 14) {
                 const companion = character.class.animalCompanion;
                 const familiar = character.class.familiar;
                 [character, companion, familiar].forEach(creature => {
                     creature?.inventories?.forEach(inventory => {
-                        inventory.shields.forEach(shield => {
+                        inventory.shields?.forEach(shield => {
                             shield.coverbonus = shield.coverbonus ? true : false;
                         })
                     })

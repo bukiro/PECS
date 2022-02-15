@@ -141,5 +141,39 @@
         "subType": "Transparent",
         "subTypeDesc": "A blue-green elemental gem summons a living waterfall.",
         "activationType": "Command, Interact"
+    },
+    {
+        "desc": "The knapsack of halflingkind contains berry tarts wrapped in parchment paper. A creature can unwrap and eat one tart with an Interact action to regain |dice=2d8+4| 2d8+4 Hit Points. The knapsack produces four tarts per day, which appear at breakfast time. Any tarts not eaten by the end of the day evaporate.",
+        "id": "cd489487-9799-4026-8c13-9ec31661fb76",
+        "level": 0,
+        "displayName": "Berry Tart",
+        "name": "Berry Tart (Knapsack of Halflingkind)",
+        "price": 0,
+        "hide": true,
+        "traits": [
+            "Uncommon",
+            "Consumable",
+            "Healing",
+            "Magical"
+        ],
+        "activationType": "Interact"
+    },
+    {
+        "desc": "The greater knapsack of halflingkind contains berry tarts wrapped in parchment paper. A creature can unwrap and eat one tart with an Interact action to regain |dice=4d8+8| 4d8+8 Hit Points. The knapsack produces four tarts per day, which appear at breakfast time. Any tarts not eaten by the end of the day evaporate.",
+        "id": "f61dab10-4388-4981-80a0-098faae2decf",
+        "level": 0,
+        "displayName": "Berry Tart (Greater)",
+        "name": "Berry Tart (Knapsack of Halflingkind (Greater))",
+        "subType": "Greater",
+        "subTypeDesc": "The berry tarts each restore 4d8+8 Hit Points.",
+        "price": 0,
+        "hide": true,
+        "traits": [
+            "Uncommon",
+            "Consumable",
+            "Healing",
+            "Magical"
+        ],
+        "activationType": "Interact"
     }
 ]

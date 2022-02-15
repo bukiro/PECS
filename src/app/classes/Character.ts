@@ -615,7 +615,7 @@ export class Character extends Creature {
                     (className ? casting.className == className : true) &&
                     (tradition ? casting.tradition == tradition : true) &&
                     (source ? choice.source == source : true) &&
-                    (sourceId ? gain.sourceId == sourceId : true) &&
+                    (sourceId ? choice.id == sourceId : true) &&
                     ((locked != undefined) ? gain.locked == locked : true) &&
                     ((signatureAllowed && gain.signatureSpell) ? (spellLevel >= characterService.spellsService.get_Spells(gain.name)[0]?.levelreq) : true) &&
                     (cantripAllowed || (!characterService.spellsService.get_Spells(gain.name)[0]?.traits.includes("Cantrip")))

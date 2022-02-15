@@ -17,6 +17,8 @@ export class SpellChoice {
     public alwaysShowHeightened: boolean = false;
     public className: string = "";
     public cooldown: number = 0;
+    //How often can you cast the spells in this choice? 0 is one cast per cooldown, or infinite casts if no cooldown is given. Each used spell counts against the total number of charges.
+    public charges: number = 0;
     public frequency: string = "";
     public filter: string[] = [];
     public traitFilter: string[] = [];
@@ -74,6 +76,7 @@ export class SpellChoice {
     public target: string = "";
     recast() {
         this.spells = this.spells.map(obj => Object.assign(new SpellGain(), obj).recast());
+        this.spells.forEach(gain => { gain.source = this.source });
         return this;
     }
 }
