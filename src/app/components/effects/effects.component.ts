@@ -139,7 +139,7 @@ export class EffectsComponent implements OnInit, OnDestroy {
 
     get_AppliedConditions(apply: boolean, instant: boolean = false) {
         return this.characterService.get_AppliedConditions(this.get_Creature())
-            .filter(condition => condition.apply == apply || (instant && condition.durationIsInstant))
+            .filter(gain => gain.apply == apply || (instant && gain.durationIsInstant) || (instant && gain.nextStage == -1))
     }
 
     get_Duration(duration: number) {
@@ -153,6 +153,9 @@ export class EffectsComponent implements OnInit, OnDestroy {
     get_ConditionSuperTitle(conditionGain: ConditionGain, condition: Condition) {
         if (condition.get_IsStoppingTime(conditionGain)) {
             return "icon-ra ra-hourglass";
+        }
+        if (conditionGain.paused) {
+            return "icon-bi-pause-circle";
         }
         if (condition.get_IsInformationalCondition(this.get_Creature(), this.characterService, conditionGain)) {
             return "icon-bi-info-circle";

@@ -82,7 +82,7 @@ export class ItemComponent implements OnInit, OnDestroy {
 
     get_HaveMatchingTalismanCord(talisman: Talisman) {
         if (this.item instanceof Equipment) {
-            return this.item.talismanCords?.some(cord => cord.level <= talisman.level && cord.data.some(data => talisman.traits.includes(data.value)));
+            return this.item.talismanCords?.some(cord => cord.level <= talisman.level && cord.data.some(data => talisman.traits.includes(data.value as string)));
         }
     }
 
@@ -177,9 +177,10 @@ export class ItemComponent implements OnInit, OnDestroy {
         }
         //If a new spellcasting has been selected, either add a new spellgain or effectgain.
         if (item.data[wizardrySlotIndex].value != "no spellcasting selected") {
-            const className = item.data[wizardrySlotIndex].value.split(" ")[0];
-            const tradition = item.data[wizardrySlotIndex].value.split(" ")[1];
-            const castingType = item.data[wizardrySlotIndex].value.split(" ")[2];
+            const dataValue = (item.data[wizardrySlotIndex].value as string)
+            const className = dataValue.split(" ")[0];
+            const tradition = dataValue.split(" ")[1];
+            const castingType = dataValue.split(" ")[2];
             if (castingType.toLowerCase() == "prepared") {
                 let newSpellGain = new SpellChoice();
                 newSpellGain.available = 1;

@@ -10,6 +10,7 @@ export class ConditionGain {
     public id = uuidv4();
     public foreignPlayerId: string = "";
     public apply: boolean = true;
+    public paused: boolean = false;
     public decreasingValue: boolean = false;
     //Duration in turns * 10 [+1 to resolve afterwards], or:
     // - -5 for automatic - the duration will be determined by choice and level (for spells).
@@ -88,6 +89,8 @@ export class ConditionGain {
     public acknowledgedInputRequired: boolean = false;
     //Aeon stones and their activities can have resonant condition gains. These only get apply if the stone is slotted in a wayfinder (or activated while slotted in a wayfinder, respectively).
     public resonant: boolean = false;
+    //Some conditions allow you to select other conditions to override. These are saved here.
+    public selectedOtherConditions: string[] = [];
     recast() {
         this.gainActivities = this.gainActivities.map(obj => Object.assign(new ActivityGain(), obj).recast());
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());

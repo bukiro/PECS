@@ -75,10 +75,14 @@ export class ConditionsService {
         let creatureIndex: number = this.get_CalculatedIndex(creature.type);
         //Readonly skips any modifications and just returns the currently applied conditions. The same happens if the conditions haven't changed since the last run.
         if (!readonly && JSON.stringify(activeConditions) != JSON.stringify(this.appliedConditions[creatureIndex])) {
+            let overrides: { override: ConditionOverride, source: string }[] = [];
+            let pauses: { pause: ConditionOverride, source: string }[] = [];
             function conditionOverrideExists(gain: ConditionGain) {
                 return overrides.some(override => ["All", gain.name].includes(override.override.name) && override.source != gain.id);
             }
-            let overrides: { override: ConditionOverride, source: string }[] = [];
+            function conditionPauseExists(gain: ConditionGain) {
+                return pauses.some(pause => ["All", gain.name].includes(pause.pause.name) && pause.source != gain.id);
+            }
             activeConditions.forEach(gain => {
                 //Set apply for all conditions first, then change it later.
                 gain.apply = true;
@@ -86,27 +90,32 @@ export class ConditionsService {
                 if (originalCondition.name == gain.name) {
                     //Mark any conditions for deletion if their duration is 0, or if they can have a value and their value is 0 or lower
                     //Add overrides for the rest if their conditionChoiceFilter matches the choice.
+                    //Add pauses in the same way.
                     if ((originalCondition.hasValue && gain.value <= 0) || gain.duration == 0) {
                         gain.value = -1;
                     } else {
-                        overrides.push(...originalCondition.overrideConditions.filter(override => !override.conditionChoiceFilter?.length || override.conditionChoiceFilter.includes(gain.choice)).map(overrideCondition => { return { override: overrideCondition, source: gain.id } }));
+                        overrides.push(...originalCondition.get_ConditionOverrides(gain).filter(override => !override.conditionChoiceFilter?.length || override.conditionChoiceFilter.includes(gain.choice)).map(overrideCondition => { return { override: overrideCondition, source: gain.id } }));
+                        pauses.push(...originalCondition.get_ConditionPauses(gain).filter(pause => !pause.conditionChoiceFilter?.length || pause.conditionChoiceFilter.includes(gain.choice)).map(pauseCondition => { return { pause: pauseCondition, source: gain.id } }));
                     }
                 }
             });
-            //Cleanup overrides, first iteration: If any condition overrides "All" and is itself overridden, remove its overrides.
+
+            //Cleanup overrides, first iteration: If any condition overrides "All" and is itself overridden, remove its overrides and pauses.
             //"All" overrides are more dangerous and need to be cleaned up before they override every other condition.
             activeConditions.forEach(gain => {
                 if (overrides.some(override => override.source == gain.id && override.override.name == "All")) {
                     if (conditionOverrideExists(gain)) {
                         overrides = overrides.filter(override => override.source != gain.id);
+                        pauses = pauses.filter(pause => pause.source != gain.id);
                     }
                 }
             })
-            //Cleanup overrides, second iteration: If any overriding condition is itself overridden, its own overrides are removed.
+            //Cleanup overrides, second iteration: If any overriding condition is itself overridden, its own overrides and pauses are removed.
             activeConditions.forEach(gain => {
                 if (overrides.some(override => override.source == gain.id)) {
                     if (conditionOverrideExists(gain)) {
                         overrides = overrides.filter(override => override.source != gain.id);
+                        pauses = pauses.filter(pause => pause.source != gain.id);
                     }
                 }
             })
@@ -130,6 +139,7 @@ export class ConditionsService {
                         //Only process the conditions that haven't been marked for deletion.
                         if (gain.value != -1) {
                             const parentGain = activeConditions.find(otherGain => otherGain.id == gain.parentID);
+                            gain.paused = conditionPauseExists(gain);
                             if (conditionOverrideExists(gain)) {
                                 //If any remaining condition override applies to this or all, disable this.
                                 gain.apply = false;
@@ -172,7 +182,7 @@ export class ConditionsService {
             while (activeConditions.some(gain => gain.value == -1)) {
                 characterService.remove_Condition(creature, activeConditions.find(gain => gain.value == -1), false, undefined, undefined, true);
             }
-            this.appliedConditions[creatureIndex] = activeConditions.map(gain => Object.assign(new ConditionGain(), gain).recast());
+            this.appliedConditions[creatureIndex] = activeConditions.map(gain => Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(gain))).recast());
         }
         return activeConditions
             .sort((a, b) => (a.name + a.id == b.name + b.id) ? 0 : ((a.name + a.id > b.name + b.id) ? 1 : -1));
@@ -585,8 +595,8 @@ export class ConditionsService {
             return gain.duration && conditionsService.get_ConditionFromName(gain.name).get_IsStoppingTime(gain);
         }
         const timeStoppingConditions = creatureConditions.filter(gain => StoppingTime(gain));
-        const includedConditions = timeStoppingConditions.length ? timeStoppingConditions : creatureConditions;
-        const excludedConditions = timeStoppingConditions.length ? creatureConditions.filter(gain => !includedConditions.includes(gain)) : [];
+        const includedConditions = timeStoppingConditions.length ? timeStoppingConditions.filter(gain => !gain.paused) : creatureConditions.filter(gain => !gain.paused);
+        const excludedConditions = timeStoppingConditions.length ? creatureConditions.filter(gain => gain.paused || !includedConditions.includes(gain)) : creatureConditions.filter(gain => gain.paused);
         //If for any reason the maxDuration for a condition is lower than the duration, this is corrected here.
         includedConditions.filter(gain => gain.maxDuration > 0 && gain.maxDuration < gain.duration).forEach(gain => {
             gain.maxDuration = gain.duration;

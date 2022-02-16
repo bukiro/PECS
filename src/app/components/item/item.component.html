@@ -13,7 +13,8 @@
 </div>
 <app-itemContent [item]="item"></app-itemContent>
 <!-- Doubling Rings selection -->
-<div class="newrow" *ngIf="item.isDoublingRings && !item.isTalismanCord && !(item.isRingOfWizardry && item.isRingOfWizardry.length) !itemStore">
+<div class="newrow"
+    *ngIf="item.isDoublingRings && !item.isTalismanCord && !(item.isRingOfWizardry && item.isRingOfWizardry.length) !itemStore">
     <header class="spellHeader">Doubling Rings</header>
     <div class="newrow">
         <strong>Weapon wielded in the gold ring hand</strong>
@@ -40,11 +41,14 @@
     </div>
 </div>
 <!-- Ring of Wizardry selection -->
-<div class="newrow" *ngIf="item.isRingOfWizardry && item.isRingOfWizardry.length && !item.istalismanCord && !item.isDoublingRings && !itemStore">
+<div class="newrow"
+    *ngIf="item.isRingOfWizardry && item.isRingOfWizardry.length && !item.istalismanCord && !item.isDoublingRings && !itemStore">
     <header class="spellHeader">Ring of Wizardry</header>
-    <div class="newrow" *ngFor="let wizardrySlot of item.isRingOfWizardry; let wizardryIndex = index; trackBy:trackByIndex">
+    <div class="newrow"
+        *ngFor="let wizardrySlot of item.isRingOfWizardry; let wizardryIndex = index; trackBy:trackByIndex">
         <strong>{{get_RingOfWizardrySlotName(wizardrySlot)}}</strong>
-        <select [(ngModel)]="item.data[wizardryIndex].value" (ngModelChange)="on_RingOfWizardryChange(wizardrySlot, wizardryIndex)">
+        <select [(ngModel)]="item.data[wizardryIndex].value"
+            (ngModelChange)="on_RingOfWizardryChange(wizardrySlot, wizardryIndex)">
             <option *ngFor="let spellCasting of get_RingOfWizardryOptions(wizardrySlot); trackBy:trackByIndex;"
                 [ngValue]="spellCasting">
                 {{spellCasting}}
@@ -53,7 +57,8 @@
     </div>
 </div>
 <!-- Talisman Cord school display/selection -->
-<div class="newrow" *ngIf="item.isTalismanCord && !item.isDoublingRings && !(item.isRingOfWizardry && item.isRingOfWizardry.length)">
+<div class="newrow"
+    *ngIf="item.isTalismanCord && !item.isDoublingRings && !(item.isRingOfWizardry && item.isRingOfWizardry.length)">
     <header class="spellHeader">Talisman Cord</header>
     <ng-container *ngFor="let talismanCordIndex of [0, 1, 2]; trackBy:trackByIndex;">
         <div class="newrow" *ngIf="item.isTalismanCord > talismanCordIndex && item.data[talismanCordIndex]">
@@ -150,9 +155,9 @@
     </app-spellchoice>
 </div>
 <!-- Spell descriptions and effect selections of selected spells -->
-<div class="list-item left-aligned" *ngFor="let choice of get_StoredSpellsTaken(item); trackBy:trackByIndex;">
+<ng-container *ngFor="let choice of get_StoredSpellsTaken(item); trackBy:trackByIndex;">
     <ng-container *ngFor="let taken of choice.spells; trackBy:trackByIndex;">
-        <div *ngFor="let spell of get_Spells(taken.name); trackBy:trackByIndex;">
+        <div class="list-item left-aligned" *ngFor="let spell of get_Spells(taken.name); trackBy:trackByIndex;">
             <header class="spellHeader">
                 {{spell.name}}
                 <app-actionIcons *ngIf="spell.actions" [actionString]="spell.actions">
@@ -180,7 +185,7 @@
             </app-spell>
         </div>
     </ng-container>
-</div>
+</ng-container>
 <!-- Oil descriptions -->
 <div class="list-item left-aligned" *ngFor="let oil of item.oilsApplied; trackBy:trackByIndex;">
     <header class="spellHeader">{{oil.get_Name()}}</header>

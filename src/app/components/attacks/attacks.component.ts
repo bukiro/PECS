@@ -167,7 +167,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     get_HaveMatchingTalismanCord(weapon: Weapon, talisman: Talisman) {
-        return weapon.talismanCords.some(cord => cord.level <= talisman.level && cord.data.some(data => talisman.traits.includes(data.value)));
+        return weapon.talismanCords.some(cord => cord.level <= talisman.level && cord.data.some(data => talisman.traits.includes(data.value as string)));
     }
 
     get_PoisonTitle(poison: AlchemicalPoison) {

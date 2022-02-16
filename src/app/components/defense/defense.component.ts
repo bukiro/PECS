@@ -215,7 +215,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     public get_HaveMatchingTalismanCord(item: Armor | Shield | WornItem, talisman: Talisman): boolean {
-        return item.talismanCords.some(cord => cord.level <= talisman.level && cord.data.some(data => talisman.traits.includes(data.value)));
+        return item.talismanCords.some(cord => cord.level <= talisman.level && cord.data.some(data => talisman.traits.includes(data.value as string)));
     }
 
     public on_TalismanUse(item: Armor | Shield | WornItem, talisman: Talisman, index: number, preserve: boolean = false): void {

@@ -28,6 +28,11 @@ export type EndsWithCondition = {
     name: string,
     source?: string
 }
+export type OtherConditionSelection = {
+    title?: string,
+    nameFilter: string[]
+    typeFilter: string[]
+}
 
 export class Condition {
     public name: string = "";
@@ -50,7 +55,13 @@ export class Condition {
     public gainConditions: ConditionGain[] = [];
     public gainItems: ItemGain[] = [];
     public hide: boolean = false;
-    public overrideConditions: ConditionOverride[] = [];
+    //Overridden conditions aren't applied, but keep ticking.
+    private overrideConditions: ConditionOverride[] = [];
+    //Paused conditions don't tick. If you want to stop -and- hide a condition, you need to override it as well.
+    private pauseConditions: ConditionOverride[] = [];
+    //Each selectCondition offers a select box that can be used to select one other active condition for later use.
+    // The selected condition can be referenced in overrideConditions and pauseConditions as "selectedCondition|0" (or other index).
+    public selectOtherConditions: { title: string, nameFilter: string[], typeFilter: string[] }[] = [];
     public denyConditions: string[] = [];
     public endConditions: ConditionEnd[] = [];
     //If alwaysApplyCasterCondition is true and this is a caster condition, it is applied even when it is informational and the caster is already getting the target condition.
@@ -104,6 +115,13 @@ export class Condition {
         if (this.choices.length && !this.choice) {
             this.choice = this.choices[0].name
         }
+        this.selectOtherConditions = this.selectOtherConditions.map(selection =>
+            Object.assign({
+                title: "",
+                nameFilter: [],
+                typeFilter: []
+            }, selection)
+        )
         //endsWithConditions has changed from string to object; this is patched here for existing conditions.
         this.endsWithConditions.forEach((endsWith, index) => {
             if (typeof endsWith === "string") {
@@ -111,6 +129,24 @@ export class Condition {
             }
         })
         return this;
+    }
+    public get_ConditionOverrides(gain: ConditionGain = null): ConditionOverride[] {
+        return this.overrideConditions.map(override => {
+            let overrideName = override.name;
+            if (gain && override.name.toLowerCase().includes("selectedcondition|")) {
+                overrideName = gain.selectedOtherConditions[override.name.toLowerCase().split("|")[1] || 0] || overrideName;
+            }
+            return { name: overrideName, conditionChoiceFilter: override.conditionChoiceFilter };
+        })
+    }
+    public get_ConditionPauses(gain: ConditionGain = null): ConditionOverride[] {
+        return this.pauseConditions.map(pause => {
+            let pauseName = pause.name;
+            if (gain && pause.name.toLowerCase().includes("selectedcondition|")) {
+                pauseName = gain.selectedOtherConditions[pause.name.toLowerCase().split("|")[1] || 0] || pauseName;
+            }
+            return { name: pauseName, conditionChoiceFilter: pause.conditionChoiceFilter };
+        })
     }
     get_HasInstantEffects() {
         //Return whether the condition has any effects that are instantly applied even if the condition has no duration.
@@ -166,11 +202,25 @@ export class Condition {
                 this.overrideConditions.length ?
                     characterService.get_AppliedConditions(creature, "", "", true)
                         .some(existingCondition =>
-                            this.overrideConditions.some(override =>
+                            this.get_ConditionOverrides(conditionGain).some(override =>
                                 override.name == existingCondition.name &&
                                 (
                                     !override.conditionChoiceFilter?.length ||
                                     override.conditionChoiceFilter.includes(conditionGain?.choice || "")
+                                )
+                            )
+                        ) :
+                    false
+            ) ||
+            (
+                this.pauseConditions.length ?
+                    characterService.get_AppliedConditions(creature, "", "", true)
+                        .some(existingCondition =>
+                            this.get_ConditionPauses(conditionGain).some(pause =>
+                                pause.name == existingCondition.name &&
+                                (
+                                    !pause.conditionChoiceFilter?.length ||
+                                    pause.conditionChoiceFilter.includes(conditionGain?.choice || "")
                                 )
                             )
                         ) :

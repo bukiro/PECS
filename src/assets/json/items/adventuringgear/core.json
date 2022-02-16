@@ -2392,5 +2392,28 @@
         "name": "Manacles (Superior)",
         "price": 500000,
         "hands": 2
+    },
+    {
+        "bulk": "L",
+        "desc": "You can use an Interact action to pull a set of thieves' tools from the ring of maniacal devices. These tools appear in your hand and fold back into the ring if they would leave your possession. They grant you a +2 item bonus to Thievery checks to Disable a Device and to Pick a Lock.",
+        "id": "267506c6-1cc8-437f-bfc9-af7a7d971804",
+        "hide": true,
+        "level": 0,
+        "name": "Thieves' Tools (Ring of Maniacal Devices)",
+        "price": 0,
+        "hints": [
+            {
+                "desc": "These thieves' tools grant you a +2 item bonus to Thievery checks to Disable a Device and to Pick a Lock.",
+                "showon": "Thievery",
+                "effects": [
+                    {
+                        "affected": "Thievery",
+                        "value": "2",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
+        "hands": "2 (1 when worn)"
     }
 ]

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { Condition } from 'src/app/classes/Condition';
+import { Condition, OtherConditionSelection } from 'src/app/classes/Condition';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ConditionsService } from 'src/app/services/conditions.service';
 import { ItemsService } from 'src/app/services/items.service';
@@ -12,6 +12,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Activity } from 'src/app/classes/Activity';
+import { OtherConsumable } from 'src/app/classes/OtherConsumable';
 
 @Component({
     selector: 'app-condition',
@@ -116,8 +117,8 @@ export class ConditionComponent implements OnInit, OnDestroy {
         gain.radius += change;
     }
 
-    get_ConditionChoices(conditionGain: ConditionGain, condition: Condition) {
-        return condition.get_Choices(this.characterService, conditionGain.source != "Manual", conditionGain.heightened);
+    get_ConditionChoices(gain: ConditionGain, condition: Condition) {
+        return condition.get_Choices(this.characterService, gain.source != "Manual", gain.heightened);
     }
 
     change_ConditionChoice(gain: ConditionGain, condition: Condition, oldChoice: string) {
@@ -126,8 +127,44 @@ export class ConditionComponent implements OnInit, OnDestroy {
         this.update_Condition();
     }
 
+    public prepare_SelectOtherConditions(gain: ConditionGain, condition: Condition): OtherConditionSelection[] {
+        condition.selectOtherConditions.forEach((selection, index) => {
+            //Ensure that the condition gain has a place for each selection in its array.
+            if (gain.selectedOtherConditions.length <= index) {
+                gain.selectedOtherConditions.push("");
+            }
+        })
+        return condition.selectOtherConditions;
+    }
+
+    public get_SelectOtherConditionOptions(selection: OtherConditionSelection, gain: ConditionGain, index: number): string[] {
+        const creature = this.get_Creature();
+        const typeFilter = selection.typeFilter.map(filter => filter.toLowerCase());
+        const nameFilter = selection.nameFilter.map(filter => filter.toLowerCase());
+        const filteredConditions = this.conditionsService.get_Conditions().filter(libraryCondition =>
+            (typeFilter.length ? typeFilter.includes(libraryCondition.type.toLowerCase()) : true) &&
+            (nameFilter.length ? nameFilter.includes(libraryCondition.name.toLowerCase()) : true)
+        ).map(libraryCondition => libraryCondition.name.toLowerCase());
+        return Array.from(new Set(
+            this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
+                .map(conditionGain => conditionGain.name)
+                .filter(conditionName =>
+                    (conditionName.toLowerCase() != gain.name.toLowerCase()) &&
+                    (
+                        (typeFilter.length || nameFilter.length) ? filteredConditions.includes(conditionName.toLowerCase()) : true
+                    )
+                ).concat("", gain.selectedOtherConditions[index])
+        )).sort()
+    }
+
     change_ConditionStage(gain: ConditionGain, condition: Condition, choices: string[], change: number) {
         this.conditionsService.change_ConditionStage(this.get_Creature(), gain, condition, choices, change, this.characterService, this.itemsService)
+        this.refreshService.process_ToChange();
+        this.update_Condition();
+    }
+
+    change_OtherConditionSelection() {
+        this.refreshService.set_ToChange(this.creature, "effects");
         this.refreshService.process_ToChange();
         this.update_Condition();
     }
@@ -138,7 +175,6 @@ export class ConditionComponent implements OnInit, OnDestroy {
         } else {
             return this.condition.get_Heightened(this.condition.desc, this.condition.minLevel);
         }
-
     }
 
     remove_Condition(conditionGain: ConditionGain) {

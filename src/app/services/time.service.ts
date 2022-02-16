@@ -299,7 +299,7 @@ export class TimeService {
         const conditionsService = services.conditionsService;
         const effectsService = this.effectsService;
         function AfflictionOnsetsWithinDuration(creature: Creature): boolean {
-            return characterService.get_AppliedConditions(creature, "", "", true).some(gain => (!conditionsService.get_ConditionFromName(gain.name).automaticStages && gain.nextStage < duration && gain.nextStage > 0) || gain.nextStage == -1 || gain.durationIsInstant)
+            return characterService.get_AppliedConditions(creature, "", "", true).some(gain => (!conditionsService.get_ConditionFromName(gain.name).automaticStages && !gain.paused && gain.nextStage < duration && gain.nextStage > 0) || gain.nextStage == -1 || gain.durationIsInstant)
         }
         function TimeStopConditionsActive(creature: Creature): boolean {
             return characterService.get_AppliedConditions(creature, "", "", true).some(gain => conditionsService.get_ConditionFromName(gain.name).stopTimeChoiceFilter.some(filter => [gain.choice, "All"].includes(filter)))
