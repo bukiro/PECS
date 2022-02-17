@@ -245,8 +245,9 @@
                                     [phrase]="'Cast' + (spellParameters.maxCharges ? ' (' + (spellParameters.maxCharges - spellParameters.usedCharges) + ' of ' + spellParameters.maxCharges + ' charges)' : '')"
                                     [casting]="spellCastingParameters.casting" [cannotCast]="spellParameters.cannotCast"
                                     [effectiveSpellLevel]="spellParameters.effectiveSpellLevel"
+                                    [cannotExpend]="spellParameters.cannotExpend" [showExpend]="true"
                                     [bloodMagicFeats]="componentParameters.bloodMagicFeats" [showDismiss]="true"
-                                    (castMessage)="on_Cast($event.target, $event.activated, { spellParameters: spellParameters, spellCastingLevelParameters: spellCastingLevelParameters, spellCastingParameters: spellCastingParameters, componentParameters: componentParameters })">
+                                    (castMessage)="on_Cast($event.target, $event.activated, { spellParameters: spellParameters, spellCastingLevelParameters: spellCastingLevelParameters, spellCastingParameters: spellCastingParameters, componentParameters: componentParameters }, $event.options)">
                                 </app-spellTarget>
                                 <div class="newrow"
                                     *ngIf="spellCastingParameters.casting.castingType == 'Focus' && spellParameters.spell.allowReturnFocusPoint"

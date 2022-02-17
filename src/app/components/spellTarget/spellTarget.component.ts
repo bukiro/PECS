@@ -39,6 +39,10 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     @Input()
     cannotCast: string = "";
     @Input()
+    cannotExpend: string = "";
+    @Input()
+    showExpend: boolean = false;
+    @Input()
     effectiveSpellLevel: number = 0;
     @Input()
     bloodMagicFeats: Feat[] = [];
@@ -51,7 +55,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     @Input()
     dismissPhrase: boolean = false;
     @Output()
-    castMessage = new EventEmitter<{ target: string, activated: boolean }>();
+    castMessage = new EventEmitter<{ target: string, activated: boolean, options: {expend?: boolean} }>();
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -76,8 +80,8 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         return index;
     }
 
-    on_Cast(target: string, activated: boolean) {
-        this.castMessage.emit({ target: target, activated: activated });
+    on_Cast(target: string, activated: boolean, options: {expend?: boolean} = {}) {
+        this.castMessage.emit({ target: target, activated: activated, options });
     }
 
     get_Character() {

@@ -455,19 +455,22 @@ export class InventoryComponent implements OnInit, OnDestroy {
         return inventory.get_Name(this.characterService);
     }
 
-    on_SpellItemUse(item: Item, creature: string, inventory: ItemCollection) {
+    public on_SpellItemUse(item: Item, creature: string, inventory: ItemCollection): void {
         let spellName = item.storedSpells[0]?.spells[0]?.name || "";
         let spellChoice = item.storedSpells[0];
         if (spellChoice && spellName) {
             let spell = this.get_Spells(spellName)[0];
-            if (spell && !(item instanceof Wand && item.overcharged)) {
+            if (spell && (!(item instanceof Wand && item.overcharged) || this.get_ManualMode())) {
                 this.spellsService.process_Spell(this.get_Character(), creature, this.characterService, this.itemsService, this.conditionsService, null, spellChoice, item.storedSpells[0].spells[0], spell, spellChoice.level, true, true, false);
             }
             if (item instanceof Wand) {
                 if (item.cooldown) {
-                    if (item.overcharged) {
+                    if (item.overcharged && !this.get_ManualMode()) {
                         this.drop_InventoryItem(item, inventory, false);
                         this.toastService.show("The <strong>" + item.get_Name() + "</strong> was destroyed because it was overcharged too much. The spell was not cast.");
+                    } else if (item.overcharged && this.get_ManualMode()) {
+                        this.toastService.show("The <strong>" + item.get_Name() + "</strong> was overcharged too many times. It was not destroyed because manual mode is enabled.");
+                        item.broken = true;
                     } else {
                         item.overcharged = true;
                         item.broken = true;
@@ -477,6 +480,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
                 }
             } else {
                 spellChoice.spells.shift();
+                this.refreshService.set_ToChange("Character", "spellchoices");
             }
         }
         if (item instanceof Consumable) {
@@ -484,6 +488,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         } else {
             this.refreshService.process_ToChange();
         }
+        this.update_Item(item);
     }
 
     on_ConsumableUse(item: Consumable, creature: string, inventory: ItemCollection) {
@@ -518,14 +523,10 @@ export class InventoryComponent implements OnInit, OnDestroy {
         }
     }
 
-    have_Funds(sum: number = 0) {
-        let character = this.characterService.get_Character();
-        let funds = (character.cash[0] * 1000) + (character.cash[1] * 100) + (character.cash[2] * 10) + (character.cash[3]);
-        if (sum <= funds) {
-            return true;
-        } else {
-            return false;
-        }
+    public have_Funds(sum: number = 0): boolean {
+        const character = this.characterService.get_Character();
+        const funds = (character.cash[0] * 1000) + (character.cash[1] * 100) + (character.cash[2] * 10) + (character.cash[3]);
+        return (sum <= funds);
     }
 
     change_Cash(multiplier: number = 1, sum: number = 0, changeafter: boolean = false) {
