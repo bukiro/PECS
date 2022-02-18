@@ -308,8 +308,8 @@ export class ItemsComponent implements OnInit, OnDestroy {
                         )
                         : true
                 )
-            )
-            .sort((a, b) => (a[this.sorting] + a.name == b[this.sorting] + b.name) ? 0 : (a[this.sorting] + a.name < b[this.sorting] + b.name) ? -1 : 1);
+            ).sort((a, b) => (a.name == b.name) ? 0 : (a.name < b.name) ? -1 : 1)
+            .sort((a, b) => (a[this.sorting] == b[this.sorting]) ? 0 : (a[this.sorting] < b[this.sorting]) ? -1 : 1);
     }
 
     can_ApplyTalismans(item: Item) {
@@ -417,6 +417,13 @@ export class ItemsComponent implements OnInit, OnDestroy {
             }
             if (Object.keys(this.newItem).includes("invested")) {
                 this.newItem["invested"] = false;
+            }
+            if (Object.keys(this.newItem).includes("choice")) {
+                if (this.newItem["choices"]?.length) {
+                    this.newItem["choice"] = this.newItem["choices"][0] || "";
+                    this.newItem["showChoicesInInventory"] = true;
+                }
+                
             }
             this.grant_Item(creature, this.newItem);
         }

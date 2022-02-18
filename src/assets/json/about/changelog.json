@@ -9,12 +9,17 @@
             },
             {
                 "header": "",
-                "desc": "Some item functionalities have changed, and affected items are patched on the character",
+                "desc": "Some item functionalities have changed, and affected items are patched on the character. In particular, some items came in variations that have been consolidated with a new variation selection box. For most items, the variation needs to be chosen before they are bought.",
                 "images": []
             },
             {
                 "header": "",
                 "desc": "The mage armor spell and the shield spell used to grant equipment items that were equipped automatically. That was a nice idea, but isn't how those spells work, and leads to complications with actual worn armor and shields, so now they just grant appropriate bonuses. The items are patched out of your inventory automatically.",
+                "images": []
+            },
+            {
+                "header": "",
+                "desc": "Spells can now be expended in the spells area, allowing you to cast a spell without causing any effects, e.g. to charge an item or to spend 14 soothe spells after a long battle without racking up caster conditions.",
                 "images": []
             }
         ]

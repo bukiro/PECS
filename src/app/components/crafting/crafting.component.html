@@ -128,9 +128,9 @@
                                                             [ngClass]="{'fancy-button':preparedAmount}"
                                                             (click)="toggle_Item()">
                                                             <app-gridIcon [ngClass]="{'fancy-button':preparedAmount}"
-                                                                [ngbTooltip]="(preparedAmount ? preparedAmount + ' ' : '') + (item.get_Name ? item.get_Name() : item.name) + (item.level ? ' (Level ' + item.level + ')' : '')"
+                                                                [ngbTooltip]="(preparedAmount ? preparedAmount + ' ' : '') + (item.get_Name ? item.get_Name({itemStore:true}) : item.name) + (item.level ? ' (Level ' + item.level + ')' : '')"
                                                                 [subTitle]="preparedAmount"
-                                                                [title]="item.displayName || item.name"
+                                                                [title]="item.get_IconTitle()"
                                                                 [detail]="(item.traits.includes('Rare') ? 'R' : (item.traits.includes('Uncommon') ? 'U' : (item.traits.includes('Unique') ? 'Q' : ''))) + (item.level || '')"
                                                                 [item]="item">
                                                             </app-gridIcon>
@@ -220,7 +220,7 @@
                                                     </ng-template>
                                                     <ng-template #ItemTooltipTemplate>
                                                         <span>
-                                                            {{(item.get_Name) ? item.get_Name() : item.name}}
+                                                            {{(item.get_Name) ? item.get_Name({itemStore:true}) : item.name}}
                                                         </span>
                                                         <span *ngIf="item.level">
                                                             |
@@ -294,7 +294,7 @@
                                                             <app-gridIcon [updateId]="item.id"
                                                                 [ngClass]="{'penalty': canUse == false, 'bonus': canUse}"
                                                                 [ngbTooltip]="ItemTooltipTemplate"
-                                                                [title]="item.displayName || item.name"
+                                                                [title]="item.get_IconTitle()"
                                                                 [detail]="(item.traits.includes('Rare') ? 'R' : (item.traits.includes('Uncommon') ? 'U' : (item.traits.includes('Unique') ? 'Q' : ''))) + (item.level || '')"
                                                                 [item]="item">
                                                             </app-gridIcon>

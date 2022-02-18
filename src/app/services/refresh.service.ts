@@ -172,7 +172,19 @@ export class RefreshService {
         }
     }
 
-    private set_EquipmentViewChanges(creature: Creature, item: Equipment, services: { characterService: CharacterService }) {
+    public set_EquipmentChoiceChanges(creature: Creature, item: Equipment, services: { characterService: CharacterService }): void {
+        if (item.effects.some(effect => effect.value.includes("Choice"))) {
+            this.set_ToChange(creature.type, "effects");
+        }
+        if (item.hints.some(hint => hint.effects.some(effect => effect.value.includes("Choice")))) {
+            this.set_ToChange(creature.type, "effects");
+        }
+        if (item.hints.some(hint => hint.conditionChoiceFilter.length)) {
+            this.set_HintsToChange(creature, item.hints, services);
+        }
+    }
+
+    private set_EquipmentViewChanges(creature: Creature, item: Equipment, services: { characterService: CharacterService }): void {
         //Prepare refresh list according to the item's properties.
         if (item instanceof Shield || item instanceof Armor || item instanceof Weapon) {
             this.set_ToChange(creature.type, "defense");
@@ -205,7 +217,7 @@ export class RefreshService {
         if (item.gainSenses.length) {
             this.set_ToChange(creature.type, "skills");
         }
-        item.propertyRunes.forEach((rune: Rune) => {
+        item.propertyRunes.forEach(rune => {
             if (item instanceof Armor) {
                 this.set_HintsToChange(creature, rune.hints, services);
                 if ((rune as ArmorRune).effects?.length) {

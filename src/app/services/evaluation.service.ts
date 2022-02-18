@@ -11,12 +11,14 @@ import { Character } from 'src/app/classes/Character';
 import { Familiar } from 'src/app/classes/Familiar';
 import { Speed } from 'src/app/classes/Speed';
 import { FamiliarsService } from 'src/app/services/familiars.service';
+import { EffectGain } from '../classes/EffectGain';
 
 type FormulaContext = {
     readonly creature: Creature,
     readonly object?: any,
     readonly parentConditionGain?: ConditionGain,
-    readonly parentItem?: Item | Material
+    readonly parentItem?: Item | Material,
+    readonly effect?: EffectGain
 }
 type FormulaOptions = {
     readonly name?: string,
@@ -59,6 +61,7 @@ export class EvaluationService {
         const Companion: AnimalCompanion = characterService.get_Companion();
         const Familiar: Familiar = characterService.get_Familiar();
         const object = context.object;
+        const effect = context.effect;
         const parentItem = context.parentItem;
         //Using pretendCharacterLevel helps determine what the formula's result would be on a certain character level other than the current.
         const Level: number = options.pretendCharacterLevel || Character.level;

@@ -17,6 +17,7 @@ import { HintEffectsObject } from 'src/app/services/effectsGeneration.service';
 import { Specialization } from 'src/app/classes/Specialization';
 import { Creature } from 'src/app/classes/Creature';
 import { CharacterService } from 'src/app/services/character.service';
+import { ConditionChoice } from './ConditionChoice';
 
 export class Equipment extends Item {
     //Allow changing of "equippable" by custom item creation
@@ -80,6 +81,9 @@ export class Equipment extends Item {
     public talismanCords: WornItem[] = [];
     //List any senses you gain when the item is equipped or invested.
     public gainSenses: string[] = [];
+    public showChoicesInInventory: boolean = false;
+    public choices: string[] = [];
+    public choice: string = "";
     recast(typeService: TypeService, itemsService: ItemsService): Equipment {
         super.recast(typeService, itemsService);
         this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
@@ -111,7 +115,20 @@ export class Equipment extends Item {
         this.talismans = this.talismans.map(obj => Object.assign<Talisman, Item>(new Talisman(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         //Talisman Cords need to be cast blindly to avoid circular dependency warnings.
         this.talismanCords = this.talismanCords.map(obj => (typeService.classCast(typeService.restore_Item(obj, itemsService), "WornItem") as WornItem).recast(typeService, itemsService));
+        if (this.choices.length && !this.choices.includes(this.choice)) {
+            this.choice = this.choices[0];
+        }
         return this;
+    }
+    get_IconValue() {
+        let parts: string[] = [];
+        if (this.subType) {
+            parts.push(this.subType[0]);
+        }
+        if (this.choice) {
+            parts.push(this.choice[0]);
+        }
+        return parts.join(",");
     }
     investedOrEquipped(): boolean {
         return this.can_Invest() ? this.invested : (this.equipped == this.equippable);
@@ -187,7 +204,15 @@ export class Equipment extends Item {
                 return "Major Resilient";
         }
     }
-    get_Name() {
+    protected get_SecondaryRuneName(): string {
+        //Weapons, Armors and Worn Items that can bear runes have their own version of this method.
+        return "";
+    }
+    protected get_BladeAllyName(): string[] {
+        //Weapons have their own version of this method.
+        return [];
+    }
+    get_Name(options: {itemStore?: boolean} = {}) {
         if (this.displayName.length) {
             return this.displayName;
         } else {
@@ -197,11 +222,7 @@ export class Equipment extends Item {
                 words.push(potency);
             }
             let secondary: string = "";
-            if (this.type == "weapons" || this["isHandwrapsOfMightyBlows"]) {
-                secondary = this.get_Striking(this.get_StrikingRune());
-            } else if (this.type == "armors") {
-                secondary = this.get_Resilient(this.get_ResilientRune());
-            }
+            secondary = this.get_SecondaryRuneName();
             if (secondary) {
                 words.push(secondary);
             }
@@ -214,17 +235,9 @@ export class Equipment extends Item {
                 }
                 words.push(name);
             })
-            if (this["bladeAlly"]) {
-                this.bladeAllyRunes.forEach(rune => {
-                    let name: string = rune.name;
-                    if (rune.name.includes("(Greater)")) {
-                        name = "Greater " + rune.name.substr(0, rune.name.indexOf("(Greater)"));
-                    } else if (rune.name.includes(", Greater)")) {
-                        name = "Greater " + rune.name.substr(0, rune.name.indexOf(", Greater)")) + ")";
-                    }
-                    words.push(name);
-                })
-            }
+            this.get_BladeAllyName().forEach(name => {
+                words.push(name);
+            })
             this.material.forEach(mat => {
                 words.push(mat.get_Name());
             })
@@ -242,7 +255,7 @@ export class Equipment extends Item {
             } else {
                 words.push(this.name)
             }
-            return words.join(" ");
+            return words.join(" ") + ((!options.itemStore && this.choice) ? ": " + this.choice : "");
         }
     }
     get_Price(itemsService: ItemsService) {

@@ -110,21 +110,13 @@ export class Weapon extends Equipment {
         this.propertyRunes = this.propertyRunes.map(obj => Object.assign<WeaponRune, Item>(new WeaponRune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         return this;
     }
-    get_Name(): string {
-        if (this.displayName.length) {
-            return this.displayName;
-        } else {
-            let words: string[] = [];
-            let potency = this.get_Potency(this.get_PotencyRune());
-            if (potency) {
-                words.push(potency);
-            }
-            let secondary: string = "";
-            secondary = this.get_Striking(this.get_StrikingRune());
-            if (secondary) {
-                words.push(secondary);
-            }
-            this.propertyRunes.forEach(rune => {
+    protected get_SecondaryRuneName(): string {
+        return this.get_Striking(this.get_StrikingRune());
+    }
+    protected get_BladeAllyName(): string[] {
+        let words: string[] = [];
+        if (this.bladeAlly) {
+            this.bladeAllyRunes.forEach(rune => {
                 let name: string = rune.name;
                 if (rune.name.includes("(Greater)")) {
                     name = "Greater " + rune.name.substr(0, rune.name.indexOf("(Greater)"));
@@ -133,36 +125,8 @@ export class Weapon extends Equipment {
                 }
                 words.push(name);
             })
-            if (this.bladeAlly) {
-                this.bladeAllyRunes.forEach(rune => {
-                    let name: string = rune.name;
-                    if (rune.name.includes("(Greater)")) {
-                        name = "Greater " + rune.name.substr(0, rune.name.indexOf("(Greater)"));
-                    } else if (rune.name.includes(", Greater)")) {
-                        name = "Greater " + rune.name.substr(0, rune.name.indexOf(", Greater)")) + ")";
-                    }
-                    words.push(name);
-                })
-            }
-            this.material.forEach(mat => {
-                words.push(mat.get_Name());
-            })
-            //If you have any material in the name of the item, and it has a material applied, remove the original material. This list may grow.
-            let materials = [
-                "Wooden ",
-                "Steel "
-            ]
-            if (this.material.length && materials.some(mat => this.name.toLowerCase().includes(mat.toLowerCase()))) {
-                let name = this.name;
-                materials.forEach(mat => {
-                    name = name.replace(mat, "");
-                })
-                words.push(name);
-            } else {
-                words.push(this.name)
-            }
-            return words.join(" ");
         }
+        return words;
     }
     get_Price(itemsService: ItemsService): number {
         let price = this.price;
@@ -524,6 +488,8 @@ export class Weapon extends Equipment {
             "Attack Rolls",
             this.name + " Attack Rolls",
             "All Checks and DCs",
+            //"Longsword Attack Rolls", "Fist Attack Rolls" etc.
+            this.weaponBase + " Attack Rolls",
             //"Sword Attack Rolls", "Club Attack Rolls"
             this.group + " Attack Rolls",
             //"Unarmed Attacks Attack Rolls", "Simple Weapons Attack Rolls"

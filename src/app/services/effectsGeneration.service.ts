@@ -92,7 +92,7 @@ export class EffectsGenerationService {
         //This statement is evaluated by the EvaluationService and then validated here in order to build a working Effect.
         object.effects.filter((effect: EffectGain) => effect.resonant ? (object instanceof WornItem && object.isSlottedAeonStone) : true).forEach((effect: EffectGain) => {
             function get_ValueFromFormula(value: string) {
-                return evaluationService.get_ValueFromFormula(value, { characterService: services.characterService, effectsService: effectsService }, context, options);
+                return evaluationService.get_ValueFromFormula(value, { characterService: services.characterService, effectsService: effectsService }, Object.assign({ effect: effect }, context), options);
             }
             let show: boolean = effect.show;
             let type: string = "untyped";
@@ -146,7 +146,7 @@ export class EffectsGenerationService {
             if (effect.title) {
                 try {
                     //We insert value and setValue here (if needed) because they will not be available in the evaluation.
-                    const testTitle = effect.title.replace(/(^|[^\w])value($|[^\w])/g, "$1"+value+"$2").replace(/(^|[^\w])setValue($|[^\w])/g, "$1"+setValue+"$2");
+                    const testTitle = effect.title.replace(/(^|[^\w])value($|[^\w])/g, "$1" + value + "$2").replace(/(^|[^\w])setValue($|[^\w])/g, "$1" + setValue + "$2");
                     title = get_ValueFromFormula(testTitle).toString();
                 } catch (error) {
                     title = "";

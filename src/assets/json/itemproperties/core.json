@@ -14,6 +14,22 @@
         "desc": "The display name will be shown instead of the name if set and doesn't change with runes. The display name can be changed later in the inventory."
     },
     {
+        "key": "iconTitleOverride",
+        "priority": "02",
+        "group": "1-Name",
+        "name": "Icon title override",
+        "desc": "The item's display name or name will be shortened to its first four capital letters on icons. If this field has a value, it will be used instead, up to its fourth letter.",
+        "examples": "icontitleoverride"
+    },
+    {
+        "key": "iconValueOverride",
+        "priority": "03",
+        "group": "1-Name",
+        "name": "Icon value override",
+        "desc": "Some aspects of the item are shown in the upper left corner of its icon. If this field has a value, it will be used instead, up to its sixth letter.",
+        "examples": "iconvalueoverride"
+    },
+    {
         "key": "bulk",
         "priority": "00",
         "group": "2-Basics",
@@ -88,6 +104,14 @@
         "group": "2-Basics",
         "name": "Notes",
         "desc": "Notes that can be displayed on the item. The notes can be changed later."
+    },
+    {
+        "key": "choices",
+        "priority": "07",
+        "group": "2-Basics",
+        "name": "Variation options",
+        "desc": "Some items can be attuned to or affiliated with different things, which can change the way the item's effects and hints work. These options can be added here, and the selected option can be referenced in effect calculations as the word 'Choice'. Unlike with bought items, custom items will always allow you to change the chosen option later.",
+        "examples": "choices"
     },
     {
         "key": "prof",
@@ -183,8 +207,26 @@
     },
     {
         "parent": "activities",
-        "key": "traits",
+        "key": "iconTitleOverride",
+        "priority": "01",
+        "group": "",
+        "name": "Icon title override",
+        "desc": "The activity's name will be shortened to its first four capital letters on icons. If this field has a value, it will be used instead, up to its fourth letter.",
+        "examples": "activity"
+    },
+    {
+        "parent": "activities",
+        "key": "iconValueOverride",
         "priority": "02",
+        "group": "",
+        "name": "Icon value override",
+        "desc": "This value will be shown in the upper left corner of the activity's icon, up to its sixth letter.",
+        "examples": "activity"
+    },
+    {
+        "parent": "activities",
+        "key": "traits",
+        "priority": "03",
         "group": "",
         "name": "Traits",
         "desc": "The activity traits are listed on the item.",
@@ -194,7 +236,7 @@
     {
         "parent": "activities",
         "key": "actions",
-        "priority": "03",
+        "priority": "04",
         "group": "",
         "name": "Time required to use",
         "desc": "Number of actions to activate this item. Can be free or reaction, a number of actions, or an individual amount of time, like 1 hour.",
@@ -203,7 +245,7 @@
     {
         "parent": "activities",
         "key": "activationType",
-        "priority": "04",
+        "priority": "05",
         "group": "",
         "name": "Activation type",
         "desc": "Type of action used to activate this item, like 'Command' or 'Interact'.",
@@ -213,7 +255,7 @@
     {
         "parent": "activities",
         "key": "hints",
-        "priority": "05",
+        "priority": "06",
         "group": "",
         "name": "Hints",
         "desc": "You can show hints to this activity while it is active, or always if it can't be toggled, e.g. on individual skills. These hints can include effects that can be turned on and off."
@@ -221,7 +263,7 @@
     {
         "parent": "activities",
         "key": "toggle",
-        "priority": "06",
+        "priority": "07",
         "group": "",
         "name": "Permanent",
         "desc": "Set this if the item stays activated until you deactivate it, e.g. if the item grants you a stance or another item while it is active.",
@@ -230,7 +272,7 @@
     {
         "parent": "activities",
         "key": "cooldown",
-        "priority": "07",
+        "priority": "08",
         "group": "",
         "name": "Cooldown",
         "desc": "How long you have to wait to activate this item after activating it once, in turns * 10. (1 hour is 6000, 1 day is 144000.)",
@@ -241,7 +283,7 @@
     {
         "parent": "activities",
         "key": "frequency",
-        "priority": "08",
+        "priority": "09",
         "group": "",
         "name": "Frequency",
         "desc": "A description of how often you can use this item, as defined by the cooldown. Often 'once per hour' or 'once per day'.",
@@ -250,7 +292,7 @@
     {
         "parent": "activities",
         "key": "charges",
-        "priority": "09",
+        "priority": "10",
         "group": "",
         "name": "Charges",
         "desc": "How often can you use this activation within one cooldown period. If the item has any charges, the cooldown starts after the first use, but the item can still be used as long as it has charges left. If the activity has charges and no cooldown, it can never be recharged.",
@@ -261,7 +303,7 @@
     {
         "parent": "activities",
         "key": "sharedChargesID",
-        "priority": "10",
+        "priority": "11",
         "group": "",
         "name": "Shared Charges ID",
         "desc": "Activities on the same item that have the same ID (other than 0) share their charges with each other.",
@@ -271,7 +313,7 @@
     {
         "parent": "activities",
         "key": "cost",
-        "priority": "11",
+        "priority": "12",
         "group": "",
         "name": "Cost",
         "desc": "Describe the cost (usually materials) for the activity. This is only for the player and has no mechanical function.",
@@ -280,7 +322,7 @@
     {
         "parent": "activities",
         "key": "trigger",
-        "priority": "12",
+        "priority": "13",
         "group": "",
         "name": "Trigger",
         "desc": "Some items can be activated in a certain situation, like when you are about to be attacked. You can describe this trigger here. This is not reflected in the program, but helps the user understand the item.",
@@ -289,7 +331,7 @@
     {
         "parent": "activities",
         "key": "requirements",
-        "priority": "13",
+        "priority": "14",
         "group": "",
         "name": "Requirements",
         "desc": "Some items can only be activated when certain requirements are met. You can describe the requirements here. This is not reflected in the program, but helps the user understand the item.",
@@ -298,7 +340,7 @@
     {
         "parent": "activities",
         "key": "gainItems",
-        "priority": "14",
+        "priority": "15",
         "group": "",
         "name": "Grant additional items",
         "desc": "Add additional items when this item is activated. If the activation is permanent, the item is lost at deactivation."
@@ -306,7 +348,7 @@
     {
         "parent": "activities",
         "key": "castSpells",
-        "priority": "15",
+        "priority": "16",
         "group": "",
         "name": "Cast spells",
         "desc": "Cast spells when this item is activated."
@@ -343,7 +385,7 @@
     {
         "parent": "activities",
         "key": "gainConditions",
-        "priority": "16",
+        "priority": "17",
         "group": "",
         "name": "Cause conditions",
         "desc": "Add known conditions that will be caused when this item is activated."
@@ -351,7 +393,7 @@
     {
         "parent": "activities",
         "key": "critsuccess",
-        "priority": "17",
+        "priority": "18",
         "group": "",
         "name": "Critical success effect",
         "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a critical success.",
@@ -360,7 +402,7 @@
     {
         "parent": "activities",
         "key": "success",
-        "priority": "18",
+        "priority": "19",
         "group": "",
         "name": "Success effect",
         "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a success.",
@@ -369,7 +411,7 @@
     {
         "parent": "activities",
         "key": "failure",
-        "priority": "19",
+        "priority": "20",
         "group": "",
         "name": "Failure effect",
         "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a failure.",
@@ -378,7 +420,7 @@
     {
         "parent": "activities",
         "key": "critfailure",
-        "priority": "20",
+        "priority": "21",
         "group": "",
         "name": "Critical failure effect",
         "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a critical failure.",

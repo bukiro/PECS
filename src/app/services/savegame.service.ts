@@ -108,6 +108,10 @@ export class SavegameService {
         //If choices need to be added or removed that have already been added or removed in the class, do it here or your character's choices will get messed up.
         //The character is not reassigned at this point, so we need to be careful with assuming that an object has a property.
 
+        const companion = character.class.animalCompanion;
+        const familiar = character.class.familiar;
+        const creatures = [character, companion, familiar];
+
         if (stage == 1) {
 
             //Monks below version 1.0.2 will lose their Path to Perfection skill increases and gain the feat choices instead.
@@ -176,8 +180,8 @@ export class SavegameService {
 
             //Characters before version 1.0.3 need their item hints reassigned.
             if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 3) {
-                if (character.inventories.length) {
-                    character.inventories.forEach(inventory => {
+                creatures.forEach(creature => {
+                    creature?.inventories?.forEach(inventory => {
                         Object.keys(inventory).forEach(key => {
                             if (Array.isArray(inventory[key])) {
                                 inventory[key].forEach(item => {
@@ -210,7 +214,7 @@ export class SavegameService {
                             }
                         })
                     })
-                }
+                })
             }
 
             //Rogues before version 1.0.3 need to rename their class choice type.
@@ -227,45 +231,49 @@ export class SavegameService {
             //Slotted aeon stones now reflect that information on their own, for better detection of resonant hints and effects.
             //The moddable property has changed from string to boolean and needs to be updated on all items.
             if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 4) {
-                character.inventories?.forEach(inv => {
-                    inv.wornitems?.forEach(invItem => {
-                        if ([
-                            "b0a0fc41-b6cc-4dba-870c-efdd0468e448",
-                            "df38a8cc-49f9-41d2-97b8-101a5cf020be",
-                            "462510ac-d2fc-4f29-aa7c-dcc7272ebfcf",
-                            "046845de-4cb0-411a-9f6e-85a669e5e12b"
-                        ].includes(invItem.refId) && invItem.activities) {
-                            invItem.activities = invItem.activities.filter(activity => !(activity.castSpells.length && activity.actions == ""));
-                        }
-                        if (invItem.refId == "88de530a-913b-11ea-bb37-0242ac130002") {
-                            invItem.activities?.forEach(activity => {
-                                activity.name = activity.name.replace("Bracelets", "Bracelet");
-                                activity.gainConditions?.forEach(gain => {
-                                    gain.name = gain.name.replace("Bracelets", "Bracelet");
+                creatures.forEach(creature => {
+                    creature?.inventories?.forEach(inv => {
+                        inv.wornitems?.forEach(invItem => {
+                            if ([
+                                "b0a0fc41-b6cc-4dba-870c-efdd0468e448",
+                                "df38a8cc-49f9-41d2-97b8-101a5cf020be",
+                                "462510ac-d2fc-4f29-aa7c-dcc7272ebfcf",
+                                "046845de-4cb0-411a-9f6e-85a669e5e12b"
+                            ].includes(invItem.refId) && invItem.activities) {
+                                invItem.activities = invItem.activities.filter(activity => !(activity.castSpells.length && activity.actions == ""));
+                            }
+                            if (invItem.refId == "88de530a-913b-11ea-bb37-0242ac130002") {
+                                invItem.activities?.forEach(activity => {
+                                    activity.name = activity.name.replace("Bracelets", "Bracelet");
+                                    activity.gainConditions?.forEach(gain => {
+                                        gain.name = gain.name.replace("Bracelets", "Bracelet");
+                                    })
                                 })
+                            }
+                            invItem.aeonStones?.forEach(aeonStone => {
+                                aeonStone.isSlottedAeonStone = true;
                             })
-                        }
-                        invItem.aeonStones?.forEach(aeonStone => {
-                            aeonStone.isSlottedAeonStone = true;
-                        })
-                        invItem.aeonStones?.filter(aeonStone => aeonStone.refId == "046845de-4cb0-411a-9f6e-85a669e5e12b" && aeonStone.activities).forEach(aeonStone => {
-                            aeonStone.activities = aeonStone.activities.filter(activity => !(activity.castSpells.length && activity.actions == ""));
+                            invItem.aeonStones?.filter(aeonStone => aeonStone.refId == "046845de-4cb0-411a-9f6e-85a669e5e12b" && aeonStone.activities).forEach(aeonStone => {
+                                aeonStone.activities = aeonStone.activities.filter(activity => !(activity.castSpells.length && activity.actions == ""));
+                            })
                         })
                     })
                 })
-                character.inventories?.forEach(inv => {
-                    Object.keys(inv).forEach(key => {
-                        if (Array.isArray(inv[key])) {
-                            inv[key].forEach(item => {
-                                if (Object.keys(item).includes("moddable")) {
-                                    if (item.moddable == "-") {
-                                        item.moddable = false;
-                                    } else if (item.moddable != false) {
-                                        item.moddable = true;
+                creatures.forEach(creature => {
+                    creature?.inventories?.forEach(inv => {
+                        Object.keys(inv).forEach(key => {
+                            if (Array.isArray(inv[key])) {
+                                inv[key].forEach(item => {
+                                    if (Object.keys(item).includes("moddable")) {
+                                        if (item.moddable == "-") {
+                                            item.moddable = false;
+                                        } else if (item.moddable != false) {
+                                            item.moddable = true;
+                                        }
                                     }
-                                }
-                            })
-                        }
+                                })
+                            }
+                        })
                     })
                 })
             }
@@ -389,9 +397,7 @@ export class SavegameService {
 
             //Shield cover bonus has changed from number to boolean in 1.0.14. Currently existing shields need to be updated.
             if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 14) {
-                const companion = character.class.animalCompanion;
-                const familiar = character.class.familiar;
-                [character, companion, familiar].forEach(creature => {
+                creatures.forEach(creature => {
                     creature?.inventories?.forEach(inventory => {
                         inventory.shields?.forEach(shield => {
                             shield.coverbonus = shield.coverbonus ? true : false;
@@ -400,6 +406,76 @@ export class SavegameService {
                 })
             }
 
+            //Several item variant groups have been consolidated into one item each in 1.0.14, with choices to represent the variants.
+            // These items need to be exchanged and some changed properties deleted to facilitate the change.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 14) {
+                creatures.forEach(creature => {
+                    creature?.inventories?.forEach(inventory => {
+                        inventory.wornitems?.forEach(wornitem => {
+                            //Ring of Energy Resistance
+                            if (wornitem.refId == "183b8611-da90-4a2d-a2ed-19a434a1f8ba" && !wornitem.choice) {
+                                wornitem.choice = "Acid";
+                            }
+                            if (wornitem.refId == "12f84e34-2192-479e-8077-507b04fd8d89") {
+                                wornitem.refId = "183b8611-da90-4a2d-a2ed-19a434a1f8ba"
+                                wornitem.choice = "Cold";
+                            }
+                            if (wornitem.refId == "0b079ba2-b01a-436c-ac64-a2b52865812f") {
+                                wornitem.refId = "183b8611-da90-4a2d-a2ed-19a434a1f8ba"
+                                wornitem.choice = "Electricity";
+                            }
+                            if (wornitem.refId == "524f8fcf-8e33-42df-9444-4299d5e9f06f") {
+                                wornitem.refId = "183b8611-da90-4a2d-a2ed-19a434a1f8ba"
+                                wornitem.choice = "Fire";
+                            }
+                            if (wornitem.refId == "95600cdc-03ca-4c3d-87e4-b823e7714cb9") {
+                                wornitem.refId = "183b8611-da90-4a2d-a2ed-19a434a1f8ba"
+                                wornitem.choice = "Sonic";
+                            }
+                            //Ring of Energy Resistance (Greater)
+                            if (wornitem.refId == "806cb90e-d915-47ff-b049-d1a9cd625107" && !wornitem.choice) {
+                                wornitem.choice = "Acid";
+                            }
+                            if (wornitem.refId == "0dbb3f58-41be-4b0c-9da6-ac853877fe57") {
+                                wornitem.refId = "806cb90e-d915-47ff-b049-d1a9cd625107"
+                                wornitem.choice = "Cold";
+                            }
+                            if (wornitem.refId == "5722eead-6f13-434f-a792-8e6384e5265d") {
+                                wornitem.refId = "806cb90e-d915-47ff-b049-d1a9cd625107"
+                                wornitem.choice = "Electricity";
+                            }
+                            if (wornitem.refId == "87c0a3b2-0a28-4f6e-822b-3a70c393c962") {
+                                wornitem.refId = "806cb90e-d915-47ff-b049-d1a9cd625107"
+                                wornitem.choice = "Fire";
+                            }
+                            if (wornitem.refId == "970d5882-2c86-40fb-9d55-3d98bd829020") {
+                                wornitem.refId = "806cb90e-d915-47ff-b049-d1a9cd625107"
+                                wornitem.choice = "Sonic";
+                            }
+                            //Ring of Energy Resistance (Major)
+                            if (wornitem.refId == "c423fb02-a4dd-4fcf-8b15-70d46d719b60" && !wornitem.choice) {
+                                wornitem.choice = "Acid";
+                            }
+                            if (wornitem.refId == "95398fbc-2f7f-4de5-adf2-a3da9413ab95") {
+                                wornitem.refId = "c423fb02-a4dd-4fcf-8b15-70d46d719b60"
+                                wornitem.choice = "Cold";
+                            }
+                            if (wornitem.refId == "c4727cc4-28b5-4d7a-b4ea-854b97de2542") {
+                                wornitem.refId = "c423fb02-a4dd-4fcf-8b15-70d46d719b60"
+                                wornitem.choice = "Electricity";
+                            }
+                            if (wornitem.refId == "99b02a8a-b3ce-44ee-be45-8cfcf1a2835b") {
+                                wornitem.refId = "c423fb02-a4dd-4fcf-8b15-70d46d719b60"
+                                wornitem.choice = "Fire";
+                            }
+                            if (wornitem.refId == "5144f481-8875-436e-ad42-48b53ac93e08") {
+                                wornitem.refId = "c423fb02-a4dd-4fcf-8b15-70d46d719b60"
+                                wornitem.choice = "Sonic";
+                            }
+                        })
+                    })
+                })
+            }
         }
 
         // STAGE 2
@@ -542,7 +618,7 @@ export class SavegameService {
                     "7eee99d1-9b3e-41f6-9d4b-2e167242b00f",
                     "3070634b-bfbe-44e8-b12e-2e5a8fd085c2"
                 ];
-                [character, character.class.animalCompanion, character.class.familiar].forEach(creature => {
+                creatures.forEach(creature => {
                     creature?.inventories?.forEach(inventory => {
                         inventory.armors.filter(armor => mageArmorIDs.includes(armor.refId)).forEach(armor => {
                             characterService.drop_InventoryItem(creature, inventory, armor, false, true);

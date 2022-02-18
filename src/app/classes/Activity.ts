@@ -41,6 +41,8 @@ export class Activity {
     public hints: Hint[] = [];
     public inputRequired: string = "";
     public name: string = "";
+    public iconTitleOverride: string = "";
+    public iconValueOverride: string = "";
     public onceEffects: EffectGain[] = [];
     //overrideHostile allows you to declare a spell as hostile or friendly regardless of other indicators. This will only change the display color of the spell, but not whether you can target allies.
     public overrideHostile: "hostile" | "friendly" | "" = "";
@@ -87,17 +89,23 @@ export class Activity {
         this.targetNumbers = this.targetNumbers.map(obj => Object.assign(new SpellTargetNumber(), obj).recast());
         return this;
     }
-    get_ActivationTraits() {
-        switch (this.activationType) {
-            case "Command":
-                return ["Auditory", "Concentrate"];
-            case "Envision":
-                return ["Concentrate"];
-            case "Interact":
-                return ["Manipulate"];
-            default:
-                return [];
-        }
+    get_ActivationTraits(): string[] {
+        return [].concat(...this.activationType.split(",")
+            .map(activationType => {
+                const trimmedType = activationType.trim().toLowerCase();
+                if (trimmedType.includes("command")) {
+                    return ["Auditory", "Concentrate"];
+                } else if (trimmedType.includes("envision")) {
+                    return ["Concentrate"];
+                } else if (trimmedType.includes("interact")) {
+                    return ["Manipulate"];
+                } else if (trimmedType.includes("concentrate")) {
+                    return ["Concentrate"];
+                } else {
+                    return [];
+                }
+            })
+        )
     }
     can_Activate() {
         //Test any circumstance under which this can be activated

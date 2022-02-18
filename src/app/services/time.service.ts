@@ -312,13 +312,13 @@ export class TimeService {
         }
         characterService.get_Creatures().forEach(creature => {
             if (AfflictionOnsetsWithinDuration(creature)) {
-                result = "One or more conditions" + (creature instanceof Character ? "" : " on your " + creature.type) + " need to be resolved before you can rest.";
+                result = "One or more conditions" + (creature instanceof Character ? "" : " on your " + creature.type) + " need to be resolved before you can " + (options.includeResting ? 'rest' : 'continue') +  ".";
             }
-            if (TimeStopConditionsActive(creature)) {
-                result = "Time is stopped for " + (creature instanceof Character ? " you" : " your " + creature.type) + ", and you cannot rest until this effect has ended."
+            if (options.includeResting && TimeStopConditionsActive(creature)) {
+                result = "Time is stopped for " + (creature instanceof Character ? " you" : " your " + creature.type) + ", and you cannot " + (options.includeResting ? 'rest' : 'continue') +  " until this effect has ended."
             }
             if (MultipleTempHPAvailable(creature)) {
-                result = "You need to select one set of temporary Hit Points" + (creature instanceof Character ? "" : " on your " + creature.type) + " before you can rest.";
+                result = "You need to select one set of temporary Hit Points" + (creature instanceof Character ? "" : " on your " + creature.type) + " before you can " + (options.includeResting ? 'rest' : 'continue') +  ".";
             }
             if (options.includeResting && RestingBlockingEffectsActive(creature)) {
                 result = "An effect" + (creature instanceof Character ? "" : " on your " + creature.type) + " is keeping you from resting."

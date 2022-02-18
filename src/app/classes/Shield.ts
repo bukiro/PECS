@@ -43,31 +43,6 @@ export class Shield extends Equipment {
         this.material = this.material.map(obj => Object.assign(new ShieldMaterial(), obj).recast());
         return this;
     }
-    get_Name() {
-        if (this.displayName.length) {
-            return this.displayName;
-        } else {
-            let words: string[] = [];
-            this.material.forEach(mat => {
-                words.push(mat.get_Name());
-            })
-            //If you have any material in the name of the item, and it has a material applied, remove the original material. This list may grow.
-            let materials = [
-                "Wooden ",
-                "Steel "
-            ]
-            if (this.material.length && materials.some(mat => this.name.toLowerCase().includes(mat.toLowerCase()))) {
-                let name = this.name;
-                materials.forEach(mat => {
-                    name = name.replace(mat, "");
-                })
-                words.push(name);
-            } else {
-                words.push(this.name)
-            }
-            return words.join(" ");
-        }
-    }
     get_Price(itemsService: ItemsService) {
         let price = this.price;
         this.material.forEach(mat => {

@@ -279,6 +279,12 @@ export class ItemComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
+    on_ChoiceChange() {
+        this.refreshService.set_ItemViewChanges(this.get_Creature(), this.item, { characterService: this.characterService });
+        this.refreshService.process_ToChange();
+        this.update_Item();
+    }
+
     update_Item() {
         //This updates any gridicon that has this item's id set as its update id.
         this.refreshService.set_Changed(this.item.id);

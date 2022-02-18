@@ -48,6 +48,10 @@ export class Item {
     public level: number = 0;
     //Base name of the item, may be expanded by rune names for equipment
     public name: string = "New Item";
+    //The 1-4 letters that make up the title of the item's icon.
+    public iconTitleOverride: string = "";
+    //The upper left text in the item's icon.
+    public iconValueOverride: string = "";
     //Any notes the player adds to the item
     public notes: string = "";
     //Store any oils applied to this item.
@@ -101,6 +105,12 @@ export class Item {
             this.refId = this.id;
         }
         return this;
+    }
+    get_IconTitle() {
+        return this.displayName || this.name.replace(this.subType, "");
+    }
+    get_IconValue() {
+        return this.subType[0] || "";
     }
     get_Traits(characterService: CharacterService, creature) {
         //Some types of items have more complicated methods of determining traits, and need characterService and creature in the function.

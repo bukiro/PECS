@@ -21,6 +21,9 @@
                                 {{conditionGain.choice}}
                             </span>
                         </label>
+                        <span *ngIf="(choices.length || conditionGain.name == 'Persistent Damage') && conditionGain.choiceLocked && conditionGain.choice && !conditionGain.showChoices">
+                            {{conditionGain.choice}}
+                        </span>
                         <app-quickdice *ngIf="conditionGain.name == 'Persistent Damage' && conditionGain.choice"
                             [diceString]="conditionGain.choice"></app-quickdice>
                         <ng-container

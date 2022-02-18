@@ -11,10 +11,21 @@
     <app-tags [creature]="creature" [objectName]="item.name" [showTraits]=true [showFeats]=true [showItems]=true
         [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
 </div>
+<div class="newrow" *ngIf="item.choices && item.choices.length && (itemStore ? true : item.showChoicesInInventory)">
+    <span>Variation:
+        <select [(ngModel)]="item.choice" (ngModelChange)="on_ChoiceChange()">
+            <option
+                *ngFor="let choice of item.choices; trackBy:trackByIndex;"
+                [ngValue]="choice">
+                {{choice}}
+            </option>
+        </select>
+    </span>
+</div>
 <app-itemContent [item]="item"></app-itemContent>
 <!-- Doubling Rings selection -->
 <div class="newrow"
-    *ngIf="item.isDoublingRings && !item.isTalismanCord && !(item.isRingOfWizardry && item.isRingOfWizardry.length) !itemStore">
+    *ngIf="item.isDoublingRings && !item.isTalismanCord && !(item.isRingOfWizardry && item.isRingOfWizardry.length) && !itemStore">
     <header class="spellHeader">Doubling Rings</header>
     <div class="newrow">
         <strong>Weapon wielded in the gold ring hand</strong>

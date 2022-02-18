@@ -1798,9 +1798,11 @@
         "name": "Necklace of Fireballs I",
         "id": "5ab265b1-5321-4bb1-9102-53aa03b012f8",
         "desc": "This string of beads appears to be a hemp string with lustrous red beads of various sizes hanging from it. When activated, it briefly appears in its true form: a golden chain with golden spheres attached by fine threads.\n\nNumerous varieties of the necklace of fireballs exist. Each has a different basic Reflex save DC and includes a combination of spheres dealing different amounts of damage, as listed for each type below. When all the beads are gone, the necklace becomes a non-magical hemp string.",
+        "iconTitleOverride": "NF",
+        "iconValueOverride": "I",
         "level": 5,
         "price": 4400,
-        "subType": "I",
+        "subType": "Type I",
         "subTypeDesc": "One 6d6, two 4d6 (DC 21)",
         "traits": [
             "Evocation",
@@ -1810,6 +1812,8 @@
         "activities": [
             {
                 "name": "Necklace of Fireballs I: 6d6, DC 21",
+                "iconTitleOverride": "NF",
+                "iconValueOverride": "6d6",
                 "source": "5ab265b1-5321-4bb1-9102-53aa03b012f8",
                 "actions": "1A",
                 "activationType": "Interact",
@@ -1829,6 +1833,8 @@
             },
             {
                 "name": "Necklace of Fireballs I: 4d6, DC 21",
+                "iconTitleOverride": "NF",
+                "iconValueOverride": "4d6",
                 "source": "5ab265b1-5321-4bb1-9102-53aa03b012f8",
                 "actions": "1A",
                 "activationType": "Interact",
@@ -1909,107 +1915,45 @@
         ]
     },
     {
-        "name": "Ring of Energy Resistance (Acid)",
+        "name": "Ring of Energy Resistance",
         "id": "183b8611-da90-4a2d-a2ed-19a434a1f8ba",
         "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
         "level": 6,
         "price": 24500,
-        "subType": "Acid",
-        "subTypeDesc": "The ring grant resistance 5 against acid damage.",
         "traits": [
             "Abjuration",
             "Invested",
             "Magical"
         ],
         "usage": "worn",
+        "choice": "Acid",
+        "choices": [
+            "Acid",
+            "Cold",
+            "Electricity",
+            "Fire",
+            "Sonic"
+        ],
         "effects": [
             {
                 "affected": "Acid Resistance",
-                "value": 5
-            }
-        ]
-    },
-    {
-        "name": "Ring of Energy Resistance (Cold)",
-        "id": "12f84e34-2192-479e-8077-507b04fd8d89",
-        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "level": 6,
-        "price": 24500,
-        "subType": "Cold",
-        "subTypeDesc": "The ring grant resistance 5 against cold damage.",
-        "traits": [
-            "Abjuration",
-            "Invested",
-            "Magical"
-        ],
-        "usage": "worn",
-        "effects": [
+                "value": "Choice == 'Acid' ? 5 : 0"
+            },
             {
                 "affected": "Cold Resistance",
-                "value": 5
-            }
-        ]
-    },
-    {
-        "name": "Ring of Energy Resistance (Electricity)",
-        "id": "0b079ba2-b01a-436c-ac64-a2b52865812f",
-        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "level": 6,
-        "price": 24500,
-        "subType": "Electricity",
-        "subTypeDesc": "The ring grant resistance 5 against electricity damage.",
-        "traits": [
-            "Abjuration",
-            "Invested",
-            "Magical"
-        ],
-        "usage": "worn",
-        "effects": [
-            {
-                "affected": "Electricity Resistance",
-                "value": 5
-            }
-        ]
-    },
-    {
-        "name": "Ring of Energy Resistance (Fire)",
-        "id": "524f8fcf-8e33-42df-9444-4299d5e9f06f",
-        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "level": 6,
-        "price": 24500,
-        "subType": "Fire",
-        "subTypeDesc": "The ring grant resistance 5 against fire damage.",
-        "traits": [
-            "Abjuration",
-            "Invested",
-            "Magical"
-        ],
-        "usage": "worn",
-        "effects": [
+                "value": "Choice == 'Cold' ? 5 : 0"
+            },
             {
                 "affected": "Fire Resistance",
-                "value": 5
-            }
-        ]
-    },
-    {
-        "name": "Ring of Energy Resistance (Sonic)",
-        "id": "95600cdc-03ca-4c3d-87e4-b823e7714cb9",
-        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "level": 6,
-        "price": 24500,
-        "subType": "Sonic",
-        "subTypeDesc": "The ring grant resistance 5 against sonic damage.",
-        "traits": [
-            "Abjuration",
-            "Invested",
-            "Magical"
-        ],
-        "usage": "worn",
-        "effects": [
+                "value": "Choice == 'Fire' ? 5 : 0"
+            },
+            {
+                "affected": "Electricity Resistance",
+                "value": "Choice == 'Electricity' ? 5 : 0"
+            },
             {
                 "affected": "Sonic Resistance",
-                "value": 5
+                "value": "Choice == 'Sonic' ? 5 : 0"
             }
         ]
     },
@@ -2970,107 +2914,47 @@
         ]
     },
     {
-        "name": "Ring of Energy Resistance (Acid, Greater)",
+        "name": "Ring of Energy Resistance (Greater)",
         "id": "806cb90e-d915-47ff-b049-d1a9cd625107",
         "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
         "level": 10,
         "price": 97500,
-        "subType": "Acid, Greater",
-        "subTypeDesc": "The ring grant resistance 10 against acid damage.",
+        "subType": "Greater",
+        "subTypeDesc": "The ring grant resistance 10.",
         "traits": [
             "Abjuration",
             "Invested",
             "Magical"
         ],
         "usage": "worn",
+        "choice": "Acid",
+        "choices": [
+            "Acid",
+            "Cold",
+            "Electricity",
+            "Fire",
+            "Sonic"
+        ],
         "effects": [
             {
                 "affected": "Acid Resistance",
-                "value": 10
-            }
-        ]
-    },
-    {
-        "name": "Ring of Energy Resistance (Cold, Greater)",
-        "id": "0dbb3f58-41be-4b0c-9da6-ac853877fe57",
-        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "level": 10,
-        "price": 97500,
-        "subType": "Cold, Greater",
-        "subTypeDesc": "The ring grant resistance 10 against cold damage.",
-        "traits": [
-            "Abjuration",
-            "Invested",
-            "Magical"
-        ],
-        "usage": "worn",
-        "effects": [
+                "value": "Choice == 'Acid' ? 10 : 0"
+            },
             {
                 "affected": "Cold Resistance",
-                "value": 10
-            }
-        ]
-    },
-    {
-        "name": "Ring of Energy Resistance (Electricity, Greater)",
-        "id": "5722eead-6f13-434f-a792-8e6384e5265d",
-        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "level": 10,
-        "price": 97500,
-        "subType": "Electricity, Greater",
-        "subTypeDesc": "The ring grant resistance 10 against electricity damage.",
-        "traits": [
-            "Abjuration",
-            "Invested",
-            "Magical"
-        ],
-        "usage": "worn",
-        "effects": [
-            {
-                "affected": "Electricity Resistance",
-                "value": 10
-            }
-        ]
-    },
-    {
-        "name": "Ring of Energy Resistance (Fire, Greater)",
-        "id": "87c0a3b2-0a28-4f6e-822b-3a70c393c962",
-        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "level": 10,
-        "price": 97500,
-        "subType": "Fire, Greater",
-        "subTypeDesc": "The ring grant resistance 10 against fire damage.",
-        "traits": [
-            "Abjuration",
-            "Invested",
-            "Magical"
-        ],
-        "usage": "worn",
-        "effects": [
+                "value": "Choice == 'Cold' ? 10 : 0"
+            },
             {
                 "affected": "Fire Resistance",
-                "value": 10
-            }
-        ]
-    },
-    {
-        "name": "Ring of Energy Resistance (Sonic, Greater)",
-        "id": "970d5882-2c86-40fb-9d55-3d98bd829020",
-        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "level": 10,
-        "price": 97500,
-        "subType": "Sonic, Greater",
-        "subTypeDesc": "The ring grant resistance 10 against sonic damage.",
-        "traits": [
-            "Abjuration",
-            "Invested",
-            "Magical"
-        ],
-        "usage": "worn",
-        "effects": [
+                "value": "Choice == 'Fire' ? 10 : 0"
+            },
+            {
+                "affected": "Electricity Resistance",
+                "value": "Choice == 'Electricity' ? 10 : 0"
+            },
             {
                 "affected": "Sonic Resistance",
-                "value": 10
+                "value": "Choice == 'Sonic' ? 10 : 0"
             }
         ]
     },
@@ -3559,107 +3443,47 @@
         ]
     },
     {
-        "name": "Ring of Energy Resistance (Acid, Major)",
+        "name": "Ring of Energy Resistance (Major)",
         "id": "c423fb02-a4dd-4fcf-8b15-70d46d719b60",
         "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
         "level": 14,
         "price": 440000,
-        "subType": "Acid, Major",
-        "subTypeDesc": "The ring grant resistance 15 against acid damage.",
+        "subType": "Major",
+        "subTypeDesc": "The ring grants resistance 15.",
         "traits": [
             "Abjuration",
             "Invested",
             "Magical"
         ],
         "usage": "worn",
+        "choice": "Acid",
+        "choices": [
+            "Acid",
+            "Cold",
+            "Electricity",
+            "Fire",
+            "Sonic"
+        ],
         "effects": [
             {
                 "affected": "Acid Resistance",
-                "value": 15
-            }
-        ]
-    },
-    {
-        "name": "Ring of Energy Resistance (Cold, Major)",
-        "id": "95398fbc-2f7f-4de5-adf2-a3da9413ab95",
-        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "level": 14,
-        "price": 440000,
-        "subType": "Cold, Major",
-        "subTypeDesc": "The ring grant resistance 15 against cold damage.",
-        "traits": [
-            "Abjuration",
-            "Invested",
-            "Magical"
-        ],
-        "usage": "worn",
-        "effects": [
+                "value": "Choice == 'Acid' ? 15 : 0"
+            },
             {
                 "affected": "Cold Resistance",
-                "value": 15
-            }
-        ]
-    },
-    {
-        "name": "Ring of Energy Resistance (Electricity, Major)",
-        "id": "c4727cc4-28b5-4d7a-b4ea-854b97de2542",
-        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "level": 14,
-        "price": 440000,
-        "subType": "Electricity, Major",
-        "subTypeDesc": "The ring grant resistance 15 against electricity damage.",
-        "traits": [
-            "Abjuration",
-            "Invested",
-            "Magical"
-        ],
-        "usage": "worn",
-        "effects": [
-            {
-                "affected": "Electricity Resistance",
-                "value": 15
-            }
-        ]
-    },
-    {
-        "name": "Ring of Energy Resistance (Fire, Major)",
-        "id": "99b02a8a-b3ce-44ee-be45-8cfcf1a2835b",
-        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "level": 14,
-        "price": 440000,
-        "subType": "Fire, Major",
-        "subTypeDesc": "The ring grant resistance 15 against fire damage.",
-        "traits": [
-            "Abjuration",
-            "Invested",
-            "Magical"
-        ],
-        "usage": "worn",
-        "effects": [
+                "value": "Choice == 'Cold' ? 15 : 0"
+            },
             {
                 "affected": "Fire Resistance",
-                "value": 15
-            }
-        ]
-    },
-    {
-        "name": "Ring of Energy Resistance (Sonic, Major)",
-        "id": "5144f481-8875-436e-ad42-48b53ac93e08",
-        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
-        "level": 14,
-        "price": 440000,
-        "subType": "Sonic, Major",
-        "subTypeDesc": "The ring grant resistance 15 against sonic damage.",
-        "traits": [
-            "Abjuration",
-            "Invested",
-            "Magical"
-        ],
-        "usage": "worn",
-        "effects": [
+                "value": "Choice == 'Fire' ? 15 : 0"
+            },
+            {
+                "affected": "Electricity Resistance",
+                "value": "Choice == 'Electricity' ? 15 : 0"
+            },
             {
                 "affected": "Sonic Resistance",
-                "value": 15
+                "value": "Choice == 'Sonic' ? 15 : 0"
             }
         ]
     },

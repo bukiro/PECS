@@ -54,71 +54,36 @@ export class WornItem extends Equipment {
         this.propertyRunes = this.propertyRunes.map(obj => Object.assign<WeaponRune, Item>(new WeaponRune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         if (this.isDoublingRings) {
             if (!this.data[0]) {
-                this.data.push({name: "gold", show: false, type: "string", value: ""});
+                this.data.push({ name: "gold", show: false, type: "string", value: "" });
             }
             if (!this.data[1]) {
-                this.data.push({name: "iron", show: false, type: "string", value: ""});
+                this.data.push({ name: "iron", show: false, type: "string", value: "" });
             }
             if (!this.data[2]) {
-                this.data.push({name: "propertyRunes", show: false, type: "string", value: ""});
+                this.data.push({ name: "propertyRunes", show: false, type: "string", value: "" });
             }
         } else if (this.isTalismanCord) {
             if (!this.data[0]) {
-                this.data.push({name: "Attuned magic school", show: false, type: "string", value: "no school attuned"});
+                this.data.push({ name: "Attuned magic school", show: false, type: "string", value: "no school attuned" });
             }
             if (!this.data[1]) {
-                this.data.push({name: "Second attuned magic school", show: false, type: "string", value: "no school attuned"});
+                this.data.push({ name: "Second attuned magic school", show: false, type: "string", value: "no school attuned" });
             }
             if (!this.data[2]) {
-                this.data.push({name: "Third attuned magic school", show: false, type: "string", value: "no school attuned"});
+                this.data.push({ name: "Third attuned magic school", show: false, type: "string", value: "no school attuned" });
             }
         } else if (this.isRingOfWizardry.length) {
             this.isRingOfWizardry.forEach((wizardrySlot, index) => {
                 wizardrySlot.level = Math.max(Math.min(10, wizardrySlot.level), 0);
                 if (!this.data[index]) {
-                    this.data.push({name: "wizardrySlot", show: false, type: "string", value: "no spellcasting selected"});
+                    this.data.push({ name: "wizardrySlot", show: false, type: "string", value: "no spellcasting selected" });
                 }
             })
         }
         return this;
     }
-    get_Name() {
-        if (this.displayName.length) {
-            return this.displayName;
-        } else {
-            let words: string[] = [];
-            let potency = this.get_Potency(this.get_PotencyRune());
-            if (potency) {
-                words.push(potency);
-            }
-            let secondary: string = "";
-            secondary = this.get_Striking(this.get_StrikingRune());
-            if (secondary) {
-                words.push(secondary);
-            }
-            this.propertyRunes.forEach(rune => {
-                let name: string = rune.name;
-                if (rune.name.includes("(Greater)")) {
-                    name = "Greater " + rune.name.substr(0, rune.name.indexOf("(Greater)"));
-                } else if (rune.name.includes(", Greater)")) {
-                    name = "Greater " + rune.name.substr(0, rune.name.indexOf(", Greater)")) + ")";
-                }
-                words.push(name);
-            })
-            if (this["bladeAlly"]) {
-                this.bladeAllyRunes.forEach(rune => {
-                    let name: string = rune.name;
-                    if (rune.name.includes("(Greater)")) {
-                        name = "Greater " + rune.name.substr(0, rune.name.indexOf("(Greater)"));
-                    } else if (rune.name.includes(", Greater)")) {
-                        name = "Greater " + rune.name.substr(0, rune.name.indexOf(", Greater)")) + ")";
-                    }
-                    words.push(name);
-                })
-            }
-            words.push(this.name)
-            return words.join(" ");
-        }
+    protected get_SecondaryRuneName(): string {
+        return this.get_Striking(this.get_StrikingRune());
     }
     get_Price(itemsService: ItemsService) {
         let price = this.price;

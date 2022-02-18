@@ -771,7 +771,7 @@
                                                         <app-gridIcon [updateId]="item.id"
                                                             [ngClass]="{'fancy-button':((item.equippable && item.equipped) || (item.can_Invest() && item.invested)), 'problem':item.broken, 'penalty': canUse == false, 'bonus': canUse}"
                                                             [ngbTooltip]="ItemTooltipTemplate"
-                                                            [title]="item.displayName || item.name"
+                                                            [title]="item.get_IconTitle()"
                                                             [detail]="'noparse|' + (item.level ? item.level.toString() : '')"
                                                             [item]="item">
                                                         </app-gridIcon>

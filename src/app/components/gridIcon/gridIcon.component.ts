@@ -125,8 +125,8 @@ export class GridIconComponent implements OnInit, OnDestroy {
         }
         //Convert icon- names into a <i> with that icon. Icons can be separated with |.
         subTitle = subTitle.split("|").map(split => {
-            if (split.substr(0, 5) == "icon-") {
-                return "<i class='" + split.substr(5) + "'></i>";
+            if (split.substring(0, 5) == "icon-") {
+                return "<i class='" + split.substring(5) + "'></i>";
             } else {
                 return split;
             }
@@ -155,6 +155,12 @@ export class GridIconComponent implements OnInit, OnDestroy {
         if (iconTitle.includes("noparse|")) {
             return iconTitle.replace("noparse|", "");
         }
+        if (this.activity?.iconTitleOverride) {
+            return this.activity.iconTitleOverride.substring(1,4);
+        }
+        if (this.item?.iconTitleOverride) {
+            return this.item.iconTitleOverride.substring(1,4);
+        }
         if (this.feat) {
             if (this.feat.subType) {
                 iconTitle = this.title || this.feat.superType;
@@ -171,19 +177,19 @@ export class GridIconComponent implements OnInit, OnDestroy {
                 //If the title does not contain spaces, and is not just a number, keep only letters and return the first 3 letters.
                 //Return numbers unchanged
                 if (isNaN(parseInt(iconTitle))) {
-                    iconTitle = iconTitle.replace(/[^A-Z]/gi, '').substr(0, 3);
+                    iconTitle = iconTitle.replace(/[^A-Z]/gi, '').substring(0, 3);
                 }
             } else if (iconTitle.match(".*[A-Z].*")) {
                 //If the title has spaces and contains capital letters, keep only capital letters and return the first 4.
-                iconTitle = iconTitle.replace(/[^A-Z ]/g, '').split(" ").map(part => part.substr(0, 1)).join("").substr(0, 4);
+                iconTitle = iconTitle.replace(/[^A-Z ]/g, '').split(" ").map(part => part.substring(0, 1)).join("").substring(0, 4);
             } else if (iconTitle.match(".*[A-Za-z].*")) {
                 //If the title has spaces and contains no capital letters, keep only the first letters of every word and return the first 4.
-                iconTitle = iconTitle.replace(/[^A-Z ]/gi, '').split(" ").map(part => part.substr(0, 1)).join("").toUpperCase().substr(0, 4);
+                iconTitle = iconTitle.replace(/[^A-Z ]/gi, '').split(" ").map(part => part.substring(0, 1)).join("").toUpperCase().substring(0, 4);
             }
         }
         if (iconTitle.length >= 4) {
             //If the title is 4 letters or more, break them into 2*2 to display them as a square.
-            iconTitle = iconTitle.substr(0, 2) + "<br />" + iconTitle.substr(2, 2);
+            iconTitle = iconTitle.substring(0, 2) + "<br />" + iconTitle.substring(2, 4);
         }
         return iconTitle;
     }
@@ -199,11 +205,11 @@ export class GridIconComponent implements OnInit, OnDestroy {
             }
         } else if (this.condition && !iconDetail) {
             //For condition stages, leave only the number.
-            if (this.condition.choice.substr(0, 6) == "Stage ") {
+            if (this.condition.choice.substring(0, 6) == "Stage ") {
                 iconDetail = this.condition.choice.replace("tage ", "");
                 return iconDetail;
             } else if (this.condition.name == "Persistent Damage") {
-                iconDetail = this.condition.choice.split(" ")[0].substr(0, 6);
+                iconDetail = this.condition.choice.split(" ")[0].substring(0, 6);
                 return iconDetail;
             } else {
                 iconDetail = this.condition.choice;
@@ -212,9 +218,9 @@ export class GridIconComponent implements OnInit, OnDestroy {
         if (iconDetail) {
             if (isNaN(parseInt(iconDetail))) {
                 if (iconDetail.match(".*[A-Z].*")) {
-                    iconDetail = iconDetail.replace(/[^A-Z ]/g, '').split(" ").map(part => part.substr(0, 1)).join("").substr(0, 2);
+                    iconDetail = iconDetail.replace(/[^A-Z ]/g, '').split(" ").map(part => part.substring(0, 1)).join("").substring(0, 2);
                 } else {
-                    iconDetail = iconDetail.replace(/[^a-z ]/gi, '').split(" ").map(part => part.substr(0, 1)).join("").toUpperCase().substr(0, 2);
+                    iconDetail = iconDetail.replace(/[^a-z ]/gi, '').split(" ").map(part => part.substring(0, 1)).join("").toUpperCase().substring(0, 2);
                 }
             } else {
                 iconDetail = parseInt(iconDetail).toString();
@@ -231,8 +237,8 @@ export class GridIconComponent implements OnInit, OnDestroy {
         //Convert icon- names into a <i> with that icon. Icons can be separated with |.
         // There should only be one icon, ideally.
         superTitle = superTitle.split("|").map(split => {
-            if (split.substr(0, 5) == "icon-") {
-                return "<i class='" + split.substr(5) + "'></i>"
+            if (split.substring(0, 5) == "icon-") {
+                return "<i class='" + split.substring(5) + "'></i>"
             } else {
                 return split;
             }
@@ -307,6 +313,9 @@ export class GridIconComponent implements OnInit, OnDestroy {
     }
 
     get_IconValue() {
+        if (this.activity?.iconValueOverride) {
+            return this.activity.iconValueOverride.substring(0, 6);;
+        }
         //Show condition value, and show effect values over 2 characters, trimmed to 6 characters. Shorter effect values will be shown as SuperTitle instead.
         if (this.condition?.value) {
             if (this.condition.name == "Stunned" && this.condition.duration != -1) {
@@ -315,13 +324,16 @@ export class GridIconComponent implements OnInit, OnDestroy {
                 return this.condition.value.toString();
             }
         } else if (this.effect?.title?.length > 2) {
-            return this.effect.title.split(" (")[0].split(":")[0].substr(0,6);
+            return this.effect.title.split(" (")[0].split(":")[0].substring(0, 6);
         } else if (this.effect?.setValue?.length > 2) {
-            return this.effect.setValue.substr(0,6);
+            return this.effect.setValue.substring(0, 6);
         } else if (this.effect?.value?.length > 2) {
-            return this.effect.value.substr(0,6);
+            return this.effect.value.substring(0, 6);
         }
         if (this.item) {
+            if (this.item.iconValueOverride) {
+                return this.item.iconValueOverride;
+            }
             let value = "";
             if ((this.item as Equipment)?.get_PotencyRune && (this.item as Equipment).get_PotencyRune()) {
                 value = "+" + (this.item as Equipment).get_PotencyRune().toString();
@@ -357,6 +369,8 @@ export class GridIconComponent implements OnInit, OnDestroy {
                     value += "+";
                 }
                 return value;
+            } else if (this.item.get_IconValue()) {
+                return this.item.get_IconValue();
             }
         }
         return "";

@@ -238,7 +238,7 @@
                                                             </ng-template>
                                                             <ng-template #ItemTooltipTemplate>
                                                                 <span>
-                                                                    {{(item.get_Name) ? item.get_Name() : item.name}}
+                                                                    {{(item.get_Name) ? item.get_Name({itemStore:true}) : item.name}}
                                                                 </span>
                                                                 <span *ngIf="item.level">
                                                                     |
@@ -380,7 +380,7 @@
                                                                         <app-gridIcon [updateId]="item.id"
                                                                             [ngClass]="{'fancy-button':get_ShowPurpose()=='formulas' && get_ShowCreature()=='Character' && get_FormulasLearned(item.id).length, 'penalty': canUse == false, 'bonus': canUse}"
                                                                             [ngbTooltip]="ItemTooltipTemplate"
-                                                                            [title]="item.displayName || item.name"
+                                                                            [title]="item.get_IconTitle()"
                                                                             [detail]="'noparse|' + (item.traits.includes('Rare') ? 'R' : (item.traits.includes('Uncommon') ? 'U' : (item.traits.includes('Unique') ? 'Q' : ''))) + (item.level ? item.level.toString() : '')"
                                                                             [item]="item">
                                                                         </app-gridIcon>

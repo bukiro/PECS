@@ -1858,7 +1858,7 @@ export class CharacterService {
             //we eval the effect value by sending it to the evaluationService with some additional attributes and receive the resulting effect.
             if (effectGain.value) {
                 let testObject = { spellSource: effectGain.spellSource, value: conditionValue, heightened: conditionHeightened, choice: conditionChoice, spellCastingAbility: conditionSpellCastingAbility };
-                let validationResult = this.evaluationService.get_ValueFromFormula(effectGain.value, { characterService: this, effectsService: this.effectsService }, { creature: this.get_Character(), object: testObject });
+                let validationResult = this.evaluationService.get_ValueFromFormula(effectGain.value, { characterService: this, effectsService: this.effectsService }, { creature: this.get_Character(), object: testObject, effect: effectGain });
                 if (validationResult && typeof validationResult == "number") {
                     value = validationResult;
                 }

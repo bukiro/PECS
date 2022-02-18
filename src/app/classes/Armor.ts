@@ -51,48 +51,8 @@ export class Armor extends Equipment {
         this.material = this.material.map(obj => Object.assign(new ArmorMaterial(), obj).recast());
         return this;
     }
-    get_Name() {
-        if (this.displayName.length) {
-            return this.displayName;
-        } else {
-            let words: string[] = [];
-            let potency = this.get_Potency(this.get_PotencyRune());
-            if (potency) {
-                words.push(potency);
-            }
-            let secondary: string = "";
-            secondary = this.get_Resilient(this.get_ResilientRune());
-            if (secondary) {
-                words.push(secondary);
-            }
-            this.propertyRunes.forEach(rune => {
-                let name: string = rune.name;
-                if (rune.name.includes("(Greater)")) {
-                    name = "Greater " + rune.name.substr(0, rune.name.indexOf("(Greater)"));
-                } else if (rune.name.includes(", Greater)")) {
-                    name = "Greater " + rune.name.substr(0, rune.name.indexOf(", Greater)")) + ")";
-                }
-                words.push(name);
-            })
-            this.material.forEach(mat => {
-                words.push(mat.get_Name());
-            })
-            //If you have any material in the name of the item, and it has a material applied, remove the original material. This list may grow.
-            let materials = [
-                "Wooden ",
-                "Steel "
-            ]
-            if (this.material.length && materials.some(mat => this.name.toLowerCase().includes(mat.toLowerCase()))) {
-                let name = this.name;
-                materials.forEach(mat => {
-                    name = name.replace(mat, "");
-                })
-                words.push(name);
-            } else {
-                words.push(this.name)
-            }
-            return words.join(" ");
-        }
+    protected get_SecondaryRuneName(): string {
+        return this.get_Resilient(this.get_ResilientRune());
     }
     get_Price(itemsService: ItemsService) {
         let price = this.price;

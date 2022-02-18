@@ -4715,7 +4715,7 @@
             },
             {
                 "affected": "Bestial Rage Frog Tongue Reach",
-                "value": "Choice == 'Animal Instinct: Frog' ? 10 : null"
+                "setValue": "Choice == 'Animal Instinct: Frog' ? 10 : null"
             },
             {
                 "affected": "Bestial Rage Deer Antler Reach",
