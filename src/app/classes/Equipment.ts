@@ -97,6 +97,7 @@ export class Equipment extends Item {
             if (!conditionGain.source) {
                 conditionGain.source == this.name;
             }
+            conditionGain.fromItem = true;
         })
         this.gainSpells = this.gainSpells.map(obj => Object.assign(new SpellChoice(), obj).recast());
         this.gainSpells.forEach(choice => {
@@ -214,7 +215,7 @@ export class Equipment extends Item {
     }
     get_Name(options: {itemStore?: boolean} = {}) {
         if (this.displayName.length) {
-            return this.displayName;
+            return this.displayName + ((!options.itemStore && this.choice) ? ": " + this.choice : "");
         } else {
             let words: string[] = [];
             let potency = this.get_Potency(this.get_PotencyRune());
@@ -266,7 +267,7 @@ export class Equipment extends Item {
     }
     get_EffectsGenerationHints(): HintEffectsObject[] {
         function convert_Hints(item: Equipment | Oil | Material) {
-            return item.hints.map(hint => { return { hint: hint, parentItem: this, objectName: item.get_Name() } })
+            return item.hints.map(hint => { return { hint: hint, parentItem: item, objectName: item.get_Name() } })
         }
         return convert_Hints(this)
             .concat(...this.oilsApplied.map(oil => convert_Hints(oil)))

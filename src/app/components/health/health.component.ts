@@ -89,7 +89,7 @@ export class HealthComponent implements OnInit, OnDestroy {
 
     die(reason: string) {
         if (this.characterService.get_AppliedConditions(this.get_Creature(), "Dead").length == 0) {
-            this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, { name: "Dead", source: reason }), false)
+            this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, { name: "Dead", source: reason }), {}, { noReload: true })
             this.characterService.get_AppliedConditions(this.get_Creature(), "Doomed").forEach(gain => {
                 this.characterService.remove_Condition(this.get_Creature(), gain, false);
             })

@@ -1,0 +1,263 @@
+[
+  {
+    "name": "Bort's Blessing",
+    "id": "97c2de1e-eb47-40d2-a6b1-18b6ec0eb28a",
+    "desc": "This ornate copper band has a small ruby set in the center, flanked by a pair of dwarven runes. The wearer of this ring gains the ability to understand, read, and speak one common language of their choice, selected each morning as part of their daily preparations. In addition, the wearer receives a +1 item bonus to Diplomacy checks to Make an Impression.",
+    "_extensionFileName": "fallOfPlaguestone",
+    "sourceBook": "The Fall of Plaguestone",
+    "level": 5,
+    "price": 16000,
+    "traits": [
+      "Rare",
+      "Divination",
+      "Invested"
+    ],
+    "internal: needs testing": true,
+    "usage": "worn",
+    "hints": [
+      {
+        "desc": "You gain a +1 item bonus to Diplomacy checks to Make an Impression.",
+        "showon": "Diplomacy",
+        "effects": [
+          {
+            "affected": "Diplomacy",
+            "type": "item",
+            "value": "1"
+          }
+        ]
+      },
+      {
+        "desc": "You gain the ability to understand, read, and speak one common language of your choice, selected each morning as part of your daily preparations.",
+        "showon": "Languages"
+      }
+    ],
+    "gainLanguages": [
+      {
+        "locked": false,
+        "title": "Selected language"
+      }
+    ]
+  },
+  {
+    "name": "Merchant's Guile",
+    "id": "57118c6c-a8c9-4207-bc99-f7905f2228f2",
+    "desc": "The band of this ring is made from blue-colored iron and has two sharp, decorative protrusions on each side of the red-stone inlay. It feels quite heavy and reliable. Wearing this ring grants you a +2 item bonus to Deception and Diplomacy checks, but only if the associated checks involve haggling or bargaining over a purchase or trade.",
+    "_extensionFileName": "fallOfPlaguestone",
+    "sourceBook": "The Fall of Plaguestone",
+    "level": 5,
+    "price": 16000,
+    "traits": [
+      "Uncommon",
+      "Enchantment",
+      "Invested"
+    ],
+    "internal: needs testing": true,
+    "usage": "worn",
+    "hints": [
+      {
+        "desc": "You gain a +2 item bonus to Deception and Diplomacy checks that involve haggling or bargaining over a purchase or trade.",
+        "showon": "Deception, Diplomacy",
+        "effects": [
+          {
+            "affected": "Deception",
+            "type": "item",
+            "value": "2"
+          },
+          {
+            "affected": "Diplomacy",
+            "type": "item",
+            "value": 2
+          }
+        ]
+      }
+    ],
+    "activities": [
+      {
+        "name": "Merchant's Guile",
+        "actions": "3A",
+        "activationType": "Envision, Interact",
+        "desc": "You can determine if an item is magical simply by handling it. You detect no other indication of its power, only whether or not it is magical, granting the effects of a 1st-level detect magic spell that affects only the object.",
+        "showSpells": [
+          {
+            "level": 1,
+            "name": "Detect Magic"
+          }
+        ],
+        "traits": [
+          "Uncommon",
+          "Enchantment",
+          "Invested"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Ring of Minor Arcana",
+    "id": "97b5b631-c093-448a-a6bd-d1a750d9dbd5",
+    "desc": "This rose-gold ring is adorned in the center by a somewhat ominous-looking horned skull. This ring gives you the power to cast the following innate arcane cantrips any number of times each day: detect magic, mage hand, and prestidigitation. Each is cast as a 1st-level spell. If you are an arcane spellcaster, these can instead be heightened to the level of your cantrips.",
+    "_extensionFileName": "fallOfPlaguestone",
+    "sourceBook": "The Fall of Plaguestone",
+    "level": 5,
+    "price": 16000,
+    "traits": [
+      "Uncommon",
+      "Arcane",
+      "Evocation",
+      "Invested"
+    ],
+    "internal: needs testing": true,
+    "usage": "worn",
+    "gainSpells": [
+      {
+        "frequency": "at will",
+        "level": 0,
+        "tradition": "Arcane",
+        "castingType": "Innate",
+        "spells": [
+          {
+            "locked": true,
+            "dynamicEffectiveSpellLevel": "Character?.class?.spellCasting.some(casting => casting.tradition == 'Arcane') ? 0 : 1",
+            "name": "Detect Magic"
+          },
+          {
+            "locked": true,
+            "dynamicEffectiveSpellLevel": "Character?.class?.spellCasting.some(casting => casting.tradition == 'Arcane') ? 0 : 1",
+            "name": "Mage Hand"
+          },
+          {
+            "locked": true,
+            "dynamicEffectiveSpellLevel": "Character?.class?.spellCasting.some(casting => casting.tradition == 'Arcane') ? 0 : 1",
+            "name": "Prestidigitation"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Ring of the Weary Traveler",
+    "id": "534a3f87-2c07-416a-b3cf-429a5f75198c",
+    "desc": "This fanciful golden ring has an ornate band cast with delicate, swirling decorations and is inlaid with three bright-green emeralds. While wearing this ring, you gain a +10-foot item bonus to your Speed, but only when determining your overland movement per hour.",
+    "_extensionFileName": "fallOfPlaguestone",
+    "sourceBook": "The Fall of Plaguestone",
+    "level": 5,
+    "price": 16000,
+    "traits": [
+      "Uncommon",
+      "Invested",
+      "Transmutation"
+    ],
+    "internal: needs testing": true,
+    "usage": "worn",
+    "hints": [
+      {
+        "desc": "You gain a +10-foot item bonus to your Speed, but only when determining your overland movement per hour.",
+        "showon": "Speed",
+        "effects": [
+          {
+            "affected": "Land Speed",
+            "type": "item",
+            "value": "10"
+          }
+        ]
+      }
+    ],
+    "activities": [
+      {
+        "name": "Ring of the Weary Traveler",
+        "actions": "3A",
+        "activationType": "Envision, Interact",
+        "desc": "You refresh yourself from fatigue. For 10 minutes, you can ignore the penalties from the fatigued condition. This does not remove the condition, it merely suppresses the penalties and drawbacks of having the condition. If something would cause you to become fatigued again while the ring's power is in effect, the suppression ends, and you immediately take the penalties again.",
+        "gainConditions": [
+          {
+            "duration": 1000,
+            "name": "Ring of the Weary Traveler"
+          }
+        ],
+        "traits": [
+          "Uncommon",
+          "Invested",
+          "Transmutation"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Stalwart's Ring",
+    "id": "0b14bc25-1e17-43c2-8b83-e26836394204",
+    "desc": "This fairly simple ring has no gemstone inlaid, but the band is cast to resembled a fanged wolf's head. Once per day, during your daily preparations, you can meditate on this ring to grant yourself 5 temporary Hit Points. These last until your next daily preparation, as long as you are wearing the ring.",
+    "_extensionFileName": "fallOfPlaguestone",
+    "sourceBook": "The Fall of Plaguestone",
+    "level": 5,
+    "price": 16000,
+    "traits": [
+      "Uncommon",
+      "Invested",
+      "Necromancy"
+    ],
+    "internal: needs testing": true,
+    "usage": "worn",
+    "activities": [
+      {
+        "name": "Stalwart's Ring",
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "desc": "Once per day, during your daily preparations, you can meditate on this ring to grant yourself 5 temporary Hit Points. These last until your next daily preparation, as long as you are wearing the ring.",
+        "gainConditions": [
+          {
+            "duration": -2,
+            "name": "Stalwart's Ring"
+          }
+        ],
+        "traits": [
+          "Uncommon",
+          "Invested",
+          "Necromancy"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Warrior's Training Ring",
+    "id": "50451641-4327-47dc-afe7-8bbcd65ebc27",
+    "desc": "This ring is utilitarian in design - indicating its martial use. Its band is decorated only with a simple, sharp-edged sculpture on the band's center. While wearing this ring, you add your level to your attack rolls with all weapons with which you are untrained.",
+    "_extensionFileName": "fallOfPlaguestone",
+    "sourceBook": "The Fall of Plaguestone",
+    "level": 5,
+    "price": 16000,
+    "traits": [
+      "Uncommon",
+      "Divination",
+      "Invested"
+    ],
+    "internal: needs testing": true,
+    "usage": "worn",
+    "effects": [
+      {
+        "affected": "Untrained Attack Rolls",
+        "value": "Character.level"
+      }
+    ],
+    "activities": [
+      {
+        "name": "Warrior's Training Ring",
+        "actions": "Free",
+        "activationType": "Envision",
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "trigger": "You make an attack with a weapon in which you're untrained",
+        "desc": "You gain a +2 circumstance bonus to the attack roll. If you are an expert in any weapon, you instead gain a +4 circumstance bonus to the attack roll.",
+        "gainConditions": [
+          {
+            "duration": 1,
+            "name": "Warrior's Training Ring"
+          }
+        ],
+        "traits": [
+          "Uncommon",
+          "Divination",
+          "Invested"
+        ]
+      }
+    ]
+  }
+]

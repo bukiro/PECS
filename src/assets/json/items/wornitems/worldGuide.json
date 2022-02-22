@@ -1,0 +1,129 @@
+[
+  {
+    "name": "Archaic Wayfinder",
+    "id": "7625bac1-e435-4536-947a-af51caa9d402",
+    "desc": "An archaic wayfinder functions as a compass and acts as a repository for one cantrip cast into it. To fill an archaic wayfinder, a spellcaster casts the chosen cantrip into the empty device, providing any necessary cost; the spell cannot be one that is normally cast as a free action or reaction. Activating an archaic wayfinder is the same as the casting for the relevant spell. Once it has been activated, it becomes empty again. An archaic wayfinder can hold an aeon stone and activate its resonant power. An archaic wayfinder counts against the limit of one wayfinder with a slotted resonant aeon stone.",
+    "PFSnote": "All characters have access to the archaic wayfinder",
+    "_extensionFileName": "worldGuide",
+    "sourceBook": "World Guide",
+    "level": 2,
+    "price": 3000,
+    "traits": [
+      "Uncommon",
+      "Evocation",
+      "Invested",
+      "Magical"
+    ],
+    "usage": "held in 1 hand",
+    "isWayfinder": 1,
+    "storedSpells": [
+      {
+        "available": 1,
+        "level": 0
+      }
+    ]
+  },
+  {
+    "name": "Golden Legion Epaulet",
+    "id": "53350a40-03f2-402d-b196-6be2ffc4ade4",
+    "desc": "These gleaming golden epaulets are issued to Eagle Knight officers and worn as part of the uniform. While they can be enchanted to provide a variety of effects, the Golden Legion epaulet remains the most common.",
+    "_extensionFileName": "worldGuide",
+    "sourceBook": "World Guide",
+    "level": 3,
+    "bulk": "L",
+    "price": 5500,
+    "traits": [
+      "Uncommon",
+      "Enchantment",
+      "Invested",
+      "Magical"
+    ],
+    "usage": "worn epaulet",
+    "activities": [
+      {
+        "name": "Golden Legion Epaulet",
+        "actions": "1A",
+        "activationType": "Command",
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "target": "area",
+        "desc": "Issue an order as part of the command. You and each ally within 60 feet who follows that order gain a +1 status bonus to attack rolls, damage rolls, and saving throws against fear until the beginning of your next turn.",
+        "gainConditions": [
+          {
+            "duration": 10,
+            "name": "Golden Legion Epaulet",
+            "targetFilter": "caster"
+          },
+          {
+            "duration": 10,
+            "name": "Golden Legion Epaulet",
+            "targetFilter": "target"
+          }
+        ],
+        "traits": [
+          "Uncommon",
+          "Enchantment",
+          "Invested",
+          "Magical"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Aeon Stone (Black Pearl)",
+    "id": "12d1e66b-f21b-44c0-b836-97dcc8f64561",
+    "desc": "This black pearl sparkles with light. The resonant power allows you to cast sending once per day.",
+    "PFSnote": "All characters of 10th level or higher who are from the High Seas have access to black pearl aeon stones",
+    "_extensionFileName": "worldGuide",
+    "sourceBook": "World Guide",
+    "level": 12,
+    "price": 200000,
+    "subType": "Black Pearl",
+    "traits": [
+      "Uncommon",
+      "Invested",
+      "Magical",
+      "Transmutation"
+    ],
+    "internal: needs testing": true,
+    "usage": "worn",
+    "isAeonStone": true,
+    "activities": [
+      {
+        "name": "Aeon Stone (Black Pearl)",
+        "actions": "Reaction",
+        "activationType": "Envision",
+        "trigger": "you are targeted by a mental effect",
+        "desc": "You receive a +4 status bonus to your saving throw against the triggering effect. Whether or not your save is successful, the aeon stone attempts a counteract check at +30 to immediately reflect a copy of the effect back at the originator, targeting it using the creature's own relevant statistics but controlling the effect as if you had cast it.\n\nEvery time you activate this aeon stone, attempt a DC 5 flat check. On a failure, the stone shatters and loses its magical properties forever.",
+        "gainConditions": [
+          {
+            "duration": 1,
+            "name": "Aeon Stone (Black Pearl)"
+          }
+        ],
+        "traits": [
+          "Uncommon",
+          "Invested",
+          "Magical",
+          "Transmutation"
+        ],
+        "inputRequired": "Beyond gaining the status bonus to your saving throw, you need to handle the results of this activation manually. If you fail the flat check, drop the stone."
+      }
+    ],
+    "gainSpells": [
+      {
+        "cooldown": 144000,
+        "frequency": "once per day",
+        "level": 5,
+        "resonant": true,
+        "castingType": "Innate",
+        "spells": [
+          {
+            "locked": true,
+            "name": "Sending"
+          }
+        ]
+      }
+    ]
+  }
+]

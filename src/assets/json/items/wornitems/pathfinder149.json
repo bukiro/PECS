@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Aluum Charm",
+    "id": "6a07124e-5044-485c-9e0f-06500f67efc5",
+    "desc": "This ornate pendant of brass is adorned with a vibrant blue gemstone. An aluum charm grants control over a particular aluum and lesser influence over other such constructs. As long as you wear an aluum's linked aluum charm, that aluum follows your verbal commands, including somewhat nuanced orders like \"subdue this target\" or \"strike anyone wearing a blue robe.\"",
+    "_extensionFileName": "pathfinder149",
+    "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+    "level": 10,
+    "price": 0,
+    "traits": [
+      "Uncommon",
+      "Enchantment",
+      "Invested",
+      "Magical"
+    ],
+    "internal: needs testing": true,
+    "usage": "worn",
+    "activities": [
+      {
+        "name": "Aluum Charm",
+        "actions": "2A",
+        "activationType": "Command",
+        "frequency": "once per round",
+        "cooldown": 10,
+        "desc": "The charm grants you control over an aluum you can see within 60 feet, with a level equal to or lower than the charm. This has the effect of dominate and allows a DC 28 Will save. If the aluum is currently under the control of someone wearing its linked charm, it gets a result on its saving throw one degree higher than what it rolled. You can control only one aluum at a time using this activation, and controlling a new aluum ends the effect for one you had previously affected.",
+        "gainConditions": [
+          {
+            "duration": -5,
+            "name": "Aluum Charm"
+          }
+        ],
+        "traits": [
+          "Aluum Charm",
+          "2A",
+          "Command",
+          "once per round"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Pactmaster's Grace",
+    "id": "18fd3e66-8bdd-4cd5-94e4-8067e64ee3bf",
+    "desc": "Granted by Katapesh's Pactmasters to influential merchants, exceptional Zephyr Guards, and favorite retainers, these blue crystal-studded platinum rings sharpen their wearers' urban instincts. You gain a +3 item bonus to Mercantile Lore checks while wearing the ring, and you can attempt checks that require a proficiency rank of master in Society. While invested, the ring grants a +2 item bonus to saving throws while you are in an urban setting, and this increases to a +3 item bonus if you have legendary proficiency in Guild Lore, Katapesh Lore, Mercantile Lore, or Society.",
+    "_extensionFileName": "pathfinder149",
+    "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+    "level": 14,
+    "price": 400000,
+    "traits": [
+      "Uncommon",
+      "Divination",
+      "Invested",
+      "Magical"
+    ],
+    "internal: needs testing": true,
+    "usage": "worn",
+    "hints": [
+      {
+        "desc": "You can attempt checks that require a proficiency rank of master in Society.",
+        "showon": "Society"
+      },
+      {
+        "desc": "The ring grants a +2 item bonus to saving throws while you are in an urban setting, and this increases to a +3 item bonus if you have legendary proficiency in Guild Lore, Katapesh Lore, Mercantile Lore, or Society.",
+        "showon": "Saving Throws",
+        "effects": [
+          {
+            "affected": "Saving Throws",
+            "type": "item",
+            "value": "((Skill_Level('Society') >= 8) || (Skill_Level('Lore: Guild') >= 8) || (Skill_Level('Lore: Katapesh') >= 8) || (Skill_Level('Lore: Mercantile') >= 8)) ? 3 : 2"
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "affected": "Lore: Mercantile",
+        "type": "item",
+        "value": "3"
+      }
+    ]
+  }
+]

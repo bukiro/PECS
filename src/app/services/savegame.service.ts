@@ -630,6 +630,13 @@ export class SavegameService {
                 })
             }
 
+            //Conditions from feats are tagged with fromFeat in 1.0.14. Currently existing condition gains on the character need to be updated.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 14) {
+                character.conditions.filter(gain => gain.source.includes("Feat: ")).forEach(gain => {
+                    gain.fromFeat = true;
+                })
+            }
+
         }
 
         return character;

@@ -500,7 +500,8 @@ export class FeatsService {
                 if (taken) {
                     feat.gainConditions.forEach(gain => {
                         const newConditionGain = Object.assign(new ConditionGain(), gain);
-                        characterService.add_Condition(character, newConditionGain, false);
+                        newConditionGain.fromFeat = true;
+                        characterService.add_Condition(character, newConditionGain, {}, { noReload: true });
                     });
                 } else {
                     feat.gainConditions.forEach(gain => {

@@ -134,7 +134,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
         if (active) {
             if (!flatFooted) {
                 let newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: "Flat-Footed", source: "Quick Status", duration: -1, locked: true })
-                this.characterService.add_Condition(creature, newCondition, false);
+                this.characterService.add_Condition(creature, newCondition, {}, { noReload: true });
             }
         } else {
             if (flatFooted) {
@@ -156,7 +156,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
         if (active) {
             if (!hidden) {
                 let newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: "Hidden", source: "Quick Status", duration: -1, locked: true })
-                this.characterService.add_Condition(creature, newCondition, false);
+                this.characterService.add_Condition(creature, newCondition, {}, { noReload: true });
             }
         } else {
             if (hidden) {

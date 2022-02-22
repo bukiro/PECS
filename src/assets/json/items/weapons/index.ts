@@ -11,10 +11,10 @@
 */
 
 import { default as core } from './core.json';
-import { default as advanced_character_guide } from './advanced_character_guide.json';
+import { default as advanced_character_guide } from './advancedPlayersGuide.json';
 
 core.forEach((obj: any) => obj._extensionFileName = "core");
-advanced_character_guide.forEach((obj: any) => obj._extensionFileName = "advanced_character_guide");
+advanced_character_guide.forEach((obj: any) => obj._extensionFileName = "advancedPlayersGuide");
 
 export { core as core };
 export { advanced_character_guide as advanced_character_guide };

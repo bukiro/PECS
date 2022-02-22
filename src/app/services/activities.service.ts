@@ -387,12 +387,12 @@ export class ActivitiesService {
                             }
                             //Apply to any targets that are your own creatures.
                             conditionTargets.filter(target => !(target instanceof SpellTarget)).forEach(target => {
-                                characterService.add_Condition(target as Creature, newConditionGain, false);
+                                characterService.add_Condition(target as Creature, newConditionGain, {}, { noReload: true });
                             })
                             //Apply to any non-creature targets whose ID matches your own creatures.
                             const creatures = characterService.get_Creatures();
                             conditionTargets.filter(target => target instanceof SpellTarget && creatures.some(creature => creature.id == target.id)).forEach(target => {
-                                characterService.add_Condition(characterService.get_Creature(target.type), newConditionGain, false);
+                                characterService.add_Condition(characterService.get_Creature(target.type), newConditionGain, {}, { noReload: true });
                             })
                             //Send conditions to non-creature targets that aren't your own creatures.
                             if (conditionGain.targetFilter != "caster" && conditionTargets.some(target => target instanceof SpellTarget)) {

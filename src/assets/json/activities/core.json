@@ -23,8 +23,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Crane Stance",
-                "source": "Crane Stance"
+                "name": "Crane Stance"
             }
         ]
     },
@@ -42,8 +41,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Dragon Stance",
-                "source": "Dragon Stance"
+                "name": "Dragon Stance"
             }
         ]
     },
@@ -61,8 +59,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Mountain Stance",
-                "source": "Mountain Stance"
+                "name": "Mountain Stance"
             }
         ]
     },
@@ -80,8 +77,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Rain of Embers Stance",
-                "source": "Rain of Embers Stance"
+                "name": "Rain of Embers Stance"
             }
         ]
     },
@@ -99,8 +95,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Tiger Stance",
-                "source": "Tiger Stance"
+                "name": "Tiger Stance"
             }
         ]
     },
@@ -118,8 +113,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Wolf Stance",
-                "source": "Wolf Stance"
+                "name": "Wolf Stance"
             }
         ]
     },
@@ -137,8 +131,7 @@
         "gainConditions": [
             {
                 "duration": 1,
-                "name": "Deflect Arrows",
-                "source": "Deflect Arrows"
+                "name": "Deflect Arrows"
             }
         ]
     },
@@ -174,8 +167,7 @@
         "gainConditions": [
             {
                 "duration": 1,
-                "name": "Crane Flutter",
-                "source": "Crane Flutter"
+                "name": "Crane Flutter"
             }
         ]
     },
@@ -206,8 +198,7 @@
         "gainConditions": [
             {
                 "duration": 10,
-                "name": "Mountain Stronghold",
-                "source": "Mountain Stronghold"
+                "name": "Mountain Stronghold"
             }
         ]
     },
@@ -260,8 +251,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Ironblood Stance",
-                "source": "Ironblood Stance"
+                "name": "Ironblood Stance"
             }
         ]
     },
@@ -288,8 +278,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Tangled Forest Stance",
-                "source": "Tangled Forest Stance"
+                "name": "Tangled Forest Stance"
             }
         ]
     },
@@ -369,8 +358,7 @@
         "gainConditions": [
             {
                 "duration": 10,
-                "name": "Ironblood Surge",
-                "source": "Ironblood Surge"
+                "name": "Ironblood Surge"
             }
         ]
     },
@@ -477,7 +465,6 @@
             {
                 "duration": -2,
                 "name": "Hunt Prey",
-                "source": "Hunt Prey",
                 "targetFilter": "caster"
             }
         ]
@@ -510,8 +497,7 @@
         "gainConditions": [
             {
                 "addValue": 1,
-                "name": "Wounded",
-                "source": "Orc Ferocity"
+                "name": "Wounded"
             }
         ],
         "onceEffects": [
@@ -530,8 +516,7 @@
         "gainConditions": [
             {
                 "duration": 10,
-                "name": "Call on Ancient Blood",
-                "source": "Call on Ancient Blood"
+                "name": "Call on Ancient Blood"
             }
         ]
     },
@@ -669,20 +654,17 @@
             {
                 "activationPrerequisite": "Skill_Level('Arcana') < 6 ? 1 : 0",
                 "duration": 100,
-                "name": "Eye of the Arclords",
-                "source": "Eye of the Arclords"
+                "name": "Eye of the Arclords"
             },
             {
                 "activationPrerequisite": "Skill_Level('Arcana') == 6 ? 1 : 0",
                 "duration": 200,
-                "name": "Eye of the Arclords",
-                "source": "Eye of the Arclords"
+                "name": "Eye of the Arclords"
             },
             {
                 "activationPrerequisite": "Skill_Level('Arcana') > 6 ? 1 : 0",
                 "duration": 500,
-                "name": "Eye of the Arclords",
-                "source": "Eye of the Arclords"
+                "name": "Eye of the Arclords"
             }
         ]
     },
@@ -815,7 +797,6 @@
     },
     {
         "name": "Sow Rumor",
-        "actions": " ",
         "traits": [
             "Uncommon",
             "General",
@@ -832,7 +813,6 @@
     },
     {
         "name": "Train Animal",
-        "actions": " ",
         "traits": [
             "Downtime",
             "General",
@@ -928,8 +908,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Chameleon Gnome",
-                "source": "Chameleon Gnome"
+                "name": "Chameleon Gnome"
             }
         ]
     },
@@ -953,8 +932,7 @@
         "gainConditions": [
             {
                 "duration": 1,
-                "name": "Resist Elf Magic",
-                "source": "Resist Elf Magic"
+                "name": "Resist Elf Magic"
             }
         ]
     },
@@ -973,8 +951,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Unseen Lizardfolk",
-                "source": "Unseen Lizardfolk"
+                "name": "Unseen Lizardfolk"
             }
         ]
     },
@@ -1021,8 +998,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Rage",
-                "source": "Rage"
+                "name": "Rage"
             }
         ]
     },
@@ -1557,7 +1533,6 @@
             {
                 "duration": 0,
                 "name": "Energy Mutagen Discharge",
-                "source": "Energy Mutagen (Acid, Greater)",
                 "targetFilter": "caster"
             }
         ]
@@ -1577,7 +1552,6 @@
             {
                 "duration": 0,
                 "name": "Energy Mutagen Discharge",
-                "source": "Energy Mutagen (Cold, Greater)",
                 "targetFilter": "caster"
             }
         ]
@@ -1597,7 +1571,6 @@
             {
                 "duration": 0,
                 "name": "Energy Mutagen Discharge",
-                "source": "Energy Mutagen (Electricity, Greater)",
                 "targetFilter": "caster"
             }
         ]
@@ -1617,7 +1590,6 @@
             {
                 "duration": 0,
                 "name": "Energy Mutagen Discharge",
-                "source": "Energy Mutagen (Fire, Greater)",
                 "targetFilter": "caster"
             }
         ]
@@ -1637,7 +1609,6 @@
             {
                 "duration": 0,
                 "name": "Energy Mutagen Discharge",
-                "source": "Energy Mutagen (Acid, Major)",
                 "targetFilter": "caster"
             }
         ]
@@ -1657,7 +1628,6 @@
             {
                 "duration": 0,
                 "name": "Energy Mutagen Discharge",
-                "source": "Energy Mutagen (Cold, Major)",
                 "targetFilter": "caster"
             }
         ]
@@ -1677,7 +1647,6 @@
             {
                 "duration": 0,
                 "name": "Energy Mutagen Discharge",
-                "source": "Energy Mutagen (Electricity, Major)",
                 "targetFilter": "caster"
             }
         ]
@@ -1697,7 +1666,6 @@
             {
                 "duration": 0,
                 "name": "Energy Mutagen Discharge",
-                "source": "Energy Mutagen (Fire, Major)",
                 "targetFilter": "caster"
             }
         ]
@@ -1728,8 +1696,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Everstand Stance",
-                "source": "Everstand Stance"
+                "name": "Everstand Stance"
             }
         ]
     },
@@ -1759,8 +1726,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Point-Blank Shot",
-                "source": "Point-Blank Shot"
+                "name": "Point-Blank Shot"
             }
         ]
     },
@@ -1843,14 +1809,12 @@
             {
                 "duration": 10,
                 "name": "Assisting Shot (Originator)",
-                "source": "Assisting Shot",
                 "targetFilter": "caster"
             },
             {
                 "copyChoiceFrom": "Assisting Shot (Originator)",
                 "duration": 10,
                 "name": "Assisting Shot",
-                "source": "Assisting Shot",
                 "targetFilter": "target"
             }
         ]
@@ -1890,8 +1854,7 @@
         "gainConditions": [
             {
                 "duration": 10,
-                "name": "Dueling Parry",
-                "source": "Dueling Parry"
+                "name": "Dueling Parry"
             }
         ]
     },
@@ -2000,8 +1963,7 @@
         "gainConditions": [
             {
                 "duration": 10,
-                "name": "Twin Parry",
-                "source": "Twin Parry"
+                "name": "Twin Parry"
             }
         ]
     },
@@ -2030,8 +1992,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Disarming Stance",
-                "source": "Disarming Stance"
+                "name": "Disarming Stance"
             }
         ]
     },
@@ -2050,13 +2011,11 @@
             {
                 "duration": 1,
                 "name": "Guardian's Deflection (Originator)",
-                "source": "Guardian's Deflection",
                 "targetFilter": "caster"
             },
             {
                 "duration": 1,
                 "name": "Guardian's Deflection",
-                "source": "Guardian's Deflection",
                 "targetFilter": "target"
             }
         ]
@@ -2116,8 +2075,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Impassable Wall Stance",
-                "source": "Impassable Wall Stance"
+                "name": "Impassable Wall Stance"
             }
         ]
     },
@@ -2144,8 +2102,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Mobile Shot Stance",
-                "source": "Mobile Shot Stance"
+                "name": "Mobile Shot Stance"
             }
         ]
     },
@@ -2217,8 +2174,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Disruptive Stance",
-                "source": "Disruptive Stance"
+                "name": "Disruptive Stance"
             }
         ]
     },
@@ -2271,8 +2227,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Dueling Parry",
-                "source": "Dueling Dance"
+                "name": "Dueling Parry"
             }
         ]
     },
@@ -2301,8 +2256,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Lunging Stance",
-                "source": "Lunging Stance"
+                "name": "Lunging Stance"
             }
         ]
     },
@@ -2319,8 +2273,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Paragon's Guard",
-                "source": "Paragon's Guard"
+                "name": "Paragon's Guard"
             }
         ],
         "onceEffects": [
@@ -2424,8 +2377,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Graceful Poise",
-                "source": "Graceful Poise"
+                "name": "Graceful Poise"
             }
         ]
     },
@@ -2443,8 +2395,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Multishot Stance",
-                "source": "Multishot Stance"
+                "name": "Multishot Stance"
             }
         ]
     },
@@ -2462,8 +2413,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Twin Parry",
-                "source": "Twinned Defense"
+                "name": "Twin Parry"
             }
         ]
     },
@@ -2593,13 +2543,11 @@
             {
                 "duration": 1,
                 "name": "Scout's Warning (Originator)",
-                "source": "Scout's Warning",
                 "targetFilter": "caster"
             },
             {
                 "duration": 1,
                 "name": "Scout's Warning",
-                "source": "Scout's Warning",
                 "targetFilter": "target"
             }
         ]
@@ -2637,8 +2585,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Terrain Master",
-                "source": "Terrain Master"
+                "name": "Terrain Master"
             }
         ]
     },
@@ -2656,14 +2603,12 @@
             {
                 "duration": 10,
                 "name": "Warden's Boon (Originator)",
-                "source": "Warden's Boon",
                 "targetFilter": "caster"
             },
             {
                 "copyChoiceFrom": "Warden's Boon (Originator)",
                 "duration": 10,
                 "name": "Warden's Boon",
-                "source": "Warden's Boon",
                 "targetFilter": "target"
             }
         ]
@@ -2748,8 +2693,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Hunt Prey: Flurry",
-                "source": "Hunt Prey: Flurry"
+                "name": "Hunt Prey: Flurry"
             }
         ]
     },
@@ -2766,8 +2710,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Hunt Prey: Outwit",
-                "source": "Hunt Prey: Outwit"
+                "name": "Hunt Prey: Outwit"
             }
         ]
     },
@@ -2784,8 +2727,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Hunt Prey: Precision",
-                "source": "Hunt Prey: Precision"
+                "name": "Hunt Prey: Precision"
             }
         ]
     },
@@ -2818,8 +2760,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Badger Rage",
-                "source": "Badger Rage"
+                "name": "Badger Rage"
             }
         ]
     },
@@ -2965,8 +2906,7 @@
         "gainConditions": [
             {
                 "duration": 5,
-                "name": "Bespell Weapon",
-                "source": "Bespell Weapon"
+                "name": "Bespell Weapon"
             }
         ]
     },
@@ -2996,8 +2936,7 @@
         "gainConditions": [
             {
                 "duration": 15,
-                "name": "Bond Conservation",
-                "source": "Bond Conservation"
+                "name": "Bond Conservation"
             }
         ]
     },
@@ -3046,8 +2985,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Magic Sense",
-                "source": "Magic Sense"
+                "name": "Magic Sense"
             }
         ],
         "castSpells": [
@@ -3099,8 +3037,7 @@
         "gainConditions": [
             {
                 "duration": 1,
-                "name": "Nimble Dodge",
-                "source": "Nimble Dodge"
+                "name": "Nimble Dodge"
             }
         ]
     },
@@ -3302,8 +3239,7 @@
         "gainConditions": [
             {
                 "duration": 10,
-                "name": "Cognitive Loophole",
-                "source": "Cognitive Loophole"
+                "name": "Cognitive Loophole"
             }
         ]
     },
@@ -3328,8 +3264,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Perfect Distraction",
-                "source": "Perfect Distraction"
+                "name": "Perfect Distraction"
             }
         ],
         "showSpells": [
@@ -3350,8 +3285,7 @@
         "gainConditions": [
             {
                 "duration": 0,
-                "name": "Setup Perfect Distraction Decoy",
-                "source": "Perfect Distraction: Setup Decoy"
+                "name": "Setup Perfect Distraction Decoy"
             }
         ]
     },
@@ -3407,8 +3341,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Hidden Paragon",
-                "source": "Hidden Paragon"
+                "name": "Hidden Paragon"
             }
         ]
     },
@@ -3427,8 +3360,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Perfect Distraction",
-                "source": "Perfect Distraction"
+                "name": "Perfect Distraction"
             }
         ]
     },
@@ -3501,13 +3433,11 @@
             {
                 "duration": 5,
                 "name": "Ringmaster's Introduction (Originator)",
-                "source": "Ringmaster's Introduction",
                 "targetFilter": "caster"
             },
             {
                 "duration": 5,
                 "name": "Ringmaster's Introduction",
-                "source": "Ringmaster's Introduction",
                 "targetFilter": "target"
             }
         ]
@@ -3585,8 +3515,7 @@
         "desc": "You've spent enough time on fire that you know how to use it to your advantage. You can light yourself thoroughly on fire with a held torch, a bottle of alchemist's fire, or a similar incendiary, dealing yourself 1d6 persistent fire damage. As long as you are suffering persistent fire damage, all your melee attacks against adjacent creatures deal an additional 1 fire damage per weapon damage die. Any creature that successfully Grapples, Shoves, or Trips you takes |dice=1d6 Fire| 1d6 fire damage; if it uses a weapon for that action, the weapon takes the damage instead. You must still attempt the flat check to remove the persistent fire damage each round, as normal.",
         "gainConditions": [
             {
-                "name": "Torch Goblin",
-                "source": "Torch Goblin"
+                "name": "Torch Goblin"
             }
         ]
     },
@@ -3614,8 +3543,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Hungry Goblin",
-                "source": "Hungry Goblin"
+                "name": "Hungry Goblin"
             }
         ]
     },
@@ -3630,12 +3558,10 @@
         "desc": "When you take a big hit, your foe bounces you around like a rubber ball, but you escape the worst of the blow. Your foe can move you any distance of its choice up to 30 feet in a direction of its choice (this is not forced movement, and it triggers reactions as normal). You fall prone and are stunned 1. Attempt a DC 6 flat check. On a success, you take minimum damage from the attack, and on a critical success, if the attack was a critical hit, you don't take double damage from the critical hit.",
         "gainConditions": [
             {
-                "name": "Prone",
-                "source": "Roll with It"
+                "name": "Prone"
             },
             {
                 "name": "Stunned",
-                "source": "Roll with It",
                 "value": 1
             }
         ]
@@ -3654,12 +3580,10 @@
             {
                 "duration": 1,
                 "name": "Retributive Strike (Originator)",
-                "source": "Retributive Strike",
                 "targetFilter": "caster"
             },
             {
                 "name": "Retributive Strike",
-                "source": "Retributive Strike",
                 "targetFilter": "target"
             }
         ]
@@ -3678,13 +3602,11 @@
             {
                 "duration": 1,
                 "name": "Glimpse of Redemption (Originator)",
-                "source": "Glimpse of Redemption",
                 "targetFilter": "caster"
             },
             {
                 "copyChoiceFrom": "Glimpse of Redemption (Originator)",
                 "name": "Glimpse of Redemption",
-                "source": "Glimpse of Redemption",
                 "targetFilter": "target"
             }
         ]
@@ -3703,12 +3625,10 @@
             {
                 "duration": 1,
                 "name": "Liberating Step (Originator)",
-                "source": "Liberating Step",
                 "targetFilter": "caster"
             },
             {
                 "name": "Liberating Step",
-                "source": "Liberating Step",
                 "targetFilter": "target"
             }
         ]
@@ -3726,7 +3646,6 @@
             {
                 "duration": 0,
                 "name": "Reflective Scales Discharge",
-                "source": "Reflective Scales Discharge",
                 "targetFilter": "caster"
             }
         ]
@@ -3776,8 +3695,7 @@
         "gainConditions": [
             {
                 "duration": 1,
-                "name": "Saoc Astrology",
-                "source": "Saoc Astrology"
+                "name": "Saoc Astrology"
             }
         ]
     },
@@ -3793,8 +3711,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Tupilaq Carver",
-                "source": "Tupilaq Carver"
+                "name": "Tupilaq Carver"
             }
         ]
     },
@@ -3814,8 +3731,7 @@
         "gainConditions": [
             {
                 "duration": 1,
-                "name": "Incredible Improvisation",
-                "source": "Incredible Improvisation"
+                "name": "Incredible Improvisation"
             }
         ]
     },
@@ -3831,8 +3747,7 @@
         "gainConditions": [
             {
                 "duration": 6000,
-                "name": "Shadow Pact",
-                "source": "Shadow Pact"
+                "name": "Shadow Pact"
             }
         ],
         "showSpells": [
@@ -3857,8 +3772,7 @@
         "gainConditions": [
             {
                 "duration": 1,
-                "name": "Orc Superstition",
-                "source": "Orc Superstition"
+                "name": "Orc Superstition"
             }
         ]
     },
@@ -3874,8 +3788,7 @@
         "gainConditions": [
             {
                 "duration": 15,
-                "name": "Victorious Vigor",
-                "source": "Victorious Vigor"
+                "name": "Victorious Vigor"
             }
         ]
     },
@@ -3908,8 +3821,7 @@
         "gainConditions": [
             {
                 "duration": 3000,
-                "name": "Brightness Seeker",
-                "source": "Brightness Seeker"
+                "name": "Brightness Seeker"
             }
         ],
         "castSpells": [
@@ -3936,8 +3848,7 @@
         "gainConditions": [
             {
                 "duration": 1,
-                "name": "Call Upon the Brightness",
-                "source": "Call Upon the Brightness"
+                "name": "Call Upon the Brightness"
             }
         ]
     },
@@ -3976,8 +3887,7 @@
         "gainConditions": [
             {
                 "duration": 15,
-                "name": "Envenom Fangs",
-                "source": "Envenom Fangs"
+                "name": "Envenom Fangs"
             }
         ]
     },
@@ -3995,8 +3905,7 @@
         "gainConditions": [
             {
                 "duration": 1008000,
-                "name": "Shed Tail",
-                "source": "Shed Tail"
+                "name": "Shed Tail"
             }
         ]
     },
@@ -4015,8 +3924,7 @@
         "gainConditions": [
             {
                 "duration": 1,
-                "name": "Guided by the Stars",
-                "source": "Guided by the Stars"
+                "name": "Guided by the Stars"
             }
         ]
     },
@@ -4035,8 +3943,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Avenge in Glory",
-                "source": "Avenge in Glory"
+                "name": "Avenge in Glory"
             }
         ]
     },
@@ -4051,8 +3958,7 @@
         "gainConditions": [
             {
                 "duration": 10,
-                "name": "Clan's Edge",
-                "source": "Clan's Edge"
+                "name": "Clan's Edge"
             }
         ]
     },
@@ -4067,8 +3973,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Vengeful Hatred",
-                "source": "Vengeful Hatred"
+                "name": "Vengeful Hatred"
             }
         ]
     },
@@ -4094,8 +3999,7 @@
         "gainConditions": [
             {
                 "duration": 5,
-                "name": "Moment of Clarity",
-                "source": "Moment of Clarity"
+                "name": "Moment of Clarity"
             }
         ]
     },
@@ -4114,7 +4018,6 @@
             {
                 "duration": 1,
                 "name": "Furious Finish",
-                "source": "Furious Finish",
                 "targetFilter": "caster"
             }
         ]
@@ -4141,8 +4044,7 @@
         "desc": "You can enter a second rage, but afterward you need to catch your breath. You can Rage without waiting for 1 minute after the previous Rage (or 1 round, with quick rage), but when you end this second Rage, you're fatigued until you rest for 10 minutes.",
         "gainConditions": [
             {
-                "name": "Second Wind",
-                "source": "Second Wind"
+                "name": "Second Wind"
             }
         ]
     },
@@ -4159,8 +4061,7 @@
         "gainConditions": [
             {
                 "duration": 0,
-                "name": "Shake it Off",
-                "source": "Shake it Off"
+                "name": "Shake it Off"
             }
         ]
     },
@@ -4181,8 +4082,7 @@
         "gainConditions": [
             {
                 "duration": 1,
-                "name": "Farabellus Flip",
-                "source": "Farabellus Flip"
+                "name": "Farabellus Flip"
             }
         ]
     },
@@ -4225,12 +4125,10 @@
             {
                 "duration": 6000,
                 "name": "Dragon's Rage Breath: Halved Damage",
-                "source": "Dragon's Rage Breath",
                 "targetFilter": "caster"
             },
             {
                 "name": "Dragon's Rage Breath Cooldown",
-                "source": "Dragon's Rage Breath",
                 "targetFilter": "caster"
             }
         ],
@@ -4367,66 +4265,66 @@
             },
             {
                 "level": 16,
-                "Descs": [
-                    {
-                        "value": "8d6",
-                        "variable": "var2"
-                    },
+                "descs": [
                     {
                         "value": "16d6",
                         "variable": "var1"
+                    },
+                    {
+                        "value": "8d6",
+                        "variable": "var2"
                     }
                 ]
             },
             {
                 "level": 17,
-                "Descs": [
-                    {
-                        "value": "8d6",
-                        "variable": "var2"
-                    },
+                "descs": [
                     {
                         "value": "17d6",
                         "variable": "var1"
+                    },
+                    {
+                        "value": "8d6",
+                        "variable": "var2"
                     }
                 ]
             },
             {
                 "level": 18,
-                "Descs": [
-                    {
-                        "value": "9d6",
-                        "variable": "var2"
-                    },
+                "descs": [
                     {
                         "value": "18d6",
                         "variable": "var1"
+                    },
+                    {
+                        "value": "9d6",
+                        "variable": "var2"
                     }
                 ]
             },
             {
                 "level": 19,
-                "Descs": [
-                    {
-                        "value": "9d6",
-                        "variable": "var2"
-                    },
+                "descs": [
                     {
                         "value": "19d6",
                         "variable": "var1"
+                    },
+                    {
+                        "value": "9d6",
+                        "variable": "var2"
                     }
                 ]
             },
             {
                 "level": 20,
-                "Descs": [
-                    {
-                        "value": "10d6",
-                        "variable": "var2"
-                    },
+                "descs": [
                     {
                         "value": "20d6",
                         "variable": "var1"
+                    },
+                    {
+                        "value": "10d6",
+                        "variable": "var2"
                     }
                 ]
             }
@@ -4449,8 +4347,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Giant's Stature",
-                "source": "Giant's Stature"
+                "name": "Giant's Stature"
             }
         ]
     },
@@ -4469,8 +4366,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Spirits' Interference",
-                "source": "Spirits' Interference"
+                "name": "Spirits' Interference"
             }
         ]
     },
@@ -4495,8 +4391,7 @@
                 "choiceBySubType": "Animal Instinct",
                 "duration": 100,
                 "hideChoices": true,
-                "name": "Animal Rage",
-                "source": "Animal Rage"
+                "name": "Animal Rage"
             }
         ],
         "showSpells": [
@@ -4539,18 +4434,15 @@
         "gainConditions": [
             {
                 "name": "Share Rage (Originator)",
-                "source": "Share Rage",
                 "targetFilter": "caster"
             },
             {
                 "name": "Share Rage",
-                "source": "Share Rage",
                 "targetFilter": "target"
             },
             {
                 "activationPrerequisite": "!Has_Feat(Creature.type, 'Contagious Rage') ? 1 : 0",
                 "name": "Share Rage Cooldown",
-                "source": "Share Rage",
                 "targetFilter": "caster"
             }
         ]
@@ -4579,8 +4471,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Come and Get Me",
-                "source": "Come and Get Me"
+                "name": "Come and Get Me"
             }
         ]
     },
@@ -4632,8 +4523,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Dragon's Rage's Wings",
-                "source": "Dragon's Rage Wings"
+                "name": "Dragon's Rage Wings"
             }
         ]
     },
@@ -4689,8 +4579,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Giant's Lunge",
-                "source": "Giant's Lunge"
+                "name": "Giant's Lunge"
             }
         ]
     },
@@ -4725,8 +4614,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Dragon Transformation",
-                "source": "Dragon Transformation"
+                "name": "Dragon Transformation"
             }
         ],
         "showSpells": [
@@ -4750,7 +4638,6 @@
             {
                 "duration": -5,
                 "name": "Dragon Form Breath Weapon Cooldown",
-                "source": "Dragon Form Breath Weapon",
                 "targetFilter": "caster"
             }
         ]
@@ -4768,8 +4655,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Reckless Abandon",
-                "source": "Reckless Abandon"
+                "name": "Reckless Abandon"
             }
         ]
     },
@@ -4790,8 +4676,7 @@
         "gainConditions": [
             {
                 "duration": 1,
-                "name": "Perfect Clarity",
-                "source": "Perfect Clarity"
+                "name": "Perfect Clarity"
             }
         ]
     },
@@ -4831,8 +4716,7 @@
         "gainConditions": [
             {
                 "addValue": 2,
-                "name": "Wounded",
-                "source": "Invulnerable Juggernaut"
+                "name": "Wounded"
             }
         ],
         "onceEffects": [
@@ -4874,8 +4758,7 @@
         "gainConditions": [
             {
                 "duration": 5,
-                "name": "Form Control",
-                "source": "Form Control"
+                "name": "Form Control"
             }
         ]
     },
@@ -4916,8 +4799,7 @@
         "desc": "(Phoenix form only) You gain a 20 feet aura of fire that extends out from you. A creature that enters or ends its turn within the aura takes |dice=2d6 Fire| 2d6 fire damage (|dice=3d6 Fire| 3d6 on 9th level monstrosity form). A creature can take this damage only once per turn. You can use a single action, which has the concentrate trait, to activate or deactivate this aura.",
         "gainConditions": [
             {
-                "name": "Shroud of Flame",
-                "source": "Shroud of Flame"
+                "name": "Shroud of Flame"
             }
         ]
     },
@@ -4961,8 +4843,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Pesh Skin",
-                "source": "Pesh Skin"
+                "name": "Pesh Skin"
             }
         ]
     },
@@ -4977,8 +4858,7 @@
         "gainConditions": [
             {
                 "duration": 48000,
-                "name": "Tree Shape (Verdant Metamorphosis)",
-                "source": "Verdant Metamorphosis: Tree Shape"
+                "name": "Tree Shape (Verdant Metamorphosis)"
             }
         ]
     },
@@ -5012,8 +4892,7 @@
         "gainConditions": [
             {
                 "duration": 1,
-                "name": "Leyline Conduit",
-                "source": "Leyline Conduit"
+                "name": "Leyline Conduit"
             }
         ]
     },
@@ -5042,8 +4921,7 @@
         "gainConditions": [
             {
                 "duration": 0,
-                "name": "True Shapeshifter",
-                "source": "True Shapeshifter: Nature Incarnate"
+                "name": "True Shapeshifter"
             }
         ],
         "showSpells": [
@@ -5067,8 +4945,7 @@
         "gainConditions": [
             {
                 "duration": 144000,
-                "name": "Verdant Presence",
-                "source": "Verdant Presence"
+                "name": "Verdant Presence"
             }
         ]
     },
@@ -5124,8 +5001,7 @@
         "gainConditions": [
             {
                 "duration": 1,
-                "name": "Bloodline Conduit",
-                "source": "Bloodline Conduit"
+                "name": "Bloodline Conduit"
             }
         ]
     },
@@ -5151,7 +5027,6 @@
             {
                 "duration": 5,
                 "name": "Slowed",
-                "source": "Crushing Despair: Fail Save",
                 "value": 1
             }
         ]
@@ -5164,8 +5039,7 @@
         "desc": "Droskar knows you may need to disguise yourself in societies that oppose your faith. After spending 1 hour in prayer to Droskar, you can cast spells using the religious symbol of a different deity as your divine focus, and you can address verbal prayers to that deity. Droskar intercepts your prayers and answers them without the named god knowing.\n\nThis ability applies to the religious symbol of only one god at a time - making a different religious symbol work in this fashion requires another hour of prayer and causes the old one to cease functioning. You can always use a religious symbol of Droskar without affecting this ability.",
         "gainConditions": [
             {
-                "name": "False Faith",
-                "source": "False Faith"
+                "name": "False Faith"
             }
         ]
     },
@@ -5201,7 +5075,6 @@
             {
                 "duration": -5,
                 "name": "Command Undead (Caster)",
-                "source": "Command Undead",
                 "targetFilter": "caster"
             }
         ]
@@ -5222,14 +5095,12 @@
             {
                 "duration": 10,
                 "name": "Necrotic Infusion (Caster)",
-                "source": "Necrotic Infusion",
                 "targetFilter": "caster"
             },
             {
                 "copyChoiceFrom": "Necrotic Infusion (Caster)",
                 "duration": 10,
                 "name": "Necrotic Infusion",
-                "source": "Necrotic Infusion",
                 "targetFilter": "target"
             }
         ]
@@ -5249,7 +5120,6 @@
             {
                 "duration": -5,
                 "name": "Cast Down (Caster)",
-                "source": "Cast Down",
                 "targetFilter": "caster"
             }
         ]
@@ -5268,8 +5138,7 @@
         "gainConditions": [
             {
                 "duration": 5,
-                "name": "Divine Weapon",
-                "source": "Divine Weapon"
+                "name": "Divine Weapon"
             }
         ]
     },
@@ -5289,14 +5158,12 @@
             {
                 "duration": 10,
                 "name": "Align Armament (Originator)",
-                "source": "Align Armament",
                 "targetFilter": "caster"
             },
             {
                 "copyChoiceFrom": "Align Armament (Originator)",
                 "duration": 10,
                 "name": "Align Armament",
-                "source": "Align Armament",
                 "targetFilter": "target"
             }
         ]
@@ -5317,13 +5184,11 @@
             {
                 "duration": 10,
                 "name": "Heroic Recovery (Caster)",
-                "source": "Heroic Recovery",
                 "targetFilter": "caster"
             },
             {
                 "duration": 10,
                 "name": "Heroic Recovery",
-                "source": "Heroic Recovery",
                 "targetFilter": "target"
             }
         ]
@@ -5351,14 +5216,12 @@
             {
                 "duration": 15,
                 "name": "Replenishment of War (Originator)",
-                "source": "Replenishment of War",
                 "targetFilter": "caster"
             },
             {
                 "copyChoiceFrom": "Replenishment of War (Originator)",
                 "duration": 15,
                 "name": "Replenishment of War",
-                "source": "Replenishment of War",
                 "targetFilter": "target"
             }
         ]
@@ -5378,14 +5241,12 @@
             {
                 "duration": 10,
                 "name": "Defensive Recovery (Caster)",
-                "source": "Defensive Recovery",
                 "targetFilter": "caster"
             },
             {
                 "copyChoiceFrom": "Defensive Recovery (Caster)",
                 "duration": 10,
                 "name": "Defensive Recovery",
-                "source": "Defensive Recovery",
                 "targetFilter": "target"
             }
         ]
@@ -5405,7 +5266,6 @@
             {
                 "duration": -5,
                 "name": "Banishment (Caster)",
-                "source": "Swift Banishment",
                 "targetFilter": "caster"
             }
         ],
@@ -5427,8 +5287,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Eternal Bane Dismissed",
-                "source": "Dismiss Eternal Bane"
+                "name": "Eternal Bane Dismissed"
             }
         ]
     },
@@ -5444,8 +5303,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Bless",
-                "source": "Eternal Blessing"
+                "name": "Bless"
             }
         ]
     },
@@ -5460,8 +5318,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Eternal Blessing Dismissed",
-                "source": "Dismiss Eternal Blessing"
+                "name": "Eternal Blessing Dismissed"
             }
         ]
     },
@@ -5473,13 +5330,11 @@
             {
                 "duration": 100,
                 "name": "Resurrectionist (Originator)",
-                "source": "Resurrectionist",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
                 "name": "Resurrectionist",
-                "source": "Resurrectionist",
                 "targetFilter": "target"
             }
         ]
@@ -5515,8 +5370,7 @@
         "gainConditions": [
             {
                 "duration": -5,
-                "name": "Dance of Intercession",
-                "source": "Dance of Intercession"
+                "name": "Dance of Intercession"
             }
         ],
         "showSpells": [
@@ -5581,8 +5435,7 @@
         "gainConditions": [
             {
                 "duration": -1,
-                "name": "Inventive Offensive",
-                "source": "Inventive Offensive"
+                "name": "Inventive Offensive"
             }
         ]
     },
@@ -5605,8 +5458,7 @@
         "gainConditions": [
             {
                 "duration": 0,
-                "name": "Draconic Barrage Energy Missile",
-                "source": "Draconic Barrage Energy Missile"
+                "name": "Draconic Barrage Energy Missile"
             }
         ],
         "heightenedDescs": [
@@ -5749,8 +5601,7 @@
         "gainConditions": [
             {
                 "duration": 10,
-                "name": "Vibrant Thorns: Positive Spell Cast",
-                "source": "Vibrant Thorns: Positive Spell Cast"
+                "name": "Vibrant Thorns: Positive Spell Cast"
             }
         ],
         "heightenedDescs": [
@@ -5857,8 +5708,7 @@
         "gainConditions": [
             {
                 "duration": 0,
-                "name": "Bottle the Storm Discharge",
-                "source": "Bottle the Storm Discharge"
+                "name": "Bottle the Storm Discharge"
             }
         ],
         "heightenedDescs": [
@@ -5878,7 +5728,7 @@
                 "level": 7,
                 "descs": [
                     {
-                        "value": "20",
+                        "value": "15",
                         "variable": "var1"
                     },
                     {
@@ -5888,7 +5738,7 @@
                 ]
             },
             {
-                "level": 7,
+                "level": 10,
                 "descs": [
                     {
                         "value": "20",
@@ -5910,8 +5760,7 @@
         "gainConditions": [
             {
                 "duration": 1,
-                "name": "Diamond Dust Bonus",
-                "source": "Diamond Dust Bonus"
+                "name": "Diamond Dust Bonus"
             }
         ]
     },
@@ -5927,8 +5776,7 @@
         "gainConditions": [
             {
                 "duration": -5,
-                "name": "Font of Serenity Counteract Immunity",
-                "source": "Font of Serenity: Touch the Font"
+                "name": "Font of Serenity Counteract Immunity"
             }
         ]
     },
@@ -5942,8 +5790,7 @@
                 "addValue": 1,
                 "increaseRadius": 10,
                 "duration": 0,
-                "name": "Positive Luminance",
-                "source": "Positive Luminance: Increase Reservoir"
+                "name": "Positive Luminance"
             }
         ],
         "heightenedDescs": [
@@ -6009,6 +5856,18 @@
                         "variable": "var1"
                     }
                 ]
+            }
+        ]
+    },
+    {
+        "name": "Sun Wheel: Fire Damage",
+        "target": "other",
+        "desc": "When you use the shield spell granted by the sun wheel to prevent damage, if the attacker is adjacent to you, you can choose to deal |dice=2d6 Fire| 2d6 fire damage to it, which it gets a DC 21 basic Reflex save to resist.\n\nIf you choose to deal the fire damage, you can't Activate the sun wheel again until the next morning.",
+        "gainConditions": [
+            {
+                "duration": -2,
+                "name": "Sun Wheel Cooldown",
+                "targetFilter": "caster"
             }
         ]
     }

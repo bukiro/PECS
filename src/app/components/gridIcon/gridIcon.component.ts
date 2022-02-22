@@ -156,10 +156,10 @@ export class GridIconComponent implements OnInit, OnDestroy {
             return iconTitle.replace("noparse|", "");
         }
         if (this.activity?.iconTitleOverride) {
-            return this.activity.iconTitleOverride.substring(1,4);
+            return this.activity.iconTitleOverride.substring(0,4);
         }
         if (this.item?.iconTitleOverride) {
-            return this.item.iconTitleOverride.substring(1,4);
+            return this.item.iconTitleOverride.substring(0,4);
         }
         if (this.feat) {
             if (this.feat.subType) {
@@ -172,6 +172,7 @@ export class GridIconComponent implements OnInit, OnDestroy {
         } else if (this.effect) {
             iconTitle = this.title || this.effect.target;
         }
+        iconTitle = iconTitle.replace("(","").replace(")","").trim();
         if (iconTitle) {
             if (!iconTitle.includes(" ")) {
                 //If the title does not contain spaces, and is not just a number, keep only letters and return the first 3 letters.

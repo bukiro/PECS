@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Vine Arrow (Critical Hit)",
+    "desc": "You have been critically hit by an activated vine arrow and are wrapped in vines. You are Immobilized and take a -10-foot circumstance penalty to your Speeds for the duration, or until you Escape against a DC of 19.",
+    "type": "ammunition",
+    "sortLevel": 0,
+    "defaultDurations": [
+      {
+        "duration": -1
+      }
+    ],
+    "effects": [
+      {
+        "affected": "Speed",
+        "type": "circumstance",
+        "value": "-10"
+      }
+    ],
+    "gainConditions": [
+      {
+        "name": "Immobilized"
+      }
+    ],
+    "_extensionFileName": "ammunition"
+  },
+  {
+    "name": "Vine Arrow (Hit)",
+    "desc": "You have been hit by an activated vine arrow and are wrapped in vines. You take a -10-foot circumstance penalty to your Speeds for the duration, or until you Escape against a DC of 19.",
+    "type": "ammunition",
+    "sortLevel": 0,
+    "defaultDurations": [
+      {
+        "duration": -1
+      }
+    ],
+    "effects": [
+      {
+        "affected": "Speed",
+        "type": "circumstance",
+        "value": "-10"
+      }
+    ],
+    "_extensionFileName": "ammunition"
+  },
+  {
+    "name": "Viper Arrow",
+    "desc": "Your arrow has transformed into a viper (Pathfinder Bestiary 302). The viper has the summoned trait and acts at the end of your turn, even though you didn't use the Sustain a Spell action. It is under the GM's control, but it generally attacks the creature the arrow struck. The viper vanishes after the duration or when slain.",
+    "type": "ammunition",
+    "sortLevel": 0,
+    "buff": true,
+    "defaultDurations": [
+      {
+        "duration": 100
+      }
+    ],
+    "_extensionFileName": "ammunition"
+  }
+]

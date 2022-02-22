@@ -647,7 +647,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                         conditionGain.source = feat.name;
                         conditionGain.heightened = context.spellParameters.effectiveSpellLevel;
                         if (conditionGain.name) {
-                            this.characterService.add_Condition(this.get_Character(), conditionGain, false);
+                            this.characterService.add_Condition(this.get_Character(), conditionGain, {}, { noReload: true });
                         }
                     }
                 })

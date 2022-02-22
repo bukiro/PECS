@@ -1,0 +1,111 @@
+[
+  {
+    "name": "Heartstone",
+    "id": "e7486301-3544-4c36-8d6f-8562f8084fc1",
+    "desc": "This gemstone grants its wearer a +2 item bonus to saving throws.\n\nEach heartstone is powered by the spirit of a specific night hag. If it's separated from her for 24 hours (or she's been dead for 24 hours), it becomes a nonmagical gemstone. A heartstone allows the hag to use additional occult innate spells: ethereal jaunt (9th level) and bind soul at will, and shadow blast twice per day.",
+    "_extensionFileName": "bestiary",
+    "sourceBook": "Bestiary",
+    "level": 9,
+    "price": 60000,
+    "subTypeDesc": "This heartstone is not your own and doesn't grant you the innate spells listed in the description.",
+    "traits": [
+      "Abjuration",
+      "Invested",
+      "Occult"
+    ],
+    "internal: needs testing": true,
+    "usage": "worn",
+    "craftRequirement": "You must be a night hag.",
+    "effects": [
+      {
+        "affected": "Saving Throws",
+        "type": "item",
+        "value": "Choice == 'Active' ? 2"
+      }
+    ],
+    "activities": [
+      {
+        "name": "Heartstone",
+        "actions": "1A",
+        "activationType": "Command",
+        "requirements": "You must be touching the heartstone",
+        "desc": "The heartstone attempts to counteract one disease affecting you (counteract level 5, counteract modifier +18).",
+        "traits": [
+          "Abjuration",
+          "Invested",
+          "Occult"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Heartstone (Night Hag)",
+    "id": "271de185-13c8-4c28-9ef3-6870dbc4f355",
+    "desc": "This gemstone grants its wearer a +2 item bonus to saving throws.\n\nEach heartstone is powered by the spirit of a specific night hag. If it's separated from her for 24 hours (or she's been dead for 24 hours), it becomes a nonmagical gemstone. A heartstone allows the hag to use additional occult innate spells: ethereal jaunt (9th level) and bind soul at will, and shadow blast twice per day.",
+    "_extensionFileName": "bestiary",
+    "sourceBook": "Bestiary",
+    "level": 9,
+    "price": 60000,
+    "subType": "Night Hag",
+    "subTypeDesc": "This heartstone is your own and grants you the innate spells listed in the description.",
+    "traits": [
+      "Abjuration",
+      "Invested",
+      "Occult"
+    ],
+    "usage": "worn",
+    "craftRequirement": "You must be a night hag.",
+    "effects": [
+      {
+        "affected": "Saving Throws",
+        "type": "item"
+      }
+    ],
+    "activities": [
+      {
+        "name": "Heartstone",
+        "actions": "1A",
+        "activationType": "Command",
+        "requirements": "You must be touching the heartstone",
+        "desc": "The heartstone attempts to counteract one disease affecting you (counteract level 5, counteract modifier +18).",
+        "traits": [
+          "Abjuration",
+          "Invested",
+          "Occult"
+        ]
+      }
+    ],
+    "gainSpells": [
+      {
+        "cooldown": 144000,
+        "frequency": "twice per day",
+        "charges": 2,
+        "level": 7,
+        "tradition": "Occult",
+        "castingType": "Innate",
+        "spells": [
+          {
+            "locked": true,
+            "name": "Shadow Blast"
+          }
+        ]
+      },
+      {
+        "frequency": "at will",
+        "level": 9,
+        "tradition": "Occult",
+        "castingType": "Innate",
+        "spells": [
+          {
+            "locked": true,
+            "name": "Ethereal Jaunt"
+          },
+          {
+            "locked": true,
+            "name": "Bind Soul"
+          }
+        ]
+      }
+    ]
+  }
+]

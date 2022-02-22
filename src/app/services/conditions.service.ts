@@ -251,7 +251,7 @@ export class ConditionsService {
                 addCondition.source = gain.name;
                 addCondition.parentID = gain.id;
                 addCondition.apply = true;
-                characterService.add_Condition(creature, addCondition, false, gain);
+                characterService.add_Condition(creature, addCondition, { parentConditionGain: gain }, { noReload: true });
 
             })
         }
@@ -297,7 +297,7 @@ export class ConditionsService {
                     newGain.name = nextCondition.name;
                     newGain.duration = nextCondition.duration || -1;
                     newGain.choice = nextCondition.choice || this.get_ConditionFromName(newGain.name)?.choice || "";
-                    characterService.add_Condition(creature, newGain, false);
+                    characterService.add_Condition(creature, newGain, {}, { noReload: true });
                 }
             })
         }
@@ -344,7 +344,7 @@ export class ConditionsService {
             if (taken) {
                 if (creature.health.dying(creature, characterService) >= creature.health.maxDying(creature, effectsService)) {
                     if (characterService.get_AppliedConditions(creature, "Dead").length == 0) {
-                        characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Dead", source: "Dying value too high" }).recast(), false);
+                        characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Dead", source: "Dying value too high" }).recast(), {}, { noReload: true });
                     }
                 }
             } else {
@@ -356,12 +356,12 @@ export class ConditionsService {
                                 gain.source = "Recovered from Dying";
                             });
                         } else {
-                            characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Wounded", value: 1, source: "Recovered from Dying" }).recast(), false);
+                            characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Wounded", value: 1, source: "Recovered from Dying" }).recast(), {}, { noReload: true });
                         }
                     }
                     if (creature.health.currentHP(creature, characterService, effectsService).result == 0) {
                         if (characterService.get_AppliedConditions(creature, "Unconscious", "0 Hit Points").length == 0 && characterService.get_AppliedConditions(creature, "Unconscious", "Dying").length == 0) {
-                            characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Unconscious", source: "0 Hit Points" }).recast(), false);
+                            characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Unconscious", source: "0 Hit Points" }).recast(), {}, { noReload: true });
                         }
                     }
                 }
@@ -502,7 +502,7 @@ export class ConditionsService {
                 return (services.characterService.get_AppliedConditions(creature, name, source, true).length != 0)
             }
             function add_Condition(name: string, value: number, source: string) {
-                services.characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: name, value: value, source: source, apply: true }), false)
+                services.characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: name, value: value, source: source, apply: true }), {}, { noReload: true })
             }
             function remove_Condition(name: string, value: number, source: string) {
                 services.characterService.remove_Condition(creature, Object.assign(new ConditionGain, { name: name, value: value, source: source, apply: true }), false)
@@ -549,7 +549,7 @@ export class ConditionsService {
                             services.characterService.remove_Condition(creature, gain, false);
                         } else {
                             if (gain.activationPrerequisite) {
-                                const testResult = evaluationService.get_ValueFromFormula(gain.activationPrerequisite, { characterService: services.characterService, effectsService: services.effectsService }, { creature: creature, object: gain });
+                                const testResult = evaluationService.get_ValueFromFormula(gain.activationPrerequisite, { characterService: services.characterService, effectsService: services.effectsService }, { creature: creature, object: gain, parentItem: item });
                                 if (testResult == "0" || !(parseInt(testResult as string))) {
                                     services.characterService.remove_Condition(creature, gain, false);
                                 }
@@ -557,14 +557,7 @@ export class ConditionsService {
                         }
                     } else {
                         if (activate) {
-                            if (gain.activationPrerequisite) {
-                                const testResult = evaluationService.get_ValueFromFormula(gain.activationPrerequisite, { characterService: services.characterService, effectsService: services.effectsService }, { creature: creature, object: gain });
-                                if (parseInt(testResult as string)) {
-                                    services.characterService.add_Condition(creature, gain, false);
-                                }
-                            } else {
-                                services.characterService.add_Condition(creature, gain, false);
-                            }
+                            services.characterService.add_Condition(creature, gain, { parentItem: item }, { noReload: true });
                         }
                     }
                 })
@@ -587,7 +580,7 @@ export class ConditionsService {
             let bulk = creature.bulk;
             let calculatedBulk = bulk.calculate(creature, services.characterService, services.effectsService);
             if (calculatedBulk.current.value > calculatedBulk.encumbered.value && services.characterService.get_AppliedConditions(creature, "Encumbered", "Bulk").length == 0) {
-                services.characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Encumbered", value: 0, source: "Bulk", apply: true }), true)
+                services.characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Encumbered", value: 0, source: "Bulk", apply: true }), {}, { noReload: true })
             }
             if (calculatedBulk.current.value <= calculatedBulk.encumbered.value && services.characterService.get_AppliedConditions(creature, "Encumbered", "Bulk").length > 0) {
                 services.characterService.remove_Condition(creature, Object.assign(new ConditionGain, { name: "Encumbered", value: 0, source: "Bulk", apply: true }), true)
@@ -741,7 +734,7 @@ export class ConditionsService {
                         newCondition.addValue = parseInt(effect.value);
                     }
                     newCondition.source = effect.source;
-                    characterService.add_Condition(creature, newCondition, false);
+                    characterService.add_Condition(creature, newCondition, {}, { noReload: true });
                     characterService.toastService.show("Added <strong>" + conditionName + "</strong> condition to <strong>" + (creature.name || creature.type) +
                         "</strong> after resting (caused by <strong>" + effect.source + "</strong>)");
                 };
@@ -796,7 +789,7 @@ export class ConditionsService {
                     addCondition.source = gain.name;
                     addCondition.parentID = gain.id;
                     addCondition.apply = true;
-                    characterService.add_Condition(creature, addCondition, false, gain);
+                    characterService.add_Condition(creature, addCondition, { parentConditionGain: gain }, { noReload: true });
                 })
             }
             //If the current duration is locking the time buttons, refresh the time bar after the change.

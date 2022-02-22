@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Hag Eye",
+    "id": "36e08a07-d905-4f6b-9d8b-aa02c86d0ab4",
+    "desc": "This item appears to be an ordinary semiprecious stone and is typically mounted on a brooch or ring, but the stone is, in fact, an eyeball. This illusion can be seen through with true seeing or similar magic, and anyone who interacts with the item feels its wet and sticky surface, allowing them to attempt to disbelieve the illusion (DC 19). Many hags claim a hag eye is more effective if plucked from a living, awake creature, but this is likely just a convenient excuse for sadism.\n\nThe hag eye produces no direct benefit for the wearer, but allows the hag who created it, or any member of her coven, to peer through the eye using the Seek action. This has no range limit, provided the hag is on the same plane.\n\nAny damage dealt to the eye destroys it. If this happens while a hag is looking through it, the hag is blinded for 1 hour.",
+    "_extensionFileName": "bestiary3",
+    "sourceBook": "Bestiary 3",
+    "level": 3,
+    "price": 5000,
+    "traits": [
+      "Rare",
+      "Divination",
+      "Invested",
+      "Occult",
+      "Scrying"
+    ],
+    "usage": "worn",
+    "craftRequirement": "You must be a hag.",
+    "hints": [
+      {
+        "desc": "The hag eye allows the hag who created it, or any member of her coven, to peer through the eye using the Seek action. This has no range limit, provided the hag is on the same plane.",
+        "showon": "Perception"
+      }
+    ]
+  }
+]

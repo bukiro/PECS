@@ -117,14 +117,14 @@ export class Health {
                 if (dying == 0) {
                     if (characterService.get_AppliedConditions(creature, "Unconscious", "0 Hit Points").length == 0 && characterService.get_AppliedConditions(creature, "Unconscious", "Dying").length == 0) {
                         dyingAdded = wounded + 1;
-                        characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Dying", value: wounded + 1, source: "0 Hit Points" }), false)
+                        characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Dying", value: wounded + 1, source: "0 Hit Points" }), {}, { noReload: true })
                     }
                 }
             }
             if (nonlethal && currentHP == 0) {
                 if (characterService.get_AppliedConditions(creature, "Unconscious", "0 Hit Points").length == 0 && characterService.get_AppliedConditions(creature, "Unconscious", "Dying").length == 0) {
                     unconsciousAdded = true;
-                    characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Unconscious", source: "0 Hit Points" }), false)
+                    characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Unconscious", source: "0 Hit Points" }), {}, { noReload: true })
                 }
             }
             //Wake up if you are unconscious and take damage (without falling under 1 HP)

@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Bellflower Toolbelt",
+    "id": "2ed77257-e72a-4431-bacf-2a675a05dda1",
+    "desc": "Different versions of this belt are customized to appear to suit specific trades, so a belt used for carpentry would look somewhat different than a belt for baking.",
+    "_extensionFileName": "pathfinder147",
+    "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+    "level": 6,
+    "bulk": "1",
+    "price": 22000,
+    "traits": [
+      "Rare",
+      "Invested",
+      "Magical",
+      "Transmutation"
+    ],
+    "internal: needs testing": true,
+    "usage": "worn belt",
+    "hints": [
+      {
+        "desc": "As long as there are enough items in the Bellflower toolbelt that are transformed into a suitable tool, the belt can be used as artisan's tools for the trade for which it was created.",
+        "showon": "Crafting"
+      }
+    ],
+    "activities": [
+      {
+        "name": "Bellflower Toolbelt",
+        "actions": "2A",
+        "activationType": "Envision, Interact",
+        "desc": "You place an object of up to 1 Bulk into the belt, transforming that object into a tool befitting the trade for which the belt was created. As long as there are enough transformed items, the belt can be used as artisan's tools for that trade.\n\nEach object remains transformed until it has been removed from the belt for 24 hours or someone uses a single Interact action to return it to its normal form.",
+        "traits": [
+          "Rare",
+          "Invested",
+          "Magical",
+          "Transmutation"
+        ],
+        "inputRequired": "The bellflower toolbelt grants an inventory which you can place items. The items will not change while in the toolbelt and will not be removed automatically, but should be considered unusable as they are transformed into tools."
+      }
+    ],
+    "gainInventory": [
+      {
+        "bulkLimit": 0,
+        "bulkReduction": 0
+      }
+    ]
+  }
+]

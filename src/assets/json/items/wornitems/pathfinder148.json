@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Dragonscale Amulet",
+    "id": "88b1fc2f-6e59-4407-ac85-b6ac7ec9afca",
+    "desc": "This amulet is made from the scales of five ancient dragons. You gain resistance 5 to acid, cold, electricity, fire, and poison. If you take damage of one of these types from a dragon's Breath Weapon, the amulet begins to glow brightly; for the next 10 minutes, your resistance against that type of damage increases to 20. If you are subjected to a dragon's frightful presence, you can roll your saving throw twice and use the higher result to determine the aura's effects. This is a fortune effect.",
+    "_extensionFileName": "pathfinder148",
+    "sourceBook": "Pathfinder #148: Fires of the Haunted City",
+    "level": 15,
+    "price": 580000,
+    "traits": [
+      "Rare",
+      "Enchantment",
+      "Invested",
+      "Magical"
+    ],
+    "internal: needs testing": true,
+    "usage": "worn",
+    "hints": [
+      {
+        "desc": "If you are subjected to a dragon's frightful presence, you can roll your saving throw twice and use the higher result to determine the aura's effects. This is a fortune effect.",
+        "showon": "Saving Throws"
+      }
+    ],
+    "effects": [
+      {
+        "affected": "Acid Resistance",
+        "value": "5"
+      },
+      {
+        "affected": "Cold Resistance",
+        "value": "5"
+      },
+      {
+        "affected": "Electricity Resistance",
+        "value": "5"
+      },
+      {
+        "affected": "Fire Resistance",
+        "value": "5"
+      },
+      {
+        "affected": "Sonic Resistance",
+        "value": "5"
+      }
+    ],
+    "activities": [
+      {
+        "name": "Dragonscale Amulet",
+        "actions": "2A",
+        "activationType": "Command",
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "desc": "You exude an aura that terrifies all foes in a 60-foot radius, as the frightful presence ability with a DC 34 Will save.\n\n<header class=\"spellHeader\">Frightful Presence<header>\n\nA creature that first enters the area must attempt a Will save. Regardless of the result of the saving throw, the creature is temporarily immune to this monster's Frightful Presence for 1 minute.",
+        "traits": [
+          "Rare",
+          "Aura",
+          "Emotion",
+          "Enchantment",
+          "Fear",
+          "Invested",
+          "Magical",
+          "Mental"
+        ],
+        "critsuccess": "The creature is unaffected by the presence.",
+        "success": "The creature is frightened 1.",
+        "failure": "The creature is frightened 2.",
+        "critfailure": "The creature is frightened 4."
+      },
+      {
+        "name": "Dragonscale Amulet: Resistance",
+        "desc": "If you take  acid, cold, electricity, fire, or poison damage from a dragon's Breath Weapon, the amulet begins to glow brightly; for the next 10 minutes, your resistance against that type of damage increases to 20.",
+        "gainConditions": [
+          {
+            "duration": 1000,
+            "name": "Dragonscale Amulet"
+          }
+        ],
+        "inputRequired": "Use this activation if you take damage of one of the listed types from a dragon's Breath Weapon."
+      }
+    ]
+  }
+]

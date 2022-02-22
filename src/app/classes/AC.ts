@@ -63,7 +63,7 @@ export class AC {
         }
         if (coverChoice) {
             let newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: "Cover", choice: coverChoice, source: "Quick Status", duration: -1, locked: true })
-            characterService.add_Condition(creature, newCondition, false);
+            characterService.add_Condition(creature, newCondition, {}, { noReload: true });
         }
         characterService.refreshService.process_ToChange();
     }

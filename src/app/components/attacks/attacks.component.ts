@@ -460,7 +460,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         }
         if (mapName) {
             let newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: mapName, choice: mapChoice, source: "Quick Status", duration: 5, locked: true })
-            this.characterService.add_Condition(creature, newCondition, false);
+            this.characterService.add_Condition(creature, newCondition, {}, { noReload: true });
         }
         this.refreshService.process_ToChange();
     }
@@ -535,7 +535,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         }
         if (rapChoice) {
             let newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: "Range Penalty", choice: rapChoice, source: "Quick Status", duration: 5, locked: true })
-            this.characterService.add_Condition(creature, newCondition, false);
+            this.characterService.add_Condition(creature, newCondition, {}, { noReload: true });
         }
         this.refreshService.process_ToChange();
     }

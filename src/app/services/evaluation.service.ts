@@ -12,6 +12,7 @@ import { Familiar } from 'src/app/classes/Familiar';
 import { Speed } from 'src/app/classes/Speed';
 import { FamiliarsService } from 'src/app/services/familiars.service';
 import { EffectGain } from '../classes/EffectGain';
+import { Equipment } from '../classes/Equipment';
 
 type FormulaContext = {
     readonly creature: Creature,
@@ -70,6 +71,7 @@ export class EvaluationService {
         let Value: number = object?.value || null;
         let Heightened: number = object?.heightened || null;
         let Choice: string = object?.choice || null;
+        let ItemChoice: string = (parentItem instanceof Equipment) ? parentItem?.choice || null : null;
         let SpellCastingAbility: string = object?.spellCastingAbility || null;
         const SpellSource: string = object?.spellSource || null;
         //Hint effects of conditions pass their conditionGain for these values.

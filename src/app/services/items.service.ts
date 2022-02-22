@@ -718,7 +718,7 @@ export class ItemsService {
             //Apply conditions
             item.gainConditions.forEach(gain => {
                 let newConditionGain = Object.assign(new ConditionGain(), gain).recast();
-                characterService.add_Condition(creature, newConditionGain, false);
+                characterService.add_Condition(creature, newConditionGain, {}, { noReload: true });
             });
 
             //Cast Spells

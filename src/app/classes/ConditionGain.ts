@@ -91,6 +91,9 @@ export class ConditionGain {
     public resonant: boolean = false;
     //Some conditions allow you to select other conditions to override. These are saved here.
     public selectedOtherConditions: string[] = [];
+    //Permanent conditions from feats and items cannot be removed.
+    public fromFeat: boolean = false;
+    public fromItem: boolean = false;
     recast() {
         this.gainActivities = this.gainActivities.map(obj => Object.assign(new ActivityGain(), obj).recast());
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());

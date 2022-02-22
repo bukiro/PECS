@@ -1,0 +1,65 @@
+[
+  {
+    "name": "Ring of Discretion",
+    "id": "68dade25-080b-48ed-bfe5-018a3ee15f15",
+    "desc": "This ring magically conceals any armor and sheathed weapons you're wearing by either turning them invisible or creating the illusion of ordinary clothes. The ring doesn't change your appearance beyond concealing weapons and armor. As soon as you wield a weapon, the weapon becomes obvious to onlookers and is no longer affected by the ring until you sheathe the weapon for at least 1 minute. A creature can disbelieve this illusion by Seeking or any time it hits you with an attack.",
+    "_extensionFileName": "pathfinder157",
+    "sourceBook": "Pathfinder #157: Devil at the Dreaming Palace",
+    "level": 1,
+    "price": 1500,
+    "traits": [
+      "Uncommon",
+      "Illusion",
+      "Invested",
+      "Magical",
+      "Visual"
+    ],
+    "usage": "worn ring",
+    "hints": [
+      {
+        "desc": "The ring of discretion magically conceals any armor and sheathed weapons you're wearing by either turning them invisible or creating the illusion of ordinary clothes. The ring doesn't change your appearance beyond concealing weapons and armor. As soon as you wield a weapon, the weapon becomes obvious to onlookers and is no longer affected by the ring until you sheathe the weapon for at least 1 minute. A creature can disbelieve this illusion by Seeking or any time it hits you with an attack.",
+        "showon": "Deception"
+      }
+    ]
+  },
+  {
+    "name": "Corpseward Pendant",
+    "id": "8eac7693-b88d-4f0a-8b7c-a5053904d9be",
+    "desc": "This small pendant is usually shaped like a humanoid skull or small animal skull.",
+    "_extensionFileName": "pathfinder157",
+    "sourceBook": "Pathfinder #157: Devil at the Dreaming Palace",
+    "level": 5,
+    "price": 15000,
+    "traits": [
+      "Uncommon",
+      "Abjuration",
+      "Invested",
+      "Magical"
+    ],
+    "internal: needs testing": true,
+    "usage": "worn amulet",
+    "activities": [
+      {
+        "name": "Corpseward Pendant",
+        "actions": "1A",
+        "activationType": "Interact",
+        "frequency": "three times per day",
+        "cooldown": 14400,
+        "charges": 3,
+        "desc": "You become undetectable to undead creatures for 10 minutes. Undead can't see, hear, or smell you, nor detect you with sensory capabilities such as scent or tremorsense. A creature can attempt a single DC 18 Will saving throw to ignore this effect. If an undead has reason to believe that undetected opponents are present, it can still attempt to Seek or Strike you. If you attempt to use a positive spell to damage undead, use Command Undead, touch or damage an undead creature, or attack any creature while warded in this manner, the pendant's effects immediately end. An undead creature who observes you in this manner or one who succeeds at the Will save is immune to the corpseward pendant for 24 hours.",
+        "gainConditions": [
+          {
+            "duration": 1000,
+            "name": "Corpseward Pendant"
+          }
+        ],
+        "traits": [
+          "Uncommon",
+          "Abjuration",
+          "Invested",
+          "Magical"
+        ]
+      }
+    ]
+  }
+]

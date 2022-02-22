@@ -68,6 +68,7 @@
                 "effects": [
                     {
                         "affected": "Performance",
+                        "type": "item",
                         "value": "1"
                     }
                 ]
@@ -1252,6 +1253,7 @@
                 "effects": [
                     {
                         "affected": "Performance",
+                        "type": "item",
                         "value": "2"
                     }
                 ]
@@ -1357,6 +1359,7 @@
                 "effects": [
                     {
                         "affected": "Performance",
+                        "type": "item",
                         "value": "3"
                     }
                 ]

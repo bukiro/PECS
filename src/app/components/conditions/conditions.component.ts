@@ -330,7 +330,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
             newGain.heightened = this.heightened;
         }
         newGain.source = "Manual";
-        this.characterService.add_Condition(creature, newGain, true);
+        this.characterService.add_Condition(creature, newGain);
     }
 
     get_EffectsProperty() {

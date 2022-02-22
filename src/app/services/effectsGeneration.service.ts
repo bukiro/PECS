@@ -137,7 +137,7 @@ export class EffectsGenerationService {
             }
             if (effect.conditionalToggle) {
                 try {
-                    toggle = get_ValueFromFormula(effect.setValue).toString() && true;
+                    toggle = get_ValueFromFormula(effect.conditionalToggle).toString() && true;
                 } catch (error) {
                     toggle = false;
                 }

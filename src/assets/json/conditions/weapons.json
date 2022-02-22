@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Eclipse: Light",
+    "desc": "Eclipse's blades glow like starlit night sky, causing it to shed light as a torch until you deactivate it as a single action, which has the concentrate trait.",
+    "type": "weapons",
+    "sortLevel": 0,
+    "buff": true,
+    "defaultDurations": [
+      {
+        "duration": -1
+      }
+    ],
+    "hints": [
+      {
+        "desc": "Eclipse's blades glow like starlit night sky, causing it to shed light as a torch.",
+        "showon": "Perception"
+      }
+    ],
+    "_extensionFileName": "weapons"
+  },
+  {
+    "name": "Eclipse: Stealth",
+    "desc": "You absorb light, gaining a +2 status bonus to the triggering Stealth check.",
+    "type": "weapons",
+    "sortLevel": 0,
+    "buff": true,
+    "defaultDurations": [
+      {
+        "duration": 1
+      }
+    ],
+    "hide": true,
+    "effects": [
+      {
+        "affected": "Stealth",
+        "type": "status",
+        "value": "2"
+      }
+    ],
+    "_extensionFileName": "weapons"
+  }
+]

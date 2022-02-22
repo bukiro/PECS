@@ -1059,20 +1059,15 @@ export class CharacterService {
         this.refreshService.set_ToChange(creature.type, "inventory");
         this.refreshService.set_ItemViewChanges(creature, item, { characterService: this });
         if (!oldequipped && item.equipped) {
-            if (item instanceof Armor || item instanceof Shield) {
-                let allOfType = inventory[item.type];
-                //If you equip a shield that is already raised, preserve that status (e.g. for the Shield spell).
-                let raised = false;
-                if (item instanceof Shield && item.raised) {
-                    raised = true;
-                }
-                allOfType.forEach(typeItem => {
-                    this.on_Equip(creature, inventory, typeItem, false, false, false);
+            if (item instanceof Armor) {
+                inventory.armors.filter(armor => armor !== item).forEach(armor => {
+                    this.on_Equip(creature, inventory, armor, false, false, false);
                 });
-                item.equipped = true;
-                if (item instanceof Shield) {
-                    item.raised = raised;
-                }
+            }
+            if (item instanceof Shield) {
+                inventory.shields.filter(shield => shield !== item).forEach(shield => {
+                    this.on_Equip(creature, inventory, shield, false, false, false);
+                });
             }
             //If you get an Activity from an item that doesn't need to be invested, immediately invest it in secret so the Activity is gained
             if ((item.gainActivities || item.activities) && !item.can_Invest()) {
@@ -1096,7 +1091,7 @@ export class CharacterService {
                 }
                 item.raised = false;
             }
-            //If the item was invested, it isn't now.
+            //If the item was invested and the item, it isn't now.
             if (item.invested) {
                 this.on_Invest(creature, inventory, item, false, false);
             }
@@ -1239,26 +1234,26 @@ export class CharacterService {
         );
     }
 
-    add_Condition(creature: Creature, originalConditionGain: ConditionGain, reload: boolean = true, parentConditionGain: ConditionGain = null) {
+    add_Condition(creature: Creature, gain: ConditionGain, context: {parentItem?: Item, parentConditionGain?: ConditionGain} = {}, options: {noReload?: boolean} = {}) {
         let activate: boolean = true;
-        let conditionGain: ConditionGain = Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(originalConditionGain))).recast();
+        let conditionGain: ConditionGain = Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(gain))).recast();
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
         if (originalCondition) {
             if (conditionGain.heightened < originalCondition.minLevel) {
                 conditionGain.heightened = originalCondition.minLevel;
+            }
+            //If the condition has an activationPrerequisite, test that first and only activate if it evaluates to a nonzero number.
+            if (conditionGain.activationPrerequisite) {
+                let activationValue = this.evaluationService.get_ValueFromFormula(conditionGain.activationPrerequisite, { characterService: this, effectsService: this.effectsService }, { creature: creature, parentConditionGain: context.parentConditionGain, parentItem: context.parentItem, object: conditionGain });
+                if (!activationValue || activationValue == "0" || (typeof activationValue == "string" && !parseInt(activationValue))) {
+                    activate = false;
+                }
             }
             //Check if any condition denies this condition, and stop processing if that is the case.
             let denySources: string[] = this.get_AppliedConditions(creature, "", "", true).filter(existingGain => this.get_Conditions(existingGain.name)?.[0]?.denyConditions.includes(conditionGain.name)).map(existingGain => "<strong>" + existingGain.name + "</strong>");
             if (denySources.length) {
                 activate = false;
                 this.toastService.show("The condition <strong>" + conditionGain.name + "</strong> was not added because it is blocked by: " + denySources.join(", "));
-            }
-            //If the condition has an activationPrerequisite, test that first and only activate if it evaluates to a nonzero number.
-            if (conditionGain.activationPrerequisite) {
-                let activationValue = this.evaluationService.get_ValueFromFormula(conditionGain.activationPrerequisite, { characterService: this, effectsService: this.effectsService }, { creature: creature, parentConditionGain: conditionGain, object: conditionGain });
-                if (!activationValue || activationValue == "0" || (typeof activationValue == "string" && !parseInt(activationValue))) {
-                    activate = false;
-                }
             }
             if (activate) {
                 //If the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
@@ -1345,7 +1340,7 @@ export class CharacterService {
                     this.conditionsService.process_Condition(creature, this, this.effectsService, this.itemsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], true);
                     this.refreshService.set_ToChange(creature.type, "effects");
                     this.refreshService.set_ToChange(creature.type, "effects-component");
-                    if (reload) {
+                    if (!options.noReload) {
                         this.refreshService.process_ToChange();
                     }
                     return newLength;
@@ -1595,7 +1590,7 @@ export class CharacterService {
                 if (message.activateCondition) {
                     if (targetCreature && message.gainCondition.length) {
                         let conditionGain: ConditionGain = message.gainCondition[0];
-                        let newLength = this.add_Condition(targetCreature, conditionGain, false, null)
+                        let newLength = this.add_Condition(targetCreature, conditionGain, {}, {noReload: true})
                         if (newLength) {
                             let senderName = this.get_MessageSender(message);
                             //If a condition was created, send a toast to inform the user.
