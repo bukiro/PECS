@@ -77,7 +77,7 @@
             {{shownActivity.activationType.toString()}}
         </header>
         <div class="newrow left-aligned">
-            <cite class="trait" *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
+            <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}" *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
                 [ngbPopover]="get_Traits(trait)[0].desc">
                 {{trait}}
             </cite>
@@ -117,9 +117,13 @@
             </ng-container>
         </ng-container>
         <div class="newrow left-aligned">
-            <cite class="trait" *ngFor="let trait of spell.traits; trackBy:trackByIndex;"
+            <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}" *ngFor="let trait of spell.traits; trackBy:trackByIndex;"
                 [ngbPopover]="get_Traits(trait)[0].desc">
                 {{trait}}
+            </cite>
+            <cite class="extra-trait" *ngFor="let trait of spell.get_ActivationTraits(); trackBy:trackByIndex;"
+                [ngbPopover]="'(This trait was derived from the spell components.)\n\n' + get_Traits(trait)[0].desc">
+                + {{trait}}
             </cite>
         </div>
         <app-spellContent class="vlist fullwidth" [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0">
@@ -135,7 +139,7 @@
             {{shownSpell.castType.toString()}}
         </header>
         <div class="newrow left-aligned">
-            <cite class="trait" *ngFor="let trait of shownSpell.traits; trackBy:trackByIndex;"
+            <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}" *ngFor="let trait of shownSpell.traits; trackBy:trackByIndex;"
                 [ngbPopover]="get_Traits(trait)[0].desc">
                 {{trait}}
             </cite>

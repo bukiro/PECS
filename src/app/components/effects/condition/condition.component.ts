@@ -12,7 +12,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Activity } from 'src/app/classes/Activity';
-import { OtherConsumable } from 'src/app/classes/OtherConsumable';
+import { EffectsService } from 'src/app/services/effects.service';
 
 @Component({
     selector: 'app-condition',
@@ -38,6 +38,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
+        public effectsService: EffectsService,
         private refreshService: RefreshService,
         private timeService: TimeService,
         private itemsService: ItemsService,
@@ -194,7 +195,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
         if (this.conditionGain) {
             this.conditionGain.gainActivities.forEach(activityGain => {
                 activityGain.heightened = this.conditionGain.heightened;
-                activityGain.get_OriginalActivity(this.activitiesService)?.get_Cooldown(this.get_Creature(), this.characterService);
+                activityGain.get_OriginalActivity(this.activitiesService)?.get_Cooldown({creature: this.get_Creature()}, {characterService: this.characterService, effectsService: this.effectsService});
             })
             return this.conditionGain.gainActivities;
         } else {

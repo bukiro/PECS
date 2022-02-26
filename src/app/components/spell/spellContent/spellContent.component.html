@@ -113,7 +113,7 @@
             {{shownSpell.castType.toString()}}
         </header>
         <div class="newrow left-aligned">
-            <cite class="trait" *ngFor="let trait of shownSpell.traits; trackBy:trackByIndex;"
+            <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}" *ngFor="let trait of shownSpell.traits; trackBy:trackByIndex;"
                 [ngbPopover]="get_Traits(trait)[0].desc">
                 {{trait}}
             </cite>

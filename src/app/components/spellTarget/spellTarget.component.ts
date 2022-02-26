@@ -15,6 +15,14 @@ import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { TimeService } from 'src/app/services/time.service';
 import { Subscription } from 'rxjs';
+import { Character } from 'src/app/classes/Character';
+import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
+import { Familiar } from 'src/app/classes/Familiar';
+import { SpellCast } from 'src/app/classes/SpellCast';
+
+type ComponentParameters = {
+    bloodMagicTrigger: string, canActivate: boolean, canActivateWithoutTarget: boolean, targetNumber: number, target: string
+}
 
 @Component({
     selector: 'app-spellTarget',
@@ -33,7 +41,11 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     @Input()
     gain: SpellGain | ActivityGain | ItemActivity;
     @Input()
+    parentActivity: Activity | ItemActivity;
+    @Input()
     parentActivityGain: ActivityGain | ItemActivity = null;
+    @Input()
+    spellCast: SpellCast = null;
     @Input()
     casting: SpellCasting = null;
     @Input()
@@ -55,7 +67,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     @Input()
     dismissPhrase: boolean = false;
     @Output()
-    castMessage = new EventEmitter<{ target: string, activated: boolean, options: {expend?: boolean} }>();
+    castMessage = new EventEmitter<{ target: string, activated: boolean, options: { expend?: boolean } }>();
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -68,39 +80,43 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         public modal: NgbActiveModal
     ) { }
 
-    public get action() {
-        return this.spell || this.activity;
+    public get action(): Activity | Spell {
+        return this.activity || this.spell;
     }
 
-    public get actionGain() {
+    public get actionGain(): SpellGain | ActivityGain | ItemActivity {
         return this.parentActivityGain || this.gain;
+    }
+
+    private get target(): string {
+        return (this.spellCast?.target || "") || (this.parentActivityGain instanceof ItemActivity ? this.parentActivityGain.target : "") || this.action.target || "self";
     }
 
     trackByIndex(index: number, obj: any): any {
         return index;
     }
 
-    on_Cast(target: string, activated: boolean, options: {expend?: boolean} = {}) {
+    on_Cast(target: string, activated: boolean, options: { expend?: boolean } = {}) {
         this.castMessage.emit({ target: target, activated: activated, options });
     }
 
-    get_Character() {
+    public get_Character(): Character {
         return this.characterService.get_Character();
     }
 
-    get_CompanionAvailable() {
+    private get_CompanionAvailable(): boolean {
         return this.characterService.get_CompanionAvailable();
     }
 
-    get_Companion() {
+    public get_Companion(): AnimalCompanion {
         return this.characterService.get_Companion();
     }
 
-    get_FamiliarAvailable() {
+    private get_FamiliarAvailable(): boolean {
         return this.characterService.get_FamiliarAvailable();
     }
 
-    get_Familiar() {
+    public get_Familiar(): Familiar {
         return this.characterService.get_Familiar();
     }
 
@@ -108,16 +124,16 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         return this.characterService.get_ManualMode();
     }
 
-    get_Parameters() {
-        let bloodMagicTrigger = this.get_BloodMagicTrigger();
-        let canActivate = this.can_Activate();
-        let canActivateWithoutTarget = this.can_Activate(true);
-        let targetNumber = 1;
-        targetNumber = (this.spell || this.activity).get_TargetNumber(this.effectiveSpellLevel, this.characterService);
-        return { bloodMagicTrigger: bloodMagicTrigger, canActivate: canActivate, canActivateWithoutTarget: canActivateWithoutTarget, targetNumber: targetNumber }
+    public get_Parameters(): ComponentParameters {
+        const bloodMagicTrigger = this.get_BloodMagicTrigger();
+        const canActivate = this.can_Activate();
+        const canActivateWithoutTarget = this.can_Activate(true);
+        const targetNumber = this.action.get_TargetNumber(this.effectiveSpellLevel, this.characterService);
+        const target = this.target;
+        return { bloodMagicTrigger: bloodMagicTrigger, canActivate: canActivate, canActivateWithoutTarget: canActivateWithoutTarget, targetNumber: targetNumber, target: target }
     }
 
-    get_BloodMagicTrigger() {
+    private get_BloodMagicTrigger(): string {
         if (this.spell) {
             let bloodMagicTrigger = "";
             this.bloodMagicFeats.forEach(feat => {
@@ -150,7 +166,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         return this.gain instanceof SpellGain ? this.gain : null;
     }
 
-    can_Activate(noTarget: boolean = false) {
+    private can_Activate(noTarget: boolean = false): boolean {
         //Return whether this spell or activity
         // - causes any blood magic effect or
         // - causes any target conditions and has a target or
@@ -163,7 +179,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
             gainConditions = this.activity.gainConditions;
         }
         return (
-            this.get_BloodMagicTrigger() ||
+            this.get_BloodMagicTrigger().length > 0 ||
             (
                 !noTarget &&
                 gainConditions.some(gain => gain.targetFilter != "caster")
@@ -172,15 +188,15 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
                 this.activity &&
                 (
                     this.activity.traits.includes("Stance") ||
-                    this.activity.gainItems.length ||
-                    this.activity.onceEffects.length
+                    this.activity.gainItems.length > 0 ||
+                    this.activity.onceEffects.length > 0
                 )
             ) ||
             (
                 gainConditions.some(gain => gain.targetFilter == "caster") &&
                 (
                     (
-                        (this.spell || this.activity).get_IsHostile() ?
+                        this.action.get_IsHostile() ?
                             !this.get_Character().settings.noHostileCasterConditions :
                             !this.get_Character().settings.noFriendlyCasterConditions
                     ) ||
@@ -197,12 +213,18 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         )
     }
 
-    private gainActive(): boolean {
+    private get gainActive(): boolean {
         return this.actionGain.active;
     }
 
     private cannotTargetCaster(): boolean {
-        return (this.action.cannotTargetCaster && this.action.target != 'self');
+        return (
+            this.target != 'self' &&
+            (
+                this.action.cannotTargetCaster ||
+                this.parentActivity?.cannotTargetCaster
+            )
+        );
     }
 
     private isHostile(ignoreOverride: boolean = false): boolean {
@@ -210,12 +232,12 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     }
 
     private canTarget(list: string[]): boolean {
-        return list.includes(this.action.target)
+        return list.includes(this.target)
     }
 
     public can_TargetSelf(): boolean {
         return (
-            !this.gainActive() &&
+            !this.gainActive &&
             !this.cannotTargetCaster() &&
             this.canTarget(["self", "ally"]) &&
             !this.isHostile(true)
@@ -224,7 +246,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
 
     public can_TargetCharacter(): boolean {
         return (
-            !this.gainActive() &&
+            !this.gainActive &&
             this.creature != 'Character' &&
             this.canTarget(["ally"]) &&
             !this.isHostile(true)
@@ -233,7 +255,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
 
     public can_TargetCompanion(): boolean {
         return (
-            !this.gainActive() &&
+            !this.gainActive &&
             this.creature != 'Companion' &&
             this.canTarget(["companion"]) &&
             this.get_CompanionAvailable() &&
@@ -243,7 +265,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
 
     public can_TargetFamiliar(): boolean {
         return (
-            !this.gainActive() &&
+            !this.gainActive &&
             this.creature != 'Familiar' &&
             this.canTarget(["familiar"]) &&
             this.get_FamiliarAvailable() &&
@@ -253,16 +275,10 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
 
     public can_TargetAlly(targetNumber: number): boolean {
         return (
-            !this.gainActive() &&
+            !this.gainActive &&
             targetNumber != 0 &&
+            this.canTarget(["ally", "area", "familiar", "companion"]) &&
             !this.isHostile(true)
-        )
-    }
-
-    public can_Cast(): boolean {
-        return (
-            !this.gainActive() &&
-            this.canTarget(['ally', 'area', 'minion', 'object', 'other'])
         )
     }
 
@@ -279,7 +295,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     get_SpellTargets() {
         //Collect all possible targets for a spell/activity (allies only).
         //Hostile spells and activities don't get targets.
-        if ((this.spell || this.activity).get_IsHostile(true)) {
+        if (this.action.get_IsHostile(true)) {
             return [];
         }
         let newTargets: SpellTarget[] = [];
@@ -306,7 +322,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     on_SelectAllTargets(checked: boolean) {
         if (checked) {
             this.gain.targets.forEach(target => {
-                if (!target.isPlayer || !(this.spell || this.activity).cannotTargetCaster) {
+                if (!target.isPlayer || !this.action.cannotTargetCaster) {
                     target.selected = true;
                 }
             })
@@ -319,9 +335,9 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
 
     get_AllTargetsSelected(targetNumber) {
         if (targetNumber == -1) {
-            return (this.gain.targets.filter(target => target.selected).length >= this.gain.targets.length - ((this.spell || this.activity).cannotTargetCaster ? 1 : 0))
+            return (this.gain.targets.filter(target => target.selected).length >= this.gain.targets.length - (this.action.cannotTargetCaster ? 1 : 0))
         } else {
-            return (this.gain.targets.filter(target => target.selected).length >= Math.min(this.gain.targets.length - ((this.spell || this.activity).cannotTargetCaster ? 1 : 0), targetNumber));
+            return (this.gain.targets.filter(target => target.selected).length >= Math.min(this.gain.targets.length - (this.action.cannotTargetCaster ? 1 : 0), targetNumber));
         }
     }
 

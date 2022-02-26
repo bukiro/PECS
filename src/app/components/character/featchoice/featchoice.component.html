@@ -105,14 +105,17 @@
                                             <div class="newrow">
                                                 <header class="spellHeader">{{featSet.feat.displayName ||
                                                     featSet.feat.name}}</header>
-                                                <div class="button newrow no-animation"
-                                                    *ngIf="!featSet.feat.subTypes && featSet.available"
-                                                    [ngClass]="{'fancy-button':taken, 'disabled':disabled}">
+                                                <div class="newrow">
                                                     <label>
-                                                        <input type="checkbox"
-                                                            (change)="on_FeatTaken(featSet.feat, $event.target.checked, choice, false)"
-                                                            [checked]="checked" [disabled]="disabled" hidden>
-                                                        {{taken ? "Remove" : "Choose"}}
+                                                        <div class="button newrow no-animation"
+                                                            *ngIf="!featSet.feat.subTypes && featSet.available"
+                                                            [ngClass]="{'fancy-button':taken, 'disabled':disabled}">
+
+                                                            <input type="checkbox"
+                                                                (change)="on_FeatTaken(featSet.feat, $event.target.checked, choice, false)"
+                                                                [checked]="checked" [disabled]="disabled" hidden>
+                                                            {{taken ? "Remove" : "Choose"}}
+                                                        </div>
                                                     </label>
                                                 </div>
                                                 <div class="newrow left-aligned">
@@ -226,10 +229,12 @@
                                                     </span>
                                                     <cite *ngIf="featSet.feat.levelreq">Level
                                                         {{featSet.feat.levelreq}}</cite>
-                                                    <cite class="trait" *ngIf="featSet.feat.traits.includes('Rare')"
+                                                    <cite class="trait-rare"
+                                                        *ngIf="featSet.feat.traits.includes('Rare')"
                                                         [ngbPopover]="get_Traits('Rare')[0]?.desc"
                                                         openDelay=100>Rare</cite>
-                                                    <cite class="trait" *ngIf="featSet.feat.traits.includes('Uncommon')"
+                                                    <cite class="trait-uncommon"
+                                                        *ngIf="featSet.feat.traits.includes('Uncommon')"
                                                         [ngbPopover]="get_Traits('Uncommon')[0]?.desc"
                                                         openDelay=100>Uncommon</cite>
                                                     <cite class="trait"

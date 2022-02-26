@@ -27,7 +27,7 @@
           {
             "affected": "Attack Rolls",
             "type": "item",
-            "value": 1
+            "value": "1"
           }
         ]
       }

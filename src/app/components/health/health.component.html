@@ -56,7 +56,10 @@
                             </option>
                         </select>
                     </span>
-                    <span *ngIf="get_Health().temporaryHP.length == 1">
+                    <span class="gap-text" *ngIf="get_Health().temporaryHP.length == 1">
+                        <button *ngIf="get_Health().temporaryHP[0].amount > 0" (click)="set_TempHP(0)">
+                            Remove
+                        </button>
                         <div class="value"
                             [ngbPopover]="get_Health().temporaryHP[0].source ? 'Source: ' + get_Health().temporaryHP[0].source : ''"
                             [ngClass]="{'bonus':(get_Health().temporaryHP[0].amount > 0)}">
@@ -145,7 +148,8 @@
             </div>
             <div class="list-item newrow">
                 <ng-template #DamageSliderTemplate>
-                    <div class="slider-container" [style.--name]="'\'Damage / Healing\''" style="width:30rem; max-width:90vw;">
+                    <div class="slider-container" [style.--name]="'\'Damage / Healing: ' + damage + '\''"
+                        style="min-width:25vw; max-width:100%;">
                         <input class="slider" type="range" min="0" max="{{damageSliderMax}}" [(ngModel)]="damage">
                     </div>
                 </ng-template>
@@ -181,7 +185,8 @@
             </div>
             <div class="fullsize-only list-item newrow">
                 <ng-template #TempHPSliderTemplate>
-                    <div class="slider-container" [style.--name]="'\'Temporary HP\''" style="width:30rem; max-width:90vw;">
+                    <div class="slider-container" [style.--name]="'\'Temporary HP: ' + setTempHP + '\''"
+                        style="min-width:25vw; max-width:100%;">
                         <input class="slider" type="range" min="0" max="100" [(ngModel)]="setTempHP">
                     </div>
                 </ng-template>

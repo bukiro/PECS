@@ -153,6 +153,25 @@
           "Invested",
           "Magical"
         ]
+      },
+      {
+        "name": "Vanishing Wayfinder: Light",
+        "actions": "1A",
+        "activationType": "Command",
+        "target": "self",
+        "desc": "The wayfinder is targeted by a 1st-level light spell.",
+        "castSpells": [
+          {
+            "level": 1,
+            "name": "Light"
+          }
+        ],
+        "traits": [
+          "Uncommon",
+          "Evocation",
+          "Invested",
+          "Magical"
+        ]
       }
     ]
   },
@@ -174,7 +193,28 @@
     ],
     "internal: needs testing": true,
     "usage": "worn",
-    "isWayfinder": 2
+    "isWayfinder": 2,
+    "activities": [
+      {
+        "name": "Bi-Resonant Wayfinder: Light",
+        "actions": "1A",
+        "activationType": "Command",
+        "target": "self",
+        "desc": "The wayfinder is targeted by a 1st-level light spell.",
+        "castSpells": [
+          {
+            "level": 1,
+            "name": "Light"
+          }
+        ],
+        "traits": [
+          "Uncommon",
+          "Evocation",
+          "Invested",
+          "Magical"
+        ]
+      }
+    ]
   },
   {
     "name": "Pathfinder's Pouch",

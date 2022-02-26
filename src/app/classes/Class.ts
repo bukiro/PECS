@@ -382,7 +382,7 @@ export class Class {
             }
         }
     }
-    get_FeatData(minLevel: number = 0, maxLevel: number = 0, featName: string, sourceId: string = "") {
+    public get_FeatData(minLevel: number = 0, maxLevel: number = 0, featName: string, sourceId: string = ""): FeatData[] {
         return this.featData.filter(data =>
             (data.featName.toLowerCase() == featName.toLowerCase()) &&
             (!minLevel || data.level >= minLevel) &&

@@ -18,13 +18,16 @@
     "activities": [
       {
         "name": "Wayfinder of Rescue",
-        "actions": "1A",
-        "activationType": "Command",
-        "desc": "The wayfinder is targeted by a 1st-level light spell.",
+        "actions": "1A to 2A",
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "cannotTargetCaster": true,
+        "desc": "Once per day, you can activate the wayfinder of rescue to cast heal on a creature other than yourself, using either the one-action or two-action version of heal as a 1st-level spell.",
         "castSpells": [
           {
             "level": 1,
-            "name": "Light"
+            "name": "Heal",
+            "target": "ally"
           }
         ],
         "traits": [
@@ -35,14 +38,15 @@
         ]
       },
       {
-        "name": "Wayfinder of Rescue: Heal",
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "desc": "Once per day, you can activate the wayfinder of rescue to cast heal on a creature other than yourself, using either the one-action or two-action version of heal as a 1st-level spell.",
+        "name": "Wayfinder of Rescue: Light",
+        "actions": "1A",
+        "activationType": "Command",
+        "target": "self",
+        "desc": "The wayfinder is targeted by a 1st-level light spell.",
         "castSpells": [
           {
-            "name": "Heal",
-            "target": "ally"
+            "level": 1,
+            "name": "Light"
           }
         ],
         "traits": [

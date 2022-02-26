@@ -461,7 +461,11 @@ export class InventoryComponent implements OnInit, OnDestroy {
         if (spellChoice && spellName) {
             let spell = this.get_Spells(spellName)[0];
             if (spell && (!(item instanceof Wand && item.overcharged) || this.get_ManualMode())) {
-                this.spellsService.process_Spell(this.get_Character(), creature, this.characterService, this.itemsService, this.conditionsService, null, spellChoice, item.storedSpells[0].spells[0], spell, spellChoice.level, true, true, false);
+                this.characterService.spellsService.process_Spell(spell, true,
+                    { characterService: this.characterService, itemsService: this.itemsService, conditionsService: this.conditionsService },
+                    { creature: this.get_Character(), choice: spellChoice, target: creature, gain: item.storedSpells[0].spells[0], level: spellChoice.level },
+                    { manual: true }
+                )
             }
             if (item instanceof Wand) {
                 if (item.cooldown) {
@@ -513,6 +517,10 @@ export class InventoryComponent implements OnInit, OnDestroy {
                 item.talismanCords.length ||
                 this.get_Creature().inventories.some(inv => inv.wornitems.some(wornitem => wornitem.isTalismanCord))
             )
+    }
+
+    get_TooManySlottedAeonStones(item: Item) {
+        return (item instanceof WornItem && item.isWayfinder && item.aeonStones.length && item.investedOrEquipped() && this.itemsService.get_TooManySlottedAeonStones(this.get_Creature()));
     }
 
     get_Price(item: Item) {

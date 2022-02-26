@@ -13,7 +13,6 @@
       "Invested",
       "Magical"
     ],
-    "internal: needs testing": true,
     "usage": "worn",
     "effects": [
       {
@@ -37,6 +36,7 @@
         ],
         "showSpells": [
           {
+            "level": 1,
             "name": "Shield"
           }
         ],

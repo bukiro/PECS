@@ -1,4 +1,4 @@
-<cite class="trait">
+<cite class="trait" [ngClass]="{'trait-rare': trait.name == 'Rare', 'trait-uncommon': trait.name == 'Uncommon'}">
     <ng-template #TraitContent>
         <app-description [text]="split" *ngFor="let split of trait.desc.split('\n\n'); trackBy:trackByIndex;">
         </app-description>

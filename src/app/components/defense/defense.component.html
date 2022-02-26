@@ -75,7 +75,7 @@
                         {{armor.get_Name()}}
                     </div>
                     <div class="fullsize-only newrow left-aligned" *ngIf="armor.traits.length">
-                        <cite class="trait" *ngFor="let trait of armor.traits; trackBy:trackByIndex;"
+                        <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}" *ngFor="let trait of armor.traits; trackBy:trackByIndex;"
                             [ngbPopover]="get_Traits(trait)[0].desc">
                             {{trait}}
                         </cite>
@@ -86,8 +86,8 @@
                     <div class="fullsize-only newrow left-aligned"
                         *ngFor="let runes of [get_HintRunes(armor)]; trackBy:trackByIndex;" style="margin-top:initial">
                         <ng-container *ngFor="let rune of runes; trackBy:trackByIndex;">
-                            <cite class="rune" *ngFor="let hint of rune.hints; trackBy:trackByIndex;"
-                                [ngbPopover]="get_HeightenedHint(hint)">{{rune.name}}</cite>
+                            <cite class="item" *ngFor="let hint of rune.hints; trackBy:trackByIndex;"
+                                [ngbPopover]="get_HeightenedHint(hint)">{{rune.name}} Rune</cite>
                         </ng-container>
                     </div>
                     <div class="fullsize-only lower newrow left-aligned"
@@ -151,7 +151,7 @@
                             Hardness: <span class="value">{{shield.get_Hardness()}}</span>
                         </div>
                         <div class="fullsize-only newrow left-aligned" *ngIf="shield.traits.length">
-                            <cite class="trait" *ngFor="let trait of shield.traits; trackBy:trackByIndex;"
+                            <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}" *ngFor="let trait of shield.traits; trackBy:trackByIndex;"
                                 [ngbPopover]="get_Traits(trait)[0].desc">
                                 {{trait}}
                             </cite>
@@ -183,8 +183,8 @@
                         </div>
                         <div class="list-item newrow">
                             <ng-template #DamageSliderTemplate>
-                                <div class="slider-container" [style.--name]="'\'Damage\''"
-                                    style="width:30rem; max-width:90vw;">
+                                <div class="slider-container" [style.--name]="'\'Damage: ' + shieldDamage + '\''"
+                                    style="min-width:25vw; max-width:100%;">
                                     <input class="slider" type="range" min="0" max="{{shield.get_MaxHP()}}"
                                         [(ngModel)]="shieldDamage">
                                 </div>

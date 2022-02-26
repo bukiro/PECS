@@ -72,77 +72,79 @@ export class SpellsService {
         }
     }
 
-    process_Spell(creature: Creature, target: string = "", characterService: CharacterService, itemsService: ItemsService, conditionsService: ConditionsService, casting: SpellCasting, choice: SpellChoice, gain: SpellGain, spell: Spell, level: number, activated: boolean, manual: boolean = false, changeAfter: boolean = true, activityGain: ActivityGain = null) {
-
+    public process_Spell(spell: Spell, activated: boolean, services: { characterService: CharacterService, itemsService: ItemsService, conditionsService: ConditionsService }, context: { creature: Creature, gain: SpellGain, level: number, casting?: SpellCasting, choice?: SpellChoice, target?: string, activityGain?: ActivityGain }, options: { manual?: boolean, expendOnly?: boolean } = {}): void {
+        context = Object.assign({
+            target: ""
+        }, context);
         //Cantrips and Focus spells are automatically heightened to your maximum available spell level.
         //If a spell is cast with a lower level than its minimum, the level is raised to the minimum.
-        let spellLevel: number = spell.get_EffectiveSpellLevel({ baseLevel: level, creature: creature, gain: gain }, { characterService: characterService, effectsService: characterService.effectsService });
+        let spellLevel: number = spell.get_EffectiveSpellLevel({ baseLevel: context.level, creature: context.creature, gain: context.gain }, { characterService: services.characterService, effectsService: services.characterService.effectsService });
 
         //If this spell was cast by an activity, it may have a specified duration in the spellGain. Keep that here before the duration is changed to keep the spell active (or not).
         //That spellGain is a temporary object with its duration coming from the spellCast object, and its duration can be freely changed without influencing the next time you cast the spell.
         let activityDuration: number = 0;
         let customDuration: number = spell.sustained || 0;
-        if (activated && gain.duration) {
-            customDuration = activityDuration = gain.duration;
+        if (activated && context.gain.duration) {
+            customDuration = activityDuration = context.gain.duration;
         }
 
-        if (activated && choice.cooldown && !gain.activeCooldown) {
+        if (activated && context.choice?.cooldown && !context.gain.activeCooldown) {
             //Start cooldown.
-            gain.activeCooldown = choice.cooldown;
-            this.refreshService.set_ToChange(creature.type, "spellbook");
+            context.gain.activeCooldown = context.choice.cooldown;
+            this.refreshService.set_ToChange(context.creature.type, "spellbook");
         }
-        if (choice.charges) {
-            gain.chargesUsed += 1;
+        if (context.choice?.charges) {
+            context.gain.chargesUsed += 1;
         }
 
         //The conditions listed in conditionsToRemove will be removed after the spell is processed.
         let conditionsToRemove: string[] = [];
 
-        if (activated && spell.sustained) {
-            gain.active = true;
+        if (!options.expendOnly && activated && spell.sustained) {
+            context.gain.active = true;
             //If an effect changes the duration of this spell, change the duration here only if it is sustained.
-            characterService.effectsService.get_AbsolutesOnThese(creature, ["Next Spell Duration", spell.name + " Duration"]).forEach(effect => {
+            services.characterService.effectsService.get_AbsolutesOnThese(context.creature, ["Next Spell Duration", spell.name + " Duration"]).forEach(effect => {
                 customDuration = parseInt(effect.setValue);
                 conditionsToRemove.push(effect.source);
             })
-            characterService.effectsService.get_RelativesOnThese(creature, ["Next Spell Duration", spell.name + " Duration"]).forEach(effect => {
+            services.characterService.effectsService.get_RelativesOnThese(context.creature, ["Next Spell Duration", spell.name + " Duration"]).forEach(effect => {
                 customDuration += parseInt(effect.value);
                 conditionsToRemove.push(effect.source);
             })
-            gain.duration = customDuration || spell.sustained;
-            this.refreshService.set_ToChange(creature.type, "spellbook");
-            gain.selectedTarget = target;
-        } else if (activated && activityGain?.active) {
-            gain.active = true;
-            gain.duration = activityGain?.duration;
-            gain.selectedTarget = target;
+            context.gain.duration = customDuration || spell.sustained;
+            this.refreshService.set_ToChange(context.creature.type, "spellbook");
+            context.gain.selectedTarget = context.target;
+        } else if (!options.expendOnly && activated && context.activityGain?.active) {
+            context.gain.active = true;
+            context.gain.duration = context.activityGain?.duration;
+            context.gain.selectedTarget = context.target;
         } else {
-            gain.active = false;
-            gain.duration = 0;
-            gain.selectedTarget = "";
+            context.gain.active = false;
+            context.gain.duration = 0;
+            context.gain.selectedTarget = "";
         }
 
         //In manual mode, targets and conditions are not processed.
-        if (!characterService.get_ManualMode()) {
+        if (!options.expendOnly && !services.characterService.get_ManualMode()) {
 
             //Find out if target was given. If no target is set, most effects will not be applied.
             let targets: (Creature | SpellTarget)[] = [];
-            switch (target) {
+            switch (context.target) {
                 case "self":
-                    targets.push(creature);
+                    targets.push(context.creature);
                     break;
                 case "Character":
-                    targets.push(characterService.get_Character());
+                    targets.push(services.characterService.get_Character());
                     break;
                 case "Companion":
-                    targets.push(characterService.get_Companion());
+                    targets.push(services.characterService.get_Companion());
                     break;
                 case "Familiar":
-                    targets.push(characterService.get_Familiar());
+                    targets.push(services.characterService.get_Familiar());
                     break;
                 case "Selected":
-                    if (gain) {
-                        targets.push(...gain.targets.filter(target => target.selected))
+                    if (context.gain) {
+                        targets.push(...context.gain.targets.filter(target => target.selected))
                     }
                     break;
             }
@@ -157,31 +159,31 @@ export class SpellsService {
                     let conditions: ConditionGain[] = spell.get_HeightenedConditions(spellLevel);
                     let hasTargetCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter != "caster");
                     let hasCasterCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter == "caster");
-                    let casterIsTarget: boolean = targets.some(target => target.id == creature.id);
+                    let casterIsTarget: boolean = targets.some(target => target.id == context.creature.id);
                     //Do the target and the caster get the same condition?
                     let sameCondition: boolean = hasTargetCondition && hasCasterCondition && Array.from(new Set(conditions.map(conditionGain => conditionGain.name))).length == 1;
                     conditions.forEach((conditionGain, conditionIndex) => {
                         let newConditionGain = Object.assign(new ConditionGain(), conditionGain).recast();
-                        let condition = conditionsService.get_Conditions(conditionGain.name)[0]
+                        let condition = services.conditionsService.get_Conditions(conditionGain.name)[0]
                         //Unless the conditionGain has a choice set, try to set it by various factors.
                         if (!conditionGain.choice) {
-                            if (conditionGain.copyChoiceFrom && gain.effectChoices.length) {
+                            if (conditionGain.copyChoiceFrom && context.gain.effectChoices.length) {
                                 //If the gain has copyChoiceFrom set, use the choice from the designated condition. If there are multiple conditions with the same name, the first is taken.
-                                newConditionGain.choice = gain.effectChoices.find(choice => choice.condition == conditionGain.copyChoiceFrom)?.choice || condition.choice;
-                            } else if (gain.overrideChoices.length && gain.overrideChoices.some(overrideChoice => overrideChoice.condition == condition.name && condition._choices.includes(overrideChoice.choice))) {
+                                newConditionGain.choice = context.gain.effectChoices.find(choice => choice.condition == conditionGain.copyChoiceFrom)?.choice || condition.choice;
+                            } else if (context.gain.overrideChoices.length && context.gain.overrideChoices.some(overrideChoice => overrideChoice.condition == condition.name && condition._choices.includes(overrideChoice.choice))) {
                                 //If the gain has an override choice prepared that matches this condition and is allowed for it, that choice is used.
-                                newConditionGain.choice = gain.overrideChoices.find(overrideChoice => overrideChoice.condition == condition.name && condition._choices.includes(overrideChoice.choice)).choice;
+                                newConditionGain.choice = context.gain.overrideChoices.find(overrideChoice => overrideChoice.condition == condition.name && condition._choices.includes(overrideChoice.choice)).choice;
                             } else if (newConditionGain.choiceBySubType) {
                                 //If there is a choiceBySubType value, and you have a feat with superType == choiceBySubType, set the choice to that feat's subType as long as it's a valid choice for the condition.
-                                let subType = (characterService.get_CharacterFeatsAndFeatures(newConditionGain.choiceBySubType, "", true, true).find(feat => feat.superType == newConditionGain.choiceBySubType && feat.have(creature, characterService, creature.level, false)));
+                                let subType = (services.characterService.get_CharacterFeatsAndFeatures(newConditionGain.choiceBySubType, "", true, true).find(feat => feat.superType == newConditionGain.choiceBySubType && feat.have(context.creature, services.characterService, context.creature.level, false)));
                                 if (subType && condition.choices.some(choice => choice.name == subType.subType)) {
                                     newConditionGain.choice = subType.subType;
                                 }
-                            } else if (gain.effectChoices.length) {
+                            } else if (context.gain.effectChoices.length) {
                                 //If this condition has choices, and the spellGain has choices prepared, apply the choice from the gain.
                                 //The order of gain.effectChoices maps directly onto the order of the conditions, no matter if they have choices.
-                                if (condition._choices.includes(gain.effectChoices[conditionIndex].choice)) {
-                                    newConditionGain.choice = gain.effectChoices[conditionIndex].choice;
+                                if (condition._choices.includes(context.gain.effectChoices[conditionIndex].choice)) {
+                                    newConditionGain.choice = context.gain.effectChoices[conditionIndex].choice;
                                 }
                             }
                         }
@@ -209,8 +211,8 @@ export class SpellsService {
                                     (
                                         (
                                             spell.get_IsHostile() ?
-                                                characterService.get_Character().settings.noHostileCasterConditions :
-                                                characterService.get_Character().settings.noFriendlyCasterConditions
+                                                services.characterService.get_Character().settings.noHostileCasterConditions :
+                                                services.characterService.get_Character().settings.noFriendlyCasterConditions
                                         ) &&
                                         (
                                             !condition.get_HasEffects() &&
@@ -226,11 +228,11 @@ export class SpellsService {
                                 newConditionGain.heightened = Math.max(spellLevel, condition.minLevel);
                             }
                             //Pass the spellcasting ability in case the condition needs to use the modifier
-                            if (casting) {
-                                newConditionGain.spellCastingAbility = casting.ability;
+                            if (context.casting) {
+                                newConditionGain.spellCastingAbility = context.casting.ability;
                             }
-                            newConditionGain.spellSource = gain?.source || "";
-                            newConditionGain.sourceGainID = gain?.id || "";
+                            newConditionGain.spellSource = context.gain?.source || "";
+                            newConditionGain.sourceGainID = context.gain?.id || "";
                             if (
                                 conditionGain.targetFilter == "caster" &&
                                 hasTargetCondition &&
@@ -252,12 +254,12 @@ export class SpellsService {
                                 }
                                 //Check if an effect changes the duration of this condition.
                                 let effectDuration: number = newConditionGain.duration || 0;
-                                characterService.effectsService.get_AbsolutesOnThese(creature, ["Next Spell Duration", condition.name.replace(" (Originator)", "").replace(" (Caster)", "") + " Duration"]).forEach(effect => {
+                                services.characterService.effectsService.get_AbsolutesOnThese(context.creature, ["Next Spell Duration", condition.name.replace(" (Originator)", "").replace(" (Caster)", "") + " Duration"]).forEach(effect => {
                                     effectDuration = parseInt(effect.setValue);
                                     conditionsToRemove.push(effect.source);
                                 })
                                 if (effectDuration > 0) {
-                                    characterService.effectsService.get_RelativesOnThese(creature, ["Next Spell Duration", condition.name.replace(" (Originator)", "").replace(" (Caster)", "") + " Duration"]).forEach(effect => {
+                                    services.characterService.effectsService.get_RelativesOnThese(context.creature, ["Next Spell Duration", condition.name.replace(" (Originator)", "").replace(" (Caster)", "") + " Duration"]).forEach(effect => {
                                         effectDuration += parseInt(effect.value);
                                         conditionsToRemove.push(effect.source);
                                     })
@@ -282,11 +284,11 @@ export class SpellsService {
                             if (condition.hasValue) {
                                 //Apply effects that change the value of this condition.
                                 let effectValue: number = newConditionGain.value || 0;
-                                characterService.effectsService.get_AbsolutesOnThis(creature, condition.name + " Value").forEach(effect => {
+                                services.characterService.effectsService.get_AbsolutesOnThis(context.creature, condition.name + " Value").forEach(effect => {
                                     effectValue = parseInt(effect.setValue);
                                     conditionsToRemove.push(effect.source);
                                 })
-                                characterService.effectsService.get_RelativesOnThis(creature, condition.name + " Value").forEach(effect => {
+                                services.characterService.effectsService.get_RelativesOnThis(context.creature, condition.name + " Value").forEach(effect => {
                                     effectValue += parseInt(effect.value);
                                     conditionsToRemove.push(effect.source);
                                 })
@@ -295,7 +297,7 @@ export class SpellsService {
                             //#Experimental, not needed so far
                             //Add caster data, if a formula exists.
                             //  if (conditionGain.casterDataFormula) {
-                            //      newConditionGain.casterData = characterService.effectsService.get_ValueFromFormula(conditionGain.casterDataFormula, creature, characterService, conditionGain);
+                            //      newConditionGain.casterData = services.characterService.effectsService.get_ValueFromFormula(conditionGain.casterDataFormula, context.creature, services.characterService, conditionGain);
                             //  }
                             //#
                             let conditionTargets: (Creature | SpellTarget)[] = targets;
@@ -303,19 +305,19 @@ export class SpellsService {
                             // and it doesn't have a duration of X+1, add 2 for "until another character's turn".
                             // This allows the condition to persist until after the caster's last turn, simulating that it hasn't been the target's last turn yet.
                             if (conditionGain.targetFilter == "caster") {
-                                conditionTargets = [creature];
+                                conditionTargets = [context.creature];
                                 if (spell.durationDependsOnTarget && targets.some(target => target instanceof SpellTarget) && newConditionGain.duration > 0 && !newConditionGain.durationDependsOnOther) {
                                     newConditionGain.duration += 2;
                                 }
                             }
                             //Apply to any targets that are your own creatures.
                             conditionTargets.filter(target => !(target instanceof SpellTarget)).forEach(target => {
-                                characterService.add_Condition(target as Creature, newConditionGain, {}, { noReload: true });
+                                services.characterService.add_Condition(target as Creature, newConditionGain, {}, { noReload: true });
                             })
                             //Apply to any non-creature targets whose ID matches your own creatures.
-                            let creatures = characterService.get_Creatures();
+                            let creatures = services.characterService.get_Creatures();
                             conditionTargets.filter(target => target instanceof SpellTarget && creatures.some(creature => creature.id == target.id)).forEach(target => {
-                                characterService.add_Condition(characterService.get_Creature(target.type), newConditionGain, {}, { noReload: true });
+                                services.characterService.add_Condition(services.characterService.get_Creature(target.type), newConditionGain, {}, { noReload: true });
                             })
                             //Send conditions to non-creature targets that aren't your own creatures.
                             if (conditionGain.targetFilter != "caster" && conditionTargets.some(target => target instanceof SpellTarget)) {
@@ -324,22 +326,22 @@ export class SpellsService {
                                 if (!spell.durationDependsOnTarget && newConditionGain.duration > 0 && !newConditionGain.durationDependsOnOther) {
                                     newConditionGain.duration += 2;
                                 }
-                                characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget && !creatures.some(creature => creature.id == target.id)) as SpellTarget[], newConditionGain);
+                                services.characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget && !creatures.some(creature => creature.id == target.id)) as SpellTarget[], newConditionGain);
                             }
                         }
                     });
-                } else if (manual) {
+                } else if (options.manual) {
                     //Only if the spell was ended manually, find the matching conditions and end them. If the spell ran out, let the conditions run out by themselves.
                     spell.get_HeightenedConditions(spellLevel).forEach(conditionGain => {
-                        let conditionTargets: (Creature | SpellTarget)[] = (conditionGain.targetFilter == "caster" ? [creature] : targets);
+                        let conditionTargets: (Creature | SpellTarget)[] = (conditionGain.targetFilter == "caster" ? [context.creature] : targets);
                         conditionTargets.filter(target => target.constructor != SpellTarget).forEach(target => {
-                            characterService.get_AppliedConditions(target as Creature, conditionGain.name)
-                                .filter(existingConditionGain => existingConditionGain.source == conditionGain.source && existingConditionGain.sourceGainID == (gain?.id || ""))
+                            services.characterService.get_AppliedConditions(target as Creature, conditionGain.name)
+                                .filter(existingConditionGain => existingConditionGain.source == conditionGain.source && existingConditionGain.sourceGainID == (context.gain?.id || ""))
                                 .forEach(existingConditionGain => {
-                                    characterService.remove_Condition(target as Creature, existingConditionGain, false);
+                                    services.characterService.remove_Condition(target as Creature, existingConditionGain, false);
                                 });
                         })
-                        characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget) as SpellTarget[], conditionGain, false);
+                        services.characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget) as SpellTarget[], conditionGain, false);
                     })
                 }
             }
@@ -348,18 +350,14 @@ export class SpellsService {
 
         //All Conditions that have affected the duration of this spell or its conditions are now removed.
         if (conditionsToRemove.length) {
-            characterService.get_AppliedConditions(creature, "", "", true).filter(conditionGain => conditionsToRemove.includes(conditionGain.name)).forEach(conditionGain => {
-                characterService.remove_Condition(creature, conditionGain, false);
+            services.characterService.get_AppliedConditions(context.creature, "", "", true).filter(conditionGain => conditionsToRemove.includes(conditionGain.name)).forEach(conditionGain => {
+                services.characterService.remove_Condition(context.creature, conditionGain, false);
             });
         }
 
         //The Heal Spell from the Divine Font should update effects, because Channeled Succor depends on it.
-        if (spell.name == "Heal" && choice.source == "Divine Font") {
+        if (spell.name == "Heal" && context.choice?.source == "Divine Font") {
             this.refreshService.set_ToChange("Character", "effects");
-        }
-
-        if (changeAfter) {
-            this.refreshService.process_ToChange();
         }
     }
 
@@ -420,7 +418,10 @@ export class SpellsService {
                     if (taken.gain.duration == 0) {
                         let spell: Spell = this.get_Spells(taken.gain.name)[0];
                         if (spell) {
-                            this.process_Spell(character, taken.gain.selectedTarget, characterService, itemsService, conditionsService, null, null, taken.gain, spell, 0, false, false)
+                            this.process_Spell(spell, false,
+                                { characterService: characterService, itemsService: itemsService, conditionsService: conditionsService },
+                                { creature: character, target: taken.gain.selectedTarget, gain: taken.gain, level: 0 }
+                            )
                         }
                     }
                 }

@@ -65,8 +65,12 @@ export class AttacksComponent implements OnInit, OnDestroy {
         }
     }
 
+    get_ManualMode() {
+        return this.characterService.get_ManualMode();
+    }
+
     still_loading() {
-        return this.characterService.still_loading()
+        return this.characterService.still_loading();
     }
 
     get_Character() {
@@ -249,8 +253,11 @@ export class AttacksComponent implements OnInit, OnDestroy {
                     if (spell.target == 'self') {
                         target = "Character";
                     }
-                    const character = this.get_Character();
-                    this.characterService.spellsService.process_Spell(character, target, this.characterService, this.characterService.itemsService, this.characterService.conditionsService, null, null, tempGain, spell, spellChoice.level, true, true, false);
+                    this.characterService.spellsService.process_Spell(spell, true,
+                        { characterService: this.characterService, itemsService: this.characterService.itemsService, conditionsService: this.characterService.conditionsService },
+                        { creature: this.get_Character(), target: target, gain: tempGain, level: spellChoice.level },
+                        { manual: true }
+                    )
                 }
                 spellChoice.spells.shift();
             }
@@ -274,19 +281,19 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     get_HintRunes(weapon: Weapon, range: string) {
-        //Return all runes and rune-emulating oil effects that have a hint to show
+        //Return all runes and rune-emulating oil effects that have a hint to show.
         let runes: WeaponRune[] = [];
         let runeSource = weapon.get_RuneSource(this.get_Creature(), range);
-        runes.push(...runeSource.propertyRunes.propertyRunes.filter((rune: WeaponRune) => rune.hints.length) as WeaponRune[]);
+        runes.push(...runeSource.propertyRunes.propertyRunes.filter(rune => rune.hints.length) as WeaponRune[]);
         runes.push(...weapon.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.hints.length).map(oil => oil.runeEffect));
         if (runeSource.propertyRunes.bladeAlly) {
-            runes.push(...runeSource.propertyRunes.bladeAllyRunes.filter((rune: WeaponRune) => rune.hints.length) as WeaponRune[]);
+            runes.push(...runeSource.propertyRunes.bladeAllyRunes.filter(rune => rune.hints.length) as WeaponRune[]);
         }
         return runes;
     }
 
     get_Runes(weapon: Weapon, range: string) {
-        //Return all runes and rune-emulating oil effects
+        //Return all runes and rune-emulating oil effects.
         let runes: WeaponRune[] = [];
         let runeSource = weapon.get_RuneSource(this.get_Creature(), range);
         runes.push(...weapon.get_RuneSource(this.get_Creature(), range).propertyRunes.propertyRunes as WeaponRune[]);

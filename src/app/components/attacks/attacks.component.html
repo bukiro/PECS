@@ -183,8 +183,8 @@
                     *ngFor="let runes of [get_HintRunes(weapon, attack.range)]; trackBy:trackByIndex;"
                     style="margin-top:initial">
                     <ng-container *ngFor="let rune of runes; trackBy:trackByIndex;">
-                        <cite class="rune" *ngFor="let hint of rune.hints; trackBy:trackByIndex;"
-                            [ngbPopover]="get_HeightenedHint(hint)">{{rune.name}}</cite>
+                        <cite class="item" *ngFor="let hint of rune.hints; trackBy:trackByIndex;"
+                            [ngbPopover]="get_HeightenedHint(hint)">{{rune.name}} Rune</cite>
                     </ng-container>
                 </div>
                 <app-tags [creature]="creature" [objectName]=weapon.name [showTraits]=true [showFeats]=true

@@ -1,52 +1,5 @@
 [
   {
-    "name": "Abyssal Plague",
-    "desc": "Abyssal Plague siphons fragments of your soul away to empower the Abyss.\n\n<strong>Abyssal Plague</strong> (disease)\n<strong>Saving Throw</strong> Fortitude (DC equals that of the spell)\n<strong>Level</strong> 9\nThe target can't recover from the drained condition from Abyssal plague until the disease is cured.\n<var><strong>Stage 1</strong> drained 1 (1 day)</var>\n<strong>Stage 2</strong> drained increases by 2 (1 day)",
-    "type": "afflictions",
-    "minLevel": 5,
-    "sortLevel": 5,
-    "defaultDurations": [
-      {
-        "duration": -1
-      }
-    ],
-    "inputRequired": "If you reach stage 2 repeatedly, increase the value of the drained condition by 2 each time.",
-    "hints": [
-      {
-        "desc": "You can't recover from the drained condition from Abyssal plague until the disease is cured.",
-        "showon": "Effects"
-      }
-    ],
-    "choice": "Stage 1",
-    "choices": [
-      {
-        "name": "Stage 1",
-        "nextStage": 144000
-      },
-      {
-        "name": "Stage 2",
-        "nextStage": 144000
-      }
-    ],
-    "gainConditions": [
-      {
-        "activationPrerequisite": "!characterService.get_AppliedConditions(creature, 'Drained', '', true).some(conditionGain => conditionGain.parentID == parentConditionGain.id) ? 1 : 0",
-        "conditionChoiceFilter": [
-          "Stage 1"
-        ],
-        "lockedByParent": true,
-        "name": "Drained",
-        "value": 1
-      },
-      {
-        "addValue": 2,
-        "lockedByParent": true,
-        "name": "Drained"
-      }
-    ],
-    "_extensionFileName": "afflictions"
-  },
-  {
     "name": "Arsenic",
     "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
     "type": "afflictions",
@@ -172,6 +125,59 @@
     "_extensionFileName": "afflictions"
   },
   {
+    "name": "Divine Plague (Clumsy)",
+    "desc": "<strong>Divine Plague</strong> (disease)\n\n<strong>Level</strong> 1\n<strong>Saving Throw</strong> Fortitude (caster's spell DC)\n<strong>Stage 1</strong> clumsy 1 (1 round)\n<strong>Stage 2</strong> slowed 1 and clumsy 1 (1 round)\n<strong>Stage 3</strong> clumsy 1 and you can't recover from the condition until you are cured (1 day)",
+    "type": "afflictions",
+    "minLevel": 1,
+    "sortLevel": 0,
+    "defaultDurations": [
+      {
+        "duration": -1
+      }
+    ],
+    "choice": "Stage 1",
+    "choices": [
+      {
+        "name": "Stage 1",
+        "nextStage": 10
+      },
+      {
+        "name": "Stage 2",
+        "nextStage": 10
+      },
+      {
+        "name": "Stage 3",
+        "nextStage": 144000
+      }
+    ],
+    "gainConditions": [
+      {
+        "conditionChoiceFilter": [
+          "Stage 1",
+          "Stage 2"
+        ],
+        "name": "Clumsy",
+        "value": 1
+      },
+      {
+        "conditionChoiceFilter": [
+          "Stage 2"
+        ],
+        "name": "Slowed",
+        "value": 1
+      },
+      {
+        "conditionChoiceFilter": [
+          "Stage 3"
+        ],
+        "valueLockedByParent": true,
+        "name": "Clumsy",
+        "value": 1
+      }
+    ],
+    "_extensionFileName": "afflictions"
+  },
+  {
     "name": "Divine Plague (Clumsy, Virulent)",
     "desc": "<strong>Divine Plague</strong> (disease, virulent)\n\n<strong>Level</strong> 1\n<strong>Saving Throw</strong> Fortitude (caster's spell DC)\n<strong>Stage 1</strong> clumsy 2 (1 round)\n<strong>Stage 2</strong> slowed 1 and clumsy 2 (1 round)\n<strong>Stage 3</strong> clumsy 2 and you can't recover from the condition until you are cured (1 day)",
     "type": "afflictions",
@@ -228,8 +234,8 @@
     "_extensionFileName": "afflictions"
   },
   {
-    "name": "Divine Plague (Clumsy)",
-    "desc": "<strong>Divine Plague</strong> (disease)\n\n<strong>Level</strong> 1\n<strong>Saving Throw</strong> Fortitude (caster's spell DC)\n<strong>Stage 1</strong> clumsy 1 (1 round)\n<strong>Stage 2</strong> slowed 1 and clumsy 1 (1 round)\n<strong>Stage 3</strong> clumsy 1 and you can't recover from the condition until you are cured (1 day)",
+    "name": "Divine Plague (Enfeebled)",
+    "desc": "<strong>Divine Plague</strong> (disease)\n\n<strong>Level</strong> 1\n<strong>Saving Throw</strong> Fortitude (caster's spell DC)\n<strong>Stage 1</strong> enfeebled 1 (1 round)\n<strong>Stage 2</strong> slowed 1 and enfeebled 1 (1 round)\n<strong>Stage 3</strong> enfeebled 1 and you can't recover from the condition until you are cured (1 day)",
     "type": "afflictions",
     "minLevel": 1,
     "sortLevel": 0,
@@ -259,7 +265,7 @@
           "Stage 1",
           "Stage 2"
         ],
-        "name": "Clumsy",
+        "name": "Enfeebled",
         "value": 1
       },
       {
@@ -274,7 +280,7 @@
           "Stage 3"
         ],
         "valueLockedByParent": true,
-        "name": "Clumsy",
+        "name": "Enfeebled",
         "value": 1
       }
     ],
@@ -337,8 +343,8 @@
     "_extensionFileName": "afflictions"
   },
   {
-    "name": "Divine Plague (Enfeebled)",
-    "desc": "<strong>Divine Plague</strong> (disease)\n\n<strong>Level</strong> 1\n<strong>Saving Throw</strong> Fortitude (caster's spell DC)\n<strong>Stage 1</strong> enfeebled 1 (1 round)\n<strong>Stage 2</strong> slowed 1 and enfeebled 1 (1 round)\n<strong>Stage 3</strong> enfeebled 1 and you can't recover from the condition until you are cured (1 day)",
+    "name": "Divine Plague (Stupefied)",
+    "desc": "<strong>Divine Plague</strong> (disease)\n\n<strong>Level</strong> 1\n<strong>Saving Throw</strong> Fortitude (caster's spell DC)\n<strong>Stage 1</strong> stupefied 1 (1 round)\n<strong>Stage 2</strong> slowed 1 and stupefied 1 (1 round)\n<strong>Stage 3</strong> stupefied 1 and you can't recover from the condition until you are cured (1 day)",
     "type": "afflictions",
     "minLevel": 1,
     "sortLevel": 0,
@@ -368,7 +374,7 @@
           "Stage 1",
           "Stage 2"
         ],
-        "name": "Enfeebled",
+        "name": "Stupefied",
         "value": 1
       },
       {
@@ -383,7 +389,7 @@
           "Stage 3"
         ],
         "valueLockedByParent": true,
-        "name": "Enfeebled",
+        "name": "Stupefied",
         "value": 1
       }
     ],
@@ -446,59 +452,6 @@
     "_extensionFileName": "afflictions"
   },
   {
-    "name": "Divine Plague (Stupefied)",
-    "desc": "<strong>Divine Plague</strong> (disease)\n\n<strong>Level</strong> 1\n<strong>Saving Throw</strong> Fortitude (caster's spell DC)\n<strong>Stage 1</strong> stupefied 1 (1 round)\n<strong>Stage 2</strong> slowed 1 and stupefied 1 (1 round)\n<strong>Stage 3</strong> stupefied 1 and you can't recover from the condition until you are cured (1 day)",
-    "type": "afflictions",
-    "minLevel": 1,
-    "sortLevel": 0,
-    "defaultDurations": [
-      {
-        "duration": -1
-      }
-    ],
-    "choice": "Stage 1",
-    "choices": [
-      {
-        "name": "Stage 1",
-        "nextStage": 10
-      },
-      {
-        "name": "Stage 2",
-        "nextStage": 10
-      },
-      {
-        "name": "Stage 3",
-        "nextStage": 144000
-      }
-    ],
-    "gainConditions": [
-      {
-        "conditionChoiceFilter": [
-          "Stage 1",
-          "Stage 2"
-        ],
-        "name": "Stupefied",
-        "value": 1
-      },
-      {
-        "conditionChoiceFilter": [
-          "Stage 2"
-        ],
-        "name": "Slowed",
-        "value": 1
-      },
-      {
-        "conditionChoiceFilter": [
-          "Stage 3"
-        ],
-        "valueLockedByParent": true,
-        "name": "Stupefied",
-        "value": 1
-      }
-    ],
-    "_extensionFileName": "afflictions"
-  },
-  {
     "name": "Ghoul Fever",
     "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<strong>Stage 1</strong> carrier with no ill effects (1 day)\n<strong>Stage 2</strong> 3d8 negative damage and you regain half as many Hit Points from all healing (1 day)\n<strong>Stage 3</strong> as stage 2 (1 day)\n<strong>Stage 4</strong> 3d8 negative damage and you gain no benefit from healing (1 day)\n<strong>Stage 5</strong> as stage 4 (1 day)\n<strong>Stage 6</strong> you die and rise as a ghoul at the next midnight",
     "type": "afflictions",
@@ -555,51 +508,6 @@
           "Stage 5"
         ],
         "name": "Dead"
-      }
-    ],
-    "_extensionFileName": "afflictions"
-  },
-  {
-    "name": "Goblin Pox",
-    "desc": "<strong>Goblin Pox</strong> (disease)\n<strong>Level</strong> 1\nGoblins and goblin dogs are immune.\n<strong>Stage 1</strong> sickened 1 (1 round)\n<strong>Stage 2</strong> sickened 1 and slowed 1 (1 round)\n<strong>Stage 3</strong> sickened 1 and the creature can't reduce its sickened value below 1 (1 day)",
-    "type": "afflictions",
-    "sortLevel": 1,
-    "defaultDurations": [
-      {
-        "duration": -1
-      }
-    ],
-    "choice": "Stage 1",
-    "choices": [
-      {
-        "name": "Stage 1",
-        "nextStage": 10
-      },
-      {
-        "name": "Stage 2",
-        "nextStage": 10
-      },
-      {
-        "name": "Stage 3",
-        "nextStage": 144000
-      }
-    ],
-    "gainConditions": [
-      {
-        "conditionChoiceFilter": [
-          "Stage 1",
-          "Stage 2",
-          "Stage 3"
-        ],
-        "name": "Sickened",
-        "value": 1
-      },
-      {
-        "conditionChoiceFilter": [
-          "Stage 2"
-        ],
-        "name": "Slowed",
-        "value": 1
       }
     ],
     "_extensionFileName": "afflictions"
@@ -708,6 +616,98 @@
       {
         "name": "Stage 3",
         "nextStage": 10
+      }
+    ],
+    "_extensionFileName": "afflictions"
+  },
+  {
+    "name": "Goblin Pox",
+    "desc": "<strong>Goblin Pox</strong> (disease)\n<strong>Level</strong> 1\nGoblins and goblin dogs are immune.\n<strong>Stage 1</strong> sickened 1 (1 round)\n<strong>Stage 2</strong> sickened 1 and slowed 1 (1 round)\n<strong>Stage 3</strong> sickened 1 and the creature can't reduce its sickened value below 1 (1 day)",
+    "type": "afflictions",
+    "sortLevel": 1,
+    "defaultDurations": [
+      {
+        "duration": -1
+      }
+    ],
+    "choice": "Stage 1",
+    "choices": [
+      {
+        "name": "Stage 1",
+        "nextStage": 10
+      },
+      {
+        "name": "Stage 2",
+        "nextStage": 10
+      },
+      {
+        "name": "Stage 3",
+        "nextStage": 144000
+      }
+    ],
+    "gainConditions": [
+      {
+        "conditionChoiceFilter": [
+          "Stage 1",
+          "Stage 2",
+          "Stage 3"
+        ],
+        "name": "Sickened",
+        "value": 1
+      },
+      {
+        "conditionChoiceFilter": [
+          "Stage 2"
+        ],
+        "name": "Slowed",
+        "value": 1
+      }
+    ],
+    "_extensionFileName": "afflictions"
+  },
+  {
+    "name": "Abyssal Plague",
+    "desc": "Abyssal Plague siphons fragments of your soul away to empower the Abyss.\n\n<strong>Abyssal Plague</strong> (disease)\n<strong>Saving Throw</strong> Fortitude (DC equals that of the spell)\n<strong>Level</strong> 9\nThe target can't recover from the drained condition from Abyssal plague until the disease is cured.\n<var><strong>Stage 1</strong> drained 1 (1 day)</var>\n<strong>Stage 2</strong> drained increases by 2 (1 day)",
+    "type": "afflictions",
+    "minLevel": 5,
+    "sortLevel": 5,
+    "defaultDurations": [
+      {
+        "duration": -1
+      }
+    ],
+    "inputRequired": "If you reach stage 2 repeatedly, increase the value of the drained condition by 2 each time.",
+    "hints": [
+      {
+        "desc": "You can't recover from the drained condition from Abyssal plague until the disease is cured.",
+        "showon": "Effects"
+      }
+    ],
+    "choice": "Stage 1",
+    "choices": [
+      {
+        "name": "Stage 1",
+        "nextStage": 144000
+      },
+      {
+        "name": "Stage 2",
+        "nextStage": 144000
+      }
+    ],
+    "gainConditions": [
+      {
+        "activationPrerequisite": "!characterService.get_AppliedConditions(creature, 'Drained', '', true).some(conditionGain => conditionGain.parentID == parentConditionGain.id) ? 1 : 0",
+        "conditionChoiceFilter": [
+          "Stage 1"
+        ],
+        "lockedByParent": true,
+        "name": "Drained",
+        "value": 1
+      },
+      {
+        "addValue": 2,
+        "lockedByParent": true,
+        "name": "Drained"
       }
     ],
     "_extensionFileName": "afflictions"

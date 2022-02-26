@@ -12,7 +12,6 @@
       "Divination",
       "Invested"
     ],
-    "internal: needs testing": true,
     "usage": "worn",
     "hints": [
       {
@@ -51,7 +50,6 @@
       "Enchantment",
       "Invested"
     ],
-    "internal: needs testing": true,
     "usage": "worn",
     "hints": [
       {
@@ -66,7 +64,7 @@
           {
             "affected": "Diplomacy",
             "type": "item",
-            "value": 2
+            "value": "2"
           }
         ]
       }
@@ -105,7 +103,6 @@
       "Evocation",
       "Invested"
     ],
-    "internal: needs testing": true,
     "usage": "worn",
     "gainSpells": [
       {
@@ -146,12 +143,11 @@
       "Invested",
       "Transmutation"
     ],
-    "internal: needs testing": true,
     "usage": "worn",
     "hints": [
       {
         "desc": "You gain a +10-foot item bonus to your Speed, but only when determining your overland movement per hour.",
-        "showon": "Speed",
+        "showon": "Movement",
         "effects": [
           {
             "affected": "Land Speed",
@@ -194,7 +190,6 @@
       "Invested",
       "Necromancy"
     ],
-    "internal: needs testing": true,
     "usage": "worn",
     "activities": [
       {
@@ -234,6 +229,7 @@
     "effects": [
       {
         "affected": "Untrained Attack Rolls",
+        "show": true,
         "value": "Character.level"
       }
     ],

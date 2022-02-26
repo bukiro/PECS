@@ -230,7 +230,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     public get_SpellCastingParameters(): SpellCastingParameters[] {
         return this.get_SpellCastings().map(casting => {
-            const equipmentSpells = this.get_Character().get_EquipmentSpellsGranted(casting, { characterService: this.characterService }, { cantripAllowed: true });
+            const equipmentSpells = this.get_Character().get_EquipmentSpellsGranted(casting, { characterService: this.characterService, itemsService: this.itemsService }, { cantripAllowed: true });
             //Don't list castings that have no spells available.
             const castingAvailable = (
                 casting.charLevelAvailable &&
@@ -557,7 +557,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         return this.characterService.get_Feats().filter(feat => feat.bloodMagic.length && feat.have(character, this.characterService, character.level));
     }
 
-    on_Cast(target: string = "", activated: boolean, context: { spellParameters: SpellParameters, spellCastingLevelParameters: SpellCastingLevelParameters, spellCastingParameters: SpellCastingParameters, componentParameters: ComponentParameters }, options: {expend?: boolean} = {}) {
+    on_Cast(target: string = "", activated: boolean, context: { spellParameters: SpellParameters, spellCastingLevelParameters: SpellCastingLevelParameters, spellCastingParameters: SpellCastingParameters, componentParameters: ComponentParameters }, options: { expend?: boolean } = {}) {
         let character = this.get_Character();
         let highestSpellPreservationLevel = 0;
         let highestNoDurationSpellPreservationLevel = 0;
@@ -653,42 +653,20 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                 })
             })
         }
-        if (!options.expend) {
-            this.spellsService.process_Spell(character, target, this.characterService, this.itemsService, this.conditionsService, context.spellCastingParameters.casting, context.spellParameters.choice, context.spellParameters.gain, context.spellParameters.spell, context.spellCastingLevelParameters.level, activated, true);
-            if (context.spellParameters.gain.combinationSpellName) {
-                let secondSpell = this.get_Spells(context.spellParameters.gain.combinationSpellName)[0];
-                if (secondSpell) {
-                    this.spellsService.process_Spell(character, target, this.characterService, this.itemsService, this.conditionsService, context.spellCastingParameters.casting, context.spellParameters.choice, context.spellParameters.gain, secondSpell, context.spellCastingLevelParameters.level, activated, true);
-                }
+        this.spellsService.process_Spell(context.spellParameters.spell, activated,
+            { characterService: this.characterService, itemsService: this.itemsService, conditionsService: this.conditionsService },
+            { creature: character, target: target, casting: context.spellCastingParameters.casting, choice: context.spellParameters.choice, gain: context.spellParameters.gain, level: context.spellCastingLevelParameters.level },
+            { manual: true, expendOnly: options.expend }
+        )
+        if (context.spellParameters.gain.combinationSpellName) {
+            let secondSpell = this.get_Spells(context.spellParameters.gain.combinationSpellName)[0];
+            if (secondSpell) {
+                this.spellsService.process_Spell(secondSpell, activated,
+                    { characterService: this.characterService, itemsService: this.itemsService, conditionsService: this.conditionsService },
+                    { creature: character, target: target, casting: context.spellCastingParameters.casting, choice: context.spellParameters.choice, gain: context.spellParameters.gain, level: context.spellCastingLevelParameters.level },
+                    { manual: true, expendOnly: options.expend }
+                )
             }
-        } else {
-            this.refreshService.process_ToChange();
-        }
-    }
-
-    on_Expend(gain: SpellGain, casting: SpellCasting, choice: SpellChoice, spell: Spell, levelNumber: number = 0) {
-        //Use the spell resource, but don't cast the spell.
-        //Channel Smite uses this function as well.
-        //Focus spells cost Focus points.
-        if (casting.castingType == "Focus" && choice.level == -1) {
-            this.get_Character().class.focusPoints = Math.min(this.get_Character().class.focusPoints, this.get_MaxFocusPoints());
-            this.get_Character().class.focusPoints -= 1;
-        };
-        //Spontaneous spells use up spell slots.
-        if (casting.castingType == "Spontaneous" && !spell.traits.includes("Cantrip")) {
-            casting.spellSlotsUsed[levelNumber] += 1;
-        }
-        //Prepared spells get locked until the next preparation.
-        if (casting.castingType == "Prepared" && !spell.traits.includes("Cantrip")) {
-            gain.prepared = false;
-        }
-        if (choice.cooldown && !gain.activeCooldown) {
-            //Start cooldown.
-            gain.activeCooldown = choice.cooldown;
-            this.refreshService.set_ToChange("Character", "spellbook");
-        }
-        if (choice.charges) {
-            gain.chargesUsed += 1;
         }
         this.refreshService.process_ToChange();
     }

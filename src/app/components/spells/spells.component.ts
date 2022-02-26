@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { Spell } from 'src/app/classes/Spell';
 import { Character } from 'src/app/classes/Character';
+import { ItemsService } from 'src/app/services/items.service';
 
 type ComponentParameters = {
     allowSwitchingPreparedSpells: boolean,
@@ -49,6 +50,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
+        private itemsService: ItemsService,
         private refreshService: RefreshService,
         private spellsService: SpellsService,
         private effectsService: EffectsService
@@ -167,7 +169,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
     public get_SpellCastingParameters(): SpellCastingParameters[] {
         return this.get_SpellCastings().map(casting => {
-            const equipmentSpells = this.get_Character().get_EquipmentSpellsGranted(casting, { characterService: this.characterService }, { cantripAllowed: true, emptyChoiceAllowed: true });
+            const equipmentSpells = this.get_Character().get_EquipmentSpellsGranted(casting, { characterService: this.characterService, itemsService: this.itemsService }, { cantripAllowed: true, emptyChoiceAllowed: true });
             //Don't list castings that have no spells available.
             const castingAvailable = (
                 casting.charLevelAvailable &&

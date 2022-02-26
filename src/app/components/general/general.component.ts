@@ -10,6 +10,7 @@ import { Domain } from 'src/app/classes/Domain';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ClassesService } from 'src/app/services/classes.service';
 import { Subscription } from 'rxjs';
+import { ItemsService } from 'src/app/services/items.service';
 
 @Component({
     selector: 'app-general',
@@ -34,7 +35,8 @@ export class GeneralComponent implements OnInit, OnDestroy {
         public traitsService: TraitsService,
         private familiarsService: FamiliarsService,
         private deitiesService: DeitiesService,
-        private classesService: ClassesService
+        private classesService: ClassesService,
+        private itemsService: ItemsService
     ) { }
 
     minimize() {
@@ -185,11 +187,14 @@ export class GeneralComponent implements OnInit, OnDestroy {
 
     get_EquipmentLanguages() {
         let languages: string[] = [];
-        this.get_Character().inventories[0].wornitems.forEach(wornItem => {
+        const tooManySlottedAeonStones = this.itemsService.get_TooManySlottedAeonStones(this.get_Character());
+        this.get_Character().inventories[0].wornitems.filter(wornItem => wornItem.investedOrEquipped()).forEach(wornItem => {
             languages = languages.concat(wornItem.gainLanguages.filter(language => language.name).map(language => language.name))
-            wornItem.aeonStones.forEach(stone => {
-                languages = languages.concat(stone.gainLanguages.filter(language => language.name).map(language => language.name))
-            })
+            if (!tooManySlottedAeonStones) {
+                wornItem.aeonStones.forEach(stone => {
+                    languages = languages.concat(stone.gainLanguages.filter(language => language.name).map(language => language.name))
+                })
+            }
         });
         return languages;
     }

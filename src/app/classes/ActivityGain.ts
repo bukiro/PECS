@@ -3,6 +3,9 @@ import { SpellCast } from 'src/app/classes/SpellCast';
 import { v4 as uuidv4 } from 'uuid';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { ActivitiesService } from 'src/app/services/activities.service';
+import { EffectsService } from 'src/app/services/effects.service';
+import { Creature } from 'src/app/classes/Creature';
+import { TimeService } from 'src/app/services/time.service';
 
 export class ActivityGain {
     public readonly isActivity: boolean = false;
@@ -45,5 +48,18 @@ export class ActivityGain {
     }
     get_OriginalActivity(activitiesService: ActivitiesService) {
         return activitiesService.get_ActivityFromName(this.name);
+    }
+    disabled(context: { creature: Creature, maxCharges: number }, services: { effectsService: EffectsService, timeService: TimeService }) {
+        if (this.active) {
+            return "";
+        }
+        if (this.activeCooldown && this.chargesUsed >= context.maxCharges) {
+            return (context.maxCharges ? 'Recharged in: ' : 'Cooldown: ') + services.timeService.get_Duration(this.activeCooldown, true, false);
+        }
+        const disablingEffects = services.effectsService.get_EffectsOnThis(context.creature, this.name + " Disabled");
+        if (disablingEffects.length) {
+            return "Disabled by: " + disablingEffects.map(effect => effect.source).join(", ");
+        }
+        return "";
     }
 }

@@ -302,7 +302,7 @@
                                     *ngIf="spellCastingParameters.canCounterSpell && !spellParameters.gain.active && spellCastingLevelParameters.level > 0"
                                     [ngbTooltip]="spellParameters.cannotExpend">
                                     <button class="newrow center-aligned"
-                                        (click)="on_Expend(spellParameters.gain, spellCastingParameters.casting, spellParameters.choice, spellParameters.spell, spellCastingLevelParameters.level)"
+                                        (click)="on_Cast('', true, { spellParameters: spellParameters, spellCastingLevelParameters: spellCastingLevelParameters, spellCastingParameters: spellCastingParameters, componentParameters: componentParameters }, {expend: true})"
                                         [disabled]="spellParameters.cannotExpend">
                                         Expend to counter spell
                                     </button>
@@ -311,7 +311,7 @@
                                     *ngIf="spellParameters.canChannelSmite && !spellParameters.gain.active && spellCastingLevelParameters.level > 0"
                                     [ngbTooltip]="spellParameters.cannotExpend">
                                     <button class="newrow center-aligned"
-                                        (click)="on_Expend(spellParameters.gain, spellCastingParameters.casting, spellParameters.choice, spellParameters.spell, spellCastingLevelParameters.level)"
+                                        (click)="on_Cast('', true, { spellParameters: spellParameters, spellCastingLevelParameters: spellCastingLevelParameters, spellCastingParameters: spellCastingParameters, componentParameters: componentParameters }, {expend: true})"
                                         [disabled]="spellParameters.cannotExpend">
                                         Expend for channel smite
                                     </button>
@@ -320,7 +320,7 @@
                                     *ngIf="spellParameters.canSwiftBanish && !spellParameters.gain.active && spellCastingLevelParameters.level > 0"
                                     [ngbTooltip]="spellParameters.cannotExpend">
                                     <button class="newrow center-aligned"
-                                        (click)="on_Expend(spellParameters.gain, spellCastingParameters.casting, spellParameters.choice, spellParameters.spell, spellCastingLevelParameters.level)"
+                                        (click)="on_Cast('', true, { spellParameters: spellParameters, spellCastingLevelParameters: spellCastingLevelParameters, spellCastingParameters: spellCastingParameters, componentParameters: componentParameters }, {expend: true})"
                                         [disabled]="spellParameters.cannotExpend">
                                         Expend for swift banishment
                                     </button>

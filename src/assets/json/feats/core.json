@@ -22038,7 +22038,7 @@
         "featreq": [
             "Fighter Dedication"
         ],
-        "specialreq": "characterService.get_Skills(character, '', 'Weapon Proficiency').concat(characterService.get_Skills(character, '', 'Specific Weapon Proficiency')).some(skill => Skill_Level('Character', skill.name) >= 4)",
+        "specialreq": "characterService.get_Skills(character, '', {type: 'Weapon Proficiency'}).concat(characterService.get_Skills(character, '', {type: 'Specific Weapon Proficiency'})).some(skill => Skill_Level('Character', skill.name) >= 4)",
         "specialreqdesc": "expert in any kind of weapon or unarmed attack",
         "gainSkillChoice": [
             {
@@ -22276,7 +22276,7 @@
         "featreq": [
             "Monk Dedication"
         ],
-        "specialreq": "characterService.get_Skills(character, '', 'Save').find(skill => Skill_Level('Character', skill.name) >= 4)",
+        "specialreq": "characterService.get_Skills(character, '', {type: 'Save'}).some(skill => Skill_Level('Character', skill.name) >= 4)",
         "specialreqdesc": "expert in at least one saving throw"
     },
     {
@@ -28842,7 +28842,7 @@
         "featreq": [
             "Rogue Dedication"
         ],
-        "specialreq": "((characterService.get_Skills(character, '', 'Skill').find(skill => Skill_Level('Character', skill.name) == 2) && characterService.get_Skills(character, '', 'Skill').find(skill => Skill_Level('Character', skill.name) == 4))) || (this.have(character, characterService, charLevel) && (characterService.get_Skills(character, '', 'Skill').find(skill => Skill_Level('Character', skill.name) >= 2) && characterService.get_Skills(character, '', 'Skill').find(skill => Skill_Level('Character', skill.name) >= 4)))",
+        "specialreq": "this.have(character, characterService, charLevel) ? Array.from(new Set(characterService.get_Skills(character, '', {type: 'Skill'}).map(skill => Skill_Level('Character', skill.name)).filter(level => [2,4,6,8].includes(level)))).length >= 2 : Array.from(new Set(characterService.get_Skills(character, '', {type: 'skill'}).map(skill => Skill_Level('Character', skill.name)).filter(level => [2,4].includes(level)))).length == 2",
         "specialreqdesc": "trained in at least one skill and expert in at least one skill",
         "gainFeatChoice": [
             {

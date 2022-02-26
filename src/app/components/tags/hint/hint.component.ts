@@ -9,6 +9,8 @@ import { RefreshService } from 'src/app/services/refresh.service';
 import { Shield } from 'src/app/classes/Shield';
 import { TraitsService } from 'src/app/services/traits.service';
 import { WornItem } from 'src/app/classes/WornItem';
+import { EffectsService } from 'src/app/services/effects.service';
+import { ItemsService } from 'src/app/services/items.service';
 
 @Component({
     selector: 'app-hint',
@@ -27,9 +29,13 @@ export class HintComponent {
     description: string = "";
     @Input()
     noFilter: boolean = false;
+    @Input()
+    color: string = "";
 
     constructor(
         public characterService: CharacterService,
+        public effectsService: EffectsService,
+        private itemsService: ItemsService,
         private refreshService: RefreshService,
         private traitsService: TraitsService
     ) { }
@@ -72,9 +78,7 @@ export class HintComponent {
                         ) :
                         true
                 ) &&
-                (
-                    hint.resonant ? isSlottedAeonStone : true
-                )
+                (hint.resonant ? isSlottedAeonStone : true)
             )
             .filter((hint: Hint) =>
                 hint.showon.split(",")

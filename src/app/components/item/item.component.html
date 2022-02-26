@@ -1,7 +1,7 @@
 <ng-container
     *ngFor="let traits of [(item.get_Traits ? item.get_Traits(characterService, get_Creature()) : item.traits)]; trackBy:trackByIndex">
     <div class="newrow left-aligned tags" *ngIf="traits.length">
-        <cite class="trait" *ngFor="let trait of traits; trackBy:trackByIndex;"
+        <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}" *ngFor="let trait of traits; trackBy:trackByIndex;"
             [ngbPopover]="get_Traits(trait)[0].desc">
             {{trait}}
         </cite>
@@ -22,7 +22,6 @@
         </select>
     </span>
 </div>
-<app-itemContent [item]="item"></app-itemContent>
 <!-- Doubling Rings selection -->
 <div class="newrow"
     *ngIf="item.isDoublingRings && !item.isTalismanCord && !(item.isRingOfWizardry && item.isRingOfWizardry.length) && !itemStore">
@@ -83,9 +82,7 @@
         </div>
     </ng-container>
 </div>
-<!-- Wayfinder Aeon Stone selection -->
-<app-itemAeonStones class="list-item hide-empty" [item]=item [itemStore]=itemStore *ngIf="item.isWayfinder">
-</app-itemAeonStones>
+<app-itemContent [item]="item"></app-itemContent>
 <!-- Item activities -->
 <div class="list-item left-aligned" *ngFor="let activity of item.activities; trackBy:trackByIndex;">
     <header class="spellHeader" *ngIf="activity.name">
@@ -98,7 +95,7 @@
         [allowActivate]="allowActivate && !item.broken && (activity.resonant ? isSubItem : true)" [isSubItem]=isSubItem>
     </app-activity>
 </div>
-<!-- Common activities -->
+<!-- Known activities -->
 <ng-container *ngFor="let gain of item.gainActivities; trackBy:trackByIndex;">
     <div class="list-item left-aligned" *ngFor="let activity of get_Activities(gain.name); trackBy:trackByIndex;">
         <header class="spellHeader">
@@ -144,7 +141,7 @@
                 </app-actionIcons>
                 {{spell.castType.toString()}}
             </header>
-            <app-spell [spell]=spell [spellLevel]="choice.level ? choice.level : 0"></app-spell>
+            <app-spell [spell]=spell [spellLevel]="get_GainedSpellLevel(spell, {gain: gain, choice: choice})"></app-spell>
         </div>
     </div>
 </ng-container>

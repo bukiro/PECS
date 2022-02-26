@@ -71,14 +71,6 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
         return this.characterService.get_FamiliarAvailable();
     }
 
-    get_Resonant() {
-        if ((this.activity as ItemActivity).resonant) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     get_Duration(duration: number, includeTurnState: boolean = true, inASentence: boolean = false) {
         return this.timeService.get_Duration(duration, includeTurnState, inASentence);
     }

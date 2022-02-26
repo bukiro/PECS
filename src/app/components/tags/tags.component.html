@@ -2,41 +2,41 @@
     <div class="fullsize-only newrow left-aligned" *ngIf="allTags.count > 0">
         <ng-container *ngFor="let traitSet of allTags.traits; trackBy:trackByIndex;">
             <ng-container *ngFor="let trait of traitSet.traits; trackBy:trackByIndex;">
-                <app-hint [creature]="creature" [ngClass]="'trait'" [object]="trait" [objectName]="traitSet.setName"
+                <app-hint [creature]="creature" [color]="'trait'" [object]="trait" [objectName]="traitSet.setName"
                     [description]="trait.name +' ('+ trait.haveOn(get_Creature(), this.characterService, true).join(', ') + ')'">
                 </app-hint>
             </ng-container>
         </ng-container>
         <ng-container *ngFor="let featSet of allTags.feats; trackBy:trackByIndex;">
             <ng-container *ngFor="let feat of featSet.feats; trackBy:trackByIndex;">
-                <app-hint [creature]="creature" [ngClass]="'feat'" [object]="feat" [objectName]="featSet.setName"
+                <app-hint [creature]="creature" [color]="'feat'" [object]="feat" [objectName]="featSet.setName"
                     [description]="feat.displayName || feat.name">
                 </app-hint>
             </ng-container>
         </ng-container>
         <ng-container *ngFor="let itemSet of allTags.items; trackBy:trackByIndex;">
             <ng-container *ngFor="let item of itemSet.items; trackBy:trackByIndex;">
-                <app-hint [creature]="creature" [ngClass]="'item'" [object]="item" [objectName]="itemSet.setName"
+                <app-hint [creature]="creature" [color]="'item'" [object]="item" [objectName]="itemSet.setName"
                     [description]="item.name">
                 </app-hint>
             </ng-container>
         </ng-container>
         <ng-container *ngFor="let specializationSet of allTags.specializations; trackBy:trackByIndex;">
             <ng-container *ngFor="let spec of specializationSet.specializations; trackBy:trackByIndex;">
-                <app-hint [creature]="creature" [ngClass]="'item'" [object]="spec"
+                <app-hint [creature]="creature" [color]="'item'" [object]="spec"
                     [objectName]="specializationSet.setName" [description]="spec.name">
                 </app-hint>
             </ng-container>
         </ng-container>
         <ng-container *ngFor="let activitySet of allTags.activities; trackBy:trackByIndex;">
             <ng-container *ngFor="let activity of activitySet.activities; trackBy:trackByIndex;">
-                <app-hint [creature]="creature" [ngClass]="'activity'" [object]="activity"
+                <app-hint [creature]="creature" [color]="'activity'" [object]="activity"
                     [objectName]="activitySet.setName" [description]="activity.name"></app-hint>
             </ng-container>
         </ng-container>
         <ng-container *ngFor="let conditionSets of allTags.conditions; trackBy:trackByIndex;">
             <ng-container *ngFor="let conditionSet of conditionSets.conditionSets; trackBy:trackByIndex;">
-                <app-hint [creature]="creature" [ngClass]="'condition'" [object]="conditionSet"
+                <app-hint [creature]="creature" [color]="'condition'" [object]="conditionSet"
                     [objectName]="conditionSets.setName" [description]="conditionSet.condition.name">
                 </app-hint>
             </ng-container>

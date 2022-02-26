@@ -500,10 +500,10 @@
                                                                         ? " " + taken + " " : ""}}{{spell.name}}
                                                                     </span>
                                                                     <cite>Level {{spell.levelreq}}</cite>
-                                                                    <cite class="trait"
+                                                                    <cite class="trait-rare"
                                                                         *ngIf="spell.traits.includes('Rare')"
                                                                         [ngbPopover]="get_Traits('Rare')[0]?.desc">Rare</cite>
-                                                                    <cite class="trait"
+                                                                    <cite class="trait-uncommon"
                                                                         *ngIf="spell.traits.includes('Uncommon')"
                                                                         [ngbPopover]="get_Traits('Uncommon')[0]?.desc">Uncommon</cite>
                                                                 </header>

@@ -60,7 +60,7 @@
                 <ng-container
                     *ngFor="let activity of (gain.isActivity ? [gain] : get_Activities(gain.name)); trackBy:trackByIndex;">
                     <ng-container
-                        *ngFor="let maxCharges of [activity.maxCharges(get_Creature(), characterService)]; trackBy:trackByIndex;">
+                        *ngFor="let maxCharges of [activity.maxCharges({ creature: get_Creature() }, { effectsService: this.effectsService })]; trackBy:trackByIndex;">
                         <ng-container
                             *ngFor="let cannotActivate of [((gain.activeCooldown ? (maxCharges == gain.chargesUsed) : false) && !gain.active)]; trackBy:trackByIndex;">
                             <ng-template #ActivityTitleTemplate>

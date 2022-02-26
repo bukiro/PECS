@@ -33,6 +33,7 @@
         "spells": [
           {
             "locked": true,
+            "dynamicEffectiveSpellLevel": "1",
             "name": "Shield"
           }
         ]
@@ -85,7 +86,6 @@
       "Invested",
       "Magical"
     ],
-    "internal: needs testing": true,
     "usage": "worn on belt",
     "activities": [
       {
@@ -147,13 +147,49 @@
           "Invested",
           "Magical"
         ]
+      },
+      {
+        "name": "Fashionable Wayfinder: Light",
+        "actions": "1A",
+        "activationType": "Command",
+        "target": "self",
+        "desc": "The wayfinder is targeted by a 1st-level light spell.",
+        "castSpells": [
+          {
+            "level": 1,
+            "name": "Light"
+          }
+        ],
+        "traits": [
+          "Uncommon",
+          "Conjuration",
+          "Invested",
+          "Magical"
+        ]
+      }
+    ],
+    "data": [
+      {
+        "name": "Attuned clothes set 1",
+        "show": true,
+        "type": "string"
+      },
+      {
+        "name": "Attuned clothes set 2",
+        "show": true,
+        "type": "string"
+      },
+      {
+        "name": "Attuned clothes set 3",
+        "show": true,
+        "type": "string"
       }
     ]
   },
   {
     "name": "Aeon Stone (Azure Briolette)",
     "id": "fd031335-765e-4640-80b7-baaaf154c592",
-    "desc": "This aeon stone must be activated to provide a benefit.",
+    "desc": "This aeon stone must be activated to provide a benefit.\n\nThe resonant power grants a separate activation.",
     "access": "Member of the Pathfinder Society.",
     "_extensionFileName": "PFSGuide",
     "sourceBook": "Pathfinder Society Guide",
@@ -166,7 +202,6 @@
       "Magical",
       "Transmutation"
     ],
-    "internal: needs testing": true,
     "usage": "worn",
     "isAeonStone": true,
     "activities": [
@@ -301,7 +336,6 @@
       "Magical",
       "Transmutation"
     ],
-    "internal: needs testing": true,
     "usage": "worn",
     "hints": [
       {
@@ -333,7 +367,6 @@
       "Invested",
       "Magical"
     ],
-    "internal: needs testing": true,
     "usage": "worn",
     "hints": [
       {
@@ -392,7 +425,6 @@
       "Magical",
       "Transmutation"
     ],
-    "internal: needs testing": true,
     "usage": "worn",
     "isAeonStone": true,
     "hints": [
@@ -410,13 +442,13 @@
         "desc": "You activate the aeon stone to gain the effects of a 1st-level illusory disguise.",
         "castSpells": [
           {
+            "level": 1,
             "name": "Illusory Disguise"
           }
         ],
         "gainConditions": [
           {
-            "choice": "Invisible",
-            "duration": 6000,
+            "duration": -5,
             "name": "Aeon Stone (Western Star)",
             "resonant": true
           }
@@ -461,7 +493,26 @@
           "Invested",
           "Magical"
         ],
-        "inputRequired": "For a lore skill in which you are trained and that has a modifier higher than 12, you can use your own lore skill for this check.\n\nIf the chronicler wayfinder grants a bonus to a lore skill in which you are untrained, you can use the below buttons to roll a Recall Knowledge check with the higher of these two options:\n\n|dice=1d20+12| Roll 1d20 + 12\n|dice=1d20+charLevel+intMod| Roll 1d20 + your level + your Intelligence modifier"
+        "inputRequired": "You can use the below buttons to roll a Recall Knowledge check with the higher of these two options:\n\n|dice=1d20+12| Roll 1d20 + 12\n|dice=1d20+charLevel+intMod| Roll 1d20 + your level + your Intelligence modifier\n\nThe chronicler wayfinder does not grant any benefits to a lore skill in which you are trained and that has a modifier higher than 12."
+      },
+      {
+        "name": "Chronicler Wayfinder: Light",
+        "actions": "1A",
+        "activationType": "Command",
+        "target": "self",
+        "desc": "The wayfinder is targeted by a 1st-level light spell.",
+        "castSpells": [
+          {
+            "level": 1,
+            "name": "Light"
+          }
+        ],
+        "traits": [
+          "Uncommon",
+          "Evocation",
+          "Invested",
+          "Magical"
+        ]
       }
     ],
     "data": [
@@ -665,6 +716,25 @@
           "Invested",
           "Magical"
         ]
+      },
+      {
+        "name": "Elemental Wayfinder (Air): Light",
+        "actions": "1A",
+        "activationType": "Command",
+        "target": "self",
+        "desc": "The wayfinder is targeted by a 1st-level light spell.",
+        "castSpells": [
+          {
+            "level": 1,
+            "name": "Light"
+          }
+        ],
+        "traits": [
+          "Uncommon",
+          "Evocation",
+          "Invested",
+          "Magical"
+        ]
       }
     ],
     "gainSpells": [
@@ -728,6 +798,25 @@
           "Invested",
           "Magical"
         ]
+      },
+      {
+        "name": "Elemental Wayfinder (Earth): Light",
+        "actions": "1A",
+        "activationType": "Command",
+        "target": "self",
+        "desc": "The wayfinder is targeted by a 1st-level light spell.",
+        "castSpells": [
+          {
+            "level": 1,
+            "name": "Light"
+          }
+        ],
+        "traits": [
+          "Uncommon",
+          "Evocation",
+          "Invested",
+          "Magical"
+        ]
       }
     ]
   },
@@ -777,6 +866,25 @@
           "Invested",
           "Magical"
         ]
+      },
+      {
+        "name": "Elemental Wayfinder (Fire): Light",
+        "actions": "1A",
+        "activationType": "Command",
+        "target": "self",
+        "desc": "The wayfinder is targeted by a 1st-level light spell.",
+        "castSpells": [
+          {
+            "level": 1,
+            "name": "Light"
+          }
+        ],
+        "traits": [
+          "Uncommon",
+          "Evocation",
+          "Invested",
+          "Magical"
+        ]
       }
     ]
   },
@@ -796,7 +904,6 @@
       "Magical",
       "Transmutation"
     ],
-    "internal: needs testing": true,
     "usage": "worn",
     "isAeonStone": true,
     "hints": [
@@ -869,6 +976,25 @@
           "Magical",
           "Water"
         ]
+      },
+      {
+        "name": "Elemental Wayfinder (Water): Light",
+        "actions": "1A",
+        "activationType": "Command",
+        "target": "self",
+        "desc": "The wayfinder is targeted by a 1st-level light spell.",
+        "castSpells": [
+          {
+            "level": 1,
+            "name": "Light"
+          }
+        ],
+        "traits": [
+          "Uncommon",
+          "Evocation",
+          "Invested",
+          "Magical"
+        ]
       }
     ],
     "gainConditions": [
@@ -890,6 +1016,7 @@
     "traits": [
       "Uncommon",
       "Illusion",
+      "Invested",
       "Magical",
       "Necromancy"
     ],
@@ -918,10 +1045,10 @@
         "cooldown": 144000,
         "charges": 3,
         "target": "ally",
-        "desc": "You touch an adjacent creature, granting them 3d8 temporary Hit Points for 1 hour.",
+        "desc": "You touch an adjacent creature, granting them |dice=3d8| 3d8 temporary Hit Points for 1 hour.",
         "gainConditions": [
           {
-            "choice": "6000",
+            "duration": 6000,
             "name": "Razmiri Wayfinder Temporary HP (Originator)",
             "targetFilter": "caster"
           },
@@ -934,6 +1061,7 @@
         "traits": [
           "Uncommon",
           "Illusion",
+          "Invested",
           "Magical",
           "Necromancy"
         ]
@@ -962,6 +1090,7 @@
         "traits": [
           "Uncommon",
           "Illusion",
+          "Invested",
           "Magical",
           "Necromancy"
         ]
@@ -1175,12 +1304,37 @@
             "name": "Hummingbird Wayfinder"
           }
         ],
+        "showSpells": [
+          {
+            "level": 5,
+            "name": "Prying Eye"
+          }
+        ],
         "traits": [
           "Uncommon",
           "Evocation",
           "Invested",
           "Magical",
           "Transmutation"
+        ]
+      },
+      {
+        "name": "Hummingbird Wayfinder: Light",
+        "actions": "1A",
+        "activationType": "Command",
+        "target": "self",
+        "desc": "The wayfinder is targeted by a 1st-level light spell.",
+        "castSpells": [
+          {
+            "level": 1,
+            "name": "Light"
+          }
+        ],
+        "traits": [
+          "Uncommon",
+          "Evocation",
+          "Invested",
+          "Magical"
         ]
       }
     ]
@@ -1221,6 +1375,32 @@
           "Magical",
           "Teleportation"
         ]
+      },
+      {
+        "name": "Homeward Wayfinder: Light",
+        "actions": "1A",
+        "activationType": "Command",
+        "target": "self",
+        "desc": "The wayfinder is targeted by a 1st-level light spell.",
+        "castSpells": [
+          {
+            "level": 1,
+            "name": "Light"
+          }
+        ],
+        "traits": [
+          "Uncommon",
+          "Evocation",
+          "Invested",
+          "Magical"
+        ]
+      }
+    ],
+    "data": [
+      {
+        "name": "Attuned lodge",
+        "show": true,
+        "type": "string"
       }
     ]
   },
@@ -1278,19 +1458,18 @@
       "Magical",
       "Transmutation"
     ],
-    "internal: needs testing": true,
     "usage": "worn",
     "isAeonStone": true,
     "hints": [
       {
         "desc": "You can wait more than an hour to return to your body with the aeon stone; as long as the wayfinder remains on the body, your body doesn't decay and you can return at any point.",
-        "showon": "Aeon Stone (Pale Orange Rhomboid)",
+        "showon": "Aeon Stone (Pale Orange Rhomboid), Health",
         "resonant": true
       }
     ],
     "activities": [
       {
-        "name": "Aeon Stone (Pale Orange Rhomboid)",
+        "name": "Aeon Stone (Pale Orange Rhomboid): Return",
         "actions": "1 minute",
         "activationType": "Concentrate",
         "frequency": "once per day",
@@ -1298,8 +1477,8 @@
         "desc": "The first time each day you die, your vital and spiritual essences mingle together and reside within this aeon stone. You have a limited sense of how many life forces are currently within 30 feet of the stone, which you can potentially use to determine when it's safe to call on the stone's power. At any time within the next hour after your body died, you can spend 1 minute concentrating in order to return to your body. As long as your body is still intact, you are no longer dead -  you are restored to 1 HP with the doomed 3 and wounded 3 conditions. You can benefit from the effects of only one pale orange rhomboid aeon stone in a given day.",
         "gainConditions": [
           {
-            "duration": -1,
-            "name": "Wounded"
+            "duration": 0,
+            "name": "Aeon Stone (Pale Orange Rhomboid)"
           }
         ],
         "traits": [

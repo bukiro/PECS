@@ -657,7 +657,7 @@ export class Character extends Creature {
         })
         return spellsGranted;
     }
-    get_EquipmentSpellsGranted(casting: SpellCasting, services: { characterService: CharacterService }, options: { cantripAllowed?: boolean, emptyChoiceAllowed?: boolean } = {}): { choice: SpellChoice, gain: SpellGain }[] {
+    get_EquipmentSpellsGranted(casting: SpellCasting, services: { characterService: CharacterService, itemsService: ItemsService }, options: { cantripAllowed?: boolean, emptyChoiceAllowed?: boolean } = {}): { choice: SpellChoice, gain: SpellGain }[] {
         let spellsGranted: { choice: SpellChoice, gain: SpellGain }[] = [];
         //Collect spells gained from worn items.
         function choiceMatchesCasting(choice: SpellChoice) {
@@ -671,6 +671,7 @@ export class Character extends Creature {
                 (options.cantripAllowed || (!services.characterService.spellsService.get_Spells(gain.name)[0]?.traits.includes("Cantrip")))
             );
         }
+        const tooManySlottedAeonStones = services.itemsService.get_TooManySlottedAeonStones(this);
         this.inventories[0].allEquipment().filter(equipment => equipment.investedOrEquipped()).forEach(equipment => {
             equipment.gainSpells.filter(choice => choiceMatchesCasting(choice) && !choice.resonant).forEach(choice => {
                 choice.spells.filter(gain =>
@@ -682,7 +683,7 @@ export class Character extends Creature {
                     spellsGranted.push({ choice: choice, gain: null });
                 }
             })
-            if (equipment instanceof WornItem) {
+            if (!tooManySlottedAeonStones && equipment instanceof WornItem) {
                 equipment.aeonStones.filter(stone => stone.gainSpells.length).forEach(stone => {
                     stone.gainSpells.filter(choice => choiceMatchesCasting(choice)).forEach(choice => {
                         choice.spells.filter(gain =>

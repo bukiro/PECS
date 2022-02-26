@@ -977,6 +977,15 @@ export class FeatsService {
                 this.refreshService.set_ToChange(creature.type, "charactersheet");
             }
 
+            //Losing a stance needs to update Fuse Stance.
+            if (feat.traits.includes("Stance")) {
+                character.class.get_FeatData(0, 0, "Fuse Stance").forEach(featData => {
+                    if (featData.data?.["stances"]) {
+                        featData.data["stances"] = featData.data["stances"].filter((stance: string) => !feat.gainActivities.includes(stance));
+                    }
+                });
+            }
+
             //  Updating Components
 
             characterService.cacheService.set_FeatChanged(feat.name, { creatureTypeId: creature.typeId, minLevel: level.number, maxLevel: 20 });

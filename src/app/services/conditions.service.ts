@@ -399,7 +399,10 @@ export class ConditionsService {
                     .forEach(taken => {
                         let spell = characterService.spellsService.get_Spells(taken.gain.name)[0];
                         if (spell) {
-                            characterService.spellsService.process_Spell(character, taken.gain.selectedTarget, characterService, itemsService, characterService.conditionsService, null, null, taken.gain, spell, 0, false, false)
+                            characterService.spellsService.process_Spell(spell, false,
+                                { characterService: characterService, itemsService: itemsService, conditionsService: this },
+                                { creature: creature, target: taken.gain.selectedTarget, gain: taken.gain, level: 0 }
+                            )
                         }
                         this.refreshService.set_ToChange("Character", "spellbook");
                     });
@@ -468,7 +471,7 @@ export class ConditionsService {
         gainItem.drop_GrantedItem(creature, {}, { characterService: characterService });
     }
 
-    generate_ItemConditions(creature: Creature, services: { characterService: CharacterService, effectsService: EffectsService }): void {
+    generate_ItemConditions(creature: Creature, services: { characterService: CharacterService, effectsService: EffectsService, itemsService: ItemsService }): void {
         //Calculate whether any items should grant a condition under the given circumstances and add or remove conditions accordingly.
         //Conditions caused by equipment are not calculated in manual mode.
         if (!services.characterService.get_ManualMode()) {
@@ -477,7 +480,7 @@ export class ConditionsService {
             creature.inventories.forEach(inventory => {
                 inventory.allEquipment().forEach(item => {
                     item.propertyRunes.forEach(rune => {
-                        if (rune.name == "Speed" && (item.can_Invest() ? item.invested : item.equipped)) {
+                        if (rune.name == "Speed" && item.investedOrEquipped()) {
                             speedRune = true;
                         }
                         if (rune instanceof WeaponRune && rune.alignmentPenalty && creature instanceof Character) {
@@ -487,7 +490,7 @@ export class ConditionsService {
                         }
                     });
                     item.oilsApplied.forEach(oil => {
-                        if (oil.runeEffect && oil.runeEffect.name == "Speed" && (item.equipped || (item.can_Invest() && item.invested))) {
+                        if (oil.runeEffect && oil.runeEffect.name == "Speed" && item.investedOrEquipped()) {
                             speedRune = true;
                         }
                         if (oil.runeEffect && oil.runeEffect.alignmentPenalty && creature instanceof Character) {
@@ -528,11 +531,12 @@ export class ConditionsService {
                     //We test alignmentFilter and resonant here, but activationPrerequisite is only tested if the condition exists and might need to be removed.
                     //This is because add_Condition includes its own test of activationPrerequisite.
                     let activate = false;
+                    const isSlottedAeonStone = (item instanceof WornItem && item.isSlottedAeonStone);
                     if (
                         investedItem.investedOrEquipped() &&
                         (
                             gain.resonant ?
-                                (item instanceof WornItem && item.isSlottedAeonStone) :
+                                isSlottedAeonStone :
                                 true
                         ) && (
                             gain.alignmentFilter ?
@@ -565,11 +569,13 @@ export class ConditionsService {
             creature.inventories[0].allEquipment().filter(item => item.gainConditions.length).forEach(item => {
                 refresh_PermanentConditions(item, this.evaluationService, item);
             });
-            creature.inventories[0].wornitems.filter(item => item.isWayfinder).forEach(item => {
-                item.aeonStones.forEach(stone => {
-                    refresh_PermanentConditions(stone, this.evaluationService, item);
+            if (services.characterService.itemsService.get_TooManySlottedAeonStones(creature)) {
+                creature.inventories[0].wornitems.filter(item => item.isWayfinder).forEach(item => {
+                    item.aeonStones.forEach(stone => {
+                        refresh_PermanentConditions(stone, this.evaluationService, item);
+                    })
                 })
-            })
+            }
         }
     }
 

@@ -554,65 +554,81 @@
                                                 </div>
                                                 <div class="list-item newrow left-aligned">
                                                     <span *ngIf="item['get_Name']">
-                                                        <input class="invisible" id="{{item.id}}showname"
-                                                            type="checkbox" [(ngModel)]="item.showName">
                                                         <label for="{{item.id}}showname">
-                                                            <i class='bi-pencil-square'></i>
-                                                            Name
+                                                            <div class="button no-animation"
+                                                                [ngClass]="{'fancy-button': item.showName}">
+                                                                <input class="invisible" id="{{item.id}}showname"
+                                                                    type="checkbox" [(ngModel)]="item.showName">
+                                                                <i class='bi-pencil-square'></i>
+                                                                Name
+                                                            </div>
                                                         </label>
                                                     </span>
                                                     <span>
-                                                        <input class="invisible" id="{{item.id}}shownotes"
-                                                            type="checkbox" [(ngModel)]="item.showNotes">
                                                         <label for="{{item.id}}shownotes">
-                                                            <i class='bi-pencil-square'></i>
-                                                            Notes
+                                                            <div class="button no-animation"
+                                                                [ngClass]="{'fancy-button': item.showNotes}">
+                                                                <input class="invisible" id="{{item.id}}shownotes"
+                                                                    type="checkbox" [(ngModel)]="item.showNotes">
+                                                                <i class='bi-pencil-square'></i>
+                                                                Notes
+                                                            </div>
+                                                        </label>
+                                                    </span>
+                                                    <span *ngIf="item.moddable && item.constructor.name != 'Shield'">
+                                                        <label for="{{item.id}}showrunes">
+                                                            <div class="button no-animation"
+                                                                [ngClass]="{'fancy-button': item.showRunes}">
+                                                                <input class="invisible" id="{{item.id}}showrunes"
+                                                                    type="checkbox" [(ngModel)]="item.showRunes">
+                                                                <i class='bi-pencil-square'></i>
+                                                                Runes
+                                                            </div>
                                                         </label>
                                                     </span>
                                                     <span
                                                         *ngIf="!['Fist','Unarmored'].includes(item.name) && get_IsEquipment(item)">
-                                                        <input class="invisible" id="{{item.id}}showstatus"
-                                                            type="checkbox" [(ngModel)]="item.showStatus">
                                                         <label for="{{item.id}}showstatus">
-                                                            <i class='bi-pencil-square'></i>
-                                                            Status
+                                                            <div class="button no-animation"
+                                                                [ngClass]="{'fancy-button': item.showStatus}">
+                                                                <input class="invisible" id="{{item.id}}showstatus"
+                                                                    type="checkbox" [(ngModel)]="item.showStatus">
+                                                                <i class='bi-pencil-square'></i>
+                                                                Status
+                                                            </div>
                                                         </label>
                                                     </span>
-                                                    <span *ngIf="item.moddable && item.constructor.name != 'Shield'">
-                                                        <input class="invisible" id="{{item.id}}showrunes"
-                                                            type="checkbox" [(ngModel)]="item.showRunes">
-                                                        <label for="{{item.id}}showrunes">
-                                                            <i class='bi-pencil-square'></i>
-                                                            Runes
-                                                        </label>
-                                                    </span>
-                                                </div>
-                                                <!--Changing Name-->
-                                                <div class="fullwidth" [ngbCollapse]="!item.showName">
-                                                    <div class="list-item newrow left-aligned">
-                                                        <span>Name</span> <input type="textarea" class="fullwidth"
+
+                                                    <!--Changing Name-->
+                                                    <div class="list-item newrow left-aligned"
+                                                        [ngbCollapse]="!item.showName">
+                                                        <span>Name</span>
+                                                        <input type="textarea" class="fullwidth"
                                                             [(ngModel)]="item.displayName" (blur)="onItemChange(item)">
                                                     </div>
-                                                </div>
-                                                <!--Changing Notes-->
-                                                <div class="fullwidth" [ngbCollapse]="!item.showNotes">
-                                                    <div class="list-item newrow left-aligned">
-                                                        <span>Notes</span> <input type="textarea" class="fullwidth"
+                                                    <!--Changing Notes-->
+                                                    <div class="list-item newrow left-aligned"
+                                                        [ngbCollapse]="!item.showNotes">
+                                                        <span>Notes</span>
+                                                        <input type="textarea" class="fullwidth"
                                                             [(ngModel)]="item.notes">
                                                     </div>
-                                                </div>
-                                                <!--Changing Status-->
-                                                <div class="fullwidth"
-                                                    [ngbCollapse]="!(item.showStatus || item.broken || item.shoddy)"
-                                                    *ngIf="!['Fist','Unarmored'].includes(item.name) && get_IsEquipment(item)">
-                                                    <div class="list-item newrow left-aligned">
+                                                    <!--Changing Runes-->
+                                                    <app-itemRunes class="newrow" [ngbCollapse]="!item.showRunes"
+                                                        *ngIf="item.moddable && item.constructor.name != 'Shield'"
+                                                        [item]=item [itemStore]=false>
+                                                    </app-itemRunes>
+                                                    <!--Changing Status-->
+                                                    <div class="list-item newrow left-aligned"
+                                                        [ngbCollapse]="!(item.showStatus || item.broken || item.shoddy)"
+                                                        *ngIf="!['Fist','Unarmored'].includes(item.name) && get_IsEquipment(item)">
                                                         <span>Status</span>
                                                         <div class="newrow">
                                                             <span
-                                                                [ngbPopover]="!get_RepairAllowed(item) ? 'You cannot repair a broken shield unless you restore its hit points above the Broken Threshold.' : ''">
+                                                                [ngbPopover]="!get_RepairAllowed(item) ? 'To repair a broken shield, restore its hit points above the Broken Threshold.' : ''">
                                                                 <input id="{{item.id}}broken" type="checkbox"
                                                                     [(ngModel)]="item.broken"
-                                                                    (ngModelChange)="onItemBroken(item);onItemChange(item);"
+                                                                    (ngModelChange)="onItemBroken(item); onItemChange(item);"
                                                                     [disabled]="!get_RepairAllowed(item)">
                                                                 <label for="{{item.id}}broken">
                                                                     <i class='ra ra-broken-shield'></i>
@@ -636,110 +652,116 @@
                                                             </span>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="list-item newrow"
-                                                    *ngIf="get_LargeWeaponAllowed(item) || item.large">
-                                                    <span>
-                                                        <input id="{{item.id}}large" type="checkbox"
-                                                            [(ngModel)]="item.large" (ngModelChange)=onItemChange(item)>
-                                                        <label for="{{item.id}}large">
-                                                            <i class='ra ra-large-hammer'></i>
-                                                            Large
-                                                        </label>
-                                                        <i class="bi-question-circle"
-                                                            [ngbPopover]="'You can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging). If you\'re not Small or Medium, you can use a weapon built for a creature one size larger than you. While wielding the weapon in combat, your additional damage from Rage increases from 2 to 6, and you have the clumsy 1 condition because of its unwieldy size.'"></i>
-                                                    </span>
-                                                </div>
-                                                <div class="list-item newrow"
-                                                    *ngIf="item.bladeAlly || get_BladeAllyAllowed(item)">
-                                                    <div class="newrow">
-                                                        <span
-                                                            [ngbPopover]="(!item.bladeAlly && get_BladeAllyUsed()) ? 'Another item is already designated as your blade ally.' : ''">
-                                                            <input id="{{item.id}}bladeally" type="checkbox"
-                                                                [(ngModel)]="item.bladeAlly"
-                                                                (ngModelChange)=onItemChange(item)
-                                                                [disabled]="!item.bladeAlly && get_BladeAllyUsed()">
-                                                            <label for="{{item.id}}bladeally">
-                                                                <i class='ra ra-fireball-sword'></i>
-                                                                Blade Ally
+                                                    <div class="list-item newrow"
+                                                        *ngIf="get_LargeWeaponAllowed(item) || item.large">
+                                                        <span>
+                                                            <input id="{{item.id}}large" type="checkbox"
+                                                                [(ngModel)]="item.large"
+                                                                (ngModelChange)=onItemChange(item)>
+                                                            <label for="{{item.id}}large">
+                                                                <i class='ra ra-large-hammer'></i>
+                                                                Large
                                                             </label>
                                                             <i class="bi-question-circle"
-                                                                [ngbPopover]="'You can select one weapon or handwraps of mighty blows when you make your daily preparations. In your hands, the item gains the effect of a property rune and you also gain the weapon\'s critical specialization effect. For a champion following the tenets of good, choose disrupting, ghost touch, returning, or shifting. For a champion following the tenets of evil, choose fearsome, returning, or shifting.'"></i>
+                                                                [ngbPopover]="'You can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging). If you\'re not Small or Medium, you can use a weapon built for a creature one size larger than you. While wielding the weapon in combat, your additional damage from Rage increases from 2 to 6, and you have the clumsy 1 condition because of its unwieldy size.'"></i>
                                                         </span>
                                                     </div>
-                                                    <app-itemBladeAlly class="list-item newrow" [item]=item
-                                                        *ngIf="item.bladeAlly">
-                                                    </app-itemBladeAlly>
-                                                </div>
-                                                <app-itemEmblazonArmament class="fullwidth" [item]=item
-                                                    *ngIf="item.emblazonArmament?.length || get_EmblazonArmamentAllowed(item)">
-                                                </app-itemEmblazonArmament>
-                                                <div class="list-item newrow"
-                                                    *ngIf="item.battleforged || get_BattleforgedAllowed(item)">
-                                                    <span>
-                                                        <input id="{{item.id}}battleforged" type="checkbox"
-                                                            [(ngModel)]="item.battleforged"
-                                                            (ngModelChange)=onItemChange(item)>
-                                                        <label for="{{item.id}}battleforged">
-                                                            <i class='ra ra-anvil'></i>
-                                                            Battleforged
-                                                        </label>
-                                                        <i class="bi-question-circle"
-                                                            [ngbPopover]="'You can sharpen weapons, polish armor, and apply special techniques to temporarily gain better effects from your armaments. By spending 1 hour working on a weapon or armor, you can grant it the effects of a +1 potency rune until your next daily preparations, gaining a +1 item bonus to attack rolls for a weapon or increasing armor\'s item bonus to AC by 1. This has no effect if the weapon or armor already had a potency rune.'"></i>
-                                                    </span>
-                                                </div>
-                                                <div class="fullwidth" [ngbCollapse]="!item.showRunes"
-                                                    *ngIf="item.moddable && item.constructor.name != 'Shield'">
-                                                    <app-itemRunes class="newrow" [item]=item [itemStore]=false>
-                                                    </app-itemRunes>
-                                                </div>
-                                                <app-itemOils class="hide-empty" [item]=item [itemStore]=false
-                                                    *ngIf="item.type != 'oils'">
-                                                </app-itemOils>
-                                                <app-itemPoisons class="hide-empty" [item]=item [itemStore]=false
-                                                    *ngIf="item.type == 'weapons'">
-                                                </app-itemPoisons>
-                                                <app-itemTalismans [item]=item [itemStore]=false
-                                                    *ngIf="can_ApplyTalismans(item)">
-                                                </app-itemTalismans>
-                                                <app-itemTalismanCords [item]=item *ngIf="can_ApplyTalismanCords(item)">
-                                                </app-itemTalismanCords>
-                                                <ng-container *ngIf="item.type=='shields'">
-                                                    <div class="list-item newrow">
-                                                        <strong>HP</strong>
-                                                        <div class="value"> {{item.get_HitPoints()}}</div>
-                                                        <strong>Max HP</strong>
-                                                        <div class="value"> {{item.get_MaxHP()}}</div>
-                                                        <strong>BT</strong>
-                                                        <div class="value"> {{item.get_BrokenThreshold()}}</div>
+                                                    <div class="list-item newrow"
+                                                        *ngIf="item.bladeAlly || get_BladeAllyAllowed(item)">
+                                                        <div class="newrow">
+                                                            <span
+                                                                [ngbPopover]="(!item.bladeAlly && get_BladeAllyUsed()) ? 'Another item is already designated as your blade ally.' : ''">
+                                                                <input id="{{item.id}}bladeally" type="checkbox"
+                                                                    [(ngModel)]="item.bladeAlly"
+                                                                    (ngModelChange)=onItemChange(item)
+                                                                    [disabled]="!item.bladeAlly && get_BladeAllyUsed()">
+                                                                <label for="{{item.id}}bladeally">
+                                                                    <i class='ra ra-fireball-sword'></i>
+                                                                    Blade Ally
+                                                                </label>
+                                                                <i class="bi-question-circle"
+                                                                    [ngbPopover]="'You can select one weapon or handwraps of mighty blows when you make your daily preparations. In your hands, the item gains the effect of a property rune and you also gain the weapon\'s critical specialization effect. For a champion following the tenets of good, choose disrupting, ghost touch, returning, or shifting. For a champion following the tenets of evil, choose fearsome, returning, or shifting.'"></i>
+                                                            </span>
+                                                        </div>
+                                                        <app-itemBladeAlly class="list-item newrow" [item]=item
+                                                            *ngIf="item.bladeAlly">
+                                                        </app-itemBladeAlly>
                                                     </div>
-                                                    <div class="list-item newrow">
-                                                        <ng-template #DamageSliderTemplate>
-                                                            <div class="popover-keepalive slider-container"
-                                                                [style.--name]="'\'Damage\''"
-                                                                style="width:30rem; max-width:90vw;">
-                                                                <input class="slider" type="range" min="0"
-                                                                    max="{{item.get_MaxHP()}}"
-                                                                    [(ngModel)]="shieldDamage">
-                                                            </div>
-                                                        </ng-template>
+                                                    <app-itemEmblazonArmament class="fullwidth" [item]=item
+                                                        *ngIf="item.emblazonArmament?.length || get_EmblazonArmamentAllowed(item)">
+                                                    </app-itemEmblazonArmament>
+                                                    <div class="list-item newrow"
+                                                        *ngIf="item.battleforged || get_BattleforgedAllowed(item)">
                                                         <span>
-                                                            <button [disabled]="shieldDamage == 0"
-                                                                (click)="on_ShieldHPChange(item, shieldDamage)">Damage</button>
-                                                        </span>
-                                                        <span class="hlist center-aligned">
-                                                            <input [ngbPopover]="DamageSliderTemplate"
-                                                                #DamagePopover="ngbPopover" triggers="manual"
-                                                                (focus)="DamagePopover.open()" class="number3"
-                                                                type="number" [(ngModel)]="shieldDamage" maxLength="3"
-                                                                min="0" max="{{item.get_MaxHP()}}">
-                                                        </span>
-                                                        <span class="right-aligned">
-                                                            <button [disabled]="shieldDamage == 0"
-                                                                (click)="on_ShieldHPChange(item, -shieldDamage)">Repair</button>
+                                                            <input id="{{item.id}}battleforged" type="checkbox"
+                                                                [(ngModel)]="item.battleforged"
+                                                                (ngModelChange)=onItemChange(item)>
+                                                            <label for="{{item.id}}battleforged">
+                                                                <i class='ra ra-anvil'></i>
+                                                                Battleforged
+                                                            </label>
+                                                            <i class="bi-question-circle"
+                                                                [ngbPopover]="'You can sharpen weapons, polish armor, and apply special techniques to temporarily gain better effects from your armaments. By spending 1 hour working on a weapon or armor, you can grant it the effects of a +1 potency rune until your next daily preparations, gaining a +1 item bonus to attack rolls for a weapon or increasing armor\'s item bonus to AC by 1. This has no effect if the weapon or armor already had a potency rune.'"></i>
                                                         </span>
                                                     </div>
-                                                </ng-container>
+                                                    <app-itemOils class="hide-empty" [item]=item [itemStore]=false
+                                                        *ngIf="item.type != 'oils'">
+                                                    </app-itemOils>
+                                                    <app-itemPoisons class="hide-empty" [item]=item [itemStore]=false
+                                                        *ngIf="item.type == 'weapons'">
+                                                    </app-itemPoisons>
+                                                    <app-itemTalismans [item]=item [itemStore]=false
+                                                        *ngIf="can_ApplyTalismans(item)">
+                                                    </app-itemTalismans>
+                                                    <app-itemTalismanCords [item]=item
+                                                        *ngIf="can_ApplyTalismanCords(item)">
+                                                    </app-itemTalismanCords>
+                                                    <app-itemAeonStones class="list-item hide-empty" [item]=item
+                                                        [itemStore]=false *ngIf="item.isWayfinder">
+                                                    </app-itemAeonStones>
+                                                    <!-- Too many slotted Aeon Stones warning -->
+                                                    <div class="newrow list-item problem"
+                                                        *ngIf="get_TooManySlottedAeonStones(item)">
+                                                        You have invested too many wayfinders with aeon stones slotted
+                                                        in them. All effects of these aeon stones are disabled.
+                                                    </div>
+                                                    <ng-container *ngIf="item.type=='shields'">
+                                                        <div class="list-item newrow">
+                                                            <strong>HP</strong>
+                                                            <div class="value"> {{item.get_HitPoints()}}</div>
+                                                            <strong>Max HP</strong>
+                                                            <div class="value"> {{item.get_MaxHP()}}</div>
+                                                            <strong>BT</strong>
+                                                            <div class="value"> {{item.get_BrokenThreshold()}}</div>
+                                                        </div>
+                                                        <div class="list-item newrow">
+                                                            <ng-template #DamageSliderTemplate>
+                                                                <div class="popover-keepalive slider-container"
+                                                                    [style.--name]="'\'Damage: ' + shieldDamage + '\''"
+                                                                    style="min-width:25vw; max-width:100%;">
+                                                                    <input class="slider" type="range" min="0"
+                                                                        max="{{item.get_MaxHP()}}"
+                                                                        [(ngModel)]="shieldDamage">
+                                                                </div>
+                                                            </ng-template>
+                                                            <span>
+                                                                <button [disabled]="shieldDamage == 0"
+                                                                    (click)="on_ShieldHPChange(item, shieldDamage)">Damage</button>
+                                                            </span>
+                                                            <span class="hlist center-aligned">
+                                                                <input [ngbPopover]="DamageSliderTemplate"
+                                                                    #DamagePopover="ngbPopover" triggers="manual"
+                                                                    (focus)="DamagePopover.open()" class="number3"
+                                                                    type="number" [(ngModel)]="shieldDamage"
+                                                                    maxLength="3" min="0" max="{{item.get_MaxHP()}}">
+                                                            </span>
+                                                            <span class="right-aligned">
+                                                                <button [disabled]="shieldDamage == 0"
+                                                                    (click)="on_ShieldHPChange(item, -shieldDamage)">Repair</button>
+                                                            </span>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
                                                 <app-item class="lower" [creature]="creature" [item]=item
                                                     [allowActivate]="(item.equippable ? item.equipped : true) && (item.can_Invest() ? item.invested : true)"
                                                     [armoredSkirt]="item.get_ArmoredSkirt ? item.get_ArmoredSkirt(get_Creature(), characterService) : null">

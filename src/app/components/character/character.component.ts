@@ -1024,7 +1024,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         }
     }
 
-    get_FuseStanceData(levelNumber: number) {
+    get_FuseStanceData(levelNumber: number): FeatData[] {
         if (this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, "Fuse Stance").length) {
             return this.get_Character().class.get_FeatData(levelNumber, levelNumber, "Fuse Stance");
         }
@@ -1059,6 +1059,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                     }
                 }
             });
+        fuseStanceData.data["stances"] = fuseStanceData.data["stances"].filter((existingStance: string) => stances.map(stance => stance.activity.name).includes(existingStance));
         return stances;
     }
 

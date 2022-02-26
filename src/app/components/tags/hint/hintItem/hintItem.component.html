@@ -1,8 +1,8 @@
 <ng-container
     *ngFor="let traits of [(item.get_Traits ? item.get_Traits(characterService, get_Creature()) : item.traits)]; trackBy:trackByIndex">
     <div class="newrow left-aligned tags" *ngIf="traits.length">
-        <cite class="trait" *ngFor="let trait of traits; trackBy:trackByIndex;"
-            [ngbPopover]="get_Traits(trait)[0].desc">
+        <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}"
+            *ngFor="let trait of traits; trackBy:trackByIndex;" [ngbPopover]="get_Traits(trait)[0].desc">
             {{trait}}
         </cite>
     </div>
@@ -18,17 +18,13 @@
             {{(activity.activationType) ? activity.activationType : ""}}
         </header>
         <div class="newrow left-aligned">
-            <cite class="trait" *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
-                [ngbPopover]="get_Traits(trait)[0].desc">
-                {{trait}}
-            </cite>
-            <cite class="trait" *ngFor="let trait of activity.get_ActivationTraits(); trackBy:trackByIndex;"
-                [ngbPopover]="get_Traits(trait)[0].desc">
+            <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}"
+                *ngFor="let trait of activity.traits; trackBy:trackByIndex;" [ngbPopover]="get_Traits(trait)[0].desc">
                 {{trait}}
             </cite>
         </div>
         <app-activityContent [creature]="creature" [activity]=activity [gain]=activity [allowActivate]="false"
-            [cooldown]="activity.get_Cooldown(get_Creature(), characterService)">
+            [cooldown]="activity.get_Cooldown({creature: get_Creature()}, {characterService: characterService, effectsService: effectsService})">
         </app-activityContent>
     </div>
 </ng-container>
@@ -43,11 +39,8 @@
                 {{(activity.activationType) ? activity.activationType : ""}}
             </header>
             <div class="newrow left-aligned">
-                <cite class="trait" *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
-                    [ngbPopover]="get_Traits(trait)[0].desc">
-                    {{trait}}
-                </cite>
-                <cite class="trait" *ngFor="let trait of activity.get_ActivationTraits(); trackBy:trackByIndex;"
+                <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}"
+                    *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
                     [ngbPopover]="get_Traits(trait)[0].desc">
                     {{trait}}
                 </cite>

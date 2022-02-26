@@ -369,31 +369,31 @@ export class CharacterService {
         return this.configService.get_LoggedIn();
     }
 
-    get_CompanionAvailable(charLevel: number = this.get_Character().level) {
+    public get_CompanionAvailable(charLevel: number = this.get_Character().level): boolean {
         //Return any feat that grants an animal companion that you own.
-        return this.get_CharacterFeatsAndFeatures().find(feat => feat.gainAnimalCompanion == "Young" && feat.have(this.get_Character(), this, charLevel));
+        return this.get_CharacterFeatsAndFeatures().some(feat => feat.gainAnimalCompanion == "Young" && feat.have(this.get_Character(), this, charLevel));
     }
 
-    get_FamiliarAvailable(charLevel: number = this.get_Character().level) {
+    public get_FamiliarAvailable(charLevel: number = this.get_Character().level): boolean {
         //Return any feat that grants an animal companion that you own.
-        return this.get_CharacterFeatsAndFeatures().find(feat => feat.gainFamiliar && feat.have(this.get_Character(), this, charLevel));
+        return this.get_CharacterFeatsAndFeatures().some(feat => feat.gainFamiliar && feat.have(this.get_Character(), this, charLevel));
     }
 
-    get_Companion() {
+    public get_Companion(): AnimalCompanion {
         return this.get_Character().class?.animalCompanion || new AnimalCompanion();
     }
 
-    get_Familiar() {
+    public get_Familiar(): Familiar {
         return this.get_Character().class?.familiar || new Familiar();
     }
 
     get_Creatures(companionAvailable: boolean = undefined, familiarAvailable: boolean = undefined) {
         if (!this.still_loading()) {
             if (companionAvailable == undefined) {
-                companionAvailable = this.get_CompanionAvailable() != null;
+                companionAvailable = this.get_CompanionAvailable();
             }
             if (familiarAvailable == undefined) {
-                familiarAvailable = this.get_FamiliarAvailable() != null;
+                familiarAvailable = this.get_FamiliarAvailable();
             }
             if (companionAvailable && familiarAvailable) {
                 return ([] as (Creature)[]).concat(this.get_Character()).concat(this.get_Companion()).concat(this.get_Familiar());
@@ -1154,6 +1154,13 @@ export class CharacterService {
             })
             this.refreshService.set_ItemViewChanges(creature, item, { characterService: this });
         }
+        //If a wayfinder is invested or uninvested, all other invested wayfinders need to run updates as well,
+        // Because too many invested wayfinders disable each other's aeon stones.
+        if (item instanceof WornItem && item.aeonStones.length) {
+            creature.inventories[0].wornitems.filter(wornItem => wornItem !== item && wornItem.aeonStones.length).forEach(wornItem => {
+                this.refreshService.set_ItemViewChanges(creature, wornItem, { characterService: this });
+            })
+        }
         if (changeAfter) {
             this.refreshService.process_ToChange();
         }
@@ -1163,7 +1170,7 @@ export class CharacterService {
         if (!preserveItem) {
             item.amount--
         }
-        this.itemsService.process_Consumable(creature, this, this.itemsService, this.conditionsService, this.spellsService, item);
+        this.itemsService.process_Consumable(creature, this, this.conditionsService, this.spellsService, item);
         this.refreshService.set_ItemViewChanges(creature, item, { characterService: this });
         this.refreshService.set_ToChange(creature.type, "inventory");
     }
@@ -1234,7 +1241,7 @@ export class CharacterService {
         );
     }
 
-    add_Condition(creature: Creature, gain: ConditionGain, context: {parentItem?: Item, parentConditionGain?: ConditionGain} = {}, options: {noReload?: boolean} = {}) {
+    add_Condition(creature: Creature, gain: ConditionGain, context: { parentItem?: Item, parentConditionGain?: ConditionGain } = {}, options: { noReload?: boolean } = {}) {
         let activate: boolean = true;
         let conditionGain: ConditionGain = Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(gain))).recast();
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
@@ -1590,7 +1597,7 @@ export class CharacterService {
                 if (message.activateCondition) {
                     if (targetCreature && message.gainCondition.length) {
                         let conditionGain: ConditionGain = message.gainCondition[0];
-                        let newLength = this.add_Condition(targetCreature, conditionGain, {}, {noReload: true})
+                        let newLength = this.add_Condition(targetCreature, conditionGain, {}, { noReload: true })
                         if (newLength) {
                             let senderName = this.get_MessageSender(message);
                             //If a condition was created, send a toast to inform the user.
@@ -1853,7 +1860,7 @@ export class CharacterService {
             //we eval the effect value by sending it to the evaluationService with some additional attributes and receive the resulting effect.
             if (effectGain.value) {
                 let testObject = { spellSource: effectGain.spellSource, value: conditionValue, heightened: conditionHeightened, choice: conditionChoice, spellCastingAbility: conditionSpellCastingAbility };
-                let validationResult = this.evaluationService.get_ValueFromFormula(effectGain.value, { characterService: this, effectsService: this.effectsService }, { creature: this.get_Character(), object: testObject, effect: effectGain });
+                let validationResult = this.evaluationService.get_ValueFromFormula(effectGain.value, { characterService: this, effectsService: this.effectsService }, { creature: creature, object: testObject, effect: effectGain });
                 if (validationResult && typeof validationResult == "number") {
                     value = validationResult;
                 }
@@ -2272,6 +2279,7 @@ export class CharacterService {
                 })
             } else {
                 //Without the all parameter, get activities only from equipped and invested items and their slotted items.
+                const tooManySlottedAeonStones = this.itemsService.get_TooManySlottedAeonStones(creature);
                 creature.inventories[0]?.allEquipment()
                     .filter(item =>
                         (item.equippable ? item.equipped : true) &&
@@ -2281,30 +2289,30 @@ export class CharacterService {
                         if (item.gainActivities.length) {
                             activities.push(...item.gainActivities);
                         }
-                        //DO NOT get resonant activities at this point
+                        //DO NOT get resonant activities at this point; they are only available if the item is slotted into a wayfinder.
                         if (item.activities.length) {
                             activities.push(...item.activities.filter(activity => !activity.resonant || all));
                         }
-                        //Get activities from runes
+                        //Get activities from runes.
                         if (item.propertyRunes) {
                             item.propertyRunes.filter(rune => rune.activities.length).forEach(rune => {
                                 activities.push(...rune.activities);
                             });
                         }
-                        //Get activities from blade ally runes
+                        //Get activities from blade ally runes.
                         if ((item instanceof Weapon || item instanceof WornItem) && item.bladeAllyRunes && item.bladeAlly) {
                             item.bladeAllyRunes.filter(rune => rune.activities.length).forEach(rune => {
                                 activities.push(...rune.activities);
                             });
                         }
-                        //Get activities from oils emulating runes
+                        //Get activities from oils emulating runes.
                         if (item.oilsApplied) {
                             item.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.activities).forEach(oil => {
                                 activities.push(...oil.runeEffect.activities);
                             });
                         }
-                        //Get activities from slotted aeon stones, including resonant activities
-                        if (item instanceof WornItem && item.aeonStones.length) {
+                        //Get activities from slotted aeon stones, NOW including resonant activities.
+                        if (!tooManySlottedAeonStones && item instanceof WornItem) {
                             item.aeonStones.filter(stone => stone.activities.length).forEach(stone => {
                                 activities.push(...stone.activities);
                             })
@@ -2376,14 +2384,15 @@ export class CharacterService {
                 returnedItems.push(item);
             }
         }
+        const tooManySlottedAeonStones = this.itemsService.get_TooManySlottedAeonStones(creature);
         creature.inventories.forEach(inventory => {
             inventory.allEquipment().filter(item => (item.equippable ? item.equipped : true) && item.amount && !item.broken && (item.can_Invest() ? item.invested : true)).forEach(item => {
                 get_Hints(item, false);
                 item.oilsApplied.forEach(oil => {
                     get_Hints(oil, false);
                 });
-                if ((item as WornItem).aeonStones) {
-                    (item as WornItem).aeonStones.forEach(stone => {
+                if (!tooManySlottedAeonStones && item instanceof WornItem) {
+                    item.aeonStones.forEach(stone => {
                         get_Hints(stone, true);
                     });
                 }
@@ -2397,8 +2406,8 @@ export class CharacterService {
                         get_Hints(rune as ArmorRune, false);
                     });
                 }
-                if (item.moddable && (item as Equipment).material) {
-                    (item as Equipment).material.forEach(material => {
+                if (item instanceof Equipment && item.moddable && item.material) {
+                    item.material.forEach(material => {
                         get_Hints(material, false);
                     });
                 }

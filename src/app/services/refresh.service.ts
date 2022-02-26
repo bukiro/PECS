@@ -255,6 +255,9 @@ export class RefreshService {
             if (item.gainLanguages.length) {
                 this.set_ToChange(creature.type, "general");
             }
+            item.aeonStones.forEach(aeonStone => {
+                this.set_ItemViewChanges(creature, aeonStone, services);
+            })
         }
     }
 

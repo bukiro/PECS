@@ -40,7 +40,7 @@ export class SpellContentComponent implements OnInit, OnDestroy {
 
     get_Heightened(desc: string) {
         let levelNumber = this.spellLevel;
-        if (!levelNumber || levelNumber == -1) {
+        if ((!levelNumber && (this.spell.traits.includes("Cantrip"))) || levelNumber == -1) {
             levelNumber = this.characterService.get_Character().get_SpellLevel();
         }
         if (this.spell.levelreq && levelNumber < this.spell.levelreq) {

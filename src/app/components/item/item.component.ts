@@ -20,9 +20,9 @@ import { RingOfWizardrySlot, WornItem } from 'src/app/classes/WornItem';
 import { Shield } from 'src/app/classes/Shield';
 import { Armor } from 'src/app/classes/Armor';
 import { Subscription } from 'rxjs';
-import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { EffectGain } from 'src/app/classes/EffectGain';
+import { EffectsService } from 'src/app/services/effects.service';
 
 @Component({
     selector: 'app-item',
@@ -53,7 +53,8 @@ export class ItemComponent implements OnInit, OnDestroy {
         private refreshService: RefreshService,
         private itemsService: ItemsService,
         private spellsService: SpellsService,
-        private conditionsService: ConditionsService
+        private conditionsService: ConditionsService,
+        private effectsService: EffectsService
     ) { }
 
     trackByIndex(index: number, obj: any): any {
@@ -78,6 +79,10 @@ export class ItemComponent implements OnInit, OnDestroy {
 
     get_Spells(name: string = "", type: string = "", tradition: string = "") {
         return this.spellsService.get_Spells(name, type, tradition);
+    }
+
+    get_GainedSpellLevel(spell: Spell, context: { gain: SpellGain, choice: SpellChoice }) {
+        return spell.get_EffectiveSpellLevel({ baseLevel: (context.choice.level ? context.choice.level : 0), creature: this.get_Creature(), gain: context.gain }, { characterService: this.characterService, effectsService: this.effectsService }, { noEffects: true });
     }
 
     get_HaveMatchingTalismanCord(talisman: Talisman) {
@@ -271,7 +276,11 @@ export class ItemComponent implements OnInit, OnDestroy {
             }
             if (spell) {
                 let tempGain: SpellGain = new SpellGain();
-                this.spellsService.process_Spell(this.get_Creature("Character"), target, this.characterService, this.itemsService, this.characterService.conditionsService, null, null, tempGain, spell, spellChoice.level, true, true, false);
+                this.spellsService.process_Spell(spell, true,
+                    { characterService: this.characterService, itemsService: this.itemsService, conditionsService: this.conditionsService },
+                    { creature: this.get_Creature("Character"), target: target, choice: spellChoice, gain: tempGain, level: spellChoice.level },
+                    { manual: true }
+                )
             }
             spellChoice.spells.shift();
         }

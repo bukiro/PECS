@@ -79,6 +79,24 @@ export class Spell {
         this.targetNumbers = this.targetNumbers.map(obj => Object.assign(new SpellTargetNumber(), obj).recast());
         return this;
     }
+    get_ActivationTraits(): string[] {
+        return Array.from(new Set([].concat(...this.castType.split(",")
+            .map(castType => {
+                const trimmedType = castType.trim().toLowerCase();
+                if (trimmedType.includes("verbal")) {
+                    return ["Concentrate"];
+                } else if (trimmedType.includes("material")) {
+                    return ["Manipulate"];
+                } else if (trimmedType.includes("somatic")) {
+                    return ["Manipulate"];
+                } else if (trimmedType.includes("focus")) {
+                    return ["Manipulate"];
+                } else {
+                    return [];
+                }
+            })
+        )))
+    }
     get_DescriptionSet(levelNumber: number) {
         //This descends from levelnumber downwards and returns the first description set with a matching level.
         //A description set contains variable names and the text to replace them with.
@@ -215,10 +233,10 @@ export class Spell {
     hasTargetConditions() {
         return this.gainConditions.some(gain => gain.targetFilter != "caster");
     }
-    public get_EffectiveSpellLevel(context: { baseLevel: number, creature: Creature, gain: SpellGain }, services: { characterService: CharacterService, effectsService: EffectsService }): number {
+    public get_EffectiveSpellLevel(context: { baseLevel: number, creature: Creature, gain: SpellGain }, services: { characterService: CharacterService, effectsService: EffectsService }, options: { noEffects?: boolean } = {}): number {
         //Focus spells are automatically heightened to your maximum available spell level.
         let level = context.baseLevel;
-        
+
         //If needed, calculate the dynamic effective spell level.
         let Character = services.characterService.get_Character();
         if (context.gain.dynamicEffectiveSpellLevel) {
@@ -233,27 +251,29 @@ export class Spell {
             level = Character.get_SpellLevel();
         }
 
-        //Apply all effects that might change the effective spell level of this spell.
-        let list = [
-            "Spell Levels",
-            this.name + " Spell Level"
-        ]
-        if (this.traditions.includes("Focus")) {
-            list.push("Focus Spell Levels");
-        }
-        if (this.traits.includes("Cantrip")) {
-            list.push("Cantrip Spell Levels");
-        }
-        services.effectsService.get_AbsolutesOnThese(context.creature, list).forEach(effect => {
-            if (parseInt(effect.setValue)) {
-                level = parseInt(effect.setValue);
+        if (!options.noEffects) {
+            //Apply all effects that might change the effective spell level of this spell.
+            let list = [
+                "Spell Levels",
+                this.name + " Spell Level"
+            ]
+            if (this.traditions.includes("Focus")) {
+                list.push("Focus Spell Levels");
             }
-        })
-        services.effectsService.get_RelativesOnThese(context.creature, list).forEach(effect => {
-            if (parseInt(effect.value)) {
-                level += parseInt(effect.value);
+            if (this.traits.includes("Cantrip")) {
+                list.push("Cantrip Spell Levels");
             }
-        })
+            services.effectsService.get_AbsolutesOnThese(context.creature, list).forEach(effect => {
+                if (parseInt(effect.setValue)) {
+                    level = parseInt(effect.setValue);
+                }
+            })
+            services.effectsService.get_RelativesOnThese(context.creature, list).forEach(effect => {
+                if (parseInt(effect.value)) {
+                    level += parseInt(effect.value);
+                }
+            })
+        }
 
         //If a spell is cast with a lower level than its minimum, the level is raised to the minimum.
         return Math.max(level, (this.levelreq || 0))

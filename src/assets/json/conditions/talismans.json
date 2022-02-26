@@ -39,8 +39,40 @@
     "_extensionFileName": "talismans"
   },
   {
-    "name": "Snapleaf",
-    "desc": "You gain the benefits of feather fall and a 2nd-level invisibility spell for the duration or until you stop falling, whichever comes first.",
+    "name": "Basilisk Eye",
+    "desc": "After your attack was blocked by a shield with the basilisk eye affixed, you must succeed at a DC 25 Fortitude save or become slowed 1 for 1 minute as your body slowly stiffens in partial petrification.",
+    "type": "talismans",
+    "sortLevel": 0,
+    "defaultDurations": [
+      {
+        "duration": 100
+      }
+    ],
+    "choice": "Failure",
+    "choices": [
+      {
+        "name": "Success",
+        "defaultDuration": 1
+      },
+      {
+        "name": "Failure",
+        "defaultDuration": 100
+      }
+    ],
+    "gainConditions": [
+      {
+        "conditionChoiceFilter": [
+          "Failure"
+        ],
+        "name": "Slowed",
+        "value": 1
+      }
+    ],
+    "_extensionFileName": "talismans"
+  },
+  {
+    "name": "Dragon Turtle Scale",
+    "desc": "You gain a swim Speed equal to half your land Speed.",
     "type": "talismans",
     "sortLevel": 0,
     "buff": true,
@@ -49,14 +81,232 @@
         "duration": 100
       }
     ],
-    "inputRequired": "Remove this condition when you stop falling.",
-    "gainConditions": [
+    "effects": [
       {
-        "heightened": 2,
-        "name": "Invisibility"
-      },
+        "affected": "Swim Speed",
+        "setValue": "Math.max(Math.floor(Speed('Land Speed') / 2 / 5) * 5, 5)"
+      }
+    ],
+    "_extensionFileName": "talismans"
+  },
+  {
+    "name": "Effervescent Ampoule",
+    "desc": "The effervescent ampoule lets you move across water and other liquids as if they were solid ground. If you Stride or Step over a weight-sensitive pressure plate, you don't cause the plate to depress, which prevents you from triggering any device or hazard attached to the pressure plate. When the ampoule's effect ends, you sink, fall, break through flimsy ground, or land on pressure plates as normal for your current location.",
+    "type": "talismans",
+    "sortLevel": 0,
+    "buff": true,
+    "defaultDurations": [
       {
-        "name": "Feather Fall"
+        "duration": 5
+      }
+    ],
+    "hints": [
+      {
+        "desc": "You can move across water and other liquids as if they were solid ground. If you Stride or Step over a weight-sensitive pressure plate, you don't cause the plate to depress, which prevents you from triggering any device or hazard attached to the pressure plate. When the effect ends, you sink, fall, break through flimsy ground, or land on pressure plates as normal for your current location.",
+        "showon": "Movement"
+      }
+    ],
+    "_extensionFileName": "talismans"
+  },
+  {
+    "name": "Emergency Disguise",
+    "desc": "The emergency disguise talisman has applied a disguise to you, allowing you to Impersonate without taking the time to assemble a convincing disguise first. The components the disguise creates can appear to be worth up to 3 gp total. The instant nature of the disguise leaves a few traces of its haphazard nature, imposing a -2 circumstance penalty on checks to Impersonate using the disguise. Wearers with the Quick Disguise feat don't take this penalty. Any objects created as a part of the disguise disappear after 24 hours or after you remove them.",
+    "type": "talismans",
+    "sortLevel": 0,
+    "buff": true,
+    "defaultDurations": [
+      {
+        "duration": 144000
+      }
+    ],
+    "hints": [
+      {
+        "desc": "You take a -2 circumstance penalty on checks to Impersonate using the emergency disguise. Wearers with the Quick Disguise feat don't take this penalty.",
+        "showon": "Deception",
+        "effects": [
+          {
+            "affected": "Deception",
+            "type": "circumstance",
+            "value": "Has_Feat(Creature.type, 'Quick Disguise') ? 0 : -2"
+          }
+        ]
+      }
+    ],
+    "_extensionFileName": "talismans"
+  },
+  {
+    "name": "Feather Step Stone",
+    "desc": "You ignore the effects of any difficult terrain and greater difficult terrain you move through.",
+    "type": "talismans",
+    "sortLevel": 0,
+    "buff": true,
+    "defaultDurations": [
+      {
+        "duration": 5
+      }
+    ],
+    "hints": [
+      {
+        "desc": "You ignore the effects of any difficult terrain and greater difficult terrain you move through.",
+        "showon": "Movement"
+      }
+    ],
+    "_extensionFileName": "talismans"
+  },
+  {
+    "name": "Iron Medallion",
+    "desc": "You gain a +2 status bonus to saves against fear for the duration.",
+    "type": "talismans",
+    "sortLevel": 0,
+    "buff": true,
+    "defaultDurations": [
+      {
+        "duration": 100
+      }
+    ],
+    "hints": [
+      {
+        "desc": "You gain a +2 status bonus to saves against fear for the duration.",
+        "showon": "Saving Throws",
+        "effects": [
+          {
+            "affected": "Saving Throws",
+            "type": "status",
+            "value": "2"
+          }
+        ]
+      }
+    ],
+    "_extensionFileName": "talismans"
+  },
+  {
+    "name": "Jade Bauble",
+    "desc": "The jade bauble magically draws the attention of foes. Enemies within the reach of the weapon the talisman is affixed to are flat-footed.",
+    "type": "talismans",
+    "sortLevel": 0,
+    "buff": true,
+    "defaultDurations": [
+      {
+        "duration": 10
+      }
+    ],
+    "hints": [
+      {
+        "desc": "Enemies within the reach of the weapon the jade bauble is affixed to are flat-footed.",
+        "showon": "Attacks"
+      }
+    ],
+    "_extensionFileName": "talismans"
+  },
+  {
+    "name": "Jade Cat",
+    "desc": "You treat all falls as 20 feet shorter, you are not flat-footed when you Balance, and narrow surfaces and uneven ground are not difficult terrain for you.",
+    "type": "talismans",
+    "sortLevel": 0,
+    "buff": true,
+    "defaultDurations": [
+      {
+        "duration": 100
+      }
+    ],
+    "hints": [
+      {
+        "desc": "You treat all falls as 20 feet shorter, you are not flat-footed when you Balance, and narrow surfaces and uneven ground are not difficult terrain for you.",
+        "showon": "Movement, Acrobatics"
+      }
+    ],
+    "_extensionFileName": "talismans"
+  },
+  {
+    "name": "Mummified Bat",
+    "desc": "The weapon that the mummified bat is affixed to detects vibrations around you and guides your perception. You gain the benefits of the fighter Blind-Fight class feat for 1 minute:\n\nYou don't need to succeed at a flat check to target concealed creatures.\nYou're not flat-footed to creatures that are hidden from you (unless you're flat-footed to them for reasons other than the hidden condition).\nYou need only a successful DC 5 flat check to target a hidden creature.\nWhile you're adjacent to an undetected creature of your level or lower, it is instead only hidden from you.",
+    "type": "talismans",
+    "sortLevel": 0,
+    "buff": true,
+    "defaultDurations": [
+      {
+        "duration": 100
+      }
+    ],
+    "hints": [
+      {
+        "desc": "You don't need to succeed at a flat check to target concealed creatures. You're not flat-footed to creatures that are hidden from you (unless you're flat-footed to them for reasons other than the hidden condition), and you need only a successful DC 5 flat check to target a hidden creature.\n\nWhile you're adjacent to an undetected creature of your level or lower, it is instead only hidden from you.",
+        "showon": "Attacks, Perception, Spellbook"
+      }
+    ],
+    "_extensionFileName": "talismans"
+  },
+  {
+    "name": "Oily Button",
+    "desc": "After you succeeded at an Athletics check to Disarm and activated the oily button, your attempts to Disarm your opponent of an item before the start of the opponent's next turn gain a +4 circumstance bonus instead of +2, and the -2 circumstance penalty to attacks with the item or other checks requiring a firm grasp on the item lasts until the end of its next turn or until it uses an Interact action to adjust its grip.",
+    "type": "talismans",
+    "sortLevel": 0,
+    "buff": true,
+    "defaultDurations": [
+      {
+        "duration": 7
+      }
+    ],
+    "hints": [
+      {
+        "desc": "Your attempts to Disarm your opponent of an item before the start of the opponent's next turn gain a +4 circumstance bonus instead of +2.",
+        "showon": "Athletics",
+        "effects": [
+          {
+            "affected": "Athletics",
+            "type": "circumstance",
+            "value": "4"
+          }
+        ]
+      }
+    ],
+    "_extensionFileName": "talismans"
+  },
+  {
+    "name": "Onyx Panther",
+    "desc": "You can move your full Speed (instead of half) whenever you Sneak for the duration.",
+    "type": "talismans",
+    "sortLevel": 0,
+    "buff": true,
+    "defaultDurations": [
+      {
+        "duration": 5
+      }
+    ],
+    "hints": [
+      {
+        "desc": "You can move your full Speed (instead of half) whenever you Sneak.",
+        "showon": "Movement, Stealth"
+      }
+    ],
+    "_extensionFileName": "talismans"
+  },
+  {
+    "name": "Potency Crystal",
+    "desc": "The weapon that the potency crystal is affixed to becomes a +1 striking weapon for the duration, gaining a +1 item bonus to the attack roll and increasing the damage on a hit to two weapon damage dice.",
+    "type": "talismans",
+    "sortLevel": 0,
+    "buff": true,
+    "defaultDurations": [
+      {
+        "duration": 5
+      }
+    ],
+    "hints": [
+      {
+        "desc": "The weapon that the potency crystal is affixed to becomes a +1 striking weapon, gaining a +1 item bonus to the attack roll and increasing the damage on a hit to two weapon damage dice.",
+        "showon": "Attacks",
+        "effects": [
+          {
+            "affected": "Weapons Attack Rolls",
+            "type": "item",
+            "value": "1"
+          },
+          {
+            "affected": "Weapons Dice Number",
+            "setValue": "2"
+          }
+        ]
       }
     ],
     "_extensionFileName": "talismans"
@@ -109,83 +359,8 @@
     "_extensionFileName": "talismans"
   },
   {
-    "name": "Potency Crystal",
-    "desc": "The weapon that the potency crystal is affixed to becomes a +1 striking weapon for the duration, gaining a +1 item bonus to the attack roll and increasing the damage on a hit to two weapon damage dice.",
-    "type": "talismans",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 5
-      }
-    ],
-    "hints": [
-      {
-        "desc": "The weapon that the potency crystal is affixed to becomes a +1 striking weapon, gaining a +1 item bonus to the attack roll and increasing the damage on a hit to two weapon damage dice.",
-        "showon": "Attacks",
-        "effects": [
-          {
-            "affected": "Weapons Attack Rolls",
-            "type": "item",
-            "value": "1"
-          },
-          {
-            "affected": "Weapons Dice Number",
-            "setValue": "2"
-          }
-        ]
-      }
-    ],
-    "_extensionFileName": "talismans"
-  },
-  {
-    "name": "Onyx Panther",
-    "desc": "You can move your full Speed (instead of half) whenever you Sneak for the duration.",
-    "type": "talismans",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 5
-      }
-    ],
-    "hints": [
-      {
-        "desc": "You can move your full Speed (instead of half) whenever you Sneak.",
-        "showon": "Movement, Stealth"
-      }
-    ],
-    "_extensionFileName": "talismans"
-  },
-  {
-    "name": "Oily Button",
-    "desc": "After you succeeded at an Athletics check to Disarm and activated the oily button, your attempts to Disarm your opponent of an item before the start of the opponent's next turn gain a +4 circumstance bonus instead of +2, and the -2 circumstance penalty to attacks with the item or other checks requiring a firm grasp on the item lasts until the end of its next turn or until it uses an Interact action to adjust its grip.",
-    "type": "talismans",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 7
-      }
-    ],
-    "hints": [
-      {
-        "desc": "Your attempts to Disarm your opponent of an item before the start of the opponent's next turn gain a +4 circumstance bonus instead of +2.",
-        "showon": "Athletics",
-        "effects": [
-          {
-            "affected": "Athletics",
-            "type": "circumstance",
-            "value": "4"
-          }
-        ]
-      }
-    ],
-    "_extensionFileName": "talismans"
-  },
-  {
-    "name": "Mummified Bat",
-    "desc": "The weapon that the mummified bat is affixed to detects vibrations around you and guides your perception. You gain the benefits of the fighter Blind-Fight class feat for 1 minute:\n\nYou don't need to succeed at a flat check to target concealed creatures.\nYou're not flat-footed to creatures that are hidden from you (unless you're flat-footed to them for reasons other than the hidden condition).\nYou need only a successful DC 5 flat check to target a hidden creature.\nWhile you're adjacent to an undetected creature of your level or lower, it is instead only hidden from you.",
+    "name": "Snapleaf",
+    "desc": "You gain the benefits of feather fall and a 2nd-level invisibility spell for the duration or until you stop falling, whichever comes first.",
     "type": "talismans",
     "sortLevel": 0,
     "buff": true,
@@ -194,10 +369,14 @@
         "duration": 100
       }
     ],
-    "hints": [
+    "inputRequired": "Remove this condition when you stop falling.",
+    "gainConditions": [
       {
-        "desc": "You don't need to succeed at a flat check to target concealed creatures. You're not flat-footed to creatures that are hidden from you (unless you're flat-footed to them for reasons other than the hidden condition), and you need only a successful DC 5 flat check to target a hidden creature.\n\nWhile you're adjacent to an undetected creature of your level or lower, it is instead only hidden from you.",
-        "showon": "Attacks, Perception, Spellbook"
+        "heightened": 2,
+        "name": "Invisibility"
+      },
+      {
+        "name": "Feather Fall"
       }
     ],
     "_extensionFileName": "talismans"
@@ -217,185 +396,6 @@
       {
         "desc": "If the outcome of any your attempts to Pick a Lock is a critical failure, you get a failure instead.",
         "showon": "Thievery"
-      }
-    ],
-    "_extensionFileName": "talismans"
-  },
-  {
-    "name": "Jade Cat",
-    "desc": "You treat all falls as 20 feet shorter, you are not flat-footed when you Balance, and narrow surfaces and uneven ground are not difficult terrain for you.",
-    "type": "talismans",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 100
-      }
-    ],
-    "hints": [
-      {
-        "desc": "You treat all falls as 20 feet shorter, you are not flat-footed when you Balance, and narrow surfaces and uneven ground are not difficult terrain for you.",
-        "showon": "Movement, Acrobatics"
-      }
-    ],
-    "_extensionFileName": "talismans"
-  },
-  {
-    "name": "Iron Medallion",
-    "desc": "You gain a +2 status bonus to saves against fear for the duration.",
-    "type": "talismans",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 100
-      }
-    ],
-    "hints": [
-      {
-        "desc": "You gain a +2 status bonus to saves against fear for the duration.",
-        "showon": "Saving Throws",
-        "effects": [
-          {
-            "affected": "Saving Throws",
-            "type": "status",
-            "value": "2"
-          }
-        ]
-      }
-    ],
-    "_extensionFileName": "talismans"
-  },
-  {
-    "name": "Feather Step Stone",
-    "desc": "You ignore the effects of any difficult terrain and greater difficult terrain you move through.",
-    "type": "talismans",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 5
-      }
-    ],
-    "hints": [
-      {
-        "desc": "You ignore the effects of any difficult terrain and greater difficult terrain you move through.",
-        "showon": "Movement"
-      }
-    ],
-    "_extensionFileName": "talismans"
-  },
-  {
-    "name": "Emergency Disguise",
-    "desc": "The emergency disguise talisman has applied a disguise to you, allowing you to Impersonate without taking the time to assemble a convincing disguise first. The components the disguise creates can appear to be worth up to 3 gp total. The instant nature of the disguise leaves a few traces of its haphazard nature, imposing a -2 circumstance penalty on checks to Impersonate using the disguise. Wearers with the Quick Disguise feat don't take this penalty. Any objects created as a part of the disguise disappear after 24 hours or after you remove them.",
-    "type": "talismans",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 144000
-      }
-    ],
-    "hints": [
-      {
-        "desc": "You take a -2 circumstance penalty on checks to Impersonate using the emergency disguise. Wearers with the Quick Disguise feat don't take this penalty.",
-        "showon": "Deception",
-        "effects": [
-          {
-            "affected": "Deception",
-            "type": "circumstance",
-            "value": "Has_Feat(Creature.type, 'Quick Disguise') ? 0 : -2"
-          }
-        ]
-      }
-    ],
-    "_extensionFileName": "talismans"
-  },
-  {
-    "name": "Effervescent Ampoule",
-    "desc": "The effervescent ampoule lets you move across water and other liquids as if they were solid ground. If you Stride or Step over a weight-sensitive pressure plate, you don't cause the plate to depress, which prevents you from triggering any device or hazard attached to the pressure plate. When the ampoule's effect ends, you sink, fall, break through flimsy ground, or land on pressure plates as normal for your current location.",
-    "type": "talismans",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 5
-      }
-    ],
-    "hints": [
-      {
-        "desc": "You can move across water and other liquids as if they were solid ground. If you Stride or Step over a weight-sensitive pressure plate, you don't cause the plate to depress, which prevents you from triggering any device or hazard attached to the pressure plate. When the effect ends, you sink, fall, break through flimsy ground, or land on pressure plates as normal for your current location.",
-        "showon": "Movement"
-      }
-    ],
-    "_extensionFileName": "talismans"
-  },
-  {
-    "name": "Dragon Turtle Scale",
-    "desc": "You gain a swim Speed equal to half your land Speed.",
-    "type": "talismans",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 100
-      }
-    ],
-    "effects": [
-      {
-        "affected": "Swim Speed",
-        "setValue": "Math.max(Math.floor(Speed('Land Speed') / 2 / 5) * 5, 5)"
-      }
-    ],
-    "_extensionFileName": "talismans"
-  },
-  {
-    "name": "Basilisk Eye",
-    "desc": "After your attack was blocked by a shield with the basilisk eye affixed, you must succeed at a DC 25 Fortitude save or become slowed 1 for 1 minute as your body slowly stiffens in partial petrification.",
-    "type": "talismans",
-    "sortLevel": 0,
-    "defaultDurations": [
-      {
-        "duration": 100
-      }
-    ],
-    "choice": "Failure",
-    "choices": [
-      {
-        "name": "Success",
-        "defaultDuration": 1
-      },
-      {
-        "name": "Failure",
-        "defaultDuration": 100
-      }
-    ],
-    "gainConditions": [
-      {
-        "conditionChoiceFilter": [
-          "Failure"
-        ],
-        "name": "Slowed",
-        "value": 1
-      }
-    ],
-    "_extensionFileName": "talismans"
-  },
-  {
-    "name": "Jade Bauble",
-    "desc": "The jade bauble magically draws the attention of foes. Enemies within the reach of the weapon the talisman is affixed to are flat-footed.",
-    "type": "talismans",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 10
-      }
-    ],
-    "hints": [
-      {
-        "desc": "Enemies within the reach of the weapon the jade bauble is affixed to are flat-footed.",
-        "showon": "Attacks"
       }
     ],
     "_extensionFileName": "talismans"

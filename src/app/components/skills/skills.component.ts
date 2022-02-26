@@ -134,7 +134,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
         let unique: string[] = [];
         if (this.get_Character().settings.showSkillActivities) {
             this.characterService.get_OwnedActivities(this.get_Creature()).forEach(activity => {
-                activity.get_OriginalActivity(this.activitiesService)?.get_Cooldown(this.get_Creature(), this.characterService);
+                activity.get_OriginalActivity(this.activitiesService)?.get_Cooldown({creature: this.get_Creature()}, {characterService: this.characterService, effectsService: this.effectsService});
                 if (!unique.includes(activity.name)) {
                     unique.push(activity.name);
                     activities.push(activity);

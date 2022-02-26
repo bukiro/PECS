@@ -107,10 +107,10 @@ export class WornItem extends Equipment {
     }
     get_EffectsGenerationHints(): HintEffectsObject[] {
         //Aeon Stones have hints that can be resonant, meaning they are only displayed if the stone is slotted.
-        //After collecting the hints, we keep those that are either both resonant and slotted, or neither.
+        //After collecting the hints, we keep the resonant ones only if the item is slotted.
         //Then we add the hints of any slotted aeon stones of this item, with the same rules.
         return super.get_EffectsGenerationHints()
-            .filter(hintSet => hintSet.hint.resonant == this.isSlottedAeonStone)
+            .filter(hintSet => hintSet.hint.resonant ? this.isSlottedAeonStone : true)
             .concat(...this.aeonStones.map(stone => stone.get_EffectsGenerationHints()));
     }
 }

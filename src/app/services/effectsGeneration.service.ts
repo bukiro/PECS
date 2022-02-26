@@ -3,7 +3,6 @@ import { ActivitiesService } from 'src/app/services/activities.service';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { Armor } from 'src/app/classes/Armor';
-import { ArmorRune } from 'src/app/classes/ArmorRune';
 import { Character } from 'src/app/classes/Character';
 import { CharacterService } from 'src/app/services/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
@@ -26,6 +25,7 @@ import { Shield } from 'src/app/classes/Shield';
 import { Specialization } from 'src/app/classes/Specialization';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { WornItem } from 'src/app/classes/WornItem';
+import { ItemsService } from 'src/app/services/items.service';
 
 type FormulaContext = {
     readonly creature: Creature,
@@ -60,7 +60,8 @@ export class EffectsGenerationService {
         private activitiesService: ActivitiesService,
         private effectsService: EffectsService,
         private conditionsService: ConditionsService,
-        private refreshService: RefreshService
+        private refreshService: RefreshService,
+        private itemsService: ItemsService
     ) { }
 
     public get_EffectsFromObject(object: any, services: { readonly characterService: CharacterService }, context: FormulaContext, options: FormulaOptions = {}): Effect[] {
@@ -90,7 +91,7 @@ export class EffectsGenerationService {
 
         //EffectGains come with values that contain a statement.
         //This statement is evaluated by the EvaluationService and then validated here in order to build a working Effect.
-        object.effects.filter((effect: EffectGain) => effect.resonant ? (object instanceof WornItem && object.isSlottedAeonStone) : true).forEach((effect: EffectGain) => {
+        (object.effects as EffectGain[]).filter(effect => effect.resonant ? (object instanceof WornItem && object.isSlottedAeonStone) : true).forEach((effect: EffectGain) => {
             function get_ValueFromFormula(value: string) {
                 return evaluationService.get_ValueFromFormula(value, { characterService: services.characterService, effectsService: effectsService }, Object.assign({ effect: effect }, context), options);
             }
@@ -205,7 +206,7 @@ export class EffectsGenerationService {
 
     private collect_EffectItems(creature: Creature, services: { readonly characterService: CharacterService }): { objects: (Equipment | Specialization | Rune)[], hintSets: HintEffectsObject[] } {
         //Collect items and item specializations that may have effects, and their hints, and return them in two lists.
-
+        
         let objects: (Equipment | Specialization | Rune)[] = [];
         let hintSets: HintEffectsObject[] = [];
 
@@ -223,6 +224,12 @@ export class EffectsGenerationService {
                 hintSets = hintSets.concat(item.get_EffectsGenerationHints());
             });
         });
+
+        //If too many wayfinders are invested with slotted aeon stones, all aeon stone effects are ignored.
+        if (this.itemsService.get_TooManySlottedAeonStones(creature)) {
+            objects = objects.filter(object => !(object instanceof WornItem && object.isSlottedAeonStone));
+            hintSets = hintSets.filter(set => !(set.parentItem && set.parentItem instanceof WornItem && set.parentItem.isSlottedAeonStone));
+        };
         return { objects: objects, hintSets: hintSets };
     }
 
@@ -841,7 +848,7 @@ export class EffectsGenerationService {
     private run_EffectGenerationPreflightUpdates(creature: Creature, services: { readonly characterService: CharacterService }): void {
         //Add or remove conditions depending on your equipment. This is called here to ensure that the conditions exist before their effects are generated.
         this.conditionsService.generate_BulkConditions(creature, { characterService: services.characterService, effectsService: this.effectsService });
-        this.conditionsService.generate_ItemConditions(creature, { characterService: services.characterService, effectsService: this.effectsService });
+        this.conditionsService.generate_ItemConditions(creature, { characterService: services.characterService, effectsService: this.effectsService, itemsService: this.itemsService });
         //Update item modifiers that influence their effectiveness and effects.
         this.update_ItemModifiers(creature, services);
     }

@@ -93,7 +93,6 @@ export class ItemsService {
 
     constructor(
         private typeService: TypeService,
-        private toastService: ToastService,
         private extensionsService: ExtensionsService,
         private refreshService: RefreshService
     ) { }
@@ -703,7 +702,12 @@ export class ItemsService {
         }
     }
 
-    process_Consumable(creature: Creature, characterService: CharacterService, itemsService: ItemsService, conditionsService: ConditionsService, spellsService: SpellsService, item: Consumable) {
+    public get_TooManySlottedAeonStones(creature: Creature): boolean {
+        //If more than one wayfinder with slotted aeon stones is invested, you do not gain the benefits of any of them.
+        return creature.inventories[0].wornitems.filter(item => item.isWayfinder && item.investedOrEquipped() && item.aeonStones.length).length >= 2;
+    }
+
+    process_Consumable(creature: Creature, characterService: CharacterService, conditionsService: ConditionsService, spellsService: SpellsService, item: Consumable) {
 
         //Consumables don't do anything in manual mode, except be used up.
         if (!characterService.get_ManualMode()) {
@@ -727,7 +731,11 @@ export class ItemsService {
                     cast.spellGain.duration = cast.duration;
                     let librarySpell = spellsService.get_Spells(cast.name)[0];
                     if (librarySpell) {
-                        spellsService.process_Spell(creature, creature.type, characterService, itemsService, conditionsService, null, null, cast.spellGain, librarySpell, cast.level, true, true, false);
+                        characterService.spellsService.process_Spell(librarySpell, true,
+                            { characterService: characterService, itemsService: this, conditionsService: conditionsService },
+                            { creature: creature, target: creature.type, gain: cast.spellGain, level: cast.level },
+                            { manual: true }
+                        )
                     }
                 })
             }

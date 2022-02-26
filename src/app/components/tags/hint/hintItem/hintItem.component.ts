@@ -6,6 +6,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { Item } from 'src/app/classes/Item';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { EffectsService } from 'src/app/services/effects.service';
 
 @Component({
     selector: 'app-hintItem',
@@ -21,10 +22,11 @@ export class HintItemComponent implements OnInit {
     item: Item | any;
 
     constructor(
+        public characterService: CharacterService,
+        public effectsService: EffectsService,
         private changeDetector: ChangeDetectorRef,
         private traitsService: TraitsService,
         private activitiesService: ActivitiesService,
-        public characterService: CharacterService,
         private refreshService: RefreshService
     ) { }
 

@@ -8,6 +8,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { SpellTargetNumber } from 'src/app/classes/SpellTargetNumber';
 import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
 import { HeightenedDesc } from 'src/app/classes/HeightenedDesc';
+import { EffectsService } from 'src/app/services/effects.service';
 
 export class Activity {
     public readonly isActivity: boolean = true;
@@ -90,7 +91,7 @@ export class Activity {
         return this;
     }
     get_ActivationTraits(): string[] {
-        return [].concat(...this.activationType.split(",")
+        return Array.from(new Set([].concat(...this.activationType.split(",")
             .map(activationType => {
                 const trimmedType = activationType.trim().toLowerCase();
                 if (trimmedType.includes("command")) {
@@ -104,7 +105,7 @@ export class Activity {
                 } else {
                     return [];
                 }
-            })
+            })))
         )
     }
     can_Activate() {
@@ -171,7 +172,7 @@ export class Activity {
             }
         }
     }
-    maxCharges(creature: Creature, characterService: CharacterService) {
+    maxCharges(context: {creature: Creature}, services: {effectsService: EffectsService}) {
         //Add any effects to the number of charges you have. If you have none, start with 1, and if the result then remains 1, return 0.
         let charges = this.charges;
         let startWithZero: boolean = false;
@@ -179,11 +180,11 @@ export class Activity {
             startWithZero = true;
             charges = 1;
         }
-        characterService.effectsService.get_AbsolutesOnThis(creature, this.name + " Charges")
+        services.effectsService.get_AbsolutesOnThis(context.creature, this.name + " Charges")
             .forEach(effect => {
                 charges = parseInt(effect.setValue);
             })
-        characterService.effectsService.get_RelativesOnThis(creature, this.name + " Charges")
+            services.effectsService.get_RelativesOnThis(context.creature, this.name + " Charges")
             .forEach(effect => {
                 charges += parseInt(effect.value);
             })
@@ -193,17 +194,17 @@ export class Activity {
             return charges;
         }
     }
-    get_Cooldown(creature: Creature, characterService: CharacterService) {
+    get_Cooldown(context: {creature: Creature}, services: {characterService: CharacterService, effectsService: EffectsService}) {
         //Add any effects to the activity's cooldown.
         let cooldown = this.cooldown;
         //Use get_AbsolutesOnThese() because it allows to prefer lower values. We still sort the effects in descending setValue.
-        characterService.effectsService.get_AbsolutesOnThese(creature, [this.name + " Cooldown"], { lowerIsBetter: true })
+        services.effectsService.get_AbsolutesOnThese(context.creature, [this.name + " Cooldown"], { lowerIsBetter: true })
             .sort((a, b) => parseInt(b.setValue) - parseInt(a.setValue))
             .forEach(effect => {
                 cooldown = parseInt(effect.setValue);
             })
         //Use get_RelativesOnThese() because it allows to prefer lower values. We still sort the effects in descending value.
-        characterService.effectsService.get_RelativesOnThese(creature, [this.name + " Cooldown"], { lowerIsBetter: true })
+        services.effectsService.get_RelativesOnThese(context.creature, [this.name + " Cooldown"], { lowerIsBetter: true })
             .sort((a, b) => parseInt(b.value) - parseInt(a.value))
             .forEach(effect => {
                 cooldown += parseInt(effect.value);
@@ -211,7 +212,7 @@ export class Activity {
         //If the cooldown has changed from the original, update all activity gains that refer to this condition to lower their cooldown if necessary.
         this._cooldown = cooldown;
         if (this.cooldown != cooldown) {
-            characterService.get_OwnedActivities(creature, 20, true).filter(gain => gain.name == this.name).forEach(gain => {
+            services.characterService.get_OwnedActivities(context.creature, 20, true).filter(gain => gain.name == this.name).forEach(gain => {
                 gain.activeCooldown = Math.min(gain.activeCooldown, cooldown);
             })
         }
