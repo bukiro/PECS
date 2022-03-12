@@ -2332,12 +2332,13 @@
                                             {{checked ? "Change" : "Save"}}
                                         </label>
                                     </div>
-                                    <header class="sectionHeader">
+                                    <header class="sectionHeader gap-text">
                                         <cite class="problem" *ngIf="illegal">
                                             Lore already trained
                                         </cite>
-                                        <input id="LoreName" type="text" [(ngModel)]="loreContent.choice.loreName"
+                                        <input id="LoreName" class="short" type="text" [(ngModel)]="loreContent.choice.loreName"
                                             [disabled]="checked" (blur)="on_LoreNameChange" maxLength="20">
+                                            <span> Lore</span>
                                     </header>
                                 </div>
                             </ng-container>

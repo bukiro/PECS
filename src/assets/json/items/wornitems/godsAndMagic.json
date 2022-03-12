@@ -1,142 +1,141 @@
 [
-  {
-    "name": "Necklace of Knives",
-    "id": "e123c192-0b00-4ad3-afd9-026efe8960be",
-    "desc": "This necklace strung with miniature stone throwing knives. As long as you wear it, you are never without a weapon, a crude surgical tool, or stake for a vampire, if necessary in following Pharasma's teachings.",
-    "_extensionFileName": "godsAndMagic",
-    "sourceBook": "Gods & Magic",
-    "level": 2,
-    "price": 2500,
-    "traits": [
-      "Uncommon",
-      "Conjuration",
-      "Invested",
-      "Magical"
-    ],
-    "usage": "worn",
-    "activities": [
-      {
-        "name": "Necklace of Knives: Steel Dagger",
-        "actions": "1A",
-        "activationType": "Interact",
-        "desc": "You pluck a miniature knife from the necklace, and it grows into a normal steel dagger for as long as you hold it, fading away 1 round after it leaves your hand. No matter how many knives you pull from the necklace, you never seem to deplete them.",
-        "gainItems": [
-          {
-            "id": "a86c588a-aedb-4fa5-8c30-e4d4d991dd44",
-            "expiration": 10,
-            "expiresOnlyIf": "unequipped",
-            "type": "weapons"
-          }
-        ],
+    {
+        "name": "Necklace of Knives",
+        "id": "e123c192-0b00-4ad3-afd9-026efe8960be",
+        "desc": "This necklace strung with miniature stone throwing knives. As long as you wear it, you are never without a weapon, a crude surgical tool, or stake for a vampire, if necessary in following Pharasma's teachings.",
+        "_extensionFileName": "godsAndMagic",
+        "sourceBook": "Gods & Magic",
+        "level": 2,
+        "price": 2500,
         "traits": [
-          "Uncommon",
-          "Conjuration",
-          "Invested",
-          "Magical"
-        ]
-      },
-      {
-        "name": "Necklace of Knives: Stone Dagger",
-        "actions": "1A",
-        "activationType": "Interact",
-        "desc": "You pluck a miniature knife from the necklace, and it grows into a normal stone dagger for as long as you hold it, fading away 1 round after it leaves your hand. No matter how many knives you pull from the necklace, you never seem to deplete them.",
-        "gainItems": [
-          {
-            "id": "cde099b4-05b9-48a0-86a3-316c2b485722",
-            "expiration": 10,
-            "expiresOnlyIf": "unequipped",
-            "type": "weapons"
-          }
+            "Uncommon",
+            "Conjuration",
+            "Invested",
+            "Magical"
         ],
-        "traits": [
-          "Uncommon",
-          "Conjuration",
-          "Invested",
-          "Magical"
+        "usage": "worn",
+        "activities": [
+            {
+                "name": "Necklace of Knives: Steel Dagger",
+                "actions": "1A",
+                "activationType": "Interact",
+                "desc": "You pluck a miniature knife from the necklace, and it grows into a normal steel dagger for as long as you hold it, fading away 1 round after it leaves your hand. No matter how many knives you pull from the necklace, you never seem to deplete them.",
+                "gainItems": [
+                    {
+                        "id": "a86c588a-aedb-4fa5-8c30-e4d4d991dd44",
+                        "expiration": 10,
+                        "expiresOnlyIf": "unequipped",
+                        "type": "weapons"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Conjuration",
+                    "Invested",
+                    "Magical"
+                ]
+            },
+            {
+                "name": "Necklace of Knives: Stone Dagger",
+                "actions": "1A",
+                "activationType": "Interact",
+                "desc": "You pluck a miniature knife from the necklace, and it grows into a normal stone dagger for as long as you hold it, fading away 1 round after it leaves your hand. No matter how many knives you pull from the necklace, you never seem to deplete them.",
+                "gainItems": [
+                    {
+                        "id": "cde099b4-05b9-48a0-86a3-316c2b485722",
+                        "expiration": 10,
+                        "expiresOnlyIf": "unequipped",
+                        "type": "weapons"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Conjuration",
+                    "Invested",
+                    "Magical"
+                ]
+            },
+            {
+                "desc": "You pluck a miniature knife from the necklace, and it grows into a normal wooden dagger for as long as you hold it, fading away 1 round after it leaves your hand. No matter how many knives you pull from the necklace, you never seem to deplete them. Wooden daggers from the necklace are as effective as ordinary steel daggers and can be useful to stake vampires.",
+                "gainItems": [
+                    {
+                        "id": "85062217-d2f6-457b-92e7-5b9e26215a12",
+                        "expiration": 10,
+                        "expiresOnlyIf": "unequipped",
+                        "type": "weapons"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Conjuration",
+                    "Invested",
+                    "Magical"
+                ]
+            }
         ]
-      },
-      {
-        "desc": "You pluck a miniature knife from the necklace, and it grows into a normal wooden dagger for as long as you hold it, fading away 1 round after it leaves your hand. No matter how many knives you pull from the necklace, you never seem to deplete them. Wooden daggers from the necklace are as effective as ordinary steel daggers and can be useful to stake vampires.",
-        "gainItems": [
-          {
-            "id": "85062217-d2f6-457b-92e7-5b9e26215a12",
-            "expiration": 10,
-            "expiresOnlyIf": "unequipped",
-            "type": "weapons"
-          }
+    },
+    {
+        "name": "Manacles of Persuasion",
+        "id": "261d1551-7333-464b-8531-3cce086e79f3",
+        "desc": "These sturdy, average manacles are connected by a thick iron chain that is much heavier than its appearance suggests at a glance. Followers of Zon-Kuthon sometimes employ manacles of persuasion against captured enemies and spies. When the manacles are locked around an immobilized creature's wrists, they begin to sap the life out of the victim, dealing 2 negative damage per hour until the creature falls unconscious. The effect is nonlethal, so the damage doesn't cause the creature to become dying. While the creature is unconscious, the manacles deal no damage and allow the creature to recover Hit Points normally to a maximum of 10 Hit Points, at which point the manacles begin to deal damage once more. The manacles have no effect on a creature that is not immobilized.\n\n<strong>Manacles (Average)</strong> You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from average manacles requires four successful DC 27 Thievery checks.",
+        "access": "follower of Zon-Kuthon",
+        "_extensionFileName": "godsAndMagic",
+        "sourceBook": "Gods & Magic",
+        "level": 3,
+        "bulk": "1",
+        "price": 4500,
+        "traits": [
+            "Uncommon",
+            "Magical",
+            "Necromancy",
+            "Nonlethal"
         ],
-        "traits": [
-          "Uncommon",
-          "Conjuration",
-          "Invested",
-          "Magical"
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Manacles of Persuasion",
-    "id": "261d1551-7333-464b-8531-3cce086e79f3",
-    "desc": "These sturdy, average manacles are connected by a thick iron chain that is much heavier than its appearance suggests at a glance. Followers of Zon-Kuthon sometimes employ manacles of persuasion against captured enemies and spies. When the manacles are locked around an immobilized creature's wrists, they begin to sap the life out of the victim, dealing 2 negative damage per hour until the creature falls unconscious. The effect is nonlethal, so the damage doesn't cause the creature to become dying. While the creature is unconscious, the manacles deal no damage and allow the creature to recover Hit Points normally to a maximum of 10 Hit Points, at which point the manacles begin to deal damage once more. The manacles have no effect on a creature that is not immobilized.\n\n<strong>Manacles (Average)</strong> You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from average manacles requires four successful DC 27 Thievery checks.",
-    "access": "follower of Zon-Kuthon",
-    "_extensionFileName": "godsAndMagic",
-    "sourceBook": "Gods & Magic",
-    "level": 3,
-    "bulk": "1",
-    "price": 4500,
-    "traits": [
-      "Uncommon",
-      "Magical",
-      "Necromancy",
-      "Nonlethal"
-    ],
-    "usage": "worn on wrists"
-  },
-  {
-    "name": "Miter of Communion",
-    "id": "d7e973ff-0a9d-4f3e-a8a2-5676861d063e",
-    "desc": "This ornate headgear comes in many different shapes and sizes, though most are elaborately decorated with motifs of the deity whose honor in which it was made. The miter brings you spiritually closer to your deity's servitors, granting you a +2 item bonus to Religion checks.",
-    "_extensionFileName": "godsAndMagic",
-    "sourceBook": "Gods & Magic",
-    "level": 10,
-    "bulk": "L",
-    "price": 80000,
-    "traits": [
-      "Uncommon",
-      "Divination",
-      "Invested",
-      "Magical"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn headwear",
-    "effects": [
-      {
-        "affected": "Miter of Communion",
-        "type": "item",
-        "value": "2"
-      }
-    ],
-    "activities": [
-      {
+        "usage": "worn on wrists"
+    },
+    {
         "name": "Miter of Communion",
-        "actions": "1 minute",
-        "activationType": "Command",
-        "frequency": "once per week",
-        "cooldown": 1008000,
-        "desc": "You chant for a minute about a task at hand for the coming week to cast a 4th-level read omens spell that grants you cryptic but useful advice.",
-        "castSpells": [
-          {
-            "level": 4,
-            "name": "Read Omens"
-          }
-        ],
+        "id": "d7e973ff-0a9d-4f3e-a8a2-5676861d063e",
+        "desc": "This ornate headgear comes in many different shapes and sizes, though most are elaborately decorated with motifs of the deity whose honor in which it was made. The miter brings you spiritually closer to your deity's servitors, granting you a +2 item bonus to Religion checks.",
+        "_extensionFileName": "godsAndMagic",
+        "sourceBook": "Gods & Magic",
+        "level": 10,
+        "bulk": "L",
+        "price": 80000,
         "traits": [
-          "Uncommon",
-          "Divination",
-          "Invested",
-          "Magical"
+            "Uncommon",
+            "Divination",
+            "Invested",
+            "Magical"
+        ],
+        "usage": "worn headwear",
+        "effects": [
+            {
+                "affected": "Religion",
+                "type": "item",
+                "value": "2"
+            }
+        ],
+        "activities": [
+            {
+                "name": "Miter of Communion",
+                "actions": "1 minute",
+                "activationType": "Command",
+                "frequency": "once per week",
+                "cooldown": 1008000,
+                "desc": "You chant for a minute about a task at hand for the coming week to cast a 4th-level read omens spell that grants you cryptic but useful advice.",
+                "castSpells": [
+                    {
+                        "level": 4,
+                        "name": "Read Omens"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Divination",
+                    "Invested",
+                    "Magical"
+                ]
+            }
         ]
-      }
-    ]
-  }
+    }
 ]

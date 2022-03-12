@@ -630,11 +630,16 @@ export class SavegameService {
                 })
             }
 
-            //Conditions from feats are tagged with fromFeat in 1.0.14. Currently existing condition gains on the character need to be updated.
+            //Conditions from feats are tagged with fromFeat starting in 1.0.14. Currently existing condition gains on the character need to be updated.
             if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 14) {
                 character.conditions.filter(gain => gain.source.includes("Feat: ")).forEach(gain => {
                     gain.fromFeat = true;
                 })
+            }
+
+            //Apparently, Wizard spellcasting wasn't updated to being spellbook-only. This is amended in 1.0.14.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 14) {
+                character.class.spellCasting.filter(casting => casting.className == "Wizard" && casting.castingType == "Prepared").forEach(casting => { casting.spellBookOnly = true });
             }
 
         }

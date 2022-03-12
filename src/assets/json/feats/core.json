@@ -22501,9 +22501,9 @@
                 "effects": [
                     {
                         "affected": "Swim Speed",
-                        "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Swim Speed').concat(effectsService.get_RelativesOnThis(creature, 'Swim Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null",
+                        "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !Has_Speed('Swim Speed')) ? Speed('Land Speed') : null",
                         "type": "status",
-                        "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Swim Speed').concat(effectsService.get_RelativesOnThis(creature, 'Swim Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0"
+                        "value": "(Has_Feat(Creature.type, 'Wild Stride') && Has_Speed('Swim Speed')) ? +10 : 0"
                     }
                 ]
             }
@@ -22576,9 +22576,9 @@
                 "effects": [
                     {
                         "affected": "Climb Speed",
-                        "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null",
+                        "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !Has_Speed('Climb Speed')) ? Speed('Land Speed') : null",
                         "type": "status",
-                        "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0"
+                        "value": "(Has_Feat(Creature.type, 'Wild Stride') && Has_Speed('Climb Speed')) ? +10 : 0"
                     }
                 ]
             }
@@ -22601,9 +22601,9 @@
                 "effects": [
                     {
                         "affected": "Climb Speed",
-                        "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null",
+                        "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !Has_Speed('Climb Speed')) ? Speed('Land Speed') : null",
                         "type": "status",
-                        "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0"
+                        "value": "(Has_Feat(Creature.type, 'Wild Stride') && Has_Speed('Climb Speed')) ? +10 : 0"
                     }
                 ]
             }
@@ -22651,7 +22651,7 @@
                     {
                         "affected": "Fly Speed",
                         "type": "status",
-                        "value": "Has_Feat(Creature.type, 'Wild Stride') && Speed('Fly Speed') ? +10 : 0"
+                        "value": "Has_Feat(Creature.type, 'Wild Stride') && Has_Speed('Fly Speed') ? +10 : 0"
                     }
                 ]
             }
@@ -22691,9 +22691,9 @@
                 "effects": [
                     {
                         "affected": "Climb Speed",
-                        "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null",
+                        "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !Has_Speed('Climb Speed')) ? Speed('Land Speed') : null",
                         "type": "status",
-                        "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0"
+                        "value": "(Has_Feat(Creature.type, 'Wild Stride') && Has_Speed('Climb Speed')) ? +10 : 0"
                     }
                 ]
             }
@@ -34214,7 +34214,7 @@
                     {
                         "affected": "Fly Speed",
                         "type": "status",
-                        "value": "Speed('Fly Speed') ? 5 : 0"
+                        "value": "Has_Speed('Fly Speed') ? 5 : 0"
                     }
                 ]
             }

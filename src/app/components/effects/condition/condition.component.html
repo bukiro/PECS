@@ -21,7 +21,8 @@
                                 {{conditionGain.choice}}
                             </span>
                         </label>
-                        <span *ngIf="(choices.length || conditionGain.name == 'Persistent Damage') && conditionGain.choiceLocked && conditionGain.choice && !conditionGain.showChoices">
+                        <span
+                            *ngIf="(choices.length || conditionGain.name == 'Persistent Damage') && conditionGain.choiceLocked && conditionGain.choice && !conditionGain.showChoices">
                             {{conditionGain.choice}}
                         </span>
                         <app-quickdice *ngIf="conditionGain.name == 'Persistent Damage' && conditionGain.choice"
@@ -76,7 +77,8 @@
             <span
                 *ngIf="!((conditionGain.lockedByParent || conditionGain.valueLockedByParent) && conditionGain.parentID)"
                 [ngbTooltip]="conditionGain.fromFeat ? 'Conditions gained from feats cannot be removed.' : (conditionGain.fromItem ? 'Conditions gained from equipped items cannot be removed.' : '')">
-                <button (click)="remove_Condition(conditionGain)" [disabled]="conditionGain.fromFeat || conditionGain.fromItem"
+                <button (click)="remove_Condition(conditionGain)"
+                    [disabled]="conditionGain.fromFeat || conditionGain.fromItem"
                     *ngIf="!conditionGain.durationIsInstant">
                     Remove
                 </button>
@@ -253,7 +255,8 @@
                 *ngFor="let conditionSelection of prepare_SelectOtherConditions(conditionGain, condition); let selectIndex = index; trackBy:trackByIndex;">
                 <div class="newrow">
                     <strong>{{conditionSelection.title || "Condition " + (selectIndex + 1)}}</strong>
-                    <select [(ngModel)]="conditionGain.selectedOtherConditions[selectIndex]" (ngModelChange)="change_OtherConditionSelection()">
+                    <select [(ngModel)]="conditionGain.selectedOtherConditions[selectIndex]"
+                        (ngModelChange)="change_OtherConditionSelection()">
                         <option
                             *ngFor="let otherCondition of get_SelectOtherConditionOptions(conditionSelection, conditionGain, selectIndex); trackBy:trackByIndex;"
                             [ngValue]="otherCondition">
@@ -318,7 +321,8 @@
                             [ngClass]="{'fancy-button':gain.active, 'inactive-button':cannotActivate, 'penalty':!cannotActivate && activity.get_IsHostile(), 'bonus':!cannotActivate && !activity.get_IsHostile()}">
                             <app-gridIcon
                                 [ngClass]="{'fancy-button':gain.active, 'inactive-button':cannotActivate, 'penalty':!cannotActivate && activity.get_IsHostile(), 'bonus':!cannotActivate && !activity.get_IsHostile()}"
-                                [ngbTooltip]="ActivityTitleTemplate" [title]="activity.name" [activity]="activity">
+                                [ngbTooltip]="ActivityTitleTemplate" [title]="activity.name" [activity]="activity"
+                                [activityGain]="gain" [updateId]="gain.id">
                             </app-gridIcon>
                         </button>
                     </ng-container>

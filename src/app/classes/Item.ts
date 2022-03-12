@@ -86,7 +86,7 @@ export class Item {
     public type: string;
     //For items with the same id (from different source files for example), higher overridePriority wins. If two have the same priority, the first in the list wins.
     public overridePriority: number = 0;
-    //If markedForDeletion is set, the item isn't recursively dropped during drop_InventoryItem, thus avoiding loops stemming from gained items and gained inventories. 
+    //If markedForDeletion is set, the item isn't recursively dropped during drop_InventoryItem, thus avoiding loops stemming from gained items and gained inventories.
     public markedForDeletion: boolean = false;
     //If restoredFromSave is set, the item doesn't need to be merged with its reference item again.
     public restoredFromSave: boolean = false;
@@ -107,7 +107,7 @@ export class Item {
         return this;
     }
     get_IconTitle() {
-        return this.displayName || this.name.replace(this.subType, "");
+        return this.displayName.replace(`(${ this.subType })`, "") || this.name.replace(`(${ this.subType })`, "");
     }
     get_IconValue() {
         return this.subType[0] || "";

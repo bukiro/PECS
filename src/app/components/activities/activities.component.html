@@ -51,19 +51,24 @@
                                 <i class="value bi-patch-minus-fill penalty" *ngIf="activityParameters.hostile"
                                     [ngbTooltip]="'Hostile activity'"></i>
                             </span>
-                            <ng-container *ngIf="activityParameters.activity.name == 'Fused Stance'">{{get_FuseStanceName()}}
+                            <ng-container *ngIf="activityParameters.activity.name == 'Fused Stance'">
+                                {{get_FuseStanceName()}}
                             </ng-container>
-                            <ng-container *ngIf="activityParameters.activity.name != 'Fused Stance'">{{activityParameters.activity.name}}
+                            <ng-container *ngIf="activityParameters.activity.name != 'Fused Stance'">
+                                {{activityParameters.activity.name}}
                             </ng-container>
-                            <app-actionIcons *ngIf="activityParameters.activity.actions" [actionString]="activityParameters.activity.actions">
+                            <app-actionIcons *ngIf="activityParameters.activity.actions"
+                                [actionString]="activityParameters.activity.actions">
                             </app-actionIcons>
-                            {{(activityParameters.activity.activationType) ? activityParameters.activity.activationType : ""}}
+                            {{(activityParameters.activity.activationType) ?
+                            activityParameters.activity.activationType : ""}}
                         </ng-template>
                         <ng-template #ActivityTemplate>
                             <header class="spellHeader" *ngIf="get_TileMode()">
                                 <ng-container *ngTemplateOutlet="ActivityTitleTemplate"></ng-container>
                             </header>
-                            <app-activity [creature]="creature" [activity]=activityParameters.activity [gain]=activityParameters.gain [allowActivate]="true">
+                            <app-activity [creature]="creature" [activity]=activityParameters.activity
+                                [gain]=activityParameters.gain [allowActivate]="true">
                             </app-activity>
                         </ng-template>
                         <ng-container *ngIf="!get_TileMode()">
@@ -87,7 +92,8 @@
                                     [ngClass]="{'fancy-button':activityParameters.gain.active, 'inactive-button':activityParameters.disabled, 'penalty':!activityParameters.cannotActivate && activityParameters.hostile, 'bonus':!activityParameters.disabled && !activityParameters.hostile}"
                                     [ngbTooltip]="ActivityTitleTemplate"
                                     [title]="activityParameters.activity.name == 'Fused Stance' ? get_FuseStanceName() : activityParameters.activity.name"
-                                    [activity]="activityParameters.activity">
+                                    [activity]="activityParameters.activity" [activityGain]="activityParameters.gain"
+                                    [updateId]="activityParameters.gain.id">
                                 </app-gridIcon>
                             </button>
                         </ng-container>

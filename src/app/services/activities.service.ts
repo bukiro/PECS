@@ -103,7 +103,7 @@ export class ActivitiesService {
 
         let closePopupsAfterActivation: boolean = false;
 
-        const cooldown = activity.get_Cooldown({creature: creature}, {characterService: characterService, effectsService: characterService.effectsService});
+        const cooldown = activity.get_Cooldown({ creature: creature }, { characterService: characterService, effectsService: characterService.effectsService });
         if (activated || activity.cooldownAfterEnd) {
             //Start cooldown, unless one is already in effect.
             //If the activity ends and cooldownAfterEnd is set, start the cooldown anew.
@@ -112,17 +112,17 @@ export class ActivitiesService {
             }
             if (activated) {
                 //Use charges
-                const maxCharges = activity.maxCharges({creature: creature}, {effectsService: characterService.effectsService});
+                const maxCharges = activity.maxCharges({ creature: creature }, { effectsService: characterService.effectsService });
                 if (maxCharges || gain.sharedChargesID) {
                     //If this activity belongs to an item and has a sharedCharges ID, spend a charge for every activity with the same sharedChargesID and start their cooldown if necessary.
                     if (item && gain.sharedChargesID) {
                         item.activities
                             .filter(itemActivity => itemActivity.sharedChargesID == gain.sharedChargesID)
                             .forEach(itemActivity => {
-                                if (itemActivity.maxCharges({creature: creature}, {effectsService: characterService.effectsService})) {
+                                if (itemActivity.maxCharges({ creature: creature }, { effectsService: characterService.effectsService })) {
                                     itemActivity.chargesUsed += 1;
                                 }
-                                let otherCooldown = itemActivity.get_Cooldown({creature: creature}, {characterService: characterService, effectsService: characterService.effectsService})
+                                let otherCooldown = itemActivity.get_Cooldown({ creature: creature }, { characterService: characterService, effectsService: characterService.effectsService });
                                 if (!itemActivity.activeCooldown && otherCooldown) {
                                     itemActivity.activeCooldown = otherCooldown;
                                 }
@@ -131,10 +131,10 @@ export class ActivitiesService {
                             .filter(activityGain => activityGain.sharedChargesID == gain.sharedChargesID)
                             .forEach(activityGain => {
                                 let originalActivity = this.get_Activities(activityGain.name)[0];
-                                if (originalActivity?.maxCharges({creature: creature}, {effectsService: characterService.effectsService})) {
+                                if (originalActivity?.maxCharges({ creature: creature }, { effectsService: characterService.effectsService })) {
                                     activityGain.chargesUsed += 1;
                                 }
-                                let otherCooldown = originalActivity?.get_Cooldown({creature: creature}, {characterService: characterService, effectsService: characterService.effectsService}) || 0
+                                let otherCooldown = originalActivity?.get_Cooldown({ creature: creature }, { characterService: characterService, effectsService: characterService.effectsService }) || 0;
                                 if (!activityGain.activeCooldown && otherCooldown) {
                                     activityGain.activeCooldown = otherCooldown;
                                 }
@@ -170,6 +170,7 @@ export class ActivitiesService {
             gain.selectedTarget = "";
         }
         this.refreshService.set_ToChange(creature.type, "activities");
+        this.refreshService.set_ToChange(creature.type, gain.id);
         if (item) { this.refreshService.set_ToChange(creature.type, "inventory"); }
 
         //Process various results of activating the activity
@@ -245,7 +246,7 @@ export class ActivitiesService {
                         let newConditionGain = Object.assign(new ConditionGain(), conditionGain).recast();
                         const condition = conditionsService.get_ConditionFromName(conditionGain.name);
                         if (condition.endConditions.some(endCondition => endCondition.name.toLowerCase() == gain.source.toLowerCase())) {
-                            //If any condition ends the condition that this activity came from, close all popovers after the activity is processed. 
+                            //If any condition ends the condition that this activity came from, close all popovers after the activity is processed.
                             // This ensures that conditions in stickyPopovers don't remain open even after they have been removed.
                             closePopupsAfterActivation = true;
                         }
@@ -498,10 +499,14 @@ export class ActivitiesService {
             if (gain.duration == -2 && activity) {
                 this.activate_Activity(creature, creature.type, characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, gain, activity, false, false);
             }
-            if ([144000, -2].includes(activity.get_Cooldown({creature: creature}, {characterService: characterService, effectsService: characterService.effectsService}))) {
+            if ([144000, -2].includes(activity.get_Cooldown({ creature: creature }, { characterService: characterService, effectsService: characterService.effectsService }))) {
                 gain.activeCooldown = 0;
                 gain.chargesUsed = 0;
             }
+            activity.showonSkill?.split(",").forEach(skillName => {
+                this.refreshService.set_ToChange(creature.type, "skills");
+                this.refreshService.set_ToChange(creature.type, "individualskills", skillName.trim());
+            })
         });
     }
 
@@ -513,10 +518,14 @@ export class ActivitiesService {
             if (gain.duration == -3 && activity) {
                 this.activate_Activity(creature, creature.type, characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, gain, activity, false, false);
             }
-            if ((activity.get_Cooldown({creature: creature}, {characterService: characterService, effectsService: characterService.effectsService})) == -3) {
+            if ((activity.get_Cooldown({ creature: creature }, { characterService: characterService, effectsService: characterService.effectsService })) == -3) {
                 gain.activeCooldown = 0;
                 gain.chargesUsed = 0;
             }
+            activity.showonSkill?.split(",").forEach(skillName => {
+                this.refreshService.set_ToChange(creature.type, "skills");
+                this.refreshService.set_ToChange(creature.type, "individualskills", skillName.trim());
+            })
         });
     }
 
@@ -549,6 +558,10 @@ export class ActivitiesService {
             if (gain instanceof ItemActivity) {
                 this.refreshService.set_ToChange(creature.type, "inventory");
             }
+            activity.showonSkill?.split(",").forEach(skillName => {
+                this.refreshService.set_ToChange(creature.type, "skills");
+                this.refreshService.set_ToChange(creature.type, "individualskills", skillName.trim());
+            })
         });
     }
 

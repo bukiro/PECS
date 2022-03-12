@@ -36,7 +36,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
     @Input()
     public sheetSide: string = "left";
     public shieldDamage: number = 0;
-    
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
@@ -68,7 +68,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
         return index;
     }
 
-    public get_ArmorSpecialization(armor: Armor|WornItem): Specialization[] {
+    public get_ArmorSpecialization(armor: Armor | WornItem): Specialization[] {
         if (armor instanceof Armor) {
             return armor.get_ArmorSpecialization(this.get_Creature(), this.characterService);
         }
@@ -215,7 +215,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     public get_HaveMatchingTalismanCord(item: Armor | Shield | WornItem, talisman: Talisman): boolean {
-        return item.talismanCords.some(cord => cord.level <= talisman.level && cord.data.some(data => talisman.traits.includes(data.value as string)));
+        return item.talismanCords.some(cord => cord.get_CompatibleWithTalisman(talisman));
     }
 
     public on_TalismanUse(item: Armor | Shield | WornItem, talisman: Talisman, index: number, preserve: boolean = false): void {

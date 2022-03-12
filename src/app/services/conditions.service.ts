@@ -239,34 +239,6 @@ export class ConditionsService {
             })
         }
 
-        //Gain other conditions if applicable
-        //They are removed when this is removed in characterService.remove_Condition().
-        if (taken) {
-            condition.gainConditions.filter(extraCondition => !extraCondition.conditionChoiceFilter.length || extraCondition.conditionChoiceFilter.includes(gain.choice)).forEach(extraCondition => {
-                conditionDidSomething = true;
-                let addCondition = Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(extraCondition))).recast();
-                if (!addCondition.heightened) {
-                    addCondition.heightened = gain.heightened;
-                }
-                addCondition.source = gain.name;
-                addCondition.parentID = gain.id;
-                addCondition.apply = true;
-                characterService.add_Condition(creature, addCondition, { parentConditionGain: gain }, { noReload: true });
-
-            })
-        }
-
-        //If this ends, remove conditions that have this listed in endsWithConditions
-        if (!taken && !ignoreEndsWithConditions) {
-            characterService.get_AppliedConditions(creature, "", "", true)
-                .filter(conditionGain => this.get_ConditionFromName(conditionGain.name).endsWithConditions.some(endsWith => endsWith.name == condition.name && (!endsWith.source || gain.source == endsWith.source)))
-                .map(conditionGain => Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))).recast())
-                .forEach(conditionGain => {
-                    conditionDidSomething = true;
-                    characterService.remove_Condition(creature, conditionGain, false);
-                })
-        }
-
         //Remove other conditions if applicable
         if (taken) {
             condition.endConditions.forEach(end => {
@@ -287,6 +259,17 @@ export class ConditionsService {
             })
         }
 
+        //If this ends, remove conditions that have this listed in endsWithConditions
+        if (!taken && !ignoreEndsWithConditions) {
+            characterService.get_AppliedConditions(creature, "", "", true)
+                .filter(conditionGain => this.get_ConditionFromName(conditionGain.name).endsWithConditions.some(endsWith => endsWith.name == condition.name && (!endsWith.source || gain.source == endsWith.source)))
+                .map(conditionGain => Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))).recast())
+                .forEach(conditionGain => {
+                    conditionDidSomething = true;
+                    characterService.remove_Condition(creature, conditionGain, false);
+                })
+        }
+
         //Conditions that start when this ends. This happens if there is a nextCondition value.
         if (!taken) {
             condition.nextCondition.forEach(nextCondition => {
@@ -299,6 +282,24 @@ export class ConditionsService {
                     newGain.choice = nextCondition.choice || this.get_ConditionFromName(newGain.name)?.choice || "";
                     characterService.add_Condition(creature, newGain, {}, { noReload: true });
                 }
+            })
+        }
+
+        //Gain other conditions if applicable
+        //They are removed when this is removed in characterService.remove_Condition().
+        //This is done after all steps where conditions are removed, so we don't accidentally remove these newly gained conditions.
+        if (taken) {
+            condition.gainConditions.filter(extraCondition => !extraCondition.conditionChoiceFilter.length || extraCondition.conditionChoiceFilter.includes(gain.choice)).forEach(extraCondition => {
+                conditionDidSomething = true;
+                let addCondition = Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(extraCondition))).recast();
+                if (!addCondition.heightened) {
+                    addCondition.heightened = gain.heightened;
+                }
+                addCondition.source = gain.name;
+                addCondition.parentID = gain.id;
+                addCondition.apply = true;
+                characterService.add_Condition(creature, addCondition, { parentConditionGain: gain }, { noReload: true });
+
             })
         }
 
@@ -332,10 +333,6 @@ export class ConditionsService {
                     gain.gainItems = [];
                 }
             }
-        }
-
-        if (condition.senses.length) {
-            this.refreshService.set_ToChange(creature.type, "skills");
         }
 
         //Stuff that happens when your Dying value is raised or lowered beyond a limit.
@@ -434,6 +431,11 @@ export class ConditionsService {
             })
         }
 
+        //Changing senses should update senses.
+        if (condition.senses.length) {
+            this.refreshService.set_ToChange(creature.type, "skills");
+        }
+
         //Update Health when Wounded changes.
         if (condition.name == "Wounded") {
             this.refreshService.set_ToChange(creature.type, "health");
@@ -525,7 +527,7 @@ export class ConditionsService {
             } else if (!enfeebledRune && get_HaveCondition("Enfeebled", "Alignment Rune")) {
                 remove_Condition("Enfeebled", 2, "Alignment Rune");
             }
-            //Any items that grant permanent conditions need to check if these are still applicable. 
+            //Any items that grant permanent conditions need to check if these are still applicable.
             function refresh_PermanentConditions(item: Equipment, evaluationService: EvaluationService, investedItem: Equipment) {
                 item.gainConditions.forEach(gain => {
                     //We test alignmentFilter and resonant here, but activationPrerequisite is only tested if the condition exists and might need to be removed.
@@ -576,6 +578,24 @@ export class ConditionsService {
                     })
                 })
             }
+        }
+    }
+
+    remove_GainedItemConditions(creature: Creature, item: Equipment, characterService: CharacterService) {
+        function remove_GainedConditions(gain: ConditionGain) {
+            if (characterService.get_AppliedConditions(creature, gain.name, gain.source, true).filter(existingGain => !gain.choice || (existingGain.choice == gain.choice)).length) {
+                characterService.remove_Condition(creature, gain, false);
+            }
+        }
+        item.gainConditions.forEach(gain => {
+            remove_GainedConditions(gain);
+        })
+        if (item instanceof WornItem) {
+            item.aeonStones.forEach(stone => {
+                stone.gainConditions.forEach(gain => {
+                    remove_GainedConditions(gain);
+                })
+            })
         }
     }
 
@@ -687,7 +707,7 @@ export class ConditionsService {
         if (characterService.get_Health(creature).damage == 0) {
             creature.conditions.filter(gain => gain.name == "Wounded").forEach(gain => characterService.remove_Condition(creature, gain, false));
         }
-        //If Verdant Metamorphosis is active, remove the following non-permanent conditions after resting: Drained, Enfeebled, Clumsy, Stupefied and all poisons and diseases of 19th level or lower. 
+        //If Verdant Metamorphosis is active, remove the following non-permanent conditions after resting: Drained, Enfeebled, Clumsy, Stupefied and all poisons and diseases of 19th level or lower.
         if (characterService.effectsService.get_EffectsOnThis(creature, "Verdant Metamorphosis").length) {
             creature.conditions.filter(gain => gain.duration != -1 && !gain.lockedByParent && ["Drained", "Enfeebled", "Clumsy", "Stupefied"].includes(gain.name)).forEach(gain => { gain.value = -1 })
             creature.conditions.filter(gain => gain.duration != -1 && !gain.lockedByParent && gain.value != -1 && this.get_Conditions(gain.name)?.[0]?.type == "afflictions").forEach(gain => {

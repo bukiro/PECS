@@ -1,517 +1,509 @@
 [
-  {
-    "name": "Cloak of Repute",
-    "id": "d984d72c-e68e-4067-921d-e9f908273e44",
-    "desc": "This gaudy and extravagant cloak is adorned with brilliant gems and a fur trim. While wearing the cloak, you gain instant fame and notoriety, granting you a +1 item bonus to Diplomacy checks to Make an Impression. Creatures attempting to learn about you gain the same bonus to Gather Information about you.",
-    "_extensionFileName": "characterGuide",
-    "sourceBook": "Character Guide",
-    "level": 4,
-    "bulk": "1",
-    "price": 9000,
-    "traits": [
-      "Enchantment",
-      "Invested",
-      "Magical"
-    ],
-    "usage": "worn cloak",
-    "hints": [
-      {
-        "desc": "You gain a +1 item bonus to Diplomacy checks to Make an Impression. Creatures attempting to learn about you gain the same bonus to Gather Information about you.",
-        "showon": "Diplomacy",
-        "effects": [
-          {
-            "affected": "Diplomacy",
-            "type": "item",
-            "value": "1"
-          }
-        ]
-      }
-    ],
-    "activities": [
-      {
+    {
         "name": "Cloak of Repute",
-        "actions": "2A",
-        "activationType": "Command",
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "showonSkill": "Diplomacy",
-        "desc": "You wield your great stature to make a Request of a creature. If you roll a success on the check, you get a critical success instead.",
+        "id": "d984d72c-e68e-4067-921d-e9f908273e44",
+        "desc": "This gaudy and extravagant cloak is adorned with brilliant gems and a fur trim. While wearing the cloak, you gain instant fame and notoriety, granting you a +1 item bonus to Diplomacy checks to Make an Impression. Creatures attempting to learn about you gain the same bonus to Gather Information about you.",
+        "_extensionFileName": "characterGuide",
+        "sourceBook": "Character Guide",
+        "level": 4,
+        "bulk": "1",
+        "price": 9000,
         "traits": [
-          "Enchantment",
-          "Invested",
-          "Magical"
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Shining Wayfinder",
-    "id": "b828f7cd-91b5-438b-81db-39a7380618e4",
-    "desc": "A shining wayfinder is a polished silver compass blessed by the power of benevolent deities. It has the usual functions of a wayfinder, except instead of an activation to cast light, the shining wayfinder has the following two activations.",
-    "access": "Member of the Pathfinder Society.",
-    "_extensionFileName": "characterGuide",
-    "sourceBook": "Character Guide",
-    "level": 4,
-    "price": 10000,
-    "traits": [
-      "Uncommon",
-      "Abjuration",
-      "Divination",
-      "Evocation",
-      "Invested",
-      "Magical"
-    ],
-    "usage": "worn",
-    "isWayfinder": 1,
-    "activities": [
-      {
-        "name": "Shining Wayfinder: Guidance",
-        "actions": "2A",
-        "activationType": "Command, Interact",
-        "target": "self",
-        "desc": "You hold the wayfinder and ask for guidance. The wayfinder casts guidance on you.",
-        "castSpells": [
-          {
-            "name": "Guidance",
-            "target": "self"
-          }
+            "Enchantment",
+            "Invested",
+            "Magical"
         ],
-        "traits": [
-          "Uncommon",
-          "Abjuration",
-          "Divination",
-          "Evocation",
-          "Invested",
-          "Magical"
-        ]
-      },
-      {
-        "name": "Shining Wayfinder: Bless",
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "desc": "You call upon the wayfinder's divine blessings for yourself and your allies. The wayfinder casts bless, with an emanation centered on itself. Once per turn, you can use a single action, which has the concentrate trait, to increase the emanation's radius by 5 feet.",
-        "castSpells": [
-          {
-            "name": "Bless"
-          }
+        "usage": "worn cloak",
+        "hints": [
+            {
+                "desc": "You gain a +1 item bonus to Diplomacy checks to Make an Impression. Creatures attempting to learn about you gain the same bonus to Gather Information about you.",
+                "showon": "Diplomacy",
+                "effects": [
+                    {
+                        "affected": "Diplomacy",
+                        "type": "item",
+                        "value": "1"
+                    }
+                ]
+            }
         ],
-        "traits": [
-          "Uncommon",
-          "Abjuration",
-          "Divination",
-          "Evocation",
-          "Invested",
-          "Magical"
+        "activities": [
+            {
+                "name": "Cloak of Repute",
+                "actions": "2A",
+                "activationType": "Command",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "showonSkill": "Diplomacy",
+                "desc": "You wield your great stature to make a Request of a creature. If you roll a success on the check, you get a critical success instead.",
+                "traits": [
+                    "Enchantment",
+                    "Invested",
+                    "Magical"
+                ]
+            }
         ]
-      }
-    ]
-  },
-  {
-    "name": "Vanishing Wayfinder",
-    "id": "8120205d-e025-48e0-8730-816c264d82b5",
-    "desc": "A vanishing wayfinder is crafted of ivory chased with gold and silver. It has the usual functions of a wayfinder and the following additional activation.",
-    "access": "Member of the Pathfinder Society.",
-    "_extensionFileName": "characterGuide",
-    "sourceBook": "Character Guide",
-    "level": 5,
-    "price": 15000,
-    "traits": [
-      "Uncommon",
-      "Evocation",
-      "Illusion",
-      "Invested",
-      "Magical"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn",
-    "isWayfinder": 1,
-    "activities": [
-      {
+    },
+    {
+        "name": "Shining Wayfinder",
+        "id": "b828f7cd-91b5-438b-81db-39a7380618e4",
+        "desc": "A shining wayfinder is a polished silver compass blessed by the power of benevolent deities. It has the usual functions of a wayfinder, except instead of an activation to cast light, the shining wayfinder has the following two activations.",
+        "access": "Member of the Pathfinder Society.",
+        "_extensionFileName": "characterGuide",
+        "sourceBook": "Character Guide",
+        "level": 4,
+        "price": 10000,
+        "traits": [
+            "Uncommon",
+            "Abjuration",
+            "Divination",
+            "Evocation",
+            "Invested",
+            "Magical"
+        ],
+        "usage": "worn",
+        "isWayfinder": 1,
+        "activities": [
+            {
+                "name": "Shining Wayfinder: Guidance",
+                "actions": "2A",
+                "activationType": "Command, Interact",
+                "target": "self",
+                "desc": "You hold the wayfinder and ask for guidance. The wayfinder casts guidance on you.",
+                "castSpells": [
+                    {
+                        "name": "Guidance",
+                        "target": "self"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Abjuration",
+                    "Divination",
+                    "Evocation",
+                    "Invested",
+                    "Magical"
+                ]
+            },
+            {
+                "name": "Shining Wayfinder: Bless",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "desc": "You call upon the wayfinder's divine blessings for yourself and your allies. The wayfinder casts bless, with an emanation centered on itself. Once per turn, you can use a single action, which has the concentrate trait, to increase the emanation's radius by 5 feet.",
+                "castSpells": [
+                    {
+                        "name": "Bless"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Abjuration",
+                    "Divination",
+                    "Evocation",
+                    "Invested",
+                    "Magical"
+                ]
+            }
+        ]
+    },
+    {
         "name": "Vanishing Wayfinder",
-        "actions": "1A",
-        "activationType": "Envision",
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "desc": "You turn the wayfinder in a circle while invoking its command word, gaining the effects of a 2nd-level invisibility spell for 5 minutes.",
-        "gainConditions": [
-          {
-            "duration": 500,
-            "heightened": 2,
-            "name": "Invisibility"
-          }
-        ],
-        "showSpells": [
-          {
-            "level": 2,
-            "name": "Invisibility"
-          }
-        ],
+        "id": "8120205d-e025-48e0-8730-816c264d82b5",
+        "desc": "A vanishing wayfinder is crafted of ivory chased with gold and silver. It has the usual functions of a wayfinder and the following additional activation.",
+        "access": "Member of the Pathfinder Society.",
+        "_extensionFileName": "characterGuide",
+        "sourceBook": "Character Guide",
+        "level": 5,
+        "price": 15000,
         "traits": [
-          "Uncommon",
-          "Evocation",
-          "Illusion",
-          "Invested",
-          "Magical"
-        ]
-      },
-      {
-        "name": "Vanishing Wayfinder: Light",
-        "actions": "1A",
-        "activationType": "Command",
-        "target": "self",
-        "desc": "The wayfinder is targeted by a 1st-level light spell.",
-        "castSpells": [
-          {
-            "level": 1,
-            "name": "Light"
-          }
+            "Uncommon",
+            "Evocation",
+            "Illusion",
+            "Invested",
+            "Magical"
         ],
-        "traits": [
-          "Uncommon",
-          "Evocation",
-          "Invested",
-          "Magical"
+        "usage": "worn",
+        "isWayfinder": 1,
+        "activities": [
+            {
+                "name": "Vanishing Wayfinder",
+                "actions": "1A",
+                "activationType": "Envision",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "desc": "You turn the wayfinder in a circle while invoking its command word, gaining the effects of a 2nd-level invisibility spell for 5 minutes.",
+                "gainConditions": [
+                    {
+                        "duration": 500,
+                        "heightened": 2,
+                        "name": "Invisibility"
+                    }
+                ],
+                "showSpells": [
+                    {
+                        "level": 2,
+                        "name": "Invisibility"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Evocation",
+                    "Illusion",
+                    "Invested",
+                    "Magical"
+                ]
+            },
+            {
+                "name": "Vanishing Wayfinder: Light",
+                "actions": "1A",
+                "activationType": "Command",
+                "target": "self",
+                "desc": "The wayfinder is targeted by a 1st-level light spell.",
+                "castSpells": [
+                    {
+                        "level": 1,
+                        "name": "Light"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Evocation",
+                    "Invested",
+                    "Magical"
+                ]
+            }
         ]
-      }
-    ]
-  },
-  {
-    "name": "Bi-Resonant Wayfinder",
-    "id": "0c5ccbcd-e68a-448d-95c9-4c10a47fed41",
-    "desc": "A bi-resonant wayfinder is inlaid with intricate platinum wires in a complex array of conduits for magical energy. These conduits control the resonant interference of aeon stones. A bi-resonant wayfinder works just like a regular wayfinder except it has two aeon stone slots, and the aeon stones in both slots grant their resonant powers without interfering with each other. The bi-resonant wayfinder and the two aeon stones count as two items toward your investiture limit.",
-    "access": "Member of the Pathfinder Society.",
-    "_extensionFileName": "characterGuide",
-    "sourceBook": "Character Guide",
-    "level": 6,
-    "price": 20000,
-    "traits": [
-      "Uncommon",
-      "Evocation",
-      "Illusion",
-      "Invested",
-      "Magical"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn",
-    "isWayfinder": 2,
-    "activities": [
-      {
-        "name": "Bi-Resonant Wayfinder: Light",
-        "actions": "1A",
-        "activationType": "Command",
-        "target": "self",
-        "desc": "The wayfinder is targeted by a 1st-level light spell.",
-        "castSpells": [
-          {
-            "level": 1,
-            "name": "Light"
-          }
+    },
+    {
+        "name": "Bi-Resonant Wayfinder",
+        "id": "0c5ccbcd-e68a-448d-95c9-4c10a47fed41",
+        "desc": "A bi-resonant wayfinder is inlaid with intricate platinum wires in a complex array of conduits for magical energy. These conduits control the resonant interference of aeon stones. A bi-resonant wayfinder works just like a regular wayfinder except it has two aeon stone slots, and the aeon stones in both slots grant their resonant powers without interfering with each other. The bi-resonant wayfinder and the two aeon stones count as two items toward your investiture limit.",
+        "access": "Member of the Pathfinder Society.",
+        "_extensionFileName": "characterGuide",
+        "sourceBook": "Character Guide",
+        "level": 6,
+        "price": 20000,
+        "traits": [
+            "Uncommon",
+            "Evocation",
+            "Illusion",
+            "Invested",
+            "Magical"
         ],
-        "traits": [
-          "Uncommon",
-          "Evocation",
-          "Invested",
-          "Magical"
+        "usage": "worn",
+        "isWayfinder": 2,
+        "activities": [
+            {
+                "name": "Bi-Resonant Wayfinder: Light",
+                "actions": "1A",
+                "activationType": "Command",
+                "target": "self",
+                "desc": "The wayfinder is targeted by a 1st-level light spell.",
+                "castSpells": [
+                    {
+                        "level": 1,
+                        "name": "Light"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Evocation",
+                    "Invested",
+                    "Magical"
+                ]
+            }
         ]
-      }
-    ]
-  },
-  {
-    "name": "Pathfinder's Pouch",
-    "id": "e89dc2c4-4118-41e8-ad24-c76a50897dbd",
-    "desc": "This unobtrusive belt pouch is popular among Pathfinders who operate in places where the Society is not welcome. It is constantly under the effects of a 3rd-level magic aura spell to appear non-magical. The pouch's normal space holds as much as an ordinary belt pouch, but it also has a small extradimensional space that holds up to 1 Bulk of items. A creature actively inspecting the pouch in its ordinary state discovers the existence of the extradimensional space only on a critical success to Search the pouch (see the Concealing an Item action of the Stealth skill), though when the extradimensional space is active, it's obvious to anyone examining the pouch that it is more than it seems.",
-    "access": "Member of the Pathfinder Society.",
-    "_extensionFileName": "characterGuide",
-    "sourceBook": "Character Guide",
-    "level": 6,
-    "bulk": "L",
-    "price": 20000,
-    "traits": [
-      "Uncommon",
-      "Abjuration",
-      "Extradimensional",
-      "Invested",
-      "Magical"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn belt pouch",
-    "activities": [
-      {
+    },
+    {
         "name": "Pathfinder's Pouch",
-        "actions": "1A",
-        "activationType": "Interact",
-        "toggle": true,
-        "desc": "You switch the pouch to allow access to its extradimensional space instead of its normal space, or vice versa. This lasts until you next activate it. Items in the other space are inaccessible and hard to find until you switch the pouch back.",
+        "id": "e89dc2c4-4118-41e8-ad24-c76a50897dbd",
+        "desc": "This unobtrusive belt pouch is popular among Pathfinders who operate in places where the Society is not welcome. It is constantly under the effects of a 3rd-level magic aura spell to appear non-magical. The pouch's normal space holds as much as an ordinary belt pouch, but it also has a small extradimensional space that holds up to 1 Bulk of items. A creature actively inspecting the pouch in its ordinary state discovers the existence of the extradimensional space only on a critical success to Search the pouch (see the Concealing an Item action of the Stealth skill), though when the extradimensional space is active, it's obvious to anyone examining the pouch that it is more than it seems.",
+        "access": "Member of the Pathfinder Society.",
+        "_extensionFileName": "characterGuide",
+        "sourceBook": "Character Guide",
+        "level": 6,
+        "bulk": "L",
+        "price": 20000,
         "traits": [
-          "Uncommon",
-          "Abjuration",
-          "Extradimensional",
-          "Invested",
-          "Magical"
+            "Uncommon",
+            "Abjuration",
+            "Extradimensional",
+            "Invested",
+            "Magical"
         ],
-        "inputRequired": "This activation is only to track which space is currently active. You always have access to the extradimensional container that comes with the item."
-      }
-    ],
-    "gainInventory": [
-      {
-        "bulkLimit": 1,
-        "bulkReduction": 1
-      }
-    ]
-  },
-  {
-    "name": "Unmemorable Mantle",
-    "id": "2e558dc5-a602-4a88-a3c9-e6b250655973",
-    "desc": "This long, shoddy cloak bears a hood and a simple brass clasp. While wearing the cloak, you gain a +1 item bonus to Deception checks to Impersonate an individual and to Lie while in character as that individual.",
-    "_extensionFileName": "characterGuide",
-    "sourceBook": "Character Guide",
-    "level": 7,
-    "bulk": "1",
-    "price": 30000,
-    "traits": [
-      "Illusion",
-      "Invested",
-      "Magical"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn cloak",
-    "hints": [
-      {
-        "desc": "You gain a +1 item bonus to Deception checks to Impersonate an individual and to Lie while in character as that individual.",
-        "showon": "Deception",
-        "effects": [
-          {
-            "affected": "Deception",
-            "type": "item",
-            "value": "1"
-          }
+        "usage": "worn belt pouch",
+        "activities": [
+            {
+                "name": "Pathfinder's Pouch",
+                "actions": "1A",
+                "activationType": "Interact",
+                "toggle": true,
+                "desc": "You switch the pouch to allow access to its extradimensional space instead of its normal space, or vice versa. This lasts until you next activate it. Items in the other space are inaccessible and hard to find until you switch the pouch back.",
+                "traits": [
+                    "Uncommon",
+                    "Abjuration",
+                    "Extradimensional",
+                    "Invested",
+                    "Magical"
+                ],
+                "inputRequired": "This activation is only to track which space is currently active. You always have access to the extradimensional container that comes with the item."
+            }
+        ],
+        "gainInventory": [
+            {
+                "bulkLimit": 1,
+                "bulkReduction": 1
+            }
         ]
-      }
-    ],
-    "activities": [
-      {
+    },
+    {
         "name": "Unmemorable Mantle",
-        "actions": "1 minute",
-        "activationType": "Envision, Interact",
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "target": "other",
-        "requirements": "You are Impersonating someone else ",
-        "desc": "While conversing or otherwise casually interacting with other creatures, you can adjust the mantle's clasp to modify those creatures' recollections of the last 5 minutes of their interaction with you. Each creature must attempt a DC 25 Will save.",
+        "id": "2e558dc5-a602-4a88-a3c9-e6b250655973",
+        "desc": "This long, shoddy cloak bears a hood and a simple brass clasp. While wearing the cloak, you gain a +1 item bonus to Deception checks to Impersonate an individual and to Lie while in character as that individual.",
+        "_extensionFileName": "characterGuide",
+        "sourceBook": "Character Guide",
+        "level": 7,
+        "bulk": "1",
+        "price": 30000,
         "traits": [
-          "Illusion",
-          "Invested",
-          "Magical"
+            "Illusion",
+            "Invested",
+            "Magical"
         ],
-        "critsuccess": "The creature recalls the interaction clearly and realizes you were trying to alter their memory.",
-        "success": "The creature recalls the interaction clearly.",
-        "failure": "You decide whether or not the creature recalls the interaction. You can also alter minor details the creature recalls about the interaction, such as the time, place, and whether the interaction was favorable, as determined by the GM.",
-        "critfailure": "You decide whether or not the creature recalls the interaction. You can also alter major details the creature recalls about the interaction, such as believing you to be another individual or that the creature agreed to a favor, as determined by the GM."
-      }
-    ]
-  },
-  {
-    "name": "Cloak of Repute (Greater)",
-    "id": "58bb6b8c-3e4e-4935-bdc8-6e8dd3377f5f",
-    "desc": "This gaudy and extravagant cloak is adorned with brilliant gems and a fur trim. While wearing the cloak, you gain instant fame and notoriety, granting you a +1 item bonus to Diplomacy checks to Make an Impression. Creatures attempting to learn about you gain the same bonus to Gather Information about you.",
-    "_extensionFileName": "characterGuide",
-    "sourceBook": "Character Guide",
-    "level": 9,
-    "bulk": "1",
-    "price": 130000,
-    "subType": "Greater",
-    "subTypeDesc": "The item bonus is +2. You can activate the cloak twice per day.",
-    "traits": [
-      "Enchantment",
-      "Invested",
-      "Magical"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn cloak",
-    "hints": [
-      {
-        "desc": "You gain a +2 item bonus to Diplomacy checks to Make an Impression. Creatures attempting to learn about you gain the same bonus to Gather Information about you.",
-        "showon": "Diplomacy",
-        "effects": [
-          {
-            "affected": "Diplomacy",
-            "type": "item",
-            "value": "2"
-          }
+        "usage": "worn cloak",
+        "hints": [
+            {
+                "desc": "You gain a +1 item bonus to Deception checks to Impersonate an individual and to Lie while in character as that individual.",
+                "showon": "Deception",
+                "effects": [
+                    {
+                        "affected": "Deception",
+                        "type": "item",
+                        "value": "1"
+                    }
+                ]
+            }
+        ],
+        "activities": [
+            {
+                "name": "Unmemorable Mantle",
+                "actions": "1 minute",
+                "activationType": "Envision, Interact",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "target": "other",
+                "requirements": "You are Impersonating someone else ",
+                "desc": "While conversing or otherwise casually interacting with other creatures, you can adjust the mantle's clasp to modify those creatures' recollections of the last 5 minutes of their interaction with you. Each creature must attempt a DC 25 Will save.",
+                "traits": [
+                    "Illusion",
+                    "Invested",
+                    "Magical"
+                ],
+                "critsuccess": "The creature recalls the interaction clearly and realizes you were trying to alter their memory.",
+                "success": "The creature recalls the interaction clearly.",
+                "failure": "You decide whether or not the creature recalls the interaction. You can also alter minor details the creature recalls about the interaction, such as the time, place, and whether the interaction was favorable, as determined by the GM.",
+                "critfailure": "You decide whether or not the creature recalls the interaction. You can also alter major details the creature recalls about the interaction, such as believing you to be another individual or that the creature agreed to a favor, as determined by the GM."
+            }
         ]
-      }
-    ],
-    "activities": [
-      {
+    },
+    {
         "name": "Cloak of Repute (Greater)",
-        "actions": "2A",
-        "activationType": "Command",
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "charges": 2,
-        "showonSkill": "Diplomacy",
-        "desc": "You wield your great stature to make a Request of a creature. If you roll a success on the check, you get a critical success instead.",
+        "id": "58bb6b8c-3e4e-4935-bdc8-6e8dd3377f5f",
+        "desc": "This gaudy and extravagant cloak is adorned with brilliant gems and a fur trim. While wearing the cloak, you gain instant fame and notoriety, granting you a +1 item bonus to Diplomacy checks to Make an Impression. Creatures attempting to learn about you gain the same bonus to Gather Information about you.",
+        "_extensionFileName": "characterGuide",
+        "sourceBook": "Character Guide",
+        "level": 9,
+        "bulk": "1",
+        "price": 130000,
+        "subType": "Greater",
+        "subTypeDesc": "The item bonus is +2. You can activate the cloak twice per day.",
         "traits": [
-          "Enchantment",
-          "Invested",
-          "Magical"
+            "Enchantment",
+            "Invested",
+            "Magical"
+        ],
+        "usage": "worn cloak",
+        "hints": [
+            {
+                "desc": "You gain a +2 item bonus to Diplomacy checks to Make an Impression. Creatures attempting to learn about you gain the same bonus to Gather Information about you.",
+                "showon": "Diplomacy",
+                "effects": [
+                    {
+                        "affected": "Diplomacy",
+                        "type": "item",
+                        "value": "2"
+                    }
+                ]
+            }
+        ],
+        "activities": [
+            {
+                "name": "Cloak of Repute (Greater)",
+                "actions": "2A",
+                "activationType": "Command",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "charges": 2,
+                "showonSkill": "Diplomacy",
+                "desc": "You wield your great stature to make a Request of a creature. If you roll a success on the check, you get a critical success instead.",
+                "traits": [
+                    "Enchantment",
+                    "Invested",
+                    "Magical"
+                ]
+            }
         ]
-      }
-    ]
-  },
-  {
-    "name": "Unmemorable Mantle (Greater)",
-    "id": "c886011e-eaec-44c2-9461-fdf1640d4e2a",
-    "desc": "This long, shoddy cloak bears a hood and a simple brass clasp. While wearing the cloak, you gain a +1 item bonus to Deception checks to Impersonate an individual and to Lie while in character as that individual.",
-    "_extensionFileName": "characterGuide",
-    "sourceBook": "Character Guide",
-    "level": 9,
-    "bulk": "1",
-    "price": 130000,
-    "subType": "Greater",
-    "subTypeDesc": "The item bonus is +2, and the Will save DC is 28.",
-    "traits": [
-      "Illusion",
-      "Invested",
-      "Magical"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn cloak",
-    "hints": [
-      {
-        "desc": "You gain a +2 item bonus to Deception checks to Impersonate an individual and to Lie while in character as that individual.",
-        "showon": "Deception",
-        "effects": [
-          {
-            "affected": "Deception",
-            "type": "item",
-            "value": "2"
-          }
-        ]
-      }
-    ],
-    "activities": [
-      {
+    },
+    {
         "name": "Unmemorable Mantle (Greater)",
-        "actions": "1 minute",
-        "activationType": "Envision, Interact",
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "target": "other",
-        "requirements": "You are Impersonating someone else ",
-        "desc": "While conversing or otherwise casually interacting with other creatures, you can adjust the mantle's clasp to modify those creatures' recollections of the last 5 minutes of their interaction with you. Each creature must attempt a DC 28 Will save.",
+        "id": "c886011e-eaec-44c2-9461-fdf1640d4e2a",
+        "desc": "This long, shoddy cloak bears a hood and a simple brass clasp. While wearing the cloak, you gain a +1 item bonus to Deception checks to Impersonate an individual and to Lie while in character as that individual.",
+        "_extensionFileName": "characterGuide",
+        "sourceBook": "Character Guide",
+        "level": 9,
+        "bulk": "1",
+        "price": 130000,
+        "subType": "Greater",
+        "subTypeDesc": "The item bonus is +2, and the Will save DC is 28.",
         "traits": [
-          "Illusion",
-          "Invested",
-          "Magical"
+            "Illusion",
+            "Invested",
+            "Magical"
         ],
-        "critsuccess": "The creature recalls the interaction clearly and realizes you were trying to alter their memory.",
-        "success": "The creature recalls the interaction clearly.",
-        "failure": "You decide whether or not the creature recalls the interaction. You can also alter minor details the creature recalls about the interaction, such as the time, place, and whether the interaction was favorable, as determined by the GM.",
-        "critfailure": "You decide whether or not the creature recalls the interaction. You can also alter major details the creature recalls about the interaction, such as believing you to be another individual or that the creature agreed to a favor, as determined by the GM."
-      }
-    ]
-  },
-  {
-    "name": "Cloak of Repute (Major)",
-    "id": "a23f25bf-c106-4d98-b638-954df70f16d0",
-    "desc": "This gaudy and extravagant cloak is adorned with brilliant gems and a fur trim. While wearing the cloak, you gain instant fame and notoriety, granting you a +1 item bonus to Diplomacy checks to Make an Impression. Creatures attempting to learn about you gain the same bonus to Gather Information about you.",
-    "_extensionFileName": "characterGuide",
-    "sourceBook": "Character Guide",
-    "level": 17,
-    "bulk": "1",
-    "price": 2175000,
-    "subType": "Major",
-    "subTypeDesc": "The item bonus is +3. You can activate the cloak three times per day. If you roll a critical failure on your Diplomacy check when you activate the cloak, you get a failure instead.",
-    "traits": [
-      "Enchantment",
-      "Invested",
-      "Magical"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn cloak",
-    "hints": [
-      {
-        "desc": "You gain a +3 item bonus to Diplomacy checks to Make an Impression. Creatures attempting to learn about you gain the same bonus to Gather Information about you.",
-        "showon": "Diplomacy",
-        "effects": [
-          {
-            "affected": "Diplomacy",
-            "type": "item",
-            "value": "3"
-          }
+        "usage": "worn cloak",
+        "hints": [
+            {
+                "desc": "You gain a +2 item bonus to Deception checks to Impersonate an individual and to Lie while in character as that individual.",
+                "showon": "Deception",
+                "effects": [
+                    {
+                        "affected": "Deception",
+                        "type": "item",
+                        "value": "2"
+                    }
+                ]
+            }
+        ],
+        "activities": [
+            {
+                "name": "Unmemorable Mantle (Greater)",
+                "actions": "1 minute",
+                "activationType": "Envision, Interact",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "target": "other",
+                "requirements": "You are Impersonating someone else ",
+                "desc": "While conversing or otherwise casually interacting with other creatures, you can adjust the mantle's clasp to modify those creatures' recollections of the last 5 minutes of their interaction with you. Each creature must attempt a DC 28 Will save.",
+                "traits": [
+                    "Illusion",
+                    "Invested",
+                    "Magical"
+                ],
+                "critsuccess": "The creature recalls the interaction clearly and realizes you were trying to alter their memory.",
+                "success": "The creature recalls the interaction clearly.",
+                "failure": "You decide whether or not the creature recalls the interaction. You can also alter minor details the creature recalls about the interaction, such as the time, place, and whether the interaction was favorable, as determined by the GM.",
+                "critfailure": "You decide whether or not the creature recalls the interaction. You can also alter major details the creature recalls about the interaction, such as believing you to be another individual or that the creature agreed to a favor, as determined by the GM."
+            }
         ]
-      }
-    ],
-    "activities": [
-      {
+    },
+    {
         "name": "Cloak of Repute (Major)",
-        "actions": "2A",
-        "activationType": "Command",
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "charges": 3,
-        "showonSkill": "Diplomacy",
-        "desc": "You wield your great stature to make a Request of a creature. If you roll a success on the check, you get a critical success instead, and if you roll a critical failure, you get a failure instead.",
+        "id": "a23f25bf-c106-4d98-b638-954df70f16d0",
+        "desc": "This gaudy and extravagant cloak is adorned with brilliant gems and a fur trim. While wearing the cloak, you gain instant fame and notoriety, granting you a +1 item bonus to Diplomacy checks to Make an Impression. Creatures attempting to learn about you gain the same bonus to Gather Information about you.",
+        "_extensionFileName": "characterGuide",
+        "sourceBook": "Character Guide",
+        "level": 17,
+        "bulk": "1",
+        "price": 2175000,
+        "subType": "Major",
+        "subTypeDesc": "The item bonus is +3. You can activate the cloak three times per day. If you roll a critical failure on your Diplomacy check when you activate the cloak, you get a failure instead.",
         "traits": [
-          "Enchantment",
-          "Invested",
-          "Magical"
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Unmemorable Mantle (Major)",
-    "id": "a99f8692-983a-4354-aba5-4be95516e80b",
-    "desc": "This long, shoddy cloak bears a hood and a simple brass clasp. While wearing the cloak, you gain a +1 item bonus to Deception checks to Impersonate an individual and to Lie while in character as that individual.",
-    "_extensionFileName": "characterGuide",
-    "sourceBook": "Character Guide",
-    "level": 17,
-    "bulk": "1",
-    "price": 2175000,
-    "subType": "Major",
-    "subTypeDesc": "The item bonus is +3, the Will save DC is 38, and you can activate the mantle once every 10 minutes.",
-    "traits": [
-      "Illusion",
-      "Invested",
-      "Magical"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn cloak",
-    "hints": [
-      {
-        "desc": "You gain a +3 item bonus to Deception checks to Impersonate an individual and to Lie while in character as that individual.",
-        "showon": "Deception",
-        "effects": [
-          {
-            "affected": "Deception",
-            "type": "item",
-            "value": "3"
-          }
-        ]
-      }
-    ],
-    "activities": [
-      {
-        "name": "Unmemorable Mantle (Major)",
-        "actions": "1 minute",
-        "activationType": "Envision, Interact",
-        "frequency": "once every 10 minutes",
-        "cooldown": 1000,
-        "target": "other",
-        "requirements": "You are Impersonating someone else ",
-        "desc": "While conversing or otherwise casually interacting with other creatures, you can adjust the mantle's clasp to modify those creatures' recollections of the last 5 minutes of their interaction with you. Each creature must attempt a DC 38 Will save.",
-        "traits": [
-          "Illusion",
-          "Invested",
-          "Magical"
+            "Enchantment",
+            "Invested",
+            "Magical"
         ],
-        "critsuccess": "The creature recalls the interaction clearly and realizes you were trying to alter their memory.",
-        "success": "The creature recalls the interaction clearly.",
-        "failure": "You decide whether or not the creature recalls the interaction. You can also alter minor details the creature recalls about the interaction, such as the time, place, and whether the interaction was favorable, as determined by the GM.",
-        "critfailure": "You decide whether or not the creature recalls the interaction. You can also alter major details the creature recalls about the interaction, such as believing you to be another individual or that the creature agreed to a favor, as determined by the GM."
-      }
-    ]
-  }
+        "usage": "worn cloak",
+        "hints": [
+            {
+                "desc": "You gain a +3 item bonus to Diplomacy checks to Make an Impression. Creatures attempting to learn about you gain the same bonus to Gather Information about you.",
+                "showon": "Diplomacy",
+                "effects": [
+                    {
+                        "affected": "Diplomacy",
+                        "type": "item",
+                        "value": "3"
+                    }
+                ]
+            }
+        ],
+        "activities": [
+            {
+                "name": "Cloak of Repute (Major)",
+                "actions": "2A",
+                "activationType": "Command",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "charges": 3,
+                "showonSkill": "Diplomacy",
+                "desc": "You wield your great stature to make a Request of a creature. If you roll a success on the check, you get a critical success instead, and if you roll a critical failure, you get a failure instead.",
+                "traits": [
+                    "Enchantment",
+                    "Invested",
+                    "Magical"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Unmemorable Mantle (Major)",
+        "id": "a99f8692-983a-4354-aba5-4be95516e80b",
+        "desc": "This long, shoddy cloak bears a hood and a simple brass clasp. While wearing the cloak, you gain a +1 item bonus to Deception checks to Impersonate an individual and to Lie while in character as that individual.",
+        "_extensionFileName": "characterGuide",
+        "sourceBook": "Character Guide",
+        "level": 17,
+        "bulk": "1",
+        "price": 2175000,
+        "subType": "Major",
+        "subTypeDesc": "The item bonus is +3, the Will save DC is 38, and you can activate the mantle once every 10 minutes.",
+        "traits": [
+            "Illusion",
+            "Invested",
+            "Magical"
+        ],
+        "usage": "worn cloak",
+        "hints": [
+            {
+                "desc": "You gain a +3 item bonus to Deception checks to Impersonate an individual and to Lie while in character as that individual.",
+                "showon": "Deception",
+                "effects": [
+                    {
+                        "affected": "Deception",
+                        "type": "item",
+                        "value": "3"
+                    }
+                ]
+            }
+        ],
+        "activities": [
+            {
+                "name": "Unmemorable Mantle (Major)",
+                "actions": "1 minute",
+                "activationType": "Envision, Interact",
+                "frequency": "once every 10 minutes",
+                "cooldown": 1000,
+                "target": "other",
+                "requirements": "You are Impersonating someone else ",
+                "desc": "While conversing or otherwise casually interacting with other creatures, you can adjust the mantle's clasp to modify those creatures' recollections of the last 5 minutes of their interaction with you. Each creature must attempt a DC 38 Will save.",
+                "traits": [
+                    "Illusion",
+                    "Invested",
+                    "Magical"
+                ],
+                "critsuccess": "The creature recalls the interaction clearly and realizes you were trying to alter their memory.",
+                "success": "The creature recalls the interaction clearly.",
+                "failure": "You decide whether or not the creature recalls the interaction. You can also alter minor details the creature recalls about the interaction, such as the time, place, and whether the interaction was favorable, as determined by the GM.",
+                "critfailure": "You decide whether or not the creature recalls the interaction. You can also alter major details the creature recalls about the interaction, such as believing you to be another individual or that the creature agreed to a favor, as determined by the GM."
+            }
+        ]
+    }
 ]

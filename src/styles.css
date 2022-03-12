@@ -119,6 +119,10 @@ input[type="checkbox"] {
     vertical-align: text-bottom;
 }
 
+input.short {
+    width: 10rem;
+}
+
 .darkmode input:not([disabled]),
 .darkmode textarea {
     background-color: #202020;
@@ -443,7 +447,7 @@ button.specialchoice:not(.fancy-button),
     /* Slider */
 
     /* Slider Container replaces the border and background of the input in order to overlay a name. */
-    
+
 .slider-container {
     background-color: white;
     position: relative;
@@ -1871,7 +1875,7 @@ app-gridicon.featchoice, .darkmode app-gridicon.featchoice {
 app-gridicon.specialchoice, .darkmode app-gridicon.specialchoice {
     color: rgb(125, 100, 50);
 }
-    
+
 /* Animated loading signifier */
 
 .loading {
@@ -2317,7 +2321,7 @@ MEDIA QUERIES
     .container, .container-lg, .container-md, .container-sm, .container-xl {
         max-width: 100%;
     }
-    
+
     body {
         font-size: 2vw;
     }
@@ -2340,7 +2344,7 @@ MEDIA QUERIES
     .itembox {
         padding: 1em 1em;
     }
-    
+
     .itembox > .itembox-close-button {
         width: 80%;
     }
@@ -2354,7 +2358,7 @@ MEDIA QUERIES
     }
 
     .charactersheet-column {
-        overflow-y: auto; 
+        overflow-y: auto;
     }
 
     #character-height > .charactersheet-column-container > .charactersheet-column:first-child,

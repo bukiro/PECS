@@ -5,7 +5,7 @@
             {{trait}}
         </cite>
         <cite class="extra-trait" *ngFor="let trait of spell.get_ActivationTraits(); trackBy:trackByIndex;"
-            [ngbPopover]="'(This trait was derived from the spell components.)\n\n' + get_Traits(trait)[0].desc">
+            [ngbPopover]="get_Traits(trait)[0].desc + '\n\n(This trait was derived from the action components.)'">
             + {{trait}}
         </cite>
         <app-tags [creature]="'Character'" [objectName]="spell.name" [showTraits]=true [showFeats]=true [showItems]=true

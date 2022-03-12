@@ -861,7 +861,7 @@ export class CharacterService {
         this.refreshService.set_ToChange(creature.type, "inventory");
         this.refreshService.set_ToChange(creature.type, "effects");
         this.refreshService.set_ToChange("Character", "top-bar");
-        this.refreshService.set_ItemViewChanges(creature, item, { characterService: this });
+        this.refreshService.set_ItemViewChanges(creature, item, { characterService: this, activitiesService: this.activitiesService });
         if (amount < item.amount) {
             item.amount -= amount;
             this.refreshService.set_ToChange("Character", item.id);
@@ -881,6 +881,8 @@ export class CharacterService {
                     this.on_Equip(creature, inventory, item as Equipment, false, false);
                 } else if (item.invested && item.can_Invest()) {
                     this.on_Invest(creature, inventory, item as Equipment, false, false);
+                } else if (!item.equippable && !item.can_Invest()) {
+                    this.conditionsService.remove_GainedItemConditions(creature, item, this);
                 }
                 if (item.propertyRunes) {
                     item.propertyRunes.filter((rune: Rune) => rune.loreChoices.length).forEach((rune: Rune) => {
@@ -1057,7 +1059,7 @@ export class CharacterService {
             item.equipped = false;
         }
         this.refreshService.set_ToChange(creature.type, "inventory");
-        this.refreshService.set_ItemViewChanges(creature, item, { characterService: this });
+        this.refreshService.set_ItemViewChanges(creature, item, { characterService: this, activitiesService: this.activitiesService });
         if (!oldequipped && item.equipped) {
             if (item instanceof Armor) {
                 inventory.armors.filter(armor => armor !== item).forEach(armor => {
@@ -1100,6 +1102,10 @@ export class CharacterService {
                     gainItem.drop_GrantedItem(creature, {}, { characterService: this })
                 });
             }
+            //If the item can't be un-invested, make sure you lose the conditions you gained from equipping it.
+            if (!item.can_Invest()) {
+                this.conditionsService.remove_GainedItemConditions(creature, item, this);
+            }
             item.propertyRunes?.forEach(rune => {
                 //Deactivate any active toggled activities of inserted runes.
                 rune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
@@ -1140,7 +1146,7 @@ export class CharacterService {
             if (!item.equipped) {
                 this.on_Equip(creature, inventory, item, true, false);
             } else {
-                this.refreshService.set_ItemViewChanges(creature, item, { characterService: this });
+                this.refreshService.set_ItemViewChanges(creature, item, { characterService: this, activitiesService: this.activitiesService });
             }
         } else {
             item.gainActivities.filter(gainActivity => gainActivity.active).forEach((gainActivity: ActivityGain) => {
@@ -1152,13 +1158,14 @@ export class CharacterService {
             item.activities.filter(itemActivity => itemActivity.active).forEach((itemActivity: ItemActivity) => {
                 this.activitiesService.activate_Activity(creature, "", this, this.conditionsService, this.itemsService, this.spellsService, itemActivity, itemActivity, false);
             })
-            this.refreshService.set_ItemViewChanges(creature, item, { characterService: this });
+            this.conditionsService.remove_GainedItemConditions(creature, item, this);
+            this.refreshService.set_ItemViewChanges(creature, item, { characterService: this, activitiesService: this.activitiesService });
         }
         //If a wayfinder is invested or uninvested, all other invested wayfinders need to run updates as well,
         // Because too many invested wayfinders disable each other's aeon stones.
         if (item instanceof WornItem && item.aeonStones.length) {
             creature.inventories[0].wornitems.filter(wornItem => wornItem !== item && wornItem.aeonStones.length).forEach(wornItem => {
-                this.refreshService.set_ItemViewChanges(creature, wornItem, { characterService: this });
+                this.refreshService.set_ItemViewChanges(creature, wornItem, { characterService: this, activitiesService: this.activitiesService });
             })
         }
         if (changeAfter) {
@@ -1171,7 +1178,7 @@ export class CharacterService {
             item.amount--
         }
         this.itemsService.process_Consumable(creature, this, this.conditionsService, this.spellsService, item);
-        this.refreshService.set_ItemViewChanges(creature, item, { characterService: this });
+        this.refreshService.set_ItemViewChanges(creature, item, { characterService: this, activitiesService: this.activitiesService });
         this.refreshService.set_ToChange(creature.type, "inventory");
     }
 
@@ -1889,7 +1896,12 @@ export class CharacterService {
         switch (effectGain.affected) {
             case "Focus Points":
                 if (value) {
-                    this.get_Character().class.focusPoints = Math.min(this.get_Character().class.focusPoints, this.get_MaxFocusPoints());
+                    const maxFocusPoints = this.get_MaxFocusPoints();
+                    if (maxFocusPoints == 0) {
+                        this.toastService.show("Your focus points were not changed because you don't have a focus pool.");
+                        break;
+                    }
+                    this.get_Character().class.focusPoints = Math.min(this.get_Character().class.focusPoints, maxFocusPoints);
                     //We intentionally add the point after we set the limit. This allows us to gain focus points with feats and raise the current points
                     // before the limit is increased. The focus points are automatically limited in the spellbook component, where they are displayed, and when casting focus spells.
                     (creature as Character).class.focusPoints += value;
@@ -1906,7 +1918,7 @@ export class CharacterService {
                 //- If you already have temporary HP, add this amount to the selection. The player needs to choose one amount; they are not cumulative.
                 //- If you are setting temporary HP manually, or if the current amount is 0, skip the selection and remove all the other options.
                 //- If you are losing temporary HP, lose only those that come from the same source.
-                //-- If that's the current effective amount, remove all other options (if you are "using" your effective temporary HP, we assume that you have made the choice for this amount). 
+                //-- If that's the current effective amount, remove all other options (if you are "using" your effective temporary HP, we assume that you have made the choice for this amount).
                 //--- If the current amount is 0 after loss, reset the temporary HP.
                 //-- Remove it if it's not the effective amount.
                 if (value > 0) {

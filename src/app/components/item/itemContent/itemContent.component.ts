@@ -6,6 +6,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { Consumable } from 'src/app/classes/Consumable';
+import { WornItem } from 'src/app/classes/WornItem';
 
 @Component({
     selector: 'app-itemContent',
@@ -77,6 +78,14 @@ export class ItemContentComponent implements OnInit, OnDestroy {
             } else {
                 return -1
             }
+        }
+    }
+
+    get_LanguageGains() {
+        if (this.item instanceof WornItem) {
+            return this.item.gainLanguages.filter(gain => !gain.locked);
+        } else {
+            return [];
         }
     }
 

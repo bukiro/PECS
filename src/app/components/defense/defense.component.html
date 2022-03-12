@@ -70,18 +70,22 @@
             </div>
             <ng-container *ngIf="creature != 'Familiar'">
                 <header class="subsectionHeader fullsize-only">Armor</header>
-                <div class="fullsize-only list-item" *ngFor="let armor of get_EquippedArmor(); let armorIndex = index; trackBy:trackByIndex;">
+                <div class="fullsize-only list-item"
+                    *ngFor="let armor of get_EquippedArmor(); let armorIndex = index; trackBy:trackByIndex;">
                     <div>
                         {{armor.get_Name()}}
                     </div>
                     <div class="fullsize-only newrow left-aligned" *ngIf="armor.traits.length">
-                        <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}" *ngFor="let trait of armor.traits; trackBy:trackByIndex;"
+                        <cite class="trait"
+                            [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}"
+                            *ngFor="let trait of armor.traits; trackBy:trackByIndex;"
                             [ngbPopover]="get_Traits(trait)[0].desc">
                             {{trait}}
                         </cite>
                     </div>
                     <app-tags [creature]="creature" [objectName]="'Armor'" [showTraits]=true [showFeats]=true
-                        [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true *ngIf="armorIndex == 0"></app-tags>
+                        [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true
+                        *ngIf="armorIndex == 0"></app-tags>
                     <app-tags [creature]="creature" [objectName]="armor.name" [showItems]=true></app-tags>
                     <div class="fullsize-only newrow left-aligned"
                         *ngFor="let runes of [get_HintRunes(armor)]; trackBy:trackByIndex;" style="margin-top:initial">
@@ -95,7 +99,14 @@
                         <ng-template #TalismanTemplate>
                             <div class="list-item left-aligned lower"
                                 *ngFor="let cord of armor.talismanCords; trackBy:trackByIndex;">
-                                <header class="spellHeader">{{cord.name}}</header>
+                                <header class="spellHeader newrow">
+                                    <span>
+                                        {{cord.name}}
+                                    </span>
+                                    <span>
+                                        Level {{cord.level}}
+                                    </span>
+                                </header>
                                 <p>When you activate a talisman threaded through a cord with the same magic school trait
                                     that's also the cord's level or lower, attempt a <app-quickdice
                                         [diceString]="'1d20'"> </app-quickdice> DC 16 flat check. On a success, that
@@ -109,7 +120,14 @@
                                     </div>
                                 </ng-container>
                             </div>
-                            <header class="spellHeader">{{talisman.name}}</header>
+                            <header class="spellHeader newrow">
+                                <span>
+                                    {{talisman.name}}
+                                </span>
+                                <span>
+                                    Level {{talisman.level}}
+                                </span>
+                            </header>
                             <button class="newrow left-aligned" (click)="on_TalismanUse(armor, talisman, index)">
                                 <span>
                                     Activate
@@ -132,8 +150,9 @@
                         </ng-template>
                         <button [ngbPopover]="TalismanTemplate" triggers="click">
                             <span>
-                                {{talisman.name}} {{get_HaveMatchingTalismanCord(armor, talisman) ? "(matching talisman
-                                cord attached)" : ""}}
+                                {{talisman.name}}
+                                {{get_HaveMatchingTalismanCord(armor, talisman) ?
+                                "(matching talisman cord attached)" : ""}}
                             </span>
                         </button>
                     </div>
@@ -151,7 +170,9 @@
                             Hardness: <span class="value">{{shield.get_Hardness()}}</span>
                         </div>
                         <div class="fullsize-only newrow left-aligned" *ngIf="shield.traits.length">
-                            <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}" *ngFor="let trait of shield.traits; trackBy:trackByIndex;"
+                            <cite class="trait"
+                                [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}"
+                                *ngFor="let trait of shield.traits; trackBy:trackByIndex;"
                                 [ngbPopover]="get_Traits(trait)[0].desc">
                                 {{trait}}
                             </cite>
@@ -263,8 +284,7 @@
                 </ng-container>
                 <ng-container *ngIf="!still_loading()">
                     <header class="sectionHeader fullsize-only box-header">Armor Proficiencies</header>
-                    <ng-container
-                        *ngFor="let skill of get_Skills('Armor Proficiency'); trackBy:trackByIndex;">
+                    <ng-container *ngFor="let skill of get_Skills('Armor Proficiency'); trackBy:trackByIndex;">
                         <app-skill class="fullsize-only" [creature]="creature" [skill]=skill [showValue]=false>
                         </app-skill>
                     </ng-container>

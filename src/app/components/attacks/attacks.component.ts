@@ -23,6 +23,7 @@ import { Hint } from 'src/app/classes/Hint';
 import { DeitiesService } from 'src/app/services/deities.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { ActivitiesService } from 'src/app/services/activities.service';
 
 @Component({
     selector: 'app-attacks',
@@ -48,6 +49,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         private deitiesService: DeitiesService,
         public characterService: CharacterService,
         private refreshService: RefreshService,
+        private activitiesService: ActivitiesService,
         public effectsService: EffectsService,
         public conditionsService: ConditionsService
     ) { }
@@ -183,7 +185,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     on_EquipmentChange(item: Equipment) {
-        this.refreshService.set_ItemViewChanges(this.get_Creature(), item, { characterService: this.characterService });
+        this.refreshService.set_ItemViewChanges(this.get_Creature(), item, { characterService: this.characterService, activitiesService: this.activitiesService });
         this.refreshService.process_ToChange();
     }
 

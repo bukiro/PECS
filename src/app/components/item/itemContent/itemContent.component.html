@@ -153,18 +153,21 @@
     <ng-container *ngFor="let desc of item.desc.split('\n\n'); trackBy:trackByIndex;">
         <app-description class="newrow" [text]="desc"></app-description>
     </ng-container>
-    <div class="newrow list-item" *ngIf="item.gainLanguages && item.gainLanguages.length">
-        <ng-container *ngFor="let gainLanguage of item.gainLanguages; let languageIndex = index; trackBy:trackByIndex;">
-            <div class="newrow">
-                <strong>{{gainLanguage.title}}</strong>
-                <input id="{{item.id}}language{{languageIndex}}name" type="text" [(ngModel)]="gainLanguage.name"
-                    (blur)="on_LanguageUpdate()" *ngIf="!gainLanguage.locked">
-                <ng-container *ngIf="gainLanguage.locked">
-                    {{gainLanguage.name}}
-                </ng-container>
-            </div>
-        </ng-container>
-    </div>
+    <ng-container *ngFor="let languageGains of [get_LanguageGains()]; trackBy:trackByIndex;">
+        <div class="newrow list-item" *ngIf="languageGains.length">
+            <ng-container
+                *ngFor="let gainLanguage of languageGains; let languageIndex = index; trackBy:trackByIndex;">
+                <div class="newrow">
+                    <strong>{{gainLanguage.title}}</strong>
+                    <input id="{{item.id}}language{{languageIndex}}name" type="text" [(ngModel)]="gainLanguage.name"
+                        (blur)="on_LanguageUpdate()" *ngIf="!gainLanguage.locked">
+                    <ng-container *ngIf="gainLanguage.locked">
+                        {{gainLanguage.name}}
+                    </ng-container>
+                </div>
+            </ng-container>
+        </div>
+    </ng-container>
     <div class="newrow list-item" *ngIf="has_ShownData()">
         <ng-container *ngFor="let data of item.data; let dataIndex = index; trackBy:trackByIndex;">
             <div class="newrow" *ngIf="data.show">

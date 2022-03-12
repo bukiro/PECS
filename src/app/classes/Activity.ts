@@ -28,6 +28,9 @@ export class Activity {
     //When giving conditions to other player creatures, they should last half a round longer to allow for the caster's turn to end after their last.
     // Spells with a duration like "until the end of the target's turn" instead give the caster half a turn longer. This is activated by durationDependsOnTarget.
     public durationDependsOnTarget: boolean = false;
+    //The sustained property only changes the "Deactivate" button to "Stop sustaining".
+    //The activity still needs to have toggle=true and a maxDuration set for sustaining to work.
+    //This is ensured automatically in the recast method.
     public sustained: boolean = false;
     //How often can you activate the activity? 0 is one activation per cooldown, or infinite activations if no cooldown is given. Use maxCharges() to read.
     private charges: number = 0;
@@ -73,8 +76,10 @@ export class Activity {
     //This is needed for emanations (where the activity should give the caster the correct condition in the first place)
     // and activities that exclusively target a different creature (in case of "you and [...]", the caster condition should take care of the caster's part.").
     public cannotTargetCaster: boolean = false;
-    //_cooldown is a calculated cooldown that it set by get_Cooldown() so that it can be used by can_Activate() without passing parameters.
+    //_cooldown is a calculated cooldown that is set by get_Cooldown() so that it can be used by can_Activate() without passing parameters.
     public _cooldown: number = 0;
+    //_charges is the calculated number of charges that is set by maxCharges() so that it can be used by can_Activate() without passing parameters.
+    public _charges: number = 0;
     //Set displayOnly if the activity should not be used, but displayed for information, e.g. for ammunition
     public displayOnly: boolean = false;
     recast() {
@@ -88,6 +93,12 @@ export class Activity {
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.onceEffects = this.onceEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
         this.targetNumbers = this.targetNumbers.map(obj => Object.assign(new SpellTargetNumber(), obj).recast());
+        if (this.sustained) {
+            this.toggle = true;
+            if (!this.maxDuration) {
+                this.maxDuration = 1000;
+            }
+        }
         return this;
     }
     get_ActivationTraits(): string[] {
@@ -110,8 +121,7 @@ export class Activity {
     }
     can_Activate() {
         //Test any circumstance under which this can be activated
-        let isStance: boolean = (this.traits.includes("Stance"))
-        return isStance || this.gainItems.length || this.castSpells.length || this.gainConditions.length || this.cooldown || this._cooldown || this.toggle || this.onceEffects.length;
+        return (this.traits.includes("Stance")) || this.gainItems.length || this.castSpells.length || this.gainConditions.length || this.charges || this._charges || this.cooldown || this._cooldown || this.toggle || this.onceEffects.length;
     }
     get_IsHostile(ignoreOverride: boolean = false) {
         //Return whether an activity is meant to be applied on enemies. This is usually the case if the activity target is "other", or if the target is "area" and the activity has no target conditions.
@@ -189,8 +199,10 @@ export class Activity {
                 charges += parseInt(effect.value);
             })
         if (startWithZero && charges == 1) {
+            this._charges = 0;
             return 0;
         } else {
+            this._charges = charges;
             return charges;
         }
     }

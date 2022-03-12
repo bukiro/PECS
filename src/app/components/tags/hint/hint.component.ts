@@ -11,6 +11,7 @@ import { TraitsService } from 'src/app/services/traits.service';
 import { WornItem } from 'src/app/classes/WornItem';
 import { EffectsService } from 'src/app/services/effects.service';
 import { ItemsService } from 'src/app/services/items.service';
+import { Character } from 'src/app/classes/Character';
 
 @Component({
     selector: 'app-hint',
@@ -48,8 +49,8 @@ export class HintComponent {
         return this.characterService.get_Creature(this.creature);
     }
 
-    get_HintsShowMore() {
-        return this.characterService.get_Character().settings.hintsShowMoreInformation;
+    public get_Character(): Character {
+        return this.characterService.get_Character();
     }
 
     get_CharacterLevel() {

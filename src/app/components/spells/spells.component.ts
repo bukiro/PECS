@@ -112,7 +112,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
         //Scroll up to the top of the choice area. This is only needed in desktop mode, where you can switch between choices without closing the first,
         // and it would cause the top bar to scroll away in mobile mode.
         if (!this.characterService.get_Mobile()) {
-            document.getElementById("spells-choiceArea-top").scrollIntoView({ behavior: 'smooth' });
+            document.getElementById("spells-choiceArea-top")?.scrollIntoView({ behavior: 'smooth' });
         }
     }
 
@@ -273,7 +273,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
     }
 
     private get_NeedSpellbook(casting: SpellCasting): boolean {
-        return (casting.castingType == "Prepared" && casting.className == "Wizard") || casting.spellChoices.some(choice => choice.spellBookOnly);
+        return casting.spellBookOnly || casting.spellChoices.some(choice => choice.spellBookOnly);
     }
 
     private get_AllowSwitchingPreparedSpells(): boolean {

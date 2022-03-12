@@ -106,7 +106,7 @@
                                         [ngClass]="{'fancy-button':gain.active, 'inactive-button':cannotActivate, 'penalty':!cannotActivate && activity.get_IsHostile(), 'bonus':!cannotActivate && !activity.get_IsHostile()}"
                                         [ngbTooltip]="ActivityTitleTemplate"
                                         [title]="activity.name == 'Fused Stance' ? get_FuseStanceName() : activity.name"
-                                        [activity]="activity">
+                                        [activity]="activity" [activityGain]="gain" [updateId]="gain.id">
                                     </app-gridIcon>
                                 </button>
                             </ng-container>

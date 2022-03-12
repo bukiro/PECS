@@ -9,6 +9,7 @@ import { Specialization } from 'src/app/classes/Specialization';
 import { Rune } from 'src/app/classes/Rune';
 import { Item } from './Item';
 import { LanguageGain } from './LanguageGain';
+import { Talisman } from './Talisman';
 
 export type RingOfWizardrySlot = {
     tradition: string,
@@ -100,6 +101,28 @@ export class WornItem extends Equipment {
             price += itemsService.get_CleanItems().wornitems.find(wornItem => wornItem.name.toLowerCase() == aeonStone.name.toLowerCase()).price;
         })
         return price;
+    }
+    get_Traits(characterService: CharacterService, creature: Creature): string[] {
+        return super.get_Traits(characterService, creature)
+            .concat(
+                this.isTalismanCord ?
+                    this.data
+                        .map(data => data.value.toString())
+                        .filter(trait =>
+                            !this.traits.includes(trait) && trait !== 'no school attuned'
+                        ) :
+                    []
+            );
+    }
+    get_CompatibleWithTalisman(talisman: Talisman) {
+        return this.isTalismanCord ?
+            (
+                this.level >= talisman.level &&
+                this.data.some(data =>
+                    talisman.traits.includes(data.value.toString())
+                )
+            ) :
+            false;
     }
     get_EffectsGenerationObjects(creature: Creature, characterService: CharacterService): (Equipment | Specialization | Rune)[] {
         return super.get_EffectsGenerationObjects(creature, characterService)

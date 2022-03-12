@@ -127,7 +127,7 @@ export class ItemComponent implements OnInit, OnDestroy {
         this.refreshService.set_ToChange(this.creature, "inventory");
         let ironItem = this.get_DoublingRingsOptions("iron").find(weapon => weapon.id == this.item.data[0].value);
         if (ironItem && this.item.invested) {
-            this.refreshService.set_ItemViewChanges(this.get_Creature(), ironItem, { characterService: this.characterService });
+            this.refreshService.set_ItemViewChanges(this.get_Creature(), ironItem, { characterService: this.characterService, activitiesService: this.activitiesService });
         }
         this.refreshService.process_ToChange();
     }
@@ -206,6 +206,9 @@ export class ItemComponent implements OnInit, OnDestroy {
                 this.refreshService.set_ToChange("Character", "effects");
             }
         }
+        //Close any open spell choices.
+        this.refreshService.set_ToChange("Character", "spells", "clear");
+        this.refreshService.set_ToChange("Character", "spellbook");
         this.refreshService.process_ToChange();
     }
 
@@ -289,7 +292,7 @@ export class ItemComponent implements OnInit, OnDestroy {
     }
 
     on_ChoiceChange() {
-        this.refreshService.set_ItemViewChanges(this.get_Creature(), this.item, { characterService: this.characterService });
+        this.refreshService.set_ItemViewChanges(this.get_Creature(), this.item, { characterService: this.characterService, activitiesService: this.activitiesService });
         this.refreshService.process_ToChange();
         this.update_Item();
     }

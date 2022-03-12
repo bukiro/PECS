@@ -64,7 +64,7 @@
             {{trait}}
         </cite>
         <cite class="extra-trait" *ngFor="let trait of activity.get_ActivationTraits(); trackBy:trackByIndex;"
-            [ngbPopover]="'(This trait was derived from the action components.)\n\n' + get_Traits(trait)[0].desc">
+            [ngbPopover]="get_Traits(trait)[0].desc + '\n\n(This trait was derived from the action components.)'">
             + {{trait}}
         </cite>
         <app-tags [creature]="creature" [objectName]="activity.name" [showTraits]=true [showFeats]=true [showItems]=true

@@ -1,1494 +1,1479 @@
 [
-  {
-    "name": "Aeon Stone (Dusty Rose Prism)",
-    "id": "83dcde89-4e2e-432f-b794-a6ef45950b90",
-    "desc": "This aeon stone allows you to cast the 1st-level shield cantrip as an arcane innate spell, surrounding yourself in pink energy.\n\nThe resonant power increases the damage prevented by your aeon stone's shield spell from 5 to 10.",
-    "access": "Member of the Pathfinder Society.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 3,
-    "price": 5000,
-    "subType": "Dusty Rose Prism",
-    "traits": [
-      "Uncommon",
-      "Invested",
-      "Magical",
-      "Transmutation"
-    ],
-    "usage": "worn",
-    "isAeonStone": true,
-    "hints": [
-      {
-        "desc": "The resonant power increases the damage prevented by your aeon stone's shield spell from 5 to 10.",
-        "showon": "Shield",
-        "resonant": true
-      }
-    ],
-    "gainSpells": [
-      {
-        "frequency": "at will",
-        "level": 0,
-        "tradition": "Arcane",
-        "castingType": "Innate",
-        "spells": [
-          {
-            "locked": true,
-            "dynamicEffectiveSpellLevel": "1",
-            "name": "Shield"
-          }
+    {
+        "name": "Aeon Stone (Dusty Rose Prism)",
+        "id": "83dcde89-4e2e-432f-b794-a6ef45950b90",
+        "desc": "This aeon stone allows you to cast the 1st-level shield cantrip as an arcane innate spell, surrounding yourself in pink energy.\n\nThe resonant power increases the damage prevented by your aeon stone's shield spell from 5 to 10.",
+        "access": "Member of the Pathfinder Society.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 3,
+        "price": 5000,
+        "subType": "Dusty Rose Prism",
+        "traits": [
+            "Uncommon",
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "usage": "worn",
+        "isAeonStone": true,
+        "hints": [
+            {
+                "desc": "The resonant power increases the damage prevented by your aeon stone's shield spell from 5 to 10.",
+                "showon": "Shield",
+                "resonant": true
+            }
+        ],
+        "gainSpells": [
+            {
+                "frequency": "at will",
+                "level": 0,
+                "tradition": "Arcane",
+                "castingType": "Innate",
+                "spells": [
+                    {
+                        "locked": true,
+                        "dynamicEffectiveSpellLevel": "1",
+                        "name": "Shield"
+                    }
+                ]
+            }
         ]
-      }
-    ]
-  },
-  {
-    "name": "Aeon Stone (Pearly White Spindle)",
-    "id": "faeec444-da09-4439-908d-84e271c2db5c",
-    "desc": "When you invest this aeon stone, it slowly starts healing your wounds, restoring 1 HP every minute.\n\nThe resonant power grants you resistance 1 to negative damage.",
-    "access": "Member of the Pathfinder Society.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 3,
-    "price": 6000,
-    "subType": "Pearly White Spindle",
-    "traits": [
-      "Uncommon",
-      "Invested",
-      "Magical",
-      "Transmutation"
-    ],
-    "usage": "worn",
-    "isAeonStone": true,
-    "hints": [
-      {
-        "desc": "The pearly white spindle aeon stone slowly heals your wounds, restoring 1 HP every minute. (Manually restore HP as needed.)",
-        "showon": "Health"
-      }
-    ],
-    "effects": [
-      {
-        "affected": "Negative Damage Resistance",
-        "value": "1",
-        "resonant": true
-      }
-    ]
-  },
-  {
-    "name": "Everyneed Pack",
-    "id": "a01501e1-cf5f-44e1-b632-6cc51a358c67",
-    "desc": "Constructed of green material and decorated with a white Glyph of the Open Road, a dozen or more small pockets line the inside of this pack. The pack is enchanted so that each pocket contains common, mundane gear, each item worth no more than 1 gp, such as chalk, flint and steel, and string. It doesn't contain any armor, shields, weapons, or items made of any kind of precious material. Keep track of the exact value of the gear you retrieve from the pack. The pack empties after 8 gp worth of items of your choice are removed, after which it becomes a mundane backpack.\n\n(The everyneed pack comes with a backpack. When the everyneed pack empties, you can drop it and keep the backpack.)",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 3,
-    "price": 2000,
-    "traits": [
-      "Uncommon",
-      "Conjuration",
-      "Invested",
-      "Magical"
-    ],
-    "usage": "worn on belt",
-    "activities": [
-      {
+    },
+    {
+        "name": "Aeon Stone (Pearly White Spindle)",
+        "id": "faeec444-da09-4439-908d-84e271c2db5c",
+        "desc": "When you invest this aeon stone, it slowly starts healing your wounds, restoring 1 HP every minute.\n\nThe resonant power grants you resistance 1 to negative damage.",
+        "access": "Member of the Pathfinder Society.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 3,
+        "price": 6000,
+        "subType": "Pearly White Spindle",
+        "traits": [
+            "Uncommon",
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "usage": "worn",
+        "isAeonStone": true,
+        "hints": [
+            {
+                "desc": "The pearly white spindle aeon stone slowly heals your wounds, restoring 1 HP every minute. (Manually restore HP as needed.)",
+                "showon": "Health"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Negative Damage Resistance",
+                "value": "1",
+                "resonant": true
+            }
+        ]
+    },
+    {
         "name": "Everyneed Pack",
-        "actions": "1 minute",
-        "activationType": "Interact",
-        "frequency": "once per hour",
-        "cooldown": 6000,
-        "desc": "You draw any number of pieces of mundane gear from the pack with a combined value of 1 gp or less.",
+        "id": "a01501e1-cf5f-44e1-b632-6cc51a358c67",
+        "desc": "Constructed of green material and decorated with a white Glyph of the Open Road, a dozen or more small pockets line the inside of this pack. The pack is enchanted so that each pocket contains common, mundane gear, each item worth no more than 1 gp, such as chalk, flint and steel, and string. It doesn't contain any armor, shields, weapons, or items made of any kind of precious material. Keep track of the exact value of the gear you retrieve from the pack. The pack empties after 8 gp worth of items of your choice are removed, after which it becomes a mundane backpack.\n\n(The everyneed pack comes with a backpack. When the everyneed pack empties, you can drop it and keep the backpack.)",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 3,
+        "price": 2000,
         "traits": [
-          "Uncommon",
-          "Conjuration",
-          "Invested",
-          "Magical"
+            "Uncommon",
+            "Conjuration",
+            "Invested",
+            "Magical"
+        ],
+        "usage": "worn on belt",
+        "activities": [
+            {
+                "name": "Everyneed Pack",
+                "actions": "1 minute",
+                "activationType": "Interact",
+                "frequency": "once per hour",
+                "cooldown": 6000,
+                "desc": "You draw any number of pieces of mundane gear from the pack with a combined value of 1 gp or less.",
+                "traits": [
+                    "Uncommon",
+                    "Conjuration",
+                    "Invested",
+                    "Magical"
+                ]
+            }
+        ],
+        "gainInventory": [
+            {
+                "bulkLimit": 4,
+                "bulkReduction": 2
+            }
+        ],
+        "data": [
+            {
+                "name": "Remaining value",
+                "show": true,
+                "type": "string",
+                "value": "8 gp"
+            }
         ]
-      }
-    ],
-    "gainInventory": [
-      {
-        "bulkLimit": 4,
-        "bulkReduction": 2
-      }
-    ],
-    "data": [
-      {
-        "name": "Remaining value",
-        "show": true,
-        "type": "string",
-        "value": "8 gp"
-      }
-    ]
-  },
-  {
-    "name": "Fashionable Wayfinder",
-    "id": "f80c72bf-2387-416e-b095-d002e59d7276",
-    "desc": "Fashionable wayfinders allow you to be dressed for success in almost any situation. In addition to the effects of a wayfinder, a fashionable wayfinder can attune to up to three sets of mundane clothing in your possession during your daily preparations. A fashionable wayfinder has the following activation.",
-    "access": "Member of the Pathfinder Society.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 3,
-    "price": 5000,
-    "traits": [
-      "Uncommon",
-      "Conjuration",
-      "Invested",
-      "Magical"
-    ],
-    "usage": "worn",
-    "isWayfinder": 1,
-    "activities": [
-      {
+    },
+    {
         "name": "Fashionable Wayfinder",
-        "actions": "1A",
-        "activationType": "Envision",
-        "desc": "You call one of the attuned sets of clothing onto yourself, changing clothes instantly and leaving you either holding the old set of clothing or with the old set folded neatly on the floor if you don't have a free hand to hold it. This activation can't change you into or out of a suit of armor of any kind. While the activation can transport the chosen attuned set of clothing onto you from up to 60 feet away, it can't transport any other creatures or items that might have been stored in the clothing.",
+        "id": "f80c72bf-2387-416e-b095-d002e59d7276",
+        "desc": "Fashionable wayfinders allow you to be dressed for success in almost any situation. In addition to the effects of a wayfinder, a fashionable wayfinder can attune to up to three sets of mundane clothing in your possession during your daily preparations. A fashionable wayfinder has the following activation.",
+        "access": "Member of the Pathfinder Society.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 3,
+        "price": 5000,
         "traits": [
-          "Uncommon",
-          "Conjuration",
-          "Invested",
-          "Magical"
-        ]
-      },
-      {
-        "name": "Fashionable Wayfinder: Light",
-        "actions": "1A",
-        "activationType": "Command",
-        "target": "self",
-        "desc": "The wayfinder is targeted by a 1st-level light spell.",
-        "castSpells": [
-          {
-            "level": 1,
-            "name": "Light"
-          }
+            "Uncommon",
+            "Conjuration",
+            "Invested",
+            "Magical"
         ],
-        "traits": [
-          "Uncommon",
-          "Conjuration",
-          "Invested",
-          "Magical"
+        "usage": "worn",
+        "isWayfinder": 1,
+        "activities": [
+            {
+                "name": "Fashionable Wayfinder",
+                "actions": "1A",
+                "activationType": "Envision",
+                "desc": "You call one of the attuned sets of clothing onto yourself, changing clothes instantly and leaving you either holding the old set of clothing or with the old set folded neatly on the floor if you don't have a free hand to hold it. This activation can't change you into or out of a suit of armor of any kind. While the activation can transport the chosen attuned set of clothing onto you from up to 60 feet away, it can't transport any other creatures or items that might have been stored in the clothing.",
+                "traits": [
+                    "Uncommon",
+                    "Conjuration",
+                    "Invested",
+                    "Magical"
+                ]
+            },
+            {
+                "name": "Fashionable Wayfinder: Light",
+                "actions": "1A",
+                "activationType": "Command",
+                "target": "self",
+                "desc": "The wayfinder is targeted by a 1st-level light spell.",
+                "castSpells": [
+                    {
+                        "level": 1,
+                        "name": "Light"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Conjuration",
+                    "Invested",
+                    "Magical"
+                ]
+            }
+        ],
+        "data": [
+            {
+                "name": "Attuned clothes set 1",
+                "show": true,
+                "type": "string"
+            },
+            {
+                "name": "Attuned clothes set 2",
+                "show": true,
+                "type": "string"
+            },
+            {
+                "name": "Attuned clothes set 3",
+                "show": true,
+                "type": "string"
+            }
         ]
-      }
-    ],
-    "data": [
-      {
-        "name": "Attuned clothes set 1",
-        "show": true,
-        "type": "string"
-      },
-      {
-        "name": "Attuned clothes set 2",
-        "show": true,
-        "type": "string"
-      },
-      {
-        "name": "Attuned clothes set 3",
-        "show": true,
-        "type": "string"
-      }
-    ]
-  },
-  {
-    "name": "Aeon Stone (Azure Briolette)",
-    "id": "fd031335-765e-4640-80b7-baaaf154c592",
-    "desc": "This aeon stone must be activated to provide a benefit.\n\nThe resonant power grants a separate activation.",
-    "access": "Member of the Pathfinder Society.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 4,
-    "price": 8500,
-    "subType": "Azure Briolette",
-    "traits": [
-      "Uncommon",
-      "Invested",
-      "Magical",
-      "Transmutation"
-    ],
-    "usage": "worn",
-    "isAeonStone": true,
-    "activities": [
-      {
+    },
+    {
         "name": "Aeon Stone (Azure Briolette)",
-        "actions": "Reaction",
-        "activationType": "Envision",
-        "trigger": "An enemy fails its save against a mental spell you cast using one of your spell slots",
-        "desc": "You gain temporary Hit Points equal to twice the spell's level until your next turn.",
-        "gainConditions": [
-          {
-            "duration": 10,
-            "name": "Aeon Stone (Azure Briolette)"
-          }
-        ],
+        "id": "fd031335-765e-4640-80b7-baaaf154c592",
+        "desc": "This aeon stone must be activated to provide a benefit.\n\nThe resonant power grants a separate activation.",
+        "access": "Member of the Pathfinder Society.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 4,
+        "price": 8500,
+        "subType": "Azure Briolette",
         "traits": [
-          "Uncommon",
-          "Invested",
-          "Magical",
-          "Transmutation"
-        ]
-      },
-      {
-        "name": "Aeon Stone (Azure Briolette): Chill Touch",
-        "actions": "2A",
-        "activationType": "Command, Interact",
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "resonant": true,
-        "desc": "You gain the effect of a chill touch arcane cantrip.",
-        "castSpells": [
-          {
-            "name": "Chill Touch"
-          }
+            "Uncommon",
+            "Invested",
+            "Magical",
+            "Transmutation"
         ],
+        "usage": "worn",
+        "isAeonStone": true,
+        "activities": [
+            {
+                "name": "Aeon Stone (Azure Briolette)",
+                "actions": "Reaction",
+                "activationType": "Envision",
+                "trigger": "An enemy fails its save against a mental spell you cast using one of your spell slots",
+                "desc": "You gain temporary Hit Points equal to twice the spell's level until your next turn.",
+                "gainConditions": [
+                    {
+                        "duration": 10,
+                        "name": "Aeon Stone (Azure Briolette)"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ]
+            },
+            {
+                "name": "Aeon Stone (Azure Briolette): Chill Touch",
+                "actions": "2A",
+                "activationType": "Command, Interact",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "resonant": true,
+                "desc": "You gain the effect of a chill touch arcane cantrip.",
+                "castSpells": [
+                    {
+                        "name": "Chill Touch"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Talisman Cord (Lesser)",
+        "id": "8aa8a772-e754-4f47-b178-96b916fb2792",
+        "desc": "This thin leather cord bears delicate runic markings and threads through an item that can bear affixed talismans. When you Affix a Talisman to that item, you can thread the talisman onto the cord, activating the cord's preserving effects. The cord is attuned to a particular school of magic, chosen when the cord was created. It gains the corresponding trait for that school. When you activate a talisman threaded through a cord with the same magic school trait that's also the cord's level or lower, attempt a |dice=1d20| DC 16 flat check. On a success, that talisman is not consumed and can be used again.",
+        "access": "Member of the Pathfinder Society.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 4,
+        "price": 8500,
+        "subType": "Lesser",
         "traits": [
-          "Uncommon",
-          "Invested",
-          "Magical",
-          "Transmutation"
+            "Uncommon",
+            "Abjuration",
+            "Invested",
+            "Magical"
+        ],
+        "usage": "worn",
+        "isTalismanCord": 1,
+        "data": [
+            {
+                "name": "Attuned magic school",
+                "show": false,
+                "value": "no school attuned"
+            },
+            {
+                "name": "Second attuned magic school",
+                "show": false,
+                "value": "no school attuned"
+            },
+            {
+                "name": "Third attuned magic school",
+                "show": false,
+                "value": "no school attuned"
+            }
         ]
-      }
-    ]
-  },
-  {
-    "name": "Talisman Cord (Lesser)",
-    "id": "8aa8a772-e754-4f47-b178-96b916fb2792",
-    "desc": "This thin leather cord bears delicate runic markings and threads through an item that can bear affixed talismans. When you Affix a Talisman to that item, you can thread the talisman onto the cord, activating the cord's preserving effects. The cord is attuned to a particular school of magic, chosen when the cord was created. It gains the corresponding trait for that school. When you activate a talisman threaded through a cord with the same magic school trait that's also the cord's level or lower, attempt a |dice=1d20| DC 16 flat check. On a success, that talisman is not consumed and can be used again.",
-    "access": "Member of the Pathfinder Society.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 4,
-    "price": 8500,
-    "subType": "Lesser",
-    "traits": [
-      "Uncommon",
-      "Abjuration",
-      "Invested",
-      "Magical"
-    ],
-    "usage": "worn",
-    "isTalismanCord": 1,
-    "data": [
-      {
-        "name": "Attuned magic school",
-        "show": false,
-        "value": "no school attuned"
-      },
-      {
-        "name": "Second attuned magic school",
-        "show": false,
-        "value": "no school attuned"
-      },
-      {
-        "name": "Third attuned magic school",
-        "show": false,
-        "value": "no school attuned"
-      }
-    ]
-  },
-  {
-    "name": "Aeon Stone (Agate Ellipsoid)",
-    "id": "06e89689-ef79-4e69-a7ab-a90361066254",
-    "desc": "This aeon stone allows you to cast 2nd-level augury as a divine innate spell once per day.\n\nThe resonant power causes the augury spell from the aeon stone to always succeed at the DC 6 flat check to give an answer other than \"nothing.\"",
-    "access": "Member of the Pathfinder Society.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 5,
-    "price": 13000,
-    "subType": "Agate Ellipsoid",
-    "traits": [
-      "Uncommon",
-      "Invested",
-      "Magical",
-      "Transmutation"
-    ],
-    "usage": "worn",
-    "isAeonStone": true,
-    "hints": [
-      {
-        "desc": "The resonant power causes the augury spell from the aeon stone to always succeed at the DC 6 flat check to give an answer other than \"nothing.\"",
-        "showon": "Augury",
-        "resonant": true
-      }
-    ],
-    "gainSpells": [
-      {
-        "cooldown": 144000,
-        "frequency": "once per day",
-        "level": 2,
-        "tradition": "Divine",
-        "castingType": "Innate",
-        "spells": [
-          {
-            "locked": true,
-            "name": "Augury"
-          }
+    },
+    {
+        "name": "Aeon Stone (Agate Ellipsoid)",
+        "id": "06e89689-ef79-4e69-a7ab-a90361066254",
+        "desc": "This aeon stone allows you to cast 2nd-level augury as a divine innate spell once per day.\n\nThe resonant power causes the augury spell from the aeon stone to always succeed at the DC 6 flat check to give an answer other than \"nothing.\"",
+        "access": "Member of the Pathfinder Society.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 5,
+        "price": 13000,
+        "subType": "Agate Ellipsoid",
+        "traits": [
+            "Uncommon",
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "usage": "worn",
+        "isAeonStone": true,
+        "hints": [
+            {
+                "desc": "The resonant power causes the augury spell from the aeon stone to always succeed at the DC 6 flat check to give an answer other than \"nothing.\"",
+                "showon": "Augury",
+                "resonant": true
+            }
+        ],
+        "gainSpells": [
+            {
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "level": 2,
+                "tradition": "Divine",
+                "castingType": "Innate",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Augury"
+                    }
+                ]
+            }
         ]
-      }
-    ]
-  },
-  {
-    "name": "Snowshoes of the Long Trek",
-    "id": "89f4e1d2-f0ca-450a-a4df-7570119baec6",
-    "desc": "These magically enhanced snowshoes are practically a necessity when traversing the gelid tundra and snow-drenched taiga of the Saga Lands. The snowshoes of the long trek allow their wearer to walk across ice and snow with the same surety as dry earth, ignoring the uneven ground and difficult terrain caused by ice and the difficult terrain caused by snow (reducing greater difficult terrain from ice or snow to ordinary difficult terrain). In addition, a character wearing snowshoes of the long trek gains a +5-foot status bonus to their Speed while moving across snow or ice and is never at risk of breaking through naturally-occurring loose or soft snow.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 5,
-    "price": 55000,
-    "traits": [
-      "Uncommon",
-      "Magical",
-      "Transmutation"
-    ],
-    "usage": "worn",
-    "hints": [
-      {
-        "desc": "You ignore the uneven ground and difficult terrain caused by ice and the difficult terrain caused by snow (reducing greater difficult terrain from ice or snow to ordinary difficult terrain).\n\nIn addition you gain a +5-foot status bonus to your Speed while moving across snow or ice and are never at risk of breaking through naturally-occurring loose or soft snow.",
-        "showon": "Movement",
-        "effects": [
-          {
-            "affected": "Land Speed",
-            "type": "status",
-            "value": "5"
-          }
+    },
+    {
+        "name": "Snowshoes of the Long Trek",
+        "id": "89f4e1d2-f0ca-450a-a4df-7570119baec6",
+        "desc": "These magically enhanced snowshoes are practically a necessity when traversing the gelid tundra and snow-drenched taiga of the Saga Lands. The snowshoes of the long trek allow their wearer to walk across ice and snow with the same surety as dry earth, ignoring the uneven ground and difficult terrain caused by ice and the difficult terrain caused by snow (reducing greater difficult terrain from ice or snow to ordinary difficult terrain). In addition, a character wearing snowshoes of the long trek gains a +5-foot status bonus to their Speed while moving across snow or ice and is never at risk of breaking through naturally-occurring loose or soft snow.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 5,
+        "price": 55000,
+        "traits": [
+            "Uncommon",
+            "Magical",
+            "Transmutation"
+        ],
+        "usage": "worn",
+        "hints": [
+            {
+                "desc": "You ignore the uneven ground and difficult terrain caused by ice and the difficult terrain caused by snow (reducing greater difficult terrain from ice or snow to ordinary difficult terrain).\n\nIn addition you gain a +5-foot status bonus to your Speed while moving across snow or ice and are never at risk of breaking through naturally-occurring loose or soft snow.",
+                "showon": "Movement",
+                "effects": [
+                    {
+                        "affected": "Land Speed",
+                        "type": "status",
+                        "value": "5"
+                    }
+                ]
+            }
         ]
-      }
-    ]
-  },
-  {
-    "name": "Spectacles of Understanding",
-    "id": "a192c511-36c4-4c3e-87cd-43d2fdd522f8",
-    "desc": "These folding, wood-framed spectacles hold flat discs of cut crystal as lenses and are held in place with thin cords that wrap around each ear, with another strap holding them around the neck while not in use. While you are wearing the spectacles, you gain a +1 item bonus to checks to Decipher Writing.",
-    "access": "Member of the Pathfinder Society.",
-    "PFSnote": "All characters have access to this item",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 5,
-    "price": 13000,
-    "traits": [
-      "Uncommon",
-      "Divination",
-      "Invested",
-      "Magical"
-    ],
-    "usage": "worn",
-    "hints": [
-      {
-        "desc": "You gain a +1 item bonus to checks to Decipher Writing.",
-        "showon": "Skills",
-        "effects": [
-          {
-            "affected": "Skill Checks",
-            "type": "item",
-            "value": "1"
-          }
-        ]
-      }
-    ],
-    "activities": [
-      {
+    },
+    {
         "name": "Spectacles of Understanding",
-        "actions": "1A",
-        "activationType": "Interact",
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "desc": "Unfolding the spectacles onto the bridge of the nose, you gain the effects of 2nd-level comprehend language for one hour except that it applies to all languages you see rather than a single language, and it does not apply to language you hear.",
-        "gainConditions": [
-          {
-            "duration": 6000,
-            "name": "Spectacles of Understanding"
-          }
-        ],
-        "showSpells": [
-          {
-            "level": 2,
-            "name": "Comprehend Language"
-          }
-        ],
+        "id": "a192c511-36c4-4c3e-87cd-43d2fdd522f8",
+        "desc": "These folding, wood-framed spectacles hold flat discs of cut crystal as lenses and are held in place with thin cords that wrap around each ear, with another strap holding them around the neck while not in use. While you are wearing the spectacles, you gain a +1 item bonus to checks to Decipher Writing.",
+        "access": "Member of the Pathfinder Society.",
+        "PFSnote": "All characters have access to this item",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 5,
+        "price": 13000,
         "traits": [
-          "Uncommon",
-          "Divination",
-          "Invested",
-          "Magical"
+            "Uncommon",
+            "Divination",
+            "Invested",
+            "Magical"
+        ],
+        "usage": "worn",
+        "hints": [
+            {
+                "desc": "You gain a +1 item bonus to checks to Decipher Writing.",
+                "showon": "Skills",
+                "effects": [
+                    {
+                        "affected": "Skill Checks",
+                        "type": "item",
+                        "value": "1"
+                    }
+                ]
+            }
+        ],
+        "activities": [
+            {
+                "name": "Spectacles of Understanding",
+                "actions": "1A",
+                "activationType": "Interact",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "desc": "Unfolding the spectacles onto the bridge of the nose, you gain the effects of 2nd-level comprehend language for one hour except that it applies to all languages you see rather than a single language, and it does not apply to language you hear.",
+                "gainConditions": [
+                    {
+                        "duration": 6000,
+                        "name": "Spectacles of Understanding"
+                    }
+                ],
+                "showSpells": [
+                    {
+                        "level": 2,
+                        "name": "Comprehend Language"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Divination",
+                    "Invested",
+                    "Magical"
+                ]
+            }
         ]
-      }
-    ]
-  },
-  {
-    "name": "Aeon Stone (Western Star)",
-    "id": "0e083b92-be31-4682-a98c-be6ec6e4f018",
-    "desc": "This aeon stone must be activated to provide a benefit.\n\nThe resonant power allows you to render all of your aeon stones and your wayfinder invisible whenever you use the activation to gain the effects of illusory disguise.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 6,
-    "price": 22500,
-    "subType": "Western Star",
-    "traits": [
-      "Uncommon",
-      "Invested",
-      "Magical",
-      "Transmutation"
-    ],
-    "usage": "worn",
-    "isAeonStone": true,
-    "hints": [
-      {
-        "desc": "The resonant power allows you to render all of your aeon stones and your wayfinder invisible whenever you use the activation to gain the effects of illusory disguise.",
-        "showon": "Aeon Stone (Western Star)",
-        "resonant": true
-      }
-    ],
-    "activities": [
-      {
+    },
+    {
         "name": "Aeon Stone (Western Star)",
-        "actions": "2A",
-        "activationType": "Envision, Interact",
-        "desc": "You activate the aeon stone to gain the effects of a 1st-level illusory disguise.",
-        "castSpells": [
-          {
-            "level": 1,
-            "name": "Illusory Disguise"
-          }
-        ],
-        "gainConditions": [
-          {
-            "duration": -5,
-            "name": "Aeon Stone (Western Star)",
-            "resonant": true
-          }
-        ],
+        "id": "0e083b92-be31-4682-a98c-be6ec6e4f018",
+        "desc": "This aeon stone must be activated to provide a benefit.\n\nThe resonant power allows you to render all of your aeon stones and your wayfinder invisible whenever you use the activation to gain the effects of illusory disguise.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 6,
+        "price": 22500,
+        "subType": "Western Star",
         "traits": [
-          "Uncommon",
-          "Invested",
-          "Magical",
-          "Transmutation"
+            "Uncommon",
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "usage": "worn",
+        "isAeonStone": true,
+        "hints": [
+            {
+                "desc": "The resonant power allows you to render all of your aeon stones and your wayfinder invisible whenever you use the activation to gain the effects of illusory disguise.",
+                "showon": "Aeon Stone (Western Star)",
+                "resonant": true
+            }
+        ],
+        "activities": [
+            {
+                "name": "Aeon Stone (Western Star)",
+                "actions": "2A",
+                "activationType": "Envision, Interact",
+                "desc": "You activate the aeon stone to gain the effects of a 1st-level illusory disguise.",
+                "castSpells": [
+                    {
+                        "level": 1,
+                        "name": "Illusory Disguise"
+                    }
+                ],
+                "gainConditions": [
+                    {
+                        "duration": -5,
+                        "name": "Aeon Stone (Western Star)",
+                        "resonant": true
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ]
+            }
         ]
-      }
-    ]
-  },
-  {
-    "name": "Chronicler Wayfinder",
-    "id": "33408894-7832-42e0-ba79-4310c5580a14",
-    "desc": "Chronicler wayfinders bear a mystical connection to the Pathfinder Chronicles themselves, granting them the ability to assist in situations where unusual lore is needed by drawing on lore from a particular topic. Each chronicler wayfinder is attuned to a specific Lore skill, chosen at the time of creation. In addition to the effects of a wayfinder, a chronicler wayfinder has the following activation.",
-    "access": "Member of the Pathfinder Society.",
-    "PFSnote": "Players can gain access to faction-specific gear by taking the corresponding Faction Gear Access Game Reward, available when they reach 20 reputation with the respective faction.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 6,
-    "price": 20000,
-    "traits": [
-      "Uncommon",
-      "Evocation",
-      "Invested",
-      "Magical"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn",
-    "isWayfinder": 1,
-    "activities": [
-      {
+    },
+    {
         "name": "Chronicler Wayfinder",
-        "actions": "1A",
-        "activationType": "Envision",
-        "desc": "You tap into the Pathfinder Chronicles on the chronicler wayfinder's attuned topic, gaining the effects of a Recall Knowledge action with the chosen Lore skill. For the Lore check's modifier, use whichever is better of +12 or your own modifier, using your level as your proficiency bonus even if you're untrained in the attuned Lore skill.",
+        "id": "33408894-7832-42e0-ba79-4310c5580a14",
+        "desc": "Chronicler wayfinders bear a mystical connection to the Pathfinder Chronicles themselves, granting them the ability to assist in situations where unusual lore is needed by drawing on lore from a particular topic. Each chronicler wayfinder is attuned to a specific Lore skill, chosen at the time of creation. In addition to the effects of a wayfinder, a chronicler wayfinder has the following activation.",
+        "access": "Member of the Pathfinder Society.",
+        "PFSnote": "Players can gain access to faction-specific gear by taking the corresponding Faction Gear Access Game Reward, available when they reach 20 reputation with the respective faction.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 6,
+        "price": 20000,
         "traits": [
-          "Uncommon",
-          "Evocation",
-          "Invested",
-          "Magical"
+            "Uncommon",
+            "Evocation",
+            "Invested",
+            "Magical"
         ],
-        "inputRequired": "You can use the below buttons to roll a Recall Knowledge check with the higher of these two options:\n\n|dice=1d20+12| Roll 1d20 + 12\n|dice=1d20+charLevel+intMod| Roll 1d20 + your level + your Intelligence modifier\n\nThe chronicler wayfinder does not grant any benefits to a lore skill in which you are trained and that has a modifier higher than 12."
-      },
-      {
-        "name": "Chronicler Wayfinder: Light",
-        "actions": "1A",
-        "activationType": "Command",
-        "target": "self",
-        "desc": "The wayfinder is targeted by a 1st-level light spell.",
-        "castSpells": [
-          {
-            "level": 1,
-            "name": "Light"
-          }
+        "usage": "worn",
+        "isWayfinder": 1,
+        "activities": [
+            {
+                "name": "Chronicler Wayfinder",
+                "actions": "1A",
+                "activationType": "Envision",
+                "desc": "You tap into the Pathfinder Chronicles on the chronicler wayfinder's attuned topic, gaining the effects of a Recall Knowledge action with the chosen Lore skill. For the Lore check's modifier, use whichever is better of +12 or your own modifier, using your level as your proficiency bonus even if you're untrained in the attuned Lore skill.",
+                "traits": [
+                    "Uncommon",
+                    "Evocation",
+                    "Invested",
+                    "Magical"
+                ],
+                "inputRequired": "You can use the below buttons to roll a Recall Knowledge check with the higher of these two options:\n\n|dice=1d20+12| Roll 1d20 + 12\n|dice=1d20+charLevel+intMod| Roll 1d20 + your level + your Intelligence modifier\n\nThe chronicler wayfinder does not grant any benefits to a lore skill in which you are trained and that has a modifier higher than 12."
+            },
+            {
+                "name": "Chronicler Wayfinder: Light",
+                "actions": "1A",
+                "activationType": "Command",
+                "target": "self",
+                "desc": "The wayfinder is targeted by a 1st-level light spell.",
+                "castSpells": [
+                    {
+                        "level": 1,
+                        "name": "Light"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Evocation",
+                    "Invested",
+                    "Magical"
+                ]
+            }
         ],
-        "traits": [
-          "Uncommon",
-          "Evocation",
-          "Invested",
-          "Magical"
+        "data": [
+            {
+                "name": "Attuned lore",
+                "show": true,
+                "type": "string"
+            }
         ]
-      }
-    ],
-    "data": [
-      {
-        "name": "Attuned lore",
-        "show": true,
-        "type": "string"
-      }
-    ]
-  },
-  {
-    "name": "Everyneed Pack (Greater)",
-    "id": "d90eae1f-26ec-46db-8bec-6adcfcff2db2",
-    "desc": "Constructed of green material and decorated with a white Glyph of the Open Road, a dozen or more small pockets line the inside of this pack. The pack is enchanted so that each pocket contains common, mundane gear, each item worth no more than 1 gp, such as chalk, flint and steel, and string. It doesn't contain any armor, shields, weapons, or items made of any kind of precious material. Keep track of the exact value of the gear you retrieve from the pack. The pack empties after 8 gp worth of items of your choice are removed, after which it becomes a mundane backpack.\n\n(The everyneed pack comes with a backpack. When the everyneed pack empties, you can drop it and keep the backpack.)",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 7,
-    "price": 10000,
-    "subType": "Greater",
-    "subTypeDesc": "The pack's pockets contain mundane gear worth no more than 5 gp each. You can draw any number of pieces of mundane gear from the pack with a combined value of 5 gp or less, and the pack empties after 45 gp worth of items are removed.",
-    "traits": [
-      "Uncommon",
-      "Conjuration",
-      "Invested",
-      "Magical"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn on belt",
-    "activities": [
-      {
+    },
+    {
         "name": "Everyneed Pack (Greater)",
-        "actions": "1 minute",
-        "activationType": "Interact",
-        "frequency": "once per hour",
-        "cooldown": 6000,
-        "desc": "You draw any number of pieces of mundane gear from the pack with a combined value of 5 gp or less.",
+        "id": "d90eae1f-26ec-46db-8bec-6adcfcff2db2",
+        "desc": "Constructed of green material and decorated with a white Glyph of the Open Road, a dozen or more small pockets line the inside of this pack. The pack is enchanted so that each pocket contains common, mundane gear, each item worth no more than 1 gp, such as chalk, flint and steel, and string. It doesn't contain any armor, shields, weapons, or items made of any kind of precious material. Keep track of the exact value of the gear you retrieve from the pack. The pack empties after 8 gp worth of items of your choice are removed, after which it becomes a mundane backpack.\n\n(The everyneed pack comes with a backpack. When the everyneed pack empties, you can drop it and keep the backpack.)",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 7,
+        "price": 10000,
+        "subType": "Greater",
+        "subTypeDesc": "The pack's pockets contain mundane gear worth no more than 5 gp each. You can draw any number of pieces of mundane gear from the pack with a combined value of 5 gp or less, and the pack empties after 45 gp worth of items are removed.",
         "traits": [
-          "Uncommon",
-          "Conjuration",
-          "Invested",
-          "Magical"
-        ]
-      }
-    ],
-    "gainInventory": [
-      {
-        "bulkLimit": 4,
-        "bulkReduction": 2
-      }
-    ],
-    "data": [
-      {
-        "name": "Remaining value",
-        "show": true,
-        "type": "string",
-        "value": "45 gp"
-      }
-    ]
-  },
-  {
-    "name": "Cordelia's Construct Key",
-    "id": "be6192e2-7012-4114-8257-cba6e0d109af",
-    "desc": "Worn on a necklace, this intricate key grants you greater facility with constructs. The key alerts you to constructs lurking around you. Whether or not you are Investigating, the GM automatically rolls secret Recall Knowledge checks for you when you see a construct pretending to be a normal object, statue, or the like. Typically, this check is Arcana, Crafting, or an appropriate Lore skill. On a success, you recognize the presence of the construct and gain the usual benefits of Recall Knowledge.\n\nWhile you're wearing the key, if your attack reduces a construct to 0 Hit Points, instead of destroying it completely, you can send it into a dormant state, from which you can study its inner workings and possibly (at the GM's discretion) spend time and money to reprogram or repurpose it. Even if you don't subvert it, you can Repair a construct rendered dormant this way, allowing you to return tomb guardians to their vigil after you've battled them. Additionally, you can activate the key in two ways to call a construct to serve you.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 8,
-    "price": 45000,
-    "traits": [
-      "Uncommon",
-      "Conjuration",
-      "Invested",
-      "Magical",
-      "Transmutation"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn",
-    "hints": [
-      {
-        "desc": "Whether or not you are Investigating, the GM automatically rolls secret Recall Knowledge checks for you when you see a construct pretending to be a normal object, statue, or the like. Typically, this check is Arcana, Crafting, or an appropriate Lore skill. On a success, you recognize the presence of the construct and gain the usual benefits of Recall Knowledge.",
-        "showon": "Perception"
-      },
-      {
-        "desc": "If your attack reduces a construct to 0 Hit Points, instead of destroying it completely, you can send it into a dormant state, from which you can study its inner workings and possibly (at the GM's discretion) spend time and money to reprogram or repurpose it. Even if you don't subvert it, you can Repair a construct rendered dormant this way, allowing you to return tomb guardians to their vigil after you've battled them.",
-        "showon": "Crafting, Attacks"
-      }
-    ],
-    "activities": [
-      {
-        "name": "Cordelia's Construct Key: Summon Construct",
-        "actions": "2A",
-        "activationType": "Command, Interact",
-        "frequency": "once per hour",
-        "cooldown": 6000,
-        "desc": "You turn the key in the air and create a magic glyph. The key casts 3rd-level summon construct.",
-        "castSpells": [
-          {
-            "level": 3,
-            "name": "Summon Construct"
-          }
+            "Uncommon",
+            "Conjuration",
+            "Invested",
+            "Magical"
         ],
-        "traits": [
-          "Uncommon",
-          "Conjuration",
-          "Invested",
-          "Magical",
-          "Transmutation"
+        "usage": "worn on belt",
+        "activities": [
+            {
+                "name": "Everyneed Pack (Greater)",
+                "actions": "1 minute",
+                "activationType": "Interact",
+                "frequency": "once per hour",
+                "cooldown": 6000,
+                "desc": "You draw any number of pieces of mundane gear from the pack with a combined value of 5 gp or less.",
+                "traits": [
+                    "Uncommon",
+                    "Conjuration",
+                    "Invested",
+                    "Magical"
+                ]
+            }
+        ],
+        "gainInventory": [
+            {
+                "bulkLimit": 4,
+                "bulkReduction": 2
+            }
+        ],
+        "data": [
+            {
+                "name": "Remaining value",
+                "show": true,
+                "type": "string",
+                "value": "45 gp"
+            }
         ]
-      },
-      {
+    },
+    {
         "name": "Cordelia's Construct Key",
-        "actions": "1 minute",
-        "activationType": "Command, Envision, Interact",
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "desc": "You place the key on a Small object and turn it, creating a simple animated object for 1 hour. The animated object has the statistics of an animated broom but has no bristles Strike and can't attack. It performs simple and broad menial tasks for you in exploration or downtime but is too slow to react to individual commands to assist you in a combat encounter.",
-        "gainConditions": [
-          {
-            "duration": 6000,
-            "name": "Cordelia's Construct Key"
-          }
-        ],
+        "id": "be6192e2-7012-4114-8257-cba6e0d109af",
+        "desc": "Worn on a necklace, this intricate key grants you greater facility with constructs. The key alerts you to constructs lurking around you. Whether or not you are Investigating, the GM automatically rolls secret Recall Knowledge checks for you when you see a construct pretending to be a normal object, statue, or the like. Typically, this check is Arcana, Crafting, or an appropriate Lore skill. On a success, you recognize the presence of the construct and gain the usual benefits of Recall Knowledge.\n\nWhile you're wearing the key, if your attack reduces a construct to 0 Hit Points, instead of destroying it completely, you can send it into a dormant state, from which you can study its inner workings and possibly (at the GM's discretion) spend time and money to reprogram or repurpose it. Even if you don't subvert it, you can Repair a construct rendered dormant this way, allowing you to return tomb guardians to their vigil after you've battled them. Additionally, you can activate the key in two ways to call a construct to serve you.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 8,
+        "price": 45000,
         "traits": [
-          "Uncommon",
-          "Conjuration",
-          "Invested",
-          "Magical",
-          "Transmutation"
+            "Uncommon",
+            "Conjuration",
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "usage": "worn",
+        "hints": [
+            {
+                "desc": "Whether or not you are Investigating, the GM automatically rolls secret Recall Knowledge checks for you when you see a construct pretending to be a normal object, statue, or the like. Typically, this check is Arcana, Crafting, or an appropriate Lore skill. On a success, you recognize the presence of the construct and gain the usual benefits of Recall Knowledge.",
+                "showon": "Perception"
+            },
+            {
+                "desc": "If your attack reduces a construct to 0 Hit Points, instead of destroying it completely, you can send it into a dormant state, from which you can study its inner workings and possibly (at the GM's discretion) spend time and money to reprogram or repurpose it. Even if you don't subvert it, you can Repair a construct rendered dormant this way, allowing you to return tomb guardians to their vigil after you've battled them.",
+                "showon": "Crafting, Attacks"
+            }
+        ],
+        "activities": [
+            {
+                "name": "Cordelia's Construct Key: Summon Construct",
+                "actions": "2A",
+                "activationType": "Command, Interact",
+                "frequency": "once per hour",
+                "cooldown": 6000,
+                "desc": "You turn the key in the air and create a magic glyph. The key casts 3rd-level summon construct.",
+                "castSpells": [
+                    {
+                        "level": 3,
+                        "name": "Summon Construct"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Conjuration",
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ]
+            },
+            {
+                "name": "Cordelia's Construct Key",
+                "actions": "1 minute",
+                "activationType": "Command, Envision, Interact",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "desc": "You place the key on a Small object and turn it, creating a simple animated object for 1 hour. The animated object has the statistics of an animated broom but has no bristles Strike and can't attack. It performs simple and broad menial tasks for you in exploration or downtime but is too slow to react to individual commands to assist you in a combat encounter.",
+                "gainConditions": [
+                    {
+                        "duration": 6000,
+                        "name": "Cordelia's Construct Key"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Conjuration",
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ]
+            }
         ]
-      }
-    ]
-  },
-  {
-    "name": "Diviner's Nose Chain",
-    "id": "9d4d4712-8fc5-4114-8e53-3235167d8d3a",
-    "desc": "The diviner's nose chain is worn by attaching piercings to the ear and nose, creating a connection between the senses of hearing and smell. The diviner's nose chain grants you scent out to 30 feet as an imprecise sense, and a +1 item bonus to checks to Seek or Sense Motive.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 9,
-    "price": 65000,
-    "traits": [
-      "Uncommon",
-      "Divination",
-      "Magical"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn",
-    "hints": [
-      {
-        "desc": "You gain a +1 item bonus to checks to Seek or Sense Motive.",
-        "showon": "Perception",
-        "effects": [
-          {
-            "affected": "Perception",
-            "type": "item",
-            "value": "1"
-          }
+    },
+    {
+        "name": "Diviner's Nose Chain",
+        "id": "9d4d4712-8fc5-4114-8e53-3235167d8d3a",
+        "desc": "The diviner's nose chain is worn by attaching piercings to the ear and nose, creating a connection between the senses of hearing and smell. The diviner's nose chain grants you scent out to 30 feet as an imprecise sense, and a +1 item bonus to checks to Seek or Sense Motive.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 9,
+        "price": 65000,
+        "traits": [
+            "Uncommon",
+            "Divination",
+            "Magical"
+        ],
+        "usage": "worn",
+        "hints": [
+            {
+                "desc": "You gain a +1 item bonus to checks to Seek or Sense Motive.",
+                "showon": "Perception",
+                "effects": [
+                    {
+                        "affected": "Perception",
+                        "type": "item",
+                        "value": "1"
+                    }
+                ]
+            }
+        ],
+        "gainSenses": [
+            "Scent 30 feet (imprecise)"
         ]
-      }
-    ],
-    "gainSenses": [
-      "Scent 30 feet (imprecise)"
-    ]
-  },
-  {
-    "name": "Elemental Wayfinder (Air)",
-    "id": "ebbbfe11-60cd-449a-b010-355fe7246f15",
-    "desc": "Pathfinder Society researchers recently created elemental wayfinders with the assistance of the Society's elemental allies. In addition to the effects of a wayfinder, these wayfinders each grant the ability to cast a particular elemental spell once per day, and can assist Pathfinders in exploring areas associated with their element. Additionally, you can cast feather fall as a primal innate spell once every 10 minutes.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 9,
-    "price": 65000,
-    "subType": "Air",
-    "traits": [
-      "Uncommon",
-      "Air",
-      "Evocation",
-      "Invested",
-      "Magical"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn",
-    "isWayfinder": 1,
-    "activities": [
-      {
+    },
+    {
         "name": "Elemental Wayfinder (Air)",
-        "actions": "2A",
-        "activationType": "Command",
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "desc": "The wayfinder casts a 4th-level lightning bolt.",
-        "castSpells": [
-          {
-            "level": 4,
-            "name": "Lightning Bolt"
-          }
-        ],
+        "id": "ebbbfe11-60cd-449a-b010-355fe7246f15",
+        "desc": "Pathfinder Society researchers recently created elemental wayfinders with the assistance of the Society's elemental allies. In addition to the effects of a wayfinder, these wayfinders each grant the ability to cast a particular elemental spell once per day, and can assist Pathfinders in exploring areas associated with their element. Additionally, you can cast feather fall as a primal innate spell once every 10 minutes.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 9,
+        "price": 65000,
+        "subType": "Air",
         "traits": [
-          "Uncommon",
-          "Air",
-          "Evocation",
-          "Invested",
-          "Magical"
-        ]
-      },
-      {
-        "name": "Elemental Wayfinder (Air): Light",
-        "actions": "1A",
-        "activationType": "Command",
-        "target": "self",
-        "desc": "The wayfinder is targeted by a 1st-level light spell.",
-        "castSpells": [
-          {
-            "level": 1,
-            "name": "Light"
-          }
+            "Uncommon",
+            "Air",
+            "Evocation",
+            "Invested",
+            "Magical"
         ],
-        "traits": [
-          "Uncommon",
-          "Evocation",
-          "Invested",
-          "Magical"
+        "usage": "worn",
+        "isWayfinder": 1,
+        "activities": [
+            {
+                "name": "Elemental Wayfinder (Air)",
+                "actions": "2A",
+                "activationType": "Command",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "desc": "The wayfinder casts a 4th-level lightning bolt.",
+                "castSpells": [
+                    {
+                        "level": 4,
+                        "name": "Lightning Bolt"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Air",
+                    "Evocation",
+                    "Invested",
+                    "Magical"
+                ]
+            },
+            {
+                "name": "Elemental Wayfinder (Air): Light",
+                "actions": "1A",
+                "activationType": "Command",
+                "target": "self",
+                "desc": "The wayfinder is targeted by a 1st-level light spell.",
+                "castSpells": [
+                    {
+                        "level": 1,
+                        "name": "Light"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Evocation",
+                    "Invested",
+                    "Magical"
+                ]
+            }
+        ],
+        "gainSpells": [
+            {
+                "cooldown": 1000,
+                "frequency": "once every 10 minutes",
+                "tradition": "Primal",
+                "castingType": "Innate",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Feather Fall"
+                    }
+                ]
+            }
         ]
-      }
-    ],
-    "gainSpells": [
-      {
-        "cooldown": 1000,
-        "frequency": "once every 10 minutes",
-        "tradition": "Primal",
-        "castingType": "Innate",
-        "spells": [
-          {
-            "locked": true,
-            "name": "Feather Fall"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Elemental Wayfinder (Earth)",
-    "id": "5ae2a110-7a1e-4f3a-893e-cc54726074cf",
-    "desc": "Pathfinder Society researchers recently created elemental wayfinders with the assistance of the Society's elemental allies. In addition to the effects of a wayfinder, these wayfinders each grant the ability to cast a particular elemental spell once per day, and can assist Pathfinders in exploring areas associated with their element. Additionally, you dig twice as quickly as normal.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 9,
-    "price": 60000,
-    "subType": "Earth",
-    "traits": [
-      "Uncommon",
-      "Earth",
-      "Evocation",
-      "Invested",
-      "Magical"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn",
-    "isWayfinder": 1,
-    "hints": [
-      {
-        "desc": "You dig twice as quickly as normal.",
-        "showon": "Athletics"
-      }
-    ],
-    "activities": [
-      {
+    },
+    {
         "name": "Elemental Wayfinder (Earth)",
-        "actions": "2A",
-        "activationType": "Command",
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "desc": "The wayfinder casts a 4th-level stoneskin.",
-        "castSpells": [
-          {
-            "level": 4,
-            "name": "Stoneskin"
-          }
-        ],
+        "id": "5ae2a110-7a1e-4f3a-893e-cc54726074cf",
+        "desc": "Pathfinder Society researchers recently created elemental wayfinders with the assistance of the Society's elemental allies. In addition to the effects of a wayfinder, these wayfinders each grant the ability to cast a particular elemental spell once per day, and can assist Pathfinders in exploring areas associated with their element. Additionally, you dig twice as quickly as normal.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 9,
+        "price": 60000,
+        "subType": "Earth",
         "traits": [
-          "Uncommon",
-          "Earth",
-          "Evocation",
-          "Invested",
-          "Magical"
-        ]
-      },
-      {
-        "name": "Elemental Wayfinder (Earth): Light",
-        "actions": "1A",
-        "activationType": "Command",
-        "target": "self",
-        "desc": "The wayfinder is targeted by a 1st-level light spell.",
-        "castSpells": [
-          {
-            "level": 1,
-            "name": "Light"
-          }
+            "Uncommon",
+            "Earth",
+            "Evocation",
+            "Invested",
+            "Magical"
         ],
-        "traits": [
-          "Uncommon",
-          "Evocation",
-          "Invested",
-          "Magical"
+        "usage": "worn",
+        "isWayfinder": 1,
+        "hints": [
+            {
+                "desc": "You dig twice as quickly as normal.",
+                "showon": "Athletics"
+            }
+        ],
+        "activities": [
+            {
+                "name": "Elemental Wayfinder (Earth)",
+                "actions": "2A",
+                "activationType": "Command",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "desc": "The wayfinder casts a 4th-level stoneskin.",
+                "castSpells": [
+                    {
+                        "level": 4,
+                        "name": "Stoneskin"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Earth",
+                    "Evocation",
+                    "Invested",
+                    "Magical"
+                ]
+            },
+            {
+                "name": "Elemental Wayfinder (Earth): Light",
+                "actions": "1A",
+                "activationType": "Command",
+                "target": "self",
+                "desc": "The wayfinder is targeted by a 1st-level light spell.",
+                "castSpells": [
+                    {
+                        "level": 1,
+                        "name": "Light"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Evocation",
+                    "Invested",
+                    "Magical"
+                ]
+            }
         ]
-      }
-    ]
-  },
-  {
-    "name": "Elemental Wayfinder (Fire)",
-    "id": "278e5a5b-d64b-4e4e-840c-d40b7c19617a",
-    "desc": "Pathfinder Society researchers recently created elemental wayfinders with the assistance of the Society's elemental allies. In addition to the effects of a wayfinder, these wayfinders each grant the ability to cast a particular elemental spell once per day, and can assist Pathfinders in exploring areas associated with their element. Additionally, you gain resistance 5 to fire.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 9,
-    "price": 70000,
-    "subType": "Fire",
-    "traits": [
-      "Uncommon",
-      "Evocation",
-      "Fire",
-      "Invested",
-      "Magical"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn",
-    "isWayfinder": 1,
-    "effects": [
-      {
-        "affected": "Fire Resistance",
-        "value": "5"
-      }
-    ],
-    "activities": [
-      {
+    },
+    {
         "name": "Elemental Wayfinder (Fire)",
-        "actions": "2A",
-        "activationType": "Command",
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "desc": "The wayfinder casts a 4th-level fireball.",
-        "castSpells": [
-          {
-            "level": 4,
-            "name": "Fireball"
-          }
-        ],
+        "id": "278e5a5b-d64b-4e4e-840c-d40b7c19617a",
+        "desc": "Pathfinder Society researchers recently created elemental wayfinders with the assistance of the Society's elemental allies. In addition to the effects of a wayfinder, these wayfinders each grant the ability to cast a particular elemental spell once per day, and can assist Pathfinders in exploring areas associated with their element. Additionally, you gain resistance 5 to fire.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 9,
+        "price": 70000,
+        "subType": "Fire",
         "traits": [
-          "Uncommon",
-          "Evocation",
-          "Fire",
-          "Invested",
-          "Magical"
-        ]
-      },
-      {
-        "name": "Elemental Wayfinder (Fire): Light",
-        "actions": "1A",
-        "activationType": "Command",
-        "target": "self",
-        "desc": "The wayfinder is targeted by a 1st-level light spell.",
-        "castSpells": [
-          {
-            "level": 1,
-            "name": "Light"
-          }
+            "Uncommon",
+            "Evocation",
+            "Fire",
+            "Invested",
+            "Magical"
         ],
-        "traits": [
-          "Uncommon",
-          "Evocation",
-          "Invested",
-          "Magical"
+        "usage": "worn",
+        "isWayfinder": 1,
+        "effects": [
+            {
+                "affected": "Fire Resistance",
+                "value": "5"
+            }
+        ],
+        "activities": [
+            {
+                "name": "Elemental Wayfinder (Fire)",
+                "actions": "2A",
+                "activationType": "Command",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "desc": "The wayfinder casts a 4th-level fireball.",
+                "castSpells": [
+                    {
+                        "level": 4,
+                        "name": "Fireball"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Evocation",
+                    "Fire",
+                    "Invested",
+                    "Magical"
+                ]
+            },
+            {
+                "name": "Elemental Wayfinder (Fire): Light",
+                "actions": "1A",
+                "activationType": "Command",
+                "target": "self",
+                "desc": "The wayfinder is targeted by a 1st-level light spell.",
+                "castSpells": [
+                    {
+                        "level": 1,
+                        "name": "Light"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Evocation",
+                    "Invested",
+                    "Magical"
+                ]
+            }
         ]
-      }
-    ]
-  },
-  {
-    "name": "Aeon Stone (Pearlescent Pyramid)",
-    "id": "282a294b-34ea-4322-b5ee-840926df84ec",
-    "desc": "While invested, this aeon stone grants the benefit of the ghost touch property rune to your weapons and unarmed attacks.\n\nThe resonant power grants a special activation.",
-    "access": "Member of the Pathfinder Society.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 10,
-    "price": 90000,
-    "subType": "Pearlescent Pyramid",
-    "traits": [
-      "Uncommon",
-      "Invested",
-      "Magical",
-      "Transmutation"
-    ],
-    "usage": "worn",
-    "isAeonStone": true,
-    "hints": [
-      {
-        "desc": "The aeon stone grants the benefit of the ghost touch property rune to your weapons and unarmed attacks.\n\n<header class='spellHeader'>Ghost Touch</header>\n\nThe weapon can harm creatures without physical form. A ghost touch weapon is particularly effective against incorporeal creatures, which almost always have a specific weakness to ghost touch weapons.",
-        "showon": "Attacks"
-      }
-    ],
-    "activities": [
-      {
+    },
+    {
         "name": "Aeon Stone (Pearlescent Pyramid)",
-        "actions": "1A",
-        "activationType": "Envision",
-        "frequency": "once per minute",
-        "cooldown": 100,
-        "resonant": true,
-        "desc": "You gain the effects of see invisibility for 1 round.",
-        "castSpells": [
-          {
-            "duration": 10,
-            "name": "See Invisibility"
-          }
-        ],
+        "id": "282a294b-34ea-4322-b5ee-840926df84ec",
+        "desc": "While invested, this aeon stone grants the benefit of the ghost touch property rune to your weapons and unarmed attacks.\n\nThe resonant power grants a special activation.",
+        "access": "Member of the Pathfinder Society.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 10,
+        "price": 90000,
+        "subType": "Pearlescent Pyramid",
         "traits": [
-          "Uncommon",
-          "Invested",
-          "Magical",
-          "Transmutation"
+            "Uncommon",
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "usage": "worn",
+        "isAeonStone": true,
+        "hints": [
+            {
+                "desc": "The aeon stone grants the benefit of the ghost touch property rune to your weapons and unarmed attacks.\n\n<header class='spellHeader'>Ghost Touch</header>\n\nThe weapon can harm creatures without physical form. A ghost touch weapon is particularly effective against incorporeal creatures, which almost always have a specific weakness to ghost touch weapons.",
+                "showon": "Attacks"
+            }
+        ],
+        "activities": [
+            {
+                "name": "Aeon Stone (Pearlescent Pyramid)",
+                "actions": "1A",
+                "activationType": "Envision",
+                "frequency": "once per minute",
+                "cooldown": 100,
+                "resonant": true,
+                "desc": "You gain the effects of see invisibility for 1 round.",
+                "castSpells": [
+                    {
+                        "duration": 10,
+                        "name": "See Invisibility"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ]
+            }
         ]
-      }
-    ]
-  },
-  {
-    "name": "Elemental Wayfinder (Water)",
-    "id": "4a68d9b0-e49e-4333-ac8a-a3f1214f7a63",
-    "desc": "Pathfinder Society researchers recently created elemental wayfinders with the assistance of the Society's elemental allies. In addition to the effects of a wayfinder, these wayfinders each grant the ability to cast a particular elemental spell once per day, and can assist Pathfinders in exploring areas associated with their element. Additionally, you gain the constant effects of water breathing.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 10,
-    "price": 90000,
-    "subType": "Water",
-    "traits": [
-      "Uncommon",
-      "Evocation",
-      "Invested",
-      "Magical",
-      "Water"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn",
-    "isWayfinder": 1,
-    "activities": [
-      {
+    },
+    {
         "name": "Elemental Wayfinder (Water)",
-        "actions": "2A",
-        "activationType": "Command",
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "desc": "The wayfinder casts a 4th-level hydraulic torrent.",
-        "castSpells": [
-          {
-            "level": 4,
-            "name": "Hydraulic Torrent"
-          }
-        ],
+        "id": "4a68d9b0-e49e-4333-ac8a-a3f1214f7a63",
+        "desc": "Pathfinder Society researchers recently created elemental wayfinders with the assistance of the Society's elemental allies. In addition to the effects of a wayfinder, these wayfinders each grant the ability to cast a particular elemental spell once per day, and can assist Pathfinders in exploring areas associated with their element. Additionally, you gain the constant effects of water breathing.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 10,
+        "price": 90000,
+        "subType": "Water",
         "traits": [
-          "Uncommon",
-          "Evocation",
-          "Invested",
-          "Magical",
-          "Water"
-        ]
-      },
-      {
-        "name": "Elemental Wayfinder (Water): Light",
-        "actions": "1A",
-        "activationType": "Command",
-        "target": "self",
-        "desc": "The wayfinder is targeted by a 1st-level light spell.",
-        "castSpells": [
-          {
-            "level": 1,
-            "name": "Light"
-          }
+            "Uncommon",
+            "Evocation",
+            "Invested",
+            "Magical",
+            "Water"
         ],
-        "traits": [
-          "Uncommon",
-          "Evocation",
-          "Invested",
-          "Magical"
-        ]
-      }
-    ],
-    "gainConditions": [
-      {
-        "heightened": 2,
-        "name": "Water Breathing",
-        "source": "Elemental Wayfinder (Water)"
-      }
-    ]
-  },
-  {
-    "name": "Razmiri Wayfinder",
-    "id": "0940e5b7-7ba2-4de9-b873-8d18654f2721",
-    "desc": "Worn on a chain around the neck, a Razmiri wayfinder functions as a compass and provides its wearer a +1 item bonus to Deception checks to Lie or Impersonate. Razmiri wayfinders can also be used to grant temporary healing, making it easier for the wearer to impersonate a divine spellcaster.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 10,
-    "price": 90000,
-    "traits": [
-      "Uncommon",
-      "Illusion",
-      "Invested",
-      "Magical",
-      "Necromancy"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn",
-    "isWayfinder": 1,
-    "hints": [
-      {
-        "desc": "You gain a +1 item bonus to Deception checks to Lie or Impersonate.",
-        "showon": "Deception",
-        "effects": [
-          {
-            "affected": "Deception",
-            "type": "item",
-            "value": "1"
-          }
-        ]
-      }
-    ],
-    "activities": [
-      {
-        "name": "Razmiri Wayfinder: Temporary HP",
-        "actions": "1A",
-        "activationType": "Envision",
-        "frequency": "three times per day",
-        "cooldown": 144000,
-        "charges": 3,
-        "target": "ally",
-        "desc": "You touch an adjacent creature, granting them |dice=3d8| 3d8 temporary Hit Points for 1 hour.",
+        "usage": "worn",
+        "isWayfinder": 1,
+        "activities": [
+            {
+                "name": "Elemental Wayfinder (Water)",
+                "actions": "2A",
+                "activationType": "Command",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "desc": "The wayfinder casts a 4th-level hydraulic torrent.",
+                "castSpells": [
+                    {
+                        "level": 4,
+                        "name": "Hydraulic Torrent"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Evocation",
+                    "Invested",
+                    "Magical",
+                    "Water"
+                ]
+            },
+            {
+                "name": "Elemental Wayfinder (Water): Light",
+                "actions": "1A",
+                "activationType": "Command",
+                "target": "self",
+                "desc": "The wayfinder is targeted by a 1st-level light spell.",
+                "castSpells": [
+                    {
+                        "level": 1,
+                        "name": "Light"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Evocation",
+                    "Invested",
+                    "Magical"
+                ]
+            }
+        ],
         "gainConditions": [
-          {
-            "duration": 6000,
-            "name": "Razmiri Wayfinder Temporary HP (Originator)",
-            "targetFilter": "caster"
-          },
-          {
-            "duration": 6000,
-            "name": "Razmiri Wayfinder Temporary HP",
-            "targetFilter": "target"
-          }
-        ],
+            {
+                "heightened": 2,
+                "name": "Water Breathing",
+                "source": "Elemental Wayfinder (Water)"
+            }
+        ]
+    },
+    {
+        "name": "Razmiri Wayfinder",
+        "id": "0940e5b7-7ba2-4de9-b873-8d18654f2721",
+        "desc": "Worn on a chain around the neck, a Razmiri wayfinder functions as a compass and provides its wearer a +1 item bonus to Deception checks to Lie or Impersonate. Razmiri wayfinders can also be used to grant temporary healing, making it easier for the wearer to impersonate a divine spellcaster.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 10,
+        "price": 90000,
         "traits": [
-          "Uncommon",
-          "Illusion",
-          "Invested",
-          "Magical",
-          "Necromancy"
-        ]
-      },
-      {
-        "name": "Razmiri Wayfinder: Halt Poison",
-        "actions": "1A",
-        "activationType": "Manipulate",
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "target": "ally",
-        "desc": "You touch an adjacent creature and attempt a counteract check against one poison or disease afflicting the creature. On a success, you halt the effects of the poison or disease for 1 day, rather than removing it. This temporarily relieves any penalties imposed by the affliction but doesn't cure the effect or count against its duration; the poison or disease is merely halted for a time, and it resumes where it left off once this effect ends.",
-        "gainConditions": [
-          {
-            "duration": -5,
-            "name": "Razmiri Wayfinder Halt Poison (Originator)",
-            "targetFilter": "caster"
-          },
-          {
-            "duration": -5,
-            "copyChoiceFrom": "Razmiri Wayfinder Halt Poison (Originator)",
-            "name": "Razmiri Wayfinder Halt Poison",
-            "targetFilter": "target"
-          }
+            "Uncommon",
+            "Illusion",
+            "Invested",
+            "Magical",
+            "Necromancy"
         ],
+        "usage": "worn",
+        "isWayfinder": 1,
+        "hints": [
+            {
+                "desc": "You gain a +1 item bonus to Deception checks to Lie or Impersonate.",
+                "showon": "Deception",
+                "effects": [
+                    {
+                        "affected": "Deception",
+                        "type": "item",
+                        "value": "1"
+                    }
+                ]
+            }
+        ],
+        "activities": [
+            {
+                "name": "Razmiri Wayfinder: Temporary HP",
+                "actions": "1A",
+                "activationType": "Envision",
+                "frequency": "three times per day",
+                "cooldown": 144000,
+                "charges": 3,
+                "target": "ally",
+                "desc": "You touch an adjacent creature, granting them |dice=3d8| 3d8 temporary Hit Points for 1 hour.",
+                "gainConditions": [
+                    {
+                        "duration": 6000,
+                        "name": "Razmiri Wayfinder Temporary HP (Originator)",
+                        "targetFilter": "caster"
+                    },
+                    {
+                        "duration": 6000,
+                        "name": "Razmiri Wayfinder Temporary HP",
+                        "targetFilter": "target"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Illusion",
+                    "Invested",
+                    "Magical",
+                    "Necromancy"
+                ]
+            },
+            {
+                "name": "Razmiri Wayfinder: Halt Poison",
+                "actions": "1A",
+                "activationType": "Manipulate",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "target": "ally",
+                "desc": "You touch an adjacent creature and attempt a counteract check against one poison or disease afflicting the creature. On a success, you halt the effects of the poison or disease for 1 day, rather than removing it. This temporarily relieves any penalties imposed by the affliction but doesn't cure the effect or count against its duration; the poison or disease is merely halted for a time, and it resumes where it left off once this effect ends.",
+                "gainConditions": [
+                    {
+                        "duration": -5,
+                        "name": "Razmiri Wayfinder Halt Poison (Originator)",
+                        "targetFilter": "caster"
+                    },
+                    {
+                        "duration": -5,
+                        "copyChoiceFrom": "Razmiri Wayfinder Halt Poison (Originator)",
+                        "name": "Razmiri Wayfinder Halt Poison",
+                        "targetFilter": "target"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Illusion",
+                    "Invested",
+                    "Magical",
+                    "Necromancy"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Talisman Cord",
+        "id": "d8441a61-a973-44a6-ad6a-5946e8d1f3b6",
+        "desc": "This thin leather cord bears delicate runic markings and threads through an item that can bear affixed talismans. When you Affix a Talisman to that item, you can thread the talisman onto the cord, activating the cord's preserving effects. The cord is attuned to a particular school of magic, chosen when the cord was created. It gains the corresponding trait for that school. When you activate a talisman threaded through a cord with the same magic school trait that's also the cord's level or lower, attempt a |dice=1d20| DC 16 flat check. On a success, that talisman is not consumed and can be used again.",
+        "access": "Member of the Pathfinder Society.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 10,
+        "price": 85000,
+        "subTypeDesc": "This cord is attuned to two schools of magic, and since it's higher level, it can hold higher-level talismans.",
         "traits": [
-          "Uncommon",
-          "Illusion",
-          "Invested",
-          "Magical",
-          "Necromancy"
+            "Uncommon",
+            "Abjuration",
+            "Invested",
+            "Magical"
+        ],
+        "usage": "worn",
+        "isTalismanCord": 2,
+        "data": [
+            {
+                "name": "Attuned magic school",
+                "show": false,
+                "value": "no school attuned"
+            },
+            {
+                "name": "Second attuned magic school",
+                "show": false,
+                "value": "no school attuned"
+            },
+            {
+                "name": "Third attuned magic school",
+                "show": false,
+                "value": "no school attuned"
+            }
         ]
-      }
-    ]
-  },
-  {
-    "name": "Talisman Cord",
-    "id": "d8441a61-a973-44a6-ad6a-5946e8d1f3b6",
-    "desc": "This thin leather cord bears delicate runic markings and threads through an item that can bear affixed talismans. When you Affix a Talisman to that item, you can thread the talisman onto the cord, activating the cord's preserving effects. The cord is attuned to a particular school of magic, chosen when the cord was created. It gains the corresponding trait for that school. When you activate a talisman threaded through a cord with the same magic school trait that's also the cord's level or lower, attempt a |dice=1d20| DC 16 flat check. On a success, that talisman is not consumed and can be used again.",
-    "access": "Member of the Pathfinder Society.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 10,
-    "price": 85000,
-    "subTypeDesc": "This cord is attuned to two schools of magic, and since it's higher level, it can hold higher-level talismans.",
-    "traits": [
-      "Uncommon",
-      "Abjuration",
-      "Invested",
-      "Magical"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn",
-    "isTalismanCord": 2,
-    "data": [
-      {
-        "name": "Attuned magic school",
-        "show": false,
-        "value": "no school attuned"
-      },
-      {
-        "name": "Second attuned magic school",
-        "show": false,
-        "value": "no school attuned"
-      },
-      {
-        "name": "Third attuned magic school",
-        "show": false,
-        "value": "no school attuned"
-      }
-    ]
-  },
-  {
-    "name": "Spectacles of Understanding (Greater)",
-    "id": "26705c5c-51ee-43d6-adb4-94c2818779e6",
-    "desc": "These folding, wood-framed spectacles hold flat discs of cut crystal as lenses and are held in place with thin cords that wrap around each ear, with another strap holding them around the neck while not in use. While you are wearing the spectacles, you gain a +1 item bonus to checks to Decipher Writing.",
-    "access": "Member of the Pathfinder Society.",
-    "PFSnote": "All characters have access to this item",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 5,
-    "price": 120000,
-    "subType": "Greater",
-    "subTypeDesc": "The item bonus is +2, and the ability to comprehend writing from comprehend language lasts until you fold up the spectacles or the item is no longer invested by you, whichever comes first, rather than lasting 1 hour.",
-    "traits": [
-      "Uncommon",
-      "Divination",
-      "Invested",
-      "Magical"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn",
-    "hints": [
-      {
-        "desc": "You gain a +2 item bonus to checks to Decipher Writing.",
-        "showon": "Skills",
-        "effects": [
-          {
-            "affected": "Skill Checks",
-            "type": "item",
-            "value": "2"
-          }
-        ]
-      }
-    ],
-    "activities": [
-      {
+    },
+    {
         "name": "Spectacles of Understanding (Greater)",
-        "actions": "1A",
-        "activationType": "Interact",
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "toggle": true,
-        "desc": "Unfolding the spectacles onto the bridge of the nose, you gain the effects of 2nd-level comprehend language except that it applies to all languages you see rather than a single language, and it does not apply to language you hear. This ability lasts until you fold up the spectacles or the item is no longer invested by you, whichever comes first.",
-        "gainConditions": [
-          {
-            "duration": -1,
-            "name": "Spectacles of Understanding"
-          }
-        ],
-        "showSpells": [
-          {
-            "level": 2,
-            "name": "Comprehend Language"
-          }
-        ],
+        "id": "26705c5c-51ee-43d6-adb4-94c2818779e6",
+        "desc": "These folding, wood-framed spectacles hold flat discs of cut crystal as lenses and are held in place with thin cords that wrap around each ear, with another strap holding them around the neck while not in use. While you are wearing the spectacles, you gain a +1 item bonus to checks to Decipher Writing.",
+        "access": "Member of the Pathfinder Society.",
+        "PFSnote": "All characters have access to this item",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 5,
+        "price": 120000,
+        "subType": "Greater",
+        "subTypeDesc": "The item bonus is +2, and the ability to comprehend writing from comprehend language lasts until you fold up the spectacles or the item is no longer invested by you, whichever comes first, rather than lasting 1 hour.",
         "traits": [
-          "Uncommon",
-          "Divination",
-          "Invested",
-          "Magical"
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Cordelia's Construct Key (Greater)",
-    "id": "9b89923d-e267-4d19-bd02-da66f9759bb0",
-    "desc": "Worn on a necklace, this intricate key grants you greater facility with constructs. The key alerts you to constructs lurking around you. Whether or not you are Investigating, the GM automatically rolls secret Recall Knowledge checks for you when you see a construct pretending to be a normal object, statue, or the like. Typically, this check is Arcana, Crafting, or an appropriate Lore skill. On a success, you recognize the presence of the construct and gain the usual benefits of Recall Knowledge.\n\nWhile you're wearing the key, if your attack reduces a construct to 0 Hit Points, instead of destroying it completely, you can send it into a dormant state, from which you can study its inner workings and possibly (at the GM's discretion) spend time and money to reprogram or repurpose it. Even if you don't subvert it, you can Repair a construct rendered dormant this way, allowing you to return tomb guardians to their vigil after you've battled them. Additionally, you can activate the key in two ways to call a construct to serve you.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 12,
-    "price": 175000,
-    "subType": "Greater",
-    "subTypeDesc": "A greater key allows you to fully comprehend and thus partially bypass a construct's resistances. You ignore the first 5 resistance a construct has against your damaging effects, whether martial or magical. Additionally, the key's first activation casts a 5th-level summon construct, and its second activation lasts 8 hours.",
-    "traits": [
-      "Uncommon",
-      "Conjuration",
-      "Invested",
-      "Magical",
-      "Transmutation"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn",
-    "hints": [
-      {
-        "desc": "Whether or not you are Investigating, the GM automatically rolls secret Recall Knowledge checks for you when you see a construct pretending to be a normal object, statue, or the like. Typically, this check is Arcana, Crafting, or an appropriate Lore skill. On a success, you recognize the presence of the construct and gain the usual benefits of Recall Knowledge.",
-        "showon": "Perception"
-      },
-      {
-        "desc": "You ignore the first 5 resistance a construct has against your damaging effects, whether martial or magical.\n\nIf your attack reduces a construct to 0 Hit Points, instead of destroying it completely, you can send it into a dormant state, from which you can study its inner workings and possibly (at the GM's discretion) spend time and money to reprogram or repurpose it. Even if you don't subvert it, you can Repair a construct rendered dormant this way, allowing you to return tomb guardians to their vigil after you've battled them.",
-        "showon": "Crafting, Attacks, Spellbook"
-      }
-    ],
-    "activities": [
-      {
-        "name": "Cordelia's Construct Key (Greater): Summon Construct",
-        "actions": "2A",
-        "activationType": "Command, Interact",
-        "frequency": "once per hour",
-        "cooldown": 6000,
-        "desc": "You turn the key in the air and create a magic glyph. The key casts 3rd-level summon construct.",
-        "castSpells": [
-          {
-            "level": 5,
-            "name": "Summon Construct"
-          }
+            "Uncommon",
+            "Divination",
+            "Invested",
+            "Magical"
         ],
-        "traits": [
-          "Uncommon",
-          "Conjuration",
-          "Invested",
-          "Magical",
-          "Transmutation"
+        "usage": "worn",
+        "hints": [
+            {
+                "desc": "You gain a +2 item bonus to checks to Decipher Writing.",
+                "showon": "Skills",
+                "effects": [
+                    {
+                        "affected": "Skill Checks",
+                        "type": "item",
+                        "value": "2"
+                    }
+                ]
+            }
+        ],
+        "activities": [
+            {
+                "name": "Spectacles of Understanding (Greater)",
+                "actions": "1A",
+                "activationType": "Interact",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "toggle": true,
+                "desc": "Unfolding the spectacles onto the bridge of the nose, you gain the effects of 2nd-level comprehend language except that it applies to all languages you see rather than a single language, and it does not apply to language you hear. This ability lasts until you fold up the spectacles or the item is no longer invested by you, whichever comes first.",
+                "gainConditions": [
+                    {
+                        "duration": -1,
+                        "name": "Spectacles of Understanding"
+                    }
+                ],
+                "showSpells": [
+                    {
+                        "level": 2,
+                        "name": "Comprehend Language"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Divination",
+                    "Invested",
+                    "Magical"
+                ]
+            }
         ]
-      },
-      {
+    },
+    {
         "name": "Cordelia's Construct Key (Greater)",
-        "actions": "1 minute",
-        "activationType": "Command, Envision, Interact",
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "desc": "You place the key on a Small object and turn it, creating a simple animated object for 1 hour. The animated object has the statistics of an animated broom but has no bristles Strike and can't attack. It performs simple and broad menial tasks for you in exploration or downtime but is too slow to react to individual commands to assist you in a combat encounter.",
-        "gainConditions": [
-          {
-            "duration": 48000,
-            "name": "Cordelia's Construct Key"
-          }
-        ],
+        "id": "9b89923d-e267-4d19-bd02-da66f9759bb0",
+        "desc": "Worn on a necklace, this intricate key grants you greater facility with constructs. The key alerts you to constructs lurking around you. Whether or not you are Investigating, the GM automatically rolls secret Recall Knowledge checks for you when you see a construct pretending to be a normal object, statue, or the like. Typically, this check is Arcana, Crafting, or an appropriate Lore skill. On a success, you recognize the presence of the construct and gain the usual benefits of Recall Knowledge.\n\nWhile you're wearing the key, if your attack reduces a construct to 0 Hit Points, instead of destroying it completely, you can send it into a dormant state, from which you can study its inner workings and possibly (at the GM's discretion) spend time and money to reprogram or repurpose it. Even if you don't subvert it, you can Repair a construct rendered dormant this way, allowing you to return tomb guardians to their vigil after you've battled them. Additionally, you can activate the key in two ways to call a construct to serve you.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 12,
+        "price": 175000,
+        "subType": "Greater",
+        "subTypeDesc": "A greater key allows you to fully comprehend and thus partially bypass a construct's resistances. You ignore the first 5 resistance a construct has against your damaging effects, whether martial or magical. Additionally, the key's first activation casts a 5th-level summon construct, and its second activation lasts 8 hours.",
         "traits": [
-          "Uncommon",
-          "Conjuration",
-          "Invested",
-          "Magical",
-          "Transmutation"
+            "Uncommon",
+            "Conjuration",
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "usage": "worn",
+        "hints": [
+            {
+                "desc": "Whether or not you are Investigating, the GM automatically rolls secret Recall Knowledge checks for you when you see a construct pretending to be a normal object, statue, or the like. Typically, this check is Arcana, Crafting, or an appropriate Lore skill. On a success, you recognize the presence of the construct and gain the usual benefits of Recall Knowledge.",
+                "showon": "Perception"
+            },
+            {
+                "desc": "You ignore the first 5 resistance a construct has against your damaging effects, whether martial or magical.\n\nIf your attack reduces a construct to 0 Hit Points, instead of destroying it completely, you can send it into a dormant state, from which you can study its inner workings and possibly (at the GM's discretion) spend time and money to reprogram or repurpose it. Even if you don't subvert it, you can Repair a construct rendered dormant this way, allowing you to return tomb guardians to their vigil after you've battled them.",
+                "showon": "Crafting, Attacks, Spellbook"
+            }
+        ],
+        "activities": [
+            {
+                "name": "Cordelia's Construct Key (Greater): Summon Construct",
+                "actions": "2A",
+                "activationType": "Command, Interact",
+                "frequency": "once per hour",
+                "cooldown": 6000,
+                "desc": "You turn the key in the air and create a magic glyph. The key casts 3rd-level summon construct.",
+                "castSpells": [
+                    {
+                        "level": 5,
+                        "name": "Summon Construct"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Conjuration",
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ]
+            },
+            {
+                "name": "Cordelia's Construct Key (Greater)",
+                "actions": "1 minute",
+                "activationType": "Command, Envision, Interact",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "desc": "You place the key on a Small object and turn it, creating a simple animated object for 1 hour. The animated object has the statistics of an animated broom but has no bristles Strike and can't attack. It performs simple and broad menial tasks for you in exploration or downtime but is too slow to react to individual commands to assist you in a combat encounter.",
+                "gainConditions": [
+                    {
+                        "duration": 48000,
+                        "name": "Cordelia's Construct Key"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Conjuration",
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ]
+            }
         ]
-      }
-    ]
-  },
-  {
-    "name": "Hummingbird Wayfinder",
-    "id": "9fbbe857-57c5-4658-8bf7-00668b673c5f",
-    "desc": "Hummingbird wayfinders blend a few Arcadian secrets into the original wayfinder design, allowing the wayfinder to gain mobility for a time and act as a spy. In addition to the effects of a wayfinder, a hummingbird wayfinder has the following activation.",
-    "access": "Member of the Pathfinder Society.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 12,
-    "price": 175000,
-    "traits": [
-      "Uncommon",
-      "Evocation",
-      "Invested",
-      "Magical",
-      "Transmutation"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn",
-    "isWayfinder": 1,
-    "activities": [
-      {
+    },
+    {
         "name": "Hummingbird Wayfinder",
-        "actions": "2A",
-        "activationType": "Command, Interact",
-        "frequency": "once per hour",
-        "cooldown": 6000,
-        "desc": "You cause the wayfinder to transform into a Tiny bee hummingbird, only 2 inches long. Other than the wayfinder being a visible bird, this has the effects of prying eye. In addition to Seeking through the hummingbird, you can activate any aeon stone within the wayfinder as if the wayfinder were still on your person. When the effect ends, the wayfinder transforms back to normal in its current position. Damaging the bird ends the effect but does not destroy the wayfinder.",
-        "gainConditions": [
-          {
-            "duration": 1000,
-            "name": "Hummingbird Wayfinder"
-          }
-        ],
-        "showSpells": [
-          {
-            "level": 5,
-            "name": "Prying Eye"
-          }
-        ],
+        "id": "9fbbe857-57c5-4658-8bf7-00668b673c5f",
+        "desc": "Hummingbird wayfinders blend a few Arcadian secrets into the original wayfinder design, allowing the wayfinder to gain mobility for a time and act as a spy. In addition to the effects of a wayfinder, a hummingbird wayfinder has the following activation.",
+        "access": "Member of the Pathfinder Society.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 12,
+        "price": 175000,
         "traits": [
-          "Uncommon",
-          "Evocation",
-          "Invested",
-          "Magical",
-          "Transmutation"
-        ]
-      },
-      {
-        "name": "Hummingbird Wayfinder: Light",
-        "actions": "1A",
-        "activationType": "Command",
-        "target": "self",
-        "desc": "The wayfinder is targeted by a 1st-level light spell.",
-        "castSpells": [
-          {
-            "level": 1,
-            "name": "Light"
-          }
+            "Uncommon",
+            "Evocation",
+            "Invested",
+            "Magical",
+            "Transmutation"
         ],
-        "traits": [
-          "Uncommon",
-          "Evocation",
-          "Invested",
-          "Magical"
+        "usage": "worn",
+        "isWayfinder": 1,
+        "activities": [
+            {
+                "name": "Hummingbird Wayfinder",
+                "actions": "2A",
+                "activationType": "Command, Interact",
+                "frequency": "once per hour",
+                "cooldown": 6000,
+                "desc": "You cause the wayfinder to transform into a Tiny bee hummingbird, only 2 inches long. Other than the wayfinder being a visible bird, this has the effects of prying eye. In addition to Seeking through the hummingbird, you can activate any aeon stone within the wayfinder as if the wayfinder were still on your person. When the effect ends, the wayfinder transforms back to normal in its current position. Damaging the bird ends the effect but does not destroy the wayfinder.",
+                "gainConditions": [
+                    {
+                        "duration": 1000,
+                        "name": "Hummingbird Wayfinder"
+                    }
+                ],
+                "showSpells": [
+                    {
+                        "level": 5,
+                        "name": "Prying Eye"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Evocation",
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ]
+            },
+            {
+                "name": "Hummingbird Wayfinder: Light",
+                "actions": "1A",
+                "activationType": "Command",
+                "target": "self",
+                "desc": "The wayfinder is targeted by a 1st-level light spell.",
+                "castSpells": [
+                    {
+                        "level": 1,
+                        "name": "Light"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Evocation",
+                    "Invested",
+                    "Magical"
+                ]
+            }
         ]
-      }
-    ]
-  },
-  {
-    "name": "Homeward Wayfinder",
-    "id": "714427b1-e86e-47b8-819c-018a1d3df481",
-    "desc": "Homeward wayfinders are powerful escape tools in the hands of a Pathfinder agent, drawing upon a special connection to the Maze of the Open Road. In addition to the effects of a wayfinder, a homeward wayfinder attunes itself to the most recent Pathfinder Lodge you've visited and has the following activation.",
-    "access": "Member of the Pathfinder Society.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 13,
-    "price": 275000,
-    "traits": [
-      "Uncommon",
-      "Conjuration",
-      "Evocation",
-      "Invested",
-      "Magical",
-      "Teleportation"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn",
-    "isWayfinder": 1,
-    "activities": [
-      {
+    },
+    {
         "name": "Homeward Wayfinder",
-        "actions": "10 minutes",
-        "activationType": "Command, Interact",
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "desc": "You teleport back to the attuned Pathfinder Lodge, as long as you are no more than 100 miles away. This teleportation effect fails if you would bring another creature with you, even if you're carrying it in an extradimensional space.",
+        "id": "714427b1-e86e-47b8-819c-018a1d3df481",
+        "desc": "Homeward wayfinders are powerful escape tools in the hands of a Pathfinder agent, drawing upon a special connection to the Maze of the Open Road. In addition to the effects of a wayfinder, a homeward wayfinder attunes itself to the most recent Pathfinder Lodge you've visited and has the following activation.",
+        "access": "Member of the Pathfinder Society.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 13,
+        "price": 275000,
         "traits": [
-          "Uncommon",
-          "Conjuration",
-          "Evocation",
-          "Invested",
-          "Magical",
-          "Teleportation"
+            "Uncommon",
+            "Conjuration",
+            "Evocation",
+            "Invested",
+            "Magical",
+            "Teleportation"
+        ],
+        "usage": "worn",
+        "isWayfinder": 1,
+        "activities": [
+            {
+                "name": "Homeward Wayfinder",
+                "actions": "10 minutes",
+                "activationType": "Command, Interact",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "desc": "You teleport back to the attuned Pathfinder Lodge, as long as you are no more than 100 miles away. This teleportation effect fails if you would bring another creature with you, even if you're carrying it in an extradimensional space.",
+                "traits": [
+                    "Uncommon",
+                    "Conjuration",
+                    "Evocation",
+                    "Invested",
+                    "Magical",
+                    "Teleportation"
+                ]
+            },
+            {
+                "name": "Homeward Wayfinder: Light",
+                "actions": "1A",
+                "activationType": "Command",
+                "target": "self",
+                "desc": "The wayfinder is targeted by a 1st-level light spell.",
+                "castSpells": [
+                    {
+                        "level": 1,
+                        "name": "Light"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Evocation",
+                    "Invested",
+                    "Magical"
+                ]
+            }
+        ],
+        "data": [
+            {
+                "name": "Attuned lodge",
+                "show": true,
+                "type": "string"
+            }
         ]
-      },
-      {
-        "name": "Homeward Wayfinder: Light",
-        "actions": "1A",
-        "activationType": "Command",
-        "target": "self",
-        "desc": "The wayfinder is targeted by a 1st-level light spell.",
-        "castSpells": [
-          {
-            "level": 1,
-            "name": "Light"
-          }
-        ],
+    },
+    {
+        "name": "Talisman Cord (Greater)",
+        "id": "1220f546-0fcb-437e-9d94-c0aa7ef35900",
+        "desc": "This thin leather cord bears delicate runic markings and threads through an item that can bear affixed talismans. When you Affix a Talisman to that item, you can thread the talisman onto the cord, activating the cord's preserving effects. The cord is attuned to a particular school of magic, chosen when the cord was created. It gains the corresponding trait for that school. When you activate a talisman threaded through a cord with the same magic school trait that's also the cord's level or lower, attempt a |dice=1d20| DC 16 flat check. On a success, that talisman is not consumed and can be used again.",
+        "access": "Member of the Pathfinder Society.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 16,
+        "price": 850000,
+        "subType": "Greater",
+        "subTypeDesc": "The cord is attuned to three schools of magic, and since it's higher level, it can hold higher-level talismans.",
         "traits": [
-          "Uncommon",
-          "Evocation",
-          "Invested",
-          "Magical"
+            "Uncommon",
+            "Abjuration",
+            "Invested",
+            "Magical"
+        ],
+        "usage": "worn",
+        "isTalismanCord": 3,
+        "data": [
+            {
+                "name": "Attuned magic school",
+                "show": false,
+                "value": "no school attuned"
+            },
+            {
+                "name": "Second attuned magic school",
+                "show": false,
+                "value": "no school attuned"
+            },
+            {
+                "name": "Third attuned magic school",
+                "show": false,
+                "value": "no school attuned"
+            }
         ]
-      }
-    ],
-    "data": [
-      {
-        "name": "Attuned lodge",
-        "show": true,
-        "type": "string"
-      }
-    ]
-  },
-  {
-    "name": "Talisman Cord (Greater)",
-    "id": "1220f546-0fcb-437e-9d94-c0aa7ef35900",
-    "desc": "This thin leather cord bears delicate runic markings and threads through an item that can bear affixed talismans. When you Affix a Talisman to that item, you can thread the talisman onto the cord, activating the cord's preserving effects. The cord is attuned to a particular school of magic, chosen when the cord was created. It gains the corresponding trait for that school. When you activate a talisman threaded through a cord with the same magic school trait that's also the cord's level or lower, attempt a |dice=1d20| DC 16 flat check. On a success, that talisman is not consumed and can be used again.",
-    "access": "Member of the Pathfinder Society.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 16,
-    "price": 850000,
-    "subType": "Greater",
-    "subTypeDesc": "The cord is attuned to three schools of magic, and since it's higher level, it can hold higher-level talismans.",
-    "traits": [
-      "Uncommon",
-      "Abjuration",
-      "Invested",
-      "Magical"
-    ],
-    "internal: needs testing": true,
-    "usage": "worn",
-    "isTalismanCord": 3,
-    "data": [
-      {
-        "name": "Attuned magic school",
-        "show": false,
-        "value": "no school attuned"
-      },
-      {
-        "name": "Second attuned magic school",
-        "show": false,
-        "value": "no school attuned"
-      },
-      {
-        "name": "Third attuned magic school",
-        "show": false,
-        "value": "no school attuned"
-      }
-    ]
-  },
-  {
-    "name": "Aeon Stone (Pale Orange Rhomboid)",
-    "id": "6417c3a5-d421-4b9e-aaac-6eb21a830512",
-    "desc": "The first time each day you die, your vital and spiritual essences mingle together and reside within this aeon stone. You have a limited sense of how many life forces are currently within 30 feet of the stone, which you can potentially use to determine when it's safe to call on the stone's power. At any time within the next hour after your body died, you can spend 1 minute concentrating in order to return to your body. As long as your body is still intact, you are no longer dead -  you are restored to 1 HP with the doomed 3 and wounded 3 conditions. You can benefit from the effects of only one pale orange rhomboid aeon stone in a given day.\n\nThe resonant power allows you to wait more than an hour to return to your body with the aeon stone; as long as the wayfinder remains on the body, your body doesn't decay and you can return at any point.",
-    "access": "Member of the Pathfinder Society.",
-    "_extensionFileName": "PFSGuide",
-    "sourceBook": "Pathfinder Society Guide",
-    "level": 19,
-    "price": 4000000,
-    "subType": "Pale Orange Rhomboid",
-    "traits": [
-      "Uncommon",
-      "Invested",
-      "Magical",
-      "Transmutation"
-    ],
-    "usage": "worn",
-    "isAeonStone": true,
-    "hints": [
-      {
-        "desc": "You can wait more than an hour to return to your body with the aeon stone; as long as the wayfinder remains on the body, your body doesn't decay and you can return at any point.",
-        "showon": "Aeon Stone (Pale Orange Rhomboid), Health",
-        "resonant": true
-      }
-    ],
-    "activities": [
-      {
-        "name": "Aeon Stone (Pale Orange Rhomboid): Return",
-        "actions": "1 minute",
-        "activationType": "Concentrate",
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "desc": "The first time each day you die, your vital and spiritual essences mingle together and reside within this aeon stone. You have a limited sense of how many life forces are currently within 30 feet of the stone, which you can potentially use to determine when it's safe to call on the stone's power. At any time within the next hour after your body died, you can spend 1 minute concentrating in order to return to your body. As long as your body is still intact, you are no longer dead -  you are restored to 1 HP with the doomed 3 and wounded 3 conditions. You can benefit from the effects of only one pale orange rhomboid aeon stone in a given day.",
-        "gainConditions": [
-          {
-            "duration": 0,
-            "name": "Aeon Stone (Pale Orange Rhomboid)"
-          }
-        ],
+    },
+    {
+        "name": "Aeon Stone (Pale Orange Rhomboid)",
+        "id": "6417c3a5-d421-4b9e-aaac-6eb21a830512",
+        "desc": "The first time each day you die, your vital and spiritual essences mingle together and reside within this aeon stone. You have a limited sense of how many life forces are currently within 30 feet of the stone, which you can potentially use to determine when it's safe to call on the stone's power. At any time within the next hour after your body died, you can spend 1 minute concentrating in order to return to your body. As long as your body is still intact, you are no longer dead -  you are restored to 1 HP with the doomed 3 and wounded 3 conditions. You can benefit from the effects of only one pale orange rhomboid aeon stone in a given day.\n\nThe resonant power allows you to wait more than an hour to return to your body with the aeon stone; as long as the wayfinder remains on the body, your body doesn't decay and you can return at any point.",
+        "access": "Member of the Pathfinder Society.",
+        "_extensionFileName": "PFSGuide",
+        "sourceBook": "Pathfinder Society Guide",
+        "level": 19,
+        "price": 4000000,
+        "subType": "Pale Orange Rhomboid",
         "traits": [
-          "Uncommon",
-          "Invested",
-          "Magical",
-          "Transmutation"
+            "Uncommon",
+            "Invested",
+            "Magical",
+            "Transmutation"
         ],
-        "inputRequired": "Use this activation to drop to 1 HP, lose the Dead and Dying conditions and gain the Doomed 3 and Wounded 3 conditions."
-      }
-    ]
-  }
+        "usage": "worn",
+        "isAeonStone": true,
+        "hints": [
+            {
+                "desc": "You can wait more than an hour to return to your body with the aeon stone; as long as the wayfinder remains on the body, your body doesn't decay and you can return at any point.",
+                "showon": "Aeon Stone (Pale Orange Rhomboid), Health",
+                "resonant": true
+            }
+        ],
+        "activities": [
+            {
+                "name": "Aeon Stone (Pale Orange Rhomboid): Return",
+                "actions": "1 minute",
+                "activationType": "Concentrate",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "desc": "The first time each day you die, your vital and spiritual essences mingle together and reside within this aeon stone. You have a limited sense of how many life forces are currently within 30 feet of the stone, which you can potentially use to determine when it's safe to call on the stone's power. At any time within the next hour after your body died, you can spend 1 minute concentrating in order to return to your body. As long as your body is still intact, you are no longer dead -  you are restored to 1 HP with the doomed 3 and wounded 3 conditions. You can benefit from the effects of only one pale orange rhomboid aeon stone in a given day.",
+                "gainConditions": [
+                    {
+                        "duration": 0,
+                        "name": "Aeon Stone (Pale Orange Rhomboid)"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ],
+                "inputRequired": "Use this activation to drop to 1 HP, lose the Dead and Dying conditions and gain the Doomed 3 and Wounded 3 conditions."
+            }
+        ]
+    }
 ]

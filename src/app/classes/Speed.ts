@@ -41,7 +41,7 @@ export class Speed {
             return effectsService.show_PenaltiesOnThis(creature, name);
         }
     }
-    baseValue(creature: Creature, characterService: CharacterService, effectsService: EffectsService): { result: number, explain: string } {
+    baseValue(creature: Creature, characterService: CharacterService, effectsService: EffectsService, options: {ignoreRelatives?: boolean} = {}): { result: number, explain: string } {
         //Gets the basic speed and adds all effects
         if (characterService.still_loading()) { return { result: 0, explain: "" }; }
         //Get the base speed from the ancestry.
@@ -53,10 +53,12 @@ export class Speed {
             baseValue.explain = effect.source + ": " + effect.setValue;
         });
         let isNull: boolean = (baseValue.result == 0)
-        this.relatives(creature, effectsService, this.name).forEach(effect => {
-            baseValue.result += parseInt(effect.value);
-            baseValue.explain += "\n" + effect.source + ": " + effect.value;
-        });
+        if (!options.ignoreRelatives) {
+            this.relatives(creature, effectsService, this.name).forEach(effect => {
+                baseValue.result += parseInt(effect.value);
+                baseValue.explain += "\n" + effect.source + ": " + effect.value;
+            });
+        }
         //Penalties cannot lower a speed below 5.
         if (!isNull && baseValue.result < 5 && this.name != "Speed") {
             baseValue.result = 5;

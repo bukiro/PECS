@@ -53,8 +53,12 @@ export class ActivityGain {
         if (this.active) {
             return "";
         }
-        if (this.activeCooldown && this.chargesUsed >= context.maxCharges) {
-            return (context.maxCharges ? 'Recharged in: ' : 'Cooldown: ') + services.timeService.get_Duration(this.activeCooldown, true, false);
+        if (this.chargesUsed >= context.maxCharges) {
+            if (this.activeCooldown) {
+                return (context.maxCharges ? 'Recharged in: ' : 'Cooldown: ') + services.timeService.get_Duration(this.activeCooldown, true, false);
+            } else if (context.maxCharges) {
+                return "No activations left.";
+            }
         }
         const disablingEffects = services.effectsService.get_EffectsOnThis(context.creature, this.name + " Disabled");
         if (disablingEffects.length) {

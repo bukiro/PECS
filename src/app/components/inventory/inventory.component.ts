@@ -30,6 +30,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { Familiar } from 'src/app/classes/Familiar';
+import { ActivitiesService } from 'src/app/services/activities.service';
 
 @Component({
     selector: 'app-inventory',
@@ -59,6 +60,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         private timeService: TimeService,
         private spellsService: SpellsService,
         private conditionsService: ConditionsService,
+        private activitiesService: ActivitiesService,
         private toastService: ToastService,
         private modalService: NgbModal
     ) { }
@@ -432,7 +434,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     onItemChange(item: Item) {
-        this.refreshService.set_ItemViewChanges(this.get_Creature(), item, { characterService: this.characterService });
+        this.refreshService.set_ItemViewChanges(this.get_Creature(), item, { characterService: this.characterService, activitiesService: this.activitiesService });
         this.refreshService.process_ToChange();
         this.update_Item(item);
     }
@@ -446,7 +448,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
                 this.change_Cash(1, Math.floor(this.get_Price(item) / 2));
             }
         }
-        this.refreshService.set_ItemViewChanges(this.get_Creature(), item, { characterService: this.characterService });
+        this.refreshService.set_ItemViewChanges(this.get_Creature(), item, { characterService: this.characterService, activitiesService: this.activitiesService });
         this.refreshService.process_ToChange();
         this.update_Item(item);
     }

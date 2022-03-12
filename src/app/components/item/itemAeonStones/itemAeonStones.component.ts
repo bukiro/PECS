@@ -6,6 +6,7 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { TimeService } from 'src/app/services/time.service';
 import { TypeService } from 'src/app/services/type.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { ActivitiesService } from 'src/app/services/activities.service';
 
 @Component({
     selector: 'app-itemAeonStones',
@@ -25,6 +26,7 @@ export class ItemAeonStonesComponent implements OnInit {
         public characterService: CharacterService,
         private refreshService: RefreshService,
         private itemsService: ItemsService,
+        private activitiesService: ActivitiesService,
         private timeService: TimeService,
         private typeService: TypeService
     ) { }
@@ -127,7 +129,7 @@ export class ItemAeonStonesComponent implements OnInit {
     }
 
     set_ToChange(stone: WornItem) {
-        this.refreshService.set_ItemViewChanges(this.get_Character(), stone, { characterService: this.characterService });
+        this.refreshService.set_ItemViewChanges(this.get_Character(), stone, { characterService: this.characterService, activitiesService: this.activitiesService });
     }
 
     get_Title(stone: WornItem) {

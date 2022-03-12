@@ -4,7 +4,6 @@ import { ConditionsService } from 'src/app/services/conditions.service';
 import { ExtensionsService } from 'src/app/services/extensions.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { SpellsService } from 'src/app/services/spells.service';
-import { ToastService } from 'src/app/services/toast.service';
 import { TypeService } from 'src/app/services/type.service';
 import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { AlchemicalBomb } from 'src/app/classes/AlchemicalBomb';
@@ -73,6 +72,7 @@ import * as json_weaponmaterials from 'src/assets/json/weaponmaterials';
 import * as json_weaponrunes from 'src/assets/json/items/weaponrunes';
 import * as json_weapons from 'src/assets/json/items/weapons';
 import * as json_wornitems from 'src/assets/json/items/wornitems';
+import { ActivitiesService } from './activities.service';
 
 @Injectable({
     providedIn: 'root'
@@ -94,6 +94,7 @@ export class ItemsService {
     constructor(
         private typeService: TypeService,
         private extensionsService: ExtensionsService,
+        private activitiesService: ActivitiesService,
         private refreshService: RefreshService
     ) { }
 
@@ -225,9 +226,9 @@ export class ItemsService {
                 case "snares":
                     return Object.assign(new Snare(), item);
                 case "talismans":
-                    return Object.assign(new Snare(), item);
-                case "wands":
                     return Object.assign(new Talisman(), item);
+                case "wands":
+                    return Object.assign(new Wand(), item);
                 case "weaponrunes":
                     return Object.assign(new WeaponRune(), item);
                 case "weapons":
@@ -650,7 +651,7 @@ export class ItemsService {
                 if (including) {
                     this.move_GrantedItems(creature, movedItem, targetInventory, inventory, characterService);
                 }
-                this.refreshService.set_ItemViewChanges(creature, movedItem, { characterService: characterService });
+                this.refreshService.set_ItemViewChanges(creature, movedItem, { characterService: characterService, activitiesService: this.activitiesService });
             }
         }
     }

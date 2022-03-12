@@ -250,13 +250,16 @@ export class FeatsService {
                         //Skip if you don't have the required Class for this granted feat choice.
                         if (newFeatChoice.insertClass ? character.class.name == newFeatChoice.insertClass : true) {
                             //Check if the feat choice gets applied on a certain level and do that, or apply it on the current level.
+                            let insertLevel: Level;
                             if (newFeatChoice.insertLevel && character.class.levels[newFeatChoice.insertLevel]) {
+                                insertLevel = character.class.levels[newFeatChoice.insertLevel]
                                 insertedFeatChoice = character.add_FeatChoice(character.class.levels[newFeatChoice.insertLevel], newFeatChoice)
                             } else {
+                                insertLevel = level;
                                 insertedFeatChoice = character.add_FeatChoice(level, newFeatChoice);
                             }
                             insertedFeatChoice.feats.forEach(gain => {
-                                this.process_Feat(creature, characterService, undefined, gain, insertedFeatChoice, level, true);
+                                this.process_Feat(creature, characterService, undefined, gain, insertedFeatChoice, insertLevel, true);
                             })
                             if (insertedFeatChoice.showOnSheet) {
                                 this.refreshService.set_ToChange(creature.type, "activities");

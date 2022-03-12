@@ -12,6 +12,8 @@ import { Consumable } from 'src/app/classes/Consumable';
 import { Activity } from 'src/app/classes/Activity';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { ActivityGain } from 'src/app/classes/ActivityGain';
+import { ItemActivity } from 'src/app/classes/ItemActivity';
 
 @Component({
     selector: 'app-gridIcon',
@@ -47,6 +49,8 @@ export class GridIconComponent implements OnInit, OnDestroy {
     spell: Spell = null;
     @Input()
     activity: Activity = null;
+    @Input()
+    activityGain: ActivityGain | ItemActivity = null;
     @Input()
     item: Item = null;
     //The gridicon will refresh if this ID is updated by this.refreshService.set_Changed().
@@ -156,40 +160,47 @@ export class GridIconComponent implements OnInit, OnDestroy {
             return iconTitle.replace("noparse|", "");
         }
         if (this.activity?.iconTitleOverride) {
-            return this.activity.iconTitleOverride.substring(0,4);
+            iconTitle = this.activity.iconTitleOverride;
         }
-        if (this.item?.iconTitleOverride) {
-            return this.item.iconTitleOverride.substring(0,4);
-        }
-        if (this.feat) {
-            if (this.feat.subType) {
-                iconTitle = this.title || this.feat.superType;
-            } else {
-                iconTitle = this.title || this.feat.name;
-            }
-        } else if (this.condition) {
-            iconTitle = this.title || this.condition.name;
-        } else if (this.effect) {
-            iconTitle = this.title || this.effect.target;
-        }
-        iconTitle = iconTitle.replace("(","").replace(")","").trim();
-        if (iconTitle) {
-            if (!iconTitle.includes(" ")) {
-                //If the title does not contain spaces, and is not just a number, keep only letters and return the first 3 letters.
-                //Return numbers unchanged
-                if (isNaN(parseInt(iconTitle))) {
-                    iconTitle = iconTitle.replace(/[^A-Z]/gi, '').substring(0, 3);
+        else if (this.item?.iconTitleOverride) {
+            iconTitle = this.item.iconTitleOverride;
+        } else {
+            if (this.feat) {
+                if (this.feat.subType) {
+                    iconTitle = this.title || this.feat.superType;
+                } else {
+                    iconTitle = this.title || this.feat.name;
                 }
-            } else if (iconTitle.match(".*[A-Z].*")) {
-                //If the title has spaces and contains capital letters, keep only capital letters and return the first 4.
-                iconTitle = iconTitle.replace(/[^A-Z ]/g, '').split(" ").map(part => part.substring(0, 1)).join("").substring(0, 4);
-            } else if (iconTitle.match(".*[A-Za-z].*")) {
-                //If the title has spaces and contains no capital letters, keep only the first letters of every word and return the first 4.
-                iconTitle = iconTitle.replace(/[^A-Z ]/gi, '').split(" ").map(part => part.substring(0, 1)).join("").toUpperCase().substring(0, 4);
+            } else if (this.condition) {
+                iconTitle = this.title || this.condition.name;
+            } else if (this.effect) {
+                iconTitle = this.title || this.effect.target;
+            }
+            iconTitle = iconTitle.replace("(", "").replace(")", "").trim();
+            if (iconTitle) {
+                if (!iconTitle.includes(" ")) {
+                    //If the title does not contain spaces, and is not just a number, keep only letters and return the first 3 letters.
+                    //Return numbers unchanged
+                    if (isNaN(parseInt(iconTitle))) {
+                        iconTitle = iconTitle.replace(/[^A-Z]/gi, '').substring(0, 3);
+                    }
+                } else if (iconTitle.match(".*[A-Z].*")) {
+                    //If the title has spaces and contains capital letters, keep only capital letters and return the first 4.
+                    iconTitle = iconTitle.replace(/[^A-Z ]/g, '').split(" ").map(part => part.substring(0, 1)).join("").substring(0, 6);
+                } else if (iconTitle.match(".*[A-Za-z].*")) {
+                    //If the title has spaces and contains no capital letters, keep only the first letters of every word and return the first 4.
+                    iconTitle = iconTitle.replace(/[^A-Z ]/gi, '').split(" ").map(part => part.substring(0, 1)).join("").toUpperCase().substring(0, 6);
+                }
             }
         }
-        if (iconTitle.length >= 4) {
-            //If the title is 4 letters or more, break them into 2*2 to display them as a square.
+        if (iconTitle.length >= 6) {
+            //If the title is 6 letters or more, break them into 3+3.
+            iconTitle = iconTitle.substring(0, 3) + "<br />" + iconTitle.substring(3, 6);
+        } else if (iconTitle.length == 5) {
+            //If the title is 5 letters or more, break them into 2+3.
+            iconTitle = iconTitle.substring(0, 2) + "<br />" + iconTitle.substring(2, 5);
+        } else if (iconTitle.length == 4) {
+            //If the title is 4 letters or more, break them into 2+2.
             iconTitle = iconTitle.substring(0, 2) + "<br />" + iconTitle.substring(2, 4);
         }
         return iconTitle;
@@ -244,6 +255,12 @@ export class GridIconComponent implements OnInit, OnDestroy {
                 return split;
             }
         }).join("")
+        //For activities, show the number of activations if applicable.
+        if (this.activity && this.activityGain) {
+            if (this.activity._charges) {
+                return (this.activity._charges - this.activityGain.chargesUsed).toString();
+            }
+        }
         //For effect values, show the value as SuperTitle if up to 2 characters long. Longer values will be shown as Value instead.
         if (this.effect) {
             if (this.effect.toggle) {

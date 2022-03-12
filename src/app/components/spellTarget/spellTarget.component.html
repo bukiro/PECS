@@ -31,7 +31,7 @@
                     </ng-container>
                 </button>
                 <button class="center-aligned" (click)="on_Cast('', true, {expend: true})" [disabled]="cannotExpend"
-                    [ngbTooltip]="(spell ? 'Cast' : 'Activate') + ' with no effect.'" *ngIf="showExpend && !actionGain.active && !['ally', 'area', 'minion', 'object', 'other'].includes(parameters.target)">
+                    [ngbTooltip]="(spell ? 'Cast' : 'Activate') + ' with no effect.'" *ngIf="showExpend && !active && !['ally', 'area', 'minion', 'object', 'other'].includes(parameters.target)">
                     <ng-container *ngTemplateOutlet="buttonText;context:{target:'', canActivate:false, expend:true}">
                     </ng-container>
                 </button>
@@ -139,7 +139,7 @@
             </ng-container>
             <!-- Button to activate without target. -->
             <div class="newrow"
-                *ngIf="!actionGain.active && ['ally', 'area', 'minion', 'object', 'other'].includes(parameters.target)"
+                *ngIf="!active && ['ally', 'area', 'minion', 'object', 'other'].includes(parameters.target)"
                 [ngbTooltip]="cannotCast || cannotExpend">
                 <button class="center-aligned" (click)="on_Cast('', true)" [disabled]="cannotCast"
                     [ngbTooltip]="bloodMagicApplied ? 'Casting this spell will trigger ' + parameters.bloodMagicTrigger + '.' : (!parameters.canActivateWithoutTarget ? 'The ' + (spell ? 'spell' : 'activity') + ' has no automatic effects.' : (spell ? 'Cast' : 'Activate') + ' with no specific target.')">
@@ -156,7 +156,7 @@
         </ng-container>
         <!-- Manual mode: Just cast/activate without target. -->
         <ng-container *ngIf="get_ManualMode()">
-            <div class="newrow" *ngIf="!actionGain.active" [ngbTooltip]="cannotCast">
+            <div class="newrow" *ngIf="!active" [ngbTooltip]="cannotCast">
                 <button class="newrow center-aligned" (click)="on_Cast('', true)" [disabled]="cannotCast"
                     [ngbTooltip]="bloodMagicApplied ? 'Casting this spell will trigger ' + parameters.bloodMagicTrigger + '.' : ''">
                     <ng-container *ngTemplateOutlet="buttonText;context:{target:'', canActivate:true}">
@@ -165,7 +165,7 @@
             </div>
         </ng-container>
     </ng-container>
-    <div class="newrow" *ngIf="(parentActivityGain?.active || gain.active) && showDismiss">
+    <div class="newrow" *ngIf="active && showDismiss">
         <button class="newrow center-aligned" (click)="on_Cast(gain.selectedTarget, false)">
             <span [innerHtml]="get_DeactivatePhrase()"></span>
         </button>

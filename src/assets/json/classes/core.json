@@ -14403,6 +14403,7 @@
                 "charLevelAvailable": 1,
                 "className": "Wizard",
                 "source": "Wizard Spellcasting",
+                "spellBookOnly": true,
                 "spellChoices": [
                     {
                         "available": 5,

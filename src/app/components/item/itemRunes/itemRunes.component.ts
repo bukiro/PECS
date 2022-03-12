@@ -672,7 +672,7 @@ export class ItemRunesComponent implements OnInit {
     }
 
     set_ToChange(rune: ArmorRune) {
-        this.refreshService.set_ItemViewChanges(this.get_Character(), rune, { characterService: this.characterService });
+        this.refreshService.set_ItemViewChanges(this.get_Character(), rune, { characterService: this.characterService, activitiesService: this.activitiesService });
     }
 
     set_PropertyRuneNames() {

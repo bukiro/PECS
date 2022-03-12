@@ -1,27 +1,27 @@
 [
-  {
-    "name": "Candle of Truth",
-    "desc": "Creatures within 10 feet of the candle receive a -4 status penalty to Lie.\n\nIn addition, when first entering the affected area, each creature (including you) must succeed at a DC 26 Will save or be unable to tell any deliberate lies while within 10 feet of the lit candle. This lasts for as long as the candle is lit.",
-    "type": "otherconsumables",
-    "sortLevel": 0,
-    "defaultDurations": [
-      {
-        "duration": 1000
-      }
-    ],
-    "hints": [
-      {
-        "desc": "Creatures within 10 feet of the candle receive a -4 status penalty to Lie.\n\nWhen first entering the affected area, each creature (including you) must succeed at a DC 26 Will save or be unable to tell any deliberate lies while within 10 feet of the lit candle. This lasts for as long as the candle is lit.",
-        "showon": "Deception",
-        "effects": [
-          {
-            "affected": "Deception",
-            "type": "status",
-            "value": "-4"
-          }
-        ]
-      }
-    ],
-    "_extensionFileName": "otherconsumables"
-  }
+    {
+        "name": "Candle of Truth",
+        "desc": "Creatures within 10 feet of the candle receive a -4 status penalty to Lie.\n\nIn addition, when first entering the affected area, each creature (including you) must succeed at a DC 26 Will save or be unable to tell any deliberate lies while within 10 feet of the lit candle. This lasts for as long as the candle is lit.",
+        "type": "otherconsumables",
+        "sortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Creatures within 10 feet of the candle receive a -4 status penalty to Lie.\n\nWhen first entering the affected area, each creature (including you) must succeed at a DC 26 Will save or be unable to tell any deliberate lies while within 10 feet of the lit candle. This lasts for as long as the candle is lit.",
+                "showon": "Deception",
+                "effects": [
+                    {
+                        "affected": "Deception",
+                        "type": "status",
+                        "value": "-4"
+                    }
+                ]
+            }
+        ],
+        "_extensionFileName": "otherconsumables"
+    }
 ]

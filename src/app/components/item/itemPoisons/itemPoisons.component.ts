@@ -7,6 +7,7 @@ import { TimeService } from 'src/app/services/time.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { TypeService } from 'src/app/services/type.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { ActivitiesService } from 'src/app/services/activities.service';
 
 @Component({
     selector: 'app-itemPoisons',
@@ -27,6 +28,7 @@ export class ItemPoisonsComponent implements OnInit {
         private characterService: CharacterService,
         private refreshService: RefreshService,
         private itemsService: ItemsService,
+        private activitiesService: ActivitiesService,
         private timeService: TimeService,
         private typeService: TypeService
     ) { }
@@ -71,7 +73,7 @@ export class ItemPoisonsComponent implements OnInit {
             this.newPoison = { poison: new AlchemicalPoison(), inv: null };
             this.newPoison.poison.name = "";
             this.refreshService.set_ToChange("Character", "inventory");
-            this.refreshService.set_ItemViewChanges(this.get_Character(), this.item, { characterService: this.characterService });
+            this.refreshService.set_ItemViewChanges(this.get_Character(), this.item, { characterService: this.characterService, activitiesService: this.activitiesService });
             this.refreshService.process_ToChange();
         }
     }
@@ -79,7 +81,7 @@ export class ItemPoisonsComponent implements OnInit {
     remove_Poison(index: number) {
         this.item.poisonsApplied.splice(index, 1);
         this.refreshService.set_ToChange("Character", "inventory");
-        this.refreshService.set_ItemViewChanges(this.get_Character(), this.item, { characterService: this.characterService });
+        this.refreshService.set_ItemViewChanges(this.get_Character(), this.item, { characterService: this.characterService, activitiesService: this.activitiesService });
         this.refreshService.process_ToChange();
     }
 

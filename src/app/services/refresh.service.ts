@@ -21,6 +21,7 @@ import { TraitsService } from 'src/app/services/traits.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
 import { CacheService } from 'src/app/services/cache.service';
+import { ActivitiesService } from './activities.service';
 
 @Injectable({
     providedIn: 'root'
@@ -152,7 +153,7 @@ export class RefreshService {
         }
     }
 
-    set_ItemViewChanges(creature: Creature, item: Item, services: { characterService: CharacterService }) {
+    public set_ItemViewChanges(creature: Creature, item: Item, services: { characterService: CharacterService, activitiesService: ActivitiesService }): void {
         this.set_ToChange(creature.type, item.id);
         item.traits.map(trait => this.traitsService.get_TraitFromName(trait)).forEach(trait => {
             this.set_HintsToChange(creature, trait.hints, services);
@@ -184,7 +185,7 @@ export class RefreshService {
         }
     }
 
-    private set_EquipmentViewChanges(creature: Creature, item: Equipment, services: { characterService: CharacterService }): void {
+    private set_EquipmentViewChanges(creature: Creature, item: Equipment, services: { characterService: CharacterService, activitiesService: ActivitiesService }): void {
         //Prepare refresh list according to the item's properties.
         if (item instanceof Shield || item instanceof Armor || item instanceof Weapon) {
             this.set_ToChange(creature.type, "defense");
@@ -206,9 +207,21 @@ export class RefreshService {
         }
         if (item.activities?.length) {
             this.set_ToChange(creature.type, "activities");
+            item.activities.forEach(activity => {
+                activity.showonSkill?.split(",").forEach(skillName => {
+                    this.set_ToChange(creature.type, "skills");
+                    this.set_ToChange(creature.type, "individualskills", skillName.trim());
+                })
+            })
         }
         if (item.gainActivities?.length) {
             this.set_ToChange(creature.type, "activities");
+            item.gainActivities.forEach(gain => {
+                gain.get_OriginalActivity(services.activitiesService)?.showonSkill?.split(",").forEach(skillName => {
+                    this.set_ToChange(creature.type, "skills");
+                    this.set_ToChange(creature.type, "individualskills", skillName.trim());
+                })
+            })
         }
         if (item.gainSpells.length) {
             this.set_ToChange(creature.type, "spellbook");
@@ -226,6 +239,12 @@ export class RefreshService {
             }
             if (rune.activities?.length) {
                 this.set_ToChange(creature.type, "activities");
+                rune.activities.forEach(activity => {
+                    activity.showonSkill?.split(",").forEach(skillName => {
+                        this.set_ToChange(creature.type, "skills");
+                        this.set_ToChange(creature.type, "individualskills", skillName.trim());
+                    })
+                })
             }
         });
         if (item instanceof AdventuringGear) {

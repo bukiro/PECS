@@ -88,6 +88,10 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         return this.parentActivityGain || this.gain;
     }
 
+    public get active(): boolean {
+        return this.parentActivityGain?.active || this.gain.active;
+    }
+
     private get target(): string {
         return (this.spellCast?.target || "") || (this.parentActivityGain instanceof ItemActivity ? this.parentActivityGain.target : "") || this.action.target || "self";
     }

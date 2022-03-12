@@ -1,963 +1,963 @@
 [
-  {
-    "name": "Cursed Dreamstone",
-    "desc": "You have fallen asleep or were forced to attempt a saving throw against a sleep effect while carrying a cursed dreamstone. You are affected by the curse depending on your Will save.\n\n<strong>Critical Success</strong> You resist the curse entirely and experience a vivid dream while sleeping that warns you of the nature of the cursed dreamstone.\n<strong>Success</strong> You resist the curse.\n<strong>Failure</strong> As long as you possess the stone, you are fatigued whenever you wake from sleep, whether natural or magically induced, and you take a -2 item penalty to all saving throws against sleep effects instead of gaining the normal bonus from a dreamstone.\n<strong>Critical Failure</strong> As failure, and whenever you attempt a saving throw against a sleep effect, you get the outcome that is one degree worse than the result of your saving throw.",
-    "type": "helditems",
-    "sortLevel": 0,
-    "defaultDurations": [
-      {
-        "duration": -1
-      },
-      {
-        "duration": 0
-      }
-    ],
-    "hints": [
-      {
-        "desc": "You take a -2 item penalty to all saving throws against sleep effects.",
-        "showon": "Saving Throws",
+    {
+        "name": "Cursed Dreamstone",
+        "desc": "You have fallen asleep or were forced to attempt a saving throw against a sleep effect while carrying a cursed dreamstone. You are affected by the curse depending on your Will save.\n\n<strong>Critical Success</strong> You resist the curse entirely and experience a vivid dream while sleeping that warns you of the nature of the cursed dreamstone.\n<strong>Success</strong> You resist the curse.\n<strong>Failure</strong> As long as you possess the stone, you are fatigued whenever you wake from sleep, whether natural or magically induced, and you take a -2 item penalty to all saving throws against sleep effects instead of gaining the normal bonus from a dreamstone.\n<strong>Critical Failure</strong> As failure, and whenever you attempt a saving throw against a sleep effect, you get the outcome that is one degree worse than the result of your saving throw.",
+        "type": "helditems",
+        "sortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": -1
+            },
+            {
+                "duration": 0
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You take a -2 item penalty to all saving throws against sleep effects.",
+                "showon": "Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "type": "item",
+                        "value": "-2"
+                    }
+                ],
+                "conditionChoiceFilter": [
+                    "Failure"
+                ]
+            },
+            {
+                "desc": "You take a -2 item penalty to all saving throws against sleep effects. Whenever you attempt a saving throw against a sleep effect, you get the outcome that is one degree worse than the result of your saving throw.",
+                "showon": "Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "type": "item",
+                        "value": "-2"
+                    }
+                ],
+                "conditionChoiceFilter": [
+                    "Critical Failure"
+                ]
+            },
+            {
+                "desc": "You are fatigued whenever you wake from sleep.",
+                "showon": "Rest",
+                "conditionChoiceFilter": [
+                    "Failure",
+                    "Critical Failure"
+                ]
+            }
+        ],
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": -1
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": -1
+            }
+        ],
         "effects": [
-          {
-            "affected": "Saving Throws",
-            "type": "item",
-            "value": "-2"
-          }
+            {
+                "affected": "Fatigued After Rest",
+                "toggle": true
+            }
         ],
-        "conditionChoiceFilter": [
-          "Failure"
-        ]
-      },
-      {
-        "desc": "You take a -2 item penalty to all saving throws against sleep effects. Whenever you attempt a saving throw against a sleep effect, you get the outcome that is one degree worse than the result of your saving throw.",
-        "showon": "Saving Throws",
+        "_extensionFileName": "helditems"
+    },
+    {
+        "name": "Dragon's Eye Charm: Darkvision",
+        "desc": "The charm's pupil has become plainly visible. You can look through the charm to gain darkvision for the duration as long as you Sustain the Activation.",
+        "type": "helditems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
+        "senses": [
+            {
+                "name": "Darkvision"
+            }
+        ],
+        "_extensionFileName": "helditems"
+    },
+    {
+        "name": "Dragon's Eye Charm: Draconic",
+        "desc": "You can speak and understand Draconic for the duration as long as you Sustain the Activation.",
+        "type": "helditems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You can speak and understand Draconic.",
+                "showon": "Languages"
+            }
+        ],
+        "_extensionFileName": "helditems"
+    },
+    {
+        "name": "Dragon's Eye Charm: Fire Resistance",
+        "desc": "The dragon's eye charm shrouds you in a faintly glowing layer of golden energy. You gain fire resistance 5 for the duration.",
+        "type": "helditems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
         "effects": [
-          {
-            "affected": "Saving Throws",
-            "type": "item",
-            "value": "-2"
-          }
+            {
+                "affected": "Fire Resistance",
+                "type": "item",
+                "value": "5"
+            }
         ],
-        "conditionChoiceFilter": [
-          "Critical Failure"
-        ]
-      },
-      {
-        "desc": "You are fatigued whenever you wake from sleep.",
-        "showon": "Rest",
-        "conditionChoiceFilter": [
-          "Failure",
-          "Critical Failure"
-        ]
-      }
-    ],
-    "choice": "Failure",
-    "choices": [
-      {
-        "name": "Critical Success",
-        "defaultDuration": 1
-      },
-      {
-        "name": "Success",
-        "defaultDuration": 1
-      },
-      {
-        "name": "Failure",
-        "defaultDuration": -1
-      },
-      {
-        "name": "Critical Failure",
-        "defaultDuration": -1
-      }
-    ],
-    "effects": [
-      {
-        "affected": "Fatigued After Rest",
-        "toggle": true
-      }
-    ],
-    "_extensionFileName": "helditems"
-  },
-  {
-    "name": "Dragon's Eye Charm: Darkvision",
-    "desc": "The charm's pupil has become plainly visible. You can look through the charm to gain darkvision for the duration as long as you Sustain the Activation.",
-    "type": "helditems",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 1000
-      }
-    ],
-    "senses": [
-      {
-        "name": "Darkvision"
-      }
-    ],
-    "_extensionFileName": "helditems"
-  },
-  {
-    "name": "Dragon's Eye Charm: Draconic",
-    "desc": "You can speak and understand Draconic for the duration as long as you Sustain the Activation.",
-    "type": "helditems",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 1000
-      }
-    ],
-    "hints": [
-      {
-        "desc": "You can speak and understand Draconic.",
-        "showon": "Languages"
-      }
-    ],
-    "_extensionFileName": "helditems"
-  },
-  {
-    "name": "Dragon's Eye Charm: Fire Resistance",
-    "desc": "The dragon's eye charm shrouds you in a faintly glowing layer of golden energy. You gain fire resistance 5 for the duration.",
-    "type": "helditems",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 1000
-      }
-    ],
-    "effects": [
-      {
-        "affected": "Fire Resistance",
-        "type": "item",
-        "value": "5"
-      }
-    ],
-    "_extensionFileName": "helditems"
-  },
-  {
-    "name": "Dreamstone",
-    "desc": "If the next action you use is to Cast a Spell of 4th level or lower that has the sleep trait or is associated with dreams, the spell slot is not expended.",
-    "type": "helditems",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 1
-      }
-    ],
-    "hide": true,
-    "inputRequired": "The next spell you cast of 4th level or lower will not use a spell slot. Choose a suitable spell matching the description.",
-    "effects": [
-      {
-        "affected": "Spell Slot Preservation",
-        "setValue": "4"
-      }
-    ],
-    "_extensionFileName": "helditems"
-  },
-  {
-    "name": "Rod of Wonder",
-    "desc": "The rod of wonder has been activated on you, with the originator rolling d% on the table below to determine the rods effect. If an entry lists only a spell name, the rod casts that spell at its lowest level.\n\n<strong>1-3</strong> Leaves grow from you; they last 24 hours\n<strong>4-8</strong> Darkness\n<strong>9</strong> Summon a giant stag beetle (5th-level summon animal)\n<strong>10-13</strong> A stream of 600 large and colorful butterflies pours forth, fluttering in a 20-foot burst for 2 rounds; creatures are blinded while in the cloud of butterflies\n<strong>14-15</strong> All your weapons animate with the effects of the dancing rune\n<strong>16-25</strong> Lightning bolt\n<strong>26-29</strong> Grass grows in a 60-foot cone in front of the rod, or existing grass grows at 10 * normal rate\n<strong>30</strong> You turn blue, green, or purple with an unlimited duration\n<strong>31</strong> Summon an elephant (6th-level summon animal)\n<strong>32-34</strong> Heavy rain falls in a 60-foot radius around the originator for 1 round\n<strong>35-38</strong> Stinking cloud\n<strong>39</strong> Summon an ineffective mouse (1st-level summon animal)\n<strong>40-42</strong> Vibrant pattern, with a 1-round duration\n<strong>43-44</strong> The rod casts mirror image on the originator\n<strong>45-46</strong> Gust of wind\n<strong>47-48</strong> The non-living, unattended object closest to you (up to 30 cubic feet in size) turns ethereal for an unlimited duration\n<strong>49-53</strong> Slow\n<strong>54</strong> The originator turns blue, green, or purple with an unlimited duration\n<strong>55-59</strong> The rod casts pest form on the originator, lasting 1d4 rounds\n<strong>60-61</strong> 1d4 x 10 gems, each worth 1 sp, shoot from the rod, dealing 1 piercing damage to each creature in a 15-foot cone\n<strong>62</strong> Sleep, with a 100-foot burst\n<strong>63-72</strong> Fireball\n<strong>73-77</strong> Mind reading\n<strong>78-80</strong> The originator must roll again, and you believe they created the effect of the second roll\n<strong>81-84</strong> Enlarge\n<strong>85-87</strong> You are coated in nectar, making you clumsy 1 for 1 round\n<strong>88-92</strong> Faerie fire\n<strong>93-97</strong> The rod casts invisibility on the originator\n<strong>98-100</strong> The rod casts shrink on the originator, lasting 1 day",
-    "type": "helditems",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 1
-      },
-      {
-        "duration": 10
-      }
-    ],
-    "hints": [
-      {
-        "desc": "A stream of 600 large and colorful butterflies are fluttering in the area; creatures are blinded while in the cloud of butterflies.",
-        "showon": "Perception",
-        "conditionChoiceFilter": [
-          "10-13"
-        ]
-      },
-      {
-        "desc": "All your weapons animate with the effect of the dancing rune:\n\nYou Release the weapon and it dances through the air, fighting on its own against the last enemy you attacked, or the nearest enemy to it if your target has been defeated. At the end of your turn each round, the weapon can Fly up to its fly Speed of 40 feet, and then can either Fly again or Strike one creature within its reach.\n\nThe weapon has a space of 5 feet, but it doesn't block or impede enemies attempting to move though that space, nor does it benefit from or provide flanking. The weapon can't move through an enemy's space. The weapon can't use reactions, and its Fly actions don't trigger reactions.\n\nWhile it's activated, a dancing weapon makes Strikes with an attack modifier of +24 plus its item bonus to attack rolls. It uses the weapon's normal damage but has a +0 Strength modifier. The weapon's abilities that automatically trigger on a hit or critical hit still function, but the weapon can't be activated or benefit from any of your abilities while dancing.\n\nEach round, when the weapon is finished using its actions, attempt a DC 6 flat check. On a failure, the activation ends and the weapon falls to the ground. You can't activate the item again for 10 minutes.",
-        "showon": "Attacks",
-        "conditionChoiceFilter": [
-          "14-15"
-        ]
-      },
-      {
-        "desc": "Heavy rain falls in a 60-foot radius around the caster.",
-        "showon": "Perception",
-        "conditionChoiceFilter": [
-          "32-34"
-        ]
-      },
-      {
-        "desc": "You have turned blue, green or purple.",
-        "showon": "Health",
-        "conditionChoiceFilter": [
-          "30"
-        ]
-      },
-      {
-        "desc": "The non-living, unattended object closest to you (up to 30 cubic feet in size) has turned ethereal.",
-        "showon": "Perception, Activities",
-        "conditionChoiceFilter": [
-          "47-48"
-        ]
-      }
-    ],
-    "choice": "1-3",
-    "choices": [
-      {
-        "name": "1-3",
-        "defaultDuration": 144000
-      },
-      {
-        "name": "4-8",
-        "defaultDuration": 100
-      },
-      {
-        "name": "9",
-        "defaultDuration": 1
-      },
-      {
-        "name": "10-13",
-        "defaultDuration": 20
-      },
-      {
-        "name": "14-15",
-        "defaultDuration": -1
-      },
-      {
-        "name": "16-25",
-        "defaultDuration": 1
-      },
-      {
-        "name": "26-29",
-        "defaultDuration": 1
-      },
-      {
-        "name": "30",
-        "defaultDuration": -1
-      },
-      {
-        "name": "31",
-        "defaultDuration": 1
-      },
-      {
-        "name": "32-34",
-        "defaultDuration": 10
-      },
-      {
-        "name": "35-38",
-        "defaultDuration": 100
-      },
-      {
-        "name": "39",
-        "defaultDuration": 1
-      },
-      {
-        "name": "40-42",
-        "defaultDuration": 10
-      },
-      {
-        "name": "43-44",
-        "defaultDuration": 1
-      },
-      {
-        "name": "45-46",
-        "defaultDuration": 1
-      },
-      {
-        "name": "47-48",
-        "defaultDuration": -1
-      },
-      {
-        "name": "49-53",
-        "defaultDuration": 100
-      },
-      {
-        "name": "54",
-        "defaultDuration": 1
-      },
-      {
-        "name": "55-59",
-        "defaultDuration": 1
-      },
-      {
-        "name": "60-61",
-        "defaultDuration": 1
-      },
-      {
-        "name": "62",
-        "defaultDuration": 1
-      },
-      {
-        "name": "63-72",
-        "defaultDuration": 1
-      },
-      {
-        "name": "73-77",
-        "defaultDuration": 100
-      },
-      {
-        "name": "78-80",
-        "defaultDuration": 1
-      },
-      {
-        "name": "81-84",
-        "defaultDuration": 500
-      },
-      {
-        "name": "85-87",
-        "defaultDuration": 10
-      },
-      {
-        "name": "88-92",
-        "defaultDuration": 500
-      },
-      {
-        "name": "93-97",
-        "defaultDuration": 1
-      },
-      {
-        "name": "98-100",
-        "defaultDuration": 1
-      }
-    ],
-    "gainConditions": [
-      {
-        "conditionChoiceFilter": [
-          "4-8"
+        "_extensionFileName": "helditems"
+    },
+    {
+        "name": "Dreamstone",
+        "desc": "If the next action you use is to Cast a Spell of 4th level or lower that has the sleep trait or is associated with dreams, the spell slot is not expended.",
+        "type": "helditems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
         ],
-        "name": "Darkness"
-      },
-      {
-        "conditionChoiceFilter": [
-          "10-13"
+        "hide": true,
+        "inputRequired": "The next spell you cast of 4th level or lower will not use a spell slot. Choose a suitable spell matching the description.",
+        "effects": [
+            {
+                "affected": "Spell Slot Preservation",
+                "setValue": "4"
+            }
         ],
-        "name": "Blinded"
-      },
-      {
-        "conditionChoiceFilter": [
-          "35-38"
+        "_extensionFileName": "helditems"
+    },
+    {
+        "name": "Rod of Wonder",
+        "desc": "The rod of wonder has been activated on you, with the originator rolling d% on the table below to determine the rods effect. If an entry lists only a spell name, the rod casts that spell at its lowest level.\n\n<strong>1-3</strong> Leaves grow from you; they last 24 hours\n<strong>4-8</strong> Darkness\n<strong>9</strong> Summon a giant stag beetle (5th-level summon animal)\n<strong>10-13</strong> A stream of 600 large and colorful butterflies pours forth, fluttering in a 20-foot burst for 2 rounds; creatures are blinded while in the cloud of butterflies\n<strong>14-15</strong> All your weapons animate with the effects of the dancing rune\n<strong>16-25</strong> Lightning bolt\n<strong>26-29</strong> Grass grows in a 60-foot cone in front of the rod, or existing grass grows at 10 * normal rate\n<strong>30</strong> You turn blue, green, or purple with an unlimited duration\n<strong>31</strong> Summon an elephant (6th-level summon animal)\n<strong>32-34</strong> Heavy rain falls in a 60-foot radius around the originator for 1 round\n<strong>35-38</strong> Stinking cloud\n<strong>39</strong> Summon an ineffective mouse (1st-level summon animal)\n<strong>40-42</strong> Vibrant pattern, with a 1-round duration\n<strong>43-44</strong> The rod casts mirror image on the originator\n<strong>45-46</strong> Gust of wind\n<strong>47-48</strong> The non-living, unattended object closest to you (up to 30 cubic feet in size) turns ethereal for an unlimited duration\n<strong>49-53</strong> Slow\n<strong>54</strong> The originator turns blue, green, or purple with an unlimited duration\n<strong>55-59</strong> The rod casts pest form on the originator, lasting 1d4 rounds\n<strong>60-61</strong> 1d4 x 10 gems, each worth 1 sp, shoot from the rod, dealing 1 piercing damage to each creature in a 15-foot cone\n<strong>62</strong> Sleep, with a 100-foot burst\n<strong>63-72</strong> Fireball\n<strong>73-77</strong> Mind reading\n<strong>78-80</strong> The originator must roll again, and you believe they created the effect of the second roll\n<strong>81-84</strong> Enlarge\n<strong>85-87</strong> You are coated in nectar, making you clumsy 1 for 1 round\n<strong>88-92</strong> Faerie fire\n<strong>93-97</strong> The rod casts invisibility on the originator\n<strong>98-100</strong> The rod casts shrink on the originator, lasting 1 day",
+        "type": "helditems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            },
+            {
+                "duration": 10
+            }
         ],
-        "name": "Stinking Cloud"
-      },
-      {
-        "conditionChoiceFilter": [
-          "85-87"
+        "hints": [
+            {
+                "desc": "A stream of 600 large and colorful butterflies are fluttering in the area; creatures are blinded while in the cloud of butterflies.",
+                "showon": "Perception",
+                "conditionChoiceFilter": [
+                    "10-13"
+                ]
+            },
+            {
+                "desc": "All your weapons animate with the effect of the dancing rune:\n\nYou Release the weapon and it dances through the air, fighting on its own against the last enemy you attacked, or the nearest enemy to it if your target has been defeated. At the end of your turn each round, the weapon can Fly up to its fly Speed of 40 feet, and then can either Fly again or Strike one creature within its reach.\n\nThe weapon has a space of 5 feet, but it doesn't block or impede enemies attempting to move though that space, nor does it benefit from or provide flanking. The weapon can't move through an enemy's space. The weapon can't use reactions, and its Fly actions don't trigger reactions.\n\nWhile it's activated, a dancing weapon makes Strikes with an attack modifier of +24 plus its item bonus to attack rolls. It uses the weapon's normal damage but has a +0 Strength modifier. The weapon's abilities that automatically trigger on a hit or critical hit still function, but the weapon can't be activated or benefit from any of your abilities while dancing.\n\nEach round, when the weapon is finished using its actions, attempt a DC 6 flat check. On a failure, the activation ends and the weapon falls to the ground. You can't activate the item again for 10 minutes.",
+                "showon": "Attacks",
+                "conditionChoiceFilter": [
+                    "14-15"
+                ]
+            },
+            {
+                "desc": "Heavy rain falls in a 60-foot radius around the caster.",
+                "showon": "Perception",
+                "conditionChoiceFilter": [
+                    "32-34"
+                ]
+            },
+            {
+                "desc": "You have turned blue, green or purple.",
+                "showon": "Health",
+                "conditionChoiceFilter": [
+                    "30"
+                ]
+            },
+            {
+                "desc": "The non-living, unattended object closest to you (up to 30 cubic feet in size) has turned ethereal.",
+                "showon": "Perception, Activities",
+                "conditionChoiceFilter": [
+                    "47-48"
+                ]
+            }
         ],
-        "name": "Clumsy",
-        "value": 1
-      },
-      {
-        "conditionChoiceFilter": [
-          "40-42"
+        "choice": "1-3",
+        "choices": [
+            {
+                "name": "1-3",
+                "defaultDuration": 144000
+            },
+            {
+                "name": "4-8",
+                "defaultDuration": 100
+            },
+            {
+                "name": "9",
+                "defaultDuration": 1
+            },
+            {
+                "name": "10-13",
+                "defaultDuration": 20
+            },
+            {
+                "name": "14-15",
+                "defaultDuration": -1
+            },
+            {
+                "name": "16-25",
+                "defaultDuration": 1
+            },
+            {
+                "name": "26-29",
+                "defaultDuration": 1
+            },
+            {
+                "name": "30",
+                "defaultDuration": -1
+            },
+            {
+                "name": "31",
+                "defaultDuration": 1
+            },
+            {
+                "name": "32-34",
+                "defaultDuration": 10
+            },
+            {
+                "name": "35-38",
+                "defaultDuration": 100
+            },
+            {
+                "name": "39",
+                "defaultDuration": 1
+            },
+            {
+                "name": "40-42",
+                "defaultDuration": 10
+            },
+            {
+                "name": "43-44",
+                "defaultDuration": 1
+            },
+            {
+                "name": "45-46",
+                "defaultDuration": 1
+            },
+            {
+                "name": "47-48",
+                "defaultDuration": -1
+            },
+            {
+                "name": "49-53",
+                "defaultDuration": 100
+            },
+            {
+                "name": "54",
+                "defaultDuration": 1
+            },
+            {
+                "name": "55-59",
+                "defaultDuration": 1
+            },
+            {
+                "name": "60-61",
+                "defaultDuration": 1
+            },
+            {
+                "name": "62",
+                "defaultDuration": 1
+            },
+            {
+                "name": "63-72",
+                "defaultDuration": 1
+            },
+            {
+                "name": "73-77",
+                "defaultDuration": 100
+            },
+            {
+                "name": "78-80",
+                "defaultDuration": 1
+            },
+            {
+                "name": "81-84",
+                "defaultDuration": 500
+            },
+            {
+                "name": "85-87",
+                "defaultDuration": 10
+            },
+            {
+                "name": "88-92",
+                "defaultDuration": 500
+            },
+            {
+                "name": "93-97",
+                "defaultDuration": 1
+            },
+            {
+                "name": "98-100",
+                "defaultDuration": 1
+            }
         ],
-        "name": "Vibrant Pattern"
-      },
-      {
-        "conditionChoiceFilter": [
-          "49-53"
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": [
+                    "4-8"
+                ],
+                "name": "Darkness"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "10-13"
+                ],
+                "name": "Blinded"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "35-38"
+                ],
+                "name": "Stinking Cloud"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "85-87"
+                ],
+                "name": "Clumsy",
+                "value": 1
+            },
+            {
+                "conditionChoiceFilter": [
+                    "40-42"
+                ],
+                "name": "Vibrant Pattern"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "49-53"
+                ],
+                "duration": 100,
+                "name": "Slow"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "62"
+                ],
+                "duration": -5,
+                "name": "Sleep",
+                "persistent": true,
+                "ignorePersistentAtChoiceChange": true
+            },
+            {
+                "conditionChoiceFilter": [
+                    "73-77"
+                ],
+                "name": "Mind Reading"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "81-84"
+                ],
+                "name": "Enlarge"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "88-92"
+                ],
+                "name": "Faerie Fire"
+            }
         ],
-        "duration": 100,
-        "name": "Slow"
-      },
-      {
-        "conditionChoiceFilter": [
-          "62"
+        "_extensionFileName": "helditems"
+    },
+    {
+        "name": "Rod of Wonder (Originator)",
+        "desc": "You have activated the rod of wonder on a creature within 60 feet, rolling d% on the table below to determine the rods effect. If an entry lists only a spell name, the rod casts that spell at its lowest level. You make any decisions for a spell cast by the rod unless otherwise indicated, except that it must target the creature you chose, or the creature you chose must be the center of the spells area, if it has an area but no targets. If the spells range is less than 60 feet, increase the range to 60 feet.\n\nAny spell DC required is DC 27, and any spell attack roll required is +17. If the rod casts a spell on you, you dont get a saving throw or other defense against it.\n\n<strong>1-3</strong> Leaves grow from the target; they last 24 hours\n<strong>4-8</strong> Darkness\n<strong>9</strong> Summon a giant stag beetle (5th-level summon animal)\n<strong>10-13</strong> A stream of 600 large and colorful butterflies pours forth, fluttering in a 20-foot burst for 2 rounds; creatures are blinded while in the cloud of butterflies\n<strong>14-15</strong> All the target's weapons animate with the effects of the dancing rune\n<strong>16-25</strong> Lightning bolt\n<strong>26-29</strong> Grass grows in a 60-foot cone in front of the rod, or existing grass grows at 10 * normal rate\n<strong>30</strong> Target turns blue, green, or purple with an unlimited duration\n<strong>31</strong> Summon an elephant (6th-level summon animal)\n<strong>32-34</strong> Heavy rain falls in a 60-foot radius around you for 1 round\n<strong>35-38</strong> Stinking cloud\n<strong>39</strong> Summon an ineffective mouse (1st-level summon animal)\n<strong>40-42</strong> Vibrant pattern, with a 1-round duration\n<strong>43-44</strong> The rod casts mirror image on you\n<strong>45-46</strong> Gust of wind\n<strong>47-48</strong> The non-living, unattended object closest to the target (up to 30 cubic feet in size) turns ethereal for an unlimited duration\n<strong>49-53</strong> Slow\n<strong>54</strong> You turn blue, green, or purple with an unlimited duration\n<strong>55-59</strong> The rod casts pest form on you, lasting 1d4 rounds\n<strong>60-61</strong> 1d4 x 10 gems, each worth 1 sp, shoot from the rod, dealing 1 piercing damage to each creature in a 15-foot cone\n<strong>62</strong> Sleep, with a 100-foot burst\n<strong>63-72</strong> Fireball\n<strong>73-77</strong> Mind reading\n<strong>78-80</strong> Roll again; the target believes you created the effect of the second roll\n<strong>81-84</strong> Enlarge\n<strong>85-87</strong> Target is coated in nectar, making it clumsy 1 for 1 round\n<strong>88-92</strong> Faerie fire\n<strong>93-97</strong> The rod casts invisibility on you\n<strong>98-100</strong> The rod casts shrink on you, lasting 1 day",
+        "type": "helditems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            },
+            {
+                "duration": 10
+            }
         ],
-        "duration": -5,
-        "name": "Sleep",
-        "persistent": true,
-        "ignorePersistentAtChoiceChange": true
-      },
-      {
-        "conditionChoiceFilter": [
-          "73-77"
+        "unlimited": true,
+        "inputRequired": "On result 55-59, change the duration to 1d4 turns.",
+        "hints": [
+            {
+                "desc": "A stream of 600 large and colorful butterflies are fluttering in the area; creatures are blinded while in the cloud of butterflies.",
+                "showon": "Perception",
+                "conditionChoiceFilter": [
+                    "10-13"
+                ]
+            },
+            {
+                "desc": "Heavy rain falls in a 60-foot radius around you.",
+                "showon": "Perception",
+                "conditionChoiceFilter": [
+                    "32-34"
+                ]
+            },
+            {
+                "desc": "You have turned blue, green or purple.",
+                "showon": "Health",
+                "conditionChoiceFilter": [
+                    "54"
+                ]
+            },
+            {
+                "desc": "The non-living, unattended object closest to the target (up to 30 cubic feet in size) has turned ethereal.",
+                "showon": "Perception, Activities",
+                "conditionChoiceFilter": [
+                    "47-48"
+                ]
+            }
         ],
-        "name": "Mind Reading"
-      },
-      {
-        "conditionChoiceFilter": [
-          "81-84"
+        "choice": "1-3",
+        "choices": [
+            {
+                "name": "1-3",
+                "defaultDuration": 144000
+            },
+            {
+                "name": "4-8",
+                "defaultDuration": 100
+            },
+            {
+                "name": "9",
+                "defaultDuration": 100
+            },
+            {
+                "name": "10-13",
+                "defaultDuration": 20
+            },
+            {
+                "name": "14-15",
+                "defaultDuration": 1
+            },
+            {
+                "name": "16-25",
+                "defaultDuration": 1
+            },
+            {
+                "name": "26-29",
+                "defaultDuration": 1
+            },
+            {
+                "name": "30",
+                "defaultDuration": -1
+            },
+            {
+                "name": "31",
+                "defaultDuration": 100
+            },
+            {
+                "name": "32-34",
+                "defaultDuration": 10
+            },
+            {
+                "name": "35-38",
+                "defaultDuration": 100
+            },
+            {
+                "name": "39",
+                "defaultDuration": 100
+            },
+            {
+                "name": "40-42",
+                "defaultDuration": 10
+            },
+            {
+                "name": "43-44",
+                "defaultDuration": 100
+            },
+            {
+                "name": "45-46",
+                "defaultDuration": 10
+            },
+            {
+                "name": "47-48",
+                "defaultDuration": -1
+            },
+            {
+                "name": "49-53",
+                "defaultDuration": 100
+            },
+            {
+                "name": "54",
+                "defaultDuration": -1
+            },
+            {
+                "name": "55-59",
+                "defaultDuration": 40
+            },
+            {
+                "name": "60-61",
+                "defaultDuration": 1
+            },
+            {
+                "name": "62",
+                "defaultDuration": 6000
+            },
+            {
+                "name": "63-72",
+                "defaultDuration": 1
+            },
+            {
+                "name": "73-77",
+                "defaultDuration": 100
+            },
+            {
+                "name": "78-80",
+                "defaultDuration": 1
+            },
+            {
+                "name": "81-84",
+                "defaultDuration": 500
+            },
+            {
+                "name": "85-87",
+                "defaultDuration": 10
+            },
+            {
+                "name": "88-92",
+                "defaultDuration": 500
+            },
+            {
+                "name": "93-97",
+                "defaultDuration": 1000
+            },
+            {
+                "name": "98-100",
+                "defaultDuration": 144000
+            }
         ],
-        "name": "Enlarge"
-      },
-      {
-        "conditionChoiceFilter": [
-          "88-92"
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": [
+                    "4-8"
+                ],
+                "name": "Darkness"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "9"
+                ],
+                "heightened": 5,
+                "name": "Summon Animal"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "31"
+                ],
+                "heightened": 6,
+                "name": "Summon Animal"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "35-38"
+                ],
+                "name": "Stinking Cloud (Caster)"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "39"
+                ],
+                "heightened": 1,
+                "name": "Summon Animal"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "40-42"
+                ],
+                "name": "Vibrant Pattern (Caster)"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "43-44"
+                ],
+                "name": "Mirror Image",
+                "value": 3
+            },
+            {
+                "conditionChoiceFilter": [
+                    "45-46"
+                ],
+                "name": "Gust of Wind"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "49-53"
+                ],
+                "name": "Slow (Caster)"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "55-59"
+                ],
+                "name": "Pest Form"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "62"
+                ],
+                "name": "Sleep (Caster)"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "73-77"
+                ],
+                "name": "Mind Reading (Caster)"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "81-84"
+                ],
+                "name": "Enlarge (Caster)"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "88-92"
+                ],
+                "name": "Faerie Fire"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "93-97"
+                ],
+                "name": "Invisibility"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "98-100"
+                ],
+                "name": "Shrink"
+            }
         ],
-        "name": "Faerie Fire"
-      }
-    ],
-    "_extensionFileName": "helditems"
-  },
-  {
-    "name": "Rod of Wonder (Originator)",
-    "desc": "You have activated the rod of wonder on a creature within 60 feet, rolling d% on the table below to determine the rods effect. If an entry lists only a spell name, the rod casts that spell at its lowest level. You make any decisions for a spell cast by the rod unless otherwise indicated, except that it must target the creature you chose, or the creature you chose must be the center of the spells area, if it has an area but no targets. If the spells range is less than 60 feet, increase the range to 60 feet.\n\nAny spell DC required is DC 27, and any spell attack roll required is +17. If the rod casts a spell on you, you dont get a saving throw or other defense against it.\n\n<strong>1-3</strong> Leaves grow from the target; they last 24 hours\n<strong>4-8</strong> Darkness\n<strong>9</strong> Summon a giant stag beetle (5th-level summon animal)\n<strong>10-13</strong> A stream of 600 large and colorful butterflies pours forth, fluttering in a 20-foot burst for 2 rounds; creatures are blinded while in the cloud of butterflies\n<strong>14-15</strong> All the target's weapons animate with the effects of the dancing rune\n<strong>16-25</strong> Lightning bolt\n<strong>26-29</strong> Grass grows in a 60-foot cone in front of the rod, or existing grass grows at 10 * normal rate\n<strong>30</strong> Target turns blue, green, or purple with an unlimited duration\n<strong>31</strong> Summon an elephant (6th-level summon animal)\n<strong>32-34</strong> Heavy rain falls in a 60-foot radius around you for 1 round\n<strong>35-38</strong> Stinking cloud\n<strong>39</strong> Summon an ineffective mouse (1st-level summon animal)\n<strong>40-42</strong> Vibrant pattern, with a 1-round duration\n<strong>43-44</strong> The rod casts mirror image on you\n<strong>45-46</strong> Gust of wind\n<strong>47-48</strong> The non-living, unattended object closest to the target (up to 30 cubic feet in size) turns ethereal for an unlimited duration\n<strong>49-53</strong> Slow\n<strong>54</strong> You turn blue, green, or purple with an unlimited duration\n<strong>55-59</strong> The rod casts pest form on you, lasting 1d4 rounds\n<strong>60-61</strong> 1d4 x 10 gems, each worth 1 sp, shoot from the rod, dealing 1 piercing damage to each creature in a 15-foot cone\n<strong>62</strong> Sleep, with a 100-foot burst\n<strong>63-72</strong> Fireball\n<strong>73-77</strong> Mind reading\n<strong>78-80</strong> Roll again; the target believes you created the effect of the second roll\n<strong>81-84</strong> Enlarge\n<strong>85-87</strong> Target is coated in nectar, making it clumsy 1 for 1 round\n<strong>88-92</strong> Faerie fire\n<strong>93-97</strong> The rod casts invisibility on you\n<strong>98-100</strong> The rod casts shrink on you, lasting 1 day",
-    "type": "helditems",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 1
-      },
-      {
-        "duration": 10
-      }
-    ],
-    "unlimited": true,
-    "inputRequired": "On result 55-59, change the duration to 1d4 turns.",
-    "hints": [
-      {
-        "desc": "A stream of 600 large and colorful butterflies are fluttering in the area; creatures are blinded while in the cloud of butterflies.",
-        "showon": "Perception",
-        "conditionChoiceFilter": [
-          "10-13"
-        ]
-      },
-      {
-        "desc": "Heavy rain falls in a 60-foot radius around you.",
-        "showon": "Perception",
-        "conditionChoiceFilter": [
-          "32-34"
-        ]
-      },
-      {
-        "desc": "You have turned blue, green or purple.",
-        "showon": "Health",
-        "conditionChoiceFilter": [
-          "54"
-        ]
-      },
-      {
-        "desc": "The non-living, unattended object closest to the target (up to 30 cubic feet in size) has turned ethereal.",
-        "showon": "Perception, Activities",
-        "conditionChoiceFilter": [
-          "47-48"
-        ]
-      }
-    ],
-    "choice": "1-3",
-    "choices": [
-      {
-        "name": "1-3",
-        "defaultDuration": 144000
-      },
-      {
-        "name": "4-8",
-        "defaultDuration": 100
-      },
-      {
-        "name": "9",
-        "defaultDuration": 100
-      },
-      {
-        "name": "10-13",
-        "defaultDuration": 20
-      },
-      {
-        "name": "14-15",
-        "defaultDuration": 1
-      },
-      {
-        "name": "16-25",
-        "defaultDuration": 1
-      },
-      {
-        "name": "26-29",
-        "defaultDuration": 1
-      },
-      {
-        "name": "30",
-        "defaultDuration": -1
-      },
-      {
-        "name": "31",
-        "defaultDuration": 100
-      },
-      {
-        "name": "32-34",
-        "defaultDuration": 10
-      },
-      {
-        "name": "35-38",
-        "defaultDuration": 100
-      },
-      {
-        "name": "39",
-        "defaultDuration": 100
-      },
-      {
-        "name": "40-42",
-        "defaultDuration": 10
-      },
-      {
-        "name": "43-44",
-        "defaultDuration": 100
-      },
-      {
-        "name": "45-46",
-        "defaultDuration": 10
-      },
-      {
-        "name": "47-48",
-        "defaultDuration": -1
-      },
-      {
-        "name": "49-53",
-        "defaultDuration": 100
-      },
-      {
-        "name": "54",
-        "defaultDuration": -1
-      },
-      {
-        "name": "55-59",
-        "defaultDuration": 40
-      },
-      {
-        "name": "60-61",
-        "defaultDuration": 1
-      },
-      {
-        "name": "62",
-        "defaultDuration": 6000
-      },
-      {
-        "name": "63-72",
-        "defaultDuration": 1
-      },
-      {
-        "name": "73-77",
-        "defaultDuration": 100
-      },
-      {
-        "name": "78-80",
-        "defaultDuration": 1
-      },
-      {
-        "name": "81-84",
-        "defaultDuration": 500
-      },
-      {
-        "name": "85-87",
-        "defaultDuration": 10
-      },
-      {
-        "name": "88-92",
-        "defaultDuration": 500
-      },
-      {
-        "name": "93-97",
-        "defaultDuration": 1000
-      },
-      {
-        "name": "98-100",
-        "defaultDuration": 144000
-      }
-    ],
-    "gainConditions": [
-      {
-        "conditionChoiceFilter": [
-          "4-8"
+        "_extensionFileName": "helditems"
+    },
+    {
+        "name": "Rod of Wonder Cooldown",
+        "desc": "The rod of wonder can't be activated again for the duration.",
+        "type": "helditems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 6000
+            },
+            {
+                "duration": 12000
+            },
+            {
+                "duration": 18000
+            },
+            {
+                "duration": 24000
+            }
         ],
-        "name": "Darkness"
-      },
-      {
-        "conditionChoiceFilter": [
-          "9"
+        "choice": "1 hour",
+        "choices": [
+            {
+                "name": "1 hour",
+                "defaultDuration": 6000
+            },
+            {
+                "name": "2 hours",
+                "defaultDuration": 12000
+            },
+            {
+                "name": "3 hours",
+                "defaultDuration": 18000
+            },
+            {
+                "name": "4 hours",
+                "defaultDuration": 24000
+            }
         ],
-        "heightened": 5,
-        "name": "Summon Animal"
-      },
-      {
-        "conditionChoiceFilter": [
-          "31"
+        "effects": [
+            {
+                "affected": "Rod of Wonder disabled",
+                "toggle": true
+            }
         ],
-        "heightened": 6,
-        "name": "Summon Animal"
-      },
-      {
-        "conditionChoiceFilter": [
-          "35-38"
+        "_extensionFileName": "helditems"
+    },
+    {
+        "name": "Thurible of Revelation",
+        "desc": "As long you are holding the thurible, you gain an item bonus equal to the value to Religion checks, and any critical failure you roll when you Decipher Writing of a religious nature is a failure instead.",
+        "type": "helditems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 6000
+            }
         ],
-        "name": "Stinking Cloud (Caster)"
-      },
-      {
-        "conditionChoiceFilter": [
-          "39"
+        "hasValue": true,
+        "hints": [
+            {
+                "desc": "As long you are holding the thurible, any critical failure you roll when you Decipher Writing of a religious nature is a failure instead.",
+                "showon": "Religion"
+            }
         ],
-        "heightened": 1,
-        "name": "Summon Animal"
-      },
-      {
-        "conditionChoiceFilter": [
-          "40-42"
+        "effects": [
+            {
+                "affected": "Religion",
+                "value": "Value"
+            }
         ],
-        "name": "Vibrant Pattern (Caster)"
-      },
-      {
-        "conditionChoiceFilter": [
-          "43-44"
+        "_extensionFileName": "helditems"
+    },
+    {
+        "name": "Wondrous Figurine (Candy Constrictor)",
+        "desc": "The wondrous figurine has transformed into a rainbow-striped ball python with the minion trait, except it lacks the Stealth skill. It can understand your language and obeys you to the best of its ability when you use an action to command it.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
+        "type": "helditems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 2000
+            }
         ],
-        "name": "Mirror Image",
-        "value": 3
-      },
-      {
-        "conditionChoiceFilter": [
-          "45-46"
+        "_extensionFileName": "helditems"
+    },
+    {
+        "name": "Wondrous Figurine (Candy Constrictor) Cooldown",
+        "desc": "The ball python has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
+        "type": "helditems",
+        "sortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": 1008000
+            }
         ],
-        "name": "Gust of Wind"
-      },
-      {
-        "conditionChoiceFilter": [
-          "49-53"
+        "hide": true,
+        "hints": [
+            {
+                "desc": "You can't activate the figurine again until 1 week has passed.",
+                "showon": "Wondrous Figurine (Candy Constrictor)"
+            }
         ],
-        "name": "Slow (Caster)"
-      },
-      {
-        "conditionChoiceFilter": [
-          "55-59"
+        "_extensionFileName": "helditems"
+    },
+    {
+        "name": "Wondrous Figurine (Golden Lions)",
+        "desc": "The wondrous figurine has transformed into a pair of adult lions with the minion trait. They can understand your language and obey you to the best of their ability when you use an action to command them.\n\nIf either of the lions is slain, that lion cannot be summoned again until 1 week has passed, but this doesn't prevent you from summoning the other. If both lions are slain while in animal form, the figurine reverts to its statue shape and cannot be activated again until 1 week has passed.",
+        "type": "helditems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 6000
+            }
         ],
-        "name": "Pest Form"
-      },
-      {
-        "conditionChoiceFilter": [
-          "62"
+        "_extensionFileName": "helditems"
+    },
+    {
+        "name": "Wondrous Figurine (Golden Lions) Cooldown",
+        "desc": "The lions have been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
+        "type": "helditems",
+        "sortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": 1008000
+            }
         ],
-        "name": "Sleep (Caster)"
-      },
-      {
-        "conditionChoiceFilter": [
-          "73-77"
+        "hide": true,
+        "hints": [
+            {
+                "desc": "You can't activate the figurine again until 1 week has passed.",
+                "showon": "Wondrous Figurine (Golden Lions)"
+            }
         ],
-        "name": "Mind Reading (Caster)"
-      },
-      {
-        "conditionChoiceFilter": [
-          "81-84"
+        "_extensionFileName": "helditems"
+    },
+    {
+        "name": "Wondrous Figurine (Jade Serpent)",
+        "desc": "The wondrous figurine has transformed into a giant viper with the minion trait. It can understand your language and obeys you to the best of its ability when you use an action to command it.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
+        "type": "helditems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
         ],
-        "name": "Enlarge (Caster)"
-      },
-      {
-        "conditionChoiceFilter": [
-          "88-92"
+        "_extensionFileName": "helditems"
+    },
+    {
+        "name": "Wondrous Figurine (Jade Serpent) Cooldown",
+        "desc": "The viper has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
+        "type": "helditems",
+        "sortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": 1008000
+            }
         ],
-        "name": "Faerie Fire"
-      },
-      {
-        "conditionChoiceFilter": [
-          "93-97"
+        "hide": true,
+        "hints": [
+            {
+                "desc": "You can't activate the figurine again until 1 week has passed.",
+                "showon": "Wondrous Figurine (Jade Serpent)"
+            }
         ],
-        "name": "Invisibility"
-      },
-      {
-        "conditionChoiceFilter": [
-          "98-100"
+        "_extensionFileName": "helditems"
+    },
+    {
+        "name": "Wondrous Figurine (Marble Elephant)",
+        "desc": "The wondrous figurine has transformed into a fully grown elephant with the minion trait. It can understand your language and obeys you to the best of its ability when you use an action to command it. The elephant remains for the duration as long as it is being used as a beast of burden or for transport. If it attempts an attack or otherwise engages in combat, it reverts to statuette form after 1d4 rounds.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
+        "type": "helditems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 144000
+            }
         ],
-        "name": "Shrink"
-      }
-    ],
-    "_extensionFileName": "helditems"
-  },
-  {
-    "name": "Rod of Wonder Cooldown",
-    "desc": "The rod of wonder can't be activated again for the duration.",
-    "type": "helditems",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 6000
-      },
-      {
-        "duration": 12000
-      },
-      {
-        "duration": 18000
-      },
-      {
-        "duration": 24000
-      }
-    ],
-    "choice": "1 hour",
-    "choices": [
-      {
-        "name": "1 hour",
-        "defaultDuration": 6000
-      },
-      {
-        "name": "2 hours",
-        "defaultDuration": 12000
-      },
-      {
-        "name": "3 hours",
-        "defaultDuration": 18000
-      },
-      {
-        "name": "4 hours",
-        "defaultDuration": 24000
-      }
-    ],
-    "effects": [
-      {
-        "affected": "Rod of Wonder disabled",
-        "toggle": true
-      }
-    ],
-    "_extensionFileName": "helditems"
-  },
-  {
-    "name": "Thurible of Revelation",
-    "desc": "As long you are holding the thurible, you gain an item bonus equal to the value to Religion checks, and any critical failure you roll when you Decipher Writing of a religious nature is a failure instead.",
-    "type": "helditems",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 6000
-      }
-    ],
-    "hasValue": true,
-    "hints": [
-      {
-        "desc": "As long you are holding the thurible, any critical failure you roll when you Decipher Writing of a religious nature is a failure instead.",
-        "showon": "Religion"
-      }
-    ],
-    "effects": [
-      {
-        "affected": "Religion",
-        "value": "Value"
-      }
-    ],
-    "_extensionFileName": "helditems"
-  },
-  {
-    "name": "Wondrous Figurine (Candy Constrictor)",
-    "desc": "The wondrous figurine has transformed into a rainbow-striped ball python with the minion trait, except it lacks the Stealth skill. It can understand your language and obeys you to the best of its ability when you use an action to command it.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
-    "type": "helditems",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 2000
-      }
-    ],
-    "_extensionFileName": "helditems"
-  },
-  {
-    "name": "Wondrous Figurine (Candy Constrictor) Cooldown",
-    "desc": "The ball python has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
-    "type": "helditems",
-    "sortLevel": 0,
-    "defaultDurations": [
-      {
-        "duration": 1008000
-      }
-    ],
-    "hide": true,
-    "hints": [
-      {
-        "desc": "You can't activate the figurine again until 1 week has passed.",
-        "showon": "Wondrous Figurine (Candy Constrictor)"
-      }
-    ],
-    "_extensionFileName": "helditems"
-  },
-  {
-    "name": "Wondrous Figurine (Golden Lions)",
-    "desc": "The wondrous figurine has transformed into a pair of adult lions with the minion trait. They can understand your language and obey you to the best of their ability when you use an action to command them.\n\nIf either of the lions is slain, that lion cannot be summoned again until 1 week has passed, but this doesn't prevent you from summoning the other. If both lions are slain while in animal form, the figurine reverts to its statue shape and cannot be activated again until 1 week has passed.",
-    "type": "helditems",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 6000
-      }
-    ],
-    "_extensionFileName": "helditems"
-  },
-  {
-    "name": "Wondrous Figurine (Golden Lions) Cooldown",
-    "desc": "The lions have been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
-    "type": "helditems",
-    "sortLevel": 0,
-    "defaultDurations": [
-      {
-        "duration": 1008000
-      }
-    ],
-    "hide": true,
-    "hints": [
-      {
-        "desc": "You can't activate the figurine again until 1 week has passed.",
-        "showon": "Wondrous Figurine (Golden Lions)"
-      }
-    ],
-    "_extensionFileName": "helditems"
-  },
-  {
-    "name": "Wondrous Figurine (Jade Serpent)",
-    "desc": "The wondrous figurine has transformed into a giant viper with the minion trait. It can understand your language and obeys you to the best of its ability when you use an action to command it.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
-    "type": "helditems",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 1000
-      }
-    ],
-    "_extensionFileName": "helditems"
-  },
-  {
-    "name": "Wondrous Figurine (Jade Serpent) Cooldown",
-    "desc": "The viper has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
-    "type": "helditems",
-    "sortLevel": 0,
-    "defaultDurations": [
-      {
-        "duration": 1008000
-      }
-    ],
-    "hide": true,
-    "hints": [
-      {
-        "desc": "You can't activate the figurine again until 1 week has passed.",
-        "showon": "Wondrous Figurine (Jade Serpent)"
-      }
-    ],
-    "_extensionFileName": "helditems"
-  },
-  {
-    "name": "Wondrous Figurine (Marble Elephant)",
-    "desc": "The wondrous figurine has transformed into a fully grown elephant with the minion trait. It can understand your language and obeys you to the best of its ability when you use an action to command it. The elephant remains for the duration as long as it is being used as a beast of burden or for transport. If it attempts an attack or otherwise engages in combat, it reverts to statuette form after 1d4 rounds.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
-    "type": "helditems",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 144000
-      }
-    ],
-    "_extensionFileName": "helditems"
-  },
-  {
-    "name": "Wondrous Figurine (Marble Elephant) Cooldown",
-    "desc": "The elephant has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
-    "type": "helditems",
-    "sortLevel": 0,
-    "defaultDurations": [
-      {
-        "duration": 1008000
-      }
-    ],
-    "hide": true,
-    "hints": [
-      {
-        "desc": "You can't activate the figurine again until 1 week has passed.",
-        "showon": "Wondrous Figurine (Marble Elephant)"
-      }
-    ],
-    "_extensionFileName": "helditems"
-  },
-  {
-    "name": "Wondrous Figurine (Obsidian Steed)",
-    "desc": "The wondrous figurine has transformed into a nightmare with the minion trait. It can understand your language and obeys you to the best of its ability when you use an action to command it. The nightmare won't use plane shift or its other abilities on behalf of its rider. Although evil, it allows itself to be ridden by creatures of any alignment, although if a good creature mounts it, the rider must attempt a DC 3 flat check. On a failure, the nightmare uses plane shift to take the rider to a random location in the Abyss, where it promptly returns to statue form, stranding its rider in that nightmarish place.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
-    "type": "helditems",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 144000
-      }
-    ],
-    "_extensionFileName": "helditems"
-  },
-  {
-    "name": "Wondrous Figurine (Obsidian Steed) Cooldown",
-    "desc": "The nightmare has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
-    "type": "helditems",
-    "sortLevel": 0,
-    "defaultDurations": [
-      {
-        "duration": 1008000
-      }
-    ],
-    "hide": true,
-    "hints": [
-      {
-        "desc": "You can't activate the figurine again until 1 week has passed.",
-        "showon": "Wondrous Figurine (Obsidian Steed)"
-      }
-    ],
-    "_extensionFileName": "helditems"
-  },
-  {
-    "name": "Wondrous Figurine (Onyx Dog)",
-    "desc": "The wondrous figurine has transformed into a guard dog with the minion trait. It can understand your language and obeys you to the best of its ability when you use an action to command it. The dog has a +4 circumstance bonus to Survival checks to Track, and it has darkvision. When the dog senses a hidden creature with its scent, that creature is instead observed and concealed.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
-    "type": "helditems",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 36000
-      }
-    ],
-    "_extensionFileName": "helditems"
-  },
-  {
-    "name": "Wondrous Figurine (Onyx Dog) Cooldown",
-    "desc": "The guard dog has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
-    "type": "helditems",
-    "sortLevel": 0,
-    "defaultDurations": [
-      {
-        "duration": 1008000
-      }
-    ],
-    "hide": true,
-    "hints": [
-      {
-        "desc": "You can't activate the figurine again until 1 week has passed.",
-        "showon": "Wondrous Figurine (Onyx Dog)"
-      }
-    ],
-    "_extensionFileName": "helditems"
-  },
-  {
-    "name": "Wondrous Figurine (Rubber Bear)",
-    "desc": "The wondrous figurine has transformed into a grizzly bear wearing a tutu and a fez and balancing on a ball slightly larger than its head. It can understand your language and obeys you to the best of its ability when you use an action to command it. The bear remains balanced upon its rubber ball, and is therefore ungainly: it cannot Climb or Swim, has a -10- foot circumstance penalty to its Speed, and is always flat-footed. If the bear leaves its ball, such as if it is repositioned with forced movement or knocked prone, it immediately reverts to statuette form.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
-    "type": "helditems",
-    "sortLevel": 0,
-    "buff": true,
-    "defaultDurations": [
-      {
-        "duration": 6000
-      }
-    ],
-    "_extensionFileName": "helditems"
-  },
-  {
-    "name": "Wondrous Figurine (Rubber Bear) Cooldown",
-    "desc": "The grizzly bear has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
-    "type": "helditems",
-    "sortLevel": 0,
-    "defaultDurations": [
-      {
-        "duration": 1008000
-      }
-    ],
-    "hide": true,
-    "hints": [
-      {
-        "desc": "You can't activate the figurine again until 1 week has passed.",
-        "showon": "Wondrous Figurine (Rubber Bear)"
-      }
-    ],
-    "_extensionFileName": "helditems"
-  }
+        "_extensionFileName": "helditems"
+    },
+    {
+        "name": "Wondrous Figurine (Marble Elephant) Cooldown",
+        "desc": "The elephant has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
+        "type": "helditems",
+        "sortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": 1008000
+            }
+        ],
+        "hide": true,
+        "hints": [
+            {
+                "desc": "You can't activate the figurine again until 1 week has passed.",
+                "showon": "Wondrous Figurine (Marble Elephant)"
+            }
+        ],
+        "_extensionFileName": "helditems"
+    },
+    {
+        "name": "Wondrous Figurine (Obsidian Steed)",
+        "desc": "The wondrous figurine has transformed into a nightmare with the minion trait. It can understand your language and obeys you to the best of its ability when you use an action to command it. The nightmare won't use plane shift or its other abilities on behalf of its rider. Although evil, it allows itself to be ridden by creatures of any alignment, although if a good creature mounts it, the rider must attempt a DC 3 flat check. On a failure, the nightmare uses plane shift to take the rider to a random location in the Abyss, where it promptly returns to statue form, stranding its rider in that nightmarish place.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
+        "type": "helditems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 144000
+            }
+        ],
+        "_extensionFileName": "helditems"
+    },
+    {
+        "name": "Wondrous Figurine (Obsidian Steed) Cooldown",
+        "desc": "The nightmare has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
+        "type": "helditems",
+        "sortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": 1008000
+            }
+        ],
+        "hide": true,
+        "hints": [
+            {
+                "desc": "You can't activate the figurine again until 1 week has passed.",
+                "showon": "Wondrous Figurine (Obsidian Steed)"
+            }
+        ],
+        "_extensionFileName": "helditems"
+    },
+    {
+        "name": "Wondrous Figurine (Onyx Dog)",
+        "desc": "The wondrous figurine has transformed into a guard dog with the minion trait. It can understand your language and obeys you to the best of its ability when you use an action to command it. The dog has a +4 circumstance bonus to Survival checks to Track, and it has darkvision. When the dog senses a hidden creature with its scent, that creature is instead observed and concealed.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
+        "type": "helditems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 36000
+            }
+        ],
+        "_extensionFileName": "helditems"
+    },
+    {
+        "name": "Wondrous Figurine (Onyx Dog) Cooldown",
+        "desc": "The guard dog has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
+        "type": "helditems",
+        "sortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": 1008000
+            }
+        ],
+        "hide": true,
+        "hints": [
+            {
+                "desc": "You can't activate the figurine again until 1 week has passed.",
+                "showon": "Wondrous Figurine (Onyx Dog)"
+            }
+        ],
+        "_extensionFileName": "helditems"
+    },
+    {
+        "name": "Wondrous Figurine (Rubber Bear)",
+        "desc": "The wondrous figurine has transformed into a grizzly bear wearing a tutu and a fez and balancing on a ball slightly larger than its head. It can understand your language and obeys you to the best of its ability when you use an action to command it. The bear remains balanced upon its rubber ball, and is therefore ungainly: it cannot Climb or Swim, has a -10- foot circumstance penalty to its Speed, and is always flat-footed. If the bear leaves its ball, such as if it is repositioned with forced movement or knocked prone, it immediately reverts to statuette form.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
+        "type": "helditems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 6000
+            }
+        ],
+        "_extensionFileName": "helditems"
+    },
+    {
+        "name": "Wondrous Figurine (Rubber Bear) Cooldown",
+        "desc": "The grizzly bear has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
+        "type": "helditems",
+        "sortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": 1008000
+            }
+        ],
+        "hide": true,
+        "hints": [
+            {
+                "desc": "You can't activate the figurine again until 1 week has passed.",
+                "showon": "Wondrous Figurine (Rubber Bear)"
+            }
+        ],
+        "_extensionFileName": "helditems"
+    }
 ]

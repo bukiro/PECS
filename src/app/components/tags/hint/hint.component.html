@@ -11,7 +11,13 @@
                 *ngFor="let text of get_HintDescription(hint).split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
                 <app-description class="newrow" [text]="text"></app-description>
             </ng-container>
-            <div class="list-item" *ngIf="get_HintsShowMore() && get_ObjectType(source)">
+            <label *ngIf="get_ObjectType(source)">
+                <div class="button newrow center-aligned" [ngClass]="{'fancy-button': get_Character().settings.hintsShowMoreInformation}">
+                    {{get_Character().settings.hintsShowMoreInformation ? 'Show Less' : 'Show More'}}
+                    <input type="checkbox" [(ngModel)]="get_Character().settings.hintsShowMoreInformation" hidden>
+                </div>
+            </label>
+            <div class="list-item" *ngIf="get_Character().settings.hintsShowMoreInformation && get_ObjectType(source)">
                 <header class="spellHeader" *ngIf="source.name">{{source.name}}</header>
                 <app-feat *ngIf="get_ObjectType(source)=='Feat'" [feat]="source">
                 </app-feat>
@@ -20,17 +26,22 @@
                 </app-condition>
                 <ng-container *ngIf="get_ObjectType(source)=='Activity'">
                     <div class="newrow left-aligned">
-                        <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}" *ngFor="let trait of source.traits; trackBy:trackByIndex;"
+                        <cite class="trait"
+                            [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}"
+                            *ngFor="let trait of source.traits; trackBy:trackByIndex;"
                             [ngbPopover]="get_Traits(trait)[0].desc">
                             {{trait}}
                         </cite>
-                        <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}" *ngFor="let trait of source.get_ActivationTraits(); trackBy:trackByIndex;"
+                        <cite class="trait"
+                            [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}"
+                            *ngFor="let trait of source.get_ActivationTraits(); trackBy:trackByIndex;"
                             [ngbPopover]="get_Traits(trait)[0].desc">
                             {{trait}}
                         </cite>
                     </div>
                     <app-activityContent class="fullwidth vlist lower" [creature]="creature" [allowActivate]="false"
-                        [activity]="source" [cooldown]="source.get_Cooldown({creature: get_Creature()}, {characterService: characterService, effectsService: effectsService})">
+                        [activity]="source"
+                        [cooldown]="source.get_Cooldown({creature: get_Creature()}, {characterService: characterService, effectsService: effectsService})">
                     </app-activityContent>
                 </ng-container>
                 <app-hintItem *ngIf="get_ObjectType(source)=='Item'" [item]="source" [creature]="creature">
