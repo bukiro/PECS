@@ -2460,7 +2460,7 @@
             }
         ],
         "specialreq": "deity && (deity.get_Domains(character, characterService).includes('Cold') || deity.get_Domains(character, characterService).includes('Fire') || deity.get_Domains(character, characterService).includes('Nature') || deity.get_Domains(character, characterService).includes('Travel'))",
-        "specialreqdesc": "deity who grants the cold, fire, nature, or travel domain"
+        "specialreqdesc": "deity with the cold, fire, nature, or travel domain"
     },
     {
         "name": "Evangelize",
@@ -2921,6 +2921,7 @@
                 "showon": "Health"
             }
         ],
+        "internalNote": "Adding the deadly trait on unarmed Attacks is hardcoded.",
         "shortdesc": "Strike harder and heal more rapidly.",
         "traits": [
             "Monk",
@@ -4247,7 +4248,7 @@
                     {
                         "affected": "Perception",
                         "type": "circumstance",
-                        "value": 1
+                        "value": "1"
                     }
                 ]
             }
@@ -7955,7 +7956,7 @@
     },
     {
         "name": "Animal Instinct: Ape",
-        "desc": "(.*)\n\n<header class='featureHeader'>Anathema</header>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<header class='featureHeader'>Bestial Rage (Instinct Ability)</header>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a fist attack that is in the brawling group, deals 1d10 bludgeoning damage and has the grapple trait. Your Rage action gains the morph, primal, and transmutation traits.\n\n<header class='featureHeader'>Specialization Ability</header>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<header class='featureHeader'>Raging Resistance</header>\n\nYou resist piercing and slashing damage.",
+        "desc": "The fury of a wild predator fills you when you Rage, granting you ferocious unarmed attacks. Cultures that revere vicious animals (such as apes or bears) give rise to barbarians with this instinct. You might also be at war with an uncontrollable, animalistic side of your personality, or you might be a descendant of a werewolf or another werecreature.\n\n<header class='featureHeader'>Anathema</header>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<header class='featureHeader'>Bestial Rage (Instinct Ability)</header>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a fist attack that is in the brawling group, deals 1d10 bludgeoning damage and has the grapple trait. Your Rage action gains the morph, primal, and transmutation traits.\n\n<header class='featureHeader'>Specialization Ability</header>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<header class='featureHeader'>Raging Resistance</header>\n\nYou resist piercing and slashing damage.",
         "subType": "Ape",
         "superType": "Animal Instinct",
         "anathema": [
@@ -8013,7 +8014,7 @@
     },
     {
         "name": "Animal Instinct: Bear",
-        "desc": "(.*)\n\n<header class='featureHeader'>Anathema</header>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<header class='featureHeader'>Bestial Rage (Instinct Ability)</header>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a jaws attack that deals 1d10 piercing damage, as well as a claw attack that deals 1d6 slashing damage and has the agile trait. These attacks are in the brawling group. Your Rage action gains the morph, primal, and transmutation traits.\n\n<header class='featureHeader'>Specialization Ability</header>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<header class='featureHeader'>Raging Resistance</header>\n\nYou resist piercing and slashing damage.",
+        "desc": "The fury of a wild predator fills you when you Rage, granting you ferocious unarmed attacks. Cultures that revere vicious animals (such as apes or bears) give rise to barbarians with this instinct. You might also be at war with an uncontrollable, animalistic side of your personality, or you might be a descendant of a werewolf or another werecreature.\n\n<header class='featureHeader'>Anathema</header>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<header class='featureHeader'>Bestial Rage (Instinct Ability)</header>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a jaws attack that deals 1d10 piercing damage, as well as a claw attack that deals 1d6 slashing damage and has the agile trait. These attacks are in the brawling group. Your Rage action gains the morph, primal, and transmutation traits.\n\n<header class='featureHeader'>Specialization Ability</header>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<header class='featureHeader'>Raging Resistance</header>\n\nYou resist piercing and slashing damage.",
         "subType": "Bear",
         "superType": "Animal Instinct",
         "anathema": [
@@ -8071,7 +8072,7 @@
     },
     {
         "name": "Animal Instinct: Bull",
-        "desc": "(.*)\n\n<header class='featureHeader'>Anathema</header>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<header class='featureHeader'>Bestial Rage (Instinct Ability)</header>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a horn attack that is in the brawling group, deals 1d10 piercing damage and has the shove trait. Your Rage action gains the morph, primal, and transmutation traits.\n\n<header class='featureHeader'>Specialization Ability</header>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<header class='featureHeader'>Raging Resistance</header>\n\nYou resist piercing and slashing damage.",
+        "desc": "The fury of a wild predator fills you when you Rage, granting you ferocious unarmed attacks. Cultures that revere vicious animals (such as apes or bears) give rise to barbarians with this instinct. You might also be at war with an uncontrollable, animalistic side of your personality, or you might be a descendant of a werewolf or another werecreature.\n\n<header class='featureHeader'>Anathema</header>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<header class='featureHeader'>Bestial Rage (Instinct Ability)</header>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a horn attack that is in the brawling group, deals 1d10 piercing damage and has the shove trait. Your Rage action gains the morph, primal, and transmutation traits.\n\n<header class='featureHeader'>Specialization Ability</header>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<header class='featureHeader'>Raging Resistance</header>\n\nYou resist piercing and slashing damage.",
         "subType": "Bull",
         "superType": "Animal Instinct",
         "anathema": [
@@ -8129,7 +8130,7 @@
     },
     {
         "name": "Animal Instinct: Cat",
-        "desc": "(.*)\n\n<header class='featureHeader'>Anathema</header>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<header class='featureHeader'>Bestial Rage (Instinct Ability)</header>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a jaws attack that deals 1d10 piercing damage, as well as a claw attack that deals 1d6 slashing damage and has the agile trait. These attacks are in the brawling group. Your Rage action gains the morph, primal, and transmutation traits.\n\n<header class='featureHeader'>Specialization Ability</header>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<header class='featureHeader'>Raging Resistance</header>\n\nYou resist piercing and slashing damage.",
+        "desc": "The fury of a wild predator fills you when you Rage, granting you ferocious unarmed attacks. Cultures that revere vicious animals (such as apes or bears) give rise to barbarians with this instinct. You might also be at war with an uncontrollable, animalistic side of your personality, or you might be a descendant of a werewolf or another werecreature.\n\n<header class='featureHeader'>Anathema</header>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<header class='featureHeader'>Bestial Rage (Instinct Ability)</header>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a jaws attack that deals 1d10 piercing damage, as well as a claw attack that deals 1d6 slashing damage and has the agile trait. These attacks are in the brawling group. Your Rage action gains the morph, primal, and transmutation traits.\n\n<header class='featureHeader'>Specialization Ability</header>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<header class='featureHeader'>Raging Resistance</header>\n\nYou resist piercing and slashing damage.",
         "subType": "Cat",
         "superType": "Animal Instinct",
         "anathema": [
@@ -8187,7 +8188,7 @@
     },
     {
         "name": "Animal Instinct: Deer",
-        "desc": "(.*)\n\n<header class='featureHeader'>Anathema</header>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<header class='featureHeader'>Bestial Rage (Instinct Ability)</header>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain an antler attack that is in the brawling group, deals 1d10 piercing damage and has the grapple trait. Your Rage action gains the morph, primal, and transmutation traits.\n\n<header class='featureHeader'>Specialization Ability</header>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<header class='featureHeader'>Raging Resistance</header>\n\nYou resist piercing and slashing damage.",
+        "desc": "The fury of a wild predator fills you when you Rage, granting you ferocious unarmed attacks. Cultures that revere vicious animals (such as apes or bears) give rise to barbarians with this instinct. You might also be at war with an uncontrollable, animalistic side of your personality, or you might be a descendant of a werewolf or another werecreature.\n\n<header class='featureHeader'>Anathema</header>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<header class='featureHeader'>Bestial Rage (Instinct Ability)</header>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain an antler attack that is in the brawling group, deals 1d10 piercing damage and has the grapple trait. Your Rage action gains the morph, primal, and transmutation traits.\n\n<header class='featureHeader'>Specialization Ability</header>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<header class='featureHeader'>Raging Resistance</header>\n\nYou resist piercing and slashing damage.",
         "subType": "Deer",
         "superType": "Animal Instinct",
         "anathema": [
@@ -8245,7 +8246,7 @@
     },
     {
         "name": "Animal Instinct: Frog",
-        "desc": "(.*)\n\n<header class='featureHeader'>Anathema</header>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<header class='featureHeader'>Bestial Rage (Instinct Ability)</header>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a jaws attack that deals 1d10 bludgeoning damage, as well as a tongue attack that deals 1d4 bludgeoning damage and has the agile trait. These attacks are in the brawling group. Your Rage action gains the morph, primal, and transmutation traits.\n\n<header class='featureHeader'>Specialization Ability</header>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<header class='featureHeader'>Raging Resistance</header>\n\nYou resist piercing and slashing damage.",
+        "desc": "The fury of a wild predator fills you when you Rage, granting you ferocious unarmed attacks. Cultures that revere vicious animals (such as apes or bears) give rise to barbarians with this instinct. You might also be at war with an uncontrollable, animalistic side of your personality, or you might be a descendant of a werewolf or another werecreature.\n\n<header class='featureHeader'>Anathema</header>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<header class='featureHeader'>Bestial Rage (Instinct Ability)</header>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a jaws attack that deals 1d10 bludgeoning damage, as well as a tongue attack that deals 1d4 bludgeoning damage and has the agile trait. These attacks are in the brawling group. Your Rage action gains the morph, primal, and transmutation traits.\n\n<header class='featureHeader'>Specialization Ability</header>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<header class='featureHeader'>Raging Resistance</header>\n\nYou resist piercing and slashing damage.",
         "subType": "Frog",
         "superType": "Animal Instinct",
         "anathema": [
@@ -8303,7 +8304,7 @@
     },
     {
         "name": "Animal Instinct: Shark",
-        "desc": "(.*)\n\n<header class='featureHeader'>Anathema</header>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<header class='featureHeader'>Bestial Rage (Instinct Ability)</header>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a jaws attack that is in the brawling group, deals 1d10 piercing damage and has the grapple trait. Your Rage action gains the morph, primal, and transmutation traits.\n\n<header class='featureHeader'>Specialization Ability</header>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<header class='featureHeader'>Raging Resistance</header>\n\nYou resist piercing and slashing damage.",
+        "desc": "The fury of a wild predator fills you when you Rage, granting you ferocious unarmed attacks. Cultures that revere vicious animals (such as apes or bears) give rise to barbarians with this instinct. You might also be at war with an uncontrollable, animalistic side of your personality, or you might be a descendant of a werewolf or another werecreature.\n\n<header class='featureHeader'>Anathema</header>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<header class='featureHeader'>Bestial Rage (Instinct Ability)</header>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a jaws attack that is in the brawling group, deals 1d10 piercing damage and has the grapple trait. Your Rage action gains the morph, primal, and transmutation traits.\n\n<header class='featureHeader'>Specialization Ability</header>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<header class='featureHeader'>Raging Resistance</header>\n\nYou resist piercing and slashing damage.",
         "subType": "Shark",
         "superType": "Animal Instinct",
         "anathema": [
@@ -8361,7 +8362,7 @@
     },
     {
         "name": "Animal Instinct: Snake",
-        "desc": "(.*)\n\n<header class='featureHeader'>Anathema</header>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<header class='featureHeader'>Bestial Rage (Instinct Ability)</header>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a fangs attack that is in the brawling group, deals 1d10 piercing damage and has the grapple trait. Your Rage action gains the morph, primal, and transmutation traits.\n\n<header class='featureHeader'>Specialization Ability</header>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<header class='featureHeader'>Raging Resistance</header>\n\nYou resist piercing and slashing damage.",
+        "desc": "The fury of a wild predator fills you when you Rage, granting you ferocious unarmed attacks. Cultures that revere vicious animals (such as apes or bears) give rise to barbarians with this instinct. You might also be at war with an uncontrollable, animalistic side of your personality, or you might be a descendant of a werewolf or another werecreature.\n\n<header class='featureHeader'>Anathema</header>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<header class='featureHeader'>Bestial Rage (Instinct Ability)</header>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a fangs attack that is in the brawling group, deals 1d10 piercing damage and has the grapple trait. Your Rage action gains the morph, primal, and transmutation traits.\n\n<header class='featureHeader'>Specialization Ability</header>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<header class='featureHeader'>Raging Resistance</header>\n\nYou resist piercing and slashing damage.",
         "subType": "Snake",
         "superType": "Animal Instinct",
         "anathema": [
@@ -8419,7 +8420,7 @@
     },
     {
         "name": "Animal Instinct: Wolf",
-        "desc": "(.*)\n\n<header class='featureHeader'>Anathema</header>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<header class='featureHeader'>Bestial Rage (Instinct Ability)</header>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a jaws attack that is in the brawling group, deals 1d10 piercing damage and has the trip trait. Your Rage action gains the morph, primal, and transmutation traits.\n\n<header class='featureHeader'>Specialization Ability</header>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<header class='featureHeader'>Raging Resistance</header>\n\nYou resist piercing and slashing damage.",
+        "desc": "The fury of a wild predator fills you when you Rage, granting you ferocious unarmed attacks. Cultures that revere vicious animals (such as apes or bears) give rise to barbarians with this instinct. You might also be at war with an uncontrollable, animalistic side of your personality, or you might be a descendant of a werewolf or another werecreature.\n\n<header class='featureHeader'>Anathema</header>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<header class='featureHeader'>Bestial Rage (Instinct Ability)</header>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a jaws attack that is in the brawling group, deals 1d10 piercing damage and has the trip trait. Your Rage action gains the morph, primal, and transmutation traits.\n\n<header class='featureHeader'>Specialization Ability</header>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<header class='featureHeader'>Raging Resistance</header>\n\nYou resist piercing and slashing damage.",
         "subType": "Wolf",
         "superType": "Animal Instinct",
         "anathema": [
@@ -10261,7 +10262,7 @@
         "gainSpellChoice": [
             {
                 "alwaysShowHeightened": true,
-                "available": 1,
+                "available": 0,
                 "dynamicAvailable": "1 + Modifier('Charisma')",
                 "castingType": "Prepared",
                 "charLevelAvailable": 1,
@@ -22943,7 +22944,7 @@
     {
         "name": "Mature Animal Companion (Ranger)",
         "displayName": "Mature Animal Companion",
-        "desc": "Your animal companion grows up, becoming a mature animal companion and gaining additional capabilities (page 214). If you have the Hunt Prey action, your animal companion assaults the prey even without your orders. During an encounter, even if you don't use the Command an Animal action, your animal companion can still use 1 action that round on your turn to Stride toward or Strike your prey.\n\nTo advance a young animal companion to a mature animal companion, increase its Strength, Dexterity, Constitution, and Wisdom modifiers by 1. Increase its unarmed attack damage from one die to two dice (for instance 1d8 to 2d8), and its proficiency rank for Perception and all saving throws to expert. Increase its proficiency ranks in Intimidation, Stealth, and Survival to trained, and if it was already trained in one of those skills from its type, increase its proficiency rank in that skill to expert. If your companion is Medium or smaller, it grows by one size.",
+        "desc": "Your animal companion grows up, becoming a mature animal companion and gaining additional capabilities. If you have the Hunt Prey action, your animal companion assaults the prey even without your orders. During an encounter, even if you don't use the Command an Animal action, your animal companion can still use 1 action that round on your turn to Stride toward or Strike your prey.\n\nTo advance a young animal companion to a mature animal companion, increase its Strength, Dexterity, Constitution, and Wisdom modifiers by 1. Increase its unarmed attack damage from one die to two dice (for instance 1d8 to 2d8), and its proficiency rank for Perception and all saving throws to expert. Increase its proficiency ranks in Intimidation, Stealth, and Survival to trained, and if it was already trained in one of those skills from its type, increase its proficiency rank in that skill to expert. If your companion is Medium or smaller, it grows by one size.",
         "hints": [
             {
                 "desc": "If you have the Hunt Prey action, your animal companion assaults the prey even without your orders. During an encounter, even if you don't use the Command an Animal action, your animal companion can still use 1 action that round on your turn to Stride toward or Strike your prey.",
@@ -23165,7 +23166,7 @@
     {
         "name": "Incredible Companion (Ranger)",
         "displayName": "Incredible Companion",
-        "desc": "Your animal companion continues to grow and develop. It becomes a nimble or savage animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).\n\nTo advance a mature animal companion to a nimble animal companion, increase its Dexterity modifier by 2 and its Strength, Constitution, and Wisdom modifiers by 1. It deals 2 additional damage with its unarmed attacks. Increase its proficiency ranks in Acrobatics and unarmored defense to expert. It also learns the advanced maneuver for its type. Its attacks become magical for the purpose of ignoring resistances.\n\nTo advance a mature animal companion to a savage animal companion, increase its Strength modifier by 2 and its Dexterity, Constitution, and Wisdom modifiers by 1. It deals 3 additional damage with its unarmed attacks. Increase its proficiency rank in Athletics to expert. It also learns the advanced maneuver for its type. If your companion is Medium or smaller, it grows by one size. Its attacks become magical for the purpose of ignoring resistances.",
+        "desc": "Your animal companion continues to grow and develop. It becomes a nimble or savage animal companion (your choice), gaining additional capabilities determined by the type of companion.\n\nTo advance a mature animal companion to a nimble animal companion, increase its Dexterity modifier by 2 and its Strength, Constitution, and Wisdom modifiers by 1. It deals 2 additional damage with its unarmed attacks. Increase its proficiency ranks in Acrobatics and unarmored defense to expert. It also learns the advanced maneuver for its type. Its attacks become magical for the purpose of ignoring resistances.\n\nTo advance a mature animal companion to a savage animal companion, increase its Strength modifier by 2 and its Dexterity, Constitution, and Wisdom modifiers by 1. It deals 3 additional damage with its unarmed attacks. Increase its proficiency rank in Athletics to expert. It also learns the advanced maneuver for its type. If your companion is Medium or smaller, it grows by one size. Its attacks become magical for the purpose of ignoring resistances.",
         "subTypes": true,
         "shortdesc": "Your animal companion continues to grow and develop.",
         "countAsFeat": "Incredible Companion",
@@ -23180,7 +23181,7 @@
     {
         "name": "Incredible Companion (Ranger): Nimble",
         "displayName": "Incredible Companion: Nimble",
-        "desc": "Your animal companion continues to grow and develop. It becomes a nimble animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).\n\nTo advance a mature animal companion to a nimble animal companion, increase its Dexterity modifier by 2 and its Strength, Constitution, and Wisdom modifiers by 1. It deals 2 additional damage with its unarmed attacks. Increase its proficiency ranks in Acrobatics and unarmored defense to expert. It also learns the advanced maneuver for its type. Its attacks become magical for the purpose of ignoring resistances.",
+        "desc": "Your animal companion continues to grow and develop. It becomes a nimble animal companion (your choice), gaining additional capabilities.\n\nTo advance a mature animal companion to a nimble animal companion, increase its Dexterity modifier by 2 and its Strength, Constitution, and Wisdom modifiers by 1. It deals 2 additional damage with its unarmed attacks. Increase its proficiency ranks in Acrobatics and unarmored defense to expert. It also learns the advanced maneuver for its type. Its attacks become magical for the purpose of ignoring resistances.",
         "subType": "Nimble",
         "superType": "Incredible Companion (Ranger)",
         "shortdesc": "Your animal companion continues to grow and develop.",
@@ -23192,14 +23193,14 @@
         "featreq": [
             "Mature Animal Companion"
         ],
-        "specialreq": "!characterService.get_CharacterFeatsAndFeatures().some(feat => feat.gainAnimalCompanion && !['Young', 'Mature', 'Specialized', 'Nimble'].includes(feat.gainAnimalCompanion) && feat.have(character, characterService, 20, false))",
+        "specialreq": "!characterService.get_CharacterFeatsAndFeatures().some(feat => feat.gainAnimalCompanion && !['Young', 'Mature', 'Specialized', 'Savage'].includes(feat.gainAnimalCompanion) && feat.have(character, characterService, 20, false))",
         "specialreqdesc": "no advanced animal companion",
         "gainAnimalCompanion": "Nimble"
     },
     {
         "name": "Incredible Companion (Ranger): Savage",
         "displayName": "Incredible Companion: Savage",
-        "desc": "Your animal companion continues to grow and develop. It becomes a savage animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).\n\nTo advance a mature animal companion to a savage animal companion, increase its Strength modifier by 2 and its Dexterity, Constitution, and Wisdom modifiers by 1. It deals 3 additional damage with its unarmed attacks. Increase its proficiency rank in Athletics to expert. It also learns the advanced maneuver for its type. If your companion is Medium or smaller, it grows by one size. Its attacks become magical for the purpose of ignoring resistances.",
+        "desc": "Your animal companion continues to grow and develop. It becomes a savage animal companion (your choice), gaining additional capabilities.\n\nTo advance a mature animal companion to a savage animal companion, increase its Strength modifier by 2 and its Dexterity, Constitution, and Wisdom modifiers by 1. It deals 3 additional damage with its unarmed attacks. Increase its proficiency rank in Athletics to expert. It also learns the advanced maneuver for its type. If your companion is Medium or smaller, it grows by one size. Its attacks become magical for the purpose of ignoring resistances.",
         "subType": "Savage",
         "superType": "Incredible Companion (Ranger)",
         "shortdesc": "Your animal companion continues to grow and develop.",
@@ -23211,7 +23212,7 @@
         "featreq": [
             "Mature Animal Companion"
         ],
-        "specialreq": "!characterService.get_CharacterFeatsAndFeatures().some(feat => feat.gainAnimalCompanion && !['Young', 'Mature', 'Specialized', 'Savage'].includes(feat.gainAnimalCompanion) == 'Nimble' && feat.have(character, characterService, 20, false))",
+        "specialreq": "!characterService.get_CharacterFeatsAndFeatures().some(feat => feat.gainAnimalCompanion && !['Young', 'Mature', 'Specialized', 'Nimble'].includes(feat.gainAnimalCompanion) && feat.have(character, characterService, 20, false))",
         "specialreqdesc": "no advanced animal companion",
         "gainAnimalCompanion": "Savage"
     },
@@ -25572,11 +25573,6 @@
     {
         "name": "Familiar",
         "desc": "You make a pact with creature that serves you and assists your spellcasting. You gain a familiar (page 217).",
-        "shortdesc": "An animal serves you and assists your spellcasting.",
-        "traits": [
-            "Sorcerer",
-            "Wizard"
-        ],
         "hints": [
             {
                 "desc": "Your familiar's save modifiers and AC are equal to yours before applying circumstance or status bonuses or penalties.",
@@ -25594,6 +25590,11 @@
                 "desc": "Your familiar can never benefit from item bonuses.",
                 "showon": "Familiar:Effects, Familiar:Inventory"
             }
+        ],
+        "shortdesc": "An animal serves you and assists your spellcasting.",
+        "traits": [
+            "Sorcerer",
+            "Wizard"
         ],
         "levelreq": 1,
         "specialreq": "!characterService.get_FamiliarAvailable() || this.have(character, characterService, charLevel)",
@@ -28832,7 +28833,7 @@
         "name": "Skill Mastery",
         "desc": "Increase your proficiency rank in one of your skills from expert to master and in another of your skills from trained to expert. You gain a skill feat associated with one of the skills you chose.",
         "specialdesc": "You can select this feat up to five times.",
-        "shortdesc": "You gain 3 additional Hit Points for each ranger archetype class feat you have.",
+        "shortdesc": "Increase your proficiency rank in one of your skills from expert to master and in another of your skills from trained to expert.",
         "archetype": "Rogue",
         "limited": 5,
         "traits": [
@@ -30596,7 +30597,6 @@
         ],
         "subType": "Razortooth Goblin",
         "superType": "Fang Sharpener",
-        "internalNote": "Losing the finesse trait is hardcoded in the Weapon class.",
         "shortdesc": "You have filed your teeth into jagged points and have an unusually powerful jaw, making your mouth a dangerous weapon.",
         "sourceBook": "Character Guide",
         "traits": [
@@ -31609,12 +31609,12 @@
                     {
                         "affected": "Perception",
                         "type": "circumstance",
-                        "value": "object.active ? 2 : 0 "
+                        "value": "object.active ? 2 : 0"
                     },
                     {
                         "affected": "Perception",
                         "type": "circumstance",
-                        "value": "object.active2 ? -2 : 0 "
+                        "value": "object.active2 ? -2 : 0"
                     }
                 ],
                 "extraActivations": 1
@@ -35979,7 +35979,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the air domain",
+        "specialreqdesc": "deity with the air domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36007,7 +36007,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the ambition domain",
+        "specialreqdesc": "deity with the ambition domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36035,7 +36035,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the change domain",
+        "specialreqdesc": "deity with the change domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36063,7 +36063,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the cities domain",
+        "specialreqdesc": "deity with the cities domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36091,7 +36091,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the cold domain",
+        "specialreqdesc": "deity with the cold domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36119,7 +36119,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the confidence domain",
+        "specialreqdesc": "deity with the confidence domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36147,7 +36147,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the creation domain",
+        "specialreqdesc": "deity with the creation domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36175,7 +36175,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the darkness domain",
+        "specialreqdesc": "deity with the darkness domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36203,7 +36203,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the death domain",
+        "specialreqdesc": "deity with the death domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36231,7 +36231,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the decay domain",
+        "specialreqdesc": "deity with the decay domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36259,7 +36259,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the delirium domain",
+        "specialreqdesc": "deity with the delirium domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36287,7 +36287,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the destruction domain",
+        "specialreqdesc": "deity with the destruction domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36315,7 +36315,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the dreams domain",
+        "specialreqdesc": "deity with the dreams domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36343,7 +36343,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the dust domain",
+        "specialreqdesc": "deity with the dust domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36371,7 +36371,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the duty domain",
+        "specialreqdesc": "deity with the duty domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36399,7 +36399,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the earth domain",
+        "specialreqdesc": "deity with the earth domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36427,7 +36427,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the family domain",
+        "specialreqdesc": "deity with the family domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36455,7 +36455,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the fate domain",
+        "specialreqdesc": "deity with the fate domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36483,7 +36483,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the fire domain",
+        "specialreqdesc": "deity with the fire domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36511,7 +36511,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the freedom domain",
+        "specialreqdesc": "deity with the freedom domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36539,7 +36539,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the glyph domain",
+        "specialreqdesc": "deity with the glyph domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36567,7 +36567,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the healing domain",
+        "specialreqdesc": "deity with the healing domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36595,7 +36595,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the indulgence domain",
+        "specialreqdesc": "deity with the indulgence domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36623,7 +36623,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the knowledge domain",
+        "specialreqdesc": "deity with the knowledge domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36651,7 +36651,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the lightning domain",
+        "specialreqdesc": "deity with the lightning domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36679,7 +36679,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the luck domain",
+        "specialreqdesc": "deity with the luck domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36707,7 +36707,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the magic domain",
+        "specialreqdesc": "deity with the magic domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36735,7 +36735,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the might domain",
+        "specialreqdesc": "deity with the might domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36763,7 +36763,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the moon domain",
+        "specialreqdesc": "deity with the moon domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36791,7 +36791,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the naga domain",
+        "specialreqdesc": "deity with the naga domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36819,7 +36819,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the nature domain",
+        "specialreqdesc": "deity with the nature domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36847,7 +36847,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the nightmares domain",
+        "specialreqdesc": "deity with the nightmares domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36875,7 +36875,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the pain domain",
+        "specialreqdesc": "deity with the pain domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36903,7 +36903,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the passion domain",
+        "specialreqdesc": "deity with the passion domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36931,7 +36931,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the perfection domain",
+        "specialreqdesc": "deity with the perfection domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36959,7 +36959,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the plague domain",
+        "specialreqdesc": "deity with the plague domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -36987,7 +36987,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the protection domain",
+        "specialreqdesc": "deity with the protection domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -37015,7 +37015,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the repose domain",
+        "specialreqdesc": "deity with the repose domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -37043,7 +37043,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the secrecy domain",
+        "specialreqdesc": "deity with the secrecy domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -37071,7 +37071,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the sorrow domain",
+        "specialreqdesc": "deity with the sorrow domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -37099,7 +37099,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the soul domain",
+        "specialreqdesc": "deity with the soul domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -37127,7 +37127,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the star domain",
+        "specialreqdesc": "deity with the star domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -37155,7 +37155,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the sun domain",
+        "specialreqdesc": "deity with the sun domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -37183,7 +37183,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the swarm domain",
+        "specialreqdesc": "deity with the swarm domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -37211,7 +37211,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the time domain",
+        "specialreqdesc": "deity with the time domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -37239,7 +37239,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the toil domain",
+        "specialreqdesc": "deity with the toil domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -37267,7 +37267,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the travel domain",
+        "specialreqdesc": "deity with the travel domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -37295,7 +37295,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the trickery domain",
+        "specialreqdesc": "deity with the trickery domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -37323,7 +37323,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the truth domain",
+        "specialreqdesc": "deity with the truth domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -37351,7 +37351,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the tyranny domain",
+        "specialreqdesc": "deity with the tyranny domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -37379,7 +37379,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the undeath domain",
+        "specialreqdesc": "deity with the undeath domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -37407,7 +37407,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the vigil domain",
+        "specialreqdesc": "deity with the vigil domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -37435,7 +37435,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the void domain",
+        "specialreqdesc": "deity with the void domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -37463,7 +37463,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the water domain",
+        "specialreqdesc": "deity with the water domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -37491,7 +37491,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the wealth domain",
+        "specialreqdesc": "deity with the wealth domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -37519,7 +37519,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the wyrmkin domain",
+        "specialreqdesc": "deity with the wyrmkin domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -37547,7 +37547,7 @@
         ],
         "levelreq": 1,
         "specialreq": "deity && deity.get_Domains(character, characterService).includes(this.subType)",
-        "specialreqdesc": "deity who grants the zeal domain",
+        "specialreqdesc": "deity with the zeal domain",
         "gainSpellChoice": [
             {
                 "castingType": "Focus",
@@ -39418,10 +39418,6 @@
     {
         "name": "Leshy Familiar",
         "desc": "You gain a leshy familiar, a Tiny plant that embodies one of the many spirits of nature. Other than taking the form of a plant instead of an animal, this familiar uses all the same rules as other familiars, which are detailed here.",
-        "shortdesc": "You gain a leshy familiar, a tiny plant that embodies one of the many spirits of nature.",
-        "traits": [
-            "Druid"
-        ],
         "hints": [
             {
                 "desc": "Your familiar's save modifiers and AC are equal to yours before applying circumstance or status bonuses or penalties.",
@@ -39443,6 +39439,10 @@
                 "showon": "Familiar:Effects, Familiar:Inventory",
                 "replaceTitle": "Familiar"
             }
+        ],
+        "shortdesc": "You gain a leshy familiar, a tiny plant that embodies one of the many spirits of nature.",
+        "traits": [
+            "Druid"
         ],
         "levelreq": 1,
         "featreq": [
@@ -39999,7 +39999,7 @@
     {
         "name": "Incredible Companion (Druid)",
         "displayName": "Incredible Companion",
-        "desc": "Your animal companion continues to grow and develop. It becomes a nimble or savage animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).\n\nTo advance a mature animal companion to a nimble animal companion, increase its Dexterity modifier by 2 and its Strength, Constitution, and Wisdom modifiers by 1. It deals 2 additional damage with its unarmed attacks. Increase its proficiency ranks in Acrobatics and unarmored defense to expert. It also learns the advanced maneuver for its type. Its attacks become magical for the purpose of ignoring resistances.\n\nTo advance a mature animal companion to a savage animal companion, increase its Strength modifier by 2 and its Dexterity, Constitution, and Wisdom modifiers by 1. It deals 3 additional damage with its unarmed attacks. Increase its proficiency rank in Athletics to expert. It also learns the advanced maneuver for its type. If your companion is Medium or smaller, it grows by one size. Its attacks become magical for the purpose of ignoring resistances.",
+        "desc": "Your animal companion continues to grow and develop. It becomes a nimble or savage animal companion (your choice), gaining additional capabilities determined by the type of companion.\n\nTo advance a mature animal companion to a nimble animal companion, increase its Dexterity modifier by 2 and its Strength, Constitution, and Wisdom modifiers by 1. It deals 2 additional damage with its unarmed attacks. Increase its proficiency ranks in Acrobatics and unarmored defense to expert. It also learns the advanced maneuver for its type. Its attacks become magical for the purpose of ignoring resistances.\n\nTo advance a mature animal companion to a savage animal companion, increase its Strength modifier by 2 and its Dexterity, Constitution, and Wisdom modifiers by 1. It deals 3 additional damage with its unarmed attacks. Increase its proficiency rank in Athletics to expert. It also learns the advanced maneuver for its type. If your companion is Medium or smaller, it grows by one size. Its attacks become magical for the purpose of ignoring resistances.",
         "subTypes": true,
         "shortdesc": "Your animal companion continues to grow and develop.",
         "countAsFeat": "Incredible Companion",
@@ -40014,7 +40014,7 @@
     {
         "name": "Incredible Companion (Druid): Nimble",
         "displayName": "Incredible Companion: Nimble",
-        "desc": "Your animal companion continues to grow and develop. It becomes a nimble animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).\n\nTo advance a mature animal companion to a nimble animal companion, increase its Dexterity modifier by 2 and its Strength, Constitution, and Wisdom modifiers by 1. It deals 2 additional damage with its unarmed attacks. Increase its proficiency ranks in Acrobatics and unarmored defense to expert. It also learns the advanced maneuver for its type. Its attacks become magical for the purpose of ignoring resistances.",
+        "desc": "Your animal companion continues to grow and develop. It becomes a nimble animal companion (your choice), gaining additional capabilities.\n\nTo advance a mature animal companion to a nimble animal companion, increase its Dexterity modifier by 2 and its Strength, Constitution, and Wisdom modifiers by 1. It deals 2 additional damage with its unarmed attacks. Increase its proficiency ranks in Acrobatics and unarmored defense to expert. It also learns the advanced maneuver for its type. Its attacks become magical for the purpose of ignoring resistances.",
         "subType": "Nimble",
         "superType": "Incredible Companion (Druid)",
         "shortdesc": "Your animal companion continues to grow and develop.",
@@ -40026,14 +40026,14 @@
         "featreq": [
             "Mature Animal Companion"
         ],
-        "specialreq": "!characterService.get_CharacterFeatsAndFeatures().some(feat => feat.gainAnimalCompanion && !['Young', 'Mature', 'Specialized', 'Nimble'].includes(feat.gainAnimalCompanion) && feat.have(character, characterService, 20, false))",
+        "specialreq": "!characterService.get_CharacterFeatsAndFeatures().some(feat => feat.gainAnimalCompanion && !['Young', 'Mature', 'Specialized', 'Savage'].includes(feat.gainAnimalCompanion) && feat.have(character, characterService, 20, false))",
         "specialreqdesc": "no advanced animal companion",
         "gainAnimalCompanion": "Nimble"
     },
     {
         "name": "Incredible Companion (Druid): Savage",
         "displayName": "Incredible Companion: Savage",
-        "desc": "Your animal companion continues to grow and develop. It becomes a savage animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).\n\nTo advance a mature animal companion to a savage animal companion, increase its Strength modifier by 2 and its Dexterity, Constitution, and Wisdom modifiers by 1. It deals 3 additional damage with its unarmed attacks. Increase its proficiency rank in Athletics to expert. It also learns the advanced maneuver for its type. If your companion is Medium or smaller, it grows by one size. Its attacks become magical for the purpose of ignoring resistances.",
+        "desc": "Your animal companion continues to grow and develop. It becomes a savage animal companion (your choice), gaining additional capabilities.\n\nTo advance a mature animal companion to a savage animal companion, increase its Strength modifier by 2 and its Dexterity, Constitution, and Wisdom modifiers by 1. It deals 3 additional damage with its unarmed attacks. Increase its proficiency rank in Athletics to expert. It also learns the advanced maneuver for its type. If your companion is Medium or smaller, it grows by one size. Its attacks become magical for the purpose of ignoring resistances.",
         "subType": "Savage",
         "superType": "Incredible Companion (Druid)",
         "shortdesc": "Your animal companion continues to grow and develop.",
@@ -40045,7 +40045,7 @@
         "featreq": [
             "Mature Animal Companion"
         ],
-        "specialreq": "!characterService.get_CharacterFeatsAndFeatures().some(feat => feat.gainAnimalCompanion && !['Young', 'Mature', 'Specialized', 'Savage'].includes(feat.gainAnimalCompanion) && feat.have(character, characterService, 20, false))",
+        "specialreq": "!characterService.get_CharacterFeatsAndFeatures().some(feat => feat.gainAnimalCompanion && !['Young', 'Mature', 'Specialized', 'Nimble'].includes(feat.gainAnimalCompanion) && feat.have(character, characterService, 20, false))",
         "specialreqdesc": "no advanced animal companion",
         "gainAnimalCompanion": "Savage"
     },
@@ -43451,7 +43451,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Lift Nature's Caul Spell Level",
@@ -43461,7 +43461,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -43505,7 +43505,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Pushing Gust Spell Level",
@@ -43515,7 +43515,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -43559,7 +43559,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Blind Ambition Spell Level",
@@ -43569,7 +43569,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -43613,7 +43613,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Adapt Self Spell Level",
@@ -43623,7 +43623,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -43667,7 +43667,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Face in the Crowd Spell Level",
@@ -43677,7 +43677,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -43721,7 +43721,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Winter Bolt Spell Level",
@@ -43731,7 +43731,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -43775,7 +43775,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Veil of Confidence Spell Level",
@@ -43785,7 +43785,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -43829,7 +43829,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Splash of Art Spell Level",
@@ -43839,7 +43839,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -43883,7 +43883,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Cloak of Shadow Spell Level",
@@ -43893,7 +43893,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -43937,7 +43937,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Death's Call Spell Level",
@@ -43947,7 +43947,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -43991,7 +43991,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Withering Grasp Spell Level",
@@ -44001,7 +44001,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -44045,7 +44045,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Hyperfocus Spell Level",
@@ -44055,7 +44055,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -44099,7 +44099,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Cry of Destruction Spell Level",
@@ -44109,7 +44109,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -44153,7 +44153,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Sweet Dream Spell Level",
@@ -44163,7 +44163,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -44207,7 +44207,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Parch Spell Level",
@@ -44217,7 +44217,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -44261,7 +44261,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Oathkeeper's Insignia Spell Level",
@@ -44271,7 +44271,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -44315,7 +44315,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Hurtling Stone Spell Level",
@@ -44325,7 +44325,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -44369,7 +44369,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Soothing Words Spell Level",
@@ -44379,7 +44379,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -44423,7 +44423,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Read Fate Spell Level",
@@ -44433,7 +44433,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -44477,7 +44477,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Fire Ray Spell Level",
@@ -44487,7 +44487,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -44531,7 +44531,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Unimpeded Stride Spell Level",
@@ -44541,7 +44541,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -44585,7 +44585,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Redact Spell Level",
@@ -44595,7 +44595,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -44639,7 +44639,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Healer's Blessing Spell Level",
@@ -44649,7 +44649,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -44693,7 +44693,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Overstuff Spell Level",
@@ -44703,7 +44703,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -44747,7 +44747,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Scholarly Recollection Spell Level",
@@ -44757,7 +44757,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -44801,7 +44801,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Charged Javelin Spell Level",
@@ -44811,7 +44811,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -44855,7 +44855,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Bit of Luck Spell Level",
@@ -44865,7 +44865,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -44909,7 +44909,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Magic's Vessel Spell Level",
@@ -44919,7 +44919,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -44963,7 +44963,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Athletic Rush Spell Level",
@@ -44973,7 +44973,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -45017,7 +45017,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Moonbeam Spell Level",
@@ -45027,7 +45027,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -45072,7 +45072,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Split the Tongue Spell Level",
@@ -45082,7 +45082,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -45126,7 +45126,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Vibrant Thorns Spell Level",
@@ -45136,7 +45136,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -45180,7 +45180,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Waking Nightmare Spell Level",
@@ -45190,7 +45190,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -45234,7 +45234,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Savor the Sting Spell Level",
@@ -45244,7 +45244,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -45288,7 +45288,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Charming Touch Spell Level",
@@ -45298,7 +45298,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -45342,7 +45342,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Perfected Mind Spell Level",
@@ -45352,7 +45352,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -45396,7 +45396,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Divine Plagues Spell Level",
@@ -45406,7 +45406,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -45450,7 +45450,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Protector's Sacrifice Spell Level",
@@ -45460,7 +45460,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -45504,7 +45504,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Share Burden Spell Level",
@@ -45514,7 +45514,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -45558,7 +45558,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Forced Quiet Spell Level",
@@ -45568,7 +45568,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -45612,7 +45612,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Lament Spell Level",
@@ -45622,7 +45622,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -45666,7 +45666,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Eject Soul Spell Level",
@@ -45676,7 +45676,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -45720,7 +45720,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Zenith Star Spell Level",
@@ -45730,7 +45730,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -45774,7 +45774,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Dazzling Flash Spell Level",
@@ -45784,7 +45784,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -45828,7 +45828,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Swarmsense Spell Level",
@@ -45838,7 +45838,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -45882,7 +45882,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Delay Consequence Spell Level",
@@ -45892,7 +45892,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -45936,7 +45936,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Practice Makes Perfect Spell Level",
@@ -45946,7 +45946,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -45990,7 +45990,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Agile Feet Spell Level",
@@ -46000,7 +46000,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -46044,7 +46044,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Sudden Shift Spell Level",
@@ -46054,7 +46054,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -46098,7 +46098,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Word of Truth Spell Level",
@@ -46108,7 +46108,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -46152,7 +46152,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Touch of Obedience Spell Level",
@@ -46162,7 +46162,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -46206,7 +46206,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Touch of Undeath Spell Level",
@@ -46216,7 +46216,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -46260,7 +46260,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Object Memory Spell Level",
@@ -46270,7 +46270,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -46314,7 +46314,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Empty Inside Spell Level",
@@ -46324,7 +46324,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -46368,7 +46368,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Tidal Surge Spell Level",
@@ -46378,7 +46378,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -46422,7 +46422,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Appearance of Wealth Spell Level",
@@ -46432,7 +46432,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -46476,7 +46476,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Draconic Barrage Spell Level",
@@ -46486,7 +46486,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -46530,7 +46530,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Weapon Surge Spell Level",
@@ -46540,7 +46540,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -48651,7 +48651,7 @@
     },
     {
         "name": "Emblazon Armament",
-        "desc": "Carefully etching a sacred image into a physical object, you steel yourself for battle. You can spend 10 minutes emblazoning a symbol of your deity upon a weapon or shield. The symbol doesn't fade until 1 year has passed, but if you Emblazon an Armament, any symbol you previously emblazoned and any symbol already emblazoned on that item instantly disappears. The item becomes a religious symbol of your deity and can be used as a divine focus while emblazoned, and it gains another benefit determined by the type of item. This benefit applies only to followers of the deity the symbol represents.\n<strong>Shield</strong> The shield gains a +1 status bonus to its Hardness. (This causes it to reduce more damage with the Shield Block reaction.)\n\n<strong>Weapon</strong> The wielder gains a +1 status bonus to damage rolls.",
+        "desc": "Carefully etching a sacred image into a physical object, you steel yourself for battle. You can spend 10 minutes emblazoning a symbol of your deity upon a weapon or shield. The symbol doesn't fade until 1 year has passed, but if you Emblazon an Armament, any symbol you previously emblazoned and any symbol already emblazoned on that item instantly disappears. The item becomes a religious symbol of your deity and can be used as a divine focus while emblazoned, and it gains another benefit determined by the type of item. This benefit applies only to followers of the deity the symbol represents.\n\n<strong>Shield</strong> The shield gains a +1 status bonus to its Hardness. (This causes it to reduce more damage with the Shield Block reaction.)\n<strong>Weapon</strong> The wielder gains a +1 status bonus to damage rolls.",
         "usageNote": "The 1-year duration of any symbol is not tracked in the app.",
         "internalNote": "The effects are hardcoded in a separate component, the weapon and shield classes and in several other places.",
         "shortdesc": "Carefully etching a sacred image into a physical object, you steel yourself for battle.",
@@ -51207,7 +51207,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Fearful Feast Spell Level",
@@ -51217,7 +51217,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -51252,7 +51252,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Disperse into Air Spell Level",
@@ -51262,7 +51262,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -51297,7 +51297,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Competitive Edge Spell Level",
@@ -51307,7 +51307,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -51342,7 +51342,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Adaptive Ablation Spell Level",
@@ -51352,7 +51352,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -51387,7 +51387,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Pulse of the City Spell Level",
@@ -51397,7 +51397,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -51432,7 +51432,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Diamond Dust Spell Level",
@@ -51442,7 +51442,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -51477,7 +51477,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Delusional Pride Spell Level",
@@ -51487,7 +51487,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -51522,7 +51522,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Artistic Flourish Spell Level",
@@ -51532,7 +51532,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -51567,7 +51567,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Darkened Eyes Spell Level",
@@ -51577,7 +51577,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -51612,7 +51612,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Eradicate Undeath Spell Level",
@@ -51622,7 +51622,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -51657,7 +51657,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Fallow Field Spell Level",
@@ -51667,7 +51667,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -51702,7 +51702,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Ephemeral Hazards Spell Level",
@@ -51712,7 +51712,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -51747,7 +51747,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Destructive Aura Spell Level",
@@ -51757,7 +51757,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -51792,7 +51792,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Dreamer's Call Spell Level",
@@ -51802,7 +51802,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -51837,7 +51837,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Dust Storm Spell Level",
@@ -51847,7 +51847,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -51882,7 +51882,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Dutiful Challenge Spell Level",
@@ -51892,7 +51892,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -51927,7 +51927,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Localized Quake Spell Level",
@@ -51937,7 +51937,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -51972,7 +51972,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Unity Spell Level",
@@ -51982,7 +51982,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -52017,7 +52017,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Tempt Fate Spell Level",
@@ -52027,7 +52027,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -52062,7 +52062,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Flame Barrier Spell Level",
@@ -52072,7 +52072,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -52107,7 +52107,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Word of Freedom Spell Level",
@@ -52117,7 +52117,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -52152,7 +52152,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Ghostly Transcription Spell Level",
@@ -52162,7 +52162,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -52197,7 +52197,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Rebuke Death Spell Level",
@@ -52207,7 +52207,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -52242,7 +52242,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Take its Course Spell Level",
@@ -52252,7 +52252,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -52287,7 +52287,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Know the Enemy Spell Level",
@@ -52297,7 +52297,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -52332,7 +52332,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Bottle the Storm Spell Level",
@@ -52342,7 +52342,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -52377,7 +52377,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Lucky Break Spell Level",
@@ -52387,7 +52387,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -52422,7 +52422,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Mystic Beacon Spell Level",
@@ -52432,7 +52432,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -52467,7 +52467,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Enduring Might Spell Level",
@@ -52477,7 +52477,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -52512,7 +52512,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Touch of the Moon Spell Level",
@@ -52522,7 +52522,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -52558,7 +52558,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Ordained Purpose Spell Level",
@@ -52568,7 +52568,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -52603,7 +52603,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Nature's Bounty Spell Level",
@@ -52613,7 +52613,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -52648,7 +52648,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Shared Nightmare Spell Level",
@@ -52658,7 +52658,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -52693,7 +52693,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Retributive Pain Spell Level",
@@ -52703,7 +52703,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -52738,7 +52738,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Captivating Adoration Spell Level",
@@ -52748,7 +52748,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -52783,7 +52783,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Perfected Form Spell Level",
@@ -52793,7 +52793,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -52828,7 +52828,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Foul Miasma Spell Level",
@@ -52838,7 +52838,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -52873,7 +52873,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Protector's Sphere Spell Level",
@@ -52883,7 +52883,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -52918,7 +52918,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Font of Serenity Spell Level",
@@ -52928,7 +52928,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -52963,7 +52963,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Safeguard Secret Spell Level",
@@ -52973,7 +52973,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -53008,7 +53008,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Overflowing Sorrow Spell Level",
@@ -53018,7 +53018,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -53053,7 +53053,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Ectoplasmic Interstice Spell Level",
@@ -53063,7 +53063,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -53098,7 +53098,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Asterism Spell Level",
@@ -53108,7 +53108,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -53143,7 +53143,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Positive Luminance Spell Level",
@@ -53153,7 +53153,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -53188,7 +53188,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Swarm Form Spell Level",
@@ -53198,7 +53198,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -53233,7 +53233,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Stasis Spell Level",
@@ -53243,7 +53243,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -53278,7 +53278,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Tireless Worker Spell Level",
@@ -53288,7 +53288,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -53323,7 +53323,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Traveler's Transit Spell Level",
@@ -53333,7 +53333,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -53368,7 +53368,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Trickster's Twin Spell Level",
@@ -53378,7 +53378,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -53413,7 +53413,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Glimpse the Truth Spell Level",
@@ -53423,7 +53423,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -53458,7 +53458,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Commanding Lash Spell Level",
@@ -53468,7 +53468,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -53503,7 +53503,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Malignant Sustenance Spell Level",
@@ -53513,7 +53513,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -53548,7 +53548,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Remember the Lost Spell Level",
@@ -53558,7 +53558,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -53593,7 +53593,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Door to Beyond Spell Level",
@@ -53603,7 +53603,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -53638,7 +53638,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Downpour Spell Level",
@@ -53648,7 +53648,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -53683,7 +53683,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Precious Metals Spell Level",
@@ -53693,7 +53693,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -53728,7 +53728,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Roar of the Wyrm Spell Level",
@@ -53738,7 +53738,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -53773,7 +53773,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             },
             {
                 "affected": "Zeal for Battle Spell Level",
@@ -53783,7 +53783,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellChoice": [
@@ -53896,14 +53896,14 @@
     {
         "name": "Channeled Succor",
         "desc": "You can remove conditions with divine grace. You can sacrifice one heal spell you've prepared in your extra slots from healing font to cast one of the following spells instead: remove curse, remove disease, remove paralysis, or restoration. The spell is heightened to the same level as the heal spell you sacrificed.",
-        "usageNote": "You gain a set of these spells. Whenever you use one of them, you expend one of the heal spells you've prepared in your extra slots from healing font instead, and they become unavailable when no heal spells are left.",
-        "internalNote": "Spending heal spells instead of the granted spells is hardcoded in the spellbook component.",
         "hints": [
             {
                 "desc": "Whenever you use one of the spells granted by Channeled Succor, you expend one of the heal spells you've prepared in your extra slots from healing font instead, and they become unavailable when no heal spells are left.",
                 "showon": "Feat: Channeled Succor, Divine Font"
             }
         ],
+        "usageNote": "You gain a set of these spells. Whenever you use one of them, you expend one of the heal spells you've prepared in your extra slots from healing font instead, and they become unavailable when no heal spells are left.",
+        "internalNote": "Spending heal spells instead of the granted spells is hardcoded in the spellbook component.",
         "shortdesc": "You can remove conditions with divine grace.",
         "traits": [
             "Cleric"
@@ -54108,7 +54108,7 @@
         "effects": [
             {
                 "affected": "Refocus Bonus Points",
-                "setValue": 2
+                "setValue": "2"
             }
         ]
     },
@@ -54192,7 +54192,7 @@
         "effects": [
             {
                 "affected": "Align Armament Duration",
-                "setValue": 100
+                "setValue": "100"
             }
         ]
     },
@@ -54302,7 +54302,7 @@
         "effects": [
             {
                 "affected": "Refocus Bonus Points",
-                "setValue": 3
+                "setValue": "3"
             }
         ]
     },
@@ -54499,7 +54499,7 @@
                 "type": "Divine Skill"
             },
             {
-                "feats":[
+                "feats": [
                     {
                         "locked": true,
                         "name": "Anathema (Cleric)"
@@ -54787,10 +54787,6 @@
     {
         "name": "Animal Accomplice",
         "desc": "You build a rapport with an animal, which becomes magically bonded to you. You gain a familiar. The type of animal is up to you, but most gnomes choose animals with a burrow Speed.",
-        "shortdesc": "You build a rapport with an animal, which becomes magically bonded to you.",
-        "traits": [
-            "Gnome"
-        ],
         "hints": [
             {
                 "desc": "Your familiar's save modifiers and AC are equal to yours before applying circumstance or status bonuses or penalties.",
@@ -54812,6 +54808,10 @@
                 "showon": "Familiar:Effects, Familiar:Inventory",
                 "replaceTitle": "Familiar"
             }
+        ],
+        "shortdesc": "You build a rapport with an animal, which becomes magically bonded to you.",
+        "traits": [
+            "Gnome"
         ],
         "levelreq": 1,
         "specialreq": "!characterService.get_FamiliarAvailable() || this.have(character, characterService, charLevel)",
@@ -54845,12 +54845,12 @@
                     {
                         "affected": "Perception",
                         "type": "circumstance",
-                        "value": 2
+                        "value": "2"
                     },
                     {
                         "affected": "Saving Throws",
                         "type": "circumstance",
-                        "value": 2
+                        "value": "2"
                     }
                 ]
             },
@@ -54860,7 +54860,7 @@
                 "effects": [
                     {
                         "affected": "Diplomacy",
-                        "value": -5
+                        "value": "-5"
                     }
                 ]
             }
@@ -54901,7 +54901,7 @@
         "effects": [
             {
                 "affected": "Max Languages",
-                "value": 3
+                "value": "3"
             }
         ]
     },
@@ -54981,7 +54981,7 @@
                     {
                         "affected": "Perception",
                         "type": "circumstance",
-                        "value": 1
+                        "value": "1"
                     }
                 ]
             },
@@ -54992,7 +54992,7 @@
                     {
                         "affected": "Will",
                         "type": "circumstance",
-                        "value": 1
+                        "value": "1"
                     }
                 ]
             }
