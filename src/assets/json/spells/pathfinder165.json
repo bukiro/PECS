@@ -1,0 +1,219 @@
+[
+  {
+    "name": "Lift Nature's Caul",
+    "id": "88a7d5ae-e46b-452a-b8e0-91c282a1edce",
+    "shortDesc": "With a wave of the hand, you cause the targets to see the world around them as if a gauzy film had been lifted away to expose the truth that lies below their perceived reality.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Pathfinder #165: Eyes of Empty Death",
+    "_extensionFileName": "pathfinder165",
+    "levelreq": 1,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Uncommon",
+      "Fear",
+      "Illusion",
+      "Visual"
+    ],
+    "inputRequired": "You can target all allies with the spell that should be bolstered by it to grant them the bonus.",
+    "area": "5-foot emanation",
+    "targets": "creatures in the area",
+    "target": "area",
+    "overrideHostile": "hostile",
+    "duration": "varies",
+    "desc": "<var>var1</var>With a wave of the hand, you cause the targets to see the world around them as if a gauzy film had been lifted away to expose the truth that lies below their perceived reality. Natural features they can see grow twisted and horrendous, structures appear distorted and ruined, and objects seem warped and alien. This alternate vision fades quickly, but the glimpse beyond the natural world lingers for the spell's duration.\n\nAberrations or worshippers of Outer Gods or Great Old Ones are bolstered by this vision of warped reality and gain a +1 status bonus to Will saving throws and attack rolls for 1 minute, while all other creatures must attempt a Will saving throw.",
+    "savingThrow": "Will",
+    "critsuccess": "The creature is unaffected and temporarily immune for 1 hour.",
+    "success": "The creature is sickened 1.",
+    "failure": "The creature is stupefied 1 for <var>var2</var> and frightened 1.",
+    "critfailure": "The creature is stupefied 1 for <var>var2</var> and frightened 2. It can't reduce the value of its frightened condition below 1 as long as it remains stupefied by this spell.",
+    "heightened": [
+      {
+        "desc": "You increase the area by 5 feet and the duration of the stupefied condition by 1 minute.",
+        "level": "(+2)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Lift Nature's Caul (Caster)",
+        "targetFilter": "caster"
+      },
+      {
+        "duration": -5,
+        "name": "Lift Nature's Caul (Ally)",
+        "targetFilter": "target"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "variable": "var1"
+          },
+          {
+            "value": "1 minute",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "You increase the area by 5 feet. ",
+            "variable": "var1"
+          },
+          {
+            "value": "2 minutes",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "You increase the area by 5 feet. ",
+            "variable": "var1"
+          },
+          {
+            "value": "3 minutes",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "You increase the area by 5 feet. ",
+            "variable": "var1"
+          },
+          {
+            "value": "4 minutes",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "You increase the area by 5 feet. ",
+            "variable": "var1"
+          },
+          {
+            "value": "5 minutes",
+            "variable": "var2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Fearful Feast",
+    "id": "8fdc4718-c942-4fdc-be90-c2f63fbd8bb7",
+    "shortDesc": "You open your mouth wide and inhale sharply; you draw in the bravery, self-confidence, and hope to which the frightened target clings and then strip away the target's false assumption that these fragile emotions can save them from the oblivion of terror.",
+    "actions": "Reaction",
+    "castType": "somatic",
+    "sourceBook": "Pathfinder #165: Eyes of Empty Death",
+    "_extensionFileName": "pathfinder165",
+    "levelreq": 4,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Uncommon",
+      "Fear",
+      "Mental",
+      "Necromancy"
+    ],
+    "inputRequired": "Restore the appropriate amount of hit points on a failure or a critical failure.",
+    "range": "30 feet",
+    "targets": "the triggering creature",
+    "target": "other",
+    "singleTarget": true,
+    "trigger": "A creature within range becomes frightened.",
+    "desc": "You open your mouth wide and inhale sharply; you draw in the bravery, self-confidence, and hope to which the frightened target clings and then strip away the target's false assumption that these fragile emotions can save them from the oblivion of terror.\n\nYou deal |dice=var1 Mental| <var>var1</var> mental damage to the creature, which must attempt a Will saving throw.",
+    "savingThrow": "Will",
+    "critsuccess": "The creature is unaffected.",
+    "success": "The creature's frightened condition increases by 1, and it takes half damage.",
+    "failure": "The creature's frightened condition increases by 2, and it takes full damage; you regain Hit Points equal to half the damage the target takes.",
+    "critfailure": "The creature's frightened condition increases by 3, and it takes double damage; you regain Hit Points equal to half the damage the target takes.",
+    "heightened": [
+      {
+        "desc": "The damage increases by 2d4.",
+        "level": "(+1)"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "6d4",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "8d4",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "10d4",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "12d4",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "14d4",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "16d4",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "18d4",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  }
+]

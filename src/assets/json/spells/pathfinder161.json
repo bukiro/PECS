@@ -1,0 +1,240 @@
+[
+  {
+    "name": "Split the Tongue",
+    "id": "983d62ba-7483-11eb-9439-0242ac130002",
+    "shortDesc": "The deceiving creature's tongue splits like a serpent's tongue.",
+    "actions": "Reaction",
+    "castType": "somatic",
+    "sourceBook": "Pathfinder #161: Belly of the Black Whale",
+    "_extensionFileName": "pathfinder161",
+    "levelreq": 1,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Uncommon",
+      "Cleric",
+      "Transmutation"
+    ],
+    "target": "other",
+    "singleTarget": true,
+    "trigger": "A creature within 30 feet fails a Deception or Diplomacy check.",
+    "desc": "The deceiving creature's tongue splits like a serpent's tongue. The creature takes |dice=var1 S| <var>var1</var> slashing damage and must attempt a Fortitude save.",
+    "savingThrow": "Fortitude",
+    "critsuccess": "The creature is unaffected.",
+    "success": "The creature takes half damage.",
+    "failure": "The creature takes full damage and is stupefied 1 for 1d4 rounds.",
+    "critfailure": "As failure, but the creature takes double damage and is stupefied 2 for 1d4 rounds.",
+    "heightened": [
+      {
+        "desc": "The damage increases by 1d8.",
+        "level": "(+1)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Split the Tongue (Caster)",
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "value": "1d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "descs": [
+          {
+            "value": "2d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "3d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "4d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "5d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "6d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "7d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "8d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "9d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "10d8",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Ordained Purpose",
+    "id": "983d40f0-7483-11eb-9439-0242ac130002",
+    "shortDesc": "You call upon the authority of cosmic forces of order, overwhelming creatures with remorse and agony for acting outside of their station and purpose.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Pathfinder #161: Belly of the Black Whale",
+    "_extensionFileName": "pathfinder161",
+    "levelreq": 4,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Uncommon",
+      "Cleric",
+      "Enchantment",
+      "Mental"
+    ],
+    "area": "30-foot-radius emanation centered on you",
+    "target": "area",
+    "durationDependsOnTarget": true,
+    "desc": "You call upon the authority of cosmic forces of order, overwhelming creatures with remorse and agony for acting outside of their station and purpose. Enemies in the area take |dice=var1 Mental| <var>var1</var> mental damage and must attempt a Will save. A creature that has lost abilities as a result of performing acts anathema to its deity or beliefs (such as a champion who violated their tenets and hasn't atoned) uses the outcome one degree of success worse than the result of its saving throw. At the GM's discretion, a creature currently filling its appointed station and purpose (such as a farmer working in a field or a criminal in the act of committing a crime) uses the outcome one degree of success better than the result of its saving throw.",
+    "savingThrow": "basic Will",
+    "critsuccess": "The creature is unaffected.",
+    "success": "The creature takes half damage.",
+    "failure": "The creature takes full damage and must Drop Prone as its first action on its next turn.",
+    "critfailure": "The creature takes double damage, must Drop Prone as its first action on its next turn, and can't Stand during its next turn.",
+    "heightened": [
+      {
+        "desc": "The damage increases by 2d6.",
+        "level": "(+1)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 10,
+        "name": "Ordained Purpose (Caster)",
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "4d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "6d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "8d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "10d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "12d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "14d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "16d6",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,5343 @@
+[
+  {
+    "name": "Adapt Self",
+    "id": "983bde54-7483-11eb-9439-0242ac130002",
+    "shortDesc": "You make subtle changes to yourself to adapt to the situation.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Morph",
+      "Transmutation"
+    ],
+    "target": "self",
+    "duration": "1 minute",
+    "desc": "You make subtle changes to yourself to adapt to the situation. Choose one of the following options that applies to you.\n\nIf you are in water, you gain a swim Speed equal to half your Speed.\nIf you are in water, you become able to breathe water.\nIf it's too dark for you to see, you gain darkvision.\nIf you are in an environment of severe heat or severe cold, you are protected from the effects of severe heat or severe cold, and the spell lasts 10 minutes.",
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Adapt Self"
+      }
+    ]
+  },
+  {
+    "name": "Charged Javelin",
+    "id": "983c145a-7483-11eb-9439-0242ac130002",
+    "shortDesc": "You fire a javelin of electricity that leaves a charged field around its target.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Electricity",
+      "Evocation"
+    ],
+    "inputRequired": "You can target any ally with the spell that should benefit from the target's vulnerability.",
+    "range": "60 feet",
+    "targets": "1 or more creatures",
+    "target": "area",
+    "cannotTargetCaster": true,
+    "singleTarget": true,
+    "overrideHostile": "hostile",
+    "desc": "You fire a javelin of electricity that leaves a charged field around its target. Make a spell attack roll. The javelin deals |dice=var1 Electricity| <var>var1</var> electricity damage and |dice=var2 Persistent Electricity| <var>var2</var> persistent electricity damage.",
+    "critsuccess": "The javelin deals double damage, both initial and persistent.",
+    "success": "The javelin deals full damage.",
+    "desc2": "As long as the target is taking persistent damage from this spell, creatures gain a +1 status bonus to attack rolls with metal weapons or electricity effects against the target, and the target takes a -1 status penalty to saves against electricity effects.",
+    "heightened": [
+      {
+        "desc": "The initial damage increases by 1d6, and the persistent damage increases by 1.",
+        "level": "(+1)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Charged Javelin (Caster)",
+        "targetFilter": "caster"
+      },
+      {
+        "duration": -5,
+        "copyChoiceFrom": "Charged Javelin (Caster)",
+        "name": "Charged Javelin (Ally)",
+        "targetFilter": "target"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "value": "1d6",
+            "variable": "var1"
+          },
+          {
+            "value": "1",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "descs": [
+          {
+            "value": "2d6",
+            "variable": "var1"
+          },
+          {
+            "value": "2",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "3d6",
+            "variable": "var1"
+          },
+          {
+            "value": "3",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "4d6",
+            "variable": "var1"
+          },
+          {
+            "value": "4",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "5d6",
+            "variable": "var1"
+          },
+          {
+            "value": "5",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "6d6",
+            "variable": "var1"
+          },
+          {
+            "value": "6",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "7d6",
+            "variable": "var1"
+          },
+          {
+            "value": "7",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "8d6",
+            "variable": "var1"
+          },
+          {
+            "value": "8",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "9d6",
+            "variable": "var1"
+          },
+          {
+            "value": "9",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "10d6",
+            "variable": "var1"
+          },
+          {
+            "value": "10",
+            "variable": "var2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Delay Consequence",
+    "id": "983c1ea0-7483-11eb-9439-0242ac130002",
+    "shortDesc": "You transpose the moment that the target would be injured to later in its timestream.",
+    "actions": "Reaction",
+    "castType": "somatic",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Abjuration",
+      "Cleric"
+    ],
+    "targets": "the triggering creature",
+    "target": "ally",
+    "singleTarget": true,
+    "trigger": "A creature or object within range is hit by an attack.",
+    "duration": "1 round",
+    "desc": "You transpose the moment that the target would be injured to later in its timestream. Roll damage normally, but do not reduce Hit Points or apply any other effects of the attack until the spell's duration has elapsed. When the spell ends, the target is immediately affected by the attack, taking damage and being affected by any additional effects. You can Dismiss this spell.",
+    "gainConditions": [
+      {
+        "duration": 10,
+        "name": "Delay Consequence (Caster)",
+        "targetFilter": "caster"
+      },
+      {
+        "duration": 10,
+        "name": "Delay Consequence",
+        "targetFilter": "target"
+      }
+    ]
+  },
+  {
+    "name": "Divine Plagues",
+    "id": "983c2990-7483-11eb-9439-0242ac130002",
+    "shortDesc": "Your deity sends wracking plagues.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Disease",
+      "Necromancy"
+    ],
+    "range": "15 feet",
+    "desc": "Your deity sends wracking plagues. The target must attempt a Fortitude save. When you Cast the Spell, decide whether the disease inflicts the clumsy, enfeebled, or stupefied condition.",
+    "savingThrow": "Fortitude",
+    "success": "The target is unaffected.",
+    "failure": "The target is afflicted with divine plague at stage 1.",
+    "critfailure": "The target is afflicted with divine plague at stage 2.",
+    "desc2": "<strong>Divine Plague</strong> (disease<var>var1</var>) <strong>Level</strong> 1; <strong>Stage 1</strong> clumsy <var>var2</var>, enfeebled <var>var2</var>, or stupefied <var>var2</var> (1 round); <strong>Stage 2</strong> slowed 1 and clumsy <var>var2</var>, enfeebled <var>var2</var>, or stupefied <var>var2</var> (1 round); <strong>Stage 3</strong> clumsy <var>var2</var>, enfeebled <var>var2</var>, or stupefied <var>var2</var> and the target can't recover from the condition until they are cured (1 day)",
+    "heightened": [
+      {
+        "desc": "The divine plague disease gains the virulent trait. The condition value for the clumsy, enfeebled, or stupefied condition is 2 instead of 1.",
+        "level": "(5th)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Divine Plagues (Caster)",
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "variable": "var1"
+          },
+          {
+            "value": "1",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": ", virulent",
+            "variable": "var1"
+          },
+          {
+            "value": "2",
+            "variable": "var2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Draconic Barrage",
+    "id": "983c2eb8-7483-11eb-9439-0242ac130002",
+    "shortDesc": "You shape energy into one incorporeal tiny dragon (or serpentine creature) that flits around you.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Evocation"
+    ],
+    "target": "self",
+    "duration": "1 minute",
+    "desc": "You shape energy into <var>var1</var>. The specific dragon is random; roll |dice=1d6| 1d6 on the table below for each dragon evoked to determine which type of dragon you create. While the spell persists, you can command one of your dragons to spit a missile of energy at a creature within 60 feet by using a single action, which has the concentrate trait. This is a ranged Strike that uses your spell attack bonus and deals |dice=var2 + spellMod| <var>var2</var> damage plus your spellcasting ability modifier, with the damage type depending on the dragon. A dragon's breath Strike uses and contributes to your multiple attack penalty. Once a dragon has used its breath Strike, it winks out of existence; when you have no dragons remaining, the spell ends.\n\n<strong>1</strong> Copper or black dragon, Acid breath\n<strong>2</strong> Silver or white dragon, Cold breath\n<strong>3</strong> Bronze or blue dragon, Electricity breath\n<strong>4</strong> Brass, gold, or red dragon, Fire breath\n<strong>5</strong> Green Dragon, Poison breath\n<strong>6</strong> Your choice of dragon, breath type as the dragon",
+    "heightened": [
+      {
+        "desc": "You shape 1 additional dragon, and the Strike damage increases by 1d6.",
+        "level": "(+1)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 100,
+        "heightenedFilter": 1,
+        "name": "Draconic Barrage",
+        "value": 1
+      },
+      {
+        "duration": 100,
+        "heightenedFilter": 2,
+        "name": "Draconic Barrage",
+        "value": 2
+      },
+      {
+        "duration": 100,
+        "heightenedFilter": 3,
+        "name": "Draconic Barrage",
+        "value": 3
+      },
+      {
+        "duration": 100,
+        "heightenedFilter": 4,
+        "name": "Draconic Barrage",
+        "value": 4
+      },
+      {
+        "duration": 100,
+        "heightenedFilter": 5,
+        "name": "Draconic Barrage",
+        "value": 5
+      },
+      {
+        "duration": 100,
+        "heightenedFilter": 6,
+        "name": "Draconic Barrage",
+        "value": 6
+      },
+      {
+        "duration": 100,
+        "heightenedFilter": 7,
+        "name": "Draconic Barrage",
+        "value": 7
+      },
+      {
+        "duration": 100,
+        "heightenedFilter": 8,
+        "name": "Draconic Barrage",
+        "value": 8
+      },
+      {
+        "duration": 100,
+        "heightenedFilter": 9,
+        "name": "Draconic Barrage",
+        "value": 9
+      },
+      {
+        "duration": 100,
+        "heightenedFilter": 10,
+        "name": "Draconic Barrage",
+        "value": 10
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "value": "one incorporeal tiny dragon (or serpentine creature) that flits around you.",
+            "variable": "var1"
+          },
+          {
+            "value": "1d6",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "descs": [
+          {
+            "value": "two incorporeal tiny dragons (or serpentine creatures) that flit around you.",
+            "variable": "var1"
+          },
+          {
+            "value": "2d6",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "three incorporeal tiny dragons (or serpentine creatures) that flit around you.",
+            "variable": "var1"
+          },
+          {
+            "value": "3d6",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "four incorporeal tiny dragons (or serpentine creatures) that flit around you.",
+            "variable": "var1"
+          },
+          {
+            "value": "4d6",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "five incorporeal tiny dragons (or serpentine creatures) that flit around you.",
+            "variable": "var1"
+          },
+          {
+            "value": "5d6",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "six incorporeal tiny dragons (or serpentine creatures) that flit around you.",
+            "variable": "var1"
+          },
+          {
+            "value": "6d6",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "seven incorporeal tiny dragons (or serpentine creatures) that flit around you.",
+            "variable": "var1"
+          },
+          {
+            "value": "7d6",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "eight incorporeal tiny dragons (or serpentine creatures) that flit around you.",
+            "variable": "var1"
+          },
+          {
+            "value": "8d6",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "nine incorporeal tiny dragons (or serpentine creatures) that flit around you.",
+            "variable": "var1"
+          },
+          {
+            "value": "9d6",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "ten incorporeal tiny dragons (or serpentine creatures) that flit around you.",
+            "variable": "var1"
+          },
+          {
+            "value": "10d6",
+            "variable": "var2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Eject Soul",
+    "id": "983c380e-7483-11eb-9439-0242ac130002",
+    "shortDesc": "Your touch disrupts the connection between body and soul, possibly forcing the soul out of the body altogether.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Incapacitation",
+      "Necromancy"
+    ],
+    "range": "touch",
+    "targets": "1 living creature that has a soul",
+    "target": "ally",
+    "singleTarget": true,
+    "desc": "Your touch disrupts the connection between body and soul, possibly forcing the soul out of the body altogether. The target must attempt a Fortitude save. You can allow allies to choose the degree of success instead of rolling a saving throw.",
+    "savingThrow": "Fortitude",
+    "success": "The target is unaffected.",
+    "failure": "The target is stunned 1 as its soul briefly loses its connection to its body.",
+    "critfailure": "The target's soul exits its body for 1 round. <var>var1</var>The target's body becomes stunned. While its body is stunned in this way, the target remains fully aware in soul form; it simply can't consciously move its body (though the body makes basic instinctual defensive movements). The target's soul has the incorporeal trait, is invisible, and has a fly Speed of 60 feet. It can't attack, cast spells, or attempt any skill checks that require a physical body, and it must always maintain line of effect to its body. When the target's body ceases being stunned, the target's soul instantly returns to its body as the target wakes.",
+    "heightened": [
+      {
+        "desc": "If a willing ally chooses to critically fail, it can stay in soul form for 1 additional round.",
+        "level": "(+3)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Eject Soul (Caster)",
+        "targetFilter": "caster"
+      },
+      {
+        "duration": -5,
+        "copyChoiceFrom": "Eject Soul (Caster)",
+        "name": "Eject Soul",
+        "targetFilter": "target"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": " If a willing ally chooses to critically fail, it can stay in soul form for 2 rounds.",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": " If a willing ally chooses to critically fail, it can stay in soul form for 3 rounds.",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": " If a willing ally chooses to critically fail, it can stay in soul form for 4 rounds.",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Empty Inside",
+    "id": "983c3f98-7483-11eb-9439-0242ac130002",
+    "shortDesc": "You inject a sliver of the void into your mind, momentarily remaking it into a bleak and empty place.",
+    "actions": "1A",
+    "castType": "verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Abjuration",
+      "Cleric",
+      "Mental"
+    ],
+    "inputRequired": "Attempt a counteract check against the appropriate number of emotion effects affecting you.",
+    "target": "self",
+    "desc": "You inject a sliver of the void into your mind, momentarily remaking it into a bleak and empty place. Attempt a counteract check against <var>var1</var> affecting you.",
+    "heightened": [
+      {
+        "desc": "You can attempt counteract checks against any number of emotion effects affecting you.",
+        "level": "(5th)"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "value": "one emotion effect",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "any number of emotion effects",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Hyperfocus",
+    "id": "983d126a-7483-11eb-9439-0242ac130002",
+    "shortDesc": "You sharpen a creature's senses, though more distant objects become hazy, indistinct, or muted to it.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Divination"
+    ],
+    "range": "30 feet",
+    "targets": "1 creature",
+    "target": "ally",
+    "duration": "varies",
+    "desc": "<var>var1</var>You sharpen a creature's senses, though more distant objects become hazy, indistinct, or muted to it. The target gains a +1 status bonus to Perception checks attempted with any of its precise senses. Furthermore, any imprecise senses the target has are sharpened to precise senses (though they do not receive the status bonus). However, the target cannot perceive anything beyond a range of 20 feet with any of its senses. The duration is determined by the target's Will save. You can allow allies to choose the outcome instead of rolling a saving throw.",
+    "savingThrow": "Will",
+    "critsuccess": "The target is unaffected.",
+    "success": "The target is affected for 1 round.",
+    "failure": "The target is affected for 1 minute.",
+    "critfailure": "As failure, but the target cannot perceive anything beyond a range of 10 feet.",
+    "targetNumbers": [
+      {
+        "number": 1,
+        "minLevel": 1
+      },
+      {
+        "number": 2,
+        "minLevel": 3
+      },
+      {
+        "number": 4,
+        "minLevel": 6
+      }
+    ],
+    "heightened": [
+      {
+        "desc": "You can target up to 2 creatures.",
+        "level": "(3rd)"
+      },
+      {
+        "desc": "You can target up to 4 creatures.",
+        "level": "(6th)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Hyperfocus (Caster)",
+        "targetFilter": "caster"
+      },
+      {
+        "duration": -5,
+        "copyChoiceFrom": "Hyperfocus (Caster)",
+        "name": "Hyperfocus",
+        "targetFilter": "target"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "You can target up to 2 creatures. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "You can target up to 4 creatures. ",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Lament",
+    "id": "983d27c8-7483-11eb-9439-0242ac130002",
+    "shortDesc": "You let out your negative emotions in a guttural wail that shakes your enemies' hearts and deals 1d8 mental damage (basic Will save).",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Auditory",
+      "Cleric",
+      "Emotion",
+      "Enchantment",
+      "Mental"
+    ],
+    "area": "30-foot cone",
+    "targets": "1 or more creatures",
+    "target": "area",
+    "singleTarget": true,
+    "desc": "You let out your negative emotions in a guttural wail that shakes your enemies' hearts and deals |dice=var1 Mental| <var>var1</var> mental damage (basic Will save). If you have any harmful conditions imposed by emotion effects, lament deals additional mental damage equal to the counteract level of the highest-level effect.",
+    "savingThrow": "basic Will",
+    "heightened": [
+      {
+        "desc": "The damage increases by 1d8.",
+        "level": "(+1)"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "value": "1d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "descs": [
+          {
+            "value": "2d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "3d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "4d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "5d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "6d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "7d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "8d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "9d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "10d8",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Oathkeeper's Insignia",
+    "id": "983d3d08-7483-11eb-9439-0242ac130002",
+    "shortDesc": "A magical indicator assures a creature that you've upheld your end of a bargain.",
+    "actions": "Free",
+    "castType": "verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Conjuration"
+    ],
+    "target": "self",
+    "trigger": "You make a promise or deal.",
+    "duration": "1 hour",
+    "desc": "<var>var1</var>A magical indicator assures a creature that you've upheld your end of a bargain. When you Cast the Spell, you create a bracelet, flower, or other such trinket. If, while the spell persists, you complete the terms of the promise or deal you made, the trinket fades away with a pleasant chime; if you violate the terms instead, the trinket breaks with a dissonant crash.",
+    "heightened": [
+      {
+        "desc": "The duration becomes 1 day.",
+        "level": "(3rd)"
+      },
+      {
+        "desc": "The duration becomes 1 week.",
+        "level": "(5th)"
+      },
+      {
+        "desc": "The duration becomes 1 month.",
+        "level": "(7th)"
+      },
+      {
+        "desc": "The duration becomes 1 year.",
+        "level": "(9th)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Oathkeeper's Insignia"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "The duration becomes 1 day. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "The duration becomes 1 week. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "The duration becomes 1 month. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "The duration becomes 1 year. ",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Object Memory",
+    "id": "983d3dc6-7483-11eb-9439-0242ac130002",
+    "shortDesc": "By touching an object, you draw forth the experience of those who created and used it.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Divination"
+    ],
+    "targets": "1 weapon or tool",
+    "target": "object",
+    "singleTarget": true,
+    "duration": "1 minute",
+    "desc": "By touching an object, you draw forth the experience of those who created and used it. If you touch a weapon, your proficiency rank with that weapon temporarily increases to <var>var1</var> (if it is not already higher). If you touch a tool, your proficiency rank with the next skill check you attempt with that tool (such as a Crafting check with a blacksmith's hammer) within the spell's duration temporarily increases to <var>var1</var> (if it is not already higher). This spell has no benefit for activities that take longer than a minute to complete.",
+    "heightened": [
+      {
+        "desc": "Your proficiency rank increases to expert instead of trained.",
+        "level": "(6th)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 100,
+        "name": "Object Memory",
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "value": "trained",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "expert",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Parch",
+    "id": "983d4334-7483-11eb-9439-0242ac130002",
+    "shortDesc": "Dry winds dehydrate a creature.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Air",
+      "Cleric",
+      "Evocation"
+    ],
+    "targets": "1 creature",
+    "target": "other",
+    "singleTarget": true,
+    "desc": "<var>var1</var>Dry winds dehydrate a creature. The target must attempt a Fortitude save; if used on a creature with the water trait or a creature made primarily of liquid (such as many oozes), the creature uses the outcome for one degree of success worse than the result. Creatures whose bodies contain no significant moisture (such as earth elementals) are immune to parch.",
+    "savingThrow": "Fortitude",
+    "critsuccess": "The target is unaffected.",
+    "success": "The target takes a -1 status penalty to its checks and DCs for 1 round.",
+    "failure": "The target takes a -1 status penalty to its checks and DCs for 1 minute.",
+    "critfailure": "The target takes a -2 status penalty to its checks and DCs for 1 minute and is dazzled as long as it has this penalty.",
+    "desc2": "If a creature affected by parch drinks a liquid, such as a swig of water or a potion, the spell ends. Affected creatures that have the water trait or are made primarily of liquid, as well as affected creatures that can't drink, can end the effect as a two-action activity, which has the concentrate trait.",
+    "targetNumbers": [
+      {
+        "number": 1,
+        "minLevel": 1
+      },
+      {
+        "number": 4,
+        "minLevel": 4
+      }
+    ],
+    "heightened": [
+      {
+        "desc": "You can target up to 4 creatures.",
+        "level": "(4th)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Parch (Caster)",
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "You can target up to 4 creatures. ",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Redact",
+    "id": "983d5432-7483-11eb-9439-0242ac130002",
+    "shortDesc": "You strike mention of a specific name from one or more documents.",
+    "actions": "2A",
+    "castType": "material, somatic",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Transmutation"
+    ],
+    "range": "30 feet",
+    "targets": "unattended written materials of up to 1 Bulk or less",
+    "target": "object",
+    "duration": "1 day",
+    "desc": "<var>var2</var>You strike mention of a specific name from one or more documents. When you cast the spell, give one proper name, be it a creature, location, or object. Any mention of that name within the document becomes blurred, smudged, or otherwise completely illegible. Epithets and unambiguous references to the name are redacted as well; for instance, redacting the name of the goddess Sarenrae from a book would also remove references to her title \"the Dawnflower.\"<var>var1</var>",
+    "heightened": [
+      {
+        "desc": "Instead of striking out a given name, you can replace it with a different name you choose. Epithets and references are substituted with similar ones relating to the replacement name. Anyone reading the text can attempt a Perception or Society check against your spell DC to notice the altered text, though that doesn't tell them what the original said.",
+        "level": "(3rd)"
+      },
+      {
+        "desc": "At your choice, the duration is unlimited.",
+        "level": "(4th)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Redact",
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "variable": "var1"
+          },
+          {
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": " Alternatively, instead of striking out a given name, you can replace it with a different name you choose. Epithets and references are substituted with similar ones relating to the replacement name. Anyone reading the text can attempt a Perception or Society check against your spell DC to notice the altered text, though that doesn't tell them what the original said.",
+            "variable": "var1"
+          },
+          {
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": " Alternatively, instead of striking out a given name, you can replace it with a different name you choose. Epithets and references are substituted with similar ones relating to the replacement name. Anyone reading the text can attempt a Perception or Society check against your spell DC to notice the altered text, though that doesn't tell them what the original said.",
+            "variable": "var1"
+          },
+          {
+            "value": "At your choice, the duration is unlimited. ",
+            "variable": "var2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Share Burden",
+    "id": "983d5b1c-7483-11eb-9439-0242ac130002",
+    "shortDesc": "You shoulder some of your ally's pain.",
+    "actions": "Reaction",
+    "castType": "somatic",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Abjuration",
+      "Cleric",
+      "Mental"
+    ],
+    "inputRequired": "Grant yourself the appropriate condition, if needed.",
+    "targets": "you and the triggering ally.",
+    "target": "ally",
+    "cannotTargetCaster": true,
+    "trigger": "An ally within 30 feet is about to attempt a saving throw against a harmful emotion effect, and you would not otherwise have to save against the effect.",
+    "desc": "You shoulder some of your ally's pain. Both you and your ally use the outcome one degree of success better than the result of your ally's saving throw, even if the triggering effect usually affects only one target."
+  },
+  {
+    "name": "Swarmsense",
+    "id": "983d69a4-7483-11eb-9439-0242ac130002",
+    "shortDesc": "You extend your senses through a multitude of crawling and flying creatures.",
+    "actions": "1 minute",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Divination"
+    ],
+    "sustained": 1000,
+    "duration": "sustained",
+    "desc": "You extend your senses through a multitude of crawling and flying creatures. You create a crawling swarm in your square.<var>var1</var> You can hear through the swarm as if using your normal auditory senses<var>var2</var>. The first time you Sustain the Spell each round, you can move the swarm 10 feet along the ground in any direction. The swarm has AC 15 and a +0 bonus to its saves. Any damage dealt to the swarm destroys it and ends the spell.",
+    "showSpells": [
+      {
+        "name": "Spider Climb"
+      }
+    ],
+    "heightened": [
+      {
+        "desc": "The swarm has the benefits of spider climb.",
+        "level": "(3rd)"
+      },
+      {
+        "desc": "The swarm has a fly Speed of 10 feet. You can see through the swarm using your visual senses.",
+        "level": "(5th)"
+      },
+      {
+        "desc": "The swarm gains a 10-foot status bonus to its Speeds.",
+        "level": "(7th)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 10,
+        "name": "Swarmsense"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "variable": "var1"
+          },
+          {
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": " The swarm has the benefits of spider climb.",
+            "variable": "var1"
+          },
+          {
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": " The swarm has the benefits of spider climb and a fly Speed of 10 feet.",
+            "variable": "var1"
+          },
+          {
+            "value": " and see through the swarm using your visual senses",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": " The swarm has the benefits of spider climb and a fly Speed of 10 feet, and gains a 10-foot status bonus to all its Speeds.",
+            "variable": "var1"
+          },
+          {
+            "value": " and see through the swarm using your visual senses",
+            "variable": "var2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Winter Bolt",
+    "id": "983d8696-7483-11eb-9439-0242ac130002",
+    "shortDesc": "You fling a hollow icicle filled with winter's wrath.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Attack",
+      "Cleric",
+      "Cold",
+      "Evocation"
+    ],
+    "range": "60 feet",
+    "targets": "1 creature",
+    "target": "other",
+    "singleTarget": true,
+    "durationDependsOnTarget": true,
+    "desc": "You fling a hollow icicle filled with winter's wrath. Make a spell attack against a target within range. The bolt deals |dice=var1 P| <var>var1</var> piercing damage and lodges in the target. At the end of the target's next turn, the bolt shatters, releasing a whirl of snow and ice that deals |dice=var2 Cold| <var>var2</var> cold damage to the target and all adjacent creatures. The bolt can be removed with an Interact action, which causes it to melt harmlessly without detonating.",
+    "critsuccess": "The initial bolt deals full damage and is especially well anchored, taking 2 Interact actions to remove. The bolt's explosion deals double damage.",
+    "success": "The bolt and its explosion deal full damage.",
+    "heightened": [
+      {
+        "desc": "The initial damage increases by 1d8 and the secondary damage increases by 1d12.",
+        "level": "(+1)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Winter Bolt (Caster)",
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "value": "1d8",
+            "variable": "var1"
+          },
+          {
+            "value": "1d12",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "descs": [
+          {
+            "value": "2d8",
+            "variable": "var1"
+          },
+          {
+            "value": "2d12",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "3d8",
+            "variable": "var1"
+          },
+          {
+            "value": "3d12",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "4d8",
+            "variable": "var1"
+          },
+          {
+            "value": "4d12",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "5d8",
+            "variable": "var1"
+          },
+          {
+            "value": "5d12",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "6d8",
+            "variable": "var1"
+          },
+          {
+            "value": "6d12",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "7d8",
+            "variable": "var1"
+          },
+          {
+            "value": "7d12",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "8d8",
+            "variable": "var1"
+          },
+          {
+            "value": "8d12",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "9d8",
+            "variable": "var1"
+          },
+          {
+            "value": "9d12",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "10d8",
+            "variable": "var1"
+          },
+          {
+            "value": "10d12",
+            "variable": "var2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Withering Grasp",
+    "id": "983d8754-7483-11eb-9439-0242ac130002",
+    "shortDesc": "Your touch rots organic material and decays objects.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "PFSnote": "The Targets entry for withering grasp should be \"1 creature or unattended object\", not \"1 creature or object.\" When used on an unattended object, the object takes persistent damage on your next turn.",
+    "levelreq": 1,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Necromancy",
+      "Negative"
+    ],
+    "range": "touch",
+    "targets": "1 creature or object",
+    "target": "other",
+    "singleTarget": true,
+    "desc": "Your touch rots organic material and decays objects. Make a melee spell attack roll. Your touch deals |dice=var1 Negative| <var>var1</var> negative damage plus |dice=var2 Persistent Negative| <var>var2</var> persistent negative damage. If a creature uses an item to block withering grasp, such as with the Shield Block reaction, the item is automatically affected, but the creature does not take damage (even if there is damage left over after the shield's Hardness). Unlike normal negative damage, the negative damage from withering grasp damages objects, constructs, and the like by eroding them away.",
+    "critsuccess": "Your touch deals double damage (both initial and persistent). If you target an object, lower its Hardness by <var>var3</var> for 1 minute.",
+    "success": "Your touch deals full damage. If you target an object, lower its Hardness by <var>var4</var> for 1 minute.",
+    "heightened": [
+      {
+        "desc": "The damage increases by 1d12 and the persistent damage increases by 1. If you target an object, lower its Hardness by an additional 1 point on both a success and a critical success.",
+        "level": "(+1)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Withering Grasp (Caster)",
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "value": "1d12",
+            "variable": "var1"
+          },
+          {
+            "value": "1d4",
+            "variable": "var2"
+          },
+          {
+            "value": "4",
+            "variable": "var3"
+          },
+          {
+            "value": "2",
+            "variable": "var4"
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "descs": [
+          {
+            "value": "2d12",
+            "variable": "var1"
+          },
+          {
+            "value": "1d4+1",
+            "variable": "var2"
+          },
+          {
+            "value": "5",
+            "variable": "var3"
+          },
+          {
+            "value": "3",
+            "variable": "var4"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "3d12",
+            "variable": "var1"
+          },
+          {
+            "value": "1d4+2",
+            "variable": "var2"
+          },
+          {
+            "value": "6",
+            "variable": "var3"
+          },
+          {
+            "value": "4",
+            "variable": "var4"
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "4d12",
+            "variable": "var1"
+          },
+          {
+            "value": "1d4+3",
+            "variable": "var2"
+          },
+          {
+            "value": "7",
+            "variable": "var3"
+          },
+          {
+            "value": "5",
+            "variable": "var4"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "5d12",
+            "variable": "var1"
+          },
+          {
+            "value": "1d4+4",
+            "variable": "var2"
+          },
+          {
+            "value": "8",
+            "variable": "var3"
+          },
+          {
+            "value": "6",
+            "variable": "var4"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "6d12",
+            "variable": "var1"
+          },
+          {
+            "value": "1d4+5",
+            "variable": "var2"
+          },
+          {
+            "value": "9",
+            "variable": "var3"
+          },
+          {
+            "value": "7",
+            "variable": "var4"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "7d12",
+            "variable": "var1"
+          },
+          {
+            "value": "1d4+6",
+            "variable": "var2"
+          },
+          {
+            "value": "10",
+            "variable": "var3"
+          },
+          {
+            "value": "8",
+            "variable": "var4"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "8d12",
+            "variable": "var1"
+          },
+          {
+            "value": "1d4+7",
+            "variable": "var2"
+          },
+          {
+            "value": "11",
+            "variable": "var3"
+          },
+          {
+            "value": "9",
+            "variable": "var4"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "9d12",
+            "variable": "var1"
+          },
+          {
+            "value": "1d4+8",
+            "variable": "var2"
+          },
+          {
+            "value": "12",
+            "variable": "var3"
+          },
+          {
+            "value": "10",
+            "variable": "var4"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "10d12",
+            "variable": "var1"
+          },
+          {
+            "value": "1d4+9",
+            "variable": "var2"
+          },
+          {
+            "value": "13",
+            "variable": "var3"
+          },
+          {
+            "value": "11",
+            "variable": "var4"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Zenith Star",
+    "id": "983d8ca4-7483-11eb-9439-0242ac130002",
+    "shortDesc": "You call a tiny star to orbit a creature in a sparkling halo before shooting up into the heavens, where it marks the creature's rough location.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Divination",
+      "Light"
+    ],
+    "targets": "1 creature",
+    "target": "other",
+    "singleTarget": true,
+    "duration": "1 day",
+    "desc": "<var>var1</var>You call a tiny star to orbit a creature in a sparkling halo before shooting up into the heavens, where it marks the creature's rough location. The target must attempt a Fortitude save.",
+    "savingThrow": "Fortitude",
+    "critsuccess": "The target is unaffected.",
+    "success": "The target is dazzled for 1 round.",
+    "failure": "The target is dazzled for 1 round. While the spell persists, as long as you can see the night sky and the target is visible from the same night sky, you can sense the approximate direction and distance to the creature by using a single action, which has the concentrate trait. This is exact enough to track the creature, but not pinpoint their exact square (for instance, to make an attack). You can set a number of zenith stars equal to your Wisdom modifier; if you exceed this number, your oldest zenith star is automatically Dismissed.",
+    "critfailure": "As failure, but the target is blinded for 1 round.",
+    "heightened": [
+      {
+        "desc": "The duration increases by 1 day.",
+        "level": "(+1)"
+      },
+      {
+        "desc": "You ignore the concealed condition against targets marked by zenith star.",
+        "level": "(4th)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Zenith Star (Caster)",
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "descs": [
+          {
+            "value": "The duration increases to 2 days. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "The duration increases to 3 days. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "The duration increases to 4 days. You ignore the concealed condition against targets marked by zenith star. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "The duration increases to 5 days. You ignore the concealed condition against targets marked by zenith star. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "The duration increases to 6 days. You ignore the concealed condition against targets marked by zenith star. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "The duration increases to 7 days. You ignore the concealed condition against targets marked by zenith star. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "The duration increases to 8 days. You ignore the concealed condition against targets marked by zenith star. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "The duration increases to 9 days. You ignore the concealed condition against targets marked by zenith star. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "The duration increases to 10 days. You ignore the concealed condition against targets marked by zenith star. ",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Adaptive Ablation",
+    "id": "983bdf08-7483-11eb-9439-0242ac130002",
+    "shortDesc": "You shift yourself to adapt to the mystical wavelengths of the energy damage, protecting yourself from further harm.",
+    "actions": "Reaction",
+    "castType": "somatic",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 4,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Abjuration",
+      "Cleric"
+    ],
+    "target": "self",
+    "trigger": "You take acid, cold, electricity, fire, or sonic damage.",
+    "duration": "1 minute",
+    "desc": "You shift yourself to adapt to the mystical wavelengths of the energy damage, protecting yourself from further harm. You gain resistance <var>var1</var> to the triggering energy type; you gain this resistance after you take the triggering damage, so it applies only to future damage you take during the duration.",
+    "heightened": [
+      {
+        "desc": "Increase the resistance by 5.",
+        "level": "(+2)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 100,
+        "name": "Adaptive Ablation"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "5",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "10",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "15",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "20",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Asterism",
+    "id": "983bea34-7483-11eb-9439-0242ac130002",
+    "shortDesc": "Lines of burning starlight form a constellation around you.",
+    "actions": "3A",
+    "castType": "material, somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 4,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Evocation",
+      "Light"
+    ],
+    "range": "150 feet",
+    "target": "self",
+    "duration": "1 minute",
+    "desc": "Lines of burning starlight form a constellation around you. Draw five lines, one at a time; each line must anchor at you or a creature or object already connected to a previous line, and it must end at a creature or object within 30 feet of its anchor (possibly allowing the asterism to extend to its full 150-foot range). A creature that begins its turn in one of these lines or enters one of these lines on its turn takes |dice=var1 Fire| <var>var1</var> fire damage (basic Reflex save). A creature can take this damage only once per turn, even if it moves through several lines. Targets that are part of the asterism do not take damage from it. If the distance between two targets (or you and a target) ever exceeds 30 feet, the line of starlight between the two breaks, and any lines that now no longer have a direct path back to you also break. You can Dismiss the spell.",
+    "savingThrow": "basic Reflex",
+    "heightened": [
+      {
+        "desc": "The damage increases by 1d6.",
+        "level": "(+1)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 100,
+        "name": "Asterism"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "4d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "5d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "6d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "7d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "8d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "9d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "10d6",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Bottle the Storm",
+    "id": "983bedea-7483-11eb-9439-0242ac130002",
+    "shortDesc": "When lightning is turned at you, you store the charge safely within yourself, unleashing it when the time is right.",
+    "actions": "Reaction",
+    "castType": "somatic",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 4,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Electricity",
+      "Evocation"
+    ],
+    "target": "self",
+    "trigger": "You would take electricity damage.",
+    "duration": "1 minute",
+    "desc": "When lightning is turned at you, you store the charge safely within yourself, unleashing it when the time is right. You gain electricity resistance <var>var1</var> against the triggering effect. If you successfully prevent damage in this way, at any time during the spell's duration, you can spend a single action, which has the attack trait, to expend the charge and make a melee spell attack at an adjacent target or a ranged spell attack at a target within 60 feet.<var>var2</var> This attack deals electricity damage equal to the damage prevented by bottle the storm. If you cast bottle the storm a second time before the original duration elapses, or if you do not make this attack, the stored charge dissipates harmlessly.",
+    "heightened": [
+      {
+        "desc": "The resistance increases to 15, and you can immediately make the spell attack roll granted by bottle the storm as part of the reaction used to cast the spell.",
+        "level": "(7th)"
+      },
+      {
+        "desc": "The resistance increases to 20, and you can immediately make the spell attack roll granted by bottle the storm as part of the reaction used to cast the spell.",
+        "level": "(10th)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 100,
+        "name": "Bottle the Storm"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "10",
+            "variable": "var1"
+          },
+          {
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "15",
+            "variable": "var1"
+          },
+          {
+            "value": " You can immediately make the spell attack roll granted by bottle the storm as part of the reaction used to cast the spell.",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "20",
+            "variable": "var1"
+          },
+          {
+            "value": " You can immediately make the spell attack roll granted by bottle the storm as part of the reaction used to cast the spell.",
+            "variable": "var2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Diamond Dust",
+    "id": "983c24d6-7483-11eb-9439-0242ac130002",
+    "shortDesc": "You supercool the nearby air, forming a cloud of dancing ice crystals in an emanation around you.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 4,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Cold",
+      "Evocation"
+    ],
+    "area": "15-foot emanation centered on you",
+    "target": "area",
+    "duration": "1 minute",
+    "desc": "You supercool the nearby air, forming a cloud of dancing ice crystals in an emanation around you. A creature other than you that enters the area or ends its turn within the area takes |dice=var1 Cold| <var>var1</var> cold damage. A creature can take this damage only once per turn. The crystals scatter and refract light; if a light effect enters diamond dust's area, any creatures that effect goes on to affect gain a +2 status bonus to AC and saves against it. While the spell persists, you can activate or deactivate this aura by using a single action, which has the concentrate trait. You can Dismiss this spell.",
+    "savingThrow": "basic Fortitude",
+    "heightened": [
+      {
+        "desc": "The damage increases by 1d6.",
+        "level": "(+2)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 100,
+        "hideChoices": true,
+        "name": "Diamond Dust",
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "2d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "4d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "6d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "8d6",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Door to Beyond",
+    "id": "983c2b70-7483-11eb-9439-0242ac130002",
+    "shortDesc": "Striking at thin air, you create hairline cracks in an unoccupied adjacent space that lead somewhere outside reality.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 4,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Conjuration"
+    ],
+    "area": "20-foot emanation",
+    "target": "area",
+    "duration": "1 minute",
+    "desc": "Striking at thin air, you create hairline cracks in an unoccupied adjacent space that lead somewhere outside reality. Air rushes through the cracks, drawing Large or smaller creatures and objects of light Bulk or less toward the center. Large or smaller creatures in the area must attempt a Fortitude save at the start of their turn; creatures that move into the area must attempt the save on entering.",
+    "savingThrow": "Fortitude",
+    "success": "The creature is unaffected.",
+    "failure": "The creature is pulled 10 feet toward the door.",
+    "critfailure": "The creature is pulled 20 feet toward the door.",
+    "desc2": "The cracks of the door to beyond are too thin for anything to fully slip through, but decompressive effects deal |dice=var1 S| <var>var1</var> slashing damage to any creature or object that ends its turn in the door's space. You are unaffected by your own door to beyond. You can Dismiss the spell.",
+    "heightened": [
+      {
+        "desc": "The damage increases by 1d6.",
+        "level": "(+1)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 100,
+        "name": "Door to Beyond",
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "4d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "5d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "6d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "7d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "8d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "9d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "10d6",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Dust Storm",
+    "id": "983c35c0-7483-11eb-9439-0242ac130002",
+    "shortDesc": "You call forth a swirling storm of dust.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 4,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Air",
+      "Cleric",
+      "Conjuration",
+      "Nonlethal"
+    ],
+    "area": "20-foot-radius burst",
+    "target": "area",
+    "duration": "1 minute",
+    "desc": "You call forth a swirling storm of dust. The dust storm obscures vision, with the effect of obscuring mist. The dust also makes the air unbreathable; creatures in the area must hold their breath, though wearing a scarf or similar clothing over the mouth increases the time the creature can hold its breath to 5 rounds. Creatures entering or starting their turn in the dust storm take |dice=var1 S| <var>var1</var> slashing damage. Creatures that have the water trait or that are made primarily of liquid take double damage.",
+    "showSpells": [
+      {
+        "level": 2,
+        "name": "Obscuring Mist"
+      }
+    ],
+    "heightened": [
+      {
+        "desc": "The damage increases by 1d6.",
+        "level": "(+2)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 100,
+        "name": "Dust Storm",
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "4d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "5d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "6d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "7d6",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Dutiful Challenge",
+    "id": "983c3688-7483-11eb-9439-0242ac130002",
+    "shortDesc": "As you challenge an enemy, you take some of its attention away from your allies.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 4,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Abjuration",
+      "Cleric"
+    ],
+    "range": "30 feet",
+    "targets": "1 creature",
+    "target": "other",
+    "singleTarget": true,
+    "duration": "1 minute",
+    "desc": "As you challenge an enemy, you take some of its attention away from your allies. The target takes a <var>var1</var> status penalty to attack rolls, damage rolls, and skill checks against creatures other than you, and you take a <var>var1</var> status penalty to attack rolls, damage rolls, and skill checks against creatures other than the target. Each time a creature other than you uses a hostile action that affects the challenged enemy, the enemy can attempt a Will save. On a success, the enemy no longer takes the penalty against that creature. You can Dismiss the spell, and it ends automatically if you or the target is defeated.",
+    "heightened": [
+      {
+        "desc": "The status penalties increase by 1.",
+        "level": "(+3)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 100,
+        "name": "Dutiful Challenge (Caster)",
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "-1",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "-2",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "-3",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Ectoplasmic Interstice",
+    "id": "983c3750-7483-11eb-9439-0242ac130002",
+    "shortDesc": "You force the Material and Ethereal Planes to partially overlap, creating a zone that causes incorporeal and spiritual entities to take on many of the aspects of corporeal creatures.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 4,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Necromancy"
+    ],
+    "range": "30 feet",
+    "area": "15-foot emanation",
+    "target": "area",
+    "sustained": 100,
+    "duration": "sustained up to 1 minute",
+    "desc": "You force the Material and Ethereal Planes to partially overlap, creating a zone that causes incorporeal and spiritual entities to take on many of the aspects of corporeal creatures. Within the ectoplasmic interstice, incorporeal creatures cannot pass through solid objects or corporeal creatures, and they can manipulate and attempt Strength-based checks against physical creatures and objects. An incorporeal PC or other creature with a normal Strength modifier simply uses that modifier, but if the creature had a Strength modifier of -5, like most incorporeal monsters, it uses a +4 modifier instead, increasing its Athletics modifier by 9 accordingly. Attacks against creatures that are within the interstice overcome resistances as if they were by ghost touch weapons.",
+    "gainConditions": [
+      {
+        "duration": 100,
+        "name": "Ectoplasmic Interstice (Caster)",
+        "targetFilter": "caster"
+      }
+    ]
+  },
+  {
+    "name": "Ephemeral Hazards",
+    "id": "983c4222-7483-11eb-9439-0242ac130002",
+    "shortDesc": "You create illusory hazards, such as spinning blades or a puddle of acid, in four 10-foot-by-10-foot spaces within range.",
+    "actions": "3A",
+    "castType": "material, somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 4,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Illusion",
+      "Mental",
+      "Visual"
+    ],
+    "range": "60 feet",
+    "target": "area",
+    "desc": "You create illusory hazards, such as spinning blades or a puddle of acid, in four 10-foot-by-10-foot spaces within range. The hazards are merely a mental projection, and a creature receives a Will save each time it touches a hazard or is occupying one's space at the start of its turn. Depending on the result, the creature takes |dice=var1 Mental| <var>var1</var> mental damage and might have difficulty moving through the area. A creature can take this damage only once per turn, even if it moves through several hazards. Choose bludgeoning, slashing, piercing, acid, cold, electricity, fire, or sonic damage when you cast ephemeral hazards; resistances and weaknesses to those damage types apply if the target thinks they do, as judged by the GM. You can freely choose the appearance and damage type of each hazard as long as its appearance reflects the type of damage it deals (for instance, a hazard that deals piercing damage might take the form of sharpened spikes).",
+    "critsuccess": "The creature is unaffected by the hazards and no longer needs to attempt Will saves against them.",
+    "success": "The creature realizes the hazards aren't real but still takes half damage from them; on future Will saves against the hazards, the creature continues to use this result unless it rolls a critical success.",
+    "failure": "The target takes full damage and treats the square as difficult terrain.",
+    "critfailure": "The target takes double damage and cannot pass through a square containing a hazard.",
+    "heightened": [
+      {
+        "desc": "The damage increases by 1d6.",
+        "level": "(+1)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 100,
+        "name": "Ephemeral Hazards (Caster)",
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "4d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "5d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "6d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "7d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "8d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "9d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "10d6",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Fallow Field",
+    "id": "983c47ae-7483-11eb-9439-0242ac130002",
+    "shortDesc": "A sickly yellow light fills the area as entropic forces prevent healing.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 4,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Necromancy",
+      "Negative"
+    ],
+    "area": "15-foot emanation",
+    "target": "area",
+    "sustained": 100,
+    "duration": "sustained up to 1 minute",
+    "desc": "A sickly yellow light fills the area as entropic forces prevent healing. When a creature within the area would regain Hit Points, such as from a healing effect or an ability like fast healing or regeneration, it must attempt a Will save.",
+    "savingThrow": "Will",
+    "critsuccess": "The creature regains the full number of Hit Points that would be restored by the healing effect, and is temporarily immune for 1 minute.",
+    "success": "The creature regains the full number of Hit Points that would be restored.",
+    "failure": "The creature regains only half the number of Hit Points that would be restored.",
+    "critfailure": "The creature does not regain Hit Points from the healing effect.",
+    "gainConditions": [
+      {
+        "duration": 100,
+        "name": "Fallow Field (Caster)",
+        "targetFilter": "caster"
+      }
+    ]
+  },
+  {
+    "name": "Font of Serenity",
+    "id": "983cb3a6-7483-11eb-9439-0242ac130002",
+    "shortDesc": "A divine beacon radiates serenity, soothing nearby allies.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 4,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Abjuration",
+      "Cleric",
+      "Emotion",
+      "Mental"
+    ],
+    "range": "30 feet",
+    "area": "15-foot emanation",
+    "target": "area",
+    "duration": "1 minute",
+    "desc": "A divine beacon radiates serenity, soothing nearby allies. Allies within the area gain a <var>var1</var> status bonus to saving throws against emotion effects. An ally can touch the font as an Interact action; if they do so, the spell attempts to counteract one emotion effect affecting the ally of the ally's choice, after which that emotion effect is temporarily immune for 1 day. If the spell succeeds at the counteract check, it removes the emotion effect from your ally, though not from any other creatures the effect might be affecting.",
+    "heightened": [
+      {
+        "desc": "The bonus increases by 1.",
+        "level": "(+4)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 100,
+        "name": "Font of Serenity (Caster)",
+        "targetFilter": "caster"
+      },
+      {
+        "duration": 100,
+        "name": "Font of Serenity",
+        "targetFilter": "target"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "+1",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "+2",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Foul Miasma",
+    "id": "983cb6b2-7483-11eb-9439-0242ac130002",
+    "shortDesc": "You multiply the disease within a creature, drawing it into an infectious mist outside their body where it can spread to other creatures.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 4,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Disease",
+      "Necromancy"
+    ],
+    "range": "30 feet",
+    "targets": "1 creature affected by a disease",
+    "target": "other",
+    "singleTarget": true,
+    "duration": "1 minute",
+    "desc": "You multiply the disease within a creature, drawing it into an infectious mist outside their body where it can spread to other creatures. The target must attempt a Will save. If the target is willing, it can choose to take the effects of critical failure.",
+    "savingThrow": "Will",
+    "critsuccess": "The target receives the benefit of a successful save against the lowest-level disease affecting it.",
+    "success": "The target is unaffected.",
+    "failure": "One randomly chosen disease affecting the target fills the air in a 15-foot emanation centered on the target. For the spell's duration, any creature that enters or ends its turn within the area is exposed to that disease.",
+    "critfailure": "As failure, except the miasma contains all the diseases affecting the target.",
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Foul Miasma (Caster)",
+        "targetFilter": "caster"
+      }
+    ]
+  },
+  {
+    "name": "Ghostly Transcription",
+    "id": "983d0158-7483-11eb-9439-0242ac130002",
+    "shortDesc": "Glowing letters assemble in the air, providing a transcription of the target's speech in all languages you speak.",
+    "actions": "2A",
+    "castType": "material, somatic",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 4,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Illusion",
+      "Visual"
+    ],
+    "range": "30 feet",
+    "targets": "1 creature",
+    "target": "ally",
+    "singleTarget": true,
+    "duration": "1 minute",
+    "desc": "Glowing letters assemble in the air, providing a transcription of the target's speech in all languages you speak. For the spell's duration, any words spoken aloud by the target are spelled out in letters in front of them. When you Cast the Spell, you can choose whether these letters are visible to all creatures or only certain creatures you specify. Any words the target mouths silently are similarly spelled out, allowing the target to communicate silently or in areas where sound doesn't carry. This even allows the target to provide verbal casting components in such areas, but only if you choose to make the letters visible to all creatures. Furthermore, any of the target's auditory abilities can affect creatures even in areas where sound does not carry as long as you have made the glyphs visible to them and they have line of sight to the target; in this case, they gain the visual trait. You can Dismiss the spell.",
+    "gainConditions": [
+      {
+        "duration": 100,
+        "name": "Ghostly Transcription (Caster)",
+        "targetFilter": "caster"
+      },
+      {
+        "duration": 100,
+        "copyChoiceFrom": "Ghostly Transcription (Caster)",
+        "name": "Ghostly Transcription",
+        "targetFilter": "target"
+      }
+    ]
+  },
+  {
+    "name": "Overflowing Sorrow",
+    "id": "983d41b8-7483-11eb-9439-0242ac130002",
+    "shortDesc": "Sadness flows out of you into nearby creatures, blotting out any other thoughts they had.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 4,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Emotion",
+      "Enchantment",
+      "Incapacitation",
+      "Mental"
+    ],
+    "inputRequired": "The spell is cast with the largest possible radius, and you can change it in the resulting condition.",
+    "area": "15-foot emanation, centered on you",
+    "target": "area",
+    "sustained": 100,
+    "duration": "sustained up to 1 minute",
+    "desc": "<var>var1</var>Sadness flows out of you into nearby creatures, blotting out any other thoughts they had. The first time a creature begins its turn in the area or enters the area, it must attempt a Will save. If it later leaves and reenters the area, it uses the same effect as before.",
+    "savingThrow": "Will",
+    "critsuccess": "The creature is unaffected.",
+    "success": "The creature takes a -1 status penalty to skill checks and Perception checks as long as it remains in the area.",
+    "failure": "While the creature is in the area, any emotion effects of lower counteract level than overflowing sorrow are suppressed, and whenever the creature attempts to use an emotion action or cast an emotion spell, it must succeed at a DC 11 flat check or the action or spell is disrupted.",
+    "critfailure": "As failure, but the creature cannot use emotion actions or spells.",
+    "heightened": [
+      {
+        "desc": "When you Cast the Spell, you can choose to increase the area by 5 feet.",
+        "level": "(+2)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 100,
+        "heightenedFilter": 4,
+        "name": "Overflowing Sorrow (Caster)",
+        "radius": 15,
+        "targetFilter": "caster"
+      },
+      {
+        "duration": 100,
+        "heightenedFilter": 6,
+        "name": "Overflowing Sorrow (Caster)",
+        "radius": 20,
+        "targetFilter": "caster"
+      },
+      {
+        "duration": 100,
+        "heightenedFilter": 8,
+        "name": "Overflowing Sorrow (Caster)",
+        "radius": 25,
+        "targetFilter": "caster"
+      },
+      {
+        "duration": 100,
+        "heightenedFilter": 10,
+        "name": "Overflowing Sorrow (Caster)",
+        "radius": 30,
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 4,
+        "descs": [
+          {
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "When you Cast the Spell, you can choose to increase the area to 20 feet. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "When you Cast the Spell, you can choose to increase the area to 25 feet. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "When you Cast the Spell, you can choose to increase the area to 30 feet. ",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Remember the Lost",
+    "id": "983d54e6-7483-11eb-9439-0242ac130002",
+    "shortDesc": "You call upon the lost and forgotten, assailing your foes' minds with the memories of those who died with a grievance toward them.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "PFSnote": "For the purposes of Society play, remove the final sentence of remember the lost which states \"A creature that truly knows no one who died with any sort of grievance to that creature is immune to this effect.\"",
+    "levelreq": 4,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Divination",
+      "Mental"
+    ],
+    "area": "30-foot-radius emanation centered on you",
+    "target": "area",
+    "desc": "You call upon the lost and forgotten, assailing your foes' minds with the memories of those who died with a grievance toward them. Enemies in the area take |dice=var1 Mental| <var>var1</var> mental damage (basic Will save) and are frightened 1 on a critical failure. If you know the names of anyone murdered or grievously wronged by an enemy in the area, you can chant those victims' names when you cast the spell to improve the clarity of the visions, increasing the damage to the corresponding enemy from 6d6 to |dice=var2 Mental| <var>var2</var>; you can do so for multiple enemies if you know victims of each enemy. The visions are personal to each foe in the area, and you can't use this spell to discern a murderer by guessing a name. A creature that truly knows no one who died with any sort of grievance to that creature is immune to this effect.",
+    "savingThrow": "basic Will",
+    "heightened": [
+      {
+        "desc": "The damage increases by 2d6 (or 2d10 to an enemy when you name a specific victim).",
+        "level": "(+1)"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "6d6",
+            "variable": "var1"
+          },
+          {
+            "value": "6d10",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "8d6",
+            "variable": "var1"
+          },
+          {
+            "value": "8d10",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "10d6",
+            "variable": "var1"
+          },
+          {
+            "value": "10d10",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "12d6",
+            "variable": "var1"
+          },
+          {
+            "value": "12d10",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "14d6",
+            "variable": "var1"
+          },
+          {
+            "value": "14d10",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "16d6",
+            "variable": "var1"
+          },
+          {
+            "value": "16d10",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "18d6",
+            "variable": "var1"
+          },
+          {
+            "value": "18d10",
+            "variable": "var2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Roar of the Wyrm",
+    "id": "983d581a-7483-11eb-9439-0242ac130002",
+    "shortDesc": "You channel the might of dragons into your voice, letting out a roar that engenders respect in dragonkind but that instills fear in most other creatures.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 4,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Auditory",
+      "Cleric",
+      "Emotion",
+      "Enchantment",
+      "Mental"
+    ],
+    "area": "30-foot emanation",
+    "target": "area",
+    "duration": "varies",
+    "desc": "You channel the might of dragons into your voice, letting out a roar that engenders respect in dragonkind but that instills fear in most other creatures. The impressive roar grants you a +2 circumstance bonus to Diplomacy checks for 10 minutes against dragons that were in the area at the time of casting. All enemies within the area other than dragons must attempt a Will save; to these enemies, roar of the wyrm is a fear effect.",
+    "savingThrow": "Will",
+    "critsuccess": "The creature is unaffected.",
+    "success": "The creature is frightened 1.",
+    "failure": "The creature is frightened 2.",
+    "critfailure": "The creature is frightened 3 and fleeing for 1 round.",
+    "desc2": "Roar of the wyrm affects non-dragon creatures with deep ties to dragonkind (such as a barbarian with the draconic instinct, a sorcerer with the draconic bloodline, or a member of a culture that reveres dragons) as if they had the dragon trait. The GM decides if a creature is aligned enough with dragonkind to be affected in this way.",
+    "gainConditions": [
+      {
+        "duration": 1000,
+        "name": "Roar of the Wyrm (Caster)",
+        "targetFilter": "caster"
+      }
+    ]
+  },
+  {
+    "name": "Stasis",
+    "id": "983d6378-7483-11eb-9439-0242ac130002",
+    "shortDesc": "The flow of time congeals around an object or creature, holding it in place.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 4,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Incapacitation",
+      "Transmutation"
+    ],
+    "range": "30 feet",
+    "targets": "1 creature or up to 1 Bulk of objects",
+    "target": "other",
+    "singleTarget": true,
+    "duration": "varies",
+    "desc": "The flow of time congeals around an object or creature, holding it in place. The target must attempt a Will save (an unattended object automatically critically fails its save).",
+    "savingThrow": "Will",
+    "critsuccess": "The target is unaffected.",
+    "success": "The target is stunned 1 as time thickens around it.",
+    "failure": "Time ceases to pass for the target for 1 round. It is invulnerable to all damage, it cannot be targeted or affected by anything, and no rounds elapse for any timed durations, conditions, afflictions, and other effects it has. While in stasis, the target can't be moved, and it remains fixed in place, defying gravity if need be.",
+    "critfailure": "As failure, but the target is held in stasis for 3 rounds. At the end of each of its turns, it can attempt a Will save to reduce the remaining duration by 1 round or end it entirely on a critical success.",
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Stasis (Caster)",
+        "targetFilter": "caster"
+      }
+    ]
+  },
+  {
+    "name": "Swarm Form",
+    "id": "983d68e6-7483-11eb-9439-0242ac130002",
+    "shortDesc": "You discorporate into a swarm of Tiny creatures.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 4,
+    "traditions": [
+      "Focus"
+    ],
+    "traits": [
+      "Cleric",
+      "Polymorph",
+      "Transmutation"
+    ],
+    "target": "self",
+    "duration": "5 minutes",
+    "desc": "You discorporate into a swarm of Tiny creatures. While in swarm form, you have the swarm trait and you gain resistance <var>var1</var> to slashing and piercing damage and weakness <var>var1</var> to area and splash damage. You can fit into spaces only a few inches wide, moving your constituent creatures through the gap. You don't gain the swarm mind ability, so you are still affected normally by mental effects. As a swarm, you can't speak, cast spells, use manipulate actions requiring your hands, activate your magic items, or make any of your Strikes with your normal body. You can Dismiss the Spell.",
+    "heightened": [
+      {
+        "desc": "Increase your resistances and weaknesses each by 5.",
+        "level": "(+2)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 500,
+        "name": "Swarm Form"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "5",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "10",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "15",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "20",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Acidic Burst",
+    "id": "29ed5c38-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You create a shell of acid around yourself that immediately bursts outward.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Arcane",
+      "Primal"
+    ],
+    "traits": [
+      "Acid",
+      "Evocation"
+    ],
+    "area": "5-foot emanation",
+    "target": "area",
+    "desc": "You create a shell of acid around yourself that immediately bursts outward, dealing |dice=var1 Acid| <var>var1</var> acid damage to each creature in the area.",
+    "savingThrow": "basic Reflex",
+    "heightened": [
+      {
+        "desc": "The damage increases by 2d6.",
+        "level": "(+1)"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "value": "2d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "descs": [
+          {
+            "value": "4d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "6d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "8d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "10d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "12d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "14d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "16d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "18d6",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "20d6",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Agitate",
+    "id": "29ed5cf6-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You send the target's mind and body into overdrive, forcing it to become restless and hyperactive.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Arcane",
+      "Occult"
+    ],
+    "traits": [
+      "Enchantment",
+      "Mental",
+      "Nonlethal"
+    ],
+    "range": "30 feet",
+    "targets": "1 creature",
+    "target": "other",
+    "singleTarget": true,
+    "duration": "varies",
+    "desc": "You send the target's mind and body into overdrive, forcing it to become restless and hyperactive. During the duration, the target must Stride at least once each turn or take |dice=var1 Mental| <var>var1</var> mental damage that turn. The duration of this effect depends on the target's Will save.",
+    "savingThrow": "Will",
+    "critsuccess": "The spell has no effect.",
+    "success": "The duration is 1 round.",
+    "failure": "The duration is 2 rounds.",
+    "critfailure": "The duration is 4 rounds.",
+    "heightened": [
+      {
+        "desc": "The damage increases by 2d8.",
+        "level": "(+1)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Agitate (Caster)",
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "value": "2d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "descs": [
+          {
+            "value": "4d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "6d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "8d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "10d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "12d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "14d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "16d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "18d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "20d8",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Anticipate Peril",
+    "id": "29ed60b6-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You grant the target brief foresight.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Arcane",
+      "Occult"
+    ],
+    "traits": [
+      "Divination"
+    ],
+    "range": "30 feet",
+    "targets": "1 creature",
+    "target": "ally",
+    "singleTarget": true,
+    "duration": "10 minutes",
+    "desc": "You grant the target brief foresight. The target gains a <var>var1</var> status bonus to its next initiative roll, after which the spell ends.",
+    "heightened": [
+      {
+        "desc": "The status bonus increases by 1, to a maximum of +4 at 7th level.",
+        "level": "(+2)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 1000,
+        "name": "Anticipate Peril (Caster)",
+        "targetFilter": "caster"
+      },
+      {
+        "duration": 1000,
+        "name": "Anticipate Peril",
+        "targetFilter": "target"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "value": "1",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "2",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "3",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "4",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Befuddle",
+    "id": "29ed6390-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You sow seeds of confusion in your target's mind, causing their actions and thoughts to become clumsy.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Arcane"
+    ],
+    "traits": [
+      "Emotion",
+      "Enchantment",
+      "Mental"
+    ],
+    "range": "30 feet",
+    "targets": "1 creature",
+    "target": "other",
+    "singleTarget": true,
+    "duration": "1 round",
+    "desc": "You sow seeds of confusion in your target's mind, causing their actions and thoughts to become clumsy.",
+    "savingThrow": "Will",
+    "critsuccess": "The target is unaffected.",
+    "success": "The target is clumsy 1 and stupefied 1.",
+    "failure": "The target is clumsy 2 and stupefied 2.",
+    "critfailure": "The target is clumsy 3, stupefied 3, and confused.",
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Befuddle (Caster)",
+        "targetFilter": "caster"
+      }
+    ]
+  },
+  {
+    "name": "Endure",
+    "id": "29ed6f66-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You invigorate the touched creature's mind and urge it to press on.",
+    "actions": "1A",
+    "castType": "somatic",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Arcane",
+      "Occult"
+    ],
+    "traits": [
+      "Enchantment",
+      "Mental"
+    ],
+    "range": "touch",
+    "targets": "1 creature",
+    "target": "ally",
+    "singleTarget": true,
+    "duration": "1 round",
+    "desc": "You invigorate the touched creature's mind and urge it to press on. You grant the touched creature <var>var1</var> temporary Hit Points.",
+    "heightened": [
+      {
+        "desc": "Increase the temporary Hit Points by 5.",
+        "level": "(+1)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 10,
+        "name": "Endure (Caster)",
+        "targetFilter": "caster"
+      },
+      {
+        "duration": 10,
+        "name": "Endure",
+        "targetFilter": "target"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "value": "5",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "descs": [
+          {
+            "value": "10",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "15",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "20",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "25",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "30",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "35",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "40",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "45",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "50",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Liberating Command",
+    "id": "29ed81f4-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You call out a liberating cry, urging an ally to break free of an effect that holds them in place.",
+    "actions": "1A",
+    "castType": "verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Occult"
+    ],
+    "traits": [
+      "Enchantment",
+      "Mental"
+    ],
+    "range": "60 feet",
+    "targets": "1 creature",
+    "target": "ally",
+    "singleTarget": true,
+    "desc": "You call out a liberating cry, urging an ally to break free of an effect that holds them in place. If the target is grabbed, immobilized, or restrained, it can immediately use a reaction to attempt to Escape."
+  },
+  {
+    "name": "Message Rune",
+    "id": "29ed8d34-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You record a message up to 5 minutes long and inscribe a special rune on any flat unattended surface within reach.",
+    "actions": "5 minutes",
+    "castType": "material, somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Arcane",
+      "Occult"
+    ],
+    "traits": [
+      "Divination",
+      "Linguistic",
+      "Mental"
+    ],
+    "range": "touch",
+    "targets": "1 flat unattended surface",
+    "target": "object",
+    "duration": "1 day",
+    "desc": "You record a message up to 5 minutes long and inscribe a special rune on any flat unattended surface within reach. The nature of the rune's appearance is up to you, but it is visible to everyone and it must be no smaller than 2 inches in diameter. You also specify a trigger that creatures must meet to activate the rune. For the duration of the spell, creatures who meet the criteria of the trigger can touch the rune to hear the recorded message in their head as though you were speaking to them telepathically. You know when someone is listening to the message, but you do not know who is listening to it. You can Dismiss the spell.",
+    "gainConditions": [
+      {
+        "duration": 144000,
+        "name": "Message Rune",
+        "targetFilter": "caster"
+      }
+    ]
+  },
+  {
+    "name": "Penumbral Shroud",
+    "id": "29ed91da-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You envelop the target in a shroud of shadow.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Arcane",
+      "Occult"
+    ],
+    "traits": [
+      "Darkness",
+      "Evocation"
+    ],
+    "range": "30 feet",
+    "targets": "1 creature",
+    "target": "ally",
+    "singleTarget": true,
+    "duration": "10 minutes",
+    "desc": "You envelop the target in a shroud of shadow. The target perceives light as one step lower than it actually is (bright light becomes dim light, for example), affecting their ability to sense creatures and objects accordingly. The shroud also provides the target a +1 status bonus to saving throws against light effects. While this effect is helpful to creatures sensitive to light, if the creature is unwilling, it can attempt a Reflex save to avoid the shroud and reduce the effect.",
+    "critsuccess": "The target is unaffected.",
+    "success": "The effect lasts for 1 round",
+    "failure": "The effect lasts its normal duration.",
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Penumbral Shroud (Caster)",
+        "targetFilter": "caster"
+      },
+      {
+        "duration": -5,
+        "copyChoiceFrom": "Penumbral Shroud (Caster)",
+        "name": "Penumbral Shroud",
+        "targetFilter": "target"
+      }
+    ]
+  },
+  {
+    "name": "Share Lore",
+    "id": "29ed99c8-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You share your knowledge with the touched creatures.",
+    "actions": "1 minute",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Arcane",
+      "Occult"
+    ],
+    "traits": [
+      "Divination",
+      "Mental"
+    ],
+    "range": "touch",
+    "targets": "up to 3 creatures",
+    "target": "ally",
+    "cannotTargetCaster": true,
+    "duration": "10 minutes",
+    "desc": "<var>var1</var>You share your knowledge with the touched creatures. Choose one Lore skill in which you are trained. The targets become trained in that Lore skill for the duration of the spell.",
+    "targetNumbers": [
+      {
+        "number": 3,
+        "minLevel": 1
+      },
+      {
+        "number": 5,
+        "minLevel": 3
+      }
+    ],
+    "heightened": [
+      {
+        "desc": "The duration of the spell is 1 hour and you can target up to five creatures.",
+        "level": "(3rd)"
+      },
+      {
+        "desc": "The duration of the spell is 8 hours, you can target up to five creatures, and you can share up to two Lore skills in which you are trained.",
+        "level": "(5th)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Share Lore",
+        "targetFilter": "caster"
+      },
+      {
+        "duration": -5,
+        "name": "Share Lore",
+        "targetFilter": "target"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "The duration of the spell is 1 hour and you can target up to five creatures. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "The duration of the spell is 8 hours, you can target up to five creatures, and you can share up to two Lore skills in which you are trained. ",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Shattering Gem",
+    "id": "29ed9b30-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "A large gem floats around the target in an erratic pattern.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Arcane",
+      "Primal"
+    ],
+    "traits": [
+      "Abjuration",
+      "Earth"
+    ],
+    "range": "touch",
+    "targets": "1 creature",
+    "target": "ally",
+    "singleTarget": true,
+    "duration": "1 minute",
+    "desc": "A large gem floats around the target in an erratic pattern. The gem has <var>var1</var> Hit Points. Each time a creature Strikes the target, the target attempts a DC 11 flat check. On a success, the gem blocks the attack, so the attack first damages the gem and then applies any remaining damage to the target. If the gem is reduced to 0 Hit Points, it shatters, immediately dealing the creature that destroyed it |dice=var2 S| <var>var2</var> slashing damage (basic Reflex save), as long as that creature is within 10 feet of the target.",
+    "heightened": [
+      {
+        "desc": "The gem has 5 additional HP, and the damage dealt by its detonation increases by 1d8.",
+        "level": "(+1)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 100,
+        "name": "Shattering Gem (Caster)",
+        "targetFilter": "caster"
+      },
+      {
+        "duration": 100,
+        "name": "Shattering Gem",
+        "targetFilter": "target"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "value": "5",
+            "variable": "var1"
+          },
+          {
+            "value": "1d8",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "descs": [
+          {
+            "value": "10",
+            "variable": "var1"
+          },
+          {
+            "value": "2d8",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "15",
+            "variable": "var1"
+          },
+          {
+            "value": "3d8",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "20",
+            "variable": "var1"
+          },
+          {
+            "value": "4d8",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "25",
+            "variable": "var1"
+          },
+          {
+            "value": "5d8",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "30",
+            "variable": "var1"
+          },
+          {
+            "value": "6d8",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "35",
+            "variable": "var1"
+          },
+          {
+            "value": "7d8",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "40",
+            "variable": "var1"
+          },
+          {
+            "value": "8d8",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "45",
+            "variable": "var1"
+          },
+          {
+            "value": "9d8",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "50",
+            "variable": "var1"
+          },
+          {
+            "value": "10d8",
+            "variable": "var2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Shockwave",
+    "id": "29ed9eaa-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You create a wave of energy that ripples through the earth.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Arcane",
+      "Primal"
+    ],
+    "traits": [
+      "Earth",
+      "Evocation"
+    ],
+    "area": "15-foot cone",
+    "target": "area",
+    "desc": "<var>var1</var>You create a wave of energy that ripples through the earth. Terrestrial creatures in the affected area must attempt a Reflex save to avoid stumbling as the shockwave shakes the ground.",
+    "savingThrow": "Reflex",
+    "critsuccess": "The creature is unaffected.",
+    "success": "The creature is flat-footed until the start of its next turn.",
+    "failure": "The creature falls prone.",
+    "critfailure": "As failure, plus the creature takes |dice=1d6| 1d6 damage.",
+    "heightened": [
+      {
+        "desc": "The area increases by 5 feet (to a 20-foot cone at 2nd level, and so on).",
+        "level": "(+1)"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "descs": [
+          {
+            "value": "The area increases to 20 feet. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "The area increases to 25 feet. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "The area increases to 30 feet. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "The area increases to 35 feet. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "The area increases to 40 feet. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "The area increases to 45 feet. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "The area increases to 50 feet. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "The area increases to 55 feet. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "The area increases to 60 feet. ",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Temporary Tool",
+    "id": "29edab34-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You conjure a temporary simple tool, such as a shovel or rope into your hands.",
+    "actions": "1 minute",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "PFSnote": "The temporary tool spell can be used to create only simple tools, and therefore cannot create kits, which are complex objects made of multiple pieces, or objects made of any specific precious material.",
+    "levelreq": 1,
+    "traditions": [
+      "Arcane"
+    ],
+    "traits": [
+      "Conjuration"
+    ],
+    "target": "self",
+    "duration": "until used or 1 minute; see text",
+    "desc": "You conjure a temporary simple tool, such as a shovel or rope into your hands. It lasts until it is used for a single activity or for 1 minute, whichever comes first, after which it disappears. The tool is obviously temporarily conjured, and thus can't be sold or passed off as a genuine item.",
+    "gainConditions": [
+      {
+        "duration": 100,
+        "name": "Temporary Tool"
+      }
+    ]
+  },
+  {
+    "name": "Tether",
+    "id": "29edac88-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You use magical chains, vines, or other tethers to bind your target to you.",
+    "actions": "1A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 1,
+    "traditions": [
+      "Arcane",
+      "Primal"
+    ],
+    "traits": [
+      "Abjuration"
+    ],
+    "range": "30 feet",
+    "targets": "1 creature",
+    "target": "other",
+    "singleTarget": true,
+    "duration": "1 minute or until dismissed; see text",
+    "desc": "You use magical chains, vines, or other tethers to bind your target to you. The creature can still try to Escape, and it or others can break the tethers by attacking them (the tethers have AC <var>var1</var> and <var>var2</var> Hit Points). You must stay within 30 feet of the target while it is tethered; moving more than 30 feet away from your target ends the spell. The target must attempt a Reflex save.",
+    "savingThrow": "Reflex",
+    "critsuccess": "The target is unaffected.",
+    "success": "The target takes a -5-foot circumstance penalty to its Speed as long as it is within 30 feet of you.",
+    "failure": "The target takes a -10-foot circumstance penalty to its Speed and cannot move more than 30 feet away from you until it Escapes or the spell ends.",
+    "critfailure": "The target is immobilized until it Escapes or the spell ends.",
+    "heightened": [
+      {
+        "desc": "The tethers' AC increases by 3 and their Hit Points increase by 10.",
+        "level": "(+1)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Tether (Caster)",
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "value": "15",
+            "variable": "var1"
+          },
+          {
+            "value": "10",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "descs": [
+          {
+            "value": "18",
+            "variable": "var1"
+          },
+          {
+            "value": "20",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "21",
+            "variable": "var1"
+          },
+          {
+            "value": "30",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "24",
+            "variable": "var1"
+          },
+          {
+            "value": "40",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "27",
+            "variable": "var1"
+          },
+          {
+            "value": "50",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "30",
+            "variable": "var1"
+          },
+          {
+            "value": "60",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "33",
+            "variable": "var1"
+          },
+          {
+            "value": "70",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "36",
+            "variable": "var1"
+          },
+          {
+            "value": "80",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "39",
+            "variable": "var1"
+          },
+          {
+            "value": "90",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "42",
+            "variable": "var1"
+          },
+          {
+            "value": "100",
+            "variable": "var2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Animus Mine",
+    "id": "29edb71e-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You implant a mental mine within your psyche that detonates against anyone attempting to manipulate your thoughts.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 2,
+    "traditions": [
+      "Occult"
+    ],
+    "traits": [
+      "Abjuration",
+      "Mental"
+    ],
+    "target": "self",
+    "duration": "1 hour",
+    "desc": "You implant a mental mine within your psyche that detonates against anyone attempting to manipulate your thoughts. You can use a single action, which has the concentrate trait, to suppress the effects of the mine for 1 round to allow someone to safely use a mental effect on you. You can Dismiss the spell.\n\nThe first creature that uses a mental effect against you triggers the animus mine, causing the spell to end. The animus mine deals |dice=var1 Mental| <var>var1</var> mental damage to the triggering creature, which must attempt a Will save.",
+    "savingThrow": "Will",
+    "critsuccess": "The creature is unaffected.",
+    "success": "The creature takes half damage.",
+    "failure": "The creature takes full damage and is stunned 1.",
+    "critfailure": "The creature takes double damage and is stunned 1. You are unaffected by the triggering mental effect.",
+    "heightened": [
+      {
+        "desc": "The damage increases by 2d8.",
+        "level": "(+1)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 6000,
+        "name": "Animus Mine"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 2,
+        "descs": [
+          {
+            "value": "4d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "6d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "8d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "10d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "12d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "14d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "16d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "18d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "20d8",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Brand the Impenitent",
+    "id": "29edbcbe-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You brand the target with an ethereal copy of your deity's religious symbol.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 2,
+    "traditions": [
+      "Divine"
+    ],
+    "traits": [
+      "Abjuration",
+      "Curse"
+    ],
+    "range": "touch",
+    "targets": "1 creature",
+    "target": "other",
+    "singleTarget": true,
+    "duration": "varies",
+    "desc": "You brand the target with an ethereal copy of your deity's religious symbol. This brand can't be hidden, but it is visible only to followers of your faith, who see it as clearly as a lit torch. Followers of your faith ignore the target's concealed condition, if any, and the target gains a -1 status penalty to AC against attacks by followers of your faith. If the target is a follower of your deity in good standing, the spell fails.",
+    "savingThrow": "Fortitude",
+    "critsuccess": "The target is unaffected.",
+    "success": "The spell lasts for 1 round.",
+    "failure": "The spell lasts for 1 minute.",
+    "critfailure": "The spell has an unlimited duration.",
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Brand the Impenitent (Caster)",
+        "targetFilter": "caster"
+      }
+    ]
+  },
+  {
+    "name": "Expeditious Excavation",
+    "id": "29ee33c4-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You remove loose dirt, dust, gravel, sand, and the like from the area.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 2,
+    "traditions": [
+      "Arcane",
+      "Primal"
+    ],
+    "traits": [
+      "Earth",
+      "Transmutation"
+    ],
+    "range": "touch",
+    "area": "cube of dirt 5 feet across or smaller",
+    "target": "area",
+    "desc": "You remove loose dirt, dust, gravel, sand, and the like (though not solid stone) up to the size of <var>var1</var>. Any Medium or smaller creature standing atop the earth when the spell is cast must attempt a Reflex save or Acrobatics check.<var>var1</var>",
+    "success": "The creature is unaffected and can choose to either descend the pit without damage or move to the nearest available space of its choice.",
+    "failure": "The creature falls prone in the nearest available space of its choice, or falls into the pit if it prefers.",
+    "critfailure": "The creature falls into the pit excavated by the spell and lands prone, taking falling damage as normal.",
+    "heightened": [
+      {
+        "desc": "The spell can excavate an additional 5-foot cube of earth. If you excavate all four 5-foot cubes beneath a Large creature, it must attempt a Reflex save or Acrobatics check, as above.",
+        "level": "(+2)"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 2,
+        "descs": [
+          {
+            "value": "a 5-foot cube",
+            "variable": "var1"
+          },
+          {
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "two 5-foot cubes",
+            "variable": "var1"
+          },
+          {
+            "value": " If you excavate all four 5-foot cubes beneath a Large creature, it must attempt a Reflex save or Acrobatics check, as above.",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "three 5-foot cubes",
+            "variable": "var1"
+          },
+          {
+            "value": " If you excavate all four 5-foot cubes beneath a Large creature, it must attempt a Reflex save or Acrobatics check, as above.",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "four 5-foot cubes",
+            "variable": "var1"
+          },
+          {
+            "value": " If you excavate all four 5-foot cubes beneath a Large creature, it must attempt a Reflex save or Acrobatics check, as above.",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "five 5-foot cubes",
+            "variable": "var1"
+          },
+          {
+            "value": " If you excavate all four 5-foot cubes beneath a Large creature, it must attempt a Reflex save or Acrobatics check, as above.",
+            "variable": "var2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Feast of Ashes",
+    "id": "29ee35f4-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You curse the target with a hunger no food can sate.",
+    "actions": "3A",
+    "castType": "material, somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 2,
+    "traditions": [
+      "Arcane",
+      "Occult",
+      "Primal"
+    ],
+    "traits": [
+      "Curse",
+      "Necromancy"
+    ],
+    "range": "30 feet",
+    "targets": "1 living creature",
+    "target": "other",
+    "singleTarget": true,
+    "duration": "1 week",
+    "desc": "You curse the target with a hunger no food can sate. You can Dismiss the spell. The target must attempt a Fortitude save.",
+    "savingThrow": "Fortitude",
+    "critsuccess": "The creature is unaffected and is temporarily immune for 1 hour.",
+    "success": "The creature is fatigued for 1 round.",
+    "failure": "The creature is immediately afflicted by hunger as if it hadn't eaten food in days. It becomes fatigued and takes |dice=var1| <var>var1</var> damage each day that can't be healed until it sates its hunger. No amount of eating can sate the creature's hunger during the spell's duration. After the spell's duration, the creature takes damage from starvation.",
+    "critfailure": "As failure but the creature takes |dice=var2| <var>var2</var> damage each day, twice as much as usual for hunger.",
+    "heightened": [
+      {
+        "desc": "The hunger becomes more unbearable, increasing the damage each day by 1d4, or by 2d4 on a critical failure.",
+        "level": "(+1)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Feast of Ashes (Caster)",
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 2,
+        "descs": [
+          {
+            "value": "1d4",
+            "variable": "var1"
+          },
+          {
+            "value": "2d4",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "2d4",
+            "variable": "var1"
+          },
+          {
+            "value": "4d4",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "3d4",
+            "variable": "var1"
+          },
+          {
+            "value": "6d4",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "4d4",
+            "variable": "var1"
+          },
+          {
+            "value": "8d4",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "5d4",
+            "variable": "var1"
+          },
+          {
+            "value": "10d4",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "6d4",
+            "variable": "var1"
+          },
+          {
+            "value": "12d4",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "7d4",
+            "variable": "var1"
+          },
+          {
+            "value": "14d4",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "8d4",
+            "variable": "var1"
+          },
+          {
+            "value": "16d4",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "9d4",
+            "variable": "var1"
+          },
+          {
+            "value": "18d4",
+            "variable": "var2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Fungal Hyphae",
+    "id": "29ee38ba-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "Thin hyphae grow from your feet and plunge into the earth.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 2,
+    "traditions": [
+      "Primal"
+    ],
+    "traits": [
+      "Fungus",
+      "Necromancy"
+    ],
+    "target": "self",
+    "duration": "1 minute",
+    "desc": "Thin hyphae grow from your feet and plunge into the earth, creating a symbiotic fungal network that attaches to plants within 30 feet and connects you to their root systems. You gain an imprecise tremorsense allowing you to sense anything directly touching plants within that distance. <var>var1</var>If you move, the hyphae snap and the spell ends.",
+    "heightened": [
+      {
+        "desc": "You can control plants in the area to a small degree, allowing you to make Strikes with tree branches, exposed roots, or similarly solid plants. To do so, you use a Strike action, but you can Strike any creature you can detect with your tremorsense. These are melee spell attacks that deal 2d8 bludgeoning damage plus your spellcasting ability modifier. Unusual plants, such as thorny vines, might deal a different type of damage at the GM's discretion. You can't make any other attacks through these plants, or take any other actions through them, other than these Strikes.",
+        "level": "(4th)"
+      },
+      {
+        "desc": "As 4th level, but you can use other simple manipulate actions through the plants, including having a branch pick an object up or open a door, though more complex actions, such as picking a lock or disabling a trap, remain impossible.",
+        "level": "(6th)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 100,
+        "name": "Fungal Hyphae"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 2,
+        "descs": [
+          {
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "You can control plants in the area to a small degree, allowing you to make Strikes with tree branches, exposed roots, or similarly solid plants. To do so, you use a Strike action, but you can Strike any creature you can detect with your tremorsense. These are melee spell attacks that deal |dice=2d8 + spellmod B| 2d8 bludgeoning damage plus your spellcasting ability modifier. Unusual plants, such as thorny vines, might deal a different type of damage at the GM's discretion. You can't make any other attacks through these plants, or take any other actions through them, other than these Strikes. ",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "You can control plants in the area to a small degree, allowing you to make Strikes with tree branches, exposed roots, or similarly solid plants. To do so, you use a Strike action, but you can Strike any creature you can detect with your tremorsense. These are melee spell attacks that deal |dice=2d8 + spellmod B| 2d8 bludgeoning damage plus your spellcasting ability modifier. Unusual plants, such as thorny vines, might deal a different type of damage at the GM's discretion. You can't make any other attacks through these plants than these Strikes. You can use other simple manipulate actions through the plants, including having a branch pick an object up or open a door, though more complex actions, such as picking a lock or disabling a trap, remain impossible.",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Iron Gut",
+    "id": "29ee4062-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "Your mouth, esophagus, and stomach become incredibly elastic and tougher than metal.",
+    "actions": "2A",
+    "castType": "material, somatic",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 2,
+    "traditions": [
+      "Arcane",
+      "Primal"
+    ],
+    "traits": [
+      "Transmutation"
+    ],
+    "target": "self",
+    "duration": "1 hour",
+    "desc": "<var>var1</var>Your mouth, esophagus, and stomach become incredibly elastic and tougher than metal. For the duration of the spell, you can reach down your throat to store or retrieve a single object of light or negligible Bulk in your stomach, as though your stomach were a backpack or other container. Storing and retrieving an item in this way requires an Interact action. The object must be small enough to reasonably fit within your stomach. It is very difficult for other creatures to notice that you are hiding an object in this way; passive observers can't possibly notice and you gain a +4 circumstance bonus to your Stealth checks to Conceal the Object unless the searcher specifically searches your mouth and stomach. If at the end of the spell's duration you still have an object stored in your stomach, it is violently expelled, dealing |dice=1d6| 1d6 damage to you.",
+    "heightened": [
+      {
+        "desc": "The duration increases to 8 hours.",
+        "level": "(3rd)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Iron Gut"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 2,
+        "descs": [
+          {
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "The duration increases to 8 hours. ",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Slough Skin",
+    "id": "29ee535e-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You continually and harmlessly slough off the top layer of your skin while new skin regenerates immediately.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 2,
+    "traditions": [
+      "Arcane",
+      "Primal"
+    ],
+    "traits": [
+      "Necromancy"
+    ],
+    "target": "self",
+    "duration": "1 hour",
+    "desc": "You continually and harmlessly slough off the top layer of your skin while new skin regenerates immediately, quickly moving damaging substances away from your body. The flat check to remove persistent damage from effects that coat your skin (such as most persistent acid damage) is reduced to 5, and you gain a +2 status bonus to your initial save against contact poison (but not to further saves, since by that point, the toxin has already entered your system). If you're suffering from an effect other than persistent damage that depends on continuous contact with your skin, if that effect allows a saving throw, you receive a new saving throw against that effect at the end of each turn when you attempt your flat checks against persistent damage, and you also receive a +2 status bonus to those saving throws.\n\nWhile affected by this spell, your continually shedding skin makes you much easier to Track. Anyone Tracking you gains a +2 circumstance bonus to do so, and you cannot Hide Your Tracks.",
+    "gainConditions": [
+      {
+        "duration": 6000,
+        "name": "Slough Skin"
+      }
+    ]
+  },
+  {
+    "name": "Cup of Dust",
+    "id": "29ee68d0-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You curse the target with a thirst no drink can quench.",
+    "actions": "3A",
+    "castType": "material, somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 3,
+    "traditions": [
+      "Arcane",
+      "Occult",
+      "Primal"
+    ],
+    "traits": [
+      "Curse",
+      "Necromancy"
+    ],
+    "range": "30 feet",
+    "targets": "1 living creature",
+    "target": "other",
+    "singleTarget": true,
+    "duration": "1 day",
+    "desc": "You curse the target with a thirst no drink can quench. You can Dismiss the spell. The target must attempt a Fortitude save.",
+    "savingThrow": "Fortitude",
+    "critsuccess": "The creature is unaffected and is temporarily immune for 1 hour.",
+    "success": "The creature is fatigued for 1 round.",
+    "failure": "The creature is immediately afflicted by thirst as if it hadn't had a drink in days. It becomes fatigued and takes |dice=var1| <var>var1</var> damage each hour that can't be healed until it quenches its thirst. No amount of drinking can quench the creature's thirst during the spell's duration.",
+    "critfailure": "As failure but the creature takes |dice=var2| <var>var2</var> damage each hour, twice as much as usual for thirst.",
+    "heightened": [
+      {
+        "desc": "The thirst becomes more unbearable, increasing the damage each hour by 1d4, or by 2d4 on a critical failure.",
+        "level": "(+3)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Cup of Dust (Caster)",
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "1d4",
+            "variable": "var1"
+          },
+          {
+            "value": "2d4",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "2d4",
+            "variable": "var1"
+          },
+          {
+            "value": "4d4",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "3d4",
+            "variable": "var1"
+          },
+          {
+            "value": "6d4",
+            "variable": "var2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Shifting Sand",
+    "id": "29ee84a0-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You cause the surface to heave.",
+    "actions": "3A",
+    "castType": "material, somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 3,
+    "traditions": [
+      "Arcane",
+      "Primal"
+    ],
+    "traits": [
+      "Earth",
+      "Transmutation"
+    ],
+    "range": "30 feet",
+    "area": "a horizontal earthen or sandy surface within a 20-foot burst",
+    "target": "area",
+    "sustained": 100,
+    "duration": "sustained up to 1 minute",
+    "desc": "<var>var1</var>You cause the surface to heave. The area becomes difficult terrain and any tracks in the area are destroyed by the churning ground. Creatures standing in the area take a <var>var2</var> status penalty to Acrobatics checks to Balance and Tumble Through and Athletics checks to High Jump and Long Jump. When you Sustain the Spell, you can move the churning area up to 10 feet in any direction. Creatures immobilized by the spell are carried along with the shifting sand in the same direction, if possible; this movement is forced movement. Creatures that enter or begin their turn standing in the shifting sand must attempt a Reflex save.",
+    "critsuccess": "The creature is unaffected and ignores the area's difficult terrain and penalty to skill checks until the end of its turn.",
+    "success": "The creature ignores the area's penalty to skill checks until the end of its turn.",
+    "failure": "The creature is affected normally by the spell this turn.",
+    "critfailure": "The creature becomes immobilized within the spell's area until it Escapes. If the creature was already immobilized by shifting sands, it also falls prone.",
+    "heightened": [
+      {
+        "desc": "The status penalty increases to -2 and the spell's range increases to 60 feet.",
+        "level": "(5th)"
+      },
+      {
+        "desc": "The status penalty increases to -3, the spell's range increases to 60 feet, and the spell's area increases to a 30-foot burst.",
+        "level": "(7th)"
+      },
+      {
+        "desc": "The status penalty increases to -4, the spell's range increases to 60 feet, and the spell's area increases to a 40-foot burst.",
+        "level": "(9th)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 100,
+        "name": "Shifting Sand (Caster)",
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 3,
+        "descs": [
+          {
+            "variable": "var1"
+          },
+          {
+            "value": "-1",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "The spell's range increases to 60 feet. ",
+            "variable": "var1"
+          },
+          {
+            "value": "-2",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "The spell's range increases to 60 feet, and the spell's area increases to a 30-foot burst. ",
+            "variable": "var1"
+          },
+          {
+            "value": "-3",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "The spell's range increases to 60 feet, and the spell's area increases to a 40-foot burst. ",
+            "variable": "var1"
+          },
+          {
+            "value": "-4",
+            "variable": "var2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Show the Way",
+    "id": "29ee855e-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You and affected allies gain preternatural knowledge of the path ahead, allowing you to intuit the best way forward and avoid potential obstacles.",
+    "actions": "10 minutes",
+    "castType": "material, somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 3,
+    "traditions": [
+      "Divine",
+      "Primal"
+    ],
+    "traits": [
+      "Detection",
+      "Divination"
+    ],
+    "area": "5-foot emanation",
+    "targets": "you and allies in the area",
+    "target": "area",
+    "cannotTargetCaster": true,
+    "duration": "8 hours",
+    "desc": "You and affected allies gain preternatural knowledge of the path ahead, allowing you to intuit the best way forward and avoid potential obstacles such as difficult or confusing terrain. <var>var1</var> Show the way does not prevent you from falling into traps or encountering other artificial obstacles and hazards.",
+    "heightened": [
+      {
+        "desc": "For the purpose of long-distance overland travel during exploration mode, traveling through difficult terrain doesn't reduce your travel Speed at all, and traveling through greater difficult terrain reduces your travel Speed to only three-quarters of its normal value instead of one-third.",
+        "level": "(6th)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 48000,
+        "name": "Show the Way",
+        "targetFilter": "caster"
+      },
+      {
+        "duration": 48000,
+        "name": "Show the Way",
+        "targetFilter": "target"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "For the purpose of long-distance overland travel during exploration mode, traveling through difficult terrain reduces you to only three-quarters your travel Speed instead of half, and traveling through greater difficult terrain reduces your travel Speed to only half your travel Speed instead of one-third.",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "For the purpose of long-distance overland travel during exploration mode, traveling through difficult terrain doesn't reduce your travel Speed at all, and traveling through greater difficult terrain reduces your travel Speed to only three-quarters of its normal value instead of one-third.",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Whirling Scarves",
+    "id": "29ee8cf2-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You surround yourself in a vortex of whirling colorful scarves of force that obfuscate you and disorient your foes.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 3,
+    "traditions": [
+      "Divine",
+      "Occult"
+    ],
+    "traits": [
+      "Abjuration",
+      "Force"
+    ],
+    "target": "self",
+    "duration": "1 minute",
+    "desc": "You surround yourself in a vortex of whirling colorful scarves of force that obfuscate you and disorient your foes. You gain the benefits of the concealed condition, but only against ranged and melee attacks. When a melee attack fails to hit you because of the flat check for the concealed condition, the scarves snag the weapon or unarmed attack, and the creature takes a <var>var1</var> circumstance penalty to further attacks with that weapon or unarmed attack until the end of its turn (or the end of its next turn, if it wasn't the creature's turn). The timing of the scarves' movement is harder to predict for ranged attackers, so the flat check for the concealed condition against ranged attacks increases from DC 5 to DC <var>var2</var>. You can Dismiss this spell.",
+    "heightened": [
+      {
+        "desc": "The circumstance penalty to further attacks with a melee weapon or unarmed attack the scarves snag increases by 1. The DC of the flat check for the concealed condition against ranged attacks increases by 1.",
+        "level": "(+2)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 100,
+        "name": "Whirling Scarves"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "-1",
+            "variable": "var1"
+          },
+          {
+            "value": "6",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "-2",
+            "variable": "var1"
+          },
+          {
+            "value": "7",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "-3",
+            "variable": "var1"
+          },
+          {
+            "value": "8",
+            "variable": "var2"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "-4",
+            "variable": "var1"
+          },
+          {
+            "value": "9",
+            "variable": "var2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Reflective Scales",
+    "id": "29eeab1a-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You grow a set of colored glowing scales or scaled armor that stores energy before releasing it in a final burst.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 4,
+    "traditions": [
+      "Arcane",
+      "Primal"
+    ],
+    "traits": [
+      "Abjuration"
+    ],
+    "target": "self",
+    "duration": "1 minute",
+    "desc": "You grow a set of colored glowing scales or scaled armor that stores energy before releasing it in a final burst. When you cast this spell, choose acid, cold, fire, electricity, or poison damage. You gain resistance <var>var1</var> against that type of damage. The scales' color depends on the damage type you chose and is usually the color of a type of dragon or other creature associated with that damage type, such as red or gold for fire damage.\n\nThe scales store up energy as they protect you. Keep track of how much damage the scales have prevented. As a 2-action activity that has the concentrate and manipulate traits, you can explode your scales outward in a 20-foot radius around you, dealing |dice=1d6| 1d6 damage of the chosen type to all creatures in the area for every 10 damage the scales have prevented, to a maximum of |dice=var2| <var>var2</var> damage (after preventing <var>var3</var> damage). Once you do so, the spell ends.",
+    "heightened": [
+      {
+        "desc": "The resistance increases by 5 and the maximum damage from the scale explosion increases by 5d6.",
+        "level": "(+2)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 100,
+        "name": "Reflective Scales"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "5",
+            "variable": "var1"
+          },
+          {
+            "value": "10d6",
+            "variable": "var2"
+          },
+          {
+            "value": "100",
+            "variable": "var3"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "10",
+            "variable": "var1"
+          },
+          {
+            "value": "15d6",
+            "variable": "var2"
+          },
+          {
+            "value": "150",
+            "variable": "var3"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "15",
+            "variable": "var1"
+          },
+          {
+            "value": "20d6",
+            "variable": "var2"
+          },
+          {
+            "value": "200",
+            "variable": "var3"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "20",
+            "variable": "var1"
+          },
+          {
+            "value": "25d6",
+            "variable": "var2"
+          },
+          {
+            "value": "250",
+            "variable": "var3"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Acid Storm",
+    "id": "29eebb96-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You evoke a storm of acid rain that pelts the area for the spell's duration.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 5,
+    "traditions": [
+      "Arcane",
+      "Primal"
+    ],
+    "traits": [
+      "Acid",
+      "Evocation"
+    ],
+    "range": "120 feet",
+    "area": "20-foot-radius burst",
+    "target": "area",
+    "duration": "1 minute",
+    "desc": "You evoke a storm of acid rain that pelts the area for the spell's duration. A creature that begins its turn in the area takes |dice=var1 Acid| <var>var1</var> acid damage (basic Reflex save).",
+    "heightened": [
+      {
+        "desc": "The damage increases by 1d8.",
+        "level": "(+2)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 100,
+        "name": "Acid Storm",
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "3d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "4d8",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "5d8",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Time Beacon",
+    "id": "29ef1f82-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "You create a beacon in time, intending to return to it if things go wrong.",
+    "actions": "1A",
+    "castType": "material",
+    "sourceBook": "Gods & Magic",
+    "_extensionFileName": "godsAndMagic",
+    "levelreq": 7,
+    "traditions": [
+      "Arcane",
+      "Occult"
+    ],
+    "traits": [
+      "Divination"
+    ]
+  }
+]

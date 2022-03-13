@@ -1,0 +1,39 @@
+[
+  {
+    "name": "Magical Fetters",
+    "id": "50c0751d-68f5-4f88-84e8-f950920d9692",
+    "shortDesc": "Ghostly manacles launch from your outstretched hand and clasp around the target's limbs, impeding its movements.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Pathfinder #158: Sixty Feet Under",
+    "_extensionFileName": "pathfinder158",
+    "levelreq": 3,
+    "traditions": [
+      "Arcane",
+      "Occult"
+    ],
+    "traits": [
+      "Uncommon",
+      "Conjuration",
+      "Incapacitation"
+    ],
+    "range": "60 feet",
+    "targets": "1 creature",
+    "target": "other",
+    "singleTarget": true,
+    "duration": "see below",
+    "desc": "Ghostly manacles launch from your outstretched hand and clasp around the target's limbs, impeding its movements. The target must attempt a Reflex save.",
+    "savingThrow": "Reflex",
+    "critsuccess": "The target is unaffected.",
+    "success": "The target is clumsy 1 and takes a -10-foot status penalty to its Speed for 1 round.",
+    "failure": "The target is clumsy 3 and takes a -10-foot status penalty to its Speed for 1 minute.",
+    "critfailure": "As failure, but the target is also slowed 1 for the duration.",
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Magical Fetters (Caster)",
+        "targetFilter": "caster"
+      }
+    ]
+  }
+]

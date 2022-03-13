@@ -1,0 +1,294 @@
+[
+  {
+    "name": "Chilling Spray",
+    "id": "29ed6818-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "A cone of icy shards bursts from your spread hands and coats the target in a layer of frost.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Advanced Player's Guide",
+    "_extensionFileName": "advancedPlayersGuide",
+    "levelreq": 1,
+    "traditions": [
+      "Arcane",
+      "Primal"
+    ],
+    "traits": [
+      "Cold",
+      "Evocation"
+    ],
+    "area": "15-foot cone",
+    "target": "area",
+    "desc": "A cone of icy shards bursts from your spread hands and coats the target in a layer of frost. You deal |dice=var1 Cold| <var>var1</var> cold damage to creatures in the area; they must each attempt a Reflex save.",
+    "savingThrow": "Reflex",
+    "critsuccess": "The creature takes no damage.",
+    "success": "The creature takes half damage.",
+    "failure": "The creature takes full damage and takes a -5-foot status penalty to its Speeds for 2 rounds.",
+    "critfailure": "The creature takes double damage and takes a -10-foot status penalty to its Speeds for 2 rounds.",
+    "heightened": [
+      {
+        "desc": "The damage increases by 2d4.",
+        "level": "(+1)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 20,
+        "name": "Chilling Spray (Caster)",
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "value": "2d4",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "descs": [
+          {
+            "value": "4d4",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "descs": [
+          {
+            "value": "6d4",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "8d4",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "10d4",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "12d4",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "14d4",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "16d4",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "18d4",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "20d4",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Ill Omen",
+    "id": "29ed7c2c-9122-11ea-bb37-0242ac130002",
+    "shortDesc": "The target is struck with misfortune, which throws them off balance.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Advanced Player's Guide",
+    "_extensionFileName": "advancedPlayersGuide",
+    "levelreq": 1,
+    "traditions": [
+      "Occult"
+    ],
+    "traits": [
+      "Curse",
+      "Divination",
+      "Misfortune"
+    ],
+    "range": "30 feet",
+    "targets": "1 creature",
+    "target": "other",
+    "singleTarget": true,
+    "duration": "1 round",
+    "desc": "The target is struck with misfortune, which throws them off balance. The target must attempt a Will save.",
+    "success": "The target is unaffected.",
+    "failure": "The first time during the duration that the target rolls an attack roll or skill check, it must roll twice and take the worse result.",
+    "critfailure": "Every time during the duration that the target rolls an attack roll or skill check, it must roll twice and take the worse result.",
+    "gainConditions": [
+      {
+        "duration": -5,
+        "name": "Ill Omen (Caster)",
+        "targetFilter": "caster"
+      }
+    ]
+  },
+  {
+    "name": "Imprint Message",
+    "id": "c0061aaf-94c4-45fe-a69f-3368964a9109",
+    "shortDesc": "Imprint a psychic message into an object.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Advanced Player's Guide",
+    "_extensionFileName": "advancedPlayersGuide",
+    "levelreq": 1,
+    "traditions": [
+      "Occult"
+    ],
+    "traits": [
+      "Uncommon",
+      "Divination"
+    ],
+    "range": "touch",
+    "targets": "1 object",
+    "target": "object",
+    "singleTarget": true,
+    "desc": "You project psychic vibrations onto the target object, imprinting it with a short message or emotional theme of your design. This imprinted sensation is revealed to anyone casting object reading on the target object, replacing any emotional events the item was present for. If the object is in the area of a retrocognition spell, the imprinted messages appear as major events in the timeline, but they don't interfere with any other visions. If the object is targeted with read aura of a higher spell level than imprint message, the caster learns that the object has been modified. When you Cast this Spell, any prior vibrations placed in an object by previous castings of imprint message fade.",
+    "gainConditions": [
+      {
+        "duration": -1,
+        "name": "Imprint Message"
+      }
+    ]
+  },
+  {
+    "name": "Object Reading",
+    "id": "ee009149-4673-4ec2-b122-39b69c7622fd",
+    "shortDesc": "Learn about a significant event surrounding an object.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Advanced Player's Guide",
+    "_extensionFileName": "advancedPlayersGuide",
+    "levelreq": 1,
+    "traditions": [
+      "Occult"
+    ],
+    "traits": [
+      "Uncommon",
+      "Divination"
+    ],
+    "range": "touch",
+    "targets": "1 object",
+    "target": "object",
+    "desc": "You place a hand on an object to learn a piece of information about an emotional event that occurred involving the object within <var>var1</var>, determined by the GM. If you cast object reading on the same item multiple times, you can either concentrate on a single event to gain additional pieces of information about that event, or you can gain a piece of information about another emotional event in the applicable time frame.",
+    "heightened": [
+      {
+        "desc": "You can learn about an event that occurred within the last month.",
+        "level": "(2nd)"
+      },
+      {
+        "desc": "You can learn about an event that occurred within the last year.",
+        "level": "(4th)"
+      },
+      {
+        "desc": "You can learn about an event that occurred within the last decade.",
+        "level": "(6th)"
+      },
+      {
+        "desc": "You can learn about an event that occurred within the last century.",
+        "level": "(8th)"
+      },
+      {
+        "desc": "You can learn about an event that occurred within the entirety of the object's history.",
+        "level": "(9th)"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 1,
+        "descs": [
+          {
+            "value": "the past week",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "descs": [
+          {
+            "value": "the last month",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "descs": [
+          {
+            "value": "the last year",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "the last decade",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "the last century",
+            "variable": "var1"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "the entirety of the object's history",
+            "variable": "var1"
+          }
+        ]
+      }
+    ]
+  }
+]

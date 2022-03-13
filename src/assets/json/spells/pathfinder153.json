@@ -1,0 +1,146 @@
+[
+  {
+    "name": "Ravening Maw",
+    "id": "3b18ba66-8e33-11eb-8dcd-0242ac130003",
+    "shortDesc": "You evoke Zevgavizeb's unceasing hunger and inflict it upon your target.",
+    "actions": "2A",
+    "castType": "somatic, verbal",
+    "sourceBook": "Pathfinder #153: Life's Long Shadow",
+    "_extensionFileName": "pathfinder153",
+    "levelreq": 5,
+    "traditions": [
+      "Divine",
+      "Occult",
+      "Primal"
+    ],
+    "traits": [
+      "Uncommon",
+      "Evil",
+      "Healing",
+      "Necromancy"
+    ],
+    "range": "60 feet",
+    "targets": "one living creature",
+    "target": "other",
+    "singleTarget": true,
+    "duration": "3 rounds",
+    "desc": "You evoke Zevgavizeb's unceasing hunger and inflict it upon your target. The target becomes overwhelmed with cannibalistic hunger and can restore its vitality by feasting on the flesh of the fallen. On its turn, the target can use 2 actions (these actions have the manipulate trait) to cannibalize an adjacent dying or dead creature. If the cannibalized creature is dying, it dies. If the cannibalized creature is an ally of the target, the target regains <var>var1</var> HP; otherwise, the target regains <var>var2</var> HP. Certain monsters (such as those whose blood is acidic or magical) might inflict additional effects on those who cannibalize them at the GM's discretion. Once cannibalized, a particular creature's body doesn't have enough meat to cannibalize again. During any round that there's a dying or dead creature within 30 feet of the target, if the target can't or doesn't cannibalize a creature, the target takes <var>var3</var> mental damage.",
+    "heightened": [
+      {
+        "desc": "The amount of HP restored by cannibalizing a creature increases by 1d8 for eating an ally and 1d4 otherwise, and the mental damage increases by 1d4.",
+        "level": "(+1)"
+      }
+    ],
+    "gainConditions": [
+      {
+        "duration": 30,
+        "name": "Ravening Maw (Caster)",
+        "targetFilter": "caster"
+      }
+    ],
+    "heightenedDescs": [
+      {
+        "level": 5,
+        "descs": [
+          {
+            "value": "5d8",
+            "variable": "var1"
+          },
+          {
+            "value": "5d4",
+            "variable": "var2"
+          },
+          {
+            "value": "5d4",
+            "variable": "var3"
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "descs": [
+          {
+            "value": "6d8",
+            "variable": "var1"
+          },
+          {
+            "value": "6d4",
+            "variable": "var2"
+          },
+          {
+            "value": "6d4",
+            "variable": "var3"
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "descs": [
+          {
+            "value": "7d8",
+            "variable": "var1"
+          },
+          {
+            "value": "7d4",
+            "variable": "var2"
+          },
+          {
+            "value": "7d4",
+            "variable": "var3"
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "descs": [
+          {
+            "value": "8d8",
+            "variable": "var1"
+          },
+          {
+            "value": "8d4",
+            "variable": "var2"
+          },
+          {
+            "value": "8d4",
+            "variable": "var3"
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "descs": [
+          {
+            "value": "9d8",
+            "variable": "var1"
+          },
+          {
+            "value": "9d4",
+            "variable": "var2"
+          },
+          {
+            "value": "9d4",
+            "variable": "var3"
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "descs": [
+          {
+            "value": "10d8",
+            "variable": "var1"
+          },
+          {
+            "value": "10d4",
+            "variable": "var2"
+          },
+          {
+            "value": "10d4",
+            "variable": "var3"
+          }
+        ]
+      }
+    ]
+  }
+]
