@@ -1,24 +1,24 @@
 [
-  {
-    "name": "Belt of Good Health",
-    "id": "339d9ac6-39b2-47b0-a91f-3660d5bfda63",
-    "desc": "When you put on this belt, its silver buckle begins to glow, which slowly spreads into the heart-shaped jewel in the center. You increase your maximum Hit Points and current Hit Points by 4.",
-    "_extensionFileName": "beginnerBox_GameMastersGuide",
-    "sourceBook": "Pathfinder Beginner Box: Game Master's Guide",
-    "level": 4,
-    "bulk": "L",
-    "price": 8500,
-    "traits": [
-      "Invested",
-      "Magical",
-      "Necromancy"
-    ],
-    "usage": "worn belt",
-    "effects": [
-      {
-        "affected": "Max HP",
-        "value": "4"
-      }
-    ]
-  }
+    {
+        "name": "Belt of Good Health",
+        "id": "339d9ac6-39b2-47b0-a91f-3660d5bfda63",
+        "desc": "When you put on this belt, its silver buckle begins to glow, which slowly spreads into the heart-shaped jewel in the center. You increase your maximum Hit Points and current Hit Points by 4.",
+        "_extensionFileName": "beginnerBox_GameMastersGuide",
+        "sourceBook": "Pathfinder Beginner Box: Game Master's Guide",
+        "level": 4,
+        "bulk": "L",
+        "price": 8500,
+        "traits": [
+            "Invested",
+            "Magical",
+            "Necromancy"
+        ],
+        "usage": "worn belt",
+        "effects": [
+            {
+                "affected": "Max HP",
+                "value": "4"
+            }
+        ]
+    }
 ]

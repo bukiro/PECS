@@ -1,6 +1,6 @@
 //For custom content, create extensions.json in this directory to export custom json files. These files' names should start with "custom_".
 //For updates and conflicting content, use the "overridePriority" attribute in each object (higher value overrides lower value).
-//Example extensions.json: 
+//Example extensions.json:
 /*
 [
     {
@@ -25,7 +25,6 @@ export { default as core } from './core.json';
 export { default as fallOfPlaguestone } from './fallOfPlaguestone.json';
 export { default as gmToolkit_SecretKeepersMask } from './gmToolkit_SecretKeepersMask.json';
 export { default as godsAndMagic } from './godsAndMagic.json';
-export { default as other } from './other.json';
 export { default as pathfinder145 } from './pathfinder145.json';
 export { default as pathfinder147 } from './pathfinder147.json';
 export { default as pathfinder148 } from './pathfinder148.json';

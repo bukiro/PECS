@@ -1,61 +1,61 @@
 [
-  {
-    "name": "Wayfinder of Rescue",
-    "id": "fb77b315-4561-4fbd-8b2f-b437025fce16",
-    "desc": "As a standard wayfinder, but once per day you can activate it to cast heal on a creature other than yourself, using either the one-action or two-action version of heal as a 1st-level spell.",
-    "_extensionFileName": "PFSScenario1_03",
-    "sourceBook": "Pathfinder Society Scenario #1-03: Escaping the Grave",
-    "level": 4,
-    "price": 8000,
-    "traits": [
-      "Uncommon",
-      "Evocation",
-      "Invested",
-      "Magical"
-    ],
-    "usage": "worn",
-    "isWayfinder": 1,
-    "activities": [
-      {
+    {
         "name": "Wayfinder of Rescue",
-        "actions": "1A to 2A",
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "cannotTargetCaster": true,
-        "desc": "Once per day, you can activate the wayfinder of rescue to cast heal on a creature other than yourself, using either the one-action or two-action version of heal as a 1st-level spell.",
-        "castSpells": [
-          {
-            "level": 1,
-            "name": "Heal",
-            "target": "ally"
-          }
-        ],
+        "id": "fb77b315-4561-4fbd-8b2f-b437025fce16",
+        "desc": "As a standard wayfinder, but once per day you can activate it to cast heal on a creature other than yourself, using either the one-action or two-action version of heal as a 1st-level spell.",
+        "_extensionFileName": "PFSScenario1_03",
+        "sourceBook": "Pathfinder Society Scenario #1-03: Escaping the Grave",
+        "level": 4,
+        "price": 8000,
         "traits": [
-          "Uncommon",
-          "Evocation",
-          "Invested",
-          "Magical"
-        ]
-      },
-      {
-        "name": "Wayfinder of Rescue: Light",
-        "actions": "1A",
-        "activationType": "Command",
-        "target": "self",
-        "desc": "The wayfinder is targeted by a 1st-level light spell.",
-        "castSpells": [
-          {
-            "level": 1,
-            "name": "Light"
-          }
+            "Uncommon",
+            "Evocation",
+            "Invested",
+            "Magical"
         ],
-        "traits": [
-          "Uncommon",
-          "Evocation",
-          "Invested",
-          "Magical"
+        "usage": "worn",
+        "isWayfinder": 1,
+        "activities": [
+            {
+                "name": "Wayfinder of Rescue",
+                "actions": "1A to 2A",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "cannotTargetCaster": true,
+                "desc": "Once per day, you can activate the wayfinder of rescue to cast heal on a creature other than yourself, using either the one-action or two-action version of heal as a 1st-level spell.",
+                "castSpells": [
+                    {
+                        "level": 1,
+                        "name": "Heal",
+                        "target": "ally"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Evocation",
+                    "Invested",
+                    "Magical"
+                ]
+            },
+            {
+                "name": "Wayfinder of Rescue: Light",
+                "actions": "1A",
+                "activationType": "Command",
+                "target": "self",
+                "desc": "The wayfinder is targeted by a 1st-level light spell.",
+                "castSpells": [
+                    {
+                        "level": 1,
+                        "name": "Light"
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Evocation",
+                    "Invested",
+                    "Magical"
+                ]
+            }
         ]
-      }
-    ]
-  }
+    }
 ]

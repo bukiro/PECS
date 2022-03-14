@@ -1,57 +1,57 @@
 [
-  {
-    "name": "Hunter's Brooch",
-    "id": "a04e08dc-f8eb-424b-a944-df97b52e2808",
-    "desc": "While wearing this silver religious symbol of Erastil, you can cast the disrupt undead cantrip as an innate divine spell.",
-    "_extensionFileName": "pathfinder164",
-    "sourceBook": "Pathfinder #164: Hands of the Devil",
-    "level": 4,
-    "bulk": "L",
-    "price": 8000,
-    "traits": [
-      "Unique",
-      "Divine",
-      "Invested",
-      "Positive",
-      "Transmutation"
-    ],
-    "usage": "worn",
-    "activities": [
-      {
+    {
         "name": "Hunter's Brooch",
-        "actions": "3A",
-        "activationType": "Command, Interact",
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "desc": "By touching a weapon you wield to the symbol and uttering a plea for Erastil's steadying hand, you grant that weapon the deadly d12 trait. Against undead, the weapon instead gains the fatal d12 trait. This blessing lasts for 1 minute, until you score a critical hit with the weapon, or until you aren't wielding the weapon.",
-        "gainConditions": [
-          {
-            "duration": 100,
-            "name": "Hunter's Brooch"
-          }
-        ],
+        "id": "a04e08dc-f8eb-424b-a944-df97b52e2808",
+        "desc": "While wearing this silver religious symbol of Erastil, you can cast the disrupt undead cantrip as an innate divine spell.",
+        "_extensionFileName": "pathfinder164",
+        "sourceBook": "Pathfinder #164: Hands of the Devil",
+        "level": 4,
+        "bulk": "L",
+        "price": 8000,
         "traits": [
-          "Unique",
-          "Divine",
-          "Invested",
-          "Positive",
-          "Transmutation"
+            "Unique",
+            "Divine",
+            "Invested",
+            "Positive",
+            "Transmutation"
+        ],
+        "usage": "worn",
+        "activities": [
+            {
+                "name": "Hunter's Brooch",
+                "actions": "3A",
+                "activationType": "Command, Interact",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "desc": "By touching a weapon you wield to the symbol and uttering a plea for Erastil's steadying hand, you grant that weapon the deadly d12 trait. Against undead, the weapon instead gains the fatal d12 trait. This blessing lasts for 1 minute, until you score a critical hit with the weapon, or until you aren't wielding the weapon.",
+                "gainConditions": [
+                    {
+                        "duration": 100,
+                        "name": "Hunter's Brooch"
+                    }
+                ],
+                "traits": [
+                    "Unique",
+                    "Divine",
+                    "Invested",
+                    "Positive",
+                    "Transmutation"
+                ]
+            }
+        ],
+        "gainSpells": [
+            {
+                "frequency": "at will",
+                "level": 0,
+                "tradition": "Divine",
+                "castingType": "Innate",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Disrupt Undead"
+                    }
+                ]
+            }
         ]
-      }
-    ],
-    "gainSpells": [
-      {
-        "frequency": "at will",
-        "level": 0,
-        "tradition": "Divine",
-        "castingType": "Innate",
-        "spells": [
-          {
-            "locked": true,
-            "name": "Disrupt Undead"
-          }
-        ]
-      }
-    ]
-  }
+    }
 ]

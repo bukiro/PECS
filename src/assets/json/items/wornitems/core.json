@@ -1,5 +1,18 @@
 [
     {
+        "name": "Iron Gut",
+        "id": "00d7f12b-0dd1-4559-a596-22185ec7fa52",
+        "desc": "Your mouth, esophagus, and stomach are incredibly elastic and tougher than metal. For the duration of the spell, you can reach down your throat to store or retrieve a single object of light or negligible Bulk in your stomach, as though your stomach were a backpack or other container. Storing and retrieving an item in this way requires an Interact action. The object must be small enough to reasonably fit within your stomach. It is very difficult for other creatures to notice that you are hiding an object in this way; passive observers can't possibly notice and you gain a +4 circumstance bonus to your Stealth checks to Conceal the Object unless the searcher specifically searches your mouth and stomach. If at the end of the spell's duration you still have an object stored in your stomach, it is violently expelled, dealing |dice=1d6| 1d6 damage to you.",
+        "_extensionFileName": "core",
+        "sourceBook": "Core Rulebook",
+        "hide": true,
+        "gainInventory": [
+            {
+                "bulkLimit": 0.1
+            }
+        ]
+    },
+    {
         "name": "Aeon Stone (Dull Gray)",
         "id": "8a187528-2072-4e6b-8c18-1b8f10c9ae38",
         "desc": "A dull gray aeon stone has lost its special magical properties, sometimes as a result of overusing a tourmaline sphere or pale lavender ellipsoid aeon stone. It still orbits your head like any other aeon stone and can thus serve as a stylish, hands-free option for various spells that target an object, like continual flame.\n\nDull gray aeon stones have no resonant power.",
@@ -408,7 +421,7 @@
             {
                 "name": "propertyRunes",
                 "show": false,
-                "value": "FALSE"
+                "value": false
             }
         ]
     },
@@ -1125,7 +1138,7 @@
                 "actions": "1A",
                 "activationType": "Interact",
                 "toggle": true,
-                "showonSkill": "Deception, Thievery",
+                "showonSkill": "Deception, Stealth",
                 "desc": "When you pull up the hood of this nondescript gray cloak (an Interact action), you become drab and uninteresting, gaining a +1 item bonus to Stealth checks and to Deception checks to Impersonate a forgettable background character, such as a servant, but also taking a -1 item penalty to Diplomacy and Intimidation checks.",
                 "gainConditions": [
                     {
@@ -2927,7 +2940,7 @@
                 "actions": "1A",
                 "activationType": "Interact",
                 "toggle": true,
-                "showonSkill": "Deception, Thievery",
+                "showonSkill": "Deception, Stealth",
                 "desc": "When you pull up the hood of this nondescript gray cloak (an Interact action), you become drab and uninteresting, gaining a +2 item bonus to Stealth checks and to Deception checks to Impersonate a forgettable background character, such as a servant, but also taking a -1 item penalty to Diplomacy and Intimidation checks.",
                 "gainConditions": [
                     {
@@ -3755,7 +3768,7 @@
             {
                 "name": "propertyRunes",
                 "show": false,
-                "value": "TRUE"
+                "value": true
             }
         ]
     },
@@ -3799,8 +3812,8 @@
                 "desc": "Rotating the lenses 90 degrees, you gain darkvision until you rotate the lenses back or the item is no longer invested by you, whichever comes first.",
                 "gainConditions": [
                     {
-                        "choice": "Greater",
                         "duration": -1,
+                        "choice": "Greater",
                         "hideChoices": true,
                         "name": "Goggles of Night"
                     }
