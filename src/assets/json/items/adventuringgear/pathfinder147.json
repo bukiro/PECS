@@ -1,0 +1,52 @@
+[
+    {
+        "name": "Bountiful Cauldron",
+        "id": "89c79686-8e09-11ea-9fab-e92c63c14723",
+        "desc": "This mid-sized, silver cauldron is a boon within areas where access to fresh food is limited, for it can be commanded to fill itself with hearty (and delicious) vegetable stew. It can also be put to a much greater use in the pursuit of crafting certain items. When used to Craft alchemical items, potions, or oils, a bountiful cauldron grants a +2 item bonus to the Crafting check.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "level": 9,
+        "bulk": "2",
+        "price": 68000,
+        "traits": [
+            "Uncommon",
+            "Conjuration",
+            "Magical"
+        ],
+        "activities": [
+            {
+                "actions": "3A",
+                "activationType": "Command, Interact",
+                "castSpells": [
+                    {
+                        "level": 4,
+                        "name": "Create Food"
+                    }
+                ],
+                "cooldown": 144000,
+                "desc": "You stir the cauldron, and it casts a 4th-level create food spell, filling itself with enough delicious vegetable stew to feed 12 Medium creatures.",
+                "frequency": "once per day",
+                "name": "Bountiful Cauldron",
+                "source": "89c79686-8e09-11ea-9fab-e92c63c14723",
+                "traits": [
+                    "Conjuration",
+                    "Magical",
+                    "Uncommon"
+                ]
+            }
+        ],
+        "hints": [
+            {
+                "desc": "When used to Craft alchemical items, potions, or oils, a bountiful cauldron grants a +2 item bonus to the Crafting check.",
+                "effects": [
+                    {
+                        "affected": "Crafting",
+                        "type": "item",
+                        "value": "2"
+                    }
+                ],
+                "showon": "Crafting"
+            }
+        ]
+    }
+]

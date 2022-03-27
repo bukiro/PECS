@@ -1,0 +1,148 @@
+[
+    {
+        "name": "Different Worlds",
+        "desc": "Your separate experiences in different societies have evolved into entirely separate lives. Create a second identity for yourself with a different name, history, and background. This identity must correspond to one of the ancestries whose ancestry feats you can select. You gain the trained proficiency rank in the Lore skill from the second background you chose (but you don't gain any of the background's other benefits), and you gain a +4 circumstance bonus to Deception checks when making a statement that would be true of your second identity or when disguising yourself as your second identity.",
+        "specialdesc": "At the GM's discretion, this feat can be used against non-humanoids if they have regular contact with humanoids or you are able to disguise yourself as a member of the target's ancestry or type of creature.",
+        "hints": [
+            {
+                "desc": "You gain a +4 circumstance bonus to Deception checks when making a statement that would be true of your second identity or when disguising yourself as your second identity.\n\nAt the GM's discretion, this feat can be used against non-humanoids if they have regular contact with humanoids or you are able to disguise yourself as a member of the target's ancestry or type of creature.",
+                "showon": "Deception",
+                "effects": [
+                    {
+                        "affected": "Deception",
+                        "type": "circumstance",
+                        "value": "4"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "internalNote": "The effects are hardcoded. The feat is designed to be removed if you remove your background, to prevent having the same background twice.",
+        "shortdesc": "Create a second identity for yourself with a different name, history, and background.",
+        "traits": [
+            "General",
+            "Uncommon"
+        ],
+        "levelreq": 1,
+        "specialreq": "character.class.ancestry?.ancestries?.length > 1 && character.class.background.name",
+        "specialreqdesc": "ability to select ancestry feats from multiple ancestries, a background",
+        "customData": [
+            {
+                "name": "background",
+                "type": "string"
+            },
+            {
+                "name": "name",
+                "type": "string"
+            }
+        ]
+    },
+    {
+        "name": "Reveal Machinations",
+        "desc": "You reveal that you played a minor but recurring role in another humanoid's life - or at least convince them that's the case. Attempt a Deception check against the target's Will DC. On a success, the revelation makes them frightened 2, and on a critical success they are frightened 3. In addition, you gain information about the subject as though you had attempted to Recall Knowledge about them using an appropriate skill and received the same result on your roll. You can't use this ability against the same humanoid again until 1 day has passed and you've also successfully disguised yourself as a different person.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "shortdesc": "You convince a creature that you played a minor but recurring role in its life.",
+        "traits": [
+            "General",
+            "Rare",
+            "Skill"
+        ],
+        "levelreq": 15,
+        "skillreq": [
+            {
+                "skill": "Deception",
+                "value": 8
+            }
+        ],
+        "gainActivities": [
+            "Reveal Machinations"
+        ]
+    },
+    {
+        "name": "Secret Speech",
+        "desc": "Choose a secret society (such as the Lacunafex or the Bellflower Network). You've learned that society's secret cant or jargon, enabling you to share hidden messages when signing or speaking with others who've also learned it. If an observer succeeds at a Perception check against your Deception DC when you do this, they realize you are passing a message but fail to discern its content, unless they subsequently succeed at a Society check against your Deception DC. On a critical success, they learn not only the message, but also who you're passing the message to.",
+        "specialdesc": "You can take this feat multiple times. You learn the secret speech of a different society each time, adding it to your language list.",
+        "hints": [
+            {
+                "desc": "You've learned the secret cant or jargon of a secret society, enabling you to share hidden messages when signing or speaking with others who've also learned it. If an observer succeeds at a Perception check against your Deception DC when you do this, they realize you are passing a message but fail to discern its content, unless they subsequently succeed at a Society check against your Deception DC. On a critical success, they learn not only the message, but also who you're passing the message to.",
+                "showon": "Deception"
+            }
+        ],
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "shortdesc": "Learn the secret language of a Society.",
+        "traits": [
+            "General",
+            "Skill",
+            "Uncommon"
+        ],
+        "levelreq": 1,
+        "skillreq": [
+            {
+                "skill": "Deception",
+                "value": 2
+            }
+        ],
+        "gainLanguages": [
+            {
+                "name": "Secret society speech",
+                "locked": true,
+                "source": "Secret Speech"
+            }
+        ]
+    },
+    {
+        "name": "Tweak Appearances",
+        "desc": "You spend 1 minute making quick adjustments to someone's clothing and appearance, causing their words to carry more weight with an audience of your choice. While speaking to that audience, the target gains a +1 item bonus to Diplomacy and Performance checks. If you have master proficiency in Crafting, the bonus increases to +2; if you have legendary proficiency in Crafting, the bonus increases to +3. This bonus lasts until this ability is used on the target again, the situation they were prepared for ends, or they next change their outfit.",
+        "hints": [
+            {
+                "desc": "You can spend 1 minute making quick adjustments to someone's clothing and appearance, causing their words to carry more weight with an audience of your choice. While speaking to that audience, the target gains a +1 item bonus to Diplomacy and Performance checks. If you have master proficiency in Crafting, the bonus increases to +2; if you have legendary proficiency in Crafting, the bonus increases to +3. This bonus lasts until this ability is used on the target again, the situation they were prepared for ends, or they next change their outfit.",
+                "showon": "Crafting"
+            }
+        ],
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "shortdesc": "You can alter a creature's clothing to improve their social impact.",
+        "traits": [
+            "General",
+            "Skill",
+            "Uncommon"
+        ],
+        "levelreq": 2,
+        "skillreq": [
+            {
+                "skill": "Crafting",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Silver's Refrain",
+        "desc": "You learn the silver's refrain composition cantrip, which aids you when fighting devils.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "shortdesc": "Learn the silver's refrain composition cantrip.",
+        "traits": [
+            "Rare",
+            "Bard"
+        ],
+        "levelreq": 12,
+        "gainSpellChoice": [
+            {
+                "castingType": "Focus",
+                "className": "Bard",
+                "id": "07d8514a-0e48-45a5-ac47-803e006919bb",
+                "level": 0,
+                "source": "Feat: Silver's Refrain",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Silver's Refrain"
+                    }
+                ]
+            }
+        ]
+    }
+]

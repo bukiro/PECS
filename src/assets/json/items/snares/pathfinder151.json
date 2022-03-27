@@ -1,0 +1,101 @@
+[
+    {
+        "name": "Dust Pods",
+        "id": "2c1cf434-b0e2-11ea-b3de-0242ac130004",
+        "desc": "You hide fragile pods of pollen or other clinging powder that get in the eyes of the first creature that enters the snare's square. The creature must attempt a DC 17 Reflex saving throw. A creature dazzled by the pollen can use an Interact action to attempt a DC 5 flat check to remove the condition.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "level": 1,
+        "price": 300,
+        "success": "The creature is dazzled for 1 round.",
+        "failure": "The creature is dazzled for 10 minutes.",
+        "traits": [
+            "Uncommon",
+            "Consumable",
+            "Mechanical",
+            "Snare",
+            "Trap"
+        ],
+        "critfailure": "The creature is blinded for 1 round and dazzled for 10 minutes after.",
+        "critsuccess": "The creature is unaffected."
+    },
+    {
+        "name": "Thunder Snare",
+        "id": "2c1cf68c-b0e2-11ea-b3de-0242ac130004",
+        "desc": "The snare makes a thunderous noise when a creature enters the snare's square, which can be heard up to 1,000 feet away. The creature must attempt a DC 18 Fortitude saving throw.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "level": 2,
+        "price": 600,
+        "success": "The target is deafened until the end of its next turn.",
+        "failure": "As success, and the target also takes |dice=1 Sonic| 1 sonic damage.",
+        "traits": [
+            "Consumable",
+            "Mechanical",
+            "Snare",
+            "Trap"
+        ],
+        "craftRequirement": "1 lesser thunderstone",
+        "critfailure": "As success, and the target also takes |dice=1d4 Sonic| 1d4 sonic damage.",
+        "critsuccess": "The target is unaffected."
+    },
+    {
+        "name": "Grasping Tree",
+        "id": "2c1cf75e-b0e2-11ea-b3de-0242ac130004",
+        "desc": "You rig tree branches, thin strands of bark, or other plant matter to close in on a creature that enters the snare's square. The first creature to enter the square must attempt a DC 19 Reflex saving throw.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "level": 3,
+        "price": 900,
+        "success": "The target takes |dice=1d4 S| 1d4 slashing damage.",
+        "failure": "As success, plus the target is flat-footed.",
+        "traits": [
+            "Uncommon",
+            "Consumable",
+            "Mechanical",
+            "Snare",
+            "Trap"
+        ],
+        "critfailure": "The target takes |dice=2d4 S| 2d4 slashing damage and is immobilized until it destroys the snare (AC 16, HP 25) or Escapes (DC 19).",
+        "critsuccess": "The target is unaffected."
+    },
+    {
+        "name": "Torrent Snare",
+        "id": "2c1cf81c-b0e2-11ea-b3de-0242ac130004",
+        "desc": "You pile waterlogged plants or access a nearby source of water to rain down on a Medium or smaller creature that enters the snare's square. When a creature enters the square, the snare's square and all adjacent squares become slippery difficult terrain, and the triggering creature must attempt a DC 19 Reflex saving throw, with the following effects.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "level": 3,
+        "price": 900,
+        "success": "The target is unaffected.",
+        "failure": "The target falls prone.",
+        "traits": [
+            "Uncommon",
+            "Consumable",
+            "Mechanical",
+            "Snare",
+            "Trap"
+        ],
+        "craftRequirement": "1 lesser thunderstone",
+        "critfailure": "The target falls prone and is forced into one of the other squares soaked by the snare."
+    },
+    {
+        "name": "Fang Snare",
+        "id": "63e5db24-b0e2-11ea-b3de-0242ac130004",
+        "desc": "You set snake fangs, poison stingers, or other venomous animal parts in the ground where they can be touched or stepped on by a creature that enters the snare's square. The first creature to enter the square must attempt a DC 20 Reflex saving throw.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "level": 4,
+        "price": 1500,
+        "success": "The target is unaffected.",
+        "failure": "The target takes |dice=1 P + 2d8 Poison| 1 piercing damage and 2d8 poison damage.",
+        "traits": [
+            "Uncommon",
+            "Consumable",
+            "Mechanical",
+            "Snare",
+            "Trap"
+        ],
+        "critfailure": "The target takes |dice=2 P + 4d8 Poison| 2 piercing damage and 4d8 poison damage."
+    }
+]

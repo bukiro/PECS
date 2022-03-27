@@ -1,0 +1,52 @@
+[
+    {
+        "name": "Raised by Belief",
+        "desc": "Whether in a monastery, a religious household, or just as part of your everyday life, your upbringing was steeped in the traditions of a faith or philosophy. You might remain committed or you may have turned from your childhood creed, but your skills are still founded in your devotion.\n\nChoose two ability boosts. One boost must be to an ability specified in the Divine Ability entry for your deity, and one is a free ability boost.\n\nYou're trained in your deity's associated skill, and you gain Assurance with that skill. You gain a Lore skill with a subcategory associated with your deity (Abadar Lore, for instance).",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "inputRequired": "This background grants you two free ability boosts, one free skill increase and one choice of the Assurance feat. Select these according to your selected deity.",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Assurance"
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "specialChoice": true,
+                "type": "Assurance Feat"
+            }
+        ],
+        "loreChoices": [
+            {
+                "available": 1,
+                "id": "1-Lore-Background-0",
+                "loreDesc": "A Lore skill with a subcategory associated with your deity (Abadar Lore, for instance).",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "available": 1,
+                "id": "1-Skill-Background-0",
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    }
+]

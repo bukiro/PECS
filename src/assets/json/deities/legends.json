@@ -1,0 +1,194 @@
+[
+    {
+        "name": "Chohar",
+        "desc": "The Lion God of justice, loyalty, and work. He is most commonly depicted as a golden lion with a sun for a mane. Some priests of Walkena claim that the child god is a descendant of Chohar, because of their shared love of justice - yet Walkena's justice is vindictive and cruel, while Chohar's is one of duty.",
+        "alignment": "Lawful Good",
+        "areasOfConcern": "justice, loyalty, and work",
+        "category": "Old Sun Gods",
+        "nickname": "The Golden Lion",
+        "sourcebook": "Legends",
+        "_extensionFileName": "legends",
+        "alternateDomains": [
+            "Duty",
+            "Toil",
+            "Vigil",
+            "Zeal"
+        ],
+        "anathema": [
+            "break your word",
+            "be cruel to the innocent",
+            "rebuke someone due to their homeland"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Burning Hands"
+            },
+            {
+                "level": 3,
+                "name": "Fireball"
+            },
+            {
+                "level": 4,
+                "name": "Fire Shield"
+            }
+        ],
+        "divineAbility": [
+            "Strength",
+            "Charisma"
+        ],
+        "divineFont": [
+            "Heal"
+        ],
+        "divineSkill": [
+            "Intimidation"
+        ],
+        "domains": [
+            "Cities",
+            "Family",
+            "Fire",
+            "Sun"
+        ],
+        "edicts": [
+            "finish any and all tasks you accept",
+            "bring those who are cruel to justice",
+            "show pride in your home and your heritage"
+        ],
+        "favoredWeapon": [
+            "Starknife"
+        ],
+        "followerAlignments": [
+            "Lawful Good",
+            "Neutral Good",
+            "Lawful Neutral"
+        ]
+    },
+    {
+        "name": "Luhar",
+        "desc": "The Lioness Goddess of death, dreams, and destiny. She is most commonly depicted as a lioness with the head of a human woman, dark skinned with bright eyes.",
+        "alignment": "Lawful Neutral",
+        "areasOfConcern": "death, dreams, and destiny",
+        "category": "Old Sun Gods",
+        "nickname": "The Setting Sun",
+        "sourcebook": "Legends",
+        "_extensionFileName": "legends",
+        "alternateDomains": [
+            "Fate",
+            "Soul",
+            "Star",
+            "Zeal"
+        ],
+        "anathema": [
+            "stay up all night without any breaks for sleeping or dreaming",
+            "attack a person or creature while they sleep",
+            "leave a badly wounded opponent alive and suffering"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Sleep"
+            },
+            {
+                "level": 3,
+                "name": "Invisibility Sphere"
+            },
+            {
+                "level": 5,
+                "name": "Shadow Walk"
+            }
+        ],
+        "divineAbility": [
+            "Dexterity",
+            "Wisdom"
+        ],
+        "divineFont": [
+            "Harm"
+        ],
+        "divineSkill": [
+            "Stealth"
+        ],
+        "domains": [
+            "Cities",
+            "Darkness",
+            "Dreams",
+            "Sun"
+        ],
+        "edicts": [
+            "learn about the night and prepare yourself to face its creatures and dangers",
+            "always make time for sleeping and dreams",
+            "ensure others never go to sleep scared"
+        ],
+        "favoredWeapon": [
+            "Spiked Chain"
+        ],
+        "followerAlignments": [
+            "Lawful Good",
+            "Lawful Neutral",
+            "Lawful Evil"
+        ]
+    },
+    {
+        "name": "Tlehar",
+        "desc": "The Lioness Goddess of iron, love, and rebirth. She is most commonly depicted as human but with the head of a lioness, her fur a dull gray and her eyes black as night.",
+        "alignment": "Neutral Good",
+        "areasOfConcern": "iron, love, and rebirth",
+        "category": "Old Sun Gods",
+        "nickname": "The Rising Sun",
+        "sourcebook": "Legends",
+        "_extensionFileName": "legends",
+        "alternateDomains": [
+            "Change",
+            "Creation",
+            "Vigil",
+            "Zeal"
+        ],
+        "anathema": [
+            "lose your motivation to your regrets",
+            "spread despair",
+            "treat a loved one poorly"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Soothe"
+            },
+            {
+                "level": 3,
+                "name": "Enthrall"
+            },
+            {
+                "level": 5,
+                "name": "Dreaming Potential"
+            }
+        ],
+        "divineAbility": [
+            "Intelligence",
+            "Charisma"
+        ],
+        "divineFont": [
+            "Heal"
+        ],
+        "divineSkill": [
+            "Crafting"
+        ],
+        "domains": [
+            "Cities",
+            "Healing",
+            "Passion",
+            "Sun"
+        ],
+        "edicts": [
+            "give yourself fully to everything you attempt",
+            "always maintain hope that tomorrow will be a better day",
+            "treasure every gift you are given by those who matter to you"
+        ],
+        "favoredWeapon": [
+            "Morningstar"
+        ],
+        "followerAlignments": [
+            "Lawful Good",
+            "Neutral Good",
+            "Chaotic Good"
+        ]
+    }
+]

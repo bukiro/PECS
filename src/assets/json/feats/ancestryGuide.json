@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Guided by the Stars",
+        "desc": "The stars grant you insights that guide your actions.",
+        "sourceBook": "Ancestry Guide",
+        "_extensionFileName": "ancestryGuide",
+        "shortdesc": "The stars grant you insights that guide your actions.",
+        "traits": [
+            "Fortune",
+            "Lizardfolk"
+        ],
+        "levelreq": 5,
+        "gainActivities": [
+            "Guided by the Stars"
+        ]
+    }
+]

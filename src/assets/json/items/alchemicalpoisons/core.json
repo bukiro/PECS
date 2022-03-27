@@ -1,217 +1,139 @@
 [
     {
         "name": "Rogue Poison",
-        "level": 0,
-        "price": 0,
-        "bulk": "L",
         "id": "dc4f55f5-83d4-4188-a1b6-9b62bfd9273f",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 2 hands",
         "desc": "These poisons deal |dice=1d4 Poison| 1d4 poison damage. Only you can apply these poisons properly, and they expire the next time you prepare.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 0,
+        "bulk": "L",
+        "price": 0,
+        "hide": true,
         "traits": [
             "Alchemical",
             "Consumable",
             "Injury",
             "Poison"
         ],
-        "hide": true
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 2 hands"
     },
     {
         "name": "Arsenic",
-        "level": 1,
-        "price": 300,
-        "bulk": "L",
         "id": "b327fbc0-b9ef-11ea-b3de-0242ac130004",
+        "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 1,
+        "bulk": "L",
+        "price": 300,
+        "traits": [
+            "Alchemical",
+            "Consumable",
+            "Ingested",
+            "Poison"
+        ],
         "actions": "1A",
         "activationType": "Interact",
-        "usage": "held in 1 hand",
-        "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.",
+        "maxDuration": "5 minutes",
         "savingThrow": "DC 18 Fortitude",
+        "usage": "held in 1 hand",
         "stages": [
             "10 minutes",
             "1d4 poison damage and sickened 1 (1 minute)",
             "1d6 poison damage and sickened 2 (1 minute)",
             "2d6 poison damage and sickened 3 (1 minute)"
+        ]
+    },
+    {
+        "name": "Giant Centipede Venom",
+        "id": "b327ff44-b9ef-11ea-b3de-0242ac130004",
+        "desc": "Giant centipede venom causes severe muscle stiffness.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 1,
+        "bulk": "L",
+        "price": 400,
+        "traits": [
+            "Alchemical",
+            "Consumable",
+            "Injury",
+            "Poison"
         ],
-        "maxDuration": "5 minutes",
+        "actions": "2A",
+        "activationType": "Interact",
+        "maxDuration": "6 rounds",
+        "savingThrow": "DC 17 Fortitude",
+        "usage": "held in 2 hands",
+        "stages": [
+            "1d6 poison damage (1 round)",
+            "1d8 poison damage and flat-footed (1 round)",
+            "1d12 poison damage, clumsy 1, and flat-footed (1 round)"
+        ]
+    },
+    {
+        "name": "Belladonna",
+        "id": "b3280188-b9ef-11ea-b3de-0242ac130004",
+        "desc": "Sometimes called \"deadly nightshade,\" belladonna is a widely available toxin produced from a plant similar to a tomato.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 2,
+        "bulk": "L",
+        "price": 500,
         "traits": [
             "Alchemical",
             "Consumable",
             "Ingested",
             "Poison"
-        ]
-    },
-    {
-        "name": "Spear Frog Poison",
-        "level": 1,
-        "price": 300,
-        "bulk": "L",
-        "id": "b327fde6-b9ef-11ea-b3de-0242ac130004",
-        "actions": "2A",
-        "activationType": "Interact",
-        "usage": "held in 2 hands",
-        "desc": "A single spear frog yields enough toxin to Craft 1 dose of spear frog poison.",
-        "savingThrow": "DC 15 Fortitude",
-        "stages": [
-            "",
-            "1d4 poison damage (1 round)",
-            "1d6 poison damage and enfeebled 1 (1 round)"
         ],
-        "maxDuration": "6 rounds",
-        "traits": [
-            "Alchemical",
-            "Consumable",
-            "Injury",
-            "Poison"
-        ]
-    },
-    {
-        "name": "Giant Centipede Venom",
-        "level": 1,
-        "price": 400,
-        "bulk": "L",
-        "id": "b327ff44-b9ef-11ea-b3de-0242ac130004",
         "actions": "2A",
         "activationType": "Interact",
-        "usage": "held in 2 hands",
-        "desc": "Giant centipede venom causes severe muscle stiffness.",
-        "savingThrow": "DC 17 Fortitude",
-        "stages": [
-            "",
-            "1d6 poison damage (1 round)",
-            "1d8 poison damage and flat-footed (1 round)",
-            "1d12 poison damage, clumsy 1, and flat-footed (1 round)"
-        ],
-        "maxDuration": "6 rounds",
-        "traits": [
-            "Alchemical",
-            "Consumable",
-            "Injury",
-            "Poison"
-        ]
-    },
-    {
-        "name": "Black Smear Poison",
-        "level": 2,
-        "price": 500,
-        "bulk": "L",
-        "id": "b32800b6-b9ef-11ea-b3de-0242ac130004",
-        "actions": "2A",
-        "activationType": "Interact",
-        "usage": "held in 2 hands",
-        "sourceBook": "Bestiary",
-        "desc": "Many calignis use a debilitating poison crafted from subterranean fungi.",
-        "savingThrow": "DC 16 Fortitude",
-        "stages": [
-            "",
-            "1d6 poison and enfeebled 1 (1 round)",
-            "As stage 1",
-            "1d6 poison, and enfeebled 2 (1 round)"
-        ],
-        "maxDuration": "6 rounds",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Injury",
-            "Poison"
-        ]
-    },
-    {
-        "name": "Belladonna",
-        "level": 2,
-        "price": 500,
-        "bulk": "L",
-        "id": "b3280188-b9ef-11ea-b3de-0242ac130004",
-        "actions": "2A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
-        "desc": "Sometimes called \"deadly nightshade,\" belladonna is a widely available toxin produced from a plant similar to a tomato.",
+        "maxDuration": "30 minutes",
         "savingThrow": "DC 19 Fortitude",
+        "usage": "held in 1 hand",
         "stages": [
             "10 minutes",
             "dazzled (10 minutes)",
             "1d6 poison damage and sickened 1 (10 minutes)",
             "1d6 poison damage, confused, and sickened 1 (1 minute)"
-        ],
-        "maxDuration": "30 minutes",
-        "traits": [
-            "Alchemical",
-            "Consumable",
-            "Ingested",
-            "Poison"
         ]
     },
     {
         "name": "Black Adder Venom",
-        "level": 2,
-        "price": 600,
-        "bulk": "L",
         "id": "f6eaf593-328d-4999-a771-d46c04bf408f",
-        "actions": "2A",
-        "activationType": "Interact",
-        "usage": "held in 2 hands",
         "desc": "Adder venom is a simple but effective way to enhance a weapon.",
-        "savingThrow": "DC 18 Fortitude",
-        "stages": [
-            "",
-            "1d8 poison damage (1 round)",
-            "1d10 poison damage (1 round)",
-            "2d6 poison damage (1 round)"
-        ],
-        "maxDuration": "3 rounds",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 2,
+        "bulk": "L",
+        "price": 600,
         "traits": [
             "Alchemical",
             "Consumable",
             "Injury",
             "Poison"
-        ]
-    },
-    {
-        "name": "Toad Tears",
-        "level": 2,
-        "price": 600,
-        "bulk": "L",
-        "id": "b32802be-b9ef-11ea-b3de-0242ac130004",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
-        "sourceBook": "Bestiary 2",
-        "desc": "Toad tears can be mixed with any other foodstuff or drink, but the poison can also be ingested as is. The process of refining giant toad poison lessens its deadly qualities, and as a result, toad tears are rarely directly fatal. Yet those who are exposed to toad tears often lose control of their actions, making it a dangerous poison nevertheless.",
-        "savingThrow": "DC 19 Fortitude",
-        "stages": [
-            "5 minutes",
-            "stupefied 1 (10 minutes)",
-            "stupefied 1 and confused (1 minute)"
         ],
-        "maxDuration": "30 minutes",
-        "traits": [
-            "Alchemical",
-            "Consumable",
-            "Ingested",
-            "Poison"
+        "actions": "2A",
+        "activationType": "Interact",
+        "maxDuration": "3 rounds",
+        "savingThrow": "DC 18 Fortitude",
+        "usage": "held in 2 hands",
+        "stages": [
+            "1d8 poison damage (1 round)",
+            "1d10 poison damage (1 round)",
+            "2d6 poison damage (1 round)"
         ]
     },
     {
         "name": "Lethargy Poison",
-        "level": 2,
-        "price": 700,
-        "bulk": "L",
         "id": "b328037c-b9ef-11ea-b3de-0242ac130004",
-        "actions": "2A",
-        "activationType": "Interact",
-        "usage": "held in 2 hands",
         "desc": "Lethargy poison is commonly used in hit-and-run tactics by drow and others who want their victims alive; the ambusher retreats until the poison sets in and the victim falls unconscious. Further exposure to lethargy poison does not require the target to attempt additional saving throws; only failing an saving throw against an ongoing exposure can progress its stage.",
-        "savingThrow": "DC 18 Fortitude",
-        "stages": [
-            "",
-            "slowed 1 (1 round)",
-            "slowed 1 (1 minute)",
-            "unconscious with no Perception check to wake up (1 round)",
-            "unconscious with no Perception check to wake up (1d4 hours)."
-        ],
-        "maxDuration": "4 hours",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 2,
+        "bulk": "L",
+        "price": 700,
         "traits": [
             "Uncommon",
             "Alchemical",
@@ -220,936 +142,662 @@
             "Injury",
             "Poison",
             "Sleep"
-        ]
-    },
-    {
-        "name": "Yellow Musk Vial",
-        "level": 2,
-        "price": 700,
-        "bulk": "L",
-        "id": "b32804a8-b9ef-11ea-b3de-0242ac130004",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
-        "sourceBook": "Bestiary 2",
-        "desc": "The powdered pollen from a yellow musk creeper addles the mind.",
-        "savingThrow": "DC 16 Will",
-        "stages": [
-            "",
-            "fascinated by the poison cloud (1 round)",
-            "fascinated by the poison cloud, and can use no actions but to move closer to the cloud's point of origin (1 round)"
         ],
-        "maxDuration": "2 rounds",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Inhaled",
-            "Mental",
-            "Poison"
-        ]
-    },
-    {
-        "name": "Blue Dragonfly Poison",
-        "level": 3,
-        "price": 700,
-        "bulk": "L",
-        "id": "b3280570-b9ef-11ea-b3de-0242ac130004",
-        "actions": "1A",
+        "actions": "2A",
         "activationType": "Interact",
-        "usage": "held in 1 hand",
-        "sourceBook": "Bestiary",
-        "desc": "Boggards brew a potent toxin made from blue dragonflies. Swampseers consume this mixture to awaken their divine powers, but the poison inspires crippling hallucinations in most other creatures.",
-        "savingThrow": "DC 17 Fortitude",
+        "maxDuration": "4 hours",
+        "savingThrow": "DC 18 Fortitude",
+        "usage": "held in 2 hands",
         "stages": [
-            "10 minutes",
-            "dazzled (10 minutes)",
-            "dazzled and frightened 1 (10 minutes)",
-            "frightened 1 and confused 1 (1 minute)"
-        ],
-        "maxDuration": "30 minutes",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Ingested",
-            "Poison"
+            "slowed 1 (1 round)",
+            "slowed 1 (1 minute)",
+            "unconscious with no Perception check to wake up (1 round)",
+            "unconscious with no Perception check to wake up (1d4 hours)."
         ]
     },
     {
         "name": "Cytillesh Oil",
-        "level": 3,
-        "price": 1000,
-        "bulk": "L",
         "id": "b32806b0-b9ef-11ea-b3de-0242ac130004",
-        "actions": "2A",
-        "activationType": "Interact",
-        "usage": "held in 2 hands",
         "desc": "This thick substance is distilled from the mind-robbing cytillesh fungus, though it lacks memory-altering capabilities.",
-        "savingThrow": "DC 19 Fortitude",
-        "stages": [
-            "",
-            "1d10 poison damage (1 round)",
-            "1d12 poison damage (1 round)",
-            "2d10 poison damage (1 round)"
-        ],
-        "maxDuration": "4 rounds",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "L",
+        "price": 1000,
         "traits": [
             "Alchemical",
             "Consumable",
             "Injury",
             "Poison"
+        ],
+        "actions": "2A",
+        "activationType": "Interact",
+        "maxDuration": "4 rounds",
+        "savingThrow": "DC 19 Fortitude",
+        "usage": "held in 2 hands",
+        "stages": [
+            "1d10 poison damage (1 round)",
+            "1d12 poison damage (1 round)",
+            "2d10 poison damage (1 round)"
         ]
     },
     {
         "name": "Graveroot",
-        "level": 3,
-        "price": 1000,
-        "bulk": "L",
         "id": "b3280778-b9ef-11ea-b3de-0242ac130004",
-        "actions": "2A",
-        "activationType": "Interact",
-        "usage": "held in 2 hands",
         "desc": "The opaque white sap from the graveroot shrub clouds the mind.",
-        "savingThrow": "DC 19 Fortitude",
-        "stages": [
-            "",
-            "1d10 poison damage (1 round)",
-            "1d12 poison damage and stupefied 1 (1 round)",
-            "2d6 poison damage and stupefied 2 (1 round)"
-        ],
-        "maxDuration": "4 rounds",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "L",
+        "price": 1000,
         "traits": [
             "Alchemical",
             "Consumable",
             "Injury",
             "Poison"
-        ]
-    },
-    {
-        "name": "Violet Venom",
-        "level": 3,
-        "price": 1200,
-        "bulk": "L",
-        "id": "b3280886-b9ef-11ea-b3de-0242ac130004",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 2 hands",
-        "sourceBook": "Bestiary 2",
-        "desc": "The delicate process of extracting violet venom from a violet fungus leaves it diluted at the best of times. Alchemists are still on the hunt for a truly pure, unadulterated version of this highly toxic poison.",
-        "savingThrow": "DC 17 Fortitude",
-        "stages": [
-            "1 minute",
-            "1d6 poison plus enfeebled 1 (1 round)",
-            "1d6 poison plus drained 1 (1 round)",
-            "2d6 poison plus enfeebled 1 (1 round)"
         ],
-        "maxDuration": "6 rounds",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Contact",
-            "Poison"
+        "actions": "2A",
+        "activationType": "Interact",
+        "maxDuration": "4 rounds",
+        "savingThrow": "DC 19 Fortitude",
+        "usage": "held in 2 hands",
+        "stages": [
+            "1d10 poison damage (1 round)",
+            "1d12 poison damage and stupefied 1 (1 round)",
+            "2d6 poison damage and stupefied 2 (1 round)"
         ]
     },
     {
         "name": "Hunting Spider Venom",
-        "level": 5,
-        "price": 2500,
-        "bulk": "L",
         "id": "b3280a16-b9ef-11ea-b3de-0242ac130004",
-        "actions": "2A",
-        "activationType": "Interact",
-        "usage": "held in 2 hands",
         "desc": "This venom erodes its target's defenses, aiding the spider in securing prey.",
-        "savingThrow": "DC 21 Fortitude",
-        "stages": [
-            "",
-            "1d10 poison damage and flat-footed (1 round)",
-            "1d12 poison damage, clumsy 1, and flat-footed (1 round)",
-            "2d6 poison damage, clumsy 2, and flat-footed (1 round)"
-        ],
-        "maxDuration": "6 rounds",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 5,
+        "bulk": "L",
+        "price": 2500,
         "traits": [
             "Alchemical",
             "Consumable",
             "Injury",
             "Poison"
-        ]
-    },
-    {
-        "name": "False Death",
-        "level": 5,
-        "price": 2500,
-        "bulk": "L",
-        "id": "b3280ae8-b9ef-11ea-b3de-0242ac130004",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
-        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
-        "desc": "Typically used to fake one's death, this poison swiftly causes the imbiber to lose consciousness and suppresses vital signs. A creature examining the unconscious target must succeed at a Medicine check against the imbiber's Deception DC + 4 to determine that the target is alive, and a critical success allows the examiner to determine that a toxin is causing the effect. The false death toxin has an extremely bitter taste (Perception DC 10 to detect), making it difficult to trick a creature into consuming the poison against its wishes.",
-        "savingThrow": "DC 18 Fortitude",
-        "stages": [
-            "10 minutes",
-            "clumsy 2 (1 round)",
-            "unconscious (1 hour)",
-            "unconscious (1 day)"
         ],
-        "maxDuration": "5 days",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Ingested",
-            "Poison"
+        "actions": "2A",
+        "activationType": "Interact",
+        "maxDuration": "6 rounds",
+        "savingThrow": "DC 21 Fortitude",
+        "usage": "held in 2 hands",
+        "stages": [
+            "1d10 poison damage and flat-footed (1 round)",
+            "1d12 poison damage, clumsy 1, and flat-footed (1 round)",
+            "2d6 poison damage, clumsy 2, and flat-footed (1 round)"
         ]
     },
     {
         "name": "Giant Scorpion Venom",
-        "level": 6,
-        "price": 4000,
-        "bulk": "L",
         "id": "b3280bb0-b9ef-11ea-b3de-0242ac130004",
-        "actions": "2A",
-        "activationType": "Interact",
-        "usage": "held in 2 hands",
         "desc": "Scorpion venom is excruciating and its effects are somewhat debilitating.",
-        "savingThrow": "DC 22 Fortitude",
-        "stages": [
-            "",
-            "1d10 poison damage and enfeebled 1 (1 round)",
-            "2d10 poison damage and enfeebled 1 (1 round)",
-            "2d10 poison damage and enfeebled 2 (1 round)"
-        ],
-        "maxDuration": "6 rounds",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 6,
+        "bulk": "L",
+        "price": 4000,
         "traits": [
             "Alchemical",
             "Consumable",
             "Injury",
             "Poison"
+        ],
+        "actions": "2A",
+        "activationType": "Interact",
+        "maxDuration": "6 rounds",
+        "savingThrow": "DC 22 Fortitude",
+        "usage": "held in 2 hands",
+        "stages": [
+            "1d10 poison damage and enfeebled 1 (1 round)",
+            "2d10 poison damage and enfeebled 1 (1 round)",
+            "2d10 poison damage and enfeebled 2 (1 round)"
         ]
     },
     {
         "name": "Giant Wasp Venom",
-        "level": 7,
-        "price": 5500,
-        "bulk": "L",
         "id": "b3280cb4-b9ef-11ea-b3de-0242ac130004",
-        "actions": "2A",
-        "activationType": "Interact",
-        "usage": "held in 2 hands",
         "desc": "Giant wasp venom interferes with a victim's movement.",
-        "savingThrow": "DC 25 Fortitude",
-        "stages": [
-            "",
-            "2d6 poison damage and clumsy 1 (1 round)",
-            "3d6 poison damage and clumsy 2 (1 round)",
-            "4d6 poison and clumsy 2 (1 round)"
-        ],
-        "maxDuration": "6 rounds",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 7,
+        "bulk": "L",
+        "price": 5500,
         "traits": [
             "Alchemical",
             "Consumable",
             "Injury",
             "Poison"
+        ],
+        "actions": "2A",
+        "activationType": "Interact",
+        "maxDuration": "6 rounds",
+        "savingThrow": "DC 25 Fortitude",
+        "usage": "held in 2 hands",
+        "stages": [
+            "2d6 poison damage and clumsy 1 (1 round)",
+            "3d6 poison damage and clumsy 2 (1 round)",
+            "4d6 poison and clumsy 2 (1 round)"
         ]
     },
     {
         "name": "Malyass Root Paste",
-        "level": 7,
-        "price": 5500,
-        "bulk": "L",
         "id": "b3280dd6-b9ef-11ea-b3de-0242ac130004",
+        "desc": "Malyass root paste sees use to impede opponents in athletic competitions, in addition to espionage and tracking.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 7,
+        "bulk": "L",
+        "price": 5500,
+        "traits": [
+            "Alchemical",
+            "Consumable",
+            "Contact",
+            "Poison"
+        ],
         "actions": "3A",
         "activationType": "Interact",
-        "usage": "held in 2 hands",
-        "desc": "Malyass root paste sees use to impede opponents in athletic competitions, in addition to espionage and tracking.",
+        "maxDuration": "6 minutes",
         "savingThrow": "DC 26 Fortitude",
+        "usage": "held in 2 hands",
         "stages": [
             "1 minute",
             "clumsy 1 and -10-foot status penalty to all Speeds (1 minute)",
             "clumsy 2 and -20-foot status penalty to all Speeds (1 minute)",
             "clumsy 3, flat-footed, and -30-foot status penalty to all Speeds"
-        ],
-        "maxDuration": "6 minutes",
+        ]
+    },
+    {
+        "name": "Nettleweed Residue",
+        "id": "b32810e2-b9ef-11ea-b3de-0242ac130004",
+        "desc": "Concentrated sap of stinging weeds makes an effective toxin.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 8,
+        "bulk": "L",
+        "price": 7500,
         "traits": [
             "Alchemical",
             "Consumable",
             "Contact",
             "Poison"
-        ]
-    },
-    {
-        "name": "Isolation Draught",
-        "level": 7,
-        "price": 5500,
-        "bulk": "L",
-        "id": "b3280ea8-b9ef-11ea-b3de-0242ac130004",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
-        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
-        "desc": "Derived from steeping toxic highland plum pits in refined grain alcohols, this clear tonic slowly shuts down the imbiber's senses.",
-        "savingThrow": "DC 25 Fortitude",
-        "stages": [
-            "10 minutes",
-            "dazzled, -3 to all Perception checks (1 minute)",
-            "dazzled, deafened, -5 to all Perception checks (1 minute)",
-            "blinded, deafened, -5 to all Perception checks (5 minutes)"
         ],
-        "maxDuration": "30 minutes",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Ingested",
-            "Poison"
-        ]
-    },
-    {
-        "name": "Addlebrain",
-        "level": 7,
-        "price": 5800,
-        "bulk": "L",
-        "id": "b328101a-b9ef-11ea-b3de-0242ac130004",
         "actions": "1A",
         "activationType": "Interact",
-        "usage": "held in 2 hands",
-        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
-        "desc": "Certain Scarlet Triad poisoners use toxins like addlebrain to keep captured prisoners docile and compliant for short periods of time until they can be properly shackled and imprisoned. Addlebrain is distilled from a hallucinogenic lichen that can often be found growing in the sewers below particularly large cities like Katapesh.\n\nOnce soaked in special reagents and then dried, a dose of addlebrain must be either lit with flame or tossed into a fire to activate, whereupon it unleashes a cloud of toxin as normal for an inhaled poison.",
-        "savingThrow": "DC 25 Fortitude",
-        "stages": [
-            "1 minute",
-            "enfeebled 1 and stupefied 1 (10 minutes)",
-            "enfeebled 2 and stupefied 2 (1 hour)",
-            "fatigued, enfeebled 4, and stupefied 4 (1 day)"
-        ],
-        "maxDuration": "1 day",
-        "traits": [
-            "Rare",
-            "Alchemical",
-            "Consumable",
-            "Inhaled",
-            "Poison"
-        ]
-    },
-    {
-        "name": "Nettleweed Residue",
-        "level": 8,
-        "price": 7500,
-        "bulk": "L",
-        "id": "b32810e2-b9ef-11ea-b3de-0242ac130004",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 2 hands",
-        "desc": "Concentrated sap of stinging weeds makes an effective toxin.",
+        "maxDuration": "6 minutes",
         "savingThrow": "DC 27 Fortitude",
+        "usage": "held in 2 hands",
         "stages": [
             "1 minute",
             "8d6 poison damage (1 minute)",
             "10d6 poison damage (1 minute)",
             "13d6 poison damage (1 minute)"
-        ],
-        "maxDuration": "6 minutes",
-        "traits": [
-            "Alchemical",
-            "Consumable",
-            "Contact",
-            "Poison"
         ]
     },
     {
         "name": "Wyvern Poison",
-        "level": 8,
-        "price": 8000,
-        "bulk": "L",
         "id": "b32811aa-b9ef-11ea-b3de-0242ac130004",
-        "actions": "2A",
-        "activationType": "Interact",
-        "usage": "held in 2 hands",
         "desc": "Properly harvested and preserved, the poison from a wyvern's sting is effective and direct.",
-        "savingThrow": "DC 26 Fortitude",
-        "stages": [
-            "",
-            "5d6 poison damage (1 round)",
-            "6d6 poison damage (1 round)",
-            "8d6 poison damage (1 round)"
-        ],
-        "maxDuration": "6 rounds",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 8,
+        "bulk": "L",
+        "price": 8000,
         "traits": [
             "Alchemical",
             "Consumable",
             "Injury",
             "Poison"
+        ],
+        "actions": "2A",
+        "activationType": "Interact",
+        "maxDuration": "6 rounds",
+        "savingThrow": "DC 26 Fortitude",
+        "usage": "held in 2 hands",
+        "stages": [
+            "5d6 poison damage (1 round)",
+            "6d6 poison damage (1 round)",
+            "8d6 poison damage (1 round)"
         ]
     },
     {
         "name": "Lich Dust",
-        "level": 9,
-        "price": 11000,
-        "bulk": "L",
         "id": "b3281420-b9ef-11ea-b3de-0242ac130004",
+        "desc": "Dust salvaged from the remains of a destroyed lich has paralytic properties that make it a valuable poison.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 9,
+        "bulk": "L",
+        "price": 11000,
+        "traits": [
+            "Alchemical",
+            "Consumable",
+            "Ingested",
+            "Poison"
+        ],
         "actions": "1A",
         "activationType": "Interact",
-        "usage": "held in 1 hand",
-        "desc": "Dust salvaged from the remains of a destroyed lich has paralytic properties that make it a valuable poison.",
+        "maxDuration": "6 minutes",
         "savingThrow": "DC 28 Fortitude",
+        "usage": "held in 1 hand",
         "stages": [
             "10 minutes",
             "fatigued (1 minute)",
             "5d6 poison damage and fatigued (1 minute)",
             "5d6 poison damage, fatigued, and paralyzed (1 minute)"
-        ],
-        "maxDuration": "6 minutes",
-        "traits": [
-            "Alchemical",
-            "Consumable",
-            "Ingested",
-            "Poison"
         ]
     },
     {
         "name": "Spider Root",
-        "level": 9,
-        "price": 11000,
-        "bulk": "L",
         "id": "b328151a-b9ef-11ea-b3de-0242ac130004",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 2 hands",
         "desc": "A paste made by mashing the fine, threadlike roots of a certain creeper vine, spider root renders a victim clumsy and maladroit.",
-        "savingThrow": "DC 28 Fortitude",
-        "stages": [
-            "1 minute",
-            "8d6 poison damage and clumsy 1 (1 minute)",
-            "9d6 poison damage and clumsy 2 (1 minute)",
-            "10d6 poison damage and clumsy 3 (1 minute)"
-        ],
-        "maxDuration": "6 minutes",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 9,
+        "bulk": "L",
+        "price": 11000,
         "traits": [
             "Alchemical",
             "Consumable",
             "Contact",
             "Poison"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "maxDuration": "6 minutes",
+        "savingThrow": "DC 28 Fortitude",
+        "usage": "held in 2 hands",
+        "stages": [
+            "1 minute",
+            "8d6 poison damage and clumsy 1 (1 minute)",
+            "9d6 poison damage and clumsy 2 (1 minute)",
+            "10d6 poison damage and clumsy 3 (1 minute)"
         ]
     },
     {
         "name": "Wolfsbane",
-        "level": 10,
-        "price": 15500,
-        "bulk": "L",
         "id": "b32815e2-b9ef-11ea-b3de-0242ac130004",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Wolfsbane appears in folklore for its link to werecreatures. If you are afflicted with lycanthropy and survive Stage 3 of wolfsbane, you're immediately cured of the lycanthropy.",
-        "savingThrow": "DC 30 Fortitude",
-        "stages": [
-            "10 minutes",
-            "12d6 poison damage (1 minute)",
-            "16d6 poison damage (1 minute)",
-            "20d6 poison damage (1 minute)"
-        ],
-        "maxDuration": "6 minutes",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 10,
+        "bulk": "L",
+        "price": 15500,
         "traits": [
             "Alchemical",
             "Consumable",
             "Ingested",
             "Poison"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "maxDuration": "6 minutes",
+        "savingThrow": "DC 30 Fortitude",
+        "usage": "held in 1 hand",
+        "stages": [
+            "10 minutes",
+            "12d6 poison damage (1 minute)",
+            "16d6 poison damage (1 minute)",
+            "20d6 poison damage (1 minute)"
         ]
     },
     {
         "name": "Shadow Essence",
-        "level": 10,
-        "price": 16000,
-        "bulk": "L",
         "id": "b32816a0-b9ef-11ea-b3de-0242ac130004",
-        "actions": "2A",
-        "activationType": "Interact",
-        "usage": "held in 2 hands",
         "desc": "Distilled from the Plane of Shadow, this oily substance imposes tenebrous effects. The enfeebled condition from shadow essence lasts for 24 hours.",
-        "savingThrow": "DC 29 Fortitude",
-        "stages": [
-            "",
-            "3d6 negative damage and 2d6 poison damage (1 round)",
-            "3d6 negative damage, 2d6 poison damage, and enfeebled 1 (1 round)",
-            "3d6 negative damage, 2d6 poison damage, and enfeebled 2 (1 round)"
-        ],
-        "maxDuration": "6 rounds",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 10,
+        "bulk": "L",
+        "price": 16000,
         "traits": [
             "Alchemical",
             "Consumable",
             "Injury",
             "Negative",
             "Poison"
+        ],
+        "actions": "2A",
+        "activationType": "Interact",
+        "maxDuration": "6 rounds",
+        "savingThrow": "DC 29 Fortitude",
+        "usage": "held in 2 hands",
+        "stages": [
+            "3d6 negative damage and 2d6 poison damage (1 round)",
+            "3d6 negative damage, 2d6 poison damage, and enfeebled 1 (1 round)",
+            "3d6 negative damage, 2d6 poison damage, and enfeebled 2 (1 round)"
         ]
     },
     {
         "name": "Blightburn Resin",
-        "level": 11,
-        "price": 22500,
-        "bulk": "L",
         "id": "b3281984-b9ef-11ea-b3de-0242ac130004",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 2 hands",
         "desc": "This tacky, hardened sap is harvested from trees infected by fungal blights and exposed to open flames.",
-        "savingThrow": "DC 31 Fortitude",
-        "stages": [
-            "1 minute",
-            "8d6 poison damage (1 round)",
-            "10d6 poison damage (1 round)",
-            "15d6 poison damage (1 round)"
-        ],
-        "maxDuration": "6 rounds",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 11,
+        "bulk": "L",
+        "price": 22500,
         "traits": [
             "Alchemical",
             "Consumable",
             "Contact",
             "Poison"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "maxDuration": "6 rounds",
+        "savingThrow": "DC 31 Fortitude",
+        "usage": "held in 2 hands",
+        "stages": [
+            "1 minute",
+            "8d6 poison damage (1 round)",
+            "10d6 poison damage (1 round)",
+            "15d6 poison damage (1 round)"
         ]
     },
     {
         "name": "Slumber Wine",
-        "level": 12,
-        "price": 32500,
-        "bulk": "L",
         "id": "b3281a74-b9ef-11ea-b3de-0242ac130004",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Slumber wine sees its greatest use in games of intrigue, where an absence can be more devastating than injury. Characters unconscious from slumber wine can't wake up by any means while the poison lasts, don't need to eat or drink while unconscious in this way, and appear to be recently dead unless an examiner succeeds at a DC 40 Medicine check.",
-        "savingThrow": "DC 32 Fortitude",
-        "stages": [
-            "1 hour",
-            "unconscious (1 day)",
-            "unconscious (2 days)",
-            "unconscious (3 days)."
-        ],
-        "maxDuration": "7 days",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 12,
+        "bulk": "L",
+        "price": 32500,
         "traits": [
             "Alchemical",
             "Consumable",
             "Ingested",
             "Poison",
             "Sleep"
-        ]
-    },
-    {
-        "name": "Mage Bane",
-        "level": 12,
-        "price": 32500,
-        "bulk": "L",
-        "id": "b3281c5e-b9ef-11ea-b3de-0242ac130004",
-        "actions": "2A",
-        "activationType": "Interact",
-        "usage": "held in 2 hands",
-        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
-        "desc": "Upon being mixed and injected into the bloodstream, this powder of the crimson orchid quickly assaults the brain and nerves, disrupting the victim's ability to piece together coherent thoughts and spells.",
-        "savingThrow": "DC 32 Fortitude",
-        "stages": [
-            "",
-            "2d6 mental damage and stupefied 2 (1 round)",
-            "3d6 mental damage and stupefied 3 (1 round)",
-            "4d6 mental damage and stupefied 4 (1 round)"
         ],
-        "maxDuration": "6 rounds",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Injury",
-            "Poison"
+        "actions": "1A",
+        "activationType": "Interact",
+        "maxDuration": "7 days",
+        "savingThrow": "DC 32 Fortitude",
+        "usage": "held in 1 hand",
+        "stages": [
+            "1 hour",
+            "unconscious (1 day)",
+            "unconscious (2 days)",
+            "unconscious (3 days)."
         ]
     },
     {
         "name": "Deathcap Powder",
-        "level": 13,
-        "price": 45000,
-        "bulk": "L",
         "id": "b3281d30-b9ef-11ea-b3de-0242ac130004",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "The toxic deathcap mushroom can be dried, ground, and treated to form a flavorless powder with accelerated effects.",
-        "savingThrow": "DC 33 Fortitude",
-        "stages": [
-            "10 minutes",
-            "13d6 poison damage (1 minute)",
-            "17d6 poison damage and sickened 2 (1 minute)",
-            "20d6 poison damage and sickened 3 (1 minute)"
-        ],
-        "maxDuration": "6 minutes",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 13,
+        "bulk": "L",
+        "price": 45000,
         "traits": [
             "Alchemical",
             "Consumable",
             "Ingested",
             "Poison"
-        ]
-    },
-    {
-        "name": "Gorgon's Breath",
-        "level": 13,
-        "price": 47500,
-        "bulk": "L",
-        "id": "b3281dee-b9ef-11ea-b3de-0242ac130004",
+        ],
         "actions": "1A",
         "activationType": "Interact",
+        "maxDuration": "6 minutes",
+        "savingThrow": "DC 33 Fortitude",
         "usage": "held in 1 hand",
-        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
-        "desc": "Gorgon's breath is a fine powder that can easily enter living creatures' bloodstreams through their lungs before binding to mucous membranes and causing any nearby soft tissues to harden.",
-        "savingThrow": "DC 32 Fortitude",
         "stages": [
-            "1 round",
-            "slowed 1 (1 round)",
-            "4d6 bludgeoning damage and slowed 1 (1 round)",
-            "petrified (1 round)",
-            "petrified permanently"
-        ],
-        "maxDuration": "6 rounds",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Inhaled",
-            "Poison"
+            "10 minutes",
+            "13d6 poison damage (1 minute)",
+            "17d6 poison damage and sickened 2 (1 minute)",
+            "20d6 poison damage and sickened 3 (1 minute)"
         ]
     },
     {
         "name": "Purple Worm Venom",
-        "level": 13,
-        "price": 50000,
-        "bulk": "L",
         "id": "b3281eac-b9ef-11ea-b3de-0242ac130004",
-        "actions": "2A",
-        "activationType": "Interact",
-        "usage": "held in 2 hands",
         "desc": "Venom from enormous purple worms leaves a victim weakened.",
-        "savingThrow": "DC 32 Fortitude",
-        "stages": [
-            "",
-            "5d6 poison damage and enfeebled 2 (1 round)",
-            "6d6 poison damage and enfeebled 2 (1 round)",
-            "8d6 poison and enfeebled 2 (1 round)"
-        ],
-        "maxDuration": "6 rounds",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 13,
+        "bulk": "L",
+        "price": 50000,
         "traits": [
             "Alchemical",
             "Consumable",
             "Injury",
             "Poison"
+        ],
+        "actions": "2A",
+        "activationType": "Interact",
+        "maxDuration": "6 rounds",
+        "savingThrow": "DC 32 Fortitude",
+        "usage": "held in 2 hands",
+        "stages": [
+            "5d6 poison damage and enfeebled 2 (1 round)",
+            "6d6 poison damage and enfeebled 2 (1 round)",
+            "8d6 poison and enfeebled 2 (1 round)"
         ]
     },
     {
         "name": "Dragon Bile",
-        "level": 15,
-        "price": 92500,
-        "bulk": "L",
         "id": "b3281f88-b9ef-11ea-b3de-0242ac130004",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 2 hands",
         "desc": "A mix of digestive juices and green dragon poison glands nauseates the victim as its flesh is digested from within.",
-        "savingThrow": "DC 37 Fortitude",
-        "stages": [
-            "1 minute",
-            "6d6 poison damage and sickened 2 (1 round)",
-            "7d6 poison damage and sickened 3 (1 round)",
-            "9d6 poison damage and sickened 4 (1 round)"
-        ],
-        "maxDuration": "6 rounds",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 15,
+        "bulk": "L",
+        "price": 92500,
         "traits": [
             "Alchemical",
             "Consumable",
             "Contact",
             "Poison"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "maxDuration": "6 rounds",
+        "savingThrow": "DC 37 Fortitude",
+        "usage": "held in 2 hands",
+        "stages": [
+            "1 minute",
+            "6d6 poison damage and sickened 2 (1 round)",
+            "7d6 poison damage and sickened 3 (1 round)",
+            "9d6 poison damage and sickened 4 (1 round)"
         ]
     },
     {
         "name": "Mindfog Mist",
-        "level": 15,
-        "price": 100000,
-        "bulk": "L",
         "id": "b3282136-b9ef-11ea-b3de-0242ac130004",
+        "desc": "Mindfog mist can be used to undermine spellcasters, as its effect on a victim's mental faculties are swift and powerful.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 15,
+        "bulk": "L",
+        "price": 100000,
+        "traits": [
+            "Alchemical",
+            "Consumable",
+            "Inhaled",
+            "Poison"
+        ],
         "actions": "1A",
         "activationType": "Interact",
-        "usage": "held in 1 hand",
-        "desc": "Mindfog mist can be used to undermine spellcasters, as its effect on a victim's mental faculties are swift and powerful.",
+        "maxDuration": "6 rounds",
         "savingThrow": "DC 35 Fortitude",
+        "usage": "held in 1 hand",
         "stages": [
             "1 round",
             "stupefied 2 (1 round)",
             "confused and stupefied 3 (1 round)",
             "confused and stupefied 4 (1 round)"
-        ],
-        "maxDuration": "6 rounds",
+        ]
+    },
+    {
+        "name": "Nightmare Vapor",
+        "id": "b3282208-b9ef-11ea-b3de-0242ac130004",
+        "desc": "Purportedly sourced from any number of outlandish locales, nightmare vapor is most often created by boiling the sweat collected from humanoids caught in the throes of terrible nightmares.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 16,
+        "bulk": "L",
+        "price": 140000,
         "traits": [
             "Alchemical",
             "Consumable",
             "Inhaled",
             "Poison"
-        ]
-    },
-    {
-        "name": "Nightmare Vapor",
-        "level": 16,
-        "price": 140000,
-        "bulk": "L",
-        "id": "b3282208-b9ef-11ea-b3de-0242ac130004",
+        ],
         "actions": "1A",
         "activationType": "Interact",
-        "usage": "held in 1 hand",
-        "desc": "Purportedly sourced from any number of outlandish locales, nightmare vapor is most often created by boiling the sweat collected from humanoids caught in the throes of terrible nightmares.",
+        "maxDuration": "6 rounds",
         "savingThrow": "DC 36 Fortitude",
+        "usage": "held in 1 hand",
         "stages": [
             "1 round",
             "confused (1 round)",
             "confused and flat-footed (1 round)",
             "confused, flat-footed, and stupefied 2 (1 round)"
-        ],
-        "maxDuration": "6 rounds",
-        "traits": [
-            "Alchemical",
-            "Consumable",
-            "Inhaled",
-            "Poison"
-        ]
-    },
-    {
-        "name": "Weeping Midnight",
-        "level": 16,
-        "price": 140000,
-        "bulk": "L",
-        "id": "b32822d0-b9ef-11ea-b3de-0242ac130004",
-        "actions": "2A",
-        "activationType": "Interact",
-        "usage": "held in 2 hands",
-        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
-        "desc": "Alchemists have refined the devastatingly allergenic pollen of the widow orchid to create this venom, which swiftly causes the victim's eyes to leak mucus and swell shut.",
-        "savingThrow": "DC 36 Fortitude",
-        "stages": [
-            "",
-            "6d6 poison damage and dazzled (1 round)",
-            "7d6 poison damage, dazzled, and sickened 1 (1 round)",
-            "8d6 poison damage and blinded (1 round)"
-        ],
-        "maxDuration": "6 rounds",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Injury",
-            "Poison"
         ]
     },
     {
         "name": "Brimstone Fumes",
-        "level": 16,
-        "price": 150000,
-        "bulk": "L",
         "id": "b3282398-b9ef-11ea-b3de-0242ac130004",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Fumes from the forges of Hell drain health and strength alike.",
-        "savingThrow": "DC 36 Fortitude",
-        "stages": [
-            "1 round",
-            "7d6 poison damage and enfeebled 1 (1 round)",
-            "8d6 poison damage and enfeebled 2 (1 round)",
-            "10d6 poison damage and enfeebled 3 (1 round)"
-        ],
-        "maxDuration": "6 rounds",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 16,
+        "bulk": "L",
+        "price": 150000,
         "traits": [
             "Alchemical",
             "Consumable",
             "Evil",
             "Inhaled",
             "Poison"
-        ]
-    },
-    {
-        "name": "Frenzy Oil",
-        "level": 16,
-        "price": 150000,
-        "bulk": "L",
-        "id": "b3282488-b9ef-11ea-b3de-0242ac130004",
+        ],
         "actions": "1A",
         "activationType": "Interact",
-        "usage": "held in 1 hand",
-        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
-        "desc": "This oil, which is pressed from vrock spores and mixed with a combination of acacia ash and thistle seeds, seeps into the skin of living creatures, initially inspiring irritability that unpredictably manifests as berserk rage.",
-        "savingThrow": "DC 37 Fortitude",
-        "stages": [
-            "1d6 minutes",
-            "4d6 mental damage, quickened 1, attack nearby creatures as if confused (1 round)",
-            "6d6 mental damage, attack nearby creatures as if confused (1 round)",
-            "8d6 mental damage, fatigued, attack nearby creatures as if confused (1 round)"
-        ],
         "maxDuration": "6 rounds",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Contact",
-            "Poison"
+        "savingThrow": "DC 36 Fortitude",
+        "usage": "held in 1 hand",
+        "stages": [
+            "1 round",
+            "7d6 poison damage and enfeebled 1 (1 round)",
+            "8d6 poison damage and enfeebled 2 (1 round)",
+            "10d6 poison damage and enfeebled 3 (1 round)"
         ]
     },
     {
         "name": "Hemlock",
-        "level": 17,
-        "price": 225000,
-        "bulk": "L",
         "id": "b32825b4-b9ef-11ea-b3de-0242ac130004",
+        "desc": "Concentrated hemlock is a particularly deadly toxin that halts muscle action - including that of the victim's heart.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 17,
+        "bulk": "L",
+        "price": 225000,
+        "traits": [
+            "Alchemical",
+            "Consumable",
+            "Ingested",
+            "Poison"
+        ],
         "actions": "1A",
         "activationType": "Interact",
-        "usage": "held in 1 hand",
-        "desc": "Concentrated hemlock is a particularly deadly toxin that halts muscle action - including that of the victim's heart.",
+        "maxDuration": "60 minutes",
         "savingThrow": "DC 40 Fortitude",
+        "usage": "held in 1 hand",
         "stages": [
             "0 minutes",
             "17d6 poison damage and enfeebled 2 (10 minutes)",
             "21d6 poison damage and enfeebled 3 (10 minutes)",
             "26d6 poison damage and enfeebled 4 (10 minutes)"
-        ],
-        "maxDuration": "60 minutes",
-        "traits": [
-            "Alchemical",
-            "Consumable",
-            "Ingested",
-            "Poison"
         ]
     },
     {
         "name": "King's Sleep",
-        "level": 18,
-        "price": 400000,
-        "bulk": "L",
         "id": "b3282758-b9ef-11ea-b3de-0242ac130004",
+        "desc": "King's sleep is an insidious long-term poison that can seem like a disease or even death from natural causes on a venerable target. The drained condition from king's sleep is cumulative with each failed save and can't be removed while the poison lasts.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 18,
+        "bulk": "L",
+        "price": 400000,
+        "traits": [
+            "Alchemical",
+            "Consumable",
+            "Ingested",
+            "Poison",
+            "Virulent"
+        ],
         "actions": "1A",
         "activationType": "Interact",
-        "usage": "held in 1 hand",
-        "desc": "King's sleep is an insidious long-term poison that can seem like a disease or even death from natural causes on a venerable target. The drained condition from king's sleep is cumulative with each failed save and can't be removed while the poison lasts.",
         "savingThrow": "DC 41 Fortitude",
+        "usage": "held in 1 hand",
         "stages": [
             "1 day",
             "drained 1 (1 day)",
             "drained 1 (1 day)",
             "drained 2 (1 day)"
-        ],
-        "traits": [
-            "Alchemical",
-            "Consumable",
-            "Ingested",
-            "Poison",
-            "Virulent"
         ]
     },
     {
         "name": "Black Lotus Extract",
-        "level": 19,
-        "price": 650000,
-        "bulk": "L",
         "id": "b328282a-b9ef-11ea-b3de-0242ac130004",
+        "desc": "Black lotus extract causes severe internal bleeding.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 19,
+        "bulk": "L",
+        "price": 650000,
+        "traits": [
+            "Alchemical",
+            "Consumable",
+            "Contact",
+            "Poison",
+            "Virulent"
+        ],
         "actions": "1A",
         "activationType": "Interact",
-        "usage": "held in 1 hand",
-        "desc": "Black lotus extract causes severe internal bleeding.",
+        "maxDuration": "6 rounds",
         "savingThrow": "DC 42 Fortitude",
+        "usage": "held in 1 hand",
         "stages": [
             "1 minute",
             "15d6 poison damage and drained 1 (1 round)",
             "17d6 poison damage and drained 1 (1 round)",
             "20d6 poison damage and drained 2 (1 round)"
-        ],
-        "maxDuration": "6 rounds",
+        ]
+    },
+    {
+        "name": "Tears of Death",
+        "id": "b3282a8c-b9ef-11ea-b3de-0242ac130004",
+        "desc": "Tears of death are among the most powerful of alchemical poisons, distilled from extracts of five other deadly poisons in just the right ratios.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 20,
+        "bulk": "L",
+        "price": 1200000,
         "traits": [
             "Alchemical",
             "Consumable",
             "Contact",
             "Poison",
             "Virulent"
-        ]
-    },
-    {
-        "name": "Oblivion Essence",
-        "level": 19,
-        "price": 650000,
-        "bulk": "L",
-        "id": "b3282960-b9ef-11ea-b3de-0242ac130004",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 2 hands",
-        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
-        "desc": "Created from a daemon's powdered soul gems or refined from the waters of Abaddon's rivers, oblivion essence causes victims to rapidly age and decay.",
-        "savingThrow": "DC 42 Fortitude",
-        "stages": [
-            "",
-            "8d6 poison damage and slowed 1 (1 round)",
-            "10d6 poison damage, enfeebled 2, and slowed 1 (1 round)",
-            "12d6 poison damage, enfeebled 3, slowed 1 (1 round)"
         ],
-        "maxDuration": "6 rounds",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Injury",
-            "Poison"
-        ]
-    },
-    {
-        "name": "Tears of Death",
-        "level": 20,
-        "price": 1200000,
-        "bulk": "L",
-        "id": "b3282a8c-b9ef-11ea-b3de-0242ac130004",
         "actions": "1A",
         "activationType": "Interact",
-        "usage": "held in 2 hands",
-        "desc": "Tears of death are among the most powerful of alchemical poisons, distilled from extracts of five other deadly poisons in just the right ratios.",
+        "maxDuration": "10 minutes",
         "savingThrow": "DC 46 Fortitude",
+        "usage": "held in 2 hands",
         "stages": [
             "1 minute",
             "18d6 poison damage and paralyzed (1 round)",
             "25d6 poison damage and paralyzed (1 minute)",
             "30d6 poison damage and paralyzed (1 minute)"
-        ],
-        "maxDuration": "10 minutes",
-        "traits": [
-            "Alchemical",
-            "Consumable",
-            "Contact",
-            "Poison",
-            "Virulent"
-        ]
-    },
-    {
-        "name": "Nightmare Salt",
-        "level": 20,
-        "price": 1400000,
-        "bulk": "L",
-        "id": "b3282b86-b9ef-11ea-b3de-0242ac130004",
-        "actions": "3A",
-        "activationType": "Interact",
-        "usage": "held in 2 hands",
-        "desc": "This potent poison consists of crystals whose flavor and appearance mimics edible salt but whose effects are deadly: victims experience periods of waking nightmares that overload the senses and eventually result in death through a combination of shock and exhaustion.",
-        "savingThrow": "DC 43 Fortitude",
-        "stages": [
-            "1 hour",
-            "frightened 2 once every 1d4 hours, plus fatigued (1 day)",
-            "confused for 1 minute once every 1d4 hours, plus frightened 3 and fatigued (1 day)",
-            "frightened 3, plus confused for 1d4 minutes, once every hour, plus fatigued (1 day)",
-            "death"
-        ],
-        "maxDuration": "5 days",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Ingested",
-            "Poison"
         ]
     }
 ]

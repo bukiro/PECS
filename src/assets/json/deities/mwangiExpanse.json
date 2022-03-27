@@ -1,0 +1,546 @@
+[
+    {
+        "name": "Adanye",
+        "desc": "Legend holds that the amurruns - known as catfolk to others - were created as guardians against threats to home, nature, and the world at large. While the goddess Adanye is not considered to be their creator, she is said to have mentored these first guardians, teaching them the skills necessary to protect and defend, both in combat and in careful interaction with others. She also taught the importance of what they protected, identifying the hearth and the home, as well as the right to self-determination and to solitude, as worthy of defense. She is said to have instilled in the amurruns their need for solitude and their esteem of imagination. A master teacher, she is depicted as a graying catfolk woman or a cat by the hearth fire, her large, gentle eyes full of wisdom.",
+        "alignment": "Lawful Good",
+        "areasOfConcern": "hearth, imagination, protection, solitude",
+        "category": "Other Gods",
+        "nickname": "The Warmth of the Hearth",
+        "sourcebook": "The Mwangi Expanse",
+        "_extensionFileName": "mwangiExpanse",
+        "alternateDomains": [
+            "Confidence",
+            "Fire"
+        ],
+        "anathema": [
+            "force anyone into drudgery or mindless work",
+            "deny support to loved ones",
+            "surrender when escape is an option",
+            "destroy a place that has given you shelter"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Feather Fall"
+            },
+            {
+                "level": 2,
+                "name": "Misdirection"
+            },
+            {
+                "level": 7,
+                "name": "Magnificent Mansion"
+            }
+        ],
+        "divineAbility": [
+            "Dexterity",
+            "Wisdom"
+        ],
+        "divineFont": [
+            "Heal"
+        ],
+        "divineSkill": [
+            "Society"
+        ],
+        "domains": [
+            "Duty",
+            "Family",
+            "Protection",
+            "Repose"
+        ],
+        "edicts": [
+            "keep your counsel",
+            "follow your heart",
+            "appreciate a warm hearth",
+            "defend those who welcome you into their home"
+        ],
+        "favoredWeapon": [
+            "Claw",
+            "Kukri"
+        ],
+        "followerAlignments": [
+            "Lawful Good",
+            "Neutral Good",
+            "Chaotic Good",
+            "Lawful Neutral"
+        ]
+    },
+    {
+        "name": "Balumbdar",
+        "desc": "Balumbdar, or He Who Is Massive, is the god of all huge things in the world that tower over smaller things. Creatures of great size, such as elephants and dinosaurs, are sacred to him, as are natural features that dominate the landscape like mountains and massive trees. Balumbdar is also a god of strength, but of might born of great size rather than training or skill. Balumbdar is considered brutish and dim-witted by most other gods, but the fact that he towers over them in any interaction means he always commands respect. When he bothers to manifest at all, it is as a startlingly large man with slabs of muscle and equally thick rolls of fat. He sometimes instead appears as a city-sized animal or as imposing clouds, heavy with rain and low to the ground.",
+        "alignment": "Neutral",
+        "areasOfConcern": "great size, megafauna, strength",
+        "category": "Other Gods",
+        "nickname": "The World-Shaker",
+        "sourcebook": "The Mwangi Expanse",
+        "_extensionFileName": "mwangiExpanse",
+        "anathema": [
+            "accidentally injure others with your size",
+            "topple a massive natural monument",
+            "use magic to assume a form smaller than you are"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Ant Haul"
+            },
+            {
+                "level": 2,
+                "name": "Enlarge"
+            },
+            {
+                "level": 4,
+                "name": "Dinosaur Form"
+            }
+        ],
+        "divineAbility": [
+            "Strength",
+            "Constitution"
+        ],
+        "divineFont": [
+            "Heal"
+        ],
+        "divineSkill": [
+            "Athletics"
+        ],
+        "domains": [
+            "Might",
+            "Nature",
+            "Perfection",
+            "Protection"
+        ],
+        "edicts": [
+            "grow as large as you can",
+            "shelter those smaller and weaker than you",
+            "tend large animals and megafauna"
+        ],
+        "favoredWeapon": [
+            "Greatclub"
+        ],
+        "followerAlignments": [
+            "Neutral Good",
+            "Neutral",
+            "Neutral Evil"
+        ]
+    },
+    {
+        "name": "Kalekot",
+        "desc": "The guardian of deadly secrets and dangerous places, Kalekot is a bogeyman to most, murderer of the guilty and devourer of those who trespass. To those that society can't punish, Kalekot is executioner, striking from the shadows and leaving bodies to rot on the ground. To those lost at night, Kalekot is a silent follower, a guardian from danger. Those few who have glimpsed him describe a figure with withered skin and a snake's twisting spine. He always conceals his features behind an eyeless mask, its mouth filled with serpent's teeth, each fang the size of an elephant's tusk.",
+        "alignment": "Chaotic Neutral",
+        "areasOfConcern": "fear, silence, safekeeping, the reviled",
+        "category": "Other Gods",
+        "nickname": "The Winnower",
+        "sourcebook": "The Mwangi Expanse",
+        "_extensionFileName": "mwangiExpanse",
+        "alternateDomains": [
+            "Darkness",
+            "Wyrmkin"
+        ],
+        "anathema": [
+            "abuse someone you have accepted power over",
+            "allow a victim to escape due to gloating",
+            "snivel before authority",
+            "shout"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Pass Without Trace"
+            },
+            {
+                "level": 3,
+                "name": "Paralyze"
+            },
+            {
+                "level": 4,
+                "name": "Phantasmal Killer"
+            }
+        ],
+        "divineAbility": [
+            "Dexterity",
+            "Charisma"
+        ],
+        "divineFont": [
+            "Harm"
+        ],
+        "divineSkill": [
+            "Intimidation"
+        ],
+        "domains": [
+            "Death",
+            "Nature",
+            "Nightmares",
+            "Secrecy"
+        ],
+        "edicts": [
+            "spread fear in others",
+            "hide dangerous secrets",
+            "shock the self-righteous",
+            "kill the guilty to protect the innocent"
+        ],
+        "favoredWeapon": [
+            "Jaws",
+            "Dagger"
+        ],
+        "followerAlignments": [
+            "Chaotic Good",
+            "Neutral",
+            "Chaotic Neutral",
+            "Chaotic Evil"
+        ]
+    },
+    {
+        "name": "Kitumu",
+        "desc": "If any fervent devotees of the monstrous firefly goddess exist, they don't venture into civilization. The closest Kitumu has to servants or worshipers are those willing to placate the goddess in order to satisfy her demands and hungers.",
+        "alignment": "Chaotic Evil",
+        "areasOfConcern": "fireflies, flames",
+        "category": "Other Gods",
+        "nickname": "Mother of Fireflies",
+        "sourcebook": "The Mwangi Expanse",
+        "_extensionFileName": "mwangiExpanse",
+        "anathema": [
+            "step on a firefly",
+            "kill those marked by Kitumu"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Sleep"
+            },
+            {
+                "level": 2,
+                "name": "Vomit Swarm"
+            },
+            {
+                "level": 3,
+                "name": "Insect Form"
+            }
+        ],
+        "divineAbility": [
+            "Dexterity",
+            "Charisma"
+        ],
+        "divineFont": [
+            "Harm"
+        ],
+        "divineSkill": [
+            "Nature"
+        ],
+        "domains": [
+            "Destruction",
+            "Indulgence",
+            "Nightmares",
+            "Swarm"
+        ],
+        "edicts": [
+            "offer sacrifices to Kitumu",
+            "feed the hungers of nature with humanoid creatures"
+        ],
+        "favoredWeapon": [
+            "Dagger"
+        ],
+        "followerAlignments": [
+            "Neutral Evil",
+            "Chaotic Evil"
+        ]
+    },
+    {
+        "name": "Lubaiko",
+        "desc": "Fires and explosions of all kinds are Lubaiko's passion, from an ember that ignites a flour mill to an outrage that rips through a nation. She is the powder keg whose fuse has burned down, erupting into something momentous, be it for better or for worse. Roaming throughout the sky above Golarion, she delights in throwing her bolts into the fields and the minds of people, whenever conditions permit and wherever they may fall. Some believe the smoke from Lubaiko's fires are curses and misfortune flying up into the air to spread throughout the land. Yet Lubaiko's blazes also often clear the way for new growth.",
+        "alignment": "Chaotic Neutral",
+        "areasOfConcern": "wildfire, bad luck, inspiration, turmoil",
+        "category": "Other Gods",
+        "nickname": "The Spark in the Dust",
+        "sourcebook": "The Mwangi Expanse",
+        "_extensionFileName": "mwangiExpanse",
+        "alternateDomains": [
+            "Change",
+            "Destruction"
+        ],
+        "anathema": [
+            "calm a crowd",
+            "douse a fire",
+            "sleep in the same place three nights in a row"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Ill Omen"
+            },
+            {
+                "level": 2,
+                "name": "Flaming Sphere"
+            },
+            {
+                "level": 7,
+                "name": "Fiery Body"
+            }
+        ],
+        "divineAbility": [
+            "Intelligence",
+            "Charisma"
+        ],
+        "divineFont": [
+            "Harm",
+            "Heal"
+        ],
+        "divineSkill": [
+            "Diplomacy"
+        ],
+        "domains": [
+            "Ambition",
+            "Fire",
+            "Lightning",
+            "Zeal"
+        ],
+        "edicts": [
+            "set fires",
+            "change the world",
+            "act with ambition or not at all"
+        ],
+        "favoredWeapon": [
+            "Longspear"
+        ],
+        "followerAlignments": [
+            "Chaotic Good",
+            "Neutral",
+            "Chaotic Neutral",
+            "Chaotic Evil"
+        ]
+    },
+    {
+        "name": "Mazludeh",
+        "desc": "Mazludeh was once one among many empyreal lords, responsible for the domains of community stewardship and loving sacrifice. However, her actions during Earthfall and the Age of Darkness saved untold lives in Mwangi. Dismayed by the chaos and loss of life, Mazludeh spurred her fellow empyreal lords into action, forming a divine concordance that protected the Garundi nation of Holomog from devastation. Mazludeh's efforts elevated her to true divinity and the status of the matron goddess of the nation of Holomog. Now the goddess of negotiations and treaties, her followers often travel with merchants and ambassadors. She is also considered the diplomat to the other empyreal lords, able to pass on prayers to those most suited to answer them and persuade celestial beings to see to their fulfillment. Throughout the Mwangi, worshippers of Mazludeh have developed a reputation for being brave, empathetic, and fair even to their enemies.",
+        "alignment": "Neutral Good",
+        "areasOfConcern": "balance, community, negotiation, and twilight",
+        "category": "Other Gods",
+        "nickname": "Mother of Hearth and Wall",
+        "sourcebook": "The Mwangi Expanse",
+        "_extensionFileName": "mwangiExpanse",
+        "anathema": [
+            "betray another's trust",
+            "place conflict between ideological differences over people's lives"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Share Lore"
+            },
+            {
+                "level": 4,
+                "name": "Shape Stone"
+            },
+            {
+                "level": 5,
+                "name": "Wall of Stone"
+            }
+        ],
+        "divineAbility": [
+            "Wisdom",
+            "Charisma"
+        ],
+        "divineFont": [
+            "Heal"
+        ],
+        "divineSkill": [
+            "Diplomacy"
+        ],
+        "domains": [
+            "Cities",
+            "Family",
+            "Knowledge",
+            "Perfection"
+        ],
+        "edicts": [
+            "seek to improve yourself and your community",
+            "trust those you work with",
+            "encourage cooperation"
+        ],
+        "favoredWeapon": [
+            "Shield Boss"
+        ],
+        "followerAlignments": [
+            "Lawful Good",
+            "Neutral Good",
+            "Chaotic Good"
+        ]
+    },
+    {
+        "name": "Uvuko",
+        "desc": "The god Uvuko dances across the land, his body forming the boundary between earth and sky. His twisting tail churns the air into clouds, his creations spreading water to all those who thirst. His sliding scales till the earth, bringing forth plants that are nourished by Uvuko's rains. The worship of Uvuko is widespread in the Mwangi Expanse, found among many lizardfolk tribes, Mbe'ke and Taralu dwarves, and in the more cosmopolitan cities.",
+        "alignment": "Chaotic Good",
+        "areasOfConcern": "metamorphosis, cycles, growth, fertility",
+        "category": "Other Gods",
+        "nickname": "The Diamond Ring",
+        "sourcebook": "The Mwangi Expanse",
+        "_extensionFileName": "mwangiExpanse",
+        "alternateDomains": [
+            "Air",
+            "Cold"
+        ],
+        "anathema": [
+            "allow yourself and your surroundings to stagnate",
+            "crush an egg",
+            "use vile or cruel language"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Fleet Step"
+            },
+            {
+                "level": 3,
+                "name": "Haste"
+            },
+            {
+                "level": 6,
+                "name": "Dragon Form"
+            }
+        ],
+        "divineAbility": [
+            "Strength",
+            "Wisdom"
+        ],
+        "divineFont": [
+            "Heal"
+        ],
+        "divineSkill": [
+            "Athletics"
+        ],
+        "domains": [
+            "Change",
+            "Creation",
+            "Healing",
+            "Wyrmkin"
+        ],
+        "edicts": [
+            "embrace change and the future",
+            "master adversity with flexibility",
+            "foster freedom and progress for others"
+        ],
+        "favoredWeapon": [
+            "Maul"
+        ],
+        "followerAlignments": [
+            "Neutral Good",
+            "Chaotic Good",
+            "Neutral",
+            "Chaotic Neutral"
+        ]
+    },
+    {
+        "name": "Walkena",
+        "desc": "In the city-state of Mzali in the Mwangi Expanse resides an undead being of immense power, a child-sized god-king. In the past, Walkena was a mortal descendant of the gods that ruled over Mzali in ancient times, one of the sun kings from an old empire and a golden age of the city. Ages later, his preserved body was found by members of the Council of Mwanyisa, who ruled Mzali at that time. Believing him to be an omen of the city's impending resurgence, the council took him to put him on display in Mzali. When an army from the Sargavan city of Kalabuto attacked the city, Walkena awoke - this time as an undead creature - and slew each of the invaders in a purging rain of fire.",
+        "alignment": "Lawful Evil",
+        "category": "Other Gods",
+        "nickname": "The God-King",
+        "sourcebook": "The Mwangi Expanse, Gods & Magic",
+        "_extensionFileName": "mwangiExpanse",
+        "anathema": [
+            "Consort or trade with non-Mwangi peoples",
+            "defy Walkena's orders"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Burning Hands"
+            },
+            {
+                "level": 3,
+                "name": "Fireball"
+            },
+            {
+                "level": 4,
+                "name": "Wall of Fire"
+            }
+        ],
+        "divineAbility": [
+            "Strength",
+            "Wisdom"
+        ],
+        "divineFont": [
+            "Harm"
+        ],
+        "divineSkill": [
+            "Deception"
+        ],
+        "domains": [
+            "Family",
+            "Freedom",
+            "Sun",
+            "Tyranny"
+        ],
+        "edicts": [
+            "Uphold Mzali's laws",
+            "tend to Walkena and obey his instructions",
+            "oppose exploitation of the Mwangi Expanse"
+        ],
+        "favoredWeapon": [
+            "Spear"
+        ],
+        "followerAlignments": [
+            "Lawful Neutral",
+            "Lawful Evil"
+        ]
+    },
+    {
+        "name": "Angazhan",
+        "desc": "Angazhan is a name well known in the Mwangi Expanse, and for good reason. Called the Ravenous King and Demon Lord of Beasts, he appears as an enormous and terrifying red-furred ape with six long fingers on each hand, massive and clawed. His red eyes, twisted horns, and viciously sharp fangs give him a demonic appearance. His followers range from gnoll to charau-kas to nalfeshnee demons that number in the thousands.",
+        "alignment": "Chaotic Evil",
+        "areasOfConcern": "apes, jungles, tyrants",
+        "category": "Demon Lords",
+        "nickname": "The Ravenous King",
+        "sourcebook": "The Mwangi Expanse, Gods & Magic",
+        "_extensionFileName": "mwangiExpanse",
+        "alternateDomains": [
+            "Indulgence",
+            "Zeal"
+        ],
+        "anathema": [
+            "Cower from fights",
+            "allow yourself to be resurrected instead of reincarnated"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Magic Fang"
+            },
+            {
+                "level": 3,
+                "name": "Animal Form",
+                "note": "(ape only)"
+            },
+            {
+                "level": 5,
+                "name": "Moon Frenzy"
+            }
+        ],
+        "divineAbility": [
+            "Strength",
+            "Constitution"
+        ],
+        "divineFont": [
+            "Harm"
+        ],
+        "divineSkill": [
+            "Athletics"
+        ],
+        "domains": [
+            "Destruction",
+            "Might",
+            "Nature",
+            "Tyranny"
+        ],
+        "edicts": [
+            "Commit acts of brutal violence",
+            "test yourself against nature",
+            "make animals more dangerous"
+        ],
+        "favoredWeapon": [
+            "Spear"
+        ],
+        "followerAlignments": [
+            "Chaotic Evil"
+        ]
+    }
+]

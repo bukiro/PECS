@@ -1,178 +1,188 @@
 [
     {
-        "bulk": "L",
-        "desc": "This very small shield is a favorite of duelists and quick, lightly armored warriors. It's typically made of steel and strapped to your forearm. You can Raise a Shield with your buckler as long as you have that hand free or are holding a light object that's not a weapon in that hand.",
-        "id": "89be2052-8e09-11ea-9fab-e92c63c14723",
-        "price": 100,
         "name": "Buckler",
-        "gainItems": [
-            {
-                "name": "Shield Bash",
-                "on": "equip"
-            }
-        ],
+        "id": "89be2052-8e09-11ea-9fab-e92c63c14723",
+        "desc": "This very small shield is a favorite of duelists and quick, lightly armored warriors. It's typically made of steel and strapped to your forearm. You can Raise a Shield with your buckler as long as you have that hand free or are holding a light object that's not a weapon in that hand.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
+        "price": 100,
         "acbonus": 1,
         "brokenThreshold": 3,
         "hardness": 3,
-        "hitpoints": 6
-    },
-    {
-        "bulk": "1",
-        "desc": "Though they come in a variety of shapes and sizes, the protection offered by wooden shields comes from the stoutness of their materials. While wooden shields are less expensive than steel shields, they break more easily.",
-        "id": "89be2055-8e09-11ea-9fab-e92c63c14723",
-        "price": 100,
-        "name": "Wooden Shield",
+        "hitpoints": 6,
         "gainItems": [
             {
                 "name": "Shield Bash",
                 "on": "equip"
             }
-        ],
+        ]
+    },
+    {
+        "name": "Wooden Shield",
+        "id": "89be2055-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Though they come in a variety of shapes and sizes, the protection offered by wooden shields comes from the stoutness of their materials. While wooden shields are less expensive than steel shields, they break more easily.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "1",
+        "price": 100,
         "acbonus": 2,
         "brokenThreshold": 6,
         "hardness": 3,
-        "hitpoints": 12
-    },
-    {
-        "bulk": "1",
-        "desc": "Like wooden shields, steel shields come in a variety of shapes and sizes. Though more expensive than wooden shields, they are much more durable.",
-        "id": "89be2058-8e09-11ea-9fab-e92c63c14723",
-        "price": 200,
-        "name": "Steel Shield",
+        "hitpoints": 12,
         "gainItems": [
             {
                 "name": "Shield Bash",
                 "on": "equip"
             }
-        ],
+        ]
+    },
+    {
+        "name": "Steel Shield",
+        "id": "89be2058-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Like wooden shields, steel shields come in a variety of shapes and sizes. Though more expensive than wooden shields, they are much more durable.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "1",
+        "price": 200,
         "acbonus": 2,
         "brokenThreshold": 10,
         "hardness": 5,
-        "hitpoints": 20
-    },
-    {
-        "bulk": "4",
-        "desc": "These massive shields can be used to provide cover to nearly the entire body. Due to their size, they are typically made of wood reinforced with metal.\n\nGetting the higher bonus for a tower shield requires using the Take Cover action while the shield is raised.",
-        "id": "89be205b-8e09-11ea-9fab-e92c63c14723",
-        "price": 1000,
-        "name": "Tower Shield",
+        "hitpoints": 20,
         "gainItems": [
             {
                 "name": "Shield Bash",
                 "on": "equip"
             }
-        ],
+        ]
+    },
+    {
+        "name": "Tower Shield",
+        "id": "89be205b-8e09-11ea-9fab-e92c63c14723",
+        "desc": "These massive shields can be used to provide cover to nearly the entire body. Due to their size, they are typically made of wood reinforced with metal.\n\nGetting the higher bonus for a tower shield requires using the Take Cover action while the shield is raised.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "4",
+        "price": 1000,
         "acbonus": 2,
-        "speedpenalty": -5,
         "brokenThreshold": 10,
         "coverbonus": true,
         "hardness": 5,
-        "hitpoints": 20
-    },
-    {
-        "bulk": "1",
-        "desc": "This steel shield (Hardness 6, HP 36, BT 18) is forged into the shape of a roaring lion's head. The lion's head functions as +1 striking shield boss that can't be removed from the shield.",
-        "id": "91a08649-09cd-44aa-9c5f-aac121102a64",
-        "level": 6,
-        "price": 24500,
-        "name": "Lion's Shield",
-        "shieldBase": "Steel Shield",
+        "hitpoints": 20,
+        "speedpenalty": -5,
         "gainItems": [
             {
-                "name": "Lion's Head Shield Boss",
-                "type": "weapons",
+                "name": "Shield Bash",
                 "on": "equip"
             }
-        ],
-        "activities": [
-            {
-                "name": "Lion's Shield",
-                "desc": "You animate the lion's head. You Raise the Shield and make a melee Strike with it as part of the same action. The shield's biting maw is a martial melee weapon that deals 2d6 piercing damage and has the deadly 1d6 trait; it can't be enhanced by runes. The shield remains animated for 1 minute, during which time you can Strike with it each time you Raise the Shield, as well as with a Strike action.",
-                "inputRequired": "You gain the lion's shield biting maw weapon and can make attacks with it.",
-                "traits": [
-                    "Conjuration",
-                    "Magical"
-                ],
-                "actions": "1A",
-                "activationType": "Raise a Shield",
-                "frequency": "once per day",
-                "cooldown": 144000,
-                "target": "other",
-                "gainItems": [
-                    {
-                        "name": "Lion's Shield Biting Maw",
-                        "type": "weapons",
-                        "expiration": 100
-                    }
-                ],
-                "source": "91a08649-09cd-44aa-9c5f-aac121102a64"
-            }
+        ]
+    },
+    {
+        "name": "Lion's Shield",
+        "id": "91a08649-09cd-44aa-9c5f-aac121102a64",
+        "desc": "This steel shield (Hardness 6, HP 36, BT 18) is forged into the shape of a roaring lion's head. The lion's head functions as +1 striking shield boss that can't be removed from the shield.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 6,
+        "bulk": "1",
+        "price": 24500,
+        "traits": [
+            "Conjuration",
+            "Magical"
         ],
         "acbonus": 2,
         "brokenThreshold": 18,
         "hardness": 6,
         "hitpoints": 36,
+        "shieldBase": "Steel Shield",
         "usage": "held in 1 hand",
-        "traits": [
-            "Conjuration",
-            "Magical"
+        "activities": [
+            {
+                "actions": "1A",
+                "activationType": "Raise a Shield",
+                "cooldown": 144000,
+                "desc": "You animate the lion's head. You Raise the Shield and make a melee Strike with it as part of the same action. The shield's biting maw is a martial melee weapon that deals 2d6 piercing damage and has the deadly 1d6 trait; it can't be enhanced by runes. The shield remains animated for 1 minute, during which time you can Strike with it each time you Raise the Shield, as well as with a Strike action.",
+                "frequency": "once per day",
+                "gainItems": [
+                    {
+                        "expiration": 100,
+                        "name": "Lion's Shield Biting Maw",
+                        "type": "weapons"
+                    }
+                ],
+                "inputRequired": "You gain the lion's shield biting maw weapon and can make attacks with it.",
+                "name": "Lion's Shield",
+                "source": "91a08649-09cd-44aa-9c5f-aac121102a64",
+                "target": "other",
+                "traits": [
+                    "Conjuration",
+                    "Magical"
+                ]
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Lion's Head Shield Boss",
+                "on": "equip",
+                "type": "weapons"
+            }
         ]
     },
     {
-        "bulk": "1",
-        "desc": "Five jagged spines project from the surface of this steel shield (Hardness 6, HP 24, BT 12). The spines are +1 striking shield spikes. When you use the Shield Block reaction with this shield, the spines take the damage before the shield itself does. When the shield would take damage (after applying Hardness), one spine snaps off per 6 damage, reducing the damage by 6. The shield takes any remaining damage. When there are no spines left, the shield takes damage as normal.\n\nWhen all the spines are gone, you lose the ability to attack with them until the spines regenerate the next day.",
-        "id": "ac36c974-2ec3-41b5-b7af-1118acc1cc45",
-        "level": 7,
-        "price": 36000,
         "name": "Spined Shield",
-        "shieldBase": "Steel Shield",
-        "gainItems": [
-            {
-                "name": "Spined Shield Spikes",
-                "type": "weapons",
-                "on": "equip"
-            }
-        ],
-        "activities": [
-            {
-                "name": "Spined Shield",
-                "desc": "You shoot one of the shield's spines at a target. A fired spine uses the spikes' statistics, but it is a martial ranged weapon with a range increment of 120 feet.",
-                "inputRequired": "Make an attack with the spined shield spikes weapon.",
-                "traits": [
-                    "Evocation",
-                    "Magical"
-                ],
-                "actions": "1A",
-                "activationType": "Interact",
-                "cooldown": 144000,
-                "target": "other",
-                "source": "ac36c974-2ec3-41b5-b7af-1118acc1cc45",
-                "charges": 5,
-                "sharedChargesID": 1
-            },
-            {
-                "name": "Spined Shield: Snap Off Spine",
-                "desc": "When the shield would take damage (after applying Hardness), snaps off one spine per 6 damage, reducing the damage by 6. The shield takes any remaining damage. When there are no spines left, the shield takes damage as normal.",
-                "traits": [
-                    "Evocation",
-                    "Magical"
-                ],
-                "actions": "",
-                "activationType": "",
-                "cooldown": 144000,
-                "source": "ac36c974-2ec3-41b5-b7af-1118acc1cc45",
-                "charges": 5,
-                "sharedChargesID": 1
-            }
+        "id": "ac36c974-2ec3-41b5-b7af-1118acc1cc45",
+        "desc": "Five jagged spines project from the surface of this steel shield (Hardness 6, HP 24, BT 12). The spines are +1 striking shield spikes. When you use the Shield Block reaction with this shield, the spines take the damage before the shield itself does. When the shield would take damage (after applying Hardness), one spine snaps off per 6 damage, reducing the damage by 6. The shield takes any remaining damage. When there are no spines left, the shield takes damage as normal.\n\nWhen all the spines are gone, you lose the ability to attack with them until the spines regenerate the next day.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 7,
+        "bulk": "1",
+        "price": 36000,
+        "traits": [
+            "Evocation",
+            "Magical"
         ],
         "acbonus": 2,
         "brokenThreshold": 12,
         "hardness": 6,
         "hitpoints": 24,
+        "shieldBase": "Steel Shield",
         "usage": "held in 1 hand",
-        "traits": [
-            "Evocation",
-            "Magical"
+        "activities": [
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "charges": 5,
+                "cooldown": 144000,
+                "desc": "You shoot one of the shield's spines at a target. A fired spine uses the spikes' statistics, but it is a martial ranged weapon with a range increment of 120 feet.",
+                "inputRequired": "Make an attack with the spined shield spikes weapon.",
+                "name": "Spined Shield",
+                "sharedChargesID": 1,
+                "source": "ac36c974-2ec3-41b5-b7af-1118acc1cc45",
+                "target": "other",
+                "traits": [
+                    "Evocation",
+                    "Magical"
+                ]
+            },
+            {
+                "charges": 5,
+                "cooldown": 144000,
+                "desc": "When the shield would take damage (after applying Hardness), snaps off one spine per 6 damage, reducing the damage by 6. The shield takes any remaining damage. When there are no spines left, the shield takes damage as normal.",
+                "name": "Spined Shield: Snap Off Spine",
+                "sharedChargesID": 1,
+                "source": "ac36c974-2ec3-41b5-b7af-1118acc1cc45",
+                "traits": [
+                    "Evocation",
+                    "Magical"
+                ]
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Spined Shield Spikes",
+                "on": "equip",
+                "type": "weapons"
+            }
         ]
     }
 ]

@@ -1,0 +1,77 @@
+[
+    {
+        "name": "Oily Button",
+        "desc": "After you succeeded at an Athletics check to Disarm and activated the oily button, your attempts to Disarm your opponent of an item before the start of the opponent's next turn gain a +4 circumstance bonus instead of +2, and the -2 circumstance penalty to attacks with the item or other checks requiring a firm grasp on the item lasts until the end of its next turn or until it uses an Interact action to adjust its grip.",
+        "sourceBook": "The Slithering",
+        "_extensionFileName": "slithering",
+        "type": "talismans",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 7
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Your attempts to Disarm your opponent of an item before the start of the opponent's next turn gain a +4 circumstance bonus instead of +2.",
+                "showon": "Athletics",
+                "effects": [
+                    {
+                        "affected": "Athletics",
+                        "type": "circumstance",
+                        "value": "4"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Putrescent Glob",
+        "desc": "After being damaged with a weapon with the putrescent glob affixed, you must succeed at a DC 23 Fortitude save or your sickened condition increases to sickened 2, and you can't reduce you sickened condition until the end of your next turn. On a critical failure, you are also slowed 1 until the end of your next turn.",
+        "sourceBook": "The Slithering",
+        "_extensionFileName": "slithering",
+        "type": "talismans",
+        "sortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 10
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": 10
+            }
+        ],
+        "gainConditions": [
+            {
+                "addValue": 1,
+                "addValueUpperLimit": 2,
+                "addValueLowerLimit": 2,
+                "conditionChoiceFilter": [
+                    "Failure",
+                    "Critical Failure"
+                ],
+                "valueLockedByParent": true,
+                "name": "Sickened"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Critical Failure"
+                ],
+                "name": "Slowed",
+                "value": 1
+            }
+        ]
+    }
+]

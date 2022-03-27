@@ -1,0 +1,4220 @@
+[
+    {
+        "name": "Backup Disguise",
+        "desc": "You have a specific disguise that you keep at the ready, worn underneath your outer garment. You can change into this disguise to Impersonate as a 3-action activity. If you have master proficiency in Deception, it is instead a 2-action activity, and if you have legendary proficiency, it is a single action. You can create a new backup disguise by spending the normal amount of time it takes you to Impersonate, but you can have only one backup disguise at a time. Having a backup disguise doesn't allow you to remove your armor or any other complex piece of clothing any more quickly, but once you have those off, the disguise is readily available. Because you have the backup disguise at the ready, it's possible that a thorough search might reveal some elements of the disguise (see Conceal an Object in the Stealth skill).",
+        "specialdesc": "The Firebrands use a variety of unorthodox equipment and techniques to achieve their goals, whether those goals include drawing attention, or subterfuge and subtlety. This Firebrand options is uncommon, and members of the Firebrands gain access to it once they reach the rank of second mark.",
+        "hints": [
+            {
+                "desc": "You have a specific disguise that you keep at the ready, worn underneath your outer garment. You can change into this disguise to Impersonate as a 3-action activity. If you have master proficiency in Deception, it is instead a 2-action activity, and if you have legendary proficiency, it is a single action. You can create a new backup disguise by spending the normal amount of time it takes you to Impersonate, but you can have only one backup disguise at a time. Having a backup disguise doesn't allow you to remove your armor or any other complex piece of clothing any more quickly, but once you have those off, the disguise is readily available. Because you have the backup disguise at the ready, it's possible that a thorough search might reveal some elements of the disguise (see Conceal an Object in the Stealth skill).",
+                "showon": "Deception"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You have a specific disguise that you keep at the ready, worn underneath your outer garment.",
+        "traits": [
+            "General",
+            "Skill",
+            "Uncommon"
+        ],
+        "levelreq": 2,
+        "skillreq": [
+            {
+                "skill": "Deception",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Cliffscale Lizardfolk",
+        "desc": "Your toes are adapted for gripping and climbing. As long as you aren't wearing footwear, you can use the sticky pads on your feet to climb, leaving your hands free. Additionally, if you roll a success on an Athletics check to climb, you get a critical success instead.",
+        "hints": [
+            {
+                "desc": "As long as you aren't wearing footwear, you can use the sticky pads on your feet to climb, leaving your hands free. Additionally, if you roll a success on an Athletics check to climb, you get a critical success instead.",
+                "showon": "Athletics"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Your toes are adapted for gripping and climbing."
+    },
+    {
+        "name": "Desert Elf",
+        "desc": "You live under the desert's blazing heat, gaining incredible resilience to warm environments. You gain fire resistance equal to half your level (minimum 1), and environmental heat effects are one step less extreme for you (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
+        "hints": [
+            {
+                "desc": "Environmental heat effects are one step less extreme for you (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
+                "showon": "Resistances"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You live under the desert's blazing heat, gaining incredible resilience to warm environments.",
+        "effects": [
+            {
+                "affected": "Fire Resistance",
+                "value": "Math.max(Math.floor(Level / 2), 1)"
+            }
+        ]
+    },
+    {
+        "name": "Entourage",
+        "desc": "You have a small group of admirers who tend to follow you around while you're in civilized settlements. Your admirers are helpful to you, allowing you to make simple Requests of them such as purchasing basic equipment with your funds or finding a room at an inn. These admirers do not travel with you to places that are obviously dangerous, including most adventure locations, but they'll wait for you at the nearest settlement. Your admirers never use actions in encounter mode other than to retreat, and they abandon you if you intentionally bring them harm or at the GM's discretion. When you Gather Information, you can use your admirers to assist you, granting a +1 circumstance bonus to your Diplomacy check and reducing the time it takes even further (typically to 30 minutes, rather than 1 hour with the Hobnobber feat alone). If you have the Sow Rumor feat, you can have your admirers assist you, with the same benefits as Gather Information.",
+        "specialdesc": "The Firebrands use a variety of unorthodox equipment and techniques to achieve their goals, whether those goals include drawing attention, or subterfuge and subtlety. The Entourage feat is rare even for members of the Firebrands, as it requires a certain degree of fame and in-world activity to acquire, and potentially requires the player or GM to keep track of additional background NPCs. Typically, only third mark and fourth mark Firebrands have the notoriety and social influence required to maintain an entourage. While Firebrands seek to build an entourage more than most adventurers, it's not unreasonable for any famous character to gain access to it if the players are interested in playing with the Entourage feat.",
+        "hints": [
+            {
+                "desc": "When you Gather Information, you can use your admirers to assist you, granting a +1 circumstance bonus to your Diplomacy check and reducing the time it takes even further (typically to 30 minutes, rather than 1 hour with the Hobnobber feat alone). If you have the Sow Rumor feat, you can have your admirers assist you, with the same benefits as Gather Information.",
+                "showon": "Diplomacy",
+                "effects": [
+                    {
+                        "affected": "Diplomacy",
+                        "type": "circumstance",
+                        "value": "1"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You have a small group of admirers who tend to follow you around while you're in civilized settlements.",
+        "traits": [
+            "General",
+            "Rare",
+            "Skill"
+        ],
+        "levelreq": 7,
+        "featreq": [
+            "Hobnobber"
+        ],
+        "skillreq": [
+            {
+                "skill": "Diplomacy",
+                "value": 6
+            }
+        ]
+    },
+    {
+        "name": "Frilled Lizardfolk",
+        "desc": "You can flare your neck frill and flex your dorsal spines, Demoralizing your foes. When you do, Demoralize loses the auditory trait and gains the visual trait, and you don't take a penalty when you attempt to Demoralize a creature that doesn't understand your language.",
+        "hints": [
+            {
+                "desc": "When you flare your neck frill and flex your dorsal spines, Demoralize loses the auditory trait and gains the visual trait, and you don't take a penalty when you attempt to Demoralize a creature that doesn't understand your language.",
+                "showon": "Intimidation"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You can flare your neck frill and flex your dorsal spines, Demoralizing your foes."
+    },
+    {
+        "name": "Gourd Leshy",
+        "desc": "You have a large gourd for a skull. Your knowledge comes from within your spirit, rather than a physical brain, and you have found a handier use for the space inside your head. You can store a collection of up to 1 Bulk of objects within your head. The DC of checks to Steal objects from inside your head increases by 4.",
+        "hints": [
+            {
+                "desc": "The DC of checks to Steal objects from inside your head increases by 4.",
+                "showon": "Perception"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You have a large gourd for a skull."
+    },
+    {
+        "name": "Leaf Leshy",
+        "desc": "Your body is made mostly from natural foliage, and like a leaf tumbling from a tree, you land from falls with particular grace. You take no damage from falling, regardless of the distance you fall.",
+        "hints": [
+            {
+                "desc": "You take no damage from falling, regardless of the distance you fall.",
+                "showon": "Acrobatics"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Your body is made mostly from natural foliage, and like a leaf tumbling from a tree, you land from falls with particular grace."
+    },
+    {
+        "name": "Oathkeeper Dwarf",
+        "desc": "Growing up, you never tried to lie to get what you wanted, and even when necessary, lying makes you uncomfortable. The especially faithful might even have thought that you were blessed by the dwarven god of duty, Kols. You gain a +1 circumstance bonus to Perception checks to Sense Motive and to Perception DCs against attempts to Lie to you. Furthermore, you gain a +2 circumstance bonus to Diplomacy checks to convince others you speak the truth when you are telling the truth, and you take a -4 circumstance penalty to Lie and to your Deception DC against Sense Motive.",
+        "hints": [
+            {
+                "desc": "You take a -4 circumstance penalty to Lie and to your Deception DC against Sense Motive.",
+                "showon": "Deception",
+                "effects": [
+                    {
+                        "affected": "Deception",
+                        "type": "circumstance",
+                        "value": "-4"
+                    }
+                ]
+            },
+            {
+                "desc": "You gain a +2 circumstance bonus to Diplomacy checks to convince others you speak the truth when you are telling the truth.",
+                "showon": "Diplomacy",
+                "effects": [
+                    {
+                        "affected": "Diplomacy",
+                        "type": "circumstance",
+                        "value": "2"
+                    }
+                ]
+            },
+            {
+                "desc": "You gain a +1 circumstance bonus to Perception checks to Sense Motive and to Perception DCs against attempts to Lie to you.",
+                "showon": "Perception",
+                "effects": [
+                    {
+                        "affected": "Perception",
+                        "type": "circumstance",
+                        "value": "1"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Growing up, you never tried to lie to get what you wanted, and even when necessary, lying makes you uncomfortable."
+    },
+    {
+        "name": "Observant Halfling",
+        "desc": "Your finely honed senses quickly clue you in to danger or trickery. You gain a +1 circumstance bonus to your Perception DC, though not to your Perception checks.",
+        "hints": [
+            {
+                "desc": "You gain a +1 circumstance bonus to your Perception DC, though not to your Perception checks.",
+                "showon": "Perception",
+                "effects": [
+                    {
+                        "affected": "Perception",
+                        "type": "circumstance",
+                        "value": "1"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Your finely honed senses quickly clue you in to danger or trickery."
+    },
+    {
+        "name": "Plant Nourishment",
+        "desc": "You gain nourishment in the same way that the plants or fungi that match your body type normally do, through some combination of photosynthesis, absorbing minerals with your roots, or scavenging decaying matter. You typically do not need to pay for food. If you normally rely on photosynthesis and go without sunlight for 1 week, you begin to starve. You can derive nourishment from specially formulated bottles of sunlight instead of natural sunlight, but these bottles cost 10 times as much as standard rations (or 40 sp).",
+        "hints": [
+            {
+                "desc": "You gain nourishment in the same way that the plants or fungi that match your body type normally do, through some combination of photosynthesis, absorbing minerals with your roots, or scavenging decaying matter. You typically do not need to pay for food. If you normally rely on photosynthesis and go without sunlight for 1 week, you begin to starve. You can derive nourishment from specially formulated bottles of sunlight instead of natural sunlight, but these bottles cost 10 times as much as standard rations (or 40 sp).",
+                "showon": "Perception"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You gain nourishment in the same way that the plants or fungi that match your body type normally do, through some combination of photosynthesis, absorbing minerals with your roots, or scavenging decaying matter."
+    },
+    {
+        "name": "Runtboss Hobgoblin",
+        "desc": "You come from a long line of hobgoblins who commanded goblins. You are smaller than other hobgoblins, but goblins still listen to any commands you bellow. If you roll a success on an Intimidation check to Coerce a goblin (but not other creatures with the goblin trait), you get a critical success instead; if you roll a critical failure, you get a failure instead.",
+        "hints": [
+            {
+                "desc": "If you roll a success on an Intimidation check to Coerce a goblin (but not other creatures with the goblin trait), you get a critical success instead; if you roll a critical failure, you get a failure instead.",
+                "showon": "Intimidation"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You come from a long line of hobgoblins who commanded goblins."
+    },
+    {
+        "name": "Sandstrider Lizardfolk",
+        "desc": "Your thick scales help you retain water and combat the sun's glare. You gain fire resistance equal to half your level (minimum 1). Environmental heat effects are one step less extreme for you. However, unless you wear protective gear or take shelter, environmental cold effects are one step more extreme for you.",
+        "hints": [
+            {
+                "desc": "Environmental heat effects are one step less extreme for you. However, unless you wear protective gear or take shelter, environmental cold effects are one step more extreme for you.",
+                "showon": "Resistances"
+            },
+            {
+                "desc": "You can go 10 times as long as normal before you are affected by starvation or thirst.",
+                "showon": "Health"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Your thick scales help you retain water and combat the sun's glare.",
+        "effects": [
+            {
+                "affected": "Fire Resistance",
+                "value": "Math.max(Math.floor(Level / 2), 1)"
+            }
+        ]
+    },
+    {
+        "name": "Smokeworker Hobgoblin",
+        "desc": "Your family have been alchemists, engineers, and scientists for generations, on projects bringing smoke and fire to the field of battle. You gain fire resistance equal to half your level (minimum 1). You automatically succeed at the DC 5 flat check to target a concealed creature if that creature is concealed only by smoke.",
+        "hints": [
+            {
+                "desc": "You automatically succeed at the DC 5 flat check to target a concealed creature if that creature is concealed only by smoke.",
+                "showon": "Perception"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Your family have been alchemists, engineers, and scientists for generations, on projects bringing smoke and fire to the field of battle.",
+        "effects": [
+            {
+                "affected": "Fire Resistance",
+                "value": "Math.max(Math.floor(Level / 2), 1)"
+            }
+        ]
+    },
+    {
+        "name": "Sow Rumor",
+        "desc": "You spread rumors, which may or may not be true, about a specific subject.",
+        "specialdesc": "The Firebrands use a variety of unorthodox equipment and techniques to achieve their goals, whether those goals include drawing attention, or subterfuge and subtlety. Ths Firebrand option is uncommon, and members of the Firebrands gain access to it once they reach the rank of second mark.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You spread rumors, which may or may not be true, about a specific subject.",
+        "traits": [
+            "General",
+            "Secret",
+            "Skill",
+            "Uncommon"
+        ],
+        "levelreq": 2,
+        "skillreq": [
+            {
+                "skill": "Deception",
+                "value": 4
+            }
+        ],
+        "gainActivities": [
+            "Sow Rumor"
+        ]
+    },
+    {
+        "name": "Tailed Goblin",
+        "desc": "You have a powerful tail, likely because you descend from a community of monkey goblins. You gain a +2 circumstance bonus to Athletics checks to Climb, and you reduce the number of free hands required to Climb or Trip by one.",
+        "hints": [
+            {
+                "desc": "You gain a +2 circumstance bonus to Athletics checks to Climb, and you reduce the number of free hands required to Climb or Trip by one.",
+                "showon": "Athletics",
+                "effects": [
+                    {
+                        "affected": "Athletics",
+                        "type": "circumstance",
+                        "value": "2"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You have a powerful tail, likely because you descend from a community of monkey goblins."
+    },
+    {
+        "name": "Treedweller Goblin",
+        "desc": "You have adapted particularly well to living in forested environments. As long as you are in a forest or jungle, you gain a +2 circumstance bonus to Stealth checks to Hide and Sneak, Survival checks to Subsist, and your Survival DC to Cover Tracks.",
+        "hints": [
+            {
+                "desc": "As long as you are in a forest or jungle, you gain a +2 circumstance bonus to Stealth checks to Hide and Sneak, Survival checks to Subsist, and your Survival DC to Cover Tracks.",
+                "showon": "Stealth, Survival",
+                "effects": [
+                    {
+                        "affected": "Stealth",
+                        "type": "circumstance",
+                        "value": "2"
+                    },
+                    {
+                        "affected": "Survival",
+                        "type": "circumstance",
+                        "value": "2"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You have adapted particularly well to living in forested environments."
+    },
+    {
+        "name": "Vine Leshy",
+        "desc": "The prehensile vines woven into your body grant you unmatched skill at climbing. You do not need to have any hands free to Climb. Additionally, if you roll a success on an Athletics check to Climb, you get a critical success instead.",
+        "hints": [
+            {
+                "desc": "You do not need to have any hands free to Climb. Additionally, if you roll a success on an Athletics check to Climb, you get a critical success instead.",
+                "showon": "Athletics"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "The prehensile vines woven into your body grant you unmatched skill at climbing."
+    },
+    {
+        "name": "Vivacious Gnome",
+        "desc": "You have an incredibly strong connection to the positive energy that flows through the First World, making it harder to attack your life force with negative energy. You gain negative resistance equal to half your level (minimum 1). When you have the doomed condition, the condition affects you as if its value was 1 lower than it actually is (doomed 1 has no effect, doomed 2 causes you to die at dying 3, and so on).",
+        "hints": [
+            {
+                "desc": "When you have the doomed condition, the condition affects you as if its value was 1 lower than it actually is (doomed 1 has no effect, doomed 2 causes you to die at dying 3, and so on). This is automatically applied.",
+                "showon": "Health"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You have an incredibly strong connection to the positive energy that flows through the First World, making it harder to attack your life force with negative energy.",
+        "effects": [
+            {
+                "affected": "Negative Resistance",
+                "value": "Math.max(Math.floor(Level / 2), 1)"
+            },
+            {
+                "affected": "Max Dying",
+                "value": "Has_Condition('Doomed') ? 1 : null"
+            }
+        ]
+    },
+    {
+        "name": "Warmarch Hobgoblin",
+        "desc": "You come from a line of wandering mercenaries, constantly on the march and scavenging food on the trail. If you fail, but not critically fail, to Subsist in the wilderness, you can still keep yourself fed with poor meals. When exploring, you can Hustle twice as long before you have to stop.",
+        "hints": [
+            {
+                "desc": "If you fail, but not critically fail, to Subsist in the wilderness, you can still keep yourself fed with poor meals.",
+                "showon": "Survival"
+            },
+            {
+                "desc": "When exploring, you can Hustle twice as long before you have to stop.",
+                "showon": "Movement"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You come from a line of wandering mercenaries, constantly on the march and scavenging food on the trail."
+    },
+    {
+        "name": "Warrenbred Hobgoblin",
+        "desc": "Your ancestors lived underground. Your ears are larger than those of other hobgoblins and sensitive to echoes. When you are underground, you can use the Seek action to sense undetected creatures within a 30-foot burst instead of a 15-foot burst. In addition, if you roll a success on an Acrobatics check to Squeeze, you get a critical success instead.",
+        "hints": [
+            {
+                "desc": "If you roll a success on an Acrobatics check to Squeeze, you get a critical success instead.",
+                "showon": "Acrobatics"
+            },
+            {
+                "desc": "When you are underground, you can use the Seek action to sense undetected creatures within a 30-foot burst instead of a 15-foot burst.",
+                "showon": "Perception"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Your ancestors lived underground."
+    },
+    {
+        "name": "Wetlander Lizardfolk",
+        "desc": "Your family is descended from the most common lizardfolk heritage, and you are accustomed to aquatic environments. You gain a 15-foot swim Speed.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Your family is descended from the most common lizardfolk heritage, and you are accustomed to aquatic environments.",
+        "effects": [
+            {
+                "affected": "Swim Speed",
+                "setValue": "15"
+            }
+        ]
+    },
+    {
+        "name": "Wintertouched Human",
+        "desc": "The power of winter flows through you. This heritage is most common among the Jadwiga of Irrisen, due to their descent from Baba Yaga, and certain Erutaki touched by the spirits. You gain cold resistance equal to half your level (minimum 1), and you treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on).",
+        "hints": [
+            {
+                "desc": "You treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on).",
+                "showon": "Resistances"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "The power of winter flows through you.",
+        "effects": [
+            {
+                "affected": "Cold Resistance",
+                "value": "Math.max(Math.floor(Level / 2), 1)"
+            }
+        ]
+    },
+    {
+        "name": "Everstand Stance",
+        "desc": "You brace your shield with both hands, enhancing its potential for both offense and defense.",
+        "specialdesc": "This class feat is available to Knights of Lastwall. Those with the champion trait are champion class feats. Those with both the champion and fighter traits are both champion class feats and fighter class feats; when you take one of these feats, it loses the trait that doesn't apply to your class.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You brace your shield with both hands, enhancing its potential for both offense and defense.",
+        "traits": [
+            "Uncommon",
+            "Fighter",
+            "Champion",
+            "Stance"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Everstand Stance"
+        ]
+    },
+    {
+        "name": "Everstand Strike",
+        "desc": "Your follow-up blow leaves you an opening to set your shield.",
+        "specialdesc": "This class feat is available to Knights of Lastwall. Those with the champion trait are champion class feats. Those with both the champion and fighter traits are both champion class feats and fighter class feats; when you take one of these feats, it loses the trait that doesn't apply to your class.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Your follow-up blow leaves you an opening to set your shield.",
+        "traits": [
+            "Uncommon",
+            "Fighter",
+            "Champion",
+            "Press"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Everstand Stance"
+        ],
+        "gainActivities": [
+            "Everstand Strike"
+        ]
+    },
+    {
+        "name": "Impassable Wall Stance",
+        "desc": "You refuse to let foes past your guard.",
+        "specialdesc": "This class feat is available to Knights of Lastwall. Those with the champion trait are champion class feats. Those with both the champion and fighter traits are both champion class feats and fighter class feats; when you take one of these feats, it loses the trait that doesn't apply to your class.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You refuse to let foes past your guard.",
+        "traits": [
+            "Uncommon",
+            "Fighter",
+            "Champion"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Attack of Opportunity"
+        ],
+        "gainActivities": [
+            "Impassable Wall Stance"
+        ]
+    },
+    {
+        "name": "Bouncy Goblin",
+        "desc": "You have a particular elasticity that makes it easy for you to bounce and squish. You gain the trained proficiency rank in Acrobatics (or another skill of your choice, if you were already trained in Acrobatics). You also gain a +2 circumstance bonus to Acrobatics checks to Tumble Through a foe's space.",
+        "hints": [
+            {
+                "desc": "You gain a +2 circumstance bonus to Acrobatics checks to Tumble Through a foe's space.",
+                "showon": "Acrobatics",
+                "effects": [
+                    {
+                        "affected": "Acrobatics",
+                        "type": "circumstance",
+                        "value": "2"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You have a particular elasticity that makes it easy for you to bounce and squish.",
+        "traits": [
+            "Goblin"
+        ],
+        "levelreq": 1,
+        "heritagereq": "unbreakable goblin",
+        "gainSkillChoice": [
+            {
+                "filter": [
+                    "Acrobatics"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Acrobatics",
+                        "source": "Feat: Bouncy Goblin"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Bouncy Goblin",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Fang Sharpener",
+        "desc": "You have filed your teeth into jagged points and have an unusually powerful jaw, making your mouth a dangerous weapon. If you're an irongut goblin, you gain a jaws unarmed attack that deals 1d4 piercing damage, and if you're a razortooth goblin, your jaws unarmed attack deals 1d8 piercing damage and loses the finesse trait. Whenever you score a critical hit with your jaws unarmed attack, your target takes 1 persistent bleed damage per weapon damage die.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subTypes": true,
+        "shortdesc": "You have filed your teeth into jagged points and have an unusually powerful jaw, making your mouth a dangerous weapon.",
+        "traits": [
+            "Goblin"
+        ],
+        "levelreq": 1,
+        "heritagereq": "irongut goblin or razortooth goblin"
+    },
+    {
+        "name": "Fang Sharpener: Irongut Goblin",
+        "desc": "You have filed your teeth into jagged points and have an unusually powerful jaw, making your mouth a dangerous weapon. You gain a jaws unarmed attack that deals 1d4 piercing damage. Whenever you score a critical hit with your jaws unarmed attack, your target takes 1 persistent bleed damage per weapon damage die.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subType": "Irongut Goblin",
+        "superType": "Fang Sharpener",
+        "shortdesc": "You have filed your teeth into jagged points and have an unusually powerful jaw, making your mouth a dangerous weapon.",
+        "traits": [
+            "Goblin"
+        ],
+        "levelreq": 1,
+        "heritagereq": "irongut goblin",
+        "gainItems": [
+            {
+                "id": "d46e3051-4451-4d0b-bf74-3f249457cb9c",
+                "on": "grant",
+                "type": "weapons"
+            }
+        ]
+    },
+    {
+        "name": "Fang Sharpener: Razortooth Goblin",
+        "desc": "You have filed your teeth into jagged points and have an unusually powerful jaw, making your mouth a dangerous weapon. Your jaws unarmed attack deals 1d8 piercing damage and loses the finesse trait. Whenever you score a critical hit with your jaws unarmed attack, your target takes 1 persistent bleed damage per weapon damage die.",
+        "hints": [
+            {
+                "desc": "Your jaws unarmed attack deals 1d8 piercing damage and loses the finesse trait. Whenever you score a critical hit with your jaws unarmed attack, your target takes 1 persistent bleed damage per weapon damage die.",
+                "showon": "Razortooth Goblin Jaws"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subType": "Razortooth Goblin",
+        "superType": "Fang Sharpener",
+        "shortdesc": "You have filed your teeth into jagged points and have an unusually powerful jaw, making your mouth a dangerous weapon.",
+        "traits": [
+            "Goblin"
+        ],
+        "levelreq": 1,
+        "heritagereq": "razortooth goblin",
+        "effects": [
+            {
+                "affected": "Razortooth Goblin Jaws Lose Trait",
+                "title": "'Finesse'",
+                "toggle": true
+            },
+            {
+                "affected": "Razortooth Goblin Jaws Dice Size",
+                "setValue": "8"
+            }
+        ]
+    },
+    {
+        "name": "Hard Tail",
+        "desc": "Your tail is much stronger than most, and you can lash out with it with the strength of a whip. You gain a tail unarmed attack that deals 1d6 bludgeoning damage.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Your tail is much stronger than most, and you can lash out with it with the strength of a whip.",
+        "traits": [
+            "Goblin"
+        ],
+        "levelreq": 1,
+        "heritagereq": "tailed goblin",
+        "gainItems": [
+            {
+                "id": "e62fdedd-b087-4fba-b9fb-fb7ebf87cc82",
+                "on": "grant",
+                "type": "weapons"
+            }
+        ]
+    },
+    {
+        "name": "Ankle Bite",
+        "desc": "Whenever someone grabs onto you, you instinctively bite down hard.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Whenever someone grabs onto you, you instinctively bite down hard.",
+        "traits": [
+            "Goblin"
+        ],
+        "levelreq": 5,
+        "specialreq": "character.class.heritage.name == 'Razortooth Goblin' || Has_Feat('Character', 'Fang Sharpener: Irongut Goblin')",
+        "specialreqdesc": "Fang Sharpener or razortooth goblin heritage",
+        "gainActivities": [
+            "Ankle Bite"
+        ]
+    },
+    {
+        "name": "Chosen of Lamashtu",
+        "desc": "You bear the favor and blessings of Lamashtu, the Mother of Monsters. She has bestowed a mutation upon you, granting you the benefits of another heritage. Choose one goblin heritage that you do not already have; you gain that heritage and its benefits.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You bear the favor and blessings of Lamashtu, the Mother of Monsters.",
+        "traits": [
+            "Goblin"
+        ],
+        "levelreq": 5,
+        "specialreq": "deity?.name == 'Lamashtu' && character.class.heritage.name",
+        "specialreqdesc": "worshipper of Lamashtu, a heritage",
+        "gainHeritage": [
+            {
+                "ancestry": "Goblin",
+                "source": "Chosen of Lamashtu"
+            }
+        ]
+    },
+    {
+        "name": "Tail Spin",
+        "desc": "You excel at using your tail as a weapon to upend your foes.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You excel at using your tail as a weapon to upend your foes.",
+        "traits": [
+            "Goblin"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Hard Tail"
+        ],
+        "heritagereq": "tailed goblin",
+        "gainActivities": [
+            "Tail Spin"
+        ]
+    },
+    {
+        "name": "Torch Goblin",
+        "desc": "You've spent enough time on fire that you know how to use it to your advantage.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You've spent enough time on fire that you know how to use it to your advantage.",
+        "traits": [
+            "Goblin"
+        ],
+        "levelreq": 5,
+        "heritagereq": "charhide goblin",
+        "gainActivities": [
+            "Torch Goblin"
+        ]
+    },
+    {
+        "name": "Tree Climber (Goblin)",
+        "displayName": "Tree Climber",
+        "desc": "Your time in forest or jungle canopies has taught you how to scramble across branches with sure feet. You gain a climb Speed of 10 feet. If you also have the Cave Climber ancestry feat, your total climb Speed increases to your land Speed when climbing trees.",
+        "hints": [
+            {
+                "desc": "If you have the Cave Climber ancestry feat, your total climb Speed increases to your land Speed when climbing trees.",
+                "showon": "Movement",
+                "effects": [
+                    {
+                        "affected": "Climb Speed",
+                        "setValue": "Speed('Land Speed')"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Your time in forest or jungle canopies has taught you how to scramble across branches with sure feet.",
+        "traits": [
+            "Goblin"
+        ],
+        "levelreq": 5,
+        "heritagereq": "tailed goblin or treedweller goblin",
+        "effects": [
+            {
+                "affected": "Climb Speed",
+                "setValue": "10"
+            }
+        ]
+    },
+    {
+        "name": "Freeze It!",
+        "desc": "You are no rime hag or Jadwiga, but the magic of the north has still left a mark on you.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You are no rime hag or Jadwiga, but the magic of the north has still left a mark on you.",
+        "traits": [
+            "Goblin"
+        ],
+        "levelreq": 9,
+        "heritagereq": "snow goblin",
+        "gainActivities": [
+            "Freeze It!"
+        ]
+    },
+    {
+        "name": "Hungry Goblin",
+        "desc": "You'll eat anything and anyone. Whenever you inflict persistent bleed damage with your jaws unarmed attack, you gain temporary Hit Points equal to half your level for 1 minute.",
+        "hints": [
+            {
+                "desc": "Whenever you inflict persistent bleed damage with your jaws unarmed attack, you gain temporary Hit Points equal to half your level for 1 minute. You can activate this effect in your activities.",
+                "showon": "Fang Sharpener"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You'll eat anything and anyone.",
+        "traits": [
+            "Goblin"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Fang Sharpener"
+        ],
+        "gainActivities": [
+            "Hungry Goblin"
+        ]
+    },
+    {
+        "name": "Roll with It",
+        "desc": "When you take a big hit, your foe bounces you around like a rubber ball, but you escape the worst of the blow.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "When you take a big hit, your foe bounces you around like a rubber ball, but you escape the worst of the blow.",
+        "traits": [
+            "Goblin"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Bouncy Goblin"
+        ],
+        "heritagereq": "unbreakable goblin",
+        "gainActivities": [
+            "Roll with It"
+        ]
+    },
+    {
+        "name": "Scalding Spit",
+        "desc": "Your bodily fluids burn with surprising volatility, as if you ran on oil instead of blood. As long as you are taking persistent fire damage, you gain a boiling spit ranged unarmed attack with a range of 30 feet that deals 1d6 fire damage.",
+        "hints": [
+            {
+                "desc": "As long as you are taking persistent fire damage, you gain a boiling spit ranged unarmed attack with a range of 30 feet that deals 1d6 fire damage.",
+                "showon": "Torch Goblin"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Your bodily fluids burn with surprising volatility, as if you ran on oil instead of blood.",
+        "traits": [
+            "Goblin"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Torch Goblin"
+        ]
+    },
+    {
+        "name": "Unbreakable-er Goblin",
+        "desc": "As hard as most unbreakable goblins are to break, you are that much harder to break. You gain 20 Hit Points from your ancestry instead of 10. When you fall, you take no falling damage. If you have the Bouncy Goblin feat, after falling or jumping from a height of at least 20 feet, you can bounce back into the air, up to half the distance you fell (and half as far forward if you jumped). These bounces continue until you bounce less than 20 feet.",
+        "hints": [
+            {
+                "desc": "When you fall, you take no falling damage. If you have the Bouncy Goblin feat, after falling or jumping from a height of at least 20 feet, you can bounce back into the air, up to half the distance you fell (and half as far forward if you jumped). These bounces continue until you bounce less than 20 feet.",
+                "showon": "Acrobatics, Athletics"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "As hard as most unbreakable goblins are to break, you are that much harder to break.",
+        "traits": [
+            "Goblin"
+        ],
+        "levelreq": 13,
+        "heritagereq": "unbreakable goblin",
+        "effects": [
+            {
+                "affected": "Max HP",
+                "value": "10"
+            }
+        ]
+    },
+    {
+        "name": "Adroit Manipulation",
+        "desc": "You've fiddled with knots, locks, and blacksmith's puzzles since you were a child to give your hands something to do. You gain the trained proficiency rank in Thievery (or another skill of your choice, if you're already trained in Thievery). If you roll a success on a Thievery check to Pick a Lock, you get a critical success instead.",
+        "hints": [
+            {
+                "desc": "If you roll a success on a Thievery check to Pick a Lock, you get a critical success instead.",
+                "showon": "Thievery"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Mihrini ethnicity",
+        "shortdesc": "You've fiddled with knots, locks, and blacksmith's puzzles since you were a child to give your hands something to do.",
+        "traits": [
+            "Uncommon",
+            "Halfling"
+        ],
+        "levelreq": 1,
+        "gainSkillChoice": [
+            {
+                "filter": [
+                    "Thievery"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Thievery",
+                        "source": "Feat: Adroit Manipulation"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Adroit Manipulation",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Innocuous",
+        "desc": "Halflings have been unobtrusive assistants of larger folk for untold ages, and your people count on this assumption of innocence. You gain the trained proficiency rank in Deception (or another skill of your choice, if you're already trained in Deception). If you fail a Deception check to Create a Diversion, humanoid creatures aren't aware that you were trying to trick them unless you get a critical failure on your roll.",
+        "hints": [
+            {
+                "desc": "If you fail a Deception check to Create a Diversion, humanoid creatures aren't aware that you were trying to trick them unless you get a critical failure on your roll.",
+                "showon": "Deception"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Jaric ethnicity",
+        "shortdesc": "Halflings have been unobtrusive assistants of larger folk for untold ages, and your people count on this assumption of innocence.",
+        "traits": [
+            "Halfling"
+        ],
+        "levelreq": 1,
+        "gainSkillChoice": [
+            {
+                "filter": [
+                    "Deception"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Deception",
+                        "source": "Feat: Innocuous"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Innocuous",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Intuitive Cooperation",
+        "desc": "You are accustomed to working alongside others, relying on each other to get by. You gain a +2 circumstance bonus to checks to Aid, and your allies gain a +2 circumstance bonus to checks to Aid you.",
+        "hints": [
+            {
+                "desc": "You gain a +2 circumstance bonus to checks to Aid, and your allies gain a +2 circumstance bonus to checks to Aid you.",
+                "showon": "Skills",
+                "effects": [
+                    {
+                        "affected": "Skill Checks",
+                        "type": "circumstance",
+                        "value": "2"
+                    },
+                    {
+                        "affected": "Attack Rolls",
+                        "type": "circumstance",
+                        "value": "2"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Jaric ethnicity",
+        "shortdesc": "You are accustomed to working alongside others, relying on each other to get by.",
+        "traits": [
+            "Uncommon",
+            "Halfling"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Unassuming Dedication",
+        "desc": "Your family instilled the values of care and patience into you from a young age. You gain a +1 circumstance bonus to checks to perform a downtime activity.",
+        "hints": [
+            {
+                "desc": "You gain a +1 circumstance bonus to checks to perform a downtime activity.",
+                "showon": "Skills",
+                "effects": [
+                    {
+                        "affected": "Skill Checks",
+                        "type": "circumstance",
+                        "value": "1"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Uhlam ethnicity",
+        "shortdesc": "Your family instilled the values of care and patience into you from a young age.",
+        "traits": [
+            "Uncommon",
+            "Halfling"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Easily Dismissed",
+        "desc": "You are practiced at blending into the background of the streets and halls of larger folk to ensure that you are overlooked. When you are in a crowd or well trafficked urban area, you can attempt to Hide and Sneak, even when observed. On a success, you aren't hidden or undetected, but other creatures simply don't take particular notice of you, even though they can see you. You can't use this ability on observers who have already seen you perform obtrusive or notable actions. If you perform any action other than to Hide or Sneak or otherwise take particularly salient actions (GM's discretion), observers notice you right away.",
+        "hints": [
+            {
+                "desc": "When you are in a crowd or well trafficked urban area, you can attempt to Hide and Sneak, even when observed. On a success, you aren't hidden or undetected, but other creatures simply don't take particular notice of you, even though they can see you. You can't use this ability on observers who have already seen you perform obtrusive or notable actions. If you perform any action other than to Hide or Sneak or otherwise take particularly salient actions (GM's discretion), observers notice you right away.",
+                "showon": "Stealth"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You are practiced at blending into the background of the streets and halls of larger folk to ensure that you are overlooked.",
+        "traits": [
+            "Uncommon",
+            "Halfling"
+        ],
+        "levelreq": 5
+    },
+    {
+        "name": "Halfling Ingenuity",
+        "desc": "While your willingness to dig into a task you know little about might get you into trouble, your incredible luck often saves you from danger. You can attempt skill actions that normally require you to be trained even if you aren't trained in that skill. If you use Halfling Luck when you fail a check for a skill with which you are untrained, you can add a proficiency bonus equal to your level, rather than 0, when you reroll the triggering skill check. You gain a +4 circumstance bonus to this rerolled skill check.",
+        "hints": [
+            {
+                "desc": "You can attempt skill actions that normally require you to be trained even if you aren't trained in that skill. If you use Halfling Luck when you fail a check for a skill with which you are untrained, you can add a proficiency bonus equal to your level, rather than 0, when you reroll the triggering skill check. You gain a +4 circumstance bonus to this rerolled skill check.",
+                "showon": "Skills, Halfling Luck",
+                "effects": [
+                    {
+                        "affected": "Untrained Skill Checks",
+                        "type": "proficiency",
+                        "value": "Level"
+                    },
+                    {
+                        "affected": "Untrained Skill Checks",
+                        "type": "circumstance",
+                        "value": "4"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "While your willingness to dig into a task you know little about might get you into trouble, your incredible luck often saves you from danger.",
+        "traits": [
+            "Halfling"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Halfling Luck"
+        ]
+    },
+    {
+        "name": "Shared Luck (Halfling)",
+        "displayName": "Shared Luck",
+        "desc": "You are evidence that it's lucky to travel with a halfling. You can use Halfling Luck when an ally within 30 feet fails a skill check or a saving throw to allow the ally to reroll the triggering check instead of you rerolling your own failed check. As usual, your ally must use the new result, even if it's worse than their first roll. If you have Guiding Luck, you can't use Guiding Luck's effect that applies to attack rolls and Perception checks to use Shared Luck to benefit an ally.",
+        "hints": [
+            {
+                "desc": "You can use Halfling Luck when an ally within 30 feet fails a skill check or a saving throw to allow the ally to reroll the triggering check instead of you rerolling your own failed check. As usual, your ally must use the new result, even if it's worse than their first roll. If you have Guiding Luck, you can't use Guiding Luck's effect that applies to attack rolls and Perception checks to use Shared Luck to benefit an ally.",
+                "showon": "Halfling Luck"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You are evidence that it's lucky to travel with a halfling.",
+        "traits": [
+            "Halfling"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Halfling Luck"
+        ]
+    },
+    {
+        "name": "Cunning Climber",
+        "desc": "Whether you are climbing a ship's rigging, a jungle tree, or a clock tower, you have an uncanny knack for finding footholds and handholds where larger creatures can't. You gain a climb Speed of 10 feet. You can take the Legendary Climber feat even if you don't have the Quick Climb feat, provided you meet its other prerequisites.",
+        "specialdesc": "Note: The Legendary Climber feat does not exist.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "internalNote": "There is no feat called Legendary Climber, and there is no climbing feat that requires legendary Athletics.",
+        "shortdesc": "Whether you are climbing a ship's rigging, a jungle tree, or a clock tower, you have an uncanny knack for finding footholds and handholds where larger creatures can't.",
+        "traits": [
+            "Halfling"
+        ],
+        "levelreq": 9,
+        "effects": [
+            {
+                "affected": "Climb Speed",
+                "setValue": "10"
+            }
+        ]
+    },
+    {
+        "name": "Fade Away",
+        "desc": "Your ability to blend into the background allows you to fade away entirely or appear innocuous even to magical effects. You gain invisibility and misdirection as 2nd-level innate occult spells. You can target only yourself with invisibility, and you must be the primary target of misdirection. You can cast each spell once per day.",
+        "hints": [
+            {
+                "desc": "When casting invisibility as an innate spell gained from the Fade Away feat, you can target only yourself.",
+                "showon": "Invisibility"
+            },
+            {
+                "desc": "When casting misdirection as an innate spell gained from the Fade Away feat, you must be the primary target.",
+                "showon": "Misdirection"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Your ability to blend into the background allows you to fade away entirely or appear innocuous even to magical effects.",
+        "traits": [
+            "Halfling"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Easily Dismissed"
+        ],
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "e4e49468-b54e-4834-abaa-e170cd088a3e",
+                "level": 2,
+                "source": "Feat: Fade Away",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Invisibility"
+                    }
+                ],
+                "tradition": "Occult"
+            },
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "76260ec2-5514-4dd5-b382-eb45014c40fc",
+                "level": 2,
+                "source": "Feat: Fade Away",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Misdirection"
+                    }
+                ],
+                "tradition": "Occult"
+            }
+        ]
+    },
+    {
+        "name": "Helpful Halfling",
+        "desc": "When you aid a friend with a task, you find many ways to help and avoid interfering. On a critical success to Aid, you grant your ally a +3 circumstance bonus if you have expert proficiency in the skill (rather than +2), and you grant your ally a +4 circumstance bonus if you have master proficiency (rather than +3). If you roll a critical failure on a check to Aid, you don't give your ally a -1 circumstance penalty to their check.",
+        "hints": [
+            {
+                "desc": "On a critical success to Aid, you grant your ally a +3 circumstance bonus if you have expert proficiency in the skill (rather than +2), and you grant your ally a +4 circumstance bonus if you have master proficiency (rather than +3). If you roll a critical failure on a check to Aid, you don't give your ally a -1 circumstance penalty to their check.",
+                "showon": "Skills"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "When you aid a friend with a task, you find many ways to help and avoid interfering.",
+        "traits": [
+            "Halfling"
+        ],
+        "levelreq": 9
+    },
+    {
+        "name": "Cobble Dancer",
+        "desc": "You know how to take advantage of foes thrown off-balance by unstable flooring, loose cobblestones, or similar impediments. While in an outdoor urban environment, you can Step into difficult terrain and enemies in difficult terrain are flat-footed to you.",
+        "hints": [
+            {
+                "desc": "While in an outdoor urban environment, you can Step into difficult terrain.",
+                "showon": "Movement"
+            },
+            {
+                "desc": "While in an outdoor urban environment, enemies in difficult terrain are flat-footed to you.",
+                "showon": "Attacks"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You know how to take advantage of foes thrown off-balance by unstable flooring, loose cobblestones, or similar impediments.",
+        "traits": [
+            "Halfling"
+        ],
+        "levelreq": 13
+    },
+    {
+        "name": "Incredible Luck (Halfling)",
+        "displayName": "Incredible Luck",
+        "desc": "Even other halflings consider you to be particularly lucky. You can use Halfling Luck once per hour, rather than once per day. If you have Guiding Luck, you can still use Halfling Luck when you fail a Perception check or attack roll only once per day (though you can use it within the same hour that you used Halfling Luck), and if you have Helpful Halfling, you can still use Halfling Luck on an ally instead of yourself only once per day.",
+        "hints": [
+            {
+                "desc": "You can use Halfling Luck once per hour, rather than once per day. If you have Guiding Luck, you can still use Halfling Luck when you fail a Perception check or attack roll only once per day (though you can use it within the same hour that you used Halfling Luck), and if you have Shared Luck, you can still use Halfling Luck on an ally instead of yourself only once per day.",
+                "showon": "Halfling Luck"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Even other halflings consider you to be particularly lucky.",
+        "traits": [
+            "Halfling"
+        ],
+        "levelreq": 13,
+        "featreq": [
+            "Halfling Luck"
+        ],
+        "effects": [
+            {
+                "affected": "Halfling Luck Cooldown",
+                "setValue": "6000"
+            }
+        ]
+    },
+    {
+        "name": "Arcane Tattoos",
+        "desc": "You have tattoos on your body corresponding to one of the ancient Thassilonian schools of magic. Choose one of the following schools of magic: abjuration (shield), conjuration (tanglefoot), enchantment (daze), evocation (electric arc), illusion (ghost sound), necromancy (chill touch), or transmutation (sigil). You can cast the associated cantrip (listed in parentheses) as an innate arcane spell at will.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Varisian ethnicity or New Thassilon nationality",
+        "subTypes": true,
+        "shortdesc": "You have tattoos on your body corresponding to one of the ancient Thassilonian schools of magic.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Arcane Tattoos: Abjuration",
+        "desc": "You have tattoos on your body corresponding to the ancient Thassilonian school of abjuration. You can cast shield as an innate arcane spell at will.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Varisian ethnicity or New Thassilon nationality",
+        "subType": "Abjuration",
+        "superType": "Arcane Tattoos",
+        "shortdesc": "You have tattoos on your body corresponding to one of the ancient Thassilonian schools of magic.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "1e3e62f2-2676-4a5e-8a75-c476366520c3",
+                "source": "Feat: Arcane Tattoos: Abjuration",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Shield"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
+    },
+    {
+        "name": "Arcane Tattoos: Conjuration",
+        "desc": "You have tattoos on your body corresponding to the ancient Thassilonian school of conjuration. You can cast tanglefoot as an innate arcane spell at will.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Varisian ethnicity or New Thassilon nationality",
+        "subType": "Conjuration",
+        "superType": "Arcane Tattoos",
+        "shortdesc": "You have tattoos on your body corresponding to one of the ancient Thassilonian schools of magic.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "6f9f5f40-b8ff-481e-b1bc-7471c69b15f8",
+                "source": "Feat: Arcane Tattoos: Conjuration",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Tanglefoot"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
+    },
+    {
+        "name": "Arcane Tattoos: Enchantment",
+        "desc": "You have tattoos on your body corresponding to the ancient Thassilonian school of enchantment. You can cast daze as an innate arcane spell at will.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Varisian ethnicity or New Thassilon nationality",
+        "subType": "Enchantment",
+        "superType": "Arcane Tattoos",
+        "shortdesc": "You have tattoos on your body corresponding to one of the ancient Thassilonian schools of magic.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "a66366d0-297e-40dd-8fc4-997d714d84b1",
+                "source": "Feat: Arcane Tattoos: Enchantment",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Daze"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
+    },
+    {
+        "name": "Arcane Tattoos: Evocation",
+        "desc": "You have tattoos on your body corresponding to the ancient Thassilonian school of evocation. You can cast electric arc as an innate arcane spell at will.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Varisian ethnicity or New Thassilon nationality",
+        "subType": "Evocation",
+        "superType": "Arcane Tattoos",
+        "shortdesc": "You have tattoos on your body corresponding to one of the ancient Thassilonian schools of magic.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "fc8233c1-9514-419d-8045-fc4d112a2294",
+                "source": "Feat: Arcane Tattoos: Evocation",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Electric Arc"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
+    },
+    {
+        "name": "Arcane Tattoos: Illusion",
+        "desc": "You have tattoos on your body corresponding to the ancient Thassilonian school of illusion. You can cast ghost sound as an innate arcane spell at will.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Varisian ethnicity or New Thassilon nationality",
+        "subType": "Illusion",
+        "superType": "Arcane Tattoos",
+        "shortdesc": "You have tattoos on your body corresponding to one of the ancient Thassilonian schools of magic.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "033498df-7b63-416e-85ba-8e51357ad749",
+                "source": "Feat: Arcane Tattoos: Illusion",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Ghost Sound"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
+    },
+    {
+        "name": "Arcane Tattoos: Necromancy",
+        "desc": "You have tattoos on your body corresponding to the ancient Thassilonian school of necromancy. You can cast chill touch as an innate arcane spell at will.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Varisian ethnicity or New Thassilon nationality",
+        "subType": "Necromancy",
+        "superType": "Arcane Tattoos",
+        "shortdesc": "You have tattoos on your body corresponding to one of the ancient Thassilonian schools of magic.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "730b3798-ffb3-4513-bf3e-cf5d45d6060b",
+                "source": "Feat: Arcane Tattoos: Necromancy",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Chill Touch"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
+    },
+    {
+        "name": "Arcane Tattoos: Transmutation",
+        "desc": "You have tattoos on your body corresponding to the ancient Thassilonian school of transmutation. You can cast sigil as an innate arcane spell at will.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Varisian ethnicity or New Thassilon nationality",
+        "subType": "Transmutation",
+        "superType": "Arcane Tattoos",
+        "shortdesc": "You have tattoos on your body corresponding to one of the ancient Thassilonian schools of magic.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "c0ae3b0a-8c7b-4994-835a-fd43a8ee49e7",
+                "source": "Feat: Arcane Tattoos: Transmutation",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Sigil"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
+    },
+    {
+        "name": "Courteous Comeback",
+        "desc": "You grew up in the proud Padishah Empire, where even insults have a certain poetic wit.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Keleshite nationality",
+        "shortdesc": "You grew up in the proud Padishah Empire, where even insults have a certain poetic wit.",
+        "traits": [
+            "Uncommon",
+            "Fortune",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Courteous Comeback"
+        ]
+    },
+    {
+        "name": "Devil's Advocate",
+        "desc": "You know more about the habits of devils than is entirely safe. You gain a +2 circumstance bonus to Perception checks against devils and saving throws against their abilities. In addition, whenever you meet a devil in a social situation, you can immediately attempt a Diplomacy check to Make an Impression on that creature rather than needing to converse for 1 minute. You take a -5 penalty to the check. If you fail, you can engage in 1 minute of conversation and attempt a new check at the end of that time rather than accepting the failure or critical failure result.",
+        "specialdesc": "If you have the Glad-Hand skill feat, you don't take the penalty to your immediate Diplomacy check if the target is a devil.",
+        "hints": [
+            {
+                "desc": "You gain a +2 circumstance bonus to Perception checks against devils and saving throws against their abilities.",
+                "showon": "Perception, Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Perception",
+                        "type": "circumstance",
+                        "value": "2"
+                    },
+                    {
+                        "affected": "Saving Throws",
+                        "type": "circumstance",
+                        "value": "2"
+                    }
+                ]
+            },
+            {
+                "desc": "Whenever you meet a devil in a social situation, you can immediately attempt a Diplomacy check to Make an Impression on that creature rather than needing to converse for 1 minute. You take a -5 penalty to the check. If you have the Glad-Hand skill feat, you don't take the penalty to your immediate Diplomacy check if the target is a devil. If you fail, you can engage in 1 minute of conversation and attempt a new check at the end of that time rather than accepting the failure or critical failure result.",
+                "showon": "Diplomacy",
+                "effects": [
+                    {
+                        "affected": "Diplomacy",
+                        "value": "-5"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Chelaxian nationality",
+        "shortdesc": "You know more about the habits of devils than is entirely safe.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Dragon Spit",
+        "desc": "Many Tian-Dan claim to have dragon blood in their veins, and in your case, this is true - you can spit energy, and you might have an especially visible sign of your draconic heritage. Choose one of the following cantrips: acid splash, electric arc, produce flame, or ray of frost. You can cast this spell as an innate arcane spell at will, and when you cast it, the spell's energy emerges from your mouth.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Tian-Dan ethnicity",
+        "subTypes": true,
+        "shortdesc": "Many Tian-Dan claim to have dragon blood in their veins, and in your case, this is true - you can spit energy, and you might have an especially visible sign of your draconic heritage.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 1,
+        "specialreq": "true",
+        "specialreqdesc": "Tian-Dan ethnicity"
+    },
+    {
+        "name": "Dragon Spit: Acid Splash",
+        "desc": "Many Tian-Dan claim to have dragon blood in their veins, and in your case, this is true - you can spit energy, and you might have an especially visible sign of your draconic heritage. You can cast acid splash as an innate arcane spell at will, and when you cast it, the spell's energy emerges from your mouth.",
+        "hints": [
+            {
+                "desc": "When you cast acid splash as an innate spell gained through the Dragon Spit feat, the spell's energy emerges from your mouth.",
+                "showon": "Acid Splash"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Tian-Dan ethnicity",
+        "subType": "Acid Splash",
+        "superType": "Dragon Spit",
+        "shortdesc": "Many Tian-Dan claim to have dragon blood in their veins, and in your case, this is true - you can spit energy, and you might have an especially visible sign of your draconic heritage.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "925343d7-9e1f-4924-9cca-53a9d22768e6",
+                "source": "Feat: Dragon Spit: Acid Splash",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Acid Splash"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
+    },
+    {
+        "name": "Dragon Spit: Electric Arc",
+        "desc": "Many Tian-Dan claim to have dragon blood in their veins, and in your case, this is true - you can spit energy, and you might have an especially visible sign of your draconic heritage. You can cast electric arc as an innate arcane spell at will, and when you cast it, the spell's energy emerges from your mouth.",
+        "hints": [
+            {
+                "desc": "When you cast electric arc as an innate spell gained through the Dragon Spit feat, the spell's energy emerges from your mouth.",
+                "showon": "Electric Arc"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Tian-Dan ethnicity",
+        "subType": "Electric Arc",
+        "superType": "Dragon Spit",
+        "shortdesc": "Many Tian-Dan claim to have dragon blood in their veins, and in your case, this is true - you can spit energy, and you might have an especially visible sign of your draconic heritage.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "cddc72ab-462b-4a4b-b129-af55e93dcd17",
+                "source": "Feat: Dragon Spit: Electric Arc",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Electric Arc"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
+    },
+    {
+        "name": "Dragon Spit: Produce Flame",
+        "desc": "Many Tian-Dan claim to have dragon blood in their veins, and in your case, this is true - you can spit energy, and you might have an especially visible sign of your draconic heritage. You can cast produce flame as an innate arcane spell at will, and when you cast it, the spell's energy emerges from your mouth.",
+        "hints": [
+            {
+                "desc": "When you cast produce flame as an innate spell gained through the Dragon Spit feat, the spell's energy emerges from your mouth.",
+                "showon": "Produce Flame"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Tian-Dan ethnicity",
+        "subType": "Produce Flame",
+        "superType": "Dragon Spit",
+        "shortdesc": "Many Tian-Dan claim to have dragon blood in their veins, and in your case, this is true - you can spit energy, and you might have an especially visible sign of your draconic heritage.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "dde81037-497d-4b63-9c9b-9c435e2eab3b",
+                "source": "Feat: Dragon Spit: Produce Flame",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Produce Flame"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
+    },
+    {
+        "name": "Dragon Spit: Ray of Frost",
+        "desc": "Many Tian-Dan claim to have dragon blood in their veins, and in your case, this is true - you can spit energy, and you might have an especially visible sign of your draconic heritage. You can cast ray of frost as an innate arcane spell at will, and when you cast it, the spell's energy emerges from your mouth.",
+        "hints": [
+            {
+                "desc": "When you cast ray of frost as an innate spell gained through the Dragon Spit feat, the spell's energy emerges from your mouth.",
+                "showon": "Ray of Frost"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Tian-Dan ethnicity",
+        "subType": "Ray of Frost",
+        "superType": "Dragon Spit",
+        "shortdesc": "Many Tian-Dan claim to have dragon blood in their veins, and in your case, this is true - you can spit energy, and you might have an especially visible sign of your draconic heritage.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "efd03798-9bcf-45bf-823a-1bebe2ed7b7c",
+                "source": "Feat: Dragon Spit: Ray of Frost",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Ray of Frost"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
+    },
+    {
+        "name": "Gloomseer",
+        "desc": "Gloom holds few terrors for you, and the pall of darkness over Nidal has made you comfortable in dim light. You gain low-light vision.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Nidalese ethnicity",
+        "shortdesc": "Gloom holds few terrors for you, and the pall of darkness over Nidal has made you comfortable in dim light.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 1,
+        "specialreq": "true",
+        "specialreqdesc": "Nidalese ethnicity",
+        "senses": [
+            "Low-Light Vision"
+        ]
+    },
+    {
+        "name": "Keep Up Appearances",
+        "desc": "Taldan pride means you never show weakness.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Taldan nationality",
+        "shortdesc": "Taldan pride means you never show weakness.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Keep Up Appearances"
+        ]
+    },
+    {
+        "name": "Know Oneself",
+        "desc": "You center yourself and call to mind the Vudrani monastic ideals of mindfulness and self-knowledge.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Vudrani ethnicity",
+        "shortdesc": "You center yourself and call to mind the Vudrani monastic ideals of mindfulness and self-knowledge.",
+        "traits": [
+            "Uncommon",
+            "Human",
+            "Fortune"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Know Oneself"
+        ]
+    },
+    {
+        "name": "Quah Bond",
+        "desc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance. You gain the trained proficiency rank in the skill listed for your quah (or another skill of your choice, if you're already trained in that skill). You gain the Assurance skill feat in that skill, as the spirits' help guides your actions.\n\n<strong>Lyrune-Quah</strong> Religion\n<strong>Shadde-Quah</strong> Athletics\n<strong>Shriikirri-Quah</strong> Nature\n<strong>Shundar-Quah</strong> Diplomacy\n<strong>Sklar-Quah</strong> Intimidation\n<strong>Skoan-Quah</strong> Medicine\n<strong>Tamiir-Quah</strong> Acrobatics",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Shoanti ethnicity",
+        "subTypes": true,
+        "shortdesc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Quah Bond: Lyrune-Quah",
+        "desc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance. You gain the trained proficiency rank in Religion (or another skill of your choice, if you're already trained in that skill). You gain the Assurance skill feat in Religion, as the spirits' help guides your actions.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Shoanti ethnicity",
+        "subType": "Lyrune-Quah",
+        "superType": "Quah Bond",
+        "shortdesc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainFeatChoice": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Assurance: Religion"
+                    }
+                ],
+                "source": "Feat: Quah Bond: Lyrune-Quah",
+                "type": "General"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "filter": [
+                    "Religion"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Religion",
+                        "source": "Feat: Quah Bond: Lyrune-Quah"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Quah Bond: Lyrune-Quah",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Quah Bond: Shadde-Quah",
+        "desc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance. You gain the trained proficiency rank in Athletics (or another skill of your choice, if you're already trained in that skill). You gain the Assurance skill feat in Athletics, as the spirits' help guides your actions.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Shoanti ethnicity",
+        "subType": "Shadde-Quah",
+        "superType": "Quah Bond",
+        "shortdesc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainFeatChoice": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Assurance: Athletics"
+                    }
+                ],
+                "source": "Feat: Quah Bond: Shadde-Quah",
+                "type": "General"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "filter": [
+                    "Athletics"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Athletics",
+                        "source": "Feat: Quah Bond: Shadde-Quah"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Quah Bond: Shadde-Quah",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Quah Bond: Shriikirri-Quah",
+        "desc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance. You gain the trained proficiency rank in Nature (or another skill of your choice, if you're already trained in that skill). You gain the Assurance skill feat in Nature, as the spirits' help guides your actions.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Shoanti ethnicity",
+        "subType": "Shriikirri-Quah",
+        "superType": "Quah Bond",
+        "shortdesc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainFeatChoice": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Assurance: Nature"
+                    }
+                ],
+                "source": "Feat: Quah Bond: Shriikirri-Quah",
+                "type": "General"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "filter": [
+                    "Nature"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Nature",
+                        "source": "Feat: Quah Bond: Shriikirri-Quah"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Quah Bond: Shriikirri-Quah",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Quah Bond: Shundar-Quah",
+        "desc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance. You gain the trained proficiency rank in Diplomacy (or another skill of your choice, if you're already trained in that skill). You gain the Assurance skill feat in Diplomacy, as the spirits' help guides your actions.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Shoanti ethnicity",
+        "subType": "Shundar-Quah",
+        "superType": "Quah Bond",
+        "shortdesc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainFeatChoice": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Assurance: Diplomacy"
+                    }
+                ],
+                "source": "Feat: Quah Bond: Shundar-Quah",
+                "type": "General"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "filter": [
+                    "Diplomacy"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Diplomacy",
+                        "source": "Feat: Quah Bond: Shundar-Quah"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Quah Bond: Shundar-Quah",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Quah Bond: Sklar-Quah",
+        "desc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance. You gain the trained proficiency rank in Intimidation (or another skill of your choice, if you're already trained in that skill). You gain the Assurance skill feat in Intimidation, as the spirits' help guides your actions.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Shoanti ethnicity",
+        "subType": "Sklar-Quah",
+        "superType": "Quah Bond",
+        "shortdesc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainFeatChoice": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Assurance: Intimidation"
+                    }
+                ],
+                "source": "Feat: Quah Bond: Sklar-Quah",
+                "type": "General"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "filter": [
+                    "Intimidation"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Intimidation",
+                        "source": "Feat: Quah Bond: Sklar-Quah"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Quah Bond: Sklar-Quah",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Quah Bond: Skoan-Quah",
+        "desc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance. You gain the trained proficiency rank in Medicine (or another skill of your choice, if you're already trained in that skill). You gain the Assurance skill feat in Medicine, as the spirits' help guides your actions.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Shoanti ethnicity",
+        "subType": "Skoan-Quah",
+        "superType": "Quah Bond",
+        "shortdesc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainFeatChoice": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Assurance: Medicine"
+                    }
+                ],
+                "source": "Feat: Quah Bond: Skoan-Quah",
+                "type": "General"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "filter": [
+                    "Medicine"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Medicine",
+                        "source": "Feat: Quah Bond: Skoan-Quah"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Quah Bond: Skoan-Quah",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Quah Bond: Tamiir-Quah",
+        "desc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance. You gain the trained proficiency rank in Acrobatics (or another skill of your choice, if you're already trained in that skill). You gain the Assurance skill feat in Acrobatics, as the spirits' help guides your actions.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Shoanti ethnicity",
+        "subType": "Tamiir-Quah",
+        "superType": "Quah Bond",
+        "shortdesc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainFeatChoice": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Assurance: Acrobatics"
+                    }
+                ],
+                "source": "Feat: Quah Bond: Tamiir-Quah",
+                "type": "General"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "filter": [
+                    "Acrobatics"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Acrobatics",
+                        "source": "Feat: Quah Bond: Tamiir-Quah"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Quah Bond: Tamiir-Quah",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Saoc Astrology",
+        "desc": "The ancient Saoc Brethren were the masters of astrology, and while your knowledge may be but a pale shadow of their wisdom, it still comes in handy.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Lirgeni nationality",
+        "shortdesc": "The ancient Saoc Brethren were the masters of astrology, and while your knowledge may be but a pale shadow of their wisdom, it still comes in handy.",
+        "traits": [
+            "Uncommon",
+            "Human",
+            "Concentrate"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Saoc Astrology"
+        ]
+    },
+    {
+        "name": "Tupilaq Carver",
+        "desc": "You know the truth behind old stories that tell of sending a fetish of bone and sinew to seek vengeance. These old magics allow you to conjure constructs with ease. Add the summon construct spell to your spell list. The constructs you summon have a distinct ivory scrimshaw appearance, and if you include a drop of blood, lock of hair, or other portion of a creature's body as part of the spell's material component, the summoned construct gains a +4 status bonus to Perception checks to sense or locate that creature.",
+        "hints": [
+            {
+                "desc": "The constructs you summon have a distinct ivory scrimshaw appearance, and if you include a drop of blood, lock of hair, or other portion of a creature's body as part of the spell's material component, the summoned construct gains a +4 status bonus to Perception checks to sense or locate that creature.",
+                "showon": "Summon Construct"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Erutaki ethnicity",
+        "shortdesc": "You know the truth behind old stories that tell of sending a fetish of bone and sinew to seek vengeance.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "specialreq": "character.get_DefaultSpellcasting() && ['Divine', 'Primal'].includes(character.get_DefaultSpellcasting().tradition)",
+        "specialreqdesc": "You have a spellcasting class feature with the divine or primal tradition",
+        "gainActivities": [
+            "Tupilaq Carver"
+        ],
+        "gainSpellListSpells": [
+            "Summon Construct"
+        ]
+    },
+    {
+        "name": "Viking Shieldbearer",
+        "desc": "You trained with shields and weapons as soon as you were old enough to hold them, eager to win honor and glory for yourself. You gain the Shield Block reaction and are trained in your choice of the battle axe or longsword.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Ulfen ethnicity",
+        "subTypes": true,
+        "shortdesc": "You trained with shields and weapons as soon as you were old enough to hold them, eager to win honor and glory for yourself.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Viking Shieldbearer: Battle Axe",
+        "desc": "You trained with shields and weapons as soon as you were old enough to hold them, eager to win honor and glory for yourself. You gain the Shield Block reaction and are trained in the battle axe.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Ulfen ethnicity",
+        "subType": "Battle Axe",
+        "superType": "Viking Shieldbearer",
+        "shortdesc": "You trained with shields and weapons as soon as you were old enough to hold them, eager to win honor and glory for yourself.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Shield Block"
+        ],
+        "gainSkillChoice": [
+            {
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Battle Axe",
+                        "source": "Feat: Viking Shieldbearer: Battle Axe"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Viking Shieldbearer: Battle Axe",
+                "type": "Specific Weapon Proficiency"
+            }
+        ]
+    },
+    {
+        "name": "Viking Shieldbearer: Longsword",
+        "desc": "You trained with shields and weapons as soon as you were old enough to hold them, eager to win honor and glory for yourself. You gain the Shield Block reaction and are trained in the longsword.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Ulfen ethnicity",
+        "subType": "Longsword",
+        "superType": "Viking Shieldbearer",
+        "shortdesc": "You trained with shields and weapons as soon as you were old enough to hold them, eager to win honor and glory for yourself.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Shield Block"
+        ],
+        "gainSkillChoice": [
+            {
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Longsword",
+                        "source": "Feat: Viking Shieldbearer: Longsword"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Viking Shieldbearer: Longsword",
+                "type": "Specific Weapon Proficiency"
+            }
+        ]
+    },
+    {
+        "name": "Witch Warden",
+        "desc": "You and your family have fought long and hard against witches, particularly the winter witches of Irrisen, and you've learned to be wary of their curses and the otherworldly powers their patrons grant. You gain a +1 circumstance bonus to saving throws against curses, and to saving throws against spells cast by a witch or hag. If you roll a success on a saving throw against a curse or a spell cast by a witch or hag, you get a critical success instead.",
+        "hints": [
+            {
+                "desc": "You gain a +1 circumstance bonus to saving throws against curses, and to saving throws against spells cast by a witch or hag. If you roll a success on a saving throw against a curse or a spell cast by a witch or hag, you get a critical success instead.",
+                "showon": "Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "type": "circumstance",
+                        "value": "1"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Kellid ethnicity",
+        "shortdesc": "You and your family have fought long and hard against witches, particularly the winter witches of Irrisen, and you've learned to be wary of their curses and the otherworldly powers their patrons grant.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Darkseer",
+        "desc": "Zon-Kuthon smiles upon you - even if you curse his name - granting you pitch-black eyes that allow you to see in shadows and darkness. You gain darkvision.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Zon-Kuthon smiles upon you - even if you curse his name - granting you pitch-black eyes that allow you to see in shadows and darkness.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Gloomseer"
+        ],
+        "senses": [
+            "Darkvision"
+        ]
+    },
+    {
+        "name": "Ornate Tattoo",
+        "desc": "You expand your tattoos to encompass greater magic. Choose a 1st-level arcane spell from the same school as your Arcane Tattoos, either a common spell or another to which you have access. You can cast that spell once per day as an innate arcane spell.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subTypes": true,
+        "shortdesc": "You expand your tattoos to encompass greater magic.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Arcane Tattoos"
+        ]
+    },
+    {
+        "name": "Ornate Tattoo: Abjuration",
+        "desc": "You expand your tattoos to encompass greater magic. Choose a 1st-level arcane spell from the Abjuration school, either a common spell or another to which you have access. You can cast that spell once per day as an innate arcane spell.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subType": "Abjuration",
+        "superType": "Ornate Tattoo",
+        "shortdesc": "You expand your tattoos to encompass greater magic.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Arcane Tattoos: Abjuration"
+        ],
+        "gainSpellChoice": [
+            {
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "75c97520-5cba-429d-afe3-f8fff71e91e0",
+                "level": 1,
+                "source": "Feat: Ornate Tattoo: Abjuration",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Abjuration"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Ornate Tattoo: Conjuration",
+        "desc": "You expand your tattoos to encompass greater magic. Choose a 1st-level arcane spell from the Conjuration school, either a common spell or another to which you have access. You can cast that spell once per day as an innate arcane spell.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subType": "Conjuration",
+        "superType": "Ornate Tattoo",
+        "shortdesc": "You expand your tattoos to encompass greater magic.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Arcane Tattoos: Conjuration"
+        ],
+        "gainSpellChoice": [
+            {
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "293f3855-9f9d-4a07-80d7-229c4c3979ad",
+                "level": 1,
+                "source": "Feat: Ornate Tattoo: Conjuration",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Conjuration"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Ornate Tattoo: Enchantment",
+        "desc": "You expand your tattoos to encompass greater magic. Choose a 1st-level arcane spell from the Enchantment school, either a common spell or another to which you have access. You can cast that spell once per day as an innate arcane spell.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subType": "Enchantment",
+        "superType": "Ornate Tattoo",
+        "shortdesc": "You expand your tattoos to encompass greater magic.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Arcane Tattoos: Enchantment"
+        ],
+        "gainSpellChoice": [
+            {
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "1e40a6df-dc55-47ef-a671-71de5bd418e4",
+                "level": 1,
+                "source": "Feat: Ornate Tattoo: Enchantment",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Enchantment"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Ornate Tattoo: Evocation",
+        "desc": "You expand your tattoos to encompass greater magic. Choose a 1st-level arcane spell from the Evocation school, either a common spell or another to which you have access. You can cast that spell once per day as an innate arcane spell.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subType": "Evocation",
+        "superType": "Ornate Tattoo",
+        "shortdesc": "You expand your tattoos to encompass greater magic.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Arcane Tattoos: Evocation"
+        ],
+        "gainSpellChoice": [
+            {
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "f19fbe57-c1b2-4fc2-915c-6658dc48cdd4",
+                "level": 1,
+                "source": "Feat: Ornate Tattoo: Evocation",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Evocation"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Ornate Tattoo: Illusion",
+        "desc": "You expand your tattoos to encompass greater magic. Choose a 1st-level arcane spell from the Illusion school, either a common spell or another to which you have access. You can cast that spell once per day as an innate arcane spell.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subType": "Illusion",
+        "superType": "Ornate Tattoo",
+        "shortdesc": "You expand your tattoos to encompass greater magic.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Arcane Tattoos: Illusion"
+        ],
+        "gainSpellChoice": [
+            {
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "98f90f55-844d-4868-93f1-2fb1760449d8",
+                "level": 1,
+                "source": "Feat: Ornate Tattoo: Illusion",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Illusion"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Ornate Tattoo: Necromancy",
+        "desc": "You expand your tattoos to encompass greater magic. Choose a 1st-level arcane spell from the Necromancy school, either a common spell or another to which you have access. You can cast that spell once per day as an innate arcane spell.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subType": "Necromancy",
+        "superType": "Ornate Tattoo",
+        "shortdesc": "You expand your tattoos to encompass greater magic.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Arcane Tattoos: Necromancy"
+        ],
+        "gainSpellChoice": [
+            {
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "346f6a1c-95f8-4c5f-9778-ff53bb384f13",
+                "level": 1,
+                "source": "Feat: Ornate Tattoo: Necromancy",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Necromancy"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Ornate Tattoo: Transmutation",
+        "desc": "You expand your tattoos to encompass greater magic. Choose a 1st-level arcane spell from the Transmutation school, either a common spell or another to which you have access. You can cast that spell once per day as an innate arcane spell.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subType": "Transmutation",
+        "superType": "Ornate Tattoo",
+        "shortdesc": "You expand your tattoos to encompass greater magic.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Arcane Tattoos: Transmutation"
+        ],
+        "gainSpellChoice": [
+            {
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "a5825d7f-cebb-4a12-bd91-ff8cd471e73f",
+                "level": 1,
+                "source": "Feat: Ornate Tattoo: Transmutation",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Transmutation"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Wavetouched Paragon",
+        "desc": "You have been blessed by the sea, granting you the ability to swim like a fish. You gain a 15-foot swim Speed.",
+        "specialdesc": "If you have the Bonuwat Wavetouched background, you can take this feat at 1st level instead of 5th.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You have been blessed by the sea, granting you the ability to swim like a fish.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 5,
+        "specialreq": "true",
+        "specialreqdesc": "Bonuwat ethnicity",
+        "ignoreRequirements": [
+            "(character.class.background.name == 'Bonuwat Wavetouched') ? 'levelreq' : ''"
+        ],
+        "effects": [
+            {
+                "affected": "Swim Speed",
+                "setValue": "15"
+            }
+        ]
+    },
+    {
+        "name": "Dragon Prince",
+        "desc": "The blood of the Dragon Kings runs strong in your veins. Your draconic heritage is clearly visible, with hair that is almost entirely crimson, azure, or the like, and that shines like a dragon's scales. You can cast the dragon breath sorcerer bloodline spell as an innate arcane spell once per day, but you can use only the dragon breath that is associated with your heritage and that matches the energy type of your Dragon Spit feat. At 12th level and every 3 levels thereafter, the spell is heightened by an additional spell level.",
+        "hints": [
+            {
+                "desc": "When you cast dragon breath as an innate spell gained through the Dragon Prince feat, you can use only the dragon breath that is associated with your heritage and that matches the energy type of your Dragon Spit feat.",
+                "showon": "Dragon Breath"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "The blood of the Dragon Kings runs strong in your veins.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Dragon Spit"
+        ],
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "dynamicLevel": "Math.max(3, Math.floor(Character.level/3))",
+                "frequency": "once per day",
+                "id": "179dbde1-d116-48d9-84e5-a01fca435109",
+                "source": "Feat: Dragon Prince",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Dragon Breath"
+                    }
+                ],
+                "tradition": "Focus"
+            }
+        ]
+    },
+    {
+        "name": "Heir of the Saoc",
+        "desc": "In the past, you would have been a proud initiate of the Saoc Brethren. Today, you carry on their legacy. When you use Saoc Astrology, roll 1d4 instead; on a 1, you take a -1 penalty to the skill check. On any other result, you gain a circumstance bonus of that value (for instance, a +3 circumstance bonus on a 3).",
+        "hints": [
+            {
+                "desc": "When you use Saoc Astrology, roll 1d4 instead; on a 1, you take a -1 penalty to the skill check. On any other result, you gain a circumstance bonus of that value (for instance, a +3 circumstance bonus on a 3).",
+                "showon": "Saoc Astrology"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "In the past, you would have been a proud initiate of the Saoc Brethren.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Saoc Astrology"
+        ]
+    },
+    {
+        "name": "Shory Aeromancer",
+        "desc": "Your ancestors hailed from the flying cities of the Shory, and a few simple tricks have come down through the ages to you. You can cast 4th-level fly on yourself as an innate arcane spell once per day.",
+        "hints": [
+            {
+                "desc": "When you cast fly as an innate spell gained through the Shory Aeromancer feat, you can only target yourself.",
+                "showon": "Fly"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Your ancestors hailed from the flying cities of the Shory, and a few simple tricks have come down through the ages to you.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 9,
+        "specialreq": "true",
+        "specialreqdesc": "Garundi, Mauxi, or Tian-Yae ethnicity",
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "66e32fdc-d98c-4152-a733-a165d1c879a5",
+                "level": 4,
+                "source": "Feat: Shory Aeromancer",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Fly"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
+    },
+    {
+        "name": "Virtue-Forged Tattoos",
+        "desc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin. Choose a 3rd-level arcane spell from the same school as your Arcane Tattoos, either a common spell or another to which you have access, including a lower-level spell heightened to 3rd level if you wish. You can cast that spell once per day as an innate arcane spell.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subTypes": true,
+        "shortdesc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Ornate Tattoo"
+        ]
+    },
+    {
+        "name": "Virtue-Forged Tattoos: Abjuration",
+        "desc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin. Choose a 3rd-level arcane spell from the Abjuration school, either a common spell or another to which you have access, including a lower-level spell heightened to 3rd level if you wish. You can cast that spell once per day as an innate arcane spell.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subType": "Abjuration",
+        "superType": "Virtue-Forged Tattoos",
+        "shortdesc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Ornate Tattoo: Abjuration"
+        ],
+        "gainSpellChoice": [
+            {
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "2dbc0e80-09c3-4c55-9201-9a629d6e0875",
+                "level": 3,
+                "source": "Feat: Virtue-Forged Tattoos: Abjuration",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Abjuration"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Virtue-Forged Tattoos: Conjuration",
+        "desc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin. Choose a 3rd-level arcane spell from the Conjuration school, either a common spell or another to which you have access, including a lower-level spell heightened to 3rd level if you wish. You can cast that spell once per day as an innate arcane spell.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subType": "Conjuration",
+        "superType": "Virtue-Forged Tattoos",
+        "shortdesc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Ornate Tattoo: Conjuration"
+        ],
+        "gainSpellChoice": [
+            {
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "01f49e66-2f0a-4b37-80a9-7bde989ea8f4",
+                "level": 3,
+                "source": "Feat: Virtue-Forged Tattoos: Conjuration",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Conjuration"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Virtue-Forged Tattoos: Enchantment",
+        "desc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin. Choose a 3rd-level arcane spell from the Enchantment school, either a common spell or another to which you have access, including a lower-level spell heightened to 3rd level if you wish. You can cast that spell once per day as an innate arcane spell.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subType": "Enchantment",
+        "superType": "Virtue-Forged Tattoos",
+        "shortdesc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Ornate Tattoo: Enchantment"
+        ],
+        "gainSpellChoice": [
+            {
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "27ecf8e4-2062-4583-b559-e061f1f494b7",
+                "level": 3,
+                "source": "Feat: Virtue-Forged Tattoos: Enchantment",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Enchantment"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Virtue-Forged Tattoos: Evocation",
+        "desc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin. Choose a 3rd-level arcane spell from the Evocation school, either a common spell or another to which you have access, including a lower-level spell heightened to 3rd level if you wish. You can cast that spell once per day as an innate arcane spell.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subType": "Evocation",
+        "superType": "Virtue-Forged Tattoos",
+        "shortdesc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Ornate Tattoo: Evocation"
+        ],
+        "gainSpellChoice": [
+            {
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "a4b18ae8-8d58-4c9c-80cf-e378272a4b46",
+                "level": 3,
+                "source": "Feat: Virtue-Forged Tattoos: Evocation",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Evocation"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Virtue-Forged Tattoos: Illusion",
+        "desc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin. Choose a 3rd-level arcane spell from the Illusion school, either a common spell or another to which you have access, including a lower-level spell heightened to 3rd level if you wish. You can cast that spell once per day as an innate arcane spell.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subType": "Illusion",
+        "superType": "Virtue-Forged Tattoos",
+        "shortdesc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Ornate Tattoo: Illusion"
+        ],
+        "gainSpellChoice": [
+            {
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "e265f172-72b7-45a0-825c-d30bda6a109f",
+                "level": 3,
+                "source": "Feat: Virtue-Forged Tattoos: Illusion",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Illusion"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Virtue-Forged Tattoos: Necromancy",
+        "desc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin. Choose a 3rd-level arcane spell from the Necromancy school, either a common spell or another to which you have access, including a lower-level spell heightened to 3rd level if you wish. You can cast that spell once per day as an innate arcane spell.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subType": "Necromancy",
+        "superType": "Virtue-Forged Tattoos",
+        "shortdesc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Ornate Tattoo: Necromancy"
+        ],
+        "gainSpellChoice": [
+            {
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "80867cc4-f2f8-4f32-9cc8-7a3820fda0c7",
+                "level": 3,
+                "source": "Feat: Virtue-Forged Tattoos: Necromancy",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Necromancy"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Virtue-Forged Tattoos: Transmutation",
+        "desc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin. Choose a 3rd-level arcane spell from the Transmutation school, either a common spell or another to which you have access, including a lower-level spell heightened to 3rd level if you wish. You can cast that spell once per day as an innate arcane spell.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subType": "Transmutation",
+        "superType": "Virtue-Forged Tattoos",
+        "shortdesc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Ornate Tattoo: Transmutation"
+        ],
+        "gainSpellChoice": [
+            {
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "e35f0771-e33f-4f89-89a4-689c135a9800",
+                "level": 3,
+                "source": "Feat: Virtue-Forged Tattoos: Transmutation",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Transmutation"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Irriseni Ice-Witch",
+        "desc": "You can trace your direct descent from one of the Queens of Irrisen and thus from Baba Yaga herself. Your resistance to cold increases to 5 + half your level, and you can cast 5th-level wall of ice as an innate arcane spell once per day.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You can trace your direct descent from one of the Queens of Irrisen and thus from Baba Yaga herself.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 13,
+        "heritagereq": "wintertouched human",
+        "specialreq": "true",
+        "specialreqdesc": "Jadwiga ethnicity",
+        "effects": [
+            {
+                "affected": "Cold Resistance",
+                "value": "5"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "b9b9af85-68ef-422e-92e4-602e354d5606",
+                "level": 5,
+                "source": "Feat: Irriseni Ice-Witch",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Wall of Ice"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
+    },
+    {
+        "name": "Shadow Pact",
+        "desc": "Thousands of years ago, your ancestors made a pact with Zon-Kuthon. He has not forgotten, even if you might wish he had. You can take 1 damage to mix blood and shadows to cast 5th-level creation as an innate divine spell. You can use this ability as often as you wish, but you can have only one such object in existence at a time. If the object encounters bright light, the spell ends and the object dissolves into shadows.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Thousands of years ago, your ancestors made a pact with Zon-Kuthon.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 13,
+        "specialreq": "true",
+        "specialreqdesc": "Nidalese ethnicity",
+        "gainActivities": [
+            "Shadow Pact"
+        ]
+    },
+    {
+        "name": "Shory Aerialist",
+        "desc": "Unique in Golarion's history, the Shory people developed fighting styles dedicated to combat in the air. You gain a +2 circumstance bonus to Acrobatics checks to Maneuver in Flight and a +5-foot status bonus to your fly Speed whenever you are flying via magic.",
+        "hints": [
+            {
+                "desc": "You gain a +2 circumstance bonus to Acrobatics checks to Maneuver in Flight.",
+                "showon": "Acrobatics",
+                "effects": [
+                    {
+                        "affected": "Acrobatics",
+                        "type": "circumstance",
+                        "value": "2"
+                    }
+                ]
+            },
+            {
+                "desc": "You gain a +5-foot status bonus to your fly Speed whenever you are flying via magic.",
+                "showon": "Movement",
+                "effects": [
+                    {
+                        "affected": "Fly Speed",
+                        "type": "status",
+                        "value": "Has_Speed('Fly Speed') ? 5 : 0"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Unique in Golarion's history, the Shory people developed fighting styles dedicated to combat in the air.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 13,
+        "specialreq": "Has_Feat('Character', 'Shory Aeromancer') || character.get_SpellsTaken(this, 1, charLevel, -1, 'Fly').length || character.get_SpellsLearned('Fly').length",
+        "specialreqdesc": "Garundi, Mauxi, or Tian-Yae ethnicity; Shory Aeromancer or ability to cast fly"
+    },
+    {
+        "name": "Elemental Wrath",
+        "desc": "You are so attuned to the land that you can call forth a bolt of energy from your surroundings. When you gain this feat, select acid, cold, electricity, or fire. You can call to the land to cast the acid splash cantrip as an innate primal spell at will, except the spell has only verbal components and deals the type of damage you chose instead of acid damage; the spell gains the trait appropriate to its damage instead of the acid trait. A cantrip is heightened to a spell level equal to half your level rounded up.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subTypes": true,
+        "shortdesc": "You are so attuned to the land that you can call forth a bolt of energy from your surroundings.",
+        "traits": [
+            "Elf"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Elemental Wrath: Acid",
+        "desc": "You are so attuned to the land that you can call forth a bolt of energy from your surroundings. You can call to the land to cast the acid splash cantrip as an innate primal spell at will, except the spell has only verbal components. A cantrip is heightened to a spell level equal to half your level rounded up.",
+        "hints": [
+            {
+                "desc": "When you cast the acid splash cantrip as an innate spell gained through the Elemental Wrath feat, it has only verbal components.",
+                "showon": "Acid Splash"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subType": "Acid",
+        "superType": "Elemental Wrath",
+        "shortdesc": "You are so attuned to the land that you can call forth a bolt of energy from your surroundings.",
+        "traits": [
+            "Elf"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "source": "Feat: Elemental Wrath: Acid",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Acid Splash"
+                    }
+                ],
+                "tradition": "Primal"
+            }
+        ]
+    },
+    {
+        "name": "Elemental Wrath: Cold",
+        "desc": "You are so attuned to the land that you can call forth a bolt of energy from your surroundings. You can call to the land to cast the acid splash cantrip as an innate primal spell at will, except the spell has only verbal components and deals cold damage instead of acid damage; the spell gains the cold trait appropriate to its damage instead of the acid trait. A cantrip is heightened to a spell level equal to half your level rounded up.",
+        "hints": [
+            {
+                "desc": "When you cast the acid splash cantrip as an innate spell gained through the Elemental Wrath feat, it has only verbal components and deals cold damage instead of acid damage. It gains the cold trait instead of the acid trait.",
+                "showon": "Acid Splash"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subType": "Cold",
+        "superType": "Elemental Wrath",
+        "shortdesc": "You are so attuned to the land that you can call forth a bolt of energy from your surroundings.",
+        "traits": [
+            "Elf"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "source": "Feat: Elemental Wrath: Cold",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Acid Splash"
+                    }
+                ],
+                "tradition": "Primal"
+            }
+        ]
+    },
+    {
+        "name": "Elemental Wrath: Electricity",
+        "desc": "You are so attuned to the land that you can call forth a bolt of energy from your surroundings. You can call to the land to cast the acid splash cantrip as an innate primal spell at will, except the spell has only verbal components and deals electricity damage instead of acid damage; the spell gains the electricity trait appropriate to its damage instead of the acid trait. A cantrip is heightened to a spell level equal to half your level rounded up.",
+        "hints": [
+            {
+                "desc": "When you cast the acid splash cantrip as an innate spell gained through the Elemental Wrath feat, it has only verbal components and deals electricity damage instead of acid damage. It gains the cold trait instead of the electricity trait.",
+                "showon": "Acid Splash"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subType": "Electricity",
+        "superType": "Elemental Wrath",
+        "shortdesc": "You are so attuned to the land that you can call forth a bolt of energy from your surroundings.",
+        "traits": [
+            "Elf"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "source": "Feat: Elemental Wrath: Electricity",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Acid Splash"
+                    }
+                ],
+                "tradition": "Primal"
+            }
+        ]
+    },
+    {
+        "name": "Elemental Wrath: Fire",
+        "desc": "You are so attuned to the land that you can call forth a bolt of energy from your surroundings. You can call to the land to cast the acid splash cantrip as an innate primal spell at will, except the spell has only verbal components and deals fire damage instead of acid damage; the spell gains the fire trait appropriate to its damage instead of the acid trait. A cantrip is heightened to a spell level equal to half your level rounded up.",
+        "hints": [
+            {
+                "desc": "When you cast the acid splash cantrip as an innate spell gained through the Elemental Wrath feat, it has only verbal components and deals fire damage instead of acid damage. It gains the fire trait instead of the acid trait.",
+                "showon": "Acid Splash"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subType": "Fire",
+        "superType": "Elemental Wrath",
+        "shortdesc": "You are so attuned to the land that you can call forth a bolt of energy from your surroundings.",
+        "traits": [
+            "Elf"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "source": "Feat: Elemental Wrath: Fire",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Acid Splash"
+                    }
+                ],
+                "tradition": "Primal"
+            }
+        ]
+    },
+    {
+        "name": "Elven Verve",
+        "desc": "While all elves are immune to the paralyzing touch of ghouls, you can shake off flesh-numbing magic of all kinds. You gain a +1 circumstance bonus to saves against effects that would impose the immobilized, paralyzed, or slowed conditions. When you would be immobilized, paralyzed, or slowed for at least 2 rounds, reduce that duration by 1 round.",
+        "hints": [
+            {
+                "desc": "You gain a +1 circumstance bonus to saves against effects that would impose the immobilized, paralyzed, or slowed conditions. When you would be immobilized, paralyzed, or slowed for at least 2 rounds, reduce that duration by 1 round.",
+                "showon": "Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "type": "circumstance",
+                        "value": "1"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "While all elves are immune to the paralyzing touch of ghouls, you can shake off flesh-numbing magic of all kinds.",
+        "traits": [
+            "Elf"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Share Thoughts",
+        "desc": "You have an uncanny knack of communicating with other elves without speaking, though this habit that is often uncomfortable to observers. You can cast mindlink as an innate occult spell once per day, but you can target only other elves or half-elves.",
+        "hints": [
+            {
+                "desc": "When you cast mindlink as an innate spell gained through the Share Thoughts feat, you can target only other elves or half-elves.",
+                "showon": "Mindlink"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You have an uncanny knack of communicating with other elves without speaking, though this habit that is often uncomfortable to observers.",
+        "traits": [
+            "Elf"
+        ],
+        "levelreq": 1,
+        "specialreq": "true",
+        "specialreqdesc": "Mualijae, Ilverani, or Vourinoi ethnicity",
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "9e4c31cc-3349-4ae7-a8ae-0581f31c2365",
+                "level": 1,
+                "source": "Feat: Share Thoughts",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Mindlink"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
+    },
+    {
+        "name": "Wildborn Magic",
+        "desc": "You have learned to access the old magic of wild places. Choose one cantrip from the primal spell list. You can cast this cantrip as an innate primal spell at will. A cantrip is heightened to a spell level equal to half your level rounded up.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You have learned to access the old magic of wild places.",
+        "traits": [
+            "Elf",
+            "Uncommon"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "0510d96d-0292-496e-ba2c-f812c4765fe5",
+                "level": 0,
+                "source": "Feat: Wildborn Magic",
+                "tradition": "Primal"
+            }
+        ]
+    },
+    {
+        "name": "Woodcraft",
+        "desc": "You have a innate familiarity with forested areas. When in a forest or jungle environment, if you roll a critical failure on a Survival skill check to Sense Direction, Subsist, or Cover Tracks, you get a failure instead, and if you roll a success, you get a critical success instead.",
+        "hints": [
+            {
+                "desc": "When in a forest or jungle environment, if you roll a critical failure on a Survival skill check to Sense Direction, Subsist, or Cover Tracks, you get a failure instead, and if you roll a success, you get a critical success instead.",
+                "showon": "Survival"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You have a innate familiarity with forested areas.",
+        "traits": [
+            "Elf"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Defiance Unto Death",
+        "desc": "You loathe the alghollthus and their mind magic, and you've been trained to be willing to die rather than give into mental manipulation. If you would start your turn confused, controlled, or fleeing due to a failed Will save, you can attempt a Will save against the same DC; on a success, you become paralyzed until your next turn, rather than act against your will.",
+        "hints": [
+            {
+                "desc": "If you would start your turn confused, controlled, or fleeing due to a failed Will save, you can attempt a Will save against the same DC; on a success, you become paralyzed until your next turn, rather than act against your will.",
+                "showon": "Will"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You loathe the alghollthus and their mind magic, and you've been trained to be willing to die rather than give into mental manipulation.",
+        "traits": [
+            "Elf",
+            "Uncommon"
+        ],
+        "levelreq": 5
+    },
+    {
+        "name": "Elven Instincts",
+        "desc": "Your senses let you react rapidly. You gain a +2 circumstance bonus to Perception checks made as initiative rolls. Additionally, if your initiative roll result is tied with that of an opponent, you go first, regardless of whether you rolled Perception or not.",
+        "hints": [
+            {
+                "desc": "You gain a +2 circumstance bonus to Perception checks made as initiative rolls. Additionally, if your initiative roll result is tied with that of an opponent, you go first, regardless of whether you rolled Perception or not.",
+                "showon": "Perception",
+                "effects": [
+                    {
+                        "affected": "Perception",
+                        "type": "circumstance",
+                        "value": "2"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Your senses let you react rapidly.",
+        "traits": [
+            "Elf"
+        ],
+        "levelreq": 5
+    },
+    {
+        "name": "Forest Stealth",
+        "desc": "You are skilled at quickly hiding behind bits of underbrush or foliage.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You are skilled at quickly hiding behind bits of underbrush or foliage.",
+        "traits": [
+            "Elf"
+        ],
+        "levelreq": 5,
+        "skillreq": [
+            {
+                "skill": "Stealth",
+                "value": 4
+            }
+        ],
+        "gainActivities": [
+            "Forest Stealth"
+        ]
+    },
+    {
+        "name": "Wildborn Adept",
+        "desc": "The whispers of the jungle grant you more diverse access to simple primal magic. You can cast dancing lights, disrupt undead, and tanglefoot as innate primal spells at will. If you chose one of those spells with Wildborn Magic, you can select a new spell for Wildborn Magic.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "The whispers of the jungle grant you more diverse access to simple primal magic.",
+        "traits": [
+            "Elf"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Wildborn Magic"
+        ],
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "845b98c3-c662-448c-a4c6-97a7e6f0d05b",
+                "level": 0,
+                "source": "Feat: Wildborn Adept",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Dancing Lights"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Disrupt Undead"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Tanglefoot"
+                    }
+                ],
+                "tradition": "Primal"
+            }
+        ]
+    },
+    {
+        "name": "Brightness Seeker",
+        "desc": "Once per day, you can spend 10 minutes studying your surroundings in search of omens related to a particular course of action to cast augury as an innate divine spell.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Once per day, you can spend 10 minutes studying your surroundings in search of omens related to a particular course of action to cast augury as an innate divine spell.",
+        "traits": [
+            "Elf"
+        ],
+        "levelreq": 9,
+        "gainActivities": [
+            "Brightness Seeker"
+        ]
+    },
+    {
+        "name": "Sense Thoughts",
+        "desc": "You have an even stranger knack for knowing what other people are thinking. You can cast mind reading as an innate occult spell once per day.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You have an even stranger knack for knowing what other people are thinking.",
+        "traits": [
+            "Elf",
+            "Uncommon"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Share Thoughts"
+        ],
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "14794499-ebfe-42be-8176-a7be489b12ec",
+                "level": 1,
+                "source": "Feat: Sense Thoughts",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Mind Reading"
+                    }
+                ],
+                "tradition": "Occult"
+            }
+        ]
+    },
+    {
+        "name": "Wandering Heart",
+        "desc": "While all elves adapt to their environments over time, you have traveled so widely and become attuned to so many environs that your body now changes more rapidly than other elves. After spending a week in an environment associated with an elf heritage (such as snow for arctic elf, or a forest or jungle for woodland elf) your heritage automatically changes to become that heritage. This never causes you to change to an elf heritage that isn't related to an environment, such as ancient elf, seer elf, or whisper elf.",
+        "hints": [
+            {
+                "desc": "After spending a week in an environment associated with an elf heritage (such as snow for arctic elf, or a forest or jungle for woodland elf) your heritage automatically changes to become that heritage. This never causes you to change to an elf heritage that isn't related to an environment, such as ancient elf, seer elf, or whisper elf.\n\nInstead of the heritage automatically changing, you can change your heritage in the character management when the condition is met.",
+                "showon": "Ancestry, Rest"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "internalNote": "There is no effect; you can just change your heritage according to the rule. The requirement only verifies that you are an elf or have the Elf Atavism feat, but does not check the heritage (or you would lose the feat when you change it).",
+        "shortdesc": "While all elves adapt to their environments over time, you have traveled so widely and become attuned to so many environs that your body now changes more rapidly than other elves.",
+        "traits": [
+            "Elf"
+        ],
+        "levelreq": 13,
+        "specialreq": "character.class.ancestry.name == 'Elf' || Has_Feat('Character', 'Elf Atavism')",
+        "specialreqdesc": "arctic elf, cavern elf, desert elf, woodland elf, or any other elf heritage based on adapting to an environment"
+    },
+    {
+        "name": "Lizardfolk Lore",
+        "desc": "You listened carefully to the tales passed down among your community. You gain the trained proficiency rank in Nature and Survival. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice. You also become trained in Iruxi Lore.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You listened carefully to the tales passed down among your community.",
+        "traits": [
+            "Lizardfolk"
+        ],
+        "levelreq": 1,
+        "gainLoreChoice": [
+            {
+                "loreName": "Iruxi",
+                "maxRank": 2,
+                "source": "Feat: Lizardfolk Lore"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "filter": [
+                    "Nature",
+                    "Survival"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Nature",
+                        "source": "Feat: Lizardfolk Lore"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Feat: Lizardfolk Lore"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Lizardfolk Lore",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Marsh Runner",
+        "desc": "You are adept at moving through marshy terrain. When you use the Step action, you can ignore difficult terrain caused by flooding, swamps, or quicksand. In addition, when you use the Acrobatics skill to Balance on narrow surfaces or uneven marshy ground, you aren't flat-footed, and if you roll a success on the Acrobatics check, you get a critical success instead.",
+        "hints": [
+            {
+                "desc": "When you use the Step action, you can ignore difficult terrain caused by flooding, swamps, or quicksand.",
+                "showon": "Movement"
+            },
+            {
+                "desc": "When you use the Acrobatics skill to Balance on narrow surfaces or uneven marshy ground, you aren't flat-footed, and if you roll a success on the Acrobatics check, you get a critical success instead.",
+                "showon": "Acrobatics"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You are adept at moving through marshy terrain.",
+        "traits": [
+            "Lizardfolk"
+        ],
+        "levelreq": 1,
+        "specialreq": "Speed('Character', 'Swim Speed')",
+        "specialreqdesc": "You have a swim Speed."
+    },
+    {
+        "name": "Parthenogenic Hatchling",
+        "desc": "You were hatched from an unfertilized egg during hard times for your people, and you are a biological copy of your mother. You gain a +1 circumstance bonus to saving throws against diseases. Each of your successful saving throws against a disease reduces its stage by 2, or by 1 for a virulent disease. Each critical success against an ongoing disease reduces its stage by 3, or by 2 for a virulent disease. You take damage only every 2 hours from thirst and every 2 days from starvation, rather than every hour and every day.",
+        "specialdesc": "You can take this feat only at 1st level.",
+        "hints": [
+            {
+                "desc": "You gain a +1 circumstance bonus to saving throws against diseases. Each of your successful saving throws against a disease reduces its stage by 2, or by 1 for a virulent disease. Each critical success against an ongoing disease reduces its stage by 3, or by 2 for a virulent disease. You take damage only every 2 hours from thirst and every 2 days from starvation, rather than every hour and every day.",
+                "showon": "Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "type": "circumstance",
+                        "value": "1"
+                    }
+                ]
+            },
+            {
+                "desc": "You take damage only every 2 hours from thirst and every 2 days from starvation, rather than every hour and every day.",
+                "showon": "Health"
+            },
+            {
+                "desc": "Each of your successful saving throws against a disease reduces its stage by 2, or by 1 for a virulent disease. Each critical success against an ongoing disease reduces its stage by 3, or by 2 for a virulent disease.",
+                "showon": "Effects"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You were hatched from an unfertilized egg during hard times for your people, and you are a biological copy of your mother.",
+        "traits": [
+            "Lizardfolk"
+        ],
+        "levelreq": 1,
+        "specialreq": "charLevel == 1",
+        "specialreqdesc": "1st level only"
+    },
+    {
+        "name": "Razor Claws",
+        "desc": "Your have honed your claws to be deadly. Your claw attack deals 1d6 slashing damage instead of 1d4 and gains the versatile (piercing) trait.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "internalNote": "Adding the Versatile P trait and changing the dmgType is hardcoded.",
+        "shortdesc": "Your have honed your claws to be deadly.",
+        "traits": [
+            "Lizardfolk"
+        ],
+        "levelreq": 1,
+        "effects": [
+            {
+                "affected": "Lizardfolk Claw Gain Trait",
+                "title": "'Versatile P'",
+                "toggle": true
+            },
+            {
+                "affected": "Lizardfolk Claw Dice Size",
+                "setValue": "6"
+            }
+        ]
+    },
+    {
+        "name": "Reptile Speaker",
+        "desc": "You hear the sounds of reptiles as language. You can ask questions of, receive answers from, and use the Diplomacy skill with animals that are reptiles (the GM determines which animals count as reptiles).",
+        "hints": [
+            {
+                "desc": "You can ask questions of, receive answers from, and use the Diplomacy skill with animals that are reptiles (the GM determines which animals count as reptiles).",
+                "showon": "Languages, Diplomacy"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You hear the sounds of reptiles as language.",
+        "traits": [
+            "Lizardfolk"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Sharp Fangs",
+        "desc": "Your teeth are formidable weapons. You gain a fangs unarmed attack that deals 1d8 piercing damage.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Your teeth are formidable weapons.",
+        "traits": [
+            "Lizardfolk"
+        ],
+        "levelreq": 1,
+        "gainItems": [
+            {
+                "id": "74cf862b-eb12-46e4-8d7d-6455b2690589",
+                "on": "grant",
+                "type": "weapons"
+            }
+        ]
+    },
+    {
+        "name": "Tail Whip",
+        "desc": "By birth or through training, your tail is strong enough to make for a powerful melee weapon. You gain a tail unarmed attack that deals 1d6 bludgeoning damage and has the sweep trait.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "By birth or through training, your tail is strong enough to make for a powerful melee weapon.",
+        "traits": [
+            "Lizardfolk"
+        ],
+        "levelreq": 1,
+        "gainItems": [
+            {
+                "id": "b3f9d9f4-dbdd-4d4f-952e-f3de3048dcc0",
+                "on": "grant",
+                "type": "weapons"
+            }
+        ]
+    },
+    {
+        "name": "Envenom Fangs",
+        "desc": "You envenom your fangs.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You envenom your fangs.",
+        "traits": [
+            "Lizardfolk"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Sharp Fangs"
+        ],
+        "effects": [
+            {
+                "affected": "Envenom Fangs Charges",
+                "setValue": "Level"
+            }
+        ],
+        "gainActivities": [
+            "Envenom Fangs"
+        ]
+    },
+    {
+        "name": "Gecko's Grip",
+        "desc": "You stick to walls with a preternatural grip. You gain a climb Speed of 15 feet.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You stick to walls with a preternatural grip.",
+        "traits": [
+            "Lizardfolk"
+        ],
+        "levelreq": 5,
+        "heritagereq": "cliffscale lizardfolk",
+        "effects": [
+            {
+                "affected": "Climb Speed",
+                "setValue": "15"
+            }
+        ]
+    },
+    {
+        "name": "Iruxi Unarmed Cunning",
+        "desc": "You make the most of your iruxi unarmed attacks. Whenever you score a critical hit with a claw or an unarmed attack you gained from a lizardfolk ancestry feat, you apply the unarmed attack's critical specialization effect.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You make the most of your iruxi unarmed attacks.",
+        "traits": [
+            "Lizardfolk"
+        ],
+        "levelreq": 5,
+        "gainSpecialization": [
+            {
+                "name": "Lizardfolk Claw"
+            },
+            {
+                "name": "Lizardfolk Fangs"
+            },
+            {
+                "name": "Lizardfolk Tail"
+            }
+        ]
+    },
+    {
+        "name": "Shed Tail",
+        "desc": "You can shed your tail to escape.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You can shed your tail to escape.",
+        "traits": [
+            "Lizardfolk"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Tail Whip"
+        ],
+        "gainActivities": [
+            "Shed Tail"
+        ]
+    },
+    {
+        "name": "Swift Swimmer",
+        "desc": "You swim faster than most iruxi. Your swim Speed increases to 25 feet.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You swim faster than most iruxi.",
+        "traits": [
+            "Lizardfolk"
+        ],
+        "levelreq": 5,
+        "heritagereq": "wetlander lizardfolk",
+        "effects": [
+            {
+                "affected": "Swim Speed",
+                "setValue": "25"
+            }
+        ]
+    },
+    {
+        "name": "Terrain Advantage",
+        "desc": "You can take advantage of the terrain to bypass foes' defenses. Non-lizardfolk creatures in difficult terrain are flat-footed to you. If you have a swim Speed, non-lizardfolk creatures that are in water and lack a swim Speed are also flat-footed to you.",
+        "hints": [
+            {
+                "desc": "Non-lizardfolk creatures in difficult terrain are flat-footed to you. If you have a swim Speed, non-lizardfolk creatures that are in water and lack a swim Speed are also flat-footed to you.",
+                "showon": "Movement, Attacks"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You can take advantage of the terrain to bypass foes' defenses.",
+        "traits": [
+            "Lizardfolk"
+        ],
+        "levelreq": 9
+    },
+    {
+        "name": "Iruxi Unarmed Expertise",
+        "desc": "Your unarmed attacks blend tradition and training. Whenever you gain a class feature that grants you expert or greater proficiency in certain weapons, you also gain that proficiency in the claw and unarmed attacks you gained from lizardfolk ancestry feats.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Your unarmed attacks blend tradition and training.",
+        "traits": [
+            "Lizardfolk"
+        ],
+        "levelreq": 13,
+        "featreq": [
+            "Iruxi Unarmed Cunning"
+        ],
+        "copyProficiency": [
+            {
+                "name": "Lizardfolk Claw",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            },
+            {
+                "name": "Lizardfolk Fangs",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            },
+            {
+                "name": "Lizardfolk Tail",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            }
+        ]
+    },
+    {
+        "name": "Round Ears",
+        "desc": "Your elven lineage is subtle enough that you look barely different from other humans, and you've learned to use that to your advantage. You gain the trained proficiency rank in Deception (or another skill of your choice, if you were already trained in Deception). You gain a +4 circumstance bonus to Impersonate checks to pretend you aren't a half-elf. Observers are never granted circumstance bonuses to Perception checks due to you Impersonating a full-blooded human, and you never take circumstance penalties due to you Impersonating a full-blooded human.",
+        "specialdesc": "You can take this feat only at 1st level, and you can't retrain out of this feat or into this feat.",
+        "hints": [
+            {
+                "desc": "You gain a +4 circumstance bonus to Impersonate checks to pretend you aren't a half-elf. Observers are never granted circumstance bonuses to Perception checks due to you Impersonating a full-blooded human, and you never take circumstance penalties due to you Impersonating a full-blooded human.",
+                "showon": "Deception",
+                "effects": [
+                    {
+                        "affected": "Deception",
+                        "type": "circumstance",
+                        "value": "4"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Your elven lineage is subtle enough that you look barely different from other humans, and you've learned to use that to your advantage.",
+        "traits": [
+            "Half-Elf"
+        ],
+        "levelreq": 1,
+        "specialreq": "charLevel == 1",
+        "specialreqdesc": "1st level only",
+        "gainSkillChoice": [
+            {
+                "filter": [
+                    "Deception"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Deception",
+                        "source": "Feat: Round Ears"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Round Ears",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Sociable",
+        "desc": "You're extremely extroverted, and you often spend your time carousing or otherwise socializing. You are trained in Diplomacy (or another skill of your choice if you were already trained in Diplomacy), and you gain the Hobnobber skill feat.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You're extremely extroverted, and you often spend your time carousing or otherwise socializing.",
+        "traits": [
+            "Half-Elf"
+        ],
+        "levelreq": 1,
+        "gainFeatChoice": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Hobnobber"
+                    }
+                ],
+                "source": "Feat: Sociable",
+                "type": "General"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "filter": [
+                    "Diplomacy"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Diplomacy",
+                        "source": "Feat: Round Ears"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Round Ears",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Overlooked Mastermind",
+        "desc": "Many consider half-orcs little more than dumb brutes. This is offensive to you, but it can occasionally be useful. You are trained in Deception (or another skill of your choice if you were already trained in Deception), and you gain a +2 circumstance bonus to Deception checks to Lie when specifically claiming ignorance and to Deception DCs against Sense Motive checks to uncover such lies.",
+        "hints": [
+            {
+                "desc": "You gain a +2 circumstance bonus to Deception checks to Lie when specifically claiming ignorance and to Deception DCs against Sense Motive checks to uncover such lies.",
+                "showon": "Deception",
+                "effects": [
+                    {
+                        "affected": "Deception",
+                        "type": "circumstance",
+                        "value": "2"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Many consider half-orcs little more than dumb brutes.",
+        "traits": [
+            "Half-Orc"
+        ],
+        "levelreq": 1,
+        "gainSkillChoice": [
+            {
+                "filter": [
+                    "Deception"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Deception",
+                        "source": "Feat: Overlooked Mastermind"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Overlooked Mastermind",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Tusks",
+        "desc": "You have particularly long, jagged tusks perfect for tearing meat from bone. You gain a tusks unarmed attack that deals 1d6 piercing damage.",
+        "specialdesc": "You can take this feat only at 1st level, and you can't retrain into this feat. You can retrain out of this feat only through drastic measures such as breaking or filing your tusks.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You have particularly long, jagged tusks perfect for tearing meat from bone.",
+        "traits": [
+            "Orc"
+        ],
+        "levelreq": 1,
+        "specialreq": "charLevel == 1",
+        "specialreqdesc": "1st level only",
+        "gainItems": [
+            {
+                "id": "3ceccceb-31f3-42ef-b6c5-a37b1b8fdc2a",
+                "on": "grant",
+                "type": "weapons"
+            }
+        ]
+    },
+    {
+        "name": "Avenge in Glory",
+        "desc": "You honor your ally's life, gaining temporary Hit Points equal to your level for 1 minute.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You honor your ally's life, gaining temporary Hit Points equal to your level for 1 minute.",
+        "traits": [
+            "Dwarf",
+            "Uncommon"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Avenge in Glory"
+        ]
+    },
+    {
+        "name": "Clan's Edge",
+        "desc": "By moving your clan dagger with rapid precision, you can protect yourself more effectively.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "By moving your clan dagger with rapid precision, you can protect yourself more effectively.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 1,
+        "specialreq": "Skill_Level(character, 'Simple Weapons') >= 2 || Skill_Level(character, 'Clan Dagger') >= 2",
+        "specialreqdesc": "trained in clan daggers",
+        "gainActivities": [
+            "Clan's Edge"
+        ]
+    },
+    {
+        "name": "Forge-Day's Rest",
+        "desc": "Your unusual rest cycle allows you to recover faster. As long as you rest for 12 hours, you gain the effects of the Fast Recovery general feat and you can go 20 hours without resting before becoming fatigued.",
+        "hints": [
+            {
+                "desc": "As long as you rest for 12 hours, you gain the effects of the Fast Recovery general feat and you can go 20 hours without resting before becoming fatigued. (Activate this before resting to gain the effect.)\n\nFast Recovery: You regain twice as many Hit Points from resting. Each time you succeed at a Fortitude save against an ongoing disease or poison, you reduce its stage by 2, or by 1 against a virulent disease or poison. Each critical success you achieve against an ongoing disease or poison reduces its stage by 3, or by 2 against a virulent disease or poison. In addition, you reduce the severity of your drained condition by 2 when you rest for a night instead of by 1.",
+                "showon": "Rest, Fortitude",
+                "effects": [
+                    {
+                        "affected": "Resting HP Multiplier",
+                        "setValue": "2"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "underground dwarf ethnicity",
+        "internalNote": "The Drained reduction is hardcoded in ConditionsService.rest()",
+        "shortdesc": "Your unusual rest cycle allows you to recover faster.",
+        "traits": [
+            "Dwarf",
+            "Uncommon"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Surface Culture",
+        "desc": "Your interactions with other cultures on the surface have not only taught you about many other ancestries, but have also helped you realize the value of your own. You gain the trained proficiency rank in the Society skill (or another skill of your choice if you were already trained in Society), and you gain the Additional Lore skill feat for the Lore corresponding to your culture (for instance, Ouat Lore or Pahmet Lore).",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "any surface dwarf ethnicity",
+        "shortdesc": "Your interactions with other cultures on the surface have not only taught you about many other ancestries, but have also helped you realize the value of your own.",
+        "traits": [
+            "Dwarf",
+            "Uncommon"
+        ],
+        "levelreq": 1,
+        "gainFeatChoice": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Additional Lore"
+                    }
+                ],
+                "source": "Feat: Surface Culture",
+                "type": "Skill"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "filter": [
+                    "Society"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Society",
+                        "source": "Feat: Surface Culture"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Surface Culture",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Clan Protector",
+        "desc": "Your clan dagger can protect your allies as easily as yourself. When you use an Interact action to gain a circumstance bonus to AC from your clan dagger's parry trait, you can grant the circumstance bonus to an adjacent ally instead of gaining it yourself. You can use multiple Interact actions to protect multiple allies, or to protect yourself and an ally. The ally benefits from the bonus to AC only when they are adjacent to you.",
+        "hints": [
+            {
+                "desc": "When you use an Interact action to gain a circumstance bonus to AC from your clan dagger's parry trait, you can grant the circumstance bonus to an adjacent ally instead of gaining it yourself. You can use multiple Interact actions to protect multiple allies, or to protect yourself and an ally. The ally benefits from the bonus to AC only when they are adjacent to you.\n\n(Your allies can apply the bonus with the Clan Protector condition.)",
+                "showon": "AC, Clan Dagger"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Your clan dagger can protect your allies as easily as yourself.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 5
+    },
+    {
+        "name": "Protective Sheath",
+        "desc": "When you lash out with your clan dagger, you keep its sheath close at hand. When you use Clan's Edge, if the hand you're not holding the dagger with is empty, you can use your clan dagger's sheath to block attacks as well. The circumstance bonus to your AC from parrying increases to a +2 against any target you hit with a Strike this turn.",
+        "hints": [
+            {
+                "desc": "When you use Clan's Edge, if the hand you're not holding the dagger with is empty, you can use your clan dagger's sheath to block attacks as well. The circumstance bonus to your AC from parrying increases to a +2 against any target you hit with a Strike this turn.",
+                "showon": "AC, Clan's Edge",
+                "effects": [
+                    {
+                        "affected": "AC",
+                        "type": "circumstance",
+                        "value": "2"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "When you lash out with your clan dagger, you keep its sheath close at hand.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Clan's Edge"
+        ]
+    },
+    {
+        "name": "Tomb-Watcher's Glare",
+        "desc": "When you critically hit an undead creature, or an undead creature critically fails a saving throw against one of your abilities, you drive your divine wrath home in your enemy's heart. The undead is enfeebled 1 for 1 round.",
+        "hints": [
+            {
+                "desc": "When you critically hit an undead creature, or an undead creature critically fails a saving throw against one of your abilities, you drive your divine wrath home in your enemy's heart. The undead is enfeebled 1 for 1 round.",
+                "showon": "Activities, Attacks"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "When you critically hit an undead creature, or an undead creature critically fails a saving throw against one of your abilities, you drive your divine wrath home in your enemy's heart.",
+        "traits": [
+            "Dwarf",
+            "Divine"
+        ],
+        "levelreq": 5,
+        "heritagereq": "death warden dwarf"
+    },
+    {
+        "name": "Battleforger",
+        "desc": "You can sharpen weapons, polish armor, and apply special techniques to temporarily gain better effects from your armaments. By spending 1 hour working on a weapon or armor, you can grant it the effects of a +1 potency rune until your next daily preparations, gaining a +1 item bonus to attack rolls for a weapon or increasing armor's item bonus to AC by 1. This has no effect if the weapon or armor already had a potency rune.",
+        "hints": [
+            {
+                "desc": "By spending 1 hour working on a weapon or armor, you can grant it the effects of a +1 potency rune until your next daily preparations, gaining a +1 item bonus to attack rolls for a weapon or increasing an armor's item bonus to AC by 1. This has no effect if the weapon or armor already had a potency rune.\n\nYour allies can take advantage of this feat by granting themselves the Battleforger condition.",
+                "showon": "Inventory"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "internalNote": "The functionality is hardcoded on weapons, armors and worn items and in the inventory component.",
+        "shortdesc": "You can sharpen weapons, polish armor, and apply special techniques to temporarily gain better effects from your armaments.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 9,
+        "skillreq": [
+            {
+                "skill": "Crafting",
+                "value": 6
+            }
+        ]
+    },
+    {
+        "name": "Energy Blessed",
+        "desc": "Energy runs through your blood more powerfully. When you use Energy Emanation, you can create an emanation of 5 feet, 10 feet, or 15 feet. The damage increases to 6d6 plus an additional 1d6 for every level you have above 9th, instead of 1d6 plus an additional 1d6 for every 2 levels above 1st.",
+        "hints": [
+            {
+                "desc": "When you use Energy Emanation, you can create an emanation of 5 feet, 10 feet, or 15 feet. The damage increases to |dice=var1| 6d6 plus an additional 1d6 for every level you have above 9th, instead of 1d6 plus an additional 1d6 for every 2 levels above 1st.",
+                "showon": "Energy Emanation",
+                "heightenedDescs": [
+                    {
+                        "level": 1,
+                        "descs": [
+                            {
+                                "value": "6d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 10,
+                        "descs": [
+                            {
+                                "value": "7d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 11,
+                        "descs": [
+                            {
+                                "value": "8d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 12,
+                        "descs": [
+                            {
+                                "value": "9d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 13,
+                        "descs": [
+                            {
+                                "value": "10d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 14,
+                        "descs": [
+                            {
+                                "value": "11d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 15,
+                        "descs": [
+                            {
+                                "value": "12d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 16,
+                        "descs": [
+                            {
+                                "value": "13d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 17,
+                        "descs": [
+                            {
+                                "value": "14d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 18,
+                        "descs": [
+                            {
+                                "value": "15d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 19,
+                        "descs": [
+                            {
+                                "value": "16d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 20,
+                        "descs": [
+                            {
+                                "value": "17d6",
+                                "variable": "var1"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Energy runs through your blood more powerfully.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 9,
+        "heritagereq": "elemental heart dwarf"
+    },
+    {
+        "name": "Heroes' Call",
+        "desc": "The songs of ancient heroes echo through your mind and quicken your pulse, especially in dire straits. You gain heroism as a 3rd-level innate occult spell that you can cast once per day. If you Cast the Spell when you have half or fewer Hit Points, you also gain temporary Hit Points equal to twice your level.",
+        "hints": [
+            {
+                "desc": "When you cast heroism as an innate spell gained through the Heroes' Call feat, and you have half or fewer Hit Points, you gain temporary Hit Points equal to twice your level.",
+                "showon": "Heroism"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "The songs of ancient heroes echo through your mind and quicken your pulse, especially in dire straits.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 9,
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "321c61e5-9a3c-40a2-afe1-01be4dff4547",
+                "level": 3,
+                "source": "Feat: Heroes' Call",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Heroism"
+                    }
+                ],
+                "tradition": "Occult"
+            }
+        ]
+    },
+    {
+        "name": "Kneel for No God",
+        "desc": "Your ancestors' defiance of magic and your people's strictly egalitarian mindset mean that certain forms of magic have little effect on you. When you use your Call on Ancient Blood reaction against a divine spell and roll a critical failure on the saving throw against that spell, you get a failure instead.",
+        "hints": [
+            {
+                "desc": "When you use your Call on Ancient Blood reaction against a divine spell and roll a critical failure on the saving throw against that spell, you get a failure instead.",
+                "showon": "Call on Ancient Blood"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "access": "Vahird ethnicity",
+        "shortdesc": "Your ancestors' defiance of magic and your people's strictly egalitarian mindset mean that certain forms of magic have little effect on you.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 9,
+        "heritagereq": "ancient-blooded dwarf"
+    },
+    {
+        "name": "Gnome Polyglot",
+        "desc": "Your extensive travels, curiosity, and love of learning help you to learn languages quickly. You learn three new languages, chosen from common languages and uncommon languages you have access to. These languages take the same form (signed or spoken) as your other languages. When you select the Multilingual feat, you learn three new languages instead of two.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "internalNote": "The bonus from the Multilingual feat is coded into the Multilingual feat.",
+        "shortdesc": "Your extensive travels, curiosity, and love of learning help you to learn languages quickly.",
+        "traits": [
+            "Gnome"
+        ],
+        "levelreq": 1,
+        "effects": [
+            {
+                "affected": "Max Languages",
+                "value": "3"
+            }
+        ]
+    },
+    {
+        "name": "Grim Insight",
+        "desc": "Others' attempts to scare you often grant you insights about your would-be bullies that you can then exploit. If you roll a success on a saving throw against a fear effect, you get a critical success instead, and the source of the fear effect is flat-footed to you until the end of your next turn.",
+        "hints": [
+            {
+                "desc": "If you roll a success on a saving throw against a fear effect, you get a critical success instead, and the source of the fear effect is flat-footed to you until the end of your next turn.",
+                "showon": "Saving Throws"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Others' attempts to scare you often grant you insights about your would-be bullies that you can then exploit.",
+        "traits": [
+            "Gnome"
+        ],
+        "levelreq": 1,
+        "heritagereq": "umbral gnome"
+    },
+    {
+        "name": "Inventive Offensive",
+        "desc": "You can jury-rig your weapons to perform in unexpected ways.",
+        "hints": [
+            {
+                "showon": "Crafting"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "You can jury-rig your weapons to perform in unexpected ways.",
+        "traits": [
+            "Gnome"
+        ],
+        "levelreq": 1,
+        "skillreq": [
+            {
+                "skill": "Crafting",
+                "value": 2
+            }
+        ],
+        "gainActivities": [
+            "Inventive Offensive"
+        ]
+    },
+    {
+        "name": "Natural Performer",
+        "desc": "Entertainment comes naturally to you. You become trained in Performance and gain one 1st-level Performance skill feat.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "usageNote": "You gain an additional level 1 skill feat. Choose a performance feat in this selection.",
+        "internalNote": "There's no such thing as 'a performance feat', only Skill feats which require training in performance.",
+        "shortdesc": "Entertainment comes naturally to you.",
+        "traits": [
+            "Gnome"
+        ],
+        "levelreq": 1,
+        "gainFeatChoice": [
+            {
+                "available": 1,
+                "level": 1,
+                "source": "Feat: Natural Performer",
+                "type": "Skill"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Performance",
+                        "source": "Natural Performer"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Vibrant Display",
+        "desc": "Whereas most gnomes' coloration is static or changes slowly, you can cause your hair, eye, and skin color to scintillate in brief and disorienting bursts. Once every 10 minutes, when you use the Feint action, you can compare your Deception check result to the Perception DCs of all adjacent creatures rather than just one creature within melee reach. It's possible to get a different degree of success for each target.\n\nThese changes are imprecise and usually short-lived, so while they allow you to periodically change your appearance in unpredictable ways, they are of little use in providing camouflage or aiding a disguise.",
+        "hints": [
+            {
+                "desc": "Once every 10 minutes, when you use the Feint action, you can compare your Deception check result to the Perception DCs of all adjacent creatures rather than just one creature within melee reach.\n\nYou can activate this cooldown with an added activity.",
+                "showon": "Deception"
+            }
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "shortdesc": "Whereas most gnomes' coloration is static or changes slowly, you can cause your hair, eye, and skin color to scintillate in brief and disorienting bursts.",
+        "traits": [
+            "Gnome"
+        ],
+        "levelreq": 1,
+        "heritagereq": "chameleon gnome",
+        "gainActivities": [
+            "Vibrant Display"
+        ]
+    }
+]

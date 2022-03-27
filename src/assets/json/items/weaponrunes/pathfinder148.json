@@ -1,0 +1,98 @@
+[
+    {
+        "name": "Kin-Warding",
+        "id": "89c636a3-8e09-11ea-9fab-e92c63c14723",
+        "desc": "A kin-warding clan dagger can deflect attacks aimed at your allies. When you use the weapon's parry trait, you can point the clan dagger at an adjacent ally instead of defending yourself, creating a shield of runes around them. The runic barrier grants your ally the weapon's circumstance bonus to AC, but you do not gain the bonus yourself.",
+        "sourceBook": "Pathfinder #148: Fires of the Haunted City",
+        "_extensionFileName": "pathfinder148",
+        "level": 3,
+        "price": 5200,
+        "traits": [
+            "Uncommon",
+            "Abjuration",
+            "Dwarf",
+            "Magical"
+        ],
+        "namereq": "Clan Dagger",
+        "usage": "etched onto a clan dagger",
+        "hints": [
+            {
+                "desc": "When you use the weapon's parry trait, you can point the clan dagger at an adjacent ally instead of defending yourself, creating a shield of runes around them. The runic barrier grants your ally the weapon's circumstance bonus to AC, but you do not gain the bonus yourself."
+            }
+        ]
+    },
+    {
+        "name": "Bloodbane",
+        "id": "89c65db3-8e09-11ea-9fab-e92c63c14723",
+        "desc": "A bloodbane clan dagger is especially vicious against the ancestral enemies of the clan. When you damage an appropriate type of creature with the weapon, that creature takes 1 persistent bleed damage. The type of creature depends on the clan that made the dagger, but is typically drow, duergar, giant, or orc.\n\nIn addition, whenever you inflict persistent bleed damage with a bloodbane weapon (whether from its innate ability or in some other way), the weapon leaves ragged wounds. The bleeding creature must succeed at a DC 25 Fortitude save or become sickened 1. The creature is then temporarily immune for 1 hour.",
+        "sourceBook": "Pathfinder #148: Fires of the Haunted City",
+        "_extensionFileName": "pathfinder148",
+        "level": 8,
+        "price": 47500,
+        "traits": [
+            "Uncommon",
+            "Dwarf",
+            "Evocation",
+            "Magical"
+        ],
+        "extraDamage": "+1 persistent bleed\n(against clan enemy)",
+        "namereq": "Clan Dagger",
+        "usage": "etched onto a clan dagger",
+        "hints": [
+            {
+                "desc": "Whenever you inflict persistent bleed damage with a bloodbane weapon, the bleeding creature must succeed at a DC 25 Fortitude save or become sickened 1. The creature is then temporarily immune for 1 hour."
+            }
+        ]
+    },
+    {
+        "name": "Bloodbane (Greater)",
+        "id": "89c65dd3-8e09-11ea-9fab-e92c63c14723",
+        "desc": "A bloodbane clan dagger is especially vicious against the ancestral enemies of the clan. When you damage an appropriate type of creature with the weapon, that creature takes 1 persistent bleed damage. The type of creature depends on the clan that made the dagger, but is typically drow, duergar, giant, or orc.\n\nIn addition, whenever you inflict persistent bleed damage with a bloodbane weapon (whether from its innate ability or in some other way), the weapon leaves ragged wounds. The bleeding creature must succeed at a DC 25 Fortitude save or become sickened 1. The creature is then temporarily immune for 1 hour.",
+        "sourceBook": "Pathfinder #148: Fires of the Haunted City",
+        "_extensionFileName": "pathfinder148",
+        "level": 13,
+        "price": 280000,
+        "subType": "Greater",
+        "subTypeDesc": "The weapon deals 1d4 bleed damage to creatures designated as the clan's enemy, and the DC of the Fortitude save to avoid becoming sickened is 30.",
+        "traits": [
+            "Uncommon",
+            "Dwarf",
+            "Evocation",
+            "Magical"
+        ],
+        "extraDamage": "+1d4 persistent bleed\n(against clan enemy)",
+        "namereq": "Clan Dagger",
+        "usage": "etched onto a clan dagger",
+        "hints": [
+            {
+                "desc": "Whenever you inflict persistent bleed damage with a bloodbane weapon, the bleeding creature must succeed at a DC 30 Fortitude save or become sickened 1. The creature is then temporarily immune for 1 hour."
+            }
+        ]
+    },
+    {
+        "name": "Ancestral Echoing",
+        "id": "89c65de3-8e09-11ea-9fab-e92c63c14723",
+        "desc": "The wisdom of this weapon's past owners flows into your mind, amplifying your own abilities with the weapon. Your proficiency rank with this weapon is one step higher than normal, to a maximum of the highest proficiency rank you have in any weapon. For instance, if you had master proficieny with martial weapons and expert proficiency with advanced weapons, you would have master proficiency with advanced weapon that had this rune.\n\nIn addition, while wielding the ancestral echoing weapon, you have expert proficiency in one Lore skill relevant to one or more of the weapon's previous owners. This is typically Dwarven Lore but is ultimately determined by the GM depending on the weapon's history.",
+        "sourceBook": "Pathfinder #148: Fires of the Haunted City",
+        "_extensionFileName": "pathfinder148",
+        "level": 15,
+        "price": 950000,
+        "traits": [
+            "Rare",
+            "Dwarf",
+            "Evocation",
+            "Magical",
+            "Saggorak"
+        ],
+        "usage": "etched onto a weapon",
+        "loreChoices": [
+            {
+                "id": "0-Skill-Ancestral Echoing Rune-0",
+                "initialIncreases": 2,
+                "loreName": "Ancestral Echoing",
+                "maxRank": 4,
+                "source": "Ancestral Echoing Rune"
+            }
+        ]
+    }
+]

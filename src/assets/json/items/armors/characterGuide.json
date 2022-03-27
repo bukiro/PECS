@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Hellknight Plate",
+        "id": "89c1c9e3-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Few armors in the Inner Sea region are as memorable as the iconic Hellknight plate. While each order has its own flourishes, Hellknight plate is instantly recognizable to any who know of the Hellknights. Hellknights go to extreme measures to punish non-Hellknights who get their hands on Hellknight plate, and the reward is not usually worth the risk, since for non-Hellknights, the armor is functionally similar to full plate.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "level": 2,
+        "bulk": "4",
+        "price": 3500,
+        "traits": [
+            "Bulwark",
+            "Uncommon"
+        ],
+        "acbonus": 6,
+        "dexcap": 0,
+        "group": "Plate",
+        "prof": "Heavy Armor",
+        "skillpenalty": -3,
+        "speedpenalty": -10,
+        "strength": 18,
+        "gainItems": [
+            {
+                "name": "Gauntlet"
+            },
+            {
+                "name": "Padded Armor",
+                "type": "armors"
+            }
+        ]
+    }
+]

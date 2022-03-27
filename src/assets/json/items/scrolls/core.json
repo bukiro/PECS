@@ -1,182 +1,202 @@
 [
     {
-        "desc": "A scroll contains a single spell that you can cast without having to expend a spell slot. A scroll can be Crafted to contain nearly any spell, so the types of scrolls available are limited only by the number of spells in the game. The exceptions are cantrips, focus spells, and rituals, none of which can be put on scrolls. The spell on a scroll can be cast only once, and the scroll is destroyed as part of the casting. The spell on the scroll is cast at a particular spell level, as determined by the scroll. For instance, a scroll of magic missile (1st level) can be used to cast the 1st-level version of magic missile, but not a magic missile heightened to 2nd level. If no level is listed, the scroll can be used to cast the spell at its lowest level.\n\nThe traits for a scroll vary based on the spell it contains. A scroll always has the consumable, magical, and scroll traits, plus the traits of the spell stored on it.",
-        "id": "0e9f7642-9130-11ea-bb37-0242ac130002",
-        "level": 1,
         "name": "1st-Level Scroll",
-        "storedSpells": [
-            {
-                "available": 1,
-                "level": 1
-            }
-        ],
+        "id": "0e9f7642-9130-11ea-bb37-0242ac130002",
+        "desc": "A scroll contains a single spell that you can cast without having to expend a spell slot. A scroll can be Crafted to contain nearly any spell, so the types of scrolls available are limited only by the number of spells in the game. The exceptions are cantrips, focus spells, and rituals, none of which can be put on scrolls. The spell on a scroll can be cast only once, and the scroll is destroyed as part of the casting. The spell on the scroll is cast at a particular spell level, as determined by the scroll. For instance, a scroll of magic missile (1st level) can be used to cast the 1st-level version of magic missile, but not a magic missile heightened to 2nd level. If no level is listed, the scroll can be used to cast the spell at its lowest level.\n\nThe traits for a scroll vary based on the spell it contains. A scroll always has the consumable, magical, and scroll traits, plus the traits of the spell stored on it.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 1,
         "price": 400,
         "traits": [
             "Consumable",
             "Magical",
             "Scroll"
-        ]
-    },
-    {
-        "desc": "A scroll contains a single spell that you can cast without having to expend a spell slot. A scroll can be Crafted to contain nearly any spell, so the types of scrolls available are limited only by the number of spells in the game. The exceptions are cantrips, focus spells, and rituals, none of which can be put on scrolls. The spell on a scroll can be cast only once, and the scroll is destroyed as part of the casting. The spell on the scroll is cast at a particular spell level, as determined by the scroll. For instance, a scroll of magic missile (1st level) can be used to cast the 1st-level version of magic missile, but not a magic missile heightened to 2nd level. If no level is listed, the scroll can be used to cast the spell at its lowest level.\n\nThe traits for a scroll vary based on the spell it contains. A scroll always has the consumable, magical, and scroll traits, plus the traits of the spell stored on it.",
-        "id": "0e9f7890-9130-11ea-bb37-0242ac130002",
-        "level": 3,
-        "name": "2nd-Level Scroll",
+        ],
         "storedSpells": [
             {
                 "available": 1,
-                "level": 2
+                "level": 1
             }
-        ],
+        ]
+    },
+    {
+        "name": "2nd-Level Scroll",
+        "id": "0e9f7890-9130-11ea-bb37-0242ac130002",
+        "desc": "A scroll contains a single spell that you can cast without having to expend a spell slot. A scroll can be Crafted to contain nearly any spell, so the types of scrolls available are limited only by the number of spells in the game. The exceptions are cantrips, focus spells, and rituals, none of which can be put on scrolls. The spell on a scroll can be cast only once, and the scroll is destroyed as part of the casting. The spell on the scroll is cast at a particular spell level, as determined by the scroll. For instance, a scroll of magic missile (1st level) can be used to cast the 1st-level version of magic missile, but not a magic missile heightened to 2nd level. If no level is listed, the scroll can be used to cast the spell at its lowest level.\n\nThe traits for a scroll vary based on the spell it contains. A scroll always has the consumable, magical, and scroll traits, plus the traits of the spell stored on it.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
         "price": 1200,
         "traits": [
             "Consumable",
             "Magical",
             "Scroll"
-        ]
-    },
-    {
-        "desc": "A scroll contains a single spell that you can cast without having to expend a spell slot. A scroll can be Crafted to contain nearly any spell, so the types of scrolls available are limited only by the number of spells in the game. The exceptions are cantrips, focus spells, and rituals, none of which can be put on scrolls. The spell on a scroll can be cast only once, and the scroll is destroyed as part of the casting. The spell on the scroll is cast at a particular spell level, as determined by the scroll. For instance, a scroll of magic missile (1st level) can be used to cast the 1st-level version of magic missile, but not a magic missile heightened to 2nd level. If no level is listed, the scroll can be used to cast the spell at its lowest level.\n\nThe traits for a scroll vary based on the spell it contains. A scroll always has the consumable, magical, and scroll traits, plus the traits of the spell stored on it.",
-        "id": "0e9f7a52-9130-11ea-bb37-0242ac130002",
-        "level": 5,
-        "name": "3rd-Level Scroll",
+        ],
         "storedSpells": [
             {
                 "available": 1,
-                "level": 3
+                "level": 2
             }
-        ],
+        ]
+    },
+    {
+        "name": "3rd-Level Scroll",
+        "id": "0e9f7a52-9130-11ea-bb37-0242ac130002",
+        "desc": "A scroll contains a single spell that you can cast without having to expend a spell slot. A scroll can be Crafted to contain nearly any spell, so the types of scrolls available are limited only by the number of spells in the game. The exceptions are cantrips, focus spells, and rituals, none of which can be put on scrolls. The spell on a scroll can be cast only once, and the scroll is destroyed as part of the casting. The spell on the scroll is cast at a particular spell level, as determined by the scroll. For instance, a scroll of magic missile (1st level) can be used to cast the 1st-level version of magic missile, but not a magic missile heightened to 2nd level. If no level is listed, the scroll can be used to cast the spell at its lowest level.\n\nThe traits for a scroll vary based on the spell it contains. A scroll always has the consumable, magical, and scroll traits, plus the traits of the spell stored on it.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 5,
         "price": 3000,
         "traits": [
             "Consumable",
             "Magical",
             "Scroll"
-        ]
-    },
-    {
-        "desc": "A scroll contains a single spell that you can cast without having to expend a spell slot. A scroll can be Crafted to contain nearly any spell, so the types of scrolls available are limited only by the number of spells in the game. The exceptions are cantrips, focus spells, and rituals, none of which can be put on scrolls. The spell on a scroll can be cast only once, and the scroll is destroyed as part of the casting. The spell on the scroll is cast at a particular spell level, as determined by the scroll. For instance, a scroll of magic missile (1st level) can be used to cast the 1st-level version of magic missile, but not a magic missile heightened to 2nd level. If no level is listed, the scroll can be used to cast the spell at its lowest level.\n\nThe traits for a scroll vary based on the spell it contains. A scroll always has the consumable, magical, and scroll traits, plus the traits of the spell stored on it.",
-        "id": "0e9f7b42-9130-11ea-bb37-0242ac130002",
-        "level": 7,
-        "name": "4th-Level Scroll",
+        ],
         "storedSpells": [
             {
                 "available": 1,
-                "level": 4
+                "level": 3
             }
-        ],
+        ]
+    },
+    {
+        "name": "4th-Level Scroll",
+        "id": "0e9f7b42-9130-11ea-bb37-0242ac130002",
+        "desc": "A scroll contains a single spell that you can cast without having to expend a spell slot. A scroll can be Crafted to contain nearly any spell, so the types of scrolls available are limited only by the number of spells in the game. The exceptions are cantrips, focus spells, and rituals, none of which can be put on scrolls. The spell on a scroll can be cast only once, and the scroll is destroyed as part of the casting. The spell on the scroll is cast at a particular spell level, as determined by the scroll. For instance, a scroll of magic missile (1st level) can be used to cast the 1st-level version of magic missile, but not a magic missile heightened to 2nd level. If no level is listed, the scroll can be used to cast the spell at its lowest level.\n\nThe traits for a scroll vary based on the spell it contains. A scroll always has the consumable, magical, and scroll traits, plus the traits of the spell stored on it.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 7,
         "price": 7000,
         "traits": [
             "Consumable",
             "Magical",
             "Scroll"
-        ]
-    },
-    {
-        "desc": "A scroll contains a single spell that you can cast without having to expend a spell slot. A scroll can be Crafted to contain nearly any spell, so the types of scrolls available are limited only by the number of spells in the game. The exceptions are cantrips, focus spells, and rituals, none of which can be put on scrolls. The spell on a scroll can be cast only once, and the scroll is destroyed as part of the casting. The spell on the scroll is cast at a particular spell level, as determined by the scroll. For instance, a scroll of magic missile (1st level) can be used to cast the 1st-level version of magic missile, but not a magic missile heightened to 2nd level. If no level is listed, the scroll can be used to cast the spell at its lowest level.\n\nThe traits for a scroll vary based on the spell it contains. A scroll always has the consumable, magical, and scroll traits, plus the traits of the spell stored on it.",
-        "id": "0e9f7c0a-9130-11ea-bb37-0242ac130002",
-        "level": 9,
-        "name": "5th-Level Scroll",
+        ],
         "storedSpells": [
             {
                 "available": 1,
-                "level": 5
+                "level": 4
             }
-        ],
+        ]
+    },
+    {
+        "name": "5th-Level Scroll",
+        "id": "0e9f7c0a-9130-11ea-bb37-0242ac130002",
+        "desc": "A scroll contains a single spell that you can cast without having to expend a spell slot. A scroll can be Crafted to contain nearly any spell, so the types of scrolls available are limited only by the number of spells in the game. The exceptions are cantrips, focus spells, and rituals, none of which can be put on scrolls. The spell on a scroll can be cast only once, and the scroll is destroyed as part of the casting. The spell on the scroll is cast at a particular spell level, as determined by the scroll. For instance, a scroll of magic missile (1st level) can be used to cast the 1st-level version of magic missile, but not a magic missile heightened to 2nd level. If no level is listed, the scroll can be used to cast the spell at its lowest level.\n\nThe traits for a scroll vary based on the spell it contains. A scroll always has the consumable, magical, and scroll traits, plus the traits of the spell stored on it.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 9,
         "price": 15000,
         "traits": [
             "Consumable",
             "Magical",
             "Scroll"
-        ]
-    },
-    {
-        "desc": "A scroll contains a single spell that you can cast without having to expend a spell slot. A scroll can be Crafted to contain nearly any spell, so the types of scrolls available are limited only by the number of spells in the game. The exceptions are cantrips, focus spells, and rituals, none of which can be put on scrolls. The spell on a scroll can be cast only once, and the scroll is destroyed as part of the casting. The spell on the scroll is cast at a particular spell level, as determined by the scroll. For instance, a scroll of magic missile (1st level) can be used to cast the 1st-level version of magic missile, but not a magic missile heightened to 2nd level. If no level is listed, the scroll can be used to cast the spell at its lowest level.\n\nThe traits for a scroll vary based on the spell it contains. A scroll always has the consumable, magical, and scroll traits, plus the traits of the spell stored on it.",
-        "id": "0e9f7dd6-9130-11ea-bb37-0242ac130002",
-        "level": 11,
-        "name": "6th-Level Scroll",
+        ],
         "storedSpells": [
             {
                 "available": 1,
-                "level": 6
+                "level": 5
             }
-        ],
+        ]
+    },
+    {
+        "name": "6th-Level Scroll",
+        "id": "0e9f7dd6-9130-11ea-bb37-0242ac130002",
+        "desc": "A scroll contains a single spell that you can cast without having to expend a spell slot. A scroll can be Crafted to contain nearly any spell, so the types of scrolls available are limited only by the number of spells in the game. The exceptions are cantrips, focus spells, and rituals, none of which can be put on scrolls. The spell on a scroll can be cast only once, and the scroll is destroyed as part of the casting. The spell on the scroll is cast at a particular spell level, as determined by the scroll. For instance, a scroll of magic missile (1st level) can be used to cast the 1st-level version of magic missile, but not a magic missile heightened to 2nd level. If no level is listed, the scroll can be used to cast the spell at its lowest level.\n\nThe traits for a scroll vary based on the spell it contains. A scroll always has the consumable, magical, and scroll traits, plus the traits of the spell stored on it.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 11,
         "price": 30000,
         "traits": [
             "Consumable",
             "Magical",
             "Scroll"
-        ]
-    },
-    {
-        "desc": "A scroll contains a single spell that you can cast without having to expend a spell slot. A scroll can be Crafted to contain nearly any spell, so the types of scrolls available are limited only by the number of spells in the game. The exceptions are cantrips, focus spells, and rituals, none of which can be put on scrolls. The spell on a scroll can be cast only once, and the scroll is destroyed as part of the casting. The spell on the scroll is cast at a particular spell level, as determined by the scroll. For instance, a scroll of magic missile (1st level) can be used to cast the 1st-level version of magic missile, but not a magic missile heightened to 2nd level. If no level is listed, the scroll can be used to cast the spell at its lowest level.\n\nThe traits for a scroll vary based on the spell it contains. A scroll always has the consumable, magical, and scroll traits, plus the traits of the spell stored on it.",
-        "id": "0e9f7ea8-9130-11ea-bb37-0242ac130002",
-        "level": 13,
-        "name": "7th-Level Scroll",
+        ],
         "storedSpells": [
             {
                 "available": 1,
-                "level": 7
+                "level": 6
             }
-        ],
+        ]
+    },
+    {
+        "name": "7th-Level Scroll",
+        "id": "0e9f7ea8-9130-11ea-bb37-0242ac130002",
+        "desc": "A scroll contains a single spell that you can cast without having to expend a spell slot. A scroll can be Crafted to contain nearly any spell, so the types of scrolls available are limited only by the number of spells in the game. The exceptions are cantrips, focus spells, and rituals, none of which can be put on scrolls. The spell on a scroll can be cast only once, and the scroll is destroyed as part of the casting. The spell on the scroll is cast at a particular spell level, as determined by the scroll. For instance, a scroll of magic missile (1st level) can be used to cast the 1st-level version of magic missile, but not a magic missile heightened to 2nd level. If no level is listed, the scroll can be used to cast the spell at its lowest level.\n\nThe traits for a scroll vary based on the spell it contains. A scroll always has the consumable, magical, and scroll traits, plus the traits of the spell stored on it.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 13,
         "price": 60000,
         "traits": [
             "Consumable",
             "Magical",
             "Scroll"
-        ]
-    },
-    {
-        "desc": "A scroll contains a single spell that you can cast without having to expend a spell slot. A scroll can be Crafted to contain nearly any spell, so the types of scrolls available are limited only by the number of spells in the game. The exceptions are cantrips, focus spells, and rituals, none of which can be put on scrolls. The spell on a scroll can be cast only once, and the scroll is destroyed as part of the casting. The spell on the scroll is cast at a particular spell level, as determined by the scroll. For instance, a scroll of magic missile (1st level) can be used to cast the 1st-level version of magic missile, but not a magic missile heightened to 2nd level. If no level is listed, the scroll can be used to cast the spell at its lowest level.\n\nThe traits for a scroll vary based on the spell it contains. A scroll always has the consumable, magical, and scroll traits, plus the traits of the spell stored on it.",
-        "id": "0e9f7f66-9130-11ea-bb37-0242ac130002",
-        "level": 15,
-        "name": "8th-Level Scroll",
+        ],
         "storedSpells": [
             {
                 "available": 1,
-                "level": 8
+                "level": 7
             }
-        ],
+        ]
+    },
+    {
+        "name": "8th-Level Scroll",
+        "id": "0e9f7f66-9130-11ea-bb37-0242ac130002",
+        "desc": "A scroll contains a single spell that you can cast without having to expend a spell slot. A scroll can be Crafted to contain nearly any spell, so the types of scrolls available are limited only by the number of spells in the game. The exceptions are cantrips, focus spells, and rituals, none of which can be put on scrolls. The spell on a scroll can be cast only once, and the scroll is destroyed as part of the casting. The spell on the scroll is cast at a particular spell level, as determined by the scroll. For instance, a scroll of magic missile (1st level) can be used to cast the 1st-level version of magic missile, but not a magic missile heightened to 2nd level. If no level is listed, the scroll can be used to cast the spell at its lowest level.\n\nThe traits for a scroll vary based on the spell it contains. A scroll always has the consumable, magical, and scroll traits, plus the traits of the spell stored on it.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 15,
         "price": 130000,
         "traits": [
             "Consumable",
             "Magical",
             "Scroll"
-        ]
-    },
-    {
-        "desc": "A scroll contains a single spell that you can cast without having to expend a spell slot. A scroll can be Crafted to contain nearly any spell, so the types of scrolls available are limited only by the number of spells in the game. The exceptions are cantrips, focus spells, and rituals, none of which can be put on scrolls. The spell on a scroll can be cast only once, and the scroll is destroyed as part of the casting. The spell on the scroll is cast at a particular spell level, as determined by the scroll. For instance, a scroll of magic missile (1st level) can be used to cast the 1st-level version of magic missile, but not a magic missile heightened to 2nd level. If no level is listed, the scroll can be used to cast the spell at its lowest level.\n\nThe traits for a scroll vary based on the spell it contains. A scroll always has the consumable, magical, and scroll traits, plus the traits of the spell stored on it.",
-        "id": "0e9f8042-9130-11ea-bb37-0242ac130002",
-        "level": 17,
-        "name": "9th-Level Scroll",
+        ],
         "storedSpells": [
             {
                 "available": 1,
-                "level": 9
+                "level": 8
             }
-        ],
+        ]
+    },
+    {
+        "name": "9th-Level Scroll",
+        "id": "0e9f8042-9130-11ea-bb37-0242ac130002",
+        "desc": "A scroll contains a single spell that you can cast without having to expend a spell slot. A scroll can be Crafted to contain nearly any spell, so the types of scrolls available are limited only by the number of spells in the game. The exceptions are cantrips, focus spells, and rituals, none of which can be put on scrolls. The spell on a scroll can be cast only once, and the scroll is destroyed as part of the casting. The spell on the scroll is cast at a particular spell level, as determined by the scroll. For instance, a scroll of magic missile (1st level) can be used to cast the 1st-level version of magic missile, but not a magic missile heightened to 2nd level. If no level is listed, the scroll can be used to cast the spell at its lowest level.\n\nThe traits for a scroll vary based on the spell it contains. A scroll always has the consumable, magical, and scroll traits, plus the traits of the spell stored on it.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 17,
         "price": 300000,
         "traits": [
             "Consumable",
             "Magical",
             "Scroll"
-        ]
-    },
-    {
-        "desc": "A scroll contains a single spell that you can cast without having to expend a spell slot. A scroll can be Crafted to contain nearly any spell, so the types of scrolls available are limited only by the number of spells in the game. The exceptions are cantrips, focus spells, and rituals, none of which can be put on scrolls. The spell on a scroll can be cast only once, and the scroll is destroyed as part of the casting. The spell on the scroll is cast at a particular spell level, as determined by the scroll. For instance, a scroll of magic missile (1st level) can be used to cast the 1st-level version of magic missile, but not a magic missile heightened to 2nd level. If no level is listed, the scroll can be used to cast the spell at its lowest level.\n\nThe traits for a scroll vary based on the spell it contains. A scroll always has the consumable, magical, and scroll traits, plus the traits of the spell stored on it.",
-        "id": "0e9f82e0-9130-11ea-bb37-0242ac130002",
-        "level": 19,
-        "name": "10th-Level Scroll",
+        ],
         "storedSpells": [
             {
                 "available": 1,
-                "level": 10
+                "level": 9
             }
-        ],
+        ]
+    },
+    {
+        "name": "10th-Level Scroll",
+        "id": "0e9f82e0-9130-11ea-bb37-0242ac130002",
+        "desc": "A scroll contains a single spell that you can cast without having to expend a spell slot. A scroll can be Crafted to contain nearly any spell, so the types of scrolls available are limited only by the number of spells in the game. The exceptions are cantrips, focus spells, and rituals, none of which can be put on scrolls. The spell on a scroll can be cast only once, and the scroll is destroyed as part of the casting. The spell on the scroll is cast at a particular spell level, as determined by the scroll. For instance, a scroll of magic missile (1st level) can be used to cast the 1st-level version of magic missile, but not a magic missile heightened to 2nd level. If no level is listed, the scroll can be used to cast the spell at its lowest level.\n\nThe traits for a scroll vary based on the spell it contains. A scroll always has the consumable, magical, and scroll traits, plus the traits of the spell stored on it.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 19,
         "price": 800000,
         "traits": [
             "Consumable",
             "Magical",
             "Scroll"
+        ],
+        "storedSpells": [
+            {
+                "available": 1,
+                "level": 10
+            }
         ]
     }
 ]

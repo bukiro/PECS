@@ -1,0 +1,274 @@
+[
+    {
+        "name": "Demon Bringers",
+        "desc": "The Mwangi Expanse is full of dangers. Of particular note are the various demons and other Abyssal creatures that roam the jungles. Many of these creatures are drawn to the Mwangi Expanse by the presence of Angazhan's or Lamashtu's might, while others are direct servitors of those faithful to the demonic. While the Mwangi Expanse is home to many demon hunters that keep these evil forces at bay, many of them work in independent groups. It's only with the combined efforts of the demon hunters that the Mwangi Expanse can be rid of this demonic presence and the people of the Mwangi Expanse can be safe.\n\nThe demon hunters among the Ekujae elves, Matanji orcs, Mwangi catfolk, Mbe'ke dwarves, and others began to join forces in their demon hunts and brought their respective gods with them. This led to the worship of a pantheon of righteous gods that both offered the might to destroy demons and the wisdom to defend others. Through the worship of Adanye, Chohar, Kazutal (in her form as Majagua), and Torag, these mighty hunters find the strength they need to make the Mwangi Expanse a safer place. While this pantheon didn't originally have a name, the local Mwangi populations eventually dubbed them the Demon Bringers, as their faithful would bring home trophies in the form of demon heads, claws, or tails. Followers of the Demon Bringers use their skills to hunt demons and other evils that lie within the Mwangi Expanse. They also help create homes and fortifications for those that can't fight, as the ultimate goal of the Demon Bringers is a safer Mwangi for all.",
+        "alignment": "Lawful Good",
+        "areasOfConcern": "protection, retribution, and keeps",
+        "category": "Pantheons",
+        "sourcebook": "Gods of the Expanse",
+        "_extensionFileName": "godsOfTheExpanse",
+        "alternateDomains": [
+            "Cities",
+            "Duty"
+        ],
+        "anathema": [
+            "exclude innocents from safe havens",
+            "intentionally destroy a shelter",
+            "allow demon summoners to live on unpunished"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Mage Armor"
+            },
+            {
+                "level": 4,
+                "name": "Creation"
+            },
+            {
+                "level": 7,
+                "name": "True Target"
+            }
+        ],
+        "divineAbility": [
+            "Strength",
+            "Constitution"
+        ],
+        "divineFont": [
+            "Heal"
+        ],
+        "divineSkill": [
+            "Survival"
+        ],
+        "domains": [
+            "Creation",
+            "Family",
+            "Might",
+            "Protection"
+        ],
+        "edicts": [
+            "create fortifications and defenses to protect those who can't protect themselves",
+            "improve your hunting abilities",
+            "seek out evils that threaten others"
+        ],
+        "favoredWeapon": [
+            "Khopesh"
+        ],
+        "followerAlignments": [
+            "Lawful Good",
+            "Neutral Good",
+            "Chaotic Good",
+            "Lawful Neutral"
+        ],
+        "pantheonMembers": [
+            "Adanye",
+            "Chohar",
+            "Kazutal",
+            "Torag"
+        ]
+    },
+    {
+        "name": "Sky Keepers",
+        "desc": "The only thing more expansive than the Mwangi jungles, mountains, and rivers are the skies that rest above them. There are many who would seek to take control of the skies and there are others who seek to keep the skies free for all. From evil spellcasters looking to wield the weather for their own wicked whims to deadly monsters that make them dangerous to travel, the skies are never truly safe. Thankfully, an unlikely alliance of gods works together to keep the skies over the Expanse safe.\n\nApsu, god of good dragons, saw how his son Dahak once tried to burn down the entirety of the Mwangi Expanse and took it upon himself to defend the skies that rest over those that put a stop to Dahak's destruction. Uvuko, the diamond ring, is a living embodiment of the Mwangi skies and valued Apsu's aid. Finally, with the recent release of Ranginori, the elemental lord took to reclaiming the skies from evildoers. When the three gods encountered each other, they formed the Pact of the Sky Keepers, dedicating themselves to both keeping the skies safe for all, but also maintaining the natural cycles and orders of the skies. The sky belongs to everyone, but ultimately, the sky has no master and attempts to force one's will upon by forcibly changing the weather or committing similar acts goes against the Pact. Followers of the Sky Keepers can be found all over Golarion, but Apsu and Uvuko's focus on the Mwangi Expanse leads to many worshippers operating in the region.",
+        "alignment": "Neutral Good",
+        "areasOfConcern": "freedom, skies, storms, weather",
+        "category": "Pantheons",
+        "sourcebook": "Gods of the Expanse",
+        "_extensionFileName": "godsOfTheExpanse",
+        "alternateDomains": [
+            "Freedom",
+            "Lightning"
+        ],
+        "anathema": [
+            "interfere with the natural phases of the sky",
+            "remove a creature's innate means to fly"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Gust of Wind"
+            },
+            {
+                "level": 4,
+                "name": "Fly"
+            },
+            {
+                "level": 9,
+                "name": "Storm of Vengeance"
+            }
+        ],
+        "divineAbility": [
+            "Dexterity",
+            "Wisdom"
+        ],
+        "divineFont": [
+            "Heal"
+        ],
+        "divineSkill": [
+            "Acrobatics"
+        ],
+        "domains": [
+            "Air",
+            "Change",
+            "Protection",
+            "Wyrmkin"
+        ],
+        "edicts": [
+            "remove anyone that would threaten those who live among the skies",
+            "encourage others to find a way to live among the clouds",
+            "honor the might of storms"
+        ],
+        "favoredWeapon": [
+            "Longbow"
+        ],
+        "followerAlignments": [
+            "Lawful Good",
+            "Neutral Good",
+            "Chaotic Good"
+        ],
+        "pantheonMembers": [
+            "Apsu",
+            "Ranginori",
+            "Uvuka"
+        ]
+    },
+    {
+        "name": "The Freeing Flame",
+        "desc": "Local stories say that the people of Vidrian had the support of the gods when the time came for revolution. Lubaiko provided the first flames of rebellion, literally igniting the first cart that led to the initial confrontation at a plantation on the outskirts of Eleder. The tales then note that the casks on the cart erupted as the first blow was struck, creating a massive explosion that woke everyone on the plantation. Many say this was Cayden Cailean's way of showing his support. As everyone stirred about and watched those first servants and slaves fight, others were fearful of the consequences. It was the touch of hope that Milani granted them that finally gave them the strength to rise up and fight for freedom.\n\nWhether or not the stories hold truth, the Freeing Flame remains a notable pantheon among the people of Vidrian today. The young nation broke free from the shackles of oppression and now looks toward bettering itself in the future, a mantra that many Vidrics and followers of the Freeing Flame follow for themselves. With the guidance of Milani, the courage of Cayden, and the inspiration of Lubaiko, a faithful can burn away maladies of the heart to become a person that is free to do as they wish, but also do so without infringing on others. Some follow these ideals to stop tyrants and liberate those that can't live freely, while others take these teachings to become independent figures with little concern of others' expectations.",
+        "alignment": "Chaotic Neutral",
+        "areasOfConcern": "liberation, toppling tyranny, and self-realization",
+        "category": "Pantheons",
+        "sourcebook": "Gods of the Expanse",
+        "_extensionFileName": "godsOfTheExpanse",
+        "alternateDomains": [
+            "Ambition",
+            "Destruction",
+            "Zeal"
+        ],
+        "anathema": [
+            "allow tyrants to escape punishment after their reign ends",
+            "enslave or oppress others",
+            "prevent others from honestly expressing themselves"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Anticipate Peril"
+            },
+            {
+                "level": 3,
+                "name": "Fireball"
+            },
+            {
+                "level": 6,
+                "name": "Mislead"
+            }
+        ],
+        "divineAbility": [
+            "Strength",
+            "Charisma"
+        ],
+        "divineFont": [
+            "Harm",
+            "Heal"
+        ],
+        "divineSkill": [
+            "Stealth"
+        ],
+        "domains": [
+            "Change",
+            "Freedom",
+            "Might",
+            "Protection"
+        ],
+        "edicts": [
+            "free others from oppression",
+            "release harmful tethers be they physical or spiritual",
+            "work toward your best self and inspire others to follow"
+        ],
+        "favoredWeapon": [
+            "Sword Cane"
+        ],
+        "followerAlignments": [
+            "Neutral Good",
+            "Chaotic Good",
+            "Neutral",
+            "Neutral Good"
+        ],
+        "pantheonMembers": [
+            "Cayden Cailean",
+            "Lubaiko",
+            "Milani"
+        ]
+    },
+    {
+        "name": "Touch of the Sun",
+        "desc": "Legends state that Chohar, Luhar, and Tlehar were the first sun-kings of Mzali, building the city as a safe haven for the people of the Expanse. Their might, leadership, and kindness earned them a place among the heavens, transforming them into the sun gods of Mzali. As gods, they met Sarenrae, another goddess of the sun, and for a time, all four worked together to help the people of Golarion. Eventually, whether intentionally or otherwise, the people of Mzali forgot their sun gods. The sun gods watched as the people of Mzali forgot prayers and songs to their former gods. The sun gods wept because their people could no longer see or hear them, but Sarenrae offered them words of encouragement: there would be a time when people remembered the sun gods once more.\n\nThanks to the efforts of the Bright Lions of Mzali, worship of the sun gods has returned to the Mwangi Expanse. While the sun gods appreciate this renewed faith, they did not forget Sarenrae's kindness. When asked about their disappearance, the sun gods merely state they were biding their time alongside a friend. This friendship led to the worship of the three sun gods alongside Sarenrae as a greater sun pantheon. The collective sun gods teach that kindness and second chances are pivotal values. They also note that sometimes a person needs to change into someone new before they are truly themselves and instruct that helping others with these changes is akin to helping bring new life into the world. The four gods know that there might be other forgotten gods and peoples out there that just need some kindness to make it through their period of turmoil, so they ask their worshippers to help these forgotten in whatever way they can. Finally, the sun gods make it clear that lost or abandoned gods can still find companionship among the divine and welcome these gods to join their ranks.",
+        "alignment": "Neutral Good",
+        "areasOfConcern": "compassion, rebirth, and the sun",
+        "category": "Pantheons",
+        "sourcebook": "Gods of the Expanse",
+        "_extensionFileName": "godsOfTheExpanse",
+        "alternateDomains": [
+            "Change",
+            "Vigil",
+            "Zeal"
+        ],
+        "anathema": [
+            "challenge the sun",
+            "ignore the pleas of others when you are able to help",
+            "refuse to give someone else a chance to offer their truth"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Soothe"
+            },
+            {
+                "level": 2,
+                "name": "False Life"
+            },
+            {
+                "level": 7,
+                "name": "Fiery Body"
+            }
+        ],
+        "divineAbility": [
+            "Constitution",
+            "Wisdom"
+        ],
+        "divineFont": [
+            "Heal"
+        ],
+        "divineSkill": [
+            "Diplomacy"
+        ],
+        "domains": [
+            "Family",
+            "Healing",
+            "Passion",
+            "Sun"
+        ],
+        "edicts": [
+            "help others with changes that can improve their lives",
+            "mind those that others forget or exclude",
+            "offer second chances",
+            "stand up for others when they can't stand for themselves"
+        ],
+        "favoredWeapon": [
+            "Rapier"
+        ],
+        "followerAlignments": [
+            "Lawful Good",
+            "Neutral Good",
+            "Chaotic Good",
+            "Lawful Neutral"
+        ],
+        "pantheonMembers": [
+            "Chohar",
+            "Luhar",
+            "Sarenrae",
+            "Tlehar"
+        ]
+    }
+]

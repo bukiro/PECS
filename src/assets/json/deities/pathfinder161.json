@@ -1,0 +1,63 @@
+[
+    {
+        "name": "Ravithra",
+        "desc": "The Mother of Nagas, the Karmic Pillar, and the Chalice-Bearer of the danavas, Ravithra was decapitated and brought low by treachery. She grants boons only to mortal champions who seek to topple the treacherous and to restore her to her rightful role.",
+        "alignment": "Lawful Neutral",
+        "category": "Other",
+        "nickname": "The Mother of Nagas",
+        "sourcebook": "Pathfinder #161: Belly of the Black Whale",
+        "_extensionFileName": "pathfinder161",
+        "alternateDomains": [
+            "Ambition",
+            "Soul"
+        ],
+        "anathema": [
+            "make decisions erratically or randomly",
+            "provide aid to Vasaghati or her followers",
+            "engage in treachery"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Charm"
+            },
+            {
+                "level": 2,
+                "name": "Animal Form",
+                "note": "snake only"
+            },
+            {
+                "level": 4,
+                "name": "Clairvoyance"
+            }
+        ],
+        "divineFont": [
+            "Harm"
+        ],
+        "divineSkill": [
+            "Occultism"
+        ],
+        "domains": [
+            "Fate",
+            "Naga",
+            "Sorrow",
+            "Truth"
+        ],
+        "edicts": [
+            "enforce karma's pitiless judgment",
+            "shame fools",
+            "kill traitors",
+            "pursue the Chalice of Amrit"
+        ],
+        "favoredWeapon": [
+            "Jaws",
+            "Light Mace"
+        ],
+        "followerAlignments": [
+            "Lawful Good",
+            "Lawful Neutral",
+            "Neutral",
+            "Lawful Evil"
+        ]
+    }
+]

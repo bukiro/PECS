@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Juggle",
+        "desc": "You can Juggle items and still use your hands between tosses. You can use the Juggle action in several ways.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "shortdesc": "You can Juggle items and still use your hands between tosses.",
+        "traits": [
+            "Uncommon",
+            "Concentrate",
+            "General",
+            "Manipulate",
+            "Skill"
+        ],
+        "levelreq": 2,
+        "abilityreq": [
+            {
+                "ability": "Dexterity",
+                "value": 16
+            }
+        ],
+        "skillreq": [
+            {
+                "skill": "Performance",
+                "value": 2
+            }
+        ],
+        "gainActivities": [
+            "Juggle"
+        ]
+    }
+]

@@ -1,0 +1,76 @@
+[
+    {
+        "name": "Cave Gecko Jaws",
+        "displayName": "Jaws",
+        "id": "86f3aeb0-6f59-43ed-9112-ea2e677b84a8",
+        "sourceBook": "Pathfinder #154: Siege of the Dinosaurs",
+        "_extensionFileName": "pathfinder154",
+        "hide": true,
+        "traits": [
+            "Companion",
+            "Finesse",
+            "Unarmed"
+        ],
+        "dmgType": "P",
+        "group": "Brawling",
+        "melee": 5,
+        "moddable": false,
+        "prof": "Unarmed Attacks"
+    },
+    {
+        "name": "Cave Pterosaur Beak",
+        "displayName": "Beak",
+        "id": "d013d54d-3638-4d1a-9075-db37d66fe844",
+        "sourceBook": "Pathfinder #154: Siege of the Dinosaurs",
+        "_extensionFileName": "pathfinder154",
+        "hide": true,
+        "traits": [
+            "Companion",
+            "Finesse",
+            "Unarmed"
+        ],
+        "dmgType": "P",
+        "group": "Brawling",
+        "melee": 5,
+        "moddable": false,
+        "prof": "Unarmed Attacks"
+    },
+    {
+        "name": "Cave Pterosaur Talon",
+        "displayName": "Talon",
+        "id": "57b96128-d269-460c-9290-83a082f349a3",
+        "sourceBook": "Pathfinder #154: Siege of the Dinosaurs",
+        "_extensionFileName": "pathfinder154",
+        "hide": true,
+        "traits": [
+            "Agile",
+            "Companion",
+            "Finesse",
+            "Unarmed"
+        ],
+        "dicesize": 4,
+        "dmgType": "S",
+        "group": "Brawling",
+        "melee": 5,
+        "moddable": false,
+        "prof": "Unarmed Attacks"
+    },
+    {
+        "name": "Monitor Lizard Jaws",
+        "displayName": "Jaws",
+        "id": "09e14bcd-c5fc-401f-81b4-14920e6eb33d",
+        "sourceBook": "Pathfinder #154: Siege of the Dinosaurs",
+        "_extensionFileName": "pathfinder154",
+        "hide": true,
+        "traits": [
+            "Companion",
+            "Unarmed"
+        ],
+        "dicesize": 8,
+        "dmgType": "P",
+        "group": "Brawling",
+        "melee": 5,
+        "moddable": false,
+        "prof": "Unarmed Attacks"
+    }
+]

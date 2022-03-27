@@ -1,0 +1,72 @@
+[
+    {
+        "name": "Ringmaster's Introduction",
+        "desc": "Your ally has announced you with a litany of your legendary achievements, spurring you to action. You are quickened this turn and can spend the extra action to Stride, Strike, Demoralize, Feint, or Perform.",
+        "sourceBook": "Pathfinder #156: The Apocalypse Prophet",
+        "_extensionFileName": "pathfinder156",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 5
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You are quickened this turn and can spend the extra action to Stride, Strike, Demoralize, Feint, or Perform.",
+                "showon": "Movement, Attacks, Intimidation, Deception, Performance"
+            }
+        ],
+        "gainConditions": [
+            {
+                "name": "Quickened"
+            }
+        ]
+    },
+    {
+        "name": "Ringmaster's Introduction (Originator)",
+        "desc": "You have announced the triggering ally with a litany of their legendary achievements, spurring them to action. The target is quickened this turn and can spend the extra action to Stride, Strike, Demoralize, Feint, or Perform.",
+        "sourceBook": "Pathfinder #156: The Apocalypse Prophet",
+        "_extensionFileName": "pathfinder156",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 5
+            }
+        ],
+        "unlimited": true
+    },
+    {
+        "name": "Verdant Presence",
+        "desc": "Small plants or fungi magically appear on all surfaces in a 60-foot emanation around you. This life withers after 1 day unless the environment can support it. You can choose one of the following options each time you use this feat.\n\nYou can cause any number of 5-foot squares in the area to be light undergrowth, which is difficult terrain and provides lesser cover.\nYou can cause a tree or giant mushroom to appear in any unoccupied location in the area; it occupies an entire 5-foot square and provides standard cover. The tree or mushroom has 5 Hardness and 50 Hit Points.",
+        "sourceBook": "Pathfinder #156: The Apocalypse Prophet",
+        "_extensionFileName": "pathfinder156",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 144000
+            }
+        ],
+        "unlimited": true,
+        "hints": [
+            {
+                "desc": "(Light Undergrowth) Any number of 5-foot squares in the area are light undergrowth, which is difficult terrain and provides lesser cover.\n\n(Tree or Giant Mushroom) The tree or mushroom occupies an entire 5-foot square and provides standard cover. It has 5 Hardness and 50 Hit Points.",
+                "showon": "Defense, Movement"
+            }
+        ],
+        "choice": "Undergrowth",
+        "choices": [
+            {
+                "name": "Light undergrowth"
+            },
+            {
+                "name": "Tree or Giant Mushroom"
+            }
+        ]
+    }
+]

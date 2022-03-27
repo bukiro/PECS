@@ -1,0 +1,747 @@
+[
+    {
+        "name": "Avenge in Glory",
+        "desc": "You honor your ally's life, gaining temporary Hit Points equal to your level for the duration. As long as you have these temporary Hit Points, you gain a +1 circumstance bonus to attack and damage rolls.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Attack Rolls",
+                "type": "circumstance",
+                "value": "Temporary_HP('',effect.sourceId) ? 1 : 0"
+            },
+            {
+                "affected": "Damage Rolls",
+                "type": "circumstance",
+                "value": "Temporary_HP('',effect.sourceId) ? 1 : 0"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "Level"
+            }
+        ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "-Temporary_HP('',effect.sourceId)"
+            }
+        ]
+    },
+    {
+        "name": "Brightness Seeker",
+        "desc": "You have studied your surroundings in search of omens related to a particular course of action and cast augury. Unless the result of the augury was \"nothing,\" you gain the Call Upon the Brightness reaction for the duration.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 3000
+            }
+        ],
+        "inputRequired": "If the result of the augury was \"nothing,\" remove the condition.",
+        "gainActivities": [
+            {
+                "name": "Call Upon the Brightness"
+            }
+        ]
+    },
+    {
+        "name": "Call Upon the Brightness",
+        "desc": "You attempt an attack roll, skill check, or saving throw while performing the course of action from your augury. You gain a +1 status bonus to the triggering check, or a +2 status bonus if the result of the augury was \"woe\" and you proceeded anyway.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "hide": true,
+        "inputRequired": "Remove the condition after you apply the bonus to the triggering attack roll, skill check, or saving throw.",
+        "choice": "Other",
+        "choices": [
+            {
+                "name": "Other"
+            },
+            {
+                "name": "Woe"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Attack Rolls",
+                "type": "status",
+                "value": "Choice == 'Woe' ? 2 : 1"
+            },
+            {
+                "affected": "Skill Checks",
+                "type": "status",
+                "value": "Choice == 'Woe' ? 2 : 1"
+            },
+            {
+                "affected": "Saving Throws",
+                "type": "status",
+                "value": "Choice == 'Woe' ? 2 : 1"
+            }
+        ]
+    },
+    {
+        "name": "Clan Protector",
+        "desc": "Your ally's clan dagger protects you, granting you a +1 circumstance bonus to AC. You benefit from this bonus to AC only when you are adjacent to the parrying ally.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "inputRequired": "Remove this condition if you are no longer adjacent to your ally.",
+        "effects": [
+            {
+                "affected": "AC",
+                "type": "circumstance",
+                "value": "1"
+            }
+        ]
+    },
+    {
+        "name": "Clan's Edge",
+        "desc": "By moving your clan dagger with rapid precision, you can protect yourself more effectively. You gain the +1 circumstance bonus to your AC from your clan dagger's parrying trait.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "effects": [
+            {
+                "affected": "AC",
+                "type": "circumstance",
+                "value": "1"
+            }
+        ]
+    },
+    {
+        "name": "Envenom Fangs",
+        "desc": "You have envenomed your fangs. If the next fangs Strike you make before the end of your next turn hits and deals damage, the Strike deals an additional 1d6 poison damage. On a critical failure, the poison is wasted as normal.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 15
+            }
+        ],
+        "inputRequired": "After a fangs Strike hits and deals damage, or critically fails, remove the condition.",
+        "hints": [
+            {
+                "desc": "If the next fangs Strike you make before the end of your next turn hits and deals damage, the Strike deals an additional |dice=1d6 Poison| 1d6 poison damage. On a critical failure, the poison is wasted as normal.",
+                "showon": "Attacks, Lizardfolk Fangs"
+            }
+        ]
+    },
+    {
+        "name": "Everstand Stance",
+        "desc": "When in this stance, you wield the shield with both hands. When wielding a shield this way, increase the weapon damage die of the shield's boss or spikes by one step, and increase the shield's Hardness by 2 when using the Shield Block reaction.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You wield the shield with both hands. Increase the shield's Hardness by 2 when using the Shield Block reaction.",
+                "showon": "Attacks, Shield, Shield Block"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Shield Boss Dice Number",
+                "value": "1"
+            },
+            {
+                "affected": "Shield Spikes Dice Number",
+                "value": "1"
+            }
+        ]
+    },
+    {
+        "name": "Freeze It! Immunity",
+        "desc": "You cannot be affected by the Freeze It! activity for the duration.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ]
+    },
+    {
+        "name": "Hungry Goblin",
+        "desc": "You gain temporary Hit Points equal to half your level for the duration.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "Math.floor(Level / 2)"
+            }
+        ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "-Temporary_HP('',effect.sourceId)"
+            }
+        ]
+    },
+    {
+        "name": "Impassable Wall Stance",
+        "desc": "You refuse to let foes past your guard. As long as you are in this stance, when you critically hit with an Attack of Opportunity triggered by a move action, you disrupt that move action.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ],
+        "hints": [
+            {
+                "desc": "When you critically hit with an Attack of Opportunity triggered by a move action, you disrupt that move action.",
+                "showon": "Attacks, Attack of Opportunity, Attack of Opportunity (Fighter)"
+            }
+        ]
+    },
+    {
+        "name": "Inventive Offensive",
+        "desc": "You have jury-rigged your weapon to perform in unexpected ways. You add one of the following weapon traits to a melee weapon you wield: deadly d6, disarm, nonlethal, shove, trip, versatile B, versatile P, or versatile S. You cannot add a trait that the weapon already has. The weapon retains this trait until you successfully hit and deal damage with the weapon. The weapon retains this trait only while you wield it, and you can have only one weapon modified in this way at any time.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ],
+        "unlimited": true,
+        "inputRequired": "Remove the condition once you successfully hit and deal damage with the weapon.",
+        "hints": [
+            {
+                "desc": "One melee weapon you wield has the Deadly d6 trait.",
+                "showon": "Attacks",
+                "effects": [
+                    {
+                        "affected": "Melee Weapons Gain Trait",
+                        "title": "'Deadly d6'",
+                        "toggle": true
+                    }
+                ],
+                "conditionChoiceFilter": [
+                    "Deadly d6"
+                ]
+            },
+            {
+                "desc": "One melee weapon you wield has the Disarm trait.",
+                "showon": "Attacks, Athletics",
+                "effects": [
+                    {
+                        "affected": "Melee Weapons Gain Trait",
+                        "title": "'Disarm'",
+                        "toggle": true
+                    }
+                ],
+                "conditionChoiceFilter": [
+                    "Disarm"
+                ]
+            },
+            {
+                "desc": "One melee weapon you wield has the Nonlethal trait.",
+                "showon": "Attacks",
+                "effects": [
+                    {
+                        "affected": "Melee Weapons Gain Trait",
+                        "title": "'Nonlethal'",
+                        "toggle": true
+                    }
+                ],
+                "conditionChoiceFilter": [
+                    "Nonlethal"
+                ]
+            },
+            {
+                "desc": "One melee weapon you wield has the Shove trait.",
+                "showon": "Attacks, Athletics",
+                "effects": [
+                    {
+                        "affected": "Melee Weapons Gain Trait",
+                        "title": "'Shove'",
+                        "toggle": true
+                    }
+                ],
+                "conditionChoiceFilter": [
+                    "Shove"
+                ]
+            },
+            {
+                "desc": "One melee weapon you wield has the Trip trait.",
+                "showon": "Attacks, Athletics",
+                "effects": [
+                    {
+                        "affected": "Melee Weapons Gain Trait",
+                        "title": "'Trip'",
+                        "toggle": true
+                    }
+                ],
+                "conditionChoiceFilter": [
+                    "Trip"
+                ]
+            },
+            {
+                "desc": "One melee weapon you wield has the Versatile B trait.",
+                "showon": "Attacks",
+                "effects": [
+                    {
+                        "affected": "Melee Weapons Gain Trait",
+                        "title": "'Versatile B'",
+                        "toggle": true
+                    }
+                ],
+                "conditionChoiceFilter": [
+                    "Versatile B"
+                ]
+            },
+            {
+                "desc": "One melee weapon you wield has the Versatile P trait.",
+                "showon": "Attacks",
+                "effects": [
+                    {
+                        "affected": "Melee Weapons Gain Trait",
+                        "title": "'Versatile P'",
+                        "toggle": true
+                    }
+                ],
+                "conditionChoiceFilter": [
+                    "Versatile P"
+                ]
+            },
+            {
+                "desc": "One melee weapon you wield has the Versatile S trait.",
+                "showon": "Attacks",
+                "effects": [
+                    {
+                        "affected": "Melee Weapons Gain Trait",
+                        "title": "'Versatile S'",
+                        "toggle": true
+                    }
+                ],
+                "conditionChoiceFilter": [
+                    "Versatile S"
+                ]
+            }
+        ],
+        "choice": "Deadly d6",
+        "choices": [
+            {
+                "name": "Deadly d6"
+            },
+            {
+                "name": "Disarm"
+            },
+            {
+                "name": "Nonlethal"
+            },
+            {
+                "name": "Shove"
+            },
+            {
+                "name": "Trip"
+            },
+            {
+                "name": "Versatile B"
+            },
+            {
+                "name": "Versatile P"
+            },
+            {
+                "name": "Versatile S"
+            }
+        ]
+    },
+    {
+        "name": "Resist Elf Magic",
+        "desc": "Your ancestral resistance to magic protects you. You gain a +1 circumstance bonus to the triggering saving throw. If the triggering effect is arcane, you gain a +2 circumstance bonus instead.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "hide": true,
+        "choices": [
+            {
+                "name": "-"
+            },
+            {
+                "name": "Arcane effect"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Saving Throws",
+                "type": "circumstance",
+                "value": "Choice == 'Arcane effect' ? 2 : 1"
+            }
+        ]
+    },
+    {
+        "name": "Saoc Astrology",
+        "desc": "You recall the stars' predictions about your current situation. You gain a circumstance bonus or take a circumstance penalty to the first skill check of your next action based on a 1d8 roll. On a result of 6, 7, or 8, you gain a +2 circumstance bonus. On a 3, 4, or 5, you gain a +1 circumstance bonus. On a 2, you gain nothing. On a 1, you take a -1 circumstance penalty to the skill check.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "hide": true,
+        "choice": "no effect",
+        "choices": [
+            {
+                "name": "-1 penalty"
+            },
+            {
+                "name": "no effect"
+            },
+            {
+                "name": "+1 bonus"
+            },
+            {
+                "name": "+2 bonus"
+            },
+            {
+                "name": "+3 bonus"
+            },
+            {
+                "name": "+4 bonus"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Skill Checks",
+                "type": "circumstance",
+                "value": "Choice == '-1 penalty' ? -1 : 0"
+            },
+            {
+                "affected": "Skill Checks",
+                "type": "circumstance",
+                "value": "Choice == '+1 bonus' ? 1 : 0"
+            },
+            {
+                "affected": "Skill Checks",
+                "type": "circumstance",
+                "value": "Choice == '+2 bonus' ? 2 : 0"
+            },
+            {
+                "affected": "Skill Checks",
+                "type": "circumstance",
+                "value": "Choice == '+3 bonus' ? 3 : 0"
+            },
+            {
+                "affected": "Skill Checks",
+                "type": "circumstance",
+                "value": "Choice == '+4 bonus' ? 4 : 0"
+            }
+        ]
+    },
+    {
+        "name": "Scalding Spit",
+        "desc": "You gain a boiling spit ranged unarmed attack with a range of 30 feet that deals 1d6 fire damage.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Boiling Spit Attack",
+                "type": "weapons"
+            }
+        ]
+    },
+    {
+        "name": "Shadow Pact",
+        "desc": "You have mixed blood and shadows to cast 5th-level creation as an innate divine spell. You lose 1 HP. You can have only one such object in existence at a time. If the object encounters bright light, the spell ends and the object dissolves into shadows.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 6000
+            }
+        ],
+        "inputRequired": "If the object encounters bright light, remove the condition.",
+        "onceEffects": [
+            {
+                "affected": "HP",
+                "value": "-1"
+            }
+        ],
+        "gainConditions": [
+            {
+                "heightened": 5,
+                "name": "Creation"
+            }
+        ]
+    },
+    {
+        "name": "Shed Tail",
+        "desc": "You have shed your tail to escape from being grabbed. For the duration of the condition, you can't use your tail unarmed attack, and you take a -2 circumstance penalty on checks to Balance.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": 1008000
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You can't use your tail unarmed attack.",
+                "showon": "Attacks, Lizardfolk Tail"
+            },
+            {
+                "desc": "You take a -2 circumstance penalty on checks to Balance.",
+                "showon": "Acrobatics",
+                "effects": [
+                    {
+                        "affected": "Acrobatics",
+                        "type": "circumstance",
+                        "value": "-2"
+                    }
+                ]
+            }
+        ],
+        "attackRestrictions": [
+            {
+                "excluding": true,
+                "name": "Lizardfolk Tail"
+            }
+        ]
+    },
+    {
+        "name": "Sinister Knight Rune",
+        "desc": "While the sinister knight armor's disguise is active, any identifying insignia or aesthetic of the armor is replaced by generic malevolent aesthetics such as spikes or demonic faces. While in the disguise, the wearer is always considered to be taking precautions against lifesense, and even a creature that successfully notices the wearer with its lifesense mistakes the wearer for an undead unless it critically succeeds at its Perception check or the wearer critically fails a Deception or Stealth check. Finally, while in the disguise, the rune attempts to counteract any effects that would reveal your alignment; on a successful counteract check, rather than negate the effect, the rune causes the effect to perceive your alignment as evil (maintaining any lawful or chaotic component of your alignment).\n\nThe wearer can Dismiss the disguise, and if the wearer's armor is removed, the disguise deactivates automatically.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ]
+    },
+    {
+        "name": "Torch Goblin",
+        "desc": "As long as you are suffering persistent fire damage, all your melee attacks against adjacent creatures deal an additional 1 fire damage per weapon damage die. Any creature that successfully Grapples, Shoves, or Trips you takes 1d6 fire damage; if it uses a weapon for that action, the weapon takes the damage instead. You must still attempt the flat check to remove the persistent fire damage each round, as normal.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 0
+            }
+        ],
+        "inputRequired": "When you extinguish the fire, remove this condition.",
+        "hints": [
+            {
+                "desc": "As long as you are suffering persistent fire damage, all your melee attacks against adjacent creatures deal an additional |dice=1 Fire| 1 fire damage per weapon damage die.",
+                "showon": "Attacks"
+            },
+            {
+                "desc": "As long as you are suffering persistent fire damage, any creature that successfully Grapples, Shoves, or Trips you takes |dice=1d6 Fire| 1d6 fire damage; if it uses a weapon for that action, the weapon takes the damage instead.",
+                "showon": "Fortitude, Reflex"
+            }
+        ],
+        "gainConditions": [
+            {
+                "choice": "1d6 Fire",
+                "name": "Persistent Damage"
+            },
+            {
+                "activationPrerequisite": "Has_Feat(Creature.type, 'Scalding Spit') ? 1 : 0",
+                "name": "Scalding Spit"
+            }
+        ]
+    },
+    {
+        "name": "Tupilaq Carver",
+        "desc": "You have included a drop of blood, lock of hair, or other portion of a creature's body as part of casting summon construct. The summoned construct gains a +4 status bonus to Perception checks to sense or locate that creature.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ],
+        "inputRequired": "Remove the condition after the summoning ends.",
+        "hints": [
+            {
+                "desc": "The summoned construct gains a +4 status bonus to Perception checks to sense or locate the designated creature.",
+                "showon": "Spellbook"
+            }
+        ]
+    },
+    {
+        "name": "Unseen Lizardfolk",
+        "desc": "Your skin color has changed to help you blend into your surroundings. This grants you a +2 circumstance bonus to Stealth checks until your surroundings change in coloration or pattern.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Stealth",
+                "type": "circumstance",
+                "value": "2"
+            }
+        ]
+    },
+    {
+        "name": "Lastwall Soup",
+        "desc": "A bowl of Lastwall soup is as nourishing as a full meal. In addition, for 1 hour after consuming a bowl of Lastwall soup, you gain a +2 item bonus to Stealth checks and DCs against undead.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "alchemicalelixirs",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 6000
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You gain a +2 item bonus to Stealth checks and DCs against undead.",
+                "showon": "Stealth",
+                "effects": [
+                    {
+                        "affected": "Stealth",
+                        "type": "item",
+                        "value": "2"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Battleforger",
+        "desc": "Your ally can sharpen weapons, polish armor, and apply special techniques to temporarily gain better effects from armaments. By spending 1 hour working on a weapon or armor, they can grant it the effects of a +1 potency rune until your next daily preparations, gaining a +1 item bonus to attack rolls for a weapon or increasing armor's item bonus to AC by 1. This has no effect if the weapon or armor already had a potency rune.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "feats",
+        "sortLevel": 0,
+        "buff": true,
+        "inputRequired": "While this condition is active, you can apply the Battleforged property to your weapons and armor.",
+        "effects": [
+            {
+                "affected": "Allow Battleforger",
+                "toggle": true
+            }
+        ]
+    },
+    {
+        "name": "Snapleaf",
+        "desc": "You gain the benefits of feather fall and a 2nd-level invisibility spell for the duration or until you stop falling, whichever comes first.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "type": "talismans",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "inputRequired": "Remove this condition when you stop falling.",
+        "gainConditions": [
+            {
+                "heightened": 2,
+                "name": "Invisibility"
+            },
+            {
+                "name": "Feather Fall"
+            }
+        ]
+    }
+]

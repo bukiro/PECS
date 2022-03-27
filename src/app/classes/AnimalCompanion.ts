@@ -5,7 +5,6 @@ import { AbilityBoost } from 'src/app/classes/AbilityBoost';
 import { AnimalCompanionLevel } from 'src/app/classes/AnimalCompanionLevel';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
 import { CharacterService } from 'src/app/services/character.service';
-import { EffectsService } from 'src/app/services/effects.service';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
@@ -65,7 +64,7 @@ export class AnimalCompanion extends Creature {
     }
     set_Level(characterService: CharacterService) {
         //Get all taken feats at this character level that grow the animal companion, then set the companion level to the highest option (or 1).
-        //Level 3 is a placeholder, Levels 4 and 5 are Nimble and Savage - 
+        //Level 3 is a placeholder, and all levels after that are advanded options.
         //  when you take a feat with gainAnimalCompanion other than "Young", "Mature" or "Specialized", level 3 gets replaced with that level.
         //  That means that level 3 is the highest we need to go, as Nimble, Savage or other advanced options will be placed there.
         let character = characterService.get_Character();
@@ -87,7 +86,7 @@ export class AnimalCompanion extends Creature {
         if (advancedOption && (this.class.levels[3].name != advancedOption)) {
             this.class.levels[3] = Object.assign(new AnimalCompanionLevel(), this.class.levels.find(level => level.name == advancedOption)).recast();
             this.class.levels[3].number = 3;
-        } else if (!advancedOption && (this.class.levels[2].name != "Placeholder")) {
+        } else if (!advancedOption && (this.class.levels[3].name != "Placeholder")) {
             this.class.levels[3] = new AnimalCompanionLevel();
             this.class.levels[3].number = 3;
             this.class.levels[3].name = "Placeholder";

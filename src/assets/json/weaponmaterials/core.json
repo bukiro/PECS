@@ -1,181 +1,178 @@
 [
     {
         "name": "Cold Iron (Low-Grade)",
+        "desc": "Cold iron weapons deal additional damage to creatures with weakness to cold iron, like demons and fey.\n\nLow-grade items can be used in the creation of magic items of up to 8th level, and they can hold runes of up to 8th level.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 2,
         "price": 4000,
         "bulkPrice": 400,
-        "desc": "Cold iron weapons deal additional damage to creatures with weakness to cold iron, like demons and fey.\n\nLow-grade items can be used in the creation of magic items of up to 8th level, and they can hold runes of up to 8th level.",
+        "craftingRequirement": 4,
         "craftRequirement": "at least 20 sp of cold iron + 2 sp per Bulk",
-        "runeLimit": 8,
-        "craftingRequirement": 4
+        "runeLimit": 8
     },
     {
         "name": "Silver (Low-Grade)",
+        "desc": "Silver weapons deal additional damage to creatures with weakness to silver, like werewolves, and ignore the resistances of some other creatures, like devils.\n\nLow-grade items can be used in the creation of magic items of up to 8th level, and they can hold runes of up to 8th level.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 2,
         "price": 4000,
         "bulkPrice": 400,
-        "desc": "Silver weapons deal additional damage to creatures with weakness to silver, like werewolves, and ignore the resistances of some other creatures, like devils.\n\nLow-grade items can be used in the creation of magic items of up to 8th level, and they can hold runes of up to 8th level.",
+        "craftingRequirement": 4,
         "craftRequirement": "at least 20 sp of silver + 2 sp per Bulk",
-        "runeLimit": 8,
-        "craftingRequirement": 4
+        "runeLimit": 8
     },
     {
         "name": "Cold Iron (Standard-Grade)",
+        "desc": "Cold iron weapons deal additional damage to creatures with weakness to cold iron, like demons and fey.\n\nStandard-grade items can be used to create magic items of up to 15th level and can hold runes of up to 15th level.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 10,
         "price": 88000,
         "bulkPrice": 8800,
-        "desc": "Cold iron weapons deal additional damage to creatures with weakness to cold iron, like demons and fey.\n\nStandard-grade items can be used to create magic items of up to 15th level and can hold runes of up to 15th level.",
+        "craftingRequirement": 6,
         "craftRequirement": "at least 110 gp of cold iron + 11 gp per Bulk",
-        "runeLimit": 15,
-        "craftingRequirement": 6
+        "runeLimit": 15
     },
     {
         "name": "Silver (Standard-Grade)",
+        "desc": "Silver weapons deal additional damage to creatures with weakness to silver, like werewolves, and ignore the resistances of some other creatures, like devils.\n\nStandard-grade items can be used to create magic items of up to 15th level and can hold runes of up to 15th level.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 10,
         "price": 88000,
         "bulkPrice": 8800,
-        "desc": "Silver weapons deal additional damage to creatures with weakness to silver, like werewolves, and ignore the resistances of some other creatures, like devils.\n\nStandard-grade items can be used to create magic items of up to 15th level and can hold runes of up to 15th level.",
+        "craftingRequirement": 6,
         "craftRequirement": "at least 110 gp of silver + 11 gp per Bulk",
-        "runeLimit": 15,
-        "craftingRequirement": 6
+        "runeLimit": 15
     },
     {
         "name": "Adamantine (Standard-Grade)",
+        "desc": "Adamantine weapons have a shiny black appearance and cut through lesser items with ease. They treat any object they hit as if it had half as much Hardness as usual, unless the object's Hardness is greater than that of the adamantine weapon.\n\nStandard-grade items can be used to create magic items of up to 15th level and can hold runes of up to 15th level.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 11,
         "price": 140000,
-        "bulkPrice": 14000,
-        "desc": "Adamantine weapons have a shiny black appearance and cut through lesser items with ease. They treat any object they hit as if it had half as much Hardness as usual, unless the object's Hardness is greater than that of the adamantine weapon.\n\nStandard-grade items can be used to create magic items of up to 15th level and can hold runes of up to 15th level.",
         "traits": [
             "Uncommon"
         ],
+        "bulkPrice": 14000,
+        "craftingRequirement": 6,
         "craftRequirement": "at least 175 gp of adamantine + 17.5 gp per Bulk",
-        "runeLimit": 15,
-        "craftingRequirement": 6
+        "runeLimit": 15
     },
     {
         "name": "Darkwood (Standard-Grade)",
+        "desc": "Darkwood weapons are as dark as ebony, with a slight purple tint. A darkwood weapon's Bulk is reduced by 1 (or to light Bulk if its normal Bulk is 1, with no effect on a weapon that normally has light Bulk).\n\nStandard-grade items can be used to create magic items of up to 15th level and can hold runes of up to 15th level.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 11,
         "price": 140000,
-        "bulkPrice": 14000,
-        "desc": "Darkwood weapons are as dark as ebony, with a slight purple tint. A darkwood weapon's Bulk is reduced by 1 (or to light Bulk if its normal Bulk is 1, with no effect on a weapon that normally has light Bulk).\n\nStandard-grade items can be used to create magic items of up to 15th level and can hold runes of up to 15th level.",
-        "bulkModifier": -1,
         "traits": [
             "Uncommon"
         ],
+        "bulkModifier": -1,
+        "bulkPrice": 14000,
+        "craftingRequirement": 6,
         "craftRequirement": "at least 175 gp of darkwood + 17.5 gp per Bulk",
-        "runeLimit": 15,
-        "craftingRequirement": 6
+        "runeLimit": 15
     },
     {
         "name": "Mithral (Standard-Grade)",
+        "desc": "Mithral weapons are slightly lighter than silver. A mithral weapon is 1 Bulk lighter than normal (or light Bulk if its normal Bulk is 1, with no effect on a weapon that normally has light Bulk).\n\nStandard-grade items can be used to create magic items of up to 15th level and can hold runes of up to 15th level.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 11,
         "price": 140000,
-        "bulkPrice": 14000,
-        "desc": "Mithral weapons are slightly lighter than silver. A mithral weapon is 1 Bulk lighter than normal (or light Bulk if its normal Bulk is 1, with no effect on a weapon that normally has light Bulk).\n\nStandard-grade items can be used to create magic items of up to 15th level and can hold runes of up to 15th level.",
-        "bulkModifier": -1,
         "traits": [
             "Uncommon"
         ],
-        "craftRequirement": "at least 175 gp of mithral + 17.5 gp per Bulk",
-        "runeLimit": 15,
-        "craftingRequirement": 6
-    },
-    {
-        "name": "Sovereign Steel (Standard-Grade)",
-        "level": 12,
-        "price": 160000,
-        "bulkPrice": 16000,
-        "desc": "Sovereign steel weapons are treated as cold iron against creatures with a weakness to cold iron, like demons and fey. In addition, the noqual in sovereign steel weapons disrupts spellcasters' concentration, causing them to become stupefied 1 for 1 round on a critical hit.",
-        "traits": [
-            "Rare"
-        ],
-        "criticalHint": "The noqual in sovereign steel weapons disrupts spellcasters' concentration, causing them to become stupefied 1 for 1 round on a critical hit.",
-        "craftRequirement": "at least 100 gp of cold iron + 10 gp per Bulk plus at least 100 gp of noqual + 10 gp per Bulk",
-        "runeLimit": 15,
+        "bulkModifier": -1,
+        "bulkPrice": 14000,
         "craftingRequirement": 6,
-        "sourceBook": "Legends"
+        "craftRequirement": "at least 175 gp of mithral + 17.5 gp per Bulk",
+        "runeLimit": 15
     },
     {
         "name": "Cold Iron (High-Grade)",
+        "desc": "Cold iron weapons deal additional damage to creatures with weakness to cold iron, like demons and fey.\n\nHigh-grade items use the purest form of the precious material, and can be used to Craft magic items of any level holding any runes.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 16,
         "price": 900000,
         "bulkPrice": 90000,
-        "desc": "Cold iron weapons deal additional damage to creatures with weakness to cold iron, like demons and fey.\n\nHigh-grade items use the purest form of the precious material, and can be used to Craft magic items of any level holding any runes.",
-        "craftRequirement": "at least 4,500 gp of cold iron + 450 gp per Bulk",
-        "craftingRequirement": 8
+        "craftingRequirement": 8,
+        "craftRequirement": "at least 4,500 gp of cold iron + 450 gp per Bulk"
     },
     {
         "name": "Silver (High-Grade)",
+        "desc": "Silver weapons deal additional damage to creatures with weakness to silver, like werewolves, and ignore the resistances of some other creatures, like devils.\n\nHigh-grade items use the purest form of the precious material, and can be used to Craft magic items of any level holding any runes.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 16,
         "price": 900000,
         "bulkPrice": 90000,
-        "desc": "Silver weapons deal additional damage to creatures with weakness to silver, like werewolves, and ignore the resistances of some other creatures, like devils.\n\nHigh-grade items use the purest form of the precious material, and can be used to Craft magic items of any level holding any runes.",
-        "craftRequirement": "at least 4,500 gp of silver + 450 gp per Bulk",
-        "craftingRequirement": 8
+        "craftingRequirement": 8,
+        "craftRequirement": "at least 4,500 gp of silver + 450 gp per Bulk"
     },
     {
         "name": "Adamantine (High-Grade)",
+        "desc": "Adamantine weapons have a shiny black appearance and cut through lesser items with ease. They treat any object they hit as if it had half as much Hardness as usual, unless the object's Hardness is greater than that of the adamantine weapon.\n\nHigh-grade items use the purest form of the precious material, and can be used to Craft magic items of any level holding any runes.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 17,
         "price": 1350000,
-        "bulkPrice": 1350000,
-        "desc": "Adamantine weapons have a shiny black appearance and cut through lesser items with ease. They treat any object they hit as if it had half as much Hardness as usual, unless the object's Hardness is greater than that of the adamantine weapon.\n\nHigh-grade items use the purest form of the precious material, and can be used to Craft magic items of any level holding any runes.",
         "traits": [
             "Uncommon"
         ],
-        "craftRequirement": "at least 6,750 gp of adamantine + 675 gp per Bulk",
-        "craftingRequirement": 8
+        "bulkPrice": 1350000,
+        "craftingRequirement": 8,
+        "craftRequirement": "at least 6,750 gp of adamantine + 675 gp per Bulk"
     },
     {
         "name": "Darkwood (High-Grade)",
+        "desc": "Darkwood weapons are as dark as ebony, with a slight purple tint. A darkwood weapon's Bulk is reduced by 1 (or to light Bulk if its normal Bulk is 1, with no effect on a weapon that normally has light Bulk).\n\nHigh-grade items use the purest form of the precious material, and can be used to Craft magic items of any level holding any runes.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 17,
         "price": 1350000,
-        "bulkPrice": 135000,
-        "desc": "Darkwood weapons are as dark as ebony, with a slight purple tint. A darkwood weapon's Bulk is reduced by 1 (or to light Bulk if its normal Bulk is 1, with no effect on a weapon that normally has light Bulk).\n\nHigh-grade items use the purest form of the precious material, and can be used to Craft magic items of any level holding any runes.",
-        "bulkModifier": -1,
         "traits": [
             "Uncommon"
         ],
-        "craftRequirement": "at least 6,750 gp of darkwood + 675 gp per Bulk",
-        "craftingRequirement": 8
+        "bulkModifier": -1,
+        "bulkPrice": 135000,
+        "craftingRequirement": 8,
+        "craftRequirement": "at least 6,750 gp of darkwood + 675 gp per Bulk"
     },
     {
         "name": "Mithral (High-Grade)",
+        "desc": "Mithral weapons are slightly lighter than silver. A mithral weapon is 1 Bulk lighter than normal (or light Bulk if its normal Bulk is 1, with no effect on a weapon that normally has light Bulk).\n\nHigh-grade items use the purest form of the precious material, and can be used to Craft magic items of any level holding any runes.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 17,
         "price": 1350000,
-        "bulkPrice": 135000,
-        "desc": "Mithral weapons are slightly lighter than silver. A mithral weapon is 1 Bulk lighter than normal (or light Bulk if its normal Bulk is 1, with no effect on a weapon that normally has light Bulk).\n\nHigh-grade items use the purest form of the precious material, and can be used to Craft magic items of any level holding any runes.",
-        "bulkModifier": -1,
         "traits": [
             "Uncommon"
         ],
-        "craftRequirement": "at least 6,750 gp of mithral + 675 gp per Bulk",
-        "craftingRequirement": 8
+        "bulkModifier": -1,
+        "bulkPrice": 135000,
+        "craftingRequirement": 8,
+        "craftRequirement": "at least 6,750 gp of mithral + 675 gp per Bulk"
     },
     {
         "name": "Orichalcum (High-Grade)",
+        "desc": "Orichalcum weapons can have four magic property runes instead of three. Due to orichalcum's temporal properties, etching the speed weapon property rune onto an orichalcum weapon costs half the normal Price (though transferring the rune to a weapon made of another material requires you to first pay the remaining Price and then pay the cost to transfer).\n\nHigh-grade items use the purest form of the precious material, and can be used to Craft magic items of any level holding any runes.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 18,
         "price": 2250000,
+        "traits": [
+            "Rare"
+        ],
         "bulkPrice": 225000,
-        "desc": "Orichalcum weapons can have four magic property runes instead of three. Due to orichalcum's temporal properties, etching the speed weapon property rune onto an orichalcum weapon costs half the normal Price (though transferring the rune to a weapon made of another material requires you to first pay the remaining Price and then pay the cost to transfer).\n\nHigh-grade items use the purest form of the precious material, and can be used to Craft magic items of any level holding any runes.",
-        "traits": [
-            "Rare"
-        ],
+        "craftingRequirement": 8,
         "craftRequirement": "at least 11,250 gp of orichalcum + 1,125 gp per Bulk",
-        "craftingRequirement": 8,
         "extraRune": 1
-    },
-    {
-        "name": "Sovereign Steel (High-Grade)",
-        "level": 19,
-        "price": 3200000,
-        "bulkPrice": 320000,
-        "desc": "Sovereign steel weapons are treated as cold iron against creatures with a weakness to cold iron, like demons and fey. In addition, the noqual in sovereign steel weapons disrupts spellcasters' concentration, causing them to become stupefied 1 for 1 round on a critical hit.",
-        "traits": [
-            "Rare"
-        ],
-        "criticalHint": "The noqual in sovereign steel weapons disrupts spellcasters' concentration, causing them to become stupefied 1 for 1 round on a critical hit.",
-        "craftRequirement": "at least 8,000 gp of cold iron + 800 gp per Bulk plus at least 8,000 gp of noqual + 800 gp per Bulk.",
-        "craftingRequirement": 8,
-        "sourceBook": "Legends"
     }
 ]

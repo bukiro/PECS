@@ -1,0 +1,219 @@
+[
+    {
+        "name": "Wilderness Spotter",
+        "desc": "Select one type of terrain from the following list: aquatic, arctic, desert, forest, mountain, plains, sky, swamp, or underground. You can use Survival in place of Perception to roll initiative when in the selected terrain in a natural location (not a structure) even if you weren't tracking or otherwise using Survival before the encounter. You can also use Survival instead of Perception to notice traps in natural locations in the chosen terrain; if you find a snare in this way, you can also use Survival instead of Thievery to Disable the Device.",
+        "specialdesc": "You can select this feat more than once. Each time you select it, the feat applies to a new type of terrain.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "shortdesc": "Use Survival for your Initiative when in a specific terrain.",
+        "traits": [
+            "General",
+            "Skill",
+            "Uncommon"
+        ],
+        "levelreq": 2,
+        "skillreq": [
+            {
+                "skill": "Survival",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Wilderness Spotter: Aquatic",
+        "desc": "You can use Survival in place of Perception to roll initiative when in aquatic terrain in a natural location (not a structure) even if you weren't tracking or otherwise using Survival before the encounter. You can also use Survival instead of Perception to notice traps in natural locations in this terrain; if you find a snare in this way, you can also use Survival instead of Thievery to Disable the Device.",
+        "hints": [
+            {
+                "showon": "Survival"
+            }
+        ],
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "subType": "Aquatic",
+        "shortdesc": "Use Survival for your Initiative when in aquatic terrain.",
+        "levelreq": 2,
+        "skillreq": [
+            {
+                "skill": "Survival",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Wilderness Spotter: Arctic",
+        "desc": "You can use Survival in place of Perception to roll initiative when in arctic terrain in a natural location (not a structure) even if you weren't tracking or otherwise using Survival before the encounter. You can also use Survival instead of Perception to notice traps in natural locations in this terrain; if you find a snare in this way, you can also use Survival instead of Thievery to Disable the Device.",
+        "hints": [
+            {
+                "showon": "Survival"
+            }
+        ],
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "subType": "Arctic",
+        "shortdesc": "Use Survival for your Initiative when in arctic terrain.",
+        "levelreq": 2,
+        "skillreq": [
+            {
+                "skill": "Survival",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Wilderness Spotter: Desert",
+        "desc": "You can use Survival in place of Perception to roll initiative when in desert terrain in a natural location (not a structure) even if you weren't tracking or otherwise using Survival before the encounter. You can also use Survival instead of Perception to notice traps in natural locations in this terrain; if you find a snare in this way, you can also use Survival instead of Thievery to Disable the Device.",
+        "hints": [
+            {
+                "showon": "Survival"
+            }
+        ],
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "subType": "Desert",
+        "shortdesc": "Use Survival for your Initiative when in desert terrain.",
+        "levelreq": 2,
+        "skillreq": [
+            {
+                "skill": "Survival",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Wilderness Spotter: Forest",
+        "desc": "You can use Survival in place of Perception to roll initiative when in forest terrain in a natural location (not a structure) even if you weren't tracking or otherwise using Survival before the encounter. You can also use Survival instead of Perception to notice traps in natural locations in this terrain; if you find a snare in this way, you can also use Survival instead of Thievery to Disable the Device.",
+        "hints": [
+            {
+                "showon": "Survival"
+            }
+        ],
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "subType": "Forest",
+        "shortdesc": "Use Survival for your Initiative when in forest terrain.",
+        "levelreq": 2,
+        "skillreq": [
+            {
+                "skill": "Survival",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Wilderness Spotter: Mountain",
+        "desc": "You can use Survival in place of Perception to roll initiative when in mountain terrain in a natural location (not a structure) even if you weren't tracking or otherwise using Survival before the encounter. You can also use Survival instead of Perception to notice traps in natural locations in this terrain; if you find a snare in this way, you can also use Survival instead of Thievery to Disable the Device.",
+        "hints": [
+            {
+                "showon": "Survival"
+            }
+        ],
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "subType": "Mountain",
+        "shortdesc": "Use Survival for your Initiative when in mountain terrain.",
+        "levelreq": 2,
+        "skillreq": [
+            {
+                "skill": "Survival",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Wilderness Spotter: Plains",
+        "desc": "You can use Survival in place of Perception to roll initiative when in plains terrain in a natural location (not a structure) even if you weren't tracking or otherwise using Survival before the encounter. You can also use Survival instead of Perception to notice traps in natural locations in this terrain; if you find a snare in this way, you can also use Survival instead of Thievery to Disable the Device.",
+        "hints": [
+            {
+                "showon": "Survival"
+            }
+        ],
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "subType": "Plains",
+        "shortdesc": "Use Survival for your Initiative when in plains terrain.",
+        "levelreq": 2,
+        "skillreq": [
+            {
+                "skill": "Survival",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Wilderness Spotter: Sky",
+        "desc": "You can use Survival in place of Perception to roll initiative when in sky terrain in a natural location (not a structure) even if you weren't tracking or otherwise using Survival before the encounter. You can also use Survival instead of Perception to notice traps in natural locations in this terrain; if you find a snare in this way, you can also use Survival instead of Thievery to Disable the Device.",
+        "hints": [
+            {
+                "showon": "Survival"
+            }
+        ],
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "subType": "Sky",
+        "shortdesc": "Use Survival for your Initiative when in sky terrain.",
+        "levelreq": 2,
+        "skillreq": [
+            {
+                "skill": "Survival",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Wilderness Spotter: Swamp",
+        "desc": "You can use Survival in place of Perception to roll initiative when in swamp terrain in a natural location (not a structure) even if you weren't tracking or otherwise using Survival before the encounter. You can also use Survival instead of Perception to notice traps in natural locations in this terrain; if you find a snare in this way, you can also use Survival instead of Thievery to Disable the Device.",
+        "hints": [
+            {
+                "showon": "Survival"
+            }
+        ],
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "subType": "Swamp",
+        "shortdesc": "Use Survival for your Initiative when in swamp terrain.",
+        "levelreq": 2,
+        "skillreq": [
+            {
+                "skill": "Survival",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Wilderness Spotter: Underground",
+        "desc": "You can use Survival in place of Perception to roll initiative when in underground terrain in a natural location (not a structure) even if you weren't tracking or otherwise using Survival before the encounter. You can also use Survival instead of Perception to notice traps in natural locations in this terrain; if you find a snare in this way, you can also use Survival instead of Thievery to Disable the Device.",
+        "hints": [
+            {
+                "showon": "Survival"
+            }
+        ],
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "subType": "Underground",
+        "shortdesc": "Use Survival for your Initiative when in underground terrain.",
+        "levelreq": 2,
+        "skillreq": [
+            {
+                "skill": "Survival",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Relentless Stalker",
+        "desc": "Stay adjacent to your prey when they attempt to move away.",
+        "specialdesc": "By aiding an NPC from The Fall of Plaguestone, the PCs can learn some special woodland survival techniques.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "shortdesc": "Stay adjacent to your prey when they attempt to move away.",
+        "traits": [
+            "Uncommon",
+            "Ranger",
+            "Move"
+        ],
+        "levelreq": 2,
+        "gainActivities": [
+            "Relentless Stalker"
+        ]
+    }
+]

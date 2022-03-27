@@ -1,0 +1,96 @@
+[
+    {
+        "name": "Dreamstone",
+        "id": "bffaa366-579d-46b3-bd3e-56962b1521bf",
+        "desc": "A dreamstone is a disc-shaped object carved with imagery or words sacred to Desna - be it her religious symbol, a short prayer, or merely the shape of a single star. When you carry a dreamstone, you find it easier to fall asleep, and you gain improved effects from the resulting rest. You always fall asleep within 5 minutes of lying down with the intention of sleeping, and you require only 2 hours of sleep per day to gain the benefits of 8 hours of sleep, provided you have carried the dreamstone for at least 24 hours prior to resting. As long as you carry a dreamstone, you gain a +2 item bonus to saving throws against sleep effects.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "level": 9,
+        "bulk": "L",
+        "price": 70000,
+        "traits": [
+            "Uncommon",
+            "Enchantment",
+            "Magical"
+        ],
+        "usage": "held in 1 hand",
+        "activities": [
+            {
+                "actions": "1A",
+                "activationType": "Interact (metamagic)",
+                "cooldown": 144000,
+                "desc": "If the next action you use is to Cast a Spell of 4th level or lower that has the sleep trait or is associated with dreams, the spell slot is not expended.",
+                "frequency": "once per day",
+                "gainConditions": [
+                    {
+                        "duration": 1,
+                        "name": "Dreamstone"
+                    }
+                ],
+                "inputRequired": "The next spell you cast of 4th level or lower will not use a spell slot. Choose a suitable spell matching the description.",
+                "name": "Dreamstone",
+                "source": "bffaa366-579d-46b3-bd3e-56962b1521bf",
+                "traits": [
+                    "Uncommon",
+                    "Enchantment",
+                    "Magical"
+                ]
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You always fall asleep within 5 minutes of lying down with the intention of sleeping, and you require only 2 hours of sleep per day to gain the benefits of 8 hours of sleep, provided you have carried the dreamstone for at least 24 hours prior to resting.",
+                "showon": "Rest"
+            },
+            {
+                "desc": "As long as you carry a dreamstone, you gain a +2 item bonus to saving throws against sleep effects.",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "type": "item",
+                        "value": "2"
+                    }
+                ],
+                "showon": "Saving Throws"
+            }
+        ]
+    },
+    {
+        "name": "Cursed Dreamstone",
+        "id": "6a8bd22c-33ab-4ca0-a7e1-9eb61e31ad37",
+        "desc": "A dreamstone can become cursed if left exposed to creatures that corrupt sleep, generate nightmares, or otherwise prey on sleeping or dreaming victims via supernatural methods. A cursed dreamstone seems to function as a normal dreamstone until the bearer falls asleep or is forced to attempt a saving throw against a sleep effect. At this point, the person carrying the cursed dreamstone must attempt a DC 26 Will save to resist the curse's effects.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "level": 9,
+        "bulk": "L",
+        "traits": [
+            "Uncommon",
+            "Enchantment",
+            "Magical"
+        ],
+        "usage": "held in 1 hand",
+        "activities": [
+            {
+                "critfailure": "As failure, and whenever the bearer attempts a saving throw against a sleep effect, they get the outcome that is one degree worse than the result of their saving throw.",
+                "critsuccess": "The character resists the curse entirely and experiences a vivid dream while sleeping that warns them of the nature of the cursed dreamstone.",
+                "desc": "A cursed dreamstone seems to function as a normal dreamstone until the bearer falls asleep or is forced to attempt a saving throw against a sleep effect. At this point, the person carrying the cursed dreamstone must attempt a DC 26 Will save to resist the curse's effects.",
+                "failure": "As long as the cursed character possesses the stone, they are fatigued whenever they wake from sleep, whether natural or magically induced, and they take a -2 item penalty to all saving throws against sleep effects instead of gaining the normal bonus from a dreamstone.",
+                "gainConditions": [
+                    {
+                        "duration": -5,
+                        "name": "Cursed Dreamstone"
+                    }
+                ],
+                "name": "Cursed Dreamstone",
+                "source": "6a8bd22c-33ab-4ca0-a7e1-9eb61e31ad37",
+                "success": "The character resists the curse.",
+                "toggle": true,
+                "traits": [
+                    "Uncommon",
+                    "Enchantment",
+                    "Magical"
+                ]
+            }
+        ]
+    }
+]

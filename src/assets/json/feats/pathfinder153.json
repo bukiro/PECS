@@ -1,0 +1,121 @@
+[
+    {
+        "name": "Bloodhound Shoony",
+        "desc": "Your ancestors were famous trackers, and you carry in your blood that same gift of the hunt. You gain a +2 circumstance bonus to Survival checks to Track creatures that you have previously sensed with your scent.",
+        "hints": [
+            {
+                "desc": "You gain a +2 circumstance bonus to Survival checks to Track creatures that you have previously sensed with your scent.",
+                "showon": "Survival",
+                "effects": [
+                    {
+                        "affected": "Survival",
+                        "type": "circumstance",
+                        "value": "2"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Pathfinder #153: Life's Long Shadow",
+        "_extensionFileName": "pathfinder153",
+        "shortdesc": "Your ancestors were famous trackers, and you carry in your blood that same gift of the hunt."
+    },
+    {
+        "name": "Blunt Snout",
+        "desc": "Your small, blunt snout and labyrinthine sinus system make you resistant to phenomena that assail the nose. When you roll a saving throw against inhaled threats (such as inhaled poisons) and olfactory effects (such as xulgath stench), you get the outcome one degree of success better than the result of your roll.",
+        "hints": [
+            {
+                "desc": "When you roll a saving throw against inhaled threats (such as inhaled poisons) and olfactory effects (such as xulgath stench), you get the outcome one degree of success better than the result of your roll.",
+                "showon": "Saving Throws"
+            }
+        ],
+        "sourceBook": "Pathfinder #153: Life's Long Shadow",
+        "_extensionFileName": "pathfinder153",
+        "shortdesc": "Your small, blunt snout and labyrinthine sinus system make you resistant to phenomena that assail the nose."
+    },
+    {
+        "name": "Fishseeker Shoony",
+        "desc": "You come from a long line of fisherfolk and have inherited the quick reflexes necessary to nab and reel in big game. If you roll a success on an attempt to Grab an Edge, you get a critical success instead; if you roll a critical failure, you get a failure instead. A creature that rolls a failure on a check to Disarm you gets a critical failure instead.",
+        "hints": [
+            {
+                "desc": "If you roll a success on an attempt to Grab an Edge, you get a critical success instead; if you roll a critical failure, you get a failure instead. A creature that rolls a failure on a check to Disarm you gets a critical failure instead.",
+                "showon": "Reflex"
+            }
+        ],
+        "sourceBook": "Pathfinder #153: Life's Long Shadow",
+        "_extensionFileName": "pathfinder153",
+        "shortdesc": "You come from a long line of fisherfolk and have inherited the quick reflexes necessary to nab and reel in big game."
+    },
+    {
+        "name": "Paddler Shoony",
+        "desc": "You hail from shoonies who have lived long and successfully among the reeds and cattails of swamps and marshes, and have adapted to the challenges of living near waterlogged areas. You ignore difficult terrain and greater difficult terrain from bogs. When you roll a success to Swim, you get a critical success instead.",
+        "hints": [
+            {
+                "desc": "You ignore difficult terrain and greater difficult terrain from bogs.",
+                "showon": "Movement"
+            },
+            {
+                "desc": "When you roll a success to Swim, you get a critical success instead.",
+                "showon": "Athletics"
+            }
+        ],
+        "sourceBook": "Pathfinder #153: Life's Long Shadow",
+        "_extensionFileName": "pathfinder153",
+        "shortdesc": "You hail from shoonies who have lived long and successfully among the reeds and cattails of swamps and marshes, and have adapted to the challenges of living near waterlogged areas."
+    },
+    {
+        "name": "Ravening's Desperation",
+        "desc": "Your study of the Beast of Gluttondark has taught you how to make do in the most trying of circumstances rather than succumb to weakness. As long as your current Hit Points are less than half your maximum Hit Points, you gain a +1 circumstance bonus to Survival and Stealth checks. If your current Hit Points are less than a quarter your maximum Hit Points, the circumstance bonus is +2 instead.",
+        "hints": [
+            {
+                "desc": "As long as your current Hit Points are less than half your maximum Hit Points, you gain a +1 circumstance bonus to Survival and Stealth checks. If your current Hit Points are less than a quarter your maximum Hit Points, the circumstance bonus is +2 instead.",
+                "showon": "Health"
+            }
+        ],
+        "sourceBook": "Pathfinder #153: Life's Long Shadow",
+        "_extensionFileName": "pathfinder153",
+        "shortdesc": "Your study of the Beast of Gluttondark has taught you how to make do in the most trying of circumstances rather than succumb to weakness.",
+        "traits": [
+            "Uncommon",
+            "General",
+            "Skill"
+        ],
+        "levelreq": 1,
+        "specialreq": "Skill_Level('Zevgavizeb Lore') >= 2",
+        "specialreqdesc": "trained in Zevgavizeb Lore",
+        "effects": [
+            {
+                "affected": "Survival",
+                "type": "circumstance",
+                "value": "Current_HP() < (Max_HP() / 4) ? 2 : (Current_HP() < (Max_HP() / 2) ? 1 : 0)"
+            },
+            {
+                "affected": "Stealth",
+                "type": "circumstance",
+                "value": "Current_HP() < (Max_HP() / 4) ? 2 : (Current_HP() < (Max_HP() / 2) ? 1 : 0)"
+            }
+        ]
+    },
+    {
+        "name": "Thickcoat Shoony",
+        "desc": "You are a rare shoony who hails from colder climes. You gain cold resistance equal to half your level (minimum 1), and you treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on). You don't need to succeed at a flat check to target a concealed creature if that creature is concealed only by snow. Unless you wear protective gear or take shelter, environmental heat effects are one step more extreme for you.",
+        "hints": [
+            {
+                "desc": "You treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on). Unless you wear protective gear or take shelter, environmental heat effects are one step more extreme for you.",
+                "showon": "Resistances"
+            },
+            {
+                "desc": "You don't need to succeed at a flat check to target a concealed creature if that creature is concealed only by snow.",
+                "showon": "Perception"
+            }
+        ],
+        "sourceBook": "Pathfinder #153: Life's Long Shadow",
+        "_extensionFileName": "pathfinder153",
+        "shortdesc": "You are a rare shoony who hails from colder climes.",
+        "effects": [
+            {
+                "affected": "Cold Resistance",
+                "value": "Math.max(Math.floor(Level / 2), 1)"
+            }
+        ]
+    }
+]

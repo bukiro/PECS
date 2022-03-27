@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Goloma",
+    "desc": "Insular humanoids that bear countless eyes.",
+    "sourceBook": "The Mwangi Expanse",
+    "_extensionFileName": "mwangiExpanse"
+  },
+  {
+    "name": "Shisk",
+    "desc": "Secretive humanoids covered in bony plumage that reside underground.",
+    "sourceBook": "The Mwangi Expanse",
+    "_extensionFileName": "mwangiExpanse"
+  }
+]

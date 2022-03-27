@@ -1,0 +1,44 @@
+[
+    {
+        "name": "Aklys",
+        "id": "0869595c-8daa-11ea-abca-ffb46fbada73",
+        "desc": "The aklys is a throwing club with a hook on one end and a lengthy cord attached to the other. Though aklyses aren't available in most shops, one might be purchased for 5 gp from a vendor that specializes in strange weapons.",
+        "sourceBook": "Bestiary",
+        "_extensionFileName": "bestiary",
+        "bulk": "1",
+        "price": 500,
+        "traits": [
+            "Ranged Trip",
+            "Tethered",
+            "Thrown 20 ft.",
+            "Trip",
+            "Uncommon"
+        ],
+        "dmgType": "B",
+        "group": "Club",
+        "hands": 1,
+        "melee": 5,
+        "prof": "Advanced Weapons",
+        "ranged": 20
+    },
+    {
+        "name": "Ogre Hook",
+        "id": "08698035-8daa-11ea-abca-ffb46fbada73",
+        "desc": "Ogres are known for using immense, curved picks called ogre hooks.",
+        "sourceBook": "Bestiary",
+        "_extensionFileName": "bestiary",
+        "bulk": "2",
+        "price": 100,
+        "traits": [
+            "Deadly d10",
+            "Trip",
+            "Uncommon"
+        ],
+        "dicesize": 10,
+        "dmgType": "P",
+        "group": "Pick",
+        "hands": 2,
+        "melee": 5,
+        "prof": "Advanced Weapons"
+    }
+]

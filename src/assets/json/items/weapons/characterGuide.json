@@ -1,0 +1,186 @@
+[
+    {
+        "name": "Lizardfolk Claw",
+        "displayName": "Claw",
+        "id": "59f51045-60c4-41c4-ae79-311941b0ca78",
+        "desc": "Your sharp claws offer an alternative to the fists other humanoids bring to a fight. You have a claw unarmed attack that deals 1d4 slashing damage and has the agile and finesse traits.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "hide": true,
+        "traits": [
+            "Agile",
+            "Finesse",
+            "Unarmed"
+        ],
+        "dicesize": 4,
+        "dmgType": "S",
+        "group": "Brawling",
+        "internalNote": "The brawling group is not specified, but we assume that every unarmed attack is like a fist unless otherwise specified.",
+        "melee": 5,
+        "moddable": false,
+        "prof": "Unarmed Attacks",
+        "weaponBase": "Claw"
+    },
+    {
+        "name": "Lizardfolk Fangs",
+        "displayName": "Fangs",
+        "id": "74cf862b-eb12-46e4-8d7d-6455b2690589",
+        "desc": "Your teeth are formidable weapons. You gain a fangs unarmed attack that deals 1d8 piercing damage.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "hide": true,
+        "traits": [
+            "Unarmed"
+        ],
+        "dicesize": 8,
+        "dmgType": "P",
+        "group": "Brawling",
+        "internalNote": "The brawling group is not specified, but we assume that every unarmed attack is like a fist unless otherwise specified.",
+        "melee": 5,
+        "moddable": false,
+        "prof": "Unarmed Attacks"
+    },
+    {
+        "name": "Lizardfolk Tail",
+        "displayName": "Tail",
+        "id": "b3f9d9f4-dbdd-4d4f-952e-f3de3048dcc0",
+        "desc": "By birth or through training, your tail is strong enough to make for a powerful melee weapon. You gain a tail unarmed attack that deals 1d6 bludgeoning damage and has the sweep trait.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "hide": true,
+        "traits": [
+            "Sweep",
+            "Unarmed"
+        ],
+        "dicesize": 6,
+        "dmgType": "B",
+        "group": "Brawling",
+        "internalNote": "The brawling group is not specified, but we assume that every unarmed attack is like a fist unless otherwise specified.",
+        "melee": 5,
+        "moddable": false,
+        "prof": "Unarmed Attacks",
+        "weaponBase": "Tail"
+    },
+    {
+        "name": "Fang Sharpener Goblin Jaws",
+        "displayName": "Jaws",
+        "id": "d46e3051-4451-4d0b-bf74-3f249457cb9c",
+        "desc": "You have filed your teeth into jagged points and have an unusually powerful jaw, making your mouth a dangerous weapon. You gain a jaws unarmed attack that deals 1d4 piercing damage. Whenever you score a critical hit with your jaws unarmed attack, your target takes 1 persistent bleed damage per weapon damage die.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "hide": true,
+        "traits": [
+            "Unarmed"
+        ],
+        "criticalHint": "Whenever you score a critical hit with your jaws unarmed attack, your target takes |dice=1 Persistent Bleed| 1 persistent bleed damage per weapon damage die.",
+        "dicesize": 4,
+        "dmgType": "P",
+        "group": "Brawling",
+        "internalNote": "The brawling group is not specified, but we assume that every unarmed attack is like a fist unless otherwise specified.",
+        "melee": 5,
+        "moddable": false,
+        "prof": "Unarmed Attacks",
+        "weaponBase": "Jaws"
+    },
+    {
+        "name": "Tailed Goblin Tail",
+        "displayName": "Tail",
+        "id": "e62fdedd-b087-4fba-b9fb-fb7ebf87cc82",
+        "desc": "Your tail is much stronger than most, and you can lash out with it with the strength of a whip. You gain a tail unarmed attack that deals 1d6 bludgeoning damage.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "hide": true,
+        "traits": [
+            "Unarmed"
+        ],
+        "dicesize": 6,
+        "dmgType": "B",
+        "group": "Brawling",
+        "internalNote": "The brawling group is not specified, but we assume that every unarmed attack is like a fist unless otherwise specified.",
+        "melee": 5,
+        "moddable": false,
+        "prof": "Unarmed Attacks",
+        "weaponBase": "Tail"
+    },
+    {
+        "name": "Boiling Spit Attack",
+        "displayName": "Boiling Spit Attack",
+        "id": "abe14336-c17c-486d-a395-198faa41464a",
+        "desc": "Your bodily fluids burn with surprising volatility, as if you ran on oil instead of blood. As long as you are taking persistent fire damage, you gain a boiling spit ranged unarmed attack with a range of 30 feet that deals 1d6 fire damage.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "hide": true,
+        "traits": [
+            "Unarmed"
+        ],
+        "dicesize": 6,
+        "dmgType": "Fire",
+        "group": "Brawling",
+        "internalNote": "The brawling group is not specified, but we assume that every unarmed attack is like a fist unless otherwise specified.",
+        "moddable": false,
+        "prof": "Unarmed Attacks",
+        "ranged": 30
+    },
+    {
+        "name": "Fauchard",
+        "id": "08693257-8daa-11ea-abca-ffb46fbada73",
+        "desc": "A fauchard is similar to a glaive, save that its cutting edge is along the concave side. Fauchards are favored by Crimson Reclaimers for hacking through waves of zombies. The fauchard is a martial melee weapon.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "bulk": "2",
+        "price": 140,
+        "traits": [
+            "Deadly d8",
+            "Reach",
+            "Sweep",
+            "Trip"
+        ],
+        "dicesize": 8,
+        "dmgType": "S",
+        "group": "Polearm",
+        "hands": 2,
+        "melee": 10,
+        "prof": "Martial Weapons"
+    },
+    {
+        "name": "Scourge",
+        "id": "0869593c-8daa-11ea-abca-ffb46fbada73",
+        "desc": "A scourge - also known as a cat-o'-nine-tails - is a set of several knotted cords made from cotton or leather and attached to a handle. While most scourges are more suitable for torture than combat, the weapons used by the Order of the Scourge have metal barbs woven in to pierce clothing and armor. The scourge is a martial melee weapon.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "bulk": "1",
+        "price": 10,
+        "traits": [
+            "Agile",
+            "Disarm",
+            "Finesse",
+            "Nonlethal",
+            "Sweep"
+        ],
+        "dicesize": 4,
+        "dmgType": "S",
+        "group": "Flail",
+        "hands": 1,
+        "melee": 5,
+        "prof": "Martial Weapons"
+    },
+    {
+        "name": "Orc Tusks",
+        "displayName": "Tusks",
+        "id": "3ceccceb-31f3-42ef-b6c5-a37b1b8fdc2a",
+        "desc": "You have particularly long, jagged tusks perfect for tearing meat from bone. You gain a tusks unarmed attack that deals 1d6 piercing damage.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "hide": true,
+        "traits": [
+            "Unarmed"
+        ],
+        "dicesize": 6,
+        "dmgType": "P",
+        "group": "Brawling",
+        "internalNote": "The brawling group is not specified, but we assume that every unarmed attack is like a fist unless otherwise specified.",
+        "melee": 5,
+        "moddable": false,
+        "prof": "Unarmed Attacks"
+    }
+]

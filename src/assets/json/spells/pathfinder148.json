@@ -1,77 +1,77 @@
 [
-  {
-    "name": "Practice Makes Perfect",
-    "id": "983d4942-7483-11eb-9439-0242ac130002",
-    "shortDesc": "The target gains a +2 status bonus to the triggering check, or a +3 bonus if the target has master or better proficiency in the skill.",
-    "actions": "Reaction",
-    "castType": "somatic",
-    "sourceBook": "Pathfinder #148: Fires of the Haunted City",
-    "_extensionFileName": "pathfinder148",
-    "levelreq": 1,
-    "traditions": [
-      "Focus"
-    ],
-    "traits": [
-      "Uncommon",
-      "Cleric",
-      "Divination"
-    ],
-    "range": "30 feet",
-    "target": "ally",
-    "singleTarget": true,
-    "trigger": "You or an ally within range fails a skill check for a skill in which you or they are trained.",
-    "duration": "30 feet",
-    "desc": "The target gains a +2 status bonus to the triggering check, or a +3 bonus if the target has master or better proficiency in the skill. This bonus can change the outcome of the target's check.",
-    "gainConditions": [
-      {
-        "duration": 1,
-        "name": "Practice Makes Perfect (Caster)",
-        "targetFilter": "caster"
-      },
-      {
-        "duration": 1,
+    {
         "name": "Practice Makes Perfect",
-        "targetFilter": "target"
-      }
-    ]
-  },
-  {
-    "name": "Tireless Worker",
-    "id": "983d7084-7483-11eb-9439-0242ac130002",
-    "shortDesc": "You suppress your choice of one of the following conditions that's affecting the target: clumsy, encumbered, enfeebled, or fatigued.",
-    "actions": "2A",
-    "castType": "somatic, verbal",
-    "sourceBook": "Pathfinder #148: Fires of the Haunted City",
-    "_extensionFileName": "pathfinder148",
-    "levelreq": 4,
-    "traditions": [
-      "Focus"
-    ],
-    "traits": [
-      "Uncommon",
-      "Cleric",
-      "Healing",
-      "Necromancy"
-    ],
-    "range": "30 feet",
-    "targets": "1 creature",
-    "target": "ally",
-    "singleTarget": true,
-    "sustained": 100,
-    "duration": "sustained for up to 1 minute",
-    "desc": "You suppress your choice of one of the following conditions that's affecting the target: clumsy, encumbered, enfeebled, or fatigued. If you don't remove the effect that caused the condition, the condition returns after the spell's duration expires.",
-    "gainConditions": [
-      {
-        "duration": 100,
-        "name": "Tireless Worker (Caster)",
-        "targetFilter": "caster"
-      },
-      {
-        "duration": 100,
-        "copyChoiceFrom": "Tireless Worker (Caster)",
+        "id": "983d4942-7483-11eb-9439-0242ac130002",
+        "shortDesc": "The target gains a +2 status bonus to the triggering check, or a +3 bonus if the target has master or better proficiency in the skill.",
+        "actions": "Reaction",
+        "castType": "somatic",
+        "sourceBook": "Pathfinder #148: Fires of the Haunted City",
+        "_extensionFileName": "pathfinder148",
+        "levelreq": 1,
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Cleric",
+            "Divination"
+        ],
+        "range": "30 feet",
+        "target": "ally",
+        "singleTarget": true,
+        "trigger": "You or an ally within range fails a skill check for a skill in which you or they are trained.",
+        "duration": "30 feet",
+        "desc": "The target gains a +2 status bonus to the triggering check, or a +3 bonus if the target has master or better proficiency in the skill. This bonus can change the outcome of the target's check.",
+        "gainConditions": [
+            {
+                "duration": 1,
+                "name": "Practice Makes Perfect (Caster)",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 1,
+                "name": "Practice Makes Perfect",
+                "targetFilter": "target"
+            }
+        ]
+    },
+    {
         "name": "Tireless Worker",
-        "targetFilter": "target"
-      }
-    ]
-  }
+        "id": "983d7084-7483-11eb-9439-0242ac130002",
+        "shortDesc": "You suppress your choice of one of the following conditions that's affecting the target: clumsy, encumbered, enfeebled, or fatigued.",
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "sourceBook": "Pathfinder #148: Fires of the Haunted City",
+        "_extensionFileName": "pathfinder148",
+        "levelreq": 4,
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Cleric",
+            "Healing",
+            "Necromancy"
+        ],
+        "range": "30 feet",
+        "targets": "1 creature",
+        "target": "ally",
+        "singleTarget": true,
+        "sustained": 100,
+        "duration": "sustained for up to 1 minute",
+        "desc": "You suppress your choice of one of the following conditions that's affecting the target: clumsy, encumbered, enfeebled, or fatigued. If you don't remove the effect that caused the condition, the condition returns after the spell's duration expires.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Tireless Worker (Caster)",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 100,
+                "copyChoiceFrom": "Tireless Worker (Caster)",
+                "name": "Tireless Worker",
+                "targetFilter": "target"
+            }
+        ]
+    }
 ]

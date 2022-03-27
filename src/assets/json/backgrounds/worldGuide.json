@@ -1,0 +1,4824 @@
+[
+    {
+        "name": "Alkenstar Tinker",
+        "desc": "Your dedication to the scientific inquiry of your native Alkenstar provides great insight into mechanical and chemical innovation.\n\nChoose two ability boosts. One must be to Dexterity or Intelligence, and one is a free ability boost.\n\nYou're trained in the Crafting skill and the Engineering Lore skill. You gain the Alchemical Crafting skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Impossible Lands",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Dexterity",
+                    "Intelligence"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Alchemical Crafting",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Engineering",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Crafting",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Aspiring Free Captain",
+        "desc": "You seek to join the Free Captains of the Shackles and have learned everything you need to know about sailing and bossing people around. Now you just need a crew and a ship.\n\nChoose two ability boosts. One must be to Wisdom or Charisma, and one is a free ability boost.\n\nYou're trained in the Intimidation skill and the Sailing Lore skill. You gain the Group Coercion skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "High Seas",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Wisdom",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Group Coercion",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Sailing",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Intimidation",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Aspiring River Monarch",
+        "desc": "New realms rise constantly in the River Kingdoms, and you intend to lead one of them. Making your reign last, however, will require both strength and grace.\n\nChoose two ability boosts. One must be to Wisdom or Charisma, and one is a free ability boost.\n\nYou're trained in the Society skill and the Politics Lore skill. You gain the Courtly Graces skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Broken Lands",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Wisdom",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Courtly Graces",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Politics",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Society",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Atteran Rancher",
+        "desc": "You grew up breeding and training the famous horses of the Atteran Ranches in northern Nidal. You may even be sympathetic to the Desnan dissidents who hide there from the Umbral Court.\n\nChoose two ability boosts. One must be to Strength or Dexterity, and one is a free ability boost.\n\nYou're trained in the Nature skill and the Animal Lore skill. You gain the Train Animal skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Old Cheliax",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Strength",
+                    "Dexterity"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Train Animal",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Animal",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Nature",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Bekyar Restorer",
+        "desc": "Though many Bekyars worship demons, you seek to pave a different path for yourself and your kindred, while also attempting to change other Mwangi's treatment of your culture.\n\nChoose two ability boosts. One must be to Wisdom or Charisma, and one is a free ability boost.\n\nYou're trained in the Diplomacy skill and the Abyss Lore skill. You gain the Group Impression skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Mwangi Expanse",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Wisdom",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Group Impression",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Abyss",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Diplomacy",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Belkzen Slayer",
+        "desc": "You are a fearsome warrior from the Hold of Belkzen, and your clan counts on you for support, counsel, and defense. With the rising threat of the Whispering Tyrant threatening the safety of your home, you must not let your people down.\n\nChoose two ability boosts. One must be to Strength or Charisma, and one is a free ability boost.\n\nYou're trained in the Intimidation skill and the Orc Lore skill. You gain the Intimidating Glare skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Eye of Dread",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Strength",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Intimidating Glare",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Orc",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Intimidation",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Bellflower Agent",
+        "desc": "You joined a secret society dedicated to freeing halfling slaves, most likely from the cruelty of Chelish reign. You know how to smuggle people in and out of countries.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in the Stealth skill and the Underworld Lore skill. You gain the Experienced Smuggler skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Old Cheliax",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Dexterity",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Experienced Smuggler",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Underworld",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Stealth",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Black Market Smuggler",
+        "desc": "You know how to work the less-than-legal side of the region's markets and know how to slip contraband past the authorities.\n\nChoose two ability boosts. One must be to Wisdom or Charisma, and one is a free ability boost.\n\nYou're trained in the Stealth skill and the Underworld Lore skill. You gain the Experienced Smuggler skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Golden Road",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Wisdom",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Experienced Smuggler",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Underworld",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Stealth",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Bonuwat Wavetouched",
+        "desc": "You are a child of the Bonuwat people, and the sea's salt flows through your veins. You've taken to sailing and swimming gracefully and with ease, earning you the honorific \"wavetouched.\"\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in the Athletics skill and the Ocean Lore skill. You gain the Underwater Marauder skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Mwangi Expanse",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Strength",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Underwater Marauder",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Ocean",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Athletics",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Bright Lion",
+        "desc": "You are a member of the Bright Lions and seek to overthrow the tyrannical reign of Walkena and free Mzali from his cruel whims. You're experienced operating undercover and have had to be cautious of what you say and who you trust, lest you fall afoul of the god-king's terrible punishments.\n\nChoose two ability boosts. One must be to Strength or Charisma, and one is a free ability boost.\n\nYou're trained in the Deception skill and the Mzali Lore skill. You gain the Lie to Me skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Mwangi Expanse",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Strength",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Lie to Me",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Mzali",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Deception",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Chelish Rebel",
+        "desc": "You joined the fight against House Thrune. You may have helped liberate the nation of Ravounel, or you might be involved in another rebellion, such as Pezzack's, that studied Ravounel's successes.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in the Society skill and the Kintargo Lore skill. You gain the Streetwise skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Old Cheliax",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Dexterity",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Streetwise",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Kintargo",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Society",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Child of the Puddles",
+        "desc": "You grew up in the soggy, squalid quarter of Absalom known as the Puddles. You're at home in tightly packed urban environments.\n\nChoose two ability boosts. One must be to Dexterity or Intelligence, and one is a free ability boost.\n\nYou're trained in the Acrobatics skill and the Absalom Lore skill. You gain the Steady Balance skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Absalom and Starstone Isle",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Dexterity",
+                    "Intelligence"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Steady Balance",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Absalom",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Acrobatics",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Child of Westcrown",
+        "desc": "Whether you come from Westcrown or elsewhere, you hold the values of pre-Thrune Cheliax dear. You disdain the infernal government, but you are proud of your country and do not consider yourself a rebel.\n\nChoose two ability boosts. One must be to Strength or Charisma, and one is a free ability boost.\n\nYou're trained in the Diplomacy skill and the Westcrown Lore skill. You gain the Group Impression skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Old Cheliax",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Strength",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Group Impression",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Westcrown",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Diplomacy",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Cursed Family",
+        "desc": "Rumors abound that your family is cursed. While that would explain several unfortunate events in your family history, you may or may not believe it. Regardless, odd coincidences plague your lineage, and perhaps even appear in your own life, and you have become used to spotting strangeness around you.\n\nChoose two ability boosts. One must be to Intelligence or Charisma, and one is a free ability boost.\n\nYou're trained in the Occultism skill and the Curse Lore skill. You gain the Oddity Identification skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Eye of Dread",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Intelligence",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Oddity Identification",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Curse",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Occultism",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Desert Tracker",
+        "desc": "You're at home blazing trails in the burning sands, and you made a living guiding or following creatures in the desert. You might be a native nomad, an experienced desert guide, a naturalist, a bandit driven into the dunes by the law - or all of the above.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Desert Lore skill. You gain the Experienced Tracker skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Golden Road",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Experienced Tracker",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Desert",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Diobel Pearl Diver",
+        "desc": "You spent a portion of your youth diving and gathering precious pearls under the attentive eyes of Kortos Consortium merchants.\n\nChoose two ability boosts. One must be to Constitution or Dexterity, and one is a free ability boost.\n\nYou're trained in the Athletics skill and the Ocean Lore skill. You gain the Underwater Marauder skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Absalom and Starstone Isle",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Dexterity"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Underwater Marauder",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Ocean",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Athletics",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Finadar Leshy",
+        "desc": "You are a leshy from Finadar Forest, originally created under the corruption of a cyclopean monolith. Though the Pathfinder Society managed to sever the monolith's connection, freeing the forest and your people from its influence, you retain a trace, unnerving connection to the Abyss.\n\nChoose two ability boosts. One must be to Constitution or Charisma, and one is a free ability boost.\n\nYou're trained in the Intimidation skill and the Abyssal Lore skill. You gain the Intimidating Glare skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "prerequisites": "Leshy Ancestry",
+        "region": "Broken Lands",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Intimidating Glare",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Abyssal",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Intimidation",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Final Blade Survivor",
+        "desc": "You fell prey to the whims of the Galtan mob and were scheduled for execution by final blade, but through skill - or sheer luck - you managed to talk your way out of it.\n\nChoose two ability boosts. One must be to Charisma or Wisdom, and one is a free ability boost.\n\nYou're trained in the Deception skill and the Revolution Lore skill. You gain the Charming Liar skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Shining Kingdoms",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Charisma",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Charming Liar",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Revolution",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Deception",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Freed Slave of Absalom",
+        "desc": "As a recently freed slave in Absalom, you belong to a new, close-knit social class at the heart of the city's most important trades.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Society skill and the Absalom Lore skill. You gain the Streetwise skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Absalom and Starstone Isle",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Intelligence"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Streetwise",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Absalom",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Society",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Geb Crusader",
+        "desc": "You grew up considering the existence of the undead nation of Geb an atrocity and trained to one day take part in destroying it and putting its vile inhabitants to their final rest. Key to your preparations is a thorough study of Pharasma, Urgathoa, and other undead-related deities and their philosophies.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Religion skill and the Undead Lore skill. You gain the Student of the Canon skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Impossible Lands",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Student of the Canon",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Undead",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Religion",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Goblinblood Orphan",
+        "desc": "Your family, whether goblin, hobgoblin, or human, died in the Goblinblood Wars. Though you were marked by these losses, you managed to survive through your own resilience and resourcefulness.\n\nChoose two ability boosts. One must be to Dexterity or Constitution, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Goblin Lore skill. You gain the Assurance skill feat with Survival.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Old Cheliax",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Dexterity",
+                    "Constitution"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Assurance: Survival",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Goblin",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Grand Council Bureaucrat",
+        "desc": "You spent years working as a clerk to a functionary in Absalom's government. Your service taught you a thing or two about rousing speeches and manipulating the city's bureaucracy.\n\nChoose two ability boosts. One must be to Charisma or Intelligence, and one is a free ability boost.\n\nYou're trained in the Society skill and the Government Lore skill. You gain the Group Impression skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Absalom and Starstone Isle",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Charisma",
+                    "Intelligence"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Group Impression",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Government",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Society",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Hermean Expatriate",
+        "desc": "You have been exiled from Hermea, perhaps of your own accord or perhaps because you didn't measure up. However, you take with you some of the benefits of the excellent education afforded to its citizenry.\n\nChoose two ability boosts. One must be to Intelligence or Charisma, and one is a free ability boost.\n\nYou're trained in the Society skill and the Dragon Lore skill. You gain the Skill Training skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "High Seas",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Intelligence",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Skill Training",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Dragon",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Society",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Inlander",
+        "desc": "You grew up in an untamed region of the Isle of Kortos, and you know how to survive in the wild.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Survival skill and a Lore skill related to the terrain type associated with your home region (such as Hills Lore or Mountains Lore). You gain the Survey Wildlife skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Absalom and Starstone Isle",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Survey Wildlife",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreDesc": "A Lore skill related to the terrain type associated with your home region (such as Hills Lore or Mountains Lore).",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Issian Partisan",
+        "desc": "You grew up among the northern houses of Brevoy in old Issia. Steeped in the cultural legacy of pirates and smugglers, you rely on your cleverness and charm as you make your way throughout the world.\n\nChoose two ability boosts. One must be to Intelligence or Charisma, and one is a free ability boost.\n\nYou're trained in the Deception skill and the Underworld Lore skill. You gain the Charming Liar skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Broken Lands",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Intelligence",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Charming Liar",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Underworld",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Deception",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Kalistrade Follower",
+        "desc": "You follow the philosophy of the Prophecies of Kalistrade, seeking to build up your wealth in this life so that you might meet the next world on your own terms.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Diplomacy skill and the Kalistrade Lore skill. You gain the Bargain Hunter skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Shining Kingdoms",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Intelligence"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Bargain Hunter",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Kalistrade",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Diplomacy",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Kyonin Emissary",
+        "desc": "You were trained to be an ambassador of the elven land of Kyonin, and you have now been sent out into the wider world to build alliances between Kyonin and the neighboring kingdoms.\n\nChoose two ability boosts. One must be to Charisma or Intelligence, and one is a free ability boost.\n\nYou're trained in the Society skill and the Politics Lore skill. You gain the Multilingual skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Shining Kingdoms",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Charisma",
+                    "Intelligence"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Multilingual",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Politics",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Society",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Lastwall Survivor",
+        "desc": "You managed to escape the devastation that the Whispering Tyrant brought to your nation, but you lost everything to the lich-king's minions, including your home and many friends and family.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Medicine skill and the Undead Lore skill. You gain the Battle Medicine skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Eye of Dread",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Battle Medicine",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Undead",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Medicine",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Lumber Consortium Laborer",
+        "desc": "You have suffered as a worker for the unscrupulous Lumber Consortium, laboring under harsh conditions in dangerous wooded regions of Andoran.\n\nChoose two ability boosts. One must be to Strength or Dexterity, and one is a free ability boost.\n\nYou're trained in the Athletics skill and the Forest Lore skill. You gain the Assurance skill feat with Athletics.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Shining Kingdoms",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Strength",
+                    "Dexterity"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Assurance",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Forest",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Athletics",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Magaambya Academic",
+        "desc": "You studied magic at the prestigious Magaambya academy in Nantambu, learning magical traditions dating back to Old-Mage Jatembe and earning a pedigree respected by magical scholars almost everywhere.\n\nChoose two ability boosts. One must be to Intelligence or Charisma, and one is a free ability boost.\n\nYou're trained in your choice of either the Arcana or Nature skill, as well as the Academia Lore skill. You gain the Recognize Spell skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "subTypes": true,
+        "region": "Mwangi Expanse",
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Academia",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ]
+    },
+    {
+        "name": "Magaambya Academic (Arcana)",
+        "desc": "You studied magic at the prestigious Magaambya academy in Nantambu, learning magical traditions dating back to Old-Mage Jatembe and earning a pedigree respected by magical scholars almost everywhere.\n\nChoose two ability boosts. One must be to Intelligence or Charisma, and one is a free ability boost.\n\nYou're trained in the Arcana skill, as well as the Academia Lore skill. You gain the Recognize Spell skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "subType": "Arcana",
+        "superType": "Magaambya Academic",
+        "region": "Mwangi Expanse",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Intelligence",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Recognize Spell",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Academia",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Arcana",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Magaambya Academic (Nature)",
+        "desc": "You studied magic at the prestigious Magaambya academy in Nantambu, learning magical traditions dating back to Old-Mage Jatembe and earning a pedigree respected by magical scholars almost everywhere.\n\nChoose two ability boosts. One must be to Intelligence or Charisma, and one is a free ability boost.\n\nYou're trained in the Nature skill, as well as the Academia Lore skill. You gain the Recognize Spell skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "subType": "Nature",
+        "superType": "Magaambya Academic",
+        "region": "Mwangi Expanse",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Intelligence",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Recognize Spell",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Academia",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Nature",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Mammoth Speaker",
+        "desc": "You have learned the secrets of taming the mighty mammoths and other megafauna of the far north. Perhaps these talents are a part of your people's traditional customs, or perhaps you sought out these massive animals of your own accord.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Nature skill and the Animal Lore skill. You gain the Train Animal skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Saga Lands",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Train Animal",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Animal",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Nature",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Mana Wastes Refugee",
+        "desc": "Exposure to the corrupting influence of the Mana Wastes' strange energies has warped your inner essence, resulting in unpredictable interactions with magic items and more than a little know-how about surviving under bizarre and adverse natural conditions.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Arcana skill and the Wilderness Lore skill. You gain the Trick Magic Item skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Impossible Lands",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Intelligence"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Trick Magic Item",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Wilderness",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Arcana",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Mantis Scion",
+        "desc": "At least one of your parents is a member of the notorious Red Mantis assassins, merciless killers for hire who rarely fail to claim their marks. Whether on purpose or by simple exposure, you were trained from a young age in the art of stalking and killing people.\n\nChoose two ability boosts. One must be to Dexterity or Wisdom, and one is a free ability boost.\n\nYou're trained in the Stealth skill and the Assassin Lore skill. You gain the Assurance skill feat with Stealth.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "High Seas",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Dexterity",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Assurance",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Assassin",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Stealth",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Menagerie Dung Sweeper",
+        "desc": "Whether you washed warrior beasts below the Irorium's arena floor or tended to the mutated animals of a Puddle sideshow, you are experienced with all manner of weird wildlife.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Nature skill and the Animal Lore skill. You gain the Train Animal skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Absalom and Starstone Isle",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Train Animal",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Animal",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Nature",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Merabite Prodigy",
+        "desc": "Even in a city renowned for its alchemy, you were able to rise above the competition.\n\nChoose two ability boosts. One must be to Dexterity or Intelligence, and one is a free ability boost.\n\nYou're trained in the Crafting skill and the Alchemical Lore skill. You gain the Specialty Crafting skill feat with alchemy.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Golden Road",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Dexterity",
+                    "Intelligence"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Specialty Crafting: Alchemy",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Alchemical",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Crafting",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Molthuni Mercenary",
+        "desc": "Whether you sought citizenship or simply needed a steady paycheck, you spent some of your time as a paid mercenary in the armed forces of Molthune, where you fought against Molthune's enemies such as Nirmathas or the Ironfang Legion. Alternatively, you might have worked at sea, protecting Molthune's military and trading ships against pirates on Lake Encarthan.\n\nChoose two ability boosts. One must be to Constitution or Strength, and one is a free ability boost.\n\nYou're trained in the Athletics skill and the Mercenary Lore skill. You gain the Experienced Professional skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Eye of Dread",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Strength"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Experienced Professional",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Mercenary",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Athletics",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Nexian Mystic",
+        "desc": "Your initiations into the Nexian mysteries and the philosophies of the Arclords of Nex grant you a preternatural comprehension of the arcane underpinnings of existence.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Arcana skill and a Lore skill related to one plane of your choice (other than the material plane). You gain the Arcane Sense skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Impossible Lands",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Intelligence",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Arcane Sense",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "available": 1,
+                "id": "1-Lore-Background-0",
+                "loreDesc": "A Lore skill related to one plane of your choice (other than the material plane).",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Arcana",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Nirmathi Guerrilla",
+        "desc": "Woodcraft comes naturally to you, and you have learned how to use the forest to your tactical advantage against superior forces in skirmishes against the Molthuni army or the Ironfang Legion.\n\nChoose two ability boosts. One must be to Dexterity or Wisdom, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Forest Lore skill. You gain the Terrain Stalker skill feat (underbrush).",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Eye of Dread",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Dexterity",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Terrain Stalker: Underbrush",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Forest",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Oenopion Ooze-Tender",
+        "desc": "Your apprenticeship in one of Oenopion's unorthodox arcane and alchemical academies instilled in you a deep reservoir of mostly reliable esoteric knowledge, not to mention a deep resentment born of countless hours spent mucking ooze pens and feeding helpless creatures to ravenous, belching jellies and gelatinous puddings.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Crafting skill and the Ooze Lore skill. You gain the Dubious Knowledge skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Impossible Lands",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Intelligence"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dubious Knowledge",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Ooze",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Crafting",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Onyx Trader",
+        "desc": "Oprak doesn't share the secrets of the Onyx Vault with many, but you are one of the lucky few to be permitted into the heart of the nation. You have traveled the extradimensional paths of the Stone Roads and traded goods across a wide variety of lands. You've learned to step lively in foreign markets of all types.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in the Society skill and the Mercantile Lore skill. You gain the Multilingual skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Eye of Dread",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Dexterity",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Multilingual",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Mercantile",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Society",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Osirionologist",
+        "desc": "Whether you're a fascinated outsider or a local proud of your nation's storied past, you're a devoted student of Osirion's history. You might be a traveling professor, a member of a society like the Pathfinders or the Esoteric Order of the Palatine Eye, or even a simple tomb robber cashing in on the glories of the past.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Occultism skill and the Ancient Osirion Lore skill. You gain the Oddity Identification skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Golden Road",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Intelligence"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Oddity Identification",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Ancient Osirion",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Occultism",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Pathfinder Hopeful",
+        "desc": "You've long wanted to join the adventurous Pathfinder Society. You have taken up the dangerous life of an adventurer in hopes of earning a spot among the Pathfinders.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Society skill and the Pathfinder Society Lore skill. You gain the Additional Lore skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Absalom and Starstone Isle",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Intelligence"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Additional Lore",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Pathfinder Society",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Society",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Perfection Seeker",
+        "desc": "You aspire to perfect your body and mind in the tradition of Jalmeray's Houses of Perfection, honing your acrobatic skills and mental faculties in preparation for a lifetime pushing the edge of what most consider possible.\n\nChoose two ability boosts. One must be to Dexterity or Wisdom, and one is a free ability boost.\n\nYou're trained in the Acrobatics skill and the Warfare Lore skill. You gain the Cat Fall skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Impossible Lands",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Dexterity",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Cat Fall",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Warfare",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Acrobatics",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Press-Ganged",
+        "desc": "You were forced into service as a sailor against your will. Perhaps you were punished for a crime, were drafted into military service, are repaying a debt, or simply were abducted. Though you were initially trained as a simple deckhand, you may have subsequently studied a trade under one of the vessel's specialists.\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in the Society skill and the Sailing Lore skill. You gain the Experienced Professional skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "High Seas",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Strength",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Experienced Professional",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Sailing",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Society",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Purveyor of the Bizarre",
+        "desc": "Whether in Katapesh or one of the bustling markets along the Path of Salt, you've spent enough time buying and selling ancient or unusual items to give you an instinctive ability to quickly sort valuable trinkets from worthless baubles.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Arcana skill and the Mercantile Lore skill. You gain the Quick Identification skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Golden Road",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Intelligence",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Quick Identification",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Mercantile",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Arcana",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Quick",
+        "desc": "Staying alive among the scheming, ravenous undead of Geb required a deep knowledge of their motivations, capabilities, and weaknesses. More often than not, it also required the ability to weave alibis and life-preserving half-truths capable of swaying a stilled heart.\n\nChoose two ability boosts. One must be to Charisma or Constitution, and one is a free ability boost.\n\nYou're trained in the Deception skill and the Undead Lore skill. You gain the Charming Liar skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Impossible Lands",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Charisma",
+                    "Constitution"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Charming Liar",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Undead",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Deception",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Razmiran Faithful",
+        "desc": "You serve a living god who rules upon the face of Golarion, and this gives your actions a divine mandate not to be trifled with.\n\nChoose two ability boosts. One must be to Strength or Charisma, and one is a free ability boost.\n\nYou're trained in the Intimidation skill and the Razmir Lore skill. You gain the Group Coercion skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Broken Lands",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Strength",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Group Coercion",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Razmir",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Intimidation",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Rivethun Adherent",
+        "desc": "You have spent time learning the practices and traditions of the ancient Rivethun dwarven shamans and can recognize all sorts of magic. You may have chosen your own road since then, or you may remain an adherent of the philosophy.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Occultism skill and the Spirit Lore skill. You gain the Recognize Spell skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Shining Kingdoms",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Recognize Spell",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Spirit",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Occultism",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Rostland Partisan",
+        "desc": "You grew up among the southern houses of Brevoy in old Rostland. You're accustomed to arguing from a position of underappreciated worth.\n\nChoose two ability boosts. One must be to Constitution or Charisma, and one is a free ability boost.\n\nYou're trained in the Diplomacy skill and the Politics Lore skill. You gain the Group Impression skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Broken Lands",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Group Impression",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Politics",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Diplomacy",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Sarkorian Reclaimer",
+        "desc": "Whether you trace your heritage to lost Sarkoris or are a crusader trying to atone for past fanatics' wrongs, you seek to liberate the Sarkorian homeland from the demons who have defiled it.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Medicine skill and the Abyssal Lore skill. You gain the Battle Medicine skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Broken Lands",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Battle Medicine",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Abyssal",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Medicine",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Sarkorian Survivor",
+        "desc": "The devastation and carnage of the Worldwound were nearly complete, but you somehow managed to survive it.\n\nChoose two ability boosts. One must be to Constitution or Strength, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Sarkorian History Lore skill. You gain the Forager skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Broken Lands",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Strength"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Forager",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Sarkorian History",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Scholar of the Ancients",
+        "desc": "You're fascinated by the lost Azlanti Empire and have dedicated yourself to seeking out and studying every broken artifact or scrap of knowledge that remains, whether as an academic pursuit or simply for the joy of treasure hunting.\n\nChoose two ability boosts. One must be to Intelligence or Charisma, and one is a free ability boost.\n\nYou're trained in the Arcana skill and the Azlant Lore skill. You gain the Quick Identification skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "High Seas",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Intelligence",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Quick Identification",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Azlant",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Arcana",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Secular Medic",
+        "desc": "You're from Rahadoum, where the Laws of Mortality taught you to reject the gods, yet you've seen firsthand how dangerous it can be to go without healing magic. As a result, you've thrown yourself into the study of medicine, so you can save lives without saving souls.\n\nChoose two ability boosts. One must be to Wisdom or Dexterity, and one is a free ability boost.\n\nYou're trained in the Medicine skill and the Anatomy Lore skill. You gain the Battle Medicine skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Golden Road",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Wisdom",
+                    "Dexterity"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Battle Medicine",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Anatomy",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Medicine",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Senghor Sailer",
+        "desc": "As an experienced sailor from Senghor, you know that the only thing saving you from disaster on the high seas is a properly maintained ship. You know boat-building inside and out and you can quickly cobble together a solution in the event that something breaks.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Crafting skill and the Sailing Lore skill. You gain the Quick Repair skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Mwangi Expanse",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Intelligence",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Quick Repair",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Sailing",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Crafting",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Shadow Hunted",
+        "desc": "You are from Nidal, and regardless of your personal values, Zon-Kuthon has a claim on your soul due to an ancient pact. The Midnight Lord's unsettling influence is bred deep into your bones.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Intimidation skill and the Shadow Plane Lore skill. You gain the Quick Coercion skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Old Cheliax",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Intelligence",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Quick Coercion",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Shadow Plane",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Intimidation",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Shoanti Name-Bearer",
+        "desc": "You are a member of a Shoanti quah and have gone through its coming of age ceremony, gaining the traditional tattoo of your quah and earning your adult name.\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in the Athletics skill and the Quah Lore skill. You gain the Combat Climber skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Saga Lands",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Strength",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Combat Climber",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Quah",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Athletics",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Shory Seeker",
+        "desc": "You've dedicated your life to unraveling the secrets of the ancient Shory Empire, either through meticulous research or by traveling into dangerous and distant ruins to track down long- lost artifacts.\n\nChoose two ability boosts. One must be to Dexterity or Intelligence, and one is a free ability boost.\n\nYou're trained in the Crafting skill and the Shory Lore skill. You gain the Specialty Crafting skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Mwangi Expanse",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Dexterity",
+                    "Intelligence"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Specialty Crafting",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Shory",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Crafting",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Sodden Scavenger",
+        "desc": "You've managed to eke out an existence in the storm-wracked Sodden Lands and have become an expert at scavenging food and tools.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Swamp Lore skill. You gain the Forager skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Mwangi Expanse",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Forager",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Swamp",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Storm Survivor",
+        "desc": "Through luck or through skill, you managed to survive a catastrophic maritime disaster, such as a shipwreck or being thrown overboard. You have a keen sense for weather or situations that are similar to the one you escaped.\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Weather Lore skill. You gain the Forager skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "High Seas",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Strength",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Forager",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Weather",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Taldan Schemer",
+        "desc": "Whether willing or unwilling, you have been involved in the many cutthroat political intrigues within Taldor. You might have been born into it as a member of the aristocracy, or you might have taken an active role in the recent events of the War for the Crown.\n\nChoose two ability boosts. One must be to Charisma or Constitution, and one is a free ability boost.\n\nYou're trained in the Diplomacy skill and the Politics Lore skill. You gain the Hobnobber skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Shining Kingdoms",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Charisma",
+                    "Constitution"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Hobnobber",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Politics",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Diplomacy",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Thassilonian Traveler",
+        "desc": "You come from ancient Thassilon, one of the citizens that appeared out of time alongside the city of Xin-Edasseril. You know many things that have been long forgotten... along with many things that are no longer correct.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Arcana skill and the Thassilon Lore skill. You gain the Dubious Knowledge skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Saga Lands",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Intelligence"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dubious Knowledge",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Thassilon",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Arcana",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Thrune Loyalist",
+        "desc": "Despite the setbacks Cheliax has suffered recently, your loyalties lie with the devil-backed House Thrune. You consider the current queen to be the rightful ruler of your homeland, and you are willing to act against her enemies.\n\nChoose two ability boosts. One must be to Intelligence or Charisma, and one is a free ability boost.\n\nYou're trained in the Religion skill and the Hell Lore skill. You gain the Student of the Canon skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Old Cheliax",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Intelligence",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Student of the Canon",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Hell",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Religion",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Thuvian Unifier",
+        "desc": "You believe the city-states of Thuvia should be united into one nation under the rule of your home city (most commonly Aspenthar), and you're willing to do whatever it takes to make it happen.\n\nChoose two ability boosts. One must be to Strength or Charisma, and one is a free ability boost.\n\nYou're trained in the Intimidation skill and the Politics Lore skill. You gain the Quick Coercion skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Golden Road",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Strength",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Quick Coercion",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Politics",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Intimidation",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Trade Consortium Underling",
+        "desc": "Your experience as a ledger-keeper for one of Absalom's trade guilds has made you a canny investor and shrewd entrepreneur.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Society skill and the Business Lore skill. You gain the Experienced Professional skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Absalom and Starstone Isle",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Intelligence",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Experienced Professional",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Business",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Society",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Ulfen Raider",
+        "desc": "You are an Ulfen warrior, feared among Avistan for the merciless and devastating raids your people once conducted along the shores. Though the days of these Ulfen raids are largely past, you have been trained to strike terror into the hearts of those who face you.\n\nChoose two ability boosts. One must be to Strength or Charisma, and one is a free ability boost.\n\nYou're trained in the Intimidation skill and the Sailing Lore skill. You gain the Intimidating Glare skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Saga Lands",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Strength",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Intimidating Glare",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Sailing",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Intimidation",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Undersea Enthusiast",
+        "desc": "You love diving and exploring the world beneath the waves, and long periods of swimming have trained you to move easily through the water. You're also fascinated by undersea creatures and cultures - and may even have a trace of one of them in your own lineage.\n\nChoose two ability boosts. One must be to Strength or Constitution, and one is a free ability boost.\n\nYou're trained in the Athletics skill and the Ocean Lore skill. You gain the Underwater Marauder skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "High Seas",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Strength",
+                    "Constitution"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Underwater Marauder",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Ocean",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Athletics",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Ustalavic Academic",
+        "desc": "You were educated at a famed Ustalavic academy, such as the University of Lepidstadt or the Sincomakti School of Sciences, and received quality instruction in advanced concepts of mathematics, science, and engineering.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Crafting skill and the Academia Lore skill. You gain the Skill Training skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Eye of Dread",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Intelligence",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Skill Training",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Academia",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Crafting",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Varisian Wanderer",
+        "desc": "You have spent your youth wandering the lands of Varisia and beyond among the brightly painted wagons of a Varisian caravan. You have heard endless tales of your people's history and lore, and have learned many songs and stories from the disparate people you have met.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in the Performance skill and the Circus Lore skill. You gain the Fascinating Performance skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Saga Lands",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Dexterity",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Fascinating Performance",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Circus",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Performance",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Vidrian Performer",
+        "desc": "You know that the only way your homeland of Vidrian can remain free from outside conquerors is by forging a strong and unified government. As such, you seek to bind your fellow citizens together through careful diplomacy and force of personality - or, if necessary, subterfuge and intrigue.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in the Diplomacy skill and the Politics Lore skill. You gain the Hobnobber skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Mwangi Expanse",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Dexterity",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Hobnobber",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Politics",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Diplomacy",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Whispering Way Scion",
+        "desc": "Your family has long been associated with the enigmatic death cult known as the Whispering Way, which was recently responsible for the terrible devastation in the nation of Lastwall. Whether or not you have followed in their footsteps, you know many of the philosophy's secrets.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Religion skill and the Undead Lore skill. You gain the Student of the Canon skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Eye of Dread",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Intelligence",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Student of the Canon",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Undead",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Religion",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Wildwood Local",
+        "desc": "You might have been born and raised among the druids of the Verduran Forest, or you may have spent time among them as an adult and come to know their ways.\n\nChoose two ability boosts. One must be to Dexterity or Wisdom, and one is a free ability boost.\n\nYou're trained in the Nature skill and the Forest Lore skill. You gain the Natural Medicine skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Shining Kingdoms",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Dexterity",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Natural Medicine",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Forest",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Nature",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Winter's Child",
+        "desc": "Your or one of your ancestors hails from Irrisen, and some spark of the icy region's magic has manifested itself within your bones. The blood of Baba Yaga's legacy runs in your veins, and you are at one with the mysteries and dangers of the frozen land.\n\nChoose two ability boosts. One must be to Constitution or Charisma, and one is a free ability boost.\n\nYou're trained in the Arcana skill and the Weather Lore skill. You gain the Arcane Sense skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Saga Lands",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Arcane Sense",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Weather",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Arcana",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Witch Wary",
+        "desc": "You have little love or trust for spellcraft and those who practice it, and have developed a paranoid knack for recognizing such tricks. You are constantly on guard for the magic of witches and have been trained to spot the signs of those with minds affected by magic.\n\nChoose two ability boosts. One must be to Dexterity or Intelligence, and one is a free ability boost.\n\nYou're trained in the Occultism skill and the Curse Lore skill. You gain the Oddity Identification skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Saga Lands",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Dexterity",
+                    "Intelligence"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Oddity Identification",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Curse",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Occultism",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Wonder Taster",
+        "desc": "Having once sampled Numerian fluids, you've tasted knowledge beyond comprehension. You are driven to recapture that astounding experience.\n\nChoose two ability boosts. One must be to Intelligence or Constitution, and one is a free ability boost.\n\nYou're trained in the Crafting skill and the Alchemical Lore skill. You gain the Alchemical Crafting skill feat.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "region": "Broken Lands",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Intelligence",
+                    "Constitution"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Alchemical Crafting",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Alchemical",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Crafting",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    }
+]

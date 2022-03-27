@@ -1,0 +1,99 @@
+[
+    {
+        "name": "Pesh Skin",
+        "desc": "Your plant form sprouts hundreds of spines, and your blood causes mild hallucinations in creatures exposed to it. Each time a creature touches you, hits you with an unarmed attack, or hits you with a melee weapon attack while adjacent to you, that creature takes |dice=1d6 P| 1d6 piercing damage. Increase the damage to |dice=2d6 P| 2d6 if the polymorph spell is 8th level or higher, or to |dice=3d6 P| 3d6 if it's 10th level.\n\nWhen an adjacent creature damages you with piercing or slashing damage, it must succeed at a Fortitude save against your class DC or become stupefied 1 (or stupefied 2 on a critical failure) until the end of its next turn.\n\nThese benefits last until you're no longer polymorphed into a plant.",
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "_extensionFileName": "pathfinder149",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ],
+        "endsWithConditions": [
+            {
+                "name": "Plant Form"
+            },
+            {
+                "name": "Nature Incarnate"
+            },
+            {
+                "name": "Tree Shape"
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Each time a creature touches you, hits you with an unarmed attack, or hits you with a melee weapon attack while adjacent to you, that creature takes |dice=1d6 P| 1d6 piercing damage. Increase the damage to |dice=2d6 P| 2d6 if the polymorph spell is 8th level or higher, or to |dice=3d6 P| 3d6 if it's 10th level.\n\nWhen an adjacent creature damages you with piercing or slashing damage, it must succeed at a Fortitude save against your class DC or become stupefied 1 (or stupefied 2 on a critical failure) until the end of its next turn.",
+                "showon": "Defense"
+            }
+        ]
+    },
+    {
+        "name": "Aluum Charm",
+        "desc": "The charm grants you control over an aluum you can see within 60 feet, with a level equal to or lower than the charm. This has the effect of dominate. You can control only one aluum at a time using this activation, and controlling a new aluum ends the effect for one you had previously affected.\n\n<strong>Dominate success degrees:</strong>\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target is stunned 1 as it fights off your commands.\n<strong>Failure</strong> You control the target. It gains the controlled condition, but it can attempt a Will save at the end of each of its turns. On a success, the spell ends.\n<strong>Critical Failure</strong> As a failure, but the target receives a new save only if you give it a new order that is against its nature, such as killing its allies.",
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "_extensionFileName": "pathfinder149",
+        "type": "spells",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -2
+            },
+            {
+                "duration": 10
+            }
+        ],
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 10
+            },
+            {
+                "name": "Failure"
+            },
+            {
+                "name": "Critical Failure"
+            }
+        ],
+        "gainConditions": [
+            {
+                "choice": "Success",
+                "conditionChoiceFilter": [
+                    "Success"
+                ],
+                "heightened": 6,
+                "name": "Dominate (Caster)"
+            },
+            {
+                "choice": "Failure",
+                "conditionChoiceFilter": [
+                    "Failure"
+                ],
+                "heightened": 6,
+                "name": "Dominate (Caster)"
+            },
+            {
+                "choice": "Critical Failure",
+                "conditionChoiceFilter": [
+                    "Critical Failure"
+                ],
+                "heightened": 6,
+                "name": "Dominate (Caster)"
+            }
+        ],
+        "endConditions": [
+            {
+                "name": "Aluum Charm",
+                "sameCasterOnly": true
+            }
+        ]
+    }
+]

@@ -1,0 +1,47 @@
+[
+    {
+        "name": "Rain of Embers Stance",
+        "desc": "You enter the stance of an enraged phoenix.",
+        "sourceBook": "Pathfinder Society Guide",
+        "_extensionFileName": "PFSGuide",
+        "shortdesc": "You enter the stance of an enraged phoenix.",
+        "traits": [
+            "Monk",
+            "Rare",
+            "Stance"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Rain of Embers Stance"
+        ]
+    },
+    {
+        "name": "Farabellus Flip",
+        "desc": "Surprisingly agile even in a breastplate and carrying a full rucksack, Marcos Farabellus developed this evasive maneuver during one of his many adventures.",
+        "sourceBook": "Pathfinder Society Guide",
+        "_extensionFileName": "PFSGuide",
+        "access": "Member of the Pathfinder Society.",
+        "shortdesc": "Surprisingly agile even in a breastplate and carrying a full rucksack, Marcos Farabellus developed this evasive maneuver during one of his many adventures.",
+        "PFSnote": "All characters have access to this feat.",
+        "traits": [
+            "Barbarian",
+            "Fighter",
+            "Ranger",
+            "Uncommon"
+        ],
+        "levelreq": 4,
+        "skillreq": [
+            {
+                "skill": "Acrobatics",
+                "value": 2
+            },
+            {
+                "skill": "Medium Armor",
+                "value": 2
+            }
+        ],
+        "gainActivities": [
+            "Farabellus Flip"
+        ]
+    }
+]

@@ -1,0 +1,106 @@
+[
+    {
+        "name": "Eye of the Arclords",
+        "desc": "While the eye is open, you gain the following benefits: you gain the effects of the detect magic arcane innate spell from your Arcane Sense at the start of each of your turns without needing to cast the spell; you gain darkvision; you gain a +2 status bonus to Perception checks to Seek undetected and hidden creatures and to your Perception DC against Hide and Sneak. After your third eye closes, you are dazzled for an amount of time equal to how long you had it open.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            },
+            {
+                "duration": 200
+            },
+            {
+                "duration": 500
+            }
+        ],
+        "inputRequired": "After your third eye closes, you are dazzled for an amount of time equal to how long you had it open.",
+        "hints": [
+            {
+                "desc": "You gain the effects of the detect magic arcane innate spell from your Arcane Sense at the start of each of your turns without needing to cast the spell, and you gain a +2 status bonus to Perception checks to Seek undetected and hidden creatures and to your Perception DC against Hide and Sneak.",
+                "showon": "Perception",
+                "effects": [
+                    {
+                        "affected": "Perception",
+                        "type": "status",
+                        "value": "2"
+                    }
+                ]
+            }
+        ],
+        "senses": [
+            {
+                "name": "Darkvision"
+            }
+        ]
+    },
+    {
+        "name": "Aeon Stone (Black Pearl)",
+        "desc": "You receive a +4 status bonus to your saving throw against the triggering effect.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "type": "wornitems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "hide": true,
+        "effects": [
+            {
+                "affected": "Saving Throws",
+                "type": "status",
+                "value": "4"
+            }
+        ]
+    },
+    {
+        "name": "Golden Legion Epaulet",
+        "desc": "If you follow the issued order, you gain a +1 status bonus to attack rolls, damage rolls, and saving throws against fear for the duration.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "type": "wornitems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "hints": [
+            {
+                "desc": "If you follow the issued order, you gain a +1 status bonus to attack rolls and damage rolls.",
+                "showon": "Attacks, Spellbook",
+                "effects": [
+                    {
+                        "affected": "Attack Rolls",
+                        "type": "status",
+                        "value": "1"
+                    },
+                    {
+                        "affected": "Damage Rolls",
+                        "type": "status",
+                        "value": "1"
+                    }
+                ]
+            },
+            {
+                "desc": "If you follow the issued order, you gain a +1 status bonus to saving throws against fear.",
+                "showon": "Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Will",
+                        "type": "status",
+                        "value": "1"
+                    }
+                ]
+            }
+        ]
+    }
+]

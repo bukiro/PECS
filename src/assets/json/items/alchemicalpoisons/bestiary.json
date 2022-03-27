@@ -1,0 +1,57 @@
+[
+    {
+        "name": "Black Smear Poison",
+        "id": "b32800b6-b9ef-11ea-b3de-0242ac130004",
+        "desc": "Many calignis use a debilitating poison crafted from subterranean fungi.",
+        "sourceBook": "Bestiary",
+        "_extensionFileName": "bestiary",
+        "level": 2,
+        "bulk": "L",
+        "price": 500,
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Injury",
+            "Poison"
+        ],
+        "actions": "2A",
+        "activationType": "Interact",
+        "maxDuration": "6 rounds",
+        "savingThrow": "DC 16 Fortitude",
+        "usage": "held in 2 hands",
+        "stages": [
+            "1d6 poison and enfeebled 1 (1 round)",
+            "As stage 1",
+            "1d6 poison, and enfeebled 2 (1 round)"
+        ]
+    },
+    {
+        "name": "Blue Dragonfly Poison",
+        "id": "b3280570-b9ef-11ea-b3de-0242ac130004",
+        "desc": "Boggards brew a potent toxin made from blue dragonflies. Swampseers consume this mixture to awaken their divine powers, but the poison inspires crippling hallucinations in most other creatures.",
+        "sourceBook": "Bestiary",
+        "_extensionFileName": "bestiary",
+        "level": 3,
+        "bulk": "L",
+        "price": 700,
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Ingested",
+            "Poison"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "maxDuration": "30 minutes",
+        "savingThrow": "DC 17 Fortitude",
+        "usage": "held in 1 hand",
+        "stages": [
+            "10 minutes",
+            "dazzled (10 minutes)",
+            "dazzled and frightened 1 (10 minutes)",
+            "frightened 1 and confused 1 (1 minute)"
+        ]
+    }
+]

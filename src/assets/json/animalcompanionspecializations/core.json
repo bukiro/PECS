@@ -1,1000 +1,1016 @@
 [
     {
+        "name": "Ambusher",
+        "desc": "In your companion's natural environment, it can use a Sneak action even if it's currently observed. Its proficiency rank in Stealth increases to expert (or master if it was already an expert from its type) and its Dexterity modifier increases by 1. Its proficiency rank for unarmored defense increases to expert, or master if it's nimble.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "abilityChoices": [
             {
                 "boosts": [
                     {
+                        "locked": true,
                         "name": "Dexterity",
-                        "type": "Boost",
                         "source": "First specialization",
-                        "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     },
                     {
-                        "name": "Intelligence",
-                        "type": "Boost",
-                        "source": "First specialization",
                         "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "name": "Intelligence",
+                        "source": "First specialization",
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     },
                     {
-                        "name": "Intelligence",
-                        "type": "Boost",
-                        "source": "First specialization",
                         "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "name": "Intelligence",
+                        "source": "First specialization",
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     }
                 ],
-                "source": "First specialization",
-                "id": "1-Ability-First specialization-0"
+                "id": "1-Ability-First specialization-0",
+                "source": "First specialization"
             },
             {
                 "boosts": [
                     {
-                        "name": "Dexterity",
-                        "type": "Boost",
-                        "source": "Ambusher",
                         "locked": true,
-                        "sourceId": "1-Ability-Ambusher-0"
+                        "name": "Dexterity",
+                        "source": "Ambusher",
+                        "sourceId": "1-Ability-Ambusher-0",
+                        "type": "Boost"
                     }
                 ],
-                "source": "Ambusher",
-                "id": "1-Ability-Ambusher-0"
+                "id": "1-Ability-Ambusher-0",
+                "source": "Ambusher"
             }
         ],
-        "desc": "In your companion's natural environment, it can use a Sneak action even if it's currently observed. Its proficiency rank in Stealth increases to expert (or master if it was already an expert from its type) and its Dexterity modifier increases by 1. Its proficiency rank for unarmored defense increases to expert, or master if it's nimble.",
         "hints": [
             {
                 "desc": "In your companion's natural environment, it can use a Sneak action even if it's currently observed.",
                 "showon": "Stealth"
             }
         ],
-        "name": "Ambusher",
         "skillChoices": [
             {
+                "id": "1-Skill-First specialization-0",
                 "increases": [
                     {
+                        "locked": true,
+                        "maxRank": 4,
                         "name": "Unarmed Attacks",
                         "source": "First specialization",
-                        "maxRank": 4,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-0"
                     }
                 ],
-                "type": "Skill",
                 "maxRank": 4,
                 "source": "First specialization",
-                "id": "1-Skill-First specialization-0"
+                "type": "Skill"
             },
             {
+                "id": "1-Skill-First specialization-1",
                 "increases": [
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Fortitude",
                         "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-1"
                     },
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Reflex",
                         "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-1"
                     },
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Will",
                         "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-1"
                     },
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Perception",
                         "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-1"
                     }
                 ],
-                "type": "Any",
                 "maxRank": 6,
                 "source": "First specialization",
-                "id": "1-Skill-First specialization-1"
+                "type": "Any"
             },
             {
+                "id": "1-Skill-Ambusher-0",
                 "increases": [
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Stealth",
                         "source": "Ambusher",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-Ambusher-0"
                     },
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Unarmored Defense",
                         "source": "Ambusher",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-Ambusher-0"
                     }
                 ],
-                "type": "Any",
                 "maxRank": 6,
                 "source": "Ambusher",
-                "id": "1-Skill-Ambusher-0"
+                "type": "Any"
             }
         ]
     },
     {
+        "name": "Bully",
+        "desc": "Your companion terrorizes foes with dominance displays and pushes them around the battlefield. Its proficiency ranks for Athletics and Intimidation increase to expert (or master if it was already expert from its type), its Strength modifier increases by 1, and its Charisma modifier increases by 3.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "abilityChoices": [
             {
                 "boosts": [
                     {
+                        "locked": true,
                         "name": "Dexterity",
-                        "type": "Boost",
                         "source": "First specialization",
-                        "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     },
                     {
-                        "name": "Intelligence",
-                        "type": "Boost",
-                        "source": "First specialization",
                         "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "name": "Intelligence",
+                        "source": "First specialization",
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     },
                     {
-                        "name": "Intelligence",
-                        "type": "Boost",
-                        "source": "First specialization",
                         "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "name": "Intelligence",
+                        "source": "First specialization",
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     }
                 ],
-                "source": "First specialization",
-                "id": "1-Ability-First specialization-0"
+                "id": "1-Ability-First specialization-0",
+                "source": "First specialization"
             },
             {
                 "boosts": [
                     {
+                        "locked": true,
                         "name": "Strength",
-                        "type": "Boost",
                         "source": "Bully",
-                        "locked": true,
-                        "sourceId": "1-Ability-Bully-0"
+                        "sourceId": "1-Ability-Bully-0",
+                        "type": "Boost"
                     },
                     {
-                        "name": "Charisma",
-                        "type": "Boost",
-                        "source": "Bully",
                         "locked": true,
-                        "sourceId": "1-Ability-Bully-0"
+                        "name": "Charisma",
+                        "source": "Bully",
+                        "sourceId": "1-Ability-Bully-0",
+                        "type": "Boost"
                     },
                     {
-                        "name": "Charisma",
-                        "type": "Boost",
-                        "source": "Bully",
                         "locked": true,
-                        "sourceId": "1-Ability-Bully-0"
+                        "name": "Charisma",
+                        "source": "Bully",
+                        "sourceId": "1-Ability-Bully-0",
+                        "type": "Boost"
                     },
                     {
-                        "name": "Charisma",
-                        "type": "Boost",
-                        "source": "Bully",
                         "locked": true,
-                        "sourceId": "1-Ability-Bully-0"
+                        "name": "Charisma",
+                        "source": "Bully",
+                        "sourceId": "1-Ability-Bully-0",
+                        "type": "Boost"
                     }
                 ],
-                "source": "Bully",
-                "id": "1-Ability-Bully-0"
+                "id": "1-Ability-Bully-0",
+                "source": "Bully"
             }
         ],
-        "desc": "Your companion terrorizes foes with dominance displays and pushes them around the battlefield. Its proficiency ranks for Athletics and Intimidation increase to expert (or master if it was already expert from its type), its Strength modifier increases by 1, and its Charisma modifier increases by 3.",
-        "name": "Bully",
         "skillChoices": [
             {
+                "id": "1-Skill-First specialization-0",
                 "increases": [
                     {
+                        "locked": true,
+                        "maxRank": 4,
                         "name": "Unarmed Attacks",
                         "source": "First specialization",
-                        "maxRank": 4,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-0"
                     }
                 ],
-                "type": "Skill",
                 "maxRank": 4,
                 "source": "First specialization",
-                "id": "1-Skill-First specialization-0"
+                "type": "Skill"
             },
             {
+                "id": "1-Skill-First specialization-1",
                 "increases": [
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Fortitude",
                         "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-1"
                     },
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Reflex",
                         "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-1"
                     },
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Will",
                         "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-1"
                     },
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Perception",
                         "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-1"
                     }
                 ],
-                "type": "Any",
                 "maxRank": 6,
                 "source": "First specialization",
-                "id": "1-Skill-First specialization-1"
+                "type": "Any"
             },
             {
+                "id": "1-Skill-Bully-0",
                 "increases": [
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Athletics",
                         "source": "Bully",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-Bully-0"
                     },
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Intimidation",
                         "source": "Bully",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-Bully-0"
                     }
                 ],
-                "type": "Any",
                 "maxRank": 6,
                 "source": "Bully",
-                "id": "1-Skill-Bully-0"
+                "type": "Any"
             }
         ]
     },
     {
+        "name": "Daredevil",
+        "desc": "Your companion joins the fray with graceful leaps and dives. It gains the deny advantage ability, so it isn't flat-footed to hidden, undetected, or flanking creatures unless such a creature's level is greater than yours. Its proficiency rank in Acrobatics increases to master, and its Dexterity modifier increases by 1. Its proficiency rank in unarmored defense increases to expert, or master if it's nimble.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "abilityChoices": [
             {
                 "boosts": [
                     {
+                        "locked": true,
                         "name": "Dexterity",
-                        "type": "Boost",
                         "source": "First specialization",
-                        "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     },
                     {
-                        "name": "Intelligence",
-                        "type": "Boost",
-                        "source": "First specialization",
                         "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "name": "Intelligence",
+                        "source": "First specialization",
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     },
                     {
-                        "name": "Intelligence",
-                        "type": "Boost",
-                        "source": "First specialization",
                         "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "name": "Intelligence",
+                        "source": "First specialization",
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     }
                 ],
-                "source": "First specialization",
-                "id": "1-Ability-First specialization-0"
+                "id": "1-Ability-First specialization-0",
+                "source": "First specialization"
             },
             {
                 "boosts": [
                     {
-                        "name": "Dexterity",
-                        "type": "Boost",
-                        "source": "Daredevil",
                         "locked": true,
-                        "sourceId": "1-Ability-Daredevil-0"
+                        "name": "Dexterity",
+                        "source": "Daredevil",
+                        "sourceId": "1-Ability-Daredevil-0",
+                        "type": "Boost"
                     }
                 ],
-                "source": "Daredevil",
-                "id": "1-Ability-Daredevil-0"
+                "id": "1-Ability-Daredevil-0",
+                "source": "Daredevil"
             }
         ],
-        "desc": "Your companion joins the fray with graceful leaps and dives. It gains the deny advantage ability, so it isn't flat-footed to hidden, undetected, or flanking creatures unless such a creature's level is greater than yours. Its proficiency rank in Acrobatics increases to master, and its Dexterity modifier increases by 1. Its proficiency rank in unarmored defense increases to expert, or master if it's nimble.",
         "hints": [
             {
                 "desc": "Your companion isn't flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, these creatures can still help their allies flank.",
                 "showon": "AC"
             }
         ],
-        "name": "Daredevil",
         "skillChoices": [
             {
+                "id": "1-Skill-First specialization-0",
                 "increases": [
                     {
+                        "locked": true,
+                        "maxRank": 4,
                         "name": "Unarmed Attacks",
                         "source": "First specialization",
-                        "maxRank": 4,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-0"
                     }
                 ],
-                "type": "Skill",
                 "maxRank": 4,
                 "source": "First specialization",
-                "id": "1-Skill-First specialization-0"
+                "type": "Skill"
             },
             {
+                "id": "1-Skill-First specialization-1",
                 "increases": [
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Fortitude",
                         "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-1"
                     },
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Reflex",
                         "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-1"
                     },
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Will",
                         "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-1"
                     },
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Perception",
                         "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-1"
                     }
                 ],
-                "type": "Any",
                 "maxRank": 6,
                 "source": "First specialization",
-                "id": "1-Skill-First specialization-1"
+                "type": "Any"
             },
             {
+                "id": "1-Skill-Daredevil-0",
                 "increases": [
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Acrobatics",
                         "source": "Daredevil",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-Daredevil-0"
                     },
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Unarmored Defense",
                         "source": "Daredevil",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-Daredevil-0"
                     }
                 ],
-                "type": "Any",
                 "maxRank": 6,
                 "source": "Daredevil",
-                "id": "1-Skill-Daredevil-0"
+                "type": "Any"
             }
         ]
     },
     {
+        "name": "Racer (Land Speed)",
+        "desc": "Your companion races. It gains a +10-foot status bonus to its Speed. Its proficiency in Fortitude saves increases to legendary, and its Constitution modifier increases by 1.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "abilityChoices": [
             {
                 "boosts": [
                     {
+                        "locked": true,
                         "name": "Dexterity",
-                        "type": "Boost",
                         "source": "First specialization",
-                        "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     },
                     {
-                        "name": "Intelligence",
-                        "type": "Boost",
-                        "source": "First specialization",
                         "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "name": "Intelligence",
+                        "source": "First specialization",
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     },
                     {
-                        "name": "Intelligence",
-                        "type": "Boost",
-                        "source": "First specialization",
                         "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "name": "Intelligence",
+                        "source": "First specialization",
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     }
                 ],
-                "source": "First specialization",
-                "id": "1-Ability-First specialization-0"
+                "id": "1-Ability-First specialization-0",
+                "source": "First specialization"
             },
             {
                 "boosts": [
                     {
+                        "locked": true,
                         "name": "Constitution",
-                        "type": "Boost",
                         "source": "Racer",
-                        "locked": true,
-                        "sourceId": "1-Ability-Racer-0"
+                        "sourceId": "1-Ability-Racer-0",
+                        "type": "Boost"
                     }
                 ],
-                "source": "Racer",
-                "id": "1-Ability-Racer-0"
-            }
-        ],
-        "desc": "Your companion races. It gains a +10-foot status bonus to its Speed. Its proficiency in Fortitude saves increases to legendary, and its Constitution modifier increases by 1.",
-        "name": "Racer (Land Speed)",
-        "skillChoices": [
-            {
-                "increases": [
-                    {
-                        "name": "Unarmed Attacks",
-                        "source": "First specialization",
-                        "maxRank": 4,
-                        "locked": true,
-                        "sourceId": "1-Skill-First specialization-0"
-                    }
-                ],
-                "type": "Skill",
-                "maxRank": 4,
-                "source": "First specialization",
-                "id": "1-Skill-First specialization-0"
-            },
-            {
-                "increases": [
-                    {
-                        "name": "Fortitude",
-                        "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
-                        "sourceId": "1-Skill-First specialization-1"
-                    },
-                    {
-                        "name": "Reflex",
-                        "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
-                        "sourceId": "1-Skill-First specialization-1"
-                    },
-                    {
-                        "name": "Will",
-                        "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
-                        "sourceId": "1-Skill-First specialization-1"
-                    },
-                    {
-                        "name": "Perception",
-                        "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
-                        "sourceId": "1-Skill-First specialization-1"
-                    }
-                ],
-                "type": "Any",
-                "maxRank": 6,
-                "source": "First specialization",
-                "id": "1-Skill-First specialization-1"
-            },
-            {
-                "increases": [
-                    {
-                        "name": "Fortitude",
-                        "source": "Racer",
-                        "maxRank": 8,
-                        "locked": true,
-                        "sourceId": "1-Skill-Racer-0"
-                    }
-                ],
-                "type": "Any",
-                "maxRank": 8,
-                "source": "Racer",
-                "id": "1-Skill-Racer-0"
+                "id": "1-Ability-Racer-0",
+                "source": "Racer"
             }
         ],
         "effects": [
             {
                 "affected": "Land Speed",
-                "value": 10,
-                "type": "status"
+                "type": "status",
+                "value": "10"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-First specialization-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Unarmed Attacks",
+                        "source": "First specialization",
+                        "sourceId": "1-Skill-First specialization-0"
+                    }
+                ],
+                "maxRank": 4,
+                "source": "First specialization",
+                "type": "Skill"
+            },
+            {
+                "id": "1-Skill-First specialization-1",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Fortitude",
+                        "source": "First specialization",
+                        "sourceId": "1-Skill-First specialization-1"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Reflex",
+                        "source": "First specialization",
+                        "sourceId": "1-Skill-First specialization-1"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Will",
+                        "source": "First specialization",
+                        "sourceId": "1-Skill-First specialization-1"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Perception",
+                        "source": "First specialization",
+                        "sourceId": "1-Skill-First specialization-1"
+                    }
+                ],
+                "maxRank": 6,
+                "source": "First specialization",
+                "type": "Any"
+            },
+            {
+                "id": "1-Skill-Racer-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 8,
+                        "name": "Fortitude",
+                        "source": "Racer",
+                        "sourceId": "1-Skill-Racer-0"
+                    }
+                ],
+                "maxRank": 8,
+                "source": "Racer",
+                "type": "Any"
             }
         ]
     },
     {
+        "name": "Racer (Swim Speed)",
+        "desc": "Your companion races. It gains a +10-foot status bonus to its swim Speed. Its proficiency in Fortitude saves increases to legendary, and its Constitution modifier increases by 1.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "abilityChoices": [
             {
                 "boosts": [
                     {
+                        "locked": true,
                         "name": "Dexterity",
-                        "type": "Boost",
                         "source": "First specialization",
-                        "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     },
                     {
-                        "name": "Intelligence",
-                        "type": "Boost",
-                        "source": "First specialization",
                         "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "name": "Intelligence",
+                        "source": "First specialization",
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     },
                     {
-                        "name": "Intelligence",
-                        "type": "Boost",
-                        "source": "First specialization",
                         "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "name": "Intelligence",
+                        "source": "First specialization",
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     }
                 ],
-                "source": "First specialization",
-                "id": "1-Ability-First specialization-0"
+                "id": "1-Ability-First specialization-0",
+                "source": "First specialization"
             },
             {
                 "boosts": [
                     {
+                        "locked": true,
                         "name": "Constitution",
-                        "type": "Boost",
                         "source": "Racer",
-                        "locked": true,
-                        "sourceId": "1-Ability-Racer-0"
+                        "sourceId": "1-Ability-Racer-0",
+                        "type": "Boost"
                     }
                 ],
-                "source": "Racer",
-                "id": "1-Ability-Racer-0"
-            }
-        ],
-        "desc": "Your companion races. It gains a +10-foot status bonus to its swim Speed. Its proficiency in Fortitude saves increases to legendary, and its Constitution modifier increases by 1.",
-        "name": "Racer (Swim Speed)",
-        "skillChoices": [
-            {
-                "increases": [
-                    {
-                        "name": "Unarmed Attacks",
-                        "source": "First specialization",
-                        "maxRank": 4,
-                        "locked": true,
-                        "sourceId": "1-Skill-First specialization-0"
-                    }
-                ],
-                "type": "Skill",
-                "maxRank": 4,
-                "source": "First specialization",
-                "id": "1-Skill-First specialization-0"
-            },
-            {
-                "increases": [
-                    {
-                        "name": "Fortitude",
-                        "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
-                        "sourceId": "1-Skill-First specialization-1"
-                    },
-                    {
-                        "name": "Reflex",
-                        "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
-                        "sourceId": "1-Skill-First specialization-1"
-                    },
-                    {
-                        "name": "Will",
-                        "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
-                        "sourceId": "1-Skill-First specialization-1"
-                    },
-                    {
-                        "name": "Perception",
-                        "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
-                        "sourceId": "1-Skill-First specialization-1"
-                    }
-                ],
-                "type": "Any",
-                "maxRank": 6,
-                "source": "First specialization",
-                "id": "1-Skill-First specialization-1"
-            },
-            {
-                "increases": [
-                    {
-                        "name": "Fortitude",
-                        "source": "Racer",
-                        "maxRank": 8,
-                        "locked": true,
-                        "sourceId": "1-Skill-Racer-0"
-                    }
-                ],
-                "type": "Any",
-                "maxRank": 8,
-                "source": "Racer",
-                "id": "1-Skill-Racer-0"
+                "id": "1-Ability-Racer-0",
+                "source": "Racer"
             }
         ],
         "effects": [
             {
                 "affected": "Swim Speed",
-                "value": 10,
-                "type": "status"
+                "type": "status",
+                "value": "10"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-First specialization-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Unarmed Attacks",
+                        "source": "First specialization",
+                        "sourceId": "1-Skill-First specialization-0"
+                    }
+                ],
+                "maxRank": 4,
+                "source": "First specialization",
+                "type": "Skill"
+            },
+            {
+                "id": "1-Skill-First specialization-1",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Fortitude",
+                        "source": "First specialization",
+                        "sourceId": "1-Skill-First specialization-1"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Reflex",
+                        "source": "First specialization",
+                        "sourceId": "1-Skill-First specialization-1"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Will",
+                        "source": "First specialization",
+                        "sourceId": "1-Skill-First specialization-1"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Perception",
+                        "source": "First specialization",
+                        "sourceId": "1-Skill-First specialization-1"
+                    }
+                ],
+                "maxRank": 6,
+                "source": "First specialization",
+                "type": "Any"
+            },
+            {
+                "id": "1-Skill-Racer-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 8,
+                        "name": "Fortitude",
+                        "source": "Racer",
+                        "sourceId": "1-Skill-Racer-0"
+                    }
+                ],
+                "maxRank": 8,
+                "source": "Racer",
+                "type": "Any"
             }
         ]
     },
     {
+        "name": "Racer (Fly Speed)",
+        "desc": "Your companion races. It gains a +10-foot status bonus to its fly Speed. Its proficiency in Fortitude saves increases to legendary, and its Constitution modifier increases by 1.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "abilityChoices": [
             {
                 "boosts": [
                     {
+                        "locked": true,
                         "name": "Dexterity",
-                        "type": "Boost",
                         "source": "First specialization",
-                        "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     },
                     {
-                        "name": "Intelligence",
-                        "type": "Boost",
-                        "source": "First specialization",
                         "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "name": "Intelligence",
+                        "source": "First specialization",
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     },
                     {
-                        "name": "Intelligence",
-                        "type": "Boost",
-                        "source": "First specialization",
                         "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "name": "Intelligence",
+                        "source": "First specialization",
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     }
                 ],
-                "source": "First specialization",
-                "id": "1-Ability-First specialization-0"
+                "id": "1-Ability-First specialization-0",
+                "source": "First specialization"
             },
             {
                 "boosts": [
                     {
+                        "locked": true,
                         "name": "Constitution",
-                        "type": "Boost",
                         "source": "Racer",
-                        "locked": true,
-                        "sourceId": "1-Ability-Racer-0"
+                        "sourceId": "1-Ability-Racer-0",
+                        "type": "Boost"
                     }
                 ],
-                "source": "Racer",
-                "id": "1-Ability-Racer-0"
-            }
-        ],
-        "desc": "Your companion races. It gains a +10-foot status bonus to its fly Speed. Its proficiency in Fortitude saves increases to legendary, and its Constitution modifier increases by 1.",
-        "name": "Racer (Fly Speed)",
-        "skillChoices": [
-            {
-                "increases": [
-                    {
-                        "name": "Unarmed Attacks",
-                        "source": "First specialization",
-                        "maxRank": 4,
-                        "locked": true,
-                        "sourceId": "1-Skill-First specialization-0"
-                    }
-                ],
-                "type": "Skill",
-                "maxRank": 4,
-                "source": "First specialization",
-                "id": "1-Skill-First specialization-0"
-            },
-            {
-                "increases": [
-                    {
-                        "name": "Fortitude",
-                        "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
-                        "sourceId": "1-Skill-First specialization-1"
-                    },
-                    {
-                        "name": "Reflex",
-                        "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
-                        "sourceId": "1-Skill-First specialization-1"
-                    },
-                    {
-                        "name": "Will",
-                        "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
-                        "sourceId": "1-Skill-First specialization-1"
-                    },
-                    {
-                        "name": "Perception",
-                        "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
-                        "sourceId": "1-Skill-First specialization-1"
-                    }
-                ],
-                "type": "Any",
-                "maxRank": 6,
-                "source": "First specialization",
-                "id": "1-Skill-First specialization-1"
-            },
-            {
-                "increases": [
-                    {
-                        "name": "Fortitude",
-                        "source": "Racer",
-                        "maxRank": 8,
-                        "locked": true,
-                        "sourceId": "1-Skill-Racer-0"
-                    }
-                ],
-                "type": "Any",
-                "maxRank": 8,
-                "source": "Racer",
-                "id": "1-Skill-Racer-0"
+                "id": "1-Ability-Racer-0",
+                "source": "Racer"
             }
         ],
         "effects": [
             {
                 "affected": "Fly Speed",
-                "value": 10,
-                "type": "status"
+                "type": "status",
+                "value": "10"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-First specialization-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Unarmed Attacks",
+                        "source": "First specialization",
+                        "sourceId": "1-Skill-First specialization-0"
+                    }
+                ],
+                "maxRank": 4,
+                "source": "First specialization",
+                "type": "Skill"
+            },
+            {
+                "id": "1-Skill-First specialization-1",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Fortitude",
+                        "source": "First specialization",
+                        "sourceId": "1-Skill-First specialization-1"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Reflex",
+                        "source": "First specialization",
+                        "sourceId": "1-Skill-First specialization-1"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Will",
+                        "source": "First specialization",
+                        "sourceId": "1-Skill-First specialization-1"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Perception",
+                        "source": "First specialization",
+                        "sourceId": "1-Skill-First specialization-1"
+                    }
+                ],
+                "maxRank": 6,
+                "source": "First specialization",
+                "type": "Any"
+            },
+            {
+                "id": "1-Skill-Racer-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 8,
+                        "name": "Fortitude",
+                        "source": "Racer",
+                        "sourceId": "1-Skill-Racer-0"
+                    }
+                ],
+                "maxRank": 8,
+                "source": "Racer",
+                "type": "Any"
             }
         ]
     },
     {
+        "name": "Tracker",
+        "desc": "Your companion is an incredible tracker. It can move at full Speed while following tracks. Its proficiency rank in Survival increases to expert (or master if it was already an expert from its type), and its Wisdom modifier increases by 1.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "abilityChoices": [
             {
                 "boosts": [
                     {
+                        "locked": true,
                         "name": "Dexterity",
-                        "type": "Boost",
                         "source": "First specialization",
-                        "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     },
                     {
-                        "name": "Intelligence",
-                        "type": "Boost",
-                        "source": "First specialization",
                         "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "name": "Intelligence",
+                        "source": "First specialization",
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     },
                     {
-                        "name": "Intelligence",
-                        "type": "Boost",
-                        "source": "First specialization",
                         "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "name": "Intelligence",
+                        "source": "First specialization",
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     }
                 ],
-                "source": "First specialization",
-                "id": "1-Ability-First specialization-0"
+                "id": "1-Ability-First specialization-0",
+                "source": "First specialization"
             },
             {
                 "boosts": [
                     {
-                        "name": "Wisdom",
-                        "type": "Boost",
-                        "source": "Tracker",
                         "locked": true,
-                        "sourceId": "1-Ability-Tracker-0"
+                        "name": "Wisdom",
+                        "source": "Tracker",
+                        "sourceId": "1-Ability-Tracker-0",
+                        "type": "Boost"
                     }
                 ],
-                "source": "Tracker",
-                "id": "1-Ability-Tracker-0"
+                "id": "1-Ability-Tracker-0",
+                "source": "Tracker"
             }
         ],
-        "desc": "Your companion is an incredible tracker. It can move at full Speed while following tracks. Its proficiency rank in Survival increases to expert (or master if it was already an expert from its type), and its Wisdom modifier increases by 1.",
         "hints": [
             {
                 "desc": "Your companion can move at full Speed while following tracks.",
                 "showon": "Movement"
             }
         ],
-        "name": "Tracker",
         "skillChoices": [
             {
+                "id": "1-Skill-First specialization-0",
                 "increases": [
                     {
+                        "locked": true,
+                        "maxRank": 4,
                         "name": "Unarmed Attacks",
                         "source": "First specialization",
-                        "maxRank": 4,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-0"
                     }
                 ],
-                "type": "Skill",
                 "maxRank": 4,
                 "source": "First specialization",
-                "id": "1-Skill-First specialization-0"
+                "type": "Skill"
             },
             {
+                "id": "1-Skill-First specialization-1",
                 "increases": [
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Fortitude",
                         "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-1"
                     },
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Reflex",
                         "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-1"
                     },
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Will",
                         "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-1"
                     },
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Perception",
                         "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-1"
                     }
                 ],
-                "type": "Any",
                 "maxRank": 6,
                 "source": "First specialization",
-                "id": "1-Skill-First specialization-1"
+                "type": "Any"
             },
             {
+                "id": "1-Skill-Tracker-0",
                 "increases": [
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Survival",
                         "source": "Tracker",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-Tracker-0"
                     }
                 ],
-                "type": "Any",
                 "maxRank": 6,
                 "source": "Tracker",
-                "id": "1-Skill-Tracker-0"
+                "type": "Any"
             }
         ]
     },
     {
+        "name": "Wrecker",
+        "desc": "Your companion smashes things. Its unarmed attacks ignore half an object's Hardness. Its Athletics proficiency increases to master, and its Strength modifier increases by 1.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "abilityChoices": [
             {
                 "boosts": [
                     {
+                        "locked": true,
                         "name": "Dexterity",
-                        "type": "Boost",
                         "source": "First specialization",
-                        "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     },
                     {
-                        "name": "Intelligence",
-                        "type": "Boost",
-                        "source": "First specialization",
                         "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "name": "Intelligence",
+                        "source": "First specialization",
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     },
                     {
-                        "name": "Intelligence",
-                        "type": "Boost",
-                        "source": "First specialization",
                         "locked": true,
-                        "sourceId": "1-Ability-First specialization-0"
+                        "name": "Intelligence",
+                        "source": "First specialization",
+                        "sourceId": "1-Ability-First specialization-0",
+                        "type": "Boost"
                     }
                 ],
-                "source": "First specialization",
-                "id": "1-Ability-First specialization-0"
+                "id": "1-Ability-First specialization-0",
+                "source": "First specialization"
             },
             {
                 "boosts": [
                     {
-                        "name": "Strength",
-                        "type": "Boost",
-                        "source": "Wrecker",
                         "locked": true,
-                        "sourceId": "1-Ability-Wrecker-0"
+                        "name": "Strength",
+                        "source": "Wrecker",
+                        "sourceId": "1-Ability-Wrecker-0",
+                        "type": "Boost"
                     }
                 ],
-                "source": "Wrecker",
-                "id": "1-Ability-Wrecker-0"
+                "id": "1-Ability-Wrecker-0",
+                "source": "Wrecker"
             }
         ],
-        "desc": "Your companion smashes things. Its unarmed attacks ignore half an object's Hardness. Its Athletics proficiency increases to master, and its Strength modifier increases by 1.",
         "hints": [
             {
                 "desc": "Your companion's unarmed attacks ignore half an object's Hardness.",
                 "showon": "Attacks"
             }
         ],
-        "name": "Wrecker",
         "skillChoices": [
             {
+                "id": "1-Skill-First specialization-0",
                 "increases": [
                     {
+                        "locked": true,
+                        "maxRank": 4,
                         "name": "Unarmed Attacks",
                         "source": "First specialization",
-                        "maxRank": 4,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-0"
                     }
                 ],
-                "type": "Skill",
                 "maxRank": 4,
                 "source": "First specialization",
-                "id": "1-Skill-First specialization-0"
+                "type": "Skill"
             },
             {
+                "id": "1-Skill-First specialization-1",
                 "increases": [
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Fortitude",
                         "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-1"
                     },
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Reflex",
                         "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-1"
                     },
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Will",
                         "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-1"
                     },
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Perception",
                         "source": "First specialization",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-First specialization-1"
                     }
                 ],
-                "type": "Any",
                 "maxRank": 6,
                 "source": "First specialization",
-                "id": "1-Skill-First specialization-1"
+                "type": "Any"
             },
             {
+                "id": "1-Skill-Wrecker-0",
                 "increases": [
                     {
+                        "locked": true,
+                        "maxRank": 6,
                         "name": "Athletics",
                         "source": "Wrecker",
-                        "maxRank": 6,
-                        "locked": true,
                         "sourceId": "1-Skill-Wrecker-0"
                     }
                 ],
-                "type": "Any",
                 "maxRank": 6,
                 "source": "Wrecker",
-                "id": "1-Skill-Wrecker-0"
+                "type": "Any"
             }
         ]
     }

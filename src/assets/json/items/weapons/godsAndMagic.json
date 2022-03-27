@@ -1,0 +1,341 @@
+[
+    {
+        "name": "Bladed Scarf",
+        "id": "0869324d-8daa-11ea-abca-ffb46fbada73",
+        "desc": "The thin metal plates interwoven throughout this long scarf turn a fashion accessory into a deadly weapon.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "bulk": "1",
+        "price": 300,
+        "traits": [
+            "Monk",
+            "Parry",
+            "Reach",
+            "Trip"
+        ],
+        "dicesize": 8,
+        "dmgType": "S",
+        "group": "Flail",
+        "hands": 2,
+        "melee": 10,
+        "prof": "Martial Weapons"
+    },
+    {
+        "name": "Fighting Fan",
+        "id": "08693259-8daa-11ea-abca-ffb46fbada73",
+        "desc": "This fan is useful for elegant dances as well as for slicing unsuspecting foes with the blades along its outer edge. If used in performances, it might be disguised as a frilly accessory, or it might be an obvious, though elegant, weapon.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "bulk": "L",
+        "price": 110,
+        "traits": [
+            "Agile",
+            "Backstabber",
+            "Deadly d6",
+            "Finesse",
+            "Monk",
+            "Uncommon"
+        ],
+        "dicesize": 4,
+        "dmgType": "S",
+        "group": "Knife",
+        "hands": 1,
+        "melee": 10,
+        "prof": "Martial Weapons"
+    },
+    {
+        "name": "Khopesh",
+        "id": "08693277-8daa-11ea-abca-ffb46fbada73",
+        "desc": "This curved sickle sword has a pointed tip, allowing it to be swung like a handaxe or thrust like a short sword. The tip of a khopesh is usually hooked so that it can be used to disarm an opponent's shield or weapon.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "bulk": "1",
+        "price": 200,
+        "traits": [
+            "Trip",
+            "Uncommon"
+        ],
+        "dicesize": 8,
+        "dmgType": "S",
+        "group": "Sword",
+        "hands": 1,
+        "melee": 5,
+        "prof": "Martial Weapons"
+    },
+    {
+        "name": "Machete",
+        "id": "08693283-8daa-11ea-abca-ffb46fbada73",
+        "desc": "This medium-length sword has a wide blade and long grip. Though it is typically used to hack through heavy foliage, the machete can also be used as a deadly weapon.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "bulk": "L",
+        "price": 70,
+        "traits": [
+            "Deadly d8",
+            "Sweep"
+        ],
+        "dicesize": 8,
+        "dmgType": "S",
+        "group": "Sword",
+        "hands": 1,
+        "melee": 5,
+        "prof": "Martial Weapons"
+    },
+    {
+        "name": "Mambele",
+        "id": "08693287-8daa-11ea-abca-ffb46fbada73",
+        "desc": "Also known as a hunga munga or danisco, this hybrid knife-axe consists of a hilt and a blade that curves backward toward the wielder. The curve of the blade is such that after a victim has been struck by a mambele, more damage is dealt as the weapon is extracted from the victim's body.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "bulk": "1",
+        "price": 60,
+        "traits": [
+            "Deadly d8",
+            "Disarm",
+            "Thrown 20 ft.",
+            "Uncommon"
+        ],
+        "dmgType": "S",
+        "group": "Axe",
+        "hands": 1,
+        "melee": 5,
+        "prof": "Martial Weapons",
+        "ranged": 20
+    },
+    {
+        "name": "Meteor Hammer",
+        "id": "08695922-8daa-11ea-abca-ffb46fbada73",
+        "desc": "This weapon consists of a long chain connected to a heavy weight at one end. When a wielder swings the weight by the chain, it builds momentum and can serve as a deadly bludgeon with incredible reach.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "bulk": "2",
+        "price": 300,
+        "traits": [
+            "Backswing",
+            "Disarm",
+            "Reach",
+            "Trip"
+        ],
+        "dicesize": 8,
+        "dmgType": "B",
+        "group": "Flail",
+        "hands": 2,
+        "melee": 10,
+        "prof": "Martial Weapons"
+    },
+    {
+        "name": "Naginata",
+        "id": "08695924-8daa-11ea-abca-ffb46fbada73",
+        "desc": "This 6-foot staff has a 2-foot-long, slightly curved, swordlike blade attached at one end. The long pole helps keep the wielder out of reach of swords and shorter weapons.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "bulk": "2",
+        "price": 300,
+        "traits": [
+            "Deadly d8",
+            "Reach",
+            "Uncommon",
+            "Versatile P"
+        ],
+        "dicesize": 8,
+        "dmgType": "S",
+        "group": "Polearm",
+        "hands": 2,
+        "melee": 10,
+        "prof": "Martial Weapons"
+    },
+    {
+        "name": "Nine-Ring Sword",
+        "id": "08695926-8daa-11ea-abca-ffb46fbada73",
+        "desc": "This sword has a broad blade, along which are threaded nine heavy metal rings. The rings add weight to the weapon for downward swings, as well as clashing together to make noise.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "bulk": "1",
+        "price": 90,
+        "traits": [
+            "Disarm",
+            "Uncommon"
+        ],
+        "dicesize": 8,
+        "dmgType": "S",
+        "group": "Sword",
+        "hands": 1,
+        "melee": 5,
+        "prof": "Martial Weapons"
+    },
+    {
+        "name": "Polytool",
+        "id": "0869592e-8daa-11ea-abca-ffb46fbada73",
+        "desc": "The polytool is a small metal rod with a number of simple tools folded inside. The user can extend a long ceramic blade, as well as an awl, a chisel, a file, flint and steel, a hook, an inkpen, a magnifying glass, pliers, scissors, and a small saw. The flint and steel can be used up to 10 times before needing to be replaced. Though inspired by advanced Numerian technology, the polytool is a simple enough feat of metalworking that any blacksmith could produce it -  perfect for the goddess Casandalee to spread innovation farther than actual Numerian tech could reach.\n\nCharacters from Numeria have access to the polytool.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "level": 1,
+        "bulk": "1",
+        "price": 1000,
+        "traits": [
+            "Agile",
+            "Modular P, B or S",
+            "Uncommon"
+        ],
+        "dmgType": "modular",
+        "group": "Sword",
+        "hands": 1,
+        "melee": 5,
+        "prof": "Martial Weapons"
+    },
+    {
+        "name": "Tekko-Kagi",
+        "id": "0869594c-8daa-11ea-abca-ffb46fbada73",
+        "desc": "Four curved blades attached to a sturdy handlebar give the wielder of this close-combat weapon the illusion of having claws that extend from their fist. Adherents of Bastet favor the tekko-kagi for catching their foes off guard.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "bulk": "L",
+        "price": 20,
+        "traits": [
+            "Agile",
+            "Disarm",
+            "Finesse",
+            "Parry",
+            "Trip",
+            "Uncommon"
+        ],
+        "dicesize": 4,
+        "dmgType": "S",
+        "group": "Brawling",
+        "hands": 1,
+        "melee": 5,
+        "prof": "Martial Weapons"
+    },
+    {
+        "name": "Urumi",
+        "id": "08695952-8daa-11ea-abca-ffb46fbada73",
+        "desc": "A bouquet of whiplike blades extends from the hilt of this sword.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "bulk": "2",
+        "price": 200,
+        "traits": [
+            "Deadly d10",
+            "Sweep",
+            "Uncommon"
+        ],
+        "dmgType": "S",
+        "group": "Flail",
+        "hands": 1,
+        "melee": 5,
+        "prof": "Martial Weapons"
+    },
+    {
+        "name": "War Razor",
+        "id": "08695956-8daa-11ea-abca-ffb46fbada73",
+        "desc": "A war razor is an exaggerated version of the barbers' tool. It is a brittle but extremely sharp weapon that is very easy to slip into a pocket or sleeve.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "bulk": "L",
+        "price": 30,
+        "traits": [
+            "Agile",
+            "Backstabber",
+            "Deadly d8",
+            "Finesse"
+        ],
+        "dicesize": 4,
+        "dmgType": "S",
+        "group": "Knife",
+        "hands": 1,
+        "melee": 5,
+        "prof": "Martial Weapons"
+    },
+    {
+        "name": "Bola",
+        "id": "08698049-8daa-11ea-abca-ffb46fbada73",
+        "desc": "This throwing weapon consists of weights tied to the end of long cords, which can be used to bludgeon foes or entangle their legs.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "bulk": "L",
+        "price": 50,
+        "traits": [
+            "Nonlethal",
+            "Ranged Trip",
+            "Thrown 20 ft.",
+            "Uncommon"
+        ],
+        "dmgType": "B",
+        "group": "Sling",
+        "hands": 1,
+        "prof": "Martial Weapons",
+        "ranged": 20
+    },
+    {
+        "name": "Necklace of Knives Steel Dagger",
+        "displayName": "Steel Dagger",
+        "id": "a86c588a-aedb-4fa5-8c30-e4d4d991dd44",
+        "desc": "This small, bladed weapon is held in one hand and used to stab a creature in close combat. It can also be thrown.\n\nThis steel dagger will fade away 1 round after it leaves your hand.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "bulk": "L",
+        "price": 0,
+        "traits": [
+            "Agile",
+            "Finesse",
+            "Thrown 10 ft.",
+            "Versatile S"
+        ],
+        "dicenum": 1,
+        "dicesize": 4,
+        "dmgType": "P/S",
+        "group": "Knife",
+        "hands": 1,
+        "melee": 5,
+        "ranged": 10,
+        "weaponBase": "Dagger"
+    },
+    {
+        "name": "Necklace of Knives Stone Dagger",
+        "displayName": "Stone Dagger",
+        "id": "cde099b4-05b9-48a0-86a3-316c2b485722",
+        "desc": "This small, bladed weapon is held in one hand and used to stab a creature in close combat. It can also be thrown.\n\nThis stone dagger will fade away 1 round after it leaves your hand.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "bulk": "L",
+        "price": 0,
+        "traits": [
+            "Agile",
+            "Finesse",
+            "Thrown 10 ft.",
+            "Versatile S"
+        ],
+        "dicenum": 1,
+        "dicesize": 4,
+        "dmgType": "P/S",
+        "group": "Knife",
+        "hands": 1,
+        "melee": 5,
+        "ranged": 10,
+        "weaponBase": "Dagger"
+    },
+    {
+        "name": "Necklace of Knives Wooden Dagger",
+        "displayName": "Wooden Dagger",
+        "id": "85062217-d2f6-457b-92e7-5b9e26215a12",
+        "desc": "This small, bladed weapon is held in one hand and used to stab a creature in close combat. It can also be thrown.\n\nThis wooden dagger is as effective as an ordinary steel dagger and can be useful to stake vampires. It will fade away 1 round after it leaves your hand.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "bulk": "L",
+        "price": 0,
+        "traits": [
+            "Agile",
+            "Finesse",
+            "Thrown 10 ft.",
+            "Versatile S"
+        ],
+        "dicenum": 1,
+        "dicesize": 4,
+        "dmgType": "P/S",
+        "group": "Knife",
+        "hands": 1,
+        "melee": 5,
+        "ranged": 10,
+        "weaponBase": "Dagger"
+    }
+]

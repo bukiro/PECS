@@ -1,0 +1,191 @@
+[
+    {
+        "name": "Apex Companion",
+        "desc": "You have been transformed into your apex battle form. You gain the following statistics and abilities while in your apex form.\n\nYou become Huge and your attacks have 15-foot reach.\n30 temporary Hit Points.\nDarkvision.\nYour attack's damage dice increase by one step, and your attack gains the deadly d12 trait.\n+10-foot status bonus to your Speeds.\nYou ignore difficult terrain and greater difficult terrain.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "type": "spells",
+        "minLevel": 10,
+        "sortLevel": 10,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You ignore difficult terrain and greater difficult terrain.",
+                "showon": "Movement"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Size",
+                "setValue": "2",
+                "title": "'Huge'"
+            },
+            {
+                "affected": "Unarmed Attacks Gain Trait",
+                "title": "'Deadly d12'",
+                "toggle": true
+            },
+            {
+                "affected": "Reach",
+                "setValue": "15"
+            },
+            {
+                "affected": "Damage Dice Size",
+                "value": "2"
+            },
+            {
+                "affected": "Speed",
+                "type": "status",
+                "value": "10"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "30"
+            }
+        ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "-Temporary_HP('',effect.sourceId)"
+            }
+        ],
+        "senses": [
+            {
+                "name": "Darkvision"
+            }
+        ]
+    },
+    {
+        "name": "Apex Companion (Caster)",
+        "desc": "Focusing on the energies of all members of your animal companion's species, you have transformed your animal companion into its apex battle form. Your animal companion gains the following statistics and abilities while in its apex form.\n\nYour animal companion becomes Huge and its attacks have 15-foot reach. It must have enough space to expand into or the spell is lost.\n30 temporary Hit Points.\nDarkvision.\nYour animal companion's attack's damage dice increase by one step, and its attack gains the deadly d12 trait.\n+10-foot status bonus to its Speeds.\nIgnores difficult terrain and greater difficult terrain.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "type": "spells",
+        "minLevel": 10,
+        "sortLevel": 10,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "unlimited": true
+    },
+    {
+        "name": "Song of the Fallen",
+        "desc": "A dirge or an elegy is chanted that either rouses the dead to action or reminds undead that they should lay to rest.\n\nIf you are dead creature, and the spell targets dead creatures, your body animates and can continue acting as if you were alive. A creature animated in this way has 60 temporary Hit Points. You are slowed 1 but can otherwise act normally. Creatures animated with this spell die again once the spell ends.\n\nIf you are undead creature, and the spell targets undead creatures, you are affected according to your Will save.\n\n<strong>Critical Success</strong> You take 5d6 positive damage.\n<strong>Success</strong> You take 10d6 positive damage and are slowed 1 for 1 round.\n<strong>Failure</strong> You take 100 positive damage and are slowed 1 for 1 minute.\n<strong>Critical Failure</strong> You are destroyed.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "type": "spells",
+        "minLevel": 10,
+        "sortLevel": 10,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10,
+                "minLevel": 100
+            }
+        ],
+        "choice": "Dead",
+        "choices": [
+            {
+                "name": "Dead",
+                "defaultDuration": 100
+            },
+            {
+                "name": "Undead: Critical Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Undead: Success",
+                "defaultDuration": 10
+            },
+            {
+                "name": "Undead: Failure",
+                "defaultDuration": 100
+            },
+            {
+                "name": "Undead: Critical Failure",
+                "defaultDuration": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "(Choice == 'Dead') ? 60 : 0"
+            }
+        ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "-Temporary_HP('',effect.sourceId)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": [
+                    "Dead"
+                ],
+                "name": "Slowed",
+                "value": 1
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Undead: Success"
+                ],
+                "name": "Slowed",
+                "value": 1
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Undead: Failure"
+                ],
+                "name": "Slowed",
+                "value": 1
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Undead: Critical Failure"
+                ],
+                "name": "Dead"
+            }
+        ],
+        "overrideConditions": [
+            {
+                "name": "Dead"
+            }
+        ]
+    },
+    {
+        "name": "Song of the Fallen (Caster)",
+        "desc": "You chant a dirge or an elegy that either rouses the dead to action or reminds undead that they should lay to rest.\n\nIf you have targeted dead creatures, the bodies animate and can continue acting as if they were alive. A creature animated in this way has 60 temporary Hit Points. The animated creatures are slowed 1 but can otherwise act normally. Creatures animated with this spell die again once the spell ends.\n\nIf you have targeted undead creatures, they are affected according to their Will save.\n\n<strong>Critical Success</strong> The undead takes 5d6 positive damage.\n<strong>Success</strong> The undead takes 10d6 positive damage and is slowed 1 for 1 round.\n<strong>Failure</strong> The undead takes 100 positive damage and is slowed 1 for 1 minute.\n<strong>Critical Failure</strong> The undead is destroyed.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "type": "spells",
+        "minLevel": 10,
+        "sortLevel": 10,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "unlimited": true,
+        "choice": "Dead Creatures",
+        "choices": [
+            {
+                "name": "Dead Creatures"
+            },
+            {
+                "name": "Undead Creatures"
+            }
+        ]
+    }
+]

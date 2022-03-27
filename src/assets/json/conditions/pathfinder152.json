@@ -1,0 +1,408 @@
+[
+    {
+        "name": "Wondrous Figurine (Candy Constrictor)",
+        "desc": "The wondrous figurine has transformed into a rainbow-striped ball python with the minion trait, except it lacks the Stealth skill. It can understand your language and obeys you to the best of its ability when you use an action to command it.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
+        "sourceBook": "Pathfinder #152: Legacy of the Lost God",
+        "_extensionFileName": "pathfinder152",
+        "type": "helditems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 2000
+            }
+        ]
+    },
+    {
+        "name": "Wondrous Figurine (Candy Constrictor) Cooldown",
+        "desc": "The ball python has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
+        "sourceBook": "Pathfinder #152: Legacy of the Lost God",
+        "_extensionFileName": "pathfinder152",
+        "type": "helditems",
+        "sortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": 1008000
+            }
+        ],
+        "hide": true,
+        "hints": [
+            {
+                "desc": "You can't activate the figurine again until 1 week has passed.",
+                "showon": "Wondrous Figurine (Candy Constrictor)"
+            }
+        ]
+    },
+    {
+        "name": "Wondrous Figurine (Rubber Bear)",
+        "desc": "The wondrous figurine has transformed into a grizzly bear wearing a tutu and a fez and balancing on a ball slightly larger than its head. It can understand your language and obeys you to the best of its ability when you use an action to command it. The bear remains balanced upon its rubber ball, and is therefore ungainly: it cannot Climb or Swim, has a -10- foot circumstance penalty to its Speed, and is always flat-footed. If the bear leaves its ball, such as if it is repositioned with forced movement or knocked prone, it immediately reverts to statuette form.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
+        "sourceBook": "Pathfinder #152: Legacy of the Lost God",
+        "_extensionFileName": "pathfinder152",
+        "type": "helditems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 6000
+            }
+        ]
+    },
+    {
+        "name": "Wondrous Figurine (Rubber Bear) Cooldown",
+        "desc": "The grizzly bear has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
+        "sourceBook": "Pathfinder #152: Legacy of the Lost God",
+        "_extensionFileName": "pathfinder152",
+        "type": "helditems",
+        "sortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": 1008000
+            }
+        ],
+        "hide": true,
+        "hints": [
+            {
+                "desc": "You can't activate the figurine again until 1 week has passed.",
+                "showon": "Wondrous Figurine (Rubber Bear)"
+            }
+        ]
+    },
+    {
+        "name": "Pillar of Water",
+        "desc": "You have created a large, self-contained cylinder of still fresh water. The pillar has a maximum radius of 15 feet and a maximum height of 60 feet. Creatures inside the pillar can swim through the water as normal (Swim DC 10), or, if the spell was cast on solid ground, walk along the bottom (which is difficult terrain). Any creature that exits the pillar falls or lands accordingly.",
+        "sourceBook": "Pathfinder #152: Legacy of the Lost God",
+        "_extensionFileName": "pathfinder152",
+        "type": "spells",
+        "minLevel": 3,
+        "sortLevel": 3,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ]
+    },
+    {
+        "name": "Pyrotechnics (Caster)",
+        "desc": "You have turned a fire into either a burst of blinding fireworks or a thick cloud of choking smoke, chosen when you Cast the Spell.\n\n<strong>Fireworks</strong> The targeted fire has exploded into a colorful array of flashy, fiery, glowing aerial fireworks in a 20-foot-radius burst. The first time you Sustain the Spell each round, you can cause the area of fireworks to ascend up to 20 feet, but you cannot move the area laterally. Creatures that start their turn within the area of the fireworks must attempt a Fortitude save, and are then temporarily immune for 1 minute.<br><strong>Critical Success</strong> The creature is unaffected<br><strong>Success</strong> The creature is dazzled until the end of its next turn.<br><strong>Failure</strong> The creature is blinded until the end of its next turn.<br><strong>Critical Failure</strong> The creature is blinded for 1 minute.\n<strong>Smoke Cloud</strong> Thick smoke has billowed out from the fire and coalesced into a cloud that spreads to fill a 20-foot-radius burst centered on the targeted fire. Creatures within the smoke cloud take a -4 circumstance penalty to visual Perception checks, and creatures outside the smoke cloud take a -4 circumstance penalty to visual Perception checks to detect creatures or objects within it. The first time you Sustain the Spell each round, you can cause the smoke cloud to descend up to 20 feet, but you cannot move the area laterally. Creatures that start their turn within the smoke cloud must attempt a Fortitude save, and are then temporarily immune for 1 minute.<br><strong>Success</strong> The creature is unaffected.<br><strong>Failure</strong> The creature is sickened 1.<br><strong>Critical Failure</strong> The creature is sickened 1 and cannot recover from the sickened condition while in the area of the smoke cloud.",
+        "sourceBook": "Pathfinder #152: Legacy of the Lost God",
+        "_extensionFileName": "pathfinder152",
+        "type": "spells",
+        "minLevel": 3,
+        "sortLevel": 3,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "unlimited": true,
+        "hints": [
+            {
+                "desc": "Creatures within the smoke cloud take a -4 circumstance penalty to visual Perception checks, and creatures outside the smoke cloud take a -4 circumstance penalty to visual Perception checks to detect creatures or objects within it.",
+                "showon": "Perception",
+                "effects": [
+                    {
+                        "affected": "Perception",
+                        "type": "circumstance",
+                        "value": "-4"
+                    }
+                ]
+            }
+        ],
+        "choice": "Fireworks",
+        "choices": [
+            {
+                "name": "Fireworks"
+            },
+            {
+                "name": "Smoke Cloud"
+            }
+        ]
+    },
+    {
+        "name": "Pyrotechnics (Fireworks)",
+        "desc": "You have started your turn in a colorful array of flashy, fiery, glowing aerial fireworks. You are affected depending on your Fortitude save. You are then temporarily immune for 1 minute.\n\n<strong>Critical Success</strong> You are unaffected.\n<strong>Success</strong> You are dazzled until the end of your next turn.\n<strong>Failure</strong> You are blinded until the end of your next turn.\n<strong>Critical Failure</strong> You are blinded for 1 minute.",
+        "sourceBook": "Pathfinder #152: Legacy of the Lost God",
+        "_extensionFileName": "pathfinder152",
+        "type": "spells",
+        "minLevel": 3,
+        "sortLevel": 3,
+        "defaultDurations": [
+            {
+                "duration": 5
+            },
+            {
+                "duration": 100
+            }
+        ],
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 5
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 5
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": 100
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": [
+                    "Success"
+                ],
+                "name": "Dazzled"
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Failure",
+                    "Critical Failure"
+                ],
+                "name": "Blinded"
+            },
+            {
+                "duration": 100,
+                "name": "Pyrotechnics Immunity",
+                "persistent": true,
+                "ignorePersistentAtChoiceChange": true
+            }
+        ],
+        "nextCondition": [
+            {
+                "duration": 100,
+                "name": "Pyrotechnics Immunity"
+            }
+        ]
+    },
+    {
+        "name": "Pyrotechnics (Smoke Cloud)",
+        "desc": "A cloud of thick smoke is filling the target area. Creatures within the smoke cloud take a -4 circumstance penalty to visual Perception checks, and creatures outside the smoke cloud take a -4 circumstance penalty to visual Perception checks to detect creatures or objects within it.\n\nIf you started your turn within a cloud of thick smoke cloud, you suffer additional effects depending on your Fortitude save, and are then temporarily immune for 1 minute.\n\n<strong>Success</strong> You are unaffected.\n<strong>Failure</strong> You are sickened 1.\n<strong>Critical Failure</strong> You are sickened 1 and cannot recover from the sickened condition while in the area of the smoke cloud.",
+        "sourceBook": "Pathfinder #152: Legacy of the Lost God",
+        "_extensionFileName": "pathfinder152",
+        "type": "spells",
+        "minLevel": 3,
+        "sortLevel": 3,
+        "defaultDurations": [
+            {
+                "duration": 100
+            },
+            {
+                "duration": -1
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Creatures within the smoke cloud take a -4 circumstance penalty to visual Perception checks, and creatures outside the smoke cloud take a -4 circumstance penalty to visual Perception checks to detect creatures or objects within it.",
+                "showon": "Perception",
+                "effects": [
+                    {
+                        "affected": "Perception",
+                        "type": "circumstance",
+                        "value": "-4"
+                    }
+                ]
+            }
+        ],
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Perception penalty only",
+                "defaultDuration": 100
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": -1
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": -1
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": [
+                    "Failure"
+                ],
+                "name": "Sickened",
+                "persistent": true,
+                "ignorePersistentAtChoiceChange": true,
+                "value": 1
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Critical Failure"
+                ],
+                "lockedByParent": true,
+                "name": "Sickened",
+                "persistent": true,
+                "ignorePersistentAtChoiceChange": true,
+                "value": 1
+            },
+            {
+                "duration": 100,
+                "name": "Pyrotechnics Immunity",
+                "persistent": true,
+                "ignorePersistentAtChoiceChange": true
+            }
+        ],
+        "nextCondition": [
+            {
+                "duration": 100,
+                "name": "Pyrotechnics Immunity"
+            }
+        ]
+    },
+    {
+        "name": "Pyrotechnics Immunity",
+        "desc": "You are immune to the effects of the pyrotechnics spell.",
+        "sourceBook": "Pathfinder #152: Legacy of the Lost God",
+        "_extensionFileName": "pathfinder152",
+        "type": "spells",
+        "minLevel": 3,
+        "sortLevel": 3,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "denyConditions": [
+            "Pyrotechnics (Fireworks)",
+            "Pyrotechnics (Smoke Cloud)"
+        ]
+    },
+    {
+        "name": "Clownish Curse",
+        "desc": "You are afflicted with a curse that causes you to emit ridiculous noises as you move. Furthermore, your hands and feet become awkward and uncoordinated, as though you were wearing oversized gloves and shoes. You are affected depending on your Will save.\n\n<strong>Critical Success</strong> You are unaffected.\n<strong>Success</strong> For 1 round, you must roll twice and use the worse result whenever attempting an Acrobatics, Stealth, or Thievery check. If you roll a failure at an Acrobatics, Stealth, or Thievery check, you get a critical failure instead.\n<strong>Failure</strong> As success, but the effect is 1 hour.\n<strong>Critical Failure</strong> As success, except the effect is permanent.",
+        "sourceBook": "Pathfinder #152: Legacy of the Lost God",
+        "_extensionFileName": "pathfinder152",
+        "type": "spells",
+        "minLevel": 4,
+        "sortLevel": 4,
+        "defaultDurations": [
+            {
+                "duration": 10
+            },
+            {
+                "duration": 6000
+            },
+            {
+                "duration": -1
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You must roll twice and use the worse result whenever attempting an Acrobatics, Stealth, or Thievery check. If you roll a failure at an Acrobatics, Stealth, or Thievery check, you get a critical failure instead.",
+                "showon": "Acrobatics, Stealth, Thievery",
+                "conditionChoiceFilter": [
+                    "Success",
+                    "Failure",
+                    "Critical Failure"
+                ]
+            }
+        ],
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 10
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 6000
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": -1
+            }
+        ]
+    },
+    {
+        "name": "Clownish Curse (Caster)",
+        "desc": "You have afflicted the target with a curse that causes it to emit ridiculous noises as it moves. Furthermore, the target's hands and feet become awkward and uncoordinated, as though it were wearing oversized gloves and shoes. The target is affected depending on its Will save.\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> For 1 round, the target must roll twice and use the worse result whenever attempting an Acrobatics, Stealth, or Thievery check. If the target rolls a failure at an Acrobatics, Stealth, or Thievery check, it gets a critical failure instead.\n<strong>Failure</strong> As success, but the effect is 1 hour.\n<strong>Critical Failure</strong> As success, except the effect is permanent.",
+        "sourceBook": "Pathfinder #152: Legacy of the Lost God",
+        "_extensionFileName": "pathfinder152",
+        "type": "spells",
+        "minLevel": 4,
+        "sortLevel": 4,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            },
+            {
+                "duration": 6000
+            },
+            {
+                "duration": -1
+            }
+        ],
+        "unlimited": true,
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 10
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 6000
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": -1
+            }
+        ]
+    },
+    {
+        "name": "Favorable Review (Critical Failures)",
+        "desc": "You have enchanted a creature to ensure they have only good things to say about your show, specifically about a single creature, location, or performance, such as \"Dame Ellendia,\" \"Savories Meats,\" or \"the Theater of the Mind's latest magic show.\"\n\nEvery target that has critically failed its will save cannot speak unfavorably about the subject, and genuinely holds a favorable opinion about the subject, with their attitude toward the creature (or creatures associated with the subject, such as the owner of a location or artists in a performance) becoming two degrees better (for example, helpful instead of indifferent)",
+        "sourceBook": "Pathfinder #152: Legacy of the Lost God",
+        "_extensionFileName": "pathfinder152",
+        "type": "spells",
+        "minLevel": 4,
+        "sortLevel": 4,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ]
+    },
+    {
+        "name": "Favorable Review (Failures)",
+        "desc": "You have enchanted a creature to ensure they have only good things to say about your show, specifically about a single creature, location, or performance, such as \"Dame Ellendia,\" \"Savories Meats,\" or \"the Theater of the Mind's latest magic show.\"\n\nEvery target that has failed its will save cannot speak unfavorably about the subject for the duration. This doesn't change the target's opinion about the subject, but the target's attempts to speak ill of the subject - whether in speech, writing, or other communication - always twist into compliments and praise instead. The target likely becomes aware of this effect quickly and can avoid speaking about the subject entirely if they choose.",
+        "sourceBook": "Pathfinder #152: Legacy of the Lost God",
+        "_extensionFileName": "pathfinder152",
+        "type": "spells",
+        "minLevel": 4,
+        "sortLevel": 4,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1008000
+            }
+        ]
+    }
+]

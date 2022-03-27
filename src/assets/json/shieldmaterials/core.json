@@ -2,995 +2,1091 @@
     {
         "name": "Cold Iron (Low-Grade)",
         "desc": "Cold iron shields don't typically have an additional effect, though when used for a shield bash, they are cold iron weapons.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 2,
         "price": 3000,
+        "brokenThreshold": 6,
         "craftingRequirement": "at least 15 sp of cold iron",
         "hardness": 3,
         "hitpoints": 12,
-        "brokenThreshold": 6,
-        "itemFilter": [
-            "Buckler"
-        ],
         "hints": [
             {
                 "desc": "The cold iron buckler is a cold iron weapon when used for a shield bash.",
                 "showon": "Shield Bash"
             }
+        ],
+        "itemFilter": [
+            "Buckler"
         ]
     },
     {
         "name": "Silver (Low-Grade)",
         "desc": "Silver shields don't typically have an additional effect, though when used for a shield bash, they are silver weapons.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 2,
         "price": 3000,
+        "brokenThreshold": 2,
         "craftingRequirement": "at least 15 sp of silver",
         "hardness": 1,
         "hitpoints": 4,
-        "brokenThreshold": 2,
-        "itemFilter": [
-            "Buckler"
-        ],
         "hints": [
             {
                 "desc": "The silver buckler is a silver weapon when used for a shield bash.",
                 "showon": "Shield Bash"
             }
+        ],
+        "itemFilter": [
+            "Buckler"
         ]
     },
     {
         "name": "Cold Iron (Low-Grade)",
         "desc": "Cold iron shields don't typically have an additional effect, though when used for a shield bash, they are cold iron weapons.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 2,
         "price": 3400,
+        "brokenThreshold": 10,
         "craftingRequirement": "at least 17 sp of cold iron",
         "hardness": 5,
         "hitpoints": 20,
-        "brokenThreshold": 10,
-        "itemFilter": [
-            "Steel Shield"
-        ],
         "hints": [
             {
                 "desc": "The cold iron shield is a cold iron weapon when used for a shield bash.",
                 "showon": "Shield Bash"
             }
+        ],
+        "itemFilter": [
+            "Steel Shield"
         ]
     },
     {
         "name": "Silver (Low-Grade)",
         "desc": "Silver shields don't typically have an additional effect, though when used for a shield bash, they are silver weapons.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 2,
         "price": 3400,
+        "brokenThreshold": 6,
         "craftingRequirement": "at least 17 sp of silver",
         "hardness": 3,
         "hitpoints": 12,
-        "brokenThreshold": 6,
-        "itemFilter": [
-            "Steel Shield"
-        ],
         "hints": [
             {
                 "desc": "The silver shield is a silver weapon when used for a shield bash.",
                 "showon": "Shield Bash"
             }
+        ],
+        "itemFilter": [
+            "Steel Shield"
         ]
     },
     {
         "name": "Cold Iron (Standard-Grade)",
         "desc": "Cold iron shields don't typically have an additional effect, though when used for a shield bash, they are cold iron weapons.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 7,
         "price": 30000,
+        "brokenThreshold": 10,
         "craftingRequirement": "at least 375 sp of cold iron",
         "hardness": 5,
         "hitpoints": 20,
-        "brokenThreshold": 10,
-        "itemFilter": [
-            "Buckler"
-        ],
         "hints": [
             {
                 "desc": "The cold iron buckler is a cold iron weapon when used for a shield bash.",
                 "showon": "Shield Bash"
             }
+        ],
+        "itemFilter": [
+            "Buckler"
         ]
     },
     {
         "name": "Silver (Standard-Grade)",
         "desc": "Silver shields don't typically have an additional effect, though when used for a shield bash, they are silver weapons.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 7,
         "price": 30000,
+        "brokenThreshold": 6,
         "craftingRequirement": "at least 375 sp of silver",
         "hardness": 3,
         "hitpoints": 12,
-        "brokenThreshold": 6,
-        "itemFilter": [
-            "Buckler"
-        ],
         "hints": [
             {
                 "desc": "The silver buckler is a silver weapon when used for a shield bash.",
                 "showon": "Shield Bash"
             }
+        ],
+        "itemFilter": [
+            "Buckler"
         ]
     },
     {
         "name": "Cold Iron (Standard-Grade)",
         "desc": "Cold iron shields don't typically have an additional effect, though when used for a shield bash, they are cold iron weapons.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 7,
         "price": 34000,
+        "brokenThreshold": 14,
         "craftingRequirement": "at least 425 sp of cold iron",
         "hardness": 7,
         "hitpoints": 28,
-        "brokenThreshold": 14,
-        "itemFilter": [
-            "Steel Shield"
-        ],
         "hints": [
             {
                 "desc": "The cold iron shield is a cold iron weapon when used for a shield bash.",
                 "showon": "Shield Bash"
             }
+        ],
+        "itemFilter": [
+            "Steel Shield"
         ]
     },
     {
         "name": "Silver (Standard-Grade)",
         "desc": "Silver shields don't typically have an additional effect, though when used for a shield bash, they are silver weapons.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 7,
         "price": 34000,
+        "brokenThreshold": 10,
         "craftingRequirement": "at least 425 sp of silver",
         "hardness": 5,
         "hitpoints": 20,
-        "brokenThreshold": 10,
-        "itemFilter": [
-            "Steel Shield"
-        ],
         "hints": [
             {
                 "desc": "The silver shield is a silver weapon when used for a shield bash.",
                 "showon": "Shield Bash"
             }
+        ],
+        "itemFilter": [
+            "Steel Shield"
         ]
     },
     {
         "name": "Adamantine (Standard-Grade)",
         "desc": "Adamantine shields are particularly sturdy, and when used for a shield bash, they are adamantine weapons.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 8,
+        "price": 40000,
         "traits": [
             "Uncommon"
         ],
-        "level": 8,
-        "price": 40000,
+        "brokenThreshold": 16,
         "craftingRequirement": "at least 50 gp of adamantine",
         "hardness": 8,
         "hitpoints": 32,
-        "brokenThreshold": 16,
-        "itemFilter": [
-            "Buckler"
-        ],
         "hints": [
             {
                 "desc": "The adamantine buckler is an adamantine weapon when used for a shield bash.",
                 "showon": "Shield Bash"
             }
+        ],
+        "itemFilter": [
+            "Buckler"
         ]
     },
     {
         "name": "Darkwood (Standard-Grade)",
         "desc": "Darkwood shields are 1 Bulk lighter than normal (or light Bulk if their normal Bulk is 1, with no effect on a shield that normally has light Bulk).",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 8,
+        "price": 40000,
         "traits": [
             "Uncommon"
         ],
-        "level": 8,
-        "price": 40000,
+        "brokenThreshold": 6,
+        "bulkModifier": -1,
         "craftingRequirement": "at least 50 gp of darkwood",
         "hardness": 3,
         "hitpoints": 12,
-        "brokenThreshold": 6,
         "itemFilter": [
             "Buckler"
-        ],
-        "bulkModifier": -1
+        ]
     },
     {
         "name": "Dragonhide (Standard-Grade, Acid)",
         "desc": "Dragonhide shields are each immune to one damage type based on the type of dragon.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold, or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 8,
+        "price": 40000,
         "traits": [
             "Uncommon"
         ],
-        "level": 8,
-        "price": 40000,
+        "brokenThreshold": 4,
         "craftingRequirement": "at least 50 gp of dragonhide",
         "hardness": 2,
         "hitpoints": 8,
-        "brokenThreshold": 4,
-        "itemFilter": [
-            "Buckler"
-        ],
         "hints": [
             {
                 "desc": "The dragonhide shield is immune to Acid damage.",
                 "showon": "Shield"
             }
+        ],
+        "itemFilter": [
+            "Buckler"
         ]
     },
     {
         "name": "Dragonhide (Standard-Grade, Electricity)",
         "desc": "Dragonhide shields are each immune to one damage type based on the type of dragon.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold, or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 8,
+        "price": 40000,
         "traits": [
             "Uncommon"
         ],
-        "level": 8,
-        "price": 40000,
+        "brokenThreshold": 4,
         "craftingRequirement": "at least 50 gp of dragonhide",
         "hardness": 2,
         "hitpoints": 8,
-        "brokenThreshold": 4,
-        "itemFilter": [
-            "Buckler"
-        ],
         "hints": [
             {
                 "desc": "The dragonhide shield is immune to Electricity damage.",
                 "showon": "Shield"
             }
+        ],
+        "itemFilter": [
+            "Buckler"
         ]
     },
     {
         "name": "Dragonhide (Standard-Grade, Fire)",
         "desc": "Dragonhide shields are each immune to one damage type based on the type of dragon.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold, or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 8,
+        "price": 40000,
         "traits": [
             "Uncommon"
         ],
-        "level": 8,
-        "price": 40000,
+        "brokenThreshold": 4,
         "craftingRequirement": "at least 50 gp of dragonhide",
         "hardness": 2,
         "hitpoints": 8,
-        "brokenThreshold": 4,
-        "itemFilter": [
-            "Buckler"
-        ],
         "hints": [
             {
                 "desc": "The dragonhide shield is immune to Fire damage.",
                 "showon": "Shield"
             }
+        ],
+        "itemFilter": [
+            "Buckler"
         ]
     },
     {
         "name": "Dragonhide (Standard-Grade, Poison)",
         "desc": "Dragonhide shields are each immune to one damage type based on the type of dragon.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold, or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 8,
+        "price": 40000,
         "traits": [
             "Uncommon"
         ],
-        "level": 8,
-        "price": 40000,
+        "brokenThreshold": 4,
         "craftingRequirement": "at least 50 gp of dragonhide",
         "hardness": 2,
         "hitpoints": 8,
-        "brokenThreshold": 4,
-        "itemFilter": [
-            "Buckler"
-        ],
         "hints": [
             {
                 "desc": "The dragonhide shield is immune to Poison damage.",
                 "showon": "Shield"
             }
+        ],
+        "itemFilter": [
+            "Buckler"
         ]
     },
     {
         "name": "Dragonhide (Standard-Grade, Cold)",
         "desc": "Dragonhide shields are each immune to one damage type based on the type of dragon.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold, or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 8,
+        "price": 40000,
         "traits": [
             "Uncommon"
         ],
-        "level": 8,
-        "price": 40000,
+        "brokenThreshold": 4,
         "craftingRequirement": "at least 50 gp of dragonhide",
         "hardness": 2,
         "hitpoints": 8,
-        "brokenThreshold": 4,
-        "itemFilter": [
-            "Buckler"
-        ],
         "hints": [
             {
                 "desc": "The dragonhide buckler is immune to Cold damage.",
                 "showon": "Shield"
             }
+        ],
+        "itemFilter": [
+            "Buckler"
         ]
     },
     {
         "name": "Mithral (Standard-Grade)",
         "desc": "Mithral shields are 1 Bulk lighter than normal (or light Bulk if their normal Bulk is 1, with no effect on a shield that normally has light Bulk). When used for a shield bash, they are treated as silver weapons.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 8,
+        "price": 40000,
         "traits": [
             "Uncommon"
         ],
-        "level": 8,
-        "price": 40000,
+        "brokenThreshold": 6,
+        "bulkModifier": -1,
         "craftingRequirement": "at least 50 gp of mithral",
         "hardness": 3,
         "hitpoints": 12,
-        "brokenThreshold": 6,
-        "itemFilter": [
-            "Buckler"
-        ],
-        "bulkModifier": -1,
         "hints": [
             {
                 "desc": "The mithral buckler is a silver weapon when used for a shield bash.",
                 "showon": "Shield Bash"
             }
+        ],
+        "itemFilter": [
+            "Buckler"
         ]
     },
     {
         "name": "Adamantine (Standard-Grade)",
         "desc": "Adamantine shields are particularly sturdy, and when used for a shield bash, they are adamantine weapons.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 8,
+        "price": 44000,
         "traits": [
             "Uncommon"
         ],
-        "level": 8,
-        "price": 44000,
+        "brokenThreshold": 20,
         "craftingRequirement": "at least 55 gp of adamantine",
         "hardness": 10,
         "hitpoints": 40,
-        "brokenThreshold": 20,
-        "itemFilter": [
-            "Steel Shield"
-        ],
         "hints": [
             {
                 "desc": "The adamantine shield is an adamantine weapon when used for a shield bash.",
                 "showon": "Shield Bash"
             }
+        ],
+        "itemFilter": [
+            "Steel Shield"
         ]
     },
     {
         "name": "Darkwood (Standard-Grade)",
         "desc": "Darkwood shields are 1 Bulk lighter than normal (or light Bulk if their normal Bulk is 1, with no effect on a shield that normally has light Bulk).",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 8,
+        "price": 44000,
         "traits": [
             "Uncommon"
         ],
-        "level": 8,
-        "price": 44000,
+        "brokenThreshold": 10,
+        "bulkModifier": -1,
         "craftingRequirement": "at least 55 gp of darkwood",
         "hardness": 5,
         "hitpoints": 20,
-        "brokenThreshold": 10,
         "itemFilter": [
             "Wooden Shield"
-        ],
-        "bulkModifier": -1
+        ]
     },
     {
         "name": "Dragonhide (Standard-Grade, Acid)",
         "desc": "Dragonhide shields are each immune to one damage type based on the type of dragon.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold, or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 8,
+        "price": 44000,
         "traits": [
             "Uncommon"
         ],
-        "level": 8,
-        "price": 44000,
+        "brokenThreshold": 8,
         "craftingRequirement": "at least 55 gp of dragonhide",
         "hardness": 4,
         "hitpoints": 16,
-        "brokenThreshold": 8,
-        "itemFilter": [
-            "Steel Shield"
-        ],
         "hints": [
             {
                 "desc": "The dragonhide shield is immune to Acid damage.",
                 "showon": "Shield"
             }
+        ],
+        "itemFilter": [
+            "Steel Shield"
         ]
     },
     {
         "name": "Dragonhide (Standard-Grade, Electricity)",
         "desc": "Dragonhide shields are each immune to one damage type based on the type of dragon.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold, or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 8,
+        "price": 44000,
         "traits": [
             "Uncommon"
         ],
-        "level": 8,
-        "price": 44000,
+        "brokenThreshold": 8,
         "craftingRequirement": "at least 55 gp of dragonhide",
         "hardness": 4,
         "hitpoints": 16,
-        "brokenThreshold": 8,
-        "itemFilter": [
-            "Steel Shield"
-        ],
         "hints": [
             {
                 "desc": "The dragonhide shield is immune to Electricity damage.",
                 "showon": "Shield"
             }
+        ],
+        "itemFilter": [
+            "Steel Shield"
         ]
     },
     {
         "name": "Dragonhide (Standard-Grade, Fire)",
         "desc": "Dragonhide shields are each immune to one damage type based on the type of dragon.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold, or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 8,
+        "price": 44000,
         "traits": [
             "Uncommon"
         ],
-        "level": 8,
-        "price": 44000,
+        "brokenThreshold": 8,
         "craftingRequirement": "at least 55 gp of dragonhide",
         "hardness": 4,
         "hitpoints": 16,
-        "brokenThreshold": 8,
-        "itemFilter": [
-            "Steel Shield"
-        ],
         "hints": [
             {
                 "desc": "The dragonhide shield is immune to Fire damage.",
                 "showon": "Shield"
             }
+        ],
+        "itemFilter": [
+            "Steel Shield"
         ]
     },
     {
         "name": "Dragonhide (Standard-Grade, Poison)",
         "desc": "Dragonhide shields are each immune to one damage type based on the type of dragon.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold, or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 8,
+        "price": 44000,
         "traits": [
             "Uncommon"
         ],
-        "level": 8,
-        "price": 44000,
+        "brokenThreshold": 8,
         "craftingRequirement": "at least 55 gp of dragonhide",
         "hardness": 4,
         "hitpoints": 16,
-        "brokenThreshold": 8,
-        "itemFilter": [
-            "Steel Shield"
-        ],
         "hints": [
             {
                 "desc": "The dragonhide shield is immune to Poison damage.",
                 "showon": "Shield"
             }
+        ],
+        "itemFilter": [
+            "Steel Shield"
         ]
     },
     {
         "name": "Dragonhide (Standard-Grade, Cold)",
         "desc": "Dragonhide shields are each immune to one damage type based on the type of dragon.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold, or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 8,
+        "price": 44000,
         "traits": [
             "Uncommon"
         ],
-        "level": 8,
-        "price": 44000,
+        "brokenThreshold": 8,
         "craftingRequirement": "at least 55 gp of dragonhide",
         "hardness": 4,
         "hitpoints": 16,
-        "brokenThreshold": 8,
-        "itemFilter": [
-            "Steel Shield"
-        ],
         "hints": [
             {
                 "desc": "The dragonhide shield is immune to Cold damage.",
                 "showon": "Shield"
             }
+        ],
+        "itemFilter": [
+            "Steel Shield"
         ]
     },
     {
         "name": "Mithral (Standard-Grade)",
         "desc": "Mithral shields are 1 Bulk lighter than normal (or light Bulk if their normal Bulk is 1, with no effect on a shield that normally has light Bulk). When used for a shield bash, they are treated as silver weapons.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 8,
+        "price": 44000,
         "traits": [
             "Uncommon"
         ],
-        "level": 8,
-        "price": 44000,
+        "brokenThreshold": 10,
+        "bulkModifier": -1,
         "craftingRequirement": "at least 55 gp of mithral",
         "hardness": 5,
         "hitpoints": 20,
-        "brokenThreshold": 10,
-        "itemFilter": [
-            "Steel Shield"
-        ],
-        "bulkModifier": -1,
         "hints": [
             {
                 "desc": "The mithral shield is a silver weapon when used for a shield bash.",
                 "showon": "Shield Bash"
             }
+        ],
+        "itemFilter": [
+            "Steel Shield"
         ]
     },
     {
         "name": "Darkwood (Standard-Grade)",
         "desc": "Darkwood shields are 1 Bulk lighter than normal (or light Bulk if their normal Bulk is 1, with no effect on a shield that normally has light Bulk).",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 8,
+        "price": 56000,
         "traits": [
             "Uncommon"
         ],
-        "level": 8,
-        "price": 56000,
+        "brokenThreshold": 10,
+        "bulkModifier": -1,
         "craftingRequirement": "at least 70 gp of darkwood",
         "hardness": 5,
         "hitpoints": 20,
-        "brokenThreshold": 10,
         "itemFilter": [
             "Tower Shield"
-        ],
-        "bulkModifier": -1
+        ]
     },
     {
         "name": "Cold Iron (High-Grade)",
         "desc": "Cold iron shields don't typically have an additional effect, though when used for a shield bash, they are cold iron weapons.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 15,
         "price": 500000,
+        "brokenThreshold": 16,
         "craftingRequirement": "at least 2,500 gp of cold iron",
         "hardness": 8,
         "hitpoints": 32,
-        "brokenThreshold": 16,
-        "itemFilter": [
-            "Buckler"
-        ],
         "hints": [
             {
                 "desc": "The cold iron buckler is a cold iron weapon when used for a shield bash.",
                 "showon": "Shield Bash"
             }
+        ],
+        "itemFilter": [
+            "Buckler"
         ]
     },
     {
         "name": "Silver (High-Grade)",
         "desc": "Silver shields don't typically have an additional effect, though when used for a shield bash, they are silver weapons.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 15,
         "price": 500000,
+        "brokenThreshold": 12,
         "craftingRequirement": "at least 2,500 gp of silver",
         "hardness": 6,
         "hitpoints": 24,
-        "brokenThreshold": 12,
-        "itemFilter": [
-            "Buckler"
-        ],
         "hints": [
             {
                 "desc": "The silver buckler is a silver weapon when used for a shield bash.",
                 "showon": "Shield Bash"
             }
+        ],
+        "itemFilter": [
+            "Buckler"
         ]
     },
     {
         "name": "Cold Iron (High-Grade)",
         "desc": "Cold iron shields don't typically have an additional effect, though when used for a shield bash, they are cold iron weapons.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 15,
         "price": 550000,
+        "brokenThreshold": 20,
         "craftingRequirement": "at least 2,750 gp of cold iron",
         "hardness": 10,
         "hitpoints": 40,
-        "brokenThreshold": 20,
-        "itemFilter": [
-            "Steel Shield"
-        ],
         "hints": [
             {
                 "desc": "The cold iron shield is a cold iron weapon when used for a shield bash.",
                 "showon": "Shield Bash"
             }
+        ],
+        "itemFilter": [
+            "Steel Shield"
         ]
     },
     {
         "name": "Silver (High-Grade)",
         "desc": "Silver shields don't typically have an additional effect, though when used for a shield bash, they are silver weapons.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 15,
         "price": 550000,
+        "brokenThreshold": 16,
         "craftingRequirement": "at least 2,750 gp of silver",
         "hardness": 8,
         "hitpoints": 32,
-        "brokenThreshold": 16,
-        "itemFilter": [
-            "Steel Shield"
-        ],
         "hints": [
             {
                 "desc": "The silver shield is a silver weapon when used for a shield bash.",
                 "showon": "Shield Bash"
             }
+        ],
+        "itemFilter": [
+            "Steel Shield"
         ]
     },
     {
         "name": "Adamantine (High-Grade)",
         "desc": "Adamantine shields are particularly sturdy, and when used for a shield bash, they are adamantine weapons.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 16,
+        "price": 800000,
         "traits": [
             "Uncommon"
         ],
-        "level": 16,
-        "price": 800000,
+        "brokenThreshold": 22,
         "craftingRequirement": "at least 4,000 gp of adamantine",
         "hardness": 11,
         "hitpoints": 44,
-        "brokenThreshold": 22,
-        "itemFilter": [
-            "Buckler"
-        ],
         "hints": [
             {
                 "desc": "The adamantine buckler is an adamantine weapon when used for a shield bash.",
                 "showon": "Shield Bash"
             }
+        ],
+        "itemFilter": [
+            "Buckler"
         ]
     },
     {
         "name": "Darkwood (High-Grade)",
         "desc": "Darkwood shields are 1 Bulk lighter than normal (or light Bulk if their normal Bulk is 1, with no effect on a shield that normally has light Bulk).",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 16,
+        "price": 800000,
         "traits": [
             "Uncommon"
         ],
-        "level": 16,
-        "price": 800000,
+        "brokenThreshold": 12,
+        "bulkModifier": -1,
         "craftingRequirement": "at least 4,000 gp of darkwood",
         "hardness": 6,
         "hitpoints": 24,
-        "brokenThreshold": 12,
         "itemFilter": [
             "Buckler"
-        ],
-        "bulkModifier": -1
+        ]
     },
     {
         "name": "Dragonhide (High-Grade, Acid)",
         "desc": "Dragonhide shields are each immune to one damage type based on the type of dragon.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold, or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 16,
+        "price": 800000,
         "traits": [
             "Uncommon"
         ],
-        "level": 16,
-        "price": 800000,
+        "brokenThreshold": 10,
         "craftingRequirement": "at least 4,000 gp of dragonhide",
         "hardness": 5,
         "hitpoints": 20,
-        "brokenThreshold": 10,
-        "itemFilter": [
-            "Buckler"
-        ],
         "hints": [
             {
                 "desc": "The dragonhide buckler is immune to Acid damage.",
                 "showon": "Shield"
             }
+        ],
+        "itemFilter": [
+            "Buckler"
         ]
     },
     {
         "name": "Dragonhide (High-Grade, Electricity)",
         "desc": "Dragonhide shields are each immune to one damage type based on the type of dragon.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold, or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 16,
+        "price": 800000,
         "traits": [
             "Uncommon"
         ],
-        "level": 16,
-        "price": 800000,
+        "brokenThreshold": 10,
         "craftingRequirement": "at least 4,000 gp of dragonhide",
         "hardness": 5,
         "hitpoints": 20,
-        "brokenThreshold": 10,
-        "itemFilter": [
-            "Buckler"
-        ],
         "hints": [
             {
                 "desc": "The dragonhide buckler is immune to Electricity damage.",
                 "showon": "Shield"
             }
+        ],
+        "itemFilter": [
+            "Buckler"
         ]
     },
     {
         "name": "Dragonhide (High-Grade, Fire)",
         "desc": "Dragonhide shields are each immune to one damage type based on the type of dragon.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold, or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 16,
+        "price": 800000,
         "traits": [
             "Uncommon"
         ],
-        "level": 16,
-        "price": 800000,
+        "brokenThreshold": 10,
         "craftingRequirement": "at least 4,000 gp of dragonhide",
         "hardness": 5,
         "hitpoints": 20,
-        "brokenThreshold": 10,
-        "itemFilter": [
-            "Buckler"
-        ],
         "hints": [
             {
                 "desc": "The dragonhide buckler is immune to Fire damage.",
                 "showon": "Shield"
             }
+        ],
+        "itemFilter": [
+            "Buckler"
         ]
     },
     {
         "name": "Dragonhide (High-Grade, Poison)",
         "desc": "Dragonhide shields are each immune to one damage type based on the type of dragon.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold, or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 16,
+        "price": 800000,
         "traits": [
             "Uncommon"
         ],
-        "level": 16,
-        "price": 800000,
+        "brokenThreshold": 10,
         "craftingRequirement": "at least 4,000 gp of dragonhide",
         "hardness": 5,
         "hitpoints": 20,
-        "brokenThreshold": 10,
-        "itemFilter": [
-            "Buckler"
-        ],
         "hints": [
             {
                 "desc": "The dragonhide buckler is immune to Poison damage.",
                 "showon": "Shield"
             }
+        ],
+        "itemFilter": [
+            "Buckler"
         ]
     },
     {
         "name": "Dragonhide (High-Grade, Cold)",
         "desc": "Dragonhide shields are each immune to one damage type based on the type of dragon.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold, or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 16,
+        "price": 800000,
         "traits": [
             "Uncommon"
         ],
-        "level": 16,
-        "price": 800000,
+        "brokenThreshold": 10,
         "craftingRequirement": "at least 4,000 gp of dragonhide",
         "hardness": 5,
         "hitpoints": 20,
-        "brokenThreshold": 10,
-        "itemFilter": [
-            "Buckler"
-        ],
         "hints": [
             {
                 "desc": "The dragonhide buckler is immune to Cold damage.",
                 "showon": "Shield"
             }
+        ],
+        "itemFilter": [
+            "Buckler"
         ]
     },
     {
         "name": "Mithral (High-Grade)",
         "desc": "Mithral shields are 1 Bulk lighter than normal (or light Bulk if their normal Bulk is 1, with no effect on a shield that normally has light Bulk). When used for a shield bash, they are treated as silver weapons.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 16,
+        "price": 800000,
         "traits": [
             "Uncommon"
         ],
-        "level": 16,
-        "price": 800000,
+        "brokenThreshold": 12,
+        "bulkModifier": -1,
         "craftingRequirement": "at least 4,000 gp of mithral",
         "hardness": 6,
         "hitpoints": 24,
-        "brokenThreshold": 12,
-        "itemFilter": [
-            "Buckler"
-        ],
-        "bulkModifier": -1,
         "hints": [
             {
                 "desc": "The mithral buckler is a silver weapon when used for a shield bash.",
                 "showon": "Shield Bash"
             }
+        ],
+        "itemFilter": [
+            "Buckler"
         ]
     },
     {
         "name": "Adamantine (High-Grade)",
         "desc": "Adamantine shields are particularly sturdy, and when used for a shield bash, they are adamantine weapons.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 16,
+        "price": 880000,
         "traits": [
             "Uncommon"
         ],
-        "level": 16,
-        "price": 880000,
+        "brokenThreshold": 26,
         "craftingRequirement": "at least 4,400 gp of adamantine",
         "hardness": 13,
         "hitpoints": 52,
-        "brokenThreshold": 26,
-        "itemFilter": [
-            "Steel Shield"
-        ],
         "hints": [
             {
                 "desc": "The adamantine shield is an adamantine weapon when used for a shield bash.",
                 "showon": "Shield Bash"
             }
+        ],
+        "itemFilter": [
+            "Steel Shield"
         ]
     },
     {
         "name": "Darkwood (High-Grade)",
         "desc": "Darkwood shields are 1 Bulk lighter than normal (or light Bulk if their normal Bulk is 1, with no effect on a shield that normally has light Bulk).",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 16,
+        "price": 880000,
         "traits": [
             "Uncommon"
         ],
-        "level": 16,
-        "price": 880000,
+        "brokenThreshold": 16,
+        "bulkModifier": -1,
         "craftingRequirement": "at least 4,400 gp of darkwood",
         "hardness": 8,
         "hitpoints": 32,
-        "brokenThreshold": 16,
         "itemFilter": [
             "Wooden Shield"
-        ],
-        "bulkModifier": -1
+        ]
     },
     {
         "name": "Dragonhide (High-Grade, Acid)",
         "desc": "Dragonhide shields are each immune to one damage type based on the type of dragon.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold, or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 16,
+        "price": 880000,
         "traits": [
             "Uncommon"
         ],
-        "level": 16,
-        "price": 880000,
+        "brokenThreshold": 14,
         "craftingRequirement": "at least 4,400 gp of dragonhide",
         "hardness": 7,
         "hitpoints": 28,
-        "brokenThreshold": 14,
-        "itemFilter": [
-            "Steel Shield"
-        ],
         "hints": [
             {
                 "desc": "The dragonhide shield is immune to Acid damage.",
                 "showon": "Shield"
             }
+        ],
+        "itemFilter": [
+            "Steel Shield"
         ]
     },
     {
         "name": "Dragonhide (High-Grade, Electricity)",
         "desc": "Dragonhide shields are each immune to one damage type based on the type of dragon.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold, or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 16,
+        "price": 880000,
         "traits": [
             "Uncommon"
         ],
-        "level": 16,
-        "price": 880000,
+        "brokenThreshold": 14,
         "craftingRequirement": "at least 4,400 gp of dragonhide",
         "hardness": 7,
         "hitpoints": 28,
-        "brokenThreshold": 14,
-        "itemFilter": [
-            "Steel Shield"
-        ],
         "hints": [
             {
                 "desc": "The dragonhide shield is immune to Electricity damage.",
                 "showon": "Shield"
             }
+        ],
+        "itemFilter": [
+            "Steel Shield"
         ]
     },
     {
         "name": "Dragonhide (High-Grade, Fire)",
         "desc": "Dragonhide shields are each immune to one damage type based on the type of dragon.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold, or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 16,
+        "price": 880000,
         "traits": [
             "Uncommon"
         ],
-        "level": 16,
-        "price": 880000,
+        "brokenThreshold": 14,
         "craftingRequirement": "at least 4,400 gp of dragonhide",
         "hardness": 7,
         "hitpoints": 28,
-        "brokenThreshold": 14,
-        "itemFilter": [
-            "Steel Shield"
-        ],
         "hints": [
             {
                 "desc": "The dragonhide shield is immune to Fire damage.",
                 "showon": "Shield"
             }
+        ],
+        "itemFilter": [
+            "Steel Shield"
         ]
     },
     {
         "name": "Dragonhide (High-Grade, Poison)",
         "desc": "Dragonhide shields are each immune to one damage type based on the type of dragon.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold, or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 16,
+        "price": 880000,
         "traits": [
             "Uncommon"
         ],
-        "level": 16,
-        "price": 880000,
+        "brokenThreshold": 14,
         "craftingRequirement": "at least 4,400 gp of dragonhide",
         "hardness": 7,
         "hitpoints": 28,
-        "brokenThreshold": 14,
-        "itemFilter": [
-            "Steel Shield"
-        ],
         "hints": [
             {
                 "desc": "The dragonhide shield is immune to Poison damage.",
                 "showon": "Shield"
             }
+        ],
+        "itemFilter": [
+            "Steel Shield"
         ]
     },
     {
         "name": "Dragonhide (High-Grade, Cold)",
         "desc": "Dragonhide shields are each immune to one damage type based on the type of dragon.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold, or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 16,
+        "price": 880000,
         "traits": [
             "Uncommon"
         ],
-        "level": 16,
-        "price": 880000,
+        "brokenThreshold": 14,
         "craftingRequirement": "at least 4,400 gp of dragonhide",
         "hardness": 7,
         "hitpoints": 28,
-        "brokenThreshold": 14,
-        "itemFilter": [
-            "Steel Shield"
-        ],
         "hints": [
             {
                 "desc": "The dragonhide shield is immune to Cold damage.",
                 "showon": "Shield"
             }
+        ],
+        "itemFilter": [
+            "Steel Shield"
         ]
     },
     {
         "name": "Mithral (High-Grade)",
         "desc": "Mithral shields are 1 Bulk lighter than normal (or light Bulk if their normal Bulk is 1, with no effect on a shield that normally has light Bulk). When used for a shield bash, they are treated as silver weapons.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 16,
+        "price": 880000,
         "traits": [
             "Uncommon"
         ],
-        "level": 16,
-        "price": 880000,
+        "brokenThreshold": 16,
+        "bulkModifier": -1,
         "craftingRequirement": "at least 4,400 gp of mithral",
         "hardness": 8,
         "hitpoints": 32,
-        "brokenThreshold": 16,
-        "itemFilter": [
-            "Steel Shield"
-        ],
-        "bulkModifier": -1,
         "hints": [
             {
                 "desc": "The mithral shield is a silver weapon when used for a shield bash.",
                 "showon": "Shield Bash"
             }
+        ],
+        "itemFilter": [
+            "Steel Shield"
         ]
     },
     {
         "name": "Darkwood (High-Grade)",
         "desc": "Darkwood shields are 1 Bulk lighter than normal (or light Bulk if their normal Bulk is 1, with no effect on a shield that normally has light Bulk).",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 16,
+        "price": 1120000,
         "traits": [
             "Uncommon"
         ],
-        "level": 16,
-        "price": 1120000,
+        "brokenThreshold": 16,
+        "bulkModifier": -1,
         "craftingRequirement": "at least 5,600 gp of darkwood",
         "hardness": 8,
         "hitpoints": 32,
-        "brokenThreshold": 16,
         "itemFilter": [
             "Tower Shield"
-        ],
-        "bulkModifier": -1
-    },
-    {
-        "name": "Orichalcum (High-Grade)",
-        "desc": "Orichalcum shields' time-bending properties are particularly useful for keeping them intact. The first time each day an orichalcum shield would be destroyed, it is instead left with 1 Hit Point and the broken condition.",
-        "traits": [
-            "Rare"
-        ],
-        "level": 17,
-        "price": 1200000,
-        "craftingRequirement": "at least 6,000 gp of orichalcum",
-        "hardness": 14,
-        "hitpoints": 56,
-        "brokenThreshold": 28,
-        "itemFilter": [
-            "Buckler"
-        ],
-        "hints": [
-            {
-                "desc": "The first time each day an orichalcum buckler would be destroyed, it is instead left with 1 Hit Point and the broken condition.",
-                "showon": "Shield"
-            }
         ]
     },
     {
         "name": "Orichalcum (High-Grade)",
         "desc": "Orichalcum shields' time-bending properties are particularly useful for keeping them intact. The first time each day an orichalcum shield would be destroyed, it is instead left with 1 Hit Point and the broken condition.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 17,
+        "price": 1200000,
         "traits": [
             "Rare"
         ],
+        "brokenThreshold": 28,
+        "craftingRequirement": "at least 6,000 gp of orichalcum",
+        "hardness": 14,
+        "hitpoints": 56,
+        "hints": [
+            {
+                "desc": "The first time each day an orichalcum buckler would be destroyed, it is instead left with 1 Hit Point and the broken condition.",
+                "showon": "Shield"
+            }
+        ],
+        "itemFilter": [
+            "Buckler"
+        ]
+    },
+    {
+        "name": "Orichalcum (High-Grade)",
+        "desc": "Orichalcum shields' time-bending properties are particularly useful for keeping them intact. The first time each day an orichalcum shield would be destroyed, it is instead left with 1 Hit Point and the broken condition.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 17,
         "price": 1320000,
+        "traits": [
+            "Rare"
+        ],
+        "brokenThreshold": 32,
         "craftingRequirement": "at least 6,600 gp of orichalcum",
         "hardness": 16,
         "hitpoints": 64,
-        "brokenThreshold": 32,
-        "itemFilter": [
-            "Steel Shield"
-        ],
         "hints": [
             {
                 "desc": "The first time each day an orichalcum shield would be destroyed, it is instead left with 1 Hit Point and the broken condition.",
                 "showon": "Shield"
             }
+        ],
+        "itemFilter": [
+            "Steel Shield"
         ]
     }
 ]

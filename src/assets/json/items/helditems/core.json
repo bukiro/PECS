@@ -2,24 +2,28 @@
     {
         "name": "Everburning Torch",
         "id": "8057670b-5a97-4fd0-97be-aacdf7f6a3ff",
-        "price": 1500,
-        "bulk": "L",
         "desc": "An everburning torch is one of the most common applications of permanent magic. This torch sheds light constantly, requiring no oxygen and generating no heat. The flame can be covered or hidden, but can't be smothered or quenched.",
-        "hands": 1,
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
+        "price": 1500,
         "traits": [
             "Evocation",
             "Light",
             "Magical"
         ],
+        "hands": 1,
         "usage": "held in 1 hand"
     },
     {
         "name": "Thurible of Revelation (Lesser)",
         "id": "8de9ec6e-2417-11eb-adc1-0242ac120002",
-        "level": 3,
-        "price": 5500,
-        "bulk": "1",
         "desc": "This brass censer dangles on a length of chain. Most thuribles of revelation are adorned with swirling Celestial text, though some are iron and feature Infernal or Abyssal text.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "1",
+        "price": 5500,
         "traits": [
             "Divination",
             "Divine"
@@ -31,7 +35,6 @@
                 "activationType": "Interact",
                 "cost": "incense worth at least 5 gp",
                 "desc": "You light the incense inside the censer, and it burns for 1 hour. During that time, as long you are holding the thurible, you gain a +1 item bonus to Religion checks, and any critical failure you roll when you Decipher Writing of a religious nature is a failure instead.",
-                "maxDuration": 6000,
                 "gainConditions": [
                     {
                         "duration": 6000,
@@ -39,6 +42,7 @@
                         "value": 1
                     }
                 ],
+                "maxDuration": 6000,
                 "name": "Thurible of Revelation (Lesser)",
                 "source": "8de9ec6e-2417-11eb-adc1-0242ac120002",
                 "toggle": true,
@@ -52,41 +56,31 @@
     {
         "name": "Maestro's Instrument (Lesser)",
         "id": "4f207081-0665-4145-9311-4bb7162a7986",
-        "level": 3,
-        "price": 6000,
-        "bulk": "1",
         "desc": "A maestro's instrument can be crafted in the form of any variety of handheld musical instrument. A maestro's instrument grants you a +1 item bonus to Performance checks while playing music with the instrument.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "1",
+        "price": 6000,
         "traits": [
             "Enchantment",
             "Magical"
         ],
+        "craftRequirement": "You must supply a casting of charm of the appropriate level.",
         "usage": "held in 2 hands",
-        "hints": [
-            {
-                "desc": "A lesser maestro's instrument grants you a +1 item bonus to Performance checks while playing music with the instrument.",
-                "showon": "Performance",
-                "effects": [
-                    {
-                        "affected": "Performance",
-                        "type": "item",
-                        "value": "1"
-                    }
-                ]
-            }
-        ],
         "activities": [
             {
                 "actions": "2A",
                 "activationType": "Interact",
-                "frequency": "once per day",
-                "cooldown": 144000,
-                "desc": "You can play the instrument to produce the effects of a DC 17 charm spell.",
                 "castSpells": [
                     {
                         "level": 1,
                         "name": "Charm"
                     }
                 ],
+                "cooldown": 144000,
+                "desc": "You can play the instrument to produce the effects of a DC 17 charm spell.",
+                "frequency": "once per day",
                 "name": "Maestro's Instrument (Lesser)",
                 "traits": [
                     "Enchantment",
@@ -94,42 +88,52 @@
                 ]
             }
         ],
-        "craftRequirement": "You must supply a casting of charm of the appropriate level."
+        "hints": [
+            {
+                "desc": "A lesser maestro's instrument grants you a +1 item bonus to Performance checks while playing music with the instrument.",
+                "effects": [
+                    {
+                        "affected": "Performance",
+                        "type": "item",
+                        "value": "1"
+                    }
+                ],
+                "showon": "Performance"
+            }
+        ]
     },
     {
-        "desc": "Though it appears to be a cloth sack decorated with panels of richly colored silk or stylish embroidery, a bag of holding opens into an extradimensional space larger than its outside dimensions. The Bulk held inside the bag doesn't change the Bulk of the bag of holding itself. The amount of Bulk the bag's extradimensional space can hold depends on its type.\n\nYou can Interact with the bag of holding to put items in or remove them just like a mundane sack. Though the bag can hold a great amount of material, an object still needs to be able to fit through the opening of the sack to be stored inside.\n\nIf the bag is overloaded or broken, it ruptures and is ruined, causing the items inside to be lost forever. If it's turned inside out, the items inside spill out unharmed, but the bag must be put right before it can be used again. A living creature placed inside the bag has enough air for 10 minutes before it begins to suffocate, and it can attempt to Escape against a DC of 13. An item inside the bag provides no benefits unless it's retrieved first. An item in the bag can't be detected by magic that detects only things on the same plane.",
-        "id": "7a2c6faf-bdf4-4901-b178-df2cd772543c",
-        "bulk": "1",
-        "level": 4,
         "name": "Bag of Holding (Type I)",
+        "id": "7a2c6faf-bdf4-4901-b178-df2cd772543c",
+        "desc": "Though it appears to be a cloth sack decorated with panels of richly colored silk or stylish embroidery, a bag of holding opens into an extradimensional space larger than its outside dimensions. The Bulk held inside the bag doesn't change the Bulk of the bag of holding itself. The amount of Bulk the bag's extradimensional space can hold depends on its type.\n\nYou can Interact with the bag of holding to put items in or remove them just like a mundane sack. Though the bag can hold a great amount of material, an object still needs to be able to fit through the opening of the sack to be stored inside.\n\nIf the bag is overloaded or broken, it ruptures and is ruined, causing the items inside to be lost forever. If it's turned inside out, the items inside spill out unharmed, but the bag must be put right before it can be used again. A living creature placed inside the bag has enough air for 10 minutes before it begins to suffocate, and it can attempt to Escape against a DC of 13. An item inside the bag provides no benefits unless it's retrieved first. An item in the bag can't be detected by magic that detects only things on the same plane.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 4,
+        "bulk": "1",
+        "price": 7500,
         "subType": "Type I",
         "subTypeDesc": "Capacity 25 Bulk",
-        "price": 7500,
         "traits": [
             "Conjuration",
             "Extradimensional",
             "Magical"
         ],
+        "usage": "held in 2 hands",
         "gainInventory": [
             {
                 "bulkLimit": 25,
                 "bulkReduction": 25
             }
-        ],
-        "usage": "held in 2 hands"
+        ]
     },
     {
         "name": "Holy Prayer Beads",
         "id": "d5d9bc3e-4e79-4cfa-bc72-34baf871debe",
+        "desc": "This strand of ordinary-looking prayer beads glows with a soft light and becomes warm to the touch the first time you cast a divine spell while holding it. When you do, the prayer beads become attuned to your deity, changing their form and iconography to prominently incorporate your deity's religious symbol and iconography. The beads don't transform or function for an evil spellcaster.\n\nWhenever you cast a divine spell from your own spell slots while holding the prayer beads, you recover 1 Hit Point; this is a positive healing effect. If the spell you cast was a healing spell, you can grant this additional healing to one of the spell's targets instead of yourself.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 5,
         "price": 16000,
-        "desc": "This strand of ordinary-looking prayer beads glows with a soft light and becomes warm to the touch the first time you cast a divine spell while holding it. When you do, the prayer beads become attuned to your deity, changing their form and iconography to prominently incorporate your deity's religious symbol and iconography. The beads don't transform or function for an evil spellcaster.\n\nWhenever you cast a divine spell from your own spell slots while holding the prayer beads, you recover 1 Hit Point; this is a positive healing effect. If the spell you cast was a healing spell, you can grant this additional healing to one of the spell's targets instead of yourself.",
-        "hints": [
-            {
-                "desc": "Whenever you cast a divine spell from your own spell slots while holding the prayer beads, you recover |dice=1| 1 Hit Point; this is a positive healing effect. If the spell you cast was a healing spell, you can grant this additional healing to one of the spell's targets instead of yourself.",
-                "showon": "Spellbook"
-            }
-        ],
         "traits": [
             "Uncommon",
             "Divine",
@@ -137,8 +141,8 @@
             "Necromancy",
             "Positive"
         ],
-        "usage": "held in 1 hand",
         "craftRequirement": "You have a spellcasting class feature with the divine tradition.",
+        "usage": "held in 1 hand",
         "activities": [
             {
                 "actions": "2A",
@@ -182,29 +186,37 @@
                     "Positive"
                 ]
             }
+        ],
+        "hints": [
+            {
+                "desc": "Whenever you cast a divine spell from your own spell slots while holding the prayer beads, you recover |dice=1| 1 Hit Point; this is a positive healing effect. If the spell you cast was a healing spell, you can grant this additional healing to one of the spell's targets instead of yourself.",
+                "showon": "Spellbook"
+            }
         ]
     },
     {
         "name": "Traveler's Any-Tool",
         "id": "722931a4-9b75-4ed2-b22b-c05a24a4c0fe",
-        "level": 6,
-        "price": 20000,
         "desc": "Before it's activated, this item appears to be an ash rod capped with steel on either end.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 6,
+        "bulk": "1",
+        "price": 20000,
         "traits": [
             "Magical",
             "Transmutation"
         ],
         "usage": "held in 2 hands",
-        "bulk": "1",
         "activities": [
             {
                 "actions": "2A",
                 "activationType": "Envision, Interact",
-                "toggle": true,
-                "target": "object",
                 "desc": "You imagine a specific simple tool, and the any-tool transforms into it. (Usually, you can choose from a tool listed in Chapter 6). This transforms the wooden portion into any haft and the metal caps into spades, hammer heads, or the like, allowing for most basic tools but nothing more complex. You can return the item to its rod form with an Interact action.",
                 "name": "Traveler's Any-Tool",
                 "source": "722931a4-9b75-4ed2-b22b-c05a24a4c0fe",
+                "target": "object",
+                "toggle": true,
                 "traits": [
                     "Magical",
                     "Transmutation"
@@ -213,63 +225,63 @@
         ]
     },
     {
-        "desc": "Though it appears to be a cloth sack decorated with panels of richly colored silk or stylish embroidery, a bag of holding opens into an extradimensional space larger than its outside dimensions. The Bulk held inside the bag doesn't change the Bulk of the bag of holding itself. The amount of Bulk the bag's extradimensional space can hold depends on its type.\n\nYou can Interact with the bag of holding to put items in or remove them just like a mundane sack. Though the bag can hold a great amount of material, an object still needs to be able to fit through the opening of the sack to be stored inside.\n\nIf the bag is overloaded or broken, it ruptures and is ruined, causing the items inside to be lost forever. If it's turned inside out, the items inside spill out unharmed, but the bag must be put right before it can be used again. A living creature placed inside the bag has enough air for 10 minutes before it begins to suffocate, and it can attempt to Escape against a DC of 13. An item inside the bag provides no benefits unless it's retrieved first. An item in the bag can't be detected by magic that detects only things on the same plane.",
-        "id": "a181766f-f2b9-430c-8f10-da07dc930181",
-        "bulk": "1",
-        "level": 7,
         "name": "Bag of Holding (Type II)",
+        "id": "a181766f-f2b9-430c-8f10-da07dc930181",
+        "desc": "Though it appears to be a cloth sack decorated with panels of richly colored silk or stylish embroidery, a bag of holding opens into an extradimensional space larger than its outside dimensions. The Bulk held inside the bag doesn't change the Bulk of the bag of holding itself. The amount of Bulk the bag's extradimensional space can hold depends on its type.\n\nYou can Interact with the bag of holding to put items in or remove them just like a mundane sack. Though the bag can hold a great amount of material, an object still needs to be able to fit through the opening of the sack to be stored inside.\n\nIf the bag is overloaded or broken, it ruptures and is ruined, causing the items inside to be lost forever. If it's turned inside out, the items inside spill out unharmed, but the bag must be put right before it can be used again. A living creature placed inside the bag has enough air for 10 minutes before it begins to suffocate, and it can attempt to Escape against a DC of 13. An item inside the bag provides no benefits unless it's retrieved first. An item in the bag can't be detected by magic that detects only things on the same plane.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 7,
+        "bulk": "1",
+        "price": 30000,
         "subType": "Type II",
         "subTypeDesc": "Capacity 50 Bulk",
-        "price": 30000,
         "traits": [
             "Conjuration",
             "Extradimensional",
             "Magical"
         ],
+        "usage": "held in 2 hands",
         "gainInventory": [
             {
                 "bulkLimit": 50,
                 "bulkReduction": 50
             }
-        ],
-        "usage": "held in 2 hands"
+        ]
     },
     {
-        "desc": "Though it appears to be a cloth sack decorated with panels of richly colored silk or stylish embroidery, a bag of holding opens into an extradimensional space larger than its outside dimensions. The Bulk held inside the bag doesn't change the Bulk of the bag of holding itself. The amount of Bulk the bag's extradimensional space can hold depends on its type.\n\nYou can Interact with the bag of holding to put items in or remove them just like a mundane sack. Though the bag can hold a great amount of material, an object still needs to be able to fit through the opening of the sack to be stored inside.\n\nIf the bag is overloaded or broken, it ruptures and is ruined, causing the items inside to be lost forever. If it's turned inside out, the items inside spill out unharmed, but the bag must be put right before it can be used again. A living creature placed inside the bag has enough air for 10 minutes before it begins to suffocate, and it can attempt to Escape against a DC of 13. An item inside the bag provides no benefits unless it's retrieved first. An item in the bag can't be detected by magic that detects only things on the same plane.",
-        "id": "ffbfe472-792d-4df9-abec-06d380035f50",
-        "bulk": "1",
-        "level": 11,
         "name": "Bag of Holding (Type III)",
+        "id": "ffbfe472-792d-4df9-abec-06d380035f50",
+        "desc": "Though it appears to be a cloth sack decorated with panels of richly colored silk or stylish embroidery, a bag of holding opens into an extradimensional space larger than its outside dimensions. The Bulk held inside the bag doesn't change the Bulk of the bag of holding itself. The amount of Bulk the bag's extradimensional space can hold depends on its type.\n\nYou can Interact with the bag of holding to put items in or remove them just like a mundane sack. Though the bag can hold a great amount of material, an object still needs to be able to fit through the opening of the sack to be stored inside.\n\nIf the bag is overloaded or broken, it ruptures and is ruined, causing the items inside to be lost forever. If it's turned inside out, the items inside spill out unharmed, but the bag must be put right before it can be used again. A living creature placed inside the bag has enough air for 10 minutes before it begins to suffocate, and it can attempt to Escape against a DC of 13. An item inside the bag provides no benefits unless it's retrieved first. An item in the bag can't be detected by magic that detects only things on the same plane.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 11,
+        "bulk": "1",
+        "price": 120000,
         "subType": "Type III",
         "subTypeDesc": "Capacity 100 Bulk",
-        "price": 120000,
         "traits": [
             "Conjuration",
             "Extradimensional",
             "Magical"
         ],
+        "usage": "held in 2 hands",
         "gainInventory": [
             {
                 "bulkLimit": 100,
                 "bulkReduction": 100
             }
-        ],
-        "usage": "held in 2 hands"
+        ]
     },
     {
         "name": "Holy Prayer Beads (Greater)",
-        "subType": "Greater",
-        "subTypeDesc": "You recover 1d4 Hit Points instead of 1 Hit Point when casting divine spells from your spell slots. Change the beads' list of spells to the 4th-level versions of bless, divine wrath (matching one component of your deity's alignment), heal, neutralize poison, and remove disease. You can cast each of these once per day.",
         "id": "df2ee303-0f2c-4876-a4f5-f15f8f3af5c1",
+        "desc": "This strand of ordinary-looking prayer beads glows with a soft light and becomes warm to the touch the first time you cast a divine spell while holding it. When you do, the prayer beads become attuned to your deity, changing their form and iconography to prominently incorporate your deity's religious symbol and iconography. The beads don't transform or function for an evil spellcaster.\n\nWhenever you cast a divine spell from your own spell slots while holding the prayer beads, you recover 1 Hit Point; this is a positive healing effect. If the spell you cast was a healing spell, you can grant this additional healing to one of the spell's targets instead of yourself.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 11,
         "price": 140000,
-        "desc": "This strand of ordinary-looking prayer beads glows with a soft light and becomes warm to the touch the first time you cast a divine spell while holding it. When you do, the prayer beads become attuned to your deity, changing their form and iconography to prominently incorporate your deity's religious symbol and iconography. The beads don't transform or function for an evil spellcaster.\n\nWhenever you cast a divine spell from your own spell slots while holding the prayer beads, you recover 1 Hit Point; this is a positive healing effect. If the spell you cast was a healing spell, you can grant this additional healing to one of the spell's targets instead of yourself.",
-        "hints": [
-            {
-                "desc": "Whenever you cast a divine spell from your own spell slots while holding the prayer beads, you recover |dice=1d4| 1d4 Hit Point; this is a positive healing effect. If the spell you cast was a healing spell, you can grant this additional healing to one of the spell's targets instead of yourself.",
-                "showon": "Spellbook"
-            }
-        ],
+        "subType": "Greater",
+        "subTypeDesc": "You recover 1d4 Hit Points instead of 1 Hit Point when casting divine spells from your spell slots. Change the beads' list of spells to the 4th-level versions of bless, divine wrath (matching one component of your deity's alignment), heal, neutralize poison, and remove disease. You can cast each of these once per day.",
         "traits": [
             "Uncommon",
             "Divine",
@@ -277,16 +289,16 @@
             "Necromancy",
             "Positive"
         ],
-        "usage": "held in 1 hand",
         "craftRequirement": "You have a spellcasting class feature with the divine tradition.",
+        "usage": "held in 1 hand",
         "activities": [
             {
                 "actions": "2A",
                 "activationType": "Cast a spell",
                 "castSpells": [
                     {
-                        "name": "Bless",
-                        "level": 4
+                        "level": 4,
+                        "name": "Bless"
                     }
                 ],
                 "cooldown": 144000,
@@ -386,49 +398,46 @@
                     "Positive"
                 ]
             }
+        ],
+        "hints": [
+            {
+                "desc": "Whenever you cast a divine spell from your own spell slots while holding the prayer beads, you recover |dice=1d4| 1d4 Hit Point; this is a positive healing effect. If the spell you cast was a healing spell, you can grant this additional healing to one of the spell's targets instead of yourself.",
+                "showon": "Spellbook"
+            }
         ]
     },
     {
-        "desc": "Though it appears to be a cloth sack decorated with panels of richly colored silk or stylish embroidery, a bag of holding opens into an extradimensional space larger than its outside dimensions. The Bulk held inside the bag doesn't change the Bulk of the bag of holding itself. The amount of Bulk the bag's extradimensional space can hold depends on its type.\n\nYou can Interact with the bag of holding to put items in or remove them just like a mundane sack. Though the bag can hold a great amount of material, an object still needs to be able to fit through the opening of the sack to be stored inside.\n\nIf the bag is overloaded or broken, it ruptures and is ruined, causing the items inside to be lost forever. If it's turned inside out, the items inside spill out unharmed, but the bag must be put right before it can be used again. A living creature placed inside the bag has enough air for 10 minutes before it begins to suffocate, and it can attempt to Escape against a DC of 13. An item inside the bag provides no benefits unless it's retrieved first. An item in the bag can't be detected by magic that detects only things on the same plane.",
-        "id": "9e39fb5e-8b95-40ca-9597-e4ff678411f7",
-        "bulk": "1",
-        "level": 13,
         "name": "Bag of Holding (Type IV)",
+        "id": "9e39fb5e-8b95-40ca-9597-e4ff678411f7",
+        "desc": "Though it appears to be a cloth sack decorated with panels of richly colored silk or stylish embroidery, a bag of holding opens into an extradimensional space larger than its outside dimensions. The Bulk held inside the bag doesn't change the Bulk of the bag of holding itself. The amount of Bulk the bag's extradimensional space can hold depends on its type.\n\nYou can Interact with the bag of holding to put items in or remove them just like a mundane sack. Though the bag can hold a great amount of material, an object still needs to be able to fit through the opening of the sack to be stored inside.\n\nIf the bag is overloaded or broken, it ruptures and is ruined, causing the items inside to be lost forever. If it's turned inside out, the items inside spill out unharmed, but the bag must be put right before it can be used again. A living creature placed inside the bag has enough air for 10 minutes before it begins to suffocate, and it can attempt to Escape against a DC of 13. An item inside the bag provides no benefits unless it's retrieved first. An item in the bag can't be detected by magic that detects only things on the same plane.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 13,
+        "bulk": "1",
+        "price": 240000,
         "subType": "Type IV",
         "subTypeDesc": "Capacity 150 Bulk",
-        "price": 240000,
         "traits": [
             "Conjuration",
             "Extradimensional",
             "Magical"
         ],
+        "usage": "held in 2 hands",
         "gainInventory": [
             {
                 "bulkLimit": 150,
                 "bulkReduction": 150
             }
-        ],
-        "usage": "held in 2 hands"
+        ]
     },
     {
         "name": "Skeleton Key",
         "id": "89bd35f2-8e09-11ea-9fab-e92c63c14723",
+        "desc": "A grinning skull tops the bow of this macabre key. This key can be used in place of thieves' tools when attempting to Pick a Lock, and it grants a +1 item bonus to the Thievery check. If the skeleton key becomes broken due to a critical failure on the check, it works as normal thieves' tools and loses its benefits until repaired.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 5,
         "price": 12500,
-        "desc": "A grinning skull tops the bow of this macabre key. This key can be used in place of thieves' tools when attempting to Pick a Lock, and it grants a +1 item bonus to the Thievery check. If the skeleton key becomes broken due to a critical failure on the check, it works as normal thieves' tools and loses its benefits until repaired.",
-        "hints": [
-            {
-                "desc": "This key can be used in place of thieves' tools when attempting to Pick a Lock, and it grants a +1 item bonus to the Thievery check. If the skeleton key becomes broken due to a critical failure on the check, it works as normal thieves' tools and loses its benefits until repaired.",
-                "showon": "Thievery",
-                "effects": [
-                    {
-                        "affected": "Thievery",
-                        "value": "1",
-                        "type": "item"
-                    }
-                ]
-            }
-        ],
         "traits": [
             "Magical",
             "Transmutation"
@@ -454,15 +463,30 @@
                 ],
                 "trigger": "You attempt to Pick a Lock but haven't rolled yet"
             }
+        ],
+        "hints": [
+            {
+                "desc": "This key can be used in place of thieves' tools when attempting to Pick a Lock, and it grants a +1 item bonus to the Thievery check. If the skeleton key becomes broken due to a critical failure on the check, it works as normal thieves' tools and loses its benefits until repaired.",
+                "effects": [
+                    {
+                        "affected": "Thievery",
+                        "type": "item",
+                        "value": "1"
+                    }
+                ],
+                "showon": "Thievery"
+            }
         ]
     },
     {
         "name": "Decanter of Endless Water",
         "id": "2416b51a-3002-4227-b786-0eca68887977",
-        "level": 7,
-        "price": 32000,
-        "bulk": "L",
         "desc": "This item looks like an ordinary glass flask full of water. The stopper can't be removed unless you speak one of the item's three command words, each of which causes water to pour forth in a different way. Pulling the stopper straight out creates fresh water, and rotating it as you pull creates salt water. Any effect of the decanter lasts until the decanter is plugged (with its own stopper, a finger, or the like).",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 7,
+        "bulk": "L",
+        "price": 32000,
         "traits": [
             "Conjuration",
             "Magical",
@@ -473,11 +497,11 @@
             {
                 "actions": "1A",
                 "activationType": "Command, Interact",
-                "target": "object",
                 "desc": "Speaking \"stream,\" you cause water to pour out at a rate of 1 gallon per round.",
                 "name": "Endless Water: Stream",
-                "toggle": true,
                 "source": "2416b51a-3002-4227-b786-0eca68887977",
+                "target": "object",
+                "toggle": true,
                 "traits": [
                     "Conjuration",
                     "Magical",
@@ -487,11 +511,11 @@
             {
                 "actions": "1A",
                 "activationType": "Command, Interact",
-                "target": "object",
                 "desc": "Speaking \"fountain,\" you cause water to pour out in a 5-foot-long stream at a rate of 5 gallons per round.",
                 "name": "Endless Water: Fountain",
-                "toggle": true,
                 "source": "2416b51a-3002-4227-b786-0eca68887977",
+                "target": "object",
+                "toggle": true,
                 "traits": [
                     "Conjuration",
                     "Magical",
@@ -501,7 +525,6 @@
             {
                 "actions": "1A",
                 "activationType": "Command, Interact",
-                "target": "object",
                 "castSpells": [
                     {
                         "name": "Hydraulic Push"
@@ -510,6 +533,7 @@
                 "desc": "Speaking \"geyser,\" you cause a powerful deluge of water to erupt at a rate of 15 gallons per round. You can direct the stream at a creature, subjecting it to the effects of hydraulic push (spell attack roll +15). You can repeat this once per round as long as the geyser continues, spending an Interact action to direct the geyser each time.",
                 "name": "Endless Water: Geyser",
                 "source": "2416b51a-3002-4227-b786-0eca68887977",
+                "target": "object",
                 "toggle": true,
                 "traits": [
                     "Conjuration",
@@ -522,10 +546,12 @@
     {
         "name": "Rod of Wonder",
         "id": "ed7078eb-03aa-4de3-8409-90e82b7b5fb3",
-        "level": 8,
-        "price": 46500,
-        "bulk": "L",
         "desc": "This peculiar rod is strange and unpredictable. Each time it is activated, it produces one of a variety of effects at random.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 8,
+        "bulk": "L",
+        "price": 46500,
         "traits": [
             "Rare",
             "Chaotic",
@@ -537,8 +563,8 @@
             {
                 "actions": "2A",
                 "activationType": "Command, Interact",
-                "target": "ally",
                 "cannotTargetCaster": true,
+                "desc": "Choose a creature within 60 feet and roll d% on the table below to determine the rods effect. If an entry lists only a spell name, the rod casts that spell at its lowest level. You make any decisions for a spell cast by the rod unless otherwise indicated, except that it must target the creature you chose, or the creature you chose must be the center of the spells area, if it has an area but no targets. If the spells range is less than 60 feet, increase the range to 60 feet.\n\nAny spell DC required is DC 27, and any spell attack roll required is +17. If the rod casts a spell on you, you don't get a saving throw or other defense against it.\n\nOnce activated, the rod can't be activated again for 1d4 hours.\n\n<strong>1-3</strong> Leaves grow from the target; they last 24 hours\n<strong>4-8</strong> Darkness\n<strong>9</strong> Summon a giant stag beetle (5th-level summon animal)\n<strong>10-13</strong> A stream of 600 large and colorful butterflies pours forth, fluttering in a 20-foot burst for 2 rounds; creatures are blinded while in the cloud of butterflies\n<strong>14-15</strong> All the target's weapons animate with the effects of the dancing rune\n<strong>16-25</strong> Lightning bolt\n<strong>26-29</strong> Grass grows in a 60-foot cone in front of the rod, or existing grass grows at 10 * normal rate\n<strong>30</strong> Target turns blue, green, or purple with an unlimited duration\n<strong>31</strong> Summon an elephant (6th-level summon animal)\n<strong>32-34</strong> Heavy rain falls in a 60-foot radius around you for 1 round\n<strong>35-38</strong> Stinking cloud\n<strong>39</strong> Summon an ineffective mouse (1st-level summon animal)\n<strong>40-42</strong> Vibrant pattern, with a 1-round duration\n<strong>43-44</strong> The rod casts mirror image on you\n<strong>45-46</strong> Gust of wind\n<strong>47-48</strong> The non-living, unattended object closest to the target (up to 30 cubic feet in size) turns ethereal for an unlimited duration\n<strong>49-53</strong> Slow\n<strong>54</strong> You turn blue, green, or purple with an unlimited duration\n<strong>55-59</strong> The rod casts pest form on you, lasting 1d4 rounds\n<strong>60-61</strong> 1d4 * 10 gems, each worth 1 sp, shoot from the rod, dealing 1 piercing damage to each creature in a 15-foot cone\n<strong>62</strong> Sleep, with a 100-foot burst\n<strong>63-72</strong> Fireball\n<strong>73-77</strong> Mind reading\n<strong>78-80</strong> Roll again; the target believes you created the effect of the second roll\n<strong>81-84</strong> Enlarge\n<strong>85-87</strong> Target is coated in nectar, making it clumsy 1 for 1 round\n<strong>88-92</strong> Faerie fire\n<strong>93-97</strong> The rod casts invisibility on you\n<strong>98-100</strong> The rod casts shrink on you, lasting 1 day",
                 "gainConditions": [
                     {
                         "duration": -5,
@@ -557,6 +583,7 @@
                         "targetFilter": "target"
                     }
                 ],
+                "name": "Rod of Wonder",
                 "showSpells": [
                     {
                         "name": "Darkness"
@@ -604,9 +631,8 @@
                         "name": "Shrink"
                     }
                 ],
-                "desc": "Choose a creature within 60 feet and roll d% on the table below to determine the rods effect. If an entry lists only a spell name, the rod casts that spell at its lowest level. You make any decisions for a spell cast by the rod unless otherwise indicated, except that it must target the creature you chose, or the creature you chose must be the center of the spells area, if it has an area but no targets. If the spells range is less than 60 feet, increase the range to 60 feet.\n\nAny spell DC required is DC 27, and any spell attack roll required is +17. If the rod casts a spell on you, you don't get a saving throw or other defense against it.\n\nOnce activated, the rod can't be activated again for 1d4 hours.\n\n<strong>1-3</strong> Leaves grow from the target; they last 24 hours\n<strong>4-8</strong> Darkness\n<strong>9</strong> Summon a giant stag beetle (5th-level summon animal)\n<strong>10-13</strong> A stream of 600 large and colorful butterflies pours forth, fluttering in a 20-foot burst for 2 rounds; creatures are blinded while in the cloud of butterflies\n<strong>14-15</strong> All the target's weapons animate with the effects of the dancing rune\n<strong>16-25</strong> Lightning bolt\n<strong>26-29</strong> Grass grows in a 60-foot cone in front of the rod, or existing grass grows at 10 * normal rate\n<strong>30</strong> Target turns blue, green, or purple with an unlimited duration\n<strong>31</strong> Summon an elephant (6th-level summon animal)\n<strong>32-34</strong> Heavy rain falls in a 60-foot radius around you for 1 round\n<strong>35-38</strong> Stinking cloud\n<strong>39</strong> Summon an ineffective mouse (1st-level summon animal)\n<strong>40-42</strong> Vibrant pattern, with a 1-round duration\n<strong>43-44</strong> The rod casts mirror image on you\n<strong>45-46</strong> Gust of wind\n<strong>47-48</strong> The non-living, unattended object closest to the target (up to 30 cubic feet in size) turns ethereal for an unlimited duration\n<strong>49-53</strong> Slow\n<strong>54</strong> You turn blue, green, or purple with an unlimited duration\n<strong>55-59</strong> The rod casts pest form on you, lasting 1d4 rounds\n<strong>60-61</strong> 1d4 * 10 gems, each worth 1 sp, shoot from the rod, dealing 1 piercing damage to each creature in a 15-foot cone\n<strong>62</strong> Sleep, with a 100-foot burst\n<strong>63-72</strong> Fireball\n<strong>73-77</strong> Mind reading\n<strong>78-80</strong> Roll again; the target believes you created the effect of the second roll\n<strong>81-84</strong> Enlarge\n<strong>85-87</strong> Target is coated in nectar, making it clumsy 1 for 1 round\n<strong>88-92</strong> Faerie fire\n<strong>93-97</strong> The rod casts invisibility on you\n<strong>98-100</strong> The rod casts shrink on you, lasting 1 day",
-                "name": "Rod of Wonder",
                 "source": "ed7078eb-03aa-4de3-8409-90e82b7b5fb3",
+                "target": "ally",
                 "traits": [
                     "Rare",
                     "Chaotic",
@@ -619,10 +645,12 @@
     {
         "name": "Immovable Rod",
         "id": "45b63491-f0d9-4dac-b3cd-fad7b00e6708",
-        "level": 9,
-        "price": 60000,
-        "bulk": "L",
         "desc": "This flat iron bar is almost completely nondescript, except for one small button appearing on its surface.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 9,
+        "bulk": "L",
+        "price": 60000,
         "traits": [
             "Magical",
             "Transmutation"
@@ -647,124 +675,25 @@
         "name": "Shrink Item Storage",
         "id": "e35c2b45-688e-408b-8853-80ab823d6a53",
         "desc": "You have shrunk 1 non-magical object up to 20 cubic feet in volume and up to 80 bulk to roughly the size of a coin. This reduces it to negligible Bulk. This storage can be used to hold the item and nullify its bulk, representing its shrunk status.\n\nYou can Dismiss the spell, and the spell ends if you toss the object onto a solid surface. The object can't be used to attack or cause damage during the process of it returning to normal size. If there isn't room for the object to return to normal size when the spell ends, the spell's duration continues until the object is in a location large enough to accommodate its normal size.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "hide": true,
         "gainInventory": [
             {
                 "bulkLimit": 80,
                 "bulkReduction": 80
-            }
-        ],
-        "hide": true
-    },
-    {
-        "name": "Dragon's Eye Charm",
-        "id": "c62657d8-931d-4942-8a9d-f10db9030ae7",
-        "level": 7,
-        "price": 36000,
-        "bulk": "L",
-        "desc": "This charm, a dragon-shaped pendant worn like a necklace or set into armor or clothing as a decoration, is warm and smooth to the touch. It must be held in one hand to be used (pressing the palm of one's hand to the charm also works, provided that your hand is otherwise empty). It has four distinct powers.",
-        "sourceBook": "Pathfinder #146: Cult of Cinders",
-        "traits": [
-            "Uncommon",
-            "Divination",
-            "Magical"
-        ],
-        "usage": "held in 1 hand",
-        "activities": [
-            {
-                "actions": "1A",
-                "activationType": "Interact",
-                "castSpells": [
-                    {
-                        "level": 5,
-                        "name": "Produce Flame"
-                    }
-                ],
-                "cooldown": 144000,
-                "desc": "The dragon's eye charm manifests fire for you to wield against your foe. You cast a 5th-level produce flame spell with a spell attack roll of +13.",
-                "frequency": "once per day",
-                "name": "Dragon's Eye Charm: Produce Flame",
-                "source": "c62657d8-931d-4942-8a9d-f10db9030ae7",
-                "traits": [
-                    "Uncommon",
-                    "Divination",
-                    "Magical"
-                ]
-            },
-            {
-                "actions": "1A",
-                "activationType": "Interact",
-                "cooldown": 144000,
-                "desc": "The charm's pupil becomes plainly visible. You can look through the charm to gain darkvision for as long as you Sustain the Activation, to a maximum of 10 minutes.",
-                "maxDuration": 1000,
-                "frequency": "once per day",
-                "gainConditions": [
-                    {
-                        "duration": 1000,
-                        "name": "Dragon's Eye Charm: Darkvision"
-                    }
-                ],
-                "name": "Dragon's Eye Charm: Darkvision",
-                "source": "c62657d8-931d-4942-8a9d-f10db9030ae7",
-                "sustained": true,
-                "toggle": true,
-                "traits": [
-                    "Uncommon",
-                    "Divination",
-                    "Magical"
-                ]
-            },
-            {
-                "actions": "1A",
-                "activationType": "Interact",
-                "cooldown": 144000,
-                "desc": "The dragon's eye charm shrouds you in a faintly glowing layer of golden energy. You gain fire resistance 5 for 10 minutes.",
-                "frequency": "once per day",
-                "gainConditions": [
-                    {
-                        "duration": 1000,
-                        "name": "Dragon's Eye Charm: Fire Resistance"
-                    }
-                ],
-                "name": "Dragon's Eye Charm: Fire Resistance",
-                "source": "c62657d8-931d-4942-8a9d-f10db9030ae7",
-                "traits": [
-                    "Uncommon",
-                    "Divination",
-                    "Magical"
-                ]
-            },
-            {
-                "actions": "1A",
-                "activationType": "Interact",
-                "cooldown": 144000,
-                "desc": "You can speak and understand Draconic as long as you Sustain the Activation, to a maximum of 10 minutes.",
-                "maxDuration": 1000,
-                "frequency": "once per day",
-                "gainConditions": [
-                    {
-                        "duration": 1000,
-                        "name": "Dragon's Eye Charm: Draconic"
-                    }
-                ],
-                "name": "Dragon's Eye Charm: Draconic",
-                "source": "c62657d8-931d-4942-8a9d-f10db9030ae7",
-                "sustained": true,
-                "toggle": true,
-                "traits": [
-                    "Uncommon",
-                    "Divination",
-                    "Magical"
-                ]
             }
         ]
     },
     {
         "name": "Wondrous Figurine (Golden Lions)",
         "id": "bbd63de2-240a-11eb-adc1-0242ac120002",
-        "level": 10,
-        "price": 90000,
-        "bulk": "L",
         "desc": "Each one of these statuettes is 1 inch in height, carved from a specific material and taking the shape of a particular animal or animals.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 10,
+        "bulk": "L",
+        "price": 90000,
         "subType": "Golden Lion",
         "subTypeDesc": "This statuette depicts a pair of gold lions, and when activated, it becomes a pair of adult lions. The lions can be called on only once per day, and they remain in lion form for no more than 1 hour. If either of the lions is slain, that lion cannot be summoned again until 1 week has passed, but this doesn't prevent you from summoning the other.",
         "traits": [
@@ -778,13 +707,13 @@
                 "activationType": "Command, Interact",
                 "cooldown": 144000,
                 "desc": "You activate the statue by placing it on solid ground and then speaking its name, causing the statuette to transform into a pair of adult lions with the minion trait. They can understand your language and obey you to the best of their ability when you use an action to command them.\n\nIf either of the lions is slain, that lion cannot be summoned again until 1 week has passed, but this doesn't prevent you from summoning the other. If both lions are slain while in animal form, the figurine reverts to its statue shape and cannot be activated again until 1 week has passed. If the figurine is destroyed in statue form, it is shattered and its magic is lost.",
-                "maxDuration": 6000,
                 "gainConditions": [
                     {
                         "duration": 6000,
                         "name": "Wondrous Figurine (Golden Lions)"
                     }
                 ],
+                "maxDuration": 6000,
                 "name": "Wondrous Figurine (Golden Lions)",
                 "source": "bbd63de2-240a-11eb-adc1-0242ac120002",
                 "toggle": true,
@@ -794,7 +723,6 @@
                 ]
             },
             {
-                "actions": "",
                 "cooldown": 1008000,
                 "desc": "If both lions are slain while in animal form, the figurine reverts to its statue shape and cannot be activated again until 1 week has passed.",
                 "gainConditions": [
@@ -814,10 +742,12 @@
     {
         "name": "Wondrous Figurine (Jade Serpent)",
         "id": "bbd64012-240a-11eb-adc1-0242ac120002",
-        "level": 7,
-        "price": 34000,
-        "bulk": "L",
         "desc": "Each one of these statuettes is 1 inch in height, carved from a specific material and taking the shape of a particular animal or animals.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 7,
+        "bulk": "L",
+        "price": 34000,
         "subType": "Jade Serpent",
         "subTypeDesc": "This tiny statue first appears to be a formless lump of jade until closer inspection reveals it to be a serpentine body curled into a snug knot. When activated, this figurine becomes a giant viper. The figurine can be used only once per day, and it can remain in serpent form for no more than 10 minutes.",
         "traits": [
@@ -831,13 +761,13 @@
                 "activationType": "Command, Interact",
                 "cooldown": 144000,
                 "desc": "You activate the statue by placing it on solid ground and then speaking its name, causing the statuette to transform into a giant viper with the minion trait. It can understand your language and obeys you to the best of its ability when you use an action to command it.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed. If the figurine is destroyed in statue form, it is shattered and its magic is lost.",
-                "maxDuration": 1000,
                 "gainConditions": [
                     {
                         "duration": 1000,
                         "name": "Wondrous Figurine (Jade Serpent)"
                     }
                 ],
+                "maxDuration": 1000,
                 "name": "Wondrous Figurine (Jade Serpent)",
                 "source": "bbd64012-240a-11eb-adc1-0242ac120002",
                 "toggle": true,
@@ -847,7 +777,6 @@
                 ]
             },
             {
-                "actions": "",
                 "cooldown": 1008000,
                 "desc": "If the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
                 "gainConditions": [
@@ -867,10 +796,12 @@
     {
         "name": "Wondrous Figurine (Marble Elephant)",
         "id": "bbd64288-240a-11eb-adc1-0242ac120002",
-        "level": 13,
-        "price": 270000,
-        "bulk": "L",
         "desc": "Each one of these statuettes is 1 inch in height, carved from a specific material and taking the shape of a particular animal or animals.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 13,
+        "bulk": "L",
+        "price": 270000,
         "subType": "Marble Elephant",
         "subTypeDesc": "Finely carved from a solid piece of marble, this gleaming elephant statuette becomes a fully grown elephant when activated. The elephant can be called upon no more than four times per month. It remains for 24 hours as long as it is being used as a beast of burden or for transport. If it attempts an attack or otherwise engages in combat, it reverts to statuette form after 1d4 rounds.",
         "traits": [
@@ -882,16 +813,16 @@
             {
                 "actions": "2A",
                 "activationType": "Command, Interact",
-                "cooldown": 4032000,
                 "charges": 4,
+                "cooldown": 4032000,
                 "desc": "You activate the statue by placing it on solid ground and then speaking its name, causing the statuette to transform into a fully grown elephant with the minion trait. It can understand your language and obeys you to the best of its ability when you use an action to command it. The elephant remains for the duration as long as it is being used as a beast of burden or for transport. If it attempts an attack or otherwise engages in combat, it reverts to statuette form after 1d4 rounds.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed. If the figurine is destroyed in statue form, it is shattered and its magic is lost.",
-                "maxDuration": 144000,
                 "gainConditions": [
                     {
                         "duration": 144000,
                         "name": "Wondrous Figurine (Marble Elephant)"
                     }
                 ],
+                "maxDuration": 144000,
                 "name": "Wondrous Figurine (Marble Elephant)",
                 "source": "bbd64288-240a-11eb-adc1-0242ac120002",
                 "toggle": true,
@@ -901,7 +832,6 @@
                 ]
             },
             {
-                "actions": " ",
                 "cooldown": 1008000,
                 "desc": "If the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
                 "gainConditions": [
@@ -921,10 +851,12 @@
     {
         "name": "Wondrous Figurine (Obsidian Steed)",
         "id": "bbd64378-240a-11eb-adc1-0242ac120002",
-        "level": 15,
-        "price": 600000,
-        "bulk": "L",
         "desc": "Each one of these statuettes is 1 inch in height, carved from a specific material and taking the shape of a particular animal or animals.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 15,
+        "bulk": "L",
+        "price": 600000,
         "subType": "Obsidian Steed",
         "subTypeDesc": "This sinister-looking black statuette resembles a horse rearing up on its hind legs. When activated, this figurine becomes a nightmare. It can be called upon once per week for up to 24 hours, though it won't use plane shift or its other abilities on behalf of its rider. Although evil, it allows itself to be ridden by creatures of any alignment, although if a good creature mounts it, the rider must attempt a DC 3 flat check. On a failure, the nightmare uses plane shift to take the rider to a random location in the Abyss, where it promptly returns to statue form, stranding its rider in that nightmarish place.",
         "traits": [
@@ -939,13 +871,13 @@
                 "activationType": "Command, Interact",
                 "cooldown": 1008000,
                 "desc": "You activate the statue by placing it on solid ground and then speaking its name, causing the statuette to transform into a nightmare with the minion trait. It can understand your language and obeys you to the best of its ability when you use an action to command it. The nightmare won't use plane shift or its other abilities on behalf of its rider. Although evil, it allows itself to be ridden by creatures of any alignment, although if a good creature mounts it, the rider must attempt a DC 3 flat check. On a failure, the nightmare uses plane shift to take the rider to a random location in the Abyss, where it promptly returns to statue form, stranding its rider in that nightmarish place.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed. If the figurine is destroyed in statue form, it is shattered and its magic is lost.",
-                "maxDuration": 144000,
                 "gainConditions": [
                     {
                         "duration": 144000,
                         "name": "Wondrous Figurine (Obsidian Steed)"
                     }
                 ],
+                "maxDuration": 144000,
                 "name": "Wondrous Figurine (Obsidian Steed)",
                 "source": "bbd64378-240a-11eb-adc1-0242ac120002",
                 "toggle": true,
@@ -956,7 +888,6 @@
                 ]
             },
             {
-                "actions": "",
                 "cooldown": 1008000,
                 "desc": "If the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
                 "gainConditions": [
@@ -977,10 +908,12 @@
     {
         "name": "Wondrous Figurine (Onyx Dog)",
         "id": "bbd64440-240a-11eb-adc1-0242ac120002",
-        "level": 2,
-        "price": 3400,
-        "bulk": "L",
         "desc": "Each one of these statuettes is 1 inch in height, carved from a specific material and taking the shape of a particular animal or animals.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 2,
+        "bulk": "L",
+        "price": 3400,
         "subType": "Onyx Dog",
         "subTypeDesc": "This simple onyx statue transforms into a guard dog. The dog has a +4 circumstance bonus to Survival checks to Track, and it has darkvision. When the dog senses a hidden creature with its scent, that creature is instead observed and concealed. The onyx dog can be activated once per week and remains in its form for up to 6 hours.",
         "traits": [
@@ -994,13 +927,13 @@
                 "activationType": "Command, Interact",
                 "cooldown": 1008000,
                 "desc": "You activate the statue by placing it on solid ground and then speaking its name, causing the statuette to transform into a guard dog with the minion trait. It can understand your language and obeys you to the best of its ability when you use an action to command it. The dog has a +4 circumstance bonus to Survival checks to Track, and it has darkvision. When the dog senses a hidden creature with its scent, that creature is instead observed and concealed.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed. If the figurine is destroyed in statue form, it is shattered and its magic is lost.",
-                "maxDuration": 36000,
                 "gainConditions": [
                     {
                         "duration": 36000,
                         "name": "Wondrous Figurine (Onyx Dog)"
                     }
                 ],
+                "maxDuration": 36000,
                 "name": "Wondrous Figurine (Onyx Dog)",
                 "source": "bbd64440-240a-11eb-adc1-0242ac120002",
                 "toggle": true,
@@ -1010,7 +943,6 @@
                 ]
             },
             {
-                "actions": "",
                 "cooldown": 1008000,
                 "desc": "If the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
                 "gainConditions": [
@@ -1028,250 +960,35 @@
         ]
     },
     {
-        "name": "Wondrous Figurine (Candy Constrictor)",
-        "id": "bbd64508-240a-11eb-adc1-0242ac120002",
-        "level": 5,
-        "price": 14000,
-        "bulk": "L",
-        "desc": "Each one of these statuettes is 1 inch in height, carved from a specific material and taking the shape of a particular animal or animals.",
-        "subType": "Candy Constrictor",
-        "subTypeDesc": "Although appearing as a multicolored piece of stick candy, this figurine bears a narrow snake head at one end and is as durable as stone. When activated, it becomes a rainbow-striped ball python except it lacks the Stealth skill. The snake can be used once per day, and it can remain in snake form for up to 20 minutes.",
-        "sourceBook": "Pathfinder #152: Legacy of the Lost God",
-        "traits": [
-            "Uncommon",
-            "Conjuration",
-            "Magical"
-        ],
-        "usage": "held in 1 hand",
-        "activities": [
-            {
-                "actions": "2A",
-                "activationType": "Command, Interact",
-                "cooldown": 144000,
-                "desc": "You activate the statue by placing it on solid ground and then speaking its name, causing the statuette to transform into a rainbow-striped ball python with the minion trait, except it lacks the Stealth skill. It can understand your language and obeys you to the best of its ability when you use an action to command it.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed. If the figurine is destroyed in statue form, it is shattered and its magic is lost.",
-                "maxDuration": 2000,
-                "gainConditions": [
-                    {
-                        "duration": 2000,
-                        "name": "Wondrous Figurine (Candy Constrictor)"
-                    }
-                ],
-                "name": "Wondrous Figurine (Candy Constrictor)",
-                "source": "bbd64508-240a-11eb-adc1-0242ac120002",
-                "toggle": true,
-                "traits": [
-                    "Uncommon",
-                    "Conjuration",
-                    "Magical"
-                ]
-            },
-            {
-                "actions": "",
-                "cooldown": 1008000,
-                "desc": "If the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
-                "gainConditions": [
-                    {
-                        "duration": 1008000,
-                        "name": "Wondrous Figurine (Candy Constrictor) Cooldown"
-                    }
-                ],
-                "name": "Wondrous Figurine (Candy Constrictor): Slain",
-                "traits": [
-                    "Uncommon",
-                    "Conjuration",
-                    "Magical"
-                ]
-            }
-        ]
-    },
-    {
-        "name": "Wondrous Figurine (Rubber Bear)",
-        "id": "bbd645d0-240a-11eb-adc1-0242ac120002",
-        "level": 7,
-        "price": 35000,
-        "bulk": "L",
-        "desc": "Each one of these statuettes is 1 inch in height, carved from a specific material and taking the shape of a particular animal or animals.",
-        "subType": "Rubber Bear",
-        "subTypeDesc": "This small, stretchable statuette depicts a bear wearing a tutu and a fez and balancing on a ball slightly larger than its head. When activated, it becomes a grizzly bear with similar attire. The bear remains balanced upon its rubber ball, and is therefore ungainly: it cannot Climb or Swim, has a -10- foot circumstance penalty to its Speed, and is always flat-footed. If the bear leaves its ball, such as if it is repositioned with forced movement or knocked prone, it immediately reverts to statuette form. The bear can be used once per day, and it can remain in bear form for up to 1 hour.",
-        "sourceBook": "Pathfinder #152: Legacy of the Lost God",
-        "traits": [
-            "Uncommon",
-            "Conjuration",
-            "Magical"
-        ],
-        "usage": "held in 1 hand",
-        "activities": [
-            {
-                "actions": "2A",
-                "activationType": "Command, Interact",
-                "cooldown": 144000,
-                "desc": "You activate the statue by placing it on solid ground and then speaking its name, causing the statuette to transform into a grizzly bear wearing a tutu and a fez and balancing on a ball slightly larger than its head. It can understand your language and obeys you to the best of its ability when you use an action to command it. The bear remains balanced upon its rubber ball, and is therefore ungainly: it cannot Climb or Swim, has a -10- foot circumstance penalty to its Speed, and is always flat-footed. If the bear leaves its ball, such as if it is repositioned with forced movement or knocked prone, it immediately reverts to statuette form.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed. If the figurine is destroyed in statue form, it is shattered and its magic is lost.",
-                "maxDuration": 6000,
-                "gainConditions": [
-                    {
-                        "duration": 6000,
-                        "name": "Wondrous Figurine (Rubber Bear)"
-                    }
-                ],
-                "name": "Wondrous Figurine (Rubber Bear)",
-                "source": "bbd645d0-240a-11eb-adc1-0242ac120002",
-                "toggle": true,
-                "traits": [
-                    "Uncommon",
-                    "Conjuration",
-                    "Magical"
-                ]
-            },
-            {
-                "actions": "",
-                "cooldown": 1008000,
-                "desc": "If the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
-                "gainConditions": [
-                    {
-                        "duration": 1008000,
-                        "name": "Wondrous Figurine (Rubber Bear) Cooldown"
-                    }
-                ],
-                "name": "Wondrous Figurine (Rubber Bear): Slain",
-                "traits": [
-                    "Uncommon",
-                    "Conjuration",
-                    "Magical"
-                ]
-            }
-        ]
-    },
-    {
-        "name": "Dreamstone",
-        "id": "bffaa366-579d-46b3-bd3e-56962b1521bf",
-        "level": 9,
-        "price": 70000,
-        "bulk": "L",
-        "desc": "A dreamstone is a disc-shaped object carved with imagery or words sacred to Desna - be it her religious symbol, a short prayer, or merely the shape of a single star. When you carry a dreamstone, you find it easier to fall asleep, and you gain improved effects from the resulting rest. You always fall asleep within 5 minutes of lying down with the intention of sleeping, and you require only 2 hours of sleep per day to gain the benefits of 8 hours of sleep, provided you have carried the dreamstone for at least 24 hours prior to resting. As long as you carry a dreamstone, you gain a +2 item bonus to saving throws against sleep effects.",
-        "hints": [
-            {
-                "desc": "You always fall asleep within 5 minutes of lying down with the intention of sleeping, and you require only 2 hours of sleep per day to gain the benefits of 8 hours of sleep, provided you have carried the dreamstone for at least 24 hours prior to resting.",
-                "showon": "Rest"
-            },
-            {
-                "desc": "As long as you carry a dreamstone, you gain a +2 item bonus to saving throws against sleep effects.",
-                "showon": "Saving Throws",
-                "effects": [
-                    {
-                        "affected": "Saving Throws",
-                        "value": "2",
-                        "type": "item"
-                    }
-                ]
-            }
-        ],
-        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
-        "traits": [
-            "Uncommon",
-            "Enchantment",
-            "Magical"
-        ],
-        "usage": "held in 1 hand",
-        "activities": [
-            {
-                "actions": "1A",
-                "activationType": "Interact (metamagic)",
-                "frequency": "once per day",
-                "cooldown": 144000,
-                "desc": "If the next action you use is to Cast a Spell of 4th level or lower that has the sleep trait or is associated with dreams, the spell slot is not expended.",
-                "inputRequired": "The next spell you cast of 4th level or lower will not use a spell slot. Choose a suitable spell matching the description.",
-                "gainConditions": [
-                    {
-                        "duration": 1,
-                        "name": "Dreamstone"
-                    }
-                ],
-                "name": "Dreamstone",
-                "source": "bffaa366-579d-46b3-bd3e-56962b1521bf",
-                "traits": [
-                    "Uncommon",
-                    "Enchantment",
-                    "Magical"
-                ]
-            }
-        ]
-    },
-    {
-        "name": "Cursed Dreamstone",
-        "id": "6a8bd22c-33ab-4ca0-a7e1-9eb61e31ad37",
-        "level": 9,
-        "bulk": "L",
-        "desc": "A dreamstone can become cursed if left exposed to creatures that corrupt sleep, generate nightmares, or otherwise prey on sleeping or dreaming victims via supernatural methods. A cursed dreamstone seems to function as a normal dreamstone until the bearer falls asleep or is forced to attempt a saving throw against a sleep effect. At this point, the person carrying the cursed dreamstone must attempt a DC 26 Will save to resist the curse's effects.",
-        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
-        "traits": [
-            "Uncommon",
-            "Enchantment",
-            "Magical"
-        ],
-        "usage": "held in 1 hand",
-        "activities": [
-            {
-                "actions": "",
-                "desc": "A cursed dreamstone seems to function as a normal dreamstone until the bearer falls asleep or is forced to attempt a saving throw against a sleep effect. At this point, the person carrying the cursed dreamstone must attempt a DC 26 Will save to resist the curse's effects.",
-                "critsuccess": "The character resists the curse entirely and experiences a vivid dream while sleeping that warns them of the nature of the cursed dreamstone.",
-                "success": "The character resists the curse.",
-                "failure": "As long as the cursed character possesses the stone, they are fatigued whenever they wake from sleep, whether natural or magically induced, and they take a -2 item penalty to all saving throws against sleep effects instead of gaining the normal bonus from a dreamstone.",
-                "critfailure": "As failure, and whenever the bearer attempts a saving throw against a sleep effect, they get the outcome that is one degree worse than the result of their saving throw.",
-                "toggle": true,
-                "gainConditions": [
-                    {
-                        "duration": -5,
-                        "name": "Cursed Dreamstone"
-                    }
-                ],
-                "name": "Cursed Dreamstone",
-                "source": "6a8bd22c-33ab-4ca0-a7e1-9eb61e31ad37",
-                "traits": [
-                    "Uncommon",
-                    "Enchantment",
-                    "Magical"
-                ]
-            }
-        ]
-    },
-    {
         "name": "Maestro's Instrument (Moderate)",
         "id": "5fd1b3cb-f515-4328-960d-2f88b535de81",
-        "level": 10,
-        "price": 90000,
-        "bulk": "1",
         "desc": "A maestro's instrument can be crafted in the form of any variety of handheld musical instrument. A maestro's instrument grants you a +1 item bonus to Performance checks while playing music with the instrument.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 10,
+        "bulk": "1",
+        "price": 90000,
+        "subType": "Moderate",
+        "subTypeDesc": "The item bonus is +2, and the charm spell is 4th level (DC 27).",
         "traits": [
             "Enchantment",
             "Magical"
         ],
+        "craftRequirement": "You must supply a casting of charm of the appropriate level.",
         "usage": "held in 2 hands",
-        "hints": [
-            {
-                "desc": "A moderate maestro's instrument grants you a +2 item bonus to Performance checks while playing music with the instrument.",
-                "showon": "Performance",
-                "effects": [
-                    {
-                        "affected": "Performance",
-                        "type": "item",
-                        "value": "2"
-                    }
-                ]
-            }
-        ],
         "activities": [
             {
                 "actions": "2A",
                 "activationType": "Interact",
-                "frequency": "once per day",
-                "cooldown": 144000,
-                "desc": "You can play the instrument to produce the effects of 4th level charm spell (DC 27).",
                 "castSpells": [
                     {
                         "level": 4,
                         "name": "Charm"
                     }
                 ],
+                "cooldown": 144000,
+                "desc": "You can play the instrument to produce the effects of 4th level charm spell (DC 27).",
+                "frequency": "once per day",
                 "name": "Maestro's Instrument (Moderate)",
                 "traits": [
                     "Enchantment",
@@ -1279,17 +996,29 @@
                 ]
             }
         ],
-        "subType": "Moderate",
-        "subTypeDesc": "The item bonus is +2, and the charm spell is 4th level (DC 27).",
-        "craftRequirement": "You must supply a casting of charm of the appropriate level."
+        "hints": [
+            {
+                "desc": "A moderate maestro's instrument grants you a +2 item bonus to Performance checks while playing music with the instrument.",
+                "effects": [
+                    {
+                        "affected": "Performance",
+                        "type": "item",
+                        "value": "2"
+                    }
+                ],
+                "showon": "Performance"
+            }
+        ]
     },
     {
         "name": "Thurible of Revelation (Moderate)",
         "id": "8de9eeb2-2417-11eb-adc1-0242ac120002",
-        "level": 10,
-        "price": 90000,
-        "bulk": "1",
         "desc": "This brass censer dangles on a length of chain. Most thuribles of revelation are adorned with swirling Celestial text, though some are iron and feature Infernal or Abyssal text.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 10,
+        "bulk": "1",
+        "price": 90000,
         "subType": "Moderate",
         "subTypeDesc": "The thurible grants a +2 bonus. Once per day, when you activate the thurible, you can increase its revelations. During that activation, you can hold the thurible up to your eyes with an Interact action to gain the effects of see invisibility for 1 round by peering through the smoke.",
         "traits": [
@@ -1303,7 +1032,6 @@
                 "activationType": "Interact",
                 "cost": "incense worth at least 5 gp",
                 "desc": "You light the incense inside the censer, and it burns for 1 hour. During that time, as long you are holding the thurible, you gain a +2 item bonus to Religion checks, and any critical failure you roll when you Decipher Writing of a religious nature is a failure instead.",
-                "maxDuration": 6000,
                 "gainConditions": [
                     {
                         "duration": 6000,
@@ -1311,6 +1039,7 @@
                         "value": 2
                     }
                 ],
+                "maxDuration": 6000,
                 "name": "Thurible of Revelation (Moderate)",
                 "source": "8de9eeb2-2417-11eb-adc1-0242ac120002",
                 "toggle": true,
@@ -1325,8 +1054,8 @@
                 "castSpells": [
                     {
                         "duration": 10,
-                        "name": "See Invisibility",
-                        "level": 2
+                        "level": 2,
+                        "name": "See Invisibility"
                     }
                 ],
                 "cooldown": 144000,
@@ -1343,41 +1072,33 @@
     {
         "name": "Maestro's Instrument (Greater)",
         "id": "df3d1ce4-397e-4a2b-b5c5-3ba89c667875",
-        "level": 18,
-        "price": 1900000,
-        "bulk": "1",
         "desc": "A maestro's instrument can be crafted in the form of any variety of handheld musical instrument. A maestro's instrument grants you a +1 item bonus to Performance checks while playing music with the instrument.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 18,
+        "bulk": "1",
+        "price": 1900000,
+        "subType": "Greater",
+        "subTypeDesc": "The item bonus is +3, and the charm spell is 8th level (DC 38).",
         "traits": [
             "Enchantment",
             "Magical"
         ],
+        "craftRequirement": "You must supply a casting of charm of the appropriate level.",
         "usage": "held in 2 hands",
-        "hints": [
-            {
-                "desc": "A greater maestro's instrument grants you a +3 item bonus to Performance checks while playing music with the instrument.",
-                "showon": "Performance",
-                "effects": [
-                    {
-                        "affected": "Performance",
-                        "type": "item",
-                        "value": "3"
-                    }
-                ]
-            }
-        ],
         "activities": [
             {
                 "actions": "2A",
                 "activationType": "Interact",
-                "frequency": "once per day",
-                "cooldown": 144000,
-                "desc": "You can play the instrument to produce the effects of 8th level charm spell (DC 38).",
                 "castSpells": [
                     {
                         "level": 8,
                         "name": "Charm"
                     }
                 ],
+                "cooldown": 144000,
+                "desc": "You can play the instrument to produce the effects of 8th level charm spell (DC 38).",
+                "frequency": "once per day",
                 "name": "Maestro's Instrument (Greater)",
                 "traits": [
                     "Enchantment",
@@ -1385,17 +1106,29 @@
                 ]
             }
         ],
-        "subType": "Greater",
-        "subTypeDesc": "The item bonus is +3, and the charm spell is 8th level (DC 38).",
-        "craftRequirement": "You must supply a casting of charm of the appropriate level."
+        "hints": [
+            {
+                "desc": "A greater maestro's instrument grants you a +3 item bonus to Performance checks while playing music with the instrument.",
+                "effects": [
+                    {
+                        "affected": "Performance",
+                        "type": "item",
+                        "value": "3"
+                    }
+                ],
+                "showon": "Performance"
+            }
+        ]
     },
     {
         "name": "Thurible of Revelation (Greater)",
         "id": "8de9efac-2417-11eb-adc1-0242ac120002",
-        "level": 18,
-        "price": 1900000,
-        "bulk": "1",
         "desc": "This brass censer dangles on a length of chain. Most thuribles of revelation are adorned with swirling Celestial text, though some are iron and feature Infernal or Abyssal text.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 18,
+        "bulk": "1",
+        "price": 1900000,
         "subType": "Greater",
         "subTypeDesc": "The thurible grants a +3 bonus. The greater version shares the once-per-day enhanced revelations of the moderate version, except peering through the smoke also grants you the effects of true seeing.",
         "traits": [
@@ -1409,7 +1142,6 @@
                 "activationType": "Interact",
                 "cost": "incense worth at least 5 gp",
                 "desc": "You light the incense inside the censer, and it burns for 1 hour. During that time, as long you are holding the thurible, you gain a +3 item bonus to Religion checks, and any critical failure you roll when you Decipher Writing of a religious nature is a failure instead.",
-                "maxDuration": 6000,
                 "gainConditions": [
                     {
                         "duration": 6000,
@@ -1417,6 +1149,7 @@
                         "value": 3
                     }
                 ],
+                "maxDuration": 6000,
                 "name": "Thurible of Revelation (Greater)",
                 "source": "8de9efac-2417-11eb-adc1-0242ac120002",
                 "toggle": true,
@@ -1431,13 +1164,13 @@
                 "castSpells": [
                     {
                         "duration": 10,
-                        "name": "See Invisibility",
-                        "level": 2
+                        "level": 2,
+                        "name": "See Invisibility"
                     },
                     {
                         "duration": 10,
-                        "name": "True Seeing",
-                        "level": 6
+                        "level": 6,
+                        "name": "True Seeing"
                     }
                 ],
                 "cooldown": 144000,

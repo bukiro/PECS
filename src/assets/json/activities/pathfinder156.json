@@ -1,0 +1,97 @@
+[
+    {
+        "name": "Ringmaster's Introduction",
+        "actions": "Reaction",
+        "inputRequired": "The ally may grant themselves the Ringmaster's Introduction condition for 1 turn.",
+        "sourceBook": "Pathfinder #156: The Apocalypse Prophet",
+        "_extensionFileName": "pathfinder156",
+        "traits": [
+            "Uncommon",
+            "Auditory",
+            "Bard"
+        ],
+        "requirements": "The ally hasn't acted in the current combat.",
+        "trigger": "An ally's turn begins.",
+        "durationDependsOnTarget": true,
+        "target": "ally",
+        "cannotTargetCaster": true,
+        "desc": "You announce the triggering ally with a litany of their legendary achievements, spurring them to action. The target is quickened this turn and can spend the extra action to Stride, Strike, Demoralize, Feint, or Perform.",
+        "gainConditions": [
+            {
+                "duration": 5,
+                "name": "Ringmaster's Introduction (Originator)",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 5,
+                "name": "Ringmaster's Introduction",
+                "targetFilter": "target"
+            }
+        ]
+    },
+    {
+        "name": "Annihilating Swing",
+        "actions": "2A",
+        "sourceBook": "Pathfinder #156: The Apocalypse Prophet",
+        "_extensionFileName": "pathfinder156",
+        "traits": [
+            "Uncommon",
+            "Barbarian"
+        ],
+        "frequency": "once per 10 minutes",
+        "cooldown": 1000,
+        "target": "other",
+        "desc": "You have learned from the brute destructive power of xulgaths and their kind. You make a melee Strike that ignores any resistances the target has. If you target a solid unattended object or surface with your Strike, you might automatically destroy it without an attack roll. If you target any object or surface with Hardness 20 or less that isn't a magic item or the effect of a spell, you destroy it. If the target object or surface is a magic item or the effect of a spell, you attempt to counteract it using your attack bonus with the Strike for the counteract check. On a successful counteract check, you destroy the object or surface unless it has Hardness greater than 20, is an artifact, or is similarly difficult to destroy. You destroy up to a 5-foot cube of an object or surface larger than Medium."
+    },
+    {
+        "name": "Verdant Presence",
+        "actions": "Reaction",
+        "sourceBook": "Pathfinder #156: The Apocalypse Prophet",
+        "_extensionFileName": "pathfinder156",
+        "traits": [
+            "Uncommon",
+            "Druid"
+        ],
+        "frequency": "once per hour",
+        "cooldown": 6000,
+        "target": "self",
+        "desc": "The life-giving properties of the aeon orbs flourish within you. Small plants or fungi magically appear on all surfaces in a 60-foot emanation around you. This life withers after 1 day unless the environment can support it. You can choose one of the following options each time you use this feat.\n\nYou can cause any number of 5-foot squares in the area to be light undergrowth, which is difficult terrain and provides lesser cover.\nYou can cause a tree or giant mushroom to appear in any unoccupied location in the area; it occupies an entire 5-foot square and provides standard cover. The tree or mushroom has 5 Hardness and 50 Hit Points.",
+        "gainConditions": [
+            {
+                "duration": 144000,
+                "name": "Verdant Presence"
+            }
+        ]
+    },
+    {
+        "name": "Tenacious Blood Magic",
+        "actions": "Free",
+        "inputRequired": "Manually change the duration of the blood magic effect.",
+        "sourceBook": "Pathfinder #156: The Apocalypse Prophet",
+        "_extensionFileName": "pathfinder156",
+        "traits": [
+            "Uncommon",
+            "Sorcerer"
+        ],
+        "trigger": "You apply an effect from your blood magic that lasts for 1 round.",
+        "frequency": "once per minute",
+        "cooldown": 100,
+        "target": "self",
+        "desc": "You have learned how to invest magic more deeply by witnessing Aroden's works. The triggering blood magic effect lasts for 1 minute instead of 1 round."
+    },
+    {
+        "name": "Denier of Destruction",
+        "actions": "Reaction",
+        "inputRequired": "Cast a prepared heal spell as indicated.",
+        "sourceBook": "Pathfinder #156: The Apocalypse Prophet",
+        "_extensionFileName": "pathfinder156",
+        "traits": [
+            "Uncommon",
+            "Cleric"
+        ],
+        "requirements": "You have a heal spell prepared and you aren't flat-footed to the source of the damage.",
+        "trigger": "Any ally within 30 feet that you can heal with your heal spell would take damage from an attack or effect from a source you can observe.",
+        "target": "self",
+        "desc": "You can manipulate the same energies that the aeon orbs use to sustain life. You cast heal on the triggering target. Instead of its normal effects, the heal spell reduces the triggering damage by an amount equal to the Hit Points a 1-action heal spell of that level would have recovered. As usual, if this reduces the damage to 0, it might also remove additional effects of the triggering attack, such as injury poisons."
+    }
+]

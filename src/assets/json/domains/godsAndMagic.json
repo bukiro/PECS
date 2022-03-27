@@ -1,0 +1,146 @@
+[
+    {
+        "name": "Change",
+        "desc": "You can restructure the physical and metaphysical.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "advancedDomainSpell": "Adaptive Ablation",
+        "domainSpell": "Adapt Self"
+    },
+    {
+        "name": "Cold",
+        "desc": "You control ice, snow, and freezing temperatures.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "advancedDomainSpell": "Diamond Dust",
+        "domainSpell": "Winter Bolt"
+    },
+    {
+        "name": "Decay",
+        "desc": "You have the power to spoil and deteriorate matter.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "advancedDomainSpell": "Fallow Field",
+        "domainSpell": "Withering Grasp"
+    },
+    {
+        "name": "Delirium",
+        "desc": "You can bring about hallucinations and restlessness.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "advancedDomainSpell": "Ephemeral Hazards",
+        "domainSpell": "Hyperfocus"
+    },
+    {
+        "name": "Dust",
+        "desc": "You have the power to dry and crumble what opposes you.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "advancedDomainSpell": "Dust Storm",
+        "domainSpell": "Parch"
+    },
+    {
+        "name": "Duty",
+        "desc": "You defend oaths and carry out your divine missions with great dedication.",
+        "sourceBook": "Gods & Magic, Pathfinder #148: Fires of the Haunted City",
+        "_extensionFileName": "godsAndMagic",
+        "advancedDomainSpell": "Dutiful Challenge",
+        "domainSpell": "Oathkeeper's Insignia"
+    },
+    {
+        "name": "Glyph",
+        "desc": "You wield power over written words and symbols.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "advancedDomainSpell": "Ghostly Transcription",
+        "domainSpell": "Redact"
+    },
+    {
+        "name": "Lightning",
+        "desc": "You control electricity, thunder, and storms.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "advancedDomainSpell": "Bottle the Storm",
+        "domainSpell": "Charged Javelin"
+    },
+    {
+        "name": "Plague",
+        "desc": "You wield disease and pestilence like a weapon.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "advancedDomainSpell": "Foul Miasma",
+        "domainSpell": "Divine Plagues"
+    },
+    {
+        "name": "Repose",
+        "desc": "You ease mental burdens.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "advancedDomainSpell": "Font of Serenity",
+        "domainSpell": "Share Burden"
+    },
+    {
+        "name": "Sorrow",
+        "desc": "You have a painful connection to melancholy and sadness.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "advancedDomainSpell": "Overflowing Sorrow",
+        "domainSpell": "Lament"
+    },
+    {
+        "name": "Soul",
+        "desc": "You wield power over the spiritual.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "advancedDomainSpell": "Ectoplasmic Interstice",
+        "domainSpell": "Eject Soul"
+    },
+    {
+        "name": "Star",
+        "desc": "You command the power of the stars.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "advancedDomainSpell": "Asterism",
+        "domainSpell": "Zenith Star"
+    },
+    {
+        "name": "Swarm",
+        "desc": "You exert control over masses of creatures.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "advancedDomainSpell": "Swarm Form",
+        "domainSpell": "Swarmsense"
+    },
+    {
+        "name": "Time",
+        "desc": "You reign over the flow of time.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "advancedDomainSpell": "Stasis",
+        "domainSpell": "Delay Consequence"
+    },
+    {
+        "name": "Vigil",
+        "desc": "You watch over those long passed and guard their secrets.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "advancedDomainSpell": "Remember the Lost",
+        "domainSpell": "Object Memory"
+    },
+    {
+        "name": "Void",
+        "desc": "You draw power from emptiness.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "advancedDomainSpell": "Door to Beyond",
+        "domainSpell": "Empty Inside"
+    },
+    {
+        "name": "Wyrmkin",
+        "desc": "You draw on the power of dragons, linnorms, and other powerful reptilian creatures.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "advancedDomainSpell": "Roar of the Wyrm",
+        "domainSpell": "Draconic Barrage"
+    }
+]

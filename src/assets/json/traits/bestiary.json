@@ -1,0 +1,228 @@
+[
+  {
+    "name": "Aeon",
+    "desc": "These monitors are the self-styled defenders of reality. Traditional aeons have dualistic natures and forms, and they hold a dichotomy of interests, though axiomites and inevitables do not. Aeons other than axiomites and inevitables communicate via a strange telepathic hodgepodge of sensory sending called envisioning.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Amphibious",
+    "desc": "An amphibious creature can breathe in water and in air, even outside of its preferred environment, usually indefinitely but at least for hours. These creatures often have a swim Speed. Their bludgeoning and slashing unarmed Strikes don't take the usual �2 penalty for being underwater.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Aquatic",
+    "desc": "Aquatic creatures are at home underwater. Their bludgeoning and slashing unarmed Strikes don't take the usual �2 penalty for being underwater. Aquatic creatures can breathe water but not air.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Boggard",
+    "desc": "Boggards are frog-like humanoids. They typically have darkvision.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Brutal",
+    "desc": "A ranged attack with this trait uses its Strength modifier instead of Dexterity on the attack roll.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Caligni",
+    "desc": "These subterranean people have darkvision, and some have powers to create darkness.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Charm",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Daemon",
+    "desc": "A family of fiends spawned on the desolate plane of Abaddon, most daemons are neutral evil. They typically have darkvision and weakness to good damage.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Dero",
+    "desc": "This family of humanoids are the descendants of fey creatures that fell into darkness and confusion after being abandoned in the Darklands. They are immune to confusion and vulnerable to sunlight.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Genie",
+    "desc": "The diverse families of genies hold positions of prominence on the Elemental Planes. They have powerful magical abilities.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Ghost",
+    "desc": "Lost souls that haunt the world as incorporeal undead are called ghosts.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Ghoul",
+    "desc": "Ghouls are vile undead creatures that feast on flesh.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Gnoll",
+    "desc": "Gnolls are humanoids that resemble hyenas.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Golem",
+    "desc": "Golems are a special type of construct. Golems are immune to almost all magic, but most have a weakness to certain spells.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Gremlin",
+    "desc": "Cruel and mischievous fey, gremlins have acclimated to life on the Material Plane.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Incorporeal",
+    "desc": "An incorporeal creature or object has no physical form. It can pass through solid objects, including walls. When inside an object, an incorporeal creature can't perceive, attack, or interact with anything outside the object, and if it starts its turn in an object, it is slowed 1. Corporeal creatures can pass through an incorporeal creature, but they can't end their movement in its space.\n\nAn incorporeal creature can't attempt Strength-based checks against physical creatures or objects - only against incorporeal ones - unless those objects have the ghost touch property rune. Likewise, a corporeal creature can't attempt Strength-based checks against incorporeal creatures or objects.\n\nIncorporeal creatures usually have immunity to effects or conditions that require a physical body, like disease, poison, and precision damage. They usually have resistance against all damage (except force damage and damage from Strikes with the ghost touch property rune), with double the resistance against non-magical damage.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Inevitable",
+    "desc": "These constructed aeons were created by the axiomites. Each type of inevitable is dedicated to a specific task. Most inevitables have weakness to chaotic damage.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Merfolk",
+    "desc": "These aquatic humanoids have an upper body similar to a human and a lower body similar to a fish.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Mummy",
+    "desc": "A mummy is an undead creature created from a preserved corpse.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Mutant",
+    "desc": "The monster has mutated or evolved, granting it unusual benefits, drawbacks, or both.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Nymph",
+    "desc": "This family of beautiful fey creatures has strong ties to natural locations.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Olfactory",
+    "desc": "An olfactory effect can affect only creatures that can smell it. This applies only to olfactory parts of the effect, as determined by the GM.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Psychopomp",
+    "desc": "A family of monitors spawned within the Boneyard to convey souls to the Outer Planes, most psychopomps are true neutral. They typically have darkvision, lifesense, and spirit touch, and they are immune to death effects.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Rakshasa",
+    "desc": "Reincarnations of evil souls, rakshasas are fiends that live on the Material Plane.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Sea Devil",
+    "desc": "Evil ocean-dwelling humanoids, sea devils usually have darkvision and wavesense.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Skeleton",
+    "desc": "This undead is made by animating a dead creature's skeleton with negative energy.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Soulbound",
+    "desc": "These constructs are mentally augmented by a fragment of a once-living creature's soul.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Sprite",
+    "desc": "A family of diminutive winged fey with a strong connection to primal magic.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Swarm",
+    "desc": "A swarm is a mass or cloud of creatures that functions as one monster. Its size entry gives the size of the entire mass, though for most swarms the individual creatures that make up that mass are Tiny. A swarm can occupy the same space as other creatures, and must do so in order to use its damaging action. A swarm typically has weakness to effects that deal damage over an area (like area spells and splash weapons). Swarms are immune to the grappled, prone, and restrained conditions.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Telepathy",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Tethered",
+    "desc": "This weapon is attached to a length of rope or chain that allows you to retrieve it after it has left your hand. If you have a free hand while wielding this weapon, you can use an Interact action to pull the weapon back into your grasp after you have thrown it as a ranged attack or after it has been disarmed (unless it is being held by another creature).",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Troll",
+    "desc": "Trolls are giant, brutish creatures and are well known for their ability to regenerate.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Vampire",
+    "desc": "Undead creatures who thirst for blood, vampires are notoriously versatile and hard to destroy.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Werecreature",
+    "desc": "These shapechanging creatures either are naturally able to shift between animal, humanoid, and hybrid forms or are afflicted with a curse that forces them to shift involuntarily.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Wight",
+    "desc": "A wight is an undead creature that drains life and stands vigil over its burial site.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Wraith",
+    "desc": "A wraith is an incorporeal undead creature infused with negative energy and driven by a hatred of all life.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Xulgath",
+    "desc": "These subterranean reptilian creatures tend to have darkvision and smell awful.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  },
+  {
+    "name": "Zombie",
+    "desc": "These undead are mindless rotting corpses that hunger for living flesh.",
+    "sourceBook": "Bestiary",
+    "_extensionFileName": "bestiary"
+  }
+]

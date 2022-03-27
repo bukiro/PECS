@@ -1,0 +1,24 @@
+[
+    {
+        "name": "Dance of Intercession",
+        "desc": "You either performed in or stood witness to the dance used to invoke the Celestial Dragon and can harness a sliver of their power.",
+        "specialdesc": "Player characters can select one of the following new class feats for their 20th-level class feat upon entering the Glass Lighthouse or by meditating on the cushion in area H4.",
+        "sourceBook": "Pathfinder #168: King of the Mountain",
+        "_extensionFileName": "pathfinder168",
+        "shortdesc": "You either performed in or stood witness to the dance used to invoke the Celestial Dragon and can harness a sliver of their power.",
+        "traits": [
+            "Uncommon",
+            "Cleric"
+        ],
+        "levelreq": 20,
+        "skillreq": [
+            {
+                "skill": "Performance",
+                "value": 4
+            }
+        ],
+        "gainActivities": [
+            "Dance of Intercession"
+        ]
+    }
+]

@@ -1,0 +1,39 @@
+[
+    {
+        "name": "Deadly Poison Weapon",
+        "desc": "Your poisons are devastatingly potent. When you apply a simple poison with Poison Weapon, the poison deals 4d4 poison damage instead of 1d4 poison damage. When you apply an injury poison to your weapon, the DC to resist that poison increases by 2, to a maximum of your class DC.",
+        "hints": [
+            {
+                "desc": "When you apply a simple poison with Poison Weapon, the poison deals |dice=4d4 Poison| 4d4 poison damage instead of 1d4 poison damage. When you apply an injury poison to your weapon, the DC to resist that poison increases by 2, to a maximum of your class DC.",
+                "showon": "Poison Weapon, Rogue Poison"
+            }
+        ],
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "_extensionFileName": "pathfinder149",
+        "shortdesc": "Your poisons are devastatingly potent.",
+        "traits": [
+            "Rogue",
+            "Uncommon"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "Improved Poison Weapon"
+        ]
+    },
+    {
+        "name": "Pesh Skin",
+        "desc": "Your plant form sprouts hundreds of spines, and your blood causes mild hallucinations in creatures exposed to it.",
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "_extensionFileName": "pathfinder149",
+        "shortdesc": "Your plant form sprouts hundreds of spines, and your blood causes mild hallucinations in creatures exposed to it.",
+        "traits": [
+            "Druid",
+            "Morph",
+            "Uncommon"
+        ],
+        "levelreq": 12,
+        "gainActivities": [
+            "Pesh Skin"
+        ]
+    }
+]

@@ -1,0 +1,413 @@
+[
+    {
+        "name": "Farabellus Flip",
+        "desc": "Flinging your body into a twisting somersault, you gain a +2 circumstance bonus to your AC against the triggering attack. If the attack still hits you, you can Step to an open space that's still within the triggering enemy's reach, turning the impact of the blow into momentum.",
+        "sourceBook": "Pathfinder Society Guide",
+        "_extensionFileName": "PFSGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "hide": true,
+        "effects": [
+            {
+                "affected": "AC",
+                "type": "circumstance",
+                "value": "2"
+            }
+        ]
+    },
+    {
+        "name": "Rain of Embers Stance",
+        "desc": "While in Rain of Embers Stance, you gain a +1 status bonus to AC and fire resistance equal to half your level (minimum 1).",
+        "sourceBook": "Pathfinder Society Guide",
+        "_extensionFileName": "PFSGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ],
+        "effects": [
+            {
+                "affected": "AC",
+                "type": "status",
+                "value": "1"
+            },
+            {
+                "affected": "Fire Resistance",
+                "value": "Math.max(Math.floor(Level / 2), 1)"
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Fire Talon",
+                "type": "weapons"
+            }
+        ],
+        "attackRestrictions": [
+            {
+                "name": "Fire Talon"
+            }
+        ]
+    },
+    {
+        "name": "Emergency Disguise",
+        "desc": "The emergency disguise talisman has applied a disguise to you, allowing you to Impersonate without taking the time to assemble a convincing disguise first. The components the disguise creates can appear to be worth up to 3 gp total. The instant nature of the disguise leaves a few traces of its haphazard nature, imposing a -2 circumstance penalty on checks to Impersonate using the disguise. Wearers with the Quick Disguise feat don't take this penalty. Any objects created as a part of the disguise disappear after 24 hours or after you remove them.",
+        "sourceBook": "Pathfinder Society Guide",
+        "_extensionFileName": "PFSGuide",
+        "type": "talismans",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 144000
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You take a -2 circumstance penalty on checks to Impersonate using the emergency disguise. Wearers with the Quick Disguise feat don't take this penalty.",
+                "showon": "Deception",
+                "effects": [
+                    {
+                        "affected": "Deception",
+                        "type": "circumstance",
+                        "value": "Has_Feat(Creature.type, 'Quick Disguise') ? 0 : -2"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Aeon Stone (Azure Briolette)",
+        "desc": "You gain temporary Hit Points equal to twice the spell's level until your next turn.",
+        "sourceBook": "Pathfinder Society Guide",
+        "_extensionFileName": "PFSGuide",
+        "type": "wornitems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "choice": "1st-level spell",
+        "choices": [
+            {
+                "name": "1st-level spell"
+            },
+            {
+                "name": "2nd-level spell"
+            },
+            {
+                "name": "3rd-level spell"
+            },
+            {
+                "name": "4th-level spell"
+            },
+            {
+                "name": "5th-level spell"
+            },
+            {
+                "name": "6th-level spell"
+            },
+            {
+                "name": "7th-level spell"
+            },
+            {
+                "name": "8th-level spell"
+            },
+            {
+                "name": "9th-level spell"
+            },
+            {
+                "name": "10th-level spell"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "({'1st':2, '2nd':4, '3rd':6, '4th':8, '5th':10, '6th':12, '7th':14, '8th':16, '9th':18, '10th':20})[Choice.split('-')[0]]"
+            }
+        ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "-Temporary_HP('',effect.sourceId)"
+            }
+        ]
+    },
+    {
+        "name": "Aeon Stone (Pale Orange Rhomboid)",
+        "desc": "(Aeon Stone (Pale Orange Rhomboid) removes the Dead and Dying conditions, adds the Wounded 3 and Doomed 3 conditions, sets HP to 1 and then immediately ends. It can't be chosen manually.)",
+        "sourceBook": "Pathfinder Society Guide",
+        "_extensionFileName": "PFSGuide",
+        "type": "wornitems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 0
+            }
+        ],
+        "hide": true,
+        "onceEffects": [
+            {
+                "affected": "HP",
+                "value": "(-(Current_HP()-1))"
+            }
+        ],
+        "gainConditions": [
+            {
+                "name": "Doomed",
+                "persistent": true,
+                "value": 3
+            },
+            {
+                "name": "Wounded",
+                "persistent": true,
+                "value": 3
+            },
+            {
+                "duration": 144000,
+                "name": "Aeon Stone (Pale Orange Rhomboid) Cooldown",
+                "persistent": true
+            }
+        ],
+        "endConditions": [
+            {
+                "name": "Dead"
+            },
+            {
+                "name": "Dying"
+            }
+        ]
+    },
+    {
+        "name": "Aeon Stone (Pale Orange Rhomboid) Cooldown",
+        "desc": "You have used a pale orange rhomboid aeon stone to return to your body after dying. You can benefit from the effects of only one pale orange rhomboid aeon stone in a given day.",
+        "sourceBook": "Pathfinder Society Guide",
+        "_extensionFileName": "PFSGuide",
+        "type": "wornitems",
+        "sortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": 144000
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Aeon Stone (Pale Orange Rhomboid): Return Disabled",
+                "toggle": true
+            }
+        ]
+    },
+    {
+        "name": "Aeon Stone (Western Star)",
+        "desc": "The resonant power of the western star aeon stone allows you to render all of your aeon stones and your wayfinder invisible whenever you use its activation to gain the effects of illusory disguise.",
+        "sourceBook": "Pathfinder Society Guide",
+        "_extensionFileName": "PFSGuide",
+        "type": "wornitems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 6000
+            }
+        ],
+        "endsWithConditions": [
+            {
+                "name": "Illusory Disguise"
+            }
+        ],
+        "choice": "Invisible",
+        "choices": [
+            {
+                "name": "Invisible",
+                "defaultDuration": 6000
+            },
+            {
+                "name": "Not Invisible",
+                "defaultDuration": 0
+            }
+        ]
+    },
+    {
+        "name": "Cordelia's Construct Key",
+        "desc": "You have created a simple animated object. The animated object has the statistics of an animated broom (Bestiary pg. 20) but has no bristles Strike and can't attack. It performs simple and broad menial tasks for you in exploration or downtime but is too slow to react to individual commands to assist you in a combat encounter.",
+        "sourceBook": "Pathfinder Society Guide",
+        "_extensionFileName": "PFSGuide",
+        "type": "wornitems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 6000
+            },
+            {
+                "duration": 48000
+            }
+        ]
+    },
+    {
+        "name": "Hummingbird Wayfinder",
+        "desc": "You have caused the hummingbird wayfinder to transform into a Tiny bee hummingbird, only 2 inches long. Other than the wayfinder being a visible bird, this has the effects of prying eye. In addition to Seeking through the hummingbird, you can activate any aeon stone within the wayfinder as if the wayfinder were still on your person. When the effect ends, the wayfinder transforms back to normal in its current position. Damaging the bird ends the effect but does not destroy the wayfinder.",
+        "sourceBook": "Pathfinder Society Guide",
+        "_extensionFileName": "PFSGuide",
+        "type": "wornitems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
+        "inputRequired": "Remove the condition if the wayfinder is damaged in while in bird form.",
+        "gainConditions": [
+            {
+                "name": "Prying Eye"
+            }
+        ]
+    },
+    {
+        "name": "Razmiri Wayfinder Halt Poison",
+        "desc": "The originator has attempted a counteract check against one poison or disease afflicting you. On a success, the effects of the poison or disease are halted for the duration. This temporarily relieves any penalties imposed by the affliction but doesn't cure the effect or count against its duration; the poison or disease is merely halted for a time, and it resumes where it left off once this effect ends.",
+        "sourceBook": "Pathfinder Society Guide",
+        "_extensionFileName": "PFSGuide",
+        "type": "wornitems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 144000
+            }
+        ],
+        "inputRequired": "Select one affliction condition that will be paused for the duration.",
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Success",
+                "defaultDuration": 144000
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 0
+            }
+        ],
+        "overrideConditions": [
+            {
+                "name": "selectedCondition|0",
+                "conditionChoiceFilter": [
+                    "Success"
+                ]
+            }
+        ],
+        "pauseConditions": [
+            {
+                "name": "selectedCondition|0",
+                "conditionChoiceFilter": [
+                    "Success"
+                ]
+            }
+        ],
+        "selectOtherConditions": [
+            {
+                "title": "Target poison or disease",
+                "typeFilter": [
+                    "afflictions"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Razmiri Wayfinder Halt Poison (Originator)",
+        "desc": "You have touched an adjacent creature and attempted a counteract check against one poison or disease afflicting the creature. On a success, you halt the effects of the poison or disease for the duration, rather than removing it. This temporarily relieves any penalties imposed by the affliction but doesn't cure the effect or count against its duration; the poison or disease is merely halted for a time, and it resumes where it left off once this effect ends.",
+        "sourceBook": "Pathfinder Society Guide",
+        "_extensionFileName": "PFSGuide",
+        "type": "wornitems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 144000
+            }
+        ],
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Success",
+                "defaultDuration": 144000
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 0
+            }
+        ]
+    },
+    {
+        "name": "Razmiri Wayfinder Temporary HP",
+        "desc": "You have been granted |dice=3d8| 3d8 temporary Hit Points for the duration.",
+        "sourceBook": "Pathfinder Society Guide",
+        "_extensionFileName": "PFSGuide",
+        "type": "wornitems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 6000
+            }
+        ],
+        "inputRequired": "Manually set the appropriate amount of temporary Hit Points. When the condition ends, all manually added Hit Points will be lost.",
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "source": "Manual",
+                "value": "-Temporary_HP('Manual')"
+            }
+        ]
+    },
+    {
+        "name": "Razmiri Wayfinder Temporary HP (Originator)",
+        "desc": "You have granted the target temporary Hit Points for the duration.",
+        "sourceBook": "Pathfinder Society Guide",
+        "_extensionFileName": "PFSGuide",
+        "type": "wornitems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 6000
+            }
+        ]
+    },
+    {
+        "name": "Spectacles of Understanding",
+        "desc": "Unfolding the spectacles onto the bridge of the nose, you gain the effects of 2nd-level comprehend language except that it applies to all languages you see rather than a single language, and it does not apply to language you hear.",
+        "sourceBook": "Pathfinder Society Guide",
+        "_extensionFileName": "PFSGuide",
+        "type": "wornitems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 6000
+            },
+            {
+                "duration": -1
+            }
+        ],
+        "inputRequired": "Remove the condition if the spectacles are no longer invested by you.",
+        "gainConditions": [
+            {
+                "heightened": 2,
+                "name": "Comprehend Language"
+            }
+        ]
+    }
+]

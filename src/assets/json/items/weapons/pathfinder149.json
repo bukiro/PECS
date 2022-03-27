@@ -1,0 +1,57 @@
+[
+    {
+        "name": "Camel Jaws",
+        "displayName": "Jaws",
+        "id": "bbfacf9e-3c69-4650-ae97-84f801a0c9bf",
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "_extensionFileName": "pathfinder149",
+        "hide": true,
+        "traits": [
+            "Companion",
+            "Unarmed"
+        ],
+        "dmgType": "P",
+        "group": "Brawling",
+        "melee": 5,
+        "moddable": false,
+        "prof": "Unarmed Attacks"
+    },
+    {
+        "name": "Hyena Jaws",
+        "displayName": "Jaws",
+        "id": "81cc8765-fb24-4fad-b3b8-dff67e6fc1da",
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "_extensionFileName": "pathfinder149",
+        "hide": true,
+        "traits": [
+            "Companion",
+            "Finesse",
+            "Unarmed"
+        ],
+        "dicesize": 8,
+        "dmgType": "P",
+        "group": "Brawling",
+        "melee": 5,
+        "moddable": false,
+        "prof": "Unarmed Attacks"
+    },
+    {
+        "name": "Vulture Jaws",
+        "displayName": "Jaws",
+        "id": "63867b0b-94e6-46f7-9ae4-003b35033825",
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "_extensionFileName": "pathfinder149",
+        "hide": true,
+        "traits": [
+            "Companion",
+            "Finesse",
+            "Unarmed"
+        ],
+        "dicesize": 8,
+        "dmgType": "P",
+        "group": "Brawling",
+        "melee": 5,
+        "moddable": false,
+        "prof": "Unarmed Attacks"
+    }
+]

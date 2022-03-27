@@ -1,0 +1,526 @@
+[
+    {
+        "name": "Camel (Medium, cold resistant)",
+        "desc": "Your companion is a camel or llama.",
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "_extensionFileName": "pathfinder149",
+        "traits": [
+            "Minion",
+            "Mount"
+        ],
+        "hitPoints": 8,
+        "size": 0,
+        "specialdesc": "mount; Your camel ignores the harmful effects of mild, severe, and extreme cold.",
+        "supportBenefit": "The camel makes a ranged attack to spit a long string of saliva at a foe within 10 feet. On a hit, the foe is dazzled for 1 round.",
+        "abilityChoices": [
+            {
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Camel",
+                        "sourceId": "0-Ability-Camel-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Camel",
+                        "sourceId": "0-Ability-Camel-0",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "0-Ability-Camel-0",
+                "source": "Camel"
+            }
+        ],
+        "activities": [
+            {
+                "level": 1,
+                "name": "Support",
+                "source": "Camel"
+            },
+            {
+                "level": 3,
+                "name": "Sand Stride",
+                "source": "Camel"
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Camel Jaws",
+                "type": "weapons"
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Your camel ignores the harmful effects of mild, severe, and extreme cold.",
+                "showon": "Resistances"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "skillChoices": [
+            {
+                "id": "0-Skill-Camel-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Camel",
+                        "sourceId": "0-Skill-Camel-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Camel",
+                "type": "Skill"
+            }
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 35
+            }
+        ]
+    },
+    {
+        "name": "Camel (Medium, heat resistant)",
+        "desc": "Your companion is a camel or llama.",
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "_extensionFileName": "pathfinder149",
+        "traits": [
+            "Minion",
+            "Mount"
+        ],
+        "hitPoints": 8,
+        "size": 0,
+        "specialdesc": "mount; Your camel ignores the harmful effects of mild, severe, and extreme heat.",
+        "supportBenefit": "The camel makes a ranged attack to spit a long string of saliva at a foe within 10 feet. On a hit, the foe is dazzled for 1 round.",
+        "abilityChoices": [
+            {
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Camel",
+                        "sourceId": "0-Ability-Camel-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Camel",
+                        "sourceId": "0-Ability-Camel-0",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "0-Ability-Camel-0",
+                "source": "Camel"
+            }
+        ],
+        "activities": [
+            {
+                "level": 1,
+                "name": "Support",
+                "source": "Camel"
+            },
+            {
+                "level": 3,
+                "name": "Sand Stride",
+                "source": "Camel"
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Camel Jaws",
+                "type": "weapons"
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Your camel ignores the harmful effects of mild, severe, and extreme heat.",
+                "showon": "Resistances"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "skillChoices": [
+            {
+                "id": "0-Skill-Camel-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Camel",
+                        "sourceId": "0-Skill-Camel-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Camel",
+                "type": "Skill"
+            }
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 35
+            }
+        ]
+    },
+    {
+        "name": "Camel (Large, cold resistant)",
+        "desc": "Your companion is a camel or llama.",
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "_extensionFileName": "pathfinder149",
+        "traits": [
+            "Minion",
+            "Mount"
+        ],
+        "hitPoints": 8,
+        "size": 1,
+        "specialdesc": "mount; Your camel ignores the harmful effects of mild, severe, and extreme cold.",
+        "supportBenefit": "The camel makes a ranged attack to spit a long string of saliva at a foe within 10 feet. On a hit, the foe is dazzled for 1 round.",
+        "abilityChoices": [
+            {
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Camel",
+                        "sourceId": "0-Ability-Camel-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Camel",
+                        "sourceId": "0-Ability-Camel-0",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "0-Ability-Camel-0",
+                "source": "Camel"
+            }
+        ],
+        "activities": [
+            {
+                "level": 1,
+                "name": "Support",
+                "source": "Camel"
+            },
+            {
+                "level": 3,
+                "name": "Sand Stride",
+                "source": "Camel"
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Camel Jaws",
+                "type": "weapons"
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Your camel ignores the harmful effects of mild, severe, and extreme cold.",
+                "showon": "Resistances"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "skillChoices": [
+            {
+                "id": "0-Skill-Camel-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Camel",
+                        "sourceId": "0-Skill-Camel-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Camel",
+                "type": "Skill"
+            }
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 35
+            }
+        ]
+    },
+    {
+        "name": "Camel (Large, heat resistant)",
+        "desc": "Your companion is a camel or llama.",
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "_extensionFileName": "pathfinder149",
+        "traits": [
+            "Minion",
+            "Mount"
+        ],
+        "hitPoints": 8,
+        "size": 1,
+        "specialdesc": "mount; Your camel ignores the harmful effects of mild, severe, and extreme heat.",
+        "supportBenefit": "The camel makes a ranged attack to spit a long string of saliva at a foe within 10 feet. On a hit, the foe is dazzled for 1 round.",
+        "abilityChoices": [
+            {
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Camel",
+                        "sourceId": "0-Ability-Camel-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Camel",
+                        "sourceId": "0-Ability-Camel-0",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "0-Ability-Camel-0",
+                "source": "Camel"
+            }
+        ],
+        "activities": [
+            {
+                "level": 1,
+                "name": "Support",
+                "source": "Camel"
+            },
+            {
+                "level": 3,
+                "name": "Sand Stride",
+                "source": "Camel"
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Camel Jaws",
+                "type": "weapons"
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Your camel ignores the harmful effects of mild, severe, and extreme heat.",
+                "showon": "Resistances"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "skillChoices": [
+            {
+                "id": "0-Skill-Camel-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Camel",
+                        "sourceId": "0-Skill-Camel-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Camel",
+                "type": "Skill"
+            }
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 35
+            }
+        ]
+    },
+    {
+        "name": "Hyena",
+        "desc": "Your companion is a hyena.",
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "_extensionFileName": "pathfinder149",
+        "traits": [
+            "Minion"
+        ],
+        "hitPoints": 6,
+        "size": -1,
+        "supportBenefit": "The hyena mockingly yowls at your enemies and bites at them when you create an opening. Until the start of your next turn, each time you hit a creature in the hyena's reach with a Strike, the creature becomes frightened 1.",
+        "abilityChoices": [
+            {
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Dexterity",
+                        "source": "Hyena",
+                        "sourceId": "0-Ability-Hyena-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Hyena",
+                        "sourceId": "0-Ability-Hyena-0",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "0-Ability-Hyena-0",
+                "source": "Hyena"
+            }
+        ],
+        "activities": [
+            {
+                "level": 1,
+                "name": "Support",
+                "source": "Hyena"
+            },
+            {
+                "level": 3,
+                "name": "Gnaw",
+                "source": "Hyena"
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Hyena Jaws",
+                "type": "weapons"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "skillChoices": [
+            {
+                "id": "0-Skill-Hyena-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Intimidation",
+                        "source": "Hyena",
+                        "sourceId": "0-Skill-Hyena-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Hyena",
+                "type": "Skill"
+            }
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 40
+            }
+        ]
+    },
+    {
+        "name": "Vulture",
+        "desc": "Your companion is a vulture, condor, or other large scavenging bird.",
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "_extensionFileName": "pathfinder149",
+        "traits": [
+            "Minion"
+        ],
+        "hitPoints": 6,
+        "size": -1,
+        "specialdesc": "Your vulture gains a +1 status bonus to all saves against disease, and if it rolls a success on a save against a disease, the result is a critical success instead.",
+        "supportBenefit": "The vulture retches and vomits onto a foe within 10 feet. Until the start of your next turn, if you hit and deal damage to the target, the target must succeed at a Fortitude save or become sickened 1 (sickened 2 on a critical failure). The DC of the Fortitude save is 12 (or 14, if the vulture is a specialized animal companion) + your level + the vulture's Constitution modifier.",
+        "abilityChoices": [
+            {
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Vulture",
+                        "sourceId": "0-Ability-Vulture-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Vulture",
+                        "sourceId": "0-Ability-Vulture-0",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "0-Ability-Vulture-0",
+                "source": "Vulture"
+            }
+        ],
+        "activities": [
+            {
+                "level": 1,
+                "name": "Support",
+                "source": "Vulture"
+            },
+            {
+                "level": 3,
+                "name": "Feast on the Fallen",
+                "source": "Vulture"
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Vulture Jaws",
+                "type": "weapons"
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Your vulture gains a +1 status bonus to all saves against disease, and if it rolls a success on a save against a disease, the result is a critical success instead.",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "type": "status",
+                        "value": "1"
+                    }
+                ],
+                "showon": "Saving Throws"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "skillChoices": [
+            {
+                "id": "0-Skill-Vulture-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Vulture",
+                        "sourceId": "0-Skill-Vulture-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Vulture",
+                "type": "Skill"
+            }
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 10
+            },
+            {
+                "name": "Fly Speed",
+                "value": 45
+            }
+        ]
+    }
+]

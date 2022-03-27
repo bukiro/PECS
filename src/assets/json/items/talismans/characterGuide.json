@@ -1,0 +1,56 @@
+[
+    {
+        "name": "Snapleaf",
+        "id": "a0d7da9a-c9b6-11ea-87d0-0242ac130003",
+        "desc": "This small, crystalline carving takes the shape of a tree leaf and attaches to armor or clothing with a simple strap. When you activate the snapleaf, you gain the benefits of feather fall and a 2nd-level invisibility spell for 1 minute or until you stop falling, whichever comes first.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "level": 3,
+        "price": 900,
+        "traits": [
+            "Consumable",
+            "Illusion",
+            "Magical",
+            "Talisman"
+        ],
+        "actions": "Reaction",
+        "activationType": "Interact",
+        "trigger": "You begin to fall",
+        "usage": "affixed to armor",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Snapleaf",
+                "source": "Snapleaf"
+            }
+        ],
+        "targets": [
+            "armors"
+        ]
+    },
+    {
+        "name": "Fortifying Pebble",
+        "id": "a0d7dcfc-c9b6-11ea-87d0-0242ac130003",
+        "desc": "This small pebble is strangely dense and surprisingly durable, affixed to an object by a sturdy steel chain. When you activate the pebble, the affixed object takes 10 less damage.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "level": 4,
+        "price": 1300,
+        "traits": [
+            "Uncommon",
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Talisman"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "The affixed object would take damage",
+        "usage": "affixed to armor, shield or weapon",
+        "targets": [
+            "armors",
+            "shields",
+            "weapons"
+        ]
+    }
+]

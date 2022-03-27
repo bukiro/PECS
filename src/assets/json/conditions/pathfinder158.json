@@ -1,0 +1,107 @@
+[
+    {
+        "name": "Magical Fetters",
+        "desc": "Ghostly manacles clasp around your limbs, impeding your movements. You are affected depending on your Will save.\n\n<strong>Critical Success</strong> You are unaffected.\n<strong>Success</strong> You are clumsy 1 and take a -10-foot status penalty to your Speed.\n<strong>Failure</strong> You are clumsy 3 and take a -10-foot status penalty to your Speed.\n<strong>Critical Failure</strong> As failure, but you are also slowed 1 for the duration.",
+        "sourceBook": "Pathfinder #158: Sixty Feet Under",
+        "_extensionFileName": "pathfinder158",
+        "type": "spells",
+        "minLevel": 3,
+        "sortLevel": 3,
+        "defaultDurations": [
+            {
+                "duration": 10
+            },
+            {
+                "duration": 100
+            }
+        ],
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 10
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 100
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": 100
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Speed",
+                "type": "status",
+                "value": "Choice != 'Critical Success' ? -10 : 0"
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": [
+                    "Success"
+                ],
+                "name": "Clumsy",
+                "value": 1
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Failure",
+                    "Critical Failure"
+                ],
+                "name": "Clumsy",
+                "value": 3
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Critical Failure"
+                ],
+                "name": "Slowed",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Magical Fetters (Caster)",
+        "desc": "Ghostly manacles clasp around the target's limbs, impeding its movements depending on its Reflex save.\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target is clumsy 1 and takes a -10-foot status penalty to its Speed for 1 round.\n<strong>Failure</strong> The target is clumsy 3 and takes a -10-foot status penalty to its Speed for 1 minute.\n<strong>Critical Failure</strong> As failure, but the target is also slowed 1 for the duration.",
+        "sourceBook": "Pathfinder #158: Sixty Feet Under",
+        "_extensionFileName": "pathfinder158",
+        "type": "spells",
+        "minLevel": 3,
+        "sortLevel": 3,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            },
+            {
+                "duration": 100
+            }
+        ],
+        "unlimited": true,
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 10
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 100
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": 100
+            }
+        ]
+    }
+]

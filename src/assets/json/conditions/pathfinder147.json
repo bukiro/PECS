@@ -1,0 +1,409 @@
+[
+    {
+        "name": "Cursed Dreamstone",
+        "desc": "You have fallen asleep or were forced to attempt a saving throw against a sleep effect while carrying a cursed dreamstone. You are affected by the curse depending on your Will save.\n\n<strong>Critical Success</strong> You resist the curse entirely and experience a vivid dream while sleeping that warns you of the nature of the cursed dreamstone.\n<strong>Success</strong> You resist the curse.\n<strong>Failure</strong> As long as you possess the stone, you are fatigued whenever you wake from sleep, whether natural or magically induced, and you take a -2 item penalty to all saving throws against sleep effects instead of gaining the normal bonus from a dreamstone.\n<strong>Critical Failure</strong> As failure, and whenever you attempt a saving throw against a sleep effect, you get the outcome that is one degree worse than the result of your saving throw.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "type": "helditems",
+        "sortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": -1
+            },
+            {
+                "duration": 0
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You take a -2 item penalty to all saving throws against sleep effects.",
+                "showon": "Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "type": "item",
+                        "value": "-2"
+                    }
+                ],
+                "conditionChoiceFilter": [
+                    "Failure"
+                ]
+            },
+            {
+                "desc": "You take a -2 item penalty to all saving throws against sleep effects. Whenever you attempt a saving throw against a sleep effect, you get the outcome that is one degree worse than the result of your saving throw.",
+                "showon": "Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "type": "item",
+                        "value": "-2"
+                    }
+                ],
+                "conditionChoiceFilter": [
+                    "Critical Failure"
+                ]
+            },
+            {
+                "desc": "You are fatigued whenever you wake from sleep.",
+                "showon": "Rest",
+                "conditionChoiceFilter": [
+                    "Failure",
+                    "Critical Failure"
+                ]
+            }
+        ],
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": -1
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": -1
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Fatigued After Rest",
+                "toggle": true
+            }
+        ]
+    },
+    {
+        "name": "Dreamstone",
+        "desc": "If the next action you use is to Cast a Spell of 4th level or lower that has the sleep trait or is associated with dreams, the spell slot is not expended.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "type": "helditems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "hide": true,
+        "inputRequired": "The next spell you cast of 4th level or lower will not use a spell slot. Choose a suitable spell matching the description.",
+        "effects": [
+            {
+                "affected": "Spell Slot Preservation",
+                "setValue": "4"
+            }
+        ]
+    },
+    {
+        "name": "Exchange Image",
+        "desc": "The caster has traded appearances with you, with the effects depending on the result of your Will saving throw. Willing and unconscious targets automatically critically fail this saving throw.\n\n<strong>Critical Success</strong> No effect.\n<strong>Success</strong> The caster takes on your appearance, and you take theirs. This has the same effects as a 1st-level illusory disguise spell, except that you can't Dismiss the disguise. The duration is 1 minute or until Dismissed by the caster.\n<strong>Failure</strong> As success, but the duration is 1 hour or until Dismissed by the caster.\n<strong>Critical Failure</strong> As success, but the duration is 24 hours.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "type": "spells",
+        "minLevel": 1,
+        "sortLevel": 1,
+        "defaultDurations": [
+            {
+                "duration": 100
+            },
+            {
+                "duration": 6000
+            },
+            {
+                "duration": 144000
+            }
+        ],
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 100
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 6000
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": 144000
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": [
+                    "Success",
+                    "Failure",
+                    "Critical Failure"
+                ],
+                "heightened": 1,
+                "lockedByParent": true,
+                "name": "Illusory Disguise"
+            }
+        ]
+    },
+    {
+        "name": "Exchange Image (Caster)",
+        "desc": "You have traded appearances with the target, with the effects depending on the result of the target's Will saving throw. Willing and unconscious targets automatically critically fail this saving throw.\n\n<strong>Critical Success</strong> No effect.\n<strong>Success</strong> You take on the target's appearance, and they take yours. This has the same effects as a 1st-level illusory disguise spell, except that the target can't Dismiss the disguise. The duration is 1 minute or until Dismissed.\n<strong>Failure</strong> As success, but the duration is 1 hour or until Dismissed.\n<strong>Critical Failure</strong> As success, but the duration is 24 hours.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "type": "spells",
+        "minLevel": 1,
+        "sortLevel": 1,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            },
+            {
+                "duration": 6000
+            },
+            {
+                "duration": 144000
+            }
+        ],
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 100
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 6000
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": 144000
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": [
+                    "Success",
+                    "Failure",
+                    "Critical Failure"
+                ],
+                "heightened": 1,
+                "name": "Illusory Disguise"
+            }
+        ]
+    },
+    {
+        "name": "Imprint Message",
+        "desc": "You have projected psychic vibrations onto the target object, imprinting it with a short message or emotional theme of your design. This imprinted sensation is revealed to anyone casting object reading on the target object, replacing any emotional events the item was present for. If the object is in the area of a retrocognition spell, the imprinted messages appear as major events in the timeline, but they don't interfere with any other visions. If the object is targeted with read aura of a higher spell level than imprint message, the caster learns that the object has been modified. When you Cast this Spell, any prior vibrations placed in an object by previous castings of imprint message fade.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "type": "spells",
+        "minLevel": 1,
+        "sortLevel": 1,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ]
+    },
+    {
+        "name": "Join Pasts",
+        "desc": "Your mind has been brought into mental communion with the other targets of the spell. You can share thoughts and experiences with the other targets, but not words. When one target attempts to Recall Knowledge, others can Aid the first target's skill check, using any Lore skill (even if that Lore wouldn't normally apply) without having made any preparations to Aid.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "type": "spells",
+        "minLevel": 1,
+        "sortLevel": 1,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "hints": [
+            {
+                "desc": "When one target attempts to Recall Knowledge, the other can Aid the first target's skill check, using any Lore skill (even if that Lore wouldn't normally apply) without having made any preparations to Aid.",
+                "showon": "Skills"
+            }
+        ]
+    },
+    {
+        "name": "Join Pasts (Caster)",
+        "desc": "You have brought two or more targets into mental communion. The targets can share thoughts and experiences, but not words. When one target attempts to Recall Knowledge, others can Aid the first target's skill check, using any Lore skill (even if that Lore wouldn't normally apply) without having made any preparations to Aid.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "type": "spells",
+        "minLevel": 1,
+        "sortLevel": 1,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "unlimited": true
+    },
+    {
+        "name": "Silver's Refrain",
+        "desc": "Your weapon and unarmed attacks are treated as silver.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "type": "spells",
+        "minLevel": 1,
+        "sortLevel": 1,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Your weapon and unarmed attacks are treated as silver.",
+                "showon": "Attacks"
+            }
+        ],
+        "choices": [
+            {
+                "name": "-"
+            },
+            {
+                "name": "harmonized"
+            }
+        ]
+    },
+    {
+        "name": "Silver's Refrain (Caster)",
+        "desc": "Weapon and unarmed attacks by allies in the area are treated as silver. In addition, this spell automatically attempts to counteract any dimension door cast by a devil within the area or cast by a devil attempting to enter the area using dimension door. If a devil attempts to enter the area using dimension door and the spell is counteracted, the devil remains where it started.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "type": "spells",
+        "minLevel": 1,
+        "sortLevel": 1,
+        "radius": 30,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "unlimited": true,
+        "hints": [
+            {
+                "desc": "Your weapon and unarmed attacks are treated as silver. This spell automatically attempts to counteract any dimension door cast by a devil within the area or cast by a devil attempting to enter the area using dimension door.",
+                "showon": "Attacks"
+            },
+            {
+                "desc": "This spell automatically attempts to counteract any dimension door cast by a devil within the area or cast by a devil attempting to enter the area using dimension door.",
+                "showon": "Spellbook"
+            }
+        ],
+        "choices": [
+            {
+                "name": "-"
+            },
+            {
+                "name": "harmonized"
+            }
+        ]
+    },
+    {
+        "name": "Spiritual Anamnesis",
+        "desc": "Memories of a past life that seem incredibly real (and may even be) overwhelm your mind. You are affected depending on your Will save.\n\n<strong>Critical Success</strong> You are unaffected.\n<strong>Success</strong> You are slowed 1 for 1 round.\n<strong>Failure</strong> You are slowed 1 for 1 minute and babble about the visions, possibly providing information about what you saw.\n<strong>Critical Failure</strong> As failure, but you are also stunned 3.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "type": "spells",
+        "minLevel": 4,
+        "sortLevel": 4,
+        "defaultDurations": [
+            {
+                "duration": 10
+            },
+            {
+                "duration": 100
+            }
+        ],
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 10
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 100
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": 100
+            }
+        ],
+        "gainConditions": [
+            {
+                "name": "Slowed",
+                "value": 1
+            },
+            {
+                "name": "Stunned",
+                "value": 1
+            },
+            {
+                "name": "Stunned",
+                "value": 3
+            }
+        ]
+    },
+    {
+        "name": "Spiritual Anamnesis (Caster)",
+        "desc": "Memories of a past life that seem incredibly real (and may even be) overwhelm the target's mind, depending on their Will save. This is especially disorienting for undead and creatures that have lived a previous life (such as celestials, fiends, monitors, and many other extraplanar creatures); if such creatures roll a critical success on their save, they get a success instead, and if they roll a failure, they get a critical failure instead.\n\n<strong>Critical Success</strong> The creature is unaffected.\n<strong>Success</strong> The creature is slowed 1 for 1 round.\n<strong>Failure</strong> The target is slowed 1 for 1 minute and babbles about the visions, possibly providing information about what they saw.\n<strong>Critical Failure</strong> As failure, but the target is also stunned 3.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "type": "spells",
+        "minLevel": 4,
+        "sortLevel": 4,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            },
+            {
+                "duration": 100
+            }
+        ],
+        "unlimited": true,
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 10
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 100
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": 100
+            }
+        ]
+    }
+]

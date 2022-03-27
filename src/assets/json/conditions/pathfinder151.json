@@ -1,0 +1,548 @@
+[
+    {
+        "name": "Personal Rain Cloud",
+        "desc": "A 5-foot-wide rain cloud follows you wherever you go. It stays roughly an arm's length overhead, unless it must drift lower to fit under a ceiling. The cloud rains constantly on you, keeping you wet and dampening the ground in the wake of any movement. The rain extinguishes non-magical flames. You gain fire resistance <var>var1</var>. If you have a weakness to water, you take damage equal to your weakness at the end of each turn. You can attempt a Reflex save to avoid the cloud.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "type": "spells",
+        "minLevel": 1,
+        "sortLevel": 1,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Fire Resistance",
+                "value": "(Heightened) * 2"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 1,
+                "descs": [
+                    {
+                        "value": "2",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 2,
+                "descs": [
+                    {
+                        "value": "4",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 3,
+                "descs": [
+                    {
+                        "value": "6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 4,
+                "descs": [
+                    {
+                        "value": "8",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 5,
+                "descs": [
+                    {
+                        "value": "10",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "12",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "14",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "16",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "18",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "20",
+                        "variable": "var1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Personal Rain Cloud (Caster)",
+        "desc": "You have conjured a 5-foot-wide rain cloud that follows the target wherever it goes. It stays roughly an arm's length overhead, unless it must drift lower to fit under a ceiling. The cloud rains constantly on the target, keeping it wet and dampening the ground in the wake of any movement. The rain extinguishes non-magical flames. The target gains fire resistance <var>var1</var>. Creatures with weakness to water take damage equal to their weakness at the end of each of their turns. Creatures can attempt a Reflex save to avoid the cloud.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "type": "spells",
+        "minLevel": 1,
+        "sortLevel": 1,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "unlimited": true,
+        "heightenedDescs": [
+            {
+                "level": 1,
+                "descs": [
+                    {
+                        "value": "2",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 2,
+                "descs": [
+                    {
+                        "value": "4",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 3,
+                "descs": [
+                    {
+                        "value": "6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 4,
+                "descs": [
+                    {
+                        "value": "8",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 5,
+                "descs": [
+                    {
+                        "value": "10",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "12",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "14",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "16",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "18",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "20",
+                        "variable": "var1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Scouring Sand",
+        "desc": "You are blasting the area with grit that scours away soil and gets into creatures' eyes. For the duration of the spell, any plant-based difficult terrain smaller than a tree becomes loose, allowing each 5-foot square of it to be cleared with a single Interact action. In addition, scouring sand attempts to counteract entangle and other effects that create or manipulate plant-based terrain in its area. Successfully counteracting an effect removes only the portion of its area that overlaps with scouring sand's area. After one such attempt, the effect is temporarily immune to scouring sand's counteract for 24 hours. <var>var2</var>Each creature in the area when you Cast this Spell or that ends its turn in the area must attempt a Reflex save.\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature is dazzled for 1 minute or until it uses an Interact action to get the sand out of its eyes.\n<strong>Critical Failure</strong> As failure, but the creature is also blinded for its next action.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "type": "spells",
+        "minLevel": 1,
+        "sortLevel": 1,
+        "radius": 10,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 1,
+                "descs": [
+                    {
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 3,
+                "descs": [
+                    {
+                        "value": "Once per round when you Sustain the Spell, you can move the center of the burst to a spot within range. ",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "Once per round when you Sustain the Spell, you can move the center of the burst to a spot within range.",
+                        "variable": "var2"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Verdant Sprout",
+        "desc": "You have imbued <var>var1</var> with primal energy and thrown each seed onto a surface, where it gradually sprouts into a Medium plant. After 10 minutes, the plant is sturdy enough to provide standard cover, and its space is difficult terrain. The plant is laden with nutritious nuts or fruit sufficient to feed one Medium creature for a day. The plant has AC 10, Hardness 5, and 20 Hit Points.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "type": "spells",
+        "minLevel": 1,
+        "sortLevel": 1,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 1,
+                "descs": [
+                    {
+                        "value": "a single plant seed",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 2,
+                "descs": [
+                    {
+                        "value": "two plant seeds",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 3,
+                "descs": [
+                    {
+                        "value": "three plant seeds",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 4,
+                "descs": [
+                    {
+                        "value": "four plant seeds",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 5,
+                "descs": [
+                    {
+                        "value": "five plant seeds",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "six plant seeds",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "seven plant seeds",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "eight plant seeds",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "nine plant seeds",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "ten plant seeds",
+                        "variable": "var1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Breath of Drought",
+        "desc": "The target area is filled with an oppressive, arid swelter that overwhelms you with heat exhaustion depending on your Fortitude save.\n\n<strong>Success</strong> You are unaffected.\n<strong>Failure</strong> You are sickened 1.\n<strong>Critical Failure</strong> You are sickened 2.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "type": "spells",
+        "minLevel": 2,
+        "sortLevel": 2,
+        "radius": 10,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Failure"
+            },
+            {
+                "name": "Critical Failure"
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": [
+                    "Failure"
+                ],
+                "name": "Sickened",
+                "value": 1
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Critical Failure"
+                ],
+                "name": "Sickened",
+                "value": 2
+            }
+        ]
+    },
+    {
+        "name": "Breath of Drought (Caster)",
+        "desc": "You have filled the target area with an oppressive, arid swelter that overwhelms creatures with heat exhaustion. Objects are unaffected. Each creature in the area when the spell is cast or that ends its turn in the area afterward must attempt a Fortitude save. Water creatures and plant creatures use the outcome one degree of success worse than the result of their saving throw. Creatures whose bodies contain no significant moisture (such as fire elementals) are immune to breath of drought. <var>var2</var>\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature is sickened 1.\n<strong>Critical Failure</strong> The creature is sickened 2.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "type": "spells",
+        "minLevel": 2,
+        "sortLevel": 2,
+        "radius": 10,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
+        "unlimited": true,
+        "heightenedDescs": [
+            {
+                "level": 2,
+                "descs": [
+                    {
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 4,
+                "descs": [
+                    {
+                        "value": " Once per round when you Sustain the Spell, you can move the center of the burst to a new location within range.",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": " Once per round when you Sustain the Spell, you can move the center of the burst to a new location within range.",
+                        "variable": "var2"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Rime Slick",
+        "desc": "You have created a layer of ice on all surfaces in the target area, which become difficult terrain. Unattended objects in the area become slick with ice, and picking them up requires a successful Reflex save or Acrobatics check against your spell DC. The ice melts on any object that takes fire damage as well as in any square included in the area of a higher-level spell or effect with the fire trait.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "type": "spells",
+        "minLevel": 2,
+        "sortLevel": 2,
+        "radius": 15,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ]
+    },
+    {
+        "name": "Sea Surge",
+        "desc": "You have created a a flat, 5-foot-thick, 10-foot-high wall of water between 5 and 15 feet wide (you decide). It moves 60 feet in a direction of your choice along the struck surface, extinguishing all non-magical fires, carrying along unattended objects of 1 Bulk or less, and pushing larger objects. The wave moves another 60 feet in the same direction at the start of your next turn, then vanishes. Large or smaller creatures in the area or that enter the area the wave moves through must attempt a Fortitude save.\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature is knocked prone. If the creature was Swimming, it gets a critical failure instead.\n<strong>Critical Failure</strong> The creature is pushed 20 feet in the wave's direction, is knocked prone, and takes 3d6 bludgeoning damage.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "type": "spells",
+        "minLevel": 2,
+        "sortLevel": 2,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 15
+            }
+        ]
+    },
+    {
+        "name": "Unseasonable Squall",
+        "desc": "A blast of sudden wind ripples outward from the center of the area. You are affected depending on your Fortitude save.\n\n<strong>Success</strong> You are unaffected.\n<strong>Failure</strong> You are knocked prone. If you were Flying, you get a critical failure instead.\n<strong>Critical Failure</strong> You are pushed 30 feet away from the center of the burst, are knocked prone, and take 2d6 bludgeoning damage.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "type": "spells",
+        "minLevel": 3,
+        "sortLevel": 3,
+        "radius": 20,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Success"
+            },
+            {
+                "name": "Failure"
+            },
+            {
+                "name": "Critical Failure"
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": [
+                    "Failure",
+                    "Critical Failure"
+                ],
+                "name": "Prone"
+            }
+        ]
+    },
+    {
+        "name": "Unseasonable Squall (Caster)",
+        "desc": "You have issued a blast of sudden wind that ripples outward from the center of the burst. The wind extinguishes small non-magical fires, disperses fog and mist, scatters objects of light Bulk or less, and pushes unsecured objects of 1 Bulk or less 5 feet away from the spell's origin point. Each Medium or smaller creature in the area that moves into spell's area must attempt a Fortitude saving throw.\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature is knocked prone. If the creature was Flying, it gets a critical failure instead.\n<strong>Critical Failure</strong> The creature is pushed 30 feet away from the center of the burst, is knocked prone, and takes 2d6 bludgeoning damage.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "type": "spells",
+        "minLevel": 3,
+        "sortLevel": 3,
+        "radius": 20,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "unlimited": true
+    }
+]

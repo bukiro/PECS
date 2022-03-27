@@ -1,0 +1,135 @@
+[
+    {
+        "name": "Juggling Club",
+        "id": "08693231-8daa-11ea-abca-ffb46fbada73",
+        "desc": "A juggling club is lighter than a typical club and balanced to be easily caught and thrown again by a juggler. While a juggling club deals less damage, the extra throwing distance its light weight allows is important for Juggling.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "bulk": "L",
+        "price": 10,
+        "traits": [
+            "Agile",
+            "Nonlethal",
+            "Thrown 20 ft.",
+            "Uncommon"
+        ],
+        "dicesize": 4,
+        "dmgType": "B",
+        "group": "Club",
+        "hands": 1,
+        "melee": 5,
+        "ranged": 20
+    },
+    {
+        "name": "Poi",
+        "id": "0869323d-8daa-11ea-abca-ffb46fbada73",
+        "desc": "Poi are light weights tethered to ropes or chains. Performers swing the weights, usually one in each hand, in rhythmic patterns.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "bulk": "L",
+        "price": 20,
+        "traits": [
+            "Agile",
+            "Backswing",
+            "Finesse",
+            "Nonlethal",
+            "Uncommon"
+        ],
+        "dicesize": 4,
+        "dmgType": "B",
+        "group": "Flail",
+        "hands": 1,
+        "melee": 5
+    },
+    {
+        "name": "Scorpion Whip",
+        "id": "0869593a-8daa-11ea-abca-ffb46fbada73",
+        "desc": "A scorpion whip has a series of razor-sharp blades set along its tip. Unlike ordinary whips, a scorpion whip doesn't have the nonlethal trait, making it deadlier in combat but less effective when the wielder seeks to bring in foes alive.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "bulk": "L",
+        "price": 50,
+        "traits": [
+            "Disarm",
+            "Finesse",
+            "Reach",
+            "Trip",
+            "Uncommon"
+        ],
+        "dicesize": 4,
+        "dmgType": "S",
+        "group": "Flail",
+        "hands": 1,
+        "melee": 10,
+        "prof": "Martial Weapons",
+        "weaponBase": "Whip"
+    },
+    {
+        "name": "Bladed Diabolo",
+        "id": "08695960-8daa-11ea-abca-ffb46fbada73",
+        "desc": "This weapon consists of two bladed discs joined by a central axel, and is spun on a rope whose ends are attached to wand-like sticks. The wielder can hurl the diabolo from the rope like a stone from a sling, or swing it on the rope in melee.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "bulk": "L",
+        "price": 200,
+        "traits": [
+            "Backswing",
+            "Disarm",
+            "Finesse",
+            "Thrown 40 ft.",
+            "Trip",
+            "Uncommon"
+        ],
+        "dicesize": 4,
+        "dmgType": "S",
+        "group": "Flail",
+        "hands": 2,
+        "melee": 5,
+        "prof": "Advanced Weapons",
+        "ranged": 40
+    },
+    {
+        "name": "Bladed Hoop",
+        "id": "08695962-8daa-11ea-abca-ffb46fbada73",
+        "desc": "This circular hoop has blades along its outer edge. You can wield it in two hands (using the two-hand damage) or by spinning it around an arm. While you spin the hoop, it gains the free-hand trait. Setting the hoop spinning takes 1 Interact action. In addition to the normal restrictions of the free-hand trait, extended use of the arm for locomotion (such as to Climb) interferes with the hoop's spinning and forces you to Release the hoop. You can't spin a hoop underwater. Keeping the hoop spinning requires a free action each round, which has the concentrate and manipulate traits. You can keep a hoop spinning as an exploration activity, but doing so for more than 10 minutes makes you fatigued, similarly to Hustling.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "bulk": "1",
+        "price": 250,
+        "traits": [
+            "Finesse",
+            "Sweep",
+            "Two-Hand d8",
+            "Uncommon"
+        ],
+        "dmgType": "S",
+        "group": "Knife",
+        "hands": "0+",
+        "melee": 5,
+        "prof": "Advanced Weapons"
+    },
+    {
+        "name": "Fire Poi",
+        "id": "08698031-8daa-11ea-abca-ffb46fbada73",
+        "desc": "These special poi are made from a rare, light metal or from fire-retardant fibers and can be ignited before being wielded. Igniting a pair of fire poi is an Interact action and requires 1 pint of oil for every 10 minutes the poi remain ignited. While lit, fire poi cast dim light in a 10-foot radius; in combat, they deal 1d4 bludgeoning plus 1d4 fire damage. On a critical hit with a lit fire poi, the target takes 1 persistent fire damage. The fire can be extinguished using the Interact action. When unlit, the poi deal only the listed bludgeoning damage. Regardless of whether it is lit, the poi's 1d4 bludgeoning damage is the weapon damage dice, so striking runes and other effects don't affect the fire damage.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "bulk": "L",
+        "price": 500,
+        "traits": [
+            "Agile",
+            "Backswing",
+            "Finesse",
+            "Twin",
+            "Uncommon"
+        ],
+        "criticalHint": "On a critical hit with a lit fire poi, the target takes |dice=1 Persistent Fire| 1 persistent fire damage. The fire can be extinguished using the Interact action.",
+        "dicesize": 4,
+        "dmgType": "B",
+        "extraDamage": "+1d4 Fire",
+        "group": "Flail",
+        "hands": 1,
+        "melee": 5,
+        "prof": "Advanced Weapons"
+    }
+]

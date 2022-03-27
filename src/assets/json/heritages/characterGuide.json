@@ -1,0 +1,524 @@
+[
+    {
+        "name": "Anvil Dwarf",
+        "desc": "You are a descendant of a famed crafter and have your own amazing talent. Other dwarves might consider this a blessing from your ancestors or from the Forgefather himself, depending on where you grew up. You become trained in Crafting (or another skill if you were already trained in Crafting) and gain the Specialty Crafting skill feat, but you can pick two different specialties instead of one.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "featChoices": [
+            {
+                "available": 2,
+                "filter": [
+                    "Specialty Crafting"
+                ],
+                "id": "1-Feat-Anvil Dwarf-0",
+                "level": 0,
+                "source": "Anvil Dwarf",
+                "type": "Skill"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Anvil Dwarf-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Crafting",
+                        "source": "Anvil Dwarf",
+                        "sourceId": "1-Skill-Anvil Dwarf-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Anvil Dwarf",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Elemental Heart Dwarf",
+        "desc": "Whether through a connection to Torag's forge, the azers of the Plane of Fire, or another source, you can exude a burst of energy. Mbe'ke and Taralu dwarves of the Mwangi Expanse believe this heritage is a gift from dragons or elemental spirits. Choose one of the following damage types: acid, cold, electricity, or fire. Once chosen, this can't be changed. You gain the Energy Emanation activity.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "subTypes": [
+            {
+                "gainActivities": [
+                    "Energy Emanation"
+                ],
+                "name": "Elemental Heart Dwarf (Acid)",
+                "subType": "Acid",
+                "superType": "Elemental Heart Dwarf"
+            },
+            {
+                "gainActivities": [
+                    "Energy Emanation"
+                ],
+                "name": "Elemental Heart Dwarf (Cold)",
+                "subType": "Cold",
+                "superType": "Elemental Heart Dwarf"
+            },
+            {
+                "gainActivities": [
+                    "Energy Emanation"
+                ],
+                "name": "Elemental Heart Dwarf (Electricity)",
+                "subType": "Electricity",
+                "superType": "Elemental Heart Dwarf"
+            },
+            {
+                "gainActivities": [
+                    "Energy Emanation"
+                ],
+                "name": "Elemental Heart Dwarf (Fire)",
+                "subType": "Fire",
+                "superType": "Elemental Heart Dwarf"
+            }
+        ]
+    },
+    {
+        "name": "Oathkeeper Dwarf",
+        "desc": "Growing up, you never tried to lie to get what you wanted, and even when necessary, lying makes you uncomfortable. The especially faithful might even have thought that you were blessed by the dwarven god of duty, Kols. You gain a +1 circumstance bonus to Perception checks to Sense Motive and to Perception DCs against attempts to Lie to you. Furthermore, you gain a +2 circumstance bonus to Diplomacy checks to convince others you speak the truth when you are telling the truth, and you take a â€\"4 circumstance penalty to Lie and to your Deception DC against Sense Motive.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Oathkeeper Dwarf",
+                        "source": "Oathkeeper Dwarf",
+                        "sourceId": "1-Feat-Oathkeeper Dwarf-0"
+                    }
+                ],
+                "id": "1-Feat-Oathkeeper Dwarf-0",
+                "level": 0,
+                "source": "Oathkeeper Dwarf"
+            }
+        ]
+    },
+    {
+        "name": "Ancient Elf",
+        "desc": "In your long life, you've dabbled in many paths and many styles. Choose a class other than your own. You gain the multiclass dedication feat for that class, even though you don't meet its level prerequisite. You must still meet its other prerequisites to gain the feat.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "featChoices": [
+            {
+                "available": 1,
+                "id": "1-Feat-Ancient Elf-0",
+                "level": 2,
+                "source": "Ancient Elf",
+                "type": "Multiclass"
+            }
+        ]
+    },
+    {
+        "name": "Desert Elf",
+        "desc": "You live under the desert's blazing heat, gaining incredible resilience to warm environments. You gain fire resistance equal to half your level (minimum 1), and environmental heat effects are one step less extreme for you (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Desert Elf",
+                        "source": "Desert Elf",
+                        "sourceId": "1-Feat-Desert Elf-0"
+                    }
+                ],
+                "id": "1-Feat-Desert Elf-0",
+                "level": 0,
+                "source": "Desert Elf"
+            }
+        ]
+    },
+    {
+        "name": "Vivacious Gnome",
+        "desc": "You have an incredibly strong connection to the positive energy that flows through the First World, making it harder to attack your life force with negative energy. You gain negative resistance equal to half your level (minimum 1). When you have the doomed condition, the condition affects you as if its value was 1 lower than it actually is (doomed 1 has no effect, doomed 2 causes you to die at dying 3, and so on).",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Vivacious Gnome",
+                        "source": "Vivacious Gnome",
+                        "sourceId": "1-Feat-Vivacious Gnome-0"
+                    }
+                ],
+                "id": "1-Feat-Vivacious Gnome-0",
+                "level": 0,
+                "source": "Vivacious Gnome"
+            }
+        ]
+    },
+    {
+        "name": "Tailed Goblin",
+        "desc": "You have a powerful tail, likely because you descend from a community of monkey goblins. You gain a +2 circumstance bonus to Athletics checks to Climb, you gain Combat Climber as a bonus feat, and you reduce the number of free hands required to Climb or Trip by one.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Combat Climber",
+                        "source": "Tailed Goblin",
+                        "sourceId": "1-Feat-Tailed Goblin-0"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Tailed Goblin",
+                        "source": "Tailed Goblin",
+                        "sourceId": "1-Feat-Tailed Goblin-0"
+                    }
+                ],
+                "id": "1-Feat-Tailed Goblin-0",
+                "level": 0,
+                "source": "Tailed Goblin"
+            }
+        ]
+    },
+    {
+        "name": "Treedweller Goblin",
+        "desc": "You have adapted particularly well to living in forested environments. As long as you are in a forest or jungle, you gain a +2 circumstance bonus to Stealth checks to Hide and Sneak, Survival checks to Subsist, and your Survival DC to Cover Tracks.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Treedweller Goblin",
+                        "source": "Treedweller Goblin",
+                        "sourceId": "1-Feat-Treedweller Goblin-0"
+                    }
+                ],
+                "id": "1-Feat-Treedweller Goblin-0",
+                "level": 0,
+                "source": "Treedweller Goblin"
+            }
+        ]
+    },
+    {
+        "name": "Observant Halfling",
+        "desc": "Your finely honed senses quickly clue you in to danger or trickery. You gain a +1 circumstance bonus to your Perception DC, though not to your Perception checks.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Observant Halfling",
+                        "source": "Observant Halfling",
+                        "sourceId": "1-Feat-Observant Halfling-0"
+                    }
+                ],
+                "id": "1-Feat-Observant Halfling-0",
+                "level": 0,
+                "source": "Observant Halfling"
+            }
+        ]
+    },
+    {
+        "name": "Elfbane Hobgoblin",
+        "desc": "Hobgoblins were engineered long ago from the unreliable and fecund goblins, to be used as an army against the elves. Although the elves ultimately freed the hobgoblins from their bondage, some hobgoblins retain ancestral resistance to magic, which they refer to as \"elf magic.\" You gain the Resist Elf Magic reaction.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "gainActivities": [
+            "Resist Elf Magic"
+        ]
+    },
+    {
+        "name": "Runtboss Hobgoblin",
+        "desc": "You come from a long line of hobgoblins who commanded goblins. You are smaller than other hobgoblins, but goblins still listen to any commands you bellow. You gain the Group Coercion skill feat. If you roll a success on an Intimidation check to Coerce a goblin (but not other creatures with the goblin trait), you get a critical success instead; if you roll a critical failure, you get a failure instead.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Group Coercion",
+                        "source": "Runtboss Hobgoblin",
+                        "sourceId": "1-Feat-Runtboss Hobgoblin-0"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Runtboss Hobgoblin",
+                        "source": "Runtboss Hobgoblin",
+                        "sourceId": "1-Feat-Runtboss Hobgoblin-0"
+                    }
+                ],
+                "id": "1-Feat-Runtboss Hobgoblin-0",
+                "level": 0,
+                "source": "Runtboss Hobgoblin"
+            }
+        ]
+    },
+    {
+        "name": "Smokeworker Hobgoblin",
+        "desc": "Your family have been alchemists, engineers, and scientists for generations, on projects bringing smoke and fire to the field of battle. You gain fire resistance equal to half your level (minimum 1). You automatically succeed at the DC 5 flat check to target a concealed creature if that creature is concealed only by smoke.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Smokeworker Hobgoblin",
+                        "source": "Smokeworker Hobgoblin",
+                        "sourceId": "1-Feat-Smokeworker Hobgoblin-0"
+                    }
+                ],
+                "id": "1-Feat-Smokeworker Hobgoblin-0",
+                "level": 0,
+                "source": "Smokeworker Hobgoblin"
+            }
+        ]
+    },
+    {
+        "name": "Warmarch Hobgoblin",
+        "desc": "You come from a line of wandering mercenaries, constantly on the march and scavenging food on the trail. If you fail, but not critically fail, to Subsist in the wilderness, you can still keep yourself fed with poor meals. When exploring, you can Hustle twice as long before you have to stop.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Warmarch Hobgoblin",
+                        "source": "Warmarch Hobgoblin",
+                        "sourceId": "1-Feat-Warmarch Hobgoblin-0"
+                    }
+                ],
+                "id": "1-Feat-Warmarch Hobgoblin-0",
+                "level": 0,
+                "source": "Warmarch Hobgoblin"
+            }
+        ]
+    },
+    {
+        "name": "Warrenbred Hobgoblin",
+        "desc": "Your ancestors lived underground. Your ears are larger than those of other hobgoblins and sensitive to echoes. When you are underground, you can use the Seek action to sense undetected creatures within a 30-foot burst instead of a 15-foot burst. In addition, if you roll a success on an Acrobatics check to Squeeze, you get a critical success instead.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Warrenbred Hobgoblin",
+                        "source": "Warrenbred Hobgoblin",
+                        "sourceId": "1-Feat-Warrenbred Hobgoblin-0"
+                    }
+                ],
+                "id": "1-Feat-Warrenbred Hobgoblin-0",
+                "level": 0,
+                "source": "Warrenbred Hobgoblin"
+            }
+        ]
+    },
+    {
+        "name": "Wintertouched Human",
+        "desc": "The power of winter flows through you. This heritage is most common among the Jadwiga of Irrisen, due to their descent from Baba Yaga, and certain Erutaki touched by the spirits. You gain cold resistance equal to half your level (minimum 1), and you treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on).",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Wintertouched Human",
+                        "source": "Wintertouched Human",
+                        "sourceId": "1-Feat-Wintertouched Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Wintertouched Heritage-0",
+                "level": 0,
+                "source": "Wintertouched Human"
+            }
+        ]
+    },
+    {
+        "name": "Fungus Leshy",
+        "desc": "Your body was made from fungi that grows in the shade of caves and trees, and you are at home in dark caverns and warrens. You gain darkvision.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "senses": [
+            "Darkvision"
+        ]
+    },
+    {
+        "name": "Gourd Leshy",
+        "desc": "You have a large gourd for a skull. Your knowledge comes from within your spirit, rather than a physical brain, and you have found a handier use for the space inside your head. You can store a collection of up to 1 Bulk of objects within your head. The DC of checks to Steal objects from inside your head increases by 4. Additionally, if you store only one object within your head, you can draw it effortlessly into your hand as part of another action to use the object. Drawing the item grants this other action the manipulate trait.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Gourd Leshy",
+                        "source": "Gourd Leshy",
+                        "sourceId": "1-Feat-Gourd Leshy-0"
+                    }
+                ],
+                "id": "1-Feat-Gourd Leshy-0",
+                "level": 0,
+                "source": "Gourd Leshy"
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Gourd Head",
+                "type": "worn items"
+            }
+        ]
+    },
+    {
+        "name": "Leaf Leshy",
+        "desc": "Your body is made mostly from natural foliage, and like a leaf tumbling from a tree, you land from falls with particular grace. You take no damage from falling, regardless of the distance you fall.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Leaf Leshy",
+                        "source": "Leaf Leshy",
+                        "sourceId": "1-Feat-Leaf Leshy-0"
+                    }
+                ],
+                "id": "1-Feat-Leaf Leshy-0",
+                "level": 0,
+                "source": "Leaf Leshy"
+            }
+        ]
+    },
+    {
+        "name": "Vine Leshy",
+        "desc": "The prehensile vines woven into your body grant you unmatched skill at climbing. You do not need to have any hands free to Climb. Additionally, if you roll a success on an Athletics check to Climb, you get a critical success instead.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Vine Leshy",
+                        "source": "Vine Leshy",
+                        "sourceId": "1-Feat-Vine Leshy-0"
+                    }
+                ],
+                "id": "1-Feat-Vine Leshy-0",
+                "level": 0,
+                "source": "Vine Leshy"
+            }
+        ]
+    },
+    {
+        "name": "Cliffscale Lizardfolk",
+        "desc": "Your toes are adapted for gripping and climbing. You gain the Combat Climber feat as a bonus feat, and as long as you aren't wearing footwear, you can use the sticky pads on your feet to climb, leaving your hands free. Additionally, if you roll a success on an Athletics check to climb, you get a critical success instead.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Combat Climber",
+                        "source": "Cliffscale Lizardfolk",
+                        "sourceId": "1-Feat-Cliffscale Lizardfolk-0"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Cliffscale Lizardfolk",
+                        "source": "Cliffscale Lizardfolk",
+                        "sourceId": "1-Feat-Cliffscale Lizardfolk-0"
+                    }
+                ],
+                "id": "1-Feat-Cliffscale Lizardfolk-0",
+                "level": 0,
+                "source": "Cliffscale Lizardfolk"
+            }
+        ]
+    },
+    {
+        "name": "Frilled Lizardfolk",
+        "desc": "You can flare your neck frill and flex your dorsal spines, Demoralizing your foes. When you do, Demoralize loses the auditory trait and gains the visual trait, and you don't take a penalty when you attempt to Demoralize a creature that doesn't understand your language. You also gain the Threatening Approach action.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Frilled Lizardfolk",
+                        "source": "Frilled Lizardfolk",
+                        "sourceId": "1-Feat-Frilled Lizardfolk-0"
+                    }
+                ],
+                "id": "1-Feat-Frilled Lizardfolk-0",
+                "level": 0,
+                "source": "Frilled Lizardfolk"
+            }
+        ],
+        "gainActivities": [
+            "Threatening Approach"
+        ]
+    },
+    {
+        "name": "Sandstrider Lizardfolk",
+        "desc": "Your thick scales help you retain water and combat the sun's glare. You gain fire resistance equal to half your level (minimum 1). Environmental heat effects are one step less extreme for you, and you can go 10 times as long as normal before you are affected by starvation or thirst. However, unless you wear protective gear or take shelter, environmental cold effects are one step more extreme for you.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Sandstrider Lizardfolk",
+                        "source": "Sandstrider Lizardfolk",
+                        "sourceId": "1-Feat-Sandstrider Lizardfolk-0"
+                    }
+                ],
+                "id": "1-Feat-Sandstrider Lizardfolk-0",
+                "level": 0,
+                "source": "Sandstrider Lizardfolk"
+            }
+        ]
+    },
+    {
+        "name": "Unseen Lizardfolk",
+        "desc": "You can change your skin color to blend in with your surroundings, making minor shifts with a single action and dramatic changes over the course of an hour. When you're in an area where your coloration is roughly similar to the environment (for instance, forest green in a forest), you can use the minor, singleaction application of this ability to make localized changes that help you blend into your surroundings, gaining a +2 circumstance bonus to Stealth checks until your surroundings change in coloration or pattern.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "gainActivities": [
+            "Unseen Lizardfolk"
+        ]
+    },
+    {
+        "name": "Wetlander Lizardfolk",
+        "desc": "Your family is descended from the most common lizardfolk heritage, and you are accustomed to aquatic environments. You gain a 15-foot swim Speed.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Wetlander Lizardfolk",
+                        "source": "Wetlander Lizardfolk",
+                        "sourceId": "1-Feat-Wetlander Lizardfolk-0"
+                    }
+                ],
+                "id": "1-Feat-Wetlander Lizardfolk-0",
+                "level": 0,
+                "source": "Wetlander Lizardfolk"
+            }
+        ]
+    }
+]

@@ -1,0 +1,108 @@
+[
+    {
+        "name": "Spear Frog Poison",
+        "id": "b327fde6-b9ef-11ea-b3de-0242ac130004",
+        "desc": "A single spear frog yields enough toxin to Craft 1 dose of spear frog poison.",
+        "sourceBook": "Bestiary 2",
+        "_extensionFileName": "bestiary2",
+        "level": 1,
+        "bulk": "L",
+        "price": 300,
+        "traits": [
+            "Alchemical",
+            "Consumable",
+            "Injury",
+            "Poison"
+        ],
+        "actions": "2A",
+        "activationType": "Interact",
+        "maxDuration": "6 rounds",
+        "savingThrow": "DC 15 Fortitude",
+        "usage": "held in 2 hands",
+        "stages": [
+            "1d4 poison damage (1 round)",
+            "1d6 poison damage and enfeebled 1 (1 round)"
+        ]
+    },
+    {
+        "name": "Toad Tears",
+        "id": "b32802be-b9ef-11ea-b3de-0242ac130004",
+        "desc": "Toad tears can be mixed with any other foodstuff or drink, but the poison can also be ingested as is. The process of refining giant toad poison lessens its deadly qualities, and as a result, toad tears are rarely directly fatal. Yet those who are exposed to toad tears often lose control of their actions, making it a dangerous poison nevertheless.",
+        "sourceBook": "Bestiary 2",
+        "_extensionFileName": "bestiary2",
+        "level": 2,
+        "bulk": "L",
+        "price": 600,
+        "traits": [
+            "Alchemical",
+            "Consumable",
+            "Ingested",
+            "Poison"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "maxDuration": "30 minutes",
+        "savingThrow": "DC 19 Fortitude",
+        "usage": "held in 1 hand",
+        "stages": [
+            "5 minutes",
+            "stupefied 1 (10 minutes)",
+            "stupefied 1 and confused (1 minute)"
+        ]
+    },
+    {
+        "name": "Yellow Musk Vial",
+        "id": "b32804a8-b9ef-11ea-b3de-0242ac130004",
+        "desc": "The powdered pollen from a yellow musk creeper addles the mind.",
+        "sourceBook": "Bestiary 2",
+        "_extensionFileName": "bestiary2",
+        "level": 2,
+        "bulk": "L",
+        "price": 700,
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Inhaled",
+            "Mental",
+            "Poison"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "maxDuration": "2 rounds",
+        "savingThrow": "DC 16 Will",
+        "usage": "held in 1 hand",
+        "stages": [
+            "fascinated by the poison cloud (1 round)",
+            "fascinated by the poison cloud, and can use no actions but to move closer to the cloud's point of origin (1 round)"
+        ]
+    },
+    {
+        "name": "Violet Venom",
+        "id": "b3280886-b9ef-11ea-b3de-0242ac130004",
+        "desc": "The delicate process of extracting violet venom from a violet fungus leaves it diluted at the best of times. Alchemists are still on the hunt for a truly pure, unadulterated version of this highly toxic poison.",
+        "sourceBook": "Bestiary 2",
+        "_extensionFileName": "bestiary2",
+        "level": 3,
+        "bulk": "L",
+        "price": 1200,
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Contact",
+            "Poison"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "maxDuration": "6 rounds",
+        "savingThrow": "DC 17 Fortitude",
+        "usage": "held in 2 hands",
+        "stages": [
+            "1 minute",
+            "1d6 poison plus enfeebled 1 (1 round)",
+            "1d6 poison plus drained 1 (1 round)",
+            "2d6 poison plus enfeebled 1 (1 round)"
+        ]
+    }
+]

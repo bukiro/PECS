@@ -2,8 +2,8 @@
     {
         "name": "Unarmored",
         "id": "89c1a2c2-8e09-11ea-9fab-e92c63c14723",
-        "_extensionFileName": "core",
         "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 0,
         "craftable": false,
         "moddable": false,
@@ -13,8 +13,8 @@
         "name": "Light Barding (Small or Medium)",
         "id": "89c1a2c5-8e09-11ea-9fab-e92c63c14723",
         "desc": "Barding is special armor for animals. All animals have a trained proficiency rank in light barding, and combat-trained animals are trained in heavy barding. Barding can't be etched with magic runes, though special magical barding might be available.",
-        "_extensionFileName": "core",
         "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 0,
         "bulk": "2",
         "price": 1000,
@@ -33,8 +33,8 @@
         "name": "Light Barding (Large)",
         "id": "89c1a2c8-8e09-11ea-9fab-e92c63c14723",
         "desc": "Barding is special armor for animals. All animals have a trained proficiency rank in light barding, and combat-trained animals are trained in heavy barding. Barding can't be etched with magic runes, though special magical barding might be available.",
-        "_extensionFileName": "core",
         "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 0,
         "bulk": "4",
         "price": 2000,
@@ -53,8 +53,8 @@
         "name": "Heavy Barding (Small or Medium)",
         "id": "89c1a2cb-8e09-11ea-9fab-e92c63c14723",
         "desc": "Barding is special armor for animals. All animals have a trained proficiency rank in light barding, and combat-trained animals are trained in heavy barding. Barding can't be etched with magic runes, though special magical barding might be available.",
-        "_extensionFileName": "core",
         "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 0,
         "bulk": "4",
         "price": 2500,
@@ -73,8 +73,8 @@
         "name": "Heavy Barding (Large)",
         "id": "89c1a2ce-8e09-11ea-9fab-e92c63c14723",
         "desc": "Barding is special armor for animals. All animals have a trained proficiency rank in light barding, and combat-trained animals are trained in heavy barding. Barding can't be etched with magic runes, though special magical barding might be available.",
-        "_extensionFileName": "core",
         "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 0,
         "bulk": "8",
         "price": 5000,
@@ -93,8 +93,8 @@
         "name": "Explorer's Clothing",
         "id": "89c1a2d1-8e09-11ea-9fab-e92c63c14723",
         "desc": "Adventurers who don't wear armor travel in durable clothing. Though it's not armor and uses your unarmored defense proficiency, it still has a Dex Cap and can grant an item bonus to AC if etched with potency runes.",
-        "_extensionFileName": "core",
         "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 0,
         "bulk": "L",
         "price": 10,
@@ -108,8 +108,8 @@
         "name": "Padded Armor",
         "id": "89c1a2d4-8e09-11ea-9fab-e92c63c14723",
         "desc": "This armor is simply a layer of heavy, quilted cloth, but it is sometimes used because it's so inexpensive. Padded armor is easier to damage and destroy than other types of armor. Heavy armor comes with a padded armor undercoat included in its Price, though it loses the comfort trait when worn under heavy armor. You can wear just that padded armor undercoat to sleep in, if your heavy armor is destroyed, or when otherwise not wearing the full heavy armor. This allows you to keep the armor invested and benefit from the power of any runes on the associated heavy armor, but no one else can wear your heavy armor without the padded undercoat.",
-        "_extensionFileName": "core",
         "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 0,
         "bulk": "L",
         "price": 20,
@@ -125,8 +125,8 @@
         "name": "Leather Armor",
         "id": "89c1a2d7-8e09-11ea-9fab-e92c63c14723",
         "desc": "A mix of flexible and molded boiled leather, a suit of this type of armor provides some protection with maximum flexibility.",
-        "_extensionFileName": "core",
         "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 0,
         "bulk": "1",
         "price": 200,
@@ -140,8 +140,8 @@
         "name": "Studded Leather Armor",
         "id": "89c1a2da-8e09-11ea-9fab-e92c63c14723",
         "desc": "This leather armor is reinforced with metal studs and sometimes small metal plates, providing most of the flexibility of leather armor with more robust protection.",
-        "_extensionFileName": "core",
         "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 0,
         "bulk": "1",
         "price": 300,
@@ -155,8 +155,8 @@
         "name": "Chain Shirt",
         "id": "89c1a2dd-8e09-11ea-9fab-e92c63c14723",
         "desc": "Sometimes called a hauberk, this is a long shirt constructed of the same metal rings as chainmail. However, it is much lighter than chainmail and protects only the torso, upper arms, and upper legs of its wearer.",
-        "_extensionFileName": "core",
         "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 0,
         "bulk": "1",
         "price": 500,
@@ -174,8 +174,8 @@
         "name": "Hide Armor",
         "id": "89c1a2e0-8e09-11ea-9fab-e92c63c14723",
         "desc": "A mix of furs, sturdy hide, and sometimes molded boiled leather, this armor provides protection due to its layers of leather, though its bulkiness slows the wearer down and decreases mobility.",
-        "_extensionFileName": "core",
         "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 0,
         "bulk": "2",
         "price": 200,
@@ -191,8 +191,8 @@
         "name": "Scale Mail",
         "id": "89c1c9d1-8e09-11ea-9fab-e92c63c14723",
         "desc": "Scale mail consists of many metal scales sewn onto a reinforced leather backing, often in the form of a long shirt that protects the torso, arms, and legs.",
-        "_extensionFileName": "core",
         "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 0,
         "bulk": "2",
         "price": 400,
@@ -208,8 +208,8 @@
         "name": "Chain Mail",
         "id": "89c1c9d4-8e09-11ea-9fab-e92c63c14723",
         "desc": "A suit of chain mail consists of several pieces of armor composed of small metal rings linked together in a protective mesh. It typically includes a chain shirt, leggings, a pair of arms, and a coif, collectively protecting most of the body.",
-        "_extensionFileName": "core",
         "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 0,
         "bulk": "2",
         "price": 600,
@@ -229,8 +229,8 @@
         "name": "Breastplate",
         "id": "89c1c9d7-8e09-11ea-9fab-e92c63c14723",
         "desc": "Though referred to as a breastplate, this type of armor consists of several pieces of plate or half-plate armor that protect the torso, chest, neck, and sometimes the hips and lower legs. It strategically grants some of the protection of plate while allowing greater flexibility and speed.",
-        "_extensionFileName": "core",
         "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 0,
         "bulk": "2",
         "price": 800,
@@ -246,13 +246,18 @@
         "name": "Splint Mail",
         "id": "89c1c9da-8e09-11ea-9fab-e92c63c14723",
         "desc": "This type of armor is chain mail reinforced with flexible, interlocking metal plates, typically located on the wearer's torso, upper arms, and legs. A suit of this armor comes with an undercoat of padded armor and a pair of gauntlets.",
-        "_extensionFileName": "core",
         "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 1,
         "bulk": "3",
         "price": 1300,
         "acbonus": 5,
         "dexcap": 1,
+        "group": "Composite",
+        "prof": "Heavy Armor",
+        "skillpenalty": -3,
+        "speedpenalty": -10,
+        "strength": 16,
         "gainItems": [
             {
                 "name": "Gauntlet",
@@ -262,24 +267,24 @@
                 "name": "Padded Armor",
                 "type": "armors"
             }
-        ],
-        "group": "Composite",
-        "prof": "Heavy Armor",
-        "skillpenalty": -3,
-        "speedpenalty": -10,
-        "strength": 16
+        ]
     },
     {
         "name": "Half Plate",
         "id": "89c1c9dd-8e09-11ea-9fab-e92c63c14723",
         "desc": "Half plate consists of most of the upper body plates used in full plate, with lighter or sparser steel plate protection for the arms and legs. This provides some of the protection of full plate with greater flexibility and speed. A suit of this armor comes with an undercoat of padded armor and a pair of gauntlets.",
-        "_extensionFileName": "core",
         "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 1,
         "bulk": "3",
         "price": 1800,
         "acbonus": 5,
         "dexcap": 1,
+        "group": "Plate",
+        "prof": "Heavy Armor",
+        "skillpenalty": -3,
+        "speedpenalty": -10,
+        "strength": 16,
         "gainItems": [
             {
                 "name": "Gauntlet"
@@ -288,19 +293,14 @@
                 "name": "Padded Armor",
                 "type": "armors"
             }
-        ],
-        "group": "Plate",
-        "prof": "Heavy Armor",
-        "skillpenalty": -3,
-        "speedpenalty": -10,
-        "strength": 16
+        ]
     },
     {
         "name": "Full Plate",
         "id": "89c1c9e0-8e09-11ea-9fab-e92c63c14723",
         "desc": "Plate mail consists of interlocking plates that encase nearly the entire body in a carapace of steel. It is costly and heavy, and the wearer often requires help to don it correctly, but it provides some of the best defense armor can supply. A suit of this armor comes with an undercoat of padded armor and a pair of gauntlets.",
-        "_extensionFileName": "core",
         "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 2,
         "bulk": "4",
         "price": 3000,
@@ -309,6 +309,11 @@
         ],
         "acbonus": 6,
         "dexcap": 0,
+        "group": "Plate",
+        "prof": "Heavy Armor",
+        "skillpenalty": -3,
+        "speedpenalty": -10,
+        "strength": 18,
         "gainItems": [
             {
                 "name": "Gauntlet"
@@ -317,50 +322,15 @@
                 "name": "Padded Armor",
                 "type": "armors"
             }
-        ],
-        "group": "Plate",
-        "prof": "Heavy Armor",
-        "skillpenalty": -3,
-        "speedpenalty": -10,
-        "strength": 18
-    },
-    {
-        "name": "Hellknight Plate",
-        "id": "89c1c9e3-8e09-11ea-9fab-e92c63c14723",
-        "desc": "Few armors in the Inner Sea region are as memorable as the iconic Hellknight plate. While each order has its own flourishes, Hellknight plate is instantly recognizable to any who know of the Hellknights. Hellknights go to extreme measures to punish non-Hellknights who get their hands on Hellknight plate, and the reward is not usually worth the risk, since for non-Hellknights, the armor is functionally similar to full plate.",
-        "_extensionFileName": "core",
-        "sourceBook": "Core Rulebook",
-        "level": 2,
-        "bulk": "4",
-        "price": 3500,
-        "traits": [
-            "Bulwark",
-            "Uncommon"
-        ],
-        "acbonus": 6,
-        "dexcap": 0,
-        "gainItems": [
-            {
-                "name": "Gauntlet"
-            },
-            {
-                "name": "Padded Armor",
-                "type": "armors"
-            }
-        ],
-        "group": "Plate",
-        "prof": "Heavy Armor",
-        "skillpenalty": -3,
-        "speedpenalty": -10,
-        "strength": 18
+        ]
     },
     {
         "name": "Robe of the Archmagi",
         "displayName": "Robe of the Archmagi",
         "id": "79b2cae8-8fbc-464a-b629-45519392343a",
         "desc": "Embroidered with fine silver thread in ornate arcane patterns, these robes come in one of three colors depending on their attuned alignment. Good robes are white, neutral robes are gray, and evil robes are black. An evil or good robe gains the appropriate trait. The robes benefit only characters who can cast arcane spells and whose alignment on the good-evil axis matches that of the robe. If your alignment does not match that of the robe, or you are not an arcane spellcaster, you are instead stupefied 2 while wearing a robe of the archmagi. This condition can't be removed in any way until you remove the robe.\n\nThe robes are +2 greater resilient explorer's clothing, and they grant a +1 circumstance bonus to saving throws against arcane spells and resistance 5 to damage from arcane spells.",
-        "_extensionFileName": "core",
         "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 15,
         "bulk": "1",
         "price": 650000,
@@ -370,30 +340,28 @@
             "Arcane",
             "Invested"
         ],
-        "choices": [
-            "Good",
-            "Neutral",
-            "Evil"
-        ],
         "armorBase": "Explorer's Clothing",
         "craftRequirements": "You are an arcane spellcaster.",
         "dexcap": 5,
         "moddable": false,
-        "prof": "Unarmored Defense",
         "potencyRune": 2,
+        "prof": "Unarmored Defense",
         "resilientRune": 2,
-        "hints": [
+        "activities": [
             {
-                "desc": "You gain a +1 circumstance bonus to saving throws against arcane spells. This bonus only applies if you can cast arcane spells and your alignment on the good-evil axis matches the robe's.",
-                "showon": "Saving Throws",
-                "effects": [
-                    {
-                        "affected": "Saving Throws",
-                        "type": "circumstance",
-                        "value": "(Character?.class?.spellCasting.some(casting => casting.tradition == 'Arcane') && (ItemChoice == (Character.alignment?.split(' ')[1] || 'Neutral'))) ? 1 : 0"
-                    }
-                ]
+                "actions": "Reaction",
+                "activationType": "Command",
+                "cooldown": 144000,
+                "desc": "You automatically succeed at your save against the triggering arcane spell.",
+                "frequency": "once per day",
+                "name": "Robe of the Archmagi",
+                "trigger": "You attempt a saving throw against an arcane spell, but you haven't rolled yet"
             }
+        ],
+        "choices": [
+            "Good",
+            "Neutral",
+            "Evil"
         ],
         "effects": [
             {
@@ -413,15 +381,17 @@
                 "value": 2
             }
         ],
-        "activities": [
+        "hints": [
             {
-                "name": "Robe of the Archmagi",
-                "actions": "Reaction",
-                "activationType": "Command",
-                "frequency": "once per day",
-                "cooldown": 144000,
-                "trigger": "You attempt a saving throw against an arcane spell, but you haven't rolled yet",
-                "desc": "You automatically succeed at your save against the triggering arcane spell."
+                "desc": "You gain a +1 circumstance bonus to saving throws against arcane spells. This bonus only applies if you can cast arcane spells and your alignment on the good-evil axis matches the robe's.",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "type": "circumstance",
+                        "value": "(Character?.class?.spellCasting.some(casting => casting.tradition == 'Arcane') && (ItemChoice == (Character.alignment?.split(' ')[1] || 'Neutral'))) ? 1 : 0"
+                    }
+                ],
+                "showon": "Saving Throws"
             }
         ]
     },
@@ -429,8 +399,8 @@
         "name": "Robe of the Archmagi (Greater)",
         "displayName": "Robe of the Archmagi (Greater)",
         "id": "db26f15c-124c-4004-9ceb-794af64a2ef7",
-        "_extensionFileName": "core",
         "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 19,
         "bulk": "1",
         "price": 3200000,
@@ -442,30 +412,28 @@
             "Arcane",
             "Invested"
         ],
-        "choices": [
-            "Good",
-            "Neutral",
-            "Evil"
-        ],
         "armorBase": "Explorer's Clothing",
         "craftRequirements": "You are an arcane spellcaster.",
         "dexcap": 5,
         "moddable": false,
-        "prof": "Unarmored Defense",
         "potencyRune": 2,
+        "prof": "Unarmored Defense",
         "resilientRune": 2,
-        "hints": [
+        "activities": [
             {
-                "desc": "You gain a +1 circumstance bonus to saving throws against arcane spells. This bonus only applies if you can cast arcane spells and your alignment on the good-evil axis matches the robe's.",
-                "showon": "Saving Throws",
-                "effects": [
-                    {
-                        "affected": "Saving Throws",
-                        "type": "circumstance",
-                        "value": "(Character?.class?.spellCasting.some(casting => casting.tradition == 'Arcane') && (ItemChoice == (Character.alignment?.split(' ')[1] || 'Neutral'))) ? 1 : 0"
-                    }
-                ]
+                "actions": "Reaction",
+                "activationType": "Command",
+                "cooldown": 144000,
+                "desc": "You or the the ally automatically succeed at their save against the triggering arcane spell.",
+                "frequency": "once per day",
+                "name": "Robe of the Archmagi (Greater)",
+                "trigger": "You or an ally within 30 feet attempts a saving throw against an arcane spell, but hasn't rolled yet"
             }
+        ],
+        "choices": [
+            "Good",
+            "Neutral",
+            "Evil"
         ],
         "effects": [
             {
@@ -485,15 +453,17 @@
                 "value": 2
             }
         ],
-        "activities": [
+        "hints": [
             {
-                "name": "Robe of the Archmagi (Greater)",
-                "actions": "Reaction",
-                "activationType": "Command",
-                "frequency": "once per day",
-                "cooldown": 144000,
-                "trigger": "You or an ally within 30 feet attempts a saving throw against an arcane spell, but hasn't rolled yet",
-                "desc": "You or the the ally automatically succeed at their save against the triggering arcane spell."
+                "desc": "You gain a +1 circumstance bonus to saving throws against arcane spells. This bonus only applies if you can cast arcane spells and your alignment on the good-evil axis matches the robe's.",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "type": "circumstance",
+                        "value": "(Character?.class?.spellCasting.some(casting => casting.tradition == 'Arcane') && (ItemChoice == (Character.alignment?.split(' ')[1] || 'Neutral'))) ? 1 : 0"
+                    }
+                ],
+                "showon": "Saving Throws"
             }
         ]
     }

@@ -1,128 +1,128 @@
 [
-  {
-    "name": "Snowball",
-    "id": "29eda0da-9122-11ea-bb37-0242ac130002",
-    "shortDesc": "You throw a magically propelled and chilled ball of dense snow.",
-    "actions": "2A",
-    "castType": "somatic, verbal",
-    "sourceBook": "World Guide",
-    "_extensionFileName": "worldGuide",
-    "levelreq": 1,
-    "traditions": [
-      "Arcane",
-      "Primal"
-    ],
-    "traits": [
-      "Attack",
-      "Cold",
-      "Evocation",
-      "Water"
-    ],
-    "range": "30 feet",
-    "targets": "1 creature",
-    "target": "other",
-    "singleTarget": true,
-    "desc": "You throw a magically propelled and chilled ball of dense snow. The target takes |dice=var1 Cold| <var>var1</var> cold damage and potentially other effects, depending on the result of your spell attack roll.",
-    "critsuccess": "The target takes double damage and a -10-foot status penalty to its Speeds for 1 round.",
-    "success": "The target takes full damage and a -5-foot status penalty to its Speeds for 1 round.",
-    "failure": "No effect.",
-    "heightened": [
-      {
-        "desc": "The damage increases by 2d4.",
-        "level": "(+1)"
-      }
-    ],
-    "heightenedDescs": [
-      {
-        "level": 1,
-        "descs": [
-          {
-            "value": "2d4",
-            "variable": "var1"
-          }
+    {
+        "name": "Snowball",
+        "id": "29eda0da-9122-11ea-bb37-0242ac130002",
+        "shortDesc": "You throw a magically propelled and chilled ball of dense snow.",
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "levelreq": 1,
+        "traditions": [
+            "Arcane",
+            "Primal"
+        ],
+        "traits": [
+            "Attack",
+            "Cold",
+            "Evocation",
+            "Water"
+        ],
+        "range": "30 feet",
+        "targets": "1 creature",
+        "target": "other",
+        "singleTarget": true,
+        "desc": "You throw a magically propelled and chilled ball of dense snow. The target takes |dice=var1 Cold| <var>var1</var> cold damage and potentially other effects, depending on the result of your spell attack roll.",
+        "critsuccess": "The target takes double damage and a -10-foot status penalty to its Speeds for 1 round.",
+        "success": "The target takes full damage and a -5-foot status penalty to its Speeds for 1 round.",
+        "failure": "No effect.",
+        "heightened": [
+            {
+                "desc": "The damage increases by 2d4.",
+                "level": "(+1)"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 1,
+                "descs": [
+                    {
+                        "value": "2d4",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 2,
+                "descs": [
+                    {
+                        "value": "4d4",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 3,
+                "descs": [
+                    {
+                        "value": "6d4",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 4,
+                "descs": [
+                    {
+                        "value": "8d4",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 5,
+                "descs": [
+                    {
+                        "value": "10d4",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "12d4",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "14d4",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "16d4",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "18d4",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "20d4",
+                        "variable": "var1"
+                    }
+                ]
+            }
         ]
-      },
-      {
-        "level": 2,
-        "descs": [
-          {
-            "value": "4d4",
-            "variable": "var1"
-          }
-        ]
-      },
-      {
-        "level": 3,
-        "descs": [
-          {
-            "value": "6d4",
-            "variable": "var1"
-          }
-        ]
-      },
-      {
-        "level": 4,
-        "descs": [
-          {
-            "value": "8d4",
-            "variable": "var1"
-          }
-        ]
-      },
-      {
-        "level": 5,
-        "descs": [
-          {
-            "value": "10d4",
-            "variable": "var1"
-          }
-        ]
-      },
-      {
-        "level": 6,
-        "descs": [
-          {
-            "value": "12d4",
-            "variable": "var1"
-          }
-        ]
-      },
-      {
-        "level": 7,
-        "descs": [
-          {
-            "value": "14d4",
-            "variable": "var1"
-          }
-        ]
-      },
-      {
-        "level": 8,
-        "descs": [
-          {
-            "value": "16d4",
-            "variable": "var1"
-          }
-        ]
-      },
-      {
-        "level": 9,
-        "descs": [
-          {
-            "value": "18d4",
-            "variable": "var1"
-          }
-        ]
-      },
-      {
-        "level": 10,
-        "descs": [
-          {
-            "value": "20d4",
-            "variable": "var1"
-          }
-        ]
-      }
-    ]
-  }
+    }
 ]

@@ -1,0 +1,106 @@
+[
+    {
+        "name": "Dragon's Eye Charm",
+        "id": "c62657d8-931d-4942-8a9d-f10db9030ae7",
+        "desc": "This charm, a dragon-shaped pendant worn like a necklace or set into armor or clothing as a decoration, is warm and smooth to the touch. It must be held in one hand to be used (pressing the palm of one's hand to the charm also works, provided that your hand is otherwise empty). It has four distinct powers.",
+        "sourceBook": "Pathfinder #146: Cult of Cinders",
+        "_extensionFileName": "pathfinder146",
+        "level": 7,
+        "bulk": "L",
+        "price": 36000,
+        "traits": [
+            "Uncommon",
+            "Divination",
+            "Magical"
+        ],
+        "usage": "held in 1 hand",
+        "activities": [
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "castSpells": [
+                    {
+                        "level": 5,
+                        "name": "Produce Flame"
+                    }
+                ],
+                "cooldown": 144000,
+                "desc": "The dragon's eye charm manifests fire for you to wield against your foe. You cast a 5th-level produce flame spell with a spell attack roll of +13.",
+                "frequency": "once per day",
+                "name": "Dragon's Eye Charm: Produce Flame",
+                "source": "c62657d8-931d-4942-8a9d-f10db9030ae7",
+                "traits": [
+                    "Uncommon",
+                    "Divination",
+                    "Magical"
+                ]
+            },
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "cooldown": 144000,
+                "desc": "The charm's pupil becomes plainly visible. You can look through the charm to gain darkvision for as long as you Sustain the Activation, to a maximum of 10 minutes.",
+                "frequency": "once per day",
+                "gainConditions": [
+                    {
+                        "duration": 1000,
+                        "name": "Dragon's Eye Charm: Darkvision"
+                    }
+                ],
+                "maxDuration": 1000,
+                "name": "Dragon's Eye Charm: Darkvision",
+                "source": "c62657d8-931d-4942-8a9d-f10db9030ae7",
+                "sustained": true,
+                "toggle": true,
+                "traits": [
+                    "Uncommon",
+                    "Divination",
+                    "Magical"
+                ]
+            },
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "cooldown": 144000,
+                "desc": "The dragon's eye charm shrouds you in a faintly glowing layer of golden energy. You gain fire resistance 5 for 10 minutes.",
+                "frequency": "once per day",
+                "gainConditions": [
+                    {
+                        "duration": 1000,
+                        "name": "Dragon's Eye Charm: Fire Resistance"
+                    }
+                ],
+                "name": "Dragon's Eye Charm: Fire Resistance",
+                "source": "c62657d8-931d-4942-8a9d-f10db9030ae7",
+                "traits": [
+                    "Uncommon",
+                    "Divination",
+                    "Magical"
+                ]
+            },
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "cooldown": 144000,
+                "desc": "You can speak and understand Draconic as long as you Sustain the Activation, to a maximum of 10 minutes.",
+                "frequency": "once per day",
+                "gainConditions": [
+                    {
+                        "duration": 1000,
+                        "name": "Dragon's Eye Charm: Draconic"
+                    }
+                ],
+                "maxDuration": 1000,
+                "name": "Dragon's Eye Charm: Draconic",
+                "source": "c62657d8-931d-4942-8a9d-f10db9030ae7",
+                "sustained": true,
+                "toggle": true,
+                "traits": [
+                    "Uncommon",
+                    "Divination",
+                    "Magical"
+                ]
+            }
+        ]
+    }
+]

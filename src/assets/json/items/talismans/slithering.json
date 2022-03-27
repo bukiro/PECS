@@ -1,0 +1,81 @@
+[
+    {
+        "name": "Slippery Ribbon",
+        "id": "a761a174-7e7f-434a-8c29-5cc4f0b09793",
+        "desc": "This ribbon is constantly greasy to the touch and stains the armor it's affixed to. When you activate the slippery ribbon, your Speed increases by an amount necessary for you to move all the way through the enemy's space.",
+        "sourceBook": "The Slithering",
+        "_extensionFileName": "slithering",
+        "level": 1,
+        "price": 1200,
+        "traits": [
+            "Uncommon",
+            "Consumable",
+            "Magical",
+            "Talisman",
+            "Transmutation"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "requirements": "You are an expert in Acrobatics.",
+        "trigger": "You succeed at an Acrobatics check to Tumble Through, but you don't have enough Speed to move all the way through the enemy's space",
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ]
+    },
+    {
+        "name": "Oily Button",
+        "id": "8fddaa03-3211-4f19-b591-c603d6b9194e",
+        "desc": "A thin sheen of slick oil covers this gaudy button. When you activate the oily button, your attempts to Disarm your opponent of an item before the start of the opponent's next turn gain a +4 circumstance bonus instead of +2, and the –2 circumstance penalty to attacks with the item or other checks requiring a firm grasp on the item lasts until the end of its next turn or until it uses an Interact action to adjust its grip.",
+        "sourceBook": "The Slithering",
+        "_extensionFileName": "slithering",
+        "level": 5,
+        "price": 3000,
+        "traits": [
+            "Uncommon",
+            "Conjuration",
+            "Consumable",
+            "Magical",
+            "Talisman"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "requirements": "You are an expert in Athletics.",
+        "trigger": "You succeed at an Athletics check to Disarm",
+        "usage": "affixed to armor",
+        "gainConditions": [
+            {
+                "duration": 7,
+                "name": "Oily Button",
+                "source": "Oily Button"
+            }
+        ],
+        "targets": [
+            "armors"
+        ]
+    },
+    {
+        "name": "Putrescent Glob",
+        "id": "8a7c666c-bc67-4973-8ce8-7989d46e098e",
+        "desc": "This repulsive, hairy glob dangles from the end of your weapon. When you activate the putrescent glob, the creature you damaged must succeed at a DC 23 Fortitude save or its sickened condition increases to sickened 2, and it can't reduce its sickened condition until the end of its next turn. On a critical failure, it's also slowed 1 until the end of its next turn.",
+        "sourceBook": "The Slithering",
+        "_extensionFileName": "slithering",
+        "level": 7,
+        "price": 6500,
+        "traits": [
+            "Uncommon",
+            "Conjuration",
+            "Consumable",
+            "Magical",
+            "Talisman"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "requirements": "You are an expert with the affixed weapon.",
+        "trigger": "You damage a creature that is sickened 1 with a Strike using the affixed weapon",
+        "usage": "affixed to a weapon",
+        "targets": [
+            "weapons"
+        ]
+    }
+]

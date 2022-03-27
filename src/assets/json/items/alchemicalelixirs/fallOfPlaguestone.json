@@ -1,0 +1,613 @@
+[
+    {
+        "name": "Energy Mutagen (Acid, Lesser)",
+        "id": "eee1813e-a916-11ea-bb37-0242ac130002",
+        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: acid, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "level": 1,
+        "bulk": "L",
+        "price": 400,
+        "subType": "Acid, Lesser",
+        "subTypeDesc": "You gain acid resistance 5, add 1 point of acid damage on a hit with a melee weapon, and the duration is 1 minute.",
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Elixir",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
+        "drawback": "You gain weakness 5 to the other three energy types.",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Energy Mutagen (Acid, Lesser)",
+                "source": "Energy Mutagen (Acid, Lesser)"
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Cold, Lesser)",
+        "id": "a8fe643a-a983-11ea-bb37-0242ac130002",
+        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: cold, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "level": 1,
+        "bulk": "L",
+        "price": 400,
+        "subType": "Cold, Lesser",
+        "subTypeDesc": "You gain cold resistance 5, add 1 point of cold damage on a hit with a melee weapon, and the duration is 1 minute.",
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Elixir",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
+        "drawback": "You gain weakness 5 to the other three energy types.",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Energy Mutagen (Cold, Lesser)",
+                "source": "Energy Mutagen (Cold, Lesser)"
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Electricity, Lesser)",
+        "id": "a8fe6692-a983-11ea-bb37-0242ac130002",
+        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: electricity, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "level": 1,
+        "bulk": "L",
+        "price": 400,
+        "subType": "Electricity, Lesser",
+        "subTypeDesc": "You gain electricity resistance 5, add 1 point of electricity damage on a hit with a melee weapon, and the duration is 1 minute.",
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Elixir",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
+        "drawback": "You gain weakness 5 to the other three energy types.",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Energy Mutagen (Electricity, Lesser)",
+                "source": "Energy Mutagen (Electricity, Lesser)"
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Fire, Lesser)",
+        "id": "a8fe67a0-a983-11ea-bb37-0242ac130002",
+        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: fire, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "level": 1,
+        "bulk": "L",
+        "price": 400,
+        "subType": "Fire, Lesser",
+        "subTypeDesc": "You gain fire resistance 5, add 1 point of fire damage on a hit with a melee weapon, and the duration is 1 minute.",
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Elixir",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
+        "drawback": "You gain weakness 5 to the other three energy types.",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Energy Mutagen (Fire, Lesser)",
+                "source": "Energy Mutagen (Fire, Lesser)"
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Acid, Moderate)",
+        "id": "f03f53b4-a996-11ea-bb37-0242ac130002",
+        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: acid, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "level": 3,
+        "bulk": "L",
+        "price": 1200,
+        "subType": "Acid, Moderate",
+        "subTypeDesc": "You gain acid resistance 10, add 1d4 acid damage on a hit with a melee weapon, and the duration is 10 minutes.",
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Elixir",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
+        "drawback": "You gain weakness 5 to the other three energy types.",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "duration": 1000,
+                "name": "Energy Mutagen (Acid, Moderate)",
+                "source": "Energy Mutagen (Acid, Moderate)"
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Cold, Moderate)",
+        "id": "f03f55a8-a996-11ea-bb37-0242ac130002",
+        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: cold, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "level": 3,
+        "bulk": "L",
+        "price": 1200,
+        "subType": "Cold, Moderate",
+        "subTypeDesc": "You gain cold resistance 10, add 1d4 cold damage on a hit with a melee weapon, and the duration is 10 minutes.",
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Elixir",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
+        "drawback": "You gain weakness 5 to the other three energy types.",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "duration": 1000,
+                "name": "Energy Mutagen (Cold, Moderate)",
+                "source": "Energy Mutagen (Cold, Moderate)"
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Electricity, Moderate)",
+        "id": "f03f56a2-a996-11ea-bb37-0242ac130002",
+        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: electricity, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "level": 3,
+        "bulk": "L",
+        "price": 1200,
+        "subType": "Electricity, Moderate",
+        "subTypeDesc": "You gain electricity resistance 10, add 1d4 electricity damage on a hit with a melee weapon, and the duration is 10 minutes.",
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Elixir",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
+        "drawback": "You gain weakness 5 to the other three energy types.",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "duration": 1000,
+                "name": "Energy Mutagen (Electricity, Moderate)",
+                "source": "Energy Mutagen (Electricity, Moderate)"
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Fire, Moderate)",
+        "id": "f03f58fa-a996-11ea-bb37-0242ac130002",
+        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: fire, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "level": 3,
+        "bulk": "L",
+        "price": 1200,
+        "subType": "Fire, Moderate",
+        "subTypeDesc": "You gain fire resistance 10, add 1d4 fire damage on a hit with a melee weapon, and the duration is 10 minutes.",
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Elixir",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
+        "drawback": "You gain weakness 5 to the other three energy types.",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "duration": 1000,
+                "name": "Energy Mutagen (Fire, Moderate)",
+                "source": "Energy Mutagen (Fire, Moderate)"
+            }
+        ]
+    },
+    {
+        "name": "Stone Body Mutagen (Lesser)",
+        "id": "eee194b2-a916-11ea-bb37-0242ac130002",
+        "desc": "This mutagen calcifies your body making it as hard as stone.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "level": 5,
+        "bulk": "L",
+        "price": 2200,
+        "subType": "Lesser",
+        "subTypeDesc": "You gain resistance 5 to physical damage (except bludgeoning) and the duration is 10 minutes.",
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Elixir",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain resistance to physical damage (except bludgeoning) equal to the listed amount.",
+        "drawback": "Your Speeds are reduced by 10 feet (minimum 5 feet) and you take a -2 penalty to Reflex saves.",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "duration": 1000,
+                "name": "Stone Body Mutagen",
+                "source": "Stone Body Mutagen (Lesser)",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Acid, Greater)",
+        "id": "8de9c306-a997-11ea-bb37-0242ac130002",
+        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: acid, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "level": 11,
+        "bulk": "L",
+        "price": 30000,
+        "subType": "Acid, Greater",
+        "subTypeDesc": "You gain acid resistance 15, add 1d6 acid damage on a hit with a melee weapon, and the duration is 1 hour. In addition, you can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 2d6 acid damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Elixir",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
+        "drawback": "You gain weakness 5 to the other three energy types.",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "duration": 6000,
+                "name": "Energy Mutagen (Acid, Greater)",
+                "source": "Energy Mutagen (Acid, Greater)"
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Cold, Greater)",
+        "id": "8de9c522-a997-11ea-bb37-0242ac130002",
+        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: cold, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "level": 11,
+        "bulk": "L",
+        "price": 30000,
+        "subType": "Cold, Greater",
+        "subTypeDesc": "You gain cold resistance 15, add 1d6 cold damage on a hit with a melee weapon, and the duration is 1 hour. In addition, you can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 2d6 cold damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Elixir",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
+        "drawback": "You gain weakness 5 to the other three energy types.",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "duration": 6000,
+                "name": "Energy Mutagen (Cold, Greater)",
+                "source": "Energy Mutagen (Cold, Greater)"
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Electricity, Greater)",
+        "id": "8de9c626-a997-11ea-bb37-0242ac130002",
+        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: electricity, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "level": 11,
+        "bulk": "L",
+        "price": 30000,
+        "subType": "Electricity, Greater",
+        "subTypeDesc": "You gain electricity resistance 15, add 1d6 electricity damage on a hit with a melee weapon, and the duration is 1 hour. In addition, you can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 2d6 electricity damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Elixir",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
+        "drawback": "You gain weakness 5 to the other three energy types.",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "duration": 6000,
+                "name": "Energy Mutagen (Electricity, Greater)",
+                "source": "Energy Mutagen (Electricity, Greater)"
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Fire, Greater)",
+        "id": "8de9c6f8-a997-11ea-bb37-0242ac130002",
+        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: fire, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "level": 11,
+        "bulk": "L",
+        "price": 30000,
+        "subType": "Fire, Greater",
+        "subTypeDesc": "You gain fire resistance 15, add 1d6 fire damage on a hit with a melee weapon, and the duration is 1 hour. In addition, you can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 2d6 fire damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Elixir",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
+        "drawback": "You gain weakness 5 to the other three energy types.",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "duration": 6000,
+                "name": "Energy Mutagen (Fire, Greater)",
+                "source": "Energy Mutagen (Fire, Greater)"
+            }
+        ]
+    },
+    {
+        "name": "Stone Body Mutagen (Moderate)",
+        "id": "eee1b168-a916-11ea-bb37-0242ac130002",
+        "desc": "This mutagen calcifies your body making it as hard as stone.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "level": 12,
+        "bulk": "L",
+        "price": 30000,
+        "subType": "Moderate",
+        "subTypeDesc": "You gain resistance 5 to physical damage (except bludgeoning) and the duration is 1 hour.",
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Elixir",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain resistance to physical damage (except bludgeoning) equal to the listed amount.",
+        "drawback": "Your Speeds are reduced by 10 feet (minimum 5 feet) and you take a -2 penalty to Reflex saves.",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "duration": 6000,
+                "name": "Stone Body Mutagen",
+                "source": "Stone Body Mutagen (Moderate)",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Stone Body Mutagen (Greater)",
+        "id": "eee1b924-a916-11ea-bb37-0242ac130002",
+        "desc": "This mutagen calcifies your body making it as hard as stone.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "level": 15,
+        "bulk": "L",
+        "price": 92000,
+        "subType": "Greater",
+        "subTypeDesc": "You gain resistance 10 to physical damage (except bludgeoning) and the duration is 1 hour.",
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Elixir",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain resistance to physical damage (except bludgeoning) equal to the listed amount.",
+        "drawback": "Your Speeds are reduced by 10 feet (minimum 5 feet) and you take a -2 penalty to Reflex saves.",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "duration": 6000,
+                "name": "Stone Body Mutagen",
+                "source": "Stone Body Mutagen (Greater)",
+                "value": 2
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Acid, Major)",
+        "id": "6b1baa46-a998-11ea-bb37-0242ac130002",
+        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: acid, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "level": 17,
+        "bulk": "L",
+        "price": 300000,
+        "subType": "Acid, Major",
+        "subTypeDesc": "You gain acid resistance 20, add 2d6 acid damage on a hit with a melee weapon, and the duration is 1 hour. In addition, you can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 3d6 acid damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Elixir",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
+        "drawback": "You gain weakness 5 to the other three energy types.",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "duration": 6000,
+                "name": "Energy Mutagen (Acid, Major)",
+                "source": "Energy Mutagen (Acid, Major)"
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Cold, Major)",
+        "id": "6b1bac4e-a998-11ea-bb37-0242ac130002",
+        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: cold, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "level": 17,
+        "bulk": "L",
+        "price": 300000,
+        "subType": "Cold, Major",
+        "subTypeDesc": "You gain cold resistance 20, add 2d6 cold damage on a hit with a melee weapon, and the duration is 1 hour. In addition, you can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 3d6 cold damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Elixir",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
+        "drawback": "You gain weakness 5 to the other three energy types.",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "duration": 6000,
+                "name": "Energy Mutagen (Cold, Major)",
+                "source": "Energy Mutagen (Cold, Major)"
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Electricity, Major)",
+        "id": "6b1bad3e-a998-11ea-bb37-0242ac130002",
+        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: electricity, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "level": 17,
+        "bulk": "L",
+        "price": 300000,
+        "subType": "Electricity, Major",
+        "subTypeDesc": "You gain electricity resistance 20, add 2d6 electricity damage on a hit with a melee weapon, and the duration is 1 hour. In addition, you can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 3d6 electricity damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Elixir",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
+        "drawback": "You gain weakness 5 to the other three energy types.",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "duration": 6000,
+                "name": "Energy Mutagen (Electricity, Major)",
+                "source": "Energy Mutagen (Electricity, Major)"
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Fire, Major)",
+        "id": "6b1bae10-a998-11ea-bb37-0242ac130002",
+        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: fire, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "level": 17,
+        "bulk": "L",
+        "price": 300000,
+        "subType": "Fire, Major",
+        "subTypeDesc": "You gain fire resistance 20, add 2d6 fire damage on a hit with a melee weapon, and the duration is 1 hour. In addition, you can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 3d6 fire damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Elixir",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
+        "drawback": "You gain weakness 5 to the other three energy types.",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "duration": 6000,
+                "name": "Energy Mutagen (Fire, Major)",
+                "source": "Energy Mutagen (Fire, Major)"
+            }
+        ]
+    }
+]

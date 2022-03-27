@@ -1,0 +1,606 @@
+[
+    {
+        "name": "Energy Emanation",
+        "actions": "2A",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Evocation",
+            "Primal"
+        ],
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "target": "area",
+        "desc": "Energy bursts forth from your body. You deal |dice=var1| 1d6 damage of your chosen type to all adjacent creatures (basic Reflex save using your class DC or spell DC, whichever is higher). At 3rd level, and every 2 levels thereafter, this damage increases by 1d6.",
+        "heightenedDescs": [
+            {
+                "level": 1,
+                "descs": [
+                    {
+                        "value": "1d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 3,
+                "descs": [
+                    {
+                        "value": "2d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 5,
+                "descs": [
+                    {
+                        "value": "3d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "4d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "5d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 11,
+                "descs": [
+                    {
+                        "value": "6d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 13,
+                "descs": [
+                    {
+                        "value": "7d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 15,
+                "descs": [
+                    {
+                        "value": "8d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 17,
+                "descs": [
+                    {
+                        "value": "9d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 19,
+                "descs": [
+                    {
+                        "value": "10d6",
+                        "variable": "var1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Sow Rumor",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Uncommon",
+            "General",
+            "Secret",
+            "Skill"
+        ],
+        "target": "other",
+        "showonSkill": "Deception",
+        "desc": "You spread rumors, which may or may not be true, about a specific subject. If the subject of your rumor is not currently the subject of any contradictory rumors, this takes as long as it would normally take you to Gather Information (typically 2 hours), at the end of which the GM rolls a secret Deception check to see how well you spread the rumor. If your rumor matches any current rumors about the subject, it takes less time to spread the rumor, and if you are attempting to overtake a particularly popular and contradictory rumor, it takes much longer or may be impossible. The DC similarly increases or decreases depending on how plausible your rumor is.",
+        "critsuccess": "Your rumor spreads like wildfire. Anyone who succeeds at a check to Gather Information on the specific subject learns your rumor in preference to other rumors about the subject. Your rumor persists for 1 month.",
+        "success": "You successfully spread the rumor. Anyone who succeeds at a check to Gather Information on the specific subject adds your rumor to the list of rumors they could learn about the subject. Your rumor persists for 1 week.",
+        "failure": "Your rumor dies off, never becoming popular enough for other people to learn it via Gather Information.",
+        "critfailure": "You are unable to spread a rumor and take a -4 circumstance penalty to Deception checks to Sow Rumors about the same subject within the same region for 1 week. In addition, a rumor spreads about someone trying to spread false rumors about the subject."
+    },
+    {
+        "name": "Resist Elf Magic",
+        "actions": "Reaction",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "trigger": "You attempt a saving throw against a magical effect but haven't rolled yet.",
+        "toggle": true,
+        "target": "self",
+        "desc": "Your ancestral resistance to magic protects you. You gain a +1 circumstance bonus to the triggering saving throw. If the triggering effect is arcane, you gain a +2 circumstance bonus instead.",
+        "gainConditions": [
+            {
+                "duration": 1,
+                "name": "Resist Elf Magic"
+            }
+        ]
+    },
+    {
+        "name": "Threatening Approach",
+        "actions": "2A",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "target": "other",
+        "desc": "You Stride to be adjacent to a foe and Demoralize that foe. If you succeed, the foe is frightened 2 instead of frightened 1."
+    },
+    {
+        "name": "Unseen Lizardfolk",
+        "actions": "1A",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "toggle": true,
+        "target": "self",
+        "desc": "You can change your skin color to blend in with your surroundings, making minor shifts with a single action and dramatic changes over the course of an hour. When you're in an area where your coloration is roughly similar to the environment (for instance, forest green in a forest), you can use the minor, singleaction application of this ability to make localized changes that help you blend into your surroundings, gaining a +2 circumstance bonus to Stealth checks until your surroundings change in coloration or pattern.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Unseen Lizardfolk"
+            }
+        ]
+    },
+    {
+        "name": "Everstand Stance",
+        "actions": "1A",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Uncommon",
+            "Champion",
+            "Fighter",
+            "Stance"
+        ],
+        "requirements": "You are wielding a shield.",
+        "toggle": true,
+        "target": "self",
+        "desc": "You brace your shield with both hands, enhancing its potential for both offense and defense. When in this stance, you wield the shield with both hands. When wielding a shield this way, increase the weapon damage die of the shield's boss or spikes by one step, and increase the shield's Hardness by 2 when using the Shield Block reaction.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Everstand Stance"
+            }
+        ]
+    },
+    {
+        "name": "Everstand Strike",
+        "actions": "1A",
+        "inputRequired": "If the Strike hits and deals damage, you also Raise your Shield.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Uncommon",
+            "Champion",
+            "Fighter",
+            "Press"
+        ],
+        "requirements": "You are wielding a shield in two hands.",
+        "target": "other",
+        "desc": "Your follow-up blow leaves you an opening to set your shield. Make a Strike with the wielded shield. If the Strike hits and deals damage, you also Raise your Shield."
+    },
+    {
+        "name": "Impassable Wall Stance",
+        "actions": "1A",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Uncommon",
+            "Champion",
+            "Fighter"
+        ],
+        "toggle": true,
+        "target": "self",
+        "desc": "You refuse to let foes past your guard. As long as you are in this stance, when you critically hit with an Attack of Opportunity triggered by a move action, you disrupt that move action.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Impassable Wall Stance"
+            }
+        ]
+    },
+    {
+        "name": "Courteous Comeback",
+        "actions": "Reaction",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Uncommon",
+            "Fortune",
+            "Human"
+        ],
+        "requirements": "You're in a settlement or community, and you haven't used Courteous Comeback in this settlement or community within the past month.",
+        "trigger": "You critically fail a Diplomacy check.",
+        "target": "self",
+        "showonSkill": "Diplomacy",
+        "desc": "You grew up in the proud Padishah Empire, where even insults have a certain poetic wit. Reroll the triggering Diplomacy check, using the second result."
+    },
+    {
+        "name": "Ankle Bite",
+        "actions": "Reaction",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Goblin"
+        ],
+        "trigger": "A foe gives you the grabbed or restrained condition using a part of its body.",
+        "target": "other",
+        "desc": "Whenever someone grabs onto you, you instinctively bite down hard. Sometimes that makes them let go, and sometimes it just makes them angrier, but either way, it's both satisfying and tasty. Make a jaws Strike against the triggering foe. On a critical hit, you are no longer grabbed. This Strike doesn't count toward your multiple attack penalty, and your multiple attack penalty doesn't apply to this Strike."
+    },
+    {
+        "name": "Tail Spin",
+        "actions": "2A",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Goblin"
+        ],
+        "target": "other",
+        "showonSkill": "Athletics",
+        "desc": "You excel at using your tail as a weapon to upend your foes. Attempt a single Athletics check to Trip up to two adjacent creatures. If you roll a success against a target, you get a critical success against that target instead.",
+        "targetNumbers": [
+            {
+                "number": 2
+            }
+        ]
+    },
+    {
+        "name": "Torch Goblin",
+        "actions": "1A",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Goblin"
+        ],
+        "toggle": true,
+        "target": "self",
+        "desc": "You've spent enough time on fire that you know how to use it to your advantage. You can light yourself thoroughly on fire with a held torch, a bottle of alchemist's fire, or a similar incendiary, dealing yourself 1d6 persistent fire damage. As long as you are suffering persistent fire damage, all your melee attacks against adjacent creatures deal an additional 1 fire damage per weapon damage die. Any creature that successfully Grapples, Shoves, or Trips you takes |dice=1d6 Fire| 1d6 fire damage; if it uses a weapon for that action, the weapon takes the damage instead. You must still attempt the flat check to remove the persistent fire damage each round, as normal.",
+        "gainConditions": [
+            {
+                "name": "Torch Goblin"
+            }
+        ]
+    },
+    {
+        "name": "Freeze It!",
+        "actions": "1A",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Goblin"
+        ],
+        "target": "other",
+        "showonSkill": "Athletics",
+        "desc": "You are no rime hag or Jadwiga, but the magic of the north has still left a mark on you. Frigid ice runs through your veins, and you can expel frost from your body to freeze your foes. Attempt an Athletics check against the Fortitude DC of an adjacent foe. If you have master proficiency in Athletics, you can affect up to two adjacent foes, rolling one Athletics check against each foe.",
+        "critsuccess": "The target becomes clumsy 2 for 1 round.",
+        "success": "The target becomes clumsy 1 for 1 round.",
+        "critfailure": "The target is temporarily immune for 1 minute."
+    },
+    {
+        "name": "Hungry Goblin",
+        "inputRequired": "Activate this activity to gain temporary Hit Points equal to half your level for 1 minute.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Goblin"
+        ],
+        "target": "self",
+        "desc": "You'll eat anything and anyone. Whenever you inflict persistent bleed damage with your jaws unarmed attack, you gain temporary Hit Points equal to half your level for 1 minute.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Hungry Goblin"
+            }
+        ]
+    },
+    {
+        "name": "Roll with It",
+        "actions": "Reaction",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Goblin"
+        ],
+        "trigger": "A foe hits you with a melee weapon or unarmed attack.",
+        "target": "self",
+        "desc": "When you take a big hit, your foe bounces you around like a rubber ball, but you escape the worst of the blow. Your foe can move you any distance of its choice up to 30 feet in a direction of its choice (this is not forced movement, and it triggers reactions as normal). You fall prone and are stunned 1. Attempt a DC 6 flat check. On a success, you take minimum damage from the attack, and on a critical success, if the attack was a critical hit, you don't take double damage from the critical hit.",
+        "gainConditions": [
+            {
+                "name": "Prone"
+            },
+            {
+                "name": "Stunned",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Keep Up Appearances",
+        "actions": "Reaction",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "trigger": "You are affected by an emotion effect.",
+        "target": "area",
+        "showonSkill": "Deception",
+        "desc": "Taldan pride means you never show weakness. Roll a Deception check and compare the result to any observing creatures' Perception DCs. On a success, that creature believes you were unaffected by the emotion effect. A creature tricked in this manner can't benefit from the emotion effect and can't use abilities that require you to be under this emotion effect; for example, if you successfully use this ability to trick a will-o'-wisp into believing you aren't under a fear effect, it can't use its Feed on Fear ability on you."
+    },
+    {
+        "name": "Know Oneself",
+        "actions": "Reaction",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Uncommon",
+            "Fortune",
+            "Human"
+        ],
+        "trigger": "You roll a critical failure on a saving throw against an emotion effect.",
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "target": "self",
+        "desc": "You center yourself and call to mind the Vudrani monastic ideals of mindfulness and self-knowledge. You fail the save against the emotion effect instead of critically failing."
+    },
+    {
+        "name": "Saoc Astrology",
+        "actions": "1A",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Uncommon",
+            "Concentrate",
+            "Human"
+        ],
+        "requirements": "You must spend 10 minutes just after your daily preparations examining the sky or consulting a star chart or you can't use this action that day.",
+        "toggle": true,
+        "charges": 3,
+        "frequency": "3 times per day",
+        "cooldown": 144000,
+        "maxDuration": 1,
+        "target": "self",
+        "desc": "The ancient Saoc Brethren were the masters of astrology, and while your knowledge may be but a pale shadow of their wisdom, it still comes in handy. You recall the stars' predictions about your current situation. If your next action requires you to attempt one or more skill checks, roll 1d8. On a result of 6, 7, or 8, you gain a +2 circumstance bonus to the first such skill check you attempt. On a 3, 4, or 5, you gain a +1 circumstance bonus. On a 2, you gain nothing. On a 1, you take a -1 circumstance penalty to the skill check.",
+        "gainConditions": [
+            {
+                "duration": 1,
+                "name": "Saoc Astrology"
+            }
+        ]
+    },
+    {
+        "name": "Tupilaq Carver",
+        "actions": "Free",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Human",
+            "Uncommon"
+        ],
+        "target": "self",
+        "desc": "You know the truth behind old stories that tell of sending a fetish of bone and sinew to seek vengeance. If your next action is to cast summon construct, you include a drop of blood, lock of hair, or other portion of a creature's body as part of the spell's material component, and the summoned construct gains a +4 status bonus to Perception checks to sense or locate that creature.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Tupilaq Carver"
+            }
+        ]
+    },
+    {
+        "name": "Shadow Pact",
+        "actions": "1 minute",
+        "inputRequired": "You take 1 damage automatically when you activate Shadow Pact.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Human"
+        ],
+        "target": "self",
+        "desc": "Thousands of years ago, your ancestors made a pact with Zon-Kuthon. He has not forgotten, even if you might wish he had. You can take 1 damage to mix blood and shadows to cast 5th-level creation as an innate divine spell. You can use this ability as often as you wish, but you can have only one such object in existence at a time. If the object encounters bright light, the spell ends and the object dissolves into shadows.",
+        "gainConditions": [
+            {
+                "duration": 6000,
+                "name": "Shadow Pact"
+            }
+        ],
+        "showSpells": [
+            {
+                "level": 5,
+                "name": "Creation"
+            }
+        ]
+    },
+    {
+        "name": "Forest Stealth",
+        "actions": "1A",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Elf"
+        ],
+        "requirements": "You are in a forest or jungle environment near an environmental feature that would allow you to Take Cover.",
+        "target": "self",
+        "desc": "You are skilled at quickly hiding behind bits of underbrush or foliage. You Take Cover and then use that cover to Hide.",
+        "onceEffects": [
+            {
+                "affected": "Cover",
+                "value": "4"
+            }
+        ]
+    },
+    {
+        "name": "Brightness Seeker",
+        "actions": "10 minutes",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Elf"
+        ],
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "target": "self",
+        "desc": "Once per day, you can spend 10 minutes studying your surroundings in search of omens related to a particular course of action to cast augury as an innate divine spell. Unless the result of the augury was \"nothing,\" you gain the following reaction for the next 30 minutes:",
+        "gainConditions": [
+            {
+                "duration": 3000,
+                "name": "Brightness Seeker"
+            }
+        ],
+        "castSpells": [
+            {
+                "level": 2,
+                "name": "Augury"
+            }
+        ],
+        "showActivities": [
+            "Call Upon the Brightness"
+        ]
+    },
+    {
+        "name": "Call Upon the Brightness",
+        "actions": "Reaction",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Elf"
+        ],
+        "trigger": "You attempt an attack roll, skill check, or saving throw while performing the course of action from your augury, but you haven't rolled yet.",
+        "toggle": true,
+        "maxDuration": 1,
+        "target": "self",
+        "desc": "You gain a +1 status bonus to the triggering check, or a +2 status bonus if the result of the augury was \"woe\" and you proceeded anyway.",
+        "gainConditions": [
+            {
+                "duration": 1,
+                "name": "Call Upon the Brightness"
+            }
+        ]
+    },
+    {
+        "name": "Envenom Fangs",
+        "actions": "1A",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Lizardfolk"
+        ],
+        "charges": 1,
+        "frequency": "a number of times per day equal to your level",
+        "cooldown": 144000,
+        "target": "self",
+        "desc": "You envenom your fangs. If the next fangs Strike you make before the end of your next turn hits and deals damage, the Strike deals an additional |dice=1d6 Poison| 1d6 poison damage. On a critical failure, the poison is wasted as normal.",
+        "gainConditions": [
+            {
+                "duration": 15,
+                "name": "Envenom Fangs"
+            }
+        ]
+    },
+    {
+        "name": "Shed Tail",
+        "actions": "Reaction",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Lizardfolk"
+        ],
+        "requirements": "You have a fully grown tail.",
+        "trigger": "You become grabbed.",
+        "cooldown": 1008000,
+        "target": "self",
+        "desc": "You can shed your tail to escape. You cease being grabbed, then Stride without triggering any reactions from the creature that grabbed you. It takes 1 week for your tail to fully grow back. Until it does, you can't use your tail unarmed attack, and you take a -2 circumstance penalty on checks to Balance.",
+        "gainConditions": [
+            {
+                "duration": 1008000,
+                "name": "Shed Tail"
+            }
+        ]
+    },
+    {
+        "name": "Avenge in Glory",
+        "actions": "Reaction",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Uncommon",
+            "Dwarf"
+        ],
+        "trigger": "An ally within 30 feet gains the dying condition.",
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "target": "self",
+        "desc": "You honor your ally's life, gaining temporary Hit Points equal to your level for 1 minute. As long as you have these temporary Hit Points, you gain a +1 circumstance bonus to attack and damage rolls.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Avenge in Glory"
+            }
+        ]
+    },
+    {
+        "name": "Clan's Edge",
+        "actions": "2A",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Dwarf"
+        ],
+        "target": "self",
+        "desc": "By moving your clan dagger with rapid precision, you can protect yourself more effectively. Make two clan dagger Strikes against different targets. Your multiple attack penalty applies normally to these Strikes. You then use an Interact action to gain the +1 circumstance bonus to your AC from your clan dagger's parrying trait.",
+        "gainConditions": [
+            {
+                "duration": 10,
+                "name": "Clan's Edge"
+            }
+        ]
+    },
+    {
+        "name": "Inventive Offensive",
+        "actions": "3A",
+        "inputRequired": "To apply an additional weapon trait if you have legendary proficiency in Crafting, use this ability a second time.",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "traits": [
+            "Gnome"
+        ],
+        "target": "self",
+        "desc": "You can jury-rig your weapons to perform in unexpected ways. When you use this ability, add one of the following weapon traits to a melee weapon you wield: deadly d6, disarm, nonlethal, shove, trip, versatile B, versatile P, or versatile S. You cannot add a trait that the weapon already has. The weapon retains this trait until you a successfully hit and deal damage with the weapon. The weapon retains this trait only while you wield it, and you can have only one weapon modified in this way at any time.\n\nIf you have expert proficiency in Crafting, you can use this feat as a 2-action activity. If you have legendary proficiency in Crafting, you can apply two weapon traits from the list when using this feat.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Inventive Offensive"
+            }
+        ]
+    },
+    {
+        "name": "Vibrant Display",
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "frequency": "once every 10 minutes",
+        "cooldown": 1000,
+        "target": "self",
+        "desc": "Once every 10 minutes, when you use the Feint action, you can compare your Deception check result to the Perception DCs of all adjacent creatures rather than just one creature within melee reach. It's possible to get a different degree of success for each target.\n\nThese changes are imprecise and usually short-lived, so while they allow you to periodically change your appearance in unpredictable ways, they are of little use in providing camouflage or aiding a disguise."
+    }
+]

@@ -1,0 +1,48 @@
+[
+    {
+        "name": "Basilisk Eye",
+        "id": "2abb21c5-0597-447f-a8eb-1924184fe7b4",
+        "desc": "This slimy green stone glows with a strong light whenever the shield it adorns blocks a melee attack. When the eye is activated, the attacker must succeed at a DC 25 Fortitude save or become slowed 1 for 1 minute as its body slowly stiffens in partial petrification.",
+        "sourceBook": "Advanced Player's Guide",
+        "_extensionFileName": "advancedPlayersGuide",
+        "level": 9,
+        "price": 15000,
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Talisman",
+            "Transmutation",
+            "Visual"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You Shield Block a melee attack with the affixed shield.",
+        "usage": "affixed to a shield",
+        "targets": [
+            "shields"
+        ]
+    },
+    {
+        "name": "Balisse Feather",
+        "id": "583487b7-c381-43b4-bc1c-dbe0d800285d",
+        "desc": "This long, fire-red feather seems to catch flame every time the weapon it adorns strikes a purveyor of evil. When you activate the feather, the creature you damaged burns with holy light. The creature must succeed at a DC 29 Will save or take a –2 status penalty to AC and saving throws and reduce its resistances by 5. These effects last until the end of your next turn.",
+        "sourceBook": "Advanced Player's Guide",
+        "_extensionFileName": "advancedPlayersGuide",
+        "level": 12,
+        "price": 40000,
+        "traits": [
+            "Consumable",
+            "Divine",
+            "Evocation",
+            "Magical",
+            "Talisman"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You deal damage using the affixed weapon to a creature you have seen commit an evil act.",
+        "usage": "affixed to a weapon",
+        "targets": [
+            "weapons"
+        ]
+    }
+]

@@ -1,0 +1,199 @@
+[
+    {
+        "name": "Fey Influence",
+        "desc": "You have been exposed to powerful fey magic. You become trained in primal DCs and spell attack rolls. You gain the fey trait and one of the following features which grant an innate primal spell that can be used once per day.\n\n<strong>Anteater</strong> You can launch your tongue forward as a deadly attack, gaining grim tendrils.\n<strong>Dryad</strong> Your body is covered in elegant vines, granting you summon plants and fungi.\n<strong>Gremlin</strong> You have long, bat-like ears and gain bane.\n<strong>Monarch</strong> You have vestigial, insectile features and gain spider sting.\n\nThis feat gains the trait appropriate for your ancestry (human for human, goblin for goblin, etc.)",
+        "sourceBook": "Pathfinder Society Scenario #1-17: The Perennial Crown Part 2, The Thorned Monarch",
+        "_extensionFileName": "PFSScenario1_17",
+        "subTypes": true,
+        "shortdesc": "Your exposure to fey influence has given you some primal magic",
+        "traits": [
+            "Rare",
+            "Ancestry"
+        ],
+        "levelreq": 5
+    },
+    {
+        "name": "Fey Influence: Anteater",
+        "desc": "You have been exposed to powerful fey magic. You become trained in primal DCs and spell attack rolls. You gain the fey trait and gain grim tendrils as an innate primal spell that can be used once per day by launching your tongue forward as a deadly attack.\n\nThis feat gains the trait appropriate for your ancestry (human for human, goblin for goblin, etc.)",
+        "sourceBook": "Pathfinder Society Scenario #1-17: The Perennial Crown Part 2, The Thorned Monarch",
+        "_extensionFileName": "PFSScenario1_17",
+        "subType": "Anteater",
+        "superType": "Fey Influence",
+        "shortdesc": "Your exposure to fey influence has given you some primal magic",
+        "traits": [
+            "Rare",
+            "Ancestry"
+        ],
+        "levelreq": 5,
+        "gainSkillChoice": [
+            {
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Innate Primal Spell DC",
+                        "source": "Feat: Fey Influence: Anteater"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Fey Influence: Anteater",
+                "type": "Spell DC"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "2bf1ed6f-d414-4f04-b88d-4fa76d8ce9c8",
+                "source": "Feat: Fey Influence: Anteater",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Grim Tendrils"
+                    }
+                ],
+                "tradition": "Primal"
+            }
+        ]
+    },
+    {
+        "name": "Fey Influence: Dryad",
+        "desc": "You have been exposed to powerful fey magic. You become trained in primal DCs and spell attack rolls. You gain the fey trait, and your body is covered in elegant vines, granting you summon plants and fungi as an innate primal spell that can be used once per day.\n\nThis feat gains the trait appropriate for your ancestry (human for human, goblin for goblin, etc.)",
+        "sourceBook": "Pathfinder Society Scenario #1-17: The Perennial Crown Part 2, The Thorned Monarch",
+        "_extensionFileName": "PFSScenario1_17",
+        "subType": "Dryad",
+        "superType": "Fey Influence",
+        "shortdesc": "Your exposure to fey influence has given you some primal magic",
+        "traits": [
+            "Rare",
+            "Ancestry"
+        ],
+        "levelreq": 5,
+        "gainSkillChoice": [
+            {
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Innate Primal Spell DC",
+                        "source": "Feat: Fey Influence: Dryad"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Fey Influence: Dryad",
+                "type": "Spell DC"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "84a706ba-cce0-42b2-b6a2-94c80805f63f",
+                "source": "Feat: Fey Influence: Dryad",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Summon Plant or Fungus"
+                    }
+                ],
+                "tradition": "Primal"
+            }
+        ]
+    },
+    {
+        "name": "Fey Influence: Gremlin",
+        "desc": "You have been exposed to powerful fey magic. You become trained in primal DCs and spell attack rolls. You gain the fey trait, and you have long, bat-like ears, granting you bane as an innate primal spell that can be used once per day.\n\nThis feat gains the trait appropriate for your ancestry (human for human, goblin for goblin, etc.)",
+        "sourceBook": "Pathfinder Society Scenario #1-17: The Perennial Crown Part 2, The Thorned Monarch",
+        "_extensionFileName": "PFSScenario1_17",
+        "subType": "Gremlin",
+        "superType": "Fey Influence",
+        "shortdesc": "Your exposure to fey influence has given you some primal magic",
+        "traits": [
+            "Rare",
+            "Ancestry"
+        ],
+        "levelreq": 5,
+        "gainSkillChoice": [
+            {
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Innate Primal Spell DC",
+                        "source": "Feat: Fey Influence: Gremlin"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Fey Influence: Gremlin",
+                "type": "Spell DC"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "6fc5b94a-5323-4a74-b0e8-98b9e0fe50b4",
+                "source": "Feat: Fey Influence: Gremlin",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Bane"
+                    }
+                ],
+                "tradition": "Primal"
+            }
+        ]
+    },
+    {
+        "name": "Fey Influence: Monarch",
+        "desc": "You have been exposed to powerful fey magic. You become trained in primal DCs and spell attack rolls. You gain the fey trait, and you have vestigial, insectile features, granting you spider sting as an innate primal spell that can be used once per day.\n\nThis feat gains the trait appropriate for your ancestry (human for human, goblin for goblin, etc.)",
+        "sourceBook": "Pathfinder Society Scenario #1-17: The Perennial Crown Part 2, The Thorned Monarch",
+        "_extensionFileName": "PFSScenario1_17",
+        "subType": "Monarch",
+        "superType": "Fey Influence",
+        "shortdesc": "Your exposure to fey influence has given you some primal magic",
+        "traits": [
+            "Rare",
+            "Ancestry"
+        ],
+        "levelreq": 5,
+        "gainSkillChoice": [
+            {
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Innate Primal Spell DC",
+                        "source": "Feat: Fey Influence: Monarch"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Fey Influence: Monarch",
+                "type": "Spell DC"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "83d6258e-b03a-4520-84ac-fdf58e81e12c",
+                "source": "Feat: Fey Influence: Monarch",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Spider Sting"
+                    }
+                ],
+                "tradition": "Primal"
+            }
+        ]
+    }
+]

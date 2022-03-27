@@ -1,0 +1,52 @@
+[
+    {
+        "name": "Eye of the Arclords",
+        "desc": "You open an incandescent third eye upon your forehead. The eye can remain open for 1 minute, and you can close it before then with a single action with the concentrate trait. It can remain open for 2 minutes if you're a master in Arcana, or 5 minutes if you're legendary. While the eye is open, you gain the following benefits: you gain the effects of the detect magic arcane innate spell from your Arcane Sense at the start of each of your turns without needing to cast the spell; you gain darkvision; you gain a +2 status bonus to Perception checks to Seek undetected and hidden creatures and to your Perception DC against Hide and Sneak. After your third eye closes, you are dazzled for an amount of time equal to how long you had it open.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "access": "You are a member of the Arclords of Nex.",
+        "shortdesc": "The Arclords of Nex have achieved a unique mastery of magic.",
+        "traits": [
+            "General",
+            "Skill",
+            "Uncommon"
+        ],
+        "levelreq": 2,
+        "featreq": [
+            "Arcane Sense"
+        ],
+        "skillreq": [
+            {
+                "skill": "Arcana",
+                "value": 4
+            }
+        ],
+        "gainActivities": [
+            "Eye of the Arclords"
+        ]
+    },
+    {
+        "name": "Godless Healing",
+        "desc": "You recover an additional 5 Hit Points from a successful attempt to Treat your Wounds or use Battle Medicine on you. After you or an ally use Battle Medicine on you, you become temporarily immune to that Battle Medicine for only 1 hour, instead of 1 day.",
+        "specialdesc": "With limited access to divine healing magic, Rahadoumi often become adept at using ordinary medicine for when dangerous situations arise.",
+        "hints": [
+            {
+                "desc": "You recover an additional 5 Hit Points from a successful attempt to Treat your Wounds or use Battle Medicine on you. After you or an ally use Battle Medicine on you, you become temporarily immune to that Battle Medicine for only 1 hour, instead of 1 day.",
+                "showon": "Medicine, Health"
+            }
+        ],
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "shortdesc": "With limited access to divine healing magic, Rahadoumi often become adept at using ordinary medicine for when dangerous situations arise.",
+        "traits": [
+            "General",
+            "Skill"
+        ],
+        "levelreq": 2,
+        "featreq": [
+            "Battle Medicine"
+        ],
+        "specialreq": "!deity || (deity.category == 'Philosophies')",
+        "specialreqdesc": "you can't have a patron deity"
+    }
+]

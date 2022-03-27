@@ -602,7 +602,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             if (levelNumber) {
                 //If level is given, check if any new languages have been added on this level. If not, don't get any languages at this point.
                 let newLanguages: number = 0;
-                newLanguages += this.get_CharacterFeatsAndFeatures().filter(feat => feat.effects.some(effect => effect.affected == "Max Languages") && feat.have(character, this.characterService, levelNumber, false, false, levelNumber)).length
+                newLanguages += this.get_CharacterFeatsAndFeatures().filter(feat => (feat.gainLanguages.length || feat.effects.some(effect => effect.affected == "Max Languages")) && feat.have(character, this.characterService, levelNumber, false, false, levelNumber)).length
                 newLanguages += character.get_AbilityBoosts(levelNumber, levelNumber, "Intelligence").length;
                 if (!newLanguages) {
                     return false;

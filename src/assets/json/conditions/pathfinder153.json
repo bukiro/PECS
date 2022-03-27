@@ -1,0 +1,351 @@
+[
+    {
+        "name": "Ravening Maw",
+        "desc": "Zevgavizeb's unceasing hunger has been inflicted upon you. You become overwhelmed with cannibalistic hunger and can restore your vitality by feasting on the flesh of the fallen. On your turn, you can use 2 actions (these actions have the manipulate trait) to cannibalize an adjacent dying or dead creature. If the cannibalized creature is dying, it dies. If the cannibalized creature is your ally, you regain |dice=var1| <var>var1</var> HP; otherwise, you regain |dice=var2| <var>var2</var> HP. Certain monsters (such as those whose blood is acidic or magical) might inflict additional effects on you when you cannibalize them, at the GM's discretion. Once cannibalized, a particular creature's body doesn't have enough meat to cannibalize again. During any round that there's a dying or dead creature within 30 feet of you, if you can't or don't cannibalize a creature, you take |dice=var3 Mental| <var>var3</var> mental damage.",
+        "sourceBook": "Pathfinder #153: Life's Long Shadow",
+        "_extensionFileName": "pathfinder153",
+        "type": "spells",
+        "minLevel": 5,
+        "sortLevel": 5,
+        "defaultDurations": [
+            {
+                "duration": 30
+            }
+        ],
+        "inputRequired": "Restore HP when you cannibalize a creature, and take damage when you can't or don't cannibalize a nearby suitable creature.",
+        "hints": [
+            {
+                "desc": "On your turn, you can use 2 actions (these actions have the manipulate trait) to cannibalize an adjacent dying or dead creature. If the cannibalized creature is dying, it dies. If the cannibalized creature is your ally, you regain |dice=var1| <var>var1</var> HP; otherwise, you regain |dice=var2| <var>var2</var> HP. Certain monsters (such as those whose blood is acidic or magical) might inflict additional effects on you when you cannibalize them, at the GM's discretion. Once cannibalized, a particular creature's body doesn't have enough meat to cannibalize again. During any round that there's a dying or dead creature within 30 feet of you, if you can't or don't cannibalize a creature, you take |dice=var3 Mental| <var>var3</var> mental damage.",
+                "showon": "Activities, Attacks, Health",
+                "heightenedDescs": [
+                    {
+                        "level": 5,
+                        "descs": [
+                            {
+                                "value": "5d8",
+                                "variable": "var1"
+                            },
+                            {
+                                "value": "5d4",
+                                "variable": "var2"
+                            },
+                            {
+                                "value": "5d4",
+                                "variable": "var3"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 6,
+                        "descs": [
+                            {
+                                "value": "6d8",
+                                "variable": "var1"
+                            },
+                            {
+                                "value": "6d4",
+                                "variable": "var2"
+                            },
+                            {
+                                "value": "6d4",
+                                "variable": "var3"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 7,
+                        "descs": [
+                            {
+                                "value": "7d8",
+                                "variable": "var1"
+                            },
+                            {
+                                "value": "7d4",
+                                "variable": "var2"
+                            },
+                            {
+                                "value": "7d4",
+                                "variable": "var3"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 8,
+                        "descs": [
+                            {
+                                "value": "8d8",
+                                "variable": "var1"
+                            },
+                            {
+                                "value": "8d4",
+                                "variable": "var2"
+                            },
+                            {
+                                "value": "8d4",
+                                "variable": "var3"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 9,
+                        "descs": [
+                            {
+                                "value": "9d8",
+                                "variable": "var1"
+                            },
+                            {
+                                "value": "9d4",
+                                "variable": "var2"
+                            },
+                            {
+                                "value": "9d4",
+                                "variable": "var3"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 10,
+                        "descs": [
+                            {
+                                "value": "10d8",
+                                "variable": "var1"
+                            },
+                            {
+                                "value": "10d4",
+                                "variable": "var2"
+                            },
+                            {
+                                "value": "10d4",
+                                "variable": "var3"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 5,
+                "descs": [
+                    {
+                        "value": "5d8",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "5d4",
+                        "variable": "var2"
+                    },
+                    {
+                        "value": "5d4",
+                        "variable": "var3"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "6d8",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "6d4",
+                        "variable": "var2"
+                    },
+                    {
+                        "value": "6d4",
+                        "variable": "var3"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "7d8",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "7d4",
+                        "variable": "var2"
+                    },
+                    {
+                        "value": "7d4",
+                        "variable": "var3"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "8d8",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "8d4",
+                        "variable": "var2"
+                    },
+                    {
+                        "value": "8d4",
+                        "variable": "var3"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "9d8",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "9d4",
+                        "variable": "var2"
+                    },
+                    {
+                        "value": "9d4",
+                        "variable": "var3"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "10d8",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "10d4",
+                        "variable": "var2"
+                    },
+                    {
+                        "value": "10d4",
+                        "variable": "var3"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Ravening Maw (Caster)",
+        "desc": "You have evoked Zevgavizeb's unceasing hunger and inflict it upon your target. The target becomes overwhelmed with cannibalistic hunger and can restore its vitality by feasting on the flesh of the fallen. On its turn, the target can use 2 actions (these actions have the manipulate trait) to cannibalize an adjacent dying or dead creature. If the cannibalized creature is dying, it dies. If the cannibalized creature is an ally of the target, the target regains <var>var1</var> HP; otherwise, the target regains <var>var2</var> HP. Certain monsters (such as those whose blood is acidic or magical) might inflict additional effects on those who cannibalize them at the GM's discretion. Once cannibalized, a particular creature's body doesn't have enough meat to cannibalize again. During any round that there's a dying or dead creature within 30 feet of the target, if the target can't or doesn't cannibalize a creature, the target takes |dice=var3 Mental| <var>var3</var> mental damage.",
+        "sourceBook": "Pathfinder #153: Life's Long Shadow",
+        "_extensionFileName": "pathfinder153",
+        "type": "spells",
+        "minLevel": 5,
+        "sortLevel": 5,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 30
+            }
+        ],
+        "unlimited": true,
+        "heightenedDescs": [
+            {
+                "level": 5,
+                "descs": [
+                    {
+                        "value": "5d8",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "5d4",
+                        "variable": "var2"
+                    },
+                    {
+                        "value": "5d4",
+                        "variable": "var3"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "6d8",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "6d4",
+                        "variable": "var2"
+                    },
+                    {
+                        "value": "6d4",
+                        "variable": "var3"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "7d8",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "7d4",
+                        "variable": "var2"
+                    },
+                    {
+                        "value": "7d4",
+                        "variable": "var3"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "8d8",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "8d4",
+                        "variable": "var2"
+                    },
+                    {
+                        "value": "8d4",
+                        "variable": "var3"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "9d8",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "9d4",
+                        "variable": "var2"
+                    },
+                    {
+                        "value": "9d4",
+                        "variable": "var3"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "10d8",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "10d4",
+                        "variable": "var2"
+                    },
+                    {
+                        "value": "10d4",
+                        "variable": "var3"
+                    }
+                ]
+            }
+        ]
+    }
+]

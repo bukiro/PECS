@@ -1,0 +1,25 @@
+[
+    {
+        "name": "Celestial Hair",
+        "id": "7d05c51a-c9bf-11ea-87d0-0242ac130003",
+        "desc": "This strand of hair shimmers like the strands of fate. When you activate the string, it resonates with a single, perfect note. The triggering saving throw becomes a failure or the triggering attack roll becomes a regular hit, not critical one. If the source of the attack or effect is an evil creature, that creature must succeed at a DC 41 Will saving throw or be enfeebled 2 and stupefied 2 until the end of its next turn.",
+        "sourceBook": "Pathfinder #156: The Apocalypse Prophet",
+        "_extensionFileName": "pathfinder156",
+        "level": 20,
+        "price": 1250000,
+        "traits": [
+            "Rare",
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Talisman"
+        ],
+        "actions": "Free",
+        "activationType": "Interact",
+        "trigger": "You critically fail a saving throw or are critically hit by an attack",
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ]
+    }
+]

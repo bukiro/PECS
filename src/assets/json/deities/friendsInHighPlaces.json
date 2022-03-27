@@ -1,0 +1,204 @@
+[
+    {
+        "name": "Pillars of Knowledge",
+        "alignment": "Neutral",
+        "areasOfConcern": "Learning, innovation, safeguarding knowledge",
+        "category": "Pantheons",
+        "sourcebook": "Friends in High Places",
+        "_extensionFileName": "friendsInHighPlaces",
+        "alternateDomains": [
+            "Glyph",
+            "Perfection",
+            "Time"
+        ],
+        "anathema": [
+            "Choose to use old knowledge or tools after they have been improved upon",
+            "destroy knowledge",
+            "refuse to answer a query for which you know the answer"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Message Rune"
+            },
+            {
+                "level": 3,
+                "name": "Hypercognition"
+            },
+            {
+                "level": 9,
+                "name": "Retrocognition"
+            }
+        ],
+        "divineAbility": [
+            "Intelligence",
+            "Wisdom"
+        ],
+        "divineFont": [
+            "Harm",
+            "Heal"
+        ],
+        "divineSkill": [
+            "Crafting"
+        ],
+        "domains": [
+            "Creation",
+            "Knowledge",
+            "Secrecy",
+            "Truth"
+        ],
+        "edicts": [
+            "Seek new knowledge",
+            "use your knowledge and skill to improve the world around you",
+            "protect knowledge from becoming lost"
+        ],
+        "favoredWeapon": [
+            "Light Hammer"
+        ],
+        "followerAlignments": [
+            "Lawful Neutral",
+            "Neutral",
+            "Chaotic Neutral"
+        ],
+        "pantheonMembers": [
+            "Brigh",
+            "Casandalee",
+            "Irori",
+            "Shyka",
+            "Ydajisk"
+        ]
+    },
+    {
+        "name": "The Prismatic Ray",
+        "alignment": "Neutral Good",
+        "areasOfConcern": "Defeating evil, guarding innocents, and wholesome creations",
+        "category": "Pantheons",
+        "sourcebook": "Friends in High Places",
+        "_extensionFileName": "friendsInHighPlaces",
+        "alternateDomains": [
+            "Family",
+            "Healing",
+            "Travel"
+        ],
+        "anathema": [
+            "allow evil to spread",
+            "destroy that which brings joy to others",
+            "fail to offer evil a chance to surrender"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Sleep"
+            },
+            {
+                "level": 3,
+                "name": "Fireball"
+            },
+            {
+                "level": 4,
+                "name": "Creation"
+            }
+        ],
+        "divineAbility": [
+            "Wisdom",
+            "Charisma"
+        ],
+        "divineFont": [
+            "Heal"
+        ],
+        "divineSkill": [
+            "Diplomacy"
+        ],
+        "domains": [
+            "Creation",
+            "Moon",
+            "Protection",
+            "Sun"
+        ],
+        "edicts": [
+            "Create works that inspire good acts",
+            "defend those who cannot defend themselves",
+            "pursue evil"
+        ],
+        "favoredWeapon": [
+            "Shortsword"
+        ],
+        "followerAlignments": [
+            "Lawful Good",
+            "Neutral Good",
+            "Chaotic Good"
+        ],
+        "pantheonMembers": [
+            "Desna",
+            "Sarenrae",
+            "Shelyn"
+        ]
+    },
+    {
+        "name": "Wards of the Pharaoh",
+        "alignment": "Neutral Good",
+        "areasOfConcern": "Abjuration magic, protection, self-improvement",
+        "category": "Pantheons",
+        "sourcebook": "Friends in High Places",
+        "_extensionFileName": "friendsInHighPlaces",
+        "alternateDomains": [
+            "Glyph",
+            "Healing"
+        ],
+        "anathema": [
+            "Destroy wards that are actively protecting innocents",
+            "refuse to use your magic to help those in need who ask you"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Soothe"
+            },
+            {
+                "level": 4,
+                "name": "Resilient Sphere"
+            },
+            {
+                "level": 9,
+                "name": "Disjunction"
+            }
+        ],
+        "divineAbility": [
+            "Constitution",
+            "Intelligence"
+        ],
+        "divineFont": [
+            "Harm",
+            "Heal"
+        ],
+        "divineSkill": [
+            "Medicine"
+        ],
+        "domains": [
+            "Family",
+            "Knowledge",
+            "Magic",
+            "Protection"
+        ],
+        "edicts": [
+            "Use magic to defend yourself and your allies",
+            "maintain magical wards",
+            "seek greater magical knowledge"
+        ],
+        "favoredWeapon": [
+            "Staff"
+        ],
+        "followerAlignments": [
+            "Neutral Good",
+            "Chaotic Good",
+            "Lawful Neutral",
+            "Neutral"
+        ],
+        "pantheonMembers": [
+            "Isis",
+            "Nethys",
+            "Selket",
+            "Thoth"
+        ]
+    }
+]

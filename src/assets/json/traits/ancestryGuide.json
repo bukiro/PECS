@@ -1,0 +1,79 @@
+[
+  {
+    "name": "Android",
+    "desc": "A synthetic humanoid ancestry created by artificial means. Most common in Numeria.",
+    "sourceBook": "Ancestry Guide",
+    "_extensionFileName": "ancestryGuide"
+  },
+  {
+    "name": "Aphorite",
+    "desc": "A type of planar scion descended from a being from Axis, the Plane of Law.",
+    "sourceBook": "Ancestry Guide",
+    "_extensionFileName": "ancestryGuide"
+  },
+  {
+    "name": "Azarketi",
+    "desc": "Amphibious humanoids who live among the seas of the Inner Sea region, said to have descended from the people of Azlant. Sometimes known as gillmen or Low Azlanti.\n\nAzarketis craft and use these weapons.",
+    "sourceBook": "Ancestry Guide",
+    "_extensionFileName": "ancestryGuide"
+  },
+  {
+    "name": "Beastkin",
+    "desc": "Humanoids that can partially or fully transform into animal forms.",
+    "sourceBook": "Ancestry Guide",
+    "_extensionFileName": "ancestryGuide"
+  },
+  {
+    "name": "Conrasu",
+    "desc": "A people that are made of cosmic force given consciousness and housed within unique exoskeletons. Conrasus craft and use these weapons.",
+    "sourceBook": "Ancestry Guide",
+    "_extensionFileName": "ancestryGuide"
+  },
+  {
+    "name": "Fleshwarp",
+    "desc": "A humanoid transformed so completely by outside forces that they are now a unique ancestry.",
+    "sourceBook": "Ancestry Guide",
+    "_extensionFileName": "ancestryGuide"
+  },
+  {
+    "name": "Ganzi",
+    "desc": "A planar scion descended from a chaotic being of the Maelstrom, such as a protean.",
+    "sourceBook": "Ancestry Guide",
+    "_extensionFileName": "ancestryGuide"
+  },
+  {
+    "name": "Geniekin",
+    "desc": "An umbrella term for planar scions descended from beings from the Elemental Planes. Geniekin craft and use these weapons.",
+    "sourceBook": "Ancestry Guide",
+    "_extensionFileName": "ancestryGuide"
+  },
+  {
+    "name": "Kitsune",
+    "desc": "Shapeshifting humanoids whose true forms resemble foxes.",
+    "sourceBook": "Ancestry Guide",
+    "_extensionFileName": "ancestryGuide"
+  },
+  {
+    "name": "Resonant",
+    "desc": "This weapon can channel energy damage. You gain the Conduct Energy free action while wielding a resonant weapon.",
+    "sourceBook": "Ancestry Guide",
+    "_extensionFileName": "ancestryGuide",
+    "effectDesc": "Activate this trait to grant the appropriate additional damage to the weapon.",
+    "gainActivity": [
+      "Conduct Energy"
+    ],
+    "objectEffects": [
+      {
+        "affected": "Damage per Die",
+        "show": true,
+        "value": "1"
+      }
+    ]
+  },
+  {
+    "name": "Strix",
+    "desc": "Winged humanoids, most of whom live in and around Cheliax.",
+    "sourceBook": "Ancestry Guide",
+    "_extensionFileName": "ancestryGuide"
+  }
+]

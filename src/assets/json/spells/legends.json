@@ -1,204 +1,204 @@
 [
-  {
-    "name": "Aromatic Lure",
-    "id": "6cc78409-15c8-4c40-8ed2-2278eb0dd4a7",
-    "shortDesc": "You override a target's olfactory senses, luring them to a specific location through tantalizing false scents.",
-    "actions": "2A",
-    "castType": "somatic, verbal",
-    "sourceBook": "Legends",
-    "_extensionFileName": "legends",
-    "levelreq": 4,
-    "traditions": [
-      "Arcane",
-      "Occult"
-    ],
-    "traits": [
-      "Rare",
-      "Emotion",
-      "Enchantment",
-      "Incapacitation",
-      "Mental"
-    ],
-    "range": "60 feet",
-    "targets": "1 creature",
-    "target": "other",
-    "singleTarget": true,
-    "duration": "varies",
-    "desc": "<var>var1</var>You override a target's olfactory senses, luring them to a specific location through tantalizing false scents. Select a single square within range that is not hazardous or occupied by a creature. The target is drawn to the selected location, becoming euphoric upon arrival. The target must attempt a Will save.",
-    "savingThrow": "Will",
-    "critsuccess": "The target is unaffected.",
-    "success": "The target is distracted by the tantalizing scents, becoming stupefied 1 for 1 round.",
-    "failure": "The target is stupefied 2 and moves toward the selected location via the most direct route possible for 1 round, bypassing any obvious hazards and enemies in the way.",
-    "critfailure": "The target is stupefied 4 and moves to the selected location via the most direct route possible for 1 round, bypassing any obvious hazards and enemies in the way. If the creature reaches the destination, it must remain in that location for 1d4 rounds but can otherwise act normally.",
-    "heightened": [
-      {
-        "desc": "You target 1 additional creature, selecting a different square within range as their destination.",
-        "level": "(+2)"
-      }
-    ],
-    "gainConditions": [
-      {
-        "duration": -5,
-        "name": "Aromatic Lure (Caster)",
-        "targetFilter": "caster"
-      }
-    ],
-    "heightenedDescs": [
-      {
-        "level": 4,
-        "descs": [
-          {
-            "variable": "var1"
-          }
+    {
+        "name": "Aromatic Lure",
+        "id": "6cc78409-15c8-4c40-8ed2-2278eb0dd4a7",
+        "shortDesc": "You override a target's olfactory senses, luring them to a specific location through tantalizing false scents.",
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "sourceBook": "Legends",
+        "_extensionFileName": "legends",
+        "levelreq": 4,
+        "traditions": [
+            "Arcane",
+            "Occult"
+        ],
+        "traits": [
+            "Rare",
+            "Emotion",
+            "Enchantment",
+            "Incapacitation",
+            "Mental"
+        ],
+        "range": "60 feet",
+        "targets": "1 creature",
+        "target": "other",
+        "singleTarget": true,
+        "duration": "varies",
+        "desc": "<var>var1</var>You override a target's olfactory senses, luring them to a specific location through tantalizing false scents. Select a single square within range that is not hazardous or occupied by a creature. The target is drawn to the selected location, becoming euphoric upon arrival. The target must attempt a Will save.",
+        "savingThrow": "Will",
+        "critsuccess": "The target is unaffected.",
+        "success": "The target is distracted by the tantalizing scents, becoming stupefied 1 for 1 round.",
+        "failure": "The target is stupefied 2 and moves toward the selected location via the most direct route possible for 1 round, bypassing any obvious hazards and enemies in the way.",
+        "critfailure": "The target is stupefied 4 and moves to the selected location via the most direct route possible for 1 round, bypassing any obvious hazards and enemies in the way. If the creature reaches the destination, it must remain in that location for 1d4 rounds but can otherwise act normally.",
+        "heightened": [
+            {
+                "desc": "You target 1 additional creature, selecting a different square within range as their destination.",
+                "level": "(+2)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": -5,
+                "name": "Aromatic Lure (Caster)",
+                "targetFilter": "caster"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 4,
+                "descs": [
+                    {
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "You target 2 creatures, selecting a different square within range as the destination for each. ",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "You target 3 creatures, selecting a different square within range as the destination for each. ",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "You target 4 creatures, selecting a different square within range as the destination for each. ",
+                        "variable": "var1"
+                    }
+                ]
+            }
         ]
-      },
-      {
-        "level": 6,
-        "descs": [
-          {
-            "value": "You target 2 creatures, selecting a different square within range as the destination for each. ",
-            "variable": "var1"
-          }
+    },
+    {
+        "name": "Rebounding Barrier",
+        "id": "3259eebd-ba45-4af7-83b9-7ae0d86e1610",
+        "shortDesc": "You swiftly raise a reflective barrier, reducing physical damage and rebounding it onto your attacker.",
+        "actions": "Reaction",
+        "castType": "verbal",
+        "sourceBook": "Legends",
+        "_extensionFileName": "legends",
+        "levelreq": 4,
+        "traditions": [
+            "Arcane",
+            "Occult"
+        ],
+        "traits": [
+            "Rare",
+            "Abjuration"
+        ],
+        "target": "self",
+        "trigger": "You are hit by a physical Strike.",
+        "desc": "You swiftly raise a reflective barrier, reducing physical damage and rebounding it onto your attacker. You gain resistance <var>var1</var> against one physical damage type the triggering attack deals. Your attacker takes |dice=var2| <var>var2</var> damage of the same type.",
+        "heightened": [
+            {
+                "desc": "The resistance increases by 2. Damage dealt to your attacker increases by 1.",
+                "level": "(+1)"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 4,
+                "descs": [
+                    {
+                        "value": "10",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "5",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 5,
+                "descs": [
+                    {
+                        "value": "12",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "14",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "7",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "16",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "8",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "18",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "9",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "20",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "10",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "22",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "11",
+                        "variable": "var2"
+                    }
+                ]
+            }
         ]
-      },
-      {
-        "level": 8,
-        "descs": [
-          {
-            "value": "You target 3 creatures, selecting a different square within range as the destination for each. ",
-            "variable": "var1"
-          }
-        ]
-      },
-      {
-        "level": 10,
-        "descs": [
-          {
-            "value": "You target 4 creatures, selecting a different square within range as the destination for each. ",
-            "variable": "var1"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Rebounding Barrier",
-    "id": "3259eebd-ba45-4af7-83b9-7ae0d86e1610",
-    "shortDesc": "You swiftly raise a reflective barrier, reducing physical damage and rebounding it onto your attacker.",
-    "actions": "Reaction",
-    "castType": "verbal",
-    "sourceBook": "Legends",
-    "_extensionFileName": "legends",
-    "levelreq": 4,
-    "traditions": [
-      "Arcane",
-      "Occult"
-    ],
-    "traits": [
-      "Rare",
-      "Abjuration"
-    ],
-    "target": "self",
-    "trigger": "You are hit by a physical Strike.",
-    "desc": "You swiftly raise a reflective barrier, reducing physical damage and rebounding it onto your attacker. You gain resistance <var>var1</var> against one physical damage type the triggering attack deals. Your attacker takes |dice=var2| <var>var2</var> damage of the same type.",
-    "heightened": [
-      {
-        "desc": "The resistance increases by 2. Damage dealt to your attacker increases by 1.",
-        "level": "(+1)"
-      }
-    ],
-    "heightenedDescs": [
-      {
-        "level": 4,
-        "descs": [
-          {
-            "value": "10",
-            "variable": "var1"
-          },
-          {
-            "value": "5",
-            "variable": "var2"
-          }
-        ]
-      },
-      {
-        "level": 5,
-        "descs": [
-          {
-            "value": "12",
-            "variable": "var1"
-          },
-          {
-            "value": "6",
-            "variable": "var2"
-          }
-        ]
-      },
-      {
-        "level": 6,
-        "descs": [
-          {
-            "value": "14",
-            "variable": "var1"
-          },
-          {
-            "value": "7",
-            "variable": "var2"
-          }
-        ]
-      },
-      {
-        "level": 7,
-        "descs": [
-          {
-            "value": "16",
-            "variable": "var1"
-          },
-          {
-            "value": "8",
-            "variable": "var2"
-          }
-        ]
-      },
-      {
-        "level": 8,
-        "descs": [
-          {
-            "value": "18",
-            "variable": "var1"
-          },
-          {
-            "value": "9",
-            "variable": "var2"
-          }
-        ]
-      },
-      {
-        "level": 9,
-        "descs": [
-          {
-            "value": "20",
-            "variable": "var1"
-          },
-          {
-            "value": "10",
-            "variable": "var2"
-          }
-        ]
-      },
-      {
-        "level": 10,
-        "descs": [
-          {
-            "value": "22",
-            "variable": "var1"
-          },
-          {
-            "value": "11",
-            "variable": "var2"
-          }
-        ]
-      }
-    ]
-  }
+    }
 ]

@@ -1,0 +1,335 @@
+[
+    {
+        "name": "Lift Nature's Caul",
+        "desc": "You have seen the world around you as if a gauzy film had been lifted away to expose the truth that lies below your perceived reality. Natural features have grown twisted and horrendous, structures appeared distorted and ruined, and objects seemed warped and alien. The vision has faded quickly, but the glimpse beyond the natural world lingers for the spell's duration.\n\nUnless you are an aberration or worshipper of Outer Gods or Great Old Ones, you are negatively affected according to your Will saving throw.\n\n<strong>Critical Success</strong> You are unaffected and temporarily immune for 1 hour.\n<strong>Success</strong> You are sickened 1.\n<strong>Failure</strong> You are stupefied 1 for <var>var1</var> and frightened 1.\n<strong>Critical Failure</strong> You are stupefied 1 for <var>var1</var> and frightened 2. You can't reduce the value of your frightened condition below 1 as long as you remain stupefied by this spell.",
+        "sourceBook": "Pathfinder #165: Eyes of Empty Death",
+        "_extensionFileName": "pathfinder165",
+        "type": "spells",
+        "minLevel": 1,
+        "sortLevel": 1,
+        "defaultDurations": [
+            {
+                "duration": 100,
+                "minLevel": 1
+            },
+            {
+                "duration": 200,
+                "minLevel": 3
+            },
+            {
+                "duration": 300,
+                "minLevel": 5
+            },
+            {
+                "duration": 400,
+                "minLevel": 7
+            },
+            {
+                "duration": 500,
+                "minLevel": 9
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You can't reduce the value of your frightened condition below 1 as long as you remain stupefied by this spell.",
+                "showon": "Effects",
+                "conditionChoiceFilter": [
+                    "Critical Failure"
+                ]
+            }
+        ],
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Failure"
+            },
+            {
+                "name": "Critical Failure"
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": [
+                    "Success"
+                ],
+                "name": "Sickened",
+                "persistent": true,
+                "ignorePersistentAtChoiceChange": true,
+                "value": 1
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Failure",
+                    "Critical Failure"
+                ],
+                "name": "Stupefied",
+                "value": 1
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Failure"
+                ],
+                "name": "Frightened",
+                "persistent": true,
+                "ignorePersistentAtChoiceChange": true,
+                "value": 1
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Critical Failure"
+                ],
+                "lockedByParent": true,
+                "name": "Frightened",
+                "persistent": true,
+                "ignorePersistentAtChoiceChange": true,
+                "value": 2
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Critical Success"
+                ],
+                "duration": 6000,
+                "name": "Lift Nature's Caul Immunity",
+                "persistent": true,
+                "ignorePersistentAtChoiceChange": true
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 1,
+                "descs": [
+                    {
+                        "value": "1 minute",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 3,
+                "descs": [
+                    {
+                        "value": "2 minutes",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 5,
+                "descs": [
+                    {
+                        "value": "3 minutes",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "4 minutes",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "5 minutes",
+                        "variable": "var1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Lift Nature's Caul (Ally)",
+        "desc": "You have seen the world around you as if a gauzy film had been lifted away to expose the truth that lies below your perceived reality. Natural features have grown twisted and horrendous, structures appeared distorted and ruined, and objects seemed warped and alien. The vision has faded quickly, but the glimpse beyond the natural world lingers for the spell's duration.\n\nAs an aberration or worshipper of Outer Gods or Great Old Ones, you are bolstered by this vision of warped reality and gain a +1 status bonus to Will saving throws and attack rolls for 1 minute.",
+        "sourceBook": "Pathfinder #165: Eyes of Empty Death",
+        "_extensionFileName": "pathfinder165",
+        "type": "spells",
+        "minLevel": 1,
+        "sortLevel": 1,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Will",
+                "type": "status",
+                "value": "1"
+            },
+            {
+                "affected": "Attack Rolls",
+                "type": "status",
+                "value": "1"
+            }
+        ]
+    },
+    {
+        "name": "Lift Nature's Caul (Caster)",
+        "desc": "With a wave of the hand, you have caused the targets to see the world around them as if a gauzy film had been lifted away to expose the truth that lies below their perceived reality. Natural features they can see have grown twisted and horrendous, structures appeared distorted and ruined, and objects seemed warped and alien. This alternate vision has faded quickly, but the glimpse beyond the natural world lingers for the spell's duration.\n\nAberrations or worshippers of Outer Gods or Great Old Ones are bolstered by this vision of warped reality and gain a +1 status bonus to Will saving throws and attack rolls for 1 minute, while all other creatures must attempt a Will saving throw.\n\n<strong>Critical Success</strong> The creature is unaffected and temporarily immune for 1 hour.\n<strong>Success</strong> The creature is sickened 1.\n<strong>Failure</strong> The creature is stupefied 1 for <var>var1</var> and frightened 1.\n<strong>Critical Failure</strong> The creature is stupefied 1 for <var>var1</var> and frightened 2. It can't reduce the value of its frightened condition below 1 as long as it remains stupefied by this spell.",
+        "sourceBook": "Pathfinder #165: Eyes of Empty Death",
+        "_extensionFileName": "pathfinder165",
+        "type": "spells",
+        "minLevel": 1,
+        "sortLevel": 1,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100,
+                "minLevel": 1
+            },
+            {
+                "duration": 200,
+                "minLevel": 3
+            },
+            {
+                "duration": 300,
+                "minLevel": 5
+            },
+            {
+                "duration": 400,
+                "minLevel": 7
+            },
+            {
+                "duration": 500,
+                "minLevel": 9
+            }
+        ],
+        "alwaysApplyCasterCondition": true,
+        "unlimited": true,
+        "heightenedDescs": [
+            {
+                "level": 1,
+                "descs": [
+                    {
+                        "value": "1 minute",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 3,
+                "descs": [
+                    {
+                        "value": "2 minutes",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 5,
+                "descs": [
+                    {
+                        "value": "3 minutes",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "4 minutes",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "5 minutes",
+                        "variable": "var1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Lift Nature's Caul Immunity",
+        "desc": "You cannot be affected by the Lift Nature's Caul spell for the duration.",
+        "sourceBook": "Pathfinder #165: Eyes of Empty Death",
+        "_extensionFileName": "pathfinder165",
+        "type": "spells",
+        "minLevel": 1,
+        "sortLevel": 1,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 6000
+            }
+        ],
+        "denyConditions": [
+            "Lift Nature's Caul"
+        ]
+    },
+    {
+        "name": "Fearful Feast",
+        "desc": "After you have become frightened, the caster has drawn in the bravery, self-confidence, and hope to which you cling and then stripped away your false assumption that these fragile emotions can save you from the oblivion of terror.\n\nYou take mental damage and additional effects according to your Will saving throw.\n\n<strong>Critical Success</strong> You are unaffected.\n<strong>Success</strong> Your frightened condition increases by 1, and you take half damage.\n<strong>Failure</strong> Your frightened condition increases by 2, and you take full damage.\n<strong>Critical Failure</strong> Your frightened condition increases by 3, and you take double damage.",
+        "sourceBook": "Pathfinder #165: Eyes of Empty Death",
+        "_extensionFileName": "pathfinder165",
+        "type": "spells",
+        "minLevel": 4,
+        "sortLevel": 4,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": 1
+            }
+        ],
+        "gainConditions": [
+            {
+                "addValue": 1,
+                "conditionChoiceFilter": [
+                    "Success"
+                ],
+                "name": "Frightened"
+            },
+            {
+                "addValue": 2,
+                "conditionChoiceFilter": [
+                    "Failure"
+                ],
+                "name": "Frightened"
+            },
+            {
+                "addValue": 3,
+                "conditionChoiceFilter": [
+                    "Critical Failure"
+                ],
+                "name": "Frightened"
+            }
+        ]
+    }
+]

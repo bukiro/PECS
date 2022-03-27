@@ -1,0 +1,75 @@
+[
+    {
+        "name": "Balisse Feather",
+        "desc": "After being damaged with a weapon with the balisse feather affixed, you burn with holy light. You must succeed at a DC 29 Will save or take a -2 status penalty to AC and saving throws and reduce your resistances by 5. These effects last until the end of the attacker's next turn.",
+        "sourceBook": "Advanced Player's Guide",
+        "_extensionFileName": "advancedPlayersGuide",
+        "type": "talismans",
+        "sortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": 12
+            }
+        ],
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 12
+            }
+        ],
+        "effects": [
+            {
+                "affected": "AC",
+                "type": "status",
+                "value": "Choice == 'Failure' ? -2 : 0"
+            },
+            {
+                "affected": "Saving Throws",
+                "type": "status",
+                "value": "Choice == 'Failure' ? -2 : 0"
+            },
+            {
+                "affected": "Resistances",
+                "value": "Choice == 'Failure' ? -5 : 0"
+            }
+        ]
+    },
+    {
+        "name": "Basilisk Eye",
+        "desc": "After your attack was blocked by a shield with the basilisk eye affixed, you must succeed at a DC 25 Fortitude save or become slowed 1 for 1 minute as your body slowly stiffens in partial petrification.",
+        "sourceBook": "Advanced Player's Guide",
+        "_extensionFileName": "advancedPlayersGuide",
+        "type": "talismans",
+        "sortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 100
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": [
+                    "Failure"
+                ],
+                "name": "Slowed",
+                "value": 1
+            }
+        ]
+    }
+]

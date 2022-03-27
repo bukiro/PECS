@@ -1,65 +1,65 @@
 [
-  {
-    "name": "Swarming Wasp Stings",
-    "id": "2d0bc960-3cbc-4978-9a48-26a18e1c6a38",
-    "shortDesc": "You manifest a swarm of disembodied wasp stingers that stab creatures in the area, possibly poisoning them.",
-    "actions": "2A",
-    "castType": "somatic, verbal",
-    "sourceBook": "Pathfinder #160: Assault on Hunting Lodge Seven",
-    "_extensionFileName": "pathfinder160",
-    "levelreq": 4,
-    "traditions": [
-      "Arcane",
-      "Primal"
-    ],
-    "traits": [
-      "Uncommon",
-      "Necromancy",
-      "Poison"
-    ],
-    "range": "30 feet",
-    "area": "10-foot burst",
-    "target": "area",
-    "desc": "You manifest a swarm of disembodied wasp stingers that stab creatures in the area, possibly poisoning them. Creatures in the affected area take |dice=2d6 P| 1d6 piercing damage. Each creature that takes piercing damage must attempt a Fortitude save.\n\n<strong>Swarming Wasp Venom</strong> (poison) <strong>Level</strong> 7; <strong>Maximum Duration</strong> 6 rounds; <strong>Stage 1</strong> 2d6 poison damage and clumsy 1 (1 round); <strong>Stage 2</strong> 3d6 poison damage and clumsy 2 (1 round)",
-    "savingThrow": "Fortitude",
-    "critsuccess": "The target is unaffected.",
-    "success": "The target takes |dice=2d6 Poison| 2d6 poison damage.",
-    "failure": "The target is afflicted with swarming wasp venom at stage 1.",
-    "critfailure": "The target is afflicted with swarming wasp venom at stage 2."
-  },
-  {
-    "name": "Wyvern Sting",
-    "id": "7f1a1634-8e3c-11eb-8dcd-0242ac130003",
-    "shortDesc": "You duplicate the venomous sting of a wyvern.",
-    "actions": "2A",
-    "castType": "somatic, verbal",
-    "sourceBook": "Pathfinder #160: Assault on Hunting Lodge Seven",
-    "_extensionFileName": "pathfinder160",
-    "levelreq": 5,
-    "traditions": [
-      "Arcane",
-      "Primal"
-    ],
-    "traits": [
-      "Uncommon",
-      "Necromancy",
-      "Poison"
-    ],
-    "range": "touch",
-    "targets": "1 creature",
-    "target": "other",
-    "singleTarget": true,
-    "desc": "You duplicate the venomous sting of a wyvern. You deal |dice=3d4 P| 3d4 piercing damage to the touched creature and afflict it with wyvern venom. If the target takes piercing damage, they must attempt a Fortitude save.\n\n<strong>Wyvern Venom</strong> (poison) <strong>Level</strong> 9; <strong>Maximum Duration</strong> 6 rounds; <strong>Stage 1</strong> 5d6 poison damage (1 round); <strong>Stage 2</strong> 6d6 poison damage (1 round); <strong>Stage 3</strong> 8d6 poison damage (1 round)",
-    "critsuccess": "The target is unaffected.",
-    "success": "The target takes |dice=5d6 Poison| 5d6 poison damage.",
-    "failure": "The target is afflicted with wyvern venom at stage 1.",
-    "critfailure": "The target is afflicted with wyvern venom at stage 2.",
-    "gainConditions": [
-      {
-        "duration": -5,
-        "name": "Wyvern Sting (Caster)",
-        "targetFilter": "caster"
-      }
-    ]
-  }
+    {
+        "name": "Swarming Wasp Stings",
+        "id": "2d0bc960-3cbc-4978-9a48-26a18e1c6a38",
+        "shortDesc": "You manifest a swarm of disembodied wasp stingers that stab creatures in the area, possibly poisoning them.",
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "sourceBook": "Pathfinder #160: Assault on Hunting Lodge Seven",
+        "_extensionFileName": "pathfinder160",
+        "levelreq": 4,
+        "traditions": [
+            "Arcane",
+            "Primal"
+        ],
+        "traits": [
+            "Uncommon",
+            "Necromancy",
+            "Poison"
+        ],
+        "range": "30 feet",
+        "area": "10-foot burst",
+        "target": "area",
+        "desc": "You manifest a swarm of disembodied wasp stingers that stab creatures in the area, possibly poisoning them. Creatures in the affected area take |dice=2d6 P| 1d6 piercing damage. Each creature that takes piercing damage must attempt a Fortitude save.\n\n<strong>Swarming Wasp Venom</strong> (poison) <strong>Level</strong> 7; <strong>Maximum Duration</strong> 6 rounds; <strong>Stage 1</strong> 2d6 poison damage and clumsy 1 (1 round); <strong>Stage 2</strong> 3d6 poison damage and clumsy 2 (1 round)",
+        "savingThrow": "Fortitude",
+        "critsuccess": "The target is unaffected.",
+        "success": "The target takes |dice=2d6 Poison| 2d6 poison damage.",
+        "failure": "The target is afflicted with swarming wasp venom at stage 1.",
+        "critfailure": "The target is afflicted with swarming wasp venom at stage 2."
+    },
+    {
+        "name": "Wyvern Sting",
+        "id": "7f1a1634-8e3c-11eb-8dcd-0242ac130003",
+        "shortDesc": "You duplicate the venomous sting of a wyvern.",
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "sourceBook": "Pathfinder #160: Assault on Hunting Lodge Seven",
+        "_extensionFileName": "pathfinder160",
+        "levelreq": 5,
+        "traditions": [
+            "Arcane",
+            "Primal"
+        ],
+        "traits": [
+            "Uncommon",
+            "Necromancy",
+            "Poison"
+        ],
+        "range": "touch",
+        "targets": "1 creature",
+        "target": "other",
+        "singleTarget": true,
+        "desc": "You duplicate the venomous sting of a wyvern. You deal |dice=3d4 P| 3d4 piercing damage to the touched creature and afflict it with wyvern venom. If the target takes piercing damage, they must attempt a Fortitude save.\n\n<strong>Wyvern Venom</strong> (poison) <strong>Level</strong> 9; <strong>Maximum Duration</strong> 6 rounds; <strong>Stage 1</strong> 5d6 poison damage (1 round); <strong>Stage 2</strong> 6d6 poison damage (1 round); <strong>Stage 3</strong> 8d6 poison damage (1 round)",
+        "critsuccess": "The target is unaffected.",
+        "success": "The target takes |dice=5d6 Poison| 5d6 poison damage.",
+        "failure": "The target is afflicted with wyvern venom at stage 1.",
+        "critfailure": "The target is afflicted with wyvern venom at stage 2.",
+        "gainConditions": [
+            {
+                "duration": -5,
+                "name": "Wyvern Sting (Caster)",
+                "targetFilter": "caster"
+            }
+        ]
+    }
 ]

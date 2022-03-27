@@ -1,0 +1,28 @@
+[
+    {
+        "name": "Sun Orchid Elixir",
+        "id": "eee1c9b4-a916-11ea-bb37-0242ac130002",
+        "desc": "When you drink this elixir, you physically become as you were in whatever phase of your youth you desire. Your new body begins in peak health, regardless of what your actual condition was at that age. Any physical or mental imperfections -  including scars, lost limbs, and curses, diseases, poisons of 20th level or lower -  are removed, and you regain your full Hit Points. You immediately begin to age normally again, with your natural lifespan extended as if you had never aged past your new apparent age. You retain all your memories.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "level": 20,
+        "bulk": "L",
+        "traits": [
+            "Rare",
+            "Alchemical",
+            "Consumable",
+            "Elixir",
+            "Necromancy"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "craftRequirement": "Unlike Crafting most items, brewing the sun orchid elixir takes 1 month's time. While an individual vial of sun orchid elixir isn't unique, the formula is unique, and it's known only to Artokus Kirran of Thuvia.",
+        "usage": "held in 1 hand",
+        "onceEffects": [
+            {
+                "affected": "HP",
+                "value": "9999"
+            }
+        ]
+    }
+]

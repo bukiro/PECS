@@ -1,0 +1,35 @@
+[
+    {
+        "name": "Guided by the Stars",
+        "desc": "The stars grant you insights that guide your actions. You roll twice and take the better result. If it's night and you can see the stars, you gain a +1 circumstance bonus to the triggering roll.",
+        "sourceBook": "Ancestry Guide",
+        "_extensionFileName": "ancestryGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "hide": true,
+        "hints": [
+            {
+                "desc": "If it's night and you can see the stars, you gain a +1 circumstance bonus to the triggering roll.",
+                "showon": "Skills, Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Skill Checks",
+                        "type": "circumstance",
+                        "value": "1"
+                    },
+                    {
+                        "affected": "Saving Throws",
+                        "type": "circumstance",
+                        "value": "1"
+                    }
+                ]
+            }
+        ]
+    }
+]

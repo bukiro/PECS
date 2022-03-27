@@ -1,0 +1,99 @@
+[
+    {
+        "name": "Orc",
+        "traits": [
+            "Uncommon",
+            "Humanoid",
+            "Orc"
+        ],
+        "sourceBook": "Advanced Player's Guide",
+        "_extensionFileName": "advancedPlayersGuide",
+        "baseLanguages": 2,
+        "hitPoints": 10,
+        "size": 0,
+        "abilityChoices": [
+            {
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "ancestries": [
+            "Orc"
+        ],
+        "desc": [
+            {
+                "name": "Description",
+                "value": "Orcs are forged in the fires of violence and conflict, often from the moment they are born. As they live lives that are frequently cut brutally short, orcs revel in testing their strength against worthy foes, whether by challenging a higher-ranking member of their community for dominance or raiding a neighboring settlement. Many orcs seek glory as soon as they can walk and carry a blade or club, taming wild beasts or hunting deadly monsters.\n\nOrcs often struggle to gain acceptance among other communities, who frequently see them as brutes. Those who earn the loyalty of an orc friend, however, soon learn that an orc's fidelity and honesty are unparalleled. Orc barbarians, fighters, and rangers are prized as gladiators and mercenaries. While some human settlements might be hesitant to accept an entire orc community into their midst, a small handful of orc mercenaries can do the job of an entire squad of human conscripts, so long as the orcs are well fed and well paid. Though the belief that orcs are only suited for battle is pervasive among other humanoids, the harsh orc mentality comes from a long history of conflict rather than a lack of ability in other areas.\n\nOrc culture teaches that they are shaped by the challenges they survive, and the most worthy survive the most hardships. Orcs who attain both a long life and great triumphs command immense respect.\n\nIf you want a character who is hardy, fearsome, and excels at feats of physical prowess, you should play an orc."
+            },
+            {
+                "name": "Hit Points",
+                "value": 10
+            },
+            {
+                "name": "Size",
+                "value": "Medium"
+            },
+            {
+                "name": "Speed",
+                "value": "25 feet"
+            },
+            {
+                "name": "Ability Boosts",
+                "value": "Strength\nFree"
+            },
+            {
+                "name": "Languages",
+                "value": "Common\nOrcish"
+            },
+            {
+                "name": "Additional Languages",
+                "value": "Equal to your Intelligence modifier (if it's positive). Choose from Goblin, Jotun, Terran, Undercommon, and any other languages to which you have access (such as the languages prevalent in your region)."
+            },
+            {
+                "name": "Darkvision",
+                "value": "You can see in darkness and dim light just as well as you can see in bright light, though your vision in darkness is in black and white."
+            }
+        ],
+        "heritages": [
+            "Badlands Orc",
+            "Deep Orc",
+            "Half-Elf",
+            "Hold-Scarred Orc",
+            "Rainfall Orc"
+        ],
+        "languages": [
+            "Common",
+            "Orcish"
+        ],
+        "recommendedLanguages": [
+            "Goblin",
+            "Jotun",
+            "Terran",
+            "Undercommon"
+        ],
+        "senses": [
+            "Darkvision"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            }
+        ]
+    }
+]

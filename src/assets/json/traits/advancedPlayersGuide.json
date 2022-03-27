@@ -1,0 +1,129 @@
+[
+  {
+    "name": "Aasimar",
+    "desc": "A creature with this trait has the aasimar versatile heritage. Aasimars are planar scions descended from celestial beings. An ability with this trait can be used or selected only by aasimars.",
+    "sourceBook": "Advanced Player's Guide",
+    "_extensionFileName": "advancedPlayersGuide"
+  },
+  {
+    "name": "Catfolk",
+    "desc": "A creature with this trait is a member of the catfolk ancestry. Catfolk are humanoids with feline features. An ability with this trait can be used or selected only by catfolk. An item with this trait is created and used by catfolk.",
+    "sourceBook": "Advanced Player's Guide",
+    "_extensionFileName": "advancedPlayersGuide"
+  },
+  {
+    "name": "Changeling",
+    "desc": "A creature with this trait has the changeling versatile heritage. Changelings are the children of hags and members of other humanoid ancestries. An ability with this trait can be used or selected only by changelings.",
+    "sourceBook": "Advanced Player's Guide",
+    "_extensionFileName": "advancedPlayersGuide"
+  },
+  {
+    "name": "Concealable",
+    "desc": "This weapon is designed to be inconspicuous or easily concealed. You gain a +2 circumstance bonus to Stealth checks and DCs to hide or conceal a weapon with this trait.",
+    "sourceBook": "Advanced Player's Guide",
+    "_extensionFileName": "advancedPlayersGuide",
+    "hints": [
+      {
+        "effects": [
+          {
+            "affected": "Stealth",
+            "type": "circumstance",
+            "value": "2"
+          }
+        ],
+        "showon": "Stealth"
+      }
+    ]
+  },
+  {
+    "name": "Dhampir",
+    "desc": "A creature with this trait has the dhampir versatile heritage. These humanoids are the immortal offspring of vampires and members of other ancestries.",
+    "sourceBook": "Advanced Player's Guide",
+    "_extensionFileName": "advancedPlayersGuide"
+  },
+  {
+    "name": "Duskwalker",
+    "desc": "A creature with this trait has the duskwalker versatile heritage. Duskwalkers are planar scions infused with the supernatural energy of psychopomps. An ability with this trait can be used or selected only by duskwalkers.",
+    "sourceBook": "Advanced Player's Guide",
+    "_extensionFileName": "advancedPlayersGuide"
+  },
+  {
+    "name": "Investigator",
+    "desc": "This trait indicates abilities from the investigator class.",
+    "sourceBook": "Advanced Player's Guide",
+    "_extensionFileName": "advancedPlayersGuide"
+  },
+  {
+    "name": "Kobold",
+    "desc": "A creature with this trait is a member of the kobold ancestry. Kobolds are reptilian humanoids who are usually Small and typically have darkvision. An ability with this trait can be used or selected only by kobolds.",
+    "sourceBook": "Advanced Player's Guide",
+    "_extensionFileName": "advancedPlayersGuide"
+  },
+  {
+    "name": "Lineage",
+    "desc": "A feat with this trait indicates a character's descendance from a particular type of creature. You can have only one lineage feat. You can select a lineage feat only at 1st level, and you can't retrain into or out of these feats.",
+    "sourceBook": "Advanced Player's Guide",
+    "_extensionFileName": "advancedPlayersGuide"
+  },
+  {
+    "name": "Oracle",
+    "desc": "This trait indicates abilities from the oracle class.",
+    "sourceBook": "Advanced Player's Guide",
+    "_extensionFileName": "advancedPlayersGuide"
+  },
+  {
+    "name": "Ranged Trip",
+    "desc": "This weapon can be used to Trip with the Athletics skill at a distance up to the weapon's first range increment. The skill check takes a -2 circumstance penalty. You can add the weapon's item bonus to attack rolls as a bonus to the check. As with using a melee weapon to trip, a ranged trip doesn't deal any damage when used to Trip. This trait usually only appears on a thrown weapon.",
+    "sourceBook": "Advanced Player's Guide",
+    "_extensionFileName": "advancedPlayersGuide",
+    "effectDesc": "Activate the first level for a +1 bonus, the second level for +2 and the third for +3.",
+    "hints": [
+      {
+        "effects": [
+          {
+            "affected": "Athletics",
+            "type": "item",
+            "value": "object.active3 ? 3 : (object.active2 ? 2 : 1)"
+          },
+          {
+            "affected": "Athletics",
+            "type": "circumstance",
+            "value": "-2"
+          }
+        ],
+        "extraActivations": 2,
+        "showon": "Athletics"
+      }
+    ]
+  },
+  {
+    "name": "Ratfolk",
+    "desc": "A creature with this trait is a member of the ratfolk ancestry. Ratfolk are humanoids who resemble rats. An ability with this trait can be used or selected only by ratfolk.",
+    "sourceBook": "Advanced Player's Guide",
+    "_extensionFileName": "advancedPlayersGuide"
+  },
+  {
+    "name": "Swashbuckler",
+    "desc": "This trait indicates abilities from the swashbuckler class.",
+    "sourceBook": "Advanced Player's Guide",
+    "_extensionFileName": "advancedPlayersGuide"
+  },
+  {
+    "name": "Tengu",
+    "desc": "A creature with this trait is a member of the tengu ancestry. Tengus are humanoids who resemble birds. An ability with this trait can be used or selected only by tengus. An item with this trait is created and used by tengus.",
+    "sourceBook": "Advanced Player's Guide",
+    "_extensionFileName": "advancedPlayersGuide"
+  },
+  {
+    "name": "Tiefling",
+    "desc": "A creature with this trait has the tiefling versatile heritage. Tieflings are planar scions descended from fiends. An ability with this trait can be used or selected only by tieflings.",
+    "sourceBook": "Advanced Player's Guide",
+    "_extensionFileName": "advancedPlayersGuide"
+  },
+  {
+    "name": "Witch",
+    "desc": "This trait indicates abilities from the witch class.",
+    "sourceBook": "Advanced Player's Guide",
+    "_extensionFileName": "advancedPlayersGuide"
+  }
+]

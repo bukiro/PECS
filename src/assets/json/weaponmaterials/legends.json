@@ -1,0 +1,33 @@
+[
+    {
+        "name": "Sovereign Steel (Standard-Grade)",
+        "desc": "Sovereign steel weapons are treated as cold iron against creatures with a weakness to cold iron, like demons and fey. In addition, the noqual in sovereign steel weapons disrupts spellcasters' concentration, causing them to become stupefied 1 for 1 round on a critical hit.",
+        "sourceBook": "Legends",
+        "_extensionFileName": "legends",
+        "level": 12,
+        "price": 160000,
+        "traits": [
+            "Rare"
+        ],
+        "bulkPrice": 16000,
+        "craftingRequirement": 6,
+        "craftRequirement": "at least 100 gp of cold iron + 10 gp per Bulk plus at least 100 gp of noqual + 10 gp per Bulk",
+        "criticalHint": "The noqual in sovereign steel weapons disrupts spellcasters' concentration, causing them to become stupefied 1 for 1 round on a critical hit.",
+        "runeLimit": 15
+    },
+    {
+        "name": "Sovereign Steel (High-Grade)",
+        "desc": "Sovereign steel weapons are treated as cold iron against creatures with a weakness to cold iron, like demons and fey. In addition, the noqual in sovereign steel weapons disrupts spellcasters' concentration, causing them to become stupefied 1 for 1 round on a critical hit.",
+        "sourceBook": "Legends",
+        "_extensionFileName": "legends",
+        "level": 19,
+        "price": 3200000,
+        "traits": [
+            "Rare"
+        ],
+        "bulkPrice": 320000,
+        "craftingRequirement": 8,
+        "craftRequirement": "at least 8,000 gp of cold iron + 800 gp per Bulk plus at least 8,000 gp of noqual + 800 gp per Bulk.",
+        "criticalHint": "The noqual in sovereign steel weapons disrupts spellcasters' concentration, causing them to become stupefied 1 for 1 round on a critical hit."
+    }
+]

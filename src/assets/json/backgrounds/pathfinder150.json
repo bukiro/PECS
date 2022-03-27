@@ -1,0 +1,271 @@
+[
+    {
+        "name": "Aiudara Seeker",
+        "desc": "The aiudara of Alseta's Ring have become more well known, and you are interested in learning more about them.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Arcana skill and the Portal Lore skill. You gain the Quick Identification skill feat.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "traits": [
+            "Rare",
+            "Legacy - Age of Ashes"
+        ],
+        "adventurePath": "Age of Ashes",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Intelligence",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Quick Identification",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Portal",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Arcana",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Hermean Heritor",
+        "desc": "With the restrictions on Hermean citizenship lifted, you may have fled the city of Promise or have spent some of your childhood in the company of someone who did.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Society skill and the Legal Lore skill. You gain the Multilingual skill feat or the Assurance skill feat for Society.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "traits": [
+            "Rare",
+            "Legacy - Age of Ashes"
+        ],
+        "adventurePath": "Age of Ashes",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Multilingual",
+                    "Assurance: Society"
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Legal",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Society",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Legendary Parents",
+        "desc": "One or more of your parents (either biological or adoptive) were heroes of the Age of Ashes Adventure Path. Others tend to treat you with a bit more respect, or perhaps fear your connections to people of great power.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in the Intimidation skill and the Genealogy Lore skill. You gain the Group Coercion skill feat.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "traits": [
+            "Rare",
+            "Legacy - Age of Ashes"
+        ],
+        "adventurePath": "Age of Ashes",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Dexterity",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Group Coercion",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Genealogy",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Intimidation",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Touched by Dahak",
+        "desc": "As the manifestation of Dahak was destroyed, a shard of the dragon god's wrathful nature infused you, resulting in a violent temper, strange apocalyptic dreams, an obsession with dragon hunting, or some other touch of his influence.\n\nChoose two ability boosts. One must be to Strength or Charisma, and one is a free ability boost.\n\nYou're trained in the Athletics skill and the Dragon Lore skill. You gain the Titan Wrestler skill feat.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "traits": [
+            "Rare",
+            "Legacy - Age of Ashes"
+        ],
+        "adventurePath": "Age of Ashes",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Strength",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Titan Wrestler",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Dragon",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Athletics",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    }
+]

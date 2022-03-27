@@ -1,39 +1,13 @@
 [
     {
-        "name": "Lastwall Soup",
-        "level": 1,
-        "price": 300,
-        "bulk": "L",
-        "id": "eee17158-a916-11ea-bb37-0242ac130002",
-        "actions": "1 minute",
-        "activationType": "Interact",
-        "sourceBook": "Character Guide",
-        "usage": "held in 2 hands",
-        "desc": "Crimson Reclaimers make this rich, hearty soup using herbs that baffle the senses of the undead. A bowl of Lastwall soup is as nourishing as a full meal. In addition, for 1 hour after consuming a bowl of Lastwall soup, you gain a +2 item bonus to Stealth checks and DCs against undead.",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Elixir"
-        ],
-        "gainConditions": [
-            {
-                "duration": 6000,
-                "name": "Lastwall Soup",
-                "source": "Lastwall Soup"
-            }
-        ]
-    },
-    {
         "name": "Antidote (Lesser)",
-        "level": 1,
-        "price": 300,
-        "bulk": "L",
         "id": "eee17356-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "An antidote protects you against toxins. Upon drinking an antidote, you gain an item bonus to Fortitude saving throws against poisons for 6 hours.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 1,
+        "bulk": "L",
+        "price": 300,
         "subType": "Lesser",
         "subTypeDesc": "You gain a +2 item bonus.",
         "traits": [
@@ -41,6 +15,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 36000,
@@ -51,14 +28,13 @@
     },
     {
         "name": "Antiplague (Lesser)",
-        "level": 1,
-        "price": 300,
-        "bulk": "L",
         "id": "eee1759a-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Antiplague can fortify the body's defenses against diseases. Upon drinking an antiplague, you gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease's progression.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 1,
+        "bulk": "L",
+        "price": 300,
         "subType": "Lesser",
         "subTypeDesc": "You gain a +2 item bonus.",
         "traits": [
@@ -66,6 +42,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 144000,
@@ -76,14 +55,13 @@
     },
     {
         "name": "Cheetah's Elixir (Lesser)",
-        "level": 1,
-        "price": 300,
-        "bulk": "L",
         "id": "eee1770c-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Enzymatic compounds in this elixir strengthen and excite the muscles in your legs. You gain a status bonus to your Speed for the listed duration.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 1,
+        "bulk": "L",
+        "price": 300,
         "subType": "Lesser",
         "subTypeDesc": "The bonus is +5 feet, and the duration is 1 minute.",
         "traits": [
@@ -91,6 +69,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 100,
@@ -102,15 +83,13 @@
     },
     {
         "name": "Elixir of Life (Minor)",
-        "level": 1,
-        "price": 300,
-        "bulk": "L",
         "id": "eee177f2-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Elixirs of life accelerate a living creature's natural healing processes and immune system. Upon drinking this elixir, you regain |dice=1d6| the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
-        "inputRequired": "Upon drinking this elixir, regain 1d6 Hit Points.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 1,
+        "bulk": "L",
+        "price": 300,
         "subType": "Minor",
         "subTypeDesc": "The elixir restores 1d6 Hit Points, and the bonus is +1.",
         "traits": [
@@ -119,6 +98,10 @@
             "Elixir",
             "Healing"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "inputRequired": "Upon drinking this elixir, regain 1d6 Hit Points.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 1000,
@@ -129,19 +112,21 @@
     },
     {
         "name": "Leaper's Elixir (Lesser)",
-        "level": 1,
-        "price": 300,
-        "bulk": "L",
         "id": "89bdd233-8e09-11ea-9fab-e92c63c14723",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "This tingly solution increases the elasticity and contraction of your leg muscles. For 1 minute after drinking this elixir, you can High Jump or Long Jump as a single action instead of 2 actions. If you do, you don't perform the initial Stride (nor do you fail if you don't Stride 10 feet).",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 1,
+        "bulk": "L",
+        "price": 300,
         "traits": [
             "Alchemical",
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 100,
@@ -152,14 +137,13 @@
     },
     {
         "name": "Serene Mutagen (Lesser)",
-        "level": 1,
-        "price": 400,
-        "bulk": "L",
         "id": "eee17b12-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "You gain inner serenity, focused on fine details and steeled against mental assaults, but you find violence off-putting.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 1,
+        "bulk": "L",
+        "price": 400,
         "subType": "Lesser",
         "subTypeDesc": "The bonus is +1, or +2 vs. mental, and the duration is 1 minute.",
         "traits": [
@@ -169,26 +153,28 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus to Will saves and Perception, Medicine, Nature, Religion, and Survival checks. This bonus improves when you attempt Will saves against mental effects. ",
+        "drawback": "You take a -1 penalty to attack rolls and save DCs of offensive spells, and a -1 penalty per damage die to all weapon, unarmed attack, and spell damage.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 100,
                 "name": "Serene Mutagen (Lesser)",
                 "source": "Serene Mutagen (Lesser)"
             }
-        ],
-        "benefit": "You gain an item bonus to Will saves and Perception, Medicine, Nature, Religion, and Survival checks. This bonus improves when you attempt Will saves against mental effects. ",
-        "drawback": "You take a -1 penalty to attack rolls and save DCs of offensive spells, and a -1 penalty per damage die to all weapon, unarmed attack, and spell damage."
+        ]
     },
     {
         "name": "Silvertongue Mutagen (Lesser)",
-        "level": 1,
-        "price": 400,
-        "bulk": "L",
         "id": "eee17bda-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Your features become striking and your voice becomes musical and commanding, though facts and figures become hazy for you and emotion clouds your ability to reason.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 1,
+        "bulk": "L",
+        "price": 400,
         "subType": "Lesser",
         "subTypeDesc": "The bonus is +1, and the duration is 1 minute.",
         "traits": [
@@ -198,6 +184,11 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus to Deception, Diplomacy, Intimidation, and Performance checks. Your critical failures with any of these skill become failures instead.",
+        "drawback": "You take a -2 item penalty to Arcana, Crafting, Lore, Occultism, and Society checks. Choose one skill in which you are trained; for the duration, you become untrained in that skill. All your failures on checks to Recall Knowledge become critical failures.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 100,
@@ -205,20 +196,17 @@
                 "source": "Silvertongue Mutagen (Lesser)",
                 "value": 1
             }
-        ],
-        "benefit": "You gain an item bonus to Deception, Diplomacy, Intimidation, and Performance checks. Your critical failures with any of these skill become failures instead.",
-        "drawback": "You take a -2 item penalty to Arcana, Crafting, Lore, Occultism, and Society checks. Choose one skill in which you are trained; for the duration, you become untrained in that skill. All your failures on checks to Recall Knowledge become critical failures."
+        ]
     },
     {
         "name": "Bestial Mutagen (Lesser)",
-        "level": 1,
-        "price": 400,
-        "bulk": "L",
         "id": "eee17c98-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Your features transform into something bestial and you take on muscle mass, but your lumbering form is clumsy.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 1,
+        "bulk": "L",
+        "price": 400,
         "subType": "Lesser",
         "subTypeDesc": "You gain a +1 item bonus, your claw deals 1d4 slashing damage, your jaws deal 1d6 piercing damage, and the duration is 1 minute.",
         "traits": [
@@ -228,6 +216,11 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus to Athletics checks and unarmed attack rolls. You gain a claw unarmed attack with the agile trait and a jaws unarmed attack.",
+        "drawback": "You take a -1 penalty to AC and a -2 penalty to Reflex saves.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "choice": "Lesser",
@@ -235,20 +228,17 @@
                 "name": "Bestial Mutagen",
                 "source": "Bestial Mutagen (Lesser)"
             }
-        ],
-        "benefit": "You gain an item bonus to Athletics checks and unarmed attack rolls. You gain a claw unarmed attack with the agile trait and a jaws unarmed attack.",
-        "drawback": "You take a -1 penalty to AC and a -2 penalty to Reflex saves."
+        ]
     },
     {
         "name": "Cognitive Mutagen (Lesser)",
-        "level": 1,
-        "price": 400,
-        "bulk": "L",
         "id": "eee17e50-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Your mind becomes clear and cognition flows freely, but physical matters seem ephemeral.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 1,
+        "bulk": "L",
+        "price": 400,
         "subType": "Lesser",
         "subTypeDesc": "The bonus is +1, and the duration is 1 minute.",
         "traits": [
@@ -258,26 +248,28 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus to Arcana, Crafting, Lore, Occultism, and Society checks and all checks to Recall Knowledge. Your critical failures on Recall Knowledge checks become failures instead. ",
+        "drawback": "You take a -2 penalty to weapon and unarmed attack rolls, Athletics checks, and Acrobatics checks. You can carry 2 less Bulk than normal before becoming encumbered, and the maximum Bulk you can carry is reduced by 4.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 100,
                 "name": "Cognitive Mutagen (Lesser)",
                 "source": "Cognitive Mutagen (Lesser)"
             }
-        ],
-        "benefit": "You gain an item bonus to Arcana, Crafting, Lore, Occultism, and Society checks and all checks to Recall Knowledge. Your critical failures on Recall Knowledge checks become failures instead. ",
-        "drawback": "You take a -2 penalty to weapon and unarmed attack rolls, Athletics checks, and Acrobatics checks. You can carry 2 less Bulk than normal before becoming encumbered, and the maximum Bulk you can carry is reduced by 4."
+        ]
     },
     {
         "name": "Eagle-Eye Elixir (Lesser)",
-        "level": 1,
-        "price": 400,
-        "bulk": "L",
         "id": "eee17f18-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "After you drink this elixir, you notice subtle visual details. For the next hour, you gain an item bonus to Perception checks that is greater when attempting to find secret doors and traps.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 1,
+        "bulk": "L",
+        "price": 400,
         "subType": "Lesser",
         "subTypeDesc": "The bonus is +1, or +2 to find secret doors and traps.",
         "traits": [
@@ -285,6 +277,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 6000,
@@ -296,14 +291,13 @@
     },
     {
         "name": "Juggernaut Mutagen (Lesser)",
-        "level": 1,
-        "price": 400,
-        "bulk": "L",
         "id": "89bdd231-8e09-11ea-9fab-e92c63c14723",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "After you drink this mutagen, your body becomes thick and sturdy. You exhibit a healthy glow, though you tend to be ponderous and unobservant.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 1,
+        "bulk": "L",
+        "price": 400,
         "subType": "Lesser",
         "subTypeDesc": "The bonus is +1, you gain 5 temporary Hit Points, and the duration is 1 minute.",
         "traits": [
@@ -313,26 +307,28 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus of +1 to Fortitude saves and 5 temporary Hit Points. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points.",
+        "drawback": "You take a -2 penalty to Will saves, Perception checks, and initiative rolls.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 100,
                 "name": "Juggernaut Mutagen (Lesser)",
                 "source": "Juggernaut Mutagen (Lesser)"
             }
-        ],
-        "benefit": "You gain an item bonus of +1 to Fortitude saves and 5 temporary Hit Points. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points.",
-        "drawback": "You take a -2 penalty to Will saves, Perception checks, and initiative rolls."
+        ]
     },
     {
         "name": "Quicksilver Mutagen (Lesser)",
-        "level": 1,
-        "price": 400,
-        "bulk": "L",
         "id": "eee18080-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Your features become thin and angular. You become swifter and nimbler, but your body also becomes fragile.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 1,
+        "bulk": "L",
+        "price": 400,
         "subType": "Lesser",
         "subTypeDesc": "The bonus to rolls is +1, the bonus to Speed is +5 feet, and the duration is 1 minute.",
         "traits": [
@@ -342,6 +338,11 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and Dexterity-based attack rolls, and you gain the listed status bonus to your Speed.",
+        "drawback": "You take damage equal to twice your level; you can't recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 100,
@@ -353,146 +354,19 @@
         "onceEffects": [
             {
                 "affected": "HP",
-                "value": "-Level * 2"
+                "value": "#NAME?"
             }
-        ],
-        "benefit": "You gain an item bonus to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and Dexterity-based attack rolls, and you gain the listed status bonus to your Speed.",
-        "drawback": "You take damage equal to twice your level; you can't recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves."
-    },
-    {
-        "name": "Energy Mutagen (Acid, Lesser)",
-        "level": 1,
-        "price": 400,
-        "bulk": "L",
-        "id": "eee1813e-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "sourceBook": "The Fall of Plaguestone",
-        "usage": "held in 1 hand",
-        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: acid, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
-        "subType": "Acid, Lesser",
-        "subTypeDesc": "You gain acid resistance 5, add 1 point of acid damage on a hit with a melee weapon, and the duration is 1 minute.",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Elixir",
-            "Mutagen",
-            "Polymorph"
-        ],
-        "gainConditions": [
-            {
-                "duration": 100,
-                "name": "Energy Mutagen (Acid, Lesser)",
-                "source": "Energy Mutagen (Acid, Lesser)"
-            }
-        ],
-        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
-        "drawback": "You gain weakness 5 to the other three energy types."
-    },
-    {
-        "name": "Energy Mutagen (Cold, Lesser)",
-        "level": 1,
-        "price": 400,
-        "bulk": "L",
-        "id": "a8fe643a-a983-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "sourceBook": "The Fall of Plaguestone",
-        "usage": "held in 1 hand",
-        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: cold, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
-        "subType": "Cold, Lesser",
-        "subTypeDesc": "You gain cold resistance 5, add 1 point of cold damage on a hit with a melee weapon, and the duration is 1 minute.",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Elixir",
-            "Mutagen",
-            "Polymorph"
-        ],
-        "gainConditions": [
-            {
-                "duration": 100,
-                "name": "Energy Mutagen (Cold, Lesser)",
-                "source": "Energy Mutagen (Cold, Lesser)"
-            }
-        ],
-        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
-        "drawback": "You gain weakness 5 to the other three energy types."
-    },
-    {
-        "name": "Energy Mutagen (Electricity, Lesser)",
-        "level": 1,
-        "price": 400,
-        "bulk": "L",
-        "id": "a8fe6692-a983-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "sourceBook": "The Fall of Plaguestone",
-        "usage": "held in 1 hand",
-        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: electricity, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
-        "subType": "Electricity, Lesser",
-        "subTypeDesc": "You gain electricity resistance 5, add 1 point of electricity damage on a hit with a melee weapon, and the duration is 1 minute.",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Elixir",
-            "Mutagen",
-            "Polymorph"
-        ],
-        "gainConditions": [
-            {
-                "duration": 100,
-                "name": "Energy Mutagen (Electricity, Lesser)",
-                "source": "Energy Mutagen (Electricity, Lesser)"
-            }
-        ],
-        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
-        "drawback": "You gain weakness 5 to the other three energy types."
-    },
-    {
-        "name": "Energy Mutagen (Fire, Lesser)",
-        "level": 1,
-        "price": 400,
-        "bulk": "L",
-        "id": "a8fe67a0-a983-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "sourceBook": "The Fall of Plaguestone",
-        "usage": "held in 1 hand",
-        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: fire, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
-        "subType": "Fire, Lesser",
-        "subTypeDesc": "You gain fire resistance 5, add 1 point of fire damage on a hit with a melee weapon, and the duration is 1 minute.",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Elixir",
-            "Mutagen",
-            "Polymorph"
-        ],
-        "gainConditions": [
-            {
-                "duration": 100,
-                "name": "Energy Mutagen (Fire, Lesser)",
-                "source": "Energy Mutagen (Fire, Lesser)"
-            }
-        ],
-        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
-        "drawback": "You gain weakness 5 to the other three energy types."
+        ]
     },
     {
         "name": "Darkvision Elixir (Lesser)",
-        "level": 1,
-        "price": 600,
-        "bulk": "L",
         "id": "d7a3efe3-cf2d-4802-a9ec-c1d0581c3c92",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "After you drink this elixir, your sight becomes sharper in darkness. You gain darkvision for the listed duration.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 1,
+        "bulk": "L",
+        "price": 600,
         "subType": "Lesser",
         "subTypeDesc": "The duration is 10 minutes.",
         "traits": [
@@ -500,6 +374,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 1000,
@@ -510,20 +387,22 @@
     },
     {
         "name": "Infiltrator's Elixir",
-        "level": 2,
-        "price": 600,
-        "bulk": "L",
         "id": "eee183d2-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Favored by spies and tricksters, an infiltrator's elixir is used to alter your appearance. When imbibed, you take the shape of a humanoid creature of your size, but different enough so you might be unrecognizable. If you aren't a humanoid, you might take on a form more similar to your own, at the GM's discretion.\n\nThe creator of the elixir decides the basics of the appearance you transform into when you imbibe the elixir, including eye color, skin tone, and hair color. The elixir can't change your form into that of a specific person. After the form takes hold, you retain it for the next 10 minutes.\n\nDrinking this elixir counts as setting up a disguise to Impersonate. You gain a +4 status bonus to your Deception DC to avoid others seeing through your disguise, and you add your level to this DC even if untrained.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 2,
+        "bulk": "L",
+        "price": 600,
         "traits": [
             "Alchemical",
             "Consumable",
             "Elixir",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 1000,
@@ -534,14 +413,13 @@
     },
     {
         "name": "Bravo's Brew (Lesser)",
-        "level": 2,
-        "price": 700,
-        "bulk": "L",
         "id": "eee1849a-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "This flask of foaming beer grants courage. For the next hour after drinking this elixir, you gain an item bonus to Will saves, which is greater when attempting Will saves against fear.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 2,
+        "bulk": "L",
+        "price": 700,
         "subType": "Lesser",
         "subTypeDesc": "The bonus on Will saves is +1, or +2 against fear.",
         "traits": [
@@ -550,6 +428,9 @@
             "Elixir",
             "Mental"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 6000,
@@ -561,19 +442,21 @@
     },
     {
         "name": "Cat's Eye Elixir",
-        "level": 2,
-        "price": 700,
-        "bulk": "L",
         "id": "eee1854e-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "After you consume this elixir, your vision sharpens and you become sensitive to even the most minute movements. For the next minute, you reduce the flat check to target hidden creatures to 5, and you don't need to attempt a flat check to target concealed creatures. These benefits apply only against creatures within 30 feet of you.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 2,
+        "bulk": "L",
+        "price": 700,
         "traits": [
             "Alchemical",
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 100,
@@ -584,14 +467,13 @@
     },
     {
         "name": "Comprehension Elixir (Lesser)",
-        "level": 2,
-        "price": 700,
-        "bulk": "L",
         "id": "eee18670-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "This bitter draught opens your mind to the potential of the written word. For the listed duration after drinking this elixir, you can understand any words you read, so long as they are written in a common language. This elixir doesn't automatically allow you to understand codes or extremely esoteric passages - you still need to attempt a skill check to Decipher Writing.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 2,
+        "bulk": "L",
+        "price": 700,
         "subType": "Lesser",
         "subTypeDesc": "The duration is 1 minute.",
         "traits": [
@@ -600,6 +482,9 @@
             "Elixir",
             "Mental"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 100,
@@ -610,14 +495,13 @@
     },
     {
         "name": "Serene Mutagen (Moderate)",
-        "level": 3,
-        "price": 1200,
-        "bulk": "L",
         "id": "eee1876a-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "You gain inner serenity, focused on fine details and steeled against mental assaults, but you find violence off-putting.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "L",
+        "price": 1200,
         "subType": "Moderate",
         "subTypeDesc": "The bonus is +2, or +3 vs. mental, and the duration is 10 minutes.",
         "traits": [
@@ -627,26 +511,28 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus to Will saves and Perception, Medicine, Nature, Religion, and Survival checks. This bonus improves when you attempt Will saves against mental effects. ",
+        "drawback": "You take a -1 penalty to attack rolls and save DCs of offensive spells, and a -1 penalty per damage die to all weapon, unarmed attack, and spell damage.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 1000,
                 "name": "Serene Mutagen (Moderate)",
                 "source": "Serene Mutagen (Moderate)"
             }
-        ],
-        "benefit": "You gain an item bonus to Will saves and Perception, Medicine, Nature, Religion, and Survival checks. This bonus improves when you attempt Will saves against mental effects. ",
-        "drawback": "You take a -1 penalty to attack rolls and save DCs of offensive spells, and a -1 penalty per damage die to all weapon, unarmed attack, and spell damage."
+        ]
     },
     {
         "name": "Silvertongue Mutagen (Moderate)",
-        "level": 3,
-        "price": 1200,
-        "bulk": "L",
         "id": "eee18828-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Your features become striking and your voice becomes musical and commanding, though facts and figures become hazy for you and emotion clouds your ability to reason.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "L",
+        "price": 1200,
         "subType": "Moderate",
         "subTypeDesc": "The bonus is +2, and the duration is 10 minutes.",
         "traits": [
@@ -656,6 +542,11 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus to Deception, Diplomacy, Intimidation, and Performance checks. Your critical failures with any of these skill become failures instead.",
+        "drawback": "You take a -2 item penalty to Arcana, Crafting, Lore, Occultism, and Society checks. Choose one skill in which you are trained; for the duration, you become untrained in that skill. All your failures on checks to Recall Knowledge become critical failures.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 1000,
@@ -663,20 +554,17 @@
                 "source": "Silvertongue Mutagen (Moderate)",
                 "value": 2
             }
-        ],
-        "benefit": "You gain an item bonus to Deception, Diplomacy, Intimidation, and Performance checks. Your critical failures with any of these skill become failures instead.",
-        "drawback": "You take a -2 item penalty to Arcana, Crafting, Lore, Occultism, and Society checks. Choose one skill in which you are trained; for the duration, you become untrained in that skill. All your failures on checks to Recall Knowledge become critical failures."
+        ]
     },
     {
         "name": "Bestial Mutagen (Moderate)",
-        "level": 3,
-        "price": 1200,
-        "bulk": "L",
         "id": "eee189c2-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Your features transform into something bestial and you take on muscle mass, but your lumbering form is clumsy.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "L",
+        "price": 1200,
         "subType": "Moderate",
         "subTypeDesc": "You gain a +2 item bonus, your claw deals 1d6 slashing damage, your jaws deal 1d8 piercing damage, and the duration is 10 minutes.",
         "traits": [
@@ -686,6 +574,11 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus to Athletics checks and unarmed attack rolls. You gain a claw unarmed attack with the agile trait and a jaws unarmed attack.",
+        "drawback": "You take a -1 penalty to AC and a -2 penalty to Reflex saves.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "choice": "Moderate",
@@ -693,20 +586,17 @@
                 "name": "Bestial Mutagen",
                 "source": "Bestial Mutagen (Moderate)"
             }
-        ],
-        "benefit": "You gain an item bonus to Athletics checks and unarmed attack rolls. You gain a claw unarmed attack with the agile trait and a jaws unarmed attack.",
-        "drawback": "You take a -1 penalty to AC and a -2 penalty to Reflex saves."
+        ]
     },
     {
         "name": "Cognitive Mutagen (Moderate)",
-        "level": 3,
-        "price": 1200,
-        "bulk": "L",
         "id": "eee18a8a-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Your mind becomes clear and cognition flows freely, but physical matters seem ephemeral.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "L",
+        "price": 1200,
         "subType": "Moderate",
         "subTypeDesc": "The bonus is +2, and the duration is 10 minutes.",
         "traits": [
@@ -716,26 +606,28 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus to Arcana, Crafting, Lore, Occultism, and Society checks and all checks to Recall Knowledge. Your critical failures on Recall Knowledge checks become failures instead. ",
+        "drawback": "You take a -2 penalty to weapon and unarmed attack rolls, Athletics checks, and Acrobatics checks. You can carry 2 less Bulk than normal before becoming encumbered, and the maximum Bulk you can carry is reduced by 4.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 1000,
                 "name": "Cognitive Mutagen (Moderate)",
                 "source": "Cognitive Mutagen (Moderate)"
             }
-        ],
-        "benefit": "You gain an item bonus to Arcana, Crafting, Lore, Occultism, and Society checks and all checks to Recall Knowledge. Your critical failures on Recall Knowledge checks become failures instead. ",
-        "drawback": "You take a -2 penalty to weapon and unarmed attack rolls, Athletics checks, and Acrobatics checks. You can carry 2 less Bulk than normal before becoming encumbered, and the maximum Bulk you can carry is reduced by 4."
+        ]
     },
     {
         "name": "Juggernaut Mutagen (Moderate)",
-        "level": 3,
-        "price": 1200,
-        "bulk": "L",
         "id": "eee18b48-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "After you drink this mutagen, your body becomes thick and sturdy. You exhibit a healthy glow, though you tend to be ponderous and unobservant.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "L",
+        "price": 1200,
         "subType": "Moderate",
         "subTypeDesc": "The bonus is +1, you gain 5 temporary Hit Points, and the duration is 1 minute.",
         "traits": [
@@ -745,26 +637,28 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus of +1 to Fortitude saves and 5 temporary Hit Points. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points.",
+        "drawback": "You take a -2 penalty to Will saves, Perception checks, and initiative rolls.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 1000,
                 "name": "Juggernaut Mutagen (Moderate)",
                 "source": "Juggernaut Mutagen (Moderate)"
             }
-        ],
-        "benefit": "You gain an item bonus of +1 to Fortitude saves and 5 temporary Hit Points. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points.",
-        "drawback": "You take a -2 penalty to Will saves, Perception checks, and initiative rolls."
+        ]
     },
     {
         "name": "Quicksilver Mutagen (Moderate)",
-        "level": 3,
-        "price": 1200,
-        "bulk": "L",
         "id": "eee18c06-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Your features become thin and angular. You become swifter and nimbler, but your body also becomes fragile.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "L",
+        "price": 1200,
         "subType": "Moderate",
         "subTypeDesc": "The bonus to rolls is +2, the bonus to Speed is +10 feet, and the duration is 10 minutes.",
         "traits": [
@@ -774,6 +668,11 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and Dexterity-based attack rolls, and you gain the listed status bonus to your Speed.",
+        "drawback": "You take damage equal to twice your level; you can't recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 1000,
@@ -785,146 +684,19 @@
         "onceEffects": [
             {
                 "affected": "HP",
-                "value": "-Level * 2"
+                "value": "#NAME?"
             }
-        ],
-        "benefit": "You gain an item bonus to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and Dexterity-based attack rolls, and you gain the listed status bonus to your Speed.",
-        "drawback": "You take damage equal to twice your level; you can't recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves."
-    },
-    {
-        "name": "Energy Mutagen (Acid, Moderate)",
-        "level": 3,
-        "price": 1200,
-        "bulk": "L",
-        "id": "f03f53b4-a996-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "sourceBook": "The Fall of Plaguestone",
-        "usage": "held in 1 hand",
-        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: acid, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
-        "subType": "Acid, Moderate",
-        "subTypeDesc": "You gain acid resistance 10, add 1d4 acid damage on a hit with a melee weapon, and the duration is 10 minutes.",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Elixir",
-            "Mutagen",
-            "Polymorph"
-        ],
-        "gainConditions": [
-            {
-                "duration": 1000,
-                "name": "Energy Mutagen (Acid, Moderate)",
-                "source": "Energy Mutagen (Acid, Moderate)"
-            }
-        ],
-        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
-        "drawback": "You gain weakness 5 to the other three energy types."
-    },
-    {
-        "name": "Energy Mutagen (Cold, Moderate)",
-        "level": 3,
-        "price": 1200,
-        "bulk": "L",
-        "id": "f03f55a8-a996-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "sourceBook": "The Fall of Plaguestone",
-        "usage": "held in 1 hand",
-        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: cold, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
-        "subType": "Cold, Moderate",
-        "subTypeDesc": "You gain cold resistance 10, add 1d4 cold damage on a hit with a melee weapon, and the duration is 10 minutes.",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Elixir",
-            "Mutagen",
-            "Polymorph"
-        ],
-        "gainConditions": [
-            {
-                "duration": 1000,
-                "name": "Energy Mutagen (Cold, Moderate)",
-                "source": "Energy Mutagen (Cold, Moderate)"
-            }
-        ],
-        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
-        "drawback": "You gain weakness 5 to the other three energy types."
-    },
-    {
-        "name": "Energy Mutagen (Electricity, Moderate)",
-        "level": 3,
-        "price": 1200,
-        "bulk": "L",
-        "id": "f03f56a2-a996-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "sourceBook": "The Fall of Plaguestone",
-        "usage": "held in 1 hand",
-        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: electricity, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
-        "subType": "Electricity, Moderate",
-        "subTypeDesc": "You gain electricity resistance 10, add 1d4 electricity damage on a hit with a melee weapon, and the duration is 10 minutes.",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Elixir",
-            "Mutagen",
-            "Polymorph"
-        ],
-        "gainConditions": [
-            {
-                "duration": 1000,
-                "name": "Energy Mutagen (Electricity, Moderate)",
-                "source": "Energy Mutagen (Electricity, Moderate)"
-            }
-        ],
-        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
-        "drawback": "You gain weakness 5 to the other three energy types."
-    },
-    {
-        "name": "Energy Mutagen (Fire, Moderate)",
-        "level": 3,
-        "price": 1200,
-        "bulk": "L",
-        "id": "f03f58fa-a996-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "sourceBook": "The Fall of Plaguestone",
-        "usage": "held in 1 hand",
-        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: fire, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
-        "subType": "Fire, Moderate",
-        "subTypeDesc": "You gain fire resistance 10, add 1d4 fire damage on a hit with a melee weapon, and the duration is 10 minutes.",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Elixir",
-            "Mutagen",
-            "Polymorph"
-        ],
-        "gainConditions": [
-            {
-                "duration": 1000,
-                "name": "Energy Mutagen (Fire, Moderate)",
-                "source": "Energy Mutagen (Fire, Moderate)"
-            }
-        ],
-        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
-        "drawback": "You gain weakness 5 to the other three energy types."
+        ]
     },
     {
         "name": "Darkvision Elixir (Moderate)",
-        "level": 4,
-        "price": 1100,
-        "bulk": "L",
         "id": "474f7d7b-e711-4768-b96e-99fd5b874110",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "After you drink this elixir, your sight becomes sharper in darkness. You gain darkvision for the listed duration.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 4,
+        "bulk": "L",
+        "price": 1100,
         "subType": "Moderate",
         "subTypeDesc": "The duration is 1 hour.",
         "traits": [
@@ -932,6 +704,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 6000,
@@ -942,20 +717,22 @@
     },
     {
         "name": "Stone Fist Elixir",
-        "level": 4,
-        "price": 1300,
-        "bulk": "L",
         "id": "eee18f76-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Your fists become hard as stone. For 1 hour, your fists deal 1d6 bludgeoning damage and lose the nonlethal trait.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 4,
+        "bulk": "L",
+        "price": 1300,
         "traits": [
             "Alchemical",
             "Consumable",
             "Elixir",
             "Morph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 6000,
@@ -966,14 +743,13 @@
     },
     {
         "name": "Bomber's Eye Elixir (Lesser)",
-        "level": 4,
-        "price": 1400,
-        "bulk": "L",
         "id": "eee19034-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "This tincture lets you pinpoint your foes. For the next 5 minutes, your alchemical bomb Strikes reduce the circumstance bonus to AC your targets gain from cover.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 4,
+        "bulk": "L",
+        "price": 1400,
         "subType": "Lesser",
         "subTypeDesc": "Reduce your targets' circumstance bonus by 1.",
         "traits": [
@@ -981,6 +757,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 500,
@@ -991,19 +770,21 @@
     },
     {
         "name": "Winter Wolf Elixir (Lesser)",
-        "level": 4,
-        "price": 1500,
-        "bulk": "L",
         "id": "eee190f2-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "This elixir warms your core and improves your circulation. For 24 hours, you are protected from the effects of severe cold.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 4,
+        "bulk": "L",
+        "price": 1500,
         "traits": [
             "Alchemical",
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 144000,
@@ -1014,19 +795,21 @@
     },
     {
         "name": "Salamander Elixir (Lesser)",
-        "level": 4,
-        "price": 1500,
-        "bulk": "L",
         "id": "eee191b0-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "This elixir is made from salamander scales to withstand fire. For 24 hours, you are protected from the effects of severe heat.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 4,
+        "bulk": "L",
+        "price": 1500,
         "traits": [
             "Alchemical",
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 144000,
@@ -1037,14 +820,13 @@
     },
     {
         "name": "Mistform Elixir (Lesser)",
-        "level": 4,
-        "price": 1800,
-        "bulk": "L",
         "id": "eee19264-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "A faint mist emanates from your skin, making you concealed for the listed duration. As usual being concealed when your position is still obvious, you can't use this concealment to Hide or Sneak.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 4,
+        "bulk": "L",
+        "price": 1800,
         "subType": "Lesser",
         "subTypeDesc": "The duration is 3 rounds.",
         "traits": [
@@ -1054,6 +836,9 @@
             "Illusion",
             "Visual"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 30,
@@ -1064,14 +849,13 @@
     },
     {
         "name": "Sea Touch Elixir (Lesser)",
-        "level": 5,
-        "price": 2200,
-        "bulk": "L",
         "id": "eee19322-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "This briny concoction alters the skin on your hands and feet. The spaces between your fingers and toes become webbed, granting you a swim Speed of 20 feet for the listed duration.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 5,
+        "bulk": "L",
+        "price": 2200,
         "subType": "Lesser",
         "subTypeDesc": "The duration is 10 minutes.",
         "traits": [
@@ -1080,6 +864,9 @@
             "Elixir",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 1000,
@@ -1089,47 +876,14 @@
         ]
     },
     {
-        "name": "Stone Body Mutagen (Lesser)",
-        "level": 5,
-        "price": 2200,
-        "bulk": "L",
-        "id": "eee194b2-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "sourceBook": "The Fall of Plaguestone",
-        "usage": "held in 1 hand",
-        "desc": "This mutagen calcifies your body making it as hard as stone.",
-        "subType": "Lesser",
-        "subTypeDesc": "You gain resistance 5 to physical damage (except bludgeoning) and the duration is 10 minutes.",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Elixir",
-            "Mutagen",
-            "Polymorph"
-        ],
-        "gainConditions": [
-            {
-                "duration": 1000,
-                "name": "Stone Body Mutagen",
-                "source": "Stone Body Mutagen (Lesser)",
-                "value": 1
-            }
-        ],
-        "benefit": "You gain resistance to physical damage (except bludgeoning) equal to the listed amount.",
-        "drawback": "Your Speeds are reduced by 10 feet (minimum 5 feet) and you take a -2 penalty to Reflex saves."
-    },
-    {
         "name": "Cheetah's Elixir (Moderate)",
-        "level": 5,
-        "price": 2500,
-        "bulk": "L",
         "id": "eee19570-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Enzymatic compounds in this elixir strengthen and excite the muscles in your legs. You gain a status bonus to your Speed for the listed duration.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 5,
+        "bulk": "L",
+        "price": 2500,
         "subType": "Moderate",
         "subTypeDesc": "The bonus is +10 feet, and the duration is 10 minutes.",
         "traits": [
@@ -1137,6 +891,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 1000,
@@ -1148,14 +905,13 @@
     },
     {
         "name": "Eagle-Eye Elixir (Moderate)",
-        "level": 5,
-        "price": 2700,
-        "bulk": "L",
         "id": "89bdd235-8e09-11ea-9fab-e92c63c14723",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "After you drink this elixir, you notice subtle visual details. For the next hour, you gain an item bonus to Perception checks that is greater when attempting to find secret doors and traps.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 5,
+        "bulk": "L",
+        "price": 2700,
         "subType": "Moderate",
         "subTypeDesc": "The bonus is +2, or +3 to find secret doors and traps.",
         "traits": [
@@ -1163,6 +919,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 6000,
@@ -1174,15 +933,13 @@
     },
     {
         "name": "Elixir of Life (Lesser)",
-        "level": 5,
-        "price": 3000,
-        "bulk": "L",
         "id": "eee196ce-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Elixirs of life accelerate a living creature's natural healing processes and immune system. Upon drinking this elixir, you regain |dice=3d6 + 6| the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
-        "inputRequired": "Upon drinking this elixir, regain 3d6+6 Hit Points.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 5,
+        "bulk": "L",
+        "price": 3000,
         "subType": "Lesser",
         "subTypeDesc": "The elixir restores 3d6+6 Hit Points and the bonus is +1.",
         "traits": [
@@ -1191,6 +948,10 @@
             "Elixir",
             "Healing"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "inputRequired": "Upon drinking this elixir, regain 3d6+6 Hit Points.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 1000,
@@ -1201,14 +962,13 @@
     },
     {
         "name": "Antidote (Moderate)",
-        "level": 6,
-        "price": 3500,
-        "bulk": "L",
         "id": "eee198ea-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "An antidote protects you against toxins. Upon drinking an antidote, you gain an item bonus to Fortitude saving throws against poisons for 6 hours.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 6,
+        "bulk": "L",
+        "price": 3500,
         "subType": "Moderate",
         "subTypeDesc": "You gain a +3 item bonus.",
         "traits": [
@@ -1216,6 +976,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 36000,
@@ -1226,14 +989,13 @@
     },
     {
         "name": "Antiplague (Moderate)",
-        "level": 6,
-        "price": 3500,
-        "bulk": "L",
         "id": "eee199b2-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Antiplague can fortify the body's defenses against diseases. Upon drinking an antiplague, you gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease's progression.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 6,
+        "bulk": "L",
+        "price": 3500,
         "subType": "Moderate",
         "subTypeDesc": "You gain a +3 item bonus.",
         "traits": [
@@ -1241,6 +1003,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 144000,
@@ -1251,14 +1016,13 @@
     },
     {
         "name": "Mistform Elixir (Moderate)",
-        "level": 6,
-        "price": 5600,
-        "bulk": "L",
         "id": "eee19a70-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "A faint mist emanates from your skin, making you concealed for the listed duration. As usual being concealed when your position is still obvious, you can't use this concealment to Hide or Sneak.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 6,
+        "bulk": "L",
+        "price": 5600,
         "subType": "Moderate",
         "subTypeDesc": "The duration is 1 minute.",
         "traits": [
@@ -1268,6 +1032,9 @@
             "Illusion",
             "Visual"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 100,
@@ -1278,14 +1045,13 @@
     },
     {
         "name": "Comprehension Elixir (Greater)",
-        "level": 7,
-        "price": 5400,
-        "bulk": "L",
         "id": "eee19b2e-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "This bitter draught opens your mind to the potential of the written word. For the listed duration after drinking this elixir, you can understand any words you read, so long as they are written in a common language. This elixir doesn't automatically allow you to understand codes or extremely esoteric passages - you still need to attempt a skill check to Decipher Writing.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 7,
+        "bulk": "L",
+        "price": 5400,
         "subType": "Lesser",
         "subTypeDesc": "The duration is 10 minutes.",
         "traits": [
@@ -1294,6 +1060,9 @@
             "Elixir",
             "Mental"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 1000,
@@ -1304,14 +1073,13 @@
     },
     {
         "name": "Leaper's Elixir (Greater)",
-        "level": 7,
-        "price": 5500,
-        "bulk": "L",
         "id": "eee19bec-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "This tingly solution increases the elasticity and contraction of your leg muscles. For 1 minute after drinking this elixir, you can High Jump or Long Jump as a single action instead of 2 actions. If you do, you don't perform the initial Stride (nor do you fail if you don't Stride 10 feet).",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 7,
+        "bulk": "L",
+        "price": 5500,
         "subType": "Greater",
         "subTypeDesc": "The maximum vertical distance you can jump with a High Jump is the same as you can jump horizontally with a Long Jump.",
         "traits": [
@@ -1319,6 +1087,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 100,
@@ -1329,14 +1100,13 @@
     },
     {
         "name": "Darkvision Elixir (Greater)",
-        "level": 8,
-        "price": 9000,
-        "bulk": "L",
         "id": "b87e538d-6cf0-456d-b094-fb8260119339",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "After you drink this elixir, your sight becomes sharper in darkness. You gain darkvision for the listed duration.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 8,
+        "bulk": "L",
+        "price": 9000,
         "subType": "Greater",
         "subTypeDesc": "The duration is 24 hours.",
         "traits": [
@@ -1344,6 +1114,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 144000,
@@ -1354,14 +1127,13 @@
     },
     {
         "name": "Cheetah's Elixir (Greater)",
-        "level": 9,
-        "price": 11000,
-        "bulk": "L",
         "id": "eee19f98-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Enzymatic compounds in this elixir strengthen and excite the muscles in your legs. You gain a status bonus to your Speed for the listed duration.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 9,
+        "bulk": "L",
+        "price": 11000,
         "subType": "Greater",
         "subTypeDesc": "The bonus is +10 feet, and the duration is 1 hour.",
         "traits": [
@@ -1369,6 +1141,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 6000,
@@ -1380,15 +1155,13 @@
     },
     {
         "name": "Elixir of Life (Moderate)",
-        "level": 9,
-        "price": 15000,
-        "bulk": "L",
         "id": "eee1a056-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Elixirs of life accelerate a living creature's natural healing processes and immune system. Upon drinking this elixir, you regain |dice=5d6 + 12| the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
-        "inputRequired": "Upon drinking this elixir, regain 5d6+12 Hit Points.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 9,
+        "bulk": "L",
+        "price": 15000,
         "subType": "Moderate",
         "subTypeDesc": "The elixir restores 5d6+12 Hit Points, and the bonus is +2.",
         "traits": [
@@ -1397,6 +1170,10 @@
             "Elixir",
             "Healing"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "inputRequired": "Upon drinking this elixir, regain 5d6+12 Hit Points.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 1000,
@@ -1407,14 +1184,13 @@
     },
     {
         "name": "Bravo's Brew (Moderate)",
-        "level": 10,
-        "price": 15000,
-        "bulk": "L",
         "id": "eee1a10a-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "This flask of foaming beer grants courage. For the next hour after drinking this elixir, you gain an item bonus to Will saves, which is greater when attempting Will saves against fear.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 10,
+        "bulk": "L",
+        "price": 15000,
         "subType": "Moderate",
         "subTypeDesc": "The bonus on Will saves is +2, or +3 against fear.",
         "traits": [
@@ -1423,6 +1199,9 @@
             "Elixir",
             "Mental"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 6000,
@@ -1434,14 +1213,13 @@
     },
     {
         "name": "Antidote (Greater)",
-        "level": 10,
-        "price": 16000,
-        "bulk": "L",
         "id": "eee1a1be-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "An antidote protects you against toxins. Upon drinking an antidote, you gain an item bonus to Fortitude saving throws against poisons for 6 hours.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 10,
+        "bulk": "L",
+        "price": 16000,
         "subType": "Greater",
         "subTypeDesc": "You gain a +4 item bonus.",
         "traits": [
@@ -1449,6 +1227,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 36000,
@@ -1459,14 +1240,13 @@
     },
     {
         "name": "Antiplague (Greater)",
-        "level": 10,
-        "price": 16000,
-        "bulk": "L",
         "id": "eee1a27c-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Antiplague can fortify the body's defenses against diseases. Upon drinking an antiplague, you gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease's progression.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 10,
+        "bulk": "L",
+        "price": 16000,
         "subType": "Greater",
         "subTypeDesc": "You gain a +4 item bonus.",
         "traits": [
@@ -1474,6 +1254,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 144000,
@@ -1484,14 +1267,13 @@
     },
     {
         "name": "Mistform Elixir (Greater)",
-        "level": 10,
-        "price": 18000,
-        "bulk": "L",
         "id": "eee1a33a-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "A faint mist emanates from your skin, making you concealed for the listed duration. As usual being concealed when your position is still obvious, you can't use this concealment to Hide or Sneak.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 10,
+        "bulk": "L",
+        "price": 18000,
         "subType": "Greater",
         "subTypeDesc": "The duration is 5 minutes.",
         "traits": [
@@ -1501,6 +1283,9 @@
             "Illusion",
             "Visual"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 500,
@@ -1511,14 +1296,13 @@
     },
     {
         "name": "Eagle-Eye Elixir (Greater)",
-        "level": 10,
-        "price": 20000,
-        "bulk": "L",
         "id": "eee1a966-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "After you drink this elixir, you notice subtle visual details. For the next hour, you gain an item bonus to Perception checks that is greater when attempting to find secret doors and traps.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 10,
+        "bulk": "L",
+        "price": 20000,
         "subType": "Greater",
         "subTypeDesc": "The bonus is +3, or +4 to find secret doors and traps.",
         "traits": [
@@ -1526,6 +1310,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 6000,
@@ -1537,14 +1324,13 @@
     },
     {
         "name": "Serene Mutagen (Greater)",
-        "level": 11,
-        "price": 30000,
-        "bulk": "L",
         "id": "eee1aa4c-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "You gain inner serenity, focused on fine details and steeled against mental assaults, but you find violence off-putting.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 11,
+        "bulk": "L",
+        "price": 30000,
         "subType": "Greater",
         "subTypeDesc": "The bonus is +2, or +3 vs. mental, and the duration is 10 minutes.",
         "traits": [
@@ -1554,26 +1340,28 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus to Will saves and Perception, Medicine, Nature, Religion, and Survival checks. This bonus improves when you attempt Will saves against mental effects. ",
+        "drawback": "You take a -1 penalty to attack rolls and save DCs of offensive spells, and a -1 penalty per damage die to all weapon, unarmed attack, and spell damage.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 6000,
                 "name": "Serene Mutagen (Greater)",
                 "source": "Serene Mutagen (Greater)"
             }
-        ],
-        "benefit": "You gain an item bonus to Will saves and Perception, Medicine, Nature, Religion, and Survival checks. This bonus improves when you attempt Will saves against mental effects. ",
-        "drawback": "You take a -1 penalty to attack rolls and save DCs of offensive spells, and a -1 penalty per damage die to all weapon, unarmed attack, and spell damage."
+        ]
     },
     {
         "name": "Silvertongue Mutagen (Greater)",
-        "level": 11,
-        "price": 30000,
-        "bulk": "L",
         "id": "eee1ab0a-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Your features become striking and your voice becomes musical and commanding, though facts and figures become hazy for you and emotion clouds your ability to reason.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 11,
+        "bulk": "L",
+        "price": 30000,
         "subType": "Greater",
         "subTypeDesc": "The bonus is +3, and the duration is 1 hour.",
         "traits": [
@@ -1583,6 +1371,11 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus to Deception, Diplomacy, Intimidation, and Performance checks. Your critical failures with any of these skill become failures instead.",
+        "drawback": "You take a -2 item penalty to Arcana, Crafting, Lore, Occultism, and Society checks. Choose one skill in which you are trained; for the duration, you become untrained in that skill. All your failures on checks to Recall Knowledge become critical failures.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 6000,
@@ -1590,20 +1383,17 @@
                 "source": "Silvertongue Mutagen (Greater)",
                 "value": 3
             }
-        ],
-        "benefit": "You gain an item bonus to Deception, Diplomacy, Intimidation, and Performance checks. Your critical failures with any of these skill become failures instead.",
-        "drawback": "You take a -2 item penalty to Arcana, Crafting, Lore, Occultism, and Society checks. Choose one skill in which you are trained; for the duration, you become untrained in that skill. All your failures on checks to Recall Knowledge become critical failures."
+        ]
     },
     {
         "name": "Bestial Mutagen (Greater)",
-        "level": 11,
-        "price": 30000,
-        "bulk": "L",
         "id": "eee1abd2-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Your features transform into something bestial and you take on muscle mass, but your lumbering form is clumsy.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 11,
+        "bulk": "L",
+        "price": 30000,
         "subType": "Greater",
         "subTypeDesc": "You gain a +3 item bonus, your claw deals 1d8 slashing damage, your jaws deal 1d10 piercing damage, and the duration is 1 minute.",
         "traits": [
@@ -1613,6 +1403,11 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus to Athletics checks and unarmed attack rolls. You gain a claw unarmed attack with the agile trait and a jaws unarmed attack.",
+        "drawback": "You take a -1 penalty to AC and a -2 penalty to Reflex saves.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "choice": "Greater",
@@ -1620,20 +1415,17 @@
                 "name": "Bestial Mutagen",
                 "source": "Bestial Mutagen (Greater)"
             }
-        ],
-        "benefit": "You gain an item bonus to Athletics checks and unarmed attack rolls. You gain a claw unarmed attack with the agile trait and a jaws unarmed attack.",
-        "drawback": "You take a -1 penalty to AC and a -2 penalty to Reflex saves."
+        ]
     },
     {
         "name": "Cognitive Mutagen (Greater)",
-        "level": 11,
-        "price": 30000,
-        "bulk": "L",
         "id": "eee1ac90-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Your mind becomes clear and cognition flows freely, but physical matters seem ephemeral.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 11,
+        "bulk": "L",
+        "price": 30000,
         "subType": "Greater",
         "subTypeDesc": "The bonus is +3, and the duration is 1 hour. You become trained in one Intelligence-based skill, chosen at creation.",
         "traits": [
@@ -1643,26 +1435,28 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus to Arcana, Crafting, Lore, Occultism, and Society checks and all checks to Recall Knowledge. Your critical failures on Recall Knowledge checks become failures instead. ",
+        "drawback": "You take a -2 penalty to weapon and unarmed attack rolls, Athletics checks, and Acrobatics checks. You can carry 2 less Bulk than normal before becoming encumbered, and the maximum Bulk you can carry is reduced by 4.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 6000,
                 "name": "Cognitive Mutagen (Greater)",
                 "source": "Cognitive Mutagen (Greater)"
             }
-        ],
-        "benefit": "You gain an item bonus to Arcana, Crafting, Lore, Occultism, and Society checks and all checks to Recall Knowledge. Your critical failures on Recall Knowledge checks become failures instead. ",
-        "drawback": "You take a -2 penalty to weapon and unarmed attack rolls, Athletics checks, and Acrobatics checks. You can carry 2 less Bulk than normal before becoming encumbered, and the maximum Bulk you can carry is reduced by 4."
+        ]
     },
     {
         "name": "Juggernaut Mutagen (Greater)",
-        "level": 11,
-        "price": 30000,
-        "bulk": "L",
         "id": "eee1ad4e-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "After you drink this mutagen, your body becomes thick and sturdy. You exhibit a healthy glow, though you tend to be ponderous and unobservant.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 11,
+        "bulk": "L",
+        "price": 30000,
         "subType": "Greater",
         "subTypeDesc": "The bonus is +1, you gain 5 temporary Hit Points, and the duration is 1 minute.",
         "traits": [
@@ -1672,26 +1466,28 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus of +1 to Fortitude saves and 5 temporary Hit Points. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points.",
+        "drawback": "You take a -2 penalty to Will saves, Perception checks, and initiative rolls.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 6000,
                 "name": "Juggernaut Mutagen (Greater)",
                 "source": "Juggernaut Mutagen (Greater)"
             }
-        ],
-        "benefit": "You gain an item bonus of +1 to Fortitude saves and 5 temporary Hit Points. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points.",
-        "drawback": "You take a -2 penalty to Will saves, Perception checks, and initiative rolls."
+        ]
     },
     {
         "name": "Quicksilver Mutagen (Greater)",
-        "level": 11,
-        "price": 30000,
-        "bulk": "L",
         "id": "eee1ae0c-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Your features become thin and angular. You become swifter and nimbler, but your body also becomes fragile.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 11,
+        "bulk": "L",
+        "price": 30000,
         "subType": "Greater",
         "subTypeDesc": "The bonus to rolls is +3, the bonus to Speed is +15 feet, and the duration is 1 hour.",
         "traits": [
@@ -1701,6 +1497,11 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and Dexterity-based attack rolls, and you gain the listed status bonus to your Speed.",
+        "drawback": "You take damage equal to twice your level; you can't recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 6000,
@@ -1712,146 +1513,19 @@
         "onceEffects": [
             {
                 "affected": "HP",
-                "value": "-Level * 2"
+                "value": "#NAME?"
             }
-        ],
-        "benefit": "You gain an item bonus to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and Dexterity-based attack rolls, and you gain the listed status bonus to your Speed.",
-        "drawback": "You take damage equal to twice your level; you can't recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves."
-    },
-    {
-        "name": "Energy Mutagen (Acid, Greater)",
-        "level": 11,
-        "price": 30000,
-        "bulk": "L",
-        "id": "8de9c306-a997-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "sourceBook": "The Fall of Plaguestone",
-        "usage": "held in 1 hand",
-        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: acid, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
-        "subType": "Acid, Greater",
-        "subTypeDesc": "You gain acid resistance 15, add 1d6 acid damage on a hit with a melee weapon, and the duration is 1 hour. In addition, you can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 2d6 acid damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Elixir",
-            "Mutagen",
-            "Polymorph"
-        ],
-        "gainConditions": [
-            {
-                "duration": 6000,
-                "name": "Energy Mutagen (Acid, Greater)",
-                "source": "Energy Mutagen (Acid, Greater)"
-            }
-        ],
-        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
-        "drawback": "You gain weakness 5 to the other three energy types."
-    },
-    {
-        "name": "Energy Mutagen (Cold, Greater)",
-        "level": 11,
-        "price": 30000,
-        "bulk": "L",
-        "id": "8de9c522-a997-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "sourceBook": "The Fall of Plaguestone",
-        "usage": "held in 1 hand",
-        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: cold, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
-        "subType": "Cold, Greater",
-        "subTypeDesc": "You gain cold resistance 15, add 1d6 cold damage on a hit with a melee weapon, and the duration is 1 hour. In addition, you can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 2d6 cold damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Elixir",
-            "Mutagen",
-            "Polymorph"
-        ],
-        "gainConditions": [
-            {
-                "duration": 6000,
-                "name": "Energy Mutagen (Cold, Greater)",
-                "source": "Energy Mutagen (Cold, Greater)"
-            }
-        ],
-        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
-        "drawback": "You gain weakness 5 to the other three energy types."
-    },
-    {
-        "name": "Energy Mutagen (Electricity, Greater)",
-        "level": 11,
-        "price": 30000,
-        "bulk": "L",
-        "id": "8de9c626-a997-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "sourceBook": "The Fall of Plaguestone",
-        "usage": "held in 1 hand",
-        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: electricity, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
-        "subType": "Electricity, Greater",
-        "subTypeDesc": "You gain electricity resistance 15, add 1d6 electricity damage on a hit with a melee weapon, and the duration is 1 hour. In addition, you can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 2d6 electricity damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Elixir",
-            "Mutagen",
-            "Polymorph"
-        ],
-        "gainConditions": [
-            {
-                "duration": 6000,
-                "name": "Energy Mutagen (Electricity, Greater)",
-                "source": "Energy Mutagen (Electricity, Greater)"
-            }
-        ],
-        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
-        "drawback": "You gain weakness 5 to the other three energy types."
-    },
-    {
-        "name": "Energy Mutagen (Fire, Greater)",
-        "level": 11,
-        "price": 30000,
-        "bulk": "L",
-        "id": "8de9c6f8-a997-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "sourceBook": "The Fall of Plaguestone",
-        "usage": "held in 1 hand",
-        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: fire, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
-        "subType": "Fire, Greater",
-        "subTypeDesc": "You gain fire resistance 15, add 1d6 fire damage on a hit with a melee weapon, and the duration is 1 hour. In addition, you can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 2d6 fire damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Elixir",
-            "Mutagen",
-            "Polymorph"
-        ],
-        "gainConditions": [
-            {
-                "duration": 6000,
-                "name": "Energy Mutagen (Fire, Greater)",
-                "source": "Energy Mutagen (Fire, Greater)"
-            }
-        ],
-        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
-        "drawback": "You gain weakness 5 to the other three energy types."
+        ]
     },
     {
         "name": "Sea Touch Elixir (Moderate)",
-        "level": 12,
-        "price": 30000,
-        "bulk": "L",
         "id": "eee1b0a0-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "This briny concoction alters the skin on your hands and feet. The spaces between your fingers and toes become webbed, granting you a swim Speed of 20 feet for the listed duration.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 12,
+        "bulk": "L",
+        "price": 30000,
         "subType": "Moderate",
         "subTypeDesc": "The duration is 1 hour, and you can breathe underwater.",
         "traits": [
@@ -1860,6 +1534,9 @@
             "Elixir",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 6000,
@@ -1869,47 +1546,14 @@
         ]
     },
     {
-        "name": "Stone Body Mutagen (Moderate)",
-        "level": 12,
-        "price": 30000,
-        "bulk": "L",
-        "id": "eee1b168-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "sourceBook": "The Fall of Plaguestone",
-        "usage": "held in 1 hand",
-        "desc": "This mutagen calcifies your body making it as hard as stone.",
-        "subType": "Moderate",
-        "subTypeDesc": "You gain resistance 5 to physical damage (except bludgeoning) and the duration is 1 hour.",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Elixir",
-            "Mutagen",
-            "Polymorph"
-        ],
-        "gainConditions": [
-            {
-                "duration": 6000,
-                "name": "Stone Body Mutagen",
-                "source": "Stone Body Mutagen (Moderate)",
-                "value": 1
-            }
-        ],
-        "benefit": "You gain resistance to physical damage (except bludgeoning) equal to the listed amount.",
-        "drawback": "Your Speeds are reduced by 10 feet (minimum 5 feet) and you take a -2 penalty to Reflex saves."
-    },
-    {
         "name": "Winter Wolf Elixir (Moderate)",
-        "level": 12,
-        "price": 32000,
-        "bulk": "L",
         "id": "eee1b226-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "This elixir warms your core and improves your circulation. For 24 hours, you are protected from the effects of severe cold.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 12,
+        "bulk": "L",
+        "price": 32000,
         "subType": "Moderate",
         "subTypeDesc": "You're also protected from extreme cold.",
         "traits": [
@@ -1917,6 +1561,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 144000,
@@ -1927,14 +1574,13 @@
     },
     {
         "name": "Salamander Elixir (Moderate)",
-        "level": 12,
-        "price": 32000,
-        "bulk": "L",
         "id": "eee1b2e4-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "This elixir is made from salamander scales to withstand fire. For 24 hours, you are protected from the effects of severe heat.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 12,
+        "bulk": "L",
+        "price": 32000,
         "subType": "Moderate",
         "subTypeDesc": "You're also protected from extreme heat.",
         "traits": [
@@ -1942,6 +1588,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 144000,
@@ -1952,15 +1601,13 @@
     },
     {
         "name": "Elixir of Life (Greater)",
-        "level": 13,
-        "price": 60000,
-        "bulk": "L",
         "id": "eee1b398-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Elixirs of life accelerate a living creature's natural healing processes and immune system. Upon drinking this elixir, you regain |dice=7d6 + 18| the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
-        "inputRequired": "Upon drinking this elixir, regain 7d6+18 Hit Points.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 13,
+        "bulk": "L",
+        "price": 60000,
         "subType": "Greater",
         "subTypeDesc": "The elixir restores 7d6+18 Hit Points, and the bonus is +2.",
         "traits": [
@@ -1969,6 +1616,10 @@
             "Elixir",
             "Healing"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "inputRequired": "Upon drinking this elixir, regain 7d6+18 Hit Points.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 1000,
@@ -1979,14 +1630,13 @@
     },
     {
         "name": "Antidote (Major)",
-        "level": 14,
-        "price": 67500,
-        "bulk": "L",
         "id": "eee1b456-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "An antidote protects you against toxins. Upon drinking an antidote, you gain an item bonus to Fortitude saving throws against poisons for 6 hours.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 14,
+        "bulk": "L",
+        "price": 67500,
         "subType": "Major",
         "subTypeDesc": "You gain a +4 item bonus, and when you drink the antidote, you can immediately attempt a saving throw against one poison of 14th level or lower affecting you. If you succeed, the poison is neutralized.",
         "traits": [
@@ -1994,6 +1644,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 36000,
@@ -2004,14 +1657,13 @@
     },
     {
         "name": "Antiplague (Major)",
-        "level": 14,
-        "price": 67500,
-        "bulk": "L",
         "id": "eee1b622-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Antiplague can fortify the body's defenses against diseases. Upon drinking an antiplague, you gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease's progression.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 14,
+        "bulk": "L",
+        "price": 67500,
         "subType": "Major",
         "subTypeDesc": "You gain a +4 item bonus, and when you drink the antiplague, you can immediately attempt a saving throw against one disease of 14th level or lower affecting you. If you succeed, you are cured of the disease.",
         "traits": [
@@ -2019,6 +1671,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 144000,
@@ -2029,14 +1684,13 @@
     },
     {
         "name": "Bomber's Eye Elixir (Greater)",
-        "level": 14,
-        "price": 70000,
-        "bulk": "L",
         "id": "eee1b6ea-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "This tincture lets you pinpoint your foes. For the next 5 minutes, your alchemical bomb Strikes reduce the circumstance bonus to AC your targets gain from cover.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 14,
+        "bulk": "L",
+        "price": 70000,
         "subType": "Greater",
         "subTypeDesc": "Reduce your targets' circumstance bonus by 2.",
         "traits": [
@@ -2044,6 +1698,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 500,
@@ -2054,14 +1711,13 @@
     },
     {
         "name": "Bravo's Brew (Greater)",
-        "level": 15,
-        "price": 70000,
-        "bulk": "L",
         "id": "eee1b7a8-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "This flask of foaming beer grants courage. For the next hour after drinking this elixir, you gain an item bonus to Will saves, which is greater when attempting Will saves against fear.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 15,
+        "bulk": "L",
+        "price": 70000,
         "subType": "Moderate",
         "subTypeDesc": "The bonus on Will saves is +3, or +4 against fear. If you roll a success on a save against fear, you get a critical success instead.",
         "traits": [
@@ -2070,6 +1726,9 @@
             "Elixir",
             "Mental"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 6000,
@@ -2081,14 +1740,13 @@
     },
     {
         "name": "Sea Touch Elixir (Greater)",
-        "level": 15,
-        "price": 92000,
-        "bulk": "L",
         "id": "eee1b866-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "This briny concoction alters the skin on your hands and feet. The spaces between your fingers and toes become webbed, granting you a swim Speed of 20 feet for the listed duration.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 15,
+        "bulk": "L",
+        "price": 92000,
         "subType": "Greater",
         "subTypeDesc": "The duration is 24 hours, and you can breathe underwater.",
         "traits": [
@@ -2097,6 +1755,9 @@
             "Elixir",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 144000,
@@ -2106,48 +1767,14 @@
         ]
     },
     {
-        "name": "Stone Body Mutagen (Greater)",
-        "level": 15,
-        "price": 92000,
-        "bulk": "L",
-        "id": "eee1b924-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "sourceBook": "The Fall of Plaguestone",
-        "usage": "held in 1 hand",
-        "desc": "This mutagen calcifies your body making it as hard as stone.",
-        "subType": "Greater",
-        "subTypeDesc": "You gain resistance 10 to physical damage (except bludgeoning) and the duration is 1 hour.",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Elixir",
-            "Mutagen",
-            "Polymorph"
-        ],
-        "gainConditions": [
-            {
-                "duration": 6000,
-                "name": "Stone Body Mutagen",
-                "source": "Stone Body Mutagen (Greater)",
-                "value": 2
-            }
-        ],
-        "benefit": "You gain resistance to physical damage (except bludgeoning) equal to the listed amount.",
-        "drawback": "Your Speeds are reduced by 10 feet (minimum 5 feet) and you take a -2 penalty to Reflex saves."
-    },
-    {
         "name": "Elixir of Life (Major)",
-        "level": 15,
-        "price": 130000,
-        "bulk": "L",
         "id": "eee1b9d8-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Elixirs of life accelerate a living creature's natural healing processes and immune system. Upon drinking this elixir, you regain |dice=8d6 + 21| the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
-        "inputRequired": "Upon drinking this elixir, regain 8d6+21 Hit Points.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 15,
+        "bulk": "L",
+        "price": 130000,
         "subType": "Major",
         "subTypeDesc": "The elixir restores 8d6+21 Hit Points, and the bonus is +3.",
         "traits": [
@@ -2156,6 +1783,10 @@
             "Elixir",
             "Healing"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "inputRequired": "Upon drinking this elixir, regain 8d6+21 Hit Points.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 1000,
@@ -2166,14 +1797,13 @@
     },
     {
         "name": "Winter Wolf Elixir (Greater)",
-        "level": 16,
-        "price": 140000,
-        "bulk": "L",
         "id": "eee1bb86-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "This elixir warms your core and improves your circulation. For 24 hours, you are protected from the effects of severe cold.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 16,
+        "bulk": "L",
+        "price": 140000,
         "subType": "Greater",
         "subTypeDesc": "You're also protected from extreme and incredible cold.",
         "traits": [
@@ -2181,6 +1811,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 144000,
@@ -2191,14 +1824,13 @@
     },
     {
         "name": "Salamander Elixir (Greater)",
-        "level": 16,
-        "price": 140000,
-        "bulk": "L",
         "id": "eee1bc4e-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "This elixir is made from salamander scales to withstand fire. For 24 hours, you are protected from the effects of severe heat.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 16,
+        "bulk": "L",
+        "price": 140000,
         "subType": "Greater",
         "subTypeDesc": "You're also protected from extreme and incredible heat.",
         "traits": [
@@ -2206,6 +1838,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 144000,
@@ -2216,14 +1851,13 @@
     },
     {
         "name": "Eagle-Eye Elixir (Major)",
-        "level": 16,
-        "price": 200000,
-        "bulk": "L",
         "id": "eee1bd0c-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "After you drink this elixir, you notice subtle visual details. For the next hour, you gain an item bonus to Perception checks that is greater when attempting to find secret doors and traps.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 16,
+        "bulk": "L",
+        "price": 200000,
         "subType": "Major",
         "subTypeDesc": "The bonus is +3, or +4 to find secret doors and traps. Each time you pass within 10 feet of a secret door or trap, the GM automatically rolls a secret check for you to find it.",
         "traits": [
@@ -2231,6 +1865,9 @@
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 6000,
@@ -2242,14 +1879,13 @@
     },
     {
         "name": "Serene Mutagen (Major)",
-        "level": 17,
-        "price": 300000,
-        "bulk": "L",
         "id": "eee1bdca-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "You gain inner serenity, focused on fine details and steeled against mental assaults, but you find violence off-putting.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 17,
+        "bulk": "L",
+        "price": 300000,
         "subType": "Major",
         "subTypeDesc": "The bonus is +2, or +3 vs. mental, and the duration is 10 minutes.",
         "traits": [
@@ -2259,26 +1895,28 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus to Will saves and Perception, Medicine, Nature, Religion, and Survival checks. This bonus improves when you attempt Will saves against mental effects. ",
+        "drawback": "You take a -1 penalty to attack rolls and save DCs of offensive spells, and a -1 penalty per damage die to all weapon, unarmed attack, and spell damage.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 6000,
                 "name": "Serene Mutagen (Major)",
                 "source": "Serene Mutagen (Major)"
             }
-        ],
-        "benefit": "You gain an item bonus to Will saves and Perception, Medicine, Nature, Religion, and Survival checks. This bonus improves when you attempt Will saves against mental effects. ",
-        "drawback": "You take a -1 penalty to attack rolls and save DCs of offensive spells, and a -1 penalty per damage die to all weapon, unarmed attack, and spell damage."
+        ]
     },
     {
         "name": "Silvertongue Mutagen (Major)",
-        "level": 17,
-        "price": 300000,
-        "bulk": "L",
         "id": "eee1be88-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Your features become striking and your voice becomes musical and commanding, though facts and figures become hazy for you and emotion clouds your ability to reason.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 17,
+        "bulk": "L",
+        "price": 300000,
         "subType": "Greater",
         "subTypeDesc": "The bonus is +4, and the duration is 1 hour.",
         "traits": [
@@ -2288,6 +1926,11 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus to Deception, Diplomacy, Intimidation, and Performance checks. Your critical failures with any of these skill become failures instead.",
+        "drawback": "You take a -2 item penalty to Arcana, Crafting, Lore, Occultism, and Society checks. Choose one skill in which you are trained; for the duration, you become untrained in that skill. All your failures on checks to Recall Knowledge become critical failures.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 6000,
@@ -2295,20 +1938,17 @@
                 "source": "Silvertongue Mutagen (Major)",
                 "value": 4
             }
-        ],
-        "benefit": "You gain an item bonus to Deception, Diplomacy, Intimidation, and Performance checks. Your critical failures with any of these skill become failures instead.",
-        "drawback": "You take a -2 item penalty to Arcana, Crafting, Lore, Occultism, and Society checks. Choose one skill in which you are trained; for the duration, you become untrained in that skill. All your failures on checks to Recall Knowledge become critical failures."
+        ]
     },
     {
         "name": "Bestial Mutagen (Major)",
-        "level": 17,
-        "price": 300000,
-        "bulk": "L",
         "id": "eee1bf3c-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Your features transform into something bestial and you take on muscle mass, but your lumbering form is clumsy.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 17,
+        "bulk": "L",
+        "price": 300000,
         "subType": "Major",
         "subTypeDesc": "You gain a +4 item bonus, your claw deals 1d8 slashing damage, your jaws deal 1d10 piercing damage, and the duration is 1 hour. You gain weapon specialization with the claws and jaws, or greater weapon specialization, if you already have weapon specialization with these unarmed attacks.",
         "traits": [
@@ -2318,6 +1958,11 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus to Athletics checks and unarmed attack rolls. You gain a claw unarmed attack with the agile trait and a jaws unarmed attack.",
+        "drawback": "You take a -1 penalty to AC and a -2 penalty to Reflex saves.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "choice": "Major",
@@ -2325,20 +1970,17 @@
                 "name": "Bestial Mutagen",
                 "source": "Bestial Mutagen (Major)"
             }
-        ],
-        "benefit": "You gain an item bonus to Athletics checks and unarmed attack rolls. You gain a claw unarmed attack with the agile trait and a jaws unarmed attack.",
-        "drawback": "You take a -1 penalty to AC and a -2 penalty to Reflex saves."
+        ]
     },
     {
         "name": "Cognitive Mutagen (Major)",
-        "level": 17,
-        "price": 300000,
-        "bulk": "L",
         "id": "eee1c1c6-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Your mind becomes clear and cognition flows freely, but physical matters seem ephemeral.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 17,
+        "bulk": "L",
+        "price": 300000,
         "subType": "Major",
         "subTypeDesc": "The bonus is +4, and the duration is 1 hour. You become trained in one skill, chosen at creation.",
         "traits": [
@@ -2348,26 +1990,28 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus to Arcana, Crafting, Lore, Occultism, and Society checks and all checks to Recall Knowledge. Your critical failures on Recall Knowledge checks become failures instead. ",
+        "drawback": "You take a -2 penalty to weapon and unarmed attack rolls, Athletics checks, and Acrobatics checks. You can carry 2 less Bulk than normal before becoming encumbered, and the maximum Bulk you can carry is reduced by 4.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 6000,
                 "name": "Cognitive Mutagen (Major)",
                 "source": "Cognitive Mutagen (Major)"
             }
-        ],
-        "benefit": "You gain an item bonus to Arcana, Crafting, Lore, Occultism, and Society checks and all checks to Recall Knowledge. Your critical failures on Recall Knowledge checks become failures instead. ",
-        "drawback": "You take a -2 penalty to weapon and unarmed attack rolls, Athletics checks, and Acrobatics checks. You can carry 2 less Bulk than normal before becoming encumbered, and the maximum Bulk you can carry is reduced by 4."
+        ]
     },
     {
         "name": "Juggernaut Mutagen (Major)",
-        "level": 17,
-        "price": 300000,
-        "bulk": "L",
         "id": "eee1c3e2-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "After you drink this mutagen, your body becomes thick and sturdy. You exhibit a healthy glow, though you tend to be ponderous and unobservant.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 17,
+        "bulk": "L",
+        "price": 300000,
         "subType": "Major",
         "subTypeDesc": "The bonus is +1, you gain 5 temporary Hit Points, and the duration is 1 minute.",
         "traits": [
@@ -2377,26 +2021,28 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus of +1 to Fortitude saves and 5 temporary Hit Points. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points.",
+        "drawback": "You take a -2 penalty to Will saves, Perception checks, and initiative rolls.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 6000,
                 "name": "Juggernaut Mutagen (Major)",
                 "source": "Juggernaut Mutagen (Major)"
             }
-        ],
-        "benefit": "You gain an item bonus of +1 to Fortitude saves and 5 temporary Hit Points. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points.",
-        "drawback": "You take a -2 penalty to Will saves, Perception checks, and initiative rolls."
+        ]
     },
     {
         "name": "Quicksilver Mutagen (Major)",
-        "level": 17,
-        "price": 300000,
-        "bulk": "L",
         "id": "eee1c75c-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Your features become thin and angular. You become swifter and nimbler, but your body also becomes fragile.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 17,
+        "bulk": "L",
+        "price": 300000,
         "subType": "Major",
         "subTypeDesc": "The bonus to rolls is +4, the bonus to Speed is +20 feet, and the duration is 1 hour.",
         "traits": [
@@ -2406,6 +2052,11 @@
             "Mutagen",
             "Polymorph"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "benefit": "You gain an item bonus to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and Dexterity-based attack rolls, and you gain the listed status bonus to your Speed.",
+        "drawback": "You take damage equal to twice your level; you can't recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 6000,
@@ -2417,148 +2068,20 @@
         "onceEffects": [
             {
                 "affected": "HP",
-                "value": "-Level * 2"
+                "value": "#NAME?"
             }
-        ],
-        "benefit": "You gain an item bonus to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and Dexterity-based attack rolls, and you gain the listed status bonus to your Speed.",
-        "drawback": "You take damage equal to twice your level; you can't recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves."
-    },
-    {
-        "name": "Energy Mutagen (Acid, Major)",
-        "level": 17,
-        "price": 300000,
-        "bulk": "L",
-        "id": "6b1baa46-a998-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "sourceBook": "The Fall of Plaguestone",
-        "usage": "held in 1 hand",
-        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: acid, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
-        "subType": "Acid, Major",
-        "subTypeDesc": "You gain acid resistance 20, add 2d6 acid damage on a hit with a melee weapon, and the duration is 1 hour. In addition, you can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 3d6 acid damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Elixir",
-            "Mutagen",
-            "Polymorph"
-        ],
-        "gainConditions": [
-            {
-                "duration": 6000,
-                "name": "Energy Mutagen (Acid, Major)",
-                "source": "Energy Mutagen (Acid, Major)"
-            }
-        ],
-        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
-        "drawback": "You gain weakness 5 to the other three energy types."
-    },
-    {
-        "name": "Energy Mutagen (Cold, Major)",
-        "level": 17,
-        "price": 300000,
-        "bulk": "L",
-        "id": "6b1bac4e-a998-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "sourceBook": "The Fall of Plaguestone",
-        "usage": "held in 1 hand",
-        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: cold, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
-        "subType": "Cold, Major",
-        "subTypeDesc": "You gain cold resistance 20, add 2d6 cold damage on a hit with a melee weapon, and the duration is 1 hour. In addition, you can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 3d6 cold damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Elixir",
-            "Mutagen",
-            "Polymorph"
-        ],
-        "gainConditions": [
-            {
-                "duration": 6000,
-                "name": "Energy Mutagen (Cold, Major)",
-                "source": "Energy Mutagen (Cold, Major)"
-            }
-        ],
-        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
-        "drawback": "You gain weakness 5 to the other three energy types."
-    },
-    {
-        "name": "Energy Mutagen (Electricity, Major)",
-        "level": 17,
-        "price": 300000,
-        "bulk": "L",
-        "id": "6b1bad3e-a998-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "sourceBook": "The Fall of Plaguestone",
-        "usage": "held in 1 hand",
-        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: electricity, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
-        "subType": "Electricity, Major",
-        "subTypeDesc": "You gain electricity resistance 20, add 2d6 electricity damage on a hit with a melee weapon, and the duration is 1 hour. In addition, you can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 3d6 electricity damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Elixir",
-            "Mutagen",
-            "Polymorph"
-        ],
-        "gainConditions": [
-            {
-                "duration": 6000,
-                "name": "Energy Mutagen (Electricity, Major)",
-                "source": "Energy Mutagen (Electricity, Major)"
-            }
-        ],
-        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
-        "drawback": "You gain weakness 5 to the other three energy types."
-    },
-    {
-        "name": "Energy Mutagen (Fire, Major)",
-        "level": 17,
-        "price": 300000,
-        "bulk": "L",
-        "id": "6b1bae10-a998-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "sourceBook": "The Fall of Plaguestone",
-        "usage": "held in 1 hand",
-        "desc": "When created, this mutagen is attuned to your choice of one of four energy types: fire, cold, electricity, or fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. At higher levels, it can even grant you the ability to unleash the energy in controlled bursts.",
-        "subType": "Fire, Major",
-        "subTypeDesc": "You gain fire resistance 20, add 2d6 fire damage on a hit with a melee weapon, and the duration is 1 hour. In addition, you can end the benefits of this mutagen to unleash a 30-foot cone of energy that deals 3d6 fire damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
-        "traits": [
-            "Uncommon",
-            "Alchemical",
-            "Consumable",
-            "Elixir",
-            "Mutagen",
-            "Polymorph"
-        ],
-        "gainConditions": [
-            {
-                "duration": 6000,
-                "name": "Energy Mutagen (Fire, Major)",
-                "source": "Energy Mutagen (Fire, Major)"
-            }
-        ],
-        "benefit": "You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add the listed amount of damage of the attuned energy type.",
-        "drawback": "You gain weakness 5 to the other three energy types."
+        ]
     },
     {
         "name": "Elixir of Life (True)",
-        "level": 19,
-        "price": 800000,
-        "bulk": "L",
         "id": "eee1c900-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "usage": "held in 1 hand",
         "desc": "Elixirs of life accelerate a living creature's natural healing processes and immune system. Upon drinking this elixir, you regain |dice=10d6 + 27| the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
-        "inputRequired": "Upon drinking this elixir, regain 10d6+27 Hit Points.",
-        "subType": "True",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 19,
+        "bulk": "L",
+        "price": 800000,
+        "subType": "true",
         "subTypeDesc": "The elixir restores 10d6+27 Hit Points, and the bonus is +4.",
         "traits": [
             "Alchemical",
@@ -2566,6 +2089,10 @@
             "Elixir",
             "Healing"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "inputRequired": "Upon drinking this elixir, regain 10d6+27 Hit Points.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 1000,
@@ -2575,47 +2102,24 @@
         ]
     },
     {
-        "name": "Sun Orchid Elixir",
-        "level": 20,
-        "bulk": "L",
-        "id": "eee1c9b4-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "sourceBook": "World Guide",
-        "craftRequirement": "Unlike Crafting most items, brewing the sun orchid elixir takes 1 month's time. While an individual vial of sun orchid elixir isn't unique, the formula is unique, and it's known only to Artokus Kirran of Thuvia.",
-        "usage": "held in 1 hand",
-        "desc": "When you drink this elixir, you physically become as you were in whatever phase of your youth you desire. Your new body begins in peak health, regardless of what your actual condition was at that age. Any physical or mental imperfections -  including scars, lost limbs, and curses, diseases, poisons of 20th level or lower -  are removed, and you regain your full Hit Points. You immediately begin to age normally again, with your natural lifespan extended as if you had never aged past your new apparent age. You retain all your memories.",
-        "traits": [
-            "Rare",
-            "Alchemical",
-            "Consumable",
-            "Elixir",
-            "Necromancy"
-        ],
-        "onceEffects": [
-            {
-                "affected": "HP",
-                "value": "9999"
-            }
-        ]
-    },
-    {
         "name": "Elixir of Rejuvenation",
+        "id": "eee1ca72-a916-11ea-bb37-0242ac130002",
+        "desc": "The elixir of rejuvenation restores a creature to full health and eradicates toxins affecting it. When you drink this elixir, you're restored to your maximum Hit Points, and all afflictions of 20th level or lower affecting you are removed.\n\nYou can instead administer this elixir to a creature that has been dead for a week or less. When you do, that creature is instantly brought back to life with 1 Hit Point and no spell slots, Focus Points, or other daily resources.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 20,
         "bulk": "L",
-        "id": "eee1ca72-a916-11ea-bb37-0242ac130002",
-        "actions": "1A",
-        "activationType": "Interact",
-        "craftRequirement": "philosopher's stone, true elixir of life",
-        "usage": "held in 1 hand",
-        "desc": "The elixir of rejuvenation restores a creature to full health and eradicates toxins affecting it. When you drink this elixir, you're restored to your maximum Hit Points, and all afflictions of 20th level or lower affecting you are removed.\n\nYou can instead administer this elixir to a creature that has been dead for a week or less. When you do, that creature is instantly brought back to life with 1 Hit Point and no spell slots, Focus Points, or other daily resources.",
-        "inputRequired": "Remove all afflictions (curses, diseases and drug side effects) of 20th level or lower affecting you. If this elixir brings a creature back to life, their daily resources do not change.",
         "traits": [
             "Uncommon",
             "Alchemical",
             "Consumable",
             "Elixir"
         ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "craftRequirement": "philosopher's stone, true elixir of life",
+        "inputRequired": "Remove all afflictions (curses, diseases and drug side effects) of 20th level or lower affecting you. If this elixir brings a creature back to life, their daily resources do not change.",
+        "usage": "held in 1 hand",
         "gainConditions": [
             {
                 "duration": 0,

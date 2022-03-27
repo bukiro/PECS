@@ -1,0 +1,397 @@
+[
+    {
+        "name": "Hobgoblin",
+        "traits": [
+            "Uncommon",
+            "Goblin",
+            "Humanoid"
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "baseLanguages": 2,
+        "hitPoints": 8,
+        "size": 0,
+        "warning": "Hobgoblin feats are not implemented yet.",
+        "abilityChoices": [
+            {
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Intelligence",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "ancestries": [
+            "Hobgoblin"
+        ],
+        "desc": [
+            {
+                "name": "Description",
+                "value": "Taller and stronger than their goblin kin, hobgoblins are equals in strength and size to humans, with broad shoulders and long, powerful arms.\n\nThe reputation of hobgoblins in the Inner Sea region has been upended by Oprak, the hobgoblin nation established recently in the mountains between Nidal and Nirmathas. The Ironfang Legion that stormed through Molthune and Nirmathas only a few years ago made a calculated decision to cease fighting, claim Oprak as a new homeland, and seek peace with its neighbors. Now under strict orders to not start conflicts with other nations, the hobgoblins of Oprak have begun to cautiously investigate Avistan in the spirit of cooperation rather than conquest. Many people, especially those that suffered terrible cruelties under the Ironfang Legion, fear that this is simply a pause in aggression while Oprak gains enough strength to crush its rivals. Others hope these bold soldiers might prove to be allies against the endless hordes of the Whispering Tyrant."
+            },
+            {
+                "name": "Hit Points",
+                "value": 8
+            },
+            {
+                "name": "Size",
+                "value": "Medium"
+            },
+            {
+                "name": "Speed",
+                "value": "25 feet"
+            },
+            {
+                "name": "Ability Boosts",
+                "value": "Constitution\nIntelligence\nFree"
+            },
+            {
+                "name": "Ability Flaw(s)",
+                "value": "Wisdom"
+            },
+            {
+                "name": "Languages",
+                "value": "Common\nGoblin"
+            },
+            {
+                "name": "Additional Languages",
+                "value": "Equal to your intelligence modifier (if it's positive). Choose from Draconic, Dwarven, Gnoll, Jotun, Halfling, Orcish, and any other languages to which you have access (such as the languages prevalent in your region)."
+            },
+            {
+                "name": "Darkvision",
+                "value": "You can see in darkness and dim light just as well as you can see in bright light, though your vision in darkness is in black and white."
+            }
+        ],
+        "heritages": [
+            "Elfbane Hobgoblin",
+            "Half-Elf",
+            "Half-Orc",
+            "Runtboss Hobgoblin",
+            "Smokeworker Hobgoblin",
+            "Warmarch Hobgoblin",
+            "Warrenbred Hobgoblin"
+        ],
+        "languages": [
+            "Common",
+            "Goblin"
+        ],
+        "recommendedLanguages": [
+            "Draconic",
+            "Dwarven",
+            "Gnoll",
+            "Jotun",
+            "Halfling",
+            "Orcish"
+        ],
+        "senses": [
+            "Darkvision"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            }
+        ]
+    },
+    {
+        "name": "Leshy",
+        "traits": [
+            "Uncommon",
+            "Leshy",
+            "Plant"
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "baseLanguages": 2,
+        "hitPoints": 8,
+        "size": -1,
+        "warning": "Leshy feats are not implemented yet.",
+        "abilityChoices": [
+            {
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Intelligence",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "ancestries": [
+            "Leshy"
+        ],
+        "desc": [
+            {
+                "name": "Description",
+                "value": "Guardians and emissaries of the environment, leshies are immortal spirits of nature temporarily granted a physical form.\n\nLeshies are \"born\" when a skilled druid or other master of primal magic conducts a ritual to create a suitable vessel, and then a spirit chooses that vessel to be their temporary home. Leshies are self-sufficient from the moment the ritual ends, and so they do not depend upon these druids for care, though\n\nNot all leshies have a strong enough spirit to strike off completely on their own, however. Weaker nature spirits can form only tenuous bonds that are just strong enough to animate Tiny bodies. These spirits become leshy familiars, acting as companions to their druid creators. Independent leshies are often protective of such leshy familiars, advocating for them to be treated with dignity and respect."
+            },
+            {
+                "name": "Hit Points",
+                "value": 8
+            },
+            {
+                "name": "Size",
+                "value": "Small"
+            },
+            {
+                "name": "Speed",
+                "value": "25 feet"
+            },
+            {
+                "name": "Ability Boosts",
+                "value": "Constitution\nWisdom\nFree"
+            },
+            {
+                "name": "Ability Flaw(s)",
+                "value": "Intelligence"
+            },
+            {
+                "name": "Languages",
+                "value": "Common\nSylvan"
+            },
+            {
+                "name": "Additional Languages",
+                "value": "Equal to your intelligence modifier (if it's positive). Choose from Draconic, Elven, Gnomish, Goblin, Halfling, Undercommon, and any other languages to which you have access (such as the languages prevalent in your region)."
+            },
+            {
+                "name": "Plant Nourishment",
+                "value": "You gain nourishment in the same way that the plants or fungi that match your body type normally do, through some combination of photosynthesis, absorbing minerals with your roots, or scavenging decaying matter. You typically do not need to pay for food. If you normally rely on photosynthesis and go without sunlight for 1 week, you begin to starve. You can derive nourishment from specially formulated bottles of sunlight instead of natural sunlight, but these bottles cost 10 times as much as standard rations (or 40 sp)."
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Plant Nourishment",
+                        "source": "Ancestry",
+                        "sourceId": "1-Feat-Ancestry-0"
+                    }
+                ],
+                "id": "1-Feat-Ancestry-0",
+                "level": 0,
+                "source": "Ancestry"
+            }
+        ],
+        "heritages": [
+            "Fungus Leshy",
+            "Gourd Leshy",
+            "Half-Elf",
+            "Half-Orc",
+            "Leaf Leshy",
+            "Vine Leshy"
+        ],
+        "languages": [
+            "Common",
+            "Sylvan"
+        ],
+        "recommendedLanguages": [
+            "Draconic",
+            "Elven",
+            "Gnomish",
+            "Goblin",
+            "Halfling",
+            "Undercommon"
+        ],
+        "senses": [
+            "Low-Light Vision"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            }
+        ]
+    },
+    {
+        "name": "Lizardfolk",
+        "traits": [
+            "Uncommon",
+            "Humanoid",
+            "Lizardfolk"
+        ],
+        "sourceBook": "Character Guide",
+        "_extensionFileName": "characterGuide",
+        "baseLanguages": 2,
+        "hitPoints": 8,
+        "size": 0,
+        "abilityChoices": [
+            {
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Intelligence",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "ancestries": [
+            "Lizardfolk"
+        ],
+        "desc": [
+            {
+                "name": "Description",
+                "value": "Lizardfolk are consummate survivors, heirs to empires considered ancient even by the elves.\n\nLizardfolk move through the societies of other humanoids with the steely reserve of born predators. They have a well-deserved reputation as outstanding rangers and unsentimental fighters. Though lizardfolk have adapted to many different environments, many of them still prefer to remain near bodies of water, using their ability to hold their breath to their advantage. As a result, lizardfolk usually prefer equipment that is not easily damaged by moisture, eschewing leather and metal for gear made of stone, ivory, glass, and bone."
+            },
+            {
+                "name": "Hit Points",
+                "value": 8
+            },
+            {
+                "name": "Size",
+                "value": "Medium"
+            },
+            {
+                "name": "Speed",
+                "value": "25 feet"
+            },
+            {
+                "name": "Ability Boosts",
+                "value": "Strength\nWisdom\nFree"
+            },
+            {
+                "name": "Ability Flaw(s)",
+                "value": "Intelligence"
+            },
+            {
+                "name": "Languages",
+                "value": "Common\nIruxi"
+            },
+            {
+                "name": "Additional Languages",
+                "value": "Equal to your Intelligence modifier (if it's positive). Choose from Aquan, Boggard, Draconic, Elven, Jotun, Sylvan, and any other languages to which you have access (such as the languages prevalent in your region)."
+            },
+            {
+                "name": "Claws",
+                "value": "Your sharp claws offer an alternative to the fists other humanoids bring to a fight. You have a claw unarmed attack that deals 1d4 slashing damage and has the agile and finesse traits."
+            },
+            {
+                "name": "Aquatic Adaptation",
+                "value": "Your reptilian biology allows you to hold your breath for a long time. You gain the Breath Control general feat as a bonus feat."
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Breath Control",
+                        "source": "Ancestry",
+                        "sourceId": "1-Feat-Ancestry-0"
+                    }
+                ],
+                "id": "1-Feat-Ancestry-0",
+                "level": 0,
+                "source": "Ancestry"
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Lizardfolk Claw",
+                "type": "weapons"
+            }
+        ],
+        "heritages": [
+            "Cliffscale Lizardfolk",
+            "Half-Elf",
+            "Half-Orc",
+            "Frilled Lizardfolk",
+            "Sandstrider Lizardfolk",
+            "Unseen Lizardfolk",
+            "Wetlander Lizardfolk"
+        ],
+        "languages": [
+            "Common",
+            "Iruxi"
+        ],
+        "recommendedLanguages": [
+            "Aquan",
+            "Boggard",
+            "Draconic",
+            "Elven",
+            "Jotun",
+            "Sylvan"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            }
+        ]
+    }
+]

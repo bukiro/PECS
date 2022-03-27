@@ -1,0 +1,23 @@
+[
+    {
+        "name": "Fire Talon",
+        "id": "0869321d-8daa-11ea-abca-ffb46fbada73",
+        "sourceBook": "Pathfinder Society Guide",
+        "_extensionFileName": "PFSGuide",
+        "hide": true,
+        "traits": [
+            "Agile",
+            "Finesse",
+            "Fire",
+            "Nonlethal",
+            "Unarmed"
+        ],
+        "dicesize": 4,
+        "dmgType": "Fire",
+        "group": "Brawling",
+        "hands": 1,
+        "melee": 5,
+        "moddable": false,
+        "prof": "Unarmed Attacks"
+    }
+]

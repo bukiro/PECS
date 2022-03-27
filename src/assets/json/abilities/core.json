@@ -1,8 +1,20 @@
 [
-    { "name":"Strength" },
-    { "name":"Dexterity" },
-    { "name":"Constitution" },
-    { "name":"Intelligence" },
-    { "name":"Wisdom" },
-    { "name":"Charisma" }
+    {
+        "name": "Strength"
+    },
+    {
+        "name": "Dexterity"
+    },
+    {
+        "name": "Constitution"
+    },
+    {
+        "name": "Intelligence"
+    },
+    {
+        "name": "Wisdom"
+    },
+    {
+        "name": "Charisma"
+    }
 ]

@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Aldori Dueling Sword",
+        "id": "0869595e-8daa-11ea-abca-ffb46fbada73",
+        "desc": "An Aldori dueling sword is a slim, single-bladed dueling sword with a slight curve and a sharp, reinforced point.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "bulk": "1",
+        "price": 2000,
+        "traits": [
+            "Finesse",
+            "Uncommon",
+            "Versatile P"
+        ],
+        "dicesize": 8,
+        "dmgType": "S/P",
+        "group": "Sword",
+        "hands": 1,
+        "melee": 5,
+        "prof": "Advanced Weapons"
+    }
+]

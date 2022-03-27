@@ -1,375 +1,502 @@
 [
-  {
-    "name": "Silver's Refrain",
-    "id": "5d6a61a6-d654-11ea-87d0-0242ac130003",
-    "shortDesc": "Make weapons silver and impede a devil's teleportation.",
-    "actions": "1A",
-    "castType": "verbal",
-    "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
-    "_extensionFileName": "pathfinder147",
-    "levelreq": 1,
-    "traditions": [
-      "Focus"
-    ],
-    "traits": [
-      "Rare",
-      "Abjuration",
-      "Bard",
-      "Cantrip",
-      "Composition"
-    ],
-    "area": "60-foot emanation",
-    "target": "area",
-    "cannotTargetCaster": true,
-    "duration": "1 round",
-    "desc": "The \"Song of Silver\" was an enchanted song used by the Silver Ravens to battle diabolic forces. You pull from select verses to temporarily replicate some of the legendary song's benefits, albeit on a much smaller scale.\n\nWeapon and unarmed attacks by allies in the area are treated as silver. In addition, this spell automatically attempts to counteract any dimension door cast by a devil within the area or cast by a devil attempting to enter the area using dimension door. If a devil attempts to enter the area using dimension door and the spell is counteracted, the devil remains where it started.",
-    "gainConditions": [
-      {
-        "duration": 10,
-        "name": "Silver's Refrain (Caster)",
-        "targetFilter": "caster"
-      },
-      {
-        "duration": 10,
-        "copyChoiceFrom": "Silver's Refrain (Caster)",
+    {
         "name": "Silver's Refrain",
-        "targetFilter": "target"
-      }
-    ]
-  },
-  {
-    "name": "Join Pasts",
-    "id": "9a0cb3f6-d396-4449-9ec3-920db81b9714",
-    "shortDesc": "Share thoughts and experiences with allies.",
-    "actions": "1A",
-    "castType": "somatic",
-    "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
-    "_extensionFileName": "pathfinder147",
-    "levelreq": 1,
-    "traditions": [
-      "Occult"
-    ],
-    "traits": [
-      "Uncommon",
-      "Cantrip",
-      "Divination",
-      "Mental"
-    ],
-    "range": "touch",
-    "targets": "2 willing creatures",
-    "target": "ally",
-    "duration": "1 round",
-    "desc": "<var>var1</var>With touches to the targets' foreheads, you bring them into mental communion. The targets can share thoughts and experiences, but not words. When one target attempts to Recall Knowledge, the other can Aid the first target's skill check, using any Lore skill (even if that Lore wouldn't normally apply) without having made any preparations to Aid.",
-    "targetNumbers": [
-      {
-        "number": 2,
-        "minLevel": 1
-      },
-      {
-        "number": 3,
-        "minLevel": 2
-      },
-      {
-        "number": 4,
-        "minLevel": 3
-      },
-      {
-        "number": 5,
-        "minLevel": 4
-      },
-      {
-        "number": 6,
-        "minLevel": 5
-      },
-      {
-        "number": 7,
-        "minLevel": 6
-      },
-      {
-        "number": 8,
-        "minLevel": 7
-      },
-      {
-        "number": 9,
-        "minLevel": 8
-      },
-      {
-        "number": 10,
-        "minLevel": 9
-      },
-      {
-        "number": 11,
-        "minLevel": 10
-      }
-    ],
-    "heightened": [
-      {
-        "desc": "You can touch one additional target to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge.",
-        "level": "(+1)"
-      }
-    ],
-    "gainConditions": [
-      {
-        "duration": 10,
-        "name": "Join Pasts (Caster)",
-        "targetFilter": "caster"
-      },
-      {
-        "duration": 10,
+        "id": "5d6a61a6-d654-11ea-87d0-0242ac130003",
+        "shortDesc": "Make weapons silver and impede a devil's teleportation.",
+        "actions": "1A",
+        "castType": "verbal",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "levelreq": 1,
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Rare",
+            "Abjuration",
+            "Bard",
+            "Cantrip",
+            "Composition"
+        ],
+        "area": "60-foot emanation",
+        "target": "area",
+        "cannotTargetCaster": true,
+        "duration": "1 round",
+        "desc": "The \"Song of Silver\" was an enchanted song used by the Silver Ravens to battle diabolic forces. You pull from select verses to temporarily replicate some of the legendary song's benefits, albeit on a much smaller scale.\n\nWeapon and unarmed attacks by allies in the area are treated as silver. In addition, this spell automatically attempts to counteract any dimension door cast by a devil within the area or cast by a devil attempting to enter the area using dimension door. If a devil attempts to enter the area using dimension door and the spell is counteracted, the devil remains where it started.",
+        "gainConditions": [
+            {
+                "duration": 10,
+                "name": "Silver's Refrain (Caster)",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 10,
+                "copyChoiceFrom": "Silver's Refrain (Caster)",
+                "name": "Silver's Refrain",
+                "targetFilter": "target"
+            }
+        ]
+    },
+    {
         "name": "Join Pasts",
-        "targetFilter": "target"
-      }
-    ],
-    "heightenedDescs": [
-      {
-        "level": 1,
-        "descs": [
-          {
-            "variable": "var1"
-          }
+        "id": "9a0cb3f6-d396-4449-9ec3-920db81b9714",
+        "shortDesc": "Share thoughts and experiences with allies.",
+        "actions": "1A",
+        "castType": "somatic",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "levelreq": 1,
+        "traditions": [
+            "Occult"
+        ],
+        "traits": [
+            "Uncommon",
+            "Cantrip",
+            "Divination",
+            "Mental"
+        ],
+        "range": "touch",
+        "targets": "2 willing creatures",
+        "target": "ally",
+        "duration": "1 round",
+        "desc": "<var>var1</var>With touches to the targets' foreheads, you bring them into mental communion. The targets can share thoughts and experiences, but not words. When one target attempts to Recall Knowledge, the other can Aid the first target's skill check, using any Lore skill (even if that Lore wouldn't normally apply) without having made any preparations to Aid.",
+        "targetNumbers": [
+            {
+                "number": 2,
+                "minLevel": 1
+            },
+            {
+                "number": 3,
+                "minLevel": 2
+            },
+            {
+                "number": 4,
+                "minLevel": 3
+            },
+            {
+                "number": 5,
+                "minLevel": 4
+            },
+            {
+                "number": 6,
+                "minLevel": 5
+            },
+            {
+                "number": 7,
+                "minLevel": 6
+            },
+            {
+                "number": 8,
+                "minLevel": 7
+            },
+            {
+                "number": 9,
+                "minLevel": 8
+            },
+            {
+                "number": 10,
+                "minLevel": 9
+            },
+            {
+                "number": 11,
+                "minLevel": 10
+            }
+        ],
+        "heightened": [
+            {
+                "desc": "You can touch one additional target to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge.",
+                "level": "(+1)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 10,
+                "name": "Join Pasts (Caster)",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 10,
+                "name": "Join Pasts",
+                "targetFilter": "target"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 1,
+                "descs": [
+                    {
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 2,
+                "descs": [
+                    {
+                        "value": "You can touch one additional target to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 3,
+                "descs": [
+                    {
+                        "value": "You can touch two additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 4,
+                "descs": [
+                    {
+                        "value": "You can touch three additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 5,
+                "descs": [
+                    {
+                        "value": "You can touch four additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "You can touch five additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "You can touch six additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "You can touch seven additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "You can touch eight additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "You can touch nine additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
+                        "variable": "var1"
+                    }
+                ]
+            }
         ]
-      },
-      {
-        "level": 2,
-        "descs": [
-          {
-            "value": "You can touch one additional target to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
-            "variable": "var1"
-          }
-        ]
-      },
-      {
-        "level": 3,
-        "descs": [
-          {
-            "value": "You can touch two additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
-            "variable": "var1"
-          }
-        ]
-      },
-      {
-        "level": 4,
-        "descs": [
-          {
-            "value": "You can touch three additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
-            "variable": "var1"
-          }
-        ]
-      },
-      {
-        "level": 5,
-        "descs": [
-          {
-            "value": "You can touch four additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
-            "variable": "var1"
-          }
-        ]
-      },
-      {
-        "level": 6,
-        "descs": [
-          {
-            "value": "You can touch five additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
-            "variable": "var1"
-          }
-        ]
-      },
-      {
-        "level": 7,
-        "descs": [
-          {
-            "value": "You can touch six additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
-            "variable": "var1"
-          }
-        ]
-      },
-      {
-        "level": 8,
-        "descs": [
-          {
-            "value": "You can touch seven additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
-            "variable": "var1"
-          }
-        ]
-      },
-      {
-        "level": 9,
-        "descs": [
-          {
-            "value": "You can touch eight additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
-            "variable": "var1"
-          }
-        ]
-      },
-      {
-        "level": 10,
-        "descs": [
-          {
-            "value": "You can touch nine additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
-            "variable": "var1"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Exchange Image",
-    "id": "fc606fd0-9030-4267-8941-5c4d85ea3b93",
-    "shortDesc": "Trade appearances with the target.",
-    "actions": "2A",
-    "castType": "somatic, verbal",
-    "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
-    "_extensionFileName": "pathfinder147",
-    "levelreq": 1,
-    "traditions": [
-      "Arcane",
-      "Occult"
-    ],
-    "traits": [
-      "Uncommon",
-      "Illusion",
-      "Visual"
-    ],
-    "range": "touch",
-    "targets": "you and 1 other humanoid",
-    "target": "ally",
-    "cannotTargetCaster": true,
-    "overrideHostile": "hostile",
-    "duration": "varies",
-    "desc": "To mislead pursuers, the Lacunafex developed the means to swap visages. You trade appearances with the target, with the effects depending on the result of the target's Will saving throw. Willing and unconscious targets automatically critically fail this saving throw.",
-    "critsuccess": "No effect.",
-    "success": "You take on the target's appearance, and they take yours. This has the same effects as a 1st-level illusory disguise spell, except that the target can't Dismiss the disguise. The duration is 1 minute or until Dismissed.",
-    "failure": "As success, but the duration is 1 hour or until Dismissed.",
-    "critfailure": "As success, but the duration is 24 hours.",
-    "showSpells": [
-      {
-        "name": "Illusory Disguise"
-      }
-    ],
-    "gainConditions": [
-      {
-        "duration": -5,
-        "name": "Exchange Image (Caster)",
-        "targetFilter": "caster"
-      },
-      {
-        "duration": -5,
-        "copyChoiceFrom": "Exchange Image (Caster)",
+    },
+    {
         "name": "Exchange Image",
-        "targetFilter": "target"
-      }
-    ]
-  },
-  {
-    "name": "Forgotten Lines",
-    "id": "7ae2308f-e366-46b6-8e50-29e4cf592607",
-    "shortDesc": "Restore destroyed or censored text.",
-    "actions": "2A",
-    "castType": "somatic, verbal",
-    "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
-    "_extensionFileName": "pathfinder147",
-    "levelreq": 4,
-    "traditions": [
-      "Arcane",
-      "Divine",
-      "Occult"
-    ],
-    "traits": [
-      "Rare",
-      "Divination"
-    ],
-    "range": "touch",
-    "targets": "1 text or remnants thereof",
-    "target": "object",
-    "singleTarget": true,
-    "desc": "Members of the Lacunafex and other allies use this spell to restore material that Thrune agents have redacted from historical or otherwise valuable texts. You learn <var>var1</var> that was removed from the target text after its creation. You can instead learn <var>var2</var> from a text that had been destroyed, but you must have a fragment of the text, such as a piece of the cover, a page, or even a clasp or metal fittings.",
-    "heightened": [
-      {
-        "desc": "The spell reconstructs all missing information regarding a specific topic of your choice.",
-        "level": "(6th)"
-      },
-      {
-        "desc": "The spell also reveals information the writer self-censored and didn't commit to paper.",
-        "level": "(9th)"
-      }
-    ],
-    "heightenedDescs": [
-      {
-        "level": 4,
-        "descs": [
-          {
-            "value": "one piece of information",
-            "variable": "var1"
-          },
-          {
-            "value": "one piece of information",
-            "variable": "var2"
-          }
+        "id": "fc606fd0-9030-4267-8941-5c4d85ea3b93",
+        "shortDesc": "Trade appearances with the target.",
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "levelreq": 1,
+        "traditions": [
+            "Arcane",
+            "Occult"
+        ],
+        "traits": [
+            "Uncommon",
+            "Illusion",
+            "Visual"
+        ],
+        "range": "touch",
+        "targets": "you and 1 other humanoid",
+        "target": "ally",
+        "cannotTargetCaster": true,
+        "overrideHostile": "hostile",
+        "duration": "varies",
+        "desc": "To mislead pursuers, the Lacunafex developed the means to swap visages. You trade appearances with the target, with the effects depending on the result of the target's Will saving throw. Willing and unconscious targets automatically critically fail this saving throw.",
+        "critsuccess": "No effect.",
+        "success": "You take on the target's appearance, and they take yours. This has the same effects as a 1st-level illusory disguise spell, except that the target can't Dismiss the disguise. The duration is 1 minute or until Dismissed.",
+        "failure": "As success, but the duration is 1 hour or until Dismissed.",
+        "critfailure": "As success, but the duration is 24 hours.",
+        "showSpells": [
+            {
+                "name": "Illusory Disguise"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": -5,
+                "name": "Exchange Image (Caster)",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": -5,
+                "copyChoiceFrom": "Exchange Image (Caster)",
+                "name": "Exchange Image",
+                "targetFilter": "target"
+            }
         ]
-      },
-      {
-        "level": 6,
-        "descs": [
-          {
-            "value": "all missing information regarding a specific topic of your choice",
-            "variable": "var1"
-          },
-          {
-            "value": "the same amount of information",
-            "variable": "var2"
-          }
+    },
+    {
+        "name": "Imprint Message",
+        "id": "c0061aaf-94c4-45fe-a69f-3368964a9109",
+        "shortDesc": "Imprint a psychic message into an object.",
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "levelreq": 1,
+        "traditions": [
+            "Occult"
+        ],
+        "traits": [
+            "Uncommon",
+            "Divination"
+        ],
+        "range": "touch",
+        "targets": "1 object",
+        "target": "object",
+        "singleTarget": true,
+        "desc": "You project psychic vibrations onto the target object, imprinting it with a short message or emotional theme of your design. This imprinted sensation is revealed to anyone casting object reading on the target object, replacing any emotional events the item was present for. If the object is in the area of a retrocognition spell, the imprinted messages appear as major events in the timeline, but they don't interfere with any other visions. If the object is targeted with read aura of a higher spell level than imprint message, the caster learns that the object has been modified. When you Cast this Spell, any prior vibrations placed in an object by previous castings of imprint message fade.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Imprint Message"
+            }
         ]
-      },
-      {
-        "level": 9,
-        "descs": [
-          {
-            "value": "all missing information regarding a specific topic of your choice, inluding information the writer self-censored and didn't commit to paper",
-            "variable": "var1"
-          },
-          {
-            "value": "the same amount of information",
-            "variable": "var2"
-          }
+    },
+    {
+        "name": "Object Reading",
+        "id": "ee009149-4673-4ec2-b122-39b69c7622fd",
+        "shortDesc": "Learn about a significant event surrounding an object.",
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "levelreq": 1,
+        "traditions": [
+            "Occult"
+        ],
+        "traits": [
+            "Uncommon",
+            "Divination"
+        ],
+        "range": "touch",
+        "targets": "1 object",
+        "target": "object",
+        "desc": "You place a hand on an object to learn a piece of information about an emotional event that occurred involving the object within <var>var1</var>, determined by the GM. If you cast object reading on the same item multiple times, you can either concentrate on a single event to gain additional pieces of information about that event, or you can gain a piece of information about another emotional event in the applicable time frame.",
+        "heightened": [
+            {
+                "desc": "You can learn about an event that occurred within the last month.",
+                "level": "(2nd)"
+            },
+            {
+                "desc": "You can learn about an event that occurred within the last year.",
+                "level": "(4th)"
+            },
+            {
+                "desc": "You can learn about an event that occurred within the last decade.",
+                "level": "(6th)"
+            },
+            {
+                "desc": "You can learn about an event that occurred within the last century.",
+                "level": "(8th)"
+            },
+            {
+                "desc": "You can learn about an event that occurred within the entirety of the object's history.",
+                "level": "(9th)"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 1,
+                "descs": [
+                    {
+                        "value": "the past week",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 2,
+                "descs": [
+                    {
+                        "value": "the last month",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 4,
+                "descs": [
+                    {
+                        "value": "the last year",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "the last decade",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "the last century",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "the entirety of the object's history",
+                        "variable": "var1"
+                    }
+                ]
+            }
         ]
-      }
-    ]
-  },
-  {
-    "name": "Spiritual Anamnesis",
-    "id": "ce60e1df-d365-48d2-bf93-46770efa0f13",
-    "shortDesc": "Overwhelm a target with memories of a past life.",
-    "actions": "2A",
-    "castType": "somatic, verbal",
-    "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
-    "_extensionFileName": "pathfinder147",
-    "levelreq": 4,
-    "traditions": [
-      "Divine",
-      "Occult"
-    ],
-    "traits": [
-      "Uncommon",
-      "Mental",
-      "Necromancy"
-    ],
-    "range": "60 feet",
-    "targets": "1 creature",
-    "target": "other",
-    "singleTarget": true,
-    "duration": "varies",
-    "desc": "Memories of a past life that seem incredibly real (and may even be) overwhelm the target's mind. This is especially disorienting for undead and creatures that have lived a previous life (such as celestials, fiends, monitors, and many other extraplanar creatures); if such creatures roll a critical success on their save, they get a success instead, and if they roll a failure, they get a critical failure instead.",
-    "savingThrow": "Will",
-    "critsuccess": "The creature is unaffected.",
-    "success": "The creature is slowed 1 for 1 round.",
-    "failure": "The target is slowed 1 for 1 minute and babbles about the visions, possibly providing information about what they saw.",
-    "critfailure": "As failure, but the target is also stunned 3.",
-    "gainConditions": [
-      {
-        "duration": -5,
-        "name": "Spiritual Anamnesis (Caster)",
-        "targetFilter": "caster"
-      }
-    ]
-  }
+    },
+    {
+        "name": "Forgotten Lines",
+        "id": "7ae2308f-e366-46b6-8e50-29e4cf592607",
+        "shortDesc": "Restore destroyed or censored text.",
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "levelreq": 4,
+        "traditions": [
+            "Arcane",
+            "Divine",
+            "Occult"
+        ],
+        "traits": [
+            "Rare",
+            "Divination"
+        ],
+        "range": "touch",
+        "targets": "1 text or remnants thereof",
+        "target": "object",
+        "singleTarget": true,
+        "desc": "Members of the Lacunafex and other allies use this spell to restore material that Thrune agents have redacted from historical or otherwise valuable texts. You learn <var>var1</var> that was removed from the target text after its creation. You can instead learn <var>var2</var> from a text that had been destroyed, but you must have a fragment of the text, such as a piece of the cover, a page, or even a clasp or metal fittings.",
+        "heightened": [
+            {
+                "desc": "The spell reconstructs all missing information regarding a specific topic of your choice.",
+                "level": "(6th)"
+            },
+            {
+                "desc": "The spell also reveals information the writer self-censored and didn't commit to paper.",
+                "level": "(9th)"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 4,
+                "descs": [
+                    {
+                        "value": "one piece of information",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "one piece of information",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "all missing information regarding a specific topic of your choice",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "the same amount of information",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "all missing information regarding a specific topic of your choice, inluding information the writer self-censored and didn't commit to paper",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "the same amount of information",
+                        "variable": "var2"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Spiritual Anamnesis",
+        "id": "ce60e1df-d365-48d2-bf93-46770efa0f13",
+        "shortDesc": "Overwhelm a target with memories of a past life.",
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "levelreq": 4,
+        "traditions": [
+            "Divine",
+            "Occult"
+        ],
+        "traits": [
+            "Uncommon",
+            "Mental",
+            "Necromancy"
+        ],
+        "range": "60 feet",
+        "targets": "1 creature",
+        "target": "other",
+        "singleTarget": true,
+        "duration": "varies",
+        "desc": "Memories of a past life that seem incredibly real (and may even be) overwhelm the target's mind. This is especially disorienting for undead and creatures that have lived a previous life (such as celestials, fiends, monitors, and many other extraplanar creatures); if such creatures roll a critical success on their save, they get a success instead, and if they roll a failure, they get a critical failure instead.",
+        "savingThrow": "Will",
+        "critsuccess": "The creature is unaffected.",
+        "success": "The creature is slowed 1 for 1 round.",
+        "failure": "The target is slowed 1 for 1 minute and babbles about the visions, possibly providing information about what they saw.",
+        "critfailure": "As failure, but the target is also stunned 3.",
+        "gainConditions": [
+            {
+                "duration": -5,
+                "name": "Spiritual Anamnesis (Caster)",
+                "targetFilter": "caster"
+            }
+        ]
+    }
 ]

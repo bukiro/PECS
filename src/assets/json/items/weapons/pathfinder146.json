@@ -1,0 +1,99 @@
+[
+    {
+        "name": "Eclipse",
+        "displayName": "Eclipse",
+        "id": "cbf47381-ba5c-4cd5-9a8b-fd35ad01d0a2",
+        "desc": "This +1 returning striking cold iron starknife has an ornate central grip that depicts a silver dragon, the neck, wings, and tail of which wrap over and around the handle in knots to support the weapon's four cold iron blades. While the handle is polished to a mirrorlike shine, the blades of Eclipse are a flat black and entirely unreflective. Eclipse is also the portal key required to activate Dreamgate at Alseta's Ring.\n\nWhenever you score a critical hit with Eclipse, the target creature's eyes are plunged into darkness; if that creature doesn't have darkvision, it is blinded for 1 round.",
+        "sourceBook": "Pathfinder #146: Cult of Cinders",
+        "_extensionFileName": "pathfinder146",
+        "level": 8,
+        "bulk": "L",
+        "price": 45000,
+        "traits": [
+            "Unique",
+            "Agile",
+            "Deadly D6",
+            "Evocation",
+            "Finesse",
+            "Light",
+            "Magical",
+            "Thrown 20 ft.",
+            "Versatile S"
+        ],
+        "criticalHint": "Whenever you score a critical hit with Eclipse, the target creature's eyes are plunged into darkness; if that creature doesn't have darkvision, it is blinded for 1 round.",
+        "dicesize": 4,
+        "dmgType": "P/S",
+        "group": "Knife",
+        "hands": 1,
+        "melee": 5,
+        "moddable": false,
+        "potencyRune": 1,
+        "prof": "Martial Weapons",
+        "ranged": 20,
+        "strikingRune": 1,
+        "usage": "held in 1 hand",
+        "weaponBase": "Starknife",
+        "activities": [
+            {
+                "actions": "1A",
+                "activationType": "Command",
+                "cooldown": 144000,
+                "desc": "Eclipse's blades glow like starlit night sky, causing it to shed light as a torch until you deactivate it as a single action, which has the concentrate trait.",
+                "frequency": "once per day",
+                "gainConditions": [
+                    {
+                        "duration": -1,
+                        "name": "Eclipse: Light",
+                        "source": "Eclipse: Light",
+                        "targetFilter": "caster"
+                    }
+                ],
+                "name": "Eclipse: Light",
+                "source": "cbf47381-ba5c-4cd5-9a8b-fd35ad01d0a2",
+                "target": "object",
+                "toggle": true,
+                "traits": [
+                    "Unique",
+                    "Evocation",
+                    "Light",
+                    "Magical"
+                ]
+            },
+            {
+                "actions": "Reaction",
+                "activationType": "Envision",
+                "charges": 3,
+                "cooldown": 144000,
+                "desc": "You absorb light, gaining a +2 status bonus to the Stealth check.",
+                "frequency": "three times per day",
+                "gainConditions": [
+                    {
+                        "duration": 1,
+                        "name": "Eclipse: Stealth",
+                        "source": "Eclipse: Stealth"
+                    }
+                ],
+                "name": "Eclipse: Stealth",
+                "source": "cbf47381-ba5c-4cd5-9a8b-fd35ad01d0a2",
+                "target": "self",
+                "traits": [
+                    "Unique",
+                    "Evocation",
+                    "Light",
+                    "Magical"
+                ],
+                "trigger": "You attempt a Stealth check to Hide or Sneak, but you haven't rolled yet"
+            }
+        ],
+        "material": [
+            {
+                "name": "Cold Iron (Low-Grade)"
+            }
+        ],
+        "propertyRunes": [
+            {
+                "name": "Returning"
+            }
+        ]
+    }
+]

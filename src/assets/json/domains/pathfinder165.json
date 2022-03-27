@@ -1,0 +1,10 @@
+[
+    {
+        "name": "Abomination",
+        "desc": "You seek to instill abhorrence and horror in those around you.",
+        "sourceBook": "Pathfinder #165: Eyes of Empty Death",
+        "_extensionFileName": "pathfinder165",
+        "advancedDomainSpell": "Fearful Feast",
+        "domainSpell": "Lift Nature's Caul"
+    }
+]

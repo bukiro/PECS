@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Academic",
+    "desc": "Academic entities are centered around study and the pursuit of knowledge.",
+    "sourceBook": "Character Guide",
+    "_extensionFileName": "characterGuide"
+  },
+  {
+    "name": "Hobgoblin",
+    "desc": "Hobgoblins are a sturdy, clever people with a propensity for militaristic order.",
+    "sourceBook": "Character Guide",
+    "_extensionFileName": "characterGuide"
+  },
+  {
+    "name": "Leshy",
+    "desc": "Leshies are living plants animated by primal magic.",
+    "sourceBook": "Character Guide",
+    "_extensionFileName": "characterGuide"
+  },
+  {
+    "name": "Lizardfolk",
+    "desc": "These reptilian humanoids, also known as iruxi, are extremely adaptable and patient.",
+    "sourceBook": "Character Guide",
+    "_extensionFileName": "characterGuide"
+  }
+]

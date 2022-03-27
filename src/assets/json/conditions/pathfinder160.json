@@ -1,0 +1,107 @@
+[
+    {
+        "name": "Swarming Wasp Venom",
+        "desc": "<strong>Swarming Wasp Venom</strong> (poison)\n<strong>Level</strong> 7\n<strong>Maximum Duration</strong> 6 rounds\n<strong>Stage 1</strong> 2d6 poison damage and clumsy 1 (1 round)\n<strong>Stage 2</strong> 3d6 poison damage and clumsy 2 (1 round)",
+        "sourceBook": "Pathfinder #160: Assault on Hunting Lodge Seven",
+        "_extensionFileName": "pathfinder160",
+        "type": "afflictions",
+        "sortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": 60
+            }
+        ],
+        "inputRequired": "Every time you reach the affliction onset, take poison damage appropriate to the new stage.",
+        "choice": "Stage 1",
+        "choices": [
+            {
+                "name": "Stage 1",
+                "nextStage": 10
+            },
+            {
+                "name": "Stage 2",
+                "nextStage": 10
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": [
+                    "Stage 1"
+                ],
+                "name": "Clumsy",
+                "value": 1
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Stage 2"
+                ],
+                "name": "Clumsy",
+                "value": 2
+            }
+        ]
+    },
+    {
+        "name": "Wyvern Venom",
+        "desc": "Wyvern Venom (poison)\n<strong>Saving Throw</strong> Fortitude (DC equals that of the spell)\n<strong>Level</strong> 9\n<strong>Maximum Duration</strong> 6 rounds\n<strong>Stage 1</strong> 5d6 poison damage (1 round)\n<strong>Stage 2</strong> 6d6 poison damage (1 round)\n<strong>Stage 3</strong> 8d6 poison damage (1 round)",
+        "sourceBook": "Pathfinder #160: Assault on Hunting Lodge Seven",
+        "_extensionFileName": "pathfinder160",
+        "type": "afflictions",
+        "sortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": 60
+            }
+        ],
+        "inputRequired": "Every time you reach the affliction onset, take poison damage appropriate to the new stage.",
+        "choice": "Stage 1",
+        "choices": [
+            {
+                "name": "Stage 1",
+                "nextStage": 10
+            },
+            {
+                "name": "Stage 2",
+                "nextStage": 10
+            },
+            {
+                "name": "Stage 3",
+                "nextStage": 10
+            }
+        ]
+    },
+    {
+        "name": "Wyvern Sting (Caster)",
+        "desc": "You duplicate the venomous sting of a wyvern. If the target creature has taken piercing damage from your attack, it is afflicted with wyvern venom according to its Fortitude save.\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target takes 5d6 poison damage.\n<strong>Failure</strong> The target is afflicted with wyvern venom at stage 1.\n<strong>Critical Failure</strong> The target is afflicted with wyvern venom at stage 2.\n\n<strong>Wyvern Venom</strong> (poison) <strong>Level</strong> 9; <strong>Maximum Duration</strong> 6 rounds; <strong>Stage 1</strong> 5d6 poison damage (1 round); <strong>Stage 2</strong> 6d6 poison damage (1 round); <strong>Stage 3</strong> 8d6 poison damage (1 round)",
+        "sourceBook": "Pathfinder #160: Assault on Hunting Lodge Seven",
+        "_extensionFileName": "pathfinder160",
+        "type": "spells",
+        "minLevel": 5,
+        "sortLevel": 5,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 60
+            }
+        ],
+        "unlimited": true,
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 60
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": 60
+            }
+        ]
+    }
+]

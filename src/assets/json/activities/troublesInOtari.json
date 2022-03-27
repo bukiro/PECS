@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Sun Wheel: Fire Damage",
+        "sourceBook": "Troubles in Otari",
+        "_extensionFileName": "troublesInOtari",
+        "target": "other",
+        "desc": "When you use the shield spell granted by the sun wheel to prevent damage, if the attacker is adjacent to you, you can choose to deal |dice=2d6 Fire| 2d6 fire damage to it, which it gets a DC 21 basic Reflex save to resist.\n\nIf you choose to deal the fire damage, you can't Activate the sun wheel again until the next morning.",
+        "gainConditions": [
+            {
+                "duration": -2,
+                "name": "Sun Wheel Cooldown",
+                "targetFilter": "caster"
+            }
+        ]
+    }
+]

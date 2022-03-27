@@ -1,0 +1,31 @@
+[
+    {
+        "name": "Corpseward Pendant",
+        "desc": "You are undetectable to undead creatures for the duration. Undead can't see, hear, or smell you, nor detect you with sensory capabilities such as scent or tremorsense. A creature can attempt a single DC 18 Will saving throw to ignore this effect. If an undead has reason to believe that undetected opponents are present, it can still attempt to Seek or Strike you. If you attempt to use a positive spell to damage undead, use Command Undead, touch or damage an undead creature, or attack any creature while warded in this manner, the pendant's effects immediately end. An undead creature who observes you in this manner or one who succeeds at the Will save is immune to the corpseward pendant for 24 hours.",
+        "sourceBook": "Pathfinder #157: Devil at the Dreaming Palace",
+        "_extensionFileName": "pathfinder157",
+        "type": "wornitems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
+        "inputRequired": "Remove the condition if you attempt to use a positive spell to damage undead, use Command Undead, touch or damage an undead creature, or attack any creature."
+    },
+    {
+        "name": "Corpseward Pendant Immunity",
+        "desc": "You are immune to the corpseward pendant, and a creature activating the pendant is not undetectable to you.",
+        "sourceBook": "Pathfinder #157: Devil at the Dreaming Palace",
+        "_extensionFileName": "pathfinder157",
+        "type": "wornitems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 144000
+            }
+        ]
+    }
+]

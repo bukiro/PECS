@@ -1,0 +1,107 @@
+[
+    {
+        "name": "Followers of Fate",
+        "desc": "On the Material Plane, some mortals worship norns as deities, while others, especially witches and bards, admire them as patrons or muses. Those who uphold norns as deities are known as Followers of Fate. Norns do little to discourage this veneration, but neither do they go out of their way to support such worship. Clerics who venerate norns might worship a specific norn or norn triumvirate, or all norns as a whole, but they gain the same benefits regardless of their choice. The religious symbol of Followers of Fate is a pair of shears cutting a golden thread, and their areas of concern are destiny, fate, and the aging process.",
+        "alignment": "Lawful Neutral",
+        "areasOfConcern": "destiny, fate, and the aging process.",
+        "category": "Other Gods",
+        "sourcebook": "Bestiary 2",
+        "_extensionFileName": "bestiary2",
+        "anathema": [
+            "apologize for making an incorrect prediction",
+            "disrespect mothers",
+            "accept payment for fortune-telling"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Mindlink"
+            },
+            {
+                "level": 3,
+                "name": "Threefold Aspect"
+            },
+            {
+                "level": 5,
+                "name": "Prying Eye"
+            }
+        ],
+        "divineFont": [
+            "Harm",
+            "Heal"
+        ],
+        "divineSkill": [
+            "Occultism"
+        ],
+        "domains": [
+            "Family",
+            "Fate",
+            "Knowledge",
+            "Truth"
+        ],
+        "edicts": [
+            "make predictions of the future",
+            "offer advice and guidance to those in positions of power",
+            "provide comfort to the elderly"
+        ],
+        "favoredWeapon": [
+            "Shears"
+        ],
+        "followerAlignments": [
+            "Lawful Good",
+            "Lawful Neutral",
+            "Lawful Evil"
+        ]
+    },
+    {
+        "name": "Ydersius",
+        "desc": "The serpentfolk god is not dead, but in his decapitated state, he might as well be. Reduced to a feral, animalistic existence, Ydersius is even less aware of his legacy than the lowest of the aapoph. Ydersius's symbol is a snake's skull surrounded by a skeletal ouroboros.",
+        "category": "Other Gods",
+        "sourcebook": "Bestiary 2",
+        "_extensionFileName": "bestiary2",
+        "anathema": [
+            "put the needs of others above those of serpentfolk",
+            "aid the spawn of Azlant"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Magic Fang"
+            },
+            {
+                "level": 5,
+                "name": "Cloudkill"
+            },
+            {
+                "level": 6,
+                "name": "Purple Worm Sting"
+            }
+        ],
+        "divineFont": [
+            "Harm"
+        ],
+        "divineSkill": [
+            "Deception"
+        ],
+        "domains": [
+            "Ambition",
+            "Indulgence",
+            "Might",
+            "Zeal"
+        ],
+        "edicts": [
+            "seek to return Ydersius to life",
+            "fulfill your passions",
+            "conquer your foes with no mercy",
+            "achieve glory for serpentkind"
+        ],
+        "favoredWeapon": [
+            "Dagger"
+        ],
+        "followerAlignments": [
+            "Lawful Evil",
+            "Neutral Evil",
+            "Chaotic Evil"
+        ]
+    }
+]

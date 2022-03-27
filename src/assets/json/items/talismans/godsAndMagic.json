@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Lucky Rabbit's Foot",
+        "id": "a0d7eddc-c9b6-11ea-87d0-0242ac130003",
+        "desc": "This treated rabbit's foot has shockingly blue fur and is often carried by vagabonds who worship Desna. When you activate the foot, reroll the triggering Reflex save. If you fail the second roll as well, you can Stride up to your Speed.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
+        "level": 10,
+        "price": 17500,
+        "traits": [
+            "Uncommon",
+            "Consumable",
+            "Divination",
+            "Fortune",
+            "Magical",
+            "Talisman"
+        ],
+        "actions": "Reaction",
+        "activationType": "Envision",
+        "trigger": "You fail a Reflex save against a damaging effect.",
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ]
+    }
+]

@@ -1,0 +1,102 @@
+[
+    {
+        "name": "Purple Worm Repellent",
+        "id": "01b81810-ab63-11ea-bb37-0242ac130002",
+        "desc": "Cave worm repellent is a highly noxious oil that can be applied to a creature or sprinkled in a circle around a 10-foot-radius area. In either case, after it is applied, it lasts for 24 hours or until it is scrubbed clean with 1 minute of work.\n\nWhen applied to a creature, the repellent causes cave worms of the indicated type to avoid attacking that creature in melee as long as they have something else nearby to attack. The repellent does not deter a cave worm from making ranged attacks against a coated target. If no creatures are within a cave worm's reach and it wants to approach and make a melee attack, it approaches and attacks a non-coated creature if it can without spending more actions to do so.\n\nIf the coated creature is swallowed by the designated type of cave worm, the cave worm must succeed at a Fortitude save or involuntarily regurgitate the swallowed creature on the next round (a single action).\n\nWhen sprinkled around an area, cave worm repellent negates any chance of a random encounter with the particular type of cave worm in that area, as the creatures purposefully avoid the affected area.\n\nOther types of repellent that function similarly to this one might exist at the GM's discretion. Uncommon or rare creatures are typically much harder to repel, and repellent against them might necessitate harvesting ingredients from the creatures themselves (such as the creature's liver or a certain gland).",
+        "sourceBook": "Pathfinder #155: Lord of the Black Sands",
+        "_extensionFileName": "pathfinder155",
+        "level": 13,
+        "bulk": "L",
+        "price": 55000,
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "duration": 144000,
+                "name": "Purple Worm Repellent",
+                "source": "Purple Worm Repellent"
+            }
+        ]
+    },
+    {
+        "name": "Azure Worm Repellent",
+        "id": "01b818d8-ab63-11ea-bb37-0242ac130002",
+        "desc": "Cave worm repellent is a highly noxious oil that can be applied to a creature or sprinkled in a circle around a 10-foot-radius area. In either case, after it is applied, it lasts for 24 hours or until it is scrubbed clean with 1 minute of work.\n\nWhen applied to a creature, the repellent causes cave worms of the indicated type to avoid attacking that creature in melee as long as they have something else nearby to attack. The repellent does not deter a cave worm from making ranged attacks against a coated target. If no creatures are within a cave worm's reach and it wants to approach and make a melee attack, it approaches and attacks a non-coated creature if it can without spending more actions to do so.\n\nIf the coated creature is swallowed by the designated type of cave worm, the cave worm must succeed at a Fortitude save or involuntarily regurgitate the swallowed creature on the next round (a single action).\n\nWhen sprinkled around an area, cave worm repellent negates any chance of a random encounter with the particular type of cave worm in that area, as the creatures purposefully avoid the affected area.\n\nOther types of repellent that function similarly to this one might exist at the GM's discretion. Uncommon or rare creatures are typically much harder to repel, and repellent against them might necessitate harvesting ingredients from the creatures themselves (such as the creature's liver or a certain gland).",
+        "sourceBook": "Pathfinder #155: Lord of the Black Sands",
+        "_extensionFileName": "pathfinder155",
+        "level": 15,
+        "bulk": "L",
+        "price": 110000,
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "craftRequirement": "The initial raw ingredients must include an azure worm's scale.",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "duration": 144000,
+                "name": "Azure Worm Repellent",
+                "source": "Azure Worm Repellent"
+            }
+        ]
+    },
+    {
+        "name": "Green Gut",
+        "id": "01b81996-ab63-11ea-bb37-0242ac130002",
+        "desc": "This watery, mint-green emetic of xulgath design is often carried in a delicate obsidian vial or other fragile container. In the unfortunate circumstance that a creature has been Swallowed Whole by another creature, the swallowed creature can break open a vial of greengut to immediately induce vomiting. The swallower must succeed at a DC 40 Fortitude save or |dice=18d6 Poison| take 18d6 poison damage and possibly vomit the contents of its stomach.",
+        "sourceBook": "Pathfinder #155: Lord of the Black Sands",
+        "_extensionFileName": "pathfinder155",
+        "level": 17,
+        "bulk": "L",
+        "price": 250000,
+        "success": "The creature takes half damage.",
+        "failure": "The creature takes full damage, is sickened 1, and vomits up any and all creatures Swallowed Whole on its next turn (a single action, which also allows it a Fortitude save against the sickened condition), as well as any stones or other objects it swallowed.",
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Potion"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "critfailure": "As failure, but the creature takes double damage and is sickened 2.",
+        "critsuccess": "The creature is unaffected.",
+        "usage": "held in 1 hand"
+    },
+    {
+        "name": "Crimson Worm Repellent",
+        "id": "01b81a54-ab63-11ea-bb37-0242ac130002",
+        "desc": "Cave worm repellent is a highly noxious oil that can be applied to a creature or sprinkled in a circle around a 10-foot-radius area. In either case, after it is applied, it lasts for 24 hours or until it is scrubbed clean with 1 minute of work.\n\nWhen applied to a creature, the repellent causes cave worms of the indicated type to avoid attacking that creature in melee as long as they have something else nearby to attack. The repellent does not deter a cave worm from making ranged attacks against a coated target. If no creatures are within a cave worm's reach and it wants to approach and make a melee attack, it approaches and attacks a non-coated creature if it can without spending more actions to do so.\n\nIf the coated creature is swallowed by the designated type of cave worm, the cave worm must succeed at a Fortitude save or involuntarily regurgitate the swallowed creature on the next round (a single action).\n\nWhen sprinkled around an area, cave worm repellent negates any chance of a random encounter with the particular type of cave worm in that area, as the creatures purposefully avoid the affected area.\n\nOther types of repellent that function similarly to this one might exist at the GM's discretion. Uncommon or rare creatures are typically much harder to repel, and repellent against them might necessitate harvesting ingredients from the creatures themselves (such as the creature's liver or a certain gland).",
+        "sourceBook": "Pathfinder #155: Lord of the Black Sands",
+        "_extensionFileName": "pathfinder155",
+        "level": 18,
+        "bulk": "L",
+        "price": 450000,
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "craftRequirement": "The initial raw ingredients must include a crimson worm's liver.",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "duration": 144000,
+                "name": "Crimson Worm Repellent",
+                "source": "Crimson Worm Repellent"
+            }
+        ]
+    }
+]

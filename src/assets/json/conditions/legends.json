@@ -1,0 +1,98 @@
+[
+    {
+        "name": "Aromatic Lure",
+        "desc": "You are lured to a specific location through tantalizing false scents. You are drawn to the selected location, becoming euphoric upon arrival, depending on your Will save.\n\n<strong>Critical Success</strong> You are unaffected.\n<strong>Success</strong> You are distracted by the tantalizing scents, becoming stupefied 1 for 1 round.\n<strong>Failure</strong> You are stupefied 2 and must move toward the selected location via the most direct route possible for 1 round, bypassing any obvious hazards and enemies in the way.\n<strong>Critical Failure</strong> You are stupefied 4 and must move to the selected location via the most direct route possible for 1 round, bypassing any obvious hazards and enemies in the way. If you reach the destination, you must remain in that location for 1d4 rounds but can otherwise act normally.",
+        "sourceBook": "Legends",
+        "_extensionFileName": "legends",
+        "type": "spells",
+        "minLevel": 4,
+        "sortLevel": 4,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "inputRequired": "On a critical failure, if you reach the destination, add 1d4 turns to the duration.",
+        "hints": [
+            {
+                "desc": "You must move to the selected location via the most direct route possible for 1 round, bypassing any obvious hazards and enemies in the way. If you reach the destination, you must remain in that location for 1d4 rounds. You can otherwise act normally.",
+                "showon": "Movement",
+                "conditionChoiceFilter": [
+                    "Failure",
+                    "Critical Failure"
+                ]
+            }
+        ],
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Success"
+            },
+            {
+                "name": "Failure"
+            },
+            {
+                "name": "Critical Failure"
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": [
+                    "Success"
+                ],
+                "name": "Stupefied",
+                "value": 1
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Failure"
+                ],
+                "name": "Stupefied",
+                "value": 2
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Critical Failure"
+                ],
+                "name": "Stupefied",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Aromatic Lure (Caster)",
+        "desc": "You are luring the target creatures to a specific location tantalizing false scents. Each target is drawn to the selected location, becoming euphoric upon arrival depending on its Will save.\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target is distracted by the tantalizing scents, becoming stupefied 1 for 1 round.\n<strong>Failure</strong> The target is stupefied 2 and moves toward the selected location via the most direct route possible for 1 round, bypassing any obvious hazards and enemies in the way.\n<strong>Critical Failure</strong> The target is stupefied 4 and moves to the selected location via the most direct route possible for 1 round, bypassing any obvious hazards and enemies in the way. If the creature reaches the destination, it must remain in that location for 1d4 rounds but can otherwise act normally.",
+        "sourceBook": "Legends",
+        "_extensionFileName": "legends",
+        "type": "spells",
+        "minLevel": 4,
+        "sortLevel": 4,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "unlimited": true,
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success"
+            },
+            {
+                "name": "Failure"
+            },
+            {
+                "name": "Critical Failure"
+            }
+        ]
+    }
+]

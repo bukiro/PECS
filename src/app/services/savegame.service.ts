@@ -642,6 +642,31 @@ export class SavegameService {
                 character.class.spellCasting.filter(casting => casting.className == "Wizard" && casting.castingType == "Prepared").forEach(casting => { casting.spellBookOnly = true });
             }
 
+            //The feats "Deflect Arrows" and "Quick Climber" are corrected to "Deflect Arrow" and "Quick Climb" in 1.0.14.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 14) {
+                character.class.levels?.forEach(level => {
+                    level.featChoices?.forEach(choice => {
+                        choice.feats?.forEach(taken => {
+                            if (taken.name == "Deflect Arrows") {
+                                taken.name = "Deflect Arrow";
+                            } else if (taken.name == "Quick Climber") {
+                                taken.name = "Quick Climb";
+                            }
+                        })
+                    })
+                })
+                character.class?.activities?.forEach(gain => {
+                    if (gain.name == "Deflect Arrows") {
+                        gain.name = "Deflect Arrow";
+                    }
+                })
+                character.conditions?.forEach(gain => {
+                    if (gain.name == "Deflect Arrows") {
+                        gain.name = "Deflect Arrow";
+                    }
+                })
+            }
+
         }
 
         return character;

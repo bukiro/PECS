@@ -1,0 +1,23 @@
+[
+    {
+        "name": "Guided by the Stars",
+        "actions": "Free",
+        "sourceBook": "Ancestry Guide",
+        "_extensionFileName": "ancestryGuide",
+        "traits": [
+            "Fortune",
+            "Lizardfolk"
+        ],
+        "trigger": "You are about to attempt a skill check or saving throw.",
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "target": "self",
+        "desc": "The stars grant you insights that guide your actions. You roll twice and take the better result. If it's night and you can see the stars, you gain a +1 circumstance bonus to the triggering roll.",
+        "gainConditions": [
+            {
+                "duration": 1,
+                "name": "Guided by the Stars"
+            }
+        ]
+    }
+]

@@ -1,0 +1,476 @@
+[
+    {
+        "name": "Energy Mutagen (Acid, Lesser)",
+        "desc": "The mutagen suffuses your body with acid energy that spills out of you whenever you attack.\n\n<strong>Benefit</strong> You gain acid resistance 5. Whenever you score a hit with a melee weapon, add 1 point of acid damage.\n<strong>Drawback</strong> You gain weakness 5 to cold, electricity and fire.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "type": "alchemicalelixirs",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=1 Acid| 1 point of acid damage.",
+                "showon": "Attacks"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Acid Resistance",
+                "value": "5"
+            },
+            {
+                "affected": "Cold Resistance",
+                "value": "-5"
+            },
+            {
+                "affected": "Electricity Resistance",
+                "value": "-5"
+            },
+            {
+                "affected": "Fire Resistance",
+                "value": "-5"
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Acid, Moderate)",
+        "desc": "The mutagen suffuses your body with acid energy that spills out of you whenever you attack.\n\n<strong>Benefit</strong> You gain acid resistance 10. Whenever you score a hit with a melee weapon, add 1d4 acid damage.\n<strong>Drawback</strong> You gain weakness 5 to cold, electricity and fire.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "type": "alchemicalelixirs",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=1d4 Acid| 1d4 acid damage.",
+                "showon": "Attacks"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Acid Resistance",
+                "value": "10"
+            },
+            {
+                "affected": "Cold Resistance",
+                "value": "-5"
+            },
+            {
+                "affected": "Electricity Resistance",
+                "value": "-5"
+            },
+            {
+                "affected": "Fire Resistance",
+                "value": "-5"
+            }
+        ],
+        "overrideConditions": [
+            {
+                "name": "Energy Mutagen (Acid, Lesser)"
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Cold, Lesser)",
+        "desc": "The mutagen suffuses your body with cold energy that spills out of you whenever you attack.\n\n<strong>Benefit</strong> You gain cold resistance 5. Whenever you score a hit with a melee weapon, add 1 point of cold damage.\n<strong>Drawback</strong> You gain weakness 5 to acid, electricity and fire.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "type": "alchemicalelixirs",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=1 Cold| 1 point of cold damage.",
+                "showon": "Attacks"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Acid Resistance",
+                "value": "-5"
+            },
+            {
+                "affected": "Cold Resistance",
+                "value": "5"
+            },
+            {
+                "affected": "Electricity Resistance",
+                "value": "-5"
+            },
+            {
+                "affected": "Fire Resistance",
+                "value": "-5"
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Cold, Moderate)",
+        "desc": "The mutagen suffuses your body with cold energy that spills out of you whenever you attack.\n\n<strong>Benefit</strong> You gain cold resistance 10. Whenever you score a hit with a melee weapon, add 1d4 cold damage.\n<strong>Drawback</strong> You gain weakness 5 to acid, electricity and fire.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "type": "alchemicalelixirs",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=1d4 Cold| 1d4 cold damage.",
+                "showon": "Attacks"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Acid Resistance",
+                "value": "-5"
+            },
+            {
+                "affected": "Cold Resistance",
+                "value": "10"
+            },
+            {
+                "affected": "Electricity Resistance",
+                "value": "-5"
+            },
+            {
+                "affected": "Fire Resistance",
+                "value": "-5"
+            }
+        ],
+        "overrideConditions": [
+            {
+                "name": "Energy Mutagen (Cold, Lesser)"
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Electricity, Lesser)",
+        "desc": "The mutagen suffuses your body with electricity energy that spills out of you whenever you attack.\n\n<strong>Benefit</strong> You gain electricity resistance 5. Whenever you score a hit with a melee weapon, add 1 point of electricity damage.\n<strong>Drawback</strong> You gain weakness 5 to acid, cold and fire.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "type": "alchemicalelixirs",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=1 Electricity| 1 point of electricity damage.",
+                "showon": "Attacks"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Acid Resistance",
+                "value": "-5"
+            },
+            {
+                "affected": "Cold Resistance",
+                "value": "-5"
+            },
+            {
+                "affected": "Electricity Resistance",
+                "value": "5"
+            },
+            {
+                "affected": "Fire Resistance",
+                "value": "-5"
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Electricity, Moderate)",
+        "desc": "The mutagen suffuses your body with electricity energy that spills out of you whenever you attack.\n\n<strong>Benefit</strong> You gain electricity resistance 10. Whenever you score a hit with a melee weapon, add 1d4 electricity damage.\n<strong>Drawback</strong> You gain weakness 5 to acid, cold and fire.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "type": "alchemicalelixirs",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=1d4 Electricity| 1d4 electricity damage.",
+                "showon": "Attacks"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Acid Resistance",
+                "value": "-5"
+            },
+            {
+                "affected": "Cold Resistance",
+                "value": "-5"
+            },
+            {
+                "affected": "Electricity Resistance",
+                "value": "10"
+            },
+            {
+                "affected": "Fire Resistance",
+                "value": "-5"
+            }
+        ],
+        "overrideConditions": [
+            {
+                "name": "Energy Mutagen (Electricity, Lesser)"
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Fire, Lesser)",
+        "desc": "The mutagen suffuses your body with fire energy that spills out of you whenever you attack.\n\n<strong>Benefit</strong> You gain fire resistance 5. Whenever you score a hit with a melee weapon, add 1 point of fire damage.\n<strong>Drawback</strong> You gain weakness 5 to acid, cold and electricity.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "type": "alchemicalelixirs",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=1 Fire| 1 point of fire damage.",
+                "showon": "Attacks"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Acid Resistance",
+                "value": "-5"
+            },
+            {
+                "affected": "Cold Resistance",
+                "value": "-5"
+            },
+            {
+                "affected": "Electricity Resistance",
+                "value": "-5"
+            },
+            {
+                "affected": "Fire Resistance",
+                "value": "5"
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Fire, Moderate)",
+        "desc": "The mutagen suffuses your body with fire energy that spills out of you whenever you attack.\n\n<strong>Benefit</strong> You gain fire resistance 10. Whenever you score a hit with a melee weapon, add 1d4 fire damage.\n<strong>Drawback</strong> You gain weakness 5 to acid, cold and electricity.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "type": "alchemicalelixirs",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Whenever you score a hit with a melee weapon, add |dice=1d4 Fire| 1d4 fire damage.",
+                "showon": "Attacks"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Acid Resistance",
+                "value": "-5"
+            },
+            {
+                "affected": "Cold Resistance",
+                "value": "-5"
+            },
+            {
+                "affected": "Electricity Resistance",
+                "value": "-5"
+            },
+            {
+                "affected": "Fire Resistance",
+                "value": "10"
+            }
+        ],
+        "overrideConditions": [
+            {
+                "name": "Energy Mutagen (Fire, Lesser)"
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen Discharge",
+        "desc": "(Energy Mutagen Discharge removes greater and major Energy Mutagen conditions and then immediately ends. It can't be chosen manually.)",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "type": "alchemicalelixirs",
+        "sortLevel": 0,
+        "hide": true,
+        "endConditions": [
+            {
+                "name": "Energy Mutagen (Acid, Greater)"
+            },
+            {
+                "name": "Energy Mutagen (Cold, Greater)"
+            },
+            {
+                "name": "Energy Mutagen (Electricity, Greater)"
+            },
+            {
+                "name": "Energy Mutagen (Fire, Greater)"
+            },
+            {
+                "name": "Energy Mutagen (Acid, Major)"
+            },
+            {
+                "name": "Energy Mutagen (Cold, Major)"
+            },
+            {
+                "name": "Energy Mutagen (Electricity, Major)"
+            },
+            {
+                "name": "Energy Mutagen (Fire, Major)"
+            }
+        ]
+    },
+    {
+        "name": "Stone Body Mutagen",
+        "desc": "This mutagen calcifies your body making it as hard as stone.\n\n<strong>Benefit</strong> You gain resistance to physical damage (except bludgeoning) equal to the value * 5.\n<strong>Drawback</strong> Your Speeds are reduced by 10 feet (minimum 5 feet) and you take a -2 penalty to Reflex saves.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "type": "alchemicalelixirs",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            },
+            {
+                "duration": 6000
+            }
+        ],
+        "choice": "Lesser",
+        "choices": [
+            {
+                "name": "Lesser",
+                "defaultDuration": 1000
+            },
+            {
+                "name": "Moderate",
+                "defaultDuration": 6000
+            },
+            {
+                "name": "Greater",
+                "defaultDuration": 6000
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Physical Damage Except Bludgeoning Resistance",
+                "value": "Value * 5"
+            },
+            {
+                "affected": "Speed",
+                "value": "-10"
+            },
+            {
+                "affected": "Reflex",
+                "value": "-2"
+            }
+        ]
+    },
+    {
+        "name": "Ring of the Weary Traveler",
+        "desc": "You have refreshed yourself from fatigue. You can ignore the penalties from the fatigued condition. This does not remove the condition, it merely suppresses the penalties and drawbacks of having the condition. If something would cause you to become fatigued again while the ring's power is in effect, the suppression ends, and you immediately take the penalties again.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "type": "wornitems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
+        "inputRequired": "Remove the condition if something would cause you to become fatigued again.",
+        "overrideConditions": [
+            {
+                "name": "Fatigued"
+            }
+        ]
+    },
+    {
+        "name": "Stalwart's Ring",
+        "desc": "You have meditated on the Stalwart's Ring during your daily preparations to grant yourself 5 temporary Hit Points. These last until your next daily preparation, as long as you are wearing the ring.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "type": "wornitems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -2
+            }
+        ],
+        "inputRequired": "Remove the condition if you take off the ring.",
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "5"
+            }
+        ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "-Temporary_HP('',effect.sourceId)"
+            }
+        ]
+    },
+    {
+        "name": "Warrior's Training Ring",
+        "desc": "Making an attack roll with a weapon in which you are untrained, you gain a +2 circumstance bonus to the attack roll. If you are an expert in any weapon, you instead gain a +4 circumstance bonus to the attack roll.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "type": "wornitems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Untrained Attack Rolls",
+                "show": true,
+                "type": "circumstance",
+                "value": "characterService.get_Skills(Creature, '', {type: 'Weapon Proficiency'}).concat(characterService.get_Skills(Creature, '', {type: 'Specific Weapon Proficiency'})).some(skill => Skill_Level(skill.name) >= 4) ? 4 : 2"
+            }
+        ]
+    }
+]

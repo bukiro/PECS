@@ -1,0 +1,110 @@
+[
+    {
+        "name": "Badlands Orc",
+        "desc": "You come from sun-scorched badlands, where long legs and an ability to withstand the elements helped you thrive. You can Hustle twice as long while exploring before you have to stop, and you treat environmental heat effects as if they were one step less extreme (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
+        "hints": [
+            {
+                "desc": "You treat environmental heat effects as if they were one step less extreme (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
+                "showon": "Resistances"
+            },
+            {
+                "desc": "You can Hustle twice as long while exploring before you have to stop.",
+                "showon": "Movement"
+            }
+        ],
+        "sourceBook": "Advanced Player's Guide",
+        "_extensionFileName": "advancedPlayersGuide",
+        "shortdesc": "You come from sun-scorched badlands, where long legs and an ability to withstand the elements helped you thrive."
+    },
+    {
+        "name": "Adopted Ancestry: Orc",
+        "desc": "You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack, as determined by the GM.",
+        "sourceBook": "Advanced Player's Guide",
+        "_extensionFileName": "advancedPlayersGuide",
+        "subType": "Orc",
+        "superType": "Adopted Ancestry",
+        "shortdesc": "Gain access to ancestry feats from another ancestry.",
+        "traits": [
+            "General"
+        ],
+        "levelreq": 1,
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "Any Ancestry except Orc",
+        "gainAncestry": [
+            "Orc"
+        ]
+    },
+    {
+        "name": "Cultural Adaptability: Orc",
+        "desc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you. You gain the Adopted Ancestry general feat for the Orc ancestry, and you also gain one 1st-level ancestry feat from the Orc ancestry.",
+        "sourceBook": "Advanced Player's Guide",
+        "_extensionFileName": "advancedPlayersGuide",
+        "subType": "Orc",
+        "superType": "Cultural Adaptability",
+        "shortdesc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you.",
+        "traits": [
+            "Halfling"
+        ],
+        "levelreq": 5,
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "Any Ancestry except Orc",
+        "gainFeatChoice": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Adopted Ancestry: Orc"
+                    }
+                ],
+                "source": "Feat: Cultural Adaptability: Orc",
+                "type": "General"
+            },
+            {
+                "available": 1,
+                "level": 1,
+                "source": "Feat: Cultural Adaptability: Orc",
+                "type": "Orc"
+            }
+        ]
+    },
+    {
+        "name": "Tusks",
+        "desc": "You have particularly long, jagged tusks perfect for tearing meat from bone. You gain a tusks unarmed attack that deals 1d6 piercing damage. Your tusks are in the brawling group and have the finesse and unarmed traits.",
+        "specialdesc": "You can take this feat only at 1st level, and you can't retrain into this feat. You can retrain out of this feat only through drastic measures such as breaking or filing your tusks.",
+        "sourceBook": "Advanced Player's Guide, Character Guide",
+        "_extensionFileName": "advancedPlayersGuide",
+        "shortdesc": "You have particularly long, jagged tusks perfect for tearing meat from bone.",
+        "overridePriority": 1,
+        "PFSnote": "The Tusks orc ancestry feat requires the character to file down their tusks or perform a similar action to retrain; this is part of the normal retraining process and does not take any additional time.",
+        "traits": [
+            "Orc"
+        ],
+        "levelreq": 1,
+        "specialreq": "charLevel == 1",
+        "specialreqdesc": "1st level only",
+        "gainItems": [
+            {
+                "id": "3ceccceb-31f3-42ef-b6c5-a37b1b8fdc2a",
+                "on": "grant",
+                "type": "weapons"
+            }
+        ]
+    },
+    {
+        "name": "Sheltering Slab",
+        "desc": "The stone around you is your ally, and you have learned to use it to shore up your weaknesses. As long as you remain on the ground and are adjacent to a vertical stone wall that rises to your height or taller, you aren't flat-footed against attacks as a result of being flanked. This works even if you are at the outside corner of the wall.",
+        "hints": [
+            {
+                "desc": "As long as you remain on the ground and are adjacent to a vertical stone wall that rises to your height or taller, you aren't flat-footed against attacks as a result of being flanked. This works even if you are at the outside corner of the wall.",
+                "showon": "Defense"
+            }
+        ],
+        "sourceBook": "Advanced Player's Guide",
+        "_extensionFileName": "advancedPlayersGuide",
+        "shortdesc": "The stone around you is your ally, and you have learned to use it to shore up your weaknesses.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 5
+    }
+]

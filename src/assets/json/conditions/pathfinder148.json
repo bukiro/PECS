@@ -1,0 +1,224 @@
+[
+    {
+        "name": "False Faith",
+        "desc": "After having spent 1 hour in prayer to Droskar, you can cast spells using the religious symbol of a different deity as your divine focus, and you can address verbal prayers to that deity. Droskar intercepts your prayers and answers them without the named god knowing.\n\nThis ability applies to the religious symbol of only one god at a time - making a different religious symbol work in this fashion requires another hour of prayer and causes the old one to cease functioning. You can always use a religious symbol of Droskar without affecting this ability.",
+        "sourceBook": "Pathfinder #148: Fires of the Haunted City",
+        "_extensionFileName": "pathfinder148",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You can cast spells using the religious symbol of a different deity as your divine focus, and you can address verbal prayers to that deity. Droskar intercepts your prayers and answers them without the named god knowing.\n\nThis ability applies to the religious symbol of only one god at a time - making a different religious symbol work in this fashion requires another hour of prayer and causes the old one to cease functioning. You can always use a religious symbol of Droskar without affecting this ability.",
+                "showon": "Spellbook"
+            }
+        ]
+    },
+    {
+        "name": "Practice Makes Perfect",
+        "desc": "You gain a +2 status bonus to the triggering check, or a +3 bonus if you have master or better proficiency in the skill. This bonus can change the outcome of your check.",
+        "sourceBook": "Pathfinder #148: Fires of the Haunted City",
+        "_extensionFileName": "pathfinder148",
+        "type": "spells",
+        "minLevel": 1,
+        "sortLevel": 1,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "hide": true,
+        "inputRequired": "You gain a bonus to every skill, depending on your proficiency with it. Use this bonus only for the triggering skill check.",
+        "effects": [
+            {
+                "affected": "Untrained Skill Checks",
+                "type": "status",
+                "value": "2"
+            },
+            {
+                "affected": "Trained Skill Checks",
+                "type": "status",
+                "value": "2"
+            },
+            {
+                "affected": "Expert Skill Checks",
+                "type": "status",
+                "value": "2"
+            },
+            {
+                "affected": "Master Skill Checks",
+                "type": "status",
+                "value": "3"
+            },
+            {
+                "affected": "Legendary Skill Checks",
+                "type": "status",
+                "value": "3"
+            }
+        ]
+    },
+    {
+        "name": "Practice Makes Perfect (Caster)",
+        "desc": "The target gains a +2 status bonus to the triggering check, or a +3 bonus if the target has master or better proficiency in the skill. This bonus can change the outcome of the target's check.",
+        "sourceBook": "Pathfinder #148: Fires of the Haunted City",
+        "_extensionFileName": "pathfinder148",
+        "type": "spells",
+        "minLevel": 1,
+        "sortLevel": 1,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "hide": true,
+        "unlimited": true
+    },
+    {
+        "name": "Tireless Worker",
+        "desc": "One of the following conditions that's affecting you is suppressed, chosen by the caster: clumsy, encumbered, enfeebled, or fatigued. If the effect that caused the condition is not removed, the condition returns after the spell's duration expires.",
+        "sourceBook": "Pathfinder #148: Fires of the Haunted City",
+        "_extensionFileName": "pathfinder148",
+        "type": "spells",
+        "minLevel": 4,
+        "sortLevel": 4,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "choice": "Clumsy",
+        "choices": [
+            {
+                "name": "Clumsy"
+            },
+            {
+                "name": "Encumbered"
+            },
+            {
+                "name": "Enfeebled"
+            },
+            {
+                "name": "Fatigued"
+            }
+        ],
+        "overrideConditions": [
+            {
+                "name": "Clumsy",
+                "conditionChoiceFilter": [
+                    "Clumsy"
+                ]
+            },
+            {
+                "name": "Encumbered",
+                "conditionChoiceFilter": [
+                    "Encumbered"
+                ]
+            },
+            {
+                "name": "Enfeebled",
+                "conditionChoiceFilter": [
+                    "Enfeebled"
+                ]
+            },
+            {
+                "name": "Fatigued",
+                "conditionChoiceFilter": [
+                    "Fatigued"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Tireless Worker (Caster)",
+        "desc": "You suppress your choice of one of the following conditions that's affecting the target: clumsy, encumbered, enfeebled, or fatigued. If you don't remove the effect that caused the condition, the condition returns after the spell's duration expires.",
+        "sourceBook": "Pathfinder #148: Fires of the Haunted City",
+        "_extensionFileName": "pathfinder148",
+        "type": "spells",
+        "minLevel": 4,
+        "sortLevel": 4,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "choice": "Clumsy",
+        "choices": [
+            {
+                "name": "Clumsy"
+            },
+            {
+                "name": "Encumbered"
+            },
+            {
+                "name": "Enfeebled"
+            },
+            {
+                "name": "Fatigued"
+            }
+        ]
+    },
+    {
+        "name": "Dragonscale Amulet",
+        "desc": "You have taken acid, cold, electricity, fire, or poison damage from a dragon's Breath Weapon, and the dragonscale amulet has begun to glow brightly; your resistance against that type of damage increases to 20 for that duration.",
+        "sourceBook": "Pathfinder #148: Fires of the Haunted City",
+        "_extensionFileName": "pathfinder148",
+        "type": "wornitems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
+        "unlimited": true,
+        "choice": "Acid",
+        "choices": [
+            {
+                "name": "Acid"
+            },
+            {
+                "name": "Cold"
+            },
+            {
+                "name": "Electricity"
+            },
+            {
+                "name": "Fire"
+            },
+            {
+                "name": "Poison"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Acid Resistance",
+                "value": "Choice == 'Acid' ? 15 : 0"
+            },
+            {
+                "affected": "Cold Resistance",
+                "value": "Choice == 'Cold' ? 15 : 0"
+            },
+            {
+                "affected": "Electricity Resistance",
+                "value": "Choice == 'Electricity' ? 15 : 0"
+            },
+            {
+                "affected": "Fire Resistance",
+                "value": "Choice == 'Fire' ? 15 : 0"
+            },
+            {
+                "affected": "Poison Resistance",
+                "value": "Choice == 'Poison' ? 15 : 0"
+            }
+        ]
+    }
+]

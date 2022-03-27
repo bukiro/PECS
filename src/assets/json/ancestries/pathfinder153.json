@@ -1,0 +1,139 @@
+[
+    {
+        "name": "Shoony",
+        "traits": [
+            "Rare",
+            "Humanoid",
+            "Shoony"
+        ],
+        "sourceBook": "Pathfinder #153: Life's Long Shadow",
+        "_extensionFileName": "pathfinder153",
+        "baseLanguages": 2,
+        "hitPoints": 6,
+        "size": -1,
+        "warning": "Shoony feats are not implemented yet.",
+        "abilityChoices": [
+            {
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Dexterity",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Charisma",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "ancestries": [
+            "Shoony"
+        ],
+        "desc": [
+            {
+                "name": "Description",
+                "value": "Diminutive humanoids who resemble squat, bipedal dogs, shoonies are sometimes mistaken for weak and insular pacifists. However, their sheer perseverance, incredible work ethic, and resourceful use of diplomacy make shoonies far from helpless.\n\nAccording to shoonies, Aroden created their kind to provide him with pleasant company soon after he created the Isle of Kortos. Shoony culture is rooted in this myth and its implications, which help to explain the ancestry's long reputation for hospitality, good will, and pacifism. War is antithetical to the shoony way of life; shoonies rely on cooperation and persistence to make their way through a world that can seem at times hellbent on destroying them. Shoonies are unflappable in their optimism and always see the best in others, even when faced with frequent subjugation and exploitation that might create bitterness or xenophobia among other societies. To shoonies, peace is a goal always worth striving for, and no villain is beyond redemption, so they aim to resolve problems with peaceful solutions."
+            },
+            {
+                "name": "Hit Points",
+                "value": 6
+            },
+            {
+                "name": "Size",
+                "value": "Small"
+            },
+            {
+                "name": "Speed",
+                "value": "25 feet"
+            },
+            {
+                "name": "Ability Boosts",
+                "value": "Dexterity\nCharisma\nFree"
+            },
+            {
+                "name": "Ability Flaw(s)",
+                "value": "Constitution"
+            },
+            {
+                "name": "Languages",
+                "value": "Common\nShoony"
+            },
+            {
+                "name": "Additional Languages",
+                "value": "Equal to your Intelligence modifier (if it's positive). Choose from Dwarven, Gnomish, Goblin, Halfling, Terran, and any other languages to which you have access (such as the languages prevalent in your region). "
+            },
+            {
+                "name": "Low-Light Vision",
+                "value": "You can see in dim light as though it were bright light, so you ignore the concealed condition due to dim light."
+            },
+            {
+                "name": "Blunt Snout",
+                "value": "Your small, blunt snout and labyrinthine sinus system make you resistant to phenomena that assail the nose. When you roll a saving throw against inhaled threats (such as inhaled poisons) and olfactory effects (such as xulgath stench), you get the outcome one degree of success better than the result of your roll."
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Blunt Snout",
+                        "source": "Ancestry",
+                        "sourceId": "1-Feat-Ancestry-0"
+                    }
+                ],
+                "id": "1-Feat-Ancestry-0",
+                "level": 0,
+                "source": "Ancestry"
+            }
+        ],
+        "heritages": [
+            "Bloodhound Shoony",
+            "Fishseeker Shoony",
+            "Half-Elf",
+            "Half-Orc",
+            "Paddler Shoony",
+            "Thickcoat Shoony"
+        ],
+        "languages": [
+            "Common",
+            "Shoony"
+        ],
+        "recommendedLanguages": [
+            "Dwarven",
+            "Gnomish",
+            "Goblin",
+            "Halfling",
+            "Terran"
+        ],
+        "senses": [
+            "Low-Light Vision"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            }
+        ]
+    }
+]

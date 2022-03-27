@@ -1,0 +1,29 @@
+[
+    {
+        "name": "Grinning Pugwampi",
+        "id": "a0d7f2be-c9b6-11ea-87d0-0242ac130003",
+        "desc": "This bone statuette of a sneering gremlin crumbles to dust when activated, imparting a fraction of its subject's infamous misfortune unto those you strike. The damaged creature must attempt a DC 33 Will save.",
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "_extensionFileName": "pathfinder149",
+        "level": 14,
+        "price": 70000,
+        "success": "The creature must roll twice and take the worse result on the next check it attempts.",
+        "failure": "The creature must roll twice and take the worse result on all checks until the end of its next turn.",
+        "traits": [
+            "Uncommon",
+            "Consumable",
+            "Enchantment",
+            "Magical",
+            "Misfortune",
+            "Talisman"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "critsuccess": "The creature is unaffected.",
+        "trigger": "You damage a flat-footed creature with the affixed weapon",
+        "usage": "affixed to a weapon",
+        "targets": [
+            "weapons"
+        ]
+    }
+]

@@ -380,7 +380,7 @@
         "name": "Spell duration",
         "desc": "A specific duration for the spell other than the spell's original duration, in turns * 10. (1 hour is 6000, 1 day is 144000.)",
         "type": "number",
-        "validation":"-1plus"
+        "validation": "-1plus"
     },
     {
         "parent": "activities",
@@ -868,7 +868,7 @@
         "name": "Act as Doubling Rings",
         "desc": "Set if this item can be used to copy runes from one weapon to the other, like a doubling ring.",
         "locked": true,
-        "examples":"isdoublingrings"
+        "examples": "isdoublingrings"
     },
     {
         "key": "isHandwrapsOfMightyBlows",
@@ -913,7 +913,7 @@
         "desc": "Set if this item is attached to an item that can bear affixed talismans in order to preserve the talisman on use. Set to the number of schools to which it can be attuned.",
         "type": "number",
         "locked": true,
-        "examples":"istalismancord"
+        "examples": "istalismancord"
     },
     {
         "key": "isWayfinder",
@@ -923,7 +923,7 @@
         "desc": "Set if this item slots aeon stones to unlock their resonant abilities. Set to the number of aeon stones allowed in this wayfinder.",
         "type": "number",
         "locked": true,
-        "examples":"iswayfinder"
+        "examples": "iswayfinder"
     },
     {
         "key": "group",
@@ -977,7 +977,6 @@
         "type": "number",
         "validation": "0plus"
     },
-    
     {
         "key": "dexcap",
         "priority": "05",

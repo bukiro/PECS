@@ -1,0 +1,45 @@
+[
+    {
+        "name": "Rain of Embers Stance",
+        "actions": "1A",
+        "sourceBook": "Pathfinder Society Guide",
+        "_extensionFileName": "PFSGuide",
+        "traits": [
+            "Monk",
+            "Stance"
+        ],
+        "requirements": "You are unarmored and touching the ground.",
+        "toggle": true,
+        "target": "self",
+        "desc": "You enter the stance of an enraged phoenix, holding your fingers as rigid as deadly talons while moving with quick, flickering gestures that flicker with dancing flames. The only Strikes you can make are fire talon Strikes. These deal 1d4 fire damage; are in the brawling group; and have the agile, finesse, fire, nonlethal, and unarmed traits.\n\nWhile in Rain of Embers Stance, you gain a +1 status bonus to AC and fire resistance equal to half your level (minimum 1).",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Rain of Embers Stance"
+            }
+        ]
+    },
+    {
+        "name": "Farabellus Flip",
+        "actions": "Reaction",
+        "sourceBook": "Pathfinder Society Guide",
+        "_extensionFileName": "PFSGuide",
+        "traits": [
+            "Uncommon",
+            "Barbarian",
+            "Fighter",
+            "Ranger"
+        ],
+        "trigger": "An enemy targets you with a melee Strike.",
+        "toggle": true,
+        "maxDuration": 1,
+        "target": "self",
+        "desc": "Surprisingly agile even in a breastplate and carrying a full rucksack, Marcos Farabellus developed this evasive maneuver during one of his many adventures. Flinging your body into a twisting somersault, you gain a +2 circumstance bonus to your AC against the triggering attack. If the attack still hits you, you can Step to an open space that's still within the triggering enemy's reach, turning the impact of the blow into momentum.",
+        "gainConditions": [
+            {
+                "duration": 1,
+                "name": "Farabellus Flip"
+            }
+        ]
+    }
+]

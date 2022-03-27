@@ -1,0 +1,65 @@
+[
+    {
+        "name": "Droskari Disciple",
+        "desc": "You grew up in the church of the Dark Smith, where you learned the value of hard work and achieving vocational mastery.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Lore skill and the Droskar Lore skill. You gain the Skill Training skill feat.",
+        "sourceBook": "Pathfinder #148: Fires of the Haunted City",
+        "_extensionFileName": "pathfinder148",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Intelligence"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Skill Training",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Droskar",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Lore",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    }
+]

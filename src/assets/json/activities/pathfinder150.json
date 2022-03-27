@@ -1,0 +1,43 @@
+[
+    {
+        "name": "Enduring Debilitation",
+        "actions": "Free",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "traits": [
+            "Uncommon",
+            "Rogue"
+        ],
+        "trigger": "You apply a debilitation to a creature.",
+        "frequency": "once per minute",
+        "cooldown": 100,
+        "target": "self",
+        "desc": "You can make your debilitation last an exceptionally long time. The triggering debilitation lasts for 1 minute instead of until the end of your next turn."
+    },
+    {
+        "name": "Invulnerable Juggernaut",
+        "actions": "Reaction",
+        "inputRequired": "Activate this activity instead of applying the damage that would reduce you to 0 Hit Points.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "traits": [
+            "Uncommon",
+            "Barbarian"
+        ],
+        "trigger": "You would be reduced to 0 Hit Points.",
+        "target": "self",
+        "desc": "You end your rage to stay at 1 Hit Point. You become wounded 2 (or increase your wounded condition by 2 if you are already wounded).",
+        "gainConditions": [
+            {
+                "addValue": 2,
+                "name": "Wounded"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "HP",
+                "value": "(-(Current_HP() - 1))"
+            }
+        ]
+    }
+]

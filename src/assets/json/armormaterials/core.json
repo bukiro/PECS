@@ -1,13 +1,15 @@
 [
     {
         "name": "Cold Iron (Low-Grade)",
+        "desc": "Cold iron armor sickens certain creatures that touch it. A creature with weakness to cold iron (such as most demons and fey) that critically fails an unarmed attack against a creature in cold iron armor becomes sickened 1. A creature with weakness to cold iron is sickened 1 as long as it wears cold iron armor.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 5,
         "price": 14000,
         "bulkPrice": 1400,
-        "desc": "Cold iron armor sickens certain creatures that touch it. A creature with weakness to cold iron (such as most demons and fey) that critically fails an unarmed attack against a creature in cold iron armor becomes sickened 1. A creature with weakness to cold iron is sickened 1 as long as it wears cold iron armor.",
+        "craftingRequirement": 4,
         "craftRequirement": "at least 70 sp of cold iron + 7 sp per Bulk",
         "runeLimit": 8,
-        "craftingRequirement": 4,
         "hints": [
             {
                 "desc": "A creature with weakness to cold iron (such as most demons and fey) that critically fails an unarmed attack against a creature in cold iron armor becomes sickened 1. A creature with weakness to cold iron is sickened 1 as long as it wears cold iron armor.",
@@ -17,13 +19,15 @@
     },
     {
         "name": "Silver (Low-Grade)",
+        "desc": "Silver armor sickens certain creatures that touch it. A creature with weakness to silver that critically fails an unarmed attack against a creature in silver armor becomes sickened 1. A creature with weakness to silver is sickened 1 as long as it wears silver armor.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 5,
         "price": 14000,
         "bulkPrice": 1400,
-        "desc": "Silver armor sickens certain creatures that touch it. A creature with weakness to silver that critically fails an unarmed attack against a creature in silver armor becomes sickened 1. A creature with weakness to silver is sickened 1 as long as it wears silver armor.",
+        "craftingRequirement": 4,
         "craftRequirement": "at least 70 sp of silver + 7 sp per Bulk",
         "runeLimit": 8,
-        "craftingRequirement": 4,
         "hints": [
             {
                 "desc": "A creature with weakness to silver that critically fails an unarmed attack against a creature in silver armor becomes sickened 1. A creature with weakness to silver is sickened 1 as long as it wears silver armor.",
@@ -33,13 +37,15 @@
     },
     {
         "name": "Cold Iron (Standard-Grade)",
+        "desc": "Cold iron armor sickens certain creatures that touch it. A creature with weakness to cold iron (such as most demons and fey) that critically fails an unarmed attack against a creature in cold iron armor becomes sickened 1. A creature with weakness to cold iron is sickened 1 as long as it wears cold iron armor.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 11,
         "price": 120000,
         "bulkPrice": 12000,
-        "desc": "Cold iron armor sickens certain creatures that touch it. A creature with weakness to cold iron (such as most demons and fey) that critically fails an unarmed attack against a creature in cold iron armor becomes sickened 1. A creature with weakness to cold iron is sickened 1 as long as it wears cold iron armor.",
+        "craftingRequirement": 6,
         "craftRequirement": "at least 150 gp of cold iron + 15 gp per Bulk.",
         "runeLimit": 15,
-        "craftingRequirement": 6,
         "hints": [
             {
                 "desc": "A creature with weakness to cold iron (such as most demons and fey) that critically fails an unarmed attack against a creature in cold iron armor becomes sickened 1. A creature with weakness to cold iron is sickened 1 as long as it wears cold iron armor.",
@@ -49,13 +55,15 @@
     },
     {
         "name": "Silver (Standard-Grade)",
+        "desc": "Silver armor sickens certain creatures that touch it. A creature with weakness to silver that critically fails an unarmed attack against a creature in silver armor becomes sickened 1. A creature with weakness to silver is sickened 1 as long as it wears silver armor.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 11,
         "price": 120000,
         "bulkPrice": 12000,
-        "desc": "Silver armor sickens certain creatures that touch it. A creature with weakness to silver that critically fails an unarmed attack against a creature in silver armor becomes sickened 1. A creature with weakness to silver is sickened 1 as long as it wears silver armor.",
+        "craftingRequirement": 6,
         "craftRequirement": "at least 150 gp of silver + 15 gp per Bulk",
         "runeLimit": 15,
-        "craftingRequirement": 6,
         "hints": [
             {
                 "desc": "A creature with weakness to silver that critically fails an unarmed attack against a creature in silver armor becomes sickened 1. A creature with weakness to silver is sickened 1 as long as it wears silver armor.",
@@ -65,62 +73,68 @@
     },
     {
         "name": "Adamantine (Standard-Grade)",
+        "desc": "Adamantine armor has a shiny, black appearance and is amazingly durable.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 12,
         "price": 160000,
-        "bulkPrice": 16000,
-        "desc": "Adamantine armor has a shiny, black appearance and is amazingly durable.",
         "traits": [
             "Uncommon"
         ],
+        "bulkPrice": 16000,
+        "craftingRequirement": 6,
         "craftRequirement": "at least 200 gp of adamantine + 20 gp per Bulk",
-        "runeLimit": 15,
-        "craftingRequirement": 6
+        "runeLimit": 15
     },
     {
         "name": "Darkwood (Standard-Grade)",
+        "desc": "Darkwood armor is 1 Bulk lighter than normal (or light Bulk if its normal Bulk is 1, with no effect on armor that normally has light Bulk). It's easier to wear than normal wood armor, reducing the Strength score necessary to ignore its check penalty by 2 and reducing its Speed penalty by 5 feet.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 12,
         "price": 160000,
-        "bulkPrice": 16000,
-        "desc": "Darkwood armor is 1 Bulk lighter than normal (or light Bulk if its normal Bulk is 1, with no effect on armor that normally has light Bulk). It's easier to wear than normal wood armor, reducing the Strength score necessary to ignore its check penalty by 2 and reducing its Speed penalty by 5 feet.",
-        "bulkModifier": -1,
-        "strengthScoreModifier": -2,
-        "speedPenaltyModifier": 5,
         "traits": [
             "Uncommon"
         ],
+        "bulkModifier": -1,
+        "bulkPrice": 16000,
+        "craftingRequirement": 6,
         "craftRequirement": "at least 200 gp of darkwood + 20 gp per Bulk",
         "runeLimit": 15,
-        "craftingRequirement": 6
+        "speedPenaltyModifier": 5,
+        "strengthScoreModifier": -2
     },
     {
         "name": "Dragonhide (Standard-Grade, Acid)",
+        "desc": "Dragonhide armor is immune to one damage type based on the type of dragon it is made from (as listed in the table below). Wearing armor made from dragonhide also grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal the corresponding damage type.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 12,
         "price": 160000,
-        "bulkPrice": 16000,
-        "desc": "Dragonhide armor is immune to one damage type based on the type of dragon it is made from (as listed in the table below). Wearing armor made from dragonhide also grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal the corresponding damage type.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
-        "bulkModifier": -1,
         "traits": [
             "Uncommon"
         ],
+        "bulkModifier": -1,
+        "bulkPrice": 16000,
+        "craftingRequirement": 6,
         "craftRequirement": "at least 200 gp of dragonhide + 20 gp per Bulk",
         "runeLimit": 15,
-        "craftingRequirement": 6,
         "hints": [
             {
                 "desc": "Wearing armor made from dragonhide grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal Acid damage.",
-                "showon": "AC, Saving Throws",
                 "effects": [
                     {
                         "affected": "AC",
                         "type": "circumstance",
-                        "value": "+1"
+                        "value": "1"
                     },
                     {
                         "affected": "Saving Throws",
                         "type": "circumstance",
-                        "value": "+1"
+                        "value": "1"
                     }
-                ]
+                ],
+                "showon": "AC, Saving Throws"
             },
             {
                 "desc": "The dragonhide armor is immune to Acid damage.",
@@ -130,33 +144,35 @@
     },
     {
         "name": "Dragonhide (Standard-Grade, Electricity)",
+        "desc": "Dragonhide armor is immune to one damage type based on the type of dragon it is made from (as listed in the table below). Wearing armor made from dragonhide also grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal the corresponding damage type.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 12,
         "price": 160000,
-        "bulkPrice": 16000,
-        "desc": "Dragonhide armor is immune to one damage type based on the type of dragon it is made from (as listed in the table below). Wearing armor made from dragonhide also grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal the corresponding damage type.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
-        "bulkModifier": -1,
         "traits": [
             "Uncommon"
         ],
+        "bulkModifier": -1,
+        "bulkPrice": 16000,
+        "craftingRequirement": 6,
         "craftRequirement": "at least 200 gp of dragonhide + 20 gp per Bulk",
         "runeLimit": 15,
-        "craftingRequirement": 6,
         "hints": [
             {
                 "desc": "Wearing armor made from dragonhide grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal Electricity damage.",
-                "showon": "AC, Saving Throws",
                 "effects": [
                     {
                         "affected": "AC",
                         "type": "circumstance",
-                        "value": "+1"
+                        "value": "1"
                     },
                     {
                         "affected": "Saving Throws",
                         "type": "circumstance",
-                        "value": "+1"
+                        "value": "1"
                     }
-                ]
+                ],
+                "showon": "AC, Saving Throws"
             },
             {
                 "desc": "The dragonhide armor is immune to Electricity damage.",
@@ -166,33 +182,35 @@
     },
     {
         "name": "Dragonhide (Standard-Grade, Fire)",
+        "desc": "Dragonhide armor is immune to one damage type based on the type of dragon it is made from (as listed in the table below). Wearing armor made from dragonhide also grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal the corresponding damage type.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 12,
         "price": 160000,
-        "bulkPrice": 16000,
-        "desc": "Dragonhide armor is immune to one damage type based on the type of dragon it is made from (as listed in the table below). Wearing armor made from dragonhide also grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal the corresponding damage type.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
-        "bulkModifier": -1,
         "traits": [
             "Uncommon"
         ],
+        "bulkModifier": -1,
+        "bulkPrice": 16000,
+        "craftingRequirement": 6,
         "craftRequirement": "at least 200 gp of dragonhide + 20 gp per Bulk",
         "runeLimit": 15,
-        "craftingRequirement": 6,
         "hints": [
             {
                 "desc": "Wearing armor made from dragonhide grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal Fire damage.",
-                "showon": "AC, Saving Throws",
                 "effects": [
                     {
                         "affected": "AC",
                         "type": "circumstance",
-                        "value": "+1"
+                        "value": "1"
                     },
                     {
                         "affected": "Saving Throws",
                         "type": "circumstance",
-                        "value": "+1"
+                        "value": "1"
                     }
-                ]
+                ],
+                "showon": "AC, Saving Throws"
             },
             {
                 "desc": "The dragonhide armor is immune to Fire damage.",
@@ -202,33 +220,35 @@
     },
     {
         "name": "Dragonhide (Standard-Grade, Poison)",
+        "desc": "Dragonhide armor is immune to one damage type based on the type of dragon it is made from (as listed in the table below). Wearing armor made from dragonhide also grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal the corresponding damage type.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 12,
         "price": 160000,
-        "bulkPrice": 16000,
-        "desc": "Dragonhide armor is immune to one damage type based on the type of dragon it is made from (as listed in the table below). Wearing armor made from dragonhide also grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal the corresponding damage type.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
-        "bulkModifier": -1,
         "traits": [
             "Uncommon"
         ],
+        "bulkModifier": -1,
+        "bulkPrice": 16000,
+        "craftingRequirement": 6,
         "craftRequirement": "at least 200 gp of dragonhide + 20 gp per Bulk",
         "runeLimit": 15,
-        "craftingRequirement": 6,
         "hints": [
             {
                 "desc": "Wearing armor made from dragonhide grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal Poison damage.",
-                "showon": "AC, Saving Throws",
                 "effects": [
                     {
                         "affected": "AC",
                         "type": "circumstance",
-                        "value": "+1"
+                        "value": "1"
                     },
                     {
                         "affected": "Saving Throws",
                         "type": "circumstance",
-                        "value": "+1"
+                        "value": "1"
                     }
-                ]
+                ],
+                "showon": "AC, Saving Throws"
             },
             {
                 "desc": "The dragonhide armor is immune to Poison damage.",
@@ -238,33 +258,35 @@
     },
     {
         "name": "Dragonhide (Standard-Grade, Cold)",
+        "desc": "Dragonhide armor is immune to one damage type based on the type of dragon it is made from (as listed in the table below). Wearing armor made from dragonhide also grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal the corresponding damage type.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 12,
         "price": 160000,
-        "bulkPrice": 16000,
-        "desc": "Dragonhide armor is immune to one damage type based on the type of dragon it is made from (as listed in the table below). Wearing armor made from dragonhide also grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal the corresponding damage type.\n\n<strong>Black or copper</strong> Acid\n<strong>Blue or bronze</strong> Electricity\n<strong>Brass, gold or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold",
-        "bulkModifier": -1,
         "traits": [
             "Uncommon"
         ],
+        "bulkModifier": -1,
+        "bulkPrice": 16000,
+        "craftingRequirement": 6,
         "craftRequirement": "at least 200 gp of dragonhide + 20 gp per Bulk",
         "runeLimit": 15,
-        "craftingRequirement": 6,
         "hints": [
             {
                 "desc": "Wearing armor made from dragonhide grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal Cold damage.",
-                "showon": "AC, Saving Throws",
                 "effects": [
                     {
                         "affected": "AC",
                         "type": "circumstance",
-                        "value": "+1"
+                        "value": "1"
                     },
                     {
                         "affected": "Saving Throws",
                         "type": "circumstance",
-                        "value": "+1"
+                        "value": "1"
                     }
-                ]
+                ],
+                "showon": "AC, Saving Throws"
             },
             {
                 "desc": "The dragonhide armor is immune to Cold damage.",
@@ -274,79 +296,54 @@
     },
     {
         "name": "Mithral (Standard-Grade)",
+        "desc": "Mithral armor is 1 Bulk lighter than normal (or light Bulk if its normal Bulk is 1, with no effect on armor that normally has light Bulk). It's easier to wear than normal metal armor, reducing the Strength score necessary to ignore its check penalty by 2 and reducing its Speed penalty by 5 feet.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 12,
         "price": 160000,
-        "bulkPrice": 16000,
-        "desc": "Mithral armor is 1 Bulk lighter than normal (or light Bulk if its normal Bulk is 1, with no effect on armor that normally has light Bulk). It's easier to wear than normal metal armor, reducing the Strength score necessary to ignore its check penalty by 2 and reducing its Speed penalty by 5 feet.",
-        "bulkModifier": -1,
-        "strengthScoreModifier": -2,
-        "speedPenaltyModifier": 5,
         "traits": [
             "Uncommon"
         ],
+        "bulkModifier": -1,
+        "bulkPrice": 16000,
+        "craftingRequirement": 6,
         "craftRequirement": "at least 200 gp of mithral + 20 gp per Bulk",
         "runeLimit": 15,
-        "craftingRequirement": 6
-    },
-    {
-        "name": "Sovereign Steel (Standard-Grade)",
-        "level": 13,
-        "price": 240000,
-        "bulkPrice": 24000,
-        "desc": "Sovereign steel armor sickens certain creatures that touch it. A creature with weakness to cold iron that critically fails an unarmed attack against a creature in sovereign steel armor becomes sickened 1, and such a creature is sickened 1 as long as it wears sovereign steel armor. The noqual in sovereign steel armor provides protection against magic, granting you a +1 circumstance bonus to AC against spell attack rolls. If you Cast a Spell while wearing sovereign steel armor, you must succeed at a DC 5 flat check or the spell fails.",
-        "traits": [
-            "Rare"
-        ],
-        "craftRequirement": "at least 150 gp of cold iron + 15 gp per Bulk plus at least 150 gp of noqual + 15 gp per Bulk",
-        "runeLimit": 15,
-        "craftingRequirement": 6,
-        "sourceBook": "Legends",
-        "hints": [
-            {
-                "desc": "The noqual in sovereign steel armor provides protection against magic, granting you a +1 circumstance bonus to AC against spell attack rolls.\n\nA creature with weakness to cold iron that critically fails an unarmed attack against a creature in sovereign steel armor becomes sickened 1, and such a creature is sickened 1 as long as it wears sovereign steel armor.",
-                "showon": "AC",
-                "effects": [
-                    {
-                        "affected": "AC",
-                        "type": "circumstance",
-                        "value": "+1"
-                    }
-                ]
-            },
-            {
-                "desc": "If you Cast a Spell while wearing sovereign steel armor, you must succeed at a DC 5 flat check or the spell fails.",
-                "showon": "Spellbook"
-            }
-        ]
+        "speedPenaltyModifier": 5,
+        "strengthScoreModifier": -2
     },
     {
         "name": "Elven Chain (Standard-Grade)",
+        "desc": "Elven chain is a chain shirt made of mithral that glitters in even the faintest light. It grants a +2 item bonus to AC and has no check penalty.\n\nCreated by elven artisans employing ancient crafting techniques, elven chain is exceptionally quiet. Unlike other chain shirts - even other mithral chain shirts - elven chain does not have the noisy trait. This suit of armor can be etched with runes like any other mithral chain shirt.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 13,
         "price": 250000,
-        "bulkPrice": 25000,
-        "desc": "Elven chain is a chain shirt made of mithral that glitters in even the faintest light. It grants a +2 item bonus to AC and has no check penalty.\n\nCreated by elven artisans employing ancient crafting techniques, elven chain is exceptionally quiet. Unlike other chain shirts - even other mithral chain shirts - elven chain does not have the noisy trait. This suit of armor can be etched with runes like any other mithral chain shirt.",
         "traits": [
             "Uncommon"
         ],
+        "bulkPrice": 25000,
+        "craftingRequirement": 6,
         "craftRequirement": "at least 3,125 sp of mithral",
         "runeLimit": 15,
-        "craftingRequirement": 6,
         "skillPenaltyModifier": 1,
-        "removeTraits": [
-            "Noisy"
-        ],
         "itemFilter": [
             "Chain Shirt"
+        ],
+        "removeTraits": [
+            "Noisy"
         ]
     },
     {
         "name": "Cold Iron (High-Grade)",
+        "desc": "Cold iron armor sickens certain creatures that touch it. A creature with weakness to cold iron (such as most demons and fey) that critically fails an unarmed attack against a creature in cold iron armor becomes sickened 1. A creature with weakness to cold iron is sickened 1 as long as it wears cold iron armor.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 18,
         "price": 2000000,
         "bulkPrice": 200000,
-        "desc": "Cold iron armor sickens certain creatures that touch it. A creature with weakness to cold iron (such as most demons and fey) that critically fails an unarmed attack against a creature in cold iron armor becomes sickened 1. A creature with weakness to cold iron is sickened 1 as long as it wears cold iron armor.",
-        "craftRequirement": "at least 10,000 gp of cold iron + 1,000 gp per Bulk.",
         "craftingRequirement": 8,
+        "craftRequirement": "at least 10,000 gp of cold iron + 1,000 gp per Bulk.",
         "hints": [
             {
                 "desc": "A creature with weakness to cold iron (such as most demons and fey) that critically fails an unarmed attack against a creature in cold iron armor becomes sickened 1. A creature with weakness to cold iron is sickened 1 as long as it wears cold iron armor.",
@@ -356,12 +353,14 @@
     },
     {
         "name": "Silver (High-Grade)",
+        "desc": "Silver armor sickens certain creatures that touch it. A creature with weakness to silver that critically fails an unarmed attack against a creature in silver armor becomes sickened 1. A creature with weakness to silver is sickened 1 as long as it wears silver armor.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 18,
         "price": 2000000,
         "bulkPrice": 200000,
-        "desc": "Silver armor sickens certain creatures that touch it. A creature with weakness to silver that critically fails an unarmed attack against a creature in silver armor becomes sickened 1. A creature with weakness to silver is sickened 1 as long as it wears silver armor.",
-        "craftRequirement": "at least 10,000 gp of silver + 1,000 gp per Bulk",
         "craftingRequirement": 8,
+        "craftRequirement": "at least 10,000 gp of silver + 1,000 gp per Bulk",
         "hints": [
             {
                 "desc": "A creature with weakness to silver that critically fails an unarmed attack against a creature in silver armor becomes sickened 1. A creature with weakness to silver is sickened 1 as long as it wears silver armor.",
@@ -371,59 +370,65 @@
     },
     {
         "name": "Adamantine (High-Grade)",
+        "desc": "Adamantine armor has a shiny, black appearance and is amazingly durable.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 19,
         "price": 3200000,
-        "bulkPrice": 320000,
-        "desc": "Adamantine armor has a shiny, black appearance and is amazingly durable.",
         "traits": [
             "Uncommon"
         ],
-        "craftRequirement": "at least 16,000 gp of adamantine + 1,600 gp per Bulk",
-        "craftingRequirement": 8
+        "bulkPrice": 320000,
+        "craftingRequirement": 8,
+        "craftRequirement": "at least 16,000 gp of adamantine + 1,600 gp per Bulk"
     },
     {
         "name": "Darkwood (High-Grade)",
+        "desc": "Darkwood armor is 1 Bulk lighter than normal (or light Bulk if its normal Bulk is 1, with no effect on armor that normally has light Bulk). It's easier to wear than normal wood armor, reducing the Strength score necessary to ignore its check penalty by 2 and reducing its Speed penalty by 5 feet.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 19,
         "price": 3200000,
-        "bulkPrice": 320000,
-        "desc": "Darkwood armor is 1 Bulk lighter than normal (or light Bulk if its normal Bulk is 1, with no effect on armor that normally has light Bulk). It's easier to wear than normal wood armor, reducing the Strength score necessary to ignore its check penalty by 2 and reducing its Speed penalty by 5 feet.",
-        "bulkModifier": -1,
-        "strengthScoreModifier": -2,
-        "speedPenaltyModifier": 5,
         "traits": [
             "Uncommon"
         ],
+        "bulkModifier": -1,
+        "bulkPrice": 320000,
+        "craftingRequirement": 8,
         "craftRequirement": "at least 16,000 gp of darkwood + 1,600 gp per Bulk",
-        "craftingRequirement": 8
+        "speedPenaltyModifier": 5,
+        "strengthScoreModifier": -2
     },
     {
         "name": "Dragonhide (High-Grade, Acid)",
+        "desc": "Dragonhide armor is immune to one damage type based on the type of dragon it is made from (as listed in the table below). Wearing armor made from dragonhide also grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal the corresponding damage type.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 19,
         "price": 3200000,
-        "bulkPrice": 320000,
-        "desc": "Dragonhide armor is immune to one damage type based on the type of dragon it is made from (as listed in the table below). Wearing armor made from dragonhide also grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal the corresponding damage type.",
-        "bulkModifier": -1,
         "traits": [
             "Uncommon"
         ],
-        "craftRequirement": "at least 16,000 gp of dragonhide + 1,600 gp per Bulk",
+        "bulkModifier": -1,
+        "bulkPrice": 320000,
         "craftingRequirement": 8,
+        "craftRequirement": "at least 16,000 gp of dragonhide + 1,600 gp per Bulk",
         "hints": [
             {
                 "desc": "Wearing armor made from dragonhide grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal Acid damage.",
-                "showon": "AC, Saving Throws",
                 "effects": [
                     {
                         "affected": "AC",
                         "type": "circumstance",
-                        "value": "+1"
+                        "value": "1"
                     },
                     {
                         "affected": "Saving Throws",
                         "type": "circumstance",
-                        "value": "+1"
+                        "value": "1"
                     }
-                ]
+                ],
+                "showon": "AC, Saving Throws"
             },
             {
                 "desc": "The dragonhide armor is immune to Acid damage.",
@@ -433,32 +438,34 @@
     },
     {
         "name": "Dragonhide (High-Grade, Electricity)",
+        "desc": "Dragonhide armor is immune to one damage type based on the type of dragon it is made from (as listed in the table below). Wearing armor made from dragonhide also grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal the corresponding damage type.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 19,
         "price": 3200000,
-        "bulkPrice": 320000,
-        "desc": "Dragonhide armor is immune to one damage type based on the type of dragon it is made from (as listed in the table below). Wearing armor made from dragonhide also grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal the corresponding damage type.",
-        "bulkModifier": -1,
         "traits": [
             "Uncommon"
         ],
-        "craftRequirement": "at least 16,000 gp of dragonhide + 1,600 gp per Bulk",
+        "bulkModifier": -1,
+        "bulkPrice": 320000,
         "craftingRequirement": 8,
+        "craftRequirement": "at least 16,000 gp of dragonhide + 1,600 gp per Bulk",
         "hints": [
             {
                 "desc": "Wearing armor made from dragonhide grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal Electricity damage.",
-                "showon": "AC, Saving Throws",
                 "effects": [
                     {
                         "affected": "AC",
                         "type": "circumstance",
-                        "value": "+1"
+                        "value": "1"
                     },
                     {
                         "affected": "Saving Throws",
                         "type": "circumstance",
-                        "value": "+1"
+                        "value": "1"
                     }
-                ]
+                ],
+                "showon": "AC, Saving Throws"
             },
             {
                 "desc": "The dragonhide armor is immune to Electricity damage.",
@@ -468,32 +475,34 @@
     },
     {
         "name": "Dragonhide (High-Grade, Fire)",
+        "desc": "Dragonhide armor is immune to one damage type based on the type of dragon it is made from (as listed in the table below). Wearing armor made from dragonhide also grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal the corresponding damage type.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 19,
         "price": 3200000,
-        "bulkPrice": 320000,
-        "desc": "Dragonhide armor is immune to one damage type based on the type of dragon it is made from (as listed in the table below). Wearing armor made from dragonhide also grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal the corresponding damage type.",
-        "bulkModifier": -1,
         "traits": [
             "Uncommon"
         ],
-        "craftRequirement": "at least 16,000 gp of dragonhide + 1,600 gp per Bulk",
+        "bulkModifier": -1,
+        "bulkPrice": 320000,
         "craftingRequirement": 8,
+        "craftRequirement": "at least 16,000 gp of dragonhide + 1,600 gp per Bulk",
         "hints": [
             {
                 "desc": "Wearing armor made from dragonhide grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal Fire damage.",
-                "showon": "AC, Saving Throws",
                 "effects": [
                     {
                         "affected": "AC",
                         "type": "circumstance",
-                        "value": "+1"
+                        "value": "1"
                     },
                     {
                         "affected": "Saving Throws",
                         "type": "circumstance",
-                        "value": "+1"
+                        "value": "1"
                     }
-                ]
+                ],
+                "showon": "AC, Saving Throws"
             },
             {
                 "desc": "The dragonhide armor is immune to Fire damage.",
@@ -503,32 +512,34 @@
     },
     {
         "name": "Dragonhide (High-Grade, Poison)",
+        "desc": "Dragonhide armor is immune to one damage type based on the type of dragon it is made from (as listed in the table below). Wearing armor made from dragonhide also grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal the corresponding damage type.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 19,
         "price": 3200000,
-        "bulkPrice": 320000,
-        "desc": "Dragonhide armor is immune to one damage type based on the type of dragon it is made from (as listed in the table below). Wearing armor made from dragonhide also grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal the corresponding damage type.",
-        "bulkModifier": -1,
         "traits": [
             "Uncommon"
         ],
-        "craftRequirement": "at least 16,000 gp of dragonhide + 1,600 gp per Bulk",
+        "bulkModifier": -1,
+        "bulkPrice": 320000,
         "craftingRequirement": 8,
+        "craftRequirement": "at least 16,000 gp of dragonhide + 1,600 gp per Bulk",
         "hints": [
             {
                 "desc": "Wearing armor made from dragonhide grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal Poison damage.",
-                "showon": "AC, Saving Throws",
                 "effects": [
                     {
                         "affected": "AC",
                         "type": "circumstance",
-                        "value": "+1"
+                        "value": "1"
                     },
                     {
                         "affected": "Saving Throws",
                         "type": "circumstance",
-                        "value": "+1"
+                        "value": "1"
                     }
-                ]
+                ],
+                "showon": "AC, Saving Throws"
             },
             {
                 "desc": "The dragonhide armor is immune to Poison damage.",
@@ -538,32 +549,34 @@
     },
     {
         "name": "Dragonhide (High-Grade, Cold)",
+        "desc": "Dragonhide armor is immune to one damage type based on the type of dragon it is made from (as listed in the table below). Wearing armor made from dragonhide also grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal the corresponding damage type.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 19,
         "price": 3200000,
-        "bulkPrice": 320000,
-        "desc": "Dragonhide armor is immune to one damage type based on the type of dragon it is made from (as listed in the table below). Wearing armor made from dragonhide also grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal the corresponding damage type.",
-        "bulkModifier": -1,
         "traits": [
             "Uncommon"
         ],
-        "craftRequirement": "at least 16,000 gp of dragonhide + 1,600 gp per Bulk",
+        "bulkModifier": -1,
+        "bulkPrice": 320000,
         "craftingRequirement": 8,
+        "craftRequirement": "at least 16,000 gp of dragonhide + 1,600 gp per Bulk",
         "hints": [
             {
                 "desc": "Wearing armor made from dragonhide grants you a +1 circumstance bonus to your AC and saving throws against attacks and spells that deal Cold damage.",
-                "showon": "AC, Saving Throws",
                 "effects": [
                     {
                         "affected": "AC",
                         "type": "circumstance",
-                        "value": "+1"
+                        "value": "1"
                     },
                     {
                         "affected": "Saving Throws",
                         "type": "circumstance",
-                        "value": "+1"
+                        "value": "1"
                     }
-                ]
+                ],
+                "showon": "AC, Saving Throws"
             },
             {
                 "desc": "The dragonhide armor is immune to Cold damage.",
@@ -573,95 +586,72 @@
     },
     {
         "name": "Mithral (High-Grade)",
+        "desc": "Mithral armor is 1 Bulk lighter than normal (or light Bulk if its normal Bulk is 1, with no effect on armor that normally has light Bulk). It's easier to wear than normal metal armor, reducing the Strength score necessary to ignore its check penalty by 2 and reducing its Speed penalty by 5 feet.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 20,
         "price": 3200000,
-        "bulkPrice": 320000,
-        "desc": "Mithral armor is 1 Bulk lighter than normal (or light Bulk if its normal Bulk is 1, with no effect on armor that normally has light Bulk). It's easier to wear than normal metal armor, reducing the Strength score necessary to ignore its check penalty by 2 and reducing its Speed penalty by 5 feet.",
-        "bulkModifier": -1,
-        "strengthScoreModifier": -2,
-        "speedPenaltyModifier": 5,
         "traits": [
             "Uncommon"
         ],
-        "craftRequirement": "at least 16,000 gp of mithral + 1,600 gp per Bulk",
-        "craftingRequirement": 8
-    },
-    {
-        "name": "Sovereign Steel (High-Grade)",
-        "level": 20,
-        "price": 5000000,
-        "bulkPrice": 500000,
-        "desc": "Sovereign steel armor sickens certain creatures that touch it. A creature with weakness to cold iron that critically fails an unarmed attack against a creature in sovereign steel armor becomes sickened 1, and such a creature is sickened 1 as long as it wears sovereign steel armor. The noqual in sovereign steel armor provides protection against magic, granting you a +1 circumstance bonus to AC against spell attack rolls. If you Cast a Spell while wearing sovereign steel armor, you must succeed at a DC 5 flat check or the spell fails.",
-        "traits": [
-            "Rare"
-        ],
-        "craftRequirement": "at least 12,500 gp of cold iron + 1,250 gp per Bulk plus at least 12,500 gp of noqual + 1,250 gp per Bulk",
+        "bulkModifier": -1,
+        "bulkPrice": 320000,
         "craftingRequirement": 8,
-        "hints": [
-            {
-                "desc": "The noqual in sovereign steel armor provides protection against magic, granting you a +1 circumstance bonus to AC against spell attack rolls.\n\nA creature with weakness to cold iron that critically fails an unarmed attack against a creature in sovereign steel armor becomes sickened 1, and such a creature is sickened 1 as long as it wears sovereign steel armor.",
-                "showon": "AC",
-                "effects": [
-                    {
-                        "affected": "AC",
-                        "type": "circumstance",
-                        "value": "+1"
-                    }
-                ]
-            },
-            {
-                "desc": "If you Cast a Spell while wearing sovereign steel armor, you must succeed at a DC 5 flat check or the spell fails.",
-                "showon": "Spellbook"
-            }
-        ]
+        "craftRequirement": "at least 16,000 gp of mithral + 1,600 gp per Bulk",
+        "speedPenaltyModifier": 5,
+        "strengthScoreModifier": -2
     },
     {
         "name": "Elven Chain (High-Grade)",
+        "desc": "Elven chain is a chain shirt made of mithral that glitters in even the faintest light. It grants a +2 item bonus to AC and has no check penalty.\n\nCreated by elven artisans employing ancient crafting techniques, elven chain is exceptionally quiet. Unlike other chain shirts - even other mithral chain shirts - elven chain does not have the noisy trait. This suit of armor can be etched with runes like any other mithral chain shirt.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 20,
         "price": 5200000,
-        "bulkPrice": 520000,
-        "desc": "Elven chain is a chain shirt made of mithral that glitters in even the faintest light. It grants a +2 item bonus to AC and has no check penalty.\n\nCreated by elven artisans employing ancient crafting techniques, elven chain is exceptionally quiet. Unlike other chain shirts - even other mithral chain shirts - elven chain does not have the noisy trait. This suit of armor can be etched with runes like any other mithral chain shirt.",
         "traits": [
             "Uncommon"
         ],
-        "craftRequirement": "at least 26,000 gp of mithral",
+        "bulkPrice": 520000,
         "craftingRequirement": 8,
+        "craftRequirement": "at least 26,000 gp of mithral",
         "skillPenaltyModifier": 1,
-        "removeTraits": [
-            "Noisy"
-        ],
         "itemFilter": [
             "Chain Shirt"
+        ],
+        "removeTraits": [
+            "Noisy"
         ]
     },
     {
         "name": "Orichalcum (High-Grade)",
+        "desc": "Orichalcum armor can be etched with four magic property runes instead of three due to the magical empowerment of orichalcum. If you are wearing armor made of orichalcum, the armor grants you insights into the future, granting you a +1 circumstance bonus to initiative rolls.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 20,
         "price": 5500000,
-        "bulkPrice": 550000,
-        "desc": "Orichalcum armor can be etched with four magic property runes instead of three due to the magical empowerment of orichalcum. If you are wearing armor made of orichalcum, the armor grants you insights into the future, granting you a +1 circumstance bonus to initiative rolls.",
         "traits": [
             "Rare"
         ],
-        "craftRequirement": "at least 27,500 gp of orichalcum + 2,750 gp per Bulk",
+        "bulkPrice": 550000,
         "craftingRequirement": 8,
+        "craftRequirement": "at least 27,500 gp of orichalcum + 2,750 gp per Bulk",
         "extraRune": 1,
         "hints": [
             {
                 "desc": "Orichalcum armor grants you insights into the future, granting you a +1 circumstance bonus to initiative rolls.",
-                "showon": "Perception",
                 "effects": [
                     {
                         "affected": "Perception",
                         "type": "circumstance",
-                        "value": "+1"
+                        "value": "1"
                     },
                     {
                         "affected": "Skill Checks",
                         "type": "circumstance",
-                        "value": "+1"
+                        "value": "1"
                     }
-                ]
+                ],
+                "showon": "Perception"
             }
         ]
     }

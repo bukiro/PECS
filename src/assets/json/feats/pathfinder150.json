@@ -1,0 +1,343 @@
+[
+    {
+        "name": "Golden Body",
+        "desc": "You perfect your body, refining the flex of every muscle and the bend of every joint to maximum efficiency. Your unarmed Strikes gain the deadly d12 trait, and you have fast healing 20, causing you to regain 20 HP at the start of each of your turns provided you have at least 1 HP.",
+        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock all of the following uncommon class feats.",
+        "hints": [
+            {
+                "desc": "You have fast healing 20, causing you to regain 20 HP at the start of each of your turns provided you have at least 1 HP. This happens automatically when you start a turn.",
+                "showon": "Health"
+            }
+        ],
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "internalNote": "Adding the deadly trait on unarmed Attacks is hardcoded.",
+        "shortdesc": "Strike harder and heal more rapidly.",
+        "traits": [
+            "Monk",
+            "Uncommon"
+        ],
+        "levelreq": 20,
+        "effects": [
+            {
+                "affected": "Unarmed Attacks Gain Trait",
+                "title": "'Deadly d12'",
+                "toggle": true
+            },
+            {
+                "affected": "Fast Healing",
+                "value": "20"
+            }
+        ]
+    },
+    {
+        "name": "Ultimate Flexibility",
+        "desc": "Your experience keeps you on your toes, allowing you to adapt to even the most dangerous challenges. When you gain a fighter feat using combat flexibility, you gain three fighter feats instead of one. The first feat must still be 8th level or lower, the second feat can be up to 14th level, and the third feat can be up to 18th level. You can use the first feat to meet the prerequisites of the second or third feats and the second feat to meet the prerequisites of the third feat. You must meet all feats' prerequisites. In addition, you can adapt to the battlefield's challenges by spending 1 hour to train. If you do, you can reselect the feats chosen with combat flexibility as if you had made your daily preparations.",
+        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
+        "hints": [
+            {
+                "desc": "You can adapt to the battlefield's challenges by spending 1 hour to train. If you do, you can reselect the feats chosen with combat flexibility as if you had made your daily preparations.",
+                "showon": "Activities"
+            }
+        ],
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "shortdesc": "Gain more feats through combat flexibility.",
+        "traits": [
+            "Uncommon",
+            "Fighter"
+        ],
+        "levelreq": 20,
+        "gainFeatChoice": [
+            {
+                "available": 1,
+                "level": 18,
+                "showOnSheet": true,
+                "source": "Ultimate Flexibility",
+                "type": "Fighter"
+            }
+        ]
+    },
+    {
+        "name": "Superior Sight",
+        "desc": "Your senses are peerless. You gain a +2 circumstance bonus to Perception checks, and you gain low-light vision. If you already have low-light vision, gain darkvision instead. Furthermore, when you target an enemy, you automatically succeed at the flat check if that enemy is concealed, hidden, or undetected.",
+        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
+        "hints": [
+            {
+                "desc": "When you target an enemy, you automatically succeed at the flat check if that enemy is concealed, hidden, or undetected.",
+                "showon": "Attacks, Perception"
+            }
+        ],
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "subTypes": true,
+        "shortdesc": "Increase your visual acuity.",
+        "traits": [
+            "Uncommon",
+            "Ranger"
+        ],
+        "levelreq": 20,
+        "effects": [
+            {
+                "affected": "Perception",
+                "type": "circumstance",
+                "value": "2"
+            }
+        ]
+    },
+    {
+        "name": "Superior Sight: Low-Light Vision",
+        "desc": "Your senses are peerless. You gain a +2 circumstance bonus to Perception checks, and you gain low-light vision. Furthermore, when you target an enemy, you automatically succeed at the flat check if that enemy is concealed, hidden, or undetected.",
+        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
+        "hints": [
+            {
+                "desc": "When you target an enemy, you automatically succeed at the flat check if that enemy is concealed, hidden, or undetected.",
+                "showon": "Attacks, Perception"
+            }
+        ],
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "subType": "Low-Light Vision",
+        "superType": "Superior Sight",
+        "shortdesc": "Increase your visual acuity.",
+        "traits": [
+            "Uncommon",
+            "Ranger"
+        ],
+        "levelreq": 20,
+        "specialreq": "!Has_Sense('Character', 'Low-Light Vision') || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "no low-light vision",
+        "effects": [
+            {
+                "affected": "Perception",
+                "type": "circumstance",
+                "value": "2"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision"
+        ]
+    },
+    {
+        "name": "Superior Sight: Darkvision",
+        "desc": "Your senses are peerless. You gain a +2 circumstance bonus to Perception checks, and you gain darkvision. Furthermore, when you target an enemy, you automatically succeed at the flat check if that enemy is concealed, hidden, or undetected.",
+        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
+        "hints": [
+            {
+                "desc": "When you target an enemy, you automatically succeed at the flat check if that enemy is concealed, hidden, or undetected.",
+                "showon": "Attacks, Perception"
+            }
+        ],
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "subType": "Darkvision",
+        "superType": "Superior Sight",
+        "shortdesc": "Increase your visual acuity.",
+        "traits": [
+            "Uncommon",
+            "Ranger"
+        ],
+        "levelreq": 20,
+        "specialreq": "Has_Sense('Character', 'Low-Light Vision')",
+        "specialreqdesc": "low-light vision",
+        "effects": [
+            {
+                "affected": "Perception",
+                "type": "circumstance",
+                "value": "2"
+            }
+        ],
+        "senses": [
+            "Darkvision"
+        ]
+    },
+    {
+        "name": "Spell Mastery",
+        "desc": "You have mastered a handful of spells to such a degree that you can cast them even if you haven't prepared them. Select any four spells of 9th level or lower that you have access to. Each spell you select must be of a different level. These spells are automatically prepared when you make your daily preparations and have their own spell slots. You can select a different array of spells by spending 1 week of downtime retraining your mastered spells.",
+        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
+        "hints": [
+            {
+                "desc": "You can select any four spells of 9th level or lower that you have access to. Each spell you select must be of a different level. These spells are automatically prepared when you make your daily preparations and have their own spell slots. You can select these spells in the spell library, and you can select a different array of spells by spending 1 week of downtime retraining your mastered spells.",
+                "showon": "Rest, Wizard Prepared Spells"
+            }
+        ],
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "internalNote": "Selecting Spell Mastery spells is hardcoded.",
+        "shortdesc": "Master 4 spells.",
+        "traits": [
+            "Uncommon",
+            "Wizard"
+        ],
+        "levelreq": 20
+    },
+    {
+        "name": "Enduring Debilitation",
+        "desc": "Your debilitations last for 1 minute.",
+        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "shortdesc": "Your debilitations last for 1 minute.",
+        "traits": [
+            "Rogue",
+            "Uncommon"
+        ],
+        "levelreq": 20,
+        "featreq": [
+            "Debilitating Strike"
+        ],
+        "gainActivities": [
+            "Enduring Debilitation"
+        ]
+    },
+    {
+        "name": "Song of the Fallen",
+        "desc": "The moving power of your songs can stir the spirits of the dead to rise once more and fight alongside you. You learn the song of the fallen composition spell. Increase the number of Focus Points in your focus pool by 1.",
+        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "shortdesc": "Gain the song of the fallen focus spell.",
+        "traits": [
+            "Uncommon",
+            "Bard"
+        ],
+        "levelreq": 20,
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "1"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "castingType": "Focus",
+                "className": "Bard",
+                "id": "ad00f547-3232-42e6-b06a-4453f7f7649a",
+                "level": -1,
+                "source": "Feat: Song of the Fallen",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Song of the Fallen"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Invulnerable Juggernaut",
+        "desc": "You are unstoppable, able to shrug off mortal wounds with ease. You gain resistance equal to 3 + your Constitution modifier to all damage, and your resistance from raging resistance increases to 8 + your Constitution modifier.\n\nIn addition, if you are reduced to 0 Hit Points, you can end your rage as a reaction to stay at 1 Hit Point. If you do, you become wounded 2 (or increase your wounded condition by 2 if you are already wounded).",
+        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
+        "hints": [
+            {
+                "desc": "Your resistance from raging resistance increases to 8 + your Constitution modifier.",
+                "showon": "Rage"
+            }
+        ],
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "internalNote": "Coded into the Rage condition",
+        "shortdesc": "Gain resistance to all damage.",
+        "traits": [
+            "Barbarian",
+            "Uncommon"
+        ],
+        "levelreq": 20,
+        "effects": [
+            {
+                "affected": "All Damage Resistance",
+                "value": "3 + Modifier('Constitution')"
+            }
+        ],
+        "gainActivities": [
+            "Invulnerable Juggernaut"
+        ]
+    },
+    {
+        "name": "Apex Companion",
+        "desc": "You can call upon the essence of every individual animal of a particular species to temporarily transform your animal into an exemplar of its kind. You learn the apex companion order spell. Increase the number of Focus Points in your focus pool by 1.",
+        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "shortdesc": "Gain the apex companion focus spell.",
+        "traits": [
+            "Druid",
+            "Uncommon"
+        ],
+        "levelreq": 20,
+        "featreq": [
+            "Animal Companion"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "1"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "castingType": "Focus",
+                "className": "Druid",
+                "id": "a0c3f100-6630-4381-a1a9-ea278a8acab3",
+                "level": -1,
+                "source": "Feat: Apex Companion",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Apex Companion"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Bloodline Metamorphosis",
+        "desc": "You have learned to manipulate the innate power of your bloodline and adapt it to your needs. When making your daily preparations, you can swap out a single spell of 9th level or lower for another spell of the same level. You can't swap out spells granted specifically by your bloodline.",
+        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
+        "hints": [
+            {
+                "desc": "When making your daily preparations, you can swap out a single spell of 9th level or lower for another spell of the same level. You can't swap out spells granted specifically by your bloodline.",
+                "showon": "Rest, Sorcerer Spontaneous Spells"
+            }
+        ],
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "usageNote": "To perform this change, you can always swap out a spell slot in your repertoire as needed.",
+        "internalNote": "There is no mechanical difference. This feat gives you official permission to change your spells every day.",
+        "shortdesc": "Swap out spells from your repertoire more easily.",
+        "traits": [
+            "Sorcerer",
+            "Uncommon"
+        ],
+        "levelreq": 20
+    },
+    {
+        "name": "Emblazon Divinity",
+        "desc": "Your sacred etchings imbue objects with power. It takes you only 1 minute to emblazon a symbol using Emblazon Armament, and you can have up to four symbols emblazoned at a time. Each item can still have only one symbol emblazoned upon it, and if you exceed the limit of four, the oldest symbol disappears. These symbols can benefit even those who don't follow the deity, provided they aren't directly opposed (as determined by the GM).\n\nYou can select a different benefit for each emblazoned symbol, chosen from any you have from Emblazon Armament or other feats such as Emblazon Energy or Emblazon Antimagic.",
+        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock all of the following uncommon class feats.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "internalNote": "The effects are hardcoded in a separate component, the weapon and shield classes and in several other places.",
+        "shortdesc": "Emblazon more equipment at the same time.",
+        "traits": [
+            "Uncommon",
+            "Cleric"
+        ],
+        "levelreq": 20,
+        "featreq": [
+            "Emblazon Armament"
+        ]
+    }
+]

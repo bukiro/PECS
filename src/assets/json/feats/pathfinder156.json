@@ -1,0 +1,82 @@
+[
+    {
+        "name": "Ringmaster's Introduction",
+        "desc": "You announce the triggering ally with a litany of their legendary achievements, spurring them to action.",
+        "sourceBook": "Pathfinder #156: The Apocalypse Prophet",
+        "_extensionFileName": "pathfinder156",
+        "shortdesc": "You announce the triggering ally with a litany of their legendary achievements, spurring them to action.",
+        "traits": [
+            "Uncommon",
+            "Auditory",
+            "Bard"
+        ],
+        "levelreq": 20,
+        "gainActivities": [
+            "Ringmaster's Introduction"
+        ]
+    },
+    {
+        "name": "Annihilating Swing",
+        "desc": "You have learned from the brute destructive power of xulgaths and their kind.",
+        "sourceBook": "Pathfinder #156: The Apocalypse Prophet",
+        "_extensionFileName": "pathfinder156",
+        "shortdesc": "You have learned from the brute destructive power of xulgaths and their kind.",
+        "traits": [
+            "Barbarian",
+            "Uncommon"
+        ],
+        "levelreq": 20,
+        "gainActivities": [
+            "Annihilating Swing"
+        ]
+    },
+    {
+        "name": "Verdant Presence",
+        "desc": "The life-giving properties of the aeon orbs flourish within you.",
+        "sourceBook": "Pathfinder #156: The Apocalypse Prophet",
+        "_extensionFileName": "pathfinder156",
+        "shortdesc": "The life-giving properties of the aeon orbs flourish within you.",
+        "traits": [
+            "Druid",
+            "Uncommon"
+        ],
+        "levelreq": 20,
+        "gainActivities": [
+            "Verdant Presence"
+        ]
+    },
+    {
+        "name": "Tenacious Blood Magic",
+        "desc": "You have learned how to invest magic more deeply by witnessing Aroden's works.",
+        "sourceBook": "Pathfinder #156: The Apocalypse Prophet",
+        "_extensionFileName": "pathfinder156",
+        "shortdesc": "You have learned how to invest magic more deeply by witnessing Aroden's works.",
+        "traits": [
+            "Sorcerer",
+            "Uncommon"
+        ],
+        "levelreq": 20,
+        "gainActivities": [
+            "Tenacious Blood Magic"
+        ]
+    },
+    {
+        "name": "Denier of Destruction",
+        "desc": "You can manipulate the same energies that the aeon orbs use to sustain life.",
+        "specialdesc": "Characters who have reached 20th level can choose from the following feats, representing the pinnacle of mortal power influenced by their triumphs.",
+        "sourceBook": "Pathfinder #156: The Apocalypse Prophet",
+        "_extensionFileName": "pathfinder156",
+        "shortdesc": "You can manipulate the same energies that the aeon orbs use to sustain life.",
+        "traits": [
+            "Uncommon",
+            "Cleric"
+        ],
+        "levelreq": 20,
+        "featreq": [
+            "Healing Font"
+        ],
+        "gainActivities": [
+            "Denier of Destruction"
+        ]
+    }
+]

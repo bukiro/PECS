@@ -1,0 +1,36 @@
+[
+    {
+        "name": "Rock-Braced",
+        "id": "9caa5dfc-aa4a-11ea-bb37-0242ac130002",
+        "desc": "Rock-braced armor makes you as hard to move as a boulder. Whenever another creature attempts to forcibly move you from your space, you gain a +4 item bonus to your Fortitude DC against the check to move you. If the creature would not normally need to attempt a check to move you, then the creature must succeed at an Athletics check against your Fortitude DC (including the +4 item bonus) or you are unmoved.",
+        "sourceBook": "Pathfinder #148: Fires of the Haunted City",
+        "_extensionFileName": "pathfinder148",
+        "level": 13,
+        "price": 300000,
+        "traits": [
+            "Rare",
+            "Abjuration",
+            "Dwarf",
+            "Magical",
+            "Saggorak"
+        ],
+        "usage": "etched onto medium or heavy armor",
+        "hints": [
+            {
+                "desc": "Whenever another creature attempts to forcibly move you from your space, you gain a +4 item bonus to your Fortitude DC against the check to move you. If the creature would not normally need to attempt a check to move you, then the creature must succeed at an Athletics check against your Fortitude DC (including the +4 item bonus) or you are unmoved.",
+                "effects": [
+                    {
+                        "affected": "Fortitude",
+                        "type": "item",
+                        "value": "4"
+                    }
+                ],
+                "showon": "Defense"
+            }
+        ],
+        "profreq": [
+            "Medium Armor",
+            "Heavy Armor"
+        ]
+    }
+]

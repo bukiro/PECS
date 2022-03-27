@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Beckoning Cat Amulet",
+        "id": "a0d7e21a-c9b6-11ea-87d0-0242ac130003",
+        "desc": "This clay figurine resembles a white cat with a paw outstretched. When it's activated, any allies within 10 feet who also just failed or critically failed a Reflex saving throw from the same source (such as a fireball spell) can also reroll their saving throw and use the better result.",
+        "sourceBook": "Pathfinder #152: Legacy of the Lost God",
+        "_extensionFileName": "pathfinder152",
+        "level": 5,
+        "price": 2600,
+        "traits": [
+            "Uncommon",
+            "Consumable",
+            "Divination",
+            "Fortune",
+            "Magical",
+            "Talisman"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You use a feat or ability to reroll a failed or critically failed Reflex saving throw (such as Cat's Luck or Halfling Luck).",
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ]
+    }
+]

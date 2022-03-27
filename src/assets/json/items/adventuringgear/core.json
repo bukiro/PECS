@@ -1,162 +1,202 @@
 [
     {
-        "desc": "Plants of supernatural significance provide a primal focus for primal spellcasters, such as druids, when using certain abilities and casting some spells. A bundle of holly and mistletoe must be held in one hand to use it. Other primal foci exist for druids focused on other aspects of nature.",
-        "id": "89c6d2e2-8e09-11ea-9fab-e92c63c14723",
         "name": "Holly and Mistletoe",
+        "id": "89c6d2e2-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Plants of supernatural significance provide a primal focus for primal spellcasters, such as druids, when using certain abilities and casting some spells. A bundle of holly and mistletoe must be held in one hand to use it. Other primal foci exist for druids focused on other aspects of nature.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "hands": 1
     },
     {
-        "desc": "A lit candle sheds dim light in a 10-foot radius.",
-        "id": "89c6d2e5-8e09-11ea-9fab-e92c63c14723",
         "name": "Candle",
+        "id": "89c6d2e5-8e09-11ea-9fab-e92c63c14723",
+        "desc": "A lit candle sheds dim light in a 10-foot radius.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "price": 1,
         "hands": 1
     },
     {
-        "id": "89c6d2e8-8e09-11ea-9fab-e92c63c14723",
         "name": "Chalk",
+        "id": "89c6d2e8-8e09-11ea-9fab-e92c63c14723",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "price": 1,
         "hands": 1
     },
     {
-        "id": "89c6d2eb-8e09-11ea-9fab-e92c63c14723",
         "name": "Mug",
+        "id": "89c6d2eb-8e09-11ea-9fab-e92c63c14723",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "price": 1,
         "hands": 1
     },
     {
-        "desc": "You can use oil to fuel lanterns, but you can also set a pint of oil aflame and throw it. You must first spend an Interact action preparing the oil, then throw it with another action as a ranged attack. If you hit, it splatters on the creature or in a single 5-foot square you target. You must succeed at a DC 10 flat check for the oil to ignite successfully when it hits. If the oil ignites, the target takes |dice=1d6 Fire| 1d6 fire damage.",
-        "id": "89c6d2ee-8e09-11ea-9fab-e92c63c14723",
         "name": "Oil",
+        "id": "89c6d2ee-8e09-11ea-9fab-e92c63c14723",
+        "desc": "You can use oil to fuel lanterns, but you can also set a pint of oil aflame and throw it. You must first spend an Interact action preparing the oil, then throw it with another action as a ranged attack. If you hit, it splatters on the creature or in a single 5-foot square you target. You must succeed at a DC 10 flat check for the oil to ignite successfully when it hits. If the oil ignites, the target takes |dice=1d6 Fire| 1d6 fire damage.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "price": 1,
         "hands": 2
     },
     {
-        "desc": "These small spikes can be used as anchors to make climbing easier. To affix a piton, you must hold it in one hand and use a hammer to drive it in with your other hand. You can attach a rope to the hammered piton so that you don't fall all the way to the ground on a critical failure while Climbing.",
-        "id": "89c6d2f1-8e09-11ea-9fab-e92c63c14723",
         "name": "Piton",
+        "id": "89c6d2f1-8e09-11ea-9fab-e92c63c14723",
+        "desc": "These small spikes can be used as anchors to make climbing easier. To affix a piton, you must hold it in one hand and use a hammer to drive it in with your other hand. You can attach a rope to the hammered piton so that you don't fall all the way to the ground on a critical failure while Climbing.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "price": 1,
+        "hands": 1,
         "hints": [
             {
                 "showon": "Athletics"
             }
-        ],
-        "hands": 1
+        ]
     },
     {
-        "bulk": "L",
-        "desc": "A sack can hold up to 8 Bulk worth of items. A sack containing 2 Bulk or less can be worn on the body, usually tucked into a belt. You can carry a sack with one hand, but must use two hands to transfer items in and out.",
-        "id": "89c6d2f4-8e09-11ea-9fab-e92c63c14723",
         "name": "Sack",
+        "id": "89c6d2f4-8e09-11ea-9fab-e92c63c14723",
+        "desc": "A sack can hold up to 8 Bulk worth of items. A sack containing 2 Bulk or less can be worn on the body, usually tucked into a belt. You can carry a sack with one hand, but must use two hands to transfer items in and out.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 1,
+        "hands": 1,
         "gainInventory": [
             {
                 "bulkLimit": 8
             }
-        ],
-        "hands": 1
+        ]
     },
     {
-        "bulk": "1",
-        "desc": "When wielding this long pole, you can use Seek to search a square up to 10 feet away. The pole is not sturdy enough to use as a weapon.",
-        "id": "89c6f9f0-8e09-11ea-9fab-e92c63c14723",
         "name": "Ten-Foot Pole",
+        "id": "89c6f9f0-8e09-11ea-9fab-e92c63c14723",
+        "desc": "When wielding this long pole, you can use Seek to search a square up to 10 feet away. The pole is not sturdy enough to use as a weapon.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "1",
         "price": 1,
+        "hands": 2,
         "hints": [
             {
                 "showon": "Perception"
             }
-        ],
-        "hands": 2
+        ]
     },
     {
-        "bulk": "L",
-        "desc": "A torch sheds bright light in a 20-foot radius (and dim light to the next 20 feet). It can be used as an improvised weapon that deals |dice=1d4 + 1 Fire| 1d4 bludgeoning damage plus 1 fire damage.",
-        "id": "89c6f9f3-8e09-11ea-9fab-e92c63c14723",
         "name": "Torch",
+        "id": "89c6f9f3-8e09-11ea-9fab-e92c63c14723",
+        "desc": "A torch sheds bright light in a 20-foot radius (and dim light to the next 20 feet). It can be used as an improvised weapon that deals |dice=1d4 + 1 Fire| 1d4 bludgeoning damage plus 1 fire damage.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 1,
         "hands": 1
     },
     {
-        "bulk": "L",
-        "id": "89c6f9f6-8e09-11ea-9fab-e92c63c14723",
         "name": "Bedroll",
+        "id": "89c6f9f6-8e09-11ea-9fab-e92c63c14723",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 2
     },
     {
-        "id": "89c6f9f9-8e09-11ea-9fab-e92c63c14723",
         "name": "Soap",
+        "id": "89c6f9f9-8e09-11ea-9fab-e92c63c14723",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "price": 2,
         "hands": 1
     },
     {
-        "bulk": "3",
+        "name": "Ladder (10 ft.)",
         "id": "89c6f9fc-8e09-11ea-9fab-e92c63c14723",
-        "name": "Ladder",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "3",
         "price": 3,
         "hands": 2
     },
     {
-        "desc": "Flint and steel are useful in creating a fire if you have the time to catch a spark, though using them is typically too time-consuming to be practical during an encounter. Even in ideal conditions, using flint and steel to light a flame requires using at least 3 actions, and often significantly longer.",
-        "id": "89c6fa02-8e09-11ea-9fab-e92c63c14723",
         "name": "Flint and Steel",
+        "id": "89c6fa02-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Flint and steel are useful in creating a fire if you have the time to catch a spark, though using them is typically too time-consuming to be practical during an encounter. Even in ideal conditions, using flint and steel to light a flame requires using at least 3 actions, and often significantly longer.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "price": 5,
         "hands": 2
     },
     {
-        "bulk": "L",
-        "desc": "When it's full, a waterskin contains roughly 1 day's worth of water for a Small or Medium creature.",
-        "id": "89c6fa08-8e09-11ea-9fab-e92c63c14723",
         "name": "Waterskin",
+        "id": "89c6fa08-8e09-11ea-9fab-e92c63c14723",
+        "desc": "When it's full, a waterskin contains roughly 1 day's worth of water for a Small or Medium creature.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 5,
         "hands": 1
     },
     {
-        "desc": "When sounded, a signal whistle can be heard clearly up to half a mile away across open terrain.",
-        "id": "89c6fa0b-8e09-11ea-9fab-e92c63c14723",
         "name": "Signal Whistle",
+        "id": "89c6fa0b-8e09-11ea-9fab-e92c63c14723",
+        "desc": "When sounded, a signal whistle can be heard clearly up to half a mile away across open terrain.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "price": 8,
         "hands": 1
     },
     {
-        "desc": "Ordinary clothing is functional with basic tailoring, such as peasant garb, monk's robes, or work clothes.",
-        "id": "89c6fa0e-8e09-11ea-9fab-e92c63c14723",
         "name": "Clothing (Ordinary)",
+        "id": "89c6fa0e-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Ordinary clothing is functional with basic tailoring, such as peasant garb, monk's robes, or work clothes.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "price": 10
     },
     {
-        "desc": "If you've crafted a large number of disguises, you can replenish your cosmetics supply with replacement cosmetics suitable for the type of your disguise kit.",
-        "id": "89c6fa11-8e09-11ea-9fab-e92c63c14723",
         "name": "Disguise Kit (Replacement Cosmetics)",
+        "id": "89c6fa11-8e09-11ea-9fab-e92c63c14723",
+        "desc": "If you've crafted a large number of disguises, you can replenish your cosmetics supply with replacement cosmetics suitable for the type of your disguise kit.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "price": 10
     },
     {
-        "bulk": "L",
-        "desc": "You can throw a grappling hook with a rope tied to it to make a climb easier. To anchor a grappling hook, make an attack roll with the secret trait against a DC depending on the target, typically at least DC 20. On a success, your hook has a firm hold, but on a critical failure, the hook seems like it will hold but actually falls when you're partway up.",
-        "id": "89c6fa14-8e09-11ea-9fab-e92c63c14723",
         "name": "Grappling Hook",
+        "id": "89c6fa14-8e09-11ea-9fab-e92c63c14723",
+        "desc": "You can throw a grappling hook with a rope tied to it to make a climb easier. To anchor a grappling hook, make an attack roll with the secret trait against a DC depending on the target, typically at least DC 20. On a success, your hook has a firm hold, but on a critical failure, the hook seems like it will hold but actually falls when you're partway up.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 10,
+        "hands": 1,
         "hints": [
             {
                 "showon": "Athletics"
             }
-        ],
-        "hands": 1
+        ]
     },
     {
-        "bulk": "L",
-        "id": "89c6fa17-8e09-11ea-9fab-e92c63c14723",
         "name": "Hammer",
+        "id": "89c6fa17-8e09-11ea-9fab-e92c63c14723",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 10,
         "hands": 1
     },
     {
-        "desc": "A backpack holds up to 4 Bulk of items. If you're carrying or stowing the pack rather than wearing it on your back, its bulk is light instead of negligible. The first 2 Bulk of items in your backpack don't count against your Bulk limits.",
-        "id": "89c6fa1a-8e09-11ea-9fab-e92c63c14723",
         "name": "Backpack",
+        "id": "89c6fa1a-8e09-11ea-9fab-e92c63c14723",
+        "desc": "A backpack holds up to 4 Bulk of items. If you're carrying or stowing the pack rather than wearing it on your back, its bulk is light instead of negligible. The first 2 Bulk of items in your backpack don't count against your Bulk limits.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "price": 10,
-        "equippable": true,
         "carryingBulk": "L",
+        "equippable": true,
         "gainInventory": [
             {
                 "bulkLimit": 4,
@@ -165,47 +205,59 @@
         ]
     },
     {
-        "bulk": "L",
-        "desc": "This piece of wood is emblazoned with an image representing a deity. Some divine spellcasters, such as clerics, can use a religious symbol of their deity as a divine focus to use certain abilities and cast some spells. A religious symbol must be held in one hand to use it.",
-        "id": "89c6fa1d-8e09-11ea-9fab-e92c63c14723",
         "name": "Religious Symbol (Wooden)",
+        "id": "89c6fa1d-8e09-11ea-9fab-e92c63c14723",
+        "desc": "This piece of wood is emblazoned with an image representing a deity. Some divine spellcasters, such as clerics, can use a religious symbol of their deity as a divine focus to use certain abilities and cast some spells. A religious symbol must be held in one hand to use it.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 10,
         "hands": 1
     },
     {
-        "bulk": "L",
-        "desc": "This book contains formulas for Crafting common items.",
-        "id": "89c6fa29-8e09-11ea-9fab-e92c63c14723",
         "name": "Basic Crafter's Book",
+        "id": "89c6fa29-8e09-11ea-9fab-e92c63c14723",
+        "desc": "This book contains formulas for Crafting common items.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 10,
         "hands": 2
     },
     {
-        "desc": "If you've written a large amount, you can refill your kit with extra ink and paper.",
-        "id": "89c72101-8e09-11ea-9fab-e92c63c14723",
         "name": "Writing Set (Extra Ink and Paper)",
+        "id": "89c72101-8e09-11ea-9fab-e92c63c14723",
+        "desc": "If you've written a large amount, you can refill your kit with extra ink and paper.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "price": 10
     },
     {
-        "desc": "Picking a poor lock requires two successful DC 15 Thievery checks.",
-        "id": "89c72104-8e09-11ea-9fab-e92c63c14723",
         "name": "Lock (Poor)",
+        "id": "89c72104-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Picking a poor lock requires two successful DC 15 Thievery checks.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "price": 20,
         "hands": 2
     },
     {
-        "bulk": "L",
-        "id": "89c72107-8e09-11ea-9fab-e92c63c14723",
         "name": "Merchant's Scale",
+        "id": "89c72107-8e09-11ea-9fab-e92c63c14723",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 20
     },
     {
-        "desc": "Saddlebags come in a pair. Each can hold up to 3 Bulk of items. The Bulk value given is for saddlebags worn by a mount. If you are carrying or stowing saddlebags, they count as 1 Bulk instead of light Bulk. The first 1 Bulk of items in each saddlebag doesn't count against your mount's Bulk limits.",
-        "id": "89c7210a-8e09-11ea-9fab-e92c63c14723",
         "name": "Saddlebags",
+        "id": "89c7210a-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Saddlebags come in a pair. Each can hold up to 3 Bulk of items. The Bulk value given is for saddlebags worn by a mount. If you are carrying or stowing saddlebags, they count as 1 Bulk instead of light Bulk. The first 1 Bulk of items in each saddlebag doesn't count against your mount's Bulk limits.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "price": 20,
-        "equippable": true,
         "carryingBulk": "1",
+        "equippable": true,
         "gainInventory": [
             {
                 "bulkLimit": 3,
@@ -218,31 +270,39 @@
         ]
     },
     {
-        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from poor manacles requires two successful DC 17 Thievery checks.",
-        "id": "89c7210d-8e09-11ea-9fab-e92c63c14723",
         "name": "Manacles (Poor)",
+        "id": "89c7210d-8e09-11ea-9fab-e92c63c14723",
+        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from poor manacles requires two successful DC 17 Thievery checks.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "price": 30,
         "hands": 2
     },
     {
-        "desc": "If your thieves' tools are broken, you can repair them by replacing the lock picks with replacement picks appropriate to your tools; this doesn't require using the Repair action.",
-        "id": "89c72110-8e09-11ea-9fab-e92c63c14723",
         "name": "Thieves' Tools (Replacement Picks)",
+        "id": "89c72110-8e09-11ea-9fab-e92c63c14723",
+        "desc": "If your thieves' tools are broken, you can repair them by replacing the lock picks with replacement picks appropriate to your tools; this doesn't require using the Repair action.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "price": 30
     },
     {
-        "bulk": "L",
-        "desc": "These four-pronged metal spikes can cause damage to a creature's feet. You can scatter caltrops in an empty square adjacent to you with an Interact action. The first creature that moves into that square must succeed at a DC 14 Acrobatics check or take |dice=1d4 P + 1 Persistent Bleed| 1d4 piercing damage and 1 persistent bleed damage. A creature taking persistent bleed damage from caltrops takes a -5-foot penalty to its Speed. Spending an Interact action to pluck the caltrops free reduces the DC to stop the bleeding. Once a creature takes damage from caltrops, enough caltrops are ruined that other creatures moving into the square are safe.\n\nDeployed caltrops can be salvaged and reused if no creatures took damage from them. Otherwise, enough caltrops are ruined that they can't be salvaged.",
-        "id": "89c72113-8e09-11ea-9fab-e92c63c14723",
         "name": "Caltrops",
+        "id": "89c72113-8e09-11ea-9fab-e92c63c14723",
+        "desc": "These four-pronged metal spikes can cause damage to a creature's feet. You can scatter caltrops in an empty square adjacent to you with an Interact action. The first creature that moves into that square must succeed at a DC 14 Acrobatics check or take |dice=1d4 P + 1 Persistent Bleed| 1d4 piercing damage and 1 persistent bleed damage. A creature taking persistent bleed damage from caltrops takes a -5-foot penalty to its Speed. Spending an Interact action to pluck the caltrops free reduces the DC to stop the bleeding. Once a creature takes damage from caltrops, enough caltrops are ruined that other creatures moving into the square are safe.\n\nDeployed caltrops can be salvaged and reused if no creatures took damage from them. Otherwise, enough caltrops are ruined that they can't be salvaged.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 30,
         "hands": 1
     },
     {
-        "bulk": "L",
-        "desc": "Winter clothing allows you to negate the damage from severe environmental cold and reduce the damage from extreme cold to that of severe cold.",
-        "id": "89c72116-8e09-11ea-9fab-e92c63c14723",
         "name": "Clothing (Winter)",
+        "id": "89c72116-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Winter clothing allows you to negate the damage from severe environmental cold and reduce the damage from extreme cold to that of severe cold.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 40,
         "equippable": true,
         "hints": [
@@ -252,86 +312,96 @@
         ]
     },
     {
-        "bulk": "L",
-        "id": "89c72119-8e09-11ea-9fab-e92c63c14723",
         "name": "Rations (1 week)",
+        "id": "89c72119-8e09-11ea-9fab-e92c63c14723",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 40,
         "hands": 1
     },
     {
-        "bulk": "L",
-        "id": "ecc356cd-637b-43f8-a0cf-8ac90318eb7f",
-        "name": "Sunlight Rations (1 week)",
-        "price": 400,
-        "hands": 1
-    },
-    {
-        "bulk": "L",
-        "desc": "This entry is a catchall for basic hand tools that don't have a specific adventuring purpose. A hand drill, ice hook, or trowel is a short tool. A tool can usually be used as an improvised weapon, dealing |dice=1d4| 1d4 damage for a short tool or |dice=1d6| 1d6 for a long tool. The GM determines the damage type that's appropriate or adjusts the damage if needed.",
-        "id": "89c7211c-8e09-11ea-9fab-e92c63c14723",
         "name": "Tool (Short)",
+        "id": "89c7211c-8e09-11ea-9fab-e92c63c14723",
+        "desc": "This entry is a catchall for basic hand tools that don't have a specific adventuring purpose. A hand drill, ice hook, or trowel is a short tool. A tool can usually be used as an improvised weapon, dealing |dice=1d4| 1d4 damage for a short tool or |dice=1d6| 1d6 for a long tool. The GM determines the damage type that's appropriate or adjusts the damage if needed.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 40,
         "hands": 1
     },
     {
-        "bulk": "1",
-        "desc": "This satchel includes 50 feet of rope, pulleys, a dozen pitons, a hammer, a grappling hook, and one set of crampons. Climbing kits allow you to attach yourself to the wall you're Climbing, moving half as quickly as usual (minimum 5 feet) but letting you attempt a DC 5 flat check whenever you critically fail to prevent a fall. A single kit has only enough materials for one climber; each climber needs their own kit.",
-        "id": "89c7211f-8e09-11ea-9fab-e92c63c14723",
         "name": "Climbing Kit",
+        "id": "89c7211f-8e09-11ea-9fab-e92c63c14723",
+        "desc": "This satchel includes 50 feet of rope, pulleys, a dozen pitons, a hammer, a grappling hook, and one set of crampons. Climbing kits allow you to attach yourself to the wall you're Climbing, moving half as quickly as usual (minimum 5 feet) but letting you attempt a DC 5 flat check whenever you critically fail to prevent a fall. A single kit has only enough materials for one climber; each climber needs their own kit.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "1",
         "price": 50,
+        "hands": 2,
         "hints": [
             {
                 "showon": "Athletics"
             }
-        ],
-        "hands": 2
+        ]
     },
     {
-        "bulk": "L",
-        "desc": "When Forcing Open an object that doesn't have an easy grip, a crowbar makes it easier to gain the necessary leverage. Without a crowbar, prying something open takes a -2 item penalty to the Athletics check to Force Open (similar to using a shoddy item). A levered crowbar grants you a +1 item bonus to Athletics checks to Force Open anything that can be pried open.",
-        "id": "89c72122-8e09-11ea-9fab-e92c63c14723",
         "name": "Crowbar",
+        "id": "89c72122-8e09-11ea-9fab-e92c63c14723",
+        "desc": "When Forcing Open an object that doesn't have an easy grip, a crowbar makes it easier to gain the necessary leverage. Without a crowbar, prying something open takes a -2 item penalty to the Athletics check to Force Open (similar to using a shoddy item). A levered crowbar grants you a +1 item bonus to Athletics checks to Force Open anything that can be pried open.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 50,
+        "hands": 2,
         "hints": [
             {
                 "showon": "Athletics"
             }
-        ],
-        "hands": 2
+        ]
     },
     {
-        "bulk": "L",
-        "desc": "This pouch contains material components for those spells that require them. Though the components are used up over time, you can refill spent components during your daily preparations.",
-        "id": "89c72125-8e09-11ea-9fab-e92c63c14723",
         "name": "Material Component Pouch",
+        "id": "89c72125-8e09-11ea-9fab-e92c63c14723",
+        "desc": "This pouch contains material components for those spells that require them. Though the components are used up over time, you can refill spent components during your daily preparations.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 50,
         "hands": 1
     },
     {
-        "bulk": "L",
-        "id": "89c72128-8e09-11ea-9fab-e92c63c14723",
         "name": "Rope",
+        "id": "89c72128-8e09-11ea-9fab-e92c63c14723",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 50,
         "hands": 2
     },
     {
-        "bulk": "2",
-        "desc": "A wooden chest can hold up to 8 Bulk of items.",
-        "id": "89c7212b-8e09-11ea-9fab-e92c63c14723",
         "name": "Chest",
+        "id": "89c7212b-8e09-11ea-9fab-e92c63c14723",
+        "desc": "A wooden chest can hold up to 8 Bulk of items.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "2",
         "price": 60,
+        "hands": 2,
         "gainInventory": [
             {
                 "bulkLimit": 8
             }
-        ],
-        "hands": 2
+        ]
     },
     {
-        "desc": "This item is the starter kit for an adventurer, containing the essential items for exploration and survival. The Bulk value is for the entire pack together, but see the descriptions of individual items as necessary.\n\nThe pack contains the following items: backpack (containing the other goods), bedroll, 10 pieces of chalk, flint and steel, 50 feet of rope, 2 weeks' rations, soap, 5 torches, and a waterskin.",
-        "id": "89c74812-8e09-11ea-9fab-e92c63c14723",
         "name": "Adventurer's Pack",
+        "id": "89c74812-8e09-11ea-9fab-e92c63c14723",
+        "desc": "This item is the starter kit for an adventurer, containing the essential items for exploration and survival. The Bulk value is for the entire pack together, but see the descriptions of individual items as necessary.\n\nThe pack contains the following items: backpack (containing the other goods), bedroll, 10 pieces of chalk, flint and steel, 50 feet of rope, 2 weeks' rations, soap, 5 torches, and a waterskin.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "price": 150,
+        "storeBulk": 1,
         "gainItems": [
             {
                 "name": "Backpack",
@@ -372,16 +442,18 @@
                 "name": "Waterskin",
                 "type": "adventuringgear"
             }
-        ],
-        "storeBulk": "1"
+        ]
     },
     {
-        "desc": "Alchemist Class Kit (Option A):\n\n<strong>Money left over</strong> 6 gp, 5 sp, 8 cp\n<strong>Armor</strong> studded leather armor\n<strong>Weapons</strong> dagger, sling with 20 sling bullets\n<strong>Gear</strong> adventurer's pack, alchemist's tools, basic crafter's book, 2 sets of caltrops\n<strong>Options not included</strong> repair kit (2 gp)",
-        "id": "d28af4f0-9836-4664-a1bb-7de0938bfd02",
         "name": "Class Kit: Alchemist (Option A)",
+        "id": "d28af4f0-9836-4664-a1bb-7de0938bfd02",
+        "desc": "Alchemist Class Kit (Option A):\n\n<strong>Money left over</strong> 6 gp, 5 sp, 8 cp\n<strong>Armor</strong> studded leather armor\n<strong>Weapons</strong> dagger, sling with 20 sling bullets\n<strong>Gear</strong> adventurer's pack, alchemist's tools, basic crafter's book, 2 sets of caltrops\n<strong>Options not included</strong> repair kit (2 gp)",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 842,
         "iconTitleOverride": "CKAlc",
         "iconValueOverride": "A",
-        "price": 842,
+        "storeBulk": "3 Bulk, 7 light",
         "gainItems": [
             {
                 "name": "Studded Leather Armor",
@@ -417,16 +489,18 @@
                 "name": "Caltrops",
                 "type": "adventuringgear"
             }
-        ],
-        "storeBulk": "3 Bulk, 7 light"
+        ]
     },
     {
-        "desc": "Alchemist Class Kit (Option B):\n\n<strong>Money left over</strong> 4 gp, 5 sp, 8 cp\n<strong>Armor</strong> studded leather armor\n<strong>Weapons</strong> dagger, sling with 20 sling bullets\n<strong>Gear</strong> adventurer's pack, alchemist's tools, basic crafter's book, 2 sets of caltrops, <var>repair kit</var>",
-        "id": "8af1c34b-3220-44c8-9bee-d51997ca0ea5",
         "name": "Class Kit: Alchemist (Option B)",
+        "id": "8af1c34b-3220-44c8-9bee-d51997ca0ea5",
+        "desc": "Alchemist Class Kit (Option B):\n\n<strong>Money left over</strong> 4 gp, 5 sp, 8 cp\n<strong>Armor</strong> studded leather armor\n<strong>Weapons</strong> dagger, sling with 20 sling bullets\n<strong>Gear</strong> adventurer's pack, alchemist's tools, basic crafter's book, 2 sets of caltrops, <var>repair kit</var>",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 1042,
         "iconTitleOverride": "CKAlc",
         "iconValueOverride": "B",
-        "price": 1042,
+        "storeBulk": "4 Bulk, 7 light",
         "gainItems": [
             {
                 "name": "Studded Leather Armor",
@@ -466,16 +540,18 @@
                 "name": "Repair Kit",
                 "type": "adventuringgear"
             }
-        ],
-        "storeBulk": "4 Bulk, 7 light"
+        ]
     },
     {
-        "desc": "Barbarian Class Kit (Option A):\n\n<strong>Money left over</strong> 11 gp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> 4 javelins\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greataxe (2 gp), greatclub (1 gp), greatsword (2 gp), or battle axe and steel shield (3 gp)",
-        "id": "2430f4f5-77e3-4529-a2e8-dd68dc3f518e",
         "name": "Class Kit: Barbarian (Option A)",
+        "id": "2430f4f5-77e3-4529-a2e8-dd68dc3f518e",
+        "desc": "Barbarian Class Kit (Option A):\n\n<strong>Money left over</strong> 11 gp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> 4 javelins\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greataxe (2 gp), greatclub (1 gp), greatsword (2 gp), or battle axe and steel shield (3 gp)",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 400,
         "iconTitleOverride": "CKBrb",
         "iconValueOverride": "A",
-        "price": 400,
+        "storeBulk": "3 Bulk, 5 light",
         "gainItems": [
             {
                 "name": "Hide Armor",
@@ -505,16 +581,18 @@
                 "name": "Grappling Hook",
                 "type": "adventuringgear"
             }
-        ],
-        "storeBulk": "3 Bulk, 5 light"
+        ]
     },
     {
-        "desc": "Barbarian Class Kit (Option B):\n\n<strong>Money left over</strong> 9 gp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> 4 javelins, <var>greataxe</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greatclub (1 gp), greatsword (2 gp), or battle axe and steel shield (3 gp)",
-        "id": "46668d32-56f7-4cac-aa3f-2246024f13a8",
         "name": "Class Kit: Barbarian (Option B)",
+        "id": "46668d32-56f7-4cac-aa3f-2246024f13a8",
+        "desc": "Barbarian Class Kit (Option B):\n\n<strong>Money left over</strong> 9 gp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> 4 javelins, <var>greataxe</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greatclub (1 gp), greatsword (2 gp), or battle axe and steel shield (3 gp)",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 600,
         "iconTitleOverride": "CKBrb",
         "iconValueOverride": "B",
-        "price": 600,
+        "storeBulk": "5 Bulk, 5 light",
         "gainItems": [
             {
                 "name": "Hide Armor",
@@ -548,16 +626,18 @@
                 "name": "Greataxe",
                 "type": "weapons"
             }
-        ],
-        "storeBulk": "5 Bulk, 5 light"
+        ]
     },
     {
-        "desc": "Barbarian Class Kit (Option C):\n\n<strong>Money left over</strong> 9 gp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> 4 javelins, <var>greatsword</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greataxe (2 gp), greatclub (1 gp), or battle axe and steel shield (3 gp)",
-        "id": "8c33bb2e-1b91-4413-8ede-0faf2bec6345",
         "name": "Class Kit: Barbarian (Option C)",
+        "id": "8c33bb2e-1b91-4413-8ede-0faf2bec6345",
+        "desc": "Barbarian Class Kit (Option C):\n\n<strong>Money left over</strong> 9 gp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> 4 javelins, <var>greatsword</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greataxe (2 gp), greatclub (1 gp), or battle axe and steel shield (3 gp)",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 600,
         "iconTitleOverride": "CKBrb",
         "iconValueOverride": "C",
-        "price": 600,
+        "storeBulk": "5 Bulk, 5 light",
         "gainItems": [
             {
                 "name": "Hide Armor",
@@ -591,16 +671,18 @@
                 "name": "Greatsword",
                 "type": "weapons"
             }
-        ],
-        "storeBulk": "5 Bulk, 5 light"
+        ]
     },
     {
-        "desc": "Barbarian Class Kit (Option D):\n\n<strong>Money left over</strong> 10 gp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> 4 javelins, <var>greatclub</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greataxe (2 gp), greatsword (2 gp), or battle axe and steel shield (3 gp)",
-        "id": "cee0c8fe-6ea0-4338-b5b4-f920dc227d1d",
         "name": "Class Kit: Barbarian (Option D)",
+        "id": "cee0c8fe-6ea0-4338-b5b4-f920dc227d1d",
+        "desc": "Barbarian Class Kit (Option D):\n\n<strong>Money left over</strong> 10 gp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> 4 javelins, <var>greatclub</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greataxe (2 gp), greatsword (2 gp), or battle axe and steel shield (3 gp)",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 500,
         "iconTitleOverride": "CKBrb",
         "iconValueOverride": "D",
-        "price": 500,
+        "storeBulk": "5 Bulk, 5 light",
         "gainItems": [
             {
                 "name": "Hide Armor",
@@ -634,16 +716,18 @@
                 "name": "Greatclub",
                 "type": "weapons"
             }
-        ],
-        "storeBulk": "5 Bulk, 5 light"
+        ]
     },
     {
-        "desc": "Barbarian Class Kit (Option E):\n\n<strong>Money left over</strong> 8 gp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> 4 javelins, <var>battle axe and steel shield</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greataxe (2 gp), greatclub (1 gp), greatsword (2 gp)",
-        "id": "1d89c52a-b854-4a3a-be50-149fab2148de",
         "name": "Class Kit: Barbarian (Option E)",
+        "id": "1d89c52a-b854-4a3a-be50-149fab2148de",
+        "desc": "Barbarian Class Kit (Option E):\n\n<strong>Money left over</strong> 8 gp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> 4 javelins, <var>battle axe and steel shield</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greataxe (2 gp), greatclub (1 gp), greatsword (2 gp)",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 700,
         "iconTitleOverride": "CKBrb",
         "iconValueOverride": "E",
-        "price": 700,
+        "storeBulk": "5 Bulk, 5 light",
         "gainItems": [
             {
                 "name": "Hide Armor",
@@ -681,15 +765,17 @@
                 "name": "Steel Shield",
                 "type": "shields"
             }
-        ],
-        "storeBulk": "5 Bulk, 5 light"
+        ]
     },
     {
-        "desc": "Bard Class Kit:\n\n<strong>Money left over</strong> 7 gp, 4 sp, 8 cp\n<strong>Armor</strong> studded leather armor\n<strong>Weapons</strong> dagger, rapier, sling with 20 sling bullets\n<strong>Gear</strong> adventurer's pack, handheld instrument",
-        "id": "31f56859-c8e3-409e-9f49-f8744e60596f",
         "name": "Class Kit: Bard",
-        "iconTitleOverride": "CKBrd",
+        "id": "31f56859-c8e3-409e-9f49-f8744e60596f",
+        "desc": "Bard Class Kit:\n\n<strong>Money left over</strong> 7 gp, 4 sp, 8 cp\n<strong>Armor</strong> studded leather armor\n<strong>Weapons</strong> dagger, rapier, sling with 20 sling bullets\n<strong>Gear</strong> adventurer's pack, handheld instrument",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "price": 752,
+        "iconTitleOverride": "CKBrd",
+        "storeBulk": "4 Bulk, 4 light",
         "gainItems": [
             {
                 "name": "Studded Leather Armor",
@@ -720,16 +806,18 @@
                 "name": "Musical Instrument (Handheld)",
                 "type": "adventuringgear"
             }
-        ],
-        "storeBulk": "4 Bulk, 4 light"
+        ]
     },
     {
-        "desc": "Champion Class Kit (Option A):\n\n<strong>Money left over</strong> 10 gp, 3 sp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger, 4 javelins\n<strong>Gear</strong> adventurer's pack, crowbar, grappling hook\n<strong>Options not included</strong> steel shield (2 gp), your deity's favored weapon",
-        "id": "0119b053-70ce-4176-b6ac-3a54449d1e7b",
         "name": "Class Kit: Champion (Option A)",
+        "id": "0119b053-70ce-4176-b6ac-3a54449d1e7b",
+        "desc": "Champion Class Kit (Option A):\n\n<strong>Money left over</strong> 10 gp, 3 sp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger, 4 javelins\n<strong>Gear</strong> adventurer's pack, crowbar, grappling hook\n<strong>Options not included</strong> steel shield (2 gp), your deity's favored weapon",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 470,
         "iconTitleOverride": "CKCha",
         "iconValueOverride": "A",
-        "price": 470,
+        "storeBulk": "3 Bulk, 7 light",
         "gainItems": [
             {
                 "name": "Hide Armor",
@@ -767,16 +855,18 @@
                 "name": "Grappling Hook",
                 "type": "adventuringgear"
             }
-        ],
-        "storeBulk": "3 Bulk, 7 light"
+        ]
     },
     {
-        "desc": "Champion Class Kit (Option B):\n\n<strong>Money left over</strong> 8 gp, 3 sp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger and <var>steel shield</var>, 4 javelins\n<strong>Gear</strong> adventurer's pack, crowbar, grappling hook\n<strong>Options not included</strong> your deity's favored weapon",
-        "id": "cde337ec-5639-468d-97d4-3d64d1c75dce",
         "name": "Class Kit: Champion (Option B)",
+        "id": "cde337ec-5639-468d-97d4-3d64d1c75dce",
+        "desc": "Champion Class Kit (Option B):\n\n<strong>Money left over</strong> 8 gp, 3 sp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger and <var>steel shield</var>, 4 javelins\n<strong>Gear</strong> adventurer's pack, crowbar, grappling hook\n<strong>Options not included</strong> your deity's favored weapon",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 670,
         "iconTitleOverride": "CKCha",
         "iconValueOverride": "B",
-        "price": 670,
+        "storeBulk": "4 Bulk, 7 light",
         "gainItems": [
             {
                 "name": "Hide Armor",
@@ -818,16 +908,18 @@
                 "name": "Steel Shield",
                 "type": "shields"
             }
-        ],
-        "storeBulk": "4 Bulk, 7 light"
+        ]
     },
     {
-        "desc": "Cleric Class Kit (Option A):\n\n<strong>Money left over</strong> 12 gp, 8 sp\n<strong>Gear</strong> adventurer's pack, 2 sets of caltrops, religious symbol (wooden)\n<strong>Options not included</strong> your deity's favored weapon, hide armor (2 gp)",
-        "id": "224cdbb2-f915-4c27-bb64-2c386d9935c7",
         "name": "Class Kit: Cleric (Option A)",
+        "id": "224cdbb2-f915-4c27-bb64-2c386d9935c7",
+        "desc": "Cleric Class Kit (Option A):\n\n<strong>Money left over</strong> 12 gp, 8 sp\n<strong>Gear</strong> adventurer's pack, 2 sets of caltrops, religious symbol (wooden)\n<strong>Options not included</strong> your deity's favored weapon, hide armor (2 gp)",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 220,
         "iconTitleOverride": "CKCle",
         "iconValueOverride": "A",
-        "price": 220,
+        "storeBulk": "1 Bulk, 3 light",
         "gainItems": [
             {
                 "name": "Adventurer's Pack",
@@ -842,16 +934,18 @@
                 "name": "Religious Symbol (Wooden)",
                 "type": "adventuringgear"
             }
-        ],
-        "storeBulk": "1 Bulk, 3 light"
+        ]
     },
     {
-        "desc": "Cleric Class Kit (Option B):\n\n<strong>Money left over</strong> 10 gp, 8 sp\n<strong>Armor</strong> <var>hide armor</var>\n<strong>Gear</strong> adventurer's pack, 2 sets of caltrops, religious symbol (wooden)\n<strong>Options not included</strong> your deity's favored weapon",
-        "id": "421a21cc-1370-4d1d-8ac3-1fe231d70398",
         "name": "Class Kit: Cleric (Option B)",
+        "id": "421a21cc-1370-4d1d-8ac3-1fe231d70398",
+        "desc": "Cleric Class Kit (Option B):\n\n<strong>Money left over</strong> 10 gp, 8 sp\n<strong>Armor</strong> <var>hide armor</var>\n<strong>Gear</strong> adventurer's pack, 2 sets of caltrops, religious symbol (wooden)\n<strong>Options not included</strong> your deity's favored weapon",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 420,
         "iconTitleOverride": "CKCle",
         "iconValueOverride": "B",
-        "price": 420,
+        "storeBulk": "3 Bulk, 3 light",
         "gainItems": [
             {
                 "name": "Adventurer's Pack",
@@ -870,16 +964,18 @@
                 "name": "Hide Armor",
                 "type": "armors"
             }
-        ],
-        "storeBulk": "3 Bulk, 3 light"
+        ]
     },
     {
-        "desc": "Druid Class Kit (Option A):\n\n<strong>Money left over</strong> 10 gp, 6 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> 4 javelins, longspear\n<strong>Gear</strong> adventurer's pack, holly and mistletoe\n<strong>Options not included</strong> healer's tools (5 gp)",
-        "id": "be8aae24-bb40-4f29-b38c-89428aaf5568",
         "name": "Class Kit: Druid (Option A)",
+        "id": "be8aae24-bb40-4f29-b38c-89428aaf5568",
+        "desc": "Druid Class Kit (Option A):\n\n<strong>Money left over</strong> 10 gp, 6 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> 4 javelins, longspear\n<strong>Gear</strong> adventurer's pack, holly and mistletoe\n<strong>Options not included</strong> healer's tools (5 gp)",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 440,
         "iconTitleOverride": "CKDru",
         "iconValueOverride": "A",
-        "price": 440,
+        "storeBulk": "4 Bulk, 4 light",
         "gainItems": [
             {
                 "name": "Leather Armor",
@@ -913,16 +1009,18 @@
                 "name": "Holly and Mistletoe",
                 "type": "adventuringgear"
             }
-        ],
-        "storeBulk": "4 Bulk, 4 light"
+        ]
     },
     {
-        "desc": "Druid Class Kit (Option B):\n\n<strong>Money left over</strong> 5 gp, 6 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> 4 javelins, longspear\n<strong>Gear</strong> adventurer's pack, holly and mistletoe, <var>healer's tools</var>",
-        "id": "2be01195-5c64-4343-bd15-e9f0ec451ea1",
         "name": "Class Kit: Druid (Option B)",
+        "id": "2be01195-5c64-4343-bd15-e9f0ec451ea1",
+        "desc": "Druid Class Kit (Option B):\n\n<strong>Money left over</strong> 5 gp, 6 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> 4 javelins, longspear\n<strong>Gear</strong> adventurer's pack, holly and mistletoe, <var>healer's tools</var>",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 940,
         "iconTitleOverride": "CKDru",
         "iconValueOverride": "B",
-        "price": 940,
+        "storeBulk": "5 Bulk, 4 light",
         "gainItems": [
             {
                 "name": "Leather Armor",
@@ -960,16 +1058,18 @@
                 "name": "Healer's Tools",
                 "type": "adventuringgear"
             }
-        ],
-        "storeBulk": "5 Bulk, 4 light"
+        ]
     },
     {
-        "desc": "Fighter Class Kit (Option A):\n\n<strong>Money left over</strong> 11 gp, 2 sp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greatsword (2 gp), longbow with 20 arrows (6 gp, 2 sp), or longsword and steel shield (3 gp)",
-        "id": "20c443a3-d773-4b5e-9733-2721506da1ed",
         "name": "Class Kit: Fighter (Option A)",
+        "id": "20c443a3-d773-4b5e-9733-2721506da1ed",
+        "desc": "Fighter Class Kit (Option A):\n\n<strong>Money left over</strong> 11 gp, 2 sp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greatsword (2 gp), longbow with 20 arrows (6 gp, 2 sp), or longsword and steel shield (3 gp)",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 380,
         "iconTitleOverride": "CKFig",
         "iconValueOverride": "A",
-        "price": 380,
+        "storeBulk": "3 Bulk, 2 light",
         "gainItems": [
             {
                 "name": "Hide Armor",
@@ -987,16 +1087,18 @@
                 "name": "Grappling Hook",
                 "type": "adventuringgear"
             }
-        ],
-        "storeBulk": "3 Bulk, 2 light"
+        ]
     },
     {
-        "desc": "Fighter Class Kit (Option B):\n\n<strong>Money left over</strong> 9 gp, 2 sp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger, <var>greatsword</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> longbow with 20 arrows (6 gp, 2 sp), or longsword and steel shield (3 gp)",
-        "id": "cc2bf302-c9ae-483c-9e15-3e9e5963f253",
         "name": "Class Kit: Fighter (Option B)",
+        "id": "cc2bf302-c9ae-483c-9e15-3e9e5963f253",
+        "desc": "Fighter Class Kit (Option B):\n\n<strong>Money left over</strong> 9 gp, 2 sp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger, <var>greatsword</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> longbow with 20 arrows (6 gp, 2 sp), or longsword and steel shield (3 gp)",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 580,
         "iconTitleOverride": "CKFig",
         "iconValueOverride": "B",
-        "price": 580,
+        "storeBulk": "5 Bulk, 2 light",
         "gainItems": [
             {
                 "name": "Hide Armor",
@@ -1018,16 +1120,18 @@
                 "name": "Greatsword",
                 "type": "weapons"
             }
-        ],
-        "storeBulk": "5 Bulk, 2 light"
+        ]
     },
     {
-        "desc": "Fighter Class Kit (Option C):\n\n<strong>Money left over</strong> 5 gp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger, <var>longbow with 20 arrows</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greatsword (2 gp), or longsword and steel shield (3 gp)",
-        "id": "5fd06a51-8835-4523-931f-767313e4f467",
         "name": "Class Kit: Fighter (Option C)",
+        "id": "5fd06a51-8835-4523-931f-767313e4f467",
+        "desc": "Fighter Class Kit (Option C):\n\n<strong>Money left over</strong> 5 gp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger, <var>longbow with 20 arrows</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greatsword (2 gp), or longsword and steel shield (3 gp)",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 1000,
         "iconTitleOverride": "CKFig",
         "iconValueOverride": "C",
-        "price": 1000,
+        "storeBulk": "5 Bulk, 4 light",
         "gainItems": [
             {
                 "name": "Hide Armor",
@@ -1054,16 +1158,18 @@
                 "name": "Longbow",
                 "type": "weapons"
             }
-        ],
-        "storeBulk": "5 Bulk, 4 light"
+        ]
     },
     {
-        "desc": "Fighter Class Kit (Option D):\n\n<strong>Money left over</strong> 8 gp, 2 sp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger, <var>longsword and steel shield</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greatsword (2 gp), longbow with 20 arrows (6 gp, 2 sp)",
-        "id": "07b06a03-2c47-4548-92dc-f597e40c10ee",
         "name": "Class Kit: Fighter (Option D)",
+        "id": "07b06a03-2c47-4548-92dc-f597e40c10ee",
+        "desc": "Fighter Class Kit (Option D):\n\n<strong>Money left over</strong> 8 gp, 2 sp\n<strong>Armor</strong> hide armor\n<strong>Weapons</strong> dagger, <var>longsword and steel shield</var>\n<strong>Gear</strong> adventurer's pack, grappling hook\n<strong>Options not included</strong> greatsword (2 gp), longbow with 20 arrows (6 gp, 2 sp)",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 680,
         "iconTitleOverride": "CKFig",
         "iconValueOverride": "D",
-        "price": 680,
+        "storeBulk": "5 Bulk, 2 light",
         "gainItems": [
             {
                 "name": "Hide Armor",
@@ -1089,16 +1195,18 @@
                 "name": "Steel Shield",
                 "type": "shields"
             }
-        ],
-        "storeBulk": "5 Bulk, 2 light"
+        ]
     },
     {
-        "desc": "Monk Class Kit (Option A):\n\n<strong>Money left over</strong> 9 gp, 7 sp\n<strong>Weapons</strong> 10 darts\n<strong>Gear</strong> adventurer's pack, climbing kit, grappling hook, lesser smokestick\n<strong>Options not included</strong> staff (0 sp), longspear (5 sp)",
-        "id": "6138e468-92d5-4efe-9da7-f5454a156995",
         "name": "Class Kit: Monk (Option A)",
+        "id": "6138e468-92d5-4efe-9da7-f5454a156995",
+        "desc": "Monk Class Kit (Option A):\n\n<strong>Money left over</strong> 9 gp, 7 sp\n<strong>Weapons</strong> 10 darts\n<strong>Gear</strong> adventurer's pack, climbing kit, grappling hook, lesser smokestick\n<strong>Options not included</strong> staff (0 sp), longspear (5 sp)",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 530,
         "iconTitleOverride": "CKMon",
         "iconValueOverride": "A",
-        "price": 530,
+        "storeBulk": "3 Bulk, 2 light",
         "gainItems": [
             {
                 "name": "Dart",
@@ -1156,16 +1264,18 @@
                 "name": "Smokestick (Lesser)",
                 "type": "alchemicaltools"
             }
-        ],
-        "storeBulk": "3 Bulk, 2 light"
+        ]
     },
     {
-        "desc": "Monk Class Kit (Option B):\n\n<strong>Money left over</strong> 9 gp, 7 sp\n<strong>Weapons</strong> 10 darts, <var>staff</var>\n<strong>Gear</strong> adventurer's pack, climbing kit, grappling hook, lesser smokestick\n<strong>Options not included</strong> longspear (5 sp)",
-        "id": "fb53e804-f31f-4950-b568-97e29e1f5277",
         "name": "Class Kit: Monk (Option B)",
+        "id": "fb53e804-f31f-4950-b568-97e29e1f5277",
+        "desc": "Monk Class Kit (Option B):\n\n<strong>Money left over</strong> 9 gp, 7 sp\n<strong>Weapons</strong> 10 darts, <var>staff</var>\n<strong>Gear</strong> adventurer's pack, climbing kit, grappling hook, lesser smokestick\n<strong>Options not included</strong> longspear (5 sp)",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 530,
         "iconTitleOverride": "CKMon",
         "iconValueOverride": "B",
-        "price": 530,
+        "storeBulk": "4 Bulk, 2 light",
         "gainItems": [
             {
                 "name": "Dart",
@@ -1227,16 +1337,18 @@
                 "name": "Staff",
                 "type": "weapons"
             }
-        ],
-        "storeBulk": "4 Bulk, 2 light"
+        ]
     },
     {
-        "desc": "Monk Class Kit (Option C):\n\n<strong>Money left over</strong> 9 gp, 2 sp\n<strong>Weapons</strong> 10 darts, <var>longspear</var>\n<strong>Gear</strong> adventurer's pack, climbing kit, grappling hook, lesser smokestick\n<strong>Options not included</strong> staff (0 sp)",
-        "id": "f9d65265-34fe-4a45-8739-65160f4124d6",
         "name": "Class Kit: Monk (Option C)",
+        "id": "f9d65265-34fe-4a45-8739-65160f4124d6",
+        "desc": "Monk Class Kit (Option C):\n\n<strong>Money left over</strong> 9 gp, 2 sp\n<strong>Weapons</strong> 10 darts, <var>longspear</var>\n<strong>Gear</strong> adventurer's pack, climbing kit, grappling hook, lesser smokestick\n<strong>Options not included</strong> staff (0 sp)",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 580,
         "iconTitleOverride": "CKMon",
         "iconValueOverride": "C",
-        "price": 580,
+        "storeBulk": "5 Bulk, 2 light",
         "gainItems": [
             {
                 "name": "Dart",
@@ -1298,16 +1410,18 @@
                 "name": "Longspear",
                 "type": "weapons"
             }
-        ],
-        "storeBulk": "5 Bulk, 2 light"
+        ]
     },
     {
-        "desc": "Ranger Class Kit (Option A):\n\n<strong>Money left over</strong> 11 gp, 3 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger\n<strong>Gear</strong> adventurer's pack\n<strong>Options not included</strong> longbow and 20 arrows (6 gp, 2 sp), longsword and steel shield (3 gp), 2 shortswords (1gp, 8 sp), snare kit (5 gp)",
-        "id": "595a28a7-733a-458f-afa7-0a954823eccf",
         "name": "Class Kit: Ranger (Option A)",
+        "id": "595a28a7-733a-458f-afa7-0a954823eccf",
+        "desc": "Ranger Class Kit (Option A):\n\n<strong>Money left over</strong> 11 gp, 3 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger\n<strong>Gear</strong> adventurer's pack\n<strong>Options not included</strong> longbow and 20 arrows (6 gp, 2 sp), longsword and steel shield (3 gp), 2 shortswords (1gp, 8 sp), snare kit (5 gp)",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 370,
         "iconTitleOverride": "CKRan",
         "iconValueOverride": "A",
-        "price": 370,
+        "storeBulk": "2 Bulk, 1 light",
         "gainItems": [
             {
                 "name": "Leather Armor",
@@ -1321,16 +1435,18 @@
                 "name": "Adventurer's Pack",
                 "type": "adventuringgear"
             }
-        ],
-        "storeBulk": "2 Bulk, 1 light"
+        ]
     },
     {
-        "desc": "Ranger Class Kit (Option B):\n\n<strong>Money left over</strong> 5 gp, 1 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger, <var>longbow and 20 arrows</var>\n<strong>Gear</strong> adventurer's pack\n<strong>Options not included</strong> longsword and steel shield (3 gp), 2 shortswords (1gp, 8 sp), snare kit (5 gp)",
-        "id": "b6cce9ba-0190-4b7e-be6c-34c7d177e2aa",
         "name": "Class Kit: Ranger (Option B)",
+        "id": "b6cce9ba-0190-4b7e-be6c-34c7d177e2aa",
+        "desc": "Ranger Class Kit (Option B):\n\n<strong>Money left over</strong> 5 gp, 1 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger, <var>longbow and 20 arrows</var>\n<strong>Gear</strong> adventurer's pack\n<strong>Options not included</strong> longsword and steel shield (3 gp), 2 shortswords (1gp, 8 sp), snare kit (5 gp)",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 990,
         "iconTitleOverride": "CKRan",
         "iconValueOverride": "B",
-        "price": 990,
+        "storeBulk": "4 Bulk, 3 light",
         "gainItems": [
             {
                 "name": "Leather Armor",
@@ -1353,16 +1469,18 @@
                 "name": "Longbow",
                 "type": "weapons"
             }
-        ],
-        "storeBulk": "4 Bulk, 3 light"
+        ]
     },
     {
-        "desc": "Ranger Class Kit (Option C):\n\n<strong>Money left over</strong> 8 gp, 3 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger, <var>longsword and steel shield</var>\n<strong>Gear</strong> adventurer's pack\n<strong>Options not included</strong> longbow and 20 arrows (6 gp, 2 sp), 2 shortswords (1gp, 8 sp), snare kit (5 gp)",
-        "id": "aaefdc2f-7369-46c3-91ca-5cd8bf573e06",
         "name": "Class Kit: Ranger (Option C)",
+        "id": "aaefdc2f-7369-46c3-91ca-5cd8bf573e06",
+        "desc": "Ranger Class Kit (Option C):\n\n<strong>Money left over</strong> 8 gp, 3 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger, <var>longsword and steel shield</var>\n<strong>Gear</strong> adventurer's pack\n<strong>Options not included</strong> longbow and 20 arrows (6 gp, 2 sp), 2 shortswords (1gp, 8 sp), snare kit (5 gp)",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 670,
         "iconTitleOverride": "CKRan",
         "iconValueOverride": "C",
-        "price": 670,
+        "storeBulk": "4 Bulk, 1 light",
         "gainItems": [
             {
                 "name": "Leather Armor",
@@ -1384,16 +1502,18 @@
                 "name": "Steel Shield",
                 "type": "shields"
             }
-        ],
-        "storeBulk": "4 Bulk, 1 light"
+        ]
     },
     {
-        "desc": "Ranger Class Kit (Option D):\n\n<strong>Money left over</strong> 11 gp, 3 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger, <var>2 shortswords</var>\n<strong>Gear</strong> adventurer's pack\n<strong>Options not included</strong> longbow and 20 arrows (6 gp, 2 sp), longsword and steel shield (3 gp), snare kit (5 gp)",
-        "id": "c2966cab-5533-4604-8add-17e962c784af",
         "name": "Class Kit: Ranger (Option D)",
+        "id": "c2966cab-5533-4604-8add-17e962c784af",
+        "desc": "Ranger Class Kit (Option D):\n\n<strong>Money left over</strong> 11 gp, 3 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger, <var>2 shortswords</var>\n<strong>Gear</strong> adventurer's pack\n<strong>Options not included</strong> longbow and 20 arrows (6 gp, 2 sp), longsword and steel shield (3 gp), snare kit (5 gp)",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 550,
         "iconTitleOverride": "CKRan",
         "iconValueOverride": "D",
-        "price": 550,
+        "storeBulk": "2 Bulk, 3 light",
         "gainItems": [
             {
                 "name": "Leather Armor",
@@ -1415,16 +1535,18 @@
                 "name": "Shortsword",
                 "type": "weapons"
             }
-        ],
-        "storeBulk": "2 Bulk, 3 light"
+        ]
     },
     {
-        "desc": "Rogue Class Kit (Option A):\n\n<strong>Money left over</strong> 8 gp, 8 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger, rapier\n<strong>Gear</strong> adventurer's pack, climbing kit\n<strong>Options not included</strong> thieves' tools (3 gp)",
-        "id": "29fd8cda-68d5-46e5-a4a4-3fdb92e6a6d3",
         "name": "Class Kit: Rogue (Option A)",
+        "id": "29fd8cda-68d5-46e5-a4a4-3fdb92e6a6d3",
+        "desc": "Rogue Class Kit (Option A):\n\n<strong>Money left over</strong> 8 gp, 8 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger, rapier\n<strong>Gear</strong> adventurer's pack, climbing kit\n<strong>Options not included</strong> thieves' tools (3 gp)",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 620,
         "iconTitleOverride": "CKRog",
         "iconValueOverride": "A",
-        "price": 620,
+        "storeBulk": "4 Bulk, 1 light",
         "gainItems": [
             {
                 "name": "Leather Armor",
@@ -1446,16 +1568,18 @@
                 "name": "Climbing Kit",
                 "type": "adventuringgear"
             }
-        ],
-        "storeBulk": "4 Bulk, 1 light"
+        ]
     },
     {
-        "desc": "Rogue Class Kit (Option B):\n\n<strong>Money left over</strong> 8 gp, 8 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger, rapier\n<strong>Gear</strong> adventurer's pack, climbing kit, <var>thieves' tools</var>",
-        "id": "c5ed3dcd-2d10-4dbf-9f79-8b234522a366",
         "name": "Class Kit: Rogue (Option B)",
+        "id": "c5ed3dcd-2d10-4dbf-9f79-8b234522a366",
+        "desc": "Rogue Class Kit (Option B):\n\n<strong>Money left over</strong> 8 gp, 8 sp\n<strong>Armor</strong> leather armor\n<strong>Weapons</strong> dagger, rapier\n<strong>Gear</strong> adventurer's pack, climbing kit, <var>thieves' tools</var>",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 620,
         "iconTitleOverride": "CKRog",
         "iconValueOverride": "B",
-        "price": 620,
+        "storeBulk": "4 Bulk, 2 light",
         "gainItems": [
             {
                 "name": "Leather Armor",
@@ -1481,15 +1605,17 @@
                 "name": "Thieves' Tools",
                 "type": "adventuringgear"
             }
-        ],
-        "storeBulk": "4 Bulk, 2 light"
+        ]
     },
     {
-        "desc": "Sorcerer Class Kit:\n\n<strong>Money left over</strong> 12 gp, 6 sp, 8 cp\n<strong>Weapons</strong> dagger, sling with 20 sling bullets\n<strong>Gear</strong> adventurer's pack, 2 sets of caltrops",
-        "id": "ee4bccc0-6f73-402a-b55b-661b6196c76a",
         "name": "Class Kit: Sorcerer",
-        "iconTitleOverride": "CKSor",
+        "id": "ee4bccc0-6f73-402a-b55b-661b6196c76a",
+        "desc": "Sorcerer Class Kit:\n\n<strong>Money left over</strong> 12 gp, 6 sp, 8 cp\n<strong>Weapons</strong> dagger, sling with 20 sling bullets\n<strong>Gear</strong> adventurer's pack, 2 sets of caltrops",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "price": 232,
+        "iconTitleOverride": "CKSor",
+        "storeBulk": "1 Bulk, 6 light",
         "gainItems": [
             {
                 "name": "Dagger",
@@ -1513,16 +1639,18 @@
                 "name": "Caltrops",
                 "type": "adventuringgear"
             }
-        ],
-        "storeBulk": "1 Bulk, 6 light"
+        ]
     },
     {
-        "desc": "Wizard Class Kit (Option A):\n\n<strong>Money left over</strong> 12 gp\n<strong>Weapons</strong> staff\n<strong>Gear</strong> adventurer's pack, material component pouch, writing set\n<strong>Options not included</strong> crossbow with 20 bolts (3 gp, 2 sp)",
-        "id": "eba34e9b-1b44-45db-9d54-cf2c685b1a66",
         "name": "Class Kit: Wizard (Option A)",
+        "id": "eba34e9b-1b44-45db-9d54-cf2c685b1a66",
+        "desc": "Wizard Class Kit (Option A):\n\n<strong>Money left over</strong> 12 gp\n<strong>Weapons</strong> staff\n<strong>Gear</strong> adventurer's pack, material component pouch, writing set\n<strong>Options not included</strong> crossbow with 20 bolts (3 gp, 2 sp)",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 300,
         "iconTitleOverride": "CKWiz",
         "iconValueOverride": "A",
-        "price": 300,
+        "storeBulk": "2 Bulk, 2 light",
         "gainItems": [
             {
                 "name": "Staff",
@@ -1540,16 +1668,18 @@
                 "name": "Writing Set",
                 "type": "adventuringgear"
             }
-        ],
-        "storeBulk": "2 Bulk, 2 light"
+        ]
     },
     {
-        "desc": "Wizard Class Kit (Option B):\n\n<strong>Money left over</strong> 8 gp, 8 sp\n<strong>Weapons</strong> staff, <var>crossbow with 20 bolts</var>\n<strong>Gear</strong> adventurer's pack, material component pouch, writing set",
-        "id": "7162fb05-7235-4182-8a49-874bd85d2f49",
         "name": "Class Kit: Wizard (Option B)",
+        "id": "7162fb05-7235-4182-8a49-874bd85d2f49",
+        "desc": "Wizard Class Kit (Option B):\n\n<strong>Money left over</strong> 8 gp, 8 sp\n<strong>Weapons</strong> staff, <var>crossbow with 20 bolts</var>\n<strong>Gear</strong> adventurer's pack, material component pouch, writing set",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 620,
         "iconTitleOverride": "CKWiz",
         "iconValueOverride": "B",
-        "price": 620,
+        "storeBulk": "3 Bulk, 4 light",
         "gainItems": [
             {
                 "name": "Staff",
@@ -1576,556 +1706,581 @@
                 "name": "Crossbow",
                 "type": "weapons"
             }
-        ],
-        "storeBulk": "3 Bulk, 4 light"
+        ]
     },
     {
-        "bulk": "L",
-        "desc": "A lantern sheds bright light and requires 1 pint of oil to function for 6 hours.\n\nA hooded lantern sheds light in a 30-foot radius (and dim light in the next 30 feet) and is equipped with shutters, which you can close to block the light. Closing or opening the shutters takes an Interact action.",
-        "id": "89c74815-8e09-11ea-9fab-e92c63c14723",
         "name": "Lantern (Hooded)",
+        "id": "89c74815-8e09-11ea-9fab-e92c63c14723",
+        "desc": "A lantern sheds bright light and requires 1 pint of oil to function for 6 hours.\n\nA hooded lantern sheds light in a 30-foot radius (and dim light in the next 30 feet) and is equipped with shutters, which you can close to block the light. Closing or opening the shutters takes an Interact action.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 70,
         "hands": 1
     },
     {
-        "bulk": "1",
-        "desc": "This kit include a collapsible fishing pole, fishhooks, line, lures, and a fishing net.",
-        "id": "89c74818-8e09-11ea-9fab-e92c63c14723",
         "name": "Fishing Tackle",
+        "id": "89c74818-8e09-11ea-9fab-e92c63c14723",
+        "desc": "This kit include a collapsible fishing pole, fishhooks, line, lures, and a fishing net.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "1",
         "price": 80,
         "hands": 2
     },
     {
-        "bulk": "1",
-        "desc": "Handheld instruments include bagpipes, a small set of chimes, small drums, fiddles and viols, flutes and recorders, small harps, lutes, trumpets, and similarly sized instruments. The GM might rule that an especially large handheld instrument (like a tuba) has greater Bulk.",
-        "id": "89c7481b-8e09-11ea-9fab-e92c63c14723",
         "name": "Musical Instrument (Handheld)",
+        "id": "89c7481b-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Handheld instruments include bagpipes, a small set of chimes, small drums, fiddles and viols, flutes and recorders, small harps, lutes, trumpets, and similarly sized instruments. The GM might rule that an especially large handheld instrument (like a tuba) has greater Bulk.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "1",
         "price": 80,
+        "hands": 2,
         "hints": [
             {
                 "showon": "Performance"
             }
-        ],
-        "hands": 2
+        ]
     },
     {
-        "bulk": "L",
-        "id": "89c7481e-8e09-11ea-9fab-e92c63c14723",
         "name": "Tent (Pup)",
+        "id": "89c7481e-8e09-11ea-9fab-e92c63c14723",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 80,
         "hands": 2
     },
     {
-        "bulk": "L",
-        "desc": "A compass helps you Sense Direction or navigate, provided you're in a location with uniform magnetic fields. Without a compass, you take a -2 item penalty to these checks (similar to using a shoddy item).",
-        "id": "89c74821-8e09-11ea-9fab-e92c63c14723",
         "name": "Compass",
+        "id": "89c74821-8e09-11ea-9fab-e92c63c14723",
+        "desc": "A compass helps you Sense Direction or navigate, provided you're in a location with uniform magnetic fields. Without a compass, you take a -2 item penalty to these checks (similar to using a shoddy item).",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 100,
+        "hands": 1,
         "hints": [
             {
                 "showon": "Survival"
             }
-        ],
-        "hands": 1
+        ]
     },
     {
-        "bulk": "2",
-        "id": "89c74824-8e09-11ea-9fab-e92c63c14723",
         "name": "Cookware",
+        "id": "89c74824-8e09-11ea-9fab-e92c63c14723",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "2",
         "price": 100,
         "hands": 2
     },
     {
-        "bulk": "L",
-        "desc": "A formula book holds the formulas necessary to make items other than the common equipment from this chapter; alchemists typically get one for free. Each formula book can hold the formulas for up to 100 different items. Formulas can also appear on parchment sheets, tablets, and almost any other medium; there's no need for you to copy them into a specific book as long as you can keep them on hand to reference them.",
-        "equippable": true,
-        "id": "89c74827-8e09-11ea-9fab-e92c63c14723",
         "name": "Formula Book",
-        "price": 100,
-        "hands": 1
-    },
-    {
-        "bulk": "1",
-        "desc": "A lantern sheds bright light and requires 1 pint of oil to function for 6 hours.\n\nA bull's-eye lantern emits its light in a 60-foot cone (and dim light in the next 60 feet).",
-        "id": "89c7482a-8e09-11ea-9fab-e92c63c14723",
-        "name": "Lantern (Bull's-Eye)",
-        "price": 100,
-        "hands": 1
-    },
-    {
-        "id": "89c7482d-8e09-11ea-9fab-e92c63c14723",
-        "name": "Mirror",
-        "price": 100,
-        "hands": 1
-    },
-    {
+        "id": "89c74827-8e09-11ea-9fab-e92c63c14723",
+        "desc": "A formula book holds the formulas necessary to make items other than the common equipment from this chapter; alchemists typically get one for free. Each formula book can hold the formulas for up to 100 different items. Formulas can also appear on parchment sheets, tablets, and almost any other medium; there's no need for you to copy them into a specific book as long as you can keep them on hand to reference them.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "bulk": "L",
-        "desc": "This manuscript contains scripture of a particular religion. Some divine spellcasters, such as clerics, can use a religious text as a divine focus to use certain abilities and cast some spells. A religious text must be held in one hand to use it.",
-        "id": "89c74830-8e09-11ea-9fab-e92c63c14723",
-        "name": "Religious Text",
         "price": 100,
-        "hands": 1
-    },
-    {
-        "bulk": "L",
-        "desc": "A spellbook holds the written knowledge necessary to learn and prepare various spells, a necessity for wizards (who typically get one for free) and a useful luxury for other spellcasters looking to learn additional spells. Each spellbook can hold up to 100 spells. The Price listed is for a blank spellbook.",
         "equippable": true,
-        "id": "89c74833-8e09-11ea-9fab-e92c63c14723",
-        "name": "Spellbook",
+        "hands": 1
+    },
+    {
+        "name": "Lantern (Bull's-Eye)",
+        "id": "89c7482a-8e09-11ea-9fab-e92c63c14723",
+        "desc": "A lantern sheds bright light and requires 1 pint of oil to function for 6 hours.\n\nA bull's-eye lantern emits its light in a 60-foot cone (and dim light in the next 60 feet).",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "1",
         "price": 100,
         "hands": 1
     },
     {
-        "bulk": "1",
-        "desc": "This entry is a catchall for basic hand tools that don't have a specific adventuring purpose. A hoe, shovel, or sledgehammer is a long tool. A tool can usually be used as an improvised weapon, dealing |dice=1d4| 1d4 damage for a short tool or |dice=1d6| 1d6 for a long tool. The GM determines the damage type that's appropriate or adjusts the damage if needed.",
-        "id": "89c74836-8e09-11ea-9fab-e92c63c14723",
+        "name": "Mirror",
+        "id": "89c7482d-8e09-11ea-9fab-e92c63c14723",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 100,
+        "hands": 1
+    },
+    {
+        "name": "Religious Text",
+        "id": "89c74830-8e09-11ea-9fab-e92c63c14723",
+        "desc": "This manuscript contains scripture of a particular religion. Some divine spellcasters, such as clerics, can use a religious text as a divine focus to use certain abilities and cast some spells. A religious text must be held in one hand to use it.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
+        "price": 100,
+        "hands": 1
+    },
+    {
+        "name": "Spellbook",
+        "id": "89c74833-8e09-11ea-9fab-e92c63c14723",
+        "desc": "A spellbook holds the written knowledge necessary to learn and prepare various spells, a necessity for wizards (who typically get one for free) and a useful luxury for other spellcasters looking to learn additional spells. Each spellbook can hold up to 100 spells. The Price listed is for a blank spellbook.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
+        "price": 100,
+        "equippable": true,
+        "hands": 1
+    },
+    {
         "name": "Tool (Long)",
+        "id": "89c74836-8e09-11ea-9fab-e92c63c14723",
+        "desc": "This entry is a catchall for basic hand tools that don't have a specific adventuring purpose. A hoe, shovel, or sledgehammer is a long tool. A tool can usually be used as an improvised weapon, dealing |dice=1d4| 1d4 damage for a short tool or |dice=1d6| 1d6 for a long tool. The GM determines the damage type that's appropriate or adjusts the damage if needed.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "1",
         "price": 100,
         "hands": 2
     },
     {
-        "bulk": "L",
-        "desc": "Using a writing set, you can draft correspondence and scribe scrolls. A set includes stationery, including a variety of paper and parchment, as well as ink, a quill or inkpen, sealing wax, and a simple seal. If you've written a large amount, you can refill your kit with extra ink and paper.",
-        "id": "89c74839-8e09-11ea-9fab-e92c63c14723",
         "name": "Writing Set",
+        "id": "89c74839-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Using a writing set, you can draft correspondence and scribe scrolls. A set includes stationery, including a variety of paper and parchment, as well as ink, a quill or inkpen, sealing wax, and a simple seal. If you've written a large amount, you can refill your kit with extra ink and paper.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 100,
         "hands": 2
     },
     {
-        "bulk": "L",
-        "desc": "Fine clothing, suitable for a noble or royal, is made with expensive fabrics, precious metals, and intricate patterns.",
-        "id": "89c7483c-8e09-11ea-9fab-e92c63c14723",
         "name": "Clothing (Fine)",
+        "id": "89c7483c-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Fine clothing, suitable for a noble or royal, is made with expensive fabrics, precious metals, and intricate patterns.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 200
     },
     {
-        "bulk": "L",
-        "desc": "This small wooden box contains cosmetics, false facial hair, spirit gum, and a few simple wigs. You usually need a disguise kit to set up a disguise in order to Impersonate someone using the Deception skill. If you've crafted a large number of disguises, you can replenish your cosmetics supply with replacement cosmetics suitable for the type of your disguise kit.",
-        "id": "89c7483f-8e09-11ea-9fab-e92c63c14723",
         "name": "Disguise Kit",
+        "id": "89c7483f-8e09-11ea-9fab-e92c63c14723",
+        "desc": "This small wooden box contains cosmetics, false facial hair, spirit gum, and a few simple wigs. You usually need a disguise kit to set up a disguise in order to Impersonate someone using the Deception skill. If you've crafted a large number of disguises, you can replenish your cosmetics supply with replacement cosmetics suitable for the type of your disguise kit.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 200,
+        "hands": 2,
         "hints": [
             {
                 "showon": "Deception"
             }
-        ],
-        "hands": 2
+        ]
     },
     {
-        "bulk": "16",
-        "desc": "Heavy instruments such as large drums, a full set of chimes, and keyboard instruments are less portable than handheld instruments and generally need to be stationary while played.",
-        "id": "89c74842-8e09-11ea-9fab-e92c63c14723",
         "name": "Musical Instrument (Heavy)",
+        "id": "89c74842-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Heavy instruments such as large drums, a full set of chimes, and keyboard instruments are less portable than handheld instruments and generally need to be stationary while played.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "16",
         "price": 200,
+        "hands": 2,
         "hints": [
             {
                 "showon": "Performance"
             }
-        ],
-        "hands": 2
+        ]
     },
     {
-        "bulk": "L",
-        "desc": "This piece of silver is emblazoned with an image representing a deity. Some divine spellcasters, such as clerics, can use a religious symbol of their deity as a divine focus to use certain abilities and cast some spells. A religious symbol must be held in one hand to use it.",
-        "id": "89c74845-8e09-11ea-9fab-e92c63c14723",
         "name": "Religious Symbol (Silver)",
+        "id": "89c74845-8e09-11ea-9fab-e92c63c14723",
+        "desc": "This piece of silver is emblazoned with an image representing a deity. Some divine spellcasters, such as clerics, can use a religious symbol of their deity as a divine focus to use certain abilities and cast some spells. A religious symbol must be held in one hand to use it.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 200,
         "hands": 1
     },
     {
-        "bulk": "1",
-        "desc": "A repair kit allows you to perform simple repairs while traveling. It contains a portable anvil, tongs, woodworking tools, a whetstone, and oils for conditioning leather and wood. You can use a repair kit to Repair items using the Crafting skill.",
-        "id": "89c74848-8e09-11ea-9fab-e92c63c14723",
         "name": "Repair Kit",
+        "id": "89c74848-8e09-11ea-9fab-e92c63c14723",
+        "desc": "A repair kit allows you to perform simple repairs while traveling. It contains a portable anvil, tongs, woodworking tools, a whetstone, and oils for conditioning leather and wood. You can use a repair kit to Repair items using the Crafting skill.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "1",
         "price": 200,
+        "hands": 2,
         "hints": [
             {
                 "showon": "Crafting"
             }
-        ],
-        "hands": 2
+        ]
     },
     {
-        "bulk": "L",
-        "desc": "These bioluminescent jellyfish are as bright as candles, come in a variety of colors, and can act as living lanterns. They dry up and die if removed from the water for more than 1 hour, but as long as they're allowed access to seawater, they can usually survive for up to 1 year by feeding on micronutrients. Rarely, a well-treated jellyfish lamp might live longer and potentially develop stronger light or additional abilities.",
-        "id": "89c7484b-8e09-11ea-9fab-e92c63c14723",
-        "name": "Jellyfish Lamp",
-        "price": 200,
-        "usage": "held in 1 hand"
-    },
-    {
-        "bulk": "1",
-        "desc": "These armor-plated skirts, which are also known as armored kilts, are favored by Knights of Lastwall for their versatility and aesthetic appeal. An armored skirt can be donned with 2 Interact actions when it's worn with light or medium armor, or as part of donning heavy armor.\n\nWhen worn with a breastplate, chain shirt, chain mail, or scale mail, an armored skirt increases the armor's item bonus to AC by 1, worsens the armor's check penalty by 1, reduces the armor's Dex cap by 1, increases the Strength score required to ignore the check penalty and reduce the Speed penalty by 2, and adds the noisy trait. This also makes the armor one step heavier (from light to medium, or medium to heavy), and you use the proficiency bonus appropriate to this adjusted armor type.\n\nAlternatively, when wearing an armored skirt to replace appropriate portions of a set of half plate or full plate, reduce the armor's item bonus to AC by 1, lessen the check penalty by 1, decrease the Strength score required to ignore the check penalty and reduce the Speed penalty by 2, increase the armor's Dex cap by 1, and add the noisy trait to the armor. An armored skirt grants no benefit when worn by itself or with armors other than those listed here.",
-        "id": "89c76f22-8e09-11ea-9fab-e92c63c14723",
-        "name": "Armored Skirt",
-        "price": 200,
-        "equippable": true,
-        "isArmoredSkirt": true
-    },
-    {
-        "bulk": "1",
-        "desc": "This mobile collection of vials and chemicals can be used for simple alchemical tasks.",
-        "id": "89c76f25-8e09-11ea-9fab-e92c63c14723",
         "name": "Alchemist's Tools",
+        "id": "89c76f25-8e09-11ea-9fab-e92c63c14723",
+        "desc": "This mobile collection of vials and chemicals can be used for simple alchemical tasks.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "1",
         "price": 300,
         "hands": "2 (1 when worn)"
     },
     {
-        "bulk": "L",
-        "id": "89c76f28-8e09-11ea-9fab-e92c63c14723",
         "name": "Hourglass",
+        "id": "89c76f28-8e09-11ea-9fab-e92c63c14723",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 300,
         "hands": 1
     },
     {
-        "bulk": "L",
-        "desc": "You need thieves' tools to Pick Locks or Disable Devices (of some types) using the Thievery skill. If your thieves' tools are broken, you can repair them by replacing the lock picks with replacement picks appropriate to your tools; this doesn't require using the Repair action.",
-        "id": "89c76f2b-8e09-11ea-9fab-e92c63c14723",
         "name": "Thieves' Tools",
+        "id": "89c76f2b-8e09-11ea-9fab-e92c63c14723",
+        "desc": "You need thieves' tools to Pick Locks or Disable Devices (of some types) using the Thievery skill. If your thieves' tools are broken, you can repair them by replacing the lock picks with replacement picks appropriate to your tools; this doesn't require using the Repair action.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
         "price": 300,
+        "hands": "2 (1 when worn)",
         "hints": [
             {
                 "showon": "Thievery"
             }
-        ],
-        "hands": "2 (1 when worn)"
+        ]
     },
     {
-        "bulk": "1",
-        "id": "89c76f2e-8e09-11ea-9fab-e92c63c14723",
         "name": "Chain",
+        "id": "89c76f2e-8e09-11ea-9fab-e92c63c14723",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "1",
         "price": 400,
         "hands": 2
     },
     {
-        "bulk": "2",
-        "desc": "You need these tools to create items from raw materials with the Craft skill. Different sets are needed for different work, as determined by the GM; for example, blacksmith's tools differ from woodworker's tools.",
-        "id": "89c76f31-8e09-11ea-9fab-e92c63c14723",
         "name": "Artisan's Tools",
+        "id": "89c76f31-8e09-11ea-9fab-e92c63c14723",
+        "desc": "You need these tools to create items from raw materials with the Craft skill. Different sets are needed for different work, as determined by the GM; for example, blacksmith's tools differ from woodworker's tools.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "2",
         "price": 400,
         "hands": "2 (1 when worn)"
     },
     {
-        "bulk": "1",
-        "desc": "Tack includes all the gear required to outfit a riding animal, including a saddle, bit and bridle, and stirrups if necessary. Especially large or oddly shaped animals might require specialty saddles. These can be more expensive or hard to find, as determined by the GM. The Bulk value given is for tack worn by a creature. If carried, the Bulk increases to 2.",
-        "id": "89c76f34-8e09-11ea-9fab-e92c63c14723",
         "name": "Tack",
+        "id": "89c76f34-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Tack includes all the gear required to outfit a riding animal, including a saddle, bit and bridle, and stirrups if necessary. Especially large or oddly shaped animals might require specialty saddles. These can be more expensive or hard to find, as determined by the GM. The Bulk value given is for tack worn by a creature. If carried, the Bulk increases to 2.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "1",
         "price": 400,
-        "equippable": true,
-        "carryingBulk": "2"
+        "carryingBulk": "2",
+        "equippable": true
     },
     {
-        "bulk": "1",
-        "desc": "This kit of bandages, herbs, and suturing tools is necessary for Medicine checks to Administer First Aid, Treat Disease, Treat Poison, or Treat Wounds. When you carry the tools from place to place, you keep many of the components handy on your person, in pockets or bandoliers.",
-        "id": "89c76f37-8e09-11ea-9fab-e92c63c14723",
         "name": "Healer's Tools",
+        "id": "89c76f37-8e09-11ea-9fab-e92c63c14723",
+        "desc": "This kit of bandages, herbs, and suturing tools is necessary for Medicine checks to Administer First Aid, Treat Disease, Treat Poison, or Treat Wounds. When you carry the tools from place to place, you keep many of the components handy on your person, in pockets or bandoliers.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "1",
         "price": 500,
+        "hands": "2 (1 when worn)",
         "hints": [
             {
                 "showon": "Medicine"
             }
-        ],
-        "hands": "2 (1 when worn)"
+        ]
     },
     {
-        "bulk": "L",
-        "desc": "These flippers attach to your feet like tight shoes - donning or removing them requires three Interact actions. While worn, you gain a +5-foot item bonus to the distance you move when rolling Athletics to Swim, not when using a swim Speed, and you take a -10-foot item penalty to your Speed.",
-        "id": "89c76f3a-8e09-11ea-9fab-e92c63c14723",
-        "name": "Swim Fins",
+        "name": "Snare Kit",
+        "id": "89c76f3d-8e09-11ea-9fab-e92c63c14723",
+        "desc": "This kit contains tools and materials for creating snares. A snare kit allows you to Craft snares using the Crafting skill.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "2",
         "price": 500,
-        "equippable": true,
-        "effects": [
-            {
-                "affected": "Land Speed",
-                "value": -10
-            }
-        ],
+        "hands": 2,
         "hints": [
             {
+                "showon": "Crafting"
+            }
+        ]
+    },
+    {
+        "name": "Alchemist's Lab",
+        "id": "89c76f40-8e09-11ea-9fab-e92c63c14723",
+        "desc": "You need an alchemist's lab to Craft alchemical items during downtime.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "6",
+        "price": 500,
+        "hands": 2,
+        "hints": [
+            {
+                "showon": "Crafting"
+            }
+        ]
+    },
+    {
+        "name": "Tent (Four-Person)",
+        "id": "89c76f43-8e09-11ea-9fab-e92c63c14723",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "1",
+        "price": 500,
+        "hands": 2
+    },
+    {
+        "name": "Spyglass",
+        "id": "89c76f46-8e09-11ea-9fab-e92c63c14723",
+        "desc": "A typical spyglass lets you see eight times farther than normal.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "bulk": "L",
+        "price": 2000,
+        "hands": 2,
+        "hints": [
+            {
+                "showon": "Perception"
+            }
+        ]
+    },
+    {
+        "name": "Magnifying Glass",
+        "id": "89c76f49-8e09-11ea-9fab-e92c63c14723",
+        "desc": "This quality handheld lens gives you a +1 item bonus to Perception checks to notice minute details of documents, fabric, and the like.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "price": 4000,
+        "hands": 1,
+        "hints": [
+            {
+                "effects": [
+                    {
+                        "affected": "Perception",
+                        "type": "item",
+                        "value": "1"
+                    }
+                ],
+                "showon": "Perception"
+            }
+        ]
+    },
+    {
+        "name": "Lock (Simple)",
+        "id": "89c76f4c-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Picking a simple lock requires three successful DC 20 Thievery checks.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 1,
+        "price": 200,
+        "hands": 2
+    },
+    {
+        "name": "Manacles (Simple)",
+        "id": "89c79632-8e09-11ea-9fab-e92c63c14723",
+        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from simple manacles requires three successes at DC 22.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 1,
+        "price": 300,
+        "hands": 2
+    },
+    {
+        "name": "Tent (Pavilion)",
+        "id": "89c79635-8e09-11ea-9fab-e92c63c14723",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 2,
+        "bulk": "12",
+        "price": 4000,
+        "hands": 2
+    },
+    {
+        "name": "Disguise Kit (Elite Cosmetics)",
+        "id": "89c79638-8e09-11ea-9fab-e92c63c14723",
+        "desc": "If you've crafted a large number of disguises, you can replenish your cosmetics supply with replacement cosmetics suitable for the type of your disguise kit.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "price": 50
+    },
+    {
+        "name": "Thieves' Tools (Infiltrator Picks)",
+        "id": "89c7963b-8e09-11ea-9fab-e92c63c14723",
+        "desc": "If your thieves' tools are broken, you can repair them by replacing the lock picks with replacement picks appropriate to your tools; this doesn't require using the Repair action.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "price": 300
+    },
+    {
+        "name": "Scholarly Journal",
+        "id": "89c79641-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Scholarly journals are uncommon. Each scholarly journal is a folio on a very specific topic, such as vampires or the history of a single town or neighborhood of a city. If you spend 1 minute referencing an academic journal before attempting a skill check to Recall Knowledge about the subject, you gain a +1 item bonus to the check. The GM determines what scholarly journals are available in any location.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "L",
+        "price": 600,
+        "traits": [
+            "Uncommon"
+        ],
+        "hands": 1,
+        "hints": [
+            {
+                "desc": "If you spend 1 minute referencing an academic journal before attempting a skill check to Recall Knowledge about the subject, you gain a +1 item bonus to the check.",
+                "effects": [
+                    {
+                        "affected": "Recall Knowledge Checks",
+                        "show": true,
+                        "type": "item",
+                        "value": "1"
+                    }
+                ],
+                "showon": "Arcana, Crafting, Lore, Medicine, Nature, Occultism, Religion, Society"
+            }
+        ]
+    },
+    {
+        "name": "Survey Map",
+        "id": "89c79644-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Maps are uncommon. Most maps you can find are simple and functional. A survey map details a single location in excellent detail. One of these maps gives you a +1 item bonus to Survival checks and any skill checks to Recall Knowledge, provided the checks are related to the location detailed on the map. The GM determines what maps are available in any location.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "L",
+        "price": 1000,
+        "traits": [
+            "Uncommon"
+        ],
+        "hands": 1,
+        "hints": [
+            {
+                "desc": "One of these maps gives you a +1 item bonus to Survival checks and any skill checks to Recall Knowledge, provided the checks are related to the location detailed on the map.",
+                "effects": [
+                    {
+                        "affected": "Survival",
+                        "type": "item",
+                        "value": "1"
+                    },
+                    {
+                        "affected": "Recall Knowledge Checks",
+                        "show": true,
+                        "type": "item",
+                        "value": "1"
+                    }
+                ],
+                "showon": "Survival, Arcana, Crafting, Lore, Medicine, Nature, Occultism, Religion, Society"
+            }
+        ]
+    },
+    {
+        "name": "Lock (Average)",
+        "id": "89c79647-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Picking an average lock requires four successes at DC 25.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "price": 1500,
+        "hands": 2
+    },
+    {
+        "name": "Compass (Lensatic)",
+        "id": "89c7964a-8e09-11ea-9fab-e92c63c14723",
+        "desc": "A compass helps you Sense Direction or navigate, provided you're in a location with uniform magnetic fields. Without a compass, you take a -2 item penalty to these checks (similar to using a shoddy item). A lensatic compass gives you a +1 item bonus to these checks.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "L",
+        "price": 2000,
+        "hands": 1,
+        "hints": [
+            {
+                "effects": [
+                    {
+                        "affected": "Survival",
+                        "type": "item",
+                        "value": "1"
+                    }
+                ],
+                "showon": "Survival"
+            }
+        ]
+    },
+    {
+        "name": "Crowbar (Levered)",
+        "id": "89c7964d-8e09-11ea-9fab-e92c63c14723",
+        "desc": "When Forcing Open an object that doesn't have an easy grip, a crowbar makes it easier to gain the necessary leverage. Without a crowbar, prying something open takes a -2 item penalty to the Athletics check to Force Open (similar to using a shoddy item). A levered crowbar grants you a +1 item bonus to Athletics checks to Force Open anything that can be pried open.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "L",
+        "price": 2000,
+        "hands": 2,
+        "hints": [
+            {
+                "effects": [
+                    {
+                        "affected": "Athletics",
+                        "type": "item",
+                        "value": "1"
+                    }
+                ],
                 "showon": "Athletics"
             }
         ]
     },
     {
-        "bulk": "2",
-        "desc": "This kit contains tools and materials for creating snares. A snare kit allows you to Craft snares using the Crafting skill.",
-        "id": "89c76f3d-8e09-11ea-9fab-e92c63c14723",
-        "name": "Snare Kit",
-        "price": 500,
-        "hints": [
-            {
-                "showon": "Crafting"
-            }
-        ],
-        "hands": 2
-    },
-    {
-        "bulk": "6",
-        "desc": "You need an alchemist's lab to Craft alchemical items during downtime.",
-        "id": "89c76f40-8e09-11ea-9fab-e92c63c14723",
-        "name": "Alchemist's Lab",
-        "price": 500,
-        "hints": [
-            {
-                "showon": "Crafting"
-            }
-        ],
-        "hands": 2
-    },
-    {
-        "bulk": "1",
-        "id": "89c76f43-8e09-11ea-9fab-e92c63c14723",
-        "name": "Tent (Four-Person)",
-        "price": 500,
-        "hands": 2
-    },
-    {
-        "bulk": "L",
-        "desc": "A typical spyglass lets you see eight times farther than normal.",
-        "id": "89c76f46-8e09-11ea-9fab-e92c63c14723",
-        "name": "Spyglass",
-        "price": 2000,
-        "hints": [
-            {
-                "showon": "Perception"
-            }
-        ],
-        "hands": 2
-    },
-    {
-        "desc": "This quality handheld lens gives you a +1 item bonus to Perception checks to notice minute details of documents, fabric, and the like.",
-        "id": "89c76f49-8e09-11ea-9fab-e92c63c14723",
-        "name": "Magnifying Glass",
-        "price": 4000,
-        "hints": [
-            {
-                "showon": "Perception",
-                "effects": [
-                    {
-                        "affected": "Perception",
-                        "value": "1",
-                        "type": "item"
-                    }
-                ]
-            }
-        ],
-        "hands": 1
-    },
-    {
-        "desc": "Picking a simple lock requires three successful DC 20 Thievery checks.",
-        "id": "89c76f4c-8e09-11ea-9fab-e92c63c14723",
-        "level": 1,
-        "name": "Lock (Simple)",
-        "price": 200,
-        "hands": 2
-    },
-    {
-        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from simple manacles requires three successes at DC 22.",
-        "id": "89c79632-8e09-11ea-9fab-e92c63c14723",
-        "level": 1,
-        "name": "Manacles (Simple)",
-        "price": 300,
-        "hands": 2
-    },
-    {
-        "bulk": "12",
-        "id": "89c79635-8e09-11ea-9fab-e92c63c14723",
-        "level": 2,
-        "name": "Tent (Pavilion)",
-        "price": 4000,
-        "hands": 2
-    },
-    {
-        "desc": "If you've crafted a large number of disguises, you can replenish your cosmetics supply with replacement cosmetics suitable for the type of your disguise kit.",
-        "id": "89c79638-8e09-11ea-9fab-e92c63c14723",
-        "level": 3,
-        "name": "Disguise Kit (Elite Cosmetics)",
-        "price": 50
-    },
-    {
-        "desc": "If your thieves' tools are broken, you can repair them by replacing the lock picks with replacement picks appropriate to your tools; this doesn't require using the Repair action.",
-        "id": "89c7963b-8e09-11ea-9fab-e92c63c14723",
-        "level": 3,
-        "name": "Thieves' Tools (Infiltrator Picks)",
-        "price": 300
-    },
-    {
-        "bulk": "L",
-        "desc": "Scholarly journals are uncommon. Each scholarly journal is a folio on a very specific topic, such as vampires or the history of a single town or neighborhood of a city. If you spend 1 minute referencing an academic journal before attempting a skill check to Recall Knowledge about the subject, you gain a +1 item bonus to the check. The GM determines what scholarly journals are available in any location.\n\nNumerous volumes and editions of the Pathfinder Chronicles exist, each cataloging different adventures. Pathfinder Chronicles are a type of scholarly journal that specifically devotes topics to Pathfinder discoveries, rather than more theoretical academic topics. Because Pathfinders have better access to these chronicles than other scholarly journals, they are particularly common among Pathfinder agents building a library of reference texts.",
-        "id": "89c7963e-8e09-11ea-9fab-e92c63c14723",
-        "level": 3,
-        "name": "Pathfinder Chronicle",
-        "price": 600,
-        "traits": [
-            "Uncommon"
-        ],
-        "hints": [
-            {
-                "desc": "If you spend 1 minute referencing an academic journal before attempting a skill check to Recall Knowledge about the subject, you gain a +1 item bonus to the check.",
-                "showon": "Arcana, Crafting, Lore, Medicine, Nature, Occultism, Religion, Society",
-                "effects": [
-                    {
-                        "affected": "Recall Knowledge Checks",
-                        "show": true,
-                        "value": "1",
-                        "type": "item"
-                    }
-                ]
-            }
-        ],
-        "usage": "held in 1 hand"
-    },
-    {
-        "bulk": "L",
-        "desc": "Scholarly journals are uncommon. Each scholarly journal is a folio on a very specific topic, such as vampires or the history of a single town or neighborhood of a city. If you spend 1 minute referencing an academic journal before attempting a skill check to Recall Knowledge about the subject, you gain a +1 item bonus to the check. The GM determines what scholarly journals are available in any location.",
-        "id": "89c79641-8e09-11ea-9fab-e92c63c14723",
-        "level": 3,
-        "name": "Scholarly Journal",
-        "price": 600,
-        "traits": [
-            "Uncommon"
-        ],
-        "hints": [
-            {
-                "desc": "If you spend 1 minute referencing an academic journal before attempting a skill check to Recall Knowledge about the subject, you gain a +1 item bonus to the check.",
-                "showon": "Arcana, Crafting, Lore, Medicine, Nature, Occultism, Religion, Society",
-                "effects": [
-                    {
-                        "affected": "Recall Knowledge Checks",
-                        "show": true,
-                        "value": "1",
-                        "type": "item"
-                    }
-                ]
-            }
-        ],
-        "hands": 1
-    },
-    {
-        "bulk": "L",
-        "desc": "Maps are uncommon. Most maps you can find are simple and functional. A survey map details a single location in excellent detail. One of these maps gives you a +1 item bonus to Survival checks and any skill checks to Recall Knowledge, provided the checks are related to the location detailed on the map. The GM determines what maps are available in any location.",
-        "id": "89c79644-8e09-11ea-9fab-e92c63c14723",
-        "level": 3,
-        "name": "Survey Map",
-        "price": 1000,
-        "traits": [
-            "Uncommon"
-        ],
-        "hints": [
-            {
-                "desc": "One of these maps gives you a +1 item bonus to Survival checks and any skill checks to Recall Knowledge, provided the checks are related to the location detailed on the map.",
-                "showon": "Survival, Arcana, Crafting, Lore, Medicine, Nature, Occultism, Religion, Society",
-                "effects": [
-                    {
-                        "affected": "Survival",
-                        "value": "1",
-                        "type": "item"
-                    },
-                    {
-                        "affected": "Recall Knowledge Checks",
-                        "show": true,
-                        "value": "1",
-                        "type": "item"
-                    }
-                ]
-            }
-        ],
-        "hands": 1
-    },
-    {
-        "desc": "Picking an average lock requires four successes at DC 25.",
-        "id": "89c79647-8e09-11ea-9fab-e92c63c14723",
-        "level": 3,
-        "name": "Lock (Average)",
-        "price": 1500,
-        "hands": 2
-    },
-    {
-        "bulk": "L",
-        "desc": "A compass helps you Sense Direction or navigate, provided you're in a location with uniform magnetic fields. Without a compass, you take a -2 item penalty to these checks (similar to using a shoddy item). A lensatic compass gives you a +1 item bonus to these checks.",
-        "id": "89c7964a-8e09-11ea-9fab-e92c63c14723",
-        "level": 3,
-        "name": "Compass (Lensatic)",
-        "price": 2000,
-        "hints": [
-            {
-                "showon": "Survival",
-                "effects": [
-                    {
-                        "affected": "Survival",
-                        "value": "1",
-                        "type": "item"
-                    }
-                ]
-            }
-        ],
-        "hands": 1
-    },
-    {
-        "bulk": "L",
-        "desc": "When Forcing Open an object that doesn't have an easy grip, a crowbar makes it easier to gain the necessary leverage. Without a crowbar, prying something open takes a -2 item penalty to the Athletics check to Force Open (similar to using a shoddy item). A levered crowbar grants you a +1 item bonus to Athletics checks to Force Open anything that can be pried open.",
-        "id": "89c7964d-8e09-11ea-9fab-e92c63c14723",
-        "level": 3,
-        "name": "Crowbar (Levered)",
-        "price": 2000,
-        "hints": [
-            {
-                "showon": "Athletics",
-                "effects": [
-                    {
-                        "affected": "Athletics",
-                        "value": "1",
-                        "type": "item"
-                    }
-                ]
-            }
-        ],
-        "hands": 2
-    },
-    {
-        "bulk": "1",
-        "desc": "This kit include a collapsible fishing pole, fishhooks, line, lures, and a fishing net. Professional fishing tackle grants a +1 item bonus to checks to fish.",
-        "id": "89c79650-8e09-11ea-9fab-e92c63c14723",
-        "level": 3,
         "name": "Fishing Tackle (Professional)",
-        "price": 2000,
-        "hands": 2
-    },
-    {
-        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from average manacles requires four successes at DC 27.",
-        "id": "89c79653-8e09-11ea-9fab-e92c63c14723",
+        "id": "89c79650-8e09-11ea-9fab-e92c63c14723",
+        "desc": "This kit include a collapsible fishing pole, fishhooks, line, lures, and a fishing net. Professional fishing tackle grants a +1 item bonus to checks to fish.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 3,
-        "name": "Manacles (Average)",
-        "price": 2000,
-        "hands": 2
-    },
-    {
         "bulk": "1",
-        "desc": "A repair kit allows you to perform simple repairs while traveling. It contains a portable anvil, tongs, woodworking tools, a whetstone, and oils for conditioning leather and wood. You can use a repair kit to Repair items using the Crafting skill. A superb repair kit gives you a +1 item bonus to the check.",
-        "id": "89c79656-8e09-11ea-9fab-e92c63c14723",
+        "price": 2000,
+        "hands": 2
+    },
+    {
+        "name": "Manacles (Average)",
+        "id": "89c79653-8e09-11ea-9fab-e92c63c14723",
+        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from average manacles requires four successes at DC 27.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 3,
+        "price": 2000,
+        "hands": 2
+    },
+    {
         "name": "Repair Kit (Superb)",
+        "id": "89c79656-8e09-11ea-9fab-e92c63c14723",
+        "desc": "A repair kit allows you to perform simple repairs while traveling. It contains a portable anvil, tongs, woodworking tools, a whetstone, and oils for conditioning leather and wood. You can use a repair kit to Repair items using the Crafting skill. A superb repair kit gives you a +1 item bonus to the check.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "1",
         "price": 2500,
+        "hands": 2,
         "hints": [
             {
-                "showon": "Crafting",
                 "effects": [
                     {
                         "affected": "Crafting",
-                        "value": "1",
-                        "type": "item"
+                        "type": "item",
+                        "value": "1"
                     }
-                ]
+                ],
+                "showon": "Crafting"
             }
-        ],
-        "hands": 2
+        ]
     },
     {
-        "bulk": "L",
-        "desc": "Scholarly journals are uncommon. Each scholarly journal is a folio on a very specific topic, such as vampires or the history of a single town or neighborhood of a city. If you spend 1 minute referencing an academic journal before attempting a skill check to Recall Knowledge about the subject, you gain a +1 item bonus to the check. A compendium of journals costs five times as much as a single journal and requires both hands to use; each compendium contains several journals and grants its bonus on a broader topic, such as all undead or a whole city. The GM determines what scholarly journals are available in any location.",
-        "id": "89c79659-8e09-11ea-9fab-e92c63c14723",
-        "level": 3,
         "name": "Scholarly Journal (Compendium)",
+        "id": "89c79659-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Scholarly journals are uncommon. Each scholarly journal is a folio on a very specific topic, such as vampires or the history of a single town or neighborhood of a city. If you spend 1 minute referencing an academic journal before attempting a skill check to Recall Knowledge about the subject, you gain a +1 item bonus to the check. A compendium of journals costs five times as much as a single journal and requires both hands to use; each compendium contains several journals and grants its bonus on a broader topic, such as all undead or a whole city. The GM determines what scholarly journals are available in any location.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "L",
         "price": 3000,
         "traits": [
             "Uncommon"
@@ -2133,346 +2288,332 @@
         "hands": 2
     },
     {
-        "bulk": "1",
-        "desc": "This satchel includes 50 feet of rope, pulleys, a dozen pitons, a hammer, a grappling hook, and one set of crampons. Climbing kits allow you to attach yourself to the wall you're Climbing, moving half as quickly as usual (minimum 5 feet) but letting you attempt a DC 5 flat check whenever you critically fail to prevent a fall. You gain a +1 item bonus to Athletics checks to Climb while using an extreme climbing kit. A single kit has only enough materials for one climber; each climber needs their own kit.",
-        "id": "89c7965c-8e09-11ea-9fab-e92c63c14723",
-        "level": 3,
         "name": "Climbing Kit (Extreme)",
+        "id": "89c7965c-8e09-11ea-9fab-e92c63c14723",
+        "desc": "This satchel includes 50 feet of rope, pulleys, a dozen pitons, a hammer, a grappling hook, and one set of crampons. Climbing kits allow you to attach yourself to the wall you're Climbing, moving half as quickly as usual (minimum 5 feet) but letting you attempt a DC 5 flat check whenever you critically fail to prevent a fall. You gain a +1 item bonus to Athletics checks to Climb while using an extreme climbing kit. A single kit has only enough materials for one climber; each climber needs their own kit.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "1",
         "price": 4000,
+        "hands": 2,
         "hints": [
             {
-                "showon": "Athletics",
                 "effects": [
                     {
                         "affected": "Athletics",
-                        "value": "1",
-                        "type": "item"
+                        "type": "item",
+                        "value": "1"
                     }
-                ]
-            }
-        ],
-        "hands": 2
-    },
-    {
-        "bulk": "L",
-        "desc": "This small wooden box contains cosmetics, false facial hair, spirit gum, and a few simple wigs. You usually need a disguise kit to set up a disguise in order to Impersonate someone using the Deception skill. An elite disguise kit adds a +1 item bonus to relevant checks. If you've crafted a large number of disguises, you can replenish your cosmetics supply with replacement cosmetics suitable for the type of your disguise kit.",
-        "id": "89c7965f-8e09-11ea-9fab-e92c63c14723",
-        "level": 3,
-        "name": "Disguise Kit (Elite)",
-        "price": 4000,
-        "hints": [
-            {
-                "showon": "Deception",
-                "effects": [
-                    {
-                        "affected": "Deception",
-                        "value": "1",
-                        "type": "item"
-                    }
-                ]
-            }
-        ],
-        "hands": 2
-    },
-    {
-        "bulk": "1",
-        "desc": "This kit of bandages, herbs, and suturing tools is necessary for Medicine checks to Administer First Aid, Treat Disease, Treat Poison, or Treat Wounds. Expanded healer's tools provide a +1 item bonus to such checks. When you carry the tools from place to place, you keep many of the components handy on your person, in pockets or bandoliers.",
-        "id": "89c79662-8e09-11ea-9fab-e92c63c14723",
-        "level": 3,
-        "name": "Healer's Tools (Expanded)",
-        "price": 5000,
-        "hints": [
-            {
-                "showon": "Medicine",
-                "effects": [
-                    {
-                        "affected": "Medicine",
-                        "value": "1",
-                        "type": "item"
-                    }
-                ]
-            }
-        ],
-        "hands": "2 (1 when worn)"
-    },
-    {
-        "bulk": "2",
-        "desc": "You need these tools to create items from raw materials with the Craft skill. Sterling artisan's tools give you a +1 item bonus to the check. Different sets are needed for different work, as determined by the GM; for example, blacksmith's tools differ from woodworker's tools.",
-        "id": "89c79665-8e09-11ea-9fab-e92c63c14723",
-        "level": 3,
-        "name": "Artisan's Tools (Sterling)",
-        "price": 5000,
-        "hints": [
-            {
-                "showon": "Crafting",
-                "effects": [
-                    {
-                        "affected": "Crafting",
-                        "value": "1",
-                        "type": "item"
-                    }
-                ]
-            }
-        ],
-        "hands": "2 (1 when worn)"
-    },
-    {
-        "bulk": "1",
-        "desc": "Handheld instruments include bagpipes, a small set of chimes, small drums, fiddles and viols, flutes and recorders, small harps, lutes, trumpets, and similarly sized instruments. The GM might rule that an especially large handheld instrument (like a tuba) has greater Bulk.\n\nA virtuoso instrument gives a +1 item bonus to Performance checks using that instrument.",
-        "id": "89c79668-8e09-11ea-9fab-e92c63c14723",
-        "level": 3,
-        "name": "Musical Instrument (Virtuoso Handheld)",
-        "price": 5000,
-        "hints": [
-            {
-                "desc": "A virtuoso instrument gives a +1 item bonus to Performance checks using that instrument.",
-                "showon": "Performance",
-                "effects": [
-                    {
-                        "affected": "Performance",
-                        "value": "1",
-                        "type": "item"
-                    }
-                ]
-            }
-        ],
-        "hands": 2
-    },
-    {
-        "bulk": "L",
-        "desc": "You need thieves' tools to Pick Locks or Disable Devices (of some types) using the Thievery skill. Infiltrator thieves' tools add a +1 item bonus to checks to Pick Locks and Disable Devices. If your thieves' tools are broken, you can repair them by replacing the lock picks with replacement picks appropriate to your tools; this doesn't require using the Repair action.",
-        "id": "89c7966b-8e09-11ea-9fab-e92c63c14723",
-        "level": 3,
-        "name": "Thieves' Tools (Infiltrator)",
-        "price": 5000,
-        "hints": [
-            {
-                "showon": "Thievery",
-                "effects": [
-                    {
-                        "affected": "Thievery",
-                        "value": "1",
-                        "type": "item"
-                    }
-                ]
-            }
-        ],
-        "hands": "2 (1 when worn)"
-    },
-    {
-        "bulk": "L",
-        "desc": "Maps are uncommon. Most maps you can find are simple and functional. A survey map details a single location in excellent detail. One of these maps gives you a +1 item bonus to Survival checks and any skill checks to Recall Knowledge, provided the checks are related to the location detailed on the map. Maps sometimes come in atlases, containing a number of maps of the same quality, often on similar topics. An atlas costs five times as much as a single map and requires both hands to use. The GM determines what maps are available in any location.",
-        "id": "89c7966e-8e09-11ea-9fab-e92c63c14723",
-        "level": 3,
-        "name": "Survey Map (Atlas)",
-        "price": 5000,
-        "hands": 2
-    },
-    {
-        "bulk": "L",
-        "desc": "You gain a +1 item bonus to checks to Make an Impression on nobility or other upper-class folk while wearing high-fashion fine clothing.",
-        "id": "89c79671-8e09-11ea-9fab-e92c63c14723",
-        "level": 3,
-        "name": "Clothing (High-Fashion Fine)",
-        "price": 5500,
-        "hints": [
-            {
-                "showon": "Diplomacy",
-                "effects": [
-                    {
-                        "affected": "Diplomacy",
-                        "value": "1",
-                        "type": "item"
-                    }
-                ]
+                ],
+                "showon": "Athletics"
             }
         ]
     },
     {
+        "name": "Disguise Kit (Elite)",
+        "id": "89c7965f-8e09-11ea-9fab-e92c63c14723",
+        "desc": "This small wooden box contains cosmetics, false facial hair, spirit gum, and a few simple wigs. You usually need a disguise kit to set up a disguise in order to Impersonate someone using the Deception skill. An elite disguise kit adds a +1 item bonus to relevant checks. If you've crafted a large number of disguises, you can replenish your cosmetics supply with replacement cosmetics suitable for the type of your disguise kit.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "L",
+        "price": 4000,
+        "hands": 2,
+        "hints": [
+            {
+                "effects": [
+                    {
+                        "affected": "Deception",
+                        "type": "item",
+                        "value": "1"
+                    }
+                ],
+                "showon": "Deception"
+            }
+        ]
+    },
+    {
+        "name": "Healer's Tools (Expanded)",
+        "id": "89c79662-8e09-11ea-9fab-e92c63c14723",
+        "desc": "This kit of bandages, herbs, and suturing tools is necessary for Medicine checks to Administer First Aid, Treat Disease, Treat Poison, or Treat Wounds. Expanded healer's tools provide a +1 item bonus to such checks. When you carry the tools from place to place, you keep many of the components handy on your person, in pockets or bandoliers.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "1",
+        "price": 5000,
+        "hands": "2 (1 when worn)",
+        "hints": [
+            {
+                "effects": [
+                    {
+                        "affected": "Medicine",
+                        "type": "item",
+                        "value": "1"
+                    }
+                ],
+                "showon": "Medicine"
+            }
+        ]
+    },
+    {
+        "name": "Artisan's Tools (Sterling)",
+        "id": "89c79665-8e09-11ea-9fab-e92c63c14723",
+        "desc": "You need these tools to create items from raw materials with the Craft skill. Sterling artisan's tools give you a +1 item bonus to the check. Different sets are needed for different work, as determined by the GM; for example, blacksmith's tools differ from woodworker's tools.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
         "bulk": "2",
-        "desc": "This kit contains tools and materials for creating snares. A snare kit allows you to Craft snares using the Crafting skill. A specialist snare kit gives you a +1 item bonus to the check.",
-        "id": "89c79674-8e09-11ea-9fab-e92c63c14723",
-        "level": 3,
-        "name": "Snare Kit (Specialist)",
-        "price": 5500,
+        "price": 5000,
+        "hands": "2 (1 when worn)",
         "hints": [
             {
-                "showon": "Crafting",
                 "effects": [
                     {
                         "affected": "Crafting",
-                        "value": "1",
-                        "type": "item"
+                        "type": "item",
+                        "value": "1"
                     }
-                ]
+                ],
+                "showon": "Crafting"
             }
-        ],
-        "hands": 2
+        ]
     },
     {
-        "bulk": "6",
-        "desc": "You need an alchemist's lab to Craft alchemical items during downtime. An expanded alchemist's lab gives a +1 item bonus to Crafting checks to create alchemical items.",
-        "id": "89c79677-8e09-11ea-9fab-e92c63c14723",
+        "name": "Musical Instrument (Virtuoso Handheld)",
+        "id": "89c79668-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Handheld instruments include bagpipes, a small set of chimes, small drums, fiddles and viols, flutes and recorders, small harps, lutes, trumpets, and similarly sized instruments. The GM might rule that an especially large handheld instrument (like a tuba) has greater Bulk.\n\nA virtuoso instrument gives a +1 item bonus to Performance checks using that instrument.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
         "level": 3,
-        "name": "Alchemist's Lab (Expanded)",
-        "price": 5500,
+        "bulk": "1",
+        "price": 5000,
+        "hands": 2,
         "hints": [
             {
-                "showon": "Crafting",
-                "effects": [
-                    {
-                        "affected": "Crafting",
-                        "value": "1",
-                        "type": "item"
-                    }
-                ]
-            }
-        ],
-        "hands": 2
-    },
-    {
-        "bulk": "16",
-        "desc": "Heavy instruments such as large drums, a full set of chimes, and keyboard instruments are less portable than handheld instruments and generally need to be stationary while played.\n\nA virtuoso instrument gives a +1 item bonus to Performance checks using that instrument.",
-        "id": "89c7967a-8e09-11ea-9fab-e92c63c14723",
-        "level": 3,
-        "name": "Musical Instrument (Virtuoso Heavy)",
-        "price": 10000,
-        "hints": [
-            {
-                "showon": "Performance",
+                "desc": "A virtuoso instrument gives a +1 item bonus to Performance checks using that instrument.",
                 "effects": [
                     {
                         "affected": "Performance",
-                        "value": "1",
-                        "type": "item"
+                        "type": "item",
+                        "value": "1"
                     }
-                ]
+                ],
+                "showon": "Performance"
             }
-        ],
+        ]
+    },
+    {
+        "name": "Thieves' Tools (Infiltrator)",
+        "id": "89c7966b-8e09-11ea-9fab-e92c63c14723",
+        "desc": "You need thieves' tools to Pick Locks or Disable Devices (of some types) using the Thievery skill. Infiltrator thieves' tools add a +1 item bonus to checks to Pick Locks and Disable Devices. If your thieves' tools are broken, you can repair them by replacing the lock picks with replacement picks appropriate to your tools; this doesn't require using the Repair action.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "L",
+        "price": 5000,
+        "hands": "2 (1 when worn)",
+        "hints": [
+            {
+                "effects": [
+                    {
+                        "affected": "Thievery",
+                        "type": "item",
+                        "value": "1"
+                    }
+                ],
+                "showon": "Thievery"
+            }
+        ]
+    },
+    {
+        "name": "Survey Map (Atlas)",
+        "id": "89c7966e-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Maps are uncommon. Most maps you can find are simple and functional. A survey map details a single location in excellent detail. One of these maps gives you a +1 item bonus to Survival checks and any skill checks to Recall Knowledge, provided the checks are related to the location detailed on the map. Maps sometimes come in atlases, containing a number of maps of the same quality, often on similar topics. An atlas costs five times as much as a single map and requires both hands to use. The GM determines what maps are available in any location.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "L",
+        "price": 5000,
         "hands": 2
     },
     {
+        "name": "Clothing (High-Fashion Fine)",
+        "id": "89c79671-8e09-11ea-9fab-e92c63c14723",
+        "desc": "You gain a +1 item bonus to checks to Make an Impression on nobility or other upper-class folk while wearing high-fashion fine clothing.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
         "bulk": "L",
-        "desc": "A typical spyglass lets you see eight times farther than normal. A fine spyglass adds a +1 item bonus to Perception checks to notice details at a distance.",
-        "id": "89c7967d-8e09-11ea-9fab-e92c63c14723",
-        "level": 4,
-        "name": "Spyglass (Fine)",
-        "price": 8000,
+        "price": 5500,
         "hints": [
             {
-                "showon": "Perception",
+                "effects": [
+                    {
+                        "affected": "Diplomacy",
+                        "type": "item",
+                        "value": "1"
+                    }
+                ],
+                "showon": "Diplomacy"
+            }
+        ]
+    },
+    {
+        "name": "Snare Kit (Specialist)",
+        "id": "89c79674-8e09-11ea-9fab-e92c63c14723",
+        "desc": "This kit contains tools and materials for creating snares. A snare kit allows you to Craft snares using the Crafting skill. A specialist snare kit gives you a +1 item bonus to the check.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "2",
+        "price": 5500,
+        "hands": 2,
+        "hints": [
+            {
+                "effects": [
+                    {
+                        "affected": "Crafting",
+                        "type": "item",
+                        "value": "1"
+                    }
+                ],
+                "showon": "Crafting"
+            }
+        ]
+    },
+    {
+        "name": "Alchemist's Lab (Expanded)",
+        "id": "89c79677-8e09-11ea-9fab-e92c63c14723",
+        "desc": "You need an alchemist's lab to Craft alchemical items during downtime. An expanded alchemist's lab gives a +1 item bonus to Crafting checks to create alchemical items.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "6",
+        "price": 5500,
+        "hands": 2,
+        "hints": [
+            {
+                "effects": [
+                    {
+                        "affected": "Crafting",
+                        "type": "item",
+                        "value": "1"
+                    }
+                ],
+                "showon": "Crafting"
+            }
+        ]
+    },
+    {
+        "name": "Musical Instrument (Virtuoso Heavy)",
+        "id": "89c7967a-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Heavy instruments such as large drums, a full set of chimes, and keyboard instruments are less portable than handheld instruments and generally need to be stationary while played.\n\nA virtuoso instrument gives a +1 item bonus to Performance checks using that instrument.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 3,
+        "bulk": "16",
+        "price": 10000,
+        "hands": 2,
+        "hints": [
+            {
+                "effects": [
+                    {
+                        "affected": "Performance",
+                        "type": "item",
+                        "value": "1"
+                    }
+                ],
+                "showon": "Performance"
+            }
+        ]
+    },
+    {
+        "name": "Spyglass (Fine)",
+        "id": "89c7967d-8e09-11ea-9fab-e92c63c14723",
+        "desc": "A typical spyglass lets you see eight times farther than normal. A fine spyglass adds a +1 item bonus to Perception checks to notice details at a distance.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 4,
+        "bulk": "L",
+        "price": 8000,
+        "hands": 2,
+        "hints": [
+            {
                 "effects": [
                     {
                         "affected": "Perception",
-                        "value": "1",
-                        "type": "item"
+                        "type": "item",
+                        "value": "1"
                     }
-                ]
+                ],
+                "showon": "Perception"
             }
-        ],
-        "hands": 2
+        ]
     },
     {
-        "desc": "Picking a good lock requires five successes at DC 30.",
-        "id": "89c79680-8e09-11ea-9fab-e92c63c14723",
-        "level": 9,
         "name": "Lock (Good)",
+        "id": "89c79680-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Picking a good lock requires five successes at DC 30.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 9,
         "price": 20000,
         "hands": 2
     },
     {
-        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from good manacles requires five successes at DC 32.",
-        "id": "89c79683-8e09-11ea-9fab-e92c63c14723",
-        "level": 9,
         "name": "Manacles (Good)",
+        "id": "89c79683-8e09-11ea-9fab-e92c63c14723",
+        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from good manacles requires five successes at DC 32.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 9,
         "price": 25000,
         "hands": 2
     },
     {
-        "bulk": "2",
-        "desc": "This mid-sized, silver cauldron is a boon within areas where access to fresh food is limited, for it can be commanded to fill itself with hearty (and delicious) vegetable stew. It can also be put to a much greater use in the pursuit of crafting certain items. When used to Craft alchemical items, potions, or oils, a bountiful cauldron grants a +2 item bonus to the Crafting check.",
-        "id": "89c79686-8e09-11ea-9fab-e92c63c14723",
-        "level": 9,
-        "name": "Bountiful Cauldron",
-        "price": 68000,
-        "traits": [
-            "Uncommon",
-            "Conjuration",
-            "Magical"
-        ],
-        "activities": [
-            {
-                "actions": "3A",
-                "activationType": "Command, Interact",
-                "castSpells": [
-                    {
-                        "level": 4,
-                        "name": "Create Food"
-                    }
-                ],
-                "cooldown": 144000,
-                "desc": "You stir the cauldron, and it casts a 4th-level create food spell, filling itself with enough delicious vegetable stew to feed 12 Medium creatures.",
-                "frequency": "once per day",
-                "name": "Bountiful Cauldron",
-                "traits": [
-                    "Conjuration",
-                    "Magical",
-                    "Uncommon"
-                ],
-                "source": "89c79686-8e09-11ea-9fab-e92c63c14723"
-            }
-        ],
-        "hints": [
-            {
-                "desc": "When used to Craft alchemical items, potions, or oils, a bountiful cauldron grants a +2 item bonus to the Crafting check.",
-                "showon": "Crafting",
-                "effects": [
-                    {
-                        "affected": "Crafting",
-                        "value": "2",
-                        "type": "item"
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "desc": "Picking a superior lock requires six successes at DC 40.",
-        "id": "89c79689-8e09-11ea-9fab-e92c63c14723",
-        "level": 17,
         "name": "Lock (Superior)",
+        "id": "89c79689-8e09-11ea-9fab-e92c63c14723",
+        "desc": "Picking a superior lock requires six successes at DC 40.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 17,
         "price": 450000,
         "hands": 2
     },
     {
-        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from superior manacles requires six successes at DC 42.",
-        "id": "89c7968c-8e09-11ea-9fab-e92c63c14723",
-        "level": 17,
         "name": "Manacles (Superior)",
+        "id": "89c7968c-8e09-11ea-9fab-e92c63c14723",
+        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from superior manacles requires six successes at DC 42.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 17,
         "price": 500000,
         "hands": 2
     },
     {
-        "bulk": "L",
-        "desc": "You can use an Interact action to pull a set of thieves' tools from the ring of maniacal devices. These tools appear in your hand and fold back into the ring if they would leave your possession. They grant you a +2 item bonus to Thievery checks to Disable a Device and to Pick a Lock.",
-        "id": "267506c6-1cc8-437f-bfc9-af7a7d971804",
-        "hide": true,
-        "level": 0,
         "name": "Thieves' Tools (Ring of Maniacal Devices)",
+        "id": "267506c6-1cc8-437f-bfc9-af7a7d971804",
+        "desc": "You can use an Interact action to pull a set of thieves' tools from the ring of maniacal devices. These tools appear in your hand and fold back into the ring if they would leave your possession. They grant you a +2 item bonus to Thievery checks to Disable a Device and to Pick a Lock.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 0,
+        "bulk": "L",
         "price": 0,
+        "hide": true,
+        "hands": "2 (1 when worn)",
         "hints": [
             {
                 "desc": "These thieves' tools grant you a +2 item bonus to Thievery checks to Disable a Device and to Pick a Lock.",
-                "showon": "Thievery",
                 "effects": [
                     {
                         "affected": "Thievery",
-                        "value": "2",
-                        "type": "item"
+                        "type": "item",
+                        "value": "2"
                     }
-                ]
+                ],
+                "showon": "Thievery"
             }
-        ],
-        "hands": "2 (1 when worn)"
+        ]
     }
 ]

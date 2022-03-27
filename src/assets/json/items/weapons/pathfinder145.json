@@ -1,0 +1,48 @@
+[
+    {
+        "name": "Cinderclaw Gauntlet",
+        "displayName": "Cinderclaw Gauntlet",
+        "id": "b8d39cb3-40c3-4d00-84c7-082a1c3b658b",
+        "desc": "This sharp-taloned +1 striking spiked gauntlet appears to have been crafted from dragon scales, with claws built from iron. In addition to the typical weapon traits, a Cinderclaw gauntlet has the versatile S trait.\n\nOn a critical hit, the Cinderclaw gauntlet deals an additional 1d6 fire damage.",
+        "sourceBook": "Pathfinder #145: Hellknight Hill",
+        "_extensionFileName": "pathfinder145",
+        "level": 5,
+        "bulk": "L",
+        "price": 15000,
+        "traits": [
+            "Uncommon",
+            "Agile",
+            "Evocation",
+            "Free-Hand",
+            "Magical",
+            "Versatile S"
+        ],
+        "criticalHint": "On a critical hit, the Cinderclaw gauntlet deals an additional |dice=1d6 Fire| 1d6 fire damage.",
+        "dicesize": 4,
+        "dmgType": "P/S",
+        "group": "Brawling",
+        "hands": 1,
+        "melee": 5,
+        "moddable": false,
+        "potencyRune": 1,
+        "strikingRune": 1,
+        "usage": "worn on 1 hand",
+        "weaponBase": "Gauntlet",
+        "activities": [
+            {
+                "actions": "Reaction",
+                "activationType": "Command",
+                "desc": "The creature you hit must succeed at a DC 19 Fortitude save or be sickened 1 by the gauntlet's acrid smoke. Creatures that don't need to breathe are immune.",
+                "name": "Cinderclaw Gauntlet",
+                "source": "b8d39cb3-40c3-4d00-84c7-082a1c3b658b",
+                "target": "other",
+                "traits": [
+                    "Uncommon",
+                    "Evocation",
+                    "Magical"
+                ],
+                "trigger": "Your attack roll with the Cinderclaw gauntlet is a critical success"
+            }
+        ]
+    }
+]

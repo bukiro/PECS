@@ -1,0 +1,252 @@
+[
+    {
+        "name": "Cave Gecko",
+        "desc": "Your companion is a sticky-footed lizard like a gecko or anole.",
+        "sourceBook": "Pathfinder #154: Siege of the Dinosaurs",
+        "_extensionFileName": "pathfinder154",
+        "traits": [
+            "Minion"
+        ],
+        "hitPoints": 6,
+        "size": -1,
+        "supportBenefit": "Your cave gecko helps you stay afoot, leaning into you and propping you up as you maneuver your opponent. Until the end of your next turn, as long as you are adjacent to your cave gecko, if you attempt to Disarm, Shove, or Trip an opponent and roll a critical failure, you get a failure instead.",
+        "abilityChoices": [
+            {
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Dexterity",
+                        "source": "Cave Gecko",
+                        "sourceId": "0-Ability-Cave Gecko-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Cave Gecko",
+                        "sourceId": "0-Ability-Cave Gecko-0",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "0-Ability-Cave Gecko-0",
+                "source": "Cave Gecko"
+            }
+        ],
+        "activities": [
+            {
+                "level": 1,
+                "name": "Support",
+                "source": "Cave Gecko"
+            },
+            {
+                "level": 3,
+                "name": "Tongue Pull",
+                "source": "Cave Gecko"
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Cave Gecko Jaws",
+                "type": "weapons"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "skillChoices": [
+            {
+                "id": "0-Skill-Cave Gecko-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Stealth",
+                        "source": "Cave Gecko",
+                        "sourceId": "0-Skill-Cave Gecko-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Cave Gecko",
+                "type": "Skill"
+            }
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            },
+            {
+                "name": "Climb Speed",
+                "value": 25
+            }
+        ]
+    },
+    {
+        "name": "Cave Pterosaur",
+        "desc": "Your companion is a flying prehistoric creature, such as a dimorphodon or pterodactyl, that has adapted to life in the cavern vaults beneath the ground.",
+        "sourceBook": "Pathfinder #154: Siege of the Dinosaurs",
+        "_extensionFileName": "pathfinder154",
+        "traits": [
+            "Minion"
+        ],
+        "hitPoints": 4,
+        "size": -1,
+        "supportBenefit": "Your pterosaur expands its wings and makes distracting flapping motions. Any creature that would gain lesser cover from the pterosaur gains standard cover instead.",
+        "abilityChoices": [
+            {
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Dexterity",
+                        "source": "Cave Pterosaur",
+                        "sourceId": "0-Ability-Cave Pterosaur-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Cave Pterosaur",
+                        "sourceId": "0-Ability-Cave Pterosaur-0",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "0-Ability-Cave Pterosaur-0",
+                "source": "Cave Pterosaur"
+            }
+        ],
+        "activities": [
+            {
+                "level": 1,
+                "name": "Support",
+                "source": "Cave Pterosaur"
+            },
+            {
+                "level": 3,
+                "name": "Pterosaur Swoop",
+                "source": "Cave Pterosaur"
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Cave Pterosaur Beak",
+                "type": "weapons"
+            },
+            {
+                "name": "Cave Pterosaur Talon",
+                "type": "weapons"
+            }
+        ],
+        "senses": [
+            "Darkvision"
+        ],
+        "skillChoices": [
+            {
+                "id": "0-Skill-Cave Pterosaur-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Thievery",
+                        "source": "Cave Pterosaur",
+                        "sourceId": "0-Skill-Cave Pterosaur-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Cave Pterosaur",
+                "type": "Skill"
+            }
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 10
+            },
+            {
+                "name": "Fly Speed",
+                "value": 60
+            }
+        ]
+    },
+    {
+        "name": "Monitor Lizard",
+        "desc": "Your companion is a stocky-limbed lizard with a long, almost serpentine body.",
+        "sourceBook": "Pathfinder #154: Siege of the Dinosaurs",
+        "_extensionFileName": "pathfinder154",
+        "traits": [
+            "Minion",
+            "Mount"
+        ],
+        "hitPoints": 8,
+        "size": 0,
+        "specialdesc": "mount",
+        "supportBenefit": "The monitor lizard distracts an adjacent opponent with snapping jaws and rapid movements. Until the start of your next turn, if your Strike damages a foe, any time the foe attempts an action with the manipulate trait until the end of your next turn, it must attempt a DC 5 flat check. On a failure, the action is disrupted.",
+        "abilityChoices": [
+            {
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Monitor Lizard",
+                        "sourceId": "0-Ability-Monitor Lizard-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Monitor Lizard",
+                        "sourceId": "0-Ability-Monitor Lizard-0",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "0-Ability-Monitor Lizard-0",
+                "source": "Monitor Lizard"
+            }
+        ],
+        "activities": [
+            {
+                "level": 1,
+                "name": "Support",
+                "source": "Monitor Lizard"
+            },
+            {
+                "level": 3,
+                "name": "Lurching Rush",
+                "source": "Monitor Lizard"
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Monitor Lizard Jaws",
+                "type": "weapons"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "skillChoices": [
+            {
+                "id": "0-Skill-Monitor Lizard-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Monitor Lizard",
+                        "sourceId": "0-Skill-Monitor Lizard-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Monitor Lizard",
+                "type": "Skill"
+            }
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 30
+            }
+        ]
+    }
+]

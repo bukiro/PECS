@@ -1,0 +1,61 @@
+[
+    {
+        "name": "Sand Stride",
+        "actions": "2A",
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "_extensionFileName": "pathfinder149",
+        "traits": [
+            "Move"
+        ],
+        "target": "self",
+        "desc": "The camel Strides twice with a +5-foot circumstance bonus to Speed, ignoring difficult terrain caused by rubble, sand, and uneven ground made of earth and stone."
+    },
+    {
+        "name": "Gnaw",
+        "actions": "1A",
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "_extensionFileName": "pathfinder149",
+        "traits": [
+            "Move"
+        ],
+        "requirements": "The animal companion's last action was a successful jaws Strike.",
+        "target": "other",
+        "desc": "The Strike's target takes |dice=1d6 Persistent Bleed| 1d6 persistent bleed damage and takes a -10-foot status penalty to its Speed until it removes the bleed damage. If the hyena is a specialized animal companion, the persistent bleed damage increases to |dice=2d6 Persistent Bleed| 2d6."
+    },
+    {
+        "name": "Feast on the Fallen",
+        "actions": "Reaction",
+        "inputRequired": "Restore 18 Hit Points to the vulture, or 30 if the vulture is a specialized animal companion.",
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "_extensionFileName": "pathfinder149",
+        "traits": [
+            "Healing",
+            "Manipulate"
+        ],
+        "trigger": "A creature adjacent to the vulture is reduced to 0 Hit Points",
+        "frequency": "once per hour",
+        "cooldown": 144000,
+        "target": "other",
+        "desc": "The vulture consumes a piece of the defeated foe, regaining 18 Hit Points. If the vulture is a specialized animal companion, increase the Hit Points regained to 30."
+    },
+    {
+        "name": "Pesh Skin",
+        "actions": "1A",
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "_extensionFileName": "pathfinder149",
+        "traits": [
+            "Uncommon",
+            "Druid",
+            "Morph"
+        ],
+        "requirements": "You are transformed into a plant by a polymorph spell.",
+        "target": "self",
+        "desc": "Your plant form sprouts hundreds of spines, and your blood causes mild hallucinations in creatures exposed to it. Each time a creature touches you, hits you with an unarmed attack, or hits you with a melee weapon attack while adjacent to you, that creature takes |dice=1d6 P| 1d6 piercing damage. Increase the damage to |dice=2d6 P| 2d6 if the polymorph spell is 8th level or higher, or to |dice=3d6 P| 3d6 if it's 10th level.\n\nWhen an adjacent creature damages you with piercing or slashing damage, it must succeed at a Fortitude save against your class DC or become stupefied 1 (or stupefied 2 on a critical failure) until the end of its next turn.\n\nThese benefits last until you're no longer polymorphed into a plant.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Pesh Skin"
+            }
+        ]
+    }
+]

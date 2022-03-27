@@ -1,0 +1,104 @@
+[
+    {
+        "name": "Dragon's Eye Charm: Darkvision",
+        "desc": "The charm's pupil has become plainly visible. You can look through the charm to gain darkvision for the duration as long as you Sustain the Activation.",
+        "sourceBook": "Pathfinder #146: Cult of Cinders",
+        "_extensionFileName": "pathfinder146",
+        "type": "helditems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
+        "senses": [
+            {
+                "name": "Darkvision"
+            }
+        ]
+    },
+    {
+        "name": "Dragon's Eye Charm: Draconic",
+        "desc": "You can speak and understand Draconic for the duration as long as you Sustain the Activation.",
+        "sourceBook": "Pathfinder #146: Cult of Cinders",
+        "_extensionFileName": "pathfinder146",
+        "type": "helditems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You can speak and understand Draconic.",
+                "showon": "Languages"
+            }
+        ]
+    },
+    {
+        "name": "Dragon's Eye Charm: Fire Resistance",
+        "desc": "The dragon's eye charm shrouds you in a faintly glowing layer of golden energy. You gain fire resistance 5 for the duration.",
+        "sourceBook": "Pathfinder #146: Cult of Cinders",
+        "_extensionFileName": "pathfinder146",
+        "type": "helditems",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Fire Resistance",
+                "type": "item",
+                "value": "5"
+            }
+        ]
+    },
+    {
+        "name": "Eclipse: Light",
+        "desc": "Eclipse's blades glow like starlit night sky, causing it to shed light as a torch until you deactivate it as a single action, which has the concentrate trait.",
+        "sourceBook": "Pathfinder #146: Cult of Cinders",
+        "_extensionFileName": "pathfinder146",
+        "type": "weapons",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Eclipse's blades glow like starlit night sky, causing it to shed light as a torch.",
+                "showon": "Perception"
+            }
+        ]
+    },
+    {
+        "name": "Eclipse: Stealth",
+        "desc": "You absorb light, gaining a +2 status bonus to the triggering Stealth check.",
+        "sourceBook": "Pathfinder #146: Cult of Cinders",
+        "_extensionFileName": "pathfinder146",
+        "type": "weapons",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "hide": true,
+        "effects": [
+            {
+                "affected": "Stealth",
+                "type": "status",
+                "value": "2"
+            }
+        ]
+    }
+]

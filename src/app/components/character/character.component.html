@@ -1957,7 +1957,7 @@
                     </div>
                     <ng-container *ngFor="let language of get_Character().class.languages; trackBy:trackByIndex;">
                         <div class="list-item"
-                            *ngIf="language.locked || language.level <= get_ShowContentLevelNumber()">
+                            *ngIf="!language.level || language.level <= get_ShowContentLevelNumber()">
                             <ng-template #LanguageSource>
                                 <div class="newrow">
                                     <span>

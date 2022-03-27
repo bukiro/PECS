@@ -1,0 +1,33 @@
+[
+    {
+        "name": "Jellyfish Lamp",
+        "id": "89c7484b-8e09-11ea-9fab-e92c63c14723",
+        "desc": "These bioluminescent jellyfish are as bright as candles, come in a variety of colors, and can act as living lanterns. They dry up and die if removed from the water for more than 1 hour, but as long as they're allowed access to seawater, they can usually survive for up to 1 year by feeding on micronutrients. Rarely, a well-treated jellyfish lamp might live longer and potentially develop stronger light or additional abilities.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "bulk": "L",
+        "price": 200,
+        "usage": "held in 1 hand"
+    },
+    {
+        "name": "Swim Fins",
+        "id": "89c76f3a-8e09-11ea-9fab-e92c63c14723",
+        "desc": "These flippers attach to your feet like tight shoes - donning or removing them requires three Interact actions. While worn, you gain a +5-foot item bonus to the distance you move when rolling Athletics to Swim, not when using a swim Speed, and you take a -10-foot item penalty to your Speed.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
+        "bulk": "L",
+        "price": 500,
+        "equippable": true,
+        "effects": [
+            {
+                "affected": "Land Speed",
+                "value": "-10"
+            }
+        ],
+        "hints": [
+            {
+                "showon": "Athletics"
+            }
+        ]
+    }
+]

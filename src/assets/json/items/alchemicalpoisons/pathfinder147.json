@@ -1,0 +1,30 @@
+[
+    {
+        "name": "Addlebrain",
+        "id": "b328101a-b9ef-11ea-b3de-0242ac130004",
+        "desc": "Certain Scarlet Triad poisoners use toxins like addlebrain to keep captured prisoners docile and compliant for short periods of time until they can be properly shackled and imprisoned. Addlebrain is distilled from a hallucinogenic lichen that can often be found growing in the sewers below particularly large cities like Katapesh.\n\nOnce soaked in special reagents and then dried, a dose of addlebrain must be either lit with flame or tossed into a fire to activate, whereupon it unleashes a cloud of toxin as normal for an inhaled poison.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
+        "level": 7,
+        "bulk": "L",
+        "price": 5800,
+        "traits": [
+            "Rare",
+            "Alchemical",
+            "Consumable",
+            "Inhaled",
+            "Poison"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "maxDuration": "1 day",
+        "savingThrow": "DC 25 Fortitude",
+        "usage": "held in 2 hands",
+        "stages": [
+            "1 minute",
+            "enfeebled 1 and stupefied 1 (10 minutes)",
+            "enfeebled 2 and stupefied 2 (1 hour)",
+            "fatigued, enfeebled 4, and stupefied 4 (1 day)"
+        ]
+    }
+]

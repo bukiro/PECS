@@ -1,0 +1,65 @@
+[
+  {
+    "name": "Sovereign Steel (Standard-Grade)",
+    "desc": "Sovereign steel armor sickens certain creatures that touch it. A creature with weakness to cold iron that critically fails an unarmed attack against a creature in sovereign steel armor becomes sickened 1, and such a creature is sickened 1 as long as it wears sovereign steel armor. The noqual in sovereign steel armor provides protection against magic, granting you a +1 circumstance bonus to AC against spell attack rolls. If you Cast a Spell while wearing sovereign steel armor, you must succeed at a DC 5 flat check or the spell fails.",
+    "sourceBook": "Legends",
+    "_extensionFileName": "legends",
+    "level": 13,
+    "price": 240000,
+    "traits": [
+      "Rare"
+    ],
+    "bulkPrice": 24000,
+    "craftingRequirement": 6,
+    "craftRequirement": "at least 150 gp of cold iron + 15 gp per Bulk plus at least 150 gp of noqual + 15 gp per Bulk",
+    "runeLimit": 15,
+    "hints": [
+      {
+        "desc": "The noqual in sovereign steel armor provides protection against magic, granting you a +1 circumstance bonus to AC against spell attack rolls.\n\nA creature with weakness to cold iron that critically fails an unarmed attack against a creature in sovereign steel armor becomes sickened 1, and such a creature is sickened 1 as long as it wears sovereign steel armor.",
+        "effects": [
+          {
+            "affected": "AC",
+            "type": "circumstance",
+            "value": "1"
+          }
+        ],
+        "showon": "AC"
+      },
+      {
+        "desc": "If you Cast a Spell while wearing sovereign steel armor, you must succeed at a DC 5 flat check or the spell fails.",
+        "showon": "Spellbook"
+      }
+    ]
+  },
+  {
+    "name": "Sovereign Steel (High-Grade)",
+    "desc": "Sovereign steel armor sickens certain creatures that touch it. A creature with weakness to cold iron that critically fails an unarmed attack against a creature in sovereign steel armor becomes sickened 1, and such a creature is sickened 1 as long as it wears sovereign steel armor. The noqual in sovereign steel armor provides protection against magic, granting you a +1 circumstance bonus to AC against spell attack rolls. If you Cast a Spell while wearing sovereign steel armor, you must succeed at a DC 5 flat check or the spell fails.",
+    "sourceBook": "Legends",
+    "_extensionFileName": "legends",
+    "level": 20,
+    "price": 5000000,
+    "traits": [
+      "Rare"
+    ],
+    "bulkPrice": 500000,
+    "craftingRequirement": 8,
+    "craftRequirement": "at least 12,500 gp of cold iron + 1,250 gp per Bulk plus at least 12,500 gp of noqual + 1,250 gp per Bulk",
+    "hints": [
+      {
+        "desc": "The noqual in sovereign steel armor provides protection against magic, granting you a +1 circumstance bonus to AC against spell attack rolls.\n\nA creature with weakness to cold iron that critically fails an unarmed attack against a creature in sovereign steel armor becomes sickened 1, and such a creature is sickened 1 as long as it wears sovereign steel armor.",
+        "effects": [
+          {
+            "affected": "AC",
+            "type": "circumstance",
+            "value": "1"
+          }
+        ],
+        "showon": "AC"
+      },
+      {
+        "desc": "If you Cast a Spell while wearing sovereign steel armor, you must succeed at a DC 5 flat check or the spell fails.",
+        "showon": "Spellbook"
+      }
+    ]
+  }
+]

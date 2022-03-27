@@ -21,7 +21,8 @@ export class Hint {
     public active3: boolean = false;
     public active4: boolean = false;
     public active5: boolean = false;
-    //If extraActivations is 1 through 4, one or two more activation boxes are shown.
+    //If extraActivations is 1 through 4, up to four more activation boxes are shown.
+    // Their state can be accessed in effect calculations with object.active2 through object.active5.
     public extraActivations: number = 0;
     //If conditionChoiceFilter is set, only show this hint if the condition that the hint comes from has a matching choice active.
     public conditionChoiceFilter: string[] = [];

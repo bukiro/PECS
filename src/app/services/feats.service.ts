@@ -8,7 +8,6 @@ import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { AnimalCompanionLevel } from 'src/app/classes/AnimalCompanionLevel';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
 import { Character } from 'src/app/classes/Character';
@@ -723,7 +722,7 @@ export class FeatsService {
                             )
                         )
                         if (langIndex != -1) {
-                            character.class.languages = character.class.languages.splice(langIndex, 1);
+                            character.class.languages.splice(langIndex, 1);
                         }
                     })
                 }

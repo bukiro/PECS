@@ -6,13 +6,17 @@ import { Effect } from 'src/app/classes/Effect';
 
 export class Trait {
     public desc: string = "";
+    //effectDesc describes how to use the trait's effects, if needed. Typically something like "Activate the first level for X and the second for Y".
     public effectDesc: string = "";
     public dynamic: boolean = false;
     public dynamicDefault: number = 6;
     public name: string = "";
     public hints: Hint[] = [];
-    //Object effects apply only to the object that is bearing this trait, and are evaluated within the object instead of the effects service. Whether they are activated or not is saved in the object.
+    //Object effects apply only to the object that is bearing this trait, and are evaluated within the object instead of the effects service.
+    // Whether they are activated or not is saved in the object and accessed with 'active' in calculations.
     public objectEffects: EffectGain[] = [];
+    //If extraActivations is 1 through 4, up to four more activation boxes are shown to control the object effects.
+    // Their state can be accessed with 'active2' through 'active5' in calculations.
     public extraActivations: number = 0;
     recast() {
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());

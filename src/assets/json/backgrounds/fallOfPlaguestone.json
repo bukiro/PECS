@@ -1,0 +1,322 @@
+[
+    {
+        "name": "Lesser Scion",
+        "desc": "You are the youngest child in a noble house (in Cheliax, Isger, or Andoran) and stand to inherit nothing from your family. Although you have a minor title, it affords you no lands or wealth, but it has garnered you a small amount of respect and deference in your travels. When play begins, you are riding in a caravan bound for Almas, where a cousin has promised to allow you to stay with them for a month.\n\nChoose two ability boosts. One must be to Dexterity or Intelligence, and one is a free ability boost.\n\nYou're trained in the Diplomacy skill and the Heraldry Lore skill. You gain the Hobnobber skill feat.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "adventurePath": "The Fall of Plaguestone",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Dexterity",
+                    "Intelligence"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Hobnobber",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Heraldry",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Diplomacy",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Lost and Alone",
+        "desc": "You were training to become a knight in Lastwall when the Whispering Tyrant escaped his imprisonment and destroyed the nation. It was only by dumb luck that you are alive at all, but the memories of that fateful day haunt your dreams. When play begins, you have boarded a caravan heading toward a new town, having worn out your welcome at the taverns and inns of Elidir.\n\nChoose two ability boosts. One must be to Strength or Charisma, and one is a free ability boost.\n\nYou're trained in the Intimidation skill and the Warfare Lore skill. You gain the Intimidating Glare skill feat.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "adventurePath": "The Fall of Plaguestone",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Strength",
+                    "Charisma"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Intimidating Glare",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Warfare",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Intimidation",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Missionary",
+        "desc": "You received training from clergy in a faraway temple, who sent you out into the world to spread the faith. Although you are relatively new at this, you are always on the lookout for new places in need of your deity's teachings and guidance. When play begins, you are riding along in a caravan making your way through sparsely populated regions of Isger, spreading the news of your faith to those who will listen.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Diplomacy skill and the Scribing Lore skill. You gain the Group Impression skill feat.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "adventurePath": "The Fall of Plaguestone",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Group Impression",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Scribing",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Diplomacy",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Refugee",
+        "desc": "The fighting around the Lake Encarthan region has forced many of the people residing there to flee from the violence. Although your home is gone, you have managed to survive and are making your way south in search of a better life. When play begins, you are riding along in a caravan taking you to what might be either a new home in Andoran or simply another waypoint in your journey.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Hunting Lore skill. You gain the Forager skill feat.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "adventurePath": "The Fall of Plaguestone",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Intelligence"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Forager",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Hunting",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Teamster",
+        "desc": "You left your home a few months back for a life on the road, working for one caravan company and then another, always on the lookout for a new job and a better life. Last week, you were hired by the Bort Bargith's company in Elidir. You don't know anyone from the company just yet, but most of its members seem to be honest merchants and traders.\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in the Nature skill and the Mercantile Lore skill. You gain the Train Animal skill feat.",
+        "sourceBook": "The Fall of Plaguestone",
+        "_extensionFileName": "fallOfPlaguestone",
+        "adventurePath": "The Fall of Plaguestone",
+        "abilityChoices": [
+            {
+                "available": 1,
+                "filter": [
+                    "Strength",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Train Animal",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "loreChoices": [
+            {
+                "id": "1-Lore-Background-0",
+                "loreName": "Mercantile",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Nature",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ]
+    }
+]

@@ -1,0 +1,111 @@
+[
+    {
+        "name": "Necrotic Radiation",
+        "desc": "You have imbued the touched object or space with slow-acting necrotic radiation.\n\nIf you have cast the spell on an object, any creature ending its turn holding or carrying the object takes |dice=var1 Negative| <var>var1</var> negative damage.\nIf you have cast the spell on an area, any creature ending its turn in the area takes |dice=var1 Negative| <var>var1</var> negative damage.\nIf you have cast the spell on an attended object, the duration depends on the attending creature's Reflex save:<br><strong>Critical Success</strong> The object is unaffected.<br><strong>Success</strong> The creature pulls the object away quickly. The spell only lasts 1 minute.<br><strong>Failure</strong> The creature manages to slightly protect the object. The spell lasts 10 minutes.<br><strong>Critical Failure</strong> The spell lasts the full 24 hours.",
+        "sourceBook": "Pathfinder #154: Siege of the Dinosaurs",
+        "_extensionFileName": "pathfinder154",
+        "type": "spells",
+        "minLevel": 4,
+        "sortLevel": 4,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 144000
+            },
+            {
+                "duration": 100
+            },
+            {
+                "duration": 1000
+            }
+        ],
+        "choice": "Object",
+        "choices": [
+            {
+                "name": "Object",
+                "defaultDuration": 144000
+            },
+            {
+                "name": "Area",
+                "defaultDuration": 144000
+            },
+            {
+                "name": "Attended Object: Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Attended Object: Success",
+                "defaultDuration": 100
+            },
+            {
+                "name": "Attended Object: Failure",
+                "defaultDuration": 1000
+            },
+            {
+                "name": "Attended Object: Critical Failure",
+                "defaultDuration": 144000
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 4,
+                "descs": [
+                    {
+                        "value": "2d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "3d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "4d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "5d6",
+                        "variable": "var1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Blood Feast",
+        "desc": "You have feasted upon the target's blood. You gain temporary Hit Points for 1 minute equal to half the piercing damage the target has taken.",
+        "sourceBook": "Pathfinder #154: Siege of the Dinosaurs",
+        "_extensionFileName": "pathfinder154",
+        "type": "spells",
+        "minLevel": 5,
+        "sortLevel": 5,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "inputRequired": "Manually set the appropriate amount of temporary Hit Points. When the condition ends, all manually added Hit Points will be lost.",
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "source": "Manual",
+                "value": "-Temporary_HP('Manual')"
+            }
+        ]
+    }
+]

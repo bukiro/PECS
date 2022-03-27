@@ -1,81 +1,81 @@
 [
-  {
-    "name": "Apex Companion",
-    "id": "2e83c460-23c2-4016-8cd1-7cc250a92dff",
-    "shortDesc": "Transform your animal companion into an apex form.",
-    "actions": "2A",
-    "castType": "somatic, verbal",
-    "sourceBook": "Pathfinder #150: Broken Promises",
-    "_extensionFileName": "pathfinder150",
-    "levelreq": 10,
-    "traditions": [
-      "Focus"
-    ],
-    "traits": [
-      "Uncommon",
-      "Druid",
-      "Polymorph",
-      "Transmutation"
-    ],
-    "range": "30 feet",
-    "targets": "1 animal companion in your service",
-    "target": "companion",
-    "singleTarget": true,
-    "duration": "1 minute",
-    "desc": "You focus on the energies of all members of your animal companion's species, transforming your animal companion into its apex battle form. Your animal companion gains the following statistics and abilities while in its apex form.\n\nYour animal companion becomes Huge and its attacks have 15-foot reach. It must have enough space to expand into or the spell is lost.\n30 temporary Hit Points.\nDarkvision.\nYour animal companion's attack's damage dice increase by one step, and its attack gains the deadly d12 trait.\n+10-foot status bonus to its Speeds.\nIgnores difficult terrain and greater difficult terrain.",
-    "gainConditions": [
-      {
-        "duration": 100,
-        "name": "Apex Companion (Caster)",
-        "targetFilter": "caster"
-      },
-      {
-        "duration": 100,
+    {
         "name": "Apex Companion",
-        "targetFilter": "target"
-      }
-    ]
-  },
-  {
-    "name": "Song of the Fallen",
-    "id": "e90724f6-4734-4e1b-80bf-71f703ada31e",
-    "shortDesc": "Rouse the dead or smite the undead.",
-    "actions": "2A",
-    "castType": "focus, verbal",
-    "sourceBook": "Pathfinder #150: Broken Promises",
-    "_extensionFileName": "pathfinder150",
-    "levelreq": 10,
-    "traditions": [
-      "Focus"
-    ],
-    "traits": [
-      "Uncommon",
-      "Bard",
-      "Composition",
-      "Necromancy"
-    ],
-    "range": "30 feet",
-    "targets": "up to 4 dead creatures or up to 4 undead creatures",
-    "target": "other",
-    "singleTarget": true,
-    "sustained": 100,
-    "duration": "sustained up to 1 minute",
-    "desc": "You chant a dirge or an elegy that either rouses the dead to action or reminds undead that they should lay to rest.\n\nIf you target dead creatures, the bodies animate and can continue acting as if they were alive. A creature animated in this way has 60 temporary Hit Points. The animated creatures are slowed 1 but can otherwise act normally. Creatures animated with this spell die again once the spell ends.\n\nIf you target undead creatures, each undead must attempt a basic Will save.",
-    "critsuccess": "The undead takes |dice=5d6 Positive| 5d6 positive damage.",
-    "success": "The undead takes |dice=10d6 Positive| 10d6 positive damage and is slowed 1 for 1 round.",
-    "failure": "The undead takes |dice=100 Positive| 100 positive damage and is slowed 1 for 1 minute.",
-    "critfailure": "The undead is destroyed.",
-    "targetNumbers": [
-      {
-        "number": 4
-      }
-    ],
-    "gainConditions": [
-      {
-        "duration": 100,
-        "name": "Song of the Fallen (Caster)",
-        "targetFilter": "caster"
-      }
-    ]
-  }
+        "id": "2e83c460-23c2-4016-8cd1-7cc250a92dff",
+        "shortDesc": "Transform your animal companion into an apex form.",
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "levelreq": 10,
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Druid",
+            "Polymorph",
+            "Transmutation"
+        ],
+        "range": "30 feet",
+        "targets": "1 animal companion in your service",
+        "target": "companion",
+        "singleTarget": true,
+        "duration": "1 minute",
+        "desc": "You focus on the energies of all members of your animal companion's species, transforming your animal companion into its apex battle form. Your animal companion gains the following statistics and abilities while in its apex form.\n\nYour animal companion becomes Huge and its attacks have 15-foot reach. It must have enough space to expand into or the spell is lost.\n30 temporary Hit Points.\nDarkvision.\nYour animal companion's attack's damage dice increase by one step, and its attack gains the deadly d12 trait.\n+10-foot status bonus to its Speeds.\nIgnores difficult terrain and greater difficult terrain.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Apex Companion (Caster)",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 100,
+                "name": "Apex Companion",
+                "targetFilter": "target"
+            }
+        ]
+    },
+    {
+        "name": "Song of the Fallen",
+        "id": "e90724f6-4734-4e1b-80bf-71f703ada31e",
+        "shortDesc": "Rouse the dead or smite the undead.",
+        "actions": "2A",
+        "castType": "focus, verbal",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "levelreq": 10,
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Bard",
+            "Composition",
+            "Necromancy"
+        ],
+        "range": "30 feet",
+        "targets": "up to 4 dead creatures or up to 4 undead creatures",
+        "target": "other",
+        "singleTarget": true,
+        "sustained": 100,
+        "duration": "sustained up to 1 minute",
+        "desc": "You chant a dirge or an elegy that either rouses the dead to action or reminds undead that they should lay to rest.\n\nIf you target dead creatures, the bodies animate and can continue acting as if they were alive. A creature animated in this way has 60 temporary Hit Points. The animated creatures are slowed 1 but can otherwise act normally. Creatures animated with this spell die again once the spell ends.\n\nIf you target undead creatures, each undead must attempt a basic Will save.",
+        "critsuccess": "The undead takes |dice=5d6 Positive| 5d6 positive damage.",
+        "success": "The undead takes |dice=10d6 Positive| 10d6 positive damage and is slowed 1 for 1 round.",
+        "failure": "The undead takes |dice=100 Positive| 100 positive damage and is slowed 1 for 1 minute.",
+        "critfailure": "The undead is destroyed.",
+        "targetNumbers": [
+            {
+                "number": 4
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Song of the Fallen (Caster)",
+                "targetFilter": "caster"
+            }
+        ]
+    }
 ]

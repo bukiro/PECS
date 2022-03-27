@@ -1,0 +1,152 @@
+[
+    {
+        "name": "Ahriman",
+        "desc": "The dread shadow known as Ahriman counts servants mainly among div as well as a scattering of followers throughout the mortal realm.",
+        "alignment": "Neutral Evil",
+        "category": "Other Gods",
+        "nickname": "Lord of the Divs",
+        "sourcebook": "Bestiary 3",
+        "_extensionFileName": "bestiary3",
+        "anathema": [
+            "create arts or crafts",
+            "serve a mortal",
+            "assist in mortal aims except to subvert and corrupt them"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Ill Omen"
+            },
+            {
+                "level": 3,
+                "name": "Nondetection"
+            },
+            {
+                "level": 5,
+                "name": "Crushing Despair"
+            }
+        ],
+        "divineFont": [
+            "Harm"
+        ],
+        "divineSkill": [
+            "Deception"
+        ],
+        "domains": [
+            "Darkness",
+            "Death",
+            "Destruction",
+            "Trickery"
+        ],
+        "edicts": [
+            "Foil rulers, the proud, and the powerful",
+            "ruin anything created by mortals"
+        ],
+        "favoredWeapon": [
+            "Whip"
+        ],
+        "followerAlignments": [
+            "Lawful Evil",
+            "Neutral Evil",
+            "Chaotic Evil"
+        ]
+    },
+    {
+        "name": "Green Man",
+        "desc": "Individual green men are lesser deities, capable of granting spells to those who worship them. Green men typically only allow intelligent plants - such as leshys - to be their clerics. If another creature proves to be a friend of plants, after a thorough personal vetting, a green man wholeheartedly accepts this strange fleshy worshipper into the fold. While individual green men have different edicts and anathema befitting their personalities, and some neutral good or neutral evil green men might have further changes, the following is a baseline most worshippers of green men follow.",
+        "alignment": "Neutral",
+        "category": "Other Gods",
+        "sourcebook": "Bestiary 3",
+        "_extensionFileName": "bestiary3",
+        "anathema": [
+            "allow flagrant abuse of plant life to go unpunished",
+            "damage natural environments",
+            "harm plant life except in the pursuit of saving greater plant life"
+        ],
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Summon Plant or Fungus"
+            },
+            {
+                "level": 2,
+                "name": "Entangle"
+            },
+            {
+                "level": 6,
+                "name": "Tangling Creepers"
+            }
+        ],
+        "divineFont": [
+            "Heal"
+        ],
+        "divineSkill": [
+            "Nature"
+        ],
+        "domains": [
+            "Healing",
+            "Might",
+            "Nature",
+            "Protection"
+        ],
+        "edicts": [
+            "discover or create new forms of plant life",
+            "foster the growth and well-being of flora",
+            "preserve areas of natural wilderness"
+        ],
+        "favoredWeapon": [
+            "Sickle"
+        ],
+        "followerAlignments": [
+            "Neutral Good",
+            "Neutral",
+            "Neutral Evil"
+        ]
+    },
+    {
+        "name": "Nyarlathotep (Haunter in the Dark)",
+        "desc": "Nyarlathotep is often venerated by grioths in a bat-like incarnation with a three-lobed burning eye known as the Haunter in the Dark. His symbol is a circle with wing-shaped arms.",
+        "alignment": "Chaotic Evil",
+        "category": "Outer Gods and Great Old Ones",
+        "nickname": "Haunter in the Dark",
+        "sourcebook": "Bestiary 3",
+        "_extensionFileName": "bestiary3",
+        "clericSpells": [
+            {
+                "level": 1,
+                "name": "Grim Tendrils"
+            },
+            {
+                "level": 4,
+                "name": "Nightmare"
+            },
+            {
+                "level": 5,
+                "name": "Summon Entity"
+            }
+        ],
+        "divineFont": [
+            "Harm"
+        ],
+        "divineSkill": [
+            "Occultism"
+        ],
+        "domains": [
+            "Darkness",
+            "Knowledge",
+            "Nightmares",
+            "Trickery"
+        ],
+        "edicts": [
+            "Create darkness",
+            "encourage authorities to bring the apocalypse"
+        ],
+        "favoredWeapon": [
+            "Kukri"
+        ],
+        "followerAlignments": [
+            "Neutral Evil",
+            "Chaotic Evil"
+        ]
+    }
+]

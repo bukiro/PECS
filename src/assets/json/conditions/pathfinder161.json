@@ -1,0 +1,223 @@
+[
+    {
+        "name": "Split the Tongue",
+        "desc": "Your tongue has split like a serpent's tongue. You have taken slashing damage and additional effects depending on your Fortitude save.\n\n<strong>Critical Success</strong> You are unaffected.\n<strong>Success</strong> You take half damage.\n<strong>Failure</strong> You take full damage and are stupefied 1 for 1d4 rounds.\n<strong>Critical Failure</strong> As failure, but you take double damage and are stupefied 2 for 1d4 rounds.",
+        "sourceBook": "Pathfinder #161: Belly of the Black Whale",
+        "_extensionFileName": "pathfinder161",
+        "type": "spells",
+        "minLevel": 1,
+        "sortLevel": 1,
+        "defaultDurations": [
+            {
+                "duration": 10
+            },
+            {
+                "duration": 20
+            },
+            {
+                "duration": 30
+            },
+            {
+                "duration": 40
+            }
+        ],
+        "choice": "Failure, 1 Round",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Failure, 1 Round",
+                "defaultDuration": 10
+            },
+            {
+                "name": "Failure, 2 Rounds",
+                "defaultDuration": 20
+            },
+            {
+                "name": "Failure, 3 Rounds",
+                "defaultDuration": 30
+            },
+            {
+                "name": "Failure, 4 Rounds",
+                "defaultDuration": 40
+            },
+            {
+                "name": "Critical Failure, 1 Round",
+                "defaultDuration": 10
+            },
+            {
+                "name": "Critical Failure, 2 Rounds",
+                "defaultDuration": 20
+            },
+            {
+                "name": "Critical Failure, 3 Rounds",
+                "defaultDuration": 30
+            },
+            {
+                "name": "Critical Failure, 4 Rounds",
+                "defaultDuration": 40
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": [
+                    "Failure, 1 Round",
+                    "Failure, 2 Rounds",
+                    "Failure, 3 Rounds",
+                    "Failure, 4 Rounds"
+                ],
+                "name": "Stupefied",
+                "value": 1
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Critical Failure, 1 Round",
+                    "Critical Failure, 2 Rounds",
+                    "Critical Failure, 3 Rounds",
+                    "Critical Failure, 4 Rounds"
+                ],
+                "name": "Stupefied",
+                "value": 2
+            }
+        ]
+    },
+    {
+        "name": "Split the Tongue (Caster)",
+        "desc": "The deceiving creature's tongue has split like a serpent's tongue. The creature has taken slashing damage and additional effects depending on its Fortitude save.\n\n<strong>Critical Success</strong> The creature is unaffected.\n<strong>Success</strong> The creature takes half damage.\n<strong>Failure</strong> The creature takes full damage and is stupefied 1 for 1d4 rounds.\n<strong>Critical Failure</strong> As failure, but the creature takes double damage and is stupefied 2 for 1d4 rounds.",
+        "sourceBook": "Pathfinder #161: Belly of the Black Whale",
+        "_extensionFileName": "pathfinder161",
+        "type": "spells",
+        "minLevel": 1,
+        "sortLevel": 1,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            },
+            {
+                "duration": 20
+            },
+            {
+                "duration": 30
+            },
+            {
+                "duration": 40
+            }
+        ],
+        "unlimited": true,
+        "choice": "Failure, 1 Round",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Failure, 1 Round",
+                "defaultDuration": 10
+            },
+            {
+                "name": "Failure, 2 Rounds",
+                "defaultDuration": 20
+            },
+            {
+                "name": "Failure, 3 Rounds",
+                "defaultDuration": 30
+            },
+            {
+                "name": "Failure, 4 Rounds",
+                "defaultDuration": 40
+            },
+            {
+                "name": "Critical Failure, 1 Round",
+                "defaultDuration": 10
+            },
+            {
+                "name": "Critical Failure, 2 Rounds",
+                "defaultDuration": 20
+            },
+            {
+                "name": "Critical Failure, 3 Rounds",
+                "defaultDuration": 30
+            },
+            {
+                "name": "Critical Failure, 4 Rounds",
+                "defaultDuration": 40
+            }
+        ]
+    },
+    {
+        "name": "Ordained Purpose",
+        "desc": "The authority of cosmic forces of order overwhelm you with remorse and agony for acting outside of your station and purpose. You take mental damage and additional effects according to your Will save.\n\n<strong>Critical Success</strong> You are unaffected.\n<strong>Success</strong> You take half damage.\n<strong>Failure</strong> You take full damage and must Drop Prone as your first action on its next turn.\n<strong>Critical Failure</strong> You take double damage, must Drop Prone as your first action on your next turn, and can't Stand during your next turn.",
+        "sourceBook": "Pathfinder #161: Belly of the Black Whale",
+        "_extensionFileName": "pathfinder161",
+        "type": "spells",
+        "minLevel": 4,
+        "sortLevel": 4,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You must Drop Prone as your first action on your next turn.",
+                "showon": "Activities, Skills",
+                "conditionChoiceFilter": [
+                    "Failure"
+                ]
+            },
+            {
+                "desc": "You must Drop Prone as your first action on your next turn, and can't Stand during your next turn.",
+                "showon": "Activities, Skills",
+                "conditionChoiceFilter": [
+                    "Critical Failure"
+                ]
+            }
+        ],
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 10
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": 10
+            }
+        ]
+    },
+    {
+        "name": "Ordained Purpose (Caster)",
+        "desc": "You have called upon the authority of cosmic forces of order, overwhelming creatures with remorse and agony for acting outside of their station and purpose. Enemies in the area take mental damage and additional effects according to their Will save.\n\n<strong>Critical Success</strong> The creature is unaffected.\n<strong>Success</strong> The creature takes half damage.\n<strong>Failure</strong> The creature takes full damage and must Drop Prone as its first action on its next turn.\n<strong>Critical Failure</strong> The creature takes double damage, must Drop Prone as its first action on its next turn, and can't Stand during its next turn.",
+        "sourceBook": "Pathfinder #161: Belly of the Black Whale",
+        "_extensionFileName": "pathfinder161",
+        "type": "spells",
+        "minLevel": 4,
+        "sortLevel": 4,
+        "radius": 30,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ]
+    }
+]

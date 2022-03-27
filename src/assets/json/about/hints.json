@@ -1,7 +1,7 @@
 [
     {
         "header": "Exploring the settings",
-        "desc": "Other than changing your personal color accent and toggling dark mode, the settings can also fine-tune a lot of the behavior of PECS to match different player's preferences. For example, you can change whether feat choices display feat that you can't take, or whether you get conditions from casting spells that don't affect you. You can toggle automatic checks for any effects your party members may have sent you, and you can even enable a manual mode that prevents all automatic status changes and allows you to finely control your stats.",
+        "desc": "Other than changing your personal color accent and toggling dark mode, the settings can also fine-tune a lot of the behavior of PECS to match different player's preferences. For example, you can change whether feat choices display feats that you can't take, or whether you get conditions from casting spells that don't affect you (the app calls those \"caster conditions\", and they are meant to help you track what's happening to your target and for how long). You can toggle automatic checks for any effects your party members may have sent you, and you can even enable a manual mode that prevents all automatic status changes and allows you to finely control your stats.",
         "images": [
             {
                 "file": "settings.png",

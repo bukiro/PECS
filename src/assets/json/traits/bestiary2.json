@@ -1,0 +1,116 @@
+[
+  {
+    "name": "Construct",
+    "desc": "A construct is an artificial creature empowered by a force other than necromancy. Constructs are often mindless; they are immune to bleed damage, death effects, disease, healing, necromancy, nonlethal attacks, poison, and the doomed, drained, fatigued, paralyzed, sickened, and unconscious conditions; and they may have Hardness based on the materials used to construct their bodies. Constructs are not living creatures, nor are they undead. When reduced to 0 Hit Points, a construct creature is destroyed.",
+    "sourceBook": "Bestiary 2",
+    "_extensionFileName": "bestiary2"
+  },
+  {
+    "name": "Couatl",
+    "desc": "A family of supernatural feathered serpents who serve as guardians and messengers on the Material Plane for various good-aligned divinities.",
+    "sourceBook": "Bestiary 2",
+    "_extensionFileName": "bestiary2"
+  },
+  {
+    "name": "Dream",
+    "desc": "Creatures native to the Dimension of Dreams can be any alignment and possess a diverse array of abilities, although those associated with the nightmare realm of Leng are almost always evil and immune to that realm's freezing temperatures.",
+    "sourceBook": "Bestiary 2",
+    "_extensionFileName": "bestiary2"
+  },
+  {
+    "name": "Fetchling",
+    "desc": "A creature with this trait is a member of the fetchling ancestry. Fetchlings were once human, but generations of life on the Shadow Plane have transformed them.",
+    "sourceBook": "Bestiary 2",
+    "_extensionFileName": "bestiary2"
+  },
+  {
+    "name": "Ifrit",
+    "desc": "Ifrits are planar scions descended from efreet.",
+    "sourceBook": "Bestiary 2",
+    "_extensionFileName": "bestiary2"
+  },
+  {
+    "name": "Morlock",
+    "desc": "Morlocks are a family of pale, underground-dwelling humanoids who, generations ago, were regular humans.",
+    "sourceBook": "Bestiary 2",
+    "_extensionFileName": "bestiary2"
+  },
+  {
+    "name": "Oni",
+    "desc": "Oni are a family of fiends who dwell on the Material Plane and take monstrous forms based on humanoid shapes.",
+    "sourceBook": "Bestiary 2",
+    "_extensionFileName": "bestiary2"
+  },
+  {
+    "name": "Oread",
+    "desc": "Oreads are planar scions descended from shaitans.",
+    "sourceBook": "Bestiary 2",
+    "_extensionFileName": "bestiary2"
+  },
+  {
+    "name": "Petitioner",
+    "desc": "Petitioners are mortal souls who have been judged and then transformed into creatures native to other planes. Petitioners can survive the basic environmental effects of their home plane.",
+    "sourceBook": "Bestiary 2",
+    "_extensionFileName": "bestiary2"
+  },
+  {
+    "name": "Qlippoth",
+    "desc": "A family of fiends hailing from the Abyss, most qlippoth are chaotic evil. Their appearance affects the minds of non-qlippoth that view them.",
+    "sourceBook": "Bestiary 2",
+    "_extensionFileName": "bestiary2"
+  },
+  {
+    "name": "Serpentfolk",
+    "desc": "Serpentfolk are a family of serpentine humanoids.",
+    "sourceBook": "Bestiary 2",
+    "_extensionFileName": "bestiary2"
+  },
+  {
+    "name": "Skulk",
+    "desc": "Skulks are a family of humanoids whose skin can shift coloration to aid in stealth.",
+    "sourceBook": "Bestiary 2",
+    "_extensionFileName": "bestiary2"
+  },
+  {
+    "name": "Spriggan",
+    "desc": "Kin to gnomes, spriggans tend to be evil and can grow in size to resemble giants.",
+    "sourceBook": "Bestiary 2",
+    "_extensionFileName": "bestiary2"
+  },
+  {
+    "name": "Suli",
+    "desc": "Sulis are planar scions descended from jann.",
+    "sourceBook": "Bestiary 2",
+    "_extensionFileName": "bestiary2"
+  },
+  {
+    "name": "Sylph",
+    "desc": "Sylphs are planar scions descended from djinn.",
+    "sourceBook": "Bestiary 2",
+    "_extensionFileName": "bestiary2"
+  },
+  {
+    "name": "Tane",
+    "desc": "The Tane are powerful creatures created eons ago by the Eldest of the First World. All of the Tane treat whatever plane they happen to be on as their home plane.",
+    "sourceBook": "Bestiary 2",
+    "_extensionFileName": "bestiary2"
+  },
+  {
+    "name": "Time",
+    "desc": "Time creatures are natives of the Dimension of Time. They do not age, and while some may be driven by supernatural hungers, they do not need to eat or drink to survive. They can survive the basic environmental effects of the Dimension of Time.",
+    "sourceBook": "Bestiary 2",
+    "_extensionFileName": "bestiary2"
+  },
+  {
+    "name": "Undine",
+    "desc": "Undines are planar scions descended from marids.",
+    "sourceBook": "Bestiary 2",
+    "_extensionFileName": "bestiary2"
+  },
+  {
+    "name": "Urdefhan",
+    "desc": "Urdefhans are humanoids who have pacts with daemons, have transparent skin, and drink blood.",
+    "sourceBook": "Bestiary 2",
+    "_extensionFileName": "bestiary2"
+  }
+]
