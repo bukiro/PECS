@@ -101,7 +101,8 @@
                 <div class="newrow">
                     <span style="flex-basis:auto">
                         <strong *ngIf="!['alchemicalbombs', 'otherconsumablesbombs'].includes(weapon.type)">
-                            <span [ngbTooltip]="'Melee'" *ngIf="attack.range == 'melee'"><i class='ra ra-sword'></i></span>
+                            <span [ngbTooltip]="'Melee'" *ngIf="attack.range == 'melee'"><i
+                                    class='ra ra-sword'></i></span>
                             <span [ngbTooltip]="'Ranged ' + weapon.ranged + ' feet'" *ngIf="attack.range == 'ranged'"><i
                                     class='ra ra-target-arrows'></i></span> {{weapon.get_Name()}}
                         </strong>
@@ -127,8 +128,8 @@
                     <span style="flex-basis:auto">
                         Attack
                         <span>
-                            <app-quickdice [creature]="creature" [diceNum]="1" [diceSize]="20" [bonus]="attack.attackResult"
-                                [type]="'(Attack)'">
+                            <app-quickdice [creature]="creature" [diceNum]="1" [diceSize]="20"
+                                [bonus]="attack.attackResult" [type]="'(Attack)'">
                             </app-quickdice>
                             <div class="value" [ngbPopover]="attack.explain"
                                 [ngClass]="{'penalty':attack.penalties.length, 'bonus':attack.bonuses.length, 'absolute':attack.absolutes.length}">
@@ -155,9 +156,8 @@
                 <ng-container *ngFor="let traits of [weapon._traits]; trackBy:trackByIndex;">
                     <div class="fullsize-only newrow left-aligned tags" *ngIf="traits.length">
                         <ng-container *ngFor="let trait of traits; trackBy:trackByIndex;">
-                            <ng-container *ngFor="let realTrait of get_Traits(trait); trackBy:trackByIndex;">
-                                <app-trait [trait]="realTrait" [object]="weapon" [name]="trait" [creature]="creature"></app-trait>
-                            </ng-container>
+                            <app-trait [trait]="get_Traits(trait)[0]" [object]="weapon" [name]="trait"
+                                [creature]="creature"></app-trait>
                         </ng-container>
                     </div>
                 </ng-container>
@@ -166,7 +166,7 @@
                         <ng-container *ngFor="let trait of traits; trackBy:trackByIndex;">
                             <ng-container *ngFor="let realTrait of get_Traits(trait); trackBy:trackByIndex;">
                                 <app-hint *ngIf="realTrait.hints.length" [creature]="creature" [object]="realTrait"
-                                    [description]="trait" [noFilter]="true">
+                                    [description]="trait" [sourceBook]="realTrait.sourceBook" [noFilter]="true">
                                 </app-hint>
                             </ng-container>
                         </ng-container>
@@ -183,8 +183,20 @@
                     *ngFor="let runes of [get_HintRunes(weapon, attack.range)]; trackBy:trackByIndex;"
                     style="margin-top:initial">
                     <ng-container *ngFor="let rune of runes; trackBy:trackByIndex;">
-                        <cite class="item" *ngFor="let hint of rune.hints; trackBy:trackByIndex;"
-                            [ngbPopover]="get_HeightenedHint(hint)">{{rune.name}} Rune</cite>
+                        <ng-container *ngFor="let hint of rune.hints; trackBy:trackByIndex;">
+                            <ng-template #RuneDescTemplate>
+                                <div class="newrow left-aligned" *ngIf="rune.sourceBook">
+                                    <strong>Source</strong>
+                                    <i>{{rune.sourceBook}}</i>
+                                </div>
+                                <div class="newrow left-aligned">
+                                    {{get_HeightenedHint(hint)}}
+                                </div>
+                            </ng-template>
+                            <cite class="item" [ngbPopover]="RuneDescTemplate">
+                                {{rune.name}} Rune
+                            </cite>
+                        </ng-container>
                     </ng-container>
                 </div>
                 <app-tags [creature]="creature" [objectName]=weapon.name [showTraits]=true [showFeats]=true
@@ -249,7 +261,8 @@
                         (click)="toggle_Item(weapon.id+attack.range+'hiteffects')">
                         Hit effects
                     </button>
-                    <div class="list-item sublist fancy-list" *ngIf="get_ShowItem()==weapon.id+attack.range+'hiteffects'">
+                    <div class="list-item sublist fancy-list"
+                        *ngIf="get_ShowItem()==weapon.id+attack.range+'hiteffects'">
                         <div class="list-item lower newrow left-aligned">
                             <app-description [text]="weapon.hitEffect" [oneLiner]="true"></app-description>
                         </div>
@@ -270,7 +283,8 @@
                         </div>
                     </div>
                 </ng-container>
-                <ng-container *ngFor="let specs of [get_CritSpecialization(weapon, attack.range)]; trackBy:trackByIndex;">
+                <ng-container
+                    *ngFor="let specs of [get_CritSpecialization(weapon, attack.range)]; trackBy:trackByIndex;">
                     <div class="fullsize-only list-item newrow" *ngIf="specs.length">
                         <button class="newrow sublist-toggle fancy-button"
                             (click)="toggle_Item(weapon.id+attack.range+'criteffects')">

@@ -2,7 +2,7 @@
     <div class="fullsize-only newrow left-aligned" *ngIf="allTags.count > 0">
         <ng-container *ngFor="let traitSet of allTags.traits; trackBy:trackByIndex;">
             <ng-container *ngFor="let trait of traitSet.traits; trackBy:trackByIndex;">
-                <app-hint [creature]="creature" [color]="'trait'" [object]="trait" [objectName]="traitSet.setName"
+                <app-hint [creature]="creature" [color]="'trait'" [object]="trait" [objectName]="traitSet.setName" [sourceBook]="trait.sourceBook"
                     [description]="trait.name +' ('+ trait.haveOn(get_Creature(), this.characterService, true).join(', ') + ')'">
                 </app-hint>
             </ng-container>
@@ -65,7 +65,7 @@
                 </div>
                 <div class="newrow">
                     <span>
-                        <strong>Source</strong>
+                        <strong>Granted by</strong>
                         {{effect.source.includes('conditional, ') ?
                         effect.source.substr(13) : effect.source}}
                     </span>

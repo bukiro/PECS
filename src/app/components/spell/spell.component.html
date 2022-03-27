@@ -1,13 +1,11 @@
 <div class="newrow lower" *ngIf="spell">
     <div class="newrow left-aligned">
-        <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}" *ngFor="let trait of spell.traits; trackBy:trackByIndex;"
-            [ngbPopover]="get_Traits(trait)[0].desc">
-            {{trait}}
-        </cite>
-        <cite class="extra-trait" *ngFor="let trait of spell.get_ActivationTraits(); trackBy:trackByIndex;"
-            [ngbPopover]="get_Traits(trait)[0].desc + '\n\n(This trait was derived from the action components.)'">
-            + {{trait}}
-        </cite>
+        <app-trait *ngFor="let trait of spell.traits; trackBy:trackByIndex;" [name]="trait"
+            [trait]="get_Traits(trait)[0]">
+        </app-trait>
+        <app-trait *ngFor="let trait of spell.get_ActivationTraits(); trackBy:trackByIndex;" [name]="trait"
+            [trait]="get_Traits(trait)[0]" [extraDescription]="'(This trait was derived from the action components.)'">
+        </app-trait>
         <app-tags [creature]="'Character'" [objectName]="spell.name" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true [specialNames]="[source]"></app-tags>
     </div>
@@ -16,10 +14,9 @@
     <div class="newrow left-aligned" *ngFor="let feat of get_FeatsShowingOn(spell.name); trackBy:trackByIndex;">
         <header class="spellHeader">{{feat.name}}</header>
         <div class="newrow left-aligned" *ngIf="feat.traits.lenght">
-            <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}" *ngFor="let trait of feat.traits; trackBy:trackByIndex;"
-                [ngbPopover]="get_Traits(trait)[0].desc">
-                {{trait}}
-            </cite>
+            <app-trait *ngFor="let trait of feat.traits; trackBy:trackByIndex;" [name]="trait"
+                [trait]="get_Traits(trait)[0]">
+            </app-trait>
         </div>
         <div class="newrow left-aligned" *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
             <app-description class="newrow" [text]="desc"></app-description>

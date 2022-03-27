@@ -1,9 +1,8 @@
 <ng-container *ngIf="feat">
     <div class="newrow left-aligned">
-        <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}" *ngFor="let trait of feat.traits; trackBy:trackByIndex;"
-            [ngbPopover]="get_Traits(trait)[0].desc">
-            {{trait}}
-        </cite>
+        <app-trait *ngFor="let trait of feat.traits; trackBy:trackByIndex;" [name]="trait"
+            [trait]="get_Traits(trait)[0]">
+        </app-trait>
     </div>
     <div class="newrow left-aligned">
         <div class="newrow left-aligned" *ngIf="feat.sourceBook">
@@ -45,12 +44,12 @@
                 {{(activity.activationType) ? activity.activationType : ""}}
             </header>
             <div class="newrow left-aligned">
-                <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}" *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
-                    [ngbPopover]="get_Traits(trait)[0].desc">
-                    {{trait}}
-                </cite>
+                <app-trait *ngFor="let trait of activity.traits; trackBy:trackByIndex;" [name]="trait"
+                    [trait]="get_Traits(trait)[0]">
+                </app-trait>
             </div>
-            <app-activityContent class="fullwidth vlist lower" [activity]=activity [allowActivate]=false [cooldown]=activity.cooldown>
+            <app-activityContent class="fullwidth vlist lower" [activity]=activity [allowActivate]=false
+                [cooldown]=activity.cooldown>
             </app-activityContent>
         </div>
     </ng-container>
@@ -63,10 +62,9 @@
                     {{(spell.castType) ? spell.castType : ""}}
                 </header>
                 <div class="newrow left-aligned">
-                    <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}" *ngFor="let trait of spell.traits; trackBy:trackByIndex;"
-                        [ngbPopover]="get_Traits(trait)[0].desc">
-                        {{trait}}
-                    </cite>
+                    <app-trait *ngFor="let trait of spell.traits; trackBy:trackByIndex;" [name]="trait"
+                        [trait]="get_Traits(trait)[0]">
+                    </app-trait>
                 </div>
                 <app-spellContent class="vlist fullwidth" [spell]=spell [spellLevel]="get_SpellLevel(levelNumber)">
                 </app-spellContent>
@@ -80,10 +78,9 @@
                 {{(spell.castType) ? spell.castType : ""}}
             </header>
             <div class="newrow left-aligned">
-                <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}" *ngFor="let trait of spell.traits; trackBy:trackByIndex;"
-                    [ngbPopover]="get_Traits(trait)[0].desc">
-                    {{trait}}
-                </cite>
+                <app-trait *ngFor="let trait of spell.traits; trackBy:trackByIndex;" [name]="trait"
+                    [trait]="get_Traits(trait)[0]">
+                </app-trait>
             </div>
             <app-spellContent class="vlist fullwidth" [spell]=spell [spellLevel]="get_SpellLevel(levelNumber)">
             </app-spellContent>

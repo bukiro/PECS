@@ -5,7 +5,7 @@
         "alignment": "Lawful Good",
         "areasOfConcern": "protection, retribution, and keeps",
         "category": "Pantheons",
-        "sourcebook": "Gods of the Expanse",
+        "sourceBook": "Gods of the Expanse",
         "_extensionFileName": "godsOfTheExpanse",
         "alternateDomains": [
             "Cities",
@@ -73,7 +73,7 @@
         "alignment": "Neutral Good",
         "areasOfConcern": "freedom, skies, storms, weather",
         "category": "Pantheons",
-        "sourcebook": "Gods of the Expanse",
+        "sourceBook": "Gods of the Expanse",
         "_extensionFileName": "godsOfTheExpanse",
         "alternateDomains": [
             "Freedom",
@@ -138,7 +138,7 @@
         "alignment": "Chaotic Neutral",
         "areasOfConcern": "liberation, toppling tyranny, and self-realization",
         "category": "Pantheons",
-        "sourcebook": "Gods of the Expanse",
+        "sourceBook": "Gods of the Expanse",
         "_extensionFileName": "godsOfTheExpanse",
         "alternateDomains": [
             "Ambition",
@@ -207,7 +207,7 @@
         "alignment": "Neutral Good",
         "areasOfConcern": "compassion, rebirth, and the sun",
         "category": "Pantheons",
-        "sourcebook": "Gods of the Expanse",
+        "sourceBook": "Gods of the Expanse",
         "_extensionFileName": "godsOfTheExpanse",
         "alternateDomains": [
             "Change",

@@ -15,6 +15,7 @@ export class AnimalCompanionAncestry {
     public hints: Hint[] = [];
     public size: number = 0;
     public skillChoices: SkillChoice[] = [];
+    public sourceBook: string = "";
     public specialdesc: string = "";
     public speeds: { name: string, value: number }[] = [];
     public supportBenefit: string = "";

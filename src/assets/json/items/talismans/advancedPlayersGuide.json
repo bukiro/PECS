@@ -25,7 +25,7 @@
     {
         "name": "Balisse Feather",
         "id": "583487b7-c381-43b4-bc1c-dbe0d800285d",
-        "desc": "This long, fire-red feather seems to catch flame every time the weapon it adorns strikes a purveyor of evil. When you activate the feather, the creature you damaged burns with holy light. The creature must succeed at a DC 29 Will save or take a –2 status penalty to AC and saving throws and reduce its resistances by 5. These effects last until the end of your next turn.",
+        "desc": "This long, fire-red feather seems to catch flame every time the weapon it adorns strikes a purveyor of evil. When you activate the feather, the creature you damaged burns with holy light. The creature must succeed at a DC 29 Will save or take a -2 status penalty to AC and saving throws and reduce its resistances by 5. These effects last until the end of your next turn.",
         "sourceBook": "Advanced Player's Guide",
         "_extensionFileName": "advancedPlayersGuide",
         "level": 12,

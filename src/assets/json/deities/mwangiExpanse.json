@@ -6,7 +6,7 @@
         "areasOfConcern": "hearth, imagination, protection, solitude",
         "category": "Other Gods",
         "nickname": "The Warmth of the Hearth",
-        "sourcebook": "The Mwangi Expanse",
+        "sourceBook": "The Mwangi Expanse",
         "_extensionFileName": "mwangiExpanse",
         "alternateDomains": [
             "Confidence",
@@ -72,7 +72,7 @@
         "areasOfConcern": "great size, megafauna, strength",
         "category": "Other Gods",
         "nickname": "The World-Shaker",
-        "sourcebook": "The Mwangi Expanse",
+        "sourceBook": "The Mwangi Expanse",
         "_extensionFileName": "mwangiExpanse",
         "anathema": [
             "accidentally injure others with your size",
@@ -130,7 +130,7 @@
         "areasOfConcern": "fear, silence, safekeeping, the reviled",
         "category": "Other Gods",
         "nickname": "The Winnower",
-        "sourcebook": "The Mwangi Expanse",
+        "sourceBook": "The Mwangi Expanse",
         "_extensionFileName": "mwangiExpanse",
         "alternateDomains": [
             "Darkness",
@@ -196,7 +196,7 @@
         "areasOfConcern": "fireflies, flames",
         "category": "Other Gods",
         "nickname": "Mother of Fireflies",
-        "sourcebook": "The Mwangi Expanse",
+        "sourceBook": "The Mwangi Expanse",
         "_extensionFileName": "mwangiExpanse",
         "anathema": [
             "step on a firefly",
@@ -251,7 +251,7 @@
         "areasOfConcern": "wildfire, bad luck, inspiration, turmoil",
         "category": "Other Gods",
         "nickname": "The Spark in the Dust",
-        "sourcebook": "The Mwangi Expanse",
+        "sourceBook": "The Mwangi Expanse",
         "_extensionFileName": "mwangiExpanse",
         "alternateDomains": [
             "Change",
@@ -315,7 +315,7 @@
         "areasOfConcern": "balance, community, negotiation, and twilight",
         "category": "Other Gods",
         "nickname": "Mother of Hearth and Wall",
-        "sourcebook": "The Mwangi Expanse",
+        "sourceBook": "The Mwangi Expanse",
         "_extensionFileName": "mwangiExpanse",
         "anathema": [
             "betray another's trust",
@@ -372,7 +372,7 @@
         "areasOfConcern": "metamorphosis, cycles, growth, fertility",
         "category": "Other Gods",
         "nickname": "The Diamond Ring",
-        "sourcebook": "The Mwangi Expanse",
+        "sourceBook": "The Mwangi Expanse",
         "_extensionFileName": "mwangiExpanse",
         "alternateDomains": [
             "Air",
@@ -434,7 +434,7 @@
         "alignment": "Lawful Evil",
         "category": "Other Gods",
         "nickname": "The God-King",
-        "sourcebook": "The Mwangi Expanse, Gods & Magic",
+        "sourceBook": "The Mwangi Expanse, Gods & Magic",
         "_extensionFileName": "mwangiExpanse",
         "anathema": [
             "Consort or trade with non-Mwangi peoples",
@@ -490,7 +490,7 @@
         "areasOfConcern": "apes, jungles, tyrants",
         "category": "Demon Lords",
         "nickname": "The Ravenous King",
-        "sourcebook": "The Mwangi Expanse, Gods & Magic",
+        "sourceBook": "The Mwangi Expanse, Gods & Magic",
         "_extensionFileName": "mwangiExpanse",
         "alternateDomains": [
             "Indulgence",

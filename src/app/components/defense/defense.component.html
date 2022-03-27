@@ -76,12 +76,9 @@
                         {{armor.get_Name()}}
                     </div>
                     <div class="fullsize-only newrow left-aligned" *ngIf="armor.traits.length">
-                        <cite class="trait"
-                            [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}"
-                            *ngFor="let trait of armor.traits; trackBy:trackByIndex;"
-                            [ngbPopover]="get_Traits(trait)[0].desc">
-                            {{trait}}
-                        </cite>
+                        <app-trait *ngFor="let trait of armor.traits; trackBy:trackByIndex;" [name]="trait"
+                            [trait]="get_Traits(trait)[0]">
+                        </app-trait>
                     </div>
                     <app-tags [creature]="creature" [objectName]="'Armor'" [showTraits]=true [showFeats]=true
                         [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true
@@ -90,8 +87,20 @@
                     <div class="fullsize-only newrow left-aligned"
                         *ngFor="let runes of [get_HintRunes(armor)]; trackBy:trackByIndex;" style="margin-top:initial">
                         <ng-container *ngFor="let rune of runes; trackBy:trackByIndex;">
-                            <cite class="item" *ngFor="let hint of rune.hints; trackBy:trackByIndex;"
-                                [ngbPopover]="get_HeightenedHint(hint)">{{rune.name}} Rune</cite>
+                            <ng-container *ngFor="let hint of rune.hints; trackBy:trackByIndex;">
+                                <ng-template #RuneDescTemplate>
+                                    <div class="newrow left-aligned" *ngIf="rune.sourceBook">
+                                        <strong>Source</strong>
+                                        <i>{{rune.sourceBook}}</i>
+                                    </div>
+                                    <div class="newrow left-aligned">
+                                        {{get_HeightenedHint(hint)}}
+                                    </div>
+                                </ng-template>
+                                <cite class="item" [ngbPopover]="RuneDescTemplate">
+                                    {{rune.name}} Rune
+                                </cite>
+                            </ng-container>
                         </ng-container>
                     </div>
                     <div class="fullsize-only lower newrow left-aligned"
@@ -170,12 +179,9 @@
                             Hardness: <span class="value">{{shield.get_Hardness()}}</span>
                         </div>
                         <div class="fullsize-only newrow left-aligned" *ngIf="shield.traits.length">
-                            <cite class="trait"
-                                [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}"
-                                *ngFor="let trait of shield.traits; trackBy:trackByIndex;"
-                                [ngbPopover]="get_Traits(trait)[0].desc">
-                                {{trait}}
-                            </cite>
+                            <app-trait *ngFor="let trait of shield.traits; trackBy:trackByIndex;" [name]="trait"
+                                [trait]="get_Traits(trait)[0]">
+                            </app-trait>
                         </div>
                         <app-tags [creature]="creature" [objectName]="'Shield'" [showTraits]=true [showFeats]=true
                             [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true

@@ -6,7 +6,7 @@
         "areasOfConcern": "assassins, divine punishments, and the Red Mantis",
         "category": "Other Gods",
         "nickname": "He Who Walks In Blood",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "kill a rightful ruler",
@@ -64,7 +64,7 @@
         "areasOfConcern": "doors, portals, thresholds, traditions",
         "category": "Other Gods",
         "nickname": "The Welcomer",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "destroy a door or block a path for personal gain",
@@ -118,7 +118,7 @@
         "alignment": "Lawful Good",
         "category": "Other Gods",
         "nickname": "The Waybringer",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Fail to pursue a foe who has betrayed your mercy",
@@ -175,7 +175,7 @@
         "areasOfConcern": "abused, dignity, unwilling undeath",
         "category": "Other Gods",
         "nickname": "The Unyielding",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "alternateDomains": [
             "Sorrow"
@@ -237,7 +237,7 @@
         "areasOfConcern": "piracy, sea monsters, and strife",
         "category": "Other Gods",
         "nickname": "The Pirate Queen",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "betray shipmates",
@@ -296,7 +296,7 @@
         "areasOfConcern": "clockwork, invention, and time",
         "category": "Other Gods",
         "nickname": "The Whisper In Bronze",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "alternateDomains": [
             "Fire"
@@ -361,7 +361,7 @@
         "areasOfConcern": "artificial life, free thinking, intellectual apotheosis",
         "category": "Other Gods",
         "nickname": "The Iron Goddess",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "alternateDomains": [
             "Ambition",
@@ -424,7 +424,7 @@
         "areasOfConcern": "battle, fortune, mischief",
         "category": "Other Gods",
         "nickname": "The Calamitous Turn",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "suffer a bully's insults to you or another without retort",
@@ -480,7 +480,7 @@
         "alignment": "Chaotic Evil",
         "category": "Other Gods",
         "nickname": "The Endless Destruction",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Spare a foe after you have chosen to kill them",
@@ -534,7 +534,7 @@
         "alignment": "Lawful Neutral",
         "category": "Other Gods",
         "nickname": "Queen of Dis",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Despoil nature",
@@ -590,7 +590,7 @@
         "alignment": "Chaotic Neutral",
         "category": "Other Gods",
         "nickname": "Lady of the Fangwood",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Parley or make a deal with fiends",
@@ -649,7 +649,7 @@
         "areasOfConcern": "infection, insects, parasites, and stagnation",
         "category": "Other Gods",
         "nickname": "The Gossamer King",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "aid in ending a plague or infection",
@@ -705,7 +705,7 @@
         "areasOfConcern": "family, illusion, stories, twilight, weaving",
         "category": "Other Gods",
         "nickname": "The Weaver",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "alternateDomains": [
             "Change",
@@ -771,7 +771,7 @@
         "areasOfConcern": "apocalypse, empty places, oblivion, ruins",
         "category": "Other Gods",
         "nickname": "God of the End Times",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "alternateDomains": [
             "Decay"
@@ -828,7 +828,7 @@
         "alignment": "Chaotic Evil",
         "category": "Other Gods",
         "nickname": "The Angry Hag",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Allow others to slight you without retaliation",
@@ -883,7 +883,7 @@
         "alignment": "Chaotic Neutral",
         "category": "Other Gods",
         "nickname": "The Water Rat",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Impose needless laws or restrictions on others",
@@ -939,7 +939,7 @@
         "alignment": "Neutral Good",
         "category": "Other Gods",
         "nickname": "The Blessing and Bounty",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Destroy healthy crops",
@@ -996,7 +996,7 @@
         "areasOfConcern": "safety, liberty, and community",
         "category": "Other Gods",
         "nickname": "Mother Jaguar",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "alternateDomains": [
             "Cities"
@@ -1059,7 +1059,7 @@
         "areasOfConcern": "healthy competition, sport, and physical development",
         "category": "Other Gods",
         "nickname": "The Strong Man",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "cheat at honorable contests",
@@ -1117,7 +1117,7 @@
         "alignment": "Lawful Evil",
         "category": "Other Gods",
         "nickname": "The Sihedron Scion",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Disobey a superior",
@@ -1173,7 +1173,7 @@
         "areasOfConcern": "devotion, hope, and uprisings",
         "category": "Other Gods",
         "nickname": "The Everbloom",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "abandon those in need",
@@ -1229,7 +1229,7 @@
         "alignment": "Neutral",
         "category": "Other Gods",
         "nickname": "The Lost Maiden",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Dismiss or mock a creature's grief",
@@ -1286,7 +1286,7 @@
         "areasOfConcern": "gambling, gems, gnomes, stealth",
         "category": "Other Gods",
         "nickname": "The Grey Polychrome",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "alternateDomains": [
             "Confidence",
@@ -1349,7 +1349,7 @@
         "areasOfConcern": "artists, exiles, midnight",
         "category": "Other Gods",
         "nickname": "The Redeemer Queen",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "deny shelter to the desperate",
@@ -1407,7 +1407,7 @@
         "areasOfConcern": "illusions, mysteries, reflections, secrets",
         "category": "Other Gods",
         "nickname": "The Seventh Veil",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "alternateDomains": [
             "Glyph"
@@ -1468,7 +1468,7 @@
         "alignment": "Chaotic Evil",
         "category": "Other Gods",
         "nickname": "The Silent Blade",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Steal from the poor",
@@ -1522,7 +1522,7 @@
         "alignment": "Neutral Evil",
         "category": "Other Gods",
         "nickname": "The Grim Harvestman",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Spread hope",
@@ -1576,7 +1576,7 @@
         "alignment": "Lawful Neutral",
         "category": "Ancient Osirian Gods",
         "nickname": "Guardian of the Tomb",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Desecrate a corpse",
@@ -1633,7 +1633,7 @@
         "alignment": "Chaotic Neutral",
         "category": "Ancient Osirian Gods",
         "nickname": "The Sly Enchantress",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Kill or abuse a house cat",
@@ -1692,7 +1692,7 @@
         "alignment": "Neutral Good",
         "category": "Ancient Osirian Gods",
         "nickname": "The Guardian Fool",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Harm or neglect a child",
@@ -1748,7 +1748,7 @@
         "alignment": "Chaotic Good",
         "category": "Ancient Osirian Gods",
         "nickname": "Mistress of Jubilation",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Discriminate or slight someone based on appearance",
@@ -1804,7 +1804,7 @@
         "alignment": "Lawful Neutral",
         "category": "Ancient Osirian Gods",
         "nickname": "The Distant Falcon",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Undermine a rightful ruler",
@@ -1860,7 +1860,7 @@
         "alignment": "Neutral Good",
         "category": "Ancient Osirian Gods",
         "nickname": "Queen of Miracles",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Reveal sacred rites to the uninitiated",
@@ -1941,7 +1941,7 @@
         "alignment": "Lawful Neutral",
         "category": "Ancient Osirian Gods",
         "nickname": "The Feather of Truth",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Deal unfairly with your family or community",
@@ -1997,7 +1997,7 @@
         "alignment": "Lawful Good",
         "category": "Ancient Osirian Gods",
         "nickname": "Lord of the Living",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Dismember a creature",
@@ -2052,7 +2052,7 @@
         "alignment": "Lawful Neutral",
         "category": "Ancient Osirian Gods",
         "nickname": "King of the Heavens",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Avoid personal change",
@@ -2109,7 +2109,7 @@
         "alignment": "Chaotic Neutral",
         "category": "Ancient Osirian Gods",
         "nickname": "Lady of Slaughter",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Spare an evil fiend",
@@ -2167,7 +2167,7 @@
         "alignment": "Chaotic Good",
         "category": "Ancient Osirian Gods",
         "nickname": "Mistress of the Beautiful House",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Poison someone you didn't intend to",
@@ -2224,7 +2224,7 @@
         "alignment": "Chaotic Neutral",
         "category": "Ancient Osirian Gods",
         "nickname": "The Raging Torrent",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Cower from fights",
@@ -2284,7 +2284,7 @@
         "alignment": "Lawful Neutral",
         "category": "Ancient Osirian Gods",
         "nickname": "Lord of Divine Words",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Upset stable mechanisms or ecosystems",
@@ -2340,7 +2340,7 @@
         "alignment": "Lawful Good",
         "category": "Ancient Osirian Gods",
         "nickname": "The Green Empress",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Refuse to help a drowning creature",
@@ -2397,7 +2397,7 @@
         "alignment": "Lawful Evil",
         "category": "Archdevils",
         "nickname": "Lord of Flies",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Provoke Baalzebul's envy",
@@ -2451,7 +2451,7 @@
         "alignment": "Lawful Evil",
         "category": "Archdevils",
         "nickname": "The Bearded Lord",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Hide any plot against your masters",
@@ -2505,7 +2505,7 @@
         "alignment": "Lawful Evil",
         "category": "Archdevils",
         "nickname": "The Pale Kiss",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Impede an act of high hedonism",
@@ -2558,7 +2558,7 @@
         "alignment": "Lawful Evil",
         "category": "Archdevils",
         "nickname": "Iron Lord",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Act above your station",
@@ -2614,7 +2614,7 @@
         "alignment": "Lawful Evil",
         "category": "Archdevils",
         "nickname": "The Serpent",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Declare knowledge heresy or forbidden",
@@ -2669,7 +2669,7 @@
         "alignment": "Lawful Evil",
         "category": "Archdevils",
         "nickname": "The Argent Prince",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Leave the cult of Mammon",
@@ -2723,7 +2723,7 @@
         "alignment": "Lawful Evil",
         "category": "Archdevils",
         "nickname": "The Crimson Son",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Break a contract you made",
@@ -2777,7 +2777,7 @@
         "alignment": "Lawful Evil",
         "category": "Archdevils",
         "nickname": "The Ashen Bull",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Defy a military superior",
@@ -2833,7 +2833,7 @@
         "areasOfConcern": "forbidden lore, magic, and snakes",
         "category": "Demon Lords",
         "nickname": "Master of the Final Incantation",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Destroy forbidden lore",
@@ -2912,7 +2912,7 @@
         "areasOfConcern": "beasts, labyrinths, and minotaurs",
         "category": "Demon Lords",
         "nickname": "Lord of the Labyrinth",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Kill something that cannot significantly harm you",
@@ -2968,7 +2968,7 @@
         "areasOfConcern": "disease, fungus, and parasites",
         "category": "Demon Lords",
         "nickname": "Prince of the Blasted Heath",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Purify your food",
@@ -3025,7 +3025,7 @@
         "areasOfConcern": "deformity, the sea, and sea monsters",
         "category": "Demon Lords",
         "nickname": "The Shadow in the Sea",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Break a sworn oath",
@@ -3082,7 +3082,7 @@
         "areasOfConcern": "ghouls, graves, and secrets kept by the dead",
         "category": "Demon Lords",
         "nickname": "Him Who Gnaws",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Reveal secrets of the dead to nonbelievers",
@@ -3135,7 +3135,7 @@
         "alignment": "Chaotic Evil",
         "category": "Demon Lords",
         "nickname": "The Deathless Frost",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Make a deal with Baba Yaga or her children",
@@ -3190,7 +3190,7 @@
         "areasOfConcern": "deserts, senseless warfare, and the sun",
         "category": "Demon Lords",
         "nickname": "The Shining Scourge",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Heal a sunburn",
@@ -3245,7 +3245,7 @@
         "areasOfConcern": "the sky, temptation, and winged creatures",
         "category": "Demon Lords",
         "nickname": "King of the Wind Demons",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Deny a flying creature the ability to ?y",
@@ -3301,7 +3301,7 @@
         "areasOfConcern": "envy, lies, and sadistic murders",
         "category": "Demon Lords",
         "nickname": "The Bloody Marquis",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Sleep in a building with fewer than ?ve rooms",
@@ -3355,7 +3355,7 @@
         "alignment": "Chaotic Evil",
         "category": "Demon Lords",
         "nickname": "The Whispered Doubt",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Spread hope",
@@ -3412,7 +3412,7 @@
         "areasOfConcern": "caverns, reptiles, and troglodytes",
         "category": "Demon Lords",
         "nickname": "The Beast of Gluttondark",
-        "sourcebook": "Gods & Magic, Pathfinder #153: Life's Long Shadow",
+        "sourceBook": "Gods & Magic, Pathfinder #153: Life's Long Shadow",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "surrender in combat",
@@ -3470,7 +3470,7 @@
         "areasOfConcern": "blood, cannibalism, and vampires",
         "category": "Demon Lords",
         "nickname": "The Vampire Queen",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Expose vampires",
@@ -3524,7 +3524,7 @@
         "alignment": "Lawful Good",
         "category": "Dwarven Gods",
         "nickname": "The Forge-Fire",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Allow weaker evils to survive due to the presence of larger evils",
@@ -3578,7 +3578,7 @@
         "alignment": "Neutral Good",
         "category": "Dwarven Gods",
         "nickname": "The Golden Gift",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Betray your spouse",
@@ -3634,7 +3634,7 @@
         "alignment": "Lawful Neutral",
         "category": "Dwarven Gods",
         "nickname": "The Debt Minder",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Allow a slight to go unrecognized",
@@ -3689,7 +3689,7 @@
         "alignment": "Neutral Evil",
         "category": "Dwarven Gods",
         "nickname": "The Dark Smith",
-        "sourcebook": "Gods & Magic, Pathfinder #148: Fires of the Haunted City",
+        "sourceBook": "Gods & Magic, Pathfinder #148: Fires of the Haunted City",
         "_extensionFileName": "godsAndMagic",
         "alternateDomains": [
             "Ambition",
@@ -3750,7 +3750,7 @@
         "alignment": "Lawful Good",
         "category": "Dwarven Gods",
         "nickname": "The Watchful Mother",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Abandon your family",
@@ -3805,7 +3805,7 @@
         "alignment": "Lawful Good",
         "category": "Dwarven Gods",
         "nickname": "The Peacemaker",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Sow discord among friends and allies",
@@ -3859,7 +3859,7 @@
         "alignment": "Lawful Neutral",
         "category": "Dwarven Gods",
         "nickname": "Oath-Keeper",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Lie",
@@ -3915,7 +3915,7 @@
         "alignment": "Lawful Neutral",
         "category": "Dwarven Gods",
         "nickname": "The Taskmaster",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Treat gravesites irreverently",
@@ -3973,7 +3973,7 @@
         "alignment": "Neutral Good",
         "category": "Dwarven Gods",
         "nickname": "The Mighty",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Engage in petty showcases of strength",
@@ -4028,7 +4028,7 @@
         "areasOfConcern": "exiles, shadows, betrayal, and the betrayed",
         "category": "Eldest",
         "nickname": "The Traitor",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Ask for forgiveness",
@@ -4087,7 +4087,7 @@
         "areasOfConcern": "twins, statues, and endings",
         "category": "Eldest",
         "nickname": "The Twins",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Offend Imbrex"
@@ -4144,7 +4144,7 @@
         "areasOfConcern": "foreknowledge, complexity, and triplets",
         "category": "Eldest",
         "nickname": "The Three",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Lie",
@@ -4199,7 +4199,7 @@
         "areasOfConcern": "changing seasons, secrets, and wanderers",
         "category": "Eldest",
         "nickname": "The Hooded",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Sleep in the same place twice in a row",
@@ -4254,7 +4254,7 @@
         "areasOfConcern": "oceans, linnorms, and sinuous spirals",
         "category": "Eldest",
         "nickname": "The Water Lord",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Suffer a linnorm's death curse",
@@ -4313,7 +4313,7 @@
         "areasOfConcern": "entropy, reincarnation, and time",
         "category": "Eldest",
         "nickname": "The Many",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Willingly tread where time does not pass"
@@ -4373,7 +4373,7 @@
         "areasOfConcern": "carnivorous plants, intrigue, and seduction",
         "category": "Eldest",
         "nickname": "The Feasting Flower",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Hold a secret for too long",
@@ -4431,7 +4431,7 @@
         "areasOfConcern": "laughter, mischief, and transformation",
         "category": "Eldest",
         "nickname": "The Laughing Lie",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Be completely honest",
@@ -4488,7 +4488,7 @@
         "areasOfConcern": "loneliness, sadness, and forgotten things",
         "category": "Eldest",
         "nickname": "The Melancholy Lord",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Abandon someone who has no family",
@@ -4546,7 +4546,7 @@
         "areasOfConcern": "fire, purification, and radiance",
         "category": "Elemental Lords",
         "nickname": "The Lambent King",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Deny a suffering creature warmth, shade, or water",
@@ -4604,7 +4604,7 @@
         "areasOfConcern": "buried secrets, earth, and metal",
         "category": "Elemental Lords",
         "nickname": "The Fossilized King",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Remove a creature's petrified condition",
@@ -4663,7 +4663,7 @@
         "areasOfConcern": "air, last breaths, and windstorms",
         "category": "Elemental Lords",
         "nickname": "Duchess of All Winds",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Deny a flying creature the ability to fly",
@@ -4722,7 +4722,7 @@
         "areasOfConcern": "the deep sea, waves, and drowning",
         "category": "Elemental Lords",
         "nickname": "The Brackish Emperor",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Destroy a body of water",
@@ -4781,7 +4781,7 @@
         "areasOfConcern": "currents, tides, and water",
         "category": "Elemental Lords",
         "nickname": "Empress of the Torrent",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Pollute clean bodies of water",
@@ -4841,7 +4841,7 @@
         "areasOfConcern": "air, welcome breezes, and thunderstorms",
         "category": "Elemental Lords",
         "nickname": "Zephyrous Prince",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Wrongfully imprison a creature",
@@ -4900,7 +4900,7 @@
         "areasOfConcern": "caves, earth, and gems",
         "category": "Elemental Lords",
         "nickname": "The Crystalline Queen",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Damage subterranean natural wonders",
@@ -4959,7 +4959,7 @@
         "areasOfConcern": "fire, heat, and smoke",
         "category": "Elemental Lords",
         "nickname": "Queen of the Inferno",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Extinguish destructive blazes",
@@ -5017,7 +5017,7 @@
         "areasOfConcern": "twilight and traditional art and architecture",
         "category": "Elven Gods",
         "nickname": "The Guiding Hand",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Break the laws of hospitality",
@@ -5074,7 +5074,7 @@
         "areasOfConcern": "hunting and the moon",
         "category": "Elven Gods",
         "nickname": "The Hunter",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Take more than needed from the wilderness",
@@ -5130,7 +5130,7 @@
         "areasOfConcern": "gems, craft, and magic",
         "category": "Elven Gods",
         "nickname": "The Wise",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Cut a gem for aesthetic purposes",
@@ -5214,7 +5214,7 @@
         "areasOfConcern": "consolation, respect, and security",
         "category": "Empyreal Lords",
         "nickname": "Grandmother Crow",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Hold a grudge",
@@ -5272,7 +5272,7 @@
         "areasOfConcern": "freedom, physical beauty, and sexuality",
         "category": "Empyreal Lords",
         "nickname": "Spirit of Abandon",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Judge another based on sexual desires or gender roles",
@@ -5329,7 +5329,7 @@
         "areasOfConcern": "moonlight, dancing, and lonely spirits",
         "category": "Empyreal Lords",
         "nickname": "The True Spark",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Intentionally mislead someone",
@@ -5386,7 +5386,7 @@
         "areasOfConcern": "distance, silence, and space",
         "category": "Empyreal Lords",
         "nickname": "The Silence Between",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Disrupt another's meditation",
@@ -5441,7 +5441,7 @@
         "alignment": "Chaotic Good",
         "category": "Empyreal Lords",
         "nickname": "The Horned Lord",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Fail to strike down evil",
@@ -5497,7 +5497,7 @@
         "alignment": "Lawful Good",
         "category": "Empyreal Lords",
         "nickname": "The Weighted Swing",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Kill without thought",
@@ -5555,7 +5555,7 @@
         "areasOfConcern": "honest debate, opinions, and truth",
         "category": "Empyreal Lords",
         "nickname": "Heart-Speaker",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Sow or perpetuate lies",
@@ -5613,7 +5613,7 @@
         "areasOfConcern": "femininity, martial training, and rings",
         "category": "Empyreal Lords",
         "nickname": "Warrior's Ring",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Disrupt or destroy romantic unions",
@@ -5669,7 +5669,7 @@
         "alignment": "Neutral Good",
         "category": "Empyreal Lords",
         "nickname": "Lady of Ripe Bounty",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Salt or despoil the earth",
@@ -5728,7 +5728,7 @@
         "areasOfConcern": "glyphs, scribes, and spells",
         "category": "Empyreal Lords",
         "nickname": "Lady of Inscribed Wonder",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Destroy magic scrolls",
@@ -5785,7 +5785,7 @@
         "alignment": "Neutral Good",
         "category": "Empyreal Lords",
         "nickname": "Fearless Claw",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Punish another creature for cowardice",
@@ -5843,7 +5843,7 @@
         "areasOfConcern": "foresight, forgiveness, and peace",
         "category": "Empyreal Lords",
         "nickname": "The Open Hand of Harmony",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Cause lethal harm to a creature",
@@ -5898,7 +5898,7 @@
         "alignment": "Lawful Good",
         "category": "Empyreal Lords",
         "nickname": "The Auroral Tower",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Persecute sex workers",
@@ -5955,7 +5955,7 @@
         "areasOfConcern": "constellations, homesickness, and northern lights",
         "category": "Empyreal Lords",
         "nickname": "The Shimmering Maiden",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Mock the homesick",
@@ -6012,7 +6012,7 @@
         "areasOfConcern": "chivalry, duty, and vengeance",
         "category": "Empyreal Lords",
         "nickname": "General of Vengeance",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Cower from combat",
@@ -6067,7 +6067,7 @@
         "alignment": "Neutral Good",
         "category": "Empyreal Lords",
         "nickname": "The Ibis Matron",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Force others to follow your path",
@@ -6125,7 +6125,7 @@
         "areasOfConcern": "guardians, monuments, and magic",
         "category": "Empyreal Lords",
         "nickname": "The Mystic Angel",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Defile sacred buildings",
@@ -6182,7 +6182,7 @@
         "alignment": "Lawful Good",
         "category": "Empyreal Lords",
         "nickname": "The Aurulent Eye",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Abandon your post",
@@ -6240,7 +6240,7 @@
         "areasOfConcern": "devotion, sacrifice, and scars",
         "category": "Empyreal Lords",
         "nickname": "The Cardinal Martyr",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Joke or laugh about injustice",
@@ -6296,7 +6296,7 @@
         "alignment": "Lawful Good",
         "category": "Empyreal Lords",
         "nickname": "The Elder of Divinity",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Deride sacred ceremonies",
@@ -6354,7 +6354,7 @@
         "areasOfConcern": "coastal waters, fishers, and flying creatures",
         "category": "Empyreal Lords",
         "nickname": "Harborwing",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Imprison birds or clip their wings",
@@ -6414,7 +6414,7 @@
         "areasOfConcern": "determination, investigation, and truth",
         "category": "Empyreal Lords",
         "nickname": "Verity",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Make judgments without evidence",
@@ -6472,7 +6472,7 @@
         "areasOfConcern": "disease",
         "category": "Horsemen",
         "nickname": "Prince of Locusts",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Prevent plagues",
@@ -6528,7 +6528,7 @@
         "areasOfConcern": "death",
         "category": "Horsemen",
         "nickname": "The Boatman",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Offer anything for free",
@@ -6585,7 +6585,7 @@
         "areasOfConcern": "war",
         "category": "Horsemen",
         "nickname": "Angel of Desolation",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Show mercy to creatures who do not worship Szuriel",
@@ -6641,7 +6641,7 @@
         "areasOfConcern": "famine",
         "category": "Horsemen",
         "nickname": "The Lysogenic Prince",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Kill or remove a parasite or tumor",
@@ -6697,7 +6697,7 @@
         "areasOfConcern": "compasses, travelers, and vigils",
         "category": "Monitor Demigods",
         "nickname": "The Passage",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Celebrate specific calendar dates over others",
@@ -6753,7 +6753,7 @@
         "alignment": "Neutral",
         "category": "Monitor Demigods",
         "nickname": "The Symbol of Doom",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Withhold your understanding of a portent",
@@ -6811,7 +6811,7 @@
         "areasOfConcern": "emptiness, entropy, and stillness",
         "category": "Monitor Demigods",
         "nickname": "The Waiting Void",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Attempt to preserve something indefinitely",
@@ -6867,7 +6867,7 @@
         "areasOfConcern": "creation, the infinite, and truth",
         "category": "Monitor Demigods",
         "nickname": "The Condition of All",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Allow your personal motivations to determine a major decision"
@@ -6922,7 +6922,7 @@
         "areasOfConcern": "consumption, renewal, and transformation",
         "category": "Monitor Demigods",
         "nickname": "The Flesheater",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Poison insects or scavengers",
@@ -6980,7 +6980,7 @@
         "alignment": "Neutral",
         "category": "Monitor Demigods",
         "nickname": "The Cleansing Sentence",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Torture an unwilling creature",
@@ -7037,7 +7037,7 @@
         "areasOfConcern": "ascendance, keketars, and revelations",
         "category": "Monitor Demigods",
         "nickname": "The Crownless, the Maker of Kings",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Refuse to speak to a keketar",
@@ -7094,7 +7094,7 @@
         "areasOfConcern": "machinery, math, and physics",
         "category": "Monitor Demigods",
         "nickname": "The Universal",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Suppress a factual report",
@@ -7150,7 +7150,7 @@
         "areasOfConcern": "agency, bronze, and education",
         "category": "Monitor Demigods",
         "nickname": "The Minder of Immortals",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Manipulate or remove a creature's emotions with magic",
@@ -7207,7 +7207,7 @@
         "areasOfConcern": "ceremonies, magic, and preparation",
         "category": "Monitor Demigods",
         "nickname": "The Answering Rite",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Grant magic to those who cannot use it responsibly",
@@ -7265,7 +7265,7 @@
         "areasOfConcern": "language evolution, lost words, and slang",
         "category": "Monitor Demigods",
         "nickname": "Mother of Tongues",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Ban or discourage a language",
@@ -7324,7 +7324,7 @@
         "alignment": "Chaotic Neutral",
         "category": "Outer Gods and Great Old Ones",
         "nickname": "The Primal Chaos",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "clericSpells": [
             {
@@ -7374,7 +7374,7 @@
         "alignment": "Chaotic Evil",
         "category": "Outer Gods and Great Old Ones",
         "nickname": "The King in Yellow",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "clericSpells": [
             {
@@ -7425,7 +7425,7 @@
         "alignment": "Chaotic Evil",
         "category": "Outer Gods and Great Old Ones",
         "nickname": "The Empty Death",
-        "sourcebook": "Pathfinder #165: Eyes of Empty Death, Gods & Magic",
+        "sourceBook": "Pathfinder #165: Eyes of Empty Death, Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "alternateDomains": [
             "Abomination",
@@ -7478,7 +7478,7 @@
         "alignment": "Chaotic Evil",
         "category": "Outer Gods and Great Old Ones",
         "nickname": "The Crawling Chaos",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "clericSpells": [
             {
@@ -7552,7 +7552,7 @@
         "alignment": "Neutral Evil",
         "category": "Outer Gods and Great Old Ones",
         "nickname": "The Star Seed",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "clericSpells": [
             {
@@ -7602,7 +7602,7 @@
         "alignment": "Chaotic Neutral",
         "category": "Outer Gods and Great Old Ones",
         "nickname": "Lurker at the Threshold",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "clericSpells": [
             {
@@ -7652,7 +7652,7 @@
         "alignment": "Lawful Good",
         "areasOfConcern": "ancestry, crafting, dwarves, relationships",
         "category": "Pantheons",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "alternateDomains": [
             "Duty",
@@ -7727,7 +7727,7 @@
         "alignment": "Chaotic Good",
         "areasOfConcern": "elves, magic, nature, tradition",
         "category": "Pantheons",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "irreparably damage the natural environment (such as by overhunting or strip mining)",
@@ -7793,7 +7793,7 @@
         "alignment": "Lawful Neutral",
         "areasOfConcern": "discipline, laws, order, strategy",
         "category": "Pantheons",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "alternateDomains": [
             "Duty"
@@ -7861,7 +7861,7 @@
         "alignment": "Lawful Evil",
         "category": "Queens of the Night",
         "nickname": "The End of Innocence",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Give someone more than you receive from them",
@@ -7916,7 +7916,7 @@
         "alignment": "Lawful Evil",
         "category": "Queens of the Night",
         "nickname": "Our Lady of Pain",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Show or act on emotion",
@@ -7970,7 +7970,7 @@
         "alignment": "Lawful Evil",
         "category": "Queens of the Night",
         "nickname": "The Erinyes Queen",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Allow a slight to go unanswered",
@@ -8024,7 +8024,7 @@
         "alignment": "Lawful Evil",
         "category": "Queens of the Night",
         "nickname": "Dowager of Illusions",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Become too invested in mortal affairs"
@@ -8078,7 +8078,7 @@
         "alignment": "Chaotic Good",
         "category": "Sarkorian Gods",
         "nickname": "Princess of the Rime",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Destroy an artistic creation without providing something in its place",
@@ -8133,7 +8133,7 @@
         "alignment": "Neutral",
         "category": "Sarkorian Gods",
         "nickname": "She Who Listens",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Harm a pregnant mother or innocent child",
@@ -8193,7 +8193,7 @@
         "alignment": "Lawful Good",
         "category": "Sarkorian Gods",
         "nickname": "The Dragoneagle",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Command a subordinate to perform a task you're not willing to perform yourself"
@@ -8246,7 +8246,7 @@
         "alignment": "Neutral",
         "category": "Tian Gods",
         "nickname": "Lady of Foxes",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Mistreat your tools",
@@ -8304,7 +8304,7 @@
         "alignment": "Neutral Evil",
         "category": "Tian Gods",
         "nickname": "Lord of Envy",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Pass by food without stealing a bite",
@@ -8360,7 +8360,7 @@
         "alignment": "Lawful Evil",
         "category": "Tian Gods",
         "nickname": "The Black Daimyo",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Cower from fights",
@@ -8418,7 +8418,7 @@
         "areasOfConcern": "sea, storms, tengu, sailors",
         "category": "Tian Gods",
         "nickname": "Duke of Thunder",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "alternateDomains": [
             "Destruction",
@@ -8480,7 +8480,7 @@
         "alignment": "Chaotic Good",
         "category": "Tian Gods",
         "nickname": "The Laughing God",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Become tied to one location",
@@ -8534,7 +8534,7 @@
         "alignment": "Neutral Good",
         "category": "Tian Gods",
         "nickname": "The Poet of Dawn and Dusk",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Destroy a natural plum tree",
@@ -8589,7 +8589,7 @@
         "alignment": "Chaotic Evil",
         "category": "Tian Gods",
         "nickname": "The Widow of Suffering",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Allow a natural disaster to completely destroy a community or leave a group with no survivors"
@@ -8642,7 +8642,7 @@
         "alignment": "Neutral Evil",
         "category": "Tian Gods",
         "nickname": "Old Rat Woman",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Work honestly for something you could steal instead",
@@ -8699,7 +8699,7 @@
         "alignment": "Neutral",
         "category": "Tian Gods",
         "nickname": "The Serpent's Kiss",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Kill a harmless snake or swan",
@@ -8785,7 +8785,7 @@
         "alignment": "Neutral Good",
         "category": "Tian Gods",
         "nickname": "Master of Medicine",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Deal lethal damage to another living creature (unless as part of a necessary medical treatment)."
@@ -8842,7 +8842,7 @@
         "areasOfConcern": "ancestors, honor, the sun, and swordplay",
         "category": "Tian Gods",
         "nickname": "The Empress of Heaven",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "alternateDomains": [
             "Sorrow"
@@ -8902,7 +8902,7 @@
         "alignment": "Chaotic Neutral",
         "category": "Tian Gods",
         "nickname": "The Monkey King",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Refuse a reasonable bet or duel",
@@ -8960,7 +8960,7 @@
         "areasOfConcern": "jade, the moon, spirits",
         "category": "Tian Gods",
         "nickname": "Prince of the Moon",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "alternateDomains": [
             "Change"
@@ -9021,7 +9021,7 @@
         "alignment": "Lawful Evil",
         "category": "Tian Gods",
         "nickname": "Minister of Blood",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Show mercy to a target",
@@ -9076,7 +9076,7 @@
         "alignment": "Neutral",
         "category": "Tian Gods",
         "nickname": "The Mountain Lord",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Become reliant on civilization",
@@ -9133,7 +9133,7 @@
         "alignment": "Neutral Good",
         "category": "Vudrani Gods",
         "nickname": "The Sacred Perfume",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Dispose of waste near flowers",
@@ -9190,7 +9190,7 @@
         "alignment": "Chaotic Neutral",
         "category": "Vudrani Gods",
         "nickname": "The Divine Divide",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Destroy a natural barrier",
@@ -9247,7 +9247,7 @@
         "alignment": "Neutral",
         "category": "Vudrani Gods",
         "nickname": "The Roar of the Storm",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Harm a child",
@@ -9304,7 +9304,7 @@
         "alignment": "Lawful Evil",
         "category": "Vudrani Gods",
         "nickname": "The Unsuspected Rot",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Betray a fellow servant of Dhalavei",
@@ -9359,7 +9359,7 @@
         "alignment": "Lawful Evil",
         "category": "Vudrani Gods",
         "nickname": "The Serpent of Eighty Blades",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Provoke a fight",
@@ -9417,7 +9417,7 @@
         "areasOfConcern": "enlightenment, the Vudrani holy book",
         "category": "Vudrani Gods",
         "nickname": "The Keeper",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "alternateDomains": [
             "Nature",
@@ -9479,7 +9479,7 @@
         "alignment": "Chaotic Evil",
         "category": "Vudrani Gods",
         "nickname": "Patron of Monkeys",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Work honestly for something you could steal instead",
@@ -9533,7 +9533,7 @@
         "alignment": "Neutral",
         "category": "Vudrani Gods",
         "nickname": "The Teller",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Begin a performance or tale without first inviting the gods to watch",
@@ -9590,7 +9590,7 @@
         "alignment": "Lawful Neutral",
         "category": "Vudrani Gods",
         "nickname": "The Wide Water",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Destroy lotus fields",
@@ -9647,7 +9647,7 @@
         "alignment": "Neutral",
         "category": "Vudrani Gods",
         "nickname": "The Sage on the Mountain",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Make a joke out of someone's suffering",
@@ -9704,7 +9704,7 @@
         "alignment": "Neutral Evil",
         "category": "Vudrani Gods",
         "nickname": "The Evil Prince",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "Abuse a loyal subject",
@@ -9759,7 +9759,7 @@
     {
         "name": "Atheism",
         "category": "Philosophies",
-        "sourcebook": "Gods & Magic, Core Rulebook",
+        "sourceBook": "Gods & Magic, Core Rulebook",
         "_extensionFileName": "godsAndMagic",
         "followerAlignments": [
             "Lawful Good",
@@ -9779,7 +9779,7 @@
         "alignment": "Neutral",
         "areasOfConcern": "veneration of the natural world",
         "category": "Philosophies",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "cause damage to natural settings",
@@ -9816,7 +9816,7 @@
         "alignment": "Lawful Neutral",
         "areasOfConcern": "trade, wealth, self-denial, stability",
         "category": "Philosophies",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "spend money frivolously",
@@ -9849,7 +9849,7 @@
         "alignment": "Lawful Neutral",
         "areasOfConcern": "history, occultism, secret lore",
         "category": "Philosophies",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "reveal the order's secrets to those outside the organization (or even to insufficiently ranked members)",
@@ -9879,7 +9879,7 @@
         "desc": "The ancient art of god calling was once the predominant religious practice in Sarkoris, long before the Worldwound erupted and demons drove most of the native Sarkorians from their homelands. This art, one part magical theory and one part religion, allows certain Sarkorians to summon unusual and unique beings from the Great Beyond who protect their clans and guide their people. These creatures are typically referred to as gods by those who revere them, and they continue to return and guide their people generation after generation, so long as someone trained by a previous god caller or otherwise educated in the practice of communing with a particular god is alive to form a tether to the Material Plane so that the god can manifest. These god callers may have unique titles or names among the people of their clan, and such monikers differ from clan to clan, but most of the clans of Sarkoris are able to distinguish a god caller by their unique dress or glyph that ties the caller to their god.",
         "areasOfConcern": "Each god has their own particular inclinations and interests, typically informed by the predominant attitudes and beliefs of their clan.",
         "category": "Philosophies",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "There is only one anathema universally enforced by the gods of Sarkoris: make no deals or bargains with demons",
@@ -9909,7 +9909,7 @@
         "alignment": "Lawful Neutral",
         "areasOfConcern": "mortal affairs, peace, self-rule",
         "category": "Philosophies",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "worship or swear an oath by a deity or religion",
@@ -9943,7 +9943,7 @@
         "alignment": "Neutral",
         "areasOfConcern": "fate, karma, and reincarnation",
         "category": "Philosophies",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "anathema": [
             "needlessly break significant traditions",
@@ -9972,7 +9972,7 @@
         "name": "Shoanti Animism",
         "desc": "Most Shoanti belong to one of seven quahs, or clans, each with specific lands, notable strengths, and unique spiritual perspectives. Traditionally, each Shoanti undergoes a rite of passage into adulthood, during which time their particular totem manifests, and a Shoanti's first tattoo is an homage to that totem. The quahs and their most common totems are listed below:\n\n<strong>Lyrune-Quah (Moon Clan)</strong> bat, cave bear, moon, mountain lion, owl, stars\n<strong>Shadde-Quah (Axe Clan)</strong> cliffs, eagle, sea, shark, squid, water elemental\n<strong>Shriikirri-Quah (Hawk Clan)</strong> cloud, falcon, hawk, hippogriff, horse, wind\n<strong>Shundar-Quah (Spire Clan)</strong> avalanche, earth elemental, mountain spire or peak, roc, spirestalker\n<strong>Sklar-Quah (Sun Clan)</strong> aurochs, cindersnake, emberstorm, fire elemental, flames, the sun\n<strong>Skoan-Quah (Skull Clan)</strong> ancestors, earth elemental, giant scarab beetle, vulture, will-o'-wisp, wolf\n<strong>Tamiir-Quah (Wind Clan)</strong> air elemental, cloud, griffon, roc, storm, wind\n\nAccording to their own tradition, Shoanti have lived in the northwestern lands of Avistan since long before colonizers fractured the Varisians' homeland. Yet the Shoanti people still maintain their independence and traditional way of life in areas across Varisia, particularly on the Storval Plateau.\n\nShoanti animism is rooted in a deep connection to the land. Shoanti see the earth not merely as a metaphorical parent, but as a conscious entity whose constant support is necessary for the survival of all life upon it - animal and vegetable alike. Their traditions emphasize connection and the reciprocal way in which the land provides for those who take care of it. The life force of the land serves as the source of Shoanti power and insight, rather than the otherworldly spiritual essence of the Great Beyond common to clerics. This life force is the birth of instinct and faith, and thus it sends omens to indicate future events, warning those with the wisdom to read the signs. Thus most Shoanti hold a profound reverence for natural phenomena as a manifestation of the will of the earth.",
         "category": "Philosophies",
-        "sourcebook": "Gods & Magic",
+        "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "followerAlignments": [
             "Lawful Good",

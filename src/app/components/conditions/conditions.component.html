@@ -222,6 +222,10 @@
                                                         </ng-container>
                                                     </ng-container>
                                                 </ng-container>
+                                                <div class="newrow left-aligned" *ngIf="condition.sourceBook">
+                                                    <strong>Source</strong>
+                                                    <i>{{condition.sourceBook}}</i>
+                                                </div>
                                                 <ng-container
                                                     *ngFor="let desc of get_HeightenedDescription(condition).split('\n\n'); trackBy:trackByIndex;">
                                                     <app-description class="newrow" [text]="desc"></app-description>
@@ -301,7 +305,7 @@
                                         </div>
                                         <div class="newrow">
                                             <span class="hlist">
-                                                <strong class="no-shadow">Source</strong>
+                                                <strong class="no-shadow">Granted by</strong>
                                                 <input type="text" id="customEffectSource{{creature.type}}{{index}}"
                                                     maxLength="30" [(ngModel)]="effect.source"
                                                     (blur)="update_Effects(creature)">

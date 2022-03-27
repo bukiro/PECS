@@ -6,7 +6,7 @@
         "areasOfConcern": "cities, law, merchants, and wealth",
         "category": "Gods of the Inner Sea",
         "nickname": "Master of the First Vault",
-        "sourcebook": "Core Rulebook",
+        "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "alternateDomains": [
             "Duty"
@@ -68,7 +68,7 @@
         "areasOfConcern": "contracts, pride, slavery, and tyranny",
         "category": "Gods of the Inner Sea",
         "nickname": "The Prince of Darkness",
-        "sourcebook": "Core Rulebook",
+        "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "alternateDomains": [
             "Duty",
@@ -132,7 +132,7 @@
         "areasOfConcern": "lust, revenge, and trickery",
         "category": "Gods of the Inner Sea",
         "nickname": "The Savored Sting",
-        "sourcebook": "Core Rulebook",
+        "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "anathema": [
             "become too consumed by love or a need for revenge",
@@ -190,7 +190,7 @@
         "areasOfConcern": "ale, bravery, freedom, and wine",
         "category": "Gods of the Inner Sea",
         "nickname": "The Accidental God",
-        "sourcebook": "Core Rulebook",
+        "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "anathema": [
             "waste alcohol",
@@ -248,7 +248,7 @@
         "areasOfConcern": "dreams, luck, stars, and travelers",
         "category": "Gods of the Inner Sea",
         "nickname": "The Song of the Spheres",
-        "sourcebook": "Core Rulebook",
+        "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "alternateDomains": [
             "Star",
@@ -311,7 +311,7 @@
         "areasOfConcern": "family, farming, hunting, and trade",
         "category": "Gods of the Inner Sea",
         "nickname": "Old Deadeye",
-        "sourcebook": "Core Rulebook",
+        "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "alternateDomains": [
             "Duty"
@@ -374,7 +374,7 @@
         "areasOfConcern": "battle, strength, and weapons",
         "category": "Gods of the Inner Sea",
         "nickname": "Our Lord in Iron",
-        "sourcebook": "Core Rulebook",
+        "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "anathema": [
             "kill prisoners or surrendering foes",
@@ -432,7 +432,7 @@
         "areasOfConcern": "nature, the sea, and weather",
         "category": "Gods of the Inner Sea",
         "nickname": "The Wind and the Waves",
-        "sourcebook": "Core Rulebook",
+        "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "alternateDomains": [
             "Cold",
@@ -496,7 +496,7 @@
         "areasOfConcern": "honor, justice, rulership, and valor",
         "category": "Gods of the Inner Sea",
         "nickname": "The Inheritor",
-        "sourcebook": "Core Rulebook",
+        "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "alternateDomains": [
             "Duty"
@@ -556,7 +556,7 @@
         "areasOfConcern": "history, knowledge, and self-perfection",
         "category": "Gods of the Inner Sea",
         "nickname": "Master of Masters",
-        "sourcebook": "Core Rulebook",
+        "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "alternateDomains": [
             "Change",
@@ -620,7 +620,7 @@
         "areasOfConcern": "aberrance, monsters, and nightmares",
         "category": "Gods of the Inner Sea",
         "nickname": "Mother of Monsters",
-        "sourcebook": "Core Rulebook",
+        "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "alternateDomains": [
             "Change"
@@ -680,7 +680,7 @@
         "areasOfConcern": "magic",
         "category": "Gods of the Inner Sea",
         "nickname": "The All-Seeing Eye",
-        "sourcebook": "Core Rulebook",
+        "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "alternateDomains": [
             "Glyph"
@@ -764,7 +764,7 @@
         "areasOfConcern": "greed, murder, poison, secrets",
         "category": "Gods of the Inner Sea",
         "nickname": "Blackfingers, Father Skinsaw, The Gray Master, Reaper of Reputation",
-        "sourcebook": "Core Rulebook",
+        "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "anathema": [
             "allow your true identity to be connected to your dark dealings",
@@ -824,7 +824,7 @@
         "areasOfConcern": "birth, death, fate, prophecy, and time",
         "category": "Gods of the Inner Sea",
         "nickname": "Lady of Graves",
-        "sourcebook": "Core Rulebook",
+        "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "alternateDomains": [
             "Soul",
@@ -887,7 +887,7 @@
         "areasOfConcern": "destruction, disaster, and wrath",
         "category": "Gods of the Inner Sea",
         "nickname": "The Rough Beast",
-        "sourcebook": "Core Rulebook",
+        "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "alternateDomains": [
             "Swarm",
@@ -947,7 +947,7 @@
         "areasOfConcern": "healing, honesty, redemption, and the sun",
         "category": "Gods of the Inner Sea",
         "nickname": "The Dawnflower",
-        "sourcebook": "Core Rulebook",
+        "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "alternateDomains": [
             "Repose"
@@ -1010,7 +1010,7 @@
         "areasOfConcern": "art, beauty, love, and music",
         "category": "Gods of the Inner Sea",
         "nickname": "The Eternal Rose",
-        "sourcebook": "Core Rulebook",
+        "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "alternateDomains": [
             "Repose"
@@ -1072,7 +1072,7 @@
         "areasOfConcern": "forge, protection, and strategy",
         "category": "Gods of the Inner Sea",
         "nickname": "The Forge Father",
-        "sourcebook": "Core Rulebook",
+        "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "alternateDomains": [
             "Duty"
@@ -1133,7 +1133,7 @@
         "areasOfConcern": "disease, gluttony, and undeath",
         "category": "Gods of the Inner Sea",
         "nickname": "Pallid Princess",
-        "sourcebook": "Core Rulebook",
+        "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "alternateDomains": [
             "Decay",
@@ -1196,7 +1196,7 @@
         "areasOfConcern": "darkness, envy, loss, and pain",
         "category": "Gods of the Inner Sea",
         "nickname": "Midnight Lord",
-        "sourcebook": "Core Rulebook",
+        "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "alternateDomains": [
             "Void"
@@ -1252,7 +1252,7 @@
         "name": "Whispering Way",
         "desc": "These cultists believe undeath is the truest form of existence, and life is meant to be spent in preparation for transition to a more glorious unlife after death.",
         "category": "Philosophies",
-        "sourcebook": "Core Rulebook",
+        "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "anathema": [
             "destroy necromantic texts (unless they reveal secrets of the Whispering Way)",

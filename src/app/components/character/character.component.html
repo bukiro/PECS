@@ -578,7 +578,7 @@
                                                         {{boost.name}}
                                                     </div>
                                                     <div class="newrow left-aligned">
-                                                        <strong>Source</strong>
+                                                        <strong>Granted by</strong>
                                                         {{boost.source}}
                                                     </div>
                                                 </ng-template>
@@ -606,7 +606,7 @@
                                                     {{boost.name}}
                                                 </div>
                                                 <div class="newrow left-aligned">
-                                                    <strong>Source</strong>
+                                                    <strong>Granted by</strong>
                                                     {{boost.source}}
                                                 </div>
                                             </ng-template>
@@ -661,7 +661,7 @@
                                                         <strong>{{skillIncrease.name}}</strong>
                                                     </div>
                                                     <div class="newrow left-aligned">
-                                                        <strong>Source</strong>
+                                                        <strong>Granted by</strong>
                                                         {{skillIncrease.source}}
                                                     </div>
                                                 </ng-template>
@@ -686,7 +686,7 @@
                                                     <strong>{{skillIncrease.name}}</strong>
                                                 </div>
                                                 <div class="newrow left-aligned">
-                                                    <strong>Source</strong>
+                                                    <strong>Granted by</strong>
                                                     {{skillIncrease.source}}
                                                 </div>
                                             </ng-template>
@@ -725,7 +725,7 @@
                                                             feat.name}}
                                                         </header>
                                                         <div class="newrow left-aligned">
-                                                            <strong>Source</strong>
+                                                            <strong>Granted by</strong>
                                                             {{feat.source}}
                                                         </div>
                                                         <app-feat [feat]="libraryFeat" [choice]="null"
@@ -755,7 +755,7 @@
                                                     <header class="spellHeader">{{libraryFeat.displayName || feat.name}}
                                                     </header>
                                                     <div class="newrow left-aligned">
-                                                        <strong>Source</strong>
+                                                        <strong>Granted by</strong>
                                                         {{feat.source}}
                                                     </div>
                                                     <app-feat [feat]="libraryFeat" [choice]="null"
@@ -806,7 +806,7 @@
                                                             feature.name}}
                                                         </header>
                                                         <div class="newrow left-aligned">
-                                                            <strong>Source</strong>
+                                                            <strong>Granted by</strong>
                                                             {{feature.source}}
                                                         </div>
                                                         <app-feat [feat]="libraryFeature" [choice]="null"
@@ -837,7 +837,7 @@
                                                         feature.name}}
                                                     </header>
                                                     <div class="newrow left-aligned">
-                                                        <strong>Source</strong>
+                                                        <strong>Granted by</strong>
                                                         {{feature.source}}
                                                     </div>
                                                     <app-feat [feat]="libraryFeature" [choice]="null"
@@ -1712,10 +1712,9 @@
                                         </label>
                                     </div>
                                     <div class="newrow left-aligned tags">
-                                        <cite class="trait" *ngFor="let trait of class.traits; trackBy:trackByIndex;"
-                                            [ngbPopover]="get_Traits(trait)[0]?.desc" openDelay=100>
-                                            {{trait}}
-                                        </cite>
+                                        <app-trait *ngFor="let trait of class.traits; trackBy:trackByIndex;"
+                                            [name]="trait" [trait]="get_Traits(trait)[0]">
+                                        </app-trait>
                                     </div>
                                     <div class="newrow left-aligned" *ngIf="class.sourceBook">
                                         <strong>Source</strong>
@@ -1780,10 +1779,9 @@
                                         </label>
                                     </div>
                                     <div class="newrow left-aligned tags">
-                                        <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}" *ngFor="let trait of ancestry.traits; trackBy:trackByIndex;"
-                                            [ngbPopover]="get_Traits(trait)[0]?.desc" openDelay=100>
-                                            {{trait}}
-                                        </cite>
+                                        <app-trait *ngFor="let trait of ancestry.traits; trackBy:trackByIndex;"
+                                            [name]="trait" [trait]="get_Traits(trait)[0]">
+                                        </app-trait>
                                     </div>
                                     <div class="newrow left-aligned" *ngIf="ancestry.sourceBook">
                                         <strong>Source</strong>
@@ -1813,11 +1811,11 @@
                                             <i [ngbTooltip]="ancestry.warning" style="font-size:200%"
                                                 *ngIf="ancestry.warning" class="penalty bi-exclamation-triangle"></i>
                                             <span>{{ancestry.name}}&nbsp;</span>
-                                            <cite class="trait-rare" *ngIf="ancestry.traits.includes('Rare')"
-                                                [ngbPopover]="get_Traits('Rare')[0]?.desc" openDelay=100>Rare</cite>
-                                            <cite class="trait-rare" *ngIf="ancestry.traits.includes('Uncommon')"
-                                                [ngbPopover]="get_Traits('Uncommon')[0]?.desc"
-                                                openDelay=100>Uncommon</cite>
+                                            <ng-container *ngFor="let trait of ['Rare', 'Uncommon']">
+                                                <app-trait *ngIf="ancestry.traits.includes(trait)" [name]="trait"
+                                                    [trait]="get_Traits(trait)[0]">
+                                                </app-trait>
+                                            </ng-container>
                                         </header>
                                     </div>
                                 </div>
@@ -1856,11 +1854,9 @@
                                             </label>
                                         </div>
                                         <div class="newrow left-aligned tags">
-                                            <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}"
-                                                *ngFor="let trait of heritage.traits; trackBy:trackByIndex;"
-                                                [ngbPopover]="get_Traits(trait)[0]?.desc" openDelay=100>
-                                                {{trait}}
-                                            </cite>
+                                            <app-trait *ngFor="let trait of heritage.traits; trackBy:trackByIndex;"
+                                                [name]="trait" [trait]="get_Traits(trait)[0]">
+                                            </app-trait>
                                         </div>
                                         <div class="newrow left-aligned" *ngIf="heritage.sourceBook">
                                             <strong>Source</strong>
@@ -1928,11 +1924,11 @@
                                             </app-gridIcon>
                                             <header class="sectionHeader">
                                                 <span>{{heritage.name}}&nbsp;</span>
-                                                <cite class="trait-rare" *ngIf="heritage.traits.includes('Rare')"
-                                                    [ngbPopover]="get_Traits('Rare')[0]?.desc" openDelay=100>Rare</cite>
-                                                <cite class="trait-uncommon" *ngIf="heritage.traits.includes('Uncommon')"
-                                                    [ngbPopover]="get_Traits('Uncommon')[0]?.desc"
-                                                    openDelay=100>Uncommon</cite>
+                                                <ng-container *ngFor="let trait of ['Rare', 'Uncommon']">
+                                                    <app-trait *ngIf="heritage.traits.includes(trait)" [name]="trait"
+                                                        [trait]="get_Traits(trait)[0]">
+                                                    </app-trait>
+                                                </ng-container>
                                             </header>
                                         </div>
                                     </div>
@@ -1961,7 +1957,7 @@
                             <ng-template #LanguageSource>
                                 <div class="newrow">
                                     <span>
-                                        <strong>Source</strong>
+                                        <strong>Granted by</strong>
                                         {{language.source}}
                                     </span>
                                 </div>
@@ -2029,11 +2025,9 @@
                                         </label>
                                     </div>
                                     <div class="newrow left-aligned tags">
-                                        <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}"
-                                            *ngFor="let trait of background.traits; trackBy:trackByIndex;"
-                                            [ngbPopover]="get_Traits(trait)[0]?.desc" openDelay=100>
-                                            {{trait}}
-                                        </cite>
+                                        <app-trait *ngFor="let trait of background.traits; trackBy:trackByIndex;"
+                                            [name]="trait" [trait]="get_Traits(trait)[0]">
+                                        </app-trait>
                                     </div>
                                     <div class="newrow left-aligned" *ngIf="background.sourceBook">
                                         <strong>Source</strong>
@@ -2090,17 +2084,12 @@
                                         </app-gridIcon>
                                         <header class="sectionHeader">
                                             <span>{{background.name}}&nbsp;</span>
-                                            <cite class="trait-rare" *ngIf="background.traits.includes('Rare')"
-                                                [ngbPopover]="get_Traits('Rare')[0]?.desc" openDelay=100>Rare</cite>
-                                            <cite class="trait-uncommon" *ngIf="background.traits.includes('Uncommon')"
-                                                [ngbPopover]="get_Traits('Uncommon')[0]?.desc"
-                                                openDelay=100>Uncommon</cite>
-                                            <cite class="trait" *ngIf="background.adventurePath"
-                                                [ngbPopover]="get_Traits('Adventure')[0]?.desc"
-                                                openDelay=100>Adventure</cite>
-                                            <cite class="trait" *ngIf="background.region"
-                                                [ngbPopover]="get_Traits('Regional')[0]?.desc"
-                                                openDelay=100>Regional</cite>
+                                            <ng-container
+                                                *ngFor="let trait of ['Rare', 'Uncommon', 'Adventure', 'Regional']">
+                                                <app-trait *ngIf="background.traits.includes(trait)" [name]="trait"
+                                                    [trait]="get_Traits(trait)[0]">
+                                                </app-trait>
+                                            </ng-container>
                                         </header>
                                     </div>
                                 </div>
@@ -2336,9 +2325,10 @@
                                         <cite class="problem" *ngIf="illegal">
                                             Lore already trained
                                         </cite>
-                                        <input id="LoreName" class="short" type="text" [(ngModel)]="loreContent.choice.loreName"
-                                            [disabled]="checked" (blur)="on_LoreNameChange" maxLength="20">
-                                            <span> Lore</span>
+                                        <input id="LoreName" class="short" type="text"
+                                            [(ngModel)]="loreContent.choice.loreName" [disabled]="checked"
+                                            (blur)="on_LoreNameChange" maxLength="20">
+                                        <span> Lore</span>
                                     </header>
                                 </div>
                             </ng-container>
@@ -2395,11 +2385,9 @@
                                         </div>
                                         <div class="newrow left-aligned">
                                             <div class="newrow left-aligned tags">
-                                                <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}"
-                                                    *ngFor="let trait of type.traits; trackBy:trackByIndex;"
-                                                    [ngbPopover]="get_Traits(trait)[0]?.desc" openDelay=100>
-                                                    {{trait}}
-                                                </cite>
+                                                <app-trait *ngFor="let trait of type.traits; trackBy:trackByIndex;"
+                                                    [name]="trait" [trait]="get_Traits(trait)[0]">
+                                                </app-trait>
                                             </div>
                                             <div class="newrow left-aligned" *ngIf="type.sourceBook">
                                                 <strong>Source</strong>
@@ -2542,6 +2530,10 @@
                                                             Already taken
                                                         </cite>
                                                     </div>
+                                                    <div class="newrow left-aligned" *ngIf="spec.sourceBook">
+                                                        <strong>Source</strong>
+                                                        <i>{{spec.sourceBook}}</i>
+                                                    </div>
                                                     <div class="newrow left-aligned">
                                                         <p>
                                                             {{spec.desc}}
@@ -2668,11 +2660,10 @@
                                                 </label>
                                             </div>
                                             <div class="newrow left-aligned tags">
-                                                <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}"
+                                                <app-trait
                                                     *ngFor="let trait of background.traits; trackBy:trackByIndex;"
-                                                    [ngbPopover]="get_Traits(trait)[0]?.desc" openDelay=100>
-                                                    {{trait}}
-                                                </cite>
+                                                    [name]="trait" [trait]="get_Traits(trait)[0]">
+                                                </app-trait>
                                             </div>
                                             <div class="newrow left-aligned" *ngIf="background.sourceBook">
                                                 <strong>Source</strong>
@@ -2719,12 +2710,12 @@
                                                 </app-gridIcon>
                                                 <header class="sectionHeader">
                                                     <span>{{background.name}}&nbsp;</span>
-                                                    <cite class="trait-rare" *ngIf="background.traits.includes('Rare')"
-                                                        [ngbPopover]="get_Traits('Rare')[0]?.desc"
-                                                        openDelay=100>Rare</cite>
-                                                    <cite class="trait-uncommon" *ngIf="background.traits.includes('Uncommon')"
-                                                        [ngbPopover]="get_Traits('Uncommon')[0]?.desc"
-                                                        openDelay=100>Uncommon</cite>
+                                                    <ng-container
+                                                        *ngFor="let trait of ['Rare', 'Uncommon', 'Adventure', 'Regional']">
+                                                        <app-trait *ngIf="background.traits.includes(trait)"
+                                                            [name]="trait" [trait]="get_Traits(trait)[0]">
+                                                        </app-trait>
+                                                    </ng-container>
                                                 </header>
                                             </div>
                                         </div>
@@ -2837,7 +2828,16 @@
                                             <input id="{{domain.domain.name}}" type="checkbox" class="character-choice"
                                                 (change)="on_SplinterFaithDomainTaken(domain.domain.name, $event.target.checked)"
                                                 [checked]="checked" [disabled]="disabled">
-                                            <div class="gridicon-fullsizebox" [ngbPopover]="domain.domain.desc"
+                                            <ng-template #DomainDescTemplate>
+                                                <div class="newrow left-aligned" *ngIf="domain.domain.sourceBook">
+                                                    <strong>Source</strong>
+                                                    <i>{{domain.domain.sourceBook}}</i>
+                                                </div>
+                                                <div class="newrow left-aligned">
+                                                    {{domain.domain.desc}}
+                                                </div>
+                                            </ng-template>
+                                            <div class="gridicon-fullsizebox" [ngbPopover]="DomainDescTemplate"
                                                 triggers="click">
                                                 <app-gridIcon [title]="domain.domain.name">
                                                 </app-gridIcon>
@@ -2970,11 +2970,10 @@
                                                         </label>
                                                     </div>
                                                     <div class="newrow left-aligned tags">
-                                                        <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}"
+                                                        <app-trait
                                                             *ngFor="let trait of heritage.traits; trackBy:trackByIndex;"
-                                                            [ngbPopover]="get_Traits(trait)[0]?.desc" openDelay=100>
-                                                            {{trait}}
-                                                        </cite>
+                                                            [name]="trait" [trait]="get_Traits(trait)[0]">
+                                                        </app-trait>
                                                     </div>
                                                     <div class="newrow left-aligned" *ngIf="heritage.sourceBook">
                                                         <strong>Source</strong>
@@ -3048,13 +3047,11 @@
                                                         </app-gridIcon>
                                                         <header class="sectionHeader">
                                                             <span>{{heritage.name}}&nbsp;</span>
-                                                            <cite class="trait-rare" *ngIf="heritage.traits.includes('Rare')"
-                                                                [ngbPopover]="get_Traits('Rare')[0]?.desc"
-                                                                openDelay=100>Rare</cite>
-                                                            <cite class="trait-uncommon"
-                                                                *ngIf="heritage.traits.includes('Uncommon')"
-                                                                [ngbPopover]="get_Traits('Uncommon')[0]?.desc"
-                                                                openDelay=100>Uncommon</cite>
+                                                            <ng-container *ngFor="let trait of ['Rare', 'Uncommon']">
+                                                                <app-trait *ngIf="heritage.traits.includes(trait)"
+                                                                    [name]="trait" [trait]="get_Traits(trait)[0]">
+                                                                </app-trait>
+                                                            </ng-container>
                                                         </header>
                                                     </div>
                                                 </div>
@@ -3191,8 +3188,9 @@
                                                 </app-gridIcon>
                                                 <header class="sectionHeader">
                                                     <span>{{deity.name}}&nbsp;</span>
-                                                    <cite class="trait"
-                                                        *ngIf="deity.alignment">{{deity.alignment}}</cite>
+                                                    <cite class="trait" *ngIf="deity.alignment">
+                                                        {{deity.alignment}}
+                                                    </cite>
                                                 </header>
                                             </div>
                                         </div>

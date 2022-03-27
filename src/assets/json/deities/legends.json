@@ -6,7 +6,7 @@
         "areasOfConcern": "justice, loyalty, and work",
         "category": "Old Sun Gods",
         "nickname": "The Golden Lion",
-        "sourcebook": "Legends",
+        "sourceBook": "Legends",
         "_extensionFileName": "legends",
         "alternateDomains": [
             "Duty",
@@ -70,7 +70,7 @@
         "areasOfConcern": "death, dreams, and destiny",
         "category": "Old Sun Gods",
         "nickname": "The Setting Sun",
-        "sourcebook": "Legends",
+        "sourceBook": "Legends",
         "_extensionFileName": "legends",
         "alternateDomains": [
             "Fate",
@@ -134,7 +134,7 @@
         "areasOfConcern": "iron, love, and rebirth",
         "category": "Old Sun Gods",
         "nickname": "The Rising Sun",
-        "sourcebook": "Legends",
+        "sourceBook": "Legends",
         "_extensionFileName": "legends",
         "alternateDomains": [
             "Change",

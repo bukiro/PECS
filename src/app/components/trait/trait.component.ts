@@ -18,6 +18,8 @@ export class TraitComponent implements OnInit {
     name: string;
     @Input()
     object: any = null;
+    @Input()
+    extraDescription: string;
 
     constructor(
         public characterService: CharacterService,

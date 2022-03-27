@@ -5,7 +5,7 @@
         "alignment": "Neutral Evil",
         "category": "Other Gods",
         "nickname": "Lord of the Divs",
-        "sourcebook": "Bestiary 3",
+        "sourceBook": "Bestiary 3",
         "_extensionFileName": "bestiary3",
         "anathema": [
             "create arts or crafts",
@@ -56,7 +56,7 @@
         "desc": "Individual green men are lesser deities, capable of granting spells to those who worship them. Green men typically only allow intelligent plants - such as leshys - to be their clerics. If another creature proves to be a friend of plants, after a thorough personal vetting, a green man wholeheartedly accepts this strange fleshy worshipper into the fold. While individual green men have different edicts and anathema befitting their personalities, and some neutral good or neutral evil green men might have further changes, the following is a baseline most worshippers of green men follow.",
         "alignment": "Neutral",
         "category": "Other Gods",
-        "sourcebook": "Bestiary 3",
+        "sourceBook": "Bestiary 3",
         "_extensionFileName": "bestiary3",
         "anathema": [
             "allow flagrant abuse of plant life to go unpunished",
@@ -109,7 +109,7 @@
         "alignment": "Chaotic Evil",
         "category": "Outer Gods and Great Old Ones",
         "nickname": "Haunter in the Dark",
-        "sourcebook": "Bestiary 3",
+        "sourceBook": "Bestiary 3",
         "_extensionFileName": "bestiary3",
         "clericSpells": [
             {

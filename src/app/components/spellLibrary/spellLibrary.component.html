@@ -241,12 +241,11 @@
                                                                     <ng-container
                                                                         *ngTemplateOutlet="SpellTitleTemplate">
                                                                     </ng-container>
-                                                                    <cite class="trait-rare"
-                                                                        *ngIf="spell.traits.includes('Rare')"
-                                                                        [ngbPopover]="get_Traits('Rare')[0]?.desc">Rare</cite>
-                                                                    <cite class="trait-uncommon"
-                                                                        *ngIf="spell.traits.includes('Uncommon')"
-                                                                        [ngbPopover]="get_Traits('Uncommon')[0]?.desc">Uncommon</cite>
+                                                                    <ng-container *ngFor="let trait of ['Rare', 'Uncommon']">
+                                                                        <app-trait *ngIf="spell.traits.includes(trait)" [name]="trait"
+                                                                            [trait]="get_Traits(trait)[0]">
+                                                                        </app-trait>
+                                                                    </ng-container>
                                                                 </span>
                                                             </button>
                                                             <div class="list-item sublist"

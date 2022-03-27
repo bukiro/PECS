@@ -6,7 +6,7 @@
         "areasOfConcern": "amphibians, boggards, and swamps",
         "category": "Demon Lords",
         "nickname": "Song of the Swamp",
-        "sourcebook": "Bestiary",
+        "sourceBook": "Bestiary",
         "_extensionFileName": "bestiary",
         "anathema": [
             "grant mercy to boggards who worship other gods"
@@ -60,7 +60,7 @@
         "areasOfConcern": "pollution and the corruption of nature",
         "category": "Demon Lords",
         "nickname": "Lord of the Blasted Tarn",
-        "sourcebook": "Bestiary",
+        "sourceBook": "Bestiary",
         "_extensionFileName": "bestiary",
         "anathema": [
             "grant mercy to elves",

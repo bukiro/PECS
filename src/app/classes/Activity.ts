@@ -28,6 +28,7 @@ export class Activity {
     //When giving conditions to other player creatures, they should last half a round longer to allow for the caster's turn to end after their last.
     // Spells with a duration like "until the end of the target's turn" instead give the caster half a turn longer. This is activated by durationDependsOnTarget.
     public durationDependsOnTarget: boolean = false;
+    public sourceBook: string = "";
     //The sustained property only changes the "Deactivate" button to "Stop sustaining".
     //The activity still needs to have toggle=true and a maxDuration set for sustaining to work.
     //This is ensured automatically in the recast method.

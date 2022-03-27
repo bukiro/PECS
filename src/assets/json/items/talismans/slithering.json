@@ -26,7 +26,7 @@
     {
         "name": "Oily Button",
         "id": "8fddaa03-3211-4f19-b591-c603d6b9194e",
-        "desc": "A thin sheen of slick oil covers this gaudy button. When you activate the oily button, your attempts to Disarm your opponent of an item before the start of the opponent's next turn gain a +4 circumstance bonus instead of +2, and the –2 circumstance penalty to attacks with the item or other checks requiring a firm grasp on the item lasts until the end of its next turn or until it uses an Interact action to adjust its grip.",
+        "desc": "A thin sheen of slick oil covers this gaudy button. When you activate the oily button, your attempts to Disarm your opponent of an item before the start of the opponent's next turn gain a +4 circumstance bonus instead of +2, and the -2 circumstance penalty to attacks with the item or other checks requiring a firm grasp on the item lasts until the end of its next turn or until it uses an Interact action to adjust its grip.",
         "sourceBook": "The Slithering",
         "_extensionFileName": "slithering",
         "level": 5,

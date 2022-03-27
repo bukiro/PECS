@@ -106,7 +106,7 @@
             </div>
         </div>
         <div class="newrow left-aligned lower" *ngIf="conditionGain.source">
-            <span><strong>Source&nbsp;</strong>{{conditionGain.source}}</span>
+            <span><strong>Granted by&nbsp;</strong>{{conditionGain.source}}</span>
         </div>
         <div class="newrow left-aligned lower" *ngIf="conditionGain.heightened">
             <span><strong>Spell level&nbsp;</strong>{{conditionGain.heightened}}</span>
@@ -291,6 +291,10 @@
     </ng-container>
 </ng-container>
 <div [ngbCollapse]="fullDisplay && get_ShowItem()!=conditionGain.id+'description'">
+    <div class="newrow lower left-aligned" *ngIf="condition.sourceBook">
+        <strong>Source</strong>
+        <i>{{condition.sourceBook}}</i>
+    </div>
     <div class="newrow lower left-aligned"
         *ngFor="let desc of get_HeightenedDescription().split('\n\n'); trackBy:trackByIndex;">
         <app-description class="newrow" [text]="desc"></app-description>

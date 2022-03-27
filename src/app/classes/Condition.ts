@@ -71,8 +71,8 @@ export class Condition {
     //If the stopTimeChoiceFilter matches the condition choice or is "All", no time elapses for anything other than the condition that causes the time stop.
     public stopTimeChoiceFilter: string[] = [];
     public attackRestrictions: AttackRestriction[] = [];
-    public source: string = "";
     public senses: SenseGain[] = [];
+    public sourceBook: string = "";
     public nextCondition: ConditionGain[] = [];
     public defaultDurations: ConditionDuration[] = [];
     public persistent: boolean = false;

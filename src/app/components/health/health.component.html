@@ -207,7 +207,7 @@
                 <div class="newrow list-item" *ngFor="let resistance of get_Resistances(); trackBy:trackByIndex;">
                     <span>
                         <ng-template #ResistanceSourceTemplate>
-                            <strong>Source{{resistance.source.includes('\n') ? 's' : ''}}</strong>
+                            <strong>Granted by</strong>
                             {{resistance.source}}
                         </ng-template>
                         <span [ngbPopover]="ResistanceSourceTemplate"

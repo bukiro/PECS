@@ -18,6 +18,7 @@ export class Trait {
     //If extraActivations is 1 through 4, up to four more activation boxes are shown to control the object effects.
     // Their state can be accessed with 'active2' through 'active5' in calculations.
     public extraActivations: number = 0;
+    public sourceBook: string = "";
     recast() {
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.objectEffects = this.objectEffects.map(obj => Object.assign(new EffectGain(), obj).recast());

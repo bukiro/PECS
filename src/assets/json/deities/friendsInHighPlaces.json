@@ -4,7 +4,7 @@
         "alignment": "Neutral",
         "areasOfConcern": "Learning, innovation, safeguarding knowledge",
         "category": "Pantheons",
-        "sourcebook": "Friends in High Places",
+        "sourceBook": "Friends in High Places",
         "_extensionFileName": "friendsInHighPlaces",
         "alternateDomains": [
             "Glyph",
@@ -73,7 +73,7 @@
         "alignment": "Neutral Good",
         "areasOfConcern": "Defeating evil, guarding innocents, and wholesome creations",
         "category": "Pantheons",
-        "sourcebook": "Friends in High Places",
+        "sourceBook": "Friends in High Places",
         "_extensionFileName": "friendsInHighPlaces",
         "alternateDomains": [
             "Family",
@@ -139,7 +139,7 @@
         "alignment": "Neutral Good",
         "areasOfConcern": "Abjuration magic, protection, self-improvement",
         "category": "Pantheons",
-        "sourcebook": "Friends in High Places",
+        "sourceBook": "Friends in High Places",
         "_extensionFileName": "friendsInHighPlaces",
         "alternateDomains": [
             "Glyph",

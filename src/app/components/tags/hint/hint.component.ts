@@ -12,6 +12,7 @@ import { WornItem } from 'src/app/classes/WornItem';
 import { EffectsService } from 'src/app/services/effects.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { Character } from 'src/app/classes/Character';
+import { Trait } from 'src/app/classes/Trait';
 
 @Component({
     selector: 'app-hint',
@@ -27,6 +28,8 @@ export class HintComponent {
     @Input()
     objectName: string = "";
     @Input()
+    sourceBook: string = "";
+    @Input()
     description: string = "";
     @Input()
     noFilter: boolean = false;
@@ -36,7 +39,6 @@ export class HintComponent {
     constructor(
         public characterService: CharacterService,
         public effectsService: EffectsService,
-        private itemsService: ItemsService,
         private refreshService: RefreshService,
         private traitsService: TraitsService
     ) { }
@@ -60,7 +62,7 @@ export class HintComponent {
     get_Hints(): Hint[] {
         const isConditionSet = this.object instanceof ConditionSet;
         if (this.noFilter) {
-            return (isConditionSet ? this.object.condition.hints : this.object.hints);
+            return (isConditionSet ? (this.object as ConditionSet).condition.hints : this.object.hints);
         }
         const isSlottedAeonStone = this.object instanceof WornItem && this.object.isSlottedAeonStone;
         const isEmblazonArmamentShield = (this.object instanceof Shield && this.object.emblazonArmament.length) ? this.object : null;
@@ -174,7 +176,7 @@ export class HintComponent {
             return "Item";
         }
         if (object?.desc) {
-            return "DescOnly"
+            return "DescOnly";
         }
         return "";
     }

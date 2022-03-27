@@ -113,10 +113,13 @@
             {{shownSpell.castType.toString()}}
         </header>
         <div class="newrow left-aligned">
-            <cite class="trait" [ngClass]="{'trait-rare': trait == 'Rare', 'trait-uncommon': trait == 'Uncommon'}" *ngFor="let trait of shownSpell.traits; trackBy:trackByIndex;"
-                [ngbPopover]="get_Traits(trait)[0].desc">
-                {{trait}}
-            </cite>
+            <app-trait *ngFor="let trait of shownSpell.traits; trackBy:trackByIndex;" [name]="trait"
+                [trait]="get_Traits(trait)[0]">
+            </app-trait>
+            <app-trait *ngFor="let trait of shownSpell.get_ActivationTraits(); trackBy:trackByIndex;" [name]="trait"
+                [trait]="get_Traits(trait)[0]"
+                [extraDescription]="'(This trait was derived from the action components.)'">
+            </app-trait>
         </div>
         <app-spellContent class="vlist fullwidth" [spell]=shownSpell
             [spellLevel]="shownSpellSet.level || spellLevel || 0" [casting]="casting"></app-spellContent>

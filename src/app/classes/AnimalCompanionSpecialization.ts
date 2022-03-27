@@ -11,6 +11,7 @@ export class AnimalCompanionSpecialization {
     public level: number = 0;
     public name: string = "";
     public skillChoices: SkillChoice[] = [];
+    public sourceBook: string = "";
     recast() {
         this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());
         this.skillChoices = this.skillChoices.map(obj => Object.assign(new SkillChoice(), obj).recast());
