@@ -206,7 +206,7 @@ export class EffectsGenerationService {
 
     private collect_EffectItems(creature: Creature, services: { readonly characterService: CharacterService }): { objects: (Equipment | Specialization | Rune)[], hintSets: HintEffectsObject[] } {
         //Collect items and item specializations that may have effects, and their hints, and return them in two lists.
-        
+
         let objects: (Equipment | Specialization | Rune)[] = [];
         let hintSets: HintEffectsObject[] = [];
 
@@ -878,6 +878,8 @@ export class EffectsGenerationService {
         if (effectsChanged) {
             services.characterService.update_LanguageList();
         }
+        //Process all prepared onceEffects.
+        services.characterService.process_PreparedOnceEffects();
         //Process all prepared changes or changes that were skipped previously.
         this.refreshService.process_ToChange();
     }

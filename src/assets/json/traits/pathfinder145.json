@@ -1,8 +1,8 @@
 [
-  {
-    "name": "Anadi",
-    "desc": "Anadis are peaceful, reclusive humanoids who live deep within woodlands, jungles, and other untamed areas of wilderness. Their natural forms resemble humanoid spiders covered in beautiful and distinctive markings of varying colors.",
-    "sourceBook": "Pathfinder #145: Hellknight Hill",
-    "_extensionFileName": "pathfinder145"
-  }
+    {
+        "name": "Anadi",
+        "desc": "Anadis are peaceful, reclusive humanoids who live deep within woodlands, jungles, and other untamed areas of wilderness. Their natural forms resemble humanoid spiders covered in beautiful and distinctive markings of varying colors.",
+        "sourceBook": "Pathfinder #145: Hellknight Hill",
+        "_extensionFileName": "pathfinder145"
+    }
 ]

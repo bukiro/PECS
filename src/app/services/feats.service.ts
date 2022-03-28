@@ -607,10 +607,11 @@ export class FeatsService {
             }
 
             //One time effects
+            //We only prepare these effects; They get triggered after the next effects generation.
             if (feat.onceEffects) {
                 if (taken) {
                     feat.onceEffects.forEach(effect => {
-                        characterService.process_OnceEffect(character, effect);
+                        characterService.prepare_OnceEffect(character, effect);
                     })
                 }
             }
@@ -793,7 +794,7 @@ export class FeatsService {
 
             //Spell Battery
             if (feat.name == "Spell Battery") {
-                let spellCasting = character.class.spellCasting.find(casting => casting.className == characterService.get_Familiar().originClass && casting.castingType != "Focus");
+                const spellCasting = character.class.spellCasting.find(casting => casting.className == characterService.get_Familiar().originClass && casting.castingType != "Focus");
                 if (taken) {
                     if (spellCasting) {
                         const newSpellChoice = new SpellChoice();

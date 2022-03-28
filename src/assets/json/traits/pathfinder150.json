@@ -1,9 +1,9 @@
 [
-  {
-    "name": "Legacy",
-    "desc": "Once you've played through the listed Adventure Path, these rare backgrounds can become available in your future campaigns after the events of this Adventure Path.",
-    "sourceBook": "Pathfinder #150: Broken Promises",
-    "_extensionFileName": "pathfinder150",
-    "dynamic": true
-  }
+    {
+        "name": "Legacy",
+        "desc": "Once you've played through the listed Adventure Path, these rare backgrounds can become available in your future campaigns after the events of this Adventure Path.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "_extensionFileName": "pathfinder150",
+        "dynamic": true
+    }
 ]

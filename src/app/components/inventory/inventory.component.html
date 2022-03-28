@@ -634,8 +634,24 @@
                                                                     <i class='ra ra-broken-shield'></i>
                                                                     Broken
                                                                 </label>
+                                                                <ng-template #BrokenDescTemplate>
+                                                                    <div class="newrow left-aligned popover-keepalive">
+                                                                        A broken object can't be used for its normal
+                                                                        function, nor does it grant bonuses - with the
+                                                                        exception of armor. Broken armor still grants
+                                                                        its item bonus to AC, but it also imparts a
+                                                                        status penalty to AC depending on its category:
+                                                                        -1 for broken light armor, -2 for broken medium
+                                                                        armor, or -3 for broken heavy armor. A broken
+                                                                        item still imposes penalties and limitations
+                                                                        normally incurred by carrying, holding, or
+                                                                        wearing it. For example, broken armor would
+                                                                        still impose its Dexterity modifier cap, check
+                                                                        penalty, and so forth.
+                                                                    </div>
+                                                                </ng-template>
                                                                 <i class="bi-question-circle"
-                                                                    [ngbPopover]="'A broken object can\'t be used for its normal function, nor does it grant bonuses - with the exception of armor. Broken armor still grants its item bonus to AC, but it also imparts a status penalty to AC depending on its category: -1 for broken light armor, -2 for broken medium armor, or -3 for broken heavy armor. A broken item still imposes penalties and limitations normally incurred by carrying, holding, or wearing it. For example, broken armor would still impose its Dexterity modifier cap, check penalty, and so forth.'"></i>
+                                                                    [ngbPopover]="BrokenDescTemplate"></i>
                                                             </span>
                                                         </div>
                                                         <div class="newrow">
@@ -647,8 +663,22 @@
                                                                     <i class='ra ra-broken-bottle'></i>
                                                                     Shoddy
                                                                 </label>
+                                                                <ng-template #ShoddyDescTemplate>
+                                                                    <div class="newrow left-aligned popover-keepalive">
+                                                                        When available, a shoddy item usually costs half
+                                                                        the Price of a standard item, though you can
+                                                                        never sell one in any case. Attacks and checks
+                                                                        involving a shoddy item take a -2 item penalty.
+                                                                        This penalty also applies to any DCs that a
+                                                                        shoddy item applies to (such as AC, for shoddy
+                                                                        armor). A shoddy suit of armor also worsens the
+                                                                        armor's check penalty by 2. A shoddy item's
+                                                                        Hit Points and Broken Threshold are each half
+                                                                        that of a normal item of its type.
+                                                                    </div>
+                                                                </ng-template>
                                                                 <i class="bi-question-circle"
-                                                                    [ngbPopover]="'When available, a shoddy item usually costs half the Price of a standard item, though you can never sell one in any case. Attacks and checks involving a shoddy item take a -2 item penalty. This penalty also applies to any DCs that a shoddy item applies to (such as AC, for shoddy armor). A shoddy suit of armor also worsens the armor\'s check penalty by 2. A shoddy item\'s Hit Points and Broken Threshold are each half that of a normal item of its type.'"></i>
+                                                                    [ngbPopover]="ShoddyDescTemplate"></i>
                                                             </span>
                                                         </div>
                                                     </div>
@@ -662,8 +692,20 @@
                                                                 <i class='ra ra-large-hammer'></i>
                                                                 Large
                                                             </label>
+                                                            <ng-template #LargeDescTemplate>
+                                                                <div class="newrow left-aligned popover-keepalive">
+                                                                    You can use a weapon built for a Large creature if
+                                                                    you are Small or Medium (both normally and when
+                                                                    raging). If you're not Small or Medium, you can use
+                                                                    a weapon built for a creature one size larger than
+                                                                    you. While wielding the weapon in combat, your
+                                                                    additional damage from Rage increases from 2 to 6,
+                                                                    and you have the clumsy 1 condition because of its
+                                                                    unwieldy size.
+                                                                </div>
+                                                            </ng-template>
                                                             <i class="bi-question-circle"
-                                                                [ngbPopover]="'You can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging). If you\'re not Small or Medium, you can use a weapon built for a creature one size larger than you. While wielding the weapon in combat, your additional damage from Rage increases from 2 to 6, and you have the clumsy 1 condition because of its unwieldy size.'"></i>
+                                                                [ngbPopover]="LargeDescTemplate"></i>
                                                         </span>
                                                     </div>
                                                     <div class="list-item newrow"
@@ -679,8 +721,21 @@
                                                                     <i class='ra ra-fireball-sword'></i>
                                                                     Blade Ally
                                                                 </label>
+                                                                <ng-template #BladeAllyDescTemplate>
+                                                                    <div class="newrow left-aligned popover-keepalive">
+                                                                        You can select one weapon or handwraps of mighty
+                                                                        blows when you make your daily preparations. In
+                                                                        your hands, the item gains the effect of a
+                                                                        property rune and you also gain the weapon's
+                                                                        critical specialization effect. For a champion
+                                                                        following the tenets of good, choose disrupting,
+                                                                        ghost touch, returning, or shifting. For a
+                                                                        champion following the tenets of evil, choose
+                                                                        fearsome, returning, or shifting.
+                                                                    </div>
+                                                                </ng-template>
                                                                 <i class="bi-question-circle"
-                                                                    [ngbPopover]="'You can select one weapon or handwraps of mighty blows when you make your daily preparations. In your hands, the item gains the effect of a property rune and you also gain the weapon\'s critical specialization effect. For a champion following the tenets of good, choose disrupting, ghost touch, returning, or shifting. For a champion following the tenets of evil, choose fearsome, returning, or shifting.'"></i>
+                                                                    [ngbPopover]="BladeAllyDescTemplate"></i>
                                                             </span>
                                                         </div>
                                                         <app-itemBladeAlly class="list-item newrow" [item]=item
@@ -700,8 +755,21 @@
                                                                 <i class='ra ra-anvil'></i>
                                                                 Battleforged
                                                             </label>
+                                                            <ng-template #BattleforgedDescTemplate>
+                                                                <div class="newrow left-aligned popover-keepalive">
+                                                                    You can sharpen weapons, polish armor, and apply
+                                                                    special techniques to temporarily gain better
+                                                                    effects from your armaments. By spending 1 hour
+                                                                    working on a weapon or armor, you can grant it the
+                                                                    effects of a +1 potency rune until your next daily
+                                                                    preparations, gaining a +1 item bonus to attack
+                                                                    rolls for a weapon or increasing armor's item bonus
+                                                                    to AC by 1. This has no effect if the weapon or
+                                                                    armor already had a potency rune.
+                                                                </div>
+                                                            </ng-template>
                                                             <i class="bi-question-circle"
-                                                                [ngbPopover]="'You can sharpen weapons, polish armor, and apply special techniques to temporarily gain better effects from your armaments. By spending 1 hour working on a weapon or armor, you can grant it the effects of a +1 potency rune until your next daily preparations, gaining a +1 item bonus to attack rolls for a weapon or increasing armor\'s item bonus to AC by 1. This has no effect if the weapon or armor already had a potency rune.'"></i>
+                                                                [ngbPopover]="BattleforgedDescTemplate"></i>
                                                         </span>
                                                     </div>
                                                     <app-itemOils class="hide-empty" [item]=item [itemStore]=false

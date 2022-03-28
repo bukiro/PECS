@@ -19,5 +19,21 @@
                 "name": "Guided by the Stars"
             }
         ]
+    },
+    {
+        "name": "Conduct Energy",
+        "actions": "Free",
+        "inputRequired": "You can either activate the resonant trait on the weapon to gain the effect on that weapon, or activate this activation to gain the effect on all weapons.",
+        "sourceBook": "Ancestry Guide",
+        "_extensionFileName": "ancestryGuide",
+        "requirements": "Your last action or spell this turn had the acid, cold, electricity, fire, or sonic trait.",
+        "target": "self",
+        "desc": "You channel energy into your weapon. The weapon deals 1 additional damage per weapon damage die until the start of your next turn. This damage type matches the trait of the triggering action or spell. If your triggering action or spell had multiple eligible traits, you select one of those traits.",
+        "gainConditions": [
+            {
+                "duration": 10,
+                "name": "Conduct Energy"
+            }
+        ]
     }
 ]

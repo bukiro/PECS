@@ -1,5 +1,49 @@
 [
     {
+        "name": "Conduct Energy",
+        "desc": "You have channeled energy into your weapon. The weapon deals 1 additional damage per weapon damage die until the start of your next turn. This damage type matches the trait of the triggering action or spell. If your triggering action or spell had multiple eligible traits, you select one of those traits.",
+        "sourceBook": "Ancestry Guide",
+        "_extensionFileName": "ancestryGuide",
+        "type": "activities",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "hints": [
+            {
+                "desc": "One of your weapons deals 1 additional damage per weapon damage die. The damage type matches the selected trait.",
+                "showon": "Attacks",
+                "effects": [
+                    {
+                        "affected": "Weapon Damage per Die",
+                        "value": "1"
+                    }
+                ]
+            }
+        ],
+        "choice": "Acid",
+        "choices": [
+            {
+                "name": "Acid"
+            },
+            {
+                "name": "Cold"
+            },
+            {
+                "name": "Electricity"
+            },
+            {
+                "name": "Fire"
+            },
+            {
+                "name": "Sonic"
+            }
+        ]
+    },
+    {
         "name": "Guided by the Stars",
         "desc": "The stars grant you insights that guide your actions. You roll twice and take the better result. If it's night and you can see the stars, you gain a +1 circumstance bonus to the triggering roll.",
         "sourceBook": "Ancestry Guide",

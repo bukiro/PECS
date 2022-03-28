@@ -482,12 +482,12 @@ export class CharacterComponent implements OnInit, OnDestroy {
     on_LevelChange(oldLevel: number) {
         let character = this.get_Character();
         let newLevel = character.level;
-        //If we went up levels, repeat any onceEffects of Feats that apply inbetween, such as recovering Focus Points for a larger Focus Pool.
+        //If we went up levels, prepare to repeat any onceEffects of Feats that apply inbetween, such as recovering Focus Points for a larger Focus Pool.
         if (newLevel > oldLevel) {
             this.get_CharacterFeatsAndFeatures().filter(feat => feat.onceEffects.length && feat.have(character, this.characterService, newLevel, true, false, oldLevel + 1))
                 .forEach(feat => {
                     feat.onceEffects.forEach(effect => {
-                        this.characterService.process_OnceEffect(character, effect);
+                        this.characterService.prepare_OnceEffect(character, effect);
                     })
                 })
         }

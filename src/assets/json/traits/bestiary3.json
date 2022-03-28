@@ -1,152 +1,152 @@
 [
-  {
-    "name": "Aesir",
-    "desc": "Aesir are often-bellicose monitors of the chaotic planes, honing their skill in battle and preparing for a final confrontation at the end of the multiverse.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Agathion",
-    "desc": "This family of animal-featured celestials is native to the plane of Nirvana. Most agathions are neutral good, have darkvision, and have a weakness to evil damage.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Asura",
-    "desc": "These lawful fiends are physical manifestations of divine accidents. Asuras typically have darkvision, immunity to curses, and a weakness to good.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Div",
-    "desc": "Divs are a family of fiends spawned from the spirits of evil genies within the desolation of Abaddon. Most divs are neutral evil. They typically have greater darkvision and weakness to cold iron and good damage.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Ghoran",
-    "desc": "Ghorans are sapient plants grown in the shape of humanoids with floral faces.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Grioth",
-    "desc": "A grioth is a batlike alien that wields occult powers and can exist in the dark vacuum of space. They have darkvision and echolocation.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Kami",
-    "desc": "Kami are spirits of the Material Plane that bond with a specific object or place.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Kovintus",
-    "desc": "Reclusive humanoids with an inborn talent for geomancy, kovintus have an intrinsic tie to nature and magic alike.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Locathah",
-    "desc": "Locathahs are fishlike aquatic humanoids.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Mortic",
-    "desc": "Mortics are living humanoids with close ties to undeath. They have darkvision, negative healing, and vulnerabilities to sacred ground, and they can become undead by holding their breath.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Munavri",
-    "desc": "Amicable humanoids living in the Darklands, munavris have powerful telekinetic and psychic abilities.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Nagaji",
-    "desc": "Nagaji are brawny humanoids with scaled skin and serpentine heads, many of whom serve or respect nagas.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Paaridar",
-    "desc": "A paaridar is a humanoid who has gained physical aspects and abilities of a powerful beast through corrupted magical rituals.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Phantom",
-    "desc": "A phantom is soul that has diverged from the River of Souls on the Ethereal Plane before being judged. They typically retain memories of their life before death, but are not undead.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Protean",
-    "desc": "A family of monitors spawned within the Maelstrom, these creatures are guardians of disorder and are chaotic neutral. They typically have darkvision, an amorphous anatomy, and a weakness to lawful damage.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Samsaran",
-    "desc": "Samsarans are humanoids whose souls reincarnate into new bodies upon their death.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Shabti",
-    "desc": "A shabti is a constructed humanoid originally meant to face judgment for a living creature's sins after death.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Skelm",
-    "desc": "These creatures are monstrous, wrathful misanthropes who seek to control others through anger and spite.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Stheno",
-    "desc": "Stheno are humanoids related to medusas, with snakes for hair.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Tanggal",
-    "desc": "This family of cannibalistic aberrations consists of various humanoid-shaped creatures that can separate their body into two pieces while hunting.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Troop",
-    "desc": "A troop is an organized collection of component creatures, typically Small or Medium in size, working as a cohesive whole. A troop is 16 squares in size and has two Hit Point thresholds in their HP entry, under which it reduces in size to 12 squares and then 8 squares. A troop has the Troop Defenses, Form Up, and Troop Movement abilities. Most troops have a weakness to area damage. Because they consist of multiple discrete creatures, they can't be summoned.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Vanara",
-    "desc": "Vanaras are monkeylike humanoids who share a devotion to monastic training.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Vishkanya",
-    "desc": "These faintly ophidian humanoids have venomous blood and saliva.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Wayang",
-    "desc": "Small humanoids who emigrated from the Shadow Plane long ago, wayangs still wield shadow magic.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  },
-  {
-    "name": "Wyrwood",
-    "desc": "A wyrwood is a small, sapient living construct crafted of wood and powered with an aeon stone or a similar magical stone.",
-    "sourceBook": "Bestiary 3",
-    "_extensionFileName": "bestiary3"
-  }
+    {
+        "name": "Aesir",
+        "desc": "Aesir are often-bellicose monitors of the chaotic planes, honing their skill in battle and preparing for a final confrontation at the end of the multiverse.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Agathion",
+        "desc": "This family of animal-featured celestials is native to the plane of Nirvana. Most agathions are neutral good, have darkvision, and have a weakness to evil damage.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Asura",
+        "desc": "These lawful fiends are physical manifestations of divine accidents. Asuras typically have darkvision, immunity to curses, and a weakness to good.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Div",
+        "desc": "Divs are a family of fiends spawned from the spirits of evil genies within the desolation of Abaddon. Most divs are neutral evil. They typically have greater darkvision and weakness to cold iron and good damage.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Ghoran",
+        "desc": "Ghorans are sapient plants grown in the shape of humanoids with floral faces.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Grioth",
+        "desc": "A grioth is a batlike alien that wields occult powers and can exist in the dark vacuum of space. They have darkvision and echolocation.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Kami",
+        "desc": "Kami are spirits of the Material Plane that bond with a specific object or place.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Kovintus",
+        "desc": "Reclusive humanoids with an inborn talent for geomancy, kovintus have an intrinsic tie to nature and magic alike.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Locathah",
+        "desc": "Locathahs are fishlike aquatic humanoids.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Mortic",
+        "desc": "Mortics are living humanoids with close ties to undeath. They have darkvision, negative healing, and vulnerabilities to sacred ground, and they can become undead by holding their breath.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Munavri",
+        "desc": "Amicable humanoids living in the Darklands, munavris have powerful telekinetic and psychic abilities.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Nagaji",
+        "desc": "Nagaji are brawny humanoids with scaled skin and serpentine heads, many of whom serve or respect nagas.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Paaridar",
+        "desc": "A paaridar is a humanoid who has gained physical aspects and abilities of a powerful beast through corrupted magical rituals.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Phantom",
+        "desc": "A phantom is soul that has diverged from the River of Souls on the Ethereal Plane before being judged. They typically retain memories of their life before death, but are not undead.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Protean",
+        "desc": "A family of monitors spawned within the Maelstrom, these creatures are guardians of disorder and are chaotic neutral. They typically have darkvision, an amorphous anatomy, and a weakness to lawful damage.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Samsaran",
+        "desc": "Samsarans are humanoids whose souls reincarnate into new bodies upon their death.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Shabti",
+        "desc": "A shabti is a constructed humanoid originally meant to face judgment for a living creature's sins after death.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Skelm",
+        "desc": "These creatures are monstrous, wrathful misanthropes who seek to control others through anger and spite.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Stheno",
+        "desc": "Stheno are humanoids related to medusas, with snakes for hair.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Tanggal",
+        "desc": "This family of cannibalistic aberrations consists of various humanoid-shaped creatures that can separate their body into two pieces while hunting.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Troop",
+        "desc": "A troop is an organized collection of component creatures, typically Small or Medium in size, working as a cohesive whole. A troop is 16 squares in size and has two Hit Point thresholds in their HP entry, under which it reduces in size to 12 squares and then 8 squares. A troop has the Troop Defenses, Form Up, and Troop Movement abilities. Most troops have a weakness to area damage. Because they consist of multiple discrete creatures, they can't be summoned.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Vanara",
+        "desc": "Vanaras are monkeylike humanoids who share a devotion to monastic training.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Vishkanya",
+        "desc": "These faintly ophidian humanoids have venomous blood and saliva.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Wayang",
+        "desc": "Small humanoids who emigrated from the Shadow Plane long ago, wayangs still wield shadow magic.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    },
+    {
+        "name": "Wyrwood",
+        "desc": "A wyrwood is a small, sapient living construct crafted of wood and powered with an aeon stone or a similar magical stone.",
+        "sourceBook": "Bestiary 3",
+        "_extensionFileName": "bestiary3"
+    }
 ]

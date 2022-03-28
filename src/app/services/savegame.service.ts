@@ -375,13 +375,6 @@ export class SavegameService {
                 })
             }
 
-            //Wizards and Wizard Archetypes before 1.0.6 need to change their main spellcasting to spellBookOnly=true.
-            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 6) {
-                character.class?.spellCasting?.filter(casting => casting.className == "Wizard" && casting.castingType == "Prepared").forEach(casting => {
-                    casting.spellBookOnly = true;
-                })
-            }
-
             //The feat "Arrow Snatching " needs to be changed to "Arrow Snatching" in feat choices for characters before 1.0.14.
             if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 14) {
                 character.class.levels?.forEach(level => {
@@ -476,6 +469,60 @@ export class SavegameService {
                     })
                 })
             }
+
+            //For certain spellcasters before 1.0.14, spellcastings have been badly sorted and will have problems when recasting the class.
+            //The spellcastings need to be re-sorted, and any wrong spellchoices from recasting removed.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 14) {
+                ["Cleric", "Wizard"].forEach(className => {
+                    if (character.class?.name === className && character.class.spellCasting) {
+                        const spellCastingName = `${className} Spellcasting`;
+                        //Sort spellcastings: Innate first, then the default class spellcasting, then the rest.
+                        character.class.spellCasting = []
+                            .concat(character.class.spellCasting.find(casting => casting.castingType == "Innate" && casting.source == "Innate"))
+                            .concat(character.class.spellCasting.find(casting => casting.castingType == "Prepared" && casting.source == spellCastingName))
+                            .concat(...character.class.spellCasting.filter(casting =>
+                                !(casting.castingType == "Innate" && casting.source == "Innate") &&
+                                !(casting.castingType == "Prepared" && casting.source == spellCastingName)
+                            ));
+                        //Remove all default class spellcasting choices from spellcastings that aren't the default one.
+                        character.class.spellCasting
+                            .filter(casting => casting.source !== spellCastingName && casting.spellChoices)
+                            .forEach(casting => {
+                                casting.spellChoices = casting.spellChoices.filter(choice => choice.source !== spellCastingName);
+                            })
+                        //Reset all Focus spell choices to 'available': 0.
+                        character.class.spellCasting
+                            .filter(casting => casting.castingType === "Focus")
+                            .forEach(casting => {
+                                if (casting.spellChoices) {
+                                    casting.spellChoices
+                                        //There is one Focus spell choice that has an 'available' value and shouldn't be reset.
+                                        .filter(choice => choice.id !== "6516ec4d-4b96-4094-8659-5cc62b2823f5")
+                                        .forEach(choice => {
+                                            choice.available = 0;
+                                        })
+                                }
+
+                            });
+                    }
+
+                });
+            }
+
+            //Wizards before 1.0.14 who have taken Shifting Form as a focus spell may also have a broken spell choice for "Shifting Form (claws)".
+            //This needs to be removed.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 14) {
+                character.class?.spellCasting?.forEach(casting => {
+                    if (casting.spellChoices?.some(choice => choice.spells?.some(taken => taken.id === "e782c108-71d9-11eb-84d9-f95cb9540073"))) {
+                        casting.spellChoices
+                            .filter(choice => choice.spells?.some(taken => taken.id === "e782c108-71d9-11eb-84d9-f95cb9540073"))
+                            .forEach(choice => {
+                                choice.spells = choice.spells.filter(taken => taken.id !== "e782c108-71d9-11eb-84d9-f95cb9540073");
+                            })
+                    }
+                });
+            }
+
         }
 
         // STAGE 2

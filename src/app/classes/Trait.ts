@@ -3,6 +3,7 @@ import { Hint } from 'src/app/classes/Hint';
 import { Creature } from 'src/app/classes/Creature';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { Effect } from 'src/app/classes/Effect';
+import { ActivityGain } from './ActivityGain';
 
 export class Trait {
     public desc: string = "";
@@ -10,6 +11,8 @@ export class Trait {
     public effectDesc: string = "";
     public dynamic: boolean = false;
     public dynamicDefault: number = 6;
+    //Name any common activity that becomes available when you equip and invest an item with this trait.
+    public gainActivities: ActivityGain[] = [];
     public name: string = "";
     public hints: Hint[] = [];
     //Object effects apply only to the object that is bearing this trait, and are evaluated within the object instead of the effects service.
@@ -20,6 +23,7 @@ export class Trait {
     public extraActivations: number = 0;
     public sourceBook: string = "";
     recast() {
+        this.gainActivities = this.gainActivities.map(obj => Object.assign(new ActivityGain(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.objectEffects = this.objectEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
         return this;

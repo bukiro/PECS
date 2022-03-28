@@ -1,8 +1,8 @@
 [
-  {
-    "name": "Velstrac",
-    "desc": "A family of fiends from the Shadow Plane that are associated with pain and agony. All velstracs possess some form of disturbing gaze.",
-    "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
-    "_extensionFileName": "pathfinder147"
-  }
+    {
+        "name": "Velstrac",
+        "desc": "A family of fiends from the Shadow Plane that are associated with pain and agony. All velstracs possess some form of disturbing gaze.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147"
+    }
 ]

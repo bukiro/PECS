@@ -83,6 +83,7 @@ export class CharacterService {
     private basicItems: (Weapon | Armor)[] = [];
     private firstTime: boolean = true;
     private loadingStatus: string = "Loading";
+    private preparedOnceEffects: { creatureType: string, effectGain: EffectGain }[] = [];
 
     itemsMenuState: string = 'out';
     itemsMenuTarget: string = 'Character';
@@ -1861,7 +1862,17 @@ export class CharacterService {
         this.refreshService.process_ToChange();
     }
 
-    process_OnceEffect(creature: Creature, effectGain: EffectGain, conditionValue: number = 0, conditionHeightened: number = 0, conditionChoice: string = "", conditionSpellCastingAbility: string = "") {
+    public prepare_OnceEffect(creature: Creature, effectGain: EffectGain) {
+        this.preparedOnceEffects.push({ creatureType: creature.type, effectGain });
+    }
+
+    public process_PreparedOnceEffects(): void {
+        this.preparedOnceEffects.forEach(prepared => {
+            this.process_OnceEffect(this.get_Creature(prepared.creatureType), prepared.effectGain);
+        })
+    }
+
+    public process_OnceEffect(creature: Creature, effectGain: EffectGain, conditionValue: number = 0, conditionHeightened: number = 0, conditionChoice: string = "", conditionSpellCastingAbility: string = "") {
         let value = 0;
         try {
             //we eval the effect value by sending it to the evaluationService with some additional attributes and receive the resulting effect.
@@ -2282,6 +2293,12 @@ export class CharacterService {
                                 activities.push(...stone.activities);
                             })
                         }
+                        item.traits
+                            .map(trait => this.traitsService.get_Traits(trait)[0])
+                            .filter(trait => trait?.gainActivities.length)
+                            .forEach(trait => {
+                                activities.push(...trait.gainActivities)
+                            })
                     })
                     inv.allRunes().forEach(rune => {
                         if (rune.activities.length) {
@@ -2294,8 +2311,7 @@ export class CharacterService {
                 const tooManySlottedAeonStones = this.itemsService.get_TooManySlottedAeonStones(creature);
                 creature.inventories[0]?.allEquipment()
                     .filter(item =>
-                        (item.equippable ? item.equipped : true) &&
-                        (item.can_Invest() ? item.invested : true) &&
+                        item.investedOrEquipped() &&
                         !item.broken
                     ).forEach((item: Equipment) => {
                         if (item.gainActivities.length) {
@@ -2329,6 +2345,12 @@ export class CharacterService {
                                 activities.push(...stone.activities);
                             })
                         }
+                        item.traits
+                            .map(trait => this.traitsService.get_Traits(trait)[0])
+                            .filter(trait => trait?.gainActivities.length)
+                            .forEach(trait => {
+                                activities.push(...trait.gainActivities)
+                            })
                     })
             }
         }

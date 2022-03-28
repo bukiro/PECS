@@ -288,7 +288,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
             Prepared,
             Spontaneous
         }
-        return character.class.spellCasting
+        return [...character.class.spellCasting]
             .sort((a, b) => {
                 if (a.className == "Innate" && b.className != "Innate") {
                     return -1;

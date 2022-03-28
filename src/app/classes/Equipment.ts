@@ -47,7 +47,7 @@ export class Equipment extends Item {
         }
         return runes;
     };
-    //Name any common activity that becomes available when you equip and invest this item
+    //Name any common activity that becomes available when you equip and invest this item.
     public gainActivities: ActivityGain[] = [];
     //If this is a container, list whether it has a limit and a bulk reduction.
     public gainInventory: InventoryGain[] = [];

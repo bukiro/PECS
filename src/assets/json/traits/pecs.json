@@ -1,32 +1,32 @@
 [
-  {
-    "name": "Adventure",
-    "desc": "This trait is used by PECS to denote backgrounds that are specific to their respective adventures and may contain spoilers for players of those adventures.",
-    "sourceBook": "PECS",
-    "_extensionFileName": "pecs"
-  },
-  {
-    "name": "Ancestry",
-    "desc": "This trait is used by PECS to denote an ancestry feat that can be taken by any ancestry.",
-    "sourceBook": "PECS",
-    "_extensionFileName": "pecs"
-  },
-  {
-    "name": "Familiar Ability",
-    "desc": "This trait is used by PECS to denote a familiar ability from the list of familiar abilities.",
-    "sourceBook": "PECS",
-    "_extensionFileName": "pecs"
-  },
-  {
-    "name": "Master Ability",
-    "desc": "This trait is used by PECS to denote a familiar ability from the list of master abilities.",
-    "sourceBook": "PECS",
-    "_extensionFileName": "pecs"
-  },
-  {
-    "name": "Regional",
-    "desc": "This trait is used by PECS to denote a background that is specific to a certain region on Golarion.",
-    "sourceBook": "PECS",
-    "_extensionFileName": "pecs"
-  }
+    {
+        "name": "Adventure",
+        "desc": "This trait is used by PECS to denote backgrounds that are specific to their respective adventures and may contain spoilers for players of those adventures.",
+        "sourceBook": "PECS",
+        "_extensionFileName": "pecs"
+    },
+    {
+        "name": "Ancestry",
+        "desc": "This trait is used by PECS to denote an ancestry feat that can be taken by any ancestry.",
+        "sourceBook": "PECS",
+        "_extensionFileName": "pecs"
+    },
+    {
+        "name": "Familiar Ability",
+        "desc": "This trait is used by PECS to denote a familiar ability from the list of familiar abilities.",
+        "sourceBook": "PECS",
+        "_extensionFileName": "pecs"
+    },
+    {
+        "name": "Master Ability",
+        "desc": "This trait is used by PECS to denote a familiar ability from the list of master abilities.",
+        "sourceBook": "PECS",
+        "_extensionFileName": "pecs"
+    },
+    {
+        "name": "Regional",
+        "desc": "This trait is used by PECS to denote a background that is specific to a certain region on Golarion.",
+        "sourceBook": "PECS",
+        "_extensionFileName": "pecs"
+    }
 ]
