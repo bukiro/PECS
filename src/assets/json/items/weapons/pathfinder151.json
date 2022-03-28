@@ -131,5 +131,27 @@
         "hands": 1,
         "melee": 5,
         "prof": "Advanced Weapons"
+    },
+    {
+        "name": "Throwing Knife",
+        "id": "08693247-8daa-11ea-abca-ffb46fbada73",
+        "desc": "This light knife is optimally balanced to be thrown accurately at a greater distance than a common dagger. While this comes at the cost of a significant cutting edge, the difference is worth it for characters focused on thrown weapons.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "_extensionFileName": "pathfinder151",
+        "bulk": "L",
+        "price": 30,
+        "traits": [
+            "Agile",
+            "Finesse",
+            "Thrown 20 ft.",
+            "Twin",
+            "Uncommon"
+        ],
+        "dicesize": 4,
+        "dmgType": "P",
+        "group": "Knife",
+        "hands": 1,
+        "melee": 5,
+        "ranged": 20
     }
 ]

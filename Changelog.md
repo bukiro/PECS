@@ -70,4 +70,4 @@ This log tracks only major changes, as well as changes that need characters to b
 
 ## 1.0.14
 
-- (In progress, missing matching spells) Worn items have been finished and come with new item capabilities.
+- Worn items have been finished and come with new item capabilities.

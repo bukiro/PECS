@@ -29,5 +29,4 @@ export { default as pathfinder158 } from './pathfinder158.json';
 export { default as pathfinder160 } from './pathfinder160.json';
 export { default as pathfinder161 } from './pathfinder161.json';
 export { default as pathfinder165 } from './pathfinder165.json';
-export { default as secretsOfMagic } from './secretsOfMagic.json';
 export { default as worldGuide } from './worldGuide.json';

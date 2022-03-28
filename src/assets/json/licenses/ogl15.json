@@ -56,6 +56,68 @@
         ]
     },
     {
+        "header": "Ancestry Guide",
+        "lines": [
+            {
+                "title": "The Book of Fiends",
+                "desc": "© 2003, Green Ronin Publishing; Authors: Aaron Loeb, Erik Mona, Chris Pramas, and Robert J. Schwalb."
+            },
+            {
+                "title": "Armies of the Abyss",
+                "desc": "© 2002, Green Ronin Publishing; Authors: Erik Mona and Chris Pramas."
+            },
+            {
+                "title": "The Avatar's Handbook",
+                "desc": "© 2003, Green Ronin Publishing; Authors: Jesse Decker and Chris Thomasson."
+            },
+            {
+                "title": "Book of the Righteous",
+                "desc": "© 2002, Aaron Loeb."
+            },
+            {
+                "title": "Legions of Hell",
+                "desc": "© 2001, Green Ronin Publishing; Author: Chris Pramas."
+            },
+            {
+                "title": "The Unholy Warrior's Handbook",
+                "desc": "© 2003, Green Ronin Publishing; Author: Robert J. Schwalb."
+            },
+            {
+                "title": "Dragon, Faerie from the Tome of Horrors Complete",
+                "desc": "© 2011, Necromancer Games, Inc., published and distributed by Frog God Games; Author: Scott Greene, based on original material by Gary Gygax."
+            },
+            {
+                "title": "Genie, Marid from the Tome of Horrors Complete",
+                "desc": "© 2011, Necromancer Games, Inc., published and distributed by Frog God Games; Author: Scott Greene, based on original material by Gary Gygax."
+            },
+            {
+                "title": "Grippli from the Tome of Horrors Complete",
+                "desc": "© 2011, Necromancer Games, Inc., published and distributed by Frog God Games; Author: Scott Greene, based on original material by Gary Gygax."
+            },
+            {
+                "title": "Pathfinder Core Rulebook (Second Edition)",
+                "desc": "© 2019, Paizo Inc.; Authors: Logan Bonner, Jason Bulmahn, Stephen Radney-MacFarland, and Mark Seifter."
+            },
+            {
+                "title": "Pathfinder Lost Omens Ancestry Guide (Second Edition)",
+                "desc": "© 2021, Paizo Inc.; Authors: Calder CaDavid, James Case, Jessica Catalan, Eleanor Ferron, Lyz Liddell, Luis Loza, Ron Lundeen, Patchen Mortimer, Andrew Mullen, Samantha Phelan, Jessica Redekop, Mikhail Rekun, David N. Ross, Mark Seifter, Owen K.C. Stephens, Isabelle Thorne, and Linda Zayas-Palmer."
+            }
+        ]
+    },
+    {
+        "header": "Azarketi Ancestry Web Supplement",
+        "lines": [
+            {
+                "title": "Pathfinder Core Rulebook (Second Edition)",
+                "desc": "© 2019, Paizo Inc.; Authors: Logan Bonner, Jason Bulmahn, Stephen Radney-MacFarland, and Mark Seifter."
+            },
+            {
+                "title": "Pathfinder Lost Omens Azarketi Ancestry Web Supplement",
+                "desc": "© 2021, Paizo Inc.; Author: Samantha Phelan."
+            }
+        ]
+    },
+    {
         "header": "Bestiary",
         "lines": [
             {
@@ -286,6 +348,19 @@
             {
                 "title": "Extinction Curse Player's Guide",
                 "desc": "© 2020, Paizo Inc.; Author: Ron Lundeen."
+            }
+        ]
+    },
+    {
+        "header": "Gamemastery Guide",
+        "lines": [
+            {
+                "title": "Pathfinder Core Rulebook (Second Edition)",
+                "desc": "© 2019, Paizo Inc.; Authors: Logan Bonner, Jason Bulmahn, Stephen Radney-MacFarland, and Mark Seifter."
+            },
+            {
+                "title": "Pathfinder Adventure Path #152: Legacy of the Lost God",
+                "desc": "© 2020, Paizo Inc.; Authors: Jenny Jarzabski, with Stephen Glicker, Luis Loza, Ron Lundeen, Andrew Mullen, and David N. Ross."
             }
         ]
     },
@@ -754,6 +829,45 @@
         ]
     },
     {
+        "header": "Pathfinder #167: Ready? Fight!",
+        "lines": [
+            {
+                "title": "Pathfinder Core Rulebook (Second Edition)",
+                "desc": "© 2019, Paizo Inc.; Authors: Logan Bonner, Jason Bulmahn, Stephen Radney-MacFarland, and Mark Seifter."
+            },
+            {
+                "title": "Pathfinder Adventure Path #167: Ready? Fight!",
+                "desc": "© 2021, Paizo Inc.; Authors: David N. Ross, with Joan Hong, Joshua Kim, Danita Rambo, Sen H.H.S., Tan Shao Han, and Ruvaid Virk."
+            }
+        ]
+    },
+    {
+        "header": "Pathfinder #168: King of the Mountain",
+        "lines": [
+            {
+                "title": "Pathfinder Core Rulebook (Second Edition)",
+                "desc": "© 2019, Paizo Inc.; Authors: Logan Bonner, Jason Bulmahn, Stephen Radney-MacFarland, and Mark Seifter."
+            },
+            {
+                "title": "Pathfinder Adventure Path #168: King of the Mountain",
+                "desc": "© 2021, Paizo Inc.; Authors: James Case, with Joan Hong, Danita Rambo, David N. Ross, Amber Stewart, William Thompson, Ruvaid Virk, and Jabari Weathers."
+            }
+        ]
+    },
+    {
+        "header": "Pathfinder #173: Doorway to the Red Star",
+        "lines": [
+            {
+                "title": "Pathfinder Core Rulebook (Second Edition)",
+                "desc": "© 2019, Paizo Inc.; Authors: Logan Bonner, Jason Bulmahn, Stephen Radney-MacFarland, and Mark Seifter."
+            },
+            {
+                "title": "Pathfinder Adventure Path #173: Doorway to the Red Star",
+                "desc": "© 2021, Paizo Inc.; Author: Michael Sayre."
+            }
+        ]
+    },
+    {
         "header": "Pathfinder Society Guide",
         "lines": [
             {
@@ -945,6 +1059,19 @@
             {
                 "title": "Pathfinder Lost Omens The Mwangi Expanse",
                 "desc": "© 2021, Paizo Inc.; Authors: Laura-Shay Adams, Mariam Ahmad, Jahmal Brown, Misha Bushyager, Alexandria Bustion, Duan Byrd, John Compton, Sarah Davis, Naomi Fritts, Kent Hamilton, Sasha Laranoa Harving, Gabriel Hicks, TK Johnson, Michelle Jones, Joshua Kim, Travis Lionel, Ron Lundeen, Stephanie Lundeen, Hillary Moon Murphy, Lu Pellazar, Mikhail Rekun, Nate Wright, and Jabari Weathers."
+            }
+        ]
+    },
+    {
+        "header": "The Slithering",
+        "lines": [
+            {
+                "title": "Pathfinder Core Rulebook (Second Edition)",
+                "desc": "© 2019, Paizo Inc.; Authors: Logan Bonner, Jason Bulmahn, Stephen Radney-MacFarland, and Mark Seifter."
+            },
+            {
+                "title": "Pathfinder Adventure: The Slithering",
+                "desc": "© 2020, Paizo Inc.; Author: Ron Lundeen."
             }
         ]
     },

@@ -19,7 +19,6 @@ export { default as advancedPlayersGuide } from './advancedPlayersGuide.json';
 export { default as bestiary } from './bestiary.json';
 export { default as characterGuide } from './characterGuide.json';
 export { default as godsAndMagic } from './godsAndMagic.json';
-export { default as grandBazaar } from './grandBazaar.json';
 export { default as pathfinder145 } from './pathfinder145.json';
 export { default as pathfinder146 } from './pathfinder146.json';
 export { default as pathfinder149 } from './pathfinder149.json';
