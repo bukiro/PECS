@@ -290,11 +290,12 @@ export class ItemsComponent implements OnInit, OnDestroy {
                 !item.hide &&
                 (
                     !this.wordFilter || (
-                        this.wordFilter && (
-                            item.name.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
-                            item.desc.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
-                            item.traits.filter(trait => trait.toLowerCase().includes(this.wordFilter.toLowerCase())).length
-                        )
+                        item.name
+                            .concat(item.desc)
+                            .concat(item.sourceBook)
+                            .toLowerCase()
+                            .includes(this.wordFilter.toLowerCase()) ||
+                        item.traits.filter(trait => trait.toLowerCase().includes(this.wordFilter.toLowerCase())).length
                     )
                 ) &&
                 (this.purpose == "formulas" ? item.craftable : true) &&
@@ -423,7 +424,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
                     this.newItem["choice"] = this.newItem["choices"][0] || "";
                     this.newItem["showChoicesInInventory"] = true;
                 }
-                
+
             }
             this.grant_Item(creature, this.newItem);
         }

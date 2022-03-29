@@ -206,11 +206,12 @@ export class CraftingComponent implements OnInit, OnDestroy {
                 !item.hide &&
                 (
                     !this.wordFilter || (
-                        this.wordFilter && (
-                            item.name.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
-                            item.desc.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
-                            item.traits.filter(trait => trait.toLowerCase().includes(this.wordFilter.toLowerCase())).length
-                        )
+                        item.name
+                            .concat(item.desc)
+                            .concat(item.sourceBook)
+                            .toLowerCase()
+                            .includes(this.wordFilter.toLowerCase()) ||
+                        item.traits.filter(trait => trait.toLowerCase().includes(this.wordFilter.toLowerCase())).length
                     )
                 )
             ).sort((a, b) => (a[this.sorting] == b[this.sorting]) ? 0 : (a[this.sorting] < b[this.sorting]) ? -1 : 1);

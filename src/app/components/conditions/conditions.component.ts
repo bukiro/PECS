@@ -242,10 +242,11 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                     !condition.hide &&
                     (
                         !this.wordFilter || (
-                            this.wordFilter && (
-                                condition.name.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
-                                condition.desc.toLowerCase().includes(this.wordFilter.toLowerCase())
-                            )
+                            condition.name
+                                .concat(condition.desc)
+                                .concat(condition.sourceBook)
+                                .toLowerCase()
+                                .includes(this.wordFilter.toLowerCase())
                         )
                     )
                 ).sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));

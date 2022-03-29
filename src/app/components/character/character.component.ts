@@ -1151,10 +1151,10 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_AvailableDeities(name: string = "", syncretism: boolean = false) {
-        let character = this.get_Character();
-        let currentDeities = this.characterService.get_CharacterDeities(character);
-        let showOtherOptions = this.get_Character().settings.showOtherOptions;
-        let wordFilter = this.deityWordFilter.toLowerCase();
+        const character = this.get_Character();
+        const currentDeities = this.characterService.get_CharacterDeities(character);
+        const showOtherOptions = this.get_Character().settings.showOtherOptions;
+        const wordFilter = this.deityWordFilter.toLowerCase();
         //Certain classes need to choose a deity allowing their alignment.
         return this.deitiesService.get_Deities(name).filter(deity =>
             (
@@ -1177,10 +1177,12 @@ export class CharacterComponent implements OnInit, OnDestroy {
                     deity.followerAlignments.includes(this.get_Character().alignment)
                 )
             ) && (
-                !wordFilter ||
-                (
-                    deity.name.toLowerCase().includes(wordFilter) ||
-                    deity.desc.toLowerCase().includes(wordFilter) ||
+                !wordFilter || (
+                    deity.name
+                        .concat(deity.desc)
+                        .concat(deity.sourceBook)
+                        .toLowerCase()
+                        .includes(wordFilter) ||
                     deity.domains.some(domain => domain.toLowerCase().includes(wordFilter)) ||
                     deity.alternateDomains.some(domain => domain.toLowerCase().includes(wordFilter))
                 )
