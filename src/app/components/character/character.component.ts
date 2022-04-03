@@ -1181,10 +1181,11 @@ export class CharacterComponent implements OnInit, OnDestroy {
                     deity.name
                         .concat(deity.desc)
                         .concat(deity.sourceBook)
+                        .concat(...deity.domains)
+                        .concat(...deity.alternateDomains)
+                        .concat(...deity.favoredWeapon)
                         .toLowerCase()
-                        .includes(wordFilter) ||
-                    deity.domains.some(domain => domain.toLowerCase().includes(wordFilter)) ||
-                    deity.alternateDomains.some(domain => domain.toLowerCase().includes(wordFilter))
+                        .includes(wordFilter)
                 )
             )
         ).sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
@@ -1419,6 +1420,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_ItemFromGain(gain: ItemGain) {
+        //This is a simplified version of the methods in ItemGain. It doesn't work for "special" ItemGains, which aren't needed here.
         return this.characterService.get_CleanItems()[gain.type].filter((item: Item) => gain.get_IsMatchingItem(item));
     }
 

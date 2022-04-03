@@ -1,10 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { Character } from 'src/app/classes/Character';
 import { CharacterService } from 'src/app/services/character.service';
 import { Equipment } from 'src/app/classes/Equipment';
-import { Familiar } from 'src/app/classes/Familiar';
 import { Item } from 'src/app/classes/Item';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { ItemsService } from 'src/app/services/items.service';
@@ -60,6 +57,7 @@ export class ItemTargetComponent implements OnInit {
     }
 
     open_ItemTargetModal(content) {
+        this.updateSelectedAmount();
         this.modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then((result) => {
             if (result == "Move click") {
                 this.on_Move()
@@ -219,6 +217,10 @@ export class ItemTargetComponent implements OnInit {
 
     set_Target(target: ItemCollection | SpellTarget) {
         this.selectedTarget = target;
+    }
+
+    private updateSelectedAmount(): void {
+        this.selectedAmount = Math.min(this.selectedAmount, this.item.amount);
     }
 
     ngOnInit() {

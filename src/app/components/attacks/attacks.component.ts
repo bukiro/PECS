@@ -24,6 +24,7 @@ import { DeitiesService } from 'src/app/services/deities.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { ActivitiesService } from 'src/app/services/activities.service';
+import { AttackRestriction } from 'src/app/classes/AttackRestriction';
 
 @Component({
     selector: 'app-attacks',
@@ -37,8 +38,8 @@ export class AttacksComponent implements OnInit, OnDestroy {
     public creature: string = "Character";
     @Input()
     public sheetSide: string = "left";
-    public onlyAttacks: string[] = [];
-    public forbiddenAttacks: string[] = [];
+    public onlyAttacks: AttackRestriction[] = [];
+    public forbiddenAttacks: AttackRestriction[] = [];
     public showRestricted: boolean = false;
     private showItem: string = "";
     private showList: string = "";
@@ -144,18 +145,35 @@ export class AttacksComponent implements OnInit, OnDestroy {
             this.onlyAttacks.push(
                 ...condition?.attackRestrictions
                     .filter(restriction => !restriction.excluding && (!restriction.conditionChoiceFilter.length || restriction.conditionChoiceFilter.includes(gain.choice)))
-                    .map(restriction => restriction.name)
-            )
+            );
             this.forbiddenAttacks.push(
                 ...condition?.attackRestrictions
                     .filter(restriction => restriction.excluding && (!restriction.conditionChoiceFilter.length || restriction.conditionChoiceFilter.includes(gain.choice)))
-                    .map(restriction => restriction.name)
-            )
+            );
         });
     }
 
     get_IsAllowed(weapon: Weapon) {
-        return !(this.onlyAttacks.length && !this.onlyAttacks.includes(weapon.name)) && !this.forbiddenAttacks.includes(weapon.name);
+        const creature = this.get_Creature();
+        const characterService = this.characterService;
+        function doesListMatchWeapon(list: AttackRestriction[], weapon: Weapon) {
+            return list.some(restriction => {
+                if (restriction.name) {
+                    return restriction.name == weapon.name;
+                } else if (restriction.special) {
+                    switch (restriction.special) {
+                        case "Favored Weapon":
+                            return weapon.get_IsFavoredWeapon(creature, characterService);
+                    }
+                }
+            })
+        }
+        return (
+            !(
+                this.onlyAttacks.length && !doesListMatchWeapon(this.onlyAttacks, weapon)
+            ) &&
+            !doesListMatchWeapon(this.forbiddenAttacks, weapon)
+        );
     }
 
     get_EquippedWeapons() {

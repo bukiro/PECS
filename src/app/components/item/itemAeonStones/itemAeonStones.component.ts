@@ -120,12 +120,13 @@ export class ItemAeonStonesComponent implements OnInit {
     }
 
     remove_AeonStone(index: number) {
-        let item: WornItem = this.item;
-        let oldStone: WornItem = item.aeonStones[index];
+        const character = this.get_Character();
+        const item: WornItem = this.item;
+        const oldStone: WornItem = item.aeonStones[index];
         oldStone.isSlottedAeonStone = false;
         this.set_ToChange(oldStone);
-        //Add the extracted stone to the inventory, either on an existing stack or as a new item.
-        this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], oldStone, false, false, false, 1);
+        //Add the extracted stone back to the inventory.
+        this.characterService.grant_InventoryItem(oldStone, { creature: character, inventory: character.inventories[0] }, { resetRunes: false, changeAfter: false, equipAfter: false });
     }
 
     set_ToChange(stone: WornItem) {

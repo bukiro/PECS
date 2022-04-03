@@ -5145,6 +5145,46 @@
         ]
     },
     {
+        "name": "Purple Worm Venom",
+        "desc": "<strong>Purple Worm Venom</strong> (poison)\n<strong>Level</strong> 11\n<strong>Maximum Duration</strong> 6 rounds\n<strong>Stage 1</strong> 3d6 poison damage and enfeebled 2 (1 round)\n<strong>Stage 2</strong> 4d6 poison damage and enfeebled 2 (1 round)          \n<strong>Stage 3</strong> 6d6 poison damage and enfeebled 2 (1 round)",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "afflictions",
+        "sortLevel": 0,
+        "defaultDurations": [
+            {
+                "duration": 60
+            }
+        ],
+        "inputRequired": "Every time you reach the affliction onset, take poison damage appropriate to the new stage.",
+        "choice": "Stage 1",
+        "choices": [
+            {
+                "name": "Stage 1",
+                "nextStage": 10
+            },
+            {
+                "name": "Stage 2",
+                "nextStage": 10
+            },
+            {
+                "name": "Stage 3",
+                "nextStage": 10
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": [
+                    "Stage 1",
+                    "Stage 2",
+                    "Stage 3"
+                ],
+                "name": "Enfeebled",
+                "value": 2
+            }
+        ]
+    },
+    {
         "name": "Spider Venom",
         "desc": "<strong>Spider Venom</strong> (poison)\n<strong>Level</strong> 1\n<strong>Maximum Duration</strong> 4 rounds\n<strong>Stage 1</strong> 1d4 poison damage and enfeebled 1 (1 round)\n<strong>Stage 2</strong> 1d4 poison damage and enfeebled 2 (1 round)",
         "sourceBook": "Core Rulebook",
@@ -9713,7 +9753,7 @@
         "endEffects": [
             {
                 "affected": "HP",
-                "value": "(-Value * Level)"
+                "value": "(-Math.max(0,Value) * Level)"
             }
         ]
     },
@@ -10124,6 +10164,11 @@
                 "affected": "Hardness",
                 "setValue": "8"
             }
+        ],
+        "endConditions": [
+            {
+                "name": "Flesh to Stone Petrification"
+            }
         ]
     },
     {
@@ -10270,13 +10315,13 @@
     },
     {
         "name": "Stunned",
-        "desc": "You've become senseless. You can't act while stunned. Stunned usually includes a value, which indicates how many total actions you lose, possibly over multiple turns, from being stunned. Each time you regain actions (such as at the start of your turn), reduce the number you regain by your stunned value, then reduce your stunned value by the number of actions you lost. For example, if you were stunned 4, you would lose all 3 of your actions on your turn, reducing you to stunned 1; on your next turn, you would lose 1 more action, and then be able to use your remaining 2 actions normally. Stunned might also have a duration instead of a value, such as \"stunned for 1 minute.\" In this case, you lose all your actions for the listed duration.\n\nTo add stunned with a value, set the duration to permanent. To add stunned with a duration, set a duration and choose any value.\n\nStunned overrides slowed. If the duration of your stunned condition ends while you are slowed, you count the actions lost to the stunned condition toward those lost to being slowed. So, if you were stunned 1 and slowed 2 at the beginning of your turn, you would lose 1 action from stunned, and then lose only 1 additional action by being slowed, so you would still have 1 action remaining to use that turn.",
+        "desc": "You've become senseless. You can't act while stunned. Stunned usually includes a value, which indicates how many total actions you lose, possibly over multiple turns, from being stunned. Each time you regain actions (such as at the start of your turn), reduce the number you regain by your stunned value, then reduce your stunned value by the number of actions you lost. For example, if you were stunned 4, you would lose all 3 of your actions on your turn, reducing you to stunned 1; on your next turn, you would lose 1 more action, and then be able to use your remaining 2 actions normally. Stunned might also have a duration instead of a value, such as \"stunned for 1 minute.\" In this case, you lose all your actions for the listed duration.\n\nStunned overrides slowed. If the duration of your stunned condition ends while you are slowed, you count the actions lost to the stunned condition toward those lost to being slowed. So, if you were stunned 1 and slowed 2 at the beginning of your turn, you would lose 1 action from stunned, and then lose only 1 additional action by being slowed, so you would still have 1 action remaining to use that turn.",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "type": "generic",
         "sortLevel": 0,
         "hasValue": true,
-        "inputRequired": "If stunned is permanent, each time you regain actions (such as at the start of your turn), reduce the number you regain by your stunned value, then reduce your stunned value by the number of actions you lost. If Stunned has a duration other than permanent, you lose all your actions for the duration.",
+        "inputRequired": "To add stunned with a value, set the duration to permanent. To add stunned with a duration, set a duration and choose any value.\n\nIf stunned is permanent, each time you regain actions (such as at the start of your turn), reduce the number you regain by your stunned value, then reduce your stunned value by the number of actions you lost. If Stunned has a duration other than permanent, you lose all your actions for the duration.",
         "effects": [
             {
                 "affected": "Actions per Turn",
@@ -11176,6 +11221,62 @@
                         "affected": "Deception",
                         "type": "status",
                         "value": "-4"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Fire Seed Burst",
+        "desc": "You have tossed a fire seed, dealing |dice=var Fire| <var>var1</var> fire damage in a 5-foot burst. Flames continue to burn on the ground in the burst for 1 minute, dealing |dice=var2 Fire| <var>var2</var> fire damage to any creature that enters the flames or ends its turn within them. A creature can take damage from the continuing flames only once per round, even if it's in overlapping areas of fire created by different acorns.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "otherconsumables",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "4d6",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "2d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "5d6",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "3d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "6d6",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "3d6",
+                        "variable": "var2"
                     }
                 ]
             }
@@ -38393,6 +38494,180 @@
         ]
     },
     {
+        "name": "Baleful Polymorph",
+        "desc": "You have been transformed into a harmless animal appropriate to the area, with effects based on your Fortitude save.\n\n<strong>Critical Success</strong> You are unaffected.\n<strong>Success</strong> Your body gains minor features of the harmless animal. Your insides churn as you partially transform, causing you to be sickened 1. When you recover from the sickened condition, your features revert to normal.\n<strong>Failure</strong> You transform for 1 minute but keep your mind. If you spend all your actions on your turn concentrating on your original form, you can attempt a Will save to end the effect immediately.\n<strong>Critical Failure</strong> You are transformed into the chosen harmless animal, body and mind, for an unlimited duration.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "defaultDurations": [
+            {
+                "duration": 100
+            },
+            {
+                "duration": -1
+            }
+        ],
+        "endsWithConditions": [
+            {
+                "name": "Sickened",
+                "source": "Baleful Polymorph"
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Your body has gained minor features of a harmless animal appropriate to the are.",
+                "showon": "Effects",
+                "conditionChoiceFilter": [
+                    "Success"
+                ]
+            },
+            {
+                "desc": "You have transformed into a harmless animal appropriate to the area, but keep your mind. If you spend all your actions on your turn concentrating on your original form, you can attempt a Will save to end the effect immediately.",
+                "showon": "Effects",
+                "conditionChoiceFilter": [
+                    "Failure"
+                ]
+            },
+            {
+                "desc": "You have been transformed into a harmless animal, body and mind, for an unlimited duration.",
+                "showon": "Effects",
+                "conditionChoiceFilter": [
+                    "Critical Failure"
+                ]
+            }
+        ],
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Success",
+                "defaultDuration": -1
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 100
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": -1
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": [
+                    "Success"
+                ],
+                "name": "Sickened",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Baleful Polymorph (Caster)",
+        "desc": "You have transformed the target creature into a harmless animal appropriate to the area, with effects based on its Fortitude save.\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target's body gains minor features of the harmless animal. Its insides churn as they partially transform, causing it to be sickened 1. When it recovers from the sickened condition, its features revert to normal.\n<strong>Failure</strong> The target transforms for 1 minute but keeps its mind. If it spends all its actions on its turn concentrating on its original form, it can attempt a Will save to end the effect immediately.\n<strong>Critical Failure</strong> The target is transformed into the chosen harmless animal, body and mind, for an unlimited duration.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            },
+            {
+                "duration": -1
+            }
+        ],
+        "inputRequired": "Remove the condition when the target recovers from its sickened condition (on a success) and when it succeeds at its Will save to end the effect immediately (on a failure).",
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": -1
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 100
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": -1
+            }
+        ]
+    },
+    {
+        "name": "Blade Barrier",
+        "desc": "Blades of force have formed a churning wall. The wall is a straight line 20 feet high, 120 feet long, and 2 inches thick, and it provides cover. The wall deals |dice=var1 Force| <var>var1</var> force damage to each creature that's in the wall's space when it is created, that attempts to pass through the wall, or that ends its turn inside the wall. A basic Reflex save reduces the damage. A creature that succeeds at this save when the wall is created is pushed to the nearest space on the side of its choice. Creatures trying to move through the wall fail to do so if they critically fail the save, ending their movement adjacent to the wall.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "7d8",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "8d8",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "9d8",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "10d8",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "11d8",
+                        "variable": "var1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "name": "Dominate",
         "desc": "The caster has taken command of you, forcing you to obey their orders. If they issue an obviously self-destructive order, you don't act until they issue a new order. The effect depends on your Will save.\n\n<strong>Critical Success</strong> You are unaffected.\n<strong>Success</strong> You are stunned 1 as you fight off the caster's commands.\n<strong>Failure</strong> The caster controls you. You gain the controlled condition, but you can attempt a Will save at the end of each of your turns. On a success, the spell ends.\n<strong>Critical Failure</strong> As a failure, but you receive a new save only if the caster gives you a new order that is against your nature, such as killing your allies.",
         "sourceBook": "Core Rulebook",
@@ -38947,6 +39222,432 @@
         ]
     },
     {
+        "name": "Feeblemind",
+        "desc": "You have drastically reduced the target's mental faculties, with effects depending on their Will save. The effects of this curse can be removed only through remove curse or another effect that targets curses.\n\n<strong>Critical Success</strong> You are unaffected.\n<strong>Success</strong> You are stupefied 2 for 1 round.\n<strong>Failure</strong> You are stupefied 4 with an unlimited duration.\n<strong>Critical Failure</strong> Your intellect is permanently reduced below that of an animal, and you treat your Charisma, Intelligence, and Wisdom modifiers as -5. You lose all class abilities that require mental faculties, including all spellcasting. You become an NPC under the GM's control.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "defaultDurations": [
+            {
+                "duration": 10
+            },
+            {
+                "duration": -1
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Your intellect is permanently reduced below that of an animal, and you treat your Charisma, Intelligence, and Wisdom modifiers as -5.",
+                "showon": "Abilities",
+                "conditionChoiceFilter": [
+                    "Critical Failure"
+                ]
+            },
+            {
+                "desc": "You lose all class abilities that require mental faculties, including all spellcasting. You become an NPC under the GM's control.",
+                "showon": "Skills, Activities, Spellbook",
+                "conditionChoiceFilter": [
+                    "Critical Failure"
+                ]
+            }
+        ],
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 10
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": -1
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": -1
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Charisma Modifier",
+                "show": true,
+                "setValue": "Choice == 'Critical Failure' ? -5 : null"
+            },
+            {
+                "affected": "Intelligence Modifier",
+                "show": true,
+                "setValue": "Choice == 'Critical Failure' ? -5 : null"
+            },
+            {
+                "affected": "Wisdom Modifier",
+                "show": true,
+                "setValue": "Choice == 'Critical Failure' ? -5 : null"
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": [
+                    "Success"
+                ],
+                "name": "Stupefied",
+                "value": 2
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Failure"
+                ],
+                "name": "Stupefied",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Feeblemind (Caster)",
+        "desc": "You have drastically reduced the target's mental faculties, with effects depending on their Will save. The effects of this curse can be removed only through remove curse or another effect that targets curses.\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target is stupefied 2 for 1 round.\n<strong>Failure</strong> The target is stupefied 4 with an unlimited duration.\n<strong>Critical Failure</strong> The target's intellect is permanently reduced below that of an animal, and it treats its Charisma, Intelligence, and Wisdom modifiers as -5. It loses all class abilities that require mental faculties, including all spellcasting. If the target is a PC, they become an NPC under the GM's control.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            },
+            {
+                "duration": -1
+            }
+        ],
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 10
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": -1
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": -1
+            }
+        ]
+    },
+    {
+        "name": "Field of Life",
+        "desc": "A field of positive energy fills the area, exuding warmth and rejuvenating those within. Each living creature that starts its turn in the area regains |dice=var1| <var>var1</var> Hit Points, and any undead creature that starts its turn in the area takes |dice=var1 Positive| <var>var1</var> positive damage.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "1d8",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "1d10",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "1d12",
+                        "variable": "var1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Fire Seeds",
+        "desc": "Four acorns have grown in your hand, their shells streaked with pulsing red and orange patterns. You or anyone else who has one of the acorns can toss it up to 30 feet with an Interact action. It explodes in a 5-foot burst, dealing |dice=var Fire| <var>var1</var> fire damage. The save uses your spell DC, even if someone else throws the acorn.\n\nFlames continue to burn on the ground in the burst for 1 minute, dealing |dice=var2 Fire| <var>var2</var> fire damage to any creature that enters the flames or ends its turn within them. A creature can take damage from the continuing flames only once per round, even if it's in overlapping areas of fire created by different acorns.\n\nWhen the spell ends, any remaining acorns rot and turn to ordinary soil.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "gainItems": [
+            {
+                "heightenedFilter": 6,
+                "amount": 4,
+                "name": "Fire Seed (6th Level)",
+                "type": "otherconsumables",
+                "unhideAfterGrant": true
+            },
+            {
+                "heightenedFilter": 8,
+                "amount": 4,
+                "name": "Fire Seed (8th Level)",
+                "type": "otherconsumables",
+                "unhideAfterGrant": true
+            },
+            {
+                "heightenedFilter": 9,
+                "amount": 4,
+                "name": "Fire Seed (9th Level)",
+                "type": "otherconsumables",
+                "unhideAfterGrant": true
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "4d6",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "2d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "5d6",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "3d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "6d6",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "3d6",
+                        "variable": "var2"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Flesh to Stone",
+        "desc": "The caster has tried to turn the your flesh into stone, with effects depending on your Fortitude save.\n\n<strong>Critical Success</strong> You are unaffected.\n<strong>Success</strong> You are slowed 1 for 1 round.\n<strong>Failure</strong> You are slowed 1 and must attempt a Fortitude save at the end of each of your turns; this ongoing save has the incapacitation trait. On a failed save, the slowed condition increases by 1 (or 2 on a critical failure). A successful save reduces the slowed condition by 1. When you are unable to act due to the slowed condition from flesh to stone, you are permanently non-magically petrified. The spell ends if you are petrified or the slowed condition is removed.\n<strong>Critical Failure</strong> As failure, but you are initially slowed 2.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "defaultDurations": [
+            {
+                "duration": 10
+            },
+            {
+                "duration": -1
+            }
+        ],
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 1
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 10
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": -1
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": -1
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": [
+                    "Success"
+                ],
+                "name": "Slowed",
+                "value": 1
+            },
+            {
+                "choice": "Slowed 1",
+                "conditionChoiceFilter": [
+                    "Failure"
+                ],
+                "name": "Flesh to Stone Petrification",
+                "persistent": true,
+                "ignorePersistentAtChoiceChange": true
+            },
+            {
+                "choice": "Slowed 2",
+                "conditionChoiceFilter": [
+                    "Critical Failure"
+                ],
+                "name": "Flesh to Stone Petrification",
+                "persistent": true,
+                "ignorePersistentAtChoiceChange": true
+            }
+        ]
+    },
+    {
+        "name": "Flesh to Stone (Caster)",
+        "desc": "You have tried to turn the target's flesh into stone, with effects depending on their Fortitude save.\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target is slowed 1 for 1 round.\n<strong>Failure</strong> The target is slowed 1 and must attempt a Fortitude save at the end of each of its turns; this ongoing save has the incapacitation trait. On a failed save, the slowed condition increases by 1 (or 2 on a critical failure). A successful save reduces the slowed condition by 1. When a creature is unable to act due to the slowed condition from flesh to stone, the creature is permanently non-magically petrified. The spell ends if the creature is petrified or the slowed condition is removed.\n<strong>Critical Failure</strong> As failure, but the target is initially slowed 2.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            },
+            {
+                "duration": -1
+            }
+        ],
+        "inputRequired": "Remove the condition if the target is petrified or the slowed condition is removed.",
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 10
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": -1
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": -1
+            }
+        ]
+    },
+    {
+        "name": "Flesh to Stone Petrification",
+        "desc": "You have failed your Fortitude save against flesh to stone.\n\nYou are slowed 1 (or 2 on a critical failure) and must attempt a Fortitude save at the end of each of your turns; this ongoing save has the incapacitation trait. On a failed save, the slowed condition increases by 1 (or 2 on a critical failure). A successful save reduces the slowed condition by 1. When you are unable to act due to the slowed condition from flesh to stone, you are permanently non-magically petrified. The spell ends if you are petrified or the slowed condition is removed.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ],
+        "inputRequired": "Switch to the Petrified choice if you are unable to act due to the slowed condition.",
+        "choice": "Slowed 1",
+        "choices": [
+            {
+                "name": "Slowed 1",
+                "nextStage": 10
+            },
+            {
+                "name": "Slowed 2",
+                "nextStage": 10
+            },
+            {
+                "name": "Slowed 3",
+                "nextStage": 10
+            },
+            {
+                "name": "Slowed 4",
+                "nextStage": 10
+            },
+            {
+                "name": "Petrified"
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": [
+                    "Slowed 1"
+                ],
+                "name": "Slowed",
+                "value": 1
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Slowed 2"
+                ],
+                "name": "Slowed",
+                "value": 2
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Slowed 3"
+                ],
+                "name": "Slowed",
+                "value": 3
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Slowed 4"
+                ],
+                "name": "Slowed",
+                "value": 4
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Petrified"
+                ],
+                "name": "Petrified",
+                "persistent": true
+            }
+        ],
+        "endConditions": [
+            {
+                "name": "Flesh to Stone",
+                "sameCasterOnly": true
+            }
+        ]
+    },
+    {
         "name": "Mislead",
         "desc": "You have turned yourself invisible and created an illusory duplicate of yourself. When you Sustain the Spell, you can mentally dictate a course of action for your duplicate to follow that round. Your duplicate acts as though it had your full number of actions, though it can't actually affect anything in the environment. Both the duplicate and your invisibility persist for the spell's duration. Performing a hostile action doesn't end mislead's invisibility, just like a 4th-level invisibility spell. A creature that determines the duplicate is an illusion doesn't necessarily know you're invisible, and one that can see your invisible form doesn't necessarily know your duplicate is an illusion.\n\nIf you Cast a Spell, attack, or otherwise interact with another creature, as a part of that action you can attempt a Deception check against observers' Perception DCs to convince them your duplicate used that action. This doesn't fool anyone who's aware your duplicate is an illusion, nor does it work if the attack obviously couldn't have come from the duplicate. For instance, if you fired a ray, you could make it look like it came from the duplicate as long as the duplicate was positioned appropriately, but if you attacked with a sword and your duplicate was across the room from the target, your Deception check would automatically fail.",
         "sourceBook": "Core Rulebook",
@@ -38963,6 +39664,66 @@
         "gainConditions": [
             {
                 "name": "Invisible"
+            }
+        ]
+    },
+    {
+        "name": "Phantasmal Calamity (Caster)",
+        "desc": "A vision of apocalyptic destruction has filled the mind of each creature in the area, dealing mental damage depending on a basic Will save. Every creature that has rolled a critical failure on this save must also succeed at a Reflex save or believe it's trapped (stuck in a fissure, adrift at sea, or some other fate in keeping with its vision). If it fails the second save, it's also stunned for 1 minute. It can attempt a new Will save at the end of each of its turns, and on a success, it disbelieves the illusion and recovers from the stunned condition.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ]
+    },
+    {
+        "name": "Phantasmal Calamity (Critical Failure)",
+        "desc": "A vision of apocalyptic destruction has filled your mind, and you have critically failed your Will save against the mental damage it dealt, gaining additional effects depending on a second Reflex save. If you failed the save, you believe you're trapped (stuck in a fissure, adrift at sea, or some other fate in keeping with its vision), and you are also also stunned for 1 minute. You can attempt a new Will save at the end of each of your turns, and on a success, you disbelieve the illusion and recover from the stunned condition.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "inputRequired": "Remove the condition if you succeed at your Will save to disbelieve the illusion.",
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 100
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": 100
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": [
+                    "Failure",
+                    "Critical Failure"
+                ],
+                "duration": 100,
+                "name": "Stunned",
+                "value": 9
             }
         ]
     },
@@ -39011,6 +39772,657 @@
         ]
     },
     {
+        "name": "Purple Worm Sting",
+        "desc": "You have replicated the attack of a deadly purple worm, dealing piercing damage to the touched creature and afflicting it with purple worm venom depending on its Fortitude save.\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target takes 3d6 poison damage.\n<strong>Failure</strong> The target is afflicted with purple worm venom at stage 1.\n<strong>Critical Failure</strong> The target is afflicted with purple worm venom at stage 2.\n\n<strong>Purple Worm Venom</strong> (poison); <strong>Level</strong> 11; <strong>Maximum Duration</strong> 6 rounds. <strong>Stage 1</strong> 3d6 poison damage and enfeebled 2 (1 round); <strong>Stage 2</strong> 4d6 poison damage and enfeebled 2 (1 round); <strong>Stage 3</strong> 6d6 poison damage and enfeebled 2 (1 round).",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "defaultDurations": [
+            {
+                "duration": 60
+            }
+        ],
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 60
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": 60
+            }
+        ]
+    },
+    {
+        "name": "Raise Dead",
+        "desc": "Your soul has been called forth, returning you to life with 1 Hit Point, no spells prepared or spell slots available, no points in any pools or any other daily resources, and still with any long-term debilitations of the old body. The time spent in the Boneyard leaves you temporarily debilitated, making you clumsy 2, drained 2, and enfeebled 2 for 1 week; these conditions can't be removed or reduced by any means until the week has passed. You are also permanently changed by your time in the afterlife, such as a slight personality shift, a streak of white in the hair, or a strange new birthmark.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1008000
+            }
+        ],
+        "inputRequired": "Expend your pools, resources and spells as appropriate.",
+        "onceEffects": [
+            {
+                "affected": "HP",
+                "value": "(-(Current_HP()-1))"
+            }
+        ],
+        "gainConditions": [
+            {
+                "lockedByParent": true,
+                "valueLockedByParent": true,
+                "name": "Clumsy",
+                "value": 2
+            },
+            {
+                "ignorePersistent": true,
+                "lockedByParent": true,
+                "valueLockedByParent": true,
+                "name": "Drained",
+                "value": 2
+            },
+            {
+                "lockedByParent": true,
+                "valueLockedByParent": true,
+                "name": "Enfeebled",
+                "value": 2
+            }
+        ],
+        "endConditions": [
+            {
+                "name": "Dead"
+            }
+        ]
+    },
+    {
+        "name": "Raise Dead (Caster)",
+        "desc": "You have called forth a dead creature's soul. The creature returns to life with 1 Hit Point, no spells prepared or spell slots available, no points in any pools or any other daily resources, and still with any long-term debilitations of the old body. The time spent in the Boneyard leaves the target temporarily debilitated, making it clumsy 2, drained 2, and enfeebled 2 for 1 week; these conditions can't be removed or reduced by any means until the week has passed. The creature is also permanently changed by its time in the afterlife, such as a slight personality shift, a streak of white in the hair, or a strange new birthmark.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1008000
+            }
+        ]
+    },
+    {
+        "name": "Repulsion",
+        "desc": "You have entered an aura that prevents you from approaching the caster, depending on your Will save. Once you have attempted the save, you use the same result for that casting of repulsion. Any restrictions on your movement apply only if you voluntarily move toward the caster. For example, if the caster moves closer to you, you don't then need to move away.\n\n<strong>Critical Success</strong> Your movement is not restricted.\n<strong>Success</strong> You treat each square in the area as difficult terrain when moving closer to the caster.\n<strong>Failure</strong> You can't move closer to the caster within the area.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You treat each square in the emanation as difficult terrain when moving closer to the caster.",
+                "showon": "Movement",
+                "conditionChoiceFilter": [
+                    "Success"
+                ]
+            },
+            {
+                "desc": "You can't move closer to the caster within the emanation.",
+                "showon": "Movement",
+                "conditionChoiceFilter": [
+                    "Failure"
+                ]
+            }
+        ],
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 100
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 100
+            }
+        ]
+    },
+    {
+        "name": "Repulsion (Caster)",
+        "desc": "You have manifested an aura that prevents creatures from approaching you. A creature must attempt a Will save if it's within the area when you cast the spell or as soon as it enters the area while the spell is in effect. Once a creature has attempted the save, it uses the same result for that casting of repulsion. Any restrictions on a creature's movement apply only if it voluntarily moves toward you. For example, if you move closer to a creature, it doesn't then need to move away.\n\n<strong>Critical Success</strong> The creature's movement is not restricted.\n<strong>Success</strong> The creature treats each square in the area as difficult terrain when moving closer to you.\n<strong>Failure</strong> The creature can't move closer to you within the area.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "radius": 40,
+        "allowRadiusChange": true,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ]
+    },
+    {
+        "name": "Righteous Might",
+        "desc": "You focus all your divine energy and transform yourself into a <var>var_size</var> battle form, similar to your normal form but armed with powerful divine armaments granted by your deity. <var>var_space_warning</var>While in this form, you gain the statistics and abilities listed below. You have hands in this battle form and can use manipulate actions. You can Dismiss the spell.\n\nYou gain the following statistics and abilities:\nAC = <var>var_ac</var> + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var_temphp</var> temporary Hit Points.\nSpeed 40 feet.\nResistance <var>var_resistance</var> against physical damage.\nDarkvision.\nA special attack with a righteous armament version of your favored weapon, which is the only attack you can use. Your attack modifier with the special weapon is +<var>var_attack</var>, and your damage bonus is +<var>var_dmgbonus_melee</var> (or +<var>var_dmgbonus_ranged</var> for a ranged attack). <var>var_reach</var>If your attack modifier with your deity's favored weapon is higher, you can use it instead. You deal three of your weapon's normal damage dice, or three damage dice of one size larger if your weapon is a simple weapon with a d4 or d6 damage die. The weapon has one of the following properties that matches your deity's alignment: anarchic, axiomatic, holy, unholy. If your deity is true neutral, you instead deal an extra 1d6 precision damage.\nAthletics modifier of +<var>var_athletics</var>, unless your own modifier is higher.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Your attack modifier with the righteous might weapon is <var>var1</var>. If your attack modifier with your deity's favored weapon is higher, you can use it instead.\n\nIf your weapon is a simple weapon with a d4 or d6 damage die, its damage die is one size larger.\n\nActivate the first level of this hint to apply the attack modifier of <var>var1</var>.\nActivate the second level of this hint to apply the larger damage die size to a simple weapon.",
+                "showon": "Attacks",
+                "effects": [
+                    {
+                        "affected": "Favored Weapon Attack Rolls",
+                        "setValue": "object.active ? (Heightened >= 8 ? 28 : 21) : null"
+                    },
+                    {
+                        "affected": "Simple Favored Weapon Dice Size",
+                        "value": "object.active2 ? 2 : 0"
+                    }
+                ],
+                "extraActivations": 1,
+                "heightenedDescs": [
+                    {
+                        "level": 6,
+                        "descs": [
+                            {
+                                "value": "21",
+                                "variable": "var1"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 8,
+                        "descs": [
+                            {
+                                "value": "28",
+                                "variable": "var1"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "choice": "Neutral",
+        "choices": [
+            {
+                "name": "Neutral"
+            },
+            {
+                "name": "Anarchic"
+            },
+            {
+                "name": "Axiomatic"
+            },
+            {
+                "name": "Holy"
+            },
+            {
+                "name": "Unholy"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Favored Weapon Extra Damage",
+                "title": "'1d6 Precision'",
+                "conditionalToggle": "Choice == 'Neutral' ? 1 : null"
+            },
+            {
+                "affected": "Size",
+                "setValue": "Heightened >= 8 ? 1 : 0",
+                "title": "['Medium','Large'][setValue]"
+            },
+            {
+                "affected": "AC",
+                "setValue": "(Heightened >= 8 ? 21 : 20) + Level"
+            },
+            {
+                "affected": "Melee Favored Weapon Damage",
+                "setValue": "Heightened >= 8 ? 15 : 8"
+            },
+            {
+                "affected": "Ranged Favored Weapon Damage",
+                "setValue": "Heightened >= 8 ? 12 : 6"
+            },
+            {
+                "affected": "Athletics",
+                "setValue": "Skill('Athletics') >= [0,0,0,0,0,0,23,23,28,28,28][Heightened] ? null : [0,0,0,0,0,0,23,23,28,28,28][Heightened]"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "40"
+            },
+            {
+                "affected": "Physical Damage Resistance",
+                "value": "Heightened >= 8 ? 4 : 3"
+            },
+            {
+                "affected": "Favored Weapon Dice Number",
+                "setValue": "3"
+            },
+            {
+                "affected": "Reach",
+                "value": "Heightened >= 8 ? 5 : 0"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "Heightened >= 8 ? 15 : 10"
+            }
+        ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "-Temporary_HP('',effect.sourceId)"
+            }
+        ],
+        "gainItems": [
+            {
+                "conditionChoiceFilter": [
+                    "Anarchic"
+                ],
+                "special": "Favored Weapon",
+                "newPropertyRunes": [
+                    {
+                        "name": "Anarchic"
+                    }
+                ]
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Axiomatic"
+                ],
+                "special": "Favored Weapon",
+                "newPropertyRunes": [
+                    {
+                        "name": "Axiomatic"
+                    }
+                ]
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Holy"
+                ],
+                "special": "Favored Weapon",
+                "newPropertyRunes": [
+                    {
+                        "name": "Holy"
+                    }
+                ]
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Unholy"
+                ],
+                "special": "Favored Weapon",
+                "newPropertyRunes": [
+                    {
+                        "name": "Unholy"
+                    }
+                ]
+            },
+            {
+                "conditionChoiceFilter": [
+                    "Neutral"
+                ],
+                "special": "Favored Weapon"
+            }
+        ],
+        "senses": [
+            {
+                "name": "Darkvision"
+            }
+        ],
+        "attackRestrictions": [
+            {
+                "special": "Favored Weapon"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "Medium",
+                        "variable": "var_size"
+                    },
+                    {
+                        "variable": "var_space_warning"
+                    },
+                    {
+                        "value": "20",
+                        "variable": "var_ac"
+                    },
+                    {
+                        "value": "10",
+                        "variable": "var_temphp"
+                    },
+                    {
+                        "value": "3",
+                        "variable": "var_resistance"
+                    },
+                    {
+                        "value": "21",
+                        "variable": "var_attack"
+                    },
+                    {
+                        "value": "8",
+                        "variable": "var_dmgbonus_melee"
+                    },
+                    {
+                        "value": "6",
+                        "variable": "var_dmgbonus_ranged"
+                    },
+                    {
+                        "variable": "var_reach"
+                    },
+                    {
+                        "value": "23",
+                        "variable": "var_athletics"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "Large",
+                        "variable": "var_size"
+                    },
+                    {
+                        "value": "You must have enough space to expand into or the spell is lost. ",
+                        "variable": "var_space_warning"
+                    },
+                    {
+                        "value": "21",
+                        "variable": "var_ac"
+                    },
+                    {
+                        "value": "15",
+                        "variable": "var_temphp"
+                    },
+                    {
+                        "value": "4",
+                        "variable": "var_resistance"
+                    },
+                    {
+                        "value": "28",
+                        "variable": "var_attack"
+                    },
+                    {
+                        "value": "15",
+                        "variable": "var_dmgbonus_melee"
+                    },
+                    {
+                        "value": "12",
+                        "variable": "var_dmgbonus_ranged"
+                    },
+                    {
+                        "value": "Your attacks have 10-foot reach, or 15-foot reach if your deity's favored weapon has reach. ",
+                        "variable": "var_reach"
+                    },
+                    {
+                        "value": "29",
+                        "variable": "var_athletics"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Scrying",
+        "desc": "You magically spy on a creature of your choice. Scrying works like clairvoyance, except that the image you receive is less precise, insufficient for teleport and similar spells. Instead of creating an eye in a set location within 500 feet, you have instead created an eye that manifests just above the target. If you haven't met the target in person, scrying's DC is 2 lower, and if you are unaware of the target's identity (perhaps because you found an unknown creature's fang at a crime scene), the DC is instead 10 lower.\n\nThe effect of scrying depends on the target's Will save.\n\n<strong>Critical Success</strong> The spell fails and the target is temporarily immune for 1 week. The target also gains a glimpse of you and learns its rough distance and direction from you.\n<strong>Success</strong> The spell fails and the target is temporarily immune for 1 day.\n<strong>Failure</strong> The spell succeeds.\n<strong>Critical Failure</strong> The spell succeeds, and the eye follows the target if it moves, traveling up to 60 feet per round.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
+        "hints": [
+            {
+                "desc": "The scrying eye follows the target if it moves, traveling up to 60 feet per round.",
+                "showon": "Perception"
+            }
+        ],
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": 1000
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": 1000
+            }
+        ]
+    },
+    {
+        "name": "Scrying Immunity",
+        "desc": "You have succeeded at a Will save against the scrying spell and cannot be spied on with this spell by the same caster for the duration. If you rolled a critical success on your Will save, you also gained a glimpse of the caster and learned your rough distance and direction from them.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 144000
+            },
+            {
+                "duration": 1008000
+            }
+        ],
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 1008000
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 144000
+            }
+        ]
+    },
+    {
+        "name": "Spellwrack",
+        "desc": "Any spells cast on you spill out their energy in harmful surges. The effect depends on your Will save.\n\n<strong>Critical Success</strong> You are unaffected.\n<strong>Success</strong> Whenever you become affected by a spell with a duration, you take 2d12 persistent force damage. Each time you take persistent force damage from spellwrack, it reduces the remaining duration of spells affecting you by 1 round. Only a successful Arcana check against the caster's spell DC can help you recover from the persistent damage; the curse and the persistent damage end after 1 minute.\n<strong>Failure</strong> As success, but the curse and persistent damage do not end on their own.\n<strong>Critical Failure</strong> As failure, but the persistent force damage is 4d12.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            },
+            {
+                "duration": -1
+            }
+        ],
+        "inputRequired": "Reduce the duration of spells affecting you by 1 round whenever you take persistent force damage from spellwrack. You gain an activity with which you can apply the persistent damage.",
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 100
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": -1
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": -1
+            }
+        ],
+        "gainActivities": [
+            {
+                "name": "Spellwrack Triggered"
+            }
+        ]
+    },
+    {
+        "name": "Spellwrack (Caster)",
+        "desc": "You cause any spells cast on the target to spill out their energy in harmful surges. The target must attempt a Will save.\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> Whenever the target becomes affected by a spell with a duration, the target takes 2d12 persistent force damage. Each time it takes persistent force damage from spellwrack, it reduces the remaining duration of spells affecting it by 1 round. Only a successful Arcana check against your spell DC can help the target recover from the persistent damage; the curse and the persistent damage end after 1 minute.\n<strong>Failure</strong> As success, but the curse and persistent damage do not end on their own.\n<strong>Critical Failure</strong> As failure, but the persistent force damage is 4d12.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            },
+            {
+                "duration": -1
+            }
+        ],
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 100
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": -1
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": -1
+            }
+        ]
+    },
+    {
+        "name": "Spellwrack Triggered",
+        "desc": "Whenever you become affected by a spell with a duration, you take 2d12 persistent force damage. If you critically failed your Will save against spellwrack, you take 4d12 persistent force damage instead. Each time you take persistent force damage from spellwrack, it reduces the remaining duration of spells affecting you by 1 round. Only a successful Arcana check against the caster's spell DC can help you recover from the persistent damage.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            },
+            {
+                "duration": -1
+            }
+        ],
+        "hide": true,
+        "inputRequired": "Reduce the duration of spells affecting you by 1 round whenever you take persistent force damage from spellwrack.",
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Failure"
+            },
+            {
+                "name": "Critical Failure"
+            }
+        ],
+        "gainConditions": [
+            {
+                "choice": "2d12 Force",
+                "conditionChoiceFilter": [
+                    "Failure"
+                ],
+                "name": "Persistent Damage"
+            },
+            {
+                "choice": "4d12 Force",
+                "conditionChoiceFilter": [
+                    "Critical Failure"
+                ],
+                "name": "Persistent Damage"
+            }
+        ]
+    },
+    {
+        "name": "Stone Tell",
+        "desc": "You can ask questions of and receive answers from natural or worked stone. While stone is not intelligent, you speak with the natural spirits of the stone, which have a personality colored by the type of stone, as well as by the type of structure the stone is part of, for worked stone. A stone's perspective, perception, and knowledge give it a worldview different enough from a human's that it doesn't consider the same details important. Stones can mostly answer questions about creatures that touched them in the past and what is concealed beneath or behind them.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You can ask questions of and receive answers from natural or worked stone. While stone is not intelligent, you speak with the natural spirits of the stone, which have a personality colored by the type of stone, as well as by the type of structure the stone is part of, for worked stone. A stone's perspective, perception, and knowledge give it a worldview different enough from a human's that it doesn't consider the same details important. Stones can mostly answer questions about creatures that touched them in the past and what is concealed beneath or behind them.",
+                "showon": "Diplomacy"
+            }
+        ]
+    },
+    {
         "name": "Stone to Flesh",
         "desc": "(Stone to Flesh removes Petrified, then immediately ends. It cannot be added manually.)",
         "sourceBook": "Core Rulebook",
@@ -39026,6 +40438,52 @@
         "endConditions": [
             {
                 "name": "Petrified"
+            }
+        ]
+    },
+    {
+        "name": "Tangling Creepers",
+        "desc": "Dense, twitching creepers sprout from every surface and fill any bodies of water in the area. Any creature moving on the land, or Climbing or Swimming within the creepers, takes a -10-foot circumstance penalty to its Speeds while in the area. Once per round, you can make a vine lash out from any square within the expanse of creepers by using a single action, which has the concentrate trait. This vine has a 15-foot reach. Make a melee spell attack roll against the target; on a success, the vine pulls the target into the creepers and makes it immobilized for 1 round or until the creature Escapes (against your spell DC), whichever comes first.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
+        "gainActivities": [
+            {
+                "name": "Tangling Creepers Lash"
+            }
+        ]
+    },
+    {
+        "name": "Tangling Creepers (In the Area)",
+        "desc": "Dense, twitching creepers sprout from every surface and fill any bodies of water in the area. While moving on the land in the area, or Climbing or Swimming within the creepers, you takes a -10-foot circumstance penalty to your Speeds.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ],
+        "hints": [
+            {
+                "desc": "While moving on the land in the area, or Climbing or Swimming within the creepers, you takes a -10-foot circumstance penalty to your Speeds.",
+                "showon": "Movement",
+                "effects": [
+                    {
+                        "affected": "Speed",
+                        "value": "-10"
+                    }
+                ]
             }
         ]
     },
@@ -39051,6 +40509,29 @@
         ]
     },
     {
+        "name": "Vampiric Exsanguination",
+        "desc": "You have drawn in the blood and life force of other creatures through your outstretched arms. \n\nYou gain temporary Hit Points equal to half the damage a single creature takes from this spell; calculate these temporary Hit Points using the creature that took the most damage. You lose any remaining temporary Hit Points after 1 minute.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "inputRequired": "Manually set the appropriate amount of temporary Hit Points. When the condition ends, all manually added Hit Points will be lost.",
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "source": "Manual",
+                "value": "-Temporary_HP('Manual')"
+            }
+        ]
+    },
+    {
         "name": "Vibrant Pattern",
         "desc": "A pattern of lights pulses with intensity in the area. Creatures are dazzled while inside the pattern.\n\nIn addition, you must attempt a Will saving throw if you are inside the pattern when it was cast, enter the pattern, end your turn within the pattern, or use a Seek or Interact action on the pattern. A creature currently blinded by the pattern doesn't need to attempt new saving throws.\n\n<strong>Success</strong> You are unaffected.\n<strong>Failure</strong> You are blinded by the pattern. If you exit the pattern, you can attempt a new save to recover from the blinded condition at the end of each of your turns, to a maximum duration of 1 minute.\n<strong>Critical Failure</strong> You are blinded for 1 minute.",
         "sourceBook": "Core Rulebook",
@@ -39061,6 +40542,15 @@
         "defaultDurations": [
             {
                 "duration": 100
+            }
+        ],
+        "hints": [
+            {
+                "desc": "If you exit the vibrant pattern, you can attempt a new save to recover from the blinded condition at the end of each of your turns.",
+                "showon": "Effects",
+                "conditionChoiceFilter": [
+                    "Failure"
+                ]
             }
         ],
         "choice": "Failure",
@@ -39115,6 +40605,186 @@
             }
         ],
         "unlimited": true
+    },
+    {
+        "name": "Wall of Force",
+        "desc": "You have formed an invisible wall of pure magical force up to 50 feet long and up to 20 feet high. The wall has no discernible thickness. The wall has AC 10, Hardness 30, and <var>var1</var> Hit Points, and it's immune to critical hits and precision damage. The wall blocks physical effects from passing through it, and because it's made of force, it blocks incorporeal and ethereal creatures as well. Teleportation effects can pass through the barrier, as can visual effects (since the wall is invisible).\n\nWall of force is immune to counteracting effects of its level or lower, but the wall is automatically destroyed by a disintegrate spell of any level or by contact with a rod of cancellation or sphere of annihilation.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "notes": "Wall HP: 60, 80 or 100",
+        "heightenedDescs": [
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "60",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "80",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "100",
+                        "variable": "var1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Zealous Conviction",
+        "desc": "Your rational mind is bypassed, instilling you with unshakable conviction and zeal. You gain <var>var1</var> temporary Hit Points and a +<var>var2</var> status bonus to Will saves against mental effects, as your faith overrides the signals from your own bodies and minds. If the caster tells you to do something, you must comply with their request, though if you would normally find the task repugnant, you can attempt a Will save at the end of your turn each round due to the cognitive dissonance. On a success, you end the spell's effects on yourself entirely.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
+        "inputRequired": "Remove the condition if you find your task repugnant and succeed at a Will save against the spell.",
+        "hints": [
+            {
+                "desc": "If the caster tells you to do something, you must comply with their request, though if you would normally find the task repugnant, you can attempt a Will save at the end of your turn each round due to the cognitive dissonance. On a success, you end the spell's effects on yourself entirely.",
+                "showon": "Attacks, Activities, Skills"
+            },
+            {
+                "desc": "You gain a +<var>var2</var> status bonus to Will saves against mental effects.",
+                "showon": "Will",
+                "effects": [
+                    {
+                        "affected": "Will",
+                        "value": "Heightened >= 9 ? 3 : 2"
+                    }
+                ],
+                "heightenedDescs": [
+                    {
+                        "level": 6,
+                        "descs": [
+                            {
+                                "value": "2",
+                                "variable": "var2"
+                            }
+                        ]
+                    },
+                    {
+                        "level": 9,
+                        "descs": [
+                            {
+                                "value": "3",
+                                "variable": "var2"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "Heightened >= 9 ? 18 : 12"
+            }
+        ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "-Temporary_HP('',effect.sourceId)"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "12",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "2",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "18",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "3",
+                        "variable": "var2"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Zealous Conviction (Caster)",
+        "desc": "You have bypassed your targets' rational minds, instilling them with unshakable conviction and zeal. The targets each gain <var>var1</var> temporary Hit Points and a +<var>var2</var> status bonus to Will saves against mental effects, as their faith overrides the signals from their own bodies and minds. If you tell a target to do something, it must comply with your request, though if it would normally find the task repugnant, it can attempt a Will save at the end of its turn each round due to the cognitive dissonance. On a success, it ends the spell's effects on itself entirely.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 6,
+        "sortLevel": 6,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "12",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "2",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "18",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "3",
+                        "variable": "var2"
+                    }
+                ]
+            }
+        ]
     },
     {
         "name": "Allegro",
@@ -39257,7 +40927,7 @@
     },
     {
         "name": "Earthquake",
-        "desc": "The ground shakes, creatures are toppled into fissures, and structures collapse in the target area.\n\nThe GM might add additional effects in certain areas. Cliffs might collapse, causing creatures to fall, or a lake might drain as fissures open up below its surface, leaving a morass of quicksand.\n\n<strong>Shaking Ground</strong> The ground is difficult terrain, and creatures on it take a -2 circumstance penalty to attack rolls, AC, and skill checks.\n<strong>Fissures</strong> Each creature on the ground must attempt a Reflex save at the start of its turn to keep its footing and avoid falling into 40-foot-deep fissures that open beneath it. The fissures are permanent, and their sides require DC 15 Athletics to Climb.\n<strong>Collapse Structures</strong> and ceilings might collapse. The GM rolls a flat check for each (DC 16 for a sturdy structure, DC 14 for an average structure and most natural formations, DC 9 for a shoddy structure, all adjusted higher or lower as the GM sees fit). A collapse deals 11d6 bludgeoning damage; each creature caught in a collapse must attempt a Reflex save to avoid it.\n\n \n\n<strong>Critical Success</strong> The creature takes half the collapse damage.\n<strong>Success</strong> The creature takes half the collapse damage and falls prone.\n<strong>Failure</strong> The creature takes the full collapse damage and falls prone.\n<strong>Critical Failure</strong> The creature takes the full collapse damage and falls into a fissure.",
+        "desc": "The ground shakes, creatures are toppled into fissures, and structures collapse in the target area.\n\nThe GM might add additional effects in certain areas. Cliffs might collapse, causing creatures to fall, or a lake might drain as fissures open up below its surface, leaving a morass of quicksand.\n\n<strong>Shaking Ground</strong> The ground is difficult terrain, and creatures on it take a -2 circumstance penalty to attack rolls, AC, and skill checks.\n<strong>Fissures</strong> Each creature on the ground must attempt a Reflex save at the start of its turn to keep its footing and avoid falling into 40-foot-deep fissures that open beneath it. The fissures are permanent, and their sides require DC 15 Athletics to Climb.\n<strong>Collapse Structures</strong> and ceilings might collapse. The GM rolls a flat check for each (DC 16 for a sturdy structure, DC 14 for an average structure and most natural formations, DC 9 for a shoddy structure, all adjusted higher or lower as the GM sees fit). A collapse deals 11d6 bludgeoning damage; each creature caught in a collapse must attempt a Reflex save to avoid it.\n\n\n<strong>Critical Success</strong> The creature takes half the collapse damage.\n<strong>Success</strong> The creature takes half the collapse damage and falls prone.\n<strong>Failure</strong> The creature takes the full collapse damage and falls prone.\n<strong>Critical Failure</strong> The creature takes the full collapse damage and falls into a fissure.",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "type": "spells",
@@ -39317,7 +40987,7 @@
     },
     {
         "name": "Earthquake (Caster)",
-        "desc": "You shake the ground, topple creatures into fissures, and collapse structures in the target area.\n\nThe GM might add additional effects in certain areas. Cliffs might collapse, causing creatures to fall, or a lake might drain as fissures open up below its surface, leaving a morass of quicksand.\n\n<strong>Shaking Ground</strong> The ground is difficult terrain, and creatures on it take a -2 circumstance penalty to attack rolls, AC, and skill checks.\n<strong>Fissures</strong> Each creature on the ground must attempt a Reflex save at the start of its turn to keep its footing and avoid falling into 40-foot-deep fissures that open beneath it. The fissures are permanent, and their sides require DC 15 Athletics to Climb.\n<strong>Collapse Structures</strong> and ceilings might collapse. The GM rolls a flat check for each (DC 16 for a sturdy structure, DC 14 for an average structure and most natural formations, DC 9 for a shoddy structure, all adjusted higher or lower as the GM sees fit). A collapse deals 11d6 bludgeoning damage; each creature caught in a collapse must attempt a Reflex save to avoid it.\n\n \n\n<strong>Critical Success</strong> The creature takes half the collapse damage.\n<strong>Success</strong> The creature takes half the collapse damage and falls prone.\n<strong>Failure</strong> The creature takes the full collapse damage and falls prone.\n<strong>Critical Failure</strong> The creature takes the full collapse damage and falls into a fissure.",
+        "desc": "You shake the ground, topple creatures into fissures, and collapse structures in the target area.\n\nThe GM might add additional effects in certain areas. Cliffs might collapse, causing creatures to fall, or a lake might drain as fissures open up below its surface, leaving a morass of quicksand.\n\n<strong>Shaking Ground</strong> The ground is difficult terrain, and creatures on it take a -2 circumstance penalty to attack rolls, AC, and skill checks.\n<strong>Fissures</strong> Each creature on the ground must attempt a Reflex save at the start of its turn to keep its footing and avoid falling into 40-foot-deep fissures that open beneath it. The fissures are permanent, and their sides require DC 15 Athletics to Climb.\n<strong>Collapse Structures</strong> and ceilings might collapse. The GM rolls a flat check for each (DC 16 for a sturdy structure, DC 14 for an average structure and most natural formations, DC 9 for a shoddy structure, all adjusted higher or lower as the GM sees fit). A collapse deals 11d6 bludgeoning damage; each creature caught in a collapse must attempt a Reflex save to avoid it.\n\n\n<strong>Critical Success</strong> The creature takes half the collapse damage.\n<strong>Success</strong> The creature takes half the collapse damage and falls prone.\n<strong>Failure</strong> The creature takes the full collapse damage and falls prone.\n<strong>Critical Failure</strong> The creature takes the full collapse damage and falls into a fissure.",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "type": "spells",

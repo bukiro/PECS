@@ -240,19 +240,29 @@ export class ItemsService {
             return item;
         }
     }
-
-    initialize_Item(item: any, preassigned: boolean = false, newId: boolean = true, resetPropertyRunes: boolean = false) {
+    initialize_Item(item: any, options: { preassigned?: boolean, newId?: boolean, resetPropertyRunes?: boolean, newPropertyRunes?: Partial<Rune>[] } = {}) {
+        options = {
+            preassigned: false,
+            newId: true,
+            resetPropertyRunes: false,
+            newPropertyRunes: [],
+            ...options,
+        };
+        //If the item is modified with propertyRunes, the runes need to be filled.
+        if (options.newPropertyRunes.length) {
+            options.resetPropertyRunes = true;
+        }
         //Every new item has to be re-assigned its class and iterate over its objects to reassign them as well.
         //Typescript does not seem to have the option to keep object properties' classes when assigning.
-        let newItem: Item;
+        let newItem: Item = JSON.parse(JSON.stringify(item));
         //Set preassigned if you have already given the item a Class. Otherwise it will be determined by the item's type.
-        if (preassigned) {
-            newItem = Object.assign(new item.constructor(), JSON.parse(JSON.stringify(item)));
+        if (options.preassigned) {
+            newItem = Object.assign(new item.constructor(), newItem);
         } else {
-            newItem = this.cast_ItemByType(JSON.parse(JSON.stringify(item)));
+            newItem = this.cast_ItemByType(newItem);
         }
         //Optionally, a new ID is assigned and updated on the item's activities and their spell gains.
-        if (newId) {
+        if (options.newId) {
             newItem.id = uuidv4();
             if (newItem instanceof Equipment || newItem instanceof Rune) {
                 newItem.activities?.forEach((activity: ItemActivity) => {
@@ -280,8 +290,13 @@ export class ItemsService {
                 newItem.runeEffect.activities.forEach((activity: ItemActivity) => { activity.name += " (" + newItem.name + ")" });
             }
         }
+
+        //Apply any new property runes here.
+        if (options.newPropertyRunes.length) {
+            newItem = Object.assign(newItem, { propertyRunes: options.newPropertyRunes })
+        }
         //For base items that come with property Runes with name only, load the rune into the item here.
-        if (resetPropertyRunes && (newItem instanceof Weapon || (newItem instanceof WornItem && newItem.isHandwrapsOfMightyBlows)) && newItem.propertyRunes?.length) {
+        if (options.resetPropertyRunes && (newItem instanceof Weapon || (newItem instanceof WornItem && newItem.isHandwrapsOfMightyBlows)) && newItem.propertyRunes?.length) {
             let newRunes: WeaponRune[] = [];
             newItem.propertyRunes.forEach((rune: WeaponRune) => {
                 let libraryItem = this.cleanItems.weaponrunes.find(newrune => newrune.name == rune.name)
@@ -291,7 +306,7 @@ export class ItemsService {
             })
             newItem.propertyRunes = newRunes;
         }
-        if (resetPropertyRunes && newItem instanceof Armor && newItem.propertyRunes?.length) {
+        if (options.resetPropertyRunes && newItem instanceof Armor && newItem.propertyRunes?.length) {
             let newRunes: ArmorRune[] = [];
             newItem.propertyRunes.forEach((rune: ArmorRune) => {
                 let libraryItem = this.cleanItems.armorrunes.find(newrune => newrune.name == rune.name)
@@ -302,7 +317,7 @@ export class ItemsService {
             newItem.propertyRunes = newRunes;
         }
         //For base items that come with material with name only, load the material into the item here.
-        if (resetPropertyRunes && newItem instanceof Weapon && newItem.material?.length) {
+        if (options.resetPropertyRunes && newItem instanceof Weapon && newItem.material?.length) {
             let newMaterials: WeaponMaterial[] = [];
             newItem.material.forEach((material: WeaponMaterial) => {
                 let libraryItem = this.weaponMaterials.find(newMaterial => newMaterial.name == material.name)
@@ -312,7 +327,7 @@ export class ItemsService {
             })
             newItem.material = newMaterials;
         }
-        if (resetPropertyRunes && newItem instanceof Armor && newItem.material?.length) {
+        if (options.resetPropertyRunes && newItem instanceof Armor && newItem.material?.length) {
             let newMaterials: ArmorMaterial[] = [];
             newItem.material.forEach((material: ArmorMaterial) => {
                 let libraryItem = this.armorMaterials.find(newMaterial => newMaterial.name == material.name)
@@ -322,7 +337,7 @@ export class ItemsService {
             })
             newItem.material = newMaterials;
         }
-        if (resetPropertyRunes && newItem instanceof Shield && newItem.material?.length) {
+        if (options.resetPropertyRunes && newItem instanceof Shield && newItem.material?.length) {
             let newMaterials: ShieldMaterial[] = [];
             newItem.material.forEach((material: ShieldMaterial) => {
                 let libraryItem = this.armorMaterials.find(newMaterial => newMaterial.name == material.name)
@@ -776,7 +791,7 @@ export class ItemsService {
             if (characterService.get_CharacterFeatsTaken(1, creature.level, "Scroll Savant").length) {
                 creature.class.spellCasting.filter(casting => casting.scrollSavant.length).forEach(casting => {
                     casting.scrollSavant.forEach(scroll => {
-                        characterService.grant_InventoryItem(creature, creature.inventories[0], scroll, false, false, false);
+                        characterService.grant_InventoryItem(scroll, { creature, inventory: creature.inventories[0] }, { resetRunes: false, changeAfter: false, equipAfter: false });
                     });
                 });
             }
@@ -983,7 +998,7 @@ export class ItemsService {
                 data = this.extensionsService.extend(source, "items_" + target);
                 //Initialize all clean items. Recasting happens in the initialization, and the store and crafting items will be copied and recast afterwards.
                 Object.keys(data).forEach(key => {
-                    this.cleanItems[target].push(...data[key].map((obj: Item) => this.initialize_Item(Object.assign(new type(), obj), true, false, true)));
+                    this.cleanItems[target].push(...data[key].map((obj: Item) => this.initialize_Item(Object.assign(new type(), obj), { preassigned: true, newId: false, resetPropertyRunes: true })));
                 });
                 this.cleanItems[target] = this.extensionsService.cleanup_Duplicates(this.cleanItems[target], "id", listName);
                 break;

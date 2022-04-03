@@ -444,6 +444,7 @@
     {
         "name": "Wild Winds Gust",
         "actions": "2A",
+        "activationType": "Concentrate, Manipulate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -501,6 +502,7 @@
     {
         "name": "Hunt Prey",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -581,6 +583,7 @@
     {
         "name": "Battle Medicine",
         "actions": "1A",
+        "activationType": "Manipulate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -680,6 +683,7 @@
     },
     {
         "name": "Train Animal",
+        "activationType": "Manipulate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -697,6 +701,7 @@
     {
         "name": "Trick Magic Item",
         "actions": "1A",
+        "activationType": "Manipulate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -714,6 +719,7 @@
     {
         "name": "Familiar Focus",
         "actions": "2A Familiar activity",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -732,6 +738,7 @@
     {
         "name": "Lifelink",
         "actions": "Reaction",
+        "activationType": "Concentrate",
         "inputRequired": "Take the damage instead of your familiar.",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
@@ -759,6 +766,7 @@
     {
         "name": "Fey-Touched Gnome",
         "actions": "10 minutes",
+        "activationType": "Concentrate",
         "inputRequired": "Select another cantrip in the spell selection menu.",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
@@ -771,6 +779,7 @@
     {
         "name": "Quick Alchemy",
         "actions": "1A",
+        "activationType": "Manipulate",
         "inputRequired": "You can create items in the quick crafting area of the inventory.",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
@@ -799,6 +808,7 @@
     {
         "name": "Rage",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -903,6 +913,7 @@
     {
         "name": "Widen Spell",
         "actions": "1A",
+        "activationType": "Manipulate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -918,6 +929,7 @@
     {
         "name": "Reach Spell",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -1995,6 +2007,7 @@
     {
         "name": "Incredible Aim",
         "actions": "2A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -2171,6 +2184,7 @@
     {
         "name": "Incredible Ricochet",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -2255,6 +2269,7 @@
     {
         "name": "Determination",
         "actions": "1A",
+        "activationType": "Concentrate",
         "inputRequired": "Remove one condition or counteract one spell that is affecting you.",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
@@ -2446,6 +2461,7 @@
     {
         "name": "Hunter's Aim",
         "actions": "2A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -2633,6 +2649,7 @@
     {
         "name": "Targeting Shot",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -2672,6 +2689,7 @@
     {
         "name": "Hunt Prey: Flurry",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -2691,6 +2709,7 @@
     {
         "name": "Hunt Prey: Outwit",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -2710,6 +2729,7 @@
     {
         "name": "Hunt Prey: Precision",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -2742,6 +2762,7 @@
     {
         "name": "Badger Rage",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -2842,6 +2863,7 @@
     {
         "name": "Conceal Spell",
         "actions": "1A",
+        "activationType": "Concentrate, Manipulate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -2877,6 +2899,7 @@
     {
         "name": "Silent Spell",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -2890,6 +2913,7 @@
     {
         "name": "Bond Conservation",
         "actions": "1A",
+        "activationType": "Manipulate",
         "inputRequired": "Activate Bond Conservation after restoring the first spell. You can then freely restore one expended spell until the end of your next turn. Choose a spell 2 or more levels lower than the first spell cast with Drain Bonded Item.",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
@@ -2911,6 +2935,7 @@
     {
         "name": "Overwhelming Energy",
         "actions": "1A",
+        "activationType": "Manipulate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -2926,6 +2951,7 @@
     {
         "name": "Quickened Casting",
         "actions": "Free",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -2991,6 +3017,7 @@
     {
         "name": "Spell Tinker",
         "actions": "2A",
+        "activationType": "Concentrate",
         "inputRequired": "For spells where the chosen effect makes a mechanical difference, you can change the effect selection on the condition or select the alternative condition from the conditions menu and set the duration appropriately before removing the original condition.",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
@@ -3068,6 +3095,7 @@
     {
         "name": "Poison Weapon",
         "actions": "1A",
+        "activationType": "Manipulate",
         "inputRequired": "Apply the poison to the weapon normally.",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
@@ -3227,6 +3255,7 @@
     {
         "name": "Instant Opening",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -3326,6 +3355,7 @@
     {
         "name": "Trickster's Ace",
         "actions": "Reaction",
+        "activationType": "Concentrate",
         "inputRequired": "You gain a spell slot for this purpose. When the trigger occurs, you can use the prepared spell as a Reaction. When choosing the spell in the spells menu, you must determine whether the chosen spell fulfills the requirements of Trickster's Ace.",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
@@ -3361,6 +3391,7 @@
     {
         "name": "Reactive Distraction",
         "actions": "Reaction",
+        "activationType": "Concentrate, Manipulate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -3382,6 +3413,7 @@
     {
         "name": "Melodious Spell",
         "actions": "1A",
+        "activationType": "Concentrate, Manipulate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -3397,6 +3429,7 @@
     {
         "name": "Harmonize",
         "actions": "1A",
+        "activationType": "Concentrate, Manipulate",
         "inputRequired": "Treat your next composition as a harmonized composition. You do not need to remove the conditions it caused if you cast another composition within its duration.",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
@@ -3412,6 +3445,7 @@
     {
         "name": "Unusual Composition",
         "actions": "1A",
+        "activationType": "Concentrate, Manipulate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -3426,6 +3460,7 @@
     {
         "name": "True Hypercognition",
         "actions": "1A",
+        "activationType": "Concentrate, Manipulate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -3562,6 +3597,7 @@
     {
         "name": "Orc Superstition",
         "actions": "Reaction",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -3654,6 +3690,7 @@
     {
         "name": "Moment of Clarity",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -3724,6 +3761,7 @@
     {
         "name": "Shake it Off",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -3768,6 +3806,7 @@
     {
         "name": "Dragon's Rage Breath",
         "actions": "2A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -4037,6 +4076,7 @@
     {
         "name": "Animal Rage",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -4070,6 +4110,7 @@
     {
         "name": "Renewed Vigor",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -4133,6 +4174,7 @@
     {
         "name": "Come and Get Me",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -4241,6 +4283,7 @@
     {
         "name": "Spirit's Wrath",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -4256,6 +4299,7 @@
     {
         "name": "Giant's Lunge",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -4290,6 +4334,7 @@
     {
         "name": "Dragon Transformation",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -4360,6 +4405,7 @@
     {
         "name": "Perfect Clarity",
         "actions": "Reaction",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -4395,6 +4441,7 @@
     {
         "name": "Quaking Stomp",
         "actions": "1A",
+        "activationType": "Manipulate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -4416,6 +4463,7 @@
     {
         "name": "Form Control",
         "actions": "1A",
+        "activationType": "Manipulate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -4512,6 +4560,7 @@
     {
         "name": "Verdant Metamorphosis: Tree Shape",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -4529,6 +4578,7 @@
     {
         "name": "Impaling Briars: Impale",
         "actions": "1A",
+        "activationType": "Concentrate, Manipulate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -4543,6 +4593,7 @@
     {
         "name": "Leyline Conduit",
         "actions": "1A",
+        "activationType": "Concentrate, Manipulate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -4567,6 +4618,7 @@
     {
         "name": "True Shapeshifter",
         "actions": "2A",
+        "activationType": "Concentrate",
         "inputRequired": "You can always freely change the form you chose with wild shape. This gives you in-game permission to do so, but you may need to change its duration manually. It can be quicker to dismiss the spell, cast it again and return the focus point.",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
@@ -4580,6 +4632,7 @@
     {
         "name": "True Shapeshifter: Nature Incarnate",
         "actions": "2A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -4606,6 +4659,7 @@
     {
         "name": "Storm Lord: Call Lightning Bolt",
         "actions": "1A",
+        "activationType": "Concentrate, Manipulate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -4700,6 +4754,7 @@
     {
         "name": "Command Undead",
         "actions": "1A",
+        "activationType": "Concentrate",
         "inputRequired": "Using this action applies the effect independently of the harm spell. Cast a harm spell afterwards to properly expend the spell slot.",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
@@ -4725,6 +4780,7 @@
     {
         "name": "Necrotic Infusion",
         "actions": "1A",
+        "activationType": "Concentrate",
         "inputRequired": "Using this action applies the effect independently of the harm spell. Cast a harm spell afterwards to properly expend the spell slot.",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
@@ -4753,6 +4809,7 @@
     {
         "name": "Cast Down",
         "actions": "1A",
+        "activationType": "Concentrate",
         "inputRequired": "Using this action applies the effect independently of the harm or heal spell. Cast a harm or heal spell afterwards to properly expend the spell slot.",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
@@ -4822,6 +4879,7 @@
     {
         "name": "Heroic Recovery",
         "actions": "1A",
+        "activationType": "Concentrate",
         "inputRequired": "Using this action grants the effect to your ally independently of the heal spell. Cast a heal spell afterwards to properly expend the spell slot.",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
@@ -4884,6 +4942,7 @@
     {
         "name": "Defensive Recovery",
         "actions": "1A",
+        "activationType": "Concentrate",
         "inputRequired": "Using this action applies the effect independently of the harm or heal spell. Cast a harm or heal spell afterwards to properly expend the spell slot.",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
@@ -4938,6 +4997,7 @@
     {
         "name": "Dismiss Eternal Bane",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -4973,6 +5033,7 @@
     {
         "name": "Dismiss Eternal Blessing",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -5009,6 +5070,7 @@
     {
         "name": "Echoing Channel",
         "actions": "1A",
+        "activationType": "Concentrate",
         "inputRequired": "In play, you can choose one additional creature to apply the effect. There is no change to the spell you cast.",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
@@ -5023,6 +5085,7 @@
     {
         "name": "Metamagic Channel",
         "actions": "Free",
+        "activationType": "Concentrate",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "traits": [
@@ -5233,5 +5296,32 @@
                 "name": "Spell Turning End"
             }
         ]
+    },
+    {
+        "name": "Spellwrack Triggered",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "target": "self",
+        "desc": "Whenever you become affected by a spell with a duration, you take 2d12 persistent force damage. If you critically failed your Will save against spellwrack, you take 4d12 persistent force damage instead. Each time you take persistent force damage from spellwrack, it reduces the remaining duration of spells affecting you by 1 round. Only a successful Arcana check against the caster's spell DC can help you recover from the persistent damage.",
+        "gainConditions": [
+            {
+                "duration": -5,
+                "name": "Spellwrack Triggered"
+            }
+        ]
+    },
+    {
+        "name": "Tangling Creepers Lash",
+        "actions": "1A",
+        "activationType": "Concentrate",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "traits": [
+            "Concentrate"
+        ],
+        "frequency": "once per round",
+        "cooldown": 10,
+        "target": "other",
+        "desc": "Dense, twitching creepers sprout from every surface and fill any bodies of water in the area. Once per round, you can make a vine lash out from any square within the expanse of creepers by using a single action, which has the concentrate trait. This vine has a 15-foot reach. Make a melee spell attack roll against the target; on a success, the vine pulls the target into the creepers and makes it immobilized for 1 round or until the creature Escapes (against your spell DC), whichever comes first."
     }
 ]

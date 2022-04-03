@@ -605,7 +605,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         if (item instanceof AdventuringGear || item instanceof Consumable) {
             amount = item.stack;
         }
-        this.characterService.grant_InventoryItem(this.characterService.get_Character(), this.characterService.get_Character().inventories[0], item, false, true, true, amount);
+        this.characterService.grant_InventoryItem(item, { creature: this.characterService.get_Character(), inventory: this.characterService.get_Character().inventories[0], amount }, { resetRunes: false });
         if (type == "snarespecialist") {
             learned.snareSpecialistAvailable--
         }

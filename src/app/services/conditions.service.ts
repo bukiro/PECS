@@ -99,8 +99,15 @@ export class ConditionsService {
                     }
                 }
             });
-
-            //Cleanup overrides, first iteration: If any condition overrides "All" and is itself overridden, remove its overrides and pauses.
+            //Remove all conditions that were marked for deletion by setting their value to -1. We use while so we don't mess up the index and skip some.
+            //Ignore anything that would stop the condition from being removed (i.e. lockedByParent), or we will get stuck in this loop.
+            while (activeConditions.some(gain => gain.value == -1)) {
+                characterService.remove_Condition(creature, activeConditions.find(gain => gain.value == -1), false, undefined, undefined, true);
+            }
+            //Cleanup overrides, first iteration: If any override comes from a condition that was removed (e.g. as a child of a removed condition), the override is removed as well.
+            overrides = overrides.filter(override => activeConditions.some(gain => gain.id == override.source)
+            );
+            //Cleanup overrides, second iteration: If any condition overrides "All" and is itself overridden, remove its overrides and pauses.
             //"All" overrides are more dangerous and need to be cleaned up before they override every other condition.
             activeConditions.forEach(gain => {
                 if (overrides.some(override => override.source == gain.id && override.override.name == "All")) {
@@ -110,7 +117,7 @@ export class ConditionsService {
                     }
                 }
             })
-            //Cleanup overrides, second iteration: If any overriding condition is itself overridden, its own overrides and pauses are removed.
+            //Cleanup overrides, third iteration: If any overriding condition is itself overridden, its own overrides and pauses are removed.
             activeConditions.forEach(gain => {
                 if (overrides.some(override => override.source == gain.id)) {
                     if (conditionOverrideExists(gain)) {
@@ -177,11 +184,6 @@ export class ConditionsService {
                         }
                     }
                 })
-            //Remove all conditions that were marked for deletion by setting its value to -1. We use while so we don't mess up the index and skip some.
-            //Ignore anything that would stop the condition from being removed (i.e. lockedByParent), or we will get stuck in this loop.
-            while (activeConditions.some(gain => gain.value == -1)) {
-                characterService.remove_Condition(creature, activeConditions.find(gain => gain.value == -1), false, undefined, undefined, true);
-            }
             this.appliedConditions[creatureIndex] = activeConditions.map(gain => Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(gain))).recast());
         }
         return activeConditions
@@ -201,6 +203,7 @@ export class ConditionsService {
         }
 
         let conditionDidSomething: boolean = false;
+        let areOnceEffectsPrepared: boolean = false;
 
         //Copy the condition's ActivityGains to the ConditionGain so we can track its duration, cooldown etc.
         gain.gainActivities = condition.gainActivities.map(activityGain => Object.assign<ActivityGain, ActivityGain>(new ActivityGain(), JSON.parse(JSON.stringify(activityGain))).recast());
@@ -218,7 +221,8 @@ export class ConditionsService {
                 if (!tempEffect.spellSource) {
                     tempEffect.spellSource = gain.spellSource;
                 }
-                characterService.process_OnceEffect(creature, tempEffect, gain.value, gain.heightened, gain.choice, gain.spellCastingAbility);
+                characterService.prepare_OnceEffect(creature, tempEffect, gain.value, gain.heightened, gain.choice, gain.spellCastingAbility);
+                areOnceEffectsPrepared = true;
             })
         }
 
@@ -235,7 +239,8 @@ export class ConditionsService {
                 if (!tempEffect.spellSource) {
                     tempEffect.spellSource = gain.spellSource;
                 }
-                characterService.process_OnceEffect(creature, tempEffect, gain.value, gain.heightened, gain.choice, gain.spellCastingAbility);
+                characterService.prepare_OnceEffect(creature, tempEffect, gain.value, gain.heightened, gain.choice, gain.spellCastingAbility);
+                areOnceEffectsPrepared = true;
             })
         }
 
@@ -431,6 +436,11 @@ export class ConditionsService {
             })
         }
 
+        //If one-time-Effects are prepared, effects should be generated. Prepared one-time-effects get processed after effects generation.
+        if (areOnceEffectsPrepared) {
+            this.refreshService.set_ToChange(creature.type, "effects");
+        }
+
         //Changing senses should update senses.
         if (condition.senses.length) {
             this.refreshService.set_ToChange(creature.type, "skills");
@@ -623,7 +633,6 @@ export class ConditionsService {
         }
         const timeStoppingConditions = creatureConditions.filter(gain => StoppingTime(gain));
         const includedConditions = timeStoppingConditions.length ? timeStoppingConditions.filter(gain => !gain.paused) : creatureConditions.filter(gain => !gain.paused);
-        const excludedConditions = timeStoppingConditions.length ? creatureConditions.filter(gain => gain.paused || !includedConditions.includes(gain)) : creatureConditions.filter(gain => gain.paused);
         //If for any reason the maxDuration for a condition is lower than the duration, this is corrected here.
         includedConditions.filter(gain => gain.maxDuration > 0 && gain.maxDuration < gain.duration).forEach(gain => {
             gain.maxDuration = gain.duration;
@@ -672,7 +681,9 @@ export class ConditionsService {
                 includedConditions.filter(gain => gain.duration > 0 && gain.choice != "Onset").forEach(gain => {
                     gain.duration -= step;
                 });
-                includedConditions.filter(gain => gain.nextStage > 0 && gain.duration > 0).forEach(gain => {
+                //Conditions that have a nextStage value move that value forward, unless they don't have a duration.
+                //If they don't have a duration, they will be removed in the conditions processing and should not change anymore.
+                includedConditions.filter(gain => gain.nextStage > 0 && gain.duration != 0).forEach(gain => {
                     gain.nextStage -= step;
                     if (gain.nextStage <= 0) {
                         //If a condition's nextStage expires, mark it as needing attention, or move to the next stage if automaticStages is on.
@@ -695,7 +706,6 @@ export class ConditionsService {
                 turns = 0;
             }
         }
-        creature.conditions = includedConditions.concat(excludedConditions);
     }
 
     rest(creature: Creature, characterService: CharacterService) {

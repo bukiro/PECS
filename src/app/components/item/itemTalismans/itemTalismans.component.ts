@@ -152,10 +152,10 @@ export class ItemTalismansComponent implements OnInit {
     }
 
     remove_Talisman(index: number) {
-        let item: Equipment = this.item;
-        let oldTalisman: Talisman = item.talismans[index];
-        //Add the extracted stone to the inventory, either on an existing stack or as a new item.
-        this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], oldTalisman, false, false, false, 1);
+        const character = this.get_Character();
+        const oldTalisman = this.item.talismans[index];
+        //Add the extracted stone back to the inventory.
+        this.characterService.grant_InventoryItem(oldTalisman, { creature: character, inventory: character.inventories[0] }, { resetRunes: false, changeAfter: false, equipAfter: false });
     }
 
     get_Title(talisman: Talisman, talismanCordCompatible: boolean) {

@@ -25,6 +25,7 @@
     {
         "name": "Feast on the Fallen",
         "actions": "Reaction",
+        "activationType": "Manipulate",
         "inputRequired": "Restore 18 Hit Points to the vulture, or 30 if the vulture is a specialized animal companion.",
         "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
         "_extensionFileName": "pathfinder149",

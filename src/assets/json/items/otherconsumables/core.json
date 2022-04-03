@@ -193,5 +193,88 @@
             "Magical"
         ],
         "activationType": "Interact"
+    },
+    {
+        "name": "Fire Seed (6th Level)",
+        "id": "86e1788b-72b9-4f7d-8065-54e184c2407e",
+        "desc": "This acorn's shell is streaked with pulsing red and orange patterns. You can toss it up to 30 feet with an Interact action. It explodes in a 5-foot burst, dealing |dice=4d6 Fire| 4d6 fire damage. The save uses the caster's spell DC, even if someone else throws the acorn.\n\nFlames continue to burn on the ground in the burst for 1 minute, dealing |dice=2d6 Fire| 2d6 fire damage to any creature that enters the flames or ends its turn within them. A creature can take damage from the continuing flames only once per round, even if it's in overlapping areas of fire created by different acorns.\n\nWhen the spell ends, any remaining acorns rot and turn to ordinary soil.",
+        "expiration": 10,
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 0,
+        "price": 0,
+        "subType": "6th Level",
+        "hide": true,
+        "traits": [
+            "Evocation",
+            "Fire",
+            "Plant"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "level": 6,
+                "name": "Fire Seed Burst",
+                "source": "Fire Seed (6th Level)"
+            }
+        ]
+    },
+    {
+        "name": "Fire Seed (8th Level)",
+        "id": "656303f7-14d9-44e3-8623-deaeffaa9832",
+        "desc": "This acorn's shell is streaked with pulsing red and orange patterns. You can toss it up to 30 feet with an Interact action. It explodes in a 5-foot burst, dealing |dice=5d6 Fire| 5d6 fire damage. The save uses the caster's spell DC, even if someone else throws the acorn.\n\nFlames continue to burn on the ground in the burst for 1 minute, dealing |dice=3d6 Fire| 3d6 fire damage to any creature that enters the flames or ends its turn within them. A creature can take damage from the continuing flames only once per round, even if it's in overlapping areas of fire created by different acorns.\n\nWhen the spell ends, any remaining acorns rot and turn to ordinary soil.",
+        "expiration": 10,
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 0,
+        "price": 0,
+        "subType": "8th Level",
+        "subTypeDesc": "The burst's damage increases to 5d6, and the continuing flames damage increases to 3d6.",
+        "hide": true,
+        "traits": [
+            "Evocation",
+            "Fire",
+            "Plant"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "level": 8,
+                "name": "Fire Seed Burst",
+                "source": "Fire Seed (8th Level)"
+            }
+        ]
+    },
+    {
+        "name": "Fire Seed (9th Level)",
+        "id": "abf01caf-e010-4cc0-b30c-14d96c994b79",
+        "desc": "This acorn's shell is streaked with pulsing red and orange patterns. You can toss it up to 30 feet with an Interact action. It explodes in a 5-foot burst, dealing |dice=6d6 Fire| 6d6 fire damage. The save uses the caster's spell DC, even if someone else throws the acorn.\n\nFlames continue to burn on the ground in the burst for 1 minute, dealing |dice=3d6 Fire| 3d6 fire damage to any creature that enters the flames or ends its turn within them. A creature can take damage from the continuing flames only once per round, even if it's in overlapping areas of fire created by different acorns.\n\nWhen the spell ends, any remaining acorns rot and turn to ordinary soil.",
+        "expiration": 10,
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 0,
+        "price": 0,
+        "subType": "9th Level",
+        "subTypeDesc": "The burst's damage increases to 6d6, and the continuing flames damage increases to 3d6.",
+        "hide": true,
+        "traits": [
+            "Evocation",
+            "Fire",
+            "Plant"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "level": 9,
+                "name": "Fire Seed Burst",
+                "source": "Fire Seed (9th Level)"
+            }
+        ]
     }
 ]

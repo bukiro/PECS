@@ -185,9 +185,9 @@ export class EffectsGenerationService {
             } else if (context.object instanceof Creature) {
                 sourceId = context.object.id;
             }
-            //Effects that have neither a value nor title nor a toggle don't get created.
+            //Effects that have neither a value nor a toggle don't get created.
             function functionalEffect() {
-                return title || toggle || setValue || parseInt(value) != 0;
+                return toggle || setValue || parseInt(value) != 0;
             }
             if (functionalEffect()) {
                 objectEffects.push(Object.assign(new Effect(value), { creature: target, type: type, target: affected, setValue: setValue, toggle: toggle, title: title, source: source, penalty: penalty, show: show, duration: effect.duration, maxDuration: effect.maxDuration, cumulative: effect.cumulative, sourceId: sourceId }));

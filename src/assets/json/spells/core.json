@@ -28404,7 +28404,24 @@
             "Polymorph",
             "Transmutation"
         ],
-        "savingThrow": "Fortitude"
+        "range": "30 feet",
+        "targets": "1 creature",
+        "target": "other",
+        "singleTarget": true,
+        "duration": "varies",
+        "desc": "You transform the target creature into a harmless animal appropriate to the area, with effects based on its Fortitude save.",
+        "savingThrow": "Fortitude",
+        "critsuccess": "The target is unaffected.",
+        "success": "The target's body gains minor features of the harmless animal. Its insides churn as they partially transform, causing it to be sickened 1. When it recovers from the sickened condition, its features revert to normal.",
+        "failure": "The target transforms for 1 minute but keeps its mind. If it spends all its actions on its turn concentrating on its original form, it can attempt a Will save to end the effect immediately.",
+        "critfailure": "The target is transformed into the chosen harmless animal, body and mind, for an unlimited duration.",
+        "gainConditions": [
+            {
+                "duration": -5,
+                "name": "Baleful Polymorph (Caster)",
+                "targetFilter": "caster"
+            }
+        ]
     },
     {
         "name": "Blade Barrier",
@@ -28421,6 +28438,70 @@
         "traits": [
             "Evocation",
             "Force"
+        ],
+        "range": "120 feet",
+        "target": "area",
+        "duration": "1 minute",
+        "desc": "Blades of force form a churning wall. The wall is a straight line 20 feet high, 120 feet long, and 2 inches thick, and it provides cover. The wall deals |dice=var1 Force| <var>var1</var> force damage to each creature that's in the wall's space when it is created, that attempts to pass through the wall, or that ends its turn inside the wall. A basic Reflex save reduces the damage. A creature that succeeds at this save when the wall is created is pushed to the nearest space on the side of its choice. Creatures trying to move through the wall fail to do so if they critically fail the save, ending their movement adjacent to the wall.",
+        "heightened": [
+            {
+                "desc": "The damage increases by 1d8.",
+                "level": "(+1)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Blade Barrier",
+                "targetFilter": "caster"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "7d8",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "8d8",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "9d8",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "10d8",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "11d8",
+                        "variable": "var1"
+                    }
+                ]
+            }
         ]
     },
     {
@@ -28440,7 +28521,65 @@
             "Electricity",
             "Evocation"
         ],
-        "savingThrow": "Reflex"
+        "range": "500 feet",
+        "targets": "1 creature, plus any number of additional creatures",
+        "target": "other",
+        "singleTarget": true,
+        "desc": "You discharge a powerful bolt of lightning at the target, dealing |dice=var1 Electricity| <var>var1</var> electricity damage. The target must attempt a basic Reflex save. The electricity arcs to another creature within 30 feet of the first target, jumps to another creature within 30 feet of that target, and so on. You can end the chain at any point. You can't target the same creature more than once, and you must have line of effect to all targets. Roll the damage only once, and apply it to each target (halving or doubling as appropriate for its saving throw outcome). The chain ends if any one of the targets critically succeeds at its save.",
+        "savingThrow": "Reflex",
+        "heightened": [
+            {
+                "desc": "The damage increases by 1d12.",
+                "level": "(+1)"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "8d12",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "9d12",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "10d12",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "11d12",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "12d12",
+                        "variable": "var1"
+                    }
+                ]
+            }
+        ]
     },
     {
         "name": "Collective Transposition",
@@ -28458,6 +28597,86 @@
         "traits": [
             "Conjuration",
             "Teleportation"
+        ],
+        "area": "30-foot emanation",
+        "targets": "up to 2 creatures",
+        "target": "area",
+        "desc": "<var>var1</var>You teleport the targets to new positions within the area. The creatures must each be able to fit in their new space, and their positions must be unoccupied, entirely within the area, and in your line of sight. Unwilling creatures can attempt a Will save.",
+        "critsuccess": "The target can teleport if it wants, but it chooses the destination within range.",
+        "success": "The target is unaffected.",
+        "failure": "You teleport the target and choose its destination.",
+        "targetNumbers": [
+            {
+                "number": 2
+            },
+            {
+                "number": 3,
+                "minLevel": 7
+            },
+            {
+                "number": 4,
+                "minLevel": 8
+            },
+            {
+                "number": 5,
+                "minLevel": 9
+            },
+            {
+                "number": 6,
+                "minLevel": 10
+            }
+        ],
+        "heightened": [
+            {
+                "desc": "The number of targets increases by 1.",
+                "level": "(+1)"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "The number of targets increases to 3. ",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "The number of targets increases to 4. ",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "The number of targets increases to 5. ",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "The number of targets increases to 6. ",
+                        "variable": "var1"
+                    }
+                ]
+            }
         ]
     },
     {
@@ -28476,7 +28695,64 @@
             "Attack",
             "Evocation"
         ],
-        "savingThrow": "Fortitude"
+        "range": "120 feet",
+        "targets": "1 creature or unattended object",
+        "target": "other",
+        "desc": "You fire a green ray at your target. Make a spell attack. You deal |dice=var1| <var>var1</var> damage, and the target must attempt a basic Fortitude save. On a critical hit, treat the save result as one degree worse. A creature reduced to 0 HP is reduced to fine powder; its gear remains.\n\nAn object you hit is destroyed (no save), regardless of Hardness, unless it's an artifact or similarly hard to destroy. A single casting can destroy no more than a 10-foot cube of matter. This automatically destroys any force construct, such as a wall of force.",
+        "savingThrow": "Fortitude",
+        "heightened": [
+            {
+                "desc": "The damage increases by 2d10.",
+                "level": "(+1)"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "12d10",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "14d10",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "16d10",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "18d10",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "20d10",
+                        "variable": "var1"
+                    }
+                ]
+            }
+        ]
     },
     {
         "name": "Dominate",
@@ -28689,7 +28965,24 @@
             "Incapacitation",
             "Mental"
         ],
-        "savingThrow": "Will"
+        "range": "30 feet",
+        "targets": "1 creature",
+        "target": "other",
+        "singleTarget": true,
+        "duration": "varies",
+        "desc": "You drastically reduce the target's mental faculties. The target must attempt a Will save. The effects of this curse can be removed only through remove curse or another effect that targets curses.",
+        "savingThrow": "Will",
+        "critsuccess": "The target is unaffected.",
+        "success": "The target is stupefied 2 for 1 round.",
+        "failure": "The target is stupefied 4 with an unlimited duration.",
+        "critfailure": "The target's intellect is permanently reduced below that of an animal, and it treats its Charisma, Intelligence, and Wisdom modifiers as -5. It loses all class abilities that require mental faculties, including all spellcasting. If the target is a PC, they become an NPC under the GM's control.",
+        "gainConditions": [
+            {
+                "duration": -5,
+                "name": "Feeblemind (Caster)",
+                "targetFilter": "caster"
+            }
+        ]
     },
     {
         "name": "Field of Life",
@@ -28708,6 +29001,58 @@
             "Healing",
             "Necromancy",
             "Positive"
+        ],
+        "range": "30 feet",
+        "area": "20-foot burst",
+        "target": "area",
+        "sustained": 100,
+        "duration": "sustained up to 1 minute",
+        "desc": "A field of positive energy fills the area, exuding warmth and rejuvenating those within. Each living creature that starts its turn in the area regains |dice=var1| <var>var1</var> Hit Points, and any undead creature that starts its turn in the area takes |dice=var1 Positive| <var>var1</var> positive damage.",
+        "heightened": [
+            {
+                "desc": "The healing and damage increase to 1d10.",
+                "level": "(8th)"
+            },
+            {
+                "desc": "The healing and damage increase to 1d12.",
+                "level": "(9th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Field of Life",
+                "targetFilter": "caster"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "1d8",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "1d10",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "1d12",
+                        "variable": "var1"
+                    }
+                ]
+            }
         ]
     },
     {
@@ -28727,7 +29072,67 @@
             "Fire",
             "Plant"
         ],
-        "savingThrow": "basic Reflex"
+        "target": "self",
+        "duration": "1 minute",
+        "desc": "Four acorns grow in your hand, their shells streaked with pulsing red and orange patterns. You or anyone else who has one of the acorns can toss it up to 30 feet with an Interact action. It explodes in a 5-foot burst, dealing |dice=var Fire| <var>var1</var> fire damage. The save uses your spell DC, even if someone else throws the acorn.\n\nFlames continue to burn on the ground in the burst for 1 minute, dealing |dice=var2 Fire| <var>var2</var> fire damage to any creature that enters the flames or ends its turn within them. A creature can take damage from the continuing flames only once per round, even if it's in overlapping areas of fire created by different acorns.\n\nWhen the spell ends, any remaining acorns rot and turn to ordinary soil.",
+        "savingThrow": "basic Reflex",
+        "heightened": [
+            {
+                "desc": "The burst's damage increases to 5d6, and the continuing flames damage increases to 3d6.",
+                "level": "(8th)"
+            },
+            {
+                "desc": "The burst's damage increases to 6d6, and the continuing flames damage increases to 3d6.",
+                "level": "(9th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Fire Seeds"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "4d6",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "2d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "5d6",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "3d6",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "6d6",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "3d6",
+                        "variable": "var2"
+                    }
+                ]
+            }
+        ]
     },
     {
         "name": "Flesh to Stone",
@@ -28745,7 +29150,24 @@
         "traits": [
             "Transmutation"
         ],
-        "savingThrow": "Fortitude"
+        "range": "120 feet",
+        "targets": "1 creature made of flesh",
+        "target": "other",
+        "singleTarget": true,
+        "duration": "varies",
+        "desc": "You try to turn the target's flesh into stone. The target must attempt a Fortitude save.",
+        "savingThrow": "Fortitude",
+        "critsuccess": "The target is unaffected.",
+        "success": "The target is slowed 1 for 1 round.",
+        "failure": "The target is slowed 1 and must attempt a Fortitude save at the end of each of its turns; this ongoing save has the incapacitation trait. On a failed save, the slowed condition increases by 1 (or 2 on a critical failure). A successful save reduces the slowed condition by 1. When a creature is unable to act due to the slowed condition from flesh to stone, the creature is permanently non-magically petrified. The spell ends if the creature is petrified or the slowed condition is removed.",
+        "critfailure": "As failure, but the target is initially slowed 2.",
+        "gainConditions": [
+            {
+                "duration": -5,
+                "name": "Flesh to Stone (Caster)",
+                "targetFilter": "caster"
+            }
+        ]
     },
     {
         "name": "Mislead",
@@ -28791,7 +29213,71 @@
             "Illusion",
             "Mental"
         ],
-        "savingThrow": "Will"
+        "range": "500 feet",
+        "area": "30-foot burst",
+        "target": "area",
+        "desc": "A vision of apocalyptic destruction fills the mind of each creature in the area. The vision deals |dice=var1 Mental| <var>var1</var> mental damage (basic Will save). On a critical failure, the creature must also succeed at a Reflex save or believe it's trapped (stuck in a fissure, adrift at sea, or some other fate in keeping with its vision). If it fails the second save, it's also stunned for 1 minute. It can attempt a new Will save at the end of each of its turns, and on a success, it disbelieves the illusion and recovers from the stunned condition.",
+        "savingThrow": "Will",
+        "heightened": [
+            {
+                "desc": "The damage increases by 2d6.",
+                "level": "(+1)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Phantasmal Calamity (Caster)",
+                "targetFilter": "caster"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "11d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "13d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "15d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "17d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "19d6",
+                        "variable": "var1"
+                    }
+                ]
+            }
+        ]
     },
     {
         "name": "Purple Worm Sting",
@@ -28810,7 +29296,24 @@
             "Necromancy",
             "Poison"
         ],
-        "savingThrow": "Fortitude"
+        "range": "touch",
+        "targets": "1 creature",
+        "target": "other",
+        "singleTarget": true,
+        "desc": "You replicate the attack of a deadly purple worm. You deal 3d6 piercing damage to the touched creature and afflict it with purple worm venom. The target must attempt a Fortitude save.",
+        "savingThrow": "Fortitude",
+        "critsuccess": "The target is unaffected.",
+        "success": "The target takes 3d6 poison damage.",
+        "failure": "The target is afflicted with purple worm venom at stage 1.",
+        "critfailure": "The target is afflicted with purple worm venom at stage 2.",
+        "desc2": "<strong>Purple Worm Venom</strong> (poison); <strong>Level</strong> 11; <strong>Maximum Duration</strong> 6 rounds. <strong>Stage 1</strong> 3d6 poison damage and enfeebled 2 (1 round); <strong>Stage 2</strong> 4d6 poison damage and enfeebled 2 (1 round); <strong>Stage 3</strong> 6d6 poison damage and enfeebled 2 (1 round).",
+        "gainConditions": [
+            {
+                "duration": -5,
+                "name": "Purple Worm Sting",
+                "targetFilter": "caster"
+            }
+        ]
     },
     {
         "name": "Raise Dead",
@@ -28820,6 +29323,7 @@
         "castType": "material, somatic, verbal",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
+        "PFSnote": "All characters have access to raise dead",
         "levelreq": 6,
         "traditions": [
             "Divine"
@@ -28828,6 +29332,90 @@
             "Uncommon",
             "Healing",
             "Necromancy"
+        ],
+        "cost": "diamonds worth a total value of the target's level (minimum 1) x 200 gp",
+        "inputRequired": "The target's Dead condition is removed, but their pools, resources and spells are not changed. The target should expend these as appropriate.",
+        "range": "10 feet",
+        "targets": "1 dead creature of 13th level or lower",
+        "target": "ally",
+        "cannotTargetCaster": true,
+        "singleTarget": true,
+        "desc": "<var>var1</var>You attempt to call forth the dead creature's soul, requiring the creature's body to be present and relatively intact. The creature must have died within the past 3 days. If Pharasma has decided that the creature's time has come (at the GM's discretion), or if the creature doesn't wish to return to life, this spell automatically fails, but the diamonds aren't consumed in the casting.\n\nIf the spell is successful, the creature returns to life with 1 Hit Point, no spells prepared or spell slots available, no points in any pools or any other daily resources, and still with any long-term debilitations of the old body. The time spent in the Boneyard leaves the target temporarily debilitated, making it clumsy 2, drained 2, and enfeebled 2 for 1 week; these conditions can't be removed or reduced by any means until the week has passed. The creature is also permanently changed by its time in the afterlife, such as a slight personality shift, a streak of white in the hair, or a strange new birthmark.",
+        "heightened": [
+            {
+                "desc": "The maximum level of the target increases to 15. The cost increases to the target's level (minimum 1) � 400 gp.",
+                "level": "(7th)"
+            },
+            {
+                "desc": "The maximum level of the target increases to 17. The cost increases to the target's level (minimum 1) � 800 gp.",
+                "level": "(8th)"
+            },
+            {
+                "desc": "The maximum level of the target increases to 19. The cost increases to the target's level (minimum 1) � 1,600 gp.",
+                "level": "(9th)"
+            },
+            {
+                "desc": "The maximum level of the target increases to 21. The cost increases to the target's level (minimum 1) � 3,200 gp.",
+                "level": "(10th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 1008000,
+                "name": "Raise Dead (Caster)",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 1008000,
+                "name": "Raise Dead",
+                "targetFilter": "target"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "The maximum level of the target increases to 15. The cost increases to the target's level (minimum 1) � 400 gp. ",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "The maximum level of the target increases to 17. The cost increases to the target's level (minimum 1) � 800 gp. ",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "The maximum level of the target increases to 19. The cost increases to the target's level (minimum 1) � 1,600 gp. ",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "The maximum level of the target increases to 21. The cost increases to the target's level (minimum 1) � 3,200 gp. ",
+                        "variable": "var1"
+                    }
+                ]
+            }
         ]
     },
     {
@@ -28849,7 +29437,21 @@
             "Aura",
             "Mental"
         ],
-        "savingThrow": "Will"
+        "area": "emanation up to 40-feet",
+        "target": "area",
+        "duration": "1 minute",
+        "desc": "You manifest an aura that prevents creatures from approaching you. When casting the spell, you can make the area any radius you choose, up to 40 feet. A creature must attempt a Will save if it's within the area when you cast the spell or as soon as it enters the area while the spell is in effect. Once a creature has attempted the save, it uses the same result for that casting of repulsion. Any restrictions on a creature's movement apply only if it voluntarily moves toward you. For example, if you move closer to a creature, it doesn't then need to move away.",
+        "savingThrow": "Will",
+        "critsuccess": "The creature's movement is not restricted.",
+        "success": "The creature treats each square in the area as difficult terrain when moving closer to you.",
+        "failure": "The creature can't move closer to you within the area.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Repulsion (Caster)",
+                "targetFilter": "caster"
+            }
+        ]
     },
     {
         "name": "Righteous Might",
@@ -28866,6 +29468,112 @@
         "traits": [
             "Polymorph",
             "Transmutation"
+        ],
+        "target": "self",
+        "requirements": "You have a deity.",
+        "duration": "1 minute",
+        "desc": "You focus all your divine energy and transform yourself into a <var>var_size</var> battle form, similar to your normal form but armed with powerful divine armaments granted by your deity. <var>var_space_warning</var>While in this form, you gain the statistics and abilities listed below. You have hands in this battle form and can use manipulate actions. You can Dismiss the spell.\n\nYou gain the following statistics and abilities:\nAC = <var>var_ac</var> + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var_temphp</var> temporary Hit Points.\nSpeed 40 feet.\nResistance <var>var_resistance</var> against physical damage.\nDarkvision.\nA special attack with a righteous armament version of your favored weapon, which is the only attack you can use. Your attack modifier with the special weapon is +<var>var_attack</var>, and your damage bonus is +<var>var_dmgbonus_melee</var> (or +<var>var_dmgbonus_ranged</var> for a ranged attack). <var>var_reach</var>If your attack modifier with your deity's favored weapon is higher, you can use it instead. You deal three of your weapon's normal damage dice, or three damage dice of one size larger if your weapon is a simple weapon with a d4 or d6 damage die. The weapon has one of the following properties that matches your deity's alignment: anarchic, axiomatic, holy, unholy. If your deity is true neutral, you instead deal an extra 1d6 precision damage.\nAthletics modifier of +<var>var_athletics</var>, unless your own modifier is higher.",
+        "heightened": [
+            {
+                "desc": "Your battle form is Large, and your attacks have 10-foot reach, or 15-foot reach if your deity's favored weapon has reach. You must have enough space to expand into or the spell is lost. You instead gain AC = 21 + your level, 15 temporary HP, resistance 4 against physical damage, attack modifier +28, damage bonus +15 (+12 for a ranged attack), and Athletics +29.",
+                "level": "(8th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Righteous Might"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "Medium",
+                        "variable": "var_size"
+                    },
+                    {
+                        "variable": "var_space_warning"
+                    },
+                    {
+                        "value": "20",
+                        "variable": "var_ac"
+                    },
+                    {
+                        "value": "10",
+                        "variable": "var_temphp"
+                    },
+                    {
+                        "value": "3",
+                        "variable": "var_resistance"
+                    },
+                    {
+                        "value": "21",
+                        "variable": "var_attack"
+                    },
+                    {
+                        "value": "8",
+                        "variable": "var_dmgbonus_melee"
+                    },
+                    {
+                        "value": "6",
+                        "variable": "var_dmgbonus_ranged"
+                    },
+                    {
+                        "variable": "var_reach"
+                    },
+                    {
+                        "value": "23",
+                        "variable": "var_athletics"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "Large",
+                        "variable": "var_size"
+                    },
+                    {
+                        "value": "You must have enough space to expand into or the spell is lost. ",
+                        "variable": "var_space_warning"
+                    },
+                    {
+                        "value": "21",
+                        "variable": "var_ac"
+                    },
+                    {
+                        "value": "15",
+                        "variable": "var_temphp"
+                    },
+                    {
+                        "value": "4",
+                        "variable": "var_resistance"
+                    },
+                    {
+                        "value": "28",
+                        "variable": "var_attack"
+                    },
+                    {
+                        "value": "15",
+                        "variable": "var_dmgbonus_melee"
+                    },
+                    {
+                        "value": "12",
+                        "variable": "var_dmgbonus_ranged"
+                    },
+                    {
+                        "value": "Your attacks have 10-foot reach, or 15-foot reach if your deity's favored weapon has reach. ",
+                        "variable": "var_reach"
+                    },
+                    {
+                        "value": "29",
+                        "variable": "var_athletics"
+                    }
+                ]
+            }
         ]
     },
     {
@@ -28886,7 +29594,25 @@
             "Divination",
             "Scrying"
         ],
-        "savingThrow": "Will"
+        "range": "planetary",
+        "targets": "1 creature",
+        "target": "other",
+        "singleTarget": true,
+        "sustained": 1000,
+        "duration": "sustained up to 10 minutes",
+        "desc": "You magically spy on a creature of your choice. Scrying works like clairvoyance, except that the image you receive is less precise, insufficient for teleport and similar spells. Instead of creating an eye in a set location within 500 feet, you instead create an eye that manifests just above the target. You can choose a target either by name or by touching one of its possessions or a piece of its body. If you haven't met the target in person, scrying's DC is 2 lower, and if you are unaware of the target's identity (perhaps because you found an unknown creature's fang at a crime scene), the DC is instead 10 lower.\n\nThe effect of scrying depends on the target's Will save.",
+        "savingThrow": "Will",
+        "critsuccess": "The spell fails and the target is temporarily immune for 1 week. The target also gains a glimpse of you and learns its rough distance and direction from you.",
+        "success": "The spell fails and the target is temporarily immune for 1 day.",
+        "failure": "The spell succeeds.",
+        "critfailure": "The spell succeeds, and the eye follows the target if it moves, traveling up to 60 feet per round.",
+        "gainConditions": [
+            {
+                "duration": 1000,
+                "name": "Scrying",
+                "targetFilter": "caster"
+            }
+        ]
     },
     {
         "name": "Spellwrack",
@@ -28907,7 +29633,23 @@
             "Curse",
             "Force"
         ],
-        "savingThrow": "Will"
+        "range": "30 feet",
+        "targets": "1 creature",
+        "target": "other",
+        "singleTarget": true,
+        "desc": "You cause any spells cast on the target to spill out their energy in harmful surges. The target must attempt a Will save.",
+        "savingThrow": "Will",
+        "critsuccess": "The target is unaffected.",
+        "success": "Whenever the target becomes affected by a spell with a duration, the target takes 2d12 persistent force damage. Each time it takes persistent force damage from spellwrack, it reduces the remaining duration of spells affecting it by 1 round. Only a successful Arcana check against your spell DC can help the target recover from the persistent damage; the curse and the persistent damage end after 1 minute.",
+        "failure": "As success, but the curse and persistent damage do not end on their own.",
+        "critfailure": "As failure, but the persistent force damage is 4d12.",
+        "gainConditions": [
+            {
+                "duration": -5,
+                "name": "Spellwrack (Caster)",
+                "targetFilter": "caster"
+            }
+        ]
     },
     {
         "name": "Spirit Blast",
@@ -28926,7 +29668,65 @@
             "Force",
             "Necromancy"
         ],
-        "savingThrow": "basic Fortitude"
+        "range": "30 feet",
+        "targets": "1 creature",
+        "target": "other",
+        "singleTarget": true,
+        "desc": "You concentrate ethereal energy and attack a creature's spirit, dealing <var>var1</var> force damage. Because spirit blast affects the creature's spirit, it can damage a target projecting its consciousness (such as via project image) or possessing another creature even if the target's body is elsewhere. The possessed creature isn't harmed by the blast. The blast doesn't harm creatures that have no spirit, such as constructs.",
+        "savingThrow": "basic Fortitude",
+        "heightened": [
+            {
+                "desc": "The damage increases by 2d6.",
+                "level": "(+1)"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "16d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "18d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "20d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "22d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "24d6",
+                        "variable": "var1"
+                    }
+                ]
+            }
+        ]
     },
     {
         "name": "Stone Tell",
@@ -28945,6 +29745,15 @@
             "Uncommon",
             "Earth",
             "Evocation"
+        ],
+        "target": "self",
+        "duration": "10 minutes",
+        "desc": "You can ask questions of and receive answers from natural or worked stone. While stone is not intelligent, you speak with the natural spirits of the stone, which have a personality colored by the type of stone, as well as by the type of structure the stone is part of, for worked stone. A stone's perspective, perception, and knowledge give it a worldview different enough from a human's that it doesn't consider the same details important. Stones can mostly answer questions about creatures that touched them in the past and what is concealed beneath or behind them.",
+        "gainConditions": [
+            {
+                "duration": 1000,
+                "name": "Stone Tell"
+            }
         ]
     },
     {
@@ -28968,6 +29777,7 @@
         "targets": "petrified creature or human-size stone object",
         "target": "ally",
         "singleTarget": true,
+        "duration": "10 minutes",
         "desc": "Manipulating the fundamental particles of matter, you convert stone into flesh and blood. You restore a petrified creature to its normal state or transform a stone object into a mass of inert flesh (without stone's Hardness) in roughly the same shape.",
         "gainConditions": [
             {
@@ -28991,6 +29801,17 @@
         "traits": [
             "Conjuration",
             "Plant"
+        ],
+        "range": "500 feet",
+        "area": "40-foot burst",
+        "target": "area",
+        "desc": "Dense, twitching creepers sprout from every surface and fill any bodies of water in the area. Any creature moving on the land, or Climbing or Swimming within the creepers, takes a -10-foot circumstance penalty to its Speeds while in the area. Once per round, you can make a vine lash out from any square within the expanse of creepers by using a single action, which has the concentrate trait. This vine has a 15-foot reach. Make a melee spell attack roll against the target; on a success, the vine pulls the target into the creepers and makes it immobilized for 1 round or until the creature Escapes (against your spell DC), whichever comes first.",
+        "gainConditions": [
+            {
+                "duration": 1000,
+                "name": "Tangling Creepers",
+                "targetFilter": "caster"
+            }
         ]
     },
     {
@@ -29153,7 +29974,70 @@
             "Necromancy",
             "Negative"
         ],
-        "savingThrow": "basic Fortitude"
+        "area": "30-foot cone",
+        "target": "area",
+        "desc": "You draw in the blood and life force of other creatures through your outstretched arms. You deal <var>var1</var> negative damage to living creatures in the area.\n\nYou gain temporary Hit Points equal to half the damage a single creature takes from this spell; calculate these temporary Hit Points using the creature that took the most damage. You lose any remaining temporary Hit Points after 1 minute.",
+        "savingThrow": "basic Fortitude",
+        "heightened": [
+            {
+                "desc": "The damage increases by 2d6.",
+                "level": "(+1)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Vampiric Exsanguination",
+                "targetFilter": "caster"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "12d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 7,
+                "descs": [
+                    {
+                        "value": "14d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "16d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "18d6",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "20d6",
+                        "variable": "var1"
+                    }
+                ]
+            }
+        ]
     },
     {
         "name": "Vibrant Pattern",
@@ -29173,7 +30057,23 @@
             "Incapacitation",
             "Visual"
         ],
-        "savingThrow": "Will"
+        "range": "120 feet",
+        "area": "10-foot burst",
+        "target": "area",
+        "sustained": 100,
+        "duration": "sustained up to 1 minute",
+        "desc": "You create a pattern of lights that pulses with intensity. Creatures are dazzled while inside the pattern.\n\nIn addition, a creature must attempt a Will saving throw if it's inside the pattern when you cast it, enters the pattern, ends its turn within the pattern, or uses a Seek or Interact action on the pattern. A creature currently blinded by the pattern doesn't need to attempt new saving throws.",
+        "savingThrow": "Will",
+        "success": "The creature is unaffected.",
+        "failure": "The creature is blinded by the pattern. If it exits the pattern, it can attempt a new save to recover from the blinded condition at the end of each of its turns, to a maximum duration of 1 minute.",
+        "critfailure": "The creature is blinded for 1 minute.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Vibrant Pattern (Caster)",
+                "targetFilter": "caster"
+            }
+        ]
     },
     {
         "name": "Wall of Force",
@@ -29191,6 +30091,52 @@
         "traits": [
             "Evocation",
             "Force"
+        ],
+        "range": "30 feet",
+        "target": "area",
+        "duration": "1 minute",
+        "desc": "You form an invisible wall of pure magical force up to 50 feet long and up to 20 feet high. The wall has no discernible thickness. You must create the wall in an unbroken open space so its edges don't pass through any creatures or objects, or the spell is lost. The wall has AC 10, Hardness 30, and <var>var1</var> Hit Points, and it's immune to critical hits and precision damage. The wall blocks physical effects from passing through it, and because it's made of force, it blocks incorporeal and ethereal creatures as well. Teleportation effects can pass through the barrier, as can visual effects (since the wall is invisible).\n\nWall of force is immune to counteracting effects of its level or lower, but the wall is automatically destroyed by a disintegrate spell of any level or by contact with a rod of cancellation or sphere of annihilation.",
+        "heightened": [
+            {
+                "desc": "The Hit Points of the wall increases by 20.",
+                "level": "(+2)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Wall of Force",
+                "targetFilter": "caster"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "60",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 8,
+                "descs": [
+                    {
+                        "value": "80",
+                        "variable": "var1"
+                    }
+                ]
+            },
+            {
+                "level": 10,
+                "descs": [
+                    {
+                        "value": "100",
+                        "variable": "var1"
+                    }
+                ]
+            }
         ]
     },
     {
@@ -29208,6 +30154,62 @@
         ],
         "traits": [
             "Enchantment"
+        ],
+        "range": "30 feet",
+        "targets": "up to 10 willing creatures",
+        "target": "ally",
+        "duration": "10 minutes",
+        "desc": "You bypass your targets' rational minds, instilling them with unshakable conviction and zeal. The targets each gain <var>var1</var> temporary Hit Points and a +<var>var2</var> status bonus to Will saves against mental effects, as their faith overrides the signals from their own bodies and minds. If you tell a target to do something, it must comply with your request, though if it would normally find the task repugnant, it can attempt a Will save at the end of its turn each round due to the cognitive dissonance. On a success, it ends the spell's effects on itself entirely.",
+        "targetNumbers": [
+            {
+                "number": 10
+            }
+        ],
+        "heightened": [
+            {
+                "desc": "The temporary Hit Points increase to 18, and the status bonus to Will saves increases to +3.",
+                "level": "(9th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 1000,
+                "name": "Zealous Conviction (Caster)",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 1000,
+                "name": "Zealous Conviction",
+                "targetFilter": "target"
+            }
+        ],
+        "heightenedDescs": [
+            {
+                "level": 6,
+                "descs": [
+                    {
+                        "value": "12",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "2",
+                        "variable": "var2"
+                    }
+                ]
+            },
+            {
+                "level": 9,
+                "descs": [
+                    {
+                        "value": "18",
+                        "variable": "var1"
+                    },
+                    {
+                        "value": "3",
+                        "variable": "var2"
+                    }
+                ]
+            }
         ]
     },
     {

@@ -3758,7 +3758,7 @@
             "Dwarf"
         ],
         "levelreq": 1,
-        "specialreq": "Skill_Level(character, 'Simple Weapons') >= 2 || Skill_Level(character, 'Clan Dagger') >= 2",
+        "specialreq": "Skill_Level('Character', 'Simple Weapons') >= 2 || Skill_Level('Character', 'Clan Dagger') >= 2",
         "specialreqdesc": "trained in clan daggers",
         "gainActivities": [
             "Clan's Edge"

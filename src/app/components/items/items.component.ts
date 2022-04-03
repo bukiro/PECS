@@ -334,7 +334,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
             amount = item.stack;
         }
         const target: Creature = this.characterService.get_Creature(creature);
-        this.characterService.grant_InventoryItem(target, target.inventories[0], item, false, true, true, amount);
+        this.characterService.grant_InventoryItem(item, { creature: target, inventory: target.inventories[0], amount }, { resetRunes: false });
     }
 
     get_NewItemFilter() {
@@ -392,7 +392,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
                 this.newItem = null;
         }
         if (this.newItem) {
-            this.newItem = this.itemsService.initialize_Item(this.newItem, true, false, false) as Equipment | Consumable;
+            this.newItem = this.itemsService.initialize_Item(this.newItem, { preassigned: true, newId: false, resetPropertyRunes: false }) as Equipment | Consumable;
         }
     }
 
@@ -585,7 +585,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     prepare_Scroll(scroll: Item) {
         let casting = this.get_ScrollSavantCasting();
         let tempInv = new ItemCollection();
-        let newScroll = this.characterService.grant_InventoryItem(this.characterService.get_Character(), tempInv, scroll, false, false, false, 1) as Scroll;
+        let newScroll = this.characterService.grant_InventoryItem(scroll, { creature: this.characterService.get_Character(), inventory: tempInv, amount: 1 }, { resetRunes: false, changeAfter: false, equipAfter: false }) as Scroll;
         newScroll.expiration = -2;
         newScroll.price = 0;
         newScroll.storedSpells.forEach(spell => {

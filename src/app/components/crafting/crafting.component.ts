@@ -247,7 +247,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
             amount = item.stack;
         }
         item.crafted = true;
-        this.characterService.grant_InventoryItem(this.characterService.get_Character(), this.characterService.get_Character().inventories[0], item, false, true, true, amount);
+        this.characterService.grant_InventoryItem(item, { creature: this.characterService.get_Character(), inventory: this.characterService.get_Character().inventories[0], amount }, { resetRunes: false });
     }
 
     get_FormulasLearned(id: string = "", source: string = "") {

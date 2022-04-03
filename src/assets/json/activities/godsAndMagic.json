@@ -71,6 +71,7 @@
     {
         "name": "Reflective Scales Discharge",
         "actions": "2A",
+        "activationType": "Concentrate, Manipulate",
         "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "traits": [
@@ -90,6 +91,7 @@
     {
         "name": "Draconic Barrage Energy Missile",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",
         "traits": [
@@ -311,6 +313,7 @@
     {
         "name": "Font of Serenity: Touch the Font",
         "actions": "1A",
+        "activationType": "Interact",
         "inputRequired": "The spell attempts to counteract one emotion effect affecting the targeted ally.",
         "sourceBook": "Gods & Magic",
         "_extensionFileName": "godsAndMagic",

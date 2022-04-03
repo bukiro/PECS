@@ -99,10 +99,11 @@ export class ItemTalismanCordsComponent implements OnInit {
     }
 
     remove_TalismanCord(index: number) {
-        let item: Equipment = this.item;
-        let oldCord: WornItem = item.talismanCords[index];
-        //Add the extracted cord to the inventory, either on an existing stack or as a new item.
-        this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], oldCord, false, false, false, 1);
+        const character = this.get_Character();
+        const item = this.item;
+        const oldCord = item.talismanCords[index];
+        //Add the extracted cord back to the inventory.
+        this.characterService.grant_InventoryItem(oldCord, { creature: character, inventory: character.inventories[0] }, { resetRunes: false, changeAfter: false, equipAfter: false });
     }
 
     set_ToChange() {

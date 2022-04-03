@@ -436,7 +436,8 @@ export class ItemRunesComponent implements OnInit {
     }
 
     on_WeaponRuneChange(runeType: string, previousRune: number) {
-        let weapon: Equipment = this.item;
+        const character = this.get_Character();
+        const weapon = this.item;
         switch (runeType) {
             case "potency":
                 //If the rune has changed, the old one needs to be added to the inventory, and the new one needs to be removed from the inventory
@@ -444,12 +445,12 @@ export class ItemRunesComponent implements OnInit {
                 //Don't do any of that if we're in the item store instead of the inventory.
                 if (!this.itemStore && previousRune != weapon.potencyRune) {
                     if (previousRune > 0) {
-                        let extractedRune: WeaponRune = this.get_CleanItems().weaponrunes.find(rune => rune.potency == previousRune);
-                        this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], extractedRune, false, false, false, 1);
+                        const extractedRune: WeaponRune = this.get_CleanItems().weaponrunes.find(rune => rune.potency == previousRune);
+                        this.grant_RuneToInventory(extractedRune);
                     }
                     if (weapon.potencyRune > 0) {
-                        let insertedRune: WeaponRune = this.get_Character().inventories[0].weaponrunes.find(rune => rune.potency == weapon.potencyRune);
-                        this.characterService.drop_InventoryItem(this.get_Character(), this.get_Character().inventories[0], insertedRune, false, false, false, 1);
+                        const insertedRune: WeaponRune = character.inventories[0].weaponrunes.find(rune => rune.potency == weapon.potencyRune);
+                        this.characterService.drop_InventoryItem(character, character.inventories[0], insertedRune, false, false, false, 1);
                     }
                 }
                 //If the potency rune has been lowered and the striking rune has become invalid, throw out the striking rune
@@ -472,12 +473,12 @@ export class ItemRunesComponent implements OnInit {
                 //Don't do any of that if we're in the item store instead of the inventory.
                 if (!this.itemStore && previousRune != weapon.strikingRune) {
                     if (previousRune > 0) {
-                        let extractedRune: WeaponRune = this.get_CleanItems().weaponrunes.find(rune => rune.striking == previousRune);
-                        this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], extractedRune, false, false, false, 1);
+                        const extractedRune: WeaponRune = this.get_CleanItems().weaponrunes.find(rune => rune.striking == previousRune);
+                        this.grant_RuneToInventory(extractedRune);
                     }
                     if (weapon.strikingRune > 0) {
-                        let insertedRune: WeaponRune = this.get_Character().inventories[0].weaponrunes.find(rune => rune.striking == weapon.strikingRune);
-                        this.characterService.drop_InventoryItem(this.get_Character(), this.get_Character().inventories[0], insertedRune, false, false, false, 1);
+                        const insertedRune: WeaponRune = character.inventories[0].weaponrunes.find(rune => rune.striking == weapon.strikingRune);
+                        this.characterService.drop_InventoryItem(character, character.inventories[0], insertedRune, false, false, false, 1);
                     }
                 }
                 break;
@@ -491,6 +492,7 @@ export class ItemRunesComponent implements OnInit {
     }
 
     on_ArmorRuneChange(runeType: string, previousRune: number) {
+        const character = this.get_Character();
         let armor: Equipment = this.item;
         switch (runeType) {
             case "potency":
@@ -499,12 +501,12 @@ export class ItemRunesComponent implements OnInit {
                 //Don't do any of that if we're in the item store instead of the inventory.
                 if (!this.itemStore && previousRune != armor.potencyRune) {
                     if (previousRune > 0) {
-                        let extractedRune: ArmorRune = this.get_CleanItems().armorrunes.find(rune => rune.potency == previousRune);
-                        this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], extractedRune, false, false, false, 1);
+                        const extractedRune: ArmorRune = this.get_CleanItems().armorrunes.find(rune => rune.potency == previousRune);
+                        this.grant_RuneToInventory(extractedRune);
                     }
                     if (armor.potencyRune > 0) {
-                        let insertedRune: ArmorRune = this.get_Character().inventories[0].armorrunes.find(rune => rune.potency == armor.potencyRune);
-                        this.characterService.drop_InventoryItem(this.get_Character(), this.get_Character().inventories[0], insertedRune, false, false, false, 1);
+                        const insertedRune: ArmorRune = character.inventories[0].armorrunes.find(rune => rune.potency == armor.potencyRune);
+                        this.characterService.drop_InventoryItem(character, character.inventories[0], insertedRune, false, false, false, 1);
                     }
                 }
                 //If the potency rune has been lowered and the resilient rune has become invalid, throw out the resilient rune
@@ -527,12 +529,12 @@ export class ItemRunesComponent implements OnInit {
                 //Don't do any of that if we're in the item store instead of the inventory.
                 if (!this.itemStore && previousRune != armor.resilientRune) {
                     if (previousRune > 0) {
-                        let extractedRune: ArmorRune = this.get_CleanItems().armorrunes.find(rune => rune.resilient == previousRune);
-                        this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], extractedRune, false, false, false, 1);
+                        const extractedRune: ArmorRune = this.get_CleanItems().armorrunes.find(rune => rune.resilient == previousRune);
+                        this.grant_RuneToInventory(extractedRune);
                     }
                     if (armor.resilientRune > 0) {
-                        let insertedRune: ArmorRune = this.get_Character().inventories[0].armorrunes.find(rune => rune.resilient == armor.resilientRune);
-                        this.characterService.drop_InventoryItem(this.get_Character(), this.get_Character().inventories[0], insertedRune, false, false, false, 1);
+                        const insertedRune: ArmorRune = character.inventories[0].armorrunes.find(rune => rune.resilient == armor.resilientRune);
+                        this.characterService.drop_InventoryItem(character, character.inventories[0], insertedRune, false, false, false, 1);
                     }
                 }
                 break;
@@ -580,13 +582,13 @@ export class ItemRunesComponent implements OnInit {
     }
 
     remove_WeaponPropertyRune(index: number) {
-        let weapon: Equipment = this.item;
-        let oldRune: Rune = weapon.propertyRunes[index];
+        const weapon: Equipment = this.item;
+        const oldRune: Rune = weapon.propertyRunes[index];
         //Deactivate any active toggled activities of the removed rune.
         oldRune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
             this.activitiesService.activate_Activity(this.get_Character(), "Character", this.characterService, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
         })
-        this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], oldRune, false, false, false, 1);
+        this.grant_RuneToInventory(oldRune);
         //Remove the Ancestral Echoing Lore if applicable.
         if (oldRune.loreChoices.length) {
             this.characterService.remove_RuneLore(oldRune);
@@ -627,14 +629,14 @@ export class ItemRunesComponent implements OnInit {
     }
 
     remove_ArmorPropertyRune(index: number) {
-        let armor: Equipment = this.item;
-        let oldRune: Rune = armor.propertyRunes[index];
+        const armor: Equipment = this.item;
+        const oldRune: Rune = armor.propertyRunes[index];
         this.set_ToChange(oldRune as ArmorRune);
         //Deactivate any active toggled activities of the removed rune.
         oldRune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
             this.activitiesService.activate_Activity(this.get_Character(), "Character", this.characterService, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
         })
-        this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], oldRune, false, false, false, 1);
+        this.grant_RuneToInventory(oldRune);
         this.update_Item();
     }
 
@@ -698,6 +700,11 @@ export class ItemRunesComponent implements OnInit {
 
     get_IsWeaponRuneItem() {
         return (this.item instanceof Weapon || (this.item instanceof WornItem && this.item.isHandwrapsOfMightyBlows));
+    }
+
+    private grant_RuneToInventory(rune: Rune) {
+        const character = this.get_Character();
+        this.characterService.grant_InventoryItem(rune, { creature: character, inventory: character.inventories[0] }, { resetRunes: false, changeAfter: false, equipAfter: false });
     }
 
     update_Item() {

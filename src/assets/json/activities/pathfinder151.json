@@ -2,6 +2,7 @@
     {
         "name": "Juggle",
         "actions": "1A",
+        "activationType": "Concentrate, Manipulate",
         "sourceBook": "Pathfinder #151: The Show Must Go On",
         "_extensionFileName": "pathfinder151",
         "traits": [

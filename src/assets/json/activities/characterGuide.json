@@ -368,6 +368,7 @@
     {
         "name": "Saoc Astrology",
         "actions": "1A",
+        "activationType": "Concentrate",
         "sourceBook": "Character Guide",
         "_extensionFileName": "characterGuide",
         "traits": [

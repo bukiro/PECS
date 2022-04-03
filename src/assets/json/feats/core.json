@@ -6763,7 +6763,7 @@
                 "value": 2
             }
         ],
-        "specialreq": "Skill_Level(character, this.subType) < 2 || (this.have(character, characterService, charLevel) && Skill_Level(character, this.subType) < 4)",
+        "specialreq": "Skill_Level('Character', this.subType) < 2 || (this.have(character, characterService, charLevel) && Skill_Level('Character', this.subType) < 4)",
         "specialreqdesc": "Untrained in Advanced Weapon",
         "gainSkillChoice": [
             {
@@ -6799,7 +6799,7 @@
                 "value": 2
             }
         ],
-        "specialreq": "Skill_Level(character, this.subType) < 2 || (this.have(character, characterService, charLevel) && Skill_Level(character, this.subType) < 4)",
+        "specialreq": "Skill_Level('Character', this.subType) < 2 || (this.have(character, characterService, charLevel) && Skill_Level('Character', this.subType) < 4)",
         "specialreqdesc": "Untrained in Martial Weapons",
         "gainSkillChoice": [
             {
@@ -6829,7 +6829,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "Skill_Level(character, this.subType) < 2 || (this.have(character, characterService, charLevel) && Skill_Level(character, this.subType) < 4)",
+        "specialreq": "Skill_Level('Character', this.subType) < 2 || (this.have(character, characterService, charLevel) && Skill_Level('Character', this.subType) < 4)",
         "specialreqdesc": "Untrained in Simple Weapons",
         "gainSkillChoice": [
             {
@@ -31845,7 +31845,7 @@
         "featreq": [
             "Unconventional Weaponry: Uncommon Ancestry Simple Weapon"
         ],
-        "specialreq": "Skill_Level(character, 'Simple Weapons') >= 2 || Skill_Level(character, this.subType) >= 2",
+        "specialreq": "Skill_Level('Character', 'Simple Weapons') >= 2 || Skill_Level('Character', this.subType) >= 2",
         "specialreqdesc": "trained in the Uncommon Ancestry Simple Weapon",
         "copyProficiency": [
             {
@@ -31887,7 +31887,7 @@
         "featreq": [
             "Unconventional Weaponry: Uncommon Ancestry Martial Weapon"
         ],
-        "specialreq": "Skill_Level(character, 'Martial Weapons') >= 2 || Skill_Level(character, this.subType) >= 2",
+        "specialreq": "Skill_Level('Character', 'Martial Weapons') >= 2 || Skill_Level('Character', this.subType) >= 2",
         "specialreqdesc": "trained in the Uncommon Ancestry Martial Weapon",
         "copyProficiency": [
             {
@@ -31929,7 +31929,7 @@
         "featreq": [
             "Unconventional Weaponry: Uncommon Ancestry Advanced Weapon"
         ],
-        "specialreq": "Skill_Level(character, 'Advanced Weapons') >= 2 || Skill_Level(character, this.subType) >= 2",
+        "specialreq": "Skill_Level('Character', 'Advanced Weapons') >= 2 || Skill_Level('Character', this.subType) >= 2",
         "specialreqdesc": "trained in the Uncommon Ancestry Advanced Weapon",
         "copyProficiency": [
             {

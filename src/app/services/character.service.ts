@@ -80,10 +80,10 @@ export class CharacterService {
     private me: Character = new Character();
     private loader = [];
     private loading: boolean = false;
-    private basicItems: (Weapon | Armor)[] = [];
+    private basicItems: { weapon: Weapon, armor: Armor } = { weapon: null, armor: null };
     private firstTime: boolean = true;
     private loadingStatus: string = "Loading";
-    private preparedOnceEffects: { creatureType: string, effectGain: EffectGain }[] = [];
+    private preparedOnceEffects: { creatureType: string, effectGain: EffectGain, conditionValue: number, conditionHeightened: number, conditionChoice: string, conditionSpellCastingAbility: string }[] = [];
 
     itemsMenuState: string = 'out';
     itemsMenuTarget: string = 'Character';
@@ -353,8 +353,8 @@ export class CharacterService {
             !character.alignment &&
             !character.baseValues.length &&
             character.inventories.length <= 2 &&
-            //The character is not blank if the inventory has more than 0 items (more than 2 for the first) or if any item is not one of the basic items.
-            !character.inventories.some((inv, index) => inv.allItems().length > (index ? 0 : 2) || inv.allItems().some((item: Item) => !this.basicItems.some(basicItem => basicItem.id == item.refId)))
+            //The character is not blank if any inventory has more than 0 items (more than 2 for the first) or if any item is not one of the basic items.
+            !character.inventories.some((inv, index) => inv.allItems().length > (index ? 0 : 2) || inv.allItems().some(item => ![this.basicItems.weapon?.id || "noid", this.basicItems.armor?.id || "noid"].includes(item.refId)))
         )
     }
 
@@ -749,16 +749,29 @@ export class CharacterService {
         })
     }
 
-    grant_InventoryItem(creature: Creature, inventory: ItemCollection, item: Item, resetRunes: boolean = true, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1, newId: boolean = true, expiration: number = 0) {
-        this.refreshService.set_ToChange(creature.type, "inventory");
-        this.refreshService.set_ToChange(creature.type, "effects");
+    grant_InventoryItem(item: Item, context: { creature: Creature, inventory: ItemCollection, amount?: number, }, options: { resetRunes?: boolean, changeAfter?: boolean, equipAfter?: boolean, newId?: boolean, expiration?: number, newPropertyRunes?: Partial<Rune>[] } = {}) {
+        context = {
+            amount: 1,
+            ...context,
+        };
+        options = {
+            resetRunes: true,
+            changeAfter: true,
+            equipAfter: true,
+            newId: true,
+            expiration: 0,
+            newPropertyRunes: [],
+            ...options,
+        }
+        this.refreshService.set_ToChange(context.creature.type, "inventory");
+        this.refreshService.set_ToChange(context.creature.type, "effects");
         this.refreshService.set_ToChange("Character", "top-bar");
-        let newInventoryItem = this.itemsService.initialize_Item(item, false, newId);
+        let newInventoryItem = this.itemsService.initialize_Item(item, { newId: options.newId, newPropertyRunes: options.newPropertyRunes });
         let returnedItem: Item;
         //Check if this item already exists in the inventory, and if it is stackable and doesn't expire. Don't make that check if this item expires.
         let existingItems: Item[] = [];
-        if (!expiration && newInventoryItem.can_Stack()) {
-            existingItems = inventory[item.type].filter((existing: Item) =>
+        if (!options.expiration && newInventoryItem.can_Stack()) {
+            existingItems = context.inventory[item.type].filter((existing: Item) =>
                 existing.name == newInventoryItem.name && newInventoryItem.can_Stack() && !item.expiration
             );
         }
@@ -769,7 +782,7 @@ export class CharacterService {
         if (existingItems.length) {
             let intAmount: number = 1
             try {
-                intAmount = parseInt(amount.toString())
+                intAmount = parseInt(context.amount.toString())
             } catch (error) {
                 intAmount = 1
             }
@@ -778,17 +791,17 @@ export class CharacterService {
             //Update gridicons of the expanded item.
             this.refreshService.set_ToChange("Character", returnedItem.id);
         } else {
-            let newInventoryLength = inventory[newInventoryItem.type].push(newInventoryItem);
-            let newItem = inventory[newInventoryItem.type][newInventoryLength - 1];
-            if (amount > 1) {
-                newItem.amount = amount;
+            let newInventoryLength = context.inventory[newInventoryItem.type].push(newInventoryItem);
+            let newItem = context.inventory[newInventoryItem.type][newInventoryLength - 1];
+            if (context.amount > 1) {
+                newItem.amount = context.amount;
             }
-            if (expiration) {
-                newItem.expiration = expiration;
+            if (options.expiration) {
+                newItem.expiration = options.expiration;
             }
-            returnedItem = this.process_GrantedItem(creature, newItem, inventory, equipAfter, resetRunes)
+            returnedItem = this.process_GrantedItem(context.creature, newItem, context.inventory, options.equipAfter, options.resetRunes)
         }
-        if (changeAfter) {
+        if (options.changeAfter) {
             this.refreshService.process_ToChange();
         }
         return returnedItem;
@@ -1190,23 +1203,21 @@ export class CharacterService {
                 this.grant_BasicItems();
             }, 500)
         } else {
-            this.basicItems = [];
             const newBasicWeapon: Weapon = Object.assign(new Weapon(), this.itemsService.get_CleanItemByID("08693211-8daa-11ea-abca-ffb46fbada73")).recast(this.typeService, this.itemsService);
-            this.basicItems.push(newBasicWeapon);
             const newBasicArmor: Armor = Object.assign(new Armor(), this.itemsService.get_CleanItemByID("89c1a2c2-8e09-11ea-9fab-e92c63c14723")).recast(this.typeService, this.itemsService);
-            this.basicItems.push(newBasicArmor);
+            this.basicItems = { weapon: newBasicWeapon, armor: newBasicArmor };
             this.equip_BasicItems(this.get_Character(), false)
             this.equip_BasicItems(this.get_Companion(), false)
         }
     }
 
     equip_BasicItems(creature: Creature, changeAfter: boolean = true) {
-        if (!this.still_loading() && this.basicItems.length && !(creature instanceof Familiar)) {
+        if (!this.still_loading() && this.basicItems.weapon && this.basicItems.armor && !(creature instanceof Familiar)) {
             if (!creature.inventories[0].weapons.length && (creature instanceof Character)) {
-                this.grant_InventoryItem(creature, creature.inventories[0], this.basicItems[0], true, false, false);
+                this.grant_InventoryItem(this.basicItems.weapon, { creature, inventory: creature.inventories[0] }, { changeAfter: false, equipAfter: false });
             }
             if (!creature.inventories[0].armors.length) {
-                this.grant_InventoryItem(creature, creature.inventories[0], this.basicItems[1], true, false, false);
+                this.grant_InventoryItem(this.basicItems.armor, { creature, inventory: creature.inventories[0] }, { changeAfter: false, equipAfter: false });
             }
             if (!creature.inventories[0].weapons.some(weapon => weapon.equipped == true)) {
                 if (creature.inventories[0].weapons.length) {
@@ -1862,13 +1873,17 @@ export class CharacterService {
         this.refreshService.process_ToChange();
     }
 
-    public prepare_OnceEffect(creature: Creature, effectGain: EffectGain) {
-        this.preparedOnceEffects.push({ creatureType: creature.type, effectGain });
+    public prepare_OnceEffect(creature: Creature, effectGain: EffectGain, conditionValue: number = 0, conditionHeightened: number = 0, conditionChoice: string = "", conditionSpellCastingAbility: string = "") {
+        this.preparedOnceEffects.push({ creatureType: creature.type, effectGain, conditionValue, conditionHeightened, conditionChoice, conditionSpellCastingAbility });
     }
 
     public process_PreparedOnceEffects(): void {
-        this.preparedOnceEffects.forEach(prepared => {
-            this.process_OnceEffect(this.get_Creature(prepared.creatureType), prepared.effectGain);
+        //Make a copy of the prepared OnceEffects and clear the original.
+        //Some OnceEffects can cause effects to be regenerated, which calls this function again, so we need to clear them to avoid duplicate applications.
+        const preparedOnceEffects = this.preparedOnceEffects.slice();
+        this.preparedOnceEffects.length = 0;
+        preparedOnceEffects.forEach(prepared => {
+            this.process_OnceEffect(this.get_Creature(prepared.creatureType), prepared.effectGain, prepared.conditionValue, prepared.conditionHeightened, prepared.conditionChoice, prepared.conditionSpellCastingAbility);
         })
     }
 

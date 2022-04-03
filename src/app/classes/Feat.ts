@@ -43,7 +43,7 @@ export class Feat {
     //Having this feat counts as fulfilling the prerequisite of having the feat named in countAsFeat. This is useful for class feats that allow you to take another of the class type choices.
     public countAsFeat: string = "";
     //The customData property causes the feat to be copied into a custom feat, and the data property to gain the listed fields.
-    // This usually goes hand in hand with feats where you need to make very specific, hardcoded choices that are saved in the data fields. 
+    // This usually goes hand in hand with feats where you need to make very specific, hardcoded choices that are saved in the data fields.
     public customData: { name: string, type: "string" | "number" | "stringArray" | "numberArray" }[] = [];
     public displayName: string = "";
     public desc: string = "";
@@ -278,9 +278,9 @@ export class Feat {
         //When writing the condition, take care that it only uses variables known in this method,
         //and that it must remain true even after you take the feat (or the feat will be automatically removed.)
         //As an example, if the requirement is:
-        //  (Skill_Level('Athletics') < 2)
+        //  (Skill_Level('Character', 'Athletics') < 2)
         //also include:
-        //  (Skill_Level('Athletics') < 4 && this.have(character, characterService, charLevel))
+        //  (Skill_Level('Character', 'Athletics') < 4 && this.have(character, characterService, charLevel))
         //
         //Here we prepare variables and functions to use in specialreq evaluations.
         let character: Character = characterService.get_Character();
