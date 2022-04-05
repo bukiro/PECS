@@ -70,6 +70,21 @@
         ]
     },
     {
+        "name": "Swarming Wasp Stings (Caster)",
+        "desc": "You have manifested a swarm of disembodied wasp stingers that stab creatures in the area, dealing piercing damage and poisoning each creature that takes piercing damage depending on its Fortitude save.\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target takes 2d6 poison damage.\n<strong>Failure</strong> The target is afflicted with swarming wasp venom at stage 1.\n<strong>Critical Failure</strong> The target is afflicted with swarming wasp venom at stage 2.\n\n<strong>Swarming Wasp Venom</strong> (poison) <strong>Level</strong> 7; <strong>Maximum Duration</strong> 6 rounds; <strong>Stage 1</strong> 2d6 poison damage and clumsy 1 (1 round); <strong>Stage 2</strong> 3d6 poison damage and clumsy 2 (1 round)",
+        "sourceBook": "Pathfinder #160: Assault on Hunting Lodge Seven",
+        "_extensionFileName": "pathfinder160",
+        "type": "spells",
+        "minLevel": 4,
+        "sortLevel": 4,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 60
+            }
+        ]
+    },
+    {
         "name": "Wyvern Sting (Caster)",
         "desc": "You duplicate the venomous sting of a wyvern. If the target creature has taken piercing damage from your attack, it is afflicted with wyvern venom according to its Fortitude save.\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target takes 5d6 poison damage.\n<strong>Failure</strong> The target is afflicted with wyvern venom at stage 1.\n<strong>Critical Failure</strong> The target is afflicted with wyvern venom at stage 2.\n\n<strong>Wyvern Venom</strong> (poison) <strong>Level</strong> 9; <strong>Maximum Duration</strong> 6 rounds; <strong>Stage 1</strong> 5d6 poison damage (1 round); <strong>Stage 2</strong> 6d6 poison damage (1 round); <strong>Stage 3</strong> 8d6 poison damage (1 round)",
         "sourceBook": "Pathfinder #160: Assault on Hunting Lodge Seven",
@@ -92,15 +107,13 @@
             },
             {
                 "name": "Success",
-                "defaultDuration": 1
+                "defaultDuration": 0
             },
             {
-                "name": "Failure",
-                "defaultDuration": 60
+                "name": "Failure"
             },
             {
-                "name": "Critical Failure",
-                "defaultDuration": 60
+                "name": "Critical Failure"
             }
         ]
     }

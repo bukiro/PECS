@@ -9739,6 +9739,7 @@
         "sortLevel": 0,
         "persistent": true,
         "hasValue": true,
+        "inputRequired": "Your maximum HP are reduced while Drained is active. When the condition ends, you lose HP equal to your level times the drained value to reflect that you are not gaining the lost HP back.",
         "effects": [
             {
                 "affected": "Max HP",
@@ -18612,6 +18613,38 @@
         ]
     },
     {
+        "name": "Spider Sting (Caster)",
+        "desc": "You have magically duplicated a spider's venomous sting, dealing piercing damage to the touched creature and afflicting it with spider venom depending on its Fortitude save.\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target takes 1d4 poison damage.\n<strong>Failure</strong> The target is afflicted with spider venom at stage 1.\n<strong>Critical Failure</strong> The target is afflicted with spider venom at stage 2.\n\n<strong>Spider Venom</strong> (poison); <strong>Level</strong> 1; <strong>Maximum Duration</strong> 4 rounds. <strong>Stage 1</strong> 1d4 poison damage and enfeebled 1 (1 round); <strong>Stage 2</strong> 1d4 poison damage and enfeebled 2 (1 round).",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 1,
+        "sortLevel": 1,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 40
+            }
+        ],
+        "choice": "Failure",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Failure"
+            },
+            {
+                "name": "Critical Failure"
+            }
+        ]
+    },
+    {
         "name": "Spirit Link",
         "desc": "You have formed a spiritual link with the caster, allowing them to take in your pain. When the Spell is Cast and at the start of each of your turns, if the you are below maximum Hit Points, you regain |dice=var1| <var>var1</var> Hit Points (or the difference between your current and maximum Hit Points, if that's lower). The caster loses as many Hit Points as you regained.\n\nThis is a spiritual transfer, so no effects apply that would increase the Hit Points you regain or decrease the Hit Points the caster loses. This transfer also ignores any temporary Hit Points you or the caster have. Since this effect doesn't involve positive or negative energy, spirit link works even if you or the caster is undead.",
         "sourceBook": "Core Rulebook",
@@ -23321,6 +23354,41 @@
             {
                 "duration": -1,
                 "minLevel": 5
+            }
+        ]
+    },
+    {
+        "name": "Ghoulish Cravings (Caster)",
+        "desc": "You have touched the target to afflict it with ghoul fever, infesting it with hunger and a steadily decreasing connection to positive energy. The target is affected depending on its Fortitude save.\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target is afflicted with ghoul fever at stage 1.\n<strong>Failure</strong> The target is afflicted with ghoul fever at stage 2.\n<strong>Critical Failure</strong> The target is afflicted with ghoul fever at stage 3.\n\n<strong>Ghoul Fever</strong> (disease); <strong>Level</strong> 3; <strong>Stage 1</strong> carrier with no ill effects (1 day); <strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day); <strong>Stage 3</strong> as stage 2 (1 day); <strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day); <strong>Stage 5</strong> as stage 4 (1 day); <strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "spells",
+        "minLevel": 2,
+        "sortLevel": 2,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ],
+        "inputRequired": "Remove the condition if the target recovers or dies.",
+        "choice": "Success",
+        "choices": [
+            {
+                "name": "Critical Success",
+                "defaultDuration": 0
+            },
+            {
+                "name": "Success",
+                "defaultDuration": -1
+            },
+            {
+                "name": "Failure",
+                "defaultDuration": -1
+            },
+            {
+                "name": "Critical Failure",
+                "defaultDuration": -1
             }
         ]
     },
@@ -39772,7 +39840,7 @@
         ]
     },
     {
-        "name": "Purple Worm Sting",
+        "name": "Purple Worm Sting (Caster)",
         "desc": "You have replicated the attack of a deadly purple worm, dealing piercing damage to the touched creature and afflicting it with purple worm venom depending on its Fortitude save.\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target takes 3d6 poison damage.\n<strong>Failure</strong> The target is afflicted with purple worm venom at stage 1.\n<strong>Critical Failure</strong> The target is afflicted with purple worm venom at stage 2.\n\n<strong>Purple Worm Venom</strong> (poison); <strong>Level</strong> 11; <strong>Maximum Duration</strong> 6 rounds. <strong>Stage 1</strong> 3d6 poison damage and enfeebled 2 (1 round); <strong>Stage 2</strong> 4d6 poison damage and enfeebled 2 (1 round); <strong>Stage 3</strong> 6d6 poison damage and enfeebled 2 (1 round).",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
@@ -39795,12 +39863,10 @@
                 "defaultDuration": 0
             },
             {
-                "name": "Failure",
-                "defaultDuration": 60
+                "name": "Failure"
             },
             {
-                "name": "Critical Failure",
-                "defaultDuration": 60
+                "name": "Critical Failure"
             }
         ]
     },

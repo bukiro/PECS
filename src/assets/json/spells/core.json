@@ -12870,12 +12870,13 @@
         "range": "touch",
         "targets": "1 creature",
         "target": "other",
-        "desc": "Your touch afflicts the target with goblin pox, an irritating allergenic rash. The target must attempt a Fortitude save.\n\n<strong>Goblin Pox</strong> (disease); <strong>Level</strong> 1. Goblins and goblin dogs are immune. <strong>Stage 1</strong> sickened 1 (1 round); <strong>Stage 2</strong> sickened 1 and slowed 1 (1 round); <strong>Stage 3</strong> sickened 1 and the creature can't reduce its sickened value below 1 (1 day)",
+        "desc": "Your touch afflicts the target with goblin pox, an irritating allergenic rash. The target must attempt a Fortitude save.",
         "savingThrow": "Fortitude",
         "critsuccess": "The target is unaffected.",
         "success": "The target is sickened 1.",
         "failure": "The target is afflicted with goblin pox at stage 1.",
         "critfailure": "The target is afflicted with goblin pox at stage 2.",
+        "desc2": "<strong>Goblin Pox</strong> (disease); <strong>Level</strong> 1. Goblins and goblin dogs are immune. <strong>Stage 1</strong> sickened 1 (1 round); <strong>Stage 2</strong> sickened 1 and slowed 1 (1 round); <strong>Stage 3</strong> sickened 1 and the creature can't reduce its sickened value below 1 (1 day)",
         "gainConditions": [
             {
                 "duration": -5,
@@ -15375,12 +15376,20 @@
         "targets": "1 creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "You magically duplicate a spider's venomous sting. You deal |dice=1d4| 1d4 piercing damage to the touched creature and afflict it with spider venom. The target must attempt a Fortitude save.\n\n<strong>Spider Venom</strong> (poison); <strong>Level</strong> 1; <strong>Maximum Duration</strong> 4 rounds. <strong>Stage 1</strong> 1d4 poison damage and enfeebled 1 (1 round); <strong>Stage 2</strong> 1d4 poison damage and enfeebled 2 (1 round).",
+        "desc": "You magically duplicate a spider's venomous sting. You deal |dice=1d4| 1d4 piercing damage to the touched creature and afflict it with spider venom. The target must attempt a Fortitude save.",
         "savingThrow": "Fortitude",
         "critsuccess": "The target is unaffected.",
         "success": "The target takes |dice=1d4 Poison| 1d4 poison damage.",
         "failure": "The target is afflicted with spider venom at stage 1.",
-        "critfailure": "The target is afflicted with spider venom at stage 2."
+        "critfailure": "The target is afflicted with spider venom at stage 2.",
+        "desc2": "<strong>Spider Venom</strong> (poison); <strong>Level</strong> 1; <strong>Maximum Duration</strong> 4 rounds. <strong>Stage 1</strong> 1d4 poison damage and enfeebled 1 (1 round); <strong>Stage 2</strong> 1d4 poison damage and enfeebled 2 (1 round).",
+        "gainConditions": [
+            {
+                "duration": -5,
+                "name": "Spider Sting (Caster)",
+                "targetFilter": "caster"
+            }
+        ]
     },
     {
         "name": "Spirit Link",
@@ -18054,12 +18063,20 @@
         "targets": "1 creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "You touch the target to afflict it with ghoul fever, infesting it with hunger and a steadily decreasing connection to positive energy; the target must attempt a Fortitude save.\n\n<strong>Ghoul Fever</strong> (disease); <strong>Level</strong> 3; <strong>Stage 1</strong> carrier with no ill effects (1 day); <strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day); <strong>Stage 3</strong> as stage 2 (1 day); <strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day); <strong>Stage 5</strong> as stage 4 (1 day); <strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
+        "desc": "You touch the target to afflict it with ghoul fever, infesting it with hunger and a steadily decreasing connection to positive energy; the target must attempt a Fortitude save.",
         "savingThrow": "Fortitude",
         "critsuccess": "The target is unaffected.",
         "success": "The target is afflicted with ghoul fever at stage 1.",
         "failure": "The target is afflicted with ghoul fever at stage 2.",
-        "critfailure": "The target is afflicted with ghoul fever at stage 3."
+        "critfailure": "The target is afflicted with ghoul fever at stage 3.",
+        "desc2": "<strong>Ghoul Fever</strong> (disease); <strong>Level</strong> 3; <strong>Stage 1</strong> carrier with no ill effects (1 day); <strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day); <strong>Stage 3</strong> as stage 2 (1 day); <strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day); <strong>Stage 5</strong> as stage 4 (1 day); <strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
+        "gainConditions": [
+            {
+                "duration": -5,
+                "name": "Ghoulish Cravings (Caster)",
+                "targetFilter": "caster"
+            }
+        ]
     },
     {
         "name": "Glitterdust",
@@ -22447,7 +22464,7 @@
             "Plant"
         ],
         "range": "60 feet",
-        "target": "self",
+        "target": "area",
         "duration": "1 minute",
         "desc": "Over the course of a minute, you cause a thick wall of thorny brambles to grow from the ground. You create a 5-foot-thick wall of brambles and thorns in a straight line up to 60 feet long and 10 feet high. You must create the wall in an unbroken open space so its edges don't pass through any creatures or objects, or the spell is lost. The wall stands vertically. If you wish, the wall can be of a shorter length or height. Everything on each side of the wall has cover from creatures on the opposite side, and the wall's spaces are difficult terrain. For every move action a creature uses to enter at least one of the wall's spaces, that creature takes |dice=var1 P| <var>var1</var> piercing damage.\n\nEach 5-foot-by-5-foot section of the wall has AC 10, Hardness 10, and <var>var2</var> Hit Points. It's immune to critical hits and precision damage. A destroyed section can be moved through freely.",
         "heightened": [
@@ -22459,7 +22476,8 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Wall of Thorns"
+                "name": "Wall of Thorns",
+                "targetFilter": "caster"
             }
         ],
         "heightenedDescs": [
@@ -22587,7 +22605,7 @@
             "Evocation"
         ],
         "range": "120 feet",
-        "target": "self",
+        "target": "area",
         "duration": "1 minute",
         "desc": "You create a barrier of gusting winds that hinders anything moving through it. The wall of swirling winds is 5 feet thick, 60 feet long, and 30 feet high. The wall stands vertically, but you can shape its path. Though the wall of wind distorts the air, it does not hamper sight. The wall has the following effects.\n\nAmmunition from physical ranged attacks - such as arrows, bolts, sling bullets, and other objects of similar size - can't pass through the wall. Attacks with bigger ranged weapons, such as javelins, take a -2 circumstance penalty to their attack rolls if their paths pass through the wall. Massive ranged weapons and spell effects that don't create physical objects pass through the wall with no penalty.\nThe wall is difficult terrain to creatures attempting to move overland through it. Gases, including creatures in gaseous form, can't pass through the wall.\nA creature that attempts to fly through the wall using a move action must attempt a Fortitude save.",
         "critsuccess": "The creature can move through the wall normally this turn.",
@@ -22597,7 +22615,8 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Wall of Wind"
+                "name": "Wall of Wind",
+                "targetFilter": "caster"
             }
         ]
     },
@@ -25311,7 +25330,7 @@
             "Fire"
         ],
         "range": "120 feet",
-        "target": "self",
+        "target": "area",
         "duration": "1 minute",
         "desc": "You raise a blazing wall that burns creatures passing through it. You create either a 5-foot-thick wall of flame in a straight line up to 60 feet long and 10 feet high, or a 5-foot-thick, 10-foot-radius ring of flame with the same height. The wall stands vertically in either form; if you wish, the wall can be of a shorter length or height. Everything on each side of the wall is concealed from creatures on the opposite side. Any creature that crosses the wall or is occupying the wall's area at the start of its turn takes |dice=var1 Fire| <var>var1</var> fire damage.",
         "heightened": [
@@ -25323,7 +25342,8 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Wall of Fire"
+                "name": "Wall of Fire",
+                "targetFilter": "caster"
             }
         ],
         "heightenedDescs": [
@@ -25511,12 +25531,13 @@
         "targets": "1 creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "Your touch afflicts the target with Abyssal plague, which siphons fragments of their soul away to empower the Abyss. The effect is based on the target's Fortitude save.\n\n<strong>Abyssal Plague</strong> (disease); <strong>Level</strong> 9. The target can't recover from the drained condition from Abyssal plague until the disease is cured. <strong>Stage 1</strong> drained 1 (1 day); <strong>Stage 2</strong> drained increases by 2 (1 day).",
+        "desc": "Your touch afflicts the target with Abyssal plague, which siphons fragments of their soul away to empower the Abyss. The effect is based on the target's Fortitude save.",
         "savingThrow": "Fortitude",
         "critsuccess": "The target is unaffected.",
         "success": "The target takes |dice=var1 Evil| <var>var1</var> evil damage, and takes a -2 status penalty to saves against Abyssal plague for 1 day or until the target contracts it, whichever comes first.",
         "failure": "The target is afflicted with Abyssal plague at stage 1.",
         "critfailure": "The target is afflicted with Abyssal plague at stage 2.",
+        "desc2": "<strong>Abyssal Plague</strong> (disease); <strong>Level</strong> 9. The target can't recover from the drained condition from Abyssal plague until the disease is cured. <strong>Stage 1</strong> drained 1 (1 day); <strong>Stage 2</strong> drained increases by 2 (1 day).",
         "gainConditions": [
             {
                 "duration": -5,
@@ -28601,6 +28622,7 @@
         "area": "30-foot emanation",
         "targets": "up to 2 creatures",
         "target": "area",
+        "overrideHostile": "friendly",
         "desc": "<var>var1</var>You teleport the targets to new positions within the area. The creatures must each be able to fit in their new space, and their positions must be unoccupied, entirely within the area, and in your line of sight. Unwilling creatures can attempt a Will save.",
         "critsuccess": "The target can teleport if it wants, but it chooses the destination within range.",
         "success": "The target is unaffected.",
@@ -29005,6 +29027,8 @@
         "range": "30 feet",
         "area": "20-foot burst",
         "target": "area",
+        "cannotTargetCaster": true,
+        "overrideHostile": "friendly",
         "sustained": 100,
         "duration": "sustained up to 1 minute",
         "desc": "A field of positive energy fills the area, exuding warmth and rejuvenating those within. Each living creature that starts its turn in the area regains |dice=var1| <var>var1</var> Hit Points, and any undead creature that starts its turn in the area takes |dice=var1 Positive| <var>var1</var> positive damage.",
@@ -29310,7 +29334,7 @@
         "gainConditions": [
             {
                 "duration": -5,
-                "name": "Purple Worm Sting",
+                "name": "Purple Worm Sting (Caster)",
                 "targetFilter": "caster"
             }
         ]
@@ -29384,7 +29408,7 @@
                 "level": 7,
                 "descs": [
                     {
-                        "value": "The maximum level of the target increases to 15. The cost increases to the target's level (minimum 1) � 400 gp. ",
+                        "value": "The maximum level of the target increases to 15. The cost increases to the target's level (minimum 1) x 400 gp. ",
                         "variable": "var1"
                     }
                 ]
@@ -29393,7 +29417,7 @@
                 "level": 8,
                 "descs": [
                     {
-                        "value": "The maximum level of the target increases to 17. The cost increases to the target's level (minimum 1) � 800 gp. ",
+                        "value": "The maximum level of the target increases to 17. The cost increases to the target's level (minimum 1) x 800 gp. ",
                         "variable": "var1"
                     }
                 ]
@@ -29402,7 +29426,7 @@
                 "level": 9,
                 "descs": [
                     {
-                        "value": "The maximum level of the target increases to 19. The cost increases to the target's level (minimum 1) � 1,600 gp. ",
+                        "value": "The maximum level of the target increases to 19. The cost increases to the target's level (minimum 1) x 1,600 gp. ",
                         "variable": "var1"
                     }
                 ]
@@ -29411,7 +29435,7 @@
                 "level": 10,
                 "descs": [
                     {
-                        "value": "The maximum level of the target increases to 21. The cost increases to the target's level (minimum 1) � 3,200 gp. ",
+                        "value": "The maximum level of the target increases to 21. The cost increases to the target's level (minimum 1) x 3,200 gp. ",
                         "variable": "var1"
                     }
                 ]
