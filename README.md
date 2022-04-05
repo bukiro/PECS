@@ -89,7 +89,7 @@ Non-magic equipment items are fully implemented, as well as weapon, shield and a
 - [ ] Weapons
 - [ ] Armors
 - [ ] Shields
-- [ ] Worn Items
+- [x] Worn Items
 - [ ] Held Items
 - [x] Alchemical Bombs and Consumable Bombs
 - [x] Potions
@@ -103,7 +103,7 @@ Non-magic equipment items are fully implemented, as well as weapon, shield and a
 - [x] Materials
 - [x] Runes
 
-Spells are implemented up to and including `5th level`.
+Spells are implemented up to and including `6th level`.
 
 # Contributing
 

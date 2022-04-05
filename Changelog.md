@@ -71,3 +71,5 @@ This log tracks only major changes, as well as changes that need characters to b
 ## 1.0.14
 
 - Worn items have been finished and come with new item capabilities.
+- 6th-level spells have been finished.
+- Some item functionalities have changed, and affected items are updated in the inventory.
