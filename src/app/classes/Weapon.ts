@@ -401,7 +401,7 @@ export class Weapon extends Equipment {
         }
         return bestSkillLevel;
     }
-    private effectPhrases(phrase: string, prof: string, range: string, favoredWeapon: boolean) {
+    private effectPhrases(phrase: string, prof: string, range: string, traits: string[], favoredWeapon: boolean) {
         return [
             phrase,
             `${this.name} ${phrase}`,
@@ -421,7 +421,7 @@ export class Weapon extends Equipment {
             `${prof.split(" ")[0]} ${this.weaponBase} ${phrase}`,
             //"Melee ", "Ranged "
             `${range} ${phrase}`,
-        ].concat(this.traits.map(trait => {
+        ].concat(traits.map(trait => {
             //Add any traits, i.e. "Monk ", "Gnome ", but don't include any added ranges.
             if (trait.includes(" ft")) {
                 return `${trait.split(" ")[0]} ${phrase}`;
@@ -429,7 +429,7 @@ export class Weapon extends Equipment {
                 return `${trait} ${phrase}`;
             }
         })).concat(
-            this.traits.includes("Agile") ? [] : [
+            traits.includes("Agile") ? [] : [
                 `Non-Agile ${phrase}`,
             ]
         ).concat(
@@ -524,7 +524,7 @@ export class Weapon extends Equipment {
         const prof = this.get_Proficiency(creature, characterService, charLevel);
         const levelNames = ["Untrained", "Untrained", "Trained", "Trained", "Expert", "Expert", "Master", "Master", "Legendary"];
         //Create names list for effects
-        let effectsListAttackRolls = this.effectPhrases("Attack Rolls", prof, range, this.get_IsFavoredWeapon(creature, characterService))
+        let effectsListAttackRolls = this.effectPhrases("Attack Rolls", prof, range, traits, this.get_IsFavoredWeapon(creature, characterService))
             .concat([
                 this.name,
                 "Attack Rolls",
@@ -657,7 +657,7 @@ export class Weapon extends Equipment {
             }
         }
         //Add any damage from effects. These effects must be toggle and have the damage as a string in their title.
-        let effectPhrasesExtraDamage = this.effectPhrases("Extra Damage", prof, range, this.get_IsFavoredWeapon(creature, characterService));
+        let effectPhrasesExtraDamage = this.effectPhrases("Extra Damage", prof, range, traits, this.get_IsFavoredWeapon(creature, characterService));
         const agile = traits.includes("Agile") ? "Agile" : "Non-Agile";
         //"Agile/Non-Agile Large Melee Weapon Extra Damage"
         if (this.large) {
@@ -730,7 +730,7 @@ export class Weapon extends Equipment {
         const favoredWeapon = this.get_IsFavoredWeapon(creature, characterService);
         const weapon = this;
         function effectPhrases(phrase: string) {
-            return weapon.effectPhrases(phrase, prof, range, favoredWeapon)
+            return weapon.effectPhrases(phrase, prof, range, traits, favoredWeapon)
                 .concat([
                     `Damage ${phrase}`,
                 ]);
