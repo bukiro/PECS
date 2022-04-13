@@ -9,6 +9,7 @@ import { ConditionsService } from 'src/app/services/conditions.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
+import { InputValidationService } from 'src/app/services/inputValidation.service';
 
 @Component({
     selector: 'app-health',
@@ -83,12 +84,16 @@ export class HealthComponent implements OnInit, OnDestroy {
         return this.timeService.get_Waiting(duration, { characterService: this.characterService, conditionsService: this.conditionsService }, { includeResting: true });
     }
 
+    public positiveNumbersOnly(event: KeyboardEvent): boolean {
+        return InputValidationService.positiveNumbersOnly(event);
+    }
+
     rest() {
         this.timeService.rest(this.characterService, this.conditionsService, this.itemsService, this.spellsService);
     }
 
     die(reason: string) {
-        if (this.characterService.get_AppliedConditions(this.get_Creature(), "Dead").length == 0) {
+        if (!this.characterService.get_AppliedConditions(this.get_Creature(), "Dead").length) {
             this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, { name: "Dead", source: reason }), {}, { noReload: true })
             this.characterService.get_AppliedConditions(this.get_Creature(), "Doomed").forEach(gain => {
                 this.characterService.remove_Condition(this.get_Creature(), gain, false);

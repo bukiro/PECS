@@ -229,7 +229,6 @@ export class SavegameService {
             //Some worn items before version 1.0.4 have activities that grant innate spells. Innate spells are now granted differently, and activities do not update well, so the activities need to be removed.
             //The activity and Condition of the Bracelet of Dashing have been renamed and can be updated at this point.
             //Slotted aeon stones now reflect that information on their own, for better detection of resonant hints and effects.
-            //The moddable property has changed from string to boolean and needs to be updated on all items.
             if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 4) {
                 creatures.forEach(creature => {
                     creature?.inventories?.forEach(inv => {
@@ -259,12 +258,16 @@ export class SavegameService {
                         })
                     })
                 })
+            }
+
+            //The moddable property has changed from string to boolean in 1.0.4 and needs to be updated on all items.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 4) {
                 creatures.forEach(creature => {
                     creature?.inventories?.forEach(inv => {
                         Object.keys(inv).forEach(key => {
                             if (Array.isArray(inv[key])) {
                                 inv[key].forEach(item => {
-                                    if (Object.keys(item).includes("moddable")) {
+                                    if (item.hasOwnProperty('moddable')) {
                                         if (item.moddable == "-") {
                                             item.moddable = false;
                                         } else if (item.moddable != false) {
@@ -630,8 +633,8 @@ export class SavegameService {
                 character.customFeats.filter(feat => !baseFeats.includes(feat.name.toLowerCase()) && feat["data"] && Object.keys(feat["data"]).length).forEach(feat => {
                     //For each time you have this feat (should be exactly one), add its data to the class object.
                     characterService.featsService.get_CharacterFeatsTakenWithLevel(0, 0, feat.name, "", "", undefined, false, false).forEach(taken => {
-                        let newLength = character.class.featData.push(new FeatData(taken.level, feat.name, taken.gain.sourceId));
-                        character.class.featData[newLength - 1].data = JSON.parse(JSON.stringify(feat["data"]));
+                        const newFeatData = new FeatData(taken.level, feat.name, taken.gain.sourceId, JSON.parse(JSON.stringify(feat["data"])));
+                        character.class.featData.push(newFeatData);
                     })
                     //Mark the feat to delete.
                     feat.name = "DELETE THIS";

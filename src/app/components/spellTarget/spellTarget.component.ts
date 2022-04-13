@@ -65,7 +65,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     @Input()
     showDismiss: boolean = false;
     @Input()
-    dismissPhrase: boolean = false;
+    dismissPhrase: string = "";
     @Output()
     castMessage = new EventEmitter<{ target: string, activated: boolean, options: { expend?: boolean } }>();
 
@@ -183,7 +183,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
             gainConditions = this.activity.gainConditions;
         }
         return (
-            this.get_BloodMagicTrigger().length > 0 ||
+            !!this.get_BloodMagicTrigger().length ||
             (
                 !noTarget &&
                 gainConditions.some(gain => gain.targetFilter != "caster")
@@ -192,8 +192,8 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
                 this.activity &&
                 (
                     this.activity.traits.includes("Stance") ||
-                    this.activity.gainItems.length > 0 ||
-                    this.activity.onceEffects.length > 0
+                    !!this.activity.gainItems.length ||
+                    !!this.activity.onceEffects.length
                 )
             ) ||
             (
@@ -323,7 +323,8 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         return this.gain.targets;
     }
 
-    on_SelectAllTargets(checked: boolean) {
+    on_SelectAllTargets(event: Event) {
+        const checked = (<HTMLInputElement>event.target).checked;
         if (checked) {
             this.gain.targets.forEach(target => {
                 if (!target.isPlayer || !this.action.cannotTargetCaster) {

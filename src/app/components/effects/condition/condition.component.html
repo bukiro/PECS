@@ -321,7 +321,7 @@
                             <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]="true">
                             </app-activity>
                         </ng-template>
-                        <button [stickyPopover]="ActivityTemplate" triggers="click" ignorePopoverKeepalive="true"
+                        <button [stickyPopover]="ActivityTemplate" triggers="click" [ignorePopoverKeepalive]="true"
                             [ngClass]="{'fancy-button':gain.active, 'inactive-button':cannotActivate, 'penalty':!cannotActivate && activity.get_IsHostile(), 'bonus':!cannotActivate && !activity.get_IsHostile()}">
                             <app-gridIcon
                                 [ngClass]="{'fancy-button':gain.active, 'inactive-button':cannotActivate, 'penalty':!cannotActivate && activity.get_IsHostile(), 'bonus':!cannotActivate && !activity.get_IsHostile()}"

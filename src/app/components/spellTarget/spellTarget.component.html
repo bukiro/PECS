@@ -89,7 +89,7 @@
                             <div class="gridicon-fullsizebox"
                                 *ngIf="parameters.targetNumber == -1 || parameters.targetNumber >= targets.length">
                                 <input id="spelltargetSelectAll" class="character-choice" type="checkbox"
-                                    (change)="on_SelectAllTargets($event.target.checked)"
+                                    (change)="on_SelectAllTargets($event)"
                                     [checked]="get_AllTargetsSelected(parameters.targetNumber)">
                                 <label for="spelltargetSelectAll" style="font-size: 1.5em;">
                                     <strong>Select all</strong>

@@ -11,15 +11,15 @@ export class Ability {
     ) { }
     calculate(creature: Creature, characterService: CharacterService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
         let result = {
-            absolutes: (this.absolutes(creature, effectsService, this.name).length != 0) as boolean,
+            absolutes: !!this.absolutes(creature, effectsService, this.name).length,
             baseValue: this.baseValue(creature, characterService, charLevel) as { result: number, explain: string },
-            bonuses: this.bonuses(creature, effectsService, this.name) as boolean,
-            penalties: this.penalties(creature, effectsService, this.name) as boolean,
+            bonuses: !!this.bonuses(creature, effectsService, this.name),
+            penalties: !!this.penalties(creature, effectsService, this.name),
             value: this.value(creature, characterService, effectsService, charLevel) as { result: number, explain: string },
             mod: this.mod(creature, characterService, effectsService, charLevel) as { result: number, explain: string },
-            modabsolutes: (this.absolutes(creature, effectsService, this.name + " Modifier").length != 0) as boolean,
-            modbonuses: this.bonuses(creature, effectsService, this.name + " Modifier") as boolean,
-            modpenalties: this.penalties(creature, effectsService, this.name + " Modifier") as boolean
+            modabsolutes: !!this.absolutes(creature, effectsService, this.name + " Modifier").length,
+            modbonuses: !!this.bonuses(creature, effectsService, this.name + " Modifier"),
+            modpenalties: !!this.penalties(creature, effectsService, this.name + " Modifier"),
         }
         return result;
     }

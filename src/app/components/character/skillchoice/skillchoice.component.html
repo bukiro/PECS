@@ -16,7 +16,7 @@
                     [ngClass]="{'fancy-button choicecleared':(choice.increases.length == maxAvailable), 'activechoice':get_ShowChoice()==listID && !choice.showOnSheet}">
                     <app-gridIcon class="skillincrease" [ngbTooltip]="buttonTitle"
                         [superTitle]="maxAvailable.toString()"
-                        [title]="(maxAvailable == 1 && choice.increases.length) ? choice.increases[0].name : ((maxAvailable > 1 && choice.increases.length > 0) ? choice.increases.length.toString() : '')"
+                        [title]="(maxAvailable == 1 && choice.increases.length) ? choice.increases[0].name : ((maxAvailable > 1 && !!choice.increases.length) ? choice.increases.length.toString() : '')"
                         [ngClass]="{'fancy-button':(choice.increases.length == maxAvailable)}">
                     </app-gridIcon>
                 </button>
@@ -50,7 +50,7 @@
                                         <div class="list-item gridicon-fullsizebox" triggers="click"
                                             [ngClass]="{'selected':increased}">
                                             <input class="character-choice" id="{{skill.name}}" type="checkbox"
-                                                (change)="on_SkillIncrease(skill.name, $event.target.checked, choice, false, maxAvailable)"
+                                                (change)="on_SkillIncrease(skill.name, $event, choice, false, maxAvailable)"
                                                 [checked]="checked" [disabled]="disabled">
                                             <div class="gridicon-fullsizebox">
                                                 <app-gridIcon [title]="skill.name"
@@ -68,7 +68,7 @@
                                                     </cite>
                                                     <cite class="problem"
                                                         [ngbPopover]="'This skill was raised higher than allowed.'"
-                                                        openDelay=100
+                                                        [openDelay]=100
                                                         *ngIf="!skill.isLegal(get_Character(), this.characterService, levelNumber) || (!skill.isLegal(get_Character(), this.characterService, levelNumber, choice.maxRank) && skillIncreasedByThis(skill, choice))">
                                                         Too high
                                                     </cite>

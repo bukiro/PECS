@@ -49,7 +49,8 @@
         <ng-container *ngFor="let componentParameters of [get_ComponentParameters()]; trackBy:trackByIndex">
             <ng-container *ngFor="let spellCastingParameters of get_SpellCastingParameters(); trackBy:trackByIndex;">
                 <header class="sectionHeader">
-                    {{(spellCastingParameters.casting.className + (spellCastingParameters.casting.tradition != "Innate"
+                    {{(spellCastingParameters.casting.className + (spellCastingParameters.casting.castingType !=
+                    "Innate"
                     ? " " + spellCastingParameters.casting.tradition : "") +
                     ((spellCastingParameters.casting.castingType == "Focus") ? (" " +
                     spellCastingParameters.casting.source) : " Spells")).trim()}}
@@ -59,27 +60,63 @@
                             {{spellCastingParameters.casting.castingType}}
                         </span>
                     </span>
-                    <div class="newrow lower" *ngIf="spellCastingParameters.casting.bondedItemCharges[0]"
-                        [ngbPopover]="componentParameters.hasSuperiorBond ? 'You can use Drain Bonded Item one additional time per day, but only to cast a spell 2 or more levels lower than your highest-level spell.' : ''">
-                        {{spellCastingParameters.casting.bondedItemCharges[0]}}{{componentParameters.hasSuperiorBond ?
-                        "*" : ""}} bonded item charge{{spellCastingParameters.casting.bondedItemCharges[0] != 1 ? "s" :
-                        ""}} available
+                    <div class="newrow lower left-aligned" *ngIf="spellCastingParameters.casting.bondedItemCharges[0]">
+                        <span>
+                            {{spellCastingParameters.casting.bondedItemCharges[0]}}{{componentParameters.hasSuperiorBond
+                            ? "*" : ""}} bonded item charge{{spellCastingParameters.casting.bondedItemCharges[0] != 1 ?
+                            "s" : ""}} available
+                        </span>
+                        <i class="bi-question-circle" *ngIf="componentParameters.hasSuperiorBond"
+                            [ngbPopover]="SuperiorBond"></i>
+                        <ng-template #SuperiorBond>
+                            <header class="spellHeader">
+                                Superior Bond
+                            </header>
+                            <span>
+                                You can use Drain Bonded Item one additional time per day, but only to cast a spell 2 or
+                                more levels lower than your highest-level spell.
+                            </span>
+                        </ng-template>
                     </div>
-                    <div class="newrow lower" *ngIf="spellCastingParameters.maxStudiousCapacitySlots"
-                        [ngbPopover]="'You can cast one spell each day even after you\'ve run out of spell slots of the appropriate spell level, but you can\'t use this ability to cast a spell of your highest spell level.'">
-                        {{spellCastingParameters.maxStudiousCapacitySlots -
-                        spellCastingParameters.spellusedStudiousCapacitySlots}} extra spell
-                        casting{{spellCastingParameters.maxStudiousCapacitySlots -
-                        spellCastingParameters.spellusedStudiousCapacitySlots != 1 ? "s" : ""}} available
+                    <div class="newrow lower left-aligned" *ngIf="spellCastingParameters.maxStudiousCapacitySlots">
+                        <span>
+                            {{spellCastingParameters.maxStudiousCapacitySlots -
+                            spellCastingParameters.usedStudiousCapacitySlots}} extra spell
+                            casting{{spellCastingParameters.maxStudiousCapacitySlots -
+                            spellCastingParameters.usedStudiousCapacitySlots != 1 ? "s" : ""}} available
+                        </span>
+                        <i class="bi-question-circle" [ngbPopover]="StudiousCapacity"></i>
+                        <ng-template #StudiousCapacity>
+                            <header class="spellHeader">
+                                Studious Capacity
+                            </header>
+                            <span>
+                                You can cast one spell each day even after you've run out of spell
+                                slots of the appropriate spell level, but you can't use this ability to cast a spell of
+                                your highest spell level.
+                            </span>
+                        </ng-template>
                     </div>
-                    <div class="newrow lower"
-                        *ngIf="spellCastingParameters.maxFirstGreaterVitalEvolutionSlot || spellCastingParameters.maxSecondGreaterVitalEvolutionSlot"
-                        [ngbPopover]="'Twice per day, you can cast a spell after you\'ve run out of spell slots of the appropriate spell level; the two spells you cast with this feat must be of different spell levels.'">
-                        {{(spellCastingParameters.usedFirstGreaterVitalEvolutionSlot == 0 ? 1 : 0) +
-                        (spellCastingParameters.usedSecondGreaterVitalEvolutionSlot == 0 ? 1 : 0)}} extra spell
-                        casting{{(spellCastingParameters.usedFirstGreaterVitalEvolutionSlot == 0 ? 1 : 0) +
-                        (spellCastingParameters.usedSecondGreaterVitalEvolutionSlot == 0 ? 1 : 0) != 1 ? "s" : ""}}
-                        available
+                    <div class="newrow lower left-aligned"
+                        *ngIf="spellCastingParameters.maxFirstGreaterVitalEvolutionSlot || spellCastingParameters.maxSecondGreaterVitalEvolutionSlot">
+                        <span>
+                            {{(spellCastingParameters.usedFirstGreaterVitalEvolutionSlot == 0 ? 1 : 0) +
+                            (spellCastingParameters.usedSecondGreaterVitalEvolutionSlot == 0 ? 1 : 0)}} extra spell
+                            casting{{(spellCastingParameters.usedFirstGreaterVitalEvolutionSlot == 0 ? 1 : 0) +
+                            (spellCastingParameters.usedSecondGreaterVitalEvolutionSlot == 0 ? 1 : 0) != 1 ? "s" : ""}}
+                            available
+                        </span>
+                        <i class="bi-question-circle" [ngbPopover]="GreaterVitalEvolution"></i>
+                        <ng-template #GreaterVitalEvolution>
+                            <header class="spellHeader">
+                                Greater Vital Evolution
+                            </header>
+                            <span>
+                                Twice per day, you can cast a spell after you've run out of
+                                spell slots of the appropriate spell level; the two spells you cast with this feat must
+                                be of different spell levels.
+                            </span>
+                        </ng-template>
                     </div>
                 </header>
                 <ng-container
@@ -380,14 +417,14 @@
                             <ng-container *ngIf="!get_TileMode()">
                                 <div class="list-item">
                                     <button class="newrow sublist-toggle left-aligned"
-                                        (click)="toggle_Spell(spellCastingLevelParameters.level+spellCastingParameters.casting.castingType+spellCastingParameters.casting.class+spellParameters.gain.name+spellIndex)"
+                                        (click)="toggle_Spell(spellCastingLevelParameters.level+spellCastingParameters.casting.castingType+spellCastingParameters.casting.className+spellParameters.gain.name+spellIndex)"
                                         [ngClass]="{'inactive-button': spellParameters.cannotCast}">
                                         <ng-container *ngTemplateOutlet="SpellTitleTemplate">
                                         </ng-container>
                                     </button>
                                     <div class="list-item sublist lower"
                                         [ngClass]="{'inactive-list': spellParameters.cannotCast}"
-                                        *ngIf="get_ShowSpell()==spellCastingLevelParameters.level+spellCastingParameters.casting.castingType+spellCastingParameters.casting.class+spellParameters.gain.name+spellIndex">
+                                        *ngIf="get_ShowSpell()==spellCastingLevelParameters.level+spellCastingParameters.casting.castingType+spellCastingParameters.casting.className+spellParameters.gain.name+spellIndex">
                                         <ng-container *ngTemplateOutlet="SpellTemplate">
                                         </ng-container>
                                     </div>

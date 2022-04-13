@@ -187,7 +187,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         //This prevents losing the feat bonus or raising the skill too high.
         //An exception is made for Additional Lore and Gnome Obsession, which can be raised on Level 2/3, 7 and 15 no matter when you learned them.
         let allIncreases = this.get_SkillIncreases(levelNumber + 1, 20, skill.name, "", "", undefined, true);
-        if (allIncreases.length > 0) {
+        if (!!allIncreases.length) {
             if (allIncreases[0].locked && allIncreases[0].source.includes("Feat: ") && !["Feat: Additional Lore", "Feat: Gnome Obsession"].includes(allIncreases[0].source)) {
                 let trainedOnHigherLevelByFeat = "Trained on a higher level by " + allIncreases[0].source + ".";
                 reasons.push(trainedOnHigherLevelByFeat);
@@ -238,7 +238,8 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         return this.get_Character().get_SkillIncreases(this.characterService, minLevelNumber, maxLevelNumber, skillName, source, sourceId, locked, excludeTemporary);
     }
 
-    on_SkillIncrease(skillName: string, boost: boolean, choice: SkillChoice, locked: boolean = false, maxAvailable: number) {
+    on_SkillIncrease(skillName: string, event: Event, choice: SkillChoice, locked: boolean = false, maxAvailable: number) {
+        const boost = (event.target as HTMLInputElement).checked;
         if (boost && this.get_Character().settings.autoCloseChoices && (choice.increases.length == maxAvailable - 1)) { this.toggle_List(""); }
         this.get_Character().increase_Skill(this.characterService, skillName, boost, choice, locked);
         this.refreshService.process_ToChange();

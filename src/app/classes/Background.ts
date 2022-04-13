@@ -4,6 +4,7 @@ import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { FeatChoice } from 'src/app/classes/FeatChoice';
 
 export class Background {
+    public desc: string = "";
     public abilityChoices: AbilityChoice[] = [];
     public feat: string = "";
     public featChoices: FeatChoice[] = [];

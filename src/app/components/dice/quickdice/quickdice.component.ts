@@ -157,7 +157,7 @@ export class QuickdiceComponent implements OnInit {
                 let arithmetic: string = "";
                 diceString.trim().split(" ").map(part => part.trim()).forEach(dicePart => {
                     if (dicePart.match("^[0-9]+d[0-9]+$")) {
-                        if (diceRolls.length == 0 || diceRolls[index].diceNum || diceRolls[index].diceSize || diceRolls[index].type) {
+                        if (!diceRolls.length || diceRolls[index].diceNum || diceRolls[index].diceSize || diceRolls[index].type) {
                             index = diceRolls.push({ diceNum: 0, diceSize: 0, bonus: 0, type: "" }) - 1;
                         }
                         diceRolls[index].diceNum = parseInt(dicePart.split("d")[0]);
@@ -167,7 +167,7 @@ export class QuickdiceComponent implements OnInit {
                     } else if (dicePart.match("^[0-9]+$")) {
                         //Bonuses accumulate on the current roll until a type is given. If no roll exists yet, create one.
                         //That means that 5 + 1d6 + 5 Fire + 5 Force will create two rolls: (1d6 + 10) Fire and 5 Force.
-                        if (diceRolls.length == 0 || diceRolls[index].type) {
+                        if (!diceRolls.length || diceRolls[index].type) {
                             index = diceRolls.push({ diceNum: 0, diceSize: 0, bonus: 0, type: "" }) - 1;
                         }
                         if (arithmetic) {

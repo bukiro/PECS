@@ -39,8 +39,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
     }
 
     get_EmblazonDivinity() {
-        let character = this.get_Character();
-        return this.characterService.get_CharacterFeatsTaken(0, character.level, "Emblazon Divinity").length != 0;
+        return !!this.characterService.get_CharacterFeatsTaken(0, this.get_Character().level, "Emblazon Divinity").length;
     }
 
     get_Displayed(type: string) {

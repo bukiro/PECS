@@ -565,19 +565,19 @@ export class FeatsService {
                     feat.customData.forEach(customData => {
                         switch (customData.type) {
                             case "string":
-                                newData.data[customData.name] = "";
+                                newData.setValue(customData.name, "");
                                 break;
                             case "number":
-                                newData.data[customData.name] = 0;
+                                newData.setValue(customData.name, 0);
                                 break;
                             case "stringArray":
-                                newData.data[customData.name] = [] as string[];
+                                newData.setValue(customData.name, [] as string[]);
                                 break;
                             case "numberArray":
-                                newData.data[customData.name] = [] as number[];
+                                newData.setValue(customData.name, [] as number[]);
                                 break;
                             default:
-                                newData.data[customData.name] = null;
+                                newData.setValue(customData.name, null);
                         }
                     })
                 } else {
@@ -983,8 +983,9 @@ export class FeatsService {
             //Losing a stance needs to update Fuse Stance.
             if (feat.traits.includes("Stance")) {
                 character.class.get_FeatData(0, 0, "Fuse Stance").forEach(featData => {
-                    if (featData.data?.["stances"]) {
-                        featData.data["stances"] = featData.data["stances"].filter((stance: string) => !feat.gainActivities.includes(stance));
+                    const stances = featData.valueAsStringArray('stances');
+                    if (stances) {
+                        featData.setValue('stances', stances.filter((stance: string) => !feat.gainActivities.includes(stance)))
                     }
                 });
             }

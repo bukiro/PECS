@@ -44,6 +44,8 @@ import { FeatData } from 'src/app/classes/FeatData';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { CacheService } from 'src/app/services/cache.service';
 import { Subscription } from 'rxjs';
+import { HeritageGain } from 'src/app/classes/HeritageGain';
+import { InputValidationService } from 'src/app/services/inputValidation.service';
 
 @Component({
     selector: 'app-character',
@@ -153,7 +155,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         }
     }
 
-    receive_ChoiceMessage(message: { name: string, levelNumber: number, choice: SkillChoice }) {
+    receive_ChoiceMessage(message: { name: string, levelNumber: number, choice: SkillChoice | FeatChoice }) {
         this.toggle_List(message.name, message.levelNumber, message.choice);
     }
 
@@ -239,12 +241,12 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return obj.choice.id;
     }
 
-    on_NewCharacter() {
+    onNewCharacter() {
         this.toggle_List("");
         this.characterService.reset_Character();
     }
 
-    on_ManualMode() {
+    onManualMode() {
         //Manual mode changes some buttons on some components, so we need to refresh these.
         this.refreshService.set_ToChange("Character", "activities");
         this.refreshService.set_ToChange("Companion", "activities");
@@ -259,11 +261,11 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
-    on_RetryDatabaseConnection() {
+    onRetryDatabaseConnection() {
         this.savegameService.initialize(this.characterService);
     }
 
-    on_RetryLogin() {
+    onRetryLogin() {
         this.configService.get_Login("", this.characterService, this.savegameService);
     }
 
@@ -404,7 +406,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return this.get_Character().class.levels[number];
     }
 
-    on_BaseValueChange() {
+    onBaseValueChange() {
         let baseValues = this.get_Character().baseValues;
         if (baseValues.length) {
             baseValues.length = 0;
@@ -425,7 +427,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
-    on_AbilityChange(name: string) {
+    onAbilityChange(name: string) {
         this.refreshService.set_AbilityToChange("Character", name, { characterService: this.characterService });
     }
 
@@ -433,19 +435,19 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this.refreshService.set_Changed(target);
     }
 
-    on_LanguageChange() {
+    onLanguageChange() {
         this.refreshService.set_ToChange("Character", "general");
         this.refreshService.set_ToChange("Character", "charactersheet");
         this.refreshService.process_ToChange();
     }
 
-    on_NameChange() {
+    onNameChange() {
         this.refreshService.set_ToChange("Character", "general");
         this.refreshService.set_ToChange("Character", "top-bar");
         this.refreshService.process_ToChange();
     }
 
-    on_AlignmentChange() {
+    onAlignmentChange() {
         this.refreshService.set_ToChange("Character", "general");
         this.refreshService.set_ToChange("Character", "charactersheet");
         this.refreshService.set_ToChange("Character", "featchoices");
@@ -453,33 +455,29 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
-    on_HiddenFeatsChange() {
+    onHiddenFeatsChange() {
         this.refreshService.set_ToChange("Character", "charactersheet");
         this.refreshService.set_ToChange("Character", "featchoices");
         this.refreshService.process_ToChange();
     }
 
-    numbersOnly(event): boolean {
-        const charCode = (event.which) ? event.which : event.keyCode;
-        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-            return false;
-        }
-        return true;
+    positiveNumbersOnly(event: KeyboardEvent): boolean {
+        return InputValidationService.positiveNumbersOnly(event);
     }
 
     get_Traits(traitName: string = "") {
         return this.traitsService.get_Traits(traitName);
     }
 
-    on_LevelUp() {
+    onLevelUp() {
         let character = this.get_Character();
         let oldLevel = character.level;
         character.level += 1;
         character.experiencePoints -= 1000;
-        this.on_LevelChange(oldLevel);
+        this.onLevelChange(oldLevel);
     }
 
-    on_LevelChange(oldLevel: number) {
+    onLevelChange(oldLevel: number) {
         let character = this.get_Character();
         let newLevel = character.level;
         //If we went up levels, prepare to repeat any onceEffects of Feats that apply inbetween, such as recovering Focus Points for a larger Focus Pool.
@@ -586,12 +584,12 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
-    on_UpdateSkills() {
+    onUpdateSkills() {
         this.refreshService.set_ToChange("Character", "skills");
         this.refreshService.process_ToChange();
     }
 
-    on_UpdateSpellbook() {
+    onUpdateSpellbook() {
         this.refreshService.set_ToChange("Character", "spellbook");
         this.refreshService.process_ToChange();
     }
@@ -678,7 +676,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             return abilities.filter(ability => (
                 showOtherOptions ||
                 this.abilityBoostedByThis(ability, choice) ||
-                (choice.boosts.length < choice.available - ((this.get_Character().baseValues.length > 0) ? choice.baseValuesLost : 0))
+                (choice.boosts.length < choice.available - ((!!this.get_Character().baseValues.length) ? choice.baseValuesLost : 0))
             ));
         }
     }
@@ -712,7 +710,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         if (choice.infoOnly) { return [] };
         let reasons: string[] = [];
         let sameBoostsThisLevel = this.get_AbilityBoosts(levelNumber, levelNumber, ability.name, choice.type, choice.source).filter(boost => boost.source == choice.source);
-        if (sameBoostsThisLevel.length > 0) {
+        if (!!sameBoostsThisLevel.length) {
             //The ability may have been boosted by the same source, but as a fixed rule (e.g. fixed ancestry boosts vs. free ancestry boosts).
             //This does not apply to flaws - you can boost a flawed ability.
             if (sameBoostsThisLevel[0].locked) {
@@ -730,7 +728,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         //This is only relevant if you haven't boosted the ability on this level yet.
         //If you have, we don't want to hear that it couldn't be boosted again right away.
         let cannotBoostHigher = "";
-        if (choice.type == "Boost" && levelNumber == 1 && ability.baseValue(this.get_Character(), this.characterService, levelNumber).result > 16 && sameBoostsThisLevel.length == 0) {
+        if (choice.type == "Boost" && levelNumber == 1 && ability.baseValue(this.get_Character(), this.characterService, levelNumber).result > 16 && !sameBoostsThisLevel.length) {
             cannotBoostHigher = "Cannot boost above 18 on level 1.";
             reasons.push(cannotBoostHigher);
         }
@@ -745,8 +743,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return this.get_Character().get_AbilityBoosts(minLevelNumber, maxLevelNumber, abilityName, type, source, sourceId, locked);
     }
 
-    on_AbilityBoost(abilityName: string, boost: boolean, choice: AbilityChoice, locked: boolean) {
-        if (boost && this.get_Character().settings.autoCloseChoices && choice.boosts.length == choice.available - ((this.get_Character().baseValues.length > 0) ? choice.baseValuesLost : 0) - 1) { this.toggle_List(""); }
+    onAbilityBoost(abilityName: string, boostedEvent: Event, choice: AbilityChoice, locked: boolean) {
+        const boost = (<HTMLInputElement>boostedEvent.target).checked;
+        if (boost && this.get_Character().settings.autoCloseChoices && choice.boosts.length == choice.available - ((!!this.get_Character().baseValues.length) ? choice.baseValuesLost : 0) - 1) { this.toggle_List(""); }
         this.get_Character().boost_Ability(this.characterService, abilityName, boost, choice, locked);
         this.refreshService.set_AbilityToChange("Character", abilityName, { characterService: this.characterService });
         this.refreshService.process_ToChange();
@@ -829,8 +828,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         }
     }
 
-    on_LoreChange(boost: boolean, choice: LoreChoice) {
-        if (boost) {
+    onLoreChange(checkedEvent: Event, choice: LoreChoice) {
+        const checked = (<HTMLInputElement>checkedEvent.target).checked;
+        if (checked) {
             if (this.get_Character().settings.autoCloseChoices && (choice.increases.length == choice.available - 1)) { this.toggle_List(""); }
             this.get_Character().add_Lore(this.characterService, choice);
         } else {
@@ -839,7 +839,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
-    on_LoreNameChange() {
+    onLoreNameChange() {
         this.refreshService.set_ToChange("Character", "charactersheet");
         this.refreshService.process_ToChange();
     }
@@ -864,7 +864,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return Math.ceil(levelNumber / 2);
     }
 
-    get_DifferentWorldsData(levelNumber: number) {
+    get_DifferentWorldsData(levelNumber: number): FeatData[] {
         if (this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, "Different Worlds").length) {
             return this.get_Character().class.get_FeatData(levelNumber, levelNumber, "Different Worlds");
         }
@@ -889,8 +889,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return this.get_Character().get_SpellListSpell(spell.name, "Feat: Blessed Blood").length
     }
 
-    on_BlessedBloodSpellTaken(spell: Spell, levelNumber: number, taken: boolean) {
-        if (taken) {
+    onBlessedBloodSpellTaken(spell: Spell, levelNumber: number, checkedEvent: Event) {
+        const checked = (<HTMLInputElement>checkedEvent.target).checked;
+        if (checked) {
             if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
             this.get_Character().add_SpellListSpell(spell.name, "Feat: Blessed Blood", levelNumber);
         } else {
@@ -905,7 +906,11 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_SplinterFaithDomains() {
-        return this.get_Character().class.get_FeatData(0, 0, "Splinter Faith")[0]?.data?.["domains"] || [];
+        return this.get_Character().class.get_FeatData(0, 0, "Splinter Faith")[0]?.valueAsStringArray("domains") || [];
+    }
+
+    set_SplinterFaithDomains(domains: string[]) {
+        this.get_Character().class.get_FeatData(0, 0, "Splinter Faith")[0].setValue('domains', domains);
     }
 
     get_SplinterFaithAvailableDomains() {
@@ -928,11 +933,12 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return availableDomains.some(availableDomain => availableDomain.type == 3 && takenDomains.includes(availableDomain.domain.name));
     }
 
-    on_SplinterFaithDomainTaken(domain: string, taken: boolean) {
-        let featData = this.get_Character().class.get_FeatData(0, 0, "Splinter Faith")[0];
-        if (featData?.data?.["domains"]) {
-            if (taken) {
-                featData.data["domains"].push(domain);
+    onSplinterFaithDomainTaken(domain: string, checkedEvent: Event) {
+        const checked = (<HTMLInputElement>checkedEvent.target).checked;
+        let domains = this.get_SplinterFaithDomains();
+        if (domains) {
+            if (checked) {
+                domains.push(domain);
                 let deityName = this.get_Character().class.deity;
                 if (deityName) {
                     let deity = this.characterService.get_Deities(deityName)[0];
@@ -941,7 +947,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
                     }
                 }
             } else {
-                featData.data["domains"] = featData.data["domains"].filter(takenDomain => takenDomain != domain);
+                domains = domains.filter(takenDomain => takenDomain != domain);
+                this.set_SplinterFaithDomains(domains);
                 let deityName = this.get_Character().class.deity;
                 if (deityName) {
                     let deity = this.characterService.get_Deities(deityName)[0];
@@ -955,15 +962,18 @@ export class CharacterComponent implements OnInit, OnDestroy {
         }
     }
 
-    get_AdditionalHeritagesAvailable(levelNumber: number) {
+    get_AdditionalHeritagesAvailable(levelNumber: number): HeritageGain[] {
         //Return all heritages you have gained on this specific level.
-        return this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber)
-            .map(taken => this.get_CharacterFeatsAndFeatures(taken.name)[0])
-            .filter(feat =>
-                feat &&
-                feat.gainHeritage.length
-            )
-            .map(feat => feat.gainHeritage)
+        return []
+            .concat(
+                ...this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber)
+                    .map(taken => this.get_CharacterFeatsAndFeatures(taken.name)[0])
+                    .filter(feat =>
+                        feat &&
+                        feat.gainHeritage.length
+                    )
+                    .map(feat => feat.gainHeritage)
+            );
     }
 
     get_AdditionalHeritageIndex(source: string) {
@@ -975,8 +985,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         }
     }
 
-    on_AdditionalHeritageChange(heritage: Heritage, taken: boolean, index: number, source: string) {
-        if (taken) {
+    onAdditionalHeritageChange(heritage: Heritage, checkedEvent: Event, index: number, source: string) {
+        const checked = (<HTMLInputElement>checkedEvent.target).checked;
+        if (checked) {
             if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
             this.characterService.change_Heritage(heritage, index, source);
         } else {
@@ -986,12 +997,14 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
-    on_DifferentWorldsBackgroundChange(levelNumber: number, data: FeatData, background: Background, taken: boolean) {
+    onDifferentWorldsBackgroundChange(levelNumber: number, data: FeatData, background: Background, checkedEvent: Event) {
+        const checked = (<HTMLInputElement>checkedEvent.target).checked;
         let character = this.get_Character();
         let level = character.class.levels[levelNumber];
-        if (taken) {
+        this.refreshService.set_ToChange('Character', 'general');
+        if (checked) {
             if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
-            data.data["background"] = background.name;
+            data.setValue('background', background.name);
             background.loreChoices.forEach(choice => {
                 let newChoice: LoreChoice = character.add_LoreChoice(level, choice);
                 newChoice.source = "Different Worlds";
@@ -1011,7 +1024,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 }
             })
         } else {
-            data.data["background"] = "";
+            data.setValue('background', '');
             let oldChoices: LoreChoice[] = level.loreChoices.filter(choice => choice.source == "Different Worlds");
             //Remove the lore granted by Different Worlds.
             if (oldChoices.length) {
@@ -1022,6 +1035,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 level.loreChoices = level.loreChoices.filter(choice => choice.source != "Different Worlds");
             }
         }
+        this.refreshService.process_ToChange();
     }
 
     get_FuseStanceData(levelNumber: number): FeatData[] {
@@ -1030,50 +1044,56 @@ export class CharacterComponent implements OnInit, OnDestroy {
         }
     }
 
-    get_StancesToFuse(levelNumber: number, fuseStanceData: FeatData) {
+    get_StancesToFuse(levelNumber: number, fuseStanceData: FeatData): { activity: Activity, restricted: boolean, reason: string }[] {
         //Return all stances that you own.
         //Since Fuse Stance can't use two stances that only allow one type of attack each, we check if one of the previously selected stances does that,
         // and if so, make a note for each available stance with a restriction that it isn't available.
-        let showOtherOptions = this.get_Character().settings.showOtherOptions;
+        const showOtherOptions = this.get_Character().settings.showOtherOptions;
         let unique: string[] = [];
-        let stances: { activity: Activity, restricted: boolean, reason: string }[] = [];
-        let restrictedConditions = this.get_Conditions().filter(condition => condition.attackRestrictions.length).map(condition => condition.name);
-        let activities = this.activitiesService.get_Activities().filter(activity => activity.traits.includes("Stance"));
+        let availableStances: { activity: Activity, restricted: boolean, reason: string }[] = [];
+        const restrictedConditions = this.get_Conditions().filter(condition => condition.attackRestrictions.length).map(condition => condition.name);
+        const activities = this.activitiesService.get_Activities().filter(activity => activity.traits.includes("Stance"));
         let existingStances: Activity[] = [];
-        (fuseStanceData.data["stances"] as string[]).forEach(stance => {
+        const featStances = fuseStanceData.valueAsStringArray("stances");
+        featStances.forEach(stance => {
             existingStances.push(activities.find(example => example.name == stance));
         })
-        let restrictedStances = existingStances.some(example => example.gainConditions.some(gain => restrictedConditions.includes(gain.name)));
+        const anyRestrictedStances = existingStances.some(example => example.gainConditions.some(gain => restrictedConditions.includes(gain.name)));
         this.characterService.get_OwnedActivities(this.get_Character(), levelNumber)
             .map(activity => activities.find(example => example.name == activity.name))
             .filter(activity => activity && activity.name != "Fused Stance")
             .forEach(activity => {
-                if (!unique.includes(activity.name) && (showOtherOptions || fuseStanceData.data["stances"].length < 2 || fuseStanceData.data["stances"].includes(activity.name))) {
+                if (!unique.includes(activity.name) && (showOtherOptions || featStances.length < 2 || featStances.includes(activity.name))) {
                     let restricted = activity.gainConditions.some(gain => restrictedConditions.includes(gain.name));
-                    if (restricted && restrictedStances && !fuseStanceData.data["stances"].includes(activity.name)) {
+                    if (restricted && anyRestrictedStances && !featStances.includes(activity.name)) {
                         unique.push(activity.name);
-                        stances.push({ activity: activity, restricted: restricted, reason: "Incompatible restrictions." });
+                        availableStances.push({ activity: activity, restricted: restricted, reason: "Incompatible restrictions." });
                     } else {
                         unique.push(activity.name);
-                        stances.push({ activity: activity, restricted: restricted, reason: "" });
+                        availableStances.push({ activity: activity, restricted: restricted, reason: "" });
                     }
                 }
             });
-        fuseStanceData.data["stances"] = fuseStanceData.data["stances"].filter((existingStance: string) => stances.map(stance => stance.activity.name).includes(existingStance));
-        return stances;
+        //Cleanup any stance that you don't have anymore at this point.
+        const realStances = featStances.filter((existingStance: string) => availableStances.map(stance => stance.activity.name).includes(existingStance));
+        fuseStanceData.setValue('stances', realStances);
+        return availableStances;
     }
 
-    on_FuseStanceNameChange() {
+    onFuseStanceNameChange() {
         this.refreshService.set_ToChange("Character", "activities");
         this.refreshService.process_ToChange();
     }
 
-    on_FuseStanceStanceChange(data: FeatData, stance: string, taken: boolean) {
-        if (taken) {
-            if (this.get_Character().settings.autoCloseChoices && data.data["stances"].length == 1 && data.data["name"]) { this.toggle_List(""); }
-            data.data["stances"].push(stance);
+    onFuseStanceStanceChange(data: FeatData, stance: string, checkedEvent: Event) {
+        const checked = (<HTMLInputElement>checkedEvent.target).checked;
+        const stances = data.valueAsStringArray('stances');
+        if (checked) {
+            if (this.get_Character().settings.autoCloseChoices && stances.length == 1 && data.getValue('name')) { this.toggle_List(""); }
+            stances.push(stance);
+            data.setValue('stances', stances);
         } else {
-            data.data["stances"] = data.data["stances"].filter((existingStance: string) => existingStance != stance);
+            data.setValue('stances', stances.filter((existingStance: string) => existingStance != stance));
         }
         this.refreshService.set_ToChange("Character", "activities");
         this.refreshService.process_ToChange();
@@ -1085,12 +1105,13 @@ export class CharacterComponent implements OnInit, OnDestroy {
         }
     }
 
-    on_SyncretismDeityChange(data: FeatData, deity: Deity, taken: boolean) {
-        if (taken) {
+    onSyncretismDeityChange(data: FeatData, deity: Deity, checkedEvent: Event) {
+        const checked = (<HTMLInputElement>checkedEvent.target).checked;
+        if (checked) {
             if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
-            data.data["deity"] = deity.name;
+            data.setValue('deity', deity.name);
         } else {
-            data.data["deity"] = "";
+            data.setValue('deity', '');
         }
         this.characterService.deitiesService.clear_CharacterDeities();
         this.refreshService.set_ToChange("Character", "charactersheet");
@@ -1112,15 +1133,16 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return this.characterService.get_Classes(name);
     }
 
-    get_AvailableClasses() {
+    get_AvailableClasses(): Class[] {
         let showOtherOptions = this.get_Character().settings.showOtherOptions;
         return this.get_Classes()
             .filter($class => showOtherOptions || !this.get_Character().class?.name || $class.name == this.get_Character().class.name)
             .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
-    onClassChange($class: Class, taken: boolean) {
-        if (taken) {
+    onClassChange($class: Class, checkedEvent: Event) {
+        const checked = (<HTMLInputElement>checkedEvent.target).checked;
+        if (checked) {
             if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
             this.characterService.change_Class($class);
         } else {
@@ -1139,8 +1161,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
             .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
-    onAncestryChange(ancestry: Ancestry, taken: boolean) {
-        if (taken) {
+    onAncestryChange(ancestry: Ancestry, checkedEvent: Event) {
+        const checked = (<HTMLInputElement>checkedEvent.target).checked;
+        if (checked) {
             if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
             this.characterService.change_Ancestry(ancestry, this.itemsService);
         } else {
@@ -1179,11 +1202,13 @@ export class CharacterComponent implements OnInit, OnDestroy {
             ) && (
                 !wordFilter || (
                     deity.name
-                        .concat(deity.desc)
-                        .concat(deity.sourceBook)
-                        .concat(...deity.domains)
-                        .concat(...deity.alternateDomains)
-                        .concat(...deity.favoredWeapon)
+                        .concat(
+                            deity.desc,
+                            deity.sourceBook,
+                            ...deity.domains,
+                            ...deity.alternateDomains,
+                            ...deity.favoredWeapon
+                        )
                         .toLowerCase()
                         .includes(wordFilter)
                 )
@@ -1191,8 +1216,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         ).sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
-    on_DeityChange(deity: Deity, taken: boolean) {
-        if (taken) {
+    onDeityChange(deity: Deity, checkedEvent: Event) {
+        const checked = (<HTMLInputElement>checkedEvent.target).checked;
+        if (checked) {
             if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
             this.characterService.change_Deity(deity);
         } else {
@@ -1234,8 +1260,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return this.get_Character().class.heritage.name == name || this.get_Character().class.additionalHeritages.some(heritage => heritage.name == name);
     }
 
-    onHeritageChange(heritage: Heritage, taken: boolean) {
-        if (taken) {
+    onHeritageChange(heritage: Heritage, checkedEvent: Event) {
+        const checked = (<HTMLInputElement>checkedEvent.target).checked;
+        if (checked) {
             if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
             this.characterService.change_Heritage(heritage);
         } else {
@@ -1272,8 +1299,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return this.get_SubBackgrounds(superType).map(subbackground => subbackground.name);
     }
 
-    onBackgroundChange(background: Background, taken: boolean) {
-        if (taken) {
+    onBackgroundChange(background: Background, checkedEvent: Event) {
+        const checked = (<HTMLInputElement>checkedEvent.target).checked;
+        if (checked) {
             if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
             this.characterService.change_Background(background);
         } else {
@@ -1294,7 +1322,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return this.characterService.get_Character().class.animalCompanion;
     }
 
-    on_NewCompanion() {
+    onNewCompanion() {
         if (this.characterService.get_Character().class.animalCompanion) {
             let character = this.characterService.get_Character();
             //Keep the specializations and ID; When the animal companion is reset, any later feats and specializations still remain, and foreign effects still need to apply.
@@ -1317,8 +1345,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
             .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
-    on_CompanionTypeChange(type: AnimalCompanionAncestry, taken: boolean) {
-        if (taken) {
+    onCompanionTypeChange(type: AnimalCompanionAncestry, checkedEvent: Event) {
+        const checked = (<HTMLInputElement>checkedEvent.target).checked;
+        if (checked) {
             if (this.get_Character().settings.autoCloseChoices && this.get_Companion().name && this.get_Companion().species) { this.toggle_List(""); }
             this.get_Companion().class.on_ChangeAncestry(this.characterService);
             this.animalCompanionsService.change_Type(this.get_Companion(), type);
@@ -1332,8 +1361,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
-    on_SpecializationChange(spec: AnimalCompanionSpecialization, taken: boolean, levelNumber: number) {
-        if (taken) {
+    onSpecializationChange(spec: AnimalCompanionSpecialization, checkedEvent: Event, levelNumber: number) {
+        const checked = (<HTMLInputElement>checkedEvent.target).checked;
+        if (checked) {
             if (this.get_Character().settings.autoCloseChoices && this.get_Companion().class.specializations.filter(spec => spec.level == levelNumber).length == this.get_CompanionSpecializationsAvailable(levelNumber) - 1) {
                 this.toggle_List("");
             }
@@ -1389,7 +1419,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return this.characterService.get_Character().class.familiar;
     }
 
-    on_NewFamiliar() {
+    onNewFamiliar() {
         if (this.get_Character().class.familiar) {
             let character = this.characterService.get_Character();
             //Preserve the origin class and set it again after resetting. Also preserve the ID so that old foreign effects still match.
@@ -1404,8 +1434,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         }
     }
 
-    on_FamiliarSpeedChange(taken: boolean) {
-        if (taken) {
+    onFamiliarSpeedChange(checkedEvent: Event) {
+        const checked = (<HTMLInputElement>checkedEvent.target).checked;
+        if (checked) {
             this.get_Familiar().speeds[1].name = "Swim Speed";
         } else {
             this.get_Familiar().speeds[1].name = "Land Speed";

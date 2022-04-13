@@ -36,7 +36,7 @@
                         <button (click)="toggle_Choice(listID)" *ngIf="showTitle && !showContent && get_TileMode()"
                             [ngClass]="{'fancy-button choicecleared':(available == choice.spells.length), 'activechoice':get_ShowChoice()==listID}">
                             <app-gridIcon [ngbTooltip]="ButtonTitleTemplate" [superTitle]="available.toString()"
-                                [title]="(available == 1 && choice.spells.length) ? choice.spells[0].name : ((available > 1 && choice.spells.length > 0) ? choice.spells.length.toString() : '')"
+                                [title]="(available == 1 && choice.spells.length) ? choice.spells[0].name : ((available > 1 && !!choice.spells.length) ? choice.spells.length.toString() : '')"
                                 [subTitle]="(choice.spellCombinationAllowed ? 'icon-ra ra-frostfire' : '') + '|' + (is_InfinitePossibilitiesSpell() ? 'icon-ra ra-kaleidoscope' : '') + '|' + (has_SignatureSpell(signatureSpellsAllowed) ? 'icon-bi-stars' : '') + '|' + (choice.crossbloodedEvolution ? 'icon-ra ra-zigzag-leaf' : '')"
                                 [ngClass]="{'fancy-button':(available == choice.spells.length)}">
                             </app-gridIcon>
@@ -366,7 +366,7 @@
                                                                     [ngClass]="{'fancy-button':taken, 'disabled':spontaneousDisabled}">
                                                                     <label>
                                                                         <input type="checkbox"
-                                                                            (change)="on_SpellTaken(spell.name, $event.target.checked, false, spellSet.borrowed)"
+                                                                            (change)="on_SpellTaken(spell.name, $event, false, spellSet.borrowed)"
                                                                             [checked]="checked"
                                                                             [disabled]="spontaneousDisabled || get_LockedSpellTakenByThis(spell.name) || (checked && !taken)"
                                                                             hidden>
@@ -429,7 +429,7 @@
                                                                     id="{{choice.id+spell.name}}"
                                                                     *ngIf="spellCasting?.castingType!='Prepared'"
                                                                     type="checkbox"
-                                                                    (change)="on_SpellTaken(spell.name, $event.target.checked, false, spellSet.borrowed)"
+                                                                    (change)="on_SpellTaken(spell.name, $event, false, spellSet.borrowed)"
                                                                     [checked]="checked"
                                                                     [disabled]="spontaneousDisabled || get_LockedSpellTakenByThis(spell.name) || (checked && !taken)">
                                                                 <!--Prepared and no spell combination or spell combination 1: plus/minus buttons-->
@@ -494,7 +494,7 @@
                                                                     <!-- End Signature Spells -->
                                                                     <span
                                                                         [ngbTooltip]="(!SpellChoiceDetailPopover.isOpen()) ? spell.shortDesc : ''"
-                                                                        triggers="hover" openDelay=100>
+                                                                        triggers="hover" [openDelay]=100>
                                                                         {{(spellCasting?.castingType == 'Prepared' &&
                                                                         taken)
                                                                         ? " " + taken + " " : ""}}{{spell.name}}

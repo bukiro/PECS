@@ -26,6 +26,11 @@ import { Subscription } from 'rxjs';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { AttackRestriction } from 'src/app/classes/AttackRestriction';
 
+interface WeaponParameters {
+    weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
+    asBomb: AlchemicalBomb | OtherConsumableBomb;
+}
+
 @Component({
     selector: 'app-attacks',
     templateUrl: './attacks.component.html',
@@ -176,13 +181,17 @@ export class AttacksComponent implements OnInit, OnDestroy {
         );
     }
 
-    get_EquippedWeapons() {
+    get_EquippedWeaponsParameters(): WeaponParameters[] {
         this.get_AttackRestrictions();
         return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.equipped && weapon.equippable && !weapon.broken)
             .concat(...this.get_Creature().inventories.map(inv => inv.alchemicalbombs))
             .concat(...this.get_Creature().inventories.map(inv => inv.otherconsumablesbombs))
             .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1))
-            .sort((a, b) => (a.type == b.type) ? 0 : ((a.type < b.type) ? 1 : -1));
+            .sort((a, b) => (a.type == b.type) ? 0 : ((a.type < b.type) ? 1 : -1))
+            .map(weapon => ({
+                weapon: weapon,
+                asBomb: this.weaponAsBomb(weapon),
+            }));
     }
 
     get_TalismanTitle(talisman: Talisman, withCord: boolean = false) {
@@ -191,7 +200,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     get_HaveMatchingTalismanCord(weapon: Weapon, talisman: Talisman) {
-        return weapon.talismanCords.some(cord => cord.level <= talisman.level && cord.data.some(data => talisman.traits.includes(data.value as string)));
+        return weapon.talismanCords.some(cord => cord.get_CompatibleWithTalisman(talisman));
     }
 
     get_PoisonTitle(poison: AlchemicalPoison) {
@@ -223,22 +232,20 @@ export class AttacksComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
-    get_AmmoTypes() {
-        let types: string[] = [];
-        this.get_EquippedWeapons().forEach(weapon => {
-            if (weapon.ammunition && !types.includes(weapon.ammunition)) {
-                types.push(weapon.ammunition);
-            }
-        });
-        return types;
+    get_AmmoTypes(): string[] {
+        return Array.from(new Set(
+            this.get_EquippedWeaponsParameters()
+                .map(weaponParameters => weaponParameters.weapon.ammunition)
+                .filter(ammunition => !!ammunition)
+        ));
     }
 
-    get_Ammo(type: string) {
+    public get_Ammo(type: string): { item: Ammunition, name: string, inventory: ItemCollection }[] {
         //Return all ammo from all inventories that has this type in its group
         //We need the inventory for using up items and the name just for sorting
         let ammoList: { item: Ammunition, name: string, inventory: ItemCollection }[] = [];
         this.get_Creature().inventories.forEach(inv => {
-            inv.ammunition.filter(ammo => ammo.ammunition == type || ammo.ammunition == "Any").forEach(ammo => {
+            inv.ammunition.filter(ammo => [type, "Any"].includes(ammo.ammunition)).forEach(ammo => {
                 ammoList.push({ item: ammo, name: ammo.get_Name(), inventory: inv })
             })
         });
@@ -261,7 +268,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         return this.characterService.spellsService.get_Spells(name, type, tradition);
     }
 
-    on_ConsumableUse(item: Ammunition | AlchemicalBomb | OtherConsumableBomb, inv: ItemCollection) {
+    onConsumableUse(item: Ammunition | AlchemicalBomb | OtherConsumableBomb | Snare, inv: ItemCollection) {
         if (item.storedSpells.length) {
             let spellName = item.storedSpells[0]?.spells[0]?.name || "";
             let spellChoice = item.storedSpells[0];
@@ -289,7 +296,10 @@ export class AttacksComponent implements OnInit, OnDestroy {
         } else {
             this.characterService.drop_InventoryItem(this.get_Creature(), inv, item, true);
         }
+    }
 
+    public weaponAsBomb(weapon: Weapon): AlchemicalBomb | OtherConsumableBomb {
+        return (weapon instanceof AlchemicalBomb || weapon instanceof OtherConsumableBomb) ? weapon : null;
     }
 
     get_Skills(name: string = "", type: string = "") {
@@ -300,16 +310,16 @@ export class AttacksComponent implements OnInit, OnDestroy {
         return this.traitsService.get_Traits(traitName);
     }
 
-    get_HintRunes(weapon: Weapon, range: string) {
-        //Return all runes and rune-emulating oil effects that have a hint to show.
-        let runes: WeaponRune[] = [];
+    get_HintRunes(weapon: Weapon, range: string): WeaponRune[] {
+        //Return all runes and rune-emulating effects that have a hint to show.
         let runeSource = weapon.get_RuneSource(this.get_Creature(), range);
-        runes.push(...runeSource.propertyRunes.propertyRunes.filter(rune => rune.hints.length) as WeaponRune[]);
-        runes.push(...weapon.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.hints.length).map(oil => oil.runeEffect));
-        if (runeSource.propertyRunes.bladeAlly) {
-            runes.push(...runeSource.propertyRunes.bladeAllyRunes.filter(rune => rune.hints.length) as WeaponRune[]);
-        }
-        return runes;
+        return (runeSource.propertyRunes.propertyRunes.filter(rune => rune.hints.length) as WeaponRune[])
+            .concat(weapon.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.hints.length).map(oil => oil.runeEffect))
+            .concat(
+                runeSource.propertyRunes.bladeAlly ?
+                    runeSource.propertyRunes.bladeAllyRunes.filter(rune => rune.hints.length) as WeaponRune[] :
+                    []
+            )
     }
 
     get_Runes(weapon: Weapon, range: string) {
@@ -337,11 +347,9 @@ export class AttacksComponent implements OnInit, OnDestroy {
         }
     }
 
-    get_GrievousData(weapon: Weapon, rune: WeaponRune) {
-        let data = rune.data.filter(data => data.name == weapon.group);
-        if (data.length) {
-            return data[0].value;
-        }
+    get_GrievousData(weapon: Weapon, rune: WeaponRune): string {
+        let data = rune.data.find(data => data.name == weapon.group);
+        return data?.value as string || null;
     }
 
     get_SpecialShowon(weapon: Weapon, range: string) {
@@ -571,7 +579,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         let creature = this.get_Creature();
         if (creature instanceof Character && creature.class?.deity && creature.class.deityFocused) {
             let deity = this.deitiesService.get_CharacterDeities(this.characterService, creature)[0];
-            let favoredWeapons = [];
+            let favoredWeapons: string[] = [];
             if (deity && deity.favoredWeapon.length) {
                 favoredWeapons.push(...deity.favoredWeapon);
             }

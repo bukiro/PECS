@@ -13,12 +13,19 @@ import { TimeService } from 'src/app/services/time.service';
 import { Creature } from 'src/app/classes/Creature';
 import { Skill } from 'src/app/classes/Skill';
 
+type ActivitySet = {
+    name: string,
+    gain: ActivityGain | ItemActivity,
+    activity: Activity | ItemActivity,
+}
+
 type ActivityParameter = {
+    name: string,
     gain: ActivityGain | ItemActivity,
     activity: Activity | ItemActivity,
     maxCharges: number,
     disabled: string,
-    hostile: boolean
+    hostile: boolean,
 }
 
 @Component({
@@ -35,7 +42,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     public sheetSide: string = "left";
     private showActivity: string = "";
     private showItem: string = "";
-    private showList: string = "";
+    private showFeatChoice: string = "";
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -68,7 +75,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
             this.showActivity = "";
         } else {
             this.showActivity = id;
-            this.showList = "";
+            this.showFeatChoice = "";
         }
     }
 
@@ -84,17 +91,17 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         }
     }
 
-    private toggle_List(name: string = ""): void {
-        if (this.showList == name) {
-            this.showList = "";
+    private toggle_FeatChoice(name: string = ""): void {
+        if (this.showFeatChoice == name) {
+            this.showFeatChoice = "";
         } else {
-            this.showList = name;
+            this.showFeatChoice = name;
             this.showActivity = "";
         }
     }
 
-    public receive_ChoiceNameMessage(name: string): void {
-        this.toggle_List(name);
+    public receive_FeatChoiceMessage(name: string): void {
+        this.toggle_FeatChoice(name);
     }
 
     public receive_FeatMessage(name: string): void {
@@ -105,8 +112,8 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         return this.showItem;
     }
 
-    public get_ShowList(): string {
-        return this.showList;
+    public get_ShowFeatChoice(): string {
+        return this.showFeatChoice;
     }
 
     private get_Character(): Character {
@@ -132,16 +139,16 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     }
 
     public get_ActivityParameters(): ActivityParameter[] {
-        return this.get_OwnedActivities().map(gain => {
+        return this.get_OwnedActivities().map(gainSet => {
             const creature = this.get_Creature();
-            const activity = gain.get_OriginalActivity(this.activitiesService);
-            const maxCharges = activity.maxCharges({ creature: creature }, { effectsService: this.effectsService });
+            const maxCharges = gainSet.activity.maxCharges({ creature: creature }, { effectsService: this.effectsService });
             return {
-                gain: gain,
-                activity: activity,
+                name: gainSet.name,
+                gain: gainSet.gain,
+                activity: gainSet.activity,
                 maxCharges: maxCharges,
-                disabled: gain.disabled({ creature: creature, maxCharges: maxCharges }, { effectsService: this.effectsService, timeService: this.timeService }),
-                hostile: activity.get_IsHostile()
+                disabled: gainSet.gain.disabled({ creature: creature, maxCharges: maxCharges }, { effectsService: this.effectsService, timeService: this.timeService }),
+                hostile: gainSet.activity.get_IsHostile()
             }
         })
     }
@@ -150,25 +157,34 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         return this.characterService.get_Skills(this.get_Creature(), "", { type: "Class DC" }).filter(skill => skill.level(this.get_Creature(), this.characterService) > 0);
     }
 
-    private get_OwnedActivities(): (ActivityGain | ItemActivity)[] {
-        let activities: (ActivityGain | ItemActivity)[] = [];
+    private get_OwnedActivities(): ActivitySet[] {
+        let activities: ActivitySet[] = [];
         let unique: string[] = [];
-        this.characterService.get_OwnedActivities(this.get_Creature()).forEach(activity => {
-            activity.get_OriginalActivity(this.activitiesService)?.get_Cooldown({ creature: this.get_Creature() }, { characterService: this.characterService, effectsService: this.effectsService });
-            if (!unique.includes(activity.name) || activity instanceof ItemActivity) {
-                unique.push(activity.name);
-                activities.push(activity);
+        const fuseStanceName = this.get_FuseStanceName();
+        function activityName(name: string) {
+            if (!!fuseStanceName && name === "Fused Stance") {
+                return fuseStanceName;
+            } else {
+                return name;
+            }
+        }
+        this.characterService.get_OwnedActivities(this.get_Creature()).forEach(gain => {
+            const activity = gain.get_OriginalActivity(this.activitiesService);
+            activity?.get_Cooldown({ creature: this.get_Creature() }, { characterService: this.characterService, effectsService: this.effectsService });
+            if (!unique.includes(gain.name) || gain instanceof ItemActivity) {
+                unique.push(gain.name);
+                activities.push({ name: activityName(gain.name), gain: gain, activity: activity });
             }
         })
-        return activities;
+        return activities.sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
-    public get_FuseStanceName(): string {
+    private get_FuseStanceName(): string {
         let data = this.get_Character().class.get_FeatData(0, 0, "Fuse Stance")[0];
         if (data) {
-            return data.data?.["name"] || "Fused Stance";
+            return data.valueAsString("name") || "Fused Stance";
         } else {
-            return "Fused Stance";
+            return null;
         }
     }
 

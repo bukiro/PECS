@@ -41,9 +41,10 @@ export class DeitiesService {
                 let syncretismFeat = characterService.get_CharacterFeatsTaken(0, level, "Syncretism").length;
                 if (syncretismFeat) {
                     let data = character.class.get_FeatData(0, 0, "Syncretism")[0];
-                    if (data?.data["deity"]) {
+                    const syncretismDeity = data.valueAsString('deity');
+                    if (syncretismDeity) {
                         let levelNumber = data.level;
-                        let secondDeity = this.get_Deities(data.data["deity"])[0];
+                        let secondDeity = this.get_Deities(syncretismDeity)[0];
                         if (secondDeity) {
                             this.$characterDeities.push({ deity: secondDeity, source: "syncretism", level: levelNumber });
                         }
@@ -80,7 +81,7 @@ export class DeitiesService {
     }
 
     initialize() {
-        //Initialize only once, but clear the character deities list when the character changes.    
+        //Initialize only once, but clear the character deities list when the character changes.
         this.$characterDeities.length = 0;
         if (!this.deities.length) {
             this.loading = true;

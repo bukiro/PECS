@@ -345,7 +345,7 @@ export class ConditionsService {
             conditionDidSomething = true;
             if (taken) {
                 if (creature.health.dying(creature, characterService) >= creature.health.maxDying(creature, effectsService)) {
-                    if (characterService.get_AppliedConditions(creature, "Dead").length == 0) {
+                    if (!characterService.get_AppliedConditions(creature, "Dead").length) {
                         characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Dead", source: "Dying value too high" }).recast(), {}, { noReload: true });
                     }
                 }
@@ -361,8 +361,8 @@ export class ConditionsService {
                             characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Wounded", value: 1, source: "Recovered from Dying" }).recast(), {}, { noReload: true });
                         }
                     }
-                    if (creature.health.currentHP(creature, characterService, effectsService).result == 0) {
-                        if (characterService.get_AppliedConditions(creature, "Unconscious", "0 Hit Points").length == 0 && characterService.get_AppliedConditions(creature, "Unconscious", "Dying").length == 0) {
+                    if (!creature.health.currentHP(creature, characterService, effectsService).result) {
+                        if (!characterService.get_AppliedConditions(creature, "Unconscious", "0 Hit Points").length && !characterService.get_AppliedConditions(creature, "Unconscious", "Dying").length) {
                             characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Unconscious", source: "0 Hit Points" }).recast(), {}, { noReload: true });
                         }
                     }
@@ -514,7 +514,7 @@ export class ConditionsService {
                 });
             })
             function get_HaveCondition(name: string, source: string) {
-                return (services.characterService.get_AppliedConditions(creature, name, source, true).length != 0)
+                return (!!services.characterService.get_AppliedConditions(creature, name, source, true).length)
             }
             function add_Condition(name: string, value: number, source: string) {
                 services.characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: name, value: value, source: source, apply: true }), {}, { noReload: true })
@@ -615,10 +615,10 @@ export class ConditionsService {
         if (!services.characterService.get_ManualMode()) {
             let bulk = creature.bulk;
             let calculatedBulk = bulk.calculate(creature, services.characterService, services.effectsService);
-            if (calculatedBulk.current.value > calculatedBulk.encumbered.value && services.characterService.get_AppliedConditions(creature, "Encumbered", "Bulk").length == 0) {
+            if (calculatedBulk.current.value > calculatedBulk.encumbered.value && !services.characterService.get_AppliedConditions(creature, "Encumbered", "Bulk").length) {
                 services.characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Encumbered", value: 0, source: "Bulk", apply: true }), {}, { noReload: true })
             }
-            if (calculatedBulk.current.value <= calculatedBulk.encumbered.value && services.characterService.get_AppliedConditions(creature, "Encumbered", "Bulk").length > 0) {
+            if (calculatedBulk.current.value <= calculatedBulk.encumbered.value && !!services.characterService.get_AppliedConditions(creature, "Encumbered", "Bulk").length) {
                 services.characterService.remove_Condition(creature, Object.assign(new ConditionGain, { name: "Encumbered", value: 0, source: "Bulk", apply: true }), true)
             }
         }

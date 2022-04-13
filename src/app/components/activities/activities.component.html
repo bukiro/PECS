@@ -51,12 +51,7 @@
                                 <i class="value bi-patch-minus-fill penalty" *ngIf="activityParameters.hostile"
                                     [ngbTooltip]="'Hostile activity'"></i>
                             </span>
-                            <ng-container *ngIf="activityParameters.activity.name == 'Fused Stance'">
-                                {{get_FuseStanceName()}}
-                            </ng-container>
-                            <ng-container *ngIf="activityParameters.activity.name != 'Fused Stance'">
-                                {{activityParameters.activity.name}}
-                            </ng-container>
+                            {{activityParameters.name}}
                             <app-actionIcons *ngIf="activityParameters.activity.actions"
                                 [actionString]="activityParameters.activity.actions">
                             </app-actionIcons>
@@ -89,9 +84,8 @@
                             <button [stickyPopover]="ActivityTemplate" triggers="click"
                                 [ngClass]="{'fancy-button':activityParameters.gain.active, 'inactive-button':activityParameters.disabled, 'penalty':!activityParameters.disabled && activityParameters.hostile, 'bonus':!activityParameters.disabled && !activityParameters.hostile}">
                                 <app-gridIcon
-                                    [ngClass]="{'fancy-button':activityParameters.gain.active, 'inactive-button':activityParameters.disabled, 'penalty':!activityParameters.cannotActivate && activityParameters.hostile, 'bonus':!activityParameters.disabled && !activityParameters.hostile}"
-                                    [ngbTooltip]="ActivityTitleTemplate"
-                                    [title]="activityParameters.activity.name == 'Fused Stance' ? get_FuseStanceName() : activityParameters.activity.name"
+                                    [ngClass]="{'fancy-button':activityParameters.gain.active, 'inactive-button':activityParameters.disabled, 'penalty':!activityParameters.disabled && activityParameters.hostile, 'bonus':!activityParameters.disabled && !activityParameters.hostile}"
+                                    [ngbTooltip]="ActivityTitleTemplate" [title]="activityParameters.name"
                                     [activity]="activityParameters.activity" [activityGain]="activityParameters.gain"
                                     [updateId]="activityParameters.gain.id">
                                 </app-gridIcon>
@@ -104,9 +98,9 @@
         <div class="vlist">
             <header class="subsectionHeader box-header">Temporary Feats</header>
             <app-featchoice *ngFor="let choice of get_TemporaryFeatChoices(); trackBy:trackByIndex;"
-                (showChoiceNameMessage)="receive_ChoiceNameMessage($event)"
+                (showFeatChoiceMessage)="receive_FeatChoiceMessage($event.name)"
                 (showFeatMessage)="receive_FeatMessage($event)" [choice]="choice" [levelNumber]="get_Creature().level"
-                [showFeat]="get_ShowItem()" [showChoice]="get_ShowList()">
+                [showFeat]="get_ShowItem()" [showChoice]="get_ShowFeatChoice()">
             </app-featchoice>
         </div>
     </ng-container>

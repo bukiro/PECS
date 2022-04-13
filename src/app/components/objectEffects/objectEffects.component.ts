@@ -4,6 +4,7 @@ import { EffectGain } from 'src/app/classes/EffectGain';
 import { EffectsService } from 'src/app/services/effects.service';
 import { EvaluationService } from 'src/app/services/evaluation.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { InputValidationService } from 'src/app/services/inputValidation.service';
 
 @Component({
     selector: 'app-objectEffects',
@@ -30,14 +31,6 @@ export class ObjectEffectsComponent {
 
     trackByIndex(index: number, obj: any): any {
         return index;
-    }
-
-    numbersOnly(event): boolean {
-        const charCode = (event.which) ? event.which : event.keyCode;
-        if (charCode != 45 && charCode > 31 && (charCode < 48 || charCode > 57)) {
-            return false;
-        }
-        return true;
     }
 
     validate(effect: EffectGain) {

@@ -164,7 +164,7 @@
                 <span class="hlist center-aligned">
                     <input [ngbPopover]="DamageSliderTemplate" #DamagePopover="ngbPopover" triggers="manual"
                         (focus)="DamagePopover.open()" class="number3" type="number" [(ngModel)]="damage" maxLength="3"
-                        min="0" max="{{damageSliderMax}}">
+                        min="0" max="{{damageSliderMax}}" (keypress)="positiveNumbersOnly($event)">
                 </span>
                 <span class="right-aligned">
                     <button [disabled]="damage <= 0" (click)="on_Heal(calculatedHealth.dying)">
@@ -196,7 +196,7 @@
                 <span class="hlist center-aligned">
                     <input [ngbPopover]="TempHPSliderTemplate" #TempHPPopover="ngbPopover" triggers="manual"
                         (focus)="TempHPPopover.open()" class="number3" type="number" [(ngModel)]="setTempHP"
-                        maxLength="3" min="0">
+                        maxLength="3" min="0" (keypress)="positiveNumbersOnly($event)">
                 </span>
                 <span class="right-aligned">
                     <button [disabled]="setTempHP < 0" (click)="set_TempHP(setTempHP)">Set</button>

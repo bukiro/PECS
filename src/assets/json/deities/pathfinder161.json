@@ -24,7 +24,7 @@
             {
                 "level": 2,
                 "name": "Animal Form",
-                "note": "snake only"
+                "restrictionDesc": "snake only"
             },
             {
                 "level": 4,

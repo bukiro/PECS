@@ -128,6 +128,14 @@ export class Weapon extends Equipment {
         }
         return words;
     }
+    public get_Title(options: { itemStore?: boolean, preparedProficiency?: string } = {}): string {
+        const proficiency = (options.itemStore || !options.preparedProficiency) ? this.prof : options.preparedProficiency;
+        return [
+            proficiency.split(" ")[0],
+            this.group,
+        ].filter(part => part)
+            .join(" ");
+    }
     get_Price(itemsService: ItemsService): number {
         let price = this.price;
         if (this.potencyRune) {
@@ -137,12 +145,12 @@ export class Weapon extends Equipment {
             price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.striking == this.strikingRune).price;
         }
         this.propertyRunes.forEach(rune => {
-            let cleanRune = itemsService.get_CleanItems().weaponrunes.find(weaponRune => weaponRune.name.toLowerCase() == rune.name.toLowerCase());
-            if (cleanRune) {
-                if (cleanRune.name == "Speed" && this.material?.[0]?.name.includes("Orichalcum")) {
-                    price += Math.floor(cleanRune.price / 2);
+            if (rune) {
+                //Due to orichalcum's temporal properties, etching the speed weapon property rune onto an orichalcum weapon costs half the normal Price.
+                if (rune.name == "Speed" && this.material?.[0]?.name.includes("Orichalcum")) {
+                    price += Math.floor(rune.price / 2);
                 } else {
-                    price += cleanRune.price;
+                    price += rune.price;
                 }
             }
         })
@@ -152,9 +160,7 @@ export class Weapon extends Equipment {
                 price += (mat.bulkPrice * parseInt(this.bulk));
             }
         })
-        this.talismans.forEach(talisman => {
-            price += itemsService.get_CleanItems().talismans.find(cleanTalisman => cleanTalisman.name.toLowerCase() == talisman.name.toLowerCase()).price;
-        })
+        price += this.talismans.reduce((prev, next) => prev + next.price, 0);
         return price;
     }
     update_Modifiers(creature: Creature, services: { characterService: CharacterService, refreshService: RefreshService }): void {
@@ -353,10 +359,13 @@ export class Weapon extends Equipment {
         }
         return proficiency;
     }
-    profLevel(creature: Character | AnimalCompanion, characterService: CharacterService, runeSource: Weapon | WornItem, charLevel: number = characterService.get_Character().level) {
+    hasProficiencyChanged(currentProficiency: string) {
+        return currentProficiency != this.prof;
+    }
+    profLevel(creature: Character | AnimalCompanion, characterService: CharacterService, runeSource: Weapon | WornItem, charLevel: number = characterService.get_Character().level, options: { preparedProficiency?: string } = {}) {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;
-        const prof = this.get_Proficiency(creature, characterService, charLevel);
+        const prof = options.preparedProficiency || this.get_Proficiency(creature, characterService, charLevel);
         //There are a lot of ways to be trained with a weapon.
         //To determine the skill level, we have to find skills for the item's proficiency, its name, its weapon base and any of its traits.
         let levels: number[] = [];
@@ -684,27 +693,32 @@ export class Weapon extends Equipment {
     }
     get_IsFavoredWeapon(creature: Character | AnimalCompanion, characterService: CharacterService) {
         if (creature instanceof Character && creature.class.deity) {
-            return characterService.get_CharacterDeities(creature)[0]?.favoredWeapon
+            if (characterService.get_CharacterDeities(creature)[0]?.favoredWeapon
                 .some(favoredWeapon =>
                     [
                         this.name.toLowerCase(),
                         this.weaponBase.toLowerCase(),
                         this.displayName.toLowerCase()
                     ].includes(favoredWeapon.toLowerCase())
-                );
+                )
+            ) {
+                return true;
+            }
         }
         if (
             creature instanceof Character &&
             characterService.get_CharacterFeatsTaken(0, creature.level, "Favored Weapon (Syncretism)").length
         ) {
-            return characterService.get_CharacterDeities(creature, "syncretism")[0]?.favoredWeapon
+            if (characterService.get_CharacterDeities(creature, "syncretism")[0]?.favoredWeapon
                 .some(favoredWeapon =>
                     [
                         this.name.toLowerCase(),
                         this.weaponBase.toLowerCase(),
                         this.displayName.toLowerCase()
                     ].includes(favoredWeapon.toLowerCase())
-                );
+                )) {
+                return true;
+            };
         }
         return false;
     }

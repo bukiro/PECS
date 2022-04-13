@@ -4,7 +4,7 @@
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core",
         "hitPoints": 8,
-        "problem": "Alchemist functionality and feats are not implemented yet.",
+        "disabled": "Alchemist functionality and feats are not implemented yet.",
         "customSkills": [
             {
                 "ability": "Intelligence",
@@ -3829,7 +3829,7 @@
         "_extensionFileName": "core",
         "deityFocused": true,
         "hitPoints": 10,
-        "problem": "Champion feats are not implemented yet.",
+        "warning": "Champion feats are not implemented yet.",
         "showDeityAnathema": true,
         "showDeityEdicts": true,
         "customSkills": [

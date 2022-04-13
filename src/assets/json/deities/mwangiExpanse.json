@@ -508,7 +508,7 @@
             {
                 "level": 3,
                 "name": "Animal Form",
-                "note": "(ape only)"
+                "restrictionDesc": "ape only"
             },
             {
                 "level": 5,

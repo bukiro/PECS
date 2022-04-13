@@ -12,6 +12,8 @@ export class SpellCast {
     //This is used automatically for sustained spells cast by items or activities.
     public spellGain: SpellGain = new SpellGain();
     public target: "ally" | "self" | "" = "";
+    //Deities can add restrictions to the spells they grant. These are described here.
+    public restrictionDesc: string = "";
     recast() {
         this.spellGain = Object.assign(new SpellGain(), this.spellGain).recast();
         return this;

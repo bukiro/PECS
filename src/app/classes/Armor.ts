@@ -34,7 +34,7 @@ export class Armor extends Equipment {
     //Armor is usually moddable.
     moddable = true;
     //What proficiency is used? "Light Armor", "Medium Armor"?
-    private prof: string = "Light Armor";
+    public prof: string = "Light Armor";
     //The penalty to certain skills if your strength is lower than the armors requirement.
     //Should be a negative number
     private skillpenalty: number = 0;
@@ -54,6 +54,15 @@ export class Armor extends Equipment {
     protected get_SecondaryRuneName(): string {
         return this.get_Resilient(this.get_ResilientRune());
     }
+    public get_Title(options: { itemStore?: boolean } = {}): string {
+        const proficiency = options.itemStore ? this.prof : this.get_Proficiency();
+        return [
+            proficiency.split(" ")[0],
+            this.group,
+            proficiency.split(" ")[1],
+        ].filter(part => part && part != "Defense")
+            .join(" ");
+    }
     get_Price(itemsService: ItemsService) {
         let price = this.price;
         if (this.potencyRune) {
@@ -62,18 +71,14 @@ export class Armor extends Equipment {
         if (this.resilientRune) {
             price += itemsService.get_CleanItems().armorrunes.find(rune => rune.resilient == this.resilientRune).price;
         }
-        this.propertyRunes.forEach(rune => {
-            price += itemsService.get_CleanItems().armorrunes.find(armorRune => armorRune.name.toLowerCase() == rune.name.toLowerCase()).price;
-        })
+        price += this.propertyRunes.reduce((prev, next) => prev + next.price, 0);
         this.material.forEach(mat => {
             price += mat.price;
             if (parseInt(this.bulk)) {
                 price += (mat.bulkPrice * parseInt(this.bulk));
             }
         })
-        this.talismans.forEach(talisman => {
-            price += itemsService.get_CleanItems().talismans.find(cleanTalisman => cleanTalisman.name.toLowerCase() == talisman.name.toLowerCase()).price;
-        })
+        price += this.talismans.reduce((prev, next) => prev + next.price, 0);
         return price;
     }
     get_Bulk() {
@@ -104,8 +109,8 @@ export class Armor extends Equipment {
             services.refreshService.set_ToChange(creature.type, "inventory");
         }
     }
-    get_ArmoredSkirt(creature: Creature) {
-        if (["Breastplate", "Chain Shirt", "Chain Mail", "Scale Mail"].includes(this.name)) {
+    get_ArmoredSkirt(creature: Creature, options: { itemStore?: boolean } = {}) {
+        if (!options.itemStore && ["Breastplate", "Chain Shirt", "Chain Mail", "Scale Mail"].includes(this.name)) {
             let armoredSkirt = creature.inventories.map(inventory => inventory.adventuringgear).find(gear => gear.find(item => item.isArmoredSkirt && item.equipped));
             if (armoredSkirt?.length) {
                 this._affectedByArmoredSkirt = 1;
@@ -114,7 +119,7 @@ export class Armor extends Equipment {
                 this._affectedByArmoredSkirt = 0;
                 return null;
             }
-        } else if (["Half Plate", "Full Plate", "Hellknight Plate"].includes(this.name)) {
+        } else if (!options.itemStore && ["Half Plate", "Full Plate", "Hellknight Plate"].includes(this.name)) {
             let armoredSkirt = creature.inventories.map(inventory => inventory.adventuringgear).find(gear => gear.find(item => item.isArmoredSkirt && item.equipped));
             if (armoredSkirt?.length) {
                 this._affectedByArmoredSkirt = -1;
@@ -181,6 +186,9 @@ export class Armor extends Equipment {
             return this.prof;
         }
     }
+    hasProficiencyChanged(currentProficiency: string) {
+        return currentProficiency != this.prof;
+    }
     get_Traits(characterService?: CharacterService, creature?: Creature) {
         //characterService and creature are not needed for armors, but for other types of item.
         let traits = this.traits.filter(trait => !this.material.some(material => material.removeTraits.includes(trait)));
@@ -193,9 +201,9 @@ export class Armor extends Equipment {
         this._traits = traits;
         return traits;
     }
-    profLevel(creature: Character | AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
+    profLevel(creature: Character | AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level, options: { itemStore?: boolean } = {}) {
         if (characterService.still_loading()) { return 0; }
-        this.get_ArmoredSkirt(creature);
+        this.get_ArmoredSkirt(creature, options);
         let skillLevel: number = 0;
         let armorLevel = characterService.get_Skills(creature, this.name, { type: "Specific Weapon Proficiency" })[0].level(creature, characterService, charLevel);
         let proficiencyLevel = characterService.get_Skills(creature, this.get_Proficiency(creature, characterService))[0].level(creature, characterService, charLevel);

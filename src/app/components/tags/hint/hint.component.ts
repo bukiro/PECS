@@ -10,9 +10,7 @@ import { Shield } from 'src/app/classes/Shield';
 import { TraitsService } from 'src/app/services/traits.service';
 import { WornItem } from 'src/app/classes/WornItem';
 import { EffectsService } from 'src/app/services/effects.service';
-import { ItemsService } from 'src/app/services/items.service';
 import { Character } from 'src/app/classes/Character';
-import { Trait } from 'src/app/classes/Trait';
 
 @Component({
     selector: 'app-hint',

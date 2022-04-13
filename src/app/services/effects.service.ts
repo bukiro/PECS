@@ -164,7 +164,7 @@ export class EffectsService {
                     }
                 }
                 let penaltyEffects: Effect[] = filteredEffects.filter(effect => effect.type == type && effect.penalty == true);
-                if (penaltyEffects.length > 0) {
+                if (!!penaltyEffects.length) {
                     //If we have any PENALTIES for this type, we proceed as with bonuses,
                     // only we pick the lowest number (that is, the worst penalty).
                     if (options.absolutes && penaltyEffects.some(effect => effect.setValue)) {

@@ -87,7 +87,8 @@
                 </span>
             </ng-container>
         </div>
-        <ng-container *ngFor="let weapon of get_EquippedWeapons(); let weaponIndex = index; trackBy:trackByIndex;">
+        <ng-container
+            *ngFor="let weaponParameters of get_EquippedWeaponsParameters(); let weaponIndex = index; trackBy:trackByIndex;">
             <div class="fullsize-only list-item"
                 *ngIf="(onlyAttacks.length || forbiddenAttacks.length) && weaponIndex == 0">
                 <strong class="gap-text">
@@ -96,32 +97,36 @@
                 </strong>
             </div>
             <div class="list-item"
-                [ngClass]="{'problem fullsize-only':!get_IsAllowed(weapon), 'invisible':!get_IsAllowed(weapon) && !showRestricted}"
-                *ngFor="let attack of get_Attacks(weapon); trackBy:trackByIndex;">
+                [ngClass]="{'problem fullsize-only':!get_IsAllowed(weaponParameters.weapon), 'invisible':!get_IsAllowed(weaponParameters.weapon) && !showRestricted}"
+                *ngFor="let attack of get_Attacks(weaponParameters.weapon); trackBy:trackByIndex;">
                 <div class="newrow">
                     <span style="flex-basis:auto">
-                        <strong *ngIf="!['alchemicalbombs', 'otherconsumablesbombs'].includes(weapon.type)">
+                        <strong
+                            *ngIf="!['alchemicalbombs', 'otherconsumablesbombs'].includes(weaponParameters.weapon.type)">
                             <span [ngbTooltip]="'Melee'" *ngIf="attack.range == 'melee'"><i
                                     class='ra ra-sword'></i></span>
-                            <span [ngbTooltip]="'Ranged ' + weapon.ranged + ' feet'" *ngIf="attack.range == 'ranged'"><i
-                                    class='ra ra-target-arrows'></i></span> {{weapon.get_Name()}}
+                            <span [ngbTooltip]="'Ranged ' + weaponParameters.weapon.ranged + ' feet'"
+                                *ngIf="attack.range == 'ranged'"><i class='ra ra-target-arrows'></i></span>
+                            {{weaponParameters.weapon.get_Name()}}
                         </strong>
-                        <strong *ngFor="let handwraps of get_HandwrapsOfMightyBlows(weapon); trackBy:trackByIndex;">
+                        <strong
+                            *ngFor="let handwraps of get_HandwrapsOfMightyBlows(weaponParameters.weapon); trackBy:trackByIndex;">
                             ({{handwraps.get_Name()}})
                         </strong>
-                        <button style="flex-basis:auto" [disabled]="!weapon.amount"
-                            (click)="on_ConsumableUse(weapon, null)"
-                            *ngIf="['alchemicalbombs', 'otherconsumablesbombs'].includes(weapon.type)">
+                        <button style="flex-basis:auto" [disabled]="!weaponParameters.asBomb.amount"
+                            (click)="onConsumableUse(weaponParameters.asBomb, null)" *ngIf="weaponParameters.asBomb">
                             <span [ngbTooltip]="'Melee'" *ngIf="attack.range == 'melee'"><i
                                     class='ra ra-sword'></i>&nbsp;</span>
-                            <span [ngbTooltip]="'Ranged ' + weapon.ranged + ' feet'" *ngIf="attack.range == 'ranged'"><i
-                                    class='ra ra-target-arrows'></i>&nbsp;</span>
+                            <span [ngbTooltip]="'Ranged ' + weaponParameters.asBomb.ranged + ' feet'"
+                                *ngIf="attack.range == 'ranged'"><i class='ra ra-target-arrows'></i>&nbsp;</span>
                             <span>
-                                {{(weapon.amount != undefined && weapon.amount != 1) ? weapon.amount+" " :
-                                ""}}{{weapon.get_Name()}}
-                                <app-actionIcons *ngIf="weapon.actions" [actionString]="weapon.actions">
+                                {{(weaponParameters.asBomb.amount != undefined && weaponParameters.asBomb.amount != 1) ?
+                                weaponParameters.asBomb.amount+" " :
+                                ""}}{{weaponParameters.asBomb.get_Name()}}
+                                <app-actionIcons *ngIf="weaponParameters.asBomb.actions"
+                                    [actionString]="weaponParameters.asBomb.actions">
                                 </app-actionIcons>
-                                {{weapon.activationType ? weapon.activationType : ""}}
+                                {{weaponParameters.asBomb.activationType || ""}}
                             </span>
                         </button>
                     </span>
@@ -136,7 +141,8 @@
                                 {{attack.attackResult}}
                             </div>
                         </span>
-                        <ng-container *ngFor="let damage of [get_Damage(weapon, attack.range)]; trackBy:trackByIndex;">
+                        <ng-container
+                            *ngFor="let damage of [get_Damage(weaponParameters.weapon, attack.range)]; trackBy:trackByIndex;">
                             <span *ngIf="!damage.damageResult.includes('0d0')">
                                 &nbsp;Damage&nbsp;
                                 <app-quickdice [creature]="creature" [diceString]="damage.damageResult"></app-quickdice>
@@ -153,15 +159,15 @@
                         </ng-container>
                     </span>
                 </div>
-                <ng-container *ngFor="let traits of [weapon._traits]; trackBy:trackByIndex;">
+                <ng-container *ngFor="let traits of [weaponParameters.weapon._traits]; trackBy:trackByIndex;">
                     <div class="fullsize-only newrow left-aligned tags" *ngIf="traits.length">
                         <ng-container *ngFor="let trait of traits; trackBy:trackByIndex;">
-                            <app-trait [trait]="get_Traits(trait)[0]" [object]="weapon" [name]="trait"
+                            <app-trait [trait]="get_Traits(trait)[0]" [object]="weaponParameters.weapon" [name]="trait"
                                 [creature]="creature"></app-trait>
                         </ng-container>
                     </div>
                 </ng-container>
-                <ng-container *ngFor="let traits of [weapon._traits]; trackBy:trackByIndex;">
+                <ng-container *ngFor="let traits of [weaponParameters.weapon._traits]; trackBy:trackByIndex;">
                     <div class="fullsize-only newrow left-aligned tags" *ngIf="traits.length">
                         <ng-container *ngFor="let trait of traits; trackBy:trackByIndex;">
                             <ng-container *ngFor="let realTrait of get_Traits(trait); trackBy:trackByIndex;">
@@ -172,47 +178,50 @@
                         </ng-container>
                     </div>
                 </ng-container>
-                <div class="list-item newrow" *ngIf="get_TwoHandedAllowed(weapon)">
+                <div class="list-item newrow" *ngIf="get_TwoHandedAllowed(weaponParameters.weapon)">
                     <span>
-                        <input id="{{weapon.id}}twohanded" type="checkbox" [(ngModel)]="weapon.twohanded"
-                            (ngModelChange)=on_EquipmentChange(weapon)>
-                        <label for="{{weapon.id}}twohanded">&nbsp;Wield two-handed</label>
+                        <input id="{{weaponParameters.weapon.id}}twohanded" type="checkbox"
+                            [(ngModel)]="weaponParameters.weapon.twohanded"
+                            (ngModelChange)="on_EquipmentChange(weaponParameters.weapon)">
+                        <label for="{{weaponParameters.weapon.id}}twohanded">&nbsp;Wield two-handed</label>
                     </span>
                 </div>
                 <div class="fullsize-only newrow left-aligned"
-                    *ngFor="let runes of [get_HintRunes(weapon, attack.range)]; trackBy:trackByIndex;"
+                    *ngFor="let hintRunes of [get_HintRunes(weaponParameters.weapon, attack.range)]; trackBy:trackByIndex;"
                     style="margin-top:initial">
-                    <ng-container *ngFor="let rune of runes; trackBy:trackByIndex;">
-                        <ng-container *ngFor="let hint of rune.hints; trackBy:trackByIndex;">
+                    <ng-container *ngFor="let hintRune of hintRunes; trackBy:trackByIndex;">
+                        <ng-container *ngFor="let hint of hintRune.hints; trackBy:trackByIndex;">
                             <ng-template #RuneDescTemplate>
-                                <div class="newrow left-aligned" *ngIf="rune.sourceBook">
+                                <div class="newrow left-aligned" *ngIf="hintRune.sourceBook">
                                     <strong>Source</strong>
-                                    <i>{{rune.sourceBook}}</i>
+                                    <i>{{hintRune.sourceBook}}</i>
                                 </div>
                                 <div class="newrow left-aligned">
                                     {{get_HeightenedHint(hint)}}
                                 </div>
                             </ng-template>
                             <cite class="item" [ngbPopover]="RuneDescTemplate">
-                                {{rune.name}} Rune
+                                {{hintRune.name}} Rune
                             </cite>
                         </ng-container>
                     </ng-container>
                 </div>
-                <app-tags [creature]="creature" [objectName]=weapon.name [showTraits]=true [showFeats]=true
-                    [showItems]=true [showActivities]=true [showConditions]=true
-                    [specialNames]="get_SpecialShowon(weapon, attack.range)" [specialEffects]=attack.effects></app-tags>
+                <app-tags [creature]="creature" [objectName]="weaponParameters.weapon.name" [showTraits]=true
+                    [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true
+                    [specialNames]="get_SpecialShowon(weaponParameters.weapon, attack.range)"
+                    [specialEffects]=attack.effects></app-tags>
                 <div class="fullsize-only lower newrow left-aligned"
-                    *ngFor="let poison of weapon.poisonsApplied; let index = index; trackBy:trackByIndex;">
-                    <button [ngbTooltip]="get_PoisonTitle(poison)" (click)="on_PoisonUse(weapon, poison)">
+                    *ngFor="let poison of weaponParameters.weapon.poisonsApplied; let index = index; trackBy:trackByIndex;">
+                    <button [ngbTooltip]="get_PoisonTitle(poison)"
+                        (click)="on_PoisonUse(weaponParameters.weapon, poison)">
                         <span>Spend/Remove {{poison.name}}</span>
                     </button>
                 </div>
                 <div class="fullsize-only lower newrow left-aligned"
-                    *ngFor="let talisman of weapon.talismans; let index = index; trackBy:trackByIndex;">
+                    *ngFor="let talisman of weaponParameters.weapon.talismans; let index = index; trackBy:trackByIndex;">
                     <ng-template #TalismanTemplate>
                         <div class="list-item left-aligned lower"
-                            *ngFor="let cord of weapon.talismanCords; trackBy:trackByIndex;">
+                            *ngFor="let cord of weaponParameters.weapon.talismanCords; trackBy:trackByIndex;">
                             <header class="spellHeader">{{cord.name}}</header>
                             <p>When you activate a talisman threaded through a cord with the same magic school trait
                                 that's also the cord's level or lower, attempt a <app-quickdice [diceString]="'1d20'">
@@ -228,7 +237,8 @@
                             </ng-container>
                         </div>
                         <header class="spellHeader">{{talisman.name}}</header>
-                        <button class="newrow left-aligned" (click)="on_TalismanUse(weapon, talisman, index)">
+                        <button class="newrow left-aligned"
+                            (click)="on_TalismanUse(weaponParameters.weapon, talisman, index)">
                             <span>
                                 Activate
                                 <app-actionIcons *ngIf="talisman.actions" [actionString]="talisman.actions">
@@ -236,8 +246,9 @@
                                 {{(talisman.activationType) ? talisman.activationType : ""}}
                             </span>
                         </button>
-                        <button class="newrow left-aligned" (click)="on_TalismanUse(weapon, talisman, index, true)"
-                            *ngIf="get_HaveMatchingTalismanCord(weapon, talisman)">
+                        <button class="newrow left-aligned"
+                            (click)="on_TalismanUse(weaponParameters.weapon, talisman, index, true)"
+                            *ngIf="get_HaveMatchingTalismanCord(weaponParameters.weapon, talisman)">
                             <span>
                                 Activate and preserve with talisman cord
                                 <app-actionIcons *ngIf="talisman.actions" [actionString]="talisman.actions">
@@ -251,31 +262,33 @@
                     <button [ngbPopover]="TalismanTemplate" triggers="click">
                         <span>
                             {{talisman.name}}
-                            {{get_HaveMatchingTalismanCord(weapon, talisman) ? "(matching talisman cord attached)" :
-                            ""}}
+                            {{get_HaveMatchingTalismanCord(weaponParameters.weapon, talisman) ?
+                            "(matching talisman cord attached)" : ""}}
                         </span>
                     </button>
                 </div>
-                <div class="fullsize-only list-item newrow" *ngIf="weapon.hitEffect">
+                <div class="fullsize-only list-item newrow" *ngIf="weaponParameters.asBomb?.hitEffect">
                     <button class="newrow sublist-toggle fancy-button"
-                        (click)="toggle_Item(weapon.id+attack.range+'hiteffects')">
+                        (click)="toggle_Item(weaponParameters.weapon.id+attack.range+'hiteffects')">
                         Hit effects
                     </button>
                     <div class="list-item sublist fancy-list"
-                        *ngIf="get_ShowItem()==weapon.id+attack.range+'hiteffects'">
+                        *ngIf="get_ShowItem()==weaponParameters.weapon.id+attack.range+'hiteffects'">
                         <div class="list-item lower newrow left-aligned">
-                            <app-description [text]="weapon.hitEffect" [oneLiner]="true"></app-description>
+                            <app-description [text]="weaponParameters.asBomb.hitEffect" [oneLiner]="true">
+                            </app-description>
                         </div>
                     </div>
                 </div>
-                <ng-container *ngFor="let critEffects of [get_CriticalHints(weapon)]; trackBy:trackByIndex;">
+                <ng-container
+                    *ngFor="let critEffects of [get_CriticalHints(weaponParameters.weapon)]; trackBy:trackByIndex;">
                     <div class="fullsize-only list-item newrow" *ngIf="critEffects.length">
                         <button class="newrow sublist-toggle fancy-button"
-                            (click)="toggle_Item(weapon.id+attack.range+'criticalHints')">
+                            (click)="toggle_Item(weaponParameters.weapon.id+attack.range+'criticalHints')">
                             Critical hit effects
                         </button>
                         <div class="list-item sublist fancy-list"
-                            *ngIf="get_ShowItem()==weapon.id+attack.range+'criticalHints'">
+                            *ngIf="get_ShowItem()==weaponParameters.weapon.id+attack.range+'criticalHints'">
                             <div class="list-item lower newrow left-aligned"
                                 *ngFor="let critEffect of critEffects; trackBy:trackByIndex">
                                 <app-description [text]="critEffect" [oneLiner]="true"></app-description>
@@ -284,14 +297,14 @@
                     </div>
                 </ng-container>
                 <ng-container
-                    *ngFor="let specs of [get_CritSpecialization(weapon, attack.range)]; trackBy:trackByIndex;">
+                    *ngFor="let specs of [get_CritSpecialization(weaponParameters.weapon, attack.range)]; trackBy:trackByIndex;">
                     <div class="fullsize-only list-item newrow" *ngIf="specs.length">
                         <button class="newrow sublist-toggle fancy-button"
-                            (click)="toggle_Item(weapon.id+attack.range+'criteffects')">
+                            (click)="toggle_Item(weaponParameters.weapon.id+attack.range+'criteffects')">
                             Critical specialization effects
                         </button>
                         <div class="list-item sublist fancy-list"
-                            *ngIf="get_ShowItem()==weapon.id+attack.range+'criteffects'">
+                            *ngIf="get_ShowItem()==weaponParameters.weapon.id+attack.range+'criteffects'">
                             <div class="list-item lower newrow left-aligned"
                                 *ngFor="let spec of specs; trackBy:trackByIndex;">
                                 <app-description [text]="spec.desc" [oneLiner]="true"></app-description>
@@ -299,19 +312,20 @@
                         </div>
                     </div>
                 </ng-container>
-                <ng-container *ngFor="let rune of get_Runes(weapon, attack.range); trackBy:trackByIndex;"
+                <ng-container
+                    *ngFor="let rune of get_Runes(weaponParameters.weapon, attack.range); trackBy:trackByIndex;"
                     style="margin-top:initial">
                     <div class="fullsize-only list-item newrow" *ngIf="rune.criticalHint">
                         <button class="newrow sublist-toggle fancy-button"
-                            (click)="toggle_Item(weapon.id+attack.range+'criticalHint')">
+                            (click)="toggle_Item(weaponParameters.weapon.id+attack.range+'criticalHint')">
                             {{rune.name}} critical hit effects
                         </button>
                         <div class="list-item sublist fancy-list left-aligned"
-                            *ngIf="get_ShowItem()==weapon.id+attack.range+'criticalHint'">
+                            *ngIf="get_ShowItem()==weaponParameters.weapon.id+attack.range+'criticalHint'">
                             <div class="list-item lower newrow left-aligned">
                                 <app-description [text]="rune.criticalHint" [oneLiner]="true"></app-description>
-                                <app-description *ngIf="rune.name=='Grievous'" [text]="get_GrievousData(weapon, rune)"
-                                    [oneLiner]="true">
+                                <app-description *ngIf="rune.name=='Grievous'"
+                                    [text]="get_GrievousData(weaponParameters.weapon, rune)" [oneLiner]="true">
                                 </app-description>
                                 <div class="newrow gap-text left-aligned" *ngIf="rune.critsuccess">
                                     <strong>Critical Success</strong>
@@ -347,7 +361,7 @@
                         {{ammo.item.get_Name()}}</strong>
                     <div
                         [ngbTooltip]="ammo.item.storedSpells.length ? 'Cast spell on any target. To choose a specific target (if applicable), use the item in the inventory instead.' : ''">
-                        <button [disabled]="!ammo.item.amount" (click)="on_ConsumableUse(ammo.item, ammo.inventory)">
+                        <button [disabled]="!ammo.item.amount" (click)="onConsumableUse(ammo.item, ammo.inventory)">
                             <span>Use
                                 <app-actionIcons *ngIf="ammo.item.actions" [actionString]="ammo.item.actions">
                                 </app-actionIcons>
@@ -375,7 +389,7 @@
                             </ng-container>
                         </header>
                         <button class="newrow center-aligned" [disabled]="!snare.item.amount"
-                            (click)="on_ConsumableUse(snare.item, snare.inventory)">
+                            (click)="onConsumableUse(snare.item, snare.inventory)">
                             <span>Trigger/Remove</span>
                         </button>
                         <app-item [item]=snare.item [itemStore]=true></app-item>

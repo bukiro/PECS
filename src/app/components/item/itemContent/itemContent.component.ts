@@ -95,7 +95,7 @@ export class ItemContentComponent implements OnInit, OnDestroy {
     }
 
     public has_ShownData(): boolean {
-        return this.item.data?.filter(data => data.show).length > 0;
+        return this.item.data?.some(data => data.show);
     }
 
     finish_Loading() {

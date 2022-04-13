@@ -69,7 +69,7 @@ export class TraitsService {
                         )
                     )
                 )
-                && trait.haveOn(creature).length > 0
+                && !!trait.haveOn(creature).length
             )
         } else {
             return []

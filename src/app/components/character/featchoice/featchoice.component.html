@@ -14,7 +14,7 @@
                 <button (click)="toggle_List(listID)" *ngIf="showTitle && !showContent && get_TileMode()"
                     [ngClass]="{'fancy-button choicecleared':(availableFeats == choice.feats.length), 'featchoice':!choice.specialChoice, 'specialchoice':choice.specialChoice, 'activechoice':get_ShowChoice()==listID}">
                     <app-gridIcon [ngbTooltip]="buttonTitle" [superTitle]="availableFeats.toString()"
-                        [title]="(availableFeats == 1 && choice.feats.length) ? choice.feats[0].name.split(': ')[0] : ((availableFeats > 1 && choice.feats.length > 0) ? choice.feats.length.toString() : '')"
+                        [title]="(availableFeats == 1 && choice.feats.length) ? choice.feats[0].name.split(': ')[0] : ((availableFeats > 1 && !!choice.feats.length) ? choice.feats.length.toString() : '')"
                         [detail]="(availableFeats == 1 && choice.feats.length) ? (choice.feats[0].name.split(': ')[1] || '') : ''"
                         [ngClass]="{'fancy-button':(availableFeats == choice.feats.length), 'featchoice':!choice.specialChoice, 'specialchoice':choice.specialChoice}"
                         [subTitle]="choice.feats.length ? '' : choice.type.split(' ')[choice.type.split(' ').length-1].substr(0,8)">
@@ -112,7 +112,7 @@
                                                             [ngClass]="{'fancy-button':taken, 'disabled':disabled}">
 
                                                             <input type="checkbox"
-                                                                (change)="on_FeatTaken(featSet.feat, $event.target.checked, choice, false)"
+                                                                (change)="on_FeatTaken(featSet.feat, $event, choice, false)"
                                                                 [checked]="checked" [disabled]="disabled" hidden>
                                                             {{taken ? "Remove" : "Choose"}}
                                                         </div>
@@ -145,7 +145,7 @@
                                                                             <input
                                                                                 id="{{choice.id+subfeatSet.subfeat.name}}"
                                                                                 type="checkbox" class="character-choice"
-                                                                                (change)="on_FeatTaken(subfeatSet.subfeat, $event.target.checked, choice, false)"
+                                                                                (change)="on_FeatTaken(subfeatSet.subfeat, $event, choice, false)"
                                                                                 [checked]="subFeatChecked"
                                                                                 [disabled]="subFeatDisabled"
                                                                                 *ngIf="subfeatSet.available">
@@ -171,7 +171,7 @@
                                                                                     [ngClass]="{'fancy-button':subFeatTaken, 'disabled':subFeatDisabled}">
                                                                                     <label>
                                                                                         <input type="checkbox"
-                                                                                            (change)="on_FeatTaken(subfeatSet.subfeat, $event.target.checked, choice, false)"
+                                                                                            (change)="on_FeatTaken(subfeatSet.subfeat, $event, choice, false)"
                                                                                             [checked]="subFeatChecked"
                                                                                             [disabled]="subFeatDisabled"
                                                                                             hidden>{{subFeatChecked ?
@@ -205,7 +205,7 @@
                                             [ngClass]="{'unavailable':(!featSet.available), 'selected':(taken || subFeatTakenByThis(undefined, featSet.feat, choice))}">
                                             <input *ngIf="!featSet.feat.subTypes" class="character-choice"
                                                 id="{{featSet.feat.name}}" type="checkbox"
-                                                (change)="on_FeatTaken(featSet.feat, $event.target.checked, choice, false)"
+                                                (change)="on_FeatTaken(featSet.feat, $event, choice, false)"
                                                 [checked]="checked" [disabled]="disabled || !featSet.available">
                                             <button class="character-choice" (click)="FeatChoiceDetailPopover.toggle()"
                                                 [ngClass]="{'fancy-button':checked, 'inactive-button':(!checked && !featSet.available)}"
@@ -218,7 +218,7 @@
                                                 <header class="sectionHeader">
                                                     <span
                                                         [ngbTooltip]="(!FeatChoiceDetailPopover.isOpen()) ? featSet.feat.shortdesc : ''"
-                                                        triggers="hover" openDelay=100>
+                                                        triggers="hover" [openDelay]=100>
                                                         {{["General", "Skill"].includes(choice.type) &&
                                                         featSet.feat.skillreq.length == 1 ? "(" +
                                                         featSet.feat.skillreq[0].skill + ") " :

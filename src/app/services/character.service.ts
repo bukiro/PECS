@@ -827,7 +827,7 @@ export class CharacterService {
                 });
                 this.refreshService.set_ToChange(creature.type, "activities");
             }
-            if (equip && Object.keys(item).includes("equipped") && item.equippable) {
+            if (equip && item.hasOwnProperty('equipped') && item.equippable) {
                 this.on_Equip(creature, inventory, item, true, false);
             }
             if (item instanceof Weapon && item.prof == "Advanced Weapons") {
@@ -1213,19 +1213,21 @@ export class CharacterService {
 
     equip_BasicItems(creature: Creature, changeAfter: boolean = true) {
         if (!this.still_loading() && this.basicItems.weapon && this.basicItems.armor && !(creature instanceof Familiar)) {
-            if (!creature.inventories[0].weapons.length && (creature instanceof Character)) {
+            if (!creature.inventories[0].weapons.some(weapon => !weapon.broken) && (creature instanceof Character)) {
                 this.grant_InventoryItem(this.basicItems.weapon, { creature, inventory: creature.inventories[0] }, { changeAfter: false, equipAfter: false });
             }
-            if (!creature.inventories[0].armors.length) {
+            if (!creature.inventories[0].armors.some(armor => !armor.broken)) {
                 this.grant_InventoryItem(this.basicItems.armor, { creature, inventory: creature.inventories[0] }, { changeAfter: false, equipAfter: false });
             }
             if (!creature.inventories[0].weapons.some(weapon => weapon.equipped == true)) {
-                if (creature.inventories[0].weapons.length) {
-                    this.on_Equip(creature, creature.inventories[0], creature.inventories[0].weapons[0], true, changeAfter);
+                if (creature.inventories[0].weapons.some(weapon => !weapon.broken)) {
+                    this.on_Equip(creature, creature.inventories[0], creature.inventories[0].weapons.find(weapon => !weapon.broken), true, changeAfter);
                 }
             }
             if (!creature.inventories[0].armors.some(armor => armor.equipped == true)) {
-                this.on_Equip(creature, creature.inventories[0], creature.inventories[0].armors[0], true, changeAfter);
+                if (creature.inventories[0].weapons.some(armor => !armor.broken)) {
+                    this.on_Equip(creature, creature.inventories[0], creature.inventories[0].armors.find(armor => !armor.broken), true, changeAfter);
+                }
             }
         }
     }
@@ -2666,6 +2668,8 @@ export class CharacterService {
             this.timeService.set_YourTurn(this.get_Character().yourTurn);
             //Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
             this.featsService.build_CharacterFeats(this.get_Character());
+            //Reset deities because they depend on feats.
+            this.deitiesService.clear_CharacterDeities();
             //Reset cache for all creatures.
             this.cacheService.initialize();
             //Set accent color and dark mode according to the settings.

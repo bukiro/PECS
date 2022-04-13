@@ -279,7 +279,8 @@ export class TopBarComponent implements OnInit, OnDestroy {
         });
     }
 
-    on_SelectAllMessages(checked: boolean) {
+    on_SelectAllMessages(event: Event) {
+        const checked = (<HTMLInputElement>event.target).checked;
         this.newMessages.forEach(message => {
             message.selected = checked;
         })

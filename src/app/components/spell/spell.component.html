@@ -13,7 +13,7 @@
     </app-spellContent>
     <div class="newrow left-aligned" *ngFor="let feat of get_FeatsShowingOn(spell.name); trackBy:trackByIndex;">
         <header class="spellHeader">{{feat.name}}</header>
-        <div class="newrow left-aligned" *ngIf="feat.traits.lenght">
+        <div class="newrow left-aligned" *ngIf="feat.traits.length">
             <app-trait *ngFor="let trait of feat.traits; trackBy:trackByIndex;" [name]="trait"
                 [trait]="get_Traits(trait)[0]">
             </app-trait>

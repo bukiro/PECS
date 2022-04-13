@@ -247,7 +247,7 @@ export class Character extends Creature {
             casting.spellChoices = casting.spellChoices.filter(choice => choice.id != oldChoice.id);
         })
         //If the spellcasting has no spellchoices left, it is no longer available.
-        this.class.spellCasting.filter(casting => casting.spellChoices.length == 0).forEach(casting => {
+        this.class.spellCasting.filter(casting => !casting.spellChoices.length).forEach(casting => {
             casting.charLevelAvailable = 0;
         })
         characterService.refreshService.set_ToChange("Character", "spells");
@@ -291,7 +291,7 @@ export class Character extends Creature {
                         })
                     });
             })
-            //Only return skill increases for a specific skill if at least one increase has a minRank of 0 (an initial training) - if not, we don't consider this skill increased at all. 
+            //Only return skill increases for a specific skill if at least one increase has a minRank of 0 (an initial training) - if not, we don't consider this skill increased at all.
             if (skillName) {
                 if (choices.some(choice => choice.minRank == 0 && choice.increases.some(increase => increase.name == skillName))) {
                     //Get all matching skill increases from the choices
@@ -366,7 +366,7 @@ export class Character extends Creature {
                     skillChoice.source == choice.source && skillChoice.type == "Automatic"
                 );
                 //If there isn't one, go ahead and create one, then immediately increase this skill in it.
-                if (existingChoices.length == 0) {
+                if (!existingChoices.length) {
                     let newChoice = this.add_SkillChoice(characterService.get_Level(17), Object.assign(new SkillChoice(), {
                         available: 0,
                         filter: [],
@@ -381,7 +381,7 @@ export class Character extends Creature {
             }
             //If you are getting trained in a skill you don't already know, it's usually a weapon proficiency or a class/spell DC.
             //We have to create that skill here then
-            if (characterService.get_Skills(this, skillName, {}, { noSubstitutions: true }).length == 0) {
+            if (!characterService.get_Skills(this, skillName, {}, { noSubstitutions: true }).length) {
                 if (skillName.includes("Class DC")) {
                     switch (skillName) {
                         case "Alchemist Class DC":
@@ -535,7 +535,7 @@ export class Character extends Creature {
             characterService.refreshService.set_ToChange("Character", "effects");
             //Remove custom skill if previously created and this was the last increase of it
             let customSkills = characterService.get_Character().customSkills.filter(skill => skill.name == skillName);
-            if (customSkills.length && this.get_SkillIncreases(characterService, 1, 20, skillName).length == 0) {
+            if (customSkills.length && !this.get_SkillIncreases(characterService, 1, 20, skillName).length) {
                 characterService.remove_CustomSkill(customSkills[0]);
                 //For Monks, remove the tradition from the Monk spellcasting abilities if you removed the Monk Divine/Occult Spell DC.
                 if (skillName.includes("Monk") && skillName.includes("Spell DC")) {
@@ -813,7 +813,7 @@ export class Character extends Creature {
         if (["Feat: Gnome Obsession", "Background"].includes(source.source)) {
             let backgroundLoreIncreases = this.get_SkillIncreases(characterService, 1, 1, '', "Background").filter(increase => increase.name.includes("Lore: ") && increase.locked);
             let gnomeObsessionLoreIncreases = this.get_SkillIncreases(characterService, 0, 20, '', "Feat: Gnome Obsession").filter(increase => increase.name.includes("Lore: ") && increase.locked);
-            if (gnomeObsessionLoreIncreases.length > 0 && backgroundLoreIncreases.length > 0 && backgroundLoreIncreases.length != 4) {
+            if (!!gnomeObsessionLoreIncreases.length && !!backgroundLoreIncreases.length && backgroundLoreIncreases.length != 4) {
                 let backgroundLoreName = backgroundLoreIncreases[0].name;
                 let newChoice = this.add_SkillChoice(characterService.get_Level(2), Object.assign(new SkillChoice(), { available: 0, increases: [], filter: [], type: "Skill", maxRank: 4, source: "Feat: Gnome Obsession", id: "" }));
                 newChoice.increases.push({ name: backgroundLoreName, source: "Feat: Gnome Obsession", maxRank: 4, locked: true, sourceId: newChoice.id });

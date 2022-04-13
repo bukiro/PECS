@@ -59,7 +59,9 @@ type SpellParameters = {
     isSpellMasterySpell: boolean,
     isCrossbloodedEvolutionSpell: boolean,
     canReprepare: boolean,
-    isHostile: boolean
+    isHostile: boolean,
+    maxCharges: number,
+    usedCharges: number,
 }
 
 @Component({
@@ -265,7 +267,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                 temporaryChoiceList: this.get_TemporarySpellChoices(spellCastingParameters, level),
                 maxSpellSlots: maxSpellSlots,
                 usedSpellSlots: this.get_UsedSpellSlots(level, spellCastingParameters.casting),
-                extraSpellSlots: this.get_ExtraSpellSlots(level, maxSpellSlots, spellCastingParameters),
+                extraSpellSlots: this.get_ExtraSpellSlots(level, spellCastingParameters.maxSpellLevel, spellCastingParameters),
                 canRestore: this.can_Restore(spellCastingParameters, level, componentParameters.hasSuperiorBond)
             };
         })
@@ -454,7 +456,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     have_Feat(name: string): boolean {
         let character = this.get_Character();
-        return this.characterService.get_CharacterFeatsTaken(0, character.level, name).length > 0;
+        return !!this.characterService.get_CharacterFeatsTaken(0, character.level, name).length;
     }
 
     refocus() {
@@ -488,7 +490,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     get_ExternallyDisabled(spell: Spell, choice: SpellChoice): boolean {
-        return this.effectsService.get_EffectsOnThis(this.get_Character(), spell.name + " Disabled").length + this.effectsService.get_EffectsOnThis(this.get_Character(), choice.source.replace("Feat: ", "") + " Disabled").length > 0;
+        return !!(this.effectsService.get_EffectsOnThis(this.get_Character(), spell.name + " Disabled").length + this.effectsService.get_EffectsOnThis(this.get_Character(), choice.source.replace("Feat: ", "") + " Disabled").length);
     }
 
     cannot_Cast(context: { spellCastingLevelParameters: SpellCastingLevelParameters, spellCastingParameters: SpellCastingParameters, choice: SpellChoice, gain: SpellGain, externallyDisabled: boolean }) {
@@ -674,23 +676,23 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     can_Counterspell(casting: SpellCasting): boolean {
         let character = this.get_Character();
         if (["Prepared", "Spontaneous"].includes(casting.castingType)) {
-            return this.characterService.get_CharacterFeatsTaken(1, character.level, "Counterspell (" + casting.castingType + ")").length > 0;
+            return !!this.characterService.get_CharacterFeatsTaken(1, character.level, "Counterspell (" + casting.castingType + ")").length;
         }
     }
 
     can_ChannelSmite(spell: Spell): boolean {
         let character = this.get_Character();
         if (["Heal", "Harm"].includes(spell.name)) {
-            return this.characterService.get_CharacterFeatsTaken(1, character.level, "Channel Smite").length > 0;
+            return !!this.characterService.get_CharacterFeatsTaken(1, character.level, "Channel Smite").length;
         }
     }
 
     can_SwiftBanish(casting: SpellCasting, spell: Spell, level: number): boolean {
         let character = this.get_Character();
         if (["Banishment"].includes(spell.name)) {
-            return this.characterService.get_CharacterFeatsTaken(1, character.level, "Swift Banishment").length > 0;
+            return !!this.characterService.get_CharacterFeatsTaken(1, character.level, "Swift Banishment").length;
         } else if (level >= 5 && casting.castingType == "Prepared") {
-            return this.characterService.get_CharacterFeatsTaken(1, character.level, "Improved Swift Banishment").length > 0;
+            return !!this.characterService.get_CharacterFeatsTaken(1, character.level, "Improved Swift Banishment").length;
         }
     }
 

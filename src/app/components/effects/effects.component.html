@@ -7,16 +7,17 @@
                 <ng-container
                     *ngFor="let stoppedInTime of [timeStopped && !condition.get_IsStoppingTime(conditionGain)]; trackBy:trackByIndex">
                     <ng-template #conditionContent>
-                        <app-condition class="newrow" (showChoiceMessage)="receive_ItemMessage($event)"
+                        <app-condition class="newrow" (showItemMessage)="receive_ItemMessage($event)"
                             [creature]="creature" [conditionGain]="conditionGain" [condition]="condition"
-                            [showItem]="get_ShowItem()" [fullDisplay]="fullDisplay"></app-condition>
+                            [showItem]="get_ShowItem()" [fullDisplay]="fullDisplay">
+                        </app-condition>
                     </ng-template>
                     <div [stickyPopover]="conditionContent" triggers="click" *ngIf="!fullDisplay" style="display:flex;">
                         <app-gridIcon [updateId]="conditionGain.id" class="condition"
                             [ngClass]="{'penalty':!stoppedInTime && !condition.buff, 'bonus':!stoppedInTime && condition.buff, 'inactive-button':stoppedInTime}"
                             placement="right bottom top" [condition]="conditionGain" [originalCondition]="condition"
                             [superTitle]="get_ConditionSuperTitle(conditionGain, condition)"
-                            [ngbTooltip]="conditionGain.name" openDelay=0>
+                            [ngbTooltip]="conditionGain.name" [openDelay]=0>
                         </app-gridIcon>
                     </div>
                     <div class="list-item gridicon-fullsizebox" *ngIf="fullDisplay">
@@ -83,7 +84,7 @@
             <div [ngbPopover]="effectContent" triggers="click" *ngIf="!fullDisplay" style="display:flex;">
                 <app-gridIcon class="effect" [effect]="effect" placement="left bottom top"
                     [ngClass]="{'penalty':!effect.toggle && effect.penalty && !effect.ignored, 'bonus':!effect.toggle && !effect.penalty && !effect.setValue && !effect.ignored, 'absolute':(effect.toggle || effect.setValue) && !effect.ignored, 'inactive-button':effect.ignored}"
-                    [ngbTooltip]="effect.target + ' ' + effect.get_DisplayTitle(true)" openDelay=0>
+                    [ngbTooltip]="effect.target + ' ' + effect.get_DisplayTitle(true)" [openDelay]=0>
                 </app-gridIcon>
             </div>
             <div class="list-item gridicon-fullsizebox" *ngIf="fullDisplay">

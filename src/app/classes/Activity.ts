@@ -54,7 +54,7 @@ export class Activity {
     public requirements: string = "";
     public showActivities: string[] = [];
     public showonSkill: string = "";
-    public showSpells: string[] = [];
+    public showSpells: SpellCast[] = [];
     public specialdesc: string = "";
     public success: string = "";
     //target is used internally to determine whether you can cast this spell on yourself, your companion/familiar or any ally
@@ -91,6 +91,7 @@ export class Activity {
             conditionGain.source = this.name;
         })
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
+        this.showSpells = this.showSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.onceEffects = this.onceEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
         this.targetNumbers = this.targetNumbers.map(obj => Object.assign(new SpellTargetNumber(), obj).recast());

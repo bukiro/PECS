@@ -136,7 +136,7 @@
             {
                 "level": 6,
                 "name": "Dragon Form",
-                "note": "(metallic dragons only)"
+                "restrictionDesc": "metallic dragons only"
             }
         ],
         "divineAbility": [
@@ -498,7 +498,7 @@
             {
                 "level": 6,
                 "name": "Dragon Form",
-                "note": "(chromatic dragons only)"
+                "restrictionDesc": "chromatic dragons only"
             }
         ],
         "divineAbility": [
@@ -1644,7 +1644,7 @@
             {
                 "level": 1,
                 "name": "Pest Form",
-                "note": "(cats only)"
+                "restrictionDesc": "cats only"
             },
             {
                 "level": 3,
@@ -1822,7 +1822,7 @@
             {
                 "level": 4,
                 "name": "Aerial Form",
-                "note": "(bird only)"
+                "restrictionDesc": "bird only"
             }
         ],
         "divineAbility": [
@@ -2243,7 +2243,7 @@
             {
                 "level": 4,
                 "name": "Dinosaur Form",
-                "note": "(appears as crocodile)"
+                "restrictionDesc": "appears as crocodile"
             }
         ],
         "divineAbility": [
@@ -2354,7 +2354,7 @@
             {
                 "level": 2,
                 "name": "Animal Form",
-                "note": "(snake only)"
+                "restrictionDesc": "snake only"
             },
             {
                 "level": 4,
@@ -2628,7 +2628,7 @@
             {
                 "level": 2,
                 "name": "Animal Form",
-                "note": "(snake only)"
+                "restrictionDesc": "snake only"
             },
             {
                 "level": 3,
@@ -4618,7 +4618,7 @@
             {
                 "level": 2,
                 "name": "Summon Elemental",
-                "note": "(earth only)"
+                "restrictionDesc": "earth only"
             },
             {
                 "level": 6,
@@ -4677,7 +4677,7 @@
             {
                 "level": 2,
                 "name": "Summon Elemental",
-                "note": "(air only)"
+                "restrictionDesc": "air only"
             },
             {
                 "level": 4,
@@ -4736,7 +4736,7 @@
             {
                 "level": 2,
                 "name": "Summon Elemental",
-                "note": "(water only)"
+                "restrictionDesc": "water only"
             },
             {
                 "level": 4,
@@ -4973,7 +4973,7 @@
             {
                 "level": 2,
                 "name": "Summon Elemental",
-                "note": "(fire only)"
+                "restrictionDesc": "fire only"
             },
             {
                 "level": 4,
@@ -5229,7 +5229,7 @@
             {
                 "level": 4,
                 "name": "Aerial Form",
-                "note": "(bird only)"
+                "restrictionDesc": "bird only"
             },
             {
                 "level": 6,
@@ -6201,7 +6201,7 @@
             {
                 "level": 4,
                 "name": "Aerial Form",
-                "note": "(bird only)"
+                "restrictionDesc": "bird only"
             }
         ],
         "divineAbility": [
@@ -6255,7 +6255,7 @@
             {
                 "level": 2,
                 "name": "Slough Skin",
-                "note": "(appears as streams of blood)"
+                "restrictionDesc": "appears as streams of blood"
             },
             {
                 "level": 5,
@@ -8147,7 +8147,7 @@
             {
                 "level": 2,
                 "name": "Animal Form",
-                "note": "(bull only: appears as stag)"
+                "restrictionDesc": "bull only: appears as stag"
             },
             {
                 "level": 6,
@@ -8652,7 +8652,7 @@
             {
                 "level": 1,
                 "name": "Summon Animal",
-                "note": "(rodents only)"
+                "restrictionDesc": "rodents only"
             },
             {
                 "level": 2,

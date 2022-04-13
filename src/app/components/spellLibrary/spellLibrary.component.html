@@ -200,9 +200,9 @@
                                                                 <select [(ngModel)]="showLevel">
                                                                     <option
                                                                         *ngFor="let levelOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
-                                                                        [disabled]="levelOption && spell.level < levelOption"
+                                                                        [disabled]="levelOption && spell.levelreq > levelOption"
                                                                         [ngValue]="levelOption">
-                                                                        {{levelOption == 0 ? "Default" : levelOption}}
+                                                                        {{levelOption == 0 ? "Default (" + spell.levelreq + ")" : levelOption}}
                                                                     </option>
                                                                 </select>
                                                             </span>

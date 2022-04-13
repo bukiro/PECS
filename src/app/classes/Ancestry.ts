@@ -3,6 +3,8 @@ import { ItemGain } from 'src/app/classes/ItemGain';
 import { FeatChoice } from 'src/app/classes/FeatChoice';
 
 export class Ancestry {
+    public disabled: string = "";
+    public warning: string = "";
     public abilityChoices: AbilityChoice[] = [];
     public ancestries: string[] = [];
     public baseLanguages: number = 0;

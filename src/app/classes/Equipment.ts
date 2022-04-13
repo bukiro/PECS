@@ -17,7 +17,6 @@ import { HintEffectsObject } from 'src/app/services/effectsGeneration.service';
 import { Specialization } from 'src/app/classes/Specialization';
 import { Creature } from 'src/app/classes/Creature';
 import { CharacterService } from 'src/app/services/character.service';
-import { ConditionChoice } from './ConditionChoice';
 
 export class Equipment extends Item {
     //Allow changing of "equippable" by custom item creation
@@ -73,6 +72,10 @@ export class Equipment extends Item {
     public resilientRune: number = 0;
     //Is the name input visible in the inventory
     public showName: boolean = false;
+    //Is the rune selection visible in the inventory
+    public showRunes: boolean = false;
+    //Is the status selection visible in the inventory
+    public showStatus: boolean = false;
     //Striking Rune level for weapons
     public strikingRune: number = 0;
     //Store any talismans attached to this item.
@@ -258,9 +261,6 @@ export class Equipment extends Item {
             }
             return words.join(" ") + ((!options.itemStore && this.choice) ? ": " + this.choice : "");
         }
-    }
-    get_Price(itemsService: ItemsService) {
-        return this.price;
     }
     get_EffectsGenerationObjects(creature: Creature, characterService: CharacterService): (Equipment | Specialization | Rune)[] {
         return [this];

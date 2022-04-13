@@ -94,12 +94,8 @@ export class WornItem extends Equipment {
         if (this.strikingRune) {
             price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.striking == this.strikingRune).price;
         }
-        this.propertyRunes.forEach(rune => {
-            price += itemsService.get_CleanItems().weaponrunes.find(weaponRune => weaponRune.name.toLowerCase() == rune.name.toLowerCase()).price;
-        })
-        this.aeonStones.forEach(aeonStone => {
-            price += itemsService.get_CleanItems().wornitems.find(wornItem => wornItem.name.toLowerCase() == aeonStone.name.toLowerCase()).price;
-        })
+        price += this.propertyRunes.reduce((prev, next) => prev + next.price, 0);
+        price += this.aeonStones.reduce((prev, next) => prev + next.price, 0);
         return price;
     }
     get_Traits(characterService: CharacterService, creature: Creature): string[] {

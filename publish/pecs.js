@@ -263,11 +263,11 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
                         fs.renameSync(oldDir + file, newDir + file);
                         //Remove kironet/pecs, then kironet if empty.
                         fs.readdir(oldDir, function (err, data) {
-                            if (data.length == 0) {
+                            if (!data.length) {
                                 fs.rmdir(oldDir, () => {
                                     //Remove kironet if empty.
                                     fs.readdir(process.env.APPDATA + "/kironet", function (err, data) {
-                                        if (data.length == 0) {
+                                        if (!data.length) {
                                             fs.rmdir(process.env.APPDATA + "/kironet", () => {
                                             });
                                         }
@@ -277,7 +277,7 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
                         })
                         //Remove kironet if empty.
                         fs.readdir(process.env.APPDATA + "/kironet", function (err, data) {
-                            if (data.length == 0) {
+                            if (!data.length) {
                                 fs.rmdir(process.env.APPDATA + "/kironet", () => {
                                 });
                             }
@@ -306,7 +306,7 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
                         fs.renameSync(oldDir + file, newDir + file);
                         //Remove .kironet_pecs if empty.
                         fs.readdir(oldDir, function (err, data) {
-                            if (data.length == 0) {
+                            if (!data.length) {
                                 fs.rmdir(oldDir, () => {
                                 });
                             }

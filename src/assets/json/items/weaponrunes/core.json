@@ -231,7 +231,7 @@
             "Enchantment",
             "Magical"
         ],
-        "criticalHint": "When your attack roll with this weapon is a critical hit and gains the critical specialization effect, you gain the following benefit depending on the weapon group:",
+        "criticalHint": "When your attack roll with this weapon is a critical hit and gains the critical specialization effect, you gain the following benefit based on the weapon group:",
         "usage": "etched onto a weapon",
         "data": [
             {

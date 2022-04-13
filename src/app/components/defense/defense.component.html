@@ -223,7 +223,8 @@
                             <span class="hlist center-aligned">
                                 <input [ngbPopover]="DamageSliderTemplate" #DamagePopover="ngbPopover" triggers="manual"
                                     (focus)="DamagePopover.open()" class="number3" type="number"
-                                    [(ngModel)]="shieldDamage" maxLength="3" min="0" max="{{shield.get_MaxHP()}}">
+                                    [(ngModel)]="shieldDamage" maxLength="3" min="0" max="{{shield.get_MaxHP()}}"
+                                    (keypress)="positiveNumbersOnly($event)">
                             </span>
                             <span class="right-aligned">
                                 <button [disabled]="shieldDamage == 0"

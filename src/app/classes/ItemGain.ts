@@ -63,7 +63,14 @@ export class ItemGain {
                     const character = services.characterService.get_Character();
                     const deities = services.characterService.get_CharacterDeities(character);
                     if (deities.length) {
-                        const favoredWeaponNames: string[] = [].concat(...deities.map(deity => deity.favoredWeapon));
+                        let favoredWeaponNames: string[] = [];
+                        const deity = services.characterService.get_CharacterDeities(character)[0];
+                        if (deity && deity.favoredWeapon.length) {
+                            favoredWeaponNames.push(...deity.favoredWeapon);
+                        }
+                        if (services.characterService.get_CharacterFeatsTaken(1, creature.level, "Favored Weapon (Syncretism)").length) {
+                            favoredWeaponNames.push(...services.characterService.get_CharacterDeities(character, "syncretism")[0]?.favoredWeapon || []);
+                        }
                         if (favoredWeaponNames.length) {
                             const favoredWeapons: Weapon[] = services.itemsService.get_CleanItems().weapons.filter(weapon => favoredWeaponNames.includes(weapon.name));
                             if (favoredWeapons.length) {

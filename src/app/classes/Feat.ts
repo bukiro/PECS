@@ -163,7 +163,7 @@ export class Feat {
             this.abilityreq.forEach(requirement => {
                 let requiredAbility: Ability[] = characterService.get_Abilities(requirement.ability);
                 let expected: number = requirement.value;
-                if (requiredAbility.length > 0) {
+                if (!!requiredAbility.length) {
                     requiredAbility.forEach(ability => {
                         if (ability.baseValue(character, characterService, charLevel).result >= expected) {
                             result.push({ met: true, desc: ability.name + " " + expected });
@@ -198,7 +198,7 @@ export class Feat {
                 let requiredSkillName: string = requirement.skill;
                 let requiredSkill: Skill[] = characterService.get_Skills(character, requiredSkillName, {}, { noSubstitutions: true });
                 let expected: number = requirement.value;
-                if (requiredSkill.length > 0) {
+                if (!!requiredSkill.length) {
                     if (requiredSkill
                         .find(skill =>
                             skill.level(character, characterService, charLevel, true) >= expected
@@ -320,7 +320,7 @@ export class Feat {
             if (creature == "Familiar") {
                 return characterService.familiarsService.get_FamiliarAbilities().some(feat => feat.have(familiar, characterService, charLevel));
             } else if (creature == "Character") {
-                return characterService.get_CharacterFeatsTaken(0, charLevel, name, "", "", undefined, false, includeCountAs).length != 0;
+                return !!characterService.get_CharacterFeatsTaken(0, charLevel, name, "", "", undefined, false, includeCountAs).length;
             } else {
                 return null;
             }
@@ -358,16 +358,16 @@ export class Feat {
         let levelreq: boolean = ignoreRequirementsList.includes("levelreq") || skipLevel || this.meetsLevelReq(characterService, choiceLevel).met;
         //Check the ability reqs. True if ALL are true.
         let abilityreqs = this.meetsAbilityReq(characterService, charLevel)
-        let abilityreq: boolean = ignoreRequirementsList.includes("abilityreq") || abilityreqs.filter(req => req.met == false).length == 0;
+        let abilityreq: boolean = ignoreRequirementsList.includes("abilityreq") || !abilityreqs.filter(req => req.met == false).length;
         //Check the skill reqs. True if ANY is true.
         let skillreqs = this.meetsSkillReq(characterService, charLevel)
-        let skillreq: boolean = ignoreRequirementsList.includes("skillreq") || skillreqs.filter(req => req.met == true).length > 0;
+        let skillreq: boolean = ignoreRequirementsList.includes("skillreq") || !!skillreqs.filter(req => req.met == true).length;
         //Check the feat reqs. True if ALL are true.
         let featreqs = this.meetsFeatReq(characterService, charLevel);
-        let featreq: boolean = ignoreRequirementsList.includes("featreq") || featreqs.filter(req => req.met == false).length == 0;
+        let featreq: boolean = ignoreRequirementsList.includes("featreq") || !featreqs.filter(req => req.met == false).length;
         //Check the heritage reqs. True if ALL are true. (There is only one.)
         let heritagereqs = this.meetsHeritageReq(characterService, charLevel);
-        let heritagereq: boolean = ignoreRequirementsList.includes("heritagereq") || heritagereqs.filter(req => req.met == false).length == 0;
+        let heritagereq: boolean = ignoreRequirementsList.includes("heritagereq") || !heritagereqs.filter(req => req.met == false).length;
         //If any of the previous requirements are already not fulfilled, skip the specialreq, as it is the most performance intensive.
         if (levelreq && levelreq && abilityreq && skillreq && featreq && heritagereq) {
             //Check the special req. True if returns true.

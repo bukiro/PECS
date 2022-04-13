@@ -198,7 +198,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         const featData = this.get_Character().class.get_FeatData(0, 0, "Fuse Stance")[0];
         if (featData) {
             return this.characterService.get_OwnedActivities(this.get_Creature())
-                .filter(gain => featData.data?.["stances"]?.includes(gain.name))
+                .filter(gain => featData.valueAsStringArray('stances')?.includes(gain.name))
                 .map(gain => { return { gain: gain, activity: gain.get_OriginalActivity(this.activitiesService) } })
         }
         else {

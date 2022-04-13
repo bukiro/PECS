@@ -104,7 +104,7 @@
         <p>Select all effects you want to apply. All other effects will be discarded.</p>
         <div class="gridicon-fullsizebox">
             <input id="messagesSelectAll" class="character-choice" type="checkbox"
-                (change)="on_SelectAllMessages($event.target.checked)" [checked]="get_AllMessagesSelected()">
+                (change)="on_SelectAllMessages($event)" [checked]="get_AllMessagesSelected()">
             <label for="messagesSelectAll" style="font-size: 1.5em;">
                 <strong>Select all</strong>
             </label>

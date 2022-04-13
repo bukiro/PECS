@@ -14,6 +14,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
+import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 
 @Component({
     selector: 'app-gridIcon',
@@ -53,6 +54,8 @@ export class GridIconComponent implements OnInit, OnDestroy {
     activityGain: ActivityGain | ItemActivity = null;
     @Input()
     item: Item = null;
+    @Input()
+    itemStore: boolean = false;
     //The gridicon will refresh if this ID is updated by this.refreshService.set_Changed().
     @Input()
     updateId: string;
@@ -315,8 +318,14 @@ export class GridIconComponent implements OnInit, OnDestroy {
                         return "<i class='ra ra-sword'></i>";
                 }
             }
-            if (this.item instanceof Consumable || this.item.amount != 1) {
-                return this.item.amount.toString();
+            if (this.itemStore) {
+                if ((this.item instanceof Consumable || this.item instanceof AdventuringGear) && this.item.stack != 1) {
+                    return this.item.stack.toString();
+                }
+            } else {
+                if (this.item instanceof Consumable || this.item.amount != 1) {
+                    return this.item.amount.toString();
+                }
             }
             if (this.item instanceof Equipment && this.item.gainInventory.length) {
                 return "<i class='ra ra-hive-emblem'></i>";

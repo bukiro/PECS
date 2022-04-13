@@ -640,7 +640,7 @@ export class ItemsService {
                 let movedItem = this.cast_ItemByType(JSON.parse(JSON.stringify(item))).recast(this.typeService, this);
                 //If the item is stackable, and a stack already exists in the target inventory, just add the amount to the stack.
                 if (movedItem.can_Stack()) {
-                    let targetItem = targetInventory[item.type].find(invItem => invItem.name == movedItem.name)
+                    let targetItem = targetInventory[item.type].find((inventoryItem: Item) => inventoryItem.name == movedItem.name)
                     if (targetItem) {
                         targetItem.amount += amount;
                     } else {

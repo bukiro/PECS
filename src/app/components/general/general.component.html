@@ -124,8 +124,10 @@
             <div class="fullsize-only list-item"
                 *ngFor="let differentWorldsData of get_DifferentWorldsData(); trackBy:trackByIndex;">
                 <strong>Alternative Identity (Different Worlds)</strong>
-                <span>{{differentWorldsData.data.name}} {{(differentWorldsData.data.background) ?
-                    "("+differentWorldsData.data.background+")" : ""}}</span>
+                <span>
+                    {{differentWorldsData.getValue('name')}} {{!!differentWorldsData.getValue('background') ?
+                    "("+differentWorldsData.getValue('background')+")" : ""}}
+                </span>
             </div>
         </ng-container>
         <ng-container *ngIf="creature=='Companion'">

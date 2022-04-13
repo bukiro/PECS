@@ -99,14 +99,14 @@ export class SkillComponent implements OnInit, OnDestroy {
         }
     }
 
-    get_Activities(name: string = "") {
-        return this.activitiesService.get_Activities(name);
+    get_OriginalActivity(gain: ActivityGain | ItemActivity) {
+        return gain.get_OriginalActivity(this.activitiesService);
     }
 
-    get_FuseStanceName() {
+    public get_FuseStanceName(): string {
         let data = this.get_Character().class.get_FeatData(0, 0, "Fuse Stance")[0];
         if (data) {
-            return data.data?.["name"] || "Fused Stance";
+            return data.valueAsString("name") || "Fused Stance";
         } else {
             return "Fused Stance";
         }

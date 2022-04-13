@@ -215,7 +215,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
             }
             return feats.map(feat => {
                 let cannotTakeSubFeat = this.cannotTake(feat, choice);
-                let available = (cannotTakeSubFeat.length == 0 || (this.get_FeatTakenByChoice(feat, choice) && true));
+                let available = (!cannotTakeSubFeat.length || (this.get_FeatTakenByChoice(feat, choice) && true));
                 return { available: available, subfeat: feat, cannotTake: cannotTakeSubFeat }
             })
                 .filter(featSet => showOtherOptions || choice.filter.length || this.get_FeatTakenByChoice(featSet.subfeat, choice))
@@ -338,7 +338,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
             }
             return feats.map(feat => {
                 let featCannotTake = this.cannotTake(feat, choice);
-                let featAvailable = ((this.get_FeatTakenByChoice(feat, choice) && true) || (this.subFeatTakenByThis(allSubFeats, feat, choice) && true) || featCannotTake.length == 0);
+                let featAvailable = ((this.get_FeatTakenByChoice(feat, choice) && true) || (this.subFeatTakenByThis(allSubFeats, feat, choice) && true) || !featCannotTake.length);
                 return { available: featAvailable, feat: feat, cannotTake: featCannotTake };
             }).filter(featSet => ((this.unavailableFeats || featSet.available) && showOtherOptions) || this.get_FeatTakenByChoice(featSet.feat, choice) || this.subFeatTakenByThis(allSubFeats, featSet.feat, choice))
                 .sort(function (a, b) {
@@ -412,12 +412,11 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
                     availableFeatsNotTaken.push(featSet);
                 } else if (featSet.feat.subTypes) {
                     this.get_SubFeats(featSet.feat, choice).forEach(subFeatSet => {
-                        //Re-evaluate whether this subfeat should count, without considering whether it has already been taken, 
+                        //Re-evaluate whether this subfeat should count, without considering whether it has already been taken,
                         // because the available value considers whether another subfeat has already been taken,
                         // and we want to know if it would have been a valid choice in the first place.
-                        let cannotTake = this.cannotTake(subFeatSet.subfeat, choice, false, true);
-                        let canTake = cannotTake.length == 0;
-                        if (canTake && !this.get_FeatTakenByChoice(subFeatSet.subfeat, choice)) {
+                        const cannotTake = this.cannotTake(subFeatSet.subfeat, choice, false, true);
+                        if (!cannotTake.length && !this.get_FeatTakenByChoice(subFeatSet.subfeat, choice)) {
                             availableFeatsNotTaken.push({ available: subFeatSet.available, feat: subFeatSet.subfeat, cannotTake: cannotTake });
                         }
                     })
@@ -555,7 +554,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
             if (feat.subTypes) {
                 let subfeats: Feat[] = this.get_Feats().filter(subfeat => subfeat.superType == feat.name && !subfeat.hide);
                 let subfeatsAvailable = subfeats.some(subfeat =>
-                    this.get_FeatTakenByChoice(subfeat, choice) || this.cannotTake(subfeat, choice, skipLevel).length == 0
+                    this.get_FeatTakenByChoice(subfeat, choice) || !this.cannotTake(subfeat, choice, skipLevel).length
                 );
                 if (!subfeatsAvailable) {
                     reasons.push({ reason: "No option available", explain: "None of the options for this feat has its requirements met." });
@@ -691,7 +690,8 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         return result;
     }
 
-    on_FeatTaken(feat: Feat, taken: boolean, choice: FeatChoice, locked: boolean) {
+    on_FeatTaken(feat: Feat, event: Event, choice: FeatChoice, locked: boolean) {
+        const taken = (event.target as HTMLInputElement).checked;
         if (taken && this.get_Character().settings.autoCloseChoices && (choice.feats.length == this.get_Available(choice) - 1)) { this.toggle_List(""); }
         this.get_Character().take_Feat(this.get_Creature(), this.characterService, feat, feat.name, taken, choice, locked);
         this.refreshService.set_ToChange("Character", "charactersheet");

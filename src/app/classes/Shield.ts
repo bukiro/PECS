@@ -51,9 +51,7 @@ export class Shield extends Equipment {
                 price += (mat.bulkPrice * parseInt(this.bulk));
             }
         })
-        this.talismans.forEach(talisman => {
-            price += itemsService.get_CleanItems().talismans.find(cleanTalisman => cleanTalisman.name.toLowerCase() == talisman.name.toLowerCase()).price;
-        })
+        price += this.talismans.reduce((prev, next) => prev + next.price, 0);
         return price;
     }
     update_Modifiers(creature: Creature, services: { characterService: CharacterService, refreshService: RefreshService }) {

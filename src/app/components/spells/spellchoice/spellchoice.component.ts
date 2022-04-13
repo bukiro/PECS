@@ -390,8 +390,8 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
 
     get_AdaptiveAdeptAllowed() {
         //You can trade in a spell slot if:
-        // - This choice is a cantrip and you have the Adaptive Adept: Cantrip feat 
-        //   OR this choice is 1st level and you have the Adaptive Adept: 1st-Level Spell feat 
+        // - This choice is a cantrip and you have the Adaptive Adept: Cantrip feat
+        //   OR this choice is 1st level and you have the Adaptive Adept: 1st-Level Spell feat
         // - This choice does not have a dynamic level
         // - This choice is part of your default spellcasting
         // - This choice is not itself a bonus slot gained by trading in
@@ -781,7 +781,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                     )
                 }
                 let availableSpells: { spell: Spell, borrowed: boolean }[] = spells.filter(spell =>
-                    this.cannotTake(spell.spell).length == 0 || this.get_SpellTakenByThis(spell.spell.name)
+                    !this.cannotTake(spell.spell).length || this.get_SpellTakenByThis(spell.spell.name)
                 )
                 return availableSpells
                     .sort((a, b) => (a.spell.name == b.spell.name) ? 0 : ((a.spell.name > b.spell.name) ? 1 : -1));
@@ -892,8 +892,9 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         return this.choice.spells.filter(takenSpell => takenSpell.locked && takenSpell.name == spellName).length;
     }
 
-    on_SpellTaken(spellName: string, taken: boolean, locked: boolean, borrowed: boolean = false) {
-        let choice = this.choice;
+    on_SpellTaken(spellName: string, takenEvent: Event | boolean, locked: boolean, borrowed: boolean = false) {
+        const taken = takenEvent instanceof Event ? (<HTMLInputElement>takenEvent.target).checked : takenEvent;
+        const choice = this.choice;
         //Close the menu if all slots are filled, unless it's a spell combination choice.
         if (taken && this.get_Character().settings.autoCloseChoices && !choice.spellCombination && (choice.spells.length == this.get_Available() - 1)) { this.toggle_Choice("") }
         let prepared: boolean = this.prepared;

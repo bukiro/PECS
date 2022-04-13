@@ -21,6 +21,7 @@ import { SpellGain } from 'src/app/classes/SpellGain';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { RingOfWizardrySlot } from 'src/app/classes/WornItem';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
+import { InputValidationService } from 'src/app/services/inputValidation.service';
 
 @Component({
     selector: 'app-newItemProperty',
@@ -61,15 +62,7 @@ export class NewItemPropertyComponent {
         return item;
     }
 
-    numbersOnly(event): boolean {
-        const charCode = (event.which) ? event.which : event.keyCode;
-        if (charCode != 45 && charCode > 31 && (charCode < 48 || charCode > 57)) {
-            return false;
-        }
-        return true;
-    }
-
-    trackByIndex(index: number, obj: any): any {
+    public trackByIndex(index: number): number {
         return index;
     }
 

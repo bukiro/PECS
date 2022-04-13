@@ -13,11 +13,7 @@ export class AbilityChoice {
     public type: "Boost" | "Flaw" = "Boost";
     public bonus: boolean = false;
     maxAvailable(character: Character) {
-        let lost = 0;
-        if (character.baseValues.length > 0) {
-            lost = this.baseValuesLost
-        }
-        return this.available - lost;
+        return this.available - (!!character.baseValues.length ? this.baseValuesLost : 0);
     }
     recast() {
         return this;

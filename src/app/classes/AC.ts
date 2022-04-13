@@ -160,7 +160,7 @@ export class AC {
             explain = effect.source + ": " + effect.setValue;
         });
         const armors = defenseService.get_EquippedArmor(armorCreature);
-        if (!armorSet && armors.length > 0) {
+        if (!armorSet && !!armors.length) {
             const armor = armors[0];
             const charLevel = characterService.get_Character().level;
             const dex = characterService.get_Abilities("Dexterity")[0].mod(armorCreature, characterService, effectsService).result;

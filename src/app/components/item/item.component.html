@@ -190,7 +190,7 @@
                     </div>
                 </ng-container>
             </ng-container>
-            <app-spell [spell]=spell [spellLevel]="(taken.level) ? taken.level : (choice.level ? choice.level : 0)">
+            <app-spell [spell]=spell [spellLevel]="choice.level || 0">
             </app-spell>
         </div>
     </ng-container>

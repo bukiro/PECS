@@ -106,6 +106,9 @@ export class Item {
         }
         return this;
     }
+    public get_Price(itemsService: ItemsService) {
+        return this.price;
+    }
     get_IconTitle() {
         return this.displayName.replace(`(${ this.subType })`, "") || this.name.replace(`(${ this.subType })`, "");
     }
@@ -148,7 +151,7 @@ export class Item {
             !this.storedSpells.length
         )
     }
-    get_Name() {
+    get_Name(options: {itemStore?: boolean} = {}) {
         if (this.displayName) {
             return this.displayName;
         } else {

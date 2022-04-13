@@ -29,7 +29,8 @@ export class Spell {
     public failure: string = "";
     public gainConditions: ConditionGain[] = [];
     public gainItems: ItemGain[] = [];
-    public heightened: { variable: string, value: string }[] = [];
+    public heightened: { desc: string, level: string }[] = [];
+    public id: string = "";
     public inputRequired: string = "";
     public levelreq: number = 1;
     public name: string = "";

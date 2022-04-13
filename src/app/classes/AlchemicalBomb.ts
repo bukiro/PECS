@@ -7,6 +7,12 @@ export class AlchemicalBomb extends Weapon {
     public type = "alchemicalbombs";
     //Alchemical bombs are never moddable.
     readonly moddable = false;
+    //Usually "Free", "Reaction", "1", "2" or "3", but can be something special like "1 hour"
+    public actions: string = "1A";
+    //What needs to be done to activate? Example: "Command", "Manipulate"
+    public activationType: string = "";
+    //A description of what happens if the bomb hits
+    public hitEffect: string = "";
     //What kind of weapon is this based on? Needed for weapon proficiencies for specific magical items.
     public readonly weaponBase: string = "Alchemical Bomb";
     public readonly equippable = false;
@@ -16,5 +22,8 @@ export class AlchemicalBomb extends Weapon {
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
         return this;
+    }
+    can_Stack() {
+        return true;
     }
 }

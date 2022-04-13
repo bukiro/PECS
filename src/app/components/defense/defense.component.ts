@@ -22,6 +22,7 @@ import { Skill } from 'src/app/classes/Skill';
 import { AC, CalculatedAC } from 'src/app/classes/AC';
 import { Creature } from 'src/app/classes/Creature';
 import { Specialization } from 'src/app/classes/Specialization';
+import { InputValidationService } from 'src/app/services/inputValidation.service';
 
 @Component({
     selector: 'app-defense',
@@ -86,6 +87,10 @@ export class DefenseComponent implements OnInit, OnDestroy {
 
     private get_AC(): AC {
         return this.defenseService.get_AC();
+    }
+
+    public positiveNumbersOnly(event: KeyboardEvent): boolean {
+        return InputValidationService.positiveNumbersOnly(event);
     }
 
     public get_CalculatedAC(): CalculatedAC {

@@ -12,7 +12,6 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
-import { SpellGain } from 'src/app/classes/SpellGain';
 import { ItemGain } from 'src/app/classes/ItemGain';
 import { SpellLearned } from 'src/app/classes/SpellLearned';
 import { FormulaLearned } from 'src/app/classes/FormulaLearned';
@@ -21,6 +20,8 @@ import { TypeService } from 'src/app/services/type.service';
 import { FeatData } from 'src/app/classes/FeatData';
 
 export class Class {
+    public disabled: string = "";
+    public warning: string = "";
     public activities: ActivityGain[] = [];
     public ancestry: Ancestry = new Ancestry();
     public anathema: string[] = [];

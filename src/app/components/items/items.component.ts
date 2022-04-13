@@ -18,10 +18,16 @@ import { Scroll } from 'src/app/classes/Scroll';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
-import { AlchemicalBomb } from 'src/app/classes/AlchemicalBomb';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { Creature } from 'src/app/classes/Creature';
+import { ItemRolesService } from 'src/app/services/itemRoles.service';
+import { ItemRoles } from 'src/app/classes/ItemRoles';
+import { InputValidationService } from 'src/app/services/inputValidation.service';
+
+interface ItemParameters extends ItemRoles {
+    canUse: boolean,
+}
 
 @Component({
     selector: 'app-items',
@@ -32,7 +38,7 @@ import { Creature } from 'src/app/classes/Creature';
 export class ItemsComponent implements OnInit, OnDestroy {
 
     private showList: string = "";
-    private showItem: number = 0;
+    private showItem: string = "";
     public id: number = 0;
     public hover: number = 0;
     public wordFilter: string = "";
@@ -51,7 +57,8 @@ export class ItemsComponent implements OnInit, OnDestroy {
         private changeDetector: ChangeDetectorRef,
         private itemsService: ItemsService,
         private characterService: CharacterService,
-        private refreshService: RefreshService
+        private refreshService: RefreshService,
+        private itemRolesService: ItemRolesService,
     ) { }
 
     set_Range(amount: number) {
@@ -83,9 +90,9 @@ export class ItemsComponent implements OnInit, OnDestroy {
         return this.characterService.get_Character();
     }
 
-    toggle_Item(id: number = 0) {
+    toggle_Item(id: string = "") {
         if (this.showItem == id) {
-            this.showItem = 0;
+            this.showItem = "";
         } else {
             this.showItem = id;
         }
@@ -180,12 +187,8 @@ export class ItemsComponent implements OnInit, OnDestroy {
         this.characterService.toggle_Menu("items");
     }
 
-    numbersOnly(event): boolean {
-        const charCode = (event.which) ? event.which : event.keyCode;
-        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-            return false;
-        }
-        return true;
+    positiveNumbersOnly(event: KeyboardEvent): boolean {
+        return InputValidationService.positiveNumbersOnly(event);
     }
 
     get_SortByName(obj: Item[]) {
@@ -193,38 +196,39 @@ export class ItemsComponent implements OnInit, OnDestroy {
             .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
-    get_CanUse(item: Item) {
-        let canUse = undefined;
-        let character = this.get_Character();
-        if (item instanceof Weapon) {
-            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes(item.prof)) {
-                return item.profLevel(character, this.characterService, item, character.level) > 0;
+    get_ItemParameters(itemList: Item[]): ItemParameters[] {
+        const character = this.get_Character();
+        return itemList.map(item => {
+            const itemRoles = this.itemRolesService.getItemRoles(item);
+            const proficiency = (itemRoles.asArmor || itemRoles.asWeapon)?.get_Proficiency(character, this.characterService) || "";
+            return {
+                ...itemRoles,
+                canUse: this.get_CanUse(itemRoles, proficiency),
             }
+        });
+    }
+
+    public itemAsMaterialChangeable(item: Item): Armor | Shield | Weapon {
+        return (item instanceof Armor || item instanceof Shield || item instanceof Weapon) ? item : null;
+    }
+
+    public itemAsRuneChangeable(item: Item): Armor | Weapon | WornItem {
+        return (item instanceof Armor || item instanceof Weapon || (item instanceof WornItem && item.isHandwrapsOfMightyBlows)) ? item : null;
+    }
+
+    private get_CanUse(itemRoles: ItemRoles, proficiency: string): boolean {
+        const character = this.get_Character();
+        if (itemRoles.asWeapon) {
+            return itemRoles.asWeapon.profLevel(character, this.characterService, itemRoles.asWeapon, character.level, { preparedProficiency: proficiency }) > 0;
         }
-        if (item instanceof Armor) {
-            if (["Unarmored Defense", "Light Armor", "Medium Armor", "Heavy Armor"].includes(item.get_Proficiency())) {
-                return item.profLevel(character, this.characterService, character.level) > 0;
-            }
+        if (itemRoles.asArmor) {
+            return itemRoles.asArmor.profLevel(character, this.characterService, character.level, { itemStore: true }) > 0;
         }
-        if (item instanceof AlchemicalBomb) {
-            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes(item.prof)) {
-                return item.profLevel(character, this.characterService, item, character.level) > 0;
-            }
-        }
-        if (item instanceof OtherConsumableBomb) {
-            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes(item.prof)) {
-                return item.profLevel(character, this.characterService, item, character.level) > 0;
-            }
-        }
-        return canUse;
+        return undefined;
     }
 
     get_Price(item: Item) {
-        if (item instanceof Equipment) {
-            return item.get_Price(this.itemsService);
-        } else {
-            return item.price;
-        }
+        return item.get_Price(this.itemsService);
     }
 
     have_Funds(sum: number = 0) {
@@ -313,21 +317,10 @@ export class ItemsComponent implements OnInit, OnDestroy {
             .sort((a, b) => (a[this.sorting] == b[this.sorting]) ? 0 : (a[this.sorting] < b[this.sorting]) ? -1 : 1);
     }
 
-    can_ApplyTalismans(item: Item) {
-        return (item instanceof Armor || item instanceof Shield || item instanceof Weapon);
-    }
-
-    can_ChangeRunes(item: Item) {
-        return (item instanceof Armor || item instanceof Weapon || (item instanceof WornItem && item.isHandwrapsOfMightyBlows));
-    }
-
-    can_ChangeMaterial(item: Item) {
-        return (item instanceof Armor || item instanceof Shield || item instanceof Weapon);
-    }
-
     grant_Item(creature: string = "Character", item: Item, pay: boolean = false) {
-        if (pay && (item instanceof Equipment ? item.get_Price(this.itemsService) : item.price)) {
-            this.change_Cash(-1, item.price);
+        const price = item.get_Price(this.itemsService);
+        if (pay && price) {
+            this.change_Cash(-1, price);
         }
         let amount = 1;
         if (item instanceof AdventuringGear || item instanceof Consumable) {
@@ -408,6 +401,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
     copy_Item(item: Equipment | Consumable) {
         this.newItem = this.itemsService.initialize_Item(JSON.parse(JSON.stringify(item))) as Equipment | Consumable;
+        this.toggle_Item();
     }
 
     grant_CustomItem(creature: string = "Character") {

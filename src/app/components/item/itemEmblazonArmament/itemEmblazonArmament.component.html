@@ -69,7 +69,7 @@
                             Emblazon Energy
                         </label>
                         <select [(ngModel)]="emblazonEnergyChoice"
-                            [disabled]="disabled || item.emblazonArmament.length">
+                            [disabled]="disabled || !!item.emblazonArmament.length">
                             <option *ngFor="let option of emblazonEnergyChoices; trackBy:trackByIndex">
                                 {{option}}
                             </option>

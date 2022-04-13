@@ -41,7 +41,7 @@
             </ng-container>
             <ng-container *ngIf="!effect.setValue && !get_IsFormula(effect.value)">
                 <input type="number" class="number4" id="customEffectValue{{objectName}}{{index}}" maxLength="30"
-                    [(ngModel)]="effect.value" (blur)="validate(effect)" (keypress)="numbersOnly($event)">
+                    [(ngModel)]="effect.value" (blur)="validate(effect)">
             </ng-container>
         </span>
         <button style="flex-basis:auto;flex-grow:0;" (click)="remove_CustomEffect(effect)">Remove</button>

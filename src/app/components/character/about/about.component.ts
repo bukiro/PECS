@@ -15,7 +15,7 @@ export class AboutComponent implements OnInit {
 
     welcome: { header: string, desc: string }[] = welcome;
     hints: { header: string, desc: string, images: { file: string, title: string }[] }[] = hints;
-    changelog: { version: string, changes: { desc: string, images: { file: string, title: string }[] }[] }[] = changelog;
+    changelog: { version: string, changes: { header: string, desc: string, images: { file: string, title: string }[] }[] }[] = changelog;
 
     constructor(
         private configService: ConfigService

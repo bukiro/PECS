@@ -58,7 +58,7 @@
             [ngClass]="{'icon-list':get_TileMode(), 'vlist':!get_TileMode()}">
             <ng-container *ngFor="let gain of relatedActivityGains; let activityIndex = index; trackBy:trackByIndex;">
                 <ng-container
-                    *ngFor="let activity of (gain.isActivity ? [gain] : get_Activities(gain.name)); trackBy:trackByIndex;">
+                    *ngFor="let activity of [get_OriginalActivity(gain)]; trackBy:trackByIndex;">
                     <ng-container
                         *ngFor="let maxCharges of [activity.maxCharges({ creature: get_Creature() }, { effectsService: this.effectsService })]; trackBy:trackByIndex;">
                         <ng-container
