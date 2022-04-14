@@ -32,10 +32,7 @@
             "error",
             "always"
         ],
-        "prefer-template": [
-            "error",
-            "always"
-        ],
+        "prefer-template": "error",
         "object-curly-spacing": [
             "error",
             "always"
