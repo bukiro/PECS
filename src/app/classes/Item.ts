@@ -5,77 +5,78 @@ import { ItemGain } from 'src/app/classes/ItemGain';
 import { CharacterService } from 'src/app/services/character.service';
 import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
+import { Creature } from './Creature';
 
 export class Item {
     public readonly save: string[] = [
-        "refId"
-    ]
+        'refId'
+    ];
     public readonly neversave: string[] = [
-        "restoredFromSave"
-    ]
+        'restoredFromSave'
+    ];
     //Allow changing of "equippable" by custom item creation
     public allowEquippable: boolean;
     //Number of items of this kind in your inventory.
     //Items that can't be stacked will always remain at amount 1; Adding another item of that id will add a separate item to the inventory.
-    public amount: number = 1;
+    public amount = 1;
     //Bulk: Either "" or "L" or "<number>"
-    public bulk: string = "";
-    public craftable: boolean = true;
-    public crafted: boolean = false;
+    public bulk = '';
+    public craftable = true;
+    public crafted = false;
     //Some items need certain requirements to be crafted.
-    public craftRequirement: string = "";
+    public craftRequirement = '';
     //Some items need to store data - selected runes, spells, etc...
-    public data: { name: string, value: string | boolean, show: boolean, type: "string" | "boolean" }[] = [];
+    public data: { name: string, value: string | boolean, show: boolean, type: 'string' | 'boolean' }[] = [];
     //Full description of the item, ideally unchanged from the source material
-    public desc: string = "";
+    public desc = '';
     //For summoned items or infused reagents, the expiration ticks down, and the item is then dropped or the amount reduced. Expiration is turns * 10.
-    public expiration: number = 0;
+    public expiration = 0;
     //ExpiresOnlyIf controls whether the item's expiration only ticks down while it is equipped or while it is unequipped.
-    public expiresOnlyIf: "" | "equipped" | "unequipped" = "";
+    public expiresOnlyIf: '' | 'equipped' | 'unequipped' = '';
     //If this name is set, always show it instead of the expanded base name
-    public displayName: string = "";
+    public displayName = '';
     //Can this item be equipped (and apply its effect only then)
     public equippable: boolean;
     //Should this item be hidden in the item store
-    public hide: boolean = false;
+    public hide = false;
     //List ItemGain for every Item that you receive when you get, equip or use this item (specified in the ItemGain)
     public gainItems: ItemGain[] = [];
     //Descriptive text, set only if the item is granted via an ItemGain.
-    public grantedBy: string = "";
+    public grantedBy = '';
     //Every item gets an ID to reference in activities or other items.
     public id = uuidv4();
     //Theoretical Level before which the player should not have this item
-    public level: number = 0;
+    public level = 0;
     //Base name of the item, may be expanded by rune names for equipment
-    public name: string = "New Item";
+    public name = 'New Item';
     //The 1-4 letters that make up the title of the item's icon.
-    public iconTitleOverride: string = "";
+    public iconTitleOverride = '';
     //The upper left text in the item's icon.
-    public iconValueOverride: string = "";
+    public iconValueOverride = '';
     //Any notes the player adds to the item
-    public notes: string = "";
+    public notes = '';
     //Store any oils applied to this item.
     public oilsApplied: Oil[] = [];
     //Price in Copper
-    public price: number = 0;
+    public price = 0;
     //This is the id of the library item this one is based on. It is used when loading the character and set when the item is first initialized.
-    public refId: string = ""
+    public refId = '';
     //Is the notes input shown in the inventory
-    public showNotes: boolean = false;
-    public sourceBook: string = "";
+    public showNotes = false;
+    public sourceBook = '';
     //This bulk is only valid while in the item store.
     //This is for items like the Adventurer's Pack that is immediately unpacked into its parts and doesn't weigh anything in the inventory.
-    public storeBulk: string = "";
+    public storeBulk = '';
     //What spells are stored in this item, or can be?
     //Only the first spell will be cast when using the item.
     public storedSpells: SpellChoice[] = [];
     //Does this item come in different types? Like lesser, greater, major...
     //If so, name the subtype here
-    public subType: string = "";
+    public subType = '';
     //If you have named a subtype, this description will show up
     //e.g.: "Greater":"The bonus to Athletics is +2"
-    public subTypeDesc: string = "";
-    public tradeable: boolean = true;
+    public subTypeDesc = '';
+    public tradeable = true;
     //What traits does the item have? Can be expanded under certain circumstances
     public traits: string[] = [];
     //Some items may recalculate their traits and store them here temporarily for easier access.
@@ -85,37 +86,41 @@ export class Item {
     //Type of item - very important. Must be set by the specific Item class and decides which database is searched for the item
     public type: string;
     //For items with the same id (from different source files for example), higher overridePriority wins. If two have the same priority, the first in the list wins.
-    public overridePriority: number = 0;
+    public overridePriority = 0;
     //If markedForDeletion is set, the item isn't recursively dropped during drop_InventoryItem, thus avoiding loops stemming from gained items and gained inventories.
-    public markedForDeletion: boolean = false;
+    public markedForDeletion = false;
     //If restoredFromSave is set, the item doesn't need to be merged with its reference item again.
-    public restoredFromSave: boolean = false;
-    public PFSnote: string = "";
-    public inputRequired: string = "";
+    public restoredFromSave = false;
+    public PFSnote = '';
+    public inputRequired = '';
     recast(typeService: TypeService, itemsService: ItemsService): Item {
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         //Oils need to be cast blindly in order to avoid circular dependency warnings.
-        this.oilsApplied = this.oilsApplied.map(obj => (typeService.classCast(typeService.restore_Item(obj, itemsService), "Oil") as Oil).recast(typeService, itemsService));
+        this.oilsApplied = this.oilsApplied.map(obj => (typeService.classCast(typeService.restore_Item(obj, itemsService), 'Oil') as Oil).recast(typeService, itemsService));
         this.storedSpells = this.storedSpells.map(obj => Object.assign(new SpellChoice(), obj).recast());
         this.storedSpells.forEach((choice: SpellChoice, index) => {
             choice.source = this.id;
-            choice.id = "0-Spell-" + this.id + index;
+            choice.id = `0-Spell-${ this.id }${ index }`;
         });
         if (!this.refId) {
             this.refId = this.id;
         }
         return this;
     }
+    //Other implementations require itemsService.
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public get_Price(itemsService: ItemsService) {
         return this.price;
     }
     get_IconTitle() {
-        return this.displayName.replace(`(${ this.subType })`, "") || this.name.replace(`(${ this.subType })`, "");
+        return this.displayName.replace(`(${ this.subType })`, '') || this.name.replace(`(${ this.subType })`, '');
     }
     get_IconValue() {
-        return this.subType[0] || "";
+        return this.subType[0] || '';
     }
-    get_Traits(characterService: CharacterService, creature) {
+    //Other implementations require creature and characterService.
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    get_Traits(characterService: CharacterService, creature: Creature) {
         //Some types of items have more complicated methods of determining traits, and need characterService and creature in the function.
         this._traits = this.traits;
         return this._traits;
@@ -124,14 +129,14 @@ export class Item {
         this.traitActivations = this.traitActivations.filter(activation => this._traits.includes(activation.trait));
         this._traits.filter(trait => !this.traitActivations.some(activation => activation.trait == trait)).forEach(trait => {
             this.traitActivations.push({ trait: trait, active: false, active2: false, active3: false });
-        })
+        });
     }
     get_ActivatedTraits() {
         return this.traitActivations.filter(activation => activation.active || activation.active2 || activation.active3);
     }
     get_Bulk() {
         //Return either the bulk set by an oil, or else the actual bulk of the item.
-        let oilBulk: string = "";
+        let oilBulk = '';
         this.oilsApplied.forEach(oil => {
             if (oil.bulkEffect) {
                 oilBulk = oil.bulkEffect;
@@ -140,18 +145,20 @@ export class Item {
         return oilBulk || this.bulk;
     }
     can_Invest(): boolean {
-        return this.traits.includes("Invested");
+        return this.traits.includes('Invested');
     }
     can_Stack() {
         //Equipment, Runes and Snares have their own version of can_Stack.
         return (
             !this.equippable &&
             !this.can_Invest() &&
-            !this.gainItems.filter(gain => gain.on != "use").length &&
+            !this.gainItems.filter(gain => gain.on != 'use').length &&
             !this.storedSpells.length
-        )
+        );
     }
-    get_Name(options: {itemStore?: boolean} = {}) {
+    //Other implementations require itemStore.
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    get_Name(options: { itemStore?: boolean } = {}) {
         if (this.displayName) {
             return this.displayName;
         } else {

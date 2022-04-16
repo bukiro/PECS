@@ -25,27 +25,27 @@ export class Equipment extends Item {
     equippable = true;
     //Describe all activities that you gain from this item. The activity must be a fully described "Activity" type object
     public activities: ItemActivity[] = [];
-    public broken: boolean = false;
-    public shoddy: boolean = false;
+    public broken = false;
+    public shoddy = false;
     //Some items have a different bulk when you are carrying them instead of wearing them, like backpacks
-    public carryingBulk: string = "";
+    public carryingBulk = '';
     //Is the item currently equipped - items with equippable==false are always equipped
-    public equipped: boolean = false;
+    public equipped = false;
     //List EffectGain for every Effect that comes from equipping and investing the item
     public effects: EffectGain[] = [];
     //Amount of propertyRunes you can still apply
     public get freePropertyRunes(): number {
         //You can apply as many property runes as the level of your potency rune. Each rune with the Saggorak trait counts double.
-        let runes = this.potencyRune - this.propertyRunes.length - this.propertyRunes.filter(rune => rune.traits.includes("Saggorak")).length;
+        let runes = this.potencyRune - this.propertyRunes.length - this.propertyRunes.filter(rune => rune.traits.includes('Saggorak')).length;
         //Material can allow you to have four runes instead of three.
-        let extraRune = this.material?.[0]?.extraRune || 0;
+        const extraRune = this.material?.[0]?.extraRune || 0;
         if (this.potencyRune == 3 && extraRune) {
             for (let index = 0; index < extraRune; index++) {
                 runes++;
             }
         }
         return runes;
-    };
+    }
     //Name any common activity that becomes available when you equip and invest this item.
     public gainActivities: ActivityGain[] = [];
     //If this is a container, list whether it has a limit and a bulk reduction.
@@ -58,42 +58,42 @@ export class Equipment extends Item {
     //If no hint is set, desc will show instead
     public hints: Hint[] = [];
     //Is the item currently invested - items without the Invested trait are always invested and don't count against the limit.
-    public invested: boolean = false;
+    public invested = false;
     public material: Material[] = [];
     //Can runes and material be applied to this item? Armor, shields, weapons and handwraps of mighty blows can usually be modded, but other equipment and specific magic versions of them should not.
-    public moddable: boolean = false;
+    public moddable = false;
     //Potency Rune level for weapons and armor
-    public potencyRune: number = 0;
+    public potencyRune = 0;
     //Property Runes for weapons and armor
     public propertyRunes: Rune[] = [];
     //Blade Ally Runes can be emulated on weapons and handwraps
     public bladeAllyRunes: Rune[] = [];
     //Resilient Rune level for armor
-    public resilientRune: number = 0;
+    public resilientRune = 0;
     //Is the name input visible in the inventory
-    public showName: boolean = false;
+    public showName = false;
     //Is the rune selection visible in the inventory
-    public showRunes: boolean = false;
+    public showRunes = false;
     //Is the status selection visible in the inventory
-    public showStatus: boolean = false;
+    public showStatus = false;
     //Striking Rune level for weapons
-    public strikingRune: number = 0;
+    public strikingRune = 0;
     //Store any talismans attached to this item.
     public talismans: Talisman[] = [];
     //List any Talisman Cords attached to this item.
     public talismanCords: WornItem[] = [];
     //List any senses you gain when the item is equipped or invested.
     public gainSenses: string[] = [];
-    public showChoicesInInventory: boolean = false;
+    public showChoicesInInventory = false;
     public choices: string[] = [];
-    public choice: string = "";
+    public choice = '';
     recast(typeService: TypeService, itemsService: ItemsService): Equipment {
         super.recast(typeService, itemsService);
         this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
-        this.activities.forEach(activity => { activity.source = this.id });
+        this.activities.forEach(activity => { activity.source = this.id; });
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
         this.gainActivities = this.gainActivities.map(obj => Object.assign(new ActivityGain(), obj).recast());
-        this.gainActivities.forEach(gain => { gain.source = this.id });
+        this.gainActivities.forEach(gain => { gain.source = this.id; });
         this.gainInventory = this.gainInventory.map(obj => Object.assign(new InventoryGain(), obj).recast());
         this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
         this.gainConditions.forEach(conditionGain => {
@@ -101,44 +101,44 @@ export class Equipment extends Item {
                 conditionGain.source == this.name;
             }
             conditionGain.fromItem = true;
-        })
+        });
         this.gainSpells = this.gainSpells.map(obj => Object.assign(new SpellChoice(), obj).recast());
         this.gainSpells.forEach(choice => {
             if (!choice.castingType) {
-                choice.castingType = "Innate";
+                choice.castingType = 'Innate';
             }
             choice.source = this.name;
             choice.spells.forEach(gain => {
                 gain.source = choice.source;
-            })
-        })
+            });
+        });
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.material = this.material.map(obj => Object.assign(new Material(), obj).recast());
         this.propertyRunes = this.propertyRunes.map(obj => Object.assign<Rune, Item>(new Rune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         this.bladeAllyRunes = this.bladeAllyRunes.map(obj => Object.assign<Rune, Item>(new Rune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         this.talismans = this.talismans.map(obj => Object.assign<Talisman, Item>(new Talisman(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         //Talisman Cords need to be cast blindly to avoid circular dependency warnings.
-        this.talismanCords = this.talismanCords.map(obj => (typeService.classCast(typeService.restore_Item(obj, itemsService), "WornItem") as WornItem).recast(typeService, itemsService));
+        this.talismanCords = this.talismanCords.map(obj => (typeService.classCast(typeService.restore_Item(obj, itemsService), 'WornItem') as WornItem).recast(typeService, itemsService));
         if (this.choices.length && !this.choices.includes(this.choice)) {
             this.choice = this.choices[0];
         }
         return this;
     }
     get_IconValue() {
-        let parts: string[] = [];
+        const parts: string[] = [];
         if (this.subType) {
             parts.push(this.subType[0]);
         }
         if (this.choice) {
             parts.push(this.choice[0]);
         }
-        return parts.join(",");
+        return parts.join(',');
     }
     investedOrEquipped(): boolean {
         return this.can_Invest() ? this.invested : (this.equipped == this.equippable);
     }
     can_Invest() {
-        return (this.traits.includes("Invested"));
+        return (this.traits.includes('Invested'));
     }
     can_Stack() {
         //Equipment cannot stack.
@@ -152,14 +152,14 @@ export class Equipment extends Item {
                 bulk = (parseInt(this.bulk) + material.bulkModifier).toString();
                 if (parseInt(bulk) == 0 && parseInt(this.bulk) != 0) {
                     //Material can't reduce the bulk to 0.
-                    bulk = "L";
+                    bulk = 'L';
                 }
             }
-        })
-        let oilBulk: string = "";
+        });
+        let oilBulk = '';
         this.oilsApplied.forEach(oil => {
             if (oil.bulkEffect) {
-                oilBulk = oil.bulkEffect
+                oilBulk = oil.bulkEffect;
             }
         });
         bulk = (this.carryingBulk && !this.equipped) ? this.carryingBulk : bulk;
@@ -171,9 +171,9 @@ export class Equipment extends Item {
     }
     get_Potency(potency: number) {
         if (potency > 0) {
-            return "+" + potency;
+            return `+${ potency }`;
         } else {
-            return "";
+            return '';
         }
     }
     get_StrikingRune() {
@@ -183,13 +183,13 @@ export class Equipment extends Item {
     get_Striking(striking: number) {
         switch (striking) {
             case 0:
-                return "";
+                return '';
             case 1:
-                return "Striking";
+                return 'Striking';
             case 2:
-                return "Greater Striking";
+                return 'Greater Striking';
             case 3:
-                return "Major Striking";
+                return 'Major Striking';
         }
     }
     get_ResilientRune() {
@@ -199,75 +199,77 @@ export class Equipment extends Item {
     get_Resilient(resilient: number) {
         switch (resilient) {
             case 0:
-                return "";
+                return '';
             case 1:
-                return "Resilient";
+                return 'Resilient';
             case 2:
-                return "Greater Resilient";
+                return 'Greater Resilient';
             case 3:
-                return "Major Resilient";
+                return 'Major Resilient';
         }
     }
     protected get_SecondaryRuneName(): string {
         //Weapons, Armors and Worn Items that can bear runes have their own version of this method.
-        return "";
+        return '';
     }
     protected get_BladeAllyName(): string[] {
         //Weapons have their own version of this method.
         return [];
     }
-    get_Name(options: {itemStore?: boolean} = {}) {
+    get_Name(options: { itemStore?: boolean } = {}) {
         if (this.displayName.length) {
-            return this.displayName + ((!options.itemStore && this.choice) ? ": " + this.choice : "");
+            return this.displayName + ((!options.itemStore && this.choice) ? `: ${ this.choice }` : '');
         } else {
-            let words: string[] = [];
-            let potency = this.get_Potency(this.get_PotencyRune());
+            const words: string[] = [];
+            const potency = this.get_Potency(this.get_PotencyRune());
             if (potency) {
                 words.push(potency);
             }
-            let secondary: string = "";
+            let secondary = '';
             secondary = this.get_SecondaryRuneName();
             if (secondary) {
                 words.push(secondary);
             }
             this.propertyRunes.forEach(rune => {
                 let name: string = rune.name;
-                if (rune.name.includes("(Greater)")) {
-                    name = "Greater " + rune.name.substr(0, rune.name.indexOf("(Greater)"));
-                } else if (rune.name.includes(", Greater)")) {
-                    name = "Greater " + rune.name.substr(0, rune.name.indexOf(", Greater)")) + ")";
+                if (rune.name.includes('(Greater)')) {
+                    name = `Greater ${ rune.name.substr(0, rune.name.indexOf('(Greater)')) }`;
+                } else if (rune.name.includes(', Greater)')) {
+                    name = `Greater ${ rune.name.substr(0, rune.name.indexOf(', Greater)')) })`;
                 }
                 words.push(name);
-            })
+            });
             this.get_BladeAllyName().forEach(name => {
                 words.push(name);
-            })
+            });
             this.material.forEach(mat => {
                 words.push(mat.get_Name());
-            })
+            });
             //If you have any material in the name of the item, and it has a material applied, remove the original material. This list may grow.
-            let materials = [
-                "Wooden ",
-                "Steel "
-            ]
+            const materials = [
+                'Wooden ',
+                'Steel '
+            ];
             if (this.material.length && materials.some(mat => this.name.toLowerCase().includes(mat.toLowerCase()))) {
                 let name = this.name;
                 materials.forEach(mat => {
-                    name = name.replace(mat, "");
-                })
+                    name = name.replace(mat, '');
+                });
                 words.push(name);
             } else {
-                words.push(this.name)
+                words.push(this.name);
             }
-            return words.join(" ") + ((!options.itemStore && this.choice) ? ": " + this.choice : "");
+            return words.join(' ') + ((!options.itemStore && this.choice) ? `: ${ this.choice }` : '');
         }
     }
+    //Other implementations require creature and characterService.
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     get_EffectsGenerationObjects(creature: Creature, characterService: CharacterService): (Equipment | Specialization | Rune)[] {
         return [this];
     }
     get_EffectsGenerationHints(): HintEffectsObject[] {
         function convert_Hints(item: Equipment | Oil | Material) {
-            return item.hints.map(hint => { return { hint: hint, parentItem: item, objectName: item.get_Name() } })
+            return item.hints.map(hint => { return { hint: hint, parentItem: item, objectName: item.get_Name() }; });
         }
         return convert_Hints(this)
             .concat(...this.oilsApplied.map(oil => convert_Hints(oil)))

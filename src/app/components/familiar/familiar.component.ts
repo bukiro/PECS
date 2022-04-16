@@ -13,8 +13,8 @@ import { RefreshService } from 'src/app/services/refresh.service';
 })
 export class FamiliarComponent implements OnInit, OnDestroy {
 
-    private showMode: string = "";
-    public mobile: boolean = false;
+    private showMode = '';
+    public mobile = false;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -26,7 +26,7 @@ export class FamiliarComponent implements OnInit, OnDestroy {
 
     minimize() {
         this.characterService.get_Character().settings.familiarMinimized = !this.characterService.get_Character().settings.familiarMinimized;
-        this.set_Changed("Familiar");
+        this.set_Changed('Familiar');
     }
 
     get_Minimized() {
@@ -38,14 +38,14 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     }
 
     toggleFamiliarMenu() {
-        this.characterService.toggle_Menu("familiar");
+        this.characterService.toggle_Menu('familiar');
     }
 
     get_FamiliarMenuState() {
         return this.characterService.get_FamiliarMenuState();
     }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
@@ -64,10 +64,10 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     get_Familiar() {
         return this.characterService.get_Familiar();
     }
-    
+
     toggle_Mode(type: string) {
         if (this.showMode == type) {
-            this.showMode = "";
+            this.showMode = '';
         } else {
             this.showMode = type;
         }
@@ -78,12 +78,12 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     }
 
     get_FamiliarAbilitiesFinished() {
-        let choice = this.get_Familiar().abilities;
+        const choice = this.get_Familiar().abilities;
         let available = choice.available;
-        this.effectsService.get_AbsolutesOnThis(this.get_Character(), "Familiar Abilities").forEach(effect => {
+        this.effectsService.get_AbsolutesOnThis(this.get_Character(), 'Familiar Abilities').forEach(effect => {
             available = parseInt(effect.setValue);
         });
-        this.effectsService.get_RelativesOnThis(this.get_Character(), "Familiar Abilities").forEach(effect => {
+        this.effectsService.get_RelativesOnThis(this.get_Character(), 'Familiar Abilities').forEach(effect => {
             available += parseInt(effect.value);
         });
         return choice.feats.length >= available;
@@ -95,17 +95,17 @@ export class FamiliarComponent implements OnInit, OnDestroy {
 
     finish_Loading() {
         if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
+            setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
-                    if (["familiar", "all"].includes(target.toLowerCase())) {
+                    if (['familiar', 'all'].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
-                    if (view.creature.toLowerCase() == "familiar" && ["familiar", "all"].includes(view.target.toLowerCase())) {
+                    if (view.creature.toLowerCase() == 'familiar' && ['familiar', 'all'].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
@@ -127,12 +127,12 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     }
 
     @HostListener('window:resize', ['$event'])
-    onResize(event) {
+    onResize() {
         this.set_Mobile();
     }
 
     @HostListener('window:orientationchange', ['$event'])
-    onRotate(event) {
+    onRotate() {
         this.set_Mobile();
     }
 

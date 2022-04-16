@@ -29,7 +29,7 @@ export class ItemTalismanCordsComponent implements OnInit {
         private typeService: TypeService
     ) { }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
@@ -50,10 +50,10 @@ export class ItemTalismanCordsComponent implements OnInit {
     }
 
     get_InitialTalismanCords(index: number) {
-        let item = this.item;
+        const item = this.item;
         //Start with one empty cord to select nothing.
-        let allCords: { talismanCord: WornItem, inv: ItemCollection }[] = [{ talismanCord: new WornItem(), inv: null }];
-        allCords[0].talismanCord.name = "";
+        const allCords: { talismanCord: WornItem, inv: ItemCollection }[] = [{ talismanCord: new WornItem(), inv: null }];
+        allCords[0].talismanCord.name = '';
         //Add the current choice, if the item has a cord at that index.
         if (item.talismanCords[index]) {
             allCords.push(this.newTalismanCord[index] as { talismanCord: WornItem, inv: ItemCollection });
@@ -66,17 +66,17 @@ export class ItemTalismanCordsComponent implements OnInit {
     }
 
     get_TalismanCordSchools(cord: WornItem) {
-        if (cord.data?.length && cord.data.some((data, index) => index <= cord.isTalismanCord && data.value != "no school attuned")) {
-            return cord.data.filter((data, index) => index <= cord.isTalismanCord && data.value != "no school attuned").map(data => data.value.toString()).join(", ");
+        if (cord.data?.length && cord.data.some((data, index) => index <= cord.isTalismanCord && data.value != 'no school attuned')) {
+            return cord.data.filter((data, index) => index <= cord.isTalismanCord && data.value != 'no school attuned').map(data => data.value.toString()).join(', ');
         } else {
-            return "no school attuned";
+            return 'no school attuned';
         }
     }
 
     add_TalismanCord(index: number) {
-        let item: Equipment = this.item;
-        let cord: WornItem = this.newTalismanCord[index].talismanCord;
-        let inv: ItemCollection = this.newTalismanCord[index].inv;
+        const item: Equipment = this.item;
+        const cord: WornItem = this.newTalismanCord[index].talismanCord;
+        const inv: ItemCollection = this.newTalismanCord[index].inv;
         if (!item.talismanCords[index] || cord !== item.talismanCords[index]) {
             //If there is an Talisman Cord in this slot, return the old cord to the inventory, unless we are in the item store. Then remove it from the item.
             if (item.talismanCords[index]) {
@@ -84,10 +84,10 @@ export class ItemTalismanCordsComponent implements OnInit {
                 item.talismanCords.splice(index, 1);
             }
             //Then add the new Talisman Cord to the item and (unless we are in the item store) remove it from the inventory.
-            if (cord.name != "") {
+            if (cord.name != '') {
                 //Add a copy of the cord to the item
-                let newLength = item.talismanCords.push(Object.assign<WornItem, WornItem>(new WornItem, JSON.parse(JSON.stringify(cord))).recast(this.typeService, this.itemsService));
-                let newCord = item.talismanCords[newLength - 1];
+                const newLength = item.talismanCords.push(Object.assign<WornItem, WornItem>(new WornItem, JSON.parse(JSON.stringify(cord))).recast(this.typeService, this.itemsService));
+                const newCord = item.talismanCords[newLength - 1];
                 newCord.amount = 1;
                 //Remove the inserted Talisman Cord from the inventory, either by decreasing the amount or by dropping the item.
                 this.characterService.drop_InventoryItem(this.get_Character(), inv, cord, false, false, false, 1);
@@ -107,14 +107,14 @@ export class ItemTalismanCordsComponent implements OnInit {
     }
 
     set_ToChange() {
-        this.refreshService.set_ToChange("Character", "inventory");
+        this.refreshService.set_ToChange('Character', 'inventory');
         if (this.item instanceof Weapon) {
-            this.refreshService.set_ToChange("Character", "attacks");
+            this.refreshService.set_ToChange('Character', 'attacks');
         }
         if (this.item instanceof Armor || this.item instanceof Shield || this.item instanceof WornItem) {
-            this.refreshService.set_ToChange("Character", "defense");
+            this.refreshService.set_ToChange('Character', 'defense');
         }
-        this.refreshService.set_ToChange("Character", this.item.id);
+        this.refreshService.set_ToChange('Character', this.item.id);
     }
 
     set_TalismanCordNames() {
@@ -122,8 +122,8 @@ export class ItemTalismanCordsComponent implements OnInit {
             (this.item.talismanCords ? [
                 (this.item.talismanCords[0] ? { talismanCord: this.item.talismanCords[0], inv: null } : { talismanCord: new WornItem(), inv: null })
             ] : [{ talismanCord: new WornItem(), inv: null }]);
-        this.newTalismanCord.filter(cord => cord.talismanCord.name == "New Item").forEach(cord => {
-            cord.talismanCord.name = "";
+        this.newTalismanCord.filter(cord => cord.talismanCord.name == 'New Item').forEach(cord => {
+            cord.talismanCord.name = '';
         });
     }
 

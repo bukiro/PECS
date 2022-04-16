@@ -37,12 +37,12 @@ type ActivityParameter = {
 export class ActivitiesComponent implements OnInit, OnDestroy {
 
     @Input()
-    public creature: string = "Character";
+    public creature = 'Character';
     @Input()
-    public sheetSide: string = "left";
-    private showActivity: string = "";
-    private showItem: string = "";
-    private showFeatChoice: string = "";
+    public sheetSide = 'left';
+    private showActivity = '';
+    private showItem = '';
+    private showFeatChoice = '';
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -59,23 +59,23 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
 
     public get_Minimized(): boolean {
         switch (this.creature) {
-            case "Character":
+            case 'Character':
                 return this.characterService.get_Character().settings.activitiesMinimized;
-            case "Companion":
+            case 'Companion':
                 return this.characterService.get_Character().settings.companionMinimized;
         }
     }
 
-    public trackByIndex(index: number, obj: any): number {
+    public trackByIndex(index: number): number {
         return index;
     }
 
     public toggle_Activity(id: string): void {
         if (this.showActivity == id) {
-            this.showActivity = "";
+            this.showActivity = '';
         } else {
             this.showActivity = id;
-            this.showFeatChoice = "";
+            this.showFeatChoice = '';
         }
     }
 
@@ -85,18 +85,18 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
 
     private toggle_Item(name: string) {
         if (this.showItem == name) {
-            this.showItem = "";
+            this.showItem = '';
         } else {
             this.showItem = name;
         }
     }
 
-    private toggle_FeatChoice(name: string = ""): void {
+    private toggle_FeatChoice(name = ''): void {
         if (this.showFeatChoice == name) {
-            this.showFeatChoice = "";
+            this.showFeatChoice = '';
         } else {
             this.showFeatChoice = name;
-            this.showActivity = "";
+            this.showActivity = '';
         }
     }
 
@@ -122,7 +122,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
 
     public toggle_TileMode(): void {
         this.get_Character().settings.activitiesTileMode = !this.get_Character().settings.activitiesTileMode;
-        this.refreshService.set_ToChange("Character", "activities");
+        this.refreshService.set_ToChange('Character', 'activities');
         this.refreshService.process_ToChange();
     }
 
@@ -149,20 +149,20 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
                 maxCharges: maxCharges,
                 disabled: gainSet.gain.disabled({ creature: creature, maxCharges: maxCharges }, { effectsService: this.effectsService, timeService: this.timeService }),
                 hostile: gainSet.activity.get_IsHostile()
-            }
-        })
+            };
+        });
     }
 
     public get_ClassDCs(): Skill[] {
-        return this.characterService.get_Skills(this.get_Creature(), "", { type: "Class DC" }).filter(skill => skill.level(this.get_Creature(), this.characterService) > 0);
+        return this.characterService.get_Skills(this.get_Creature(), '', { type: 'Class DC' }).filter(skill => skill.level(this.get_Creature(), this.characterService) > 0);
     }
 
     private get_OwnedActivities(): ActivitySet[] {
-        let activities: ActivitySet[] = [];
-        let unique: string[] = [];
+        const activities: ActivitySet[] = [];
+        const unique: string[] = [];
         const fuseStanceName = this.get_FuseStanceName();
         function activityName(name: string) {
-            if (!!fuseStanceName && name === "Fused Stance") {
+            if (!!fuseStanceName && name === 'Fused Stance') {
                 return fuseStanceName;
             } else {
                 return name;
@@ -175,42 +175,42 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
                 unique.push(gain.name);
                 activities.push({ name: activityName(gain.name), gain: gain, activity: activity });
             }
-        })
+        });
         return activities.sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
     private get_FuseStanceName(): string {
-        let data = this.get_Character().class.get_FeatData(0, 0, "Fuse Stance")[0];
+        const data = this.get_Character().class.get_FeatData(0, 0, 'Fuse Stance')[0];
         if (data) {
-            return data.valueAsString("name") || "Fused Stance";
+            return data.valueAsString('name') || 'Fused Stance';
         } else {
             return null;
         }
     }
 
     public get_TemporaryFeatChoices(): FeatChoice[] {
-        let choices: FeatChoice[] = [];
-        if (this.creature == "Character") {
+        const choices: FeatChoice[] = [];
+        if (this.creature == 'Character') {
             (this.get_Creature() as Character).class.levels.filter(level => level.number <= this.get_Creature().level).forEach(level => {
-                choices.push(...level.featChoices.filter(choice => choice.showOnSheet))
-            })
+                choices.push(...level.featChoices.filter(choice => choice.showOnSheet));
+            });
         }
         return choices;
     }
 
     private finish_Loading(): void {
         if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
+            setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
-                    if (target == "activities" || target == "all" || target.toLowerCase() == this.creature.toLowerCase()) {
+                    if (target == 'activities' || target == 'all' || target.toLowerCase() == this.creature.toLowerCase()) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
-                    if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["activities", "all"].includes(view.target.toLowerCase())) {
+                    if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['activities', 'all'].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });

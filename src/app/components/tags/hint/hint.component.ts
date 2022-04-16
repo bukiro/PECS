@@ -11,6 +11,11 @@ import { TraitsService } from 'src/app/services/traits.service';
 import { WornItem } from 'src/app/classes/WornItem';
 import { EffectsService } from 'src/app/services/effects.service';
 import { Character } from 'src/app/classes/Character';
+import { ArmorRune } from 'src/app/classes/ArmorRune';
+import { Equipment } from 'src/app/classes/Equipment';
+import { Material } from 'src/app/classes/Material';
+import { Oil } from 'src/app/classes/Oil';
+import { WeaponRune } from 'src/app/classes/WeaponRune';
 
 @Component({
     selector: 'app-hint',
@@ -20,19 +25,19 @@ import { Character } from 'src/app/classes/Character';
 export class HintComponent {
 
     @Input()
-    creature: string = "Character";
+    creature = 'Character';
     @Input()
-    object: any = null;
+    object: Feat | Activity | ConditionSet | Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material | { desc?: string, hints: Hint[]; } = null;
     @Input()
-    objectName: string = "";
+    objectName = '';
     @Input()
-    sourceBook: string = "";
+    sourceBook = '';
     @Input()
-    description: string = "";
+    description = '';
     @Input()
-    noFilter: boolean = false;
+    noFilter = false;
     @Input()
-    color: string = "";
+    color = '';
 
     constructor(
         public characterService: CharacterService,
@@ -41,7 +46,7 @@ export class HintComponent {
         private traitsService: TraitsService
     ) { }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
@@ -58,21 +63,20 @@ export class HintComponent {
     }
 
     get_Hints(): Hint[] {
-        const isConditionSet = this.object instanceof ConditionSet;
         if (this.noFilter) {
-            return (isConditionSet ? (this.object as ConditionSet).condition.hints : this.object.hints);
+            return (this.object instanceof ConditionSet ? this.object.condition.hints : this.object.hints);
         }
         const isSlottedAeonStone = this.object instanceof WornItem && this.object.isSlottedAeonStone;
         const isEmblazonArmamentShield = (this.object instanceof Shield && this.object.emblazonArmament.length) ? this.object : null;
-        return (isConditionSet ? this.object.condition.hints : this.object.hints)
+        return (this.object instanceof ConditionSet ? this.object.condition.hints : this.object.hints)
             .filter((hint: Hint) =>
                 (hint.minLevel ? this.get_CharacterLevel() >= hint.minLevel : true) &&
                 (
-                    isConditionSet ?
+                    this.object instanceof ConditionSet ?
                         (
                             (
                                 hint.conditionChoiceFilter.length ?
-                                    (hint.conditionChoiceFilter.includes("-") && this.object.gain.choice == "") ||
+                                    (hint.conditionChoiceFilter.includes('-') && this.object.gain.choice == '') ||
                                     (hint.conditionChoiceFilter.includes(this.object.gain.choice)) :
                                     true
                             )
@@ -82,13 +86,13 @@ export class HintComponent {
                 (hint.resonant ? isSlottedAeonStone : true)
             )
             .filter((hint: Hint) =>
-                hint.showon.split(",")
+                hint.showon.split(',')
                     .some(showon =>
                         showon.trim().toLowerCase() == this.objectName.toLowerCase() ||
-                        showon.trim().toLowerCase() == (this.creature + ":" + this.objectName).toLowerCase() ||
+                        showon.trim().toLowerCase() == (`${ this.creature }:${ this.objectName }`).toLowerCase() ||
                         (
-                            this.objectName.toLowerCase().includes("lore") &&
-                            showon.trim().toLowerCase() == "lore"
+                            this.objectName.toLowerCase().includes('lore') &&
+                            showon.trim().toLowerCase() == 'lore'
                         ) ||
                         (
                             //Show Emblazon Energy or Emblazon Antimagic Shield Block hint on Shield Block if the shield's blessing applies.
@@ -96,17 +100,17 @@ export class HintComponent {
                             (
                                 (
                                     isEmblazonArmamentShield._emblazonEnergy &&
-                                    this.objectName == "Shield Block" &&
-                                    showon == "Emblazon Energy Shield Block"
+                                    this.objectName == 'Shield Block' &&
+                                    showon == 'Emblazon Energy Shield Block'
                                 ) || (
                                     isEmblazonArmamentShield._emblazonAntimagic &&
-                                    this.objectName == "Shield Block" &&
-                                    showon == "Emblazon Antimagic Shield Block"
+                                    this.objectName == 'Shield Block' &&
+                                    showon == 'Emblazon Antimagic Shield Block'
                                 )
                             )
                         )
                     )
-            )
+            );
     }
 
     get_HintDescription(hint: Hint) {
@@ -116,7 +120,7 @@ export class HintComponent {
             if (this.object instanceof ConditionSet) {
                 return this.object.condition.get_Heightened(this.object.condition.desc, this.object.gain.heightened);
             } else {
-                return this.object.desc || "";
+                return this.object.desc || '';
             }
         }
     }
@@ -133,26 +137,26 @@ export class HintComponent {
     get_HintChoice(hint: Hint) {
         //Only for condition hints, append the choice if the hint only showed up because of the choice.
         if (this.object instanceof ConditionSet && hint.conditionChoiceFilter.length) {
-            return ": " + this.object.gain.choice;
+            return `: ${ this.object.gain.choice }`;
         }
-        return "";
+        return '';
     }
 
     on_ActivateEffect() {
-        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.set_ToChange(this.creature, 'effects');
         this.refreshService.process_ToChange();
     }
 
-    get_Traits(traitName: string = "") {
+    get_Traits(traitName = '') {
         return this.traitsService.get_Traits(traitName);
     }
 
     get_Source(hint: Hint) {
         if (hint.replaceSource.length) {
-            let replaceSource = hint.replaceSource[0];
+            const replaceSource = hint.replaceSource[0];
             if (replaceSource.source) {
                 switch (replaceSource.type) {
-                    case "feat":
+                    case 'feat':
                         return this.characterService.get_FeatsAndFeatures(replaceSource.source)[0] || this.object;
                 }
             }
@@ -160,23 +164,23 @@ export class HintComponent {
         return this.object;
     }
 
-    get_ObjectType(object: any) {
+    get_ObjectType(object: Feat | Activity | ConditionSet | Item | { desc?: string }) {
         if (object instanceof Feat) {
-            return "Feat";
+            return 'Feat';
         }
         if (object instanceof Activity) {
-            return "Activity";
+            return 'Activity';
         }
         if (object instanceof ConditionSet) {
-            return "ConditionSet";
+            return 'ConditionSet';
         }
         if (object instanceof Item) {
-            return "Item";
+            return 'Item';
         }
         if (object?.desc) {
-            return "DescOnly";
+            return 'DescOnly';
         }
-        return "";
+        return '';
     }
 
 }

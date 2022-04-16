@@ -23,21 +23,21 @@ import { Activity } from 'src/app/classes/Activity';
 export class TagsComponent implements OnInit, OnDestroy {
 
     @Input()
-    creature: string = "Character";
+    creature = 'Character';
     @Input()
-    objectName: string = "";
+    objectName = '';
     @Input()
-    showTraits: boolean = false;
+    showTraits = false;
     @Input()
-    showFeats: boolean = false;
+    showFeats = false;
     @Input()
-    showItems: boolean = false;
+    showItems = false;
     @Input()
-    showActivities: boolean = false;
+    showActivities = false;
     @Input()
-    showConditions: boolean = false;
+    showConditions = false;
     @Input()
-    showEffects: boolean = false;
+    showEffects = false;
     @Input()
     specialNames: string[] = [];
     @Input()
@@ -58,7 +58,7 @@ export class TagsComponent implements OnInit, OnDestroy {
         return this.characterService.still_loading();
     }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
@@ -67,7 +67,7 @@ export class TagsComponent implements OnInit, OnDestroy {
     }
 
     get_AllTags() {
-        let allTags = {
+        const allTags = {
             count: 0,
             traits: [],
             feats: [],
@@ -76,25 +76,25 @@ export class TagsComponent implements OnInit, OnDestroy {
             activities: [],
             conditions: [],
             effects: []
-        }
+        };
         allTags.traits = [this.objectName].concat(this.specialNames).map(name => {
             return { setName: name, traits: this.get_TraitsForThis(name) };
-        })
+        });
         allTags.feats = [this.objectName].concat(this.specialNames).map((name, index) => {
             return { setName: name, feats: this.get_FeatsShowingOn(name, index == 0 ? this.showFeats : true) };
-        })
+        });
         allTags.items = [this.objectName].concat(this.specialNames).map(name => {
             return { setName: name, items: this.get_ItemsShowingOn(name) };
-        })
+        });
         allTags.specializations = [this.objectName].concat(this.specialNames).map(name => {
             return { setName: name, specializations: this.get_SpecializationsShowingOn(name) };
-        })
+        });
         allTags.activities = [this.objectName].concat(this.specialNames).map(name => {
             return { setName: name, activities: this.get_ActivitiesShowingOn(name) };
-        })
+        });
         allTags.conditions = [this.objectName].concat(this.specialNames).map(name => {
             return { setName: name, conditionSets: this.get_ConditionsShowingOn(name) };
-        })
+        });
         allTags.effects = this.get_EffectsOnThis(this.objectName).concat(this.specialEffects);
         allTags.count = allTags.traits.reduce((a, b) => a + b.traits.length, 0) +
             allTags.feats.reduce((a, b) => a + b.feats.length, 0) +
@@ -102,7 +102,7 @@ export class TagsComponent implements OnInit, OnDestroy {
             allTags.specializations.reduce((a, b) => a + b.specializations.length, 0) +
             allTags.activities.reduce((a, b) => a + b.activities.length, 0) +
             allTags.conditions.reduce((a, b) => a + b.conditionSets.length, 0) +
-            allTags.effects.length
+            allTags.effects.length;
         return allTags;
     }
 
@@ -123,17 +123,17 @@ export class TagsComponent implements OnInit, OnDestroy {
         a: AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat | Condition | Item | Material | Specialization | Activity,
         b: AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat | Condition | Item | Material | Specialization | Activity
     ) {
-        return (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1)
+        return (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1);
     }
 
     get_FeatsShowingOn(name: string, show: boolean): (AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat)[] {
-        if (show && name && this.creature == "Character") {
+        if (show && name && this.creature == 'Character') {
             return this.characterService.get_FeatsShowingOn(name)
                 .sort((a, b) => this.nameSort(a, b));
-        } else if (show && name && this.creature == "Companion") {
+        } else if (show && name && this.creature == 'Companion') {
             return this.characterService.get_CompanionShowingOn(name)
                 .sort((a, b) => this.nameSort(a, b));
-        } else if (show && name && this.creature == "Familiar") {
+        } else if (show && name && this.creature == 'Familiar') {
             return this.characterService.get_FamiliarShowingOn(name)
                 .sort((a, b) => this.nameSort(a, b));
         } else {
@@ -188,17 +188,17 @@ export class TagsComponent implements OnInit, OnDestroy {
     }
 
     on_ActivateEffect() {
-        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.set_ToChange(this.creature, 'effects');
         this.refreshService.process_ToChange();
     }
 
     finish_Loading() {
         if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
+            setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
-                    if (["tags", "all", this.creature, this.objectName].includes(target)) {
+                    if (['tags', 'all', this.creature, this.objectName].includes(target)) {
                         this.changeDetector.detectChanges();
                     }
                 });
@@ -206,8 +206,8 @@ export class TagsComponent implements OnInit, OnDestroy {
                 .subscribe((view) => {
                     if (view.creature == this.creature &&
                         (
-                            view.target == "all" ||
-                            (view.target == "tags" && [this.objectName, ...this.specialNames, "all"].includes(view.subtarget))
+                            view.target == 'all' ||
+                            (view.target == 'tags' && [this.objectName, ...this.specialNames, 'all'].includes(view.subtarget))
                         )) {
                         this.changeDetector.detectChanges();
                     }

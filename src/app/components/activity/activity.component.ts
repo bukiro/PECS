@@ -49,17 +49,17 @@ type ActivitySpellSet = {
 export class ActivityComponent implements OnInit, OnDestroy {
 
     @Input()
-    creature: string = "Character";
+    creature = 'Character';
     @Input()
     activity: Activity | ItemActivity;
     @Input()
     gain: ActivityGain | ItemActivity;
     @Input()
-    allowActivate: boolean = false;
+    allowActivate = false;
     @Input()
-    isSubItem: boolean = false;
+    isSubItem = false;
     @Input()
-    closeAfterActivation: boolean = false;
+    closeAfterActivation = false;
 
     item: Equipment | Rune;
 
@@ -76,7 +76,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         private effectsService: EffectsService
     ) { }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
@@ -96,24 +96,24 @@ export class ActivityComponent implements OnInit, OnDestroy {
         const creature = this.get_Creature();
         const maxCharges = this.activity.maxCharges({ creature: creature }, { effectsService: this.effectsService });
         const tooManySlottedAeonStones = (this.item instanceof WornItem && this.item.isSlottedAeonStone && this.itemsService.get_TooManySlottedAeonStones(this.get_Creature()));
-        const resonantAllowed = (this.item && this.item instanceof WornItem && this.item.isSlottedAeonStone && !tooManySlottedAeonStones)
+        const resonantAllowed = (this.item && this.item instanceof WornItem && this.item.isSlottedAeonStone && !tooManySlottedAeonStones);
         return {
             maxCharges: maxCharges,
             cooldown: this.activity.get_Cooldown({ creature: creature }, { characterService: this.characterService, effectsService: this.effectsService }),
-            disabled: this.gain?.disabled({ creature: creature, maxCharges: maxCharges }, { effectsService: this.effectsService, timeService: this.timeService }) || "",
+            disabled: this.gain?.disabled({ creature: creature, maxCharges: maxCharges }, { effectsService: this.effectsService, timeService: this.timeService }) || '',
             activitySpell: this.get_ActivitySpell(),
             tooManySlottedAeonStones: tooManySlottedAeonStones,
             resonantAllowed: resonantAllowed
-        }
+        };
     }
 
     public get_Resonant(): boolean {
-        return (this.activity instanceof ItemActivity && this.activity.resonant)
+        return (this.activity instanceof ItemActivity && this.activity.resonant);
     }
 
     private get_ActivitySpell(): ActivitySpellSet {
         if (this.activity.castSpells.length) {
-            let spell = this.get_Spells(this.activity.castSpells[0].name)[0];
+            const spell = this.get_Spells(this.activity.castSpells[0].name)[0];
             if (spell) {
                 return { spell: spell, gain: this.activity.castSpells[0].spellGain, cast: this.activity.castSpells[0] };
             } else {
@@ -125,7 +125,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     }
 
     public on_Activate(gain: ActivityGain | ItemActivity, activity: Activity | ItemActivity, activated: boolean, target: string): void {
-        if (gain.name == "Fused Stance") {
+        if (gain.name == 'Fused Stance') {
             this.on_ActivateFuseStance(activated);
         } else {
             this.activitiesService.activate_Activity(this.get_Creature(), target, this.characterService, this.conditionsService, this.itemsService, this.spellsService, gain, activity, activated);
@@ -136,9 +136,9 @@ export class ActivityComponent implements OnInit, OnDestroy {
         this.gain.active = activated;
         this.get_FusedStances().forEach(set => {
             if (set.gain && set.activity && activated != set.gain.active) {
-                this.activitiesService.activate_Activity(this.get_Creature(), "Character", this.characterService, this.conditionsService, this.itemsService, this.spellsService, set.gain, set.activity, activated);
+                this.activitiesService.activate_Activity(this.get_Creature(), 'Character', this.characterService, this.conditionsService, this.itemsService, this.spellsService, set.gain, set.activity, activated);
             }
-        })
+        });
     }
 
     public on_ManualRestoreCharge(): void {
@@ -153,7 +153,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         this.gain.chargesUsed = 0;
     }
 
-    public get_Traits(traitName: string = ""): Trait[] {
+    public get_Traits(traitName = ''): Trait[] {
         return this.traitsService.get_Traits(traitName);
     }
 
@@ -162,7 +162,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
             return this.characterService.get_FeatsShowingOn(activityName)
                 .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
         } else {
-            return []
+            return [];
         }
     }
 
@@ -171,18 +171,18 @@ export class ActivityComponent implements OnInit, OnDestroy {
             return this.characterService.get_ConditionsShowingOn(this.get_Creature(), activityName)
                 .sort((a, b) => (a.condition.name == b.condition.name) ? 0 : ((a.condition.name > b.condition.name) ? 1 : -1));
         } else {
-            return []
+            return [];
         }
     }
 
     public get_ActivitiesShowingOn(objectName: string): { gain: ActivityGain | ItemActivity, activity: Activity | ItemActivity }[] {
         if (objectName) {
             return this.characterService.get_OwnedActivities(this.get_Creature())
-                .map(gain => { return { gain: gain, activity: gain.get_OriginalActivity(this.activitiesService) } })
+                .map(gain => { return { gain: gain, activity: gain.get_OriginalActivity(this.activitiesService) }; })
                 .filter(set =>
                     set.activity?.hints
                         .some(hint =>
-                            hint.showon.split(",")
+                            hint.showon.split(',')
                                 .some(showon =>
                                     showon.trim().toLowerCase() == objectName.toLowerCase()
                                 )
@@ -190,33 +190,33 @@ export class ActivityComponent implements OnInit, OnDestroy {
                 )
                 .sort((a, b) => (a.activity.name == b.activity.name) ? 0 : ((a.activity.name > b.activity.name) ? 1 : -1));
         } else {
-            return []
+            return [];
         }
     }
 
     public get_FusedStances(): { gain: ItemActivity | ActivityGain, activity: Activity }[] {
-        const featData = this.get_Character().class.get_FeatData(0, 0, "Fuse Stance")[0];
+        const featData = this.get_Character().class.get_FeatData(0, 0, 'Fuse Stance')[0];
         if (featData) {
             return this.characterService.get_OwnedActivities(this.get_Creature())
                 .filter(gain => featData.valueAsStringArray('stances')?.includes(gain.name))
-                .map(gain => { return { gain: gain, activity: gain.get_OriginalActivity(this.activitiesService) } })
+                .map(gain => { return { gain: gain, activity: gain.get_OriginalActivity(this.activitiesService) }; });
         }
         else {
             return [];
         }
     }
 
-    private get_Spells(name: string = "", type: string = "", tradition: string = ""): Spell[] {
+    private get_Spells(name = '', type = '', tradition = ''): Spell[] {
         return this.spellsService.get_Spells(name, type, tradition);
     }
 
     public get_ActivityConditions(): { gain: ConditionGain, condition: Condition }[] {
         //For all conditions that are included with this activity, create an effectChoice on the gain and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
-        let conditionSets: { gain: ConditionGain, condition: Condition }[] = [];
-        let gain = this.gain;
+        const conditionSets: { gain: ConditionGain, condition: Condition }[] = [];
+        const gain = this.gain;
         if (gain) {
             this.activity.gainConditions
-                .map(conditionGain => { return { gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] } })
+                .map(conditionGain => { return { gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] }; })
                 .forEach((conditionSet, index) => {
                     //Create the temporary list of currently available choices.
                     conditionSet.condition?.get_Choices(this.characterService, true, (conditionSet.gain.heightened ? conditionSet.gain.heightened : conditionSet.condition.minLevel));
@@ -229,7 +229,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
                     if (conditionSet.condition && !conditionSet.condition._choices.includes(gain.effectChoices?.[index]?.choice)) {
                         gain.effectChoices[index] = { condition: conditionSet.condition.name, choice: conditionSet.condition.choice };
                     }
-                })
+                });
         }
         return conditionSets;
     }
@@ -243,25 +243,25 @@ export class ActivityComponent implements OnInit, OnDestroy {
             !conditionSet.gain.copyChoiceFrom &&
             !conditionSet.gain.hideChoices &&
             !context.tooManySlottedAeonStones &&
-            (conditionSet.gain.resonant ? context.resonantAllowed : true)
+            (conditionSet.gain.resonant ? context.resonantAllowed : true);
     }
 
     public on_EffectChoiceChange(): void {
-        this.refreshService.set_ToChange(this.creature, "inventory");
-        this.refreshService.set_ToChange(this.creature, "activities");
+        this.refreshService.set_ToChange(this.creature, 'inventory');
+        this.refreshService.set_ToChange(this.creature, 'activities');
         this.refreshService.process_ToChange();
     }
 
     private finish_Loading(): void {
         this.changeSubscription = this.refreshService.get_Changed
             .subscribe((target) => {
-                if (["activities", "all", this.creature.toLowerCase()].includes(target.toLowerCase())) {
+                if (['activities', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
             .subscribe((view) => {
-                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["activities", "all"].includes(view.target.toLowerCase())) {
+                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['activities', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });

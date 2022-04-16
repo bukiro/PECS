@@ -26,11 +26,11 @@ export class ItemRunesComponent implements OnInit {
     @Input()
     item: Equipment;
     @Input()
-    itemStore: boolean = false;
+    itemStore = false;
     @Input()
-    customItemStore: boolean = false;
+    customItemStore = false;
     @Input()
-    bladeAlly: boolean = false;
+    bladeAlly = false;
 
 
     public newPropertyRune: { rune: Rune, inv: ItemCollection, disabled?: boolean }[];
@@ -47,7 +47,7 @@ export class ItemRunesComponent implements OnInit {
         private typeService: TypeService
     ) { }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
@@ -60,12 +60,12 @@ export class ItemRunesComponent implements OnInit {
     }
 
     get_WeaponPotencyRunes() {
-        let runes: { potency: number, rune?: Rune, disabled?: boolean }[] = [{ potency: 0 }];
+        const runes: { potency: number, rune?: Rune, disabled?: boolean }[] = [{ potency: 0 }];
         if (this.item.potencyRune) {
             runes.push({ potency: this.item.potencyRune, disabled: true });
         }
         if (this.itemStore) {
-            let runeLimit = this.item.material?.[0]?.runeLimit || 0;
+            const runeLimit = this.item.material?.[0]?.runeLimit || 0;
             this.get_CleanItems().weaponrunes.filter(rune => rune.potency && rune.potency != this.item.potencyRune).forEach(rune => {
                 if (
                     //Don't show runes that the item material doesn't support.
@@ -73,13 +73,13 @@ export class ItemRunesComponent implements OnInit {
                         runeLimit >= rune.level
                         : true
                 ) {
-                    runes.push({ potency: rune.potency, rune: rune, disabled: false })
+                    runes.push({ potency: rune.potency, rune: rune, disabled: false });
                 } else {
-                    runes.push({ potency: rune.potency, rune: rune, disabled: true })
+                    runes.push({ potency: rune.potency, rune: rune, disabled: true });
                 }
-            })
+            });
         } else {
-            let runeLimit = this.item.material?.[0]?.runeLimit || 0;
+            const runeLimit = this.item.material?.[0]?.runeLimit || 0;
             this.get_Character().inventories.forEach(inv => {
                 inv.weaponrunes.filter(rune => rune.potency && rune.potency != this.item.potencyRune).forEach(rune => {
                     if (
@@ -88,24 +88,24 @@ export class ItemRunesComponent implements OnInit {
                             runeLimit >= rune.level
                             : true
                     ) {
-                        runes.push({ potency: rune.potency, rune: rune, disabled: false })
+                        runes.push({ potency: rune.potency, rune: rune, disabled: false });
                     } else {
-                        runes.push({ potency: rune.potency, rune: rune, disabled: true })
+                        runes.push({ potency: rune.potency, rune: rune, disabled: true });
                     }
-                })
-            })
+                });
+            });
         }
         return Array.from(new Set(runes))
             .sort((a, b) => (a.potency == b.potency) ? 0 : ((a.potency > b.potency) ? 1 : -1));
     }
 
     get_ArmorPotencyRunes() {
-        let runes: { potency: number, rune?: Rune, disabled?: boolean }[] = [{ potency: 0 }];
+        const runes: { potency: number, rune?: Rune, disabled?: boolean }[] = [{ potency: 0 }];
         if (this.item.potencyRune) {
             runes.push({ potency: this.item.potencyRune, disabled: true });
         }
         if (this.itemStore) {
-            let runeLimit = this.item.material?.[0]?.runeLimit || 0;
+            const runeLimit = this.item.material?.[0]?.runeLimit || 0;
             this.get_CleanItems().armorrunes.filter(rune => rune.potency && rune.potency != this.item.potencyRune).forEach(rune => {
                 if (
                     //Don't show runes that the item material doesn't support.
@@ -113,13 +113,13 @@ export class ItemRunesComponent implements OnInit {
                         runeLimit >= rune.level
                         : true
                 ) {
-                    runes.push({ potency: rune.potency, rune: rune, disabled: false })
+                    runes.push({ potency: rune.potency, rune: rune, disabled: false });
                 } else {
-                    runes.push({ potency: rune.potency, rune: rune, disabled: true })
+                    runes.push({ potency: rune.potency, rune: rune, disabled: true });
                 }
-            })
+            });
         } else {
-            let runeLimit = this.item.material?.[0]?.runeLimit || 0;
+            const runeLimit = this.item.material?.[0]?.runeLimit || 0;
             this.get_Character().inventories.forEach(inv => {
                 inv.armorrunes.filter(rune => rune.potency && rune.potency != this.item.potencyRune).forEach(rune => {
                     if (
@@ -128,23 +128,23 @@ export class ItemRunesComponent implements OnInit {
                             runeLimit >= rune.level
                             : true
                     ) {
-                        runes.push({ potency: rune.potency, rune: rune, disabled: false })
+                        runes.push({ potency: rune.potency, rune: rune, disabled: false });
                     } else {
-                        runes.push({ potency: rune.potency, rune: rune, disabled: true })
+                        runes.push({ potency: rune.potency, rune: rune, disabled: true });
                     }
-                })
-            })
+                });
+            });
         }
         return Array.from(new Set(runes))
             .sort((a, b) => (a.potency == b.potency) ? 0 : ((a.potency > b.potency) ? 1 : -1));
     }
 
     get_StrikingRunes() {
-        let runes: { striking: number, rune?: Rune, disabled?: boolean }[] = [{ striking: 0, rune: new Rune() }];
+        const runes: { striking: number, rune?: Rune, disabled?: boolean }[] = [{ striking: 0, rune: new Rune() }];
         if (this.item.strikingRune) {
             runes.push({ striking: this.item.strikingRune, disabled: true });
         }
-        let runeLimit = this.item.material?.[0]?.runeLimit || 0;
+        const runeLimit = this.item.material?.[0]?.runeLimit || 0;
         if (this.itemStore) {
             this.get_CleanItems().weaponrunes.filter(rune => rune.striking && rune.striking != this.item.strikingRune && rune.striking <= this.item.potencyRune).forEach(rune => {
                 if (
@@ -153,11 +153,11 @@ export class ItemRunesComponent implements OnInit {
                         runeLimit >= rune.level
                         : true
                 ) {
-                    runes.push({ striking: rune.striking, rune: rune, disabled: false })
+                    runes.push({ striking: rune.striking, rune: rune, disabled: false });
                 } else {
-                    runes.push({ striking: rune.striking, rune: rune, disabled: true })
+                    runes.push({ striking: rune.striking, rune: rune, disabled: true });
                 }
-            })
+            });
         } else {
             this.get_Character().inventories.forEach(inv => {
                 inv.weaponrunes.filter(rune => rune.striking && rune.striking != this.item.strikingRune && rune.striking <= this.item.potencyRune).forEach(rune => {
@@ -167,23 +167,23 @@ export class ItemRunesComponent implements OnInit {
                             runeLimit >= rune.level
                             : true
                     ) {
-                        runes.push({ striking: rune.striking, rune: rune, disabled: false })
+                        runes.push({ striking: rune.striking, rune: rune, disabled: false });
                     } else {
-                        runes.push({ striking: rune.striking, rune: rune, disabled: true })
+                        runes.push({ striking: rune.striking, rune: rune, disabled: true });
                     }
-                })
-            })
+                });
+            });
         }
         return Array.from(new Set(runes))
             .sort((a, b) => (a.striking == b.striking) ? 0 : ((a.striking > b.striking) ? 1 : -1));
     }
 
     get_ResilientRunes() {
-        let runes: { resilient: number, rune?: Rune, disabled?: boolean }[] = [{ resilient: 0, rune: new Rune() }];
+        const runes: { resilient: number, rune?: Rune, disabled?: boolean }[] = [{ resilient: 0, rune: new Rune() }];
         if (this.item.resilientRune) {
             runes.push({ resilient: this.item.resilientRune, disabled: true });
         }
-        let runeLimit = this.item.material?.[0]?.runeLimit || 0;
+        const runeLimit = this.item.material?.[0]?.runeLimit || 0;
         if (this.itemStore) {
             this.get_CleanItems().armorrunes.filter(rune => rune.resilient && rune.resilient != this.item.resilientRune && rune.resilient <= this.item.potencyRune).forEach(rune => {
                 if (
@@ -192,11 +192,11 @@ export class ItemRunesComponent implements OnInit {
                         runeLimit >= rune.level
                         : true
                 ) {
-                    runes.push({ resilient: rune.resilient, rune: rune, disabled: false })
+                    runes.push({ resilient: rune.resilient, rune: rune, disabled: false });
                 } else {
-                    runes.push({ resilient: rune.resilient, rune: rune, disabled: true })
+                    runes.push({ resilient: rune.resilient, rune: rune, disabled: true });
                 }
-            })
+            });
         } else {
             this.get_Character().inventories.forEach(inv => {
                 inv.armorrunes.filter(rune => rune.resilient && rune.resilient != this.item.resilientRune && rune.resilient <= this.item.potencyRune).forEach(rune => {
@@ -206,25 +206,25 @@ export class ItemRunesComponent implements OnInit {
                             runeLimit >= rune.level
                             : true
                     ) {
-                        runes.push({ resilient: rune.resilient, rune: rune, disabled: false })
+                        runes.push({ resilient: rune.resilient, rune: rune, disabled: false });
                     } else {
-                        runes.push({ resilient: rune.resilient, rune: rune, disabled: true })
+                        runes.push({ resilient: rune.resilient, rune: rune, disabled: true });
                     }
-                })
-            })
+                });
+            });
         }
         return Array.from(new Set(runes))
             .sort((a, b) => (a.resilient == b.resilient) ? 0 : ((a.resilient > b.resilient) ? 1 : -1));
     }
 
     get_PropertyRunes() {
-        let indexes: number[] = [];
+        const indexes: number[] = [];
         //For each rune with the Saggorak trait, provide one less field.
-        let saggorak = this.item.propertyRunes.filter(rune => rune.traits.includes("Saggorak")).length;
+        const saggorak = this.item.propertyRunes.filter(rune => rune.traits.includes('Saggorak')).length;
         for (let index = 0; index < this.item.potencyRune - saggorak; index++) {
             indexes.push(index);
         }
-        let extraRune = this.item.material?.[0]?.extraRune || 0;
+        const extraRune = this.item.material?.[0]?.extraRune || 0;
         if (this.item.potencyRune == 3 && extraRune) {
             for (let index = 0; index < extraRune; index++) {
                 indexes.push(indexes.length);
@@ -236,10 +236,10 @@ export class ItemRunesComponent implements OnInit {
     get_RuneCooldown(rune: Rune) {
         //If any activity on this rune has a cooldown, return the lowest of these in a human readable format.
         if (rune.activities && rune.activities.length && rune.activities.some(activity => activity.activeCooldown)) {
-            let lowestCooldown = Math.min(...rune.activities.filter(activity => activity.activeCooldown).map(activity => activity.activeCooldown));
-            return " (Cooldown " + this.timeService.get_Duration(lowestCooldown) + ")";
+            const lowestCooldown = Math.min(...rune.activities.filter(activity => activity.activeCooldown).map(activity => activity.activeCooldown));
+            return ` (Cooldown ${ this.timeService.get_Duration(lowestCooldown) })`;
         } else {
-            return "";
+            return '';
         }
     }
 
@@ -252,10 +252,10 @@ export class ItemRunesComponent implements OnInit {
     }
 
     get_InitialPropertyRunes(index: number) {
-        let weapon = this.item;
+        const weapon = this.item;
         //Start with one empty rune to select nothing.
-        let allRunes: { rune: Rune, inv: ItemCollection, disabled?: boolean }[] = [{ rune: new WeaponRune(), inv: null }];
-        allRunes[0].rune.name = "";
+        const allRunes: { rune: Rune, inv: ItemCollection, disabled?: boolean }[] = [{ rune: new WeaponRune(), inv: null }];
+        allRunes[0].rune.name = '';
         //Add the current choice, if the item has a rune at that index.
         if (weapon.propertyRunes[index]) {
             allRunes.push(this.newPropertyRune[index] as { rune: WeaponRune, inv: ItemCollection });
@@ -265,16 +265,16 @@ export class ItemRunesComponent implements OnInit {
 
     get_WeaponPropertyRunes(index: number, inv: ItemCollection) {
         let weapon: Weapon | WornItem;
-        if (this.item.type == "wornitems") {
-            weapon = this.item as WornItem
+        if (this.item.type == 'wornitems') {
+            weapon = this.item as WornItem;
         } else {
-            weapon = this.item as Weapon
+            weapon = this.item as Weapon;
         }
         //In the case of Handwraps of Mighty Blows, we need to compare the rune's requirements with the Fist weapon, but its potency rune requirements with the Handwraps.
         //For this purpose, we use two different "weapon"s.
         let weapon2 = this.item;
         if ((weapon as WornItem).isHandwrapsOfMightyBlows) {
-            weapon2 = this.get_CleanItems().weapons.find(weapon => weapon.name == "Fist");
+            weapon2 = this.get_CleanItems().weapons.find(weapon => weapon.name == 'Fist');
         }
         let allRunes: { rune: Rune, inv: ItemCollection, disabled?: boolean }[] = [];
         //Add all runes either from the item store or from the inventories.
@@ -333,16 +333,16 @@ export class ItemRunesComponent implements OnInit {
                         (
                             (weapon2 as Weapon)?.dmgType &&
                             (
-                                rune.rune.damagereq.split("")
+                                rune.rune.damagereq.split('')
                                     .filter(req => (weapon2 as Weapon).dmgType.includes(req)).length ||
-                                (weapon2 as Weapon)?.dmgType == "modular"
+                                (weapon2 as Weapon)?.dmgType == 'modular'
                             )
                         )
                         : true
                 ) && (
                     //Show Saggorak runes only if there are 2 rune slots available,
                     //  or if one is available and this slot is taken (so you can replace the rune in this slot).
-                    rune.rune.traits.includes("Saggorak") ?
+                    rune.rune.traits.includes('Saggorak') ?
                         (
                             weapon.freePropertyRunes > 1 ||
                             (
@@ -361,13 +361,13 @@ export class ItemRunesComponent implements OnInit {
             } else {
                 rune.disabled = true;
             }
-        })
+        });
         return allRunes
             .sort((a, b) => (a.rune.level + a.rune.name == b.rune.level + b.rune.name) ? 0 : ((a.rune.level + a.rune.name > b.rune.level + b.rune.name) ? 1 : -1));
     }
 
     get_ArmorPropertyRunes(index: number, inv: ItemCollection) {
-        let armor: Armor = this.item as Armor;
+        const armor: Armor = this.item as Armor;
         let allRunes: { rune: Rune, inv: ItemCollection, disabled?: boolean }[] = [];
         //Add all runes either from the item store or from the inventories.
         if (this.itemStore) {
@@ -405,12 +405,12 @@ export class ItemRunesComponent implements OnInit {
                     //Show runes that require a nonmetallic armor if the armor is one.
                     // Identifying nonmetallic armors is unclear in the rules, so we exclude Chain, Composite and Plate armors as well as armors with the word "metal" in their description.
                     rune.rune.nonmetallic ?
-                        !["Chain", "Composite", "Plate"].includes(armor.group) && !armor.desc.includes("metal")
+                        !['Chain', 'Composite', 'Plate'].includes(armor.group) && !armor.desc.includes('metal')
                         : true
                 ) && (
                     //Show Saggorak runes only if there are 2 rune slots available,
                     //  or if one is available and this slot is taken (so you can replace the rune in this slot).
-                    rune.rune.traits.includes("Saggorak") ?
+                    rune.rune.traits.includes('Saggorak') ?
                         (
                             armor.freePropertyRunes > 1 ||
                             (
@@ -429,7 +429,7 @@ export class ItemRunesComponent implements OnInit {
             } else {
                 rune.disabled = true;
             }
-        })
+        });
 
         return allRunes
             .sort((a, b) => (a.rune.level + a.rune.name == b.rune.level + b.rune.name) ? 0 : ((a.rune.level + a.rune.name > b.rune.level + b.rune.name) ? 1 : -1));
@@ -439,7 +439,7 @@ export class ItemRunesComponent implements OnInit {
         const character = this.get_Character();
         const weapon = this.item;
         switch (runeType) {
-            case "potency":
+            case 'potency':
                 //If the rune has changed, the old one needs to be added to the inventory, and the new one needs to be removed from the inventory
                 //If a stack exists, change the amount instead.
                 //Don't do any of that if we're in the item store instead of the inventory.
@@ -455,9 +455,9 @@ export class ItemRunesComponent implements OnInit {
                 }
                 //If the potency rune has been lowered and the striking rune has become invalid, throw out the striking rune
                 if (weapon.potencyRune < weapon.strikingRune) {
-                    let oldStriking: number = weapon.strikingRune;
+                    const oldStriking: number = weapon.strikingRune;
                     weapon.strikingRune = 0;
-                    this.on_WeaponRuneChange("striking", oldStriking);
+                    this.on_WeaponRuneChange('striking', oldStriking);
                 }
                 //As long as there are more property Runes assigned than allowed, throw out the last property rune
                 while (weapon.freePropertyRunes < 0) {
@@ -467,7 +467,7 @@ export class ItemRunesComponent implements OnInit {
                     weapon.propertyRunes.splice(weapon.propertyRunes.length - 1, 1);
                 }
                 break;
-            case "striking":
+            case 'striking':
                 //If the rune has changed, the old one needs to be added to the inventory, and the new one needs to be removed from the inventory
                 //If a stack exists, change the amount instead.
                 //Don't do any of that if we're in the item store instead of the inventory.
@@ -483,9 +483,9 @@ export class ItemRunesComponent implements OnInit {
                 }
                 break;
         }
-        this.refreshService.set_ToChange("Character", this.item.id);
+        this.refreshService.set_ToChange('Character', this.item.id);
         if (this.item.equipped) {
-            this.refreshService.set_ToChange("Character", "attacks");
+            this.refreshService.set_ToChange('Character', 'attacks');
         }
         this.refreshService.process_ToChange();
         this.update_Item();
@@ -493,9 +493,9 @@ export class ItemRunesComponent implements OnInit {
 
     on_ArmorRuneChange(runeType: string, previousRune: number) {
         const character = this.get_Character();
-        let armor: Equipment = this.item;
+        const armor: Equipment = this.item;
         switch (runeType) {
-            case "potency":
+            case 'potency':
                 //If the rune has changed, the old one needs to be added to the inventory, and the new one needs to be removed from the inventory
                 //If a stack exists, change the amount instead.
                 //Don't do any of that if we're in the item store instead of the inventory.
@@ -511,9 +511,9 @@ export class ItemRunesComponent implements OnInit {
                 }
                 //If the potency rune has been lowered and the resilient rune has become invalid, throw out the resilient rune
                 if (armor.potencyRune < armor.resilientRune) {
-                    let oldResilient: number = armor.resilientRune;
+                    const oldResilient: number = armor.resilientRune;
                     armor.resilientRune = 0;
-                    this.on_ArmorRuneChange("resilient", oldResilient);
+                    this.on_ArmorRuneChange('resilient', oldResilient);
                 }
                 //As long as there are more property Runes assigned than allowed, throw out the last property rune
                 while (armor.freePropertyRunes < 0) {
@@ -523,7 +523,7 @@ export class ItemRunesComponent implements OnInit {
                     armor.propertyRunes.splice(armor.propertyRunes.length - 1, 1);
                 }
                 break;
-            case "resilient":
+            case 'resilient':
                 //If the rune has changed, the old one needs to be added to the inventory, and the new one needs to be removed from the inventory
                 //If a stack exists, change the amount instead.
                 //Don't do any of that if we're in the item store instead of the inventory.
@@ -540,16 +540,16 @@ export class ItemRunesComponent implements OnInit {
                 break;
         }
         if (this.item.equipped) {
-            this.refreshService.set_ToChange("Character", "defense");
+            this.refreshService.set_ToChange('Character', 'defense');
         }
         this.refreshService.process_ToChange();
         this.update_Item();
     }
 
     add_WeaponPropertyRune(index: number) {
-        let weapon = this.item;
-        let rune = this.newPropertyRune[index].rune;
-        let inv = this.newPropertyRune[index].inv;
+        const weapon = this.item;
+        const rune = this.newPropertyRune[index].rune;
+        const inv = this.newPropertyRune[index].inv;
         if (!weapon.propertyRunes[index] || rune !== weapon.propertyRunes[index]) {
             //If there is a rune in this slot, return the old rune to the inventory, unless we are in the item store. Then remove it from the item.
             if (weapon.propertyRunes[index]) {
@@ -559,10 +559,10 @@ export class ItemRunesComponent implements OnInit {
                 weapon.propertyRunes.splice(index, 1);
             }
             //Then add the new rune to the item and (unless we are in the item store) remove it from the inventory.
-            if (rune.name != "") {
+            if (rune.name != '') {
                 //Add a copy of the rune to the item
-                let newLength = weapon.propertyRunes.push(Object.assign<WeaponRune, WeaponRune>(new WeaponRune, JSON.parse(JSON.stringify(rune))).recast(this.typeService, this.itemsService));
-                let newRune = weapon.propertyRunes[newLength - 1];
+                const newLength = weapon.propertyRunes.push(Object.assign<WeaponRune, WeaponRune>(new WeaponRune, JSON.parse(JSON.stringify(rune))).recast(this.typeService, this.itemsService));
+                const newRune = weapon.propertyRunes[newLength - 1];
                 newRune.amount = 1;
                 //If we are not in the item store, remove the inserted rune from the inventory, either by decreasing the amount or by dropping the item.
                 //Also add the rune's lore if needed.
@@ -574,8 +574,8 @@ export class ItemRunesComponent implements OnInit {
                 }
             }
         }
-        this.refreshService.set_ToChange("Character", "inventory");
-        this.refreshService.set_ToChange("Character", "attacks");
+        this.refreshService.set_ToChange('Character', 'inventory');
+        this.refreshService.set_ToChange('Character', 'attacks');
         this.set_PropertyRuneNames();
         this.refreshService.process_ToChange();
         this.update_Item();
@@ -586,8 +586,8 @@ export class ItemRunesComponent implements OnInit {
         const oldRune: Rune = weapon.propertyRunes[index];
         //Deactivate any active toggled activities of the removed rune.
         oldRune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
-            this.activitiesService.activate_Activity(this.get_Character(), "Character", this.characterService, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
-        })
+            this.activitiesService.activate_Activity(this.get_Character(), 'Character', this.characterService, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
+        });
         this.grant_RuneToInventory(oldRune);
         //Remove the Ancestral Echoing Lore if applicable.
         if (oldRune.loreChoices.length) {
@@ -597,9 +597,9 @@ export class ItemRunesComponent implements OnInit {
     }
 
     add_ArmorPropertyRune(index: number) {
-        let armor = this.item;
-        let rune = this.newPropertyRune[index].rune;
-        let inv = this.newPropertyRune[index].inv;
+        const armor = this.item;
+        const rune = this.newPropertyRune[index].rune;
+        const inv = this.newPropertyRune[index].inv;
         if (!armor.propertyRunes[index] || rune !== armor.propertyRunes[index]) {
             //If there is a rune in this slot, return the old rune to the inventory, unless we are in the item store. Then remove it from the item.
             if (armor.propertyRunes[index]) {
@@ -609,10 +609,10 @@ export class ItemRunesComponent implements OnInit {
                 armor.propertyRunes.splice(index, 1);
             }
             //Then add the new rune to the item and (unless we are in the item store) remove it from the inventory.
-            if (rune.name != "") {
+            if (rune.name != '') {
                 //Add a copy of the rune to the item
-                let newLength = armor.propertyRunes.push(Object.assign<ArmorRune, ArmorRune>(new ArmorRune, JSON.parse(JSON.stringify(rune))).recast(this.typeService, this.itemsService));
-                let newRune = armor.propertyRunes[newLength - 1];
+                const newLength = armor.propertyRunes.push(Object.assign<ArmorRune, ArmorRune>(new ArmorRune, JSON.parse(JSON.stringify(rune))).recast(this.typeService, this.itemsService));
+                const newRune = armor.propertyRunes[newLength - 1];
                 newRune.amount = 1;
                 //If we are not in the item store, remove the inserted rune from the inventory, either by decreasing the amount or by dropping the item.
                 if (!this.itemStore) {
@@ -621,7 +621,7 @@ export class ItemRunesComponent implements OnInit {
                 }
             }
         }
-        this.refreshService.set_ToChange("Character", "inventory");
+        this.refreshService.set_ToChange('Character', 'inventory');
         this.set_ToChange(rune as ArmorRune);
         this.set_PropertyRuneNames();
         this.refreshService.process_ToChange();
@@ -634,42 +634,42 @@ export class ItemRunesComponent implements OnInit {
         this.set_ToChange(oldRune as ArmorRune);
         //Deactivate any active toggled activities of the removed rune.
         oldRune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
-            this.activitiesService.activate_Activity(this.get_Character(), "Character", this.characterService, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
-        })
+            this.activitiesService.activate_Activity(this.get_Character(), 'Character', this.characterService, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
+        });
         this.grant_RuneToInventory(oldRune);
         this.update_Item();
     }
 
     get_Title(rune: Rune) {
         if (this.itemStore && rune?.price) {
-            return "Price " + this.get_Price(rune);
+            return `Price ${ this.get_Price(rune) }`;
         }
     }
 
     get_Price(rune: Rune) {
         if (rune.price) {
             if (rune.price == 0) {
-                return "";
+                return '';
             } else {
                 let price: number = rune.price;
-                let priceString: string = "";
+                let priceString = '';
                 if (price >= 100) {
-                    priceString += Math.floor(price / 100) + "gp";
+                    priceString += `${ Math.floor(price / 100) }gp`;
                     price %= 100;
-                    if (price >= 10) { priceString += " "; }
+                    if (price >= 10) { priceString += ' '; }
                 }
                 if (price >= 10) {
-                    priceString += Math.floor(price / 10) + "sp";
+                    priceString += `${ Math.floor(price / 10) }sp`;
                     price %= 10;
-                    if (price >= 1) { priceString += " "; }
+                    if (price >= 1) { priceString += ' '; }
                 }
                 if (price >= 1) {
-                    priceString += price + "cp";
+                    priceString += `${ price }cp`;
                 }
                 return priceString;
             }
         } else {
-            return ""
+            return '';
         }
     }
 
@@ -684,9 +684,9 @@ export class ItemRunesComponent implements OnInit {
                 (this.item.propertyRunes[1] ? { rune: this.item.propertyRunes[1], inv: null } : { rune: new Rune(), inv: null }),
                 (this.item.propertyRunes[2] ? { rune: this.item.propertyRunes[2], inv: null } : { rune: new Rune(), inv: null }),
                 (this.item.propertyRunes[3] ? { rune: this.item.propertyRunes[3], inv: null } : { rune: new Rune(), inv: null })
-            ] : [{ rune: new Rune(), inv: null }, { rune: new Rune(), inv: null }, { rune: new Rune(), inv: null }])
-        this.newPropertyRune.filter(rune => rune.rune.name == "New Item").forEach(rune => {
-            rune.rune.name = "";
+            ] : [{ rune: new Rune(), inv: null }, { rune: new Rune(), inv: null }, { rune: new Rune(), inv: null }]);
+        this.newPropertyRune.filter(rune => rune.rune.name == 'New Item').forEach(rune => {
+            rune.rune.name = '';
         });
     }
 

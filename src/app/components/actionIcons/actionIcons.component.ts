@@ -1,26 +1,21 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'app-actionIcons',
     templateUrl: './actionIcons.component.html',
     styleUrls: ['./actionIcons.component.css']
 })
-export class ActionIconsComponent implements OnInit {
+export class ActionIconsComponent {
 
     @Input()
-    actionString: string = ""
-    
-    constructor() { }
+    actionString = '';
 
     get_Phrases() {
         return this.actionString?.split(' ') || [];
     }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
-    }
-
-    ngOnInit() {
     }
 
 }

@@ -40,12 +40,12 @@ type SpellParameters = {
 })
 export class SpellsComponent implements OnInit, OnDestroy {
 
-    private showSpell: string = "";
-    private showChoice: string = "";
-    public allowBorrow: boolean = false;
+    private showSpell = '';
+    private showChoice = '';
+    public allowBorrow = false;
     private showContent: SpellChoice = null;
     private showSpellCasting: SpellCasting = null;
-    private showContentLevelNumber: number = 0;
+    private showContentLevelNumber = 0;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -62,7 +62,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
     public toggle_TileMode(): void {
         this.get_Character().settings.spellsTileMode = !this.get_Character().settings.spellsTileMode;
-        this.refreshService.set_ToChange("Character", "spellchoices");
+        this.refreshService.set_ToChange('Character', 'spellchoices');
         this.refreshService.process_ToChange();
     }
 
@@ -75,7 +75,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
     }
 
     public toggle_SpellMenu(): void {
-        this.characterService.toggle_Menu("spells");
+        this.characterService.toggle_Menu('spells');
     }
 
     public get_SpellsMenuState(): string {
@@ -84,18 +84,18 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
     public toggle_Spell(name: string): void {
         if (this.showSpell == name) {
-            this.showSpell = "";
+            this.showSpell = '';
         } else {
             this.showSpell = name;
         }
     }
 
-    public toggle_Choice(name: string, levelNumber: number = 0, content: SpellChoice = null, casting: SpellCasting = null): void {
+    public toggle_Choice(name: string, levelNumber = 0, content: SpellChoice = null, casting: SpellCasting = null): void {
         //Set the currently shown list name, level number and content so that the correct choice with the correct data can be shown in the choice area.
         if (this.showChoice == name &&
             (!levelNumber || this.showContentLevelNumber == levelNumber) &&
             (!content || JSON.stringify(this.showContent) == JSON.stringify(content))) {
-            this.showChoice = "";
+            this.showChoice = '';
             this.showContentLevelNumber = 0;
             this.showContent = null;
             this.showSpellCasting = null;
@@ -112,7 +112,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
         //Scroll up to the top of the choice area. This is only needed in desktop mode, where you can switch between choices without closing the first,
         // and it would cause the top bar to scroll away in mobile mode.
         if (!this.characterService.get_Mobile()) {
-            document.getElementById("spells-choiceArea-top")?.scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('spells-choiceArea-top')?.scrollIntoView({ behavior: 'smooth' });
         }
     }
 
@@ -146,11 +146,11 @@ export class SpellsComponent implements OnInit, OnDestroy {
         }
     }
 
-    public trackByIndex(index: number, obj: any): number {
+    public trackByIndex(index: number): number {
         return index;
     }
 
-    public trackByID(index: number, obj: any): string {
+    public trackByID(index: number, obj: { name: string, levelNumber: number, choice: SpellChoice, casting: SpellCasting }): string {
         //Track spell choices by id, so that when the selected choice changes, the choice area content is updated.
         // The choice area content is only ever one choice, so the index would always be 0.
         return obj.choice.id;
@@ -198,7 +198,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
                 level: level,
                 availableSpellChoices: availableSpellChoices,
                 fixedSpellSets: fixedSpellSets
-            }
+            };
         }).filter(spellCastingLevelParameters => spellCastingLevelParameters);
     }
 
@@ -210,20 +210,20 @@ export class SpellsComponent implements OnInit, OnDestroy {
             .concat(Array.from(new Set(spellCastingParameters.equipmentSpells.map(spellSet => spellSet.choice))))
             .filter(choice =>
                 (choice.dynamicLevel ? this.get_DynamicLevel(choice, spellCastingParameters.casting) : choice.level) == levelNumber
-            )
+            );
     }
 
     private get_FixedSpellsByLevel(spellCastingParameters: SpellCastingParameters, levelNumber: number): { choice: SpellChoice, gain: SpellGain }[] {
-        let character = this.get_Character();
+        const character = this.get_Character();
         if (levelNumber == -1) {
-            if (spellCastingParameters.casting.castingType == "Focus") {
-                return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", spellCastingParameters.casting, "", "", "", "", "", true, false, false)
+            if (spellCastingParameters.casting.castingType == 'Focus') {
+                return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, '', spellCastingParameters.casting, '', '', '', '', '', true, false, false)
                     .sort((a, b) => (a.gain.name == b.gain.name) ? 0 : ((a.gain.name > b.gain.name) ? 1 : -1));
             } else {
                 return [];
             }
         } else {
-            return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", spellCastingParameters.casting, "", "", "", "", "", true, false, true)
+            return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, '', spellCastingParameters.casting, '', '', '', '', '', true, false, true)
                 .concat(...spellCastingParameters.equipmentSpells
                     .filter(spellSet =>
                         spellSet.gain &&
@@ -245,7 +245,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
                 spell: spell,
                 choice: spellSet.choice,
                 gain: spellSet.gain
-            }
+            };
         }).filter(spellParameter => spellParameter);
     }
 
@@ -255,7 +255,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
         //Dynamic spell levels need to be evaluated.
         //Non-Focus spellcastings need to consider spells granted by items.
         const character = this.get_Character();
-        if (casting.castingType == "Focus") {
+        if (casting.castingType == 'Focus') {
             return this.get_Character().get_SpellLevel();
         }
         return Math.max(
@@ -268,7 +268,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
     }
 
     private get_HasSpellChoices(): boolean {
-        let character = this.get_Character();
+        const character = this.get_Character();
         return character.class?.spellCasting.some(casting => casting.spellChoices.some(choice => (choice.available || choice.dynamicAvailable) && choice.charLevelAvailable <= character.level));
     }
 
@@ -277,11 +277,11 @@ export class SpellsComponent implements OnInit, OnDestroy {
     }
 
     private get_AllowSwitchingPreparedSpells(): boolean {
-        return !!this.effectsService.get_ToggledOnThis(this.get_Character(), "Allow Switching Prepared Spells").length;
+        return !!this.effectsService.get_ToggledOnThis(this.get_Character(), 'Allow Switching Prepared Spells').length;
     }
 
     private get_SpellCastings(): SpellCasting[] {
-        let character = this.get_Character();
+        const character = this.get_Character();
         enum CastingTypeSort {
             Innate,
             Focus,
@@ -290,10 +290,10 @@ export class SpellsComponent implements OnInit, OnDestroy {
         }
         return [...character.class.spellCasting]
             .sort((a, b) => {
-                if (a.className == "Innate" && b.className != "Innate") {
+                if (a.className == 'Innate' && b.className != 'Innate') {
                     return -1;
                 }
-                if (a.className != "Innate" && b.className == "Innate") {
+                if (a.className != 'Innate' && b.className == 'Innate') {
                     return 1;
                 }
                 if (a.className == b.className) {
@@ -302,7 +302,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
                             (
                                 (CastingTypeSort[a.castingType] + a.tradition > CastingTypeSort[b.castingType] + b.tradition) ? 1 : -1
                             )
-                    )
+                    );
                 }
                 if (a.className > b.className) {
                     return 1;
@@ -322,19 +322,19 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
     private finish_Loading(): boolean {
         if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
+            setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
-                    if (["spells", "all", "character"].includes(target.toLowerCase())) {
+                    if (['spells', 'all', 'character'].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
-                    if (view.creature.toLowerCase() == "character" && ["spells", "all"].includes(view.target.toLowerCase())) {
+                    if (view.creature.toLowerCase() == 'character' && ['spells', 'all'].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
-                        if (view.subtarget == "clear") {
+                        if (view.subtarget == 'clear') {
                             this.toggle_Choice('');
                         }
                     }

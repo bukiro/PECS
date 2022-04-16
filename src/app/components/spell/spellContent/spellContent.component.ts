@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
 export class SpellContentComponent implements OnInit, OnDestroy {
 
     @Input()
-    spell: Spell
+    spell: Spell;
     @Input()
     spellLevel: number;
     @Input()
@@ -30,23 +30,23 @@ export class SpellContentComponent implements OnInit, OnDestroy {
         private spellsService: SpellsService
     ) { }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
-    get_Traits(name: string = "") {
+    get_Traits(name = '') {
         return this.traitsService.get_Traits(name);
     }
 
     get_Heightened(desc: string) {
         let levelNumber = this.spellLevel;
-        if ((!levelNumber && (this.spell.traits.includes("Cantrip"))) || levelNumber == -1) {
+        if ((!levelNumber && (this.spell.traits.includes('Cantrip'))) || levelNumber == -1) {
             levelNumber = this.characterService.get_Character().get_SpellLevel();
         }
         if (this.spell.levelreq && levelNumber < this.spell.levelreq) {
             levelNumber = this.spell.levelreq;
         }
-        return this.spell.get_Heightened(desc, levelNumber)
+        return this.spell.get_Heightened(desc, levelNumber);
     }
 
     get_Spells(name: string) {
@@ -55,20 +55,20 @@ export class SpellContentComponent implements OnInit, OnDestroy {
 
     finish_Loading() {
         if (this.characterService.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
+            setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
-                    if (["individualspells", "all", "character"].includes(target.toLowerCase())) {
+                    if (['individualspells', 'all', 'character'].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
-                    if (view.creature.toLowerCase() == "character" &&
+                    if (view.creature.toLowerCase() == 'character' &&
                         (
-                            view.target.toLowerCase() == "all" ||
-                            (view.target.toLowerCase() == "individualspells" && [this.spell.name.toLowerCase(), "all"].includes(view.subtarget.toLowerCase()))
+                            view.target.toLowerCase() == 'all' ||
+                            (view.target.toLowerCase() == 'individualspells' && [this.spell.name.toLowerCase(), 'all'].includes(view.subtarget.toLowerCase()))
                         )) {
                         this.changeDetector.detectChanges();
                     }

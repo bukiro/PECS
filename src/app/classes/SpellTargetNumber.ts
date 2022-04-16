@@ -1,7 +1,7 @@
 export class SpellTargetNumber {
-    public number: number = 0;
-    public minLevel: number = 0;
-    public featreq: string = "";
+    public number = 0;
+    public minLevel = 0;
+    public featreq = '';
     recast() {
         return this;
     }

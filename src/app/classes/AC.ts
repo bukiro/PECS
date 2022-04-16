@@ -19,14 +19,14 @@ export type CalculatedAC = {
 }
 
 export class AC {
-    public name: string = "AC"
+    public name = 'AC';
     public set_Cover(creature: Creature, cover: number, shield: Shield = null, characterService: CharacterService, conditionsService: ConditionsService): void {
-        let conditions: ConditionGain[] = conditionsService.get_AppliedConditions(creature, characterService, creature.conditions, true)
-            .filter(gain => gain.name == "Cover" && gain.source == "Quick Status");
-        let lesserCover = conditions.find(gain => gain.name == "Cover" && gain.choice == "Lesser");
-        let standardCover = conditions.find(gain => gain.name == "Cover" && gain.choice == "Standard");
-        let greaterCover = conditions.find(gain => gain.name == "Cover" && gain.choice == "Greater");
-        let coverChoice: string = "";
+        const conditions: ConditionGain[] = conditionsService.get_AppliedConditions(creature, characterService, creature.conditions, true)
+            .filter(gain => gain.name == 'Cover' && gain.source == 'Quick Status');
+        const lesserCover = conditions.find(gain => gain.name == 'Cover' && gain.choice == 'Lesser');
+        const standardCover = conditions.find(gain => gain.name == 'Cover' && gain.choice == 'Standard');
+        const greaterCover = conditions.find(gain => gain.name == 'Cover' && gain.choice == 'Greater');
+        let coverChoice = '';
         switch (cover) {
             case 0:
                 if (shield) {
@@ -35,12 +35,12 @@ export class AC {
                 break;
             case 1:
                 if (!lesserCover) {
-                    coverChoice = "Lesser";
+                    coverChoice = 'Lesser';
                 }
                 break;
             case 2:
                 if (!standardCover) {
-                    coverChoice = "Standard";
+                    coverChoice = 'Standard';
                 }
                 break;
             case 4:
@@ -48,7 +48,7 @@ export class AC {
                     shield.takingCover = true;
                 }
                 if (!greaterCover) {
-                    coverChoice = "Greater";
+                    coverChoice = 'Greater';
                 }
                 break;
         }
@@ -62,31 +62,31 @@ export class AC {
             characterService.remove_Condition(creature, greaterCover, false);
         }
         if (coverChoice) {
-            let newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: "Cover", choice: coverChoice, source: "Quick Status", duration: -1, locked: true })
+            const newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: 'Cover', choice: coverChoice, source: 'Quick Status', duration: -1, locked: true });
             characterService.add_Condition(creature, newCondition, {}, { noReload: true });
         }
         characterService.refreshService.process_ToChange();
     }
     public calculate(creature: Creature, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService): CalculatedAC {
-        let character = characterService.get_Character();
-        let absolutes: Effect[] = this.absolutes(creature, effectsService);
-        let relatives: Effect[] = this.relatives(creature, character, effectsService);
+        const character = characterService.get_Character();
+        const absolutes: Effect[] = this.absolutes(creature, effectsService);
+        const relatives: Effect[] = this.relatives(creature, character, effectsService);
 
-        let result = {
+        const result = {
             absolutes: absolutes,
             relatives: relatives,
             bonuses: this.bonuses(creature, effectsService),
             penalties: this.penalties(creature, effectsService),
             value: this.value(creature, characterService, defenseService, effectsService, absolutes, relatives)
-        }
+        };
         return result;
     }
     private get_NamesList(): string[] {
         return [
-            "AC",
-            "All Checks and DCs",
-            "Dexterity-based Checks and DCs"
-        ]
+            'AC',
+            'All Checks and DCs',
+            'Dexterity-based Checks and DCs'
+        ];
     }
     private absolutes(creature: Creature, effectsService: EffectsService): Effect[] {
         return effectsService.get_AbsolutesOnThese(creature, this.get_NamesList());
@@ -94,8 +94,8 @@ export class AC {
     private relatives(creature: Creature, character: Character, effectsService: EffectsService): Effect[] {
         //Familiars get the Character's AC without status and circumstance effects, and add their own of those.
         if (creature instanceof Familiar) {
-            let effects = effectsService.get_RelativesOnThese(character, this.get_NamesList()).filter(effect => effect.type != "circumstance" && effect.type != "status")
-            effects.push(...effectsService.get_RelativesOnThese(creature, this.get_NamesList()).filter(effect => effect.type == "circumstance" || effect.type == "status"))
+            const effects = effectsService.get_RelativesOnThese(character, this.get_NamesList()).filter(effect => effect.type != 'circumstance' && effect.type != 'status');
+            effects.push(...effectsService.get_RelativesOnThese(creature, this.get_NamesList()).filter(effect => effect.type == 'circumstance' || effect.type == 'status'));
             return effects;
         } else {
             return effectsService.get_RelativesOnThese(creature, this.get_NamesList());
@@ -109,7 +109,7 @@ export class AC {
                 effect.apply &&
                 !effect.ignored &&
                 effect.show &&
-                (effect.type == "circumstance" || effect.type == "status") &&
+                (effect.type == 'circumstance' || effect.type == 'status') &&
                 this.get_NamesList().map(name => name.toLowerCase()).includes(effect.target.toLowerCase())
             );
         } else {
@@ -124,7 +124,7 @@ export class AC {
                 effect.apply &&
                 !effect.ignored &&
                 effect.show &&
-                (effect.type == "circumstance" || effect.type == "status") &&
+                (effect.type == 'circumstance' || effect.type == 'status') &&
                 this.get_NamesList().map(name => name.toLowerCase()).includes(effect.target.toLowerCase())
             );
         } else {
@@ -132,10 +132,10 @@ export class AC {
         }
     }
     private value(creature: Creature, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService, absolutes: Effect[] = undefined, relatives: Effect[] = undefined): { result: number, explain: string } {
-        if (characterService.still_loading()) { return { result: 0, explain: "" }; }
+        if (characterService.still_loading()) { return { result: 0, explain: '' }; }
         //Get the bonus from the worn armor. This includes the basic 10
-        let basicBonus: number = 10;
-        let explain: string = "DC Basis: 10";
+        let basicBonus = 10;
+        let explain = 'DC Basis: 10';
         const character: Character = characterService.get_Character();
         //Familiars calculate their AC based on the character.
         //Familiars get the Character's AC without status and circumstance effects, and add their own of those.
@@ -149,53 +149,53 @@ export class AC {
         let armorSet = false;
         //Absolutes completely replace the baseValue. They are sorted so that the highest value counts last.
         if (absolutes == undefined) {
-            absolutes = this.absolutes(armorCreature, effectsService)
+            absolutes = this.absolutes(armorCreature, effectsService);
         } else {
             //Reassign the effects to unchain them from the calling function.
             absolutes = absolutes.map(absolute => Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(absolute))).recast());
         }
         absolutes.forEach(effect => {
             armorSet = true;
-            basicBonus = parseInt(effect.setValue)
-            explain = effect.source + ": " + effect.setValue;
+            basicBonus = parseInt(effect.setValue);
+            explain = `${ effect.source }: ${ effect.setValue }`;
         });
         const armors = defenseService.get_EquippedArmor(armorCreature);
         if (!armorSet && !!armors.length) {
             const armor = armors[0];
             const charLevel = characterService.get_Character().level;
-            const dex = characterService.get_Abilities("Dexterity")[0].mod(armorCreature, characterService, effectsService).result;
+            const dex = characterService.get_Abilities('Dexterity')[0].mod(armorCreature, characterService, effectsService).result;
             //Get the profiency with either this armor or its category.
             //Familiars have the same AC as the Character before circumstance or status effects.
             const skillLevel = armor.profLevel(armorCreature, characterService);
             let charLevelBonus = 0;
             if (skillLevel) {
-                explain += "\nProficiency: " + skillLevel;
+                explain += `\nProficiency: ${ skillLevel }`;
                 //Add character level if the character is trained or better with either the armor category or the armor itself
                 charLevelBonus = charLevel;
-                explain += "\nCharacter Level: " + charLevelBonus;
+                explain += `\nCharacter Level: ${ charLevelBonus }`;
             }
             //Add the dexterity modifier up to the armor's dex cap, unless there is no cap
             let dexcap = armor.get_DexCap();
-            effectsService.get_AbsolutesOnThis(armorCreature, "Dexterity Modifier Cap").forEach(effect => {
+            effectsService.get_AbsolutesOnThis(armorCreature, 'Dexterity Modifier Cap').forEach(effect => {
                 //The dexterity modifier should only become worse through effects.
                 if (dexcap == -1 || parseInt(effect.setValue) < dexcap) {
                     dexcap = Math.max(0, parseInt(effect.setValue));
-                    explain += "\n" + effect.source + ": Dexterity modifier cap " + dexcap;
+                    explain += `\n${ effect.source }: Dexterity modifier cap ${ dexcap }`;
                 }
-            })
-            effectsService.get_RelativesOnThis(armorCreature, "Dexterity Modifier Cap").forEach(effect => {
+            });
+            effectsService.get_RelativesOnThis(armorCreature, 'Dexterity Modifier Cap').forEach(effect => {
                 //The dexterity modifier should only become worse through effects.
                 if (parseInt(effect.value) < 0) {
                     dexcap = Math.max(0, dexcap + parseInt(effect.value));
-                    explain += "\n" + effect.source + ": Dexterity modifier cap " + parseInt(effect.value);
+                    explain += `\n${ effect.source }: Dexterity modifier cap ${ parseInt(effect.value) }`;
                 }
-            })
+            });
             const dexBonus = (dexcap != -1) ? Math.max(Math.min(dex, dexcap), 0) : dex;
             if (dexBonus || dex) {
                 if (dexcap != -1 && dexcap < dex) {
-                    explain += "\nDexterity Modifier (capped): " + dexBonus;
+                    explain += `\nDexterity Modifier (capped): ${ dexBonus }`;
                 } else {
-                    explain += "\nDexterity Modifier: " + dexBonus;
+                    explain += `\nDexterity Modifier: ${ dexBonus }`;
                 }
             }
             //Explain the Armor Bonus
@@ -206,15 +206,15 @@ export class AC {
                 if (potency) {
                     armorItemBonus += potency;
                 }
-                relatives.push(Object.assign(new Effect(armorItemBonus.toString()), { creature: armorCreature.type, type: "item", target: this.name, source: "Armor bonus" + (potency ? " (+" + potency + " Potency)" : ""), apply: true, show: true }))
+                relatives.push(Object.assign(new Effect(armorItemBonus.toString()), { creature: armorCreature.type, type: 'item', target: this.name, source: `Armor bonus${ potency ? ` (+${ potency } Potency)` : '' }`, apply: true, show: true }));
             }
             if (armor.battleforged) {
-                relatives.push(Object.assign(new Effect("+1"), { creature: armorCreature.type, type: "item", target: this.name, source: "Battleforged", apply: true, show: true }))
+                relatives.push(Object.assign(new Effect('+1'), { creature: armorCreature.type, type: 'item', target: this.name, source: 'Battleforged', apply: true, show: true }));
             }
             //Shoddy items have a -2 item penalty to ac, unless you have the Junk Tinker feat and have crafted the item yourself.
             //This is considered when _shoddy is calculated.
             if (armor._shoddy) {
-                relatives.push(Object.assign(new Effect("-2"), { creature: armorCreature.type, type: "item", target: this.name, source: "Shoddy Armor", penalty: true, apply: true, show: true }))
+                relatives.push(Object.assign(new Effect('-2'), { creature: armorCreature.type, type: 'item', target: this.name, source: 'Shoddy Armor', penalty: true, apply: true, show: true }));
             }
             //Add up all modifiers and return the AC gained from this armor.
             basicBonus += skillLevel + charLevelBonus + dexBonus;
@@ -224,10 +224,10 @@ export class AC {
         characterService.effectsService.get_TypeFilteredEffects(relatives)
             .forEach(effect => {
                 effectsSum += parseInt(effect.value);
-                explain += "\n" + effect.source + ": " + effect.value;
+                explain += `\n${ effect.source }: ${ effect.value }`;
             });
         //Add up the armor bonus and all active effects and return the sum
-        let result: number = basicBonus + effectsSum;
+        const result: number = basicBonus + effectsSum;
         return { result: result, explain: explain };
     }
 }

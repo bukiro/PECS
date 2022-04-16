@@ -44,8 +44,8 @@ import { Subscription } from 'rxjs';
 })
 export class CharacterSheetComponent implements OnInit, OnDestroy {
 
-    public showMode: string = "";
-    public mobile: boolean = false;
+    public showMode = '';
+    public mobile = false;
 
     constructor(
         private characterService: CharacterService,
@@ -55,7 +55,7 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
 
     toggle_Mode(type: string) {
         if (this.showMode == type) {
-            this.showMode = "";
+            this.showMode = '';
         } else {
             this.showMode = type;
         }
@@ -73,7 +73,7 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
         return this.characterService.get_Darkmode();
     }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
@@ -140,7 +140,7 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
     get_SpellLibraryMinimized() {
         return this.characterService.get_Character().settings.spelllibraryMinimized;
     }
-    
+
     get_GeneralMinimized() {
         return this.characterService.get_Character().settings.generalMinimized;
     }
@@ -190,16 +190,16 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
         //This checks whether you have a primary spellcasting for your class from level 1, and if so, spells should be first.
         if (this.characterService.get_Character().get_DefaultSpellcasting()?.charLevelAvailable == 1) {
             switch (fightingStyle) {
-                case "attacks":
+                case 'attacks':
                     return 1;
-                case "spells":
+                case 'spells':
                     return 0;
             }
         } else {
             switch (fightingStyle) {
-                case "attacks":
+                case 'attacks':
                     return 0;
-                case "spells":
+                case 'spells':
                     return 1;
             }
         }
@@ -207,17 +207,17 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
 
     finish_Loading() {
         if (this.characterService.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
+            setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
-                    if (["character-sheet", "all", "character"].includes(target.toLowerCase())) {
+                    if (['character-sheet', 'all', 'character'].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
-                    if (view.creature.toLowerCase() == "character" && ["character-sheet", "all"].includes(view.target.toLowerCase())) {
+                    if (view.creature.toLowerCase() == 'character' && ['character-sheet', 'all'].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
@@ -227,7 +227,7 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
 
     set_Mobile() {
         if (this.characterService.get_Mobile() != this.mobile) {
-            this.toggle_Mode("");
+            this.toggle_Mode('');
             this.mobile = !this.mobile;
         }
     }
@@ -246,12 +246,12 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
     }
 
     @HostListener('window:resize', ['$event'])
-    onResize(event) {
+    onResize() {
         this.set_Mobile();
     }
 
     @HostListener('window:orientationchange', ['$event'])
-    onRotate(event) {
+    onRotate() {
         this.set_Mobile();
     }
 

@@ -4,7 +4,6 @@ import { EffectGain } from 'src/app/classes/EffectGain';
 import { EffectsService } from 'src/app/services/effects.service';
 import { EvaluationService } from 'src/app/services/evaluation.service';
 import { RefreshService } from 'src/app/services/refresh.service';
-import { InputValidationService } from 'src/app/services/inputValidation.service';
 
 @Component({
     selector: 'app-objectEffects',
@@ -14,9 +13,9 @@ import { InputValidationService } from 'src/app/services/inputValidation.service
 export class ObjectEffectsComponent {
 
     @Input()
-    objectName: string = "";
+    objectName = '';
     @Input()
-    creature: string = "";
+    creature = '';
 
     constructor(
         private characterService: CharacterService,
@@ -29,23 +28,23 @@ export class ObjectEffectsComponent {
         return this.characterService.get_Creature(this.creature);
     }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
     validate(effect: EffectGain) {
         if (this.get_IsFormula(effect.value)) {
-            effect.value = "0";
+            effect.value = '0';
         }
         this.update_Effects();
     }
 
     get_CustomEffectsOnThis() {
-        return this.get_Creature().effects.filter(effect => effect.affected.toLowerCase() == this.objectName.toLowerCase())
+        return this.get_Creature().effects.filter(effect => effect.affected.toLowerCase() == this.objectName.toLowerCase());
     }
 
     get_BonusTypes() {
-        return this.effectsService.bonusTypes.map(type => type == "untyped" ? "" : type);
+        return this.effectsService.bonusTypes.map(type => type == 'untyped' ? '' : type);
     }
 
     new_CustomEffectOnThis() {
@@ -58,13 +57,13 @@ export class ObjectEffectsComponent {
     }
 
     update_Effects() {
-        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.set_ToChange(this.creature, 'effects');
         this.refreshService.process_ToChange();
     }
 
     get_IsFormula(value: string) {
         if (isNaN(parseInt(value))) {
-            if (!value.match("^[0-9-]*$").length) {
+            if (!value.match('^[0-9-]*$').length) {
                 return true;
             }
         }
@@ -73,15 +72,15 @@ export class ObjectEffectsComponent {
 
     get_EffectValue(effect: EffectGain) {
         //Send the effect's setValue or value to the EvaluationService to get its result.
-        let value = effect.setValue || effect.value || null;
+        const value = effect.setValue || effect.value || null;
         if (value) {
-            let result = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Creature(), effect: effect });
+            const result = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Creature(), effect: effect });
             if (result) {
-                return "= " + result;
+                return `= ${ result }`;
             }
         }
         //If the EffectGain did not produce a value, return a zero value instead.
-        return "0";
+        return '0';
     }
 
 }

@@ -22,11 +22,11 @@ import { Skill } from 'src/app/classes/Skill';
 export class SkillsComponent implements OnInit, OnDestroy {
 
     @Input()
-    creature: string = "Character";
+    creature = 'Character';
     @Input()
-    public sheetSide: string = "left";
-    private showList: string = "";
-    private showAction: string = "";
+    public sheetSide = 'left';
+    private showList = '';
+    private showAction = '';
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -44,18 +44,18 @@ export class SkillsComponent implements OnInit, OnDestroy {
 
     get_Minimized() {
         switch (this.creature) {
-            case "Character":
+            case 'Character':
                 return this.characterService.get_Character().settings.skillsMinimized;
-            case "Companion":
+            case 'Companion':
                 return this.characterService.get_Character().settings.companionMinimized;
-            case "Familiar":
+            case 'Familiar':
                 return this.characterService.get_Character().settings.familiarMinimized;
         }
     }
 
     toggle_List(name: string) {
         if (this.showList == name) {
-            this.showList = "";
+            this.showList = '';
         } else {
             this.showList = name;
         }
@@ -67,7 +67,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
 
     toggle_Action(id: string) {
         if (this.showAction == id) {
-            this.showAction = "";
+            this.showAction = '';
         } else {
             this.showAction = id;
         }
@@ -87,7 +87,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
 
     toggle_TileMode() {
         this.get_Character().settings.skillsTileMode = !this.get_Character().settings.skillsTileMode;
-        this.refreshService.set_ToChange("Character", "skills");
+        this.refreshService.set_ToChange('Character', 'skills');
         this.refreshService.process_ToChange();
     }
 
@@ -95,21 +95,21 @@ export class SkillsComponent implements OnInit, OnDestroy {
         return this.get_Character().settings.skillsTileMode;
     }
 
-    get_Skills(name: string = "", filter: { type?: string, locked?: boolean } = {}): Skill[] {
+    get_Skills(name = '', filter: { type?: string, locked?: boolean } = {}): Skill[] {
         filter = Object.assign({
-            type: "",
+            type: '',
             locked: undefined
         }, filter);
         const creature = this.get_Creature();
         return this.characterService.get_Skills(creature, name, filter)
             .filter(skill =>
-                skill.name.includes("Lore") ?
+                skill.name.includes('Lore') ?
                     skill.level(creature, this.characterService, creature.level) :
                     true
             ).sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
@@ -125,28 +125,28 @@ export class SkillsComponent implements OnInit, OnDestroy {
         return this.characterService.get_CharacterFeatsTaken(1, this.characterService.get_Character().level, name).length;
     }
 
-    get_Activities(name: string = "") {
+    get_Activities(name = '') {
         return this.activitiesService.get_Activities(name);
     }
 
     get_OwnedActivities() {
-        let activities: (ActivityGain | ItemActivity)[] = [];
-        let unique: string[] = [];
+        const activities: (ActivityGain | ItemActivity)[] = [];
+        const unique: string[] = [];
         if (this.get_Character().settings.showSkillActivities) {
             this.characterService.get_OwnedActivities(this.get_Creature()).forEach(activity => {
-                activity.get_OriginalActivity(this.activitiesService)?.get_Cooldown({creature: this.get_Creature()}, {characterService: this.characterService, effectsService: this.effectsService});
+                activity.get_OriginalActivity(this.activitiesService)?.get_Cooldown({ creature: this.get_Creature() }, { characterService: this.characterService, effectsService: this.effectsService });
                 if (!unique.includes(activity.name)) {
                     unique.push(activity.name);
                     activities.push(activity);
                 }
-            })
+            });
         }
         return activities;
     }
 
     get_SkillActivities(activities: (ActivityGain | ItemActivity)[], skillName: string) {
         //Filter activities whose showonSkill or whose original activity's showonSkill includes this skill's name.
-        return activities.filter(activity => (activity.get_OriginalActivity(this.activitiesService)?.showonSkill || "").toLowerCase().includes(skillName.toLowerCase()));
+        return activities.filter(activity => (activity.get_OriginalActivity(this.activitiesService)?.showonSkill || '').toLowerCase().includes(skillName.toLowerCase()));
     }
 
     get_Senses() {
@@ -154,36 +154,36 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     get_Speeds() {
-        let speeds: Speed[] = this.characterService.get_Speeds(this.get_Creature());
-        if (["Character", "Companion"].includes(this.get_Creature().type)) {
+        const speeds: Speed[] = this.characterService.get_Speeds(this.get_Creature());
+        if (['Character', 'Companion'].includes(this.get_Creature().type)) {
             (this.get_Creature() as Character).class?.ancestry?.speeds?.forEach(speed => {
                 speeds.push(new Speed(speed.name));
             });
         }
         //We don't process the values yet - for now we just collect all Speeds that are mentioned in effects.
         // Since we pick up every effect that includes "Speed", but we don't want "Ignore Circumstance Penalties To Speed" to show up, we filter out "Ignore".
-        let speedEffects = this.effectsService.get_Effects(this.creature).all.filter(effect => effect.apply && !effect.ignored && (effect.target.includes("Speed") && !effect.target.includes("Ignore")));
+        const speedEffects = this.effectsService.get_Effects(this.creature).all.filter(effect => effect.apply && !effect.ignored && (effect.target.includes('Speed') && !effect.target.includes('Ignore')));
         speedEffects.forEach(effect => {
             if (!speeds.some(speed => speed.name == effect.target)) {
-                speeds.push(new Speed(effect.target))
+                speeds.push(new Speed(effect.target));
             }
         });
         //Remove any duplicates for display
-        let uniqueSpeeds: Speed[] = [];
+        const uniqueSpeeds: Speed[] = [];
         speeds.forEach(speed => {
             if (!uniqueSpeeds.find(uniqueSpeed => uniqueSpeed.name == speed.name)) {
                 uniqueSpeeds.push(speed);
             }
-        })
+        });
         return uniqueSpeeds.filter(speed => speed.value(this.get_Creature(), this.characterService, this.effectsService).result != 0);
     }
 
     get_SkillChoices() {
-        if (this.creature == "Character") {
-            let character = (this.get_Creature() as Character);
-            let choices: SkillChoice[] = [];
+        if (this.creature == 'Character') {
+            const character = (this.get_Creature() as Character);
+            const choices: SkillChoice[] = [];
             character.class.levels.filter(level => level.number <= character.level).forEach(level => {
-                choices.push(...level.skillChoices.filter(choice => choice.showOnSheet))
+                choices.push(...level.skillChoices.filter(choice => choice.showOnSheet));
             });
             return choices;
         }
@@ -191,20 +191,20 @@ export class SkillsComponent implements OnInit, OnDestroy {
 
     get_SenseDesc(sense: string) {
         switch (sense) {
-            case "Darkvision":
-                return "You can see in darkness and dim light just as well as you can see in bright light, though your vision in darkness is in black and white."
-            case "Greater Darkvision":
-                return "You can see in darkness and dim light just as well as you can see in bright light, though your vision in darkness is in black and white. Some forms of magical darkness, such as a 4th-level darkness spell, block normal darkvision. A creature with greater darkvision, however, can see through even these forms of magical darkness."
-            case "Low-Light Vision":
-                return "You can see in dim light as though it were bright light, and you ignore the concealed condition due to dim light."
+            case 'Darkvision':
+                return 'You can see in darkness and dim light just as well as you can see in bright light, though your vision in darkness is in black and white.';
+            case 'Greater Darkvision':
+                return 'You can see in darkness and dim light just as well as you can see in bright light, though your vision in darkness is in black and white. Some forms of magical darkness, such as a 4th-level darkness spell, block normal darkvision. A creature with greater darkvision, however, can see through even these forms of magical darkness.';
+            case 'Low-Light Vision':
+                return 'You can see in dim light as though it were bright light, and you ignore the concealed condition due to dim light.';
             default:
-                if (sense.includes("Scent")) {
-                    return "You can use your sense of smell to determine the location of a creature, but it remains hidden."
+                if (sense.includes('Scent')) {
+                    return 'You can use your sense of smell to determine the location of a creature, but it remains hidden.';
                 }
-                if (sense.includes("Tremorsense")) {
-                    return "You can feel the vibrations through a solid surface caused by movement."
+                if (sense.includes('Tremorsense')) {
+                    return 'You can feel the vibrations through a solid surface caused by movement.';
                 }
-                return "";
+                return '';
         }
     }
 
@@ -214,17 +214,17 @@ export class SkillsComponent implements OnInit, OnDestroy {
 
     finish_Loading() {
         if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
+            setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
-                    if (["skills", "alls", this.creature.toLowerCase()].includes(target.toLowerCase())) {
+                    if (['skills', 'alls', this.creature.toLowerCase()].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
-                    if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["skills", "all"].includes(view.target.toLowerCase())) {
+                    if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['skills', 'all'].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });

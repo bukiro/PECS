@@ -27,12 +27,12 @@ export class CustomEffectsService {
             //Tick down all custom effects and set them to remove when they expire.
             gain.duration -= turns;
             if (gain.duration <= 0) {
-                gain.type = "DELETE";
+                gain.type = 'DELETE';
             }
-            this.refreshService.set_ToChange(creature.type, "effects");
+            this.refreshService.set_ToChange(creature.type, 'effects');
         });
         //Remove all effects that were marked for removal.
-        creature.effects = creature.effects.filter(gain => gain.type != "DELETE");
+        creature.effects = creature.effects.filter(gain => gain.type != 'DELETE');
     }
 
     initialize(): void {
@@ -44,11 +44,11 @@ export class CustomEffectsService {
 
     private load_EffectProperties(): void {
         this.effectProperties = [];
-        let data = this.extensionsService.extend(json_effectproperties, "effectProperties");
+        const data = this.extensionsService.extend(json_effectproperties, 'effectProperties');
         Object.keys(data).forEach(key => {
             this.effectProperties.push(...data[key].map((obj: ItemProperty) => Object.assign(new ItemProperty(), obj).recast()));
         });
-        this.effectProperties = this.extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(this.effectProperties, ["parent", "key"], "custom effect properties");
+        this.effectProperties = this.extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(this.effectProperties, ['parent', 'key'], 'custom effect properties') as ItemProperty[];
     }
 
 }

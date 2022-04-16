@@ -1,9 +1,9 @@
 export class Domain {
-    public name: string = "";
-    public desc: string = "";
-    public domainSpell: string = "";
-    public advancedDomainSpell: string = "";
-    public sourceBook: string = "";
+    public name = '';
+    public desc = '';
+    public domainSpell = '';
+    public advancedDomainSpell = '';
+    public sourceBook = '';
     recast() {
         return this;
     }

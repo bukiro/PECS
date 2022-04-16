@@ -5,7 +5,6 @@ import { Item } from 'src/app/classes/Item';
 import { Equipment } from 'src/app/classes/Equipment';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
-import { Consumable } from 'src/app/classes/Consumable';
 import { WornItem } from 'src/app/classes/WornItem';
 
 @Component({
@@ -27,7 +26,7 @@ export class ItemContentComponent implements OnInit, OnDestroy {
         private itemsService: ItemsService
     ) { }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
@@ -42,41 +41,41 @@ export class ItemContentComponent implements OnInit, OnDestroy {
     get_Price(item: Item) {
         if (this.get_FullPrice(item)) {
             if (item.price == 0) {
-                return "";
+                return '';
             } else {
                 let price: number = this.get_FullPrice(item);
-                let priceString: string = "";
+                let priceString = '';
                 if (price >= 100) {
-                    priceString += Math.floor(price / 100) + "gp";
+                    priceString += `${ Math.floor(price / 100) }gp`;
                     price %= 100;
-                    if (price >= 10) { priceString += " "; }
+                    if (price >= 10) { priceString += ' '; }
                 }
                 if (price >= 10) {
-                    priceString += Math.floor(price / 10) + "sp";
+                    priceString += `${ Math.floor(price / 10) }sp`;
                     price %= 10;
-                    if (price >= 1) { priceString += " "; }
+                    if (price >= 1) { priceString += ' '; }
                 }
                 if (price >= 1) {
-                    priceString += price + "cp";
+                    priceString += `${ price }cp`;
                 }
                 return priceString;
             }
         } else {
-            return "";
+            return '';
         }
     }
 
     get_BulkDifference(item: Item) {
-        let bulk = +item.get_Bulk();
+        const bulk = +item.get_Bulk();
         if (!isNaN(bulk) && !isNaN(+item.bulk)) {
-            return parseInt(item.get_Bulk()) - parseInt(item.bulk)
+            return parseInt(item.get_Bulk()) - parseInt(item.bulk);
         } else if (!isNaN(bulk) && isNaN(+item.bulk)) {
-            return 1
+            return 1;
         } else if (isNaN(bulk) && !isNaN(+item.bulk)) {
-            if (item.get_Bulk() == "L" && +item.bulk == 0) {
+            if (item.get_Bulk() == 'L' && +item.bulk == 0) {
                 return 1;
             } else {
-                return -1
+                return -1;
             }
         }
     }
@@ -90,7 +89,7 @@ export class ItemContentComponent implements OnInit, OnDestroy {
     }
 
     on_LanguageUpdate() {
-        this.refreshService.set_ToChange("Character", "general");
+        this.refreshService.set_ToChange('Character', 'general');
         this.refreshService.process_ToChange();
     }
 

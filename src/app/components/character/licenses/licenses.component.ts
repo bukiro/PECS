@@ -14,18 +14,16 @@ export class LicensesComponent implements OnInit {
     ogl: { title: string, desc: string }[] = [];
     ogl15: { header: string, lines: { title: string, desc: string }[] }[] = [];
 
-    constructor() { }
-
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
-    
+
     ngOnInit() {
         Object.keys(ogl).forEach(key => {
             this.ogl.push({ title: ogl[key].title, desc: ogl[key].desc });
         });
         Object.keys(ogl15).forEach(key => {
-            this.ogl15.push({ header: ogl15[key].header, lines: ogl15[key].lines.map(line => { return { title: line.title, desc: line.desc } }) });
-        })
+            this.ogl15.push({ header: ogl15[key].header, lines: ogl15[key].lines.map(line => { return { title: line.title, desc: line.desc }; }) });
+        });
     }
 }

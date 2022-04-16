@@ -27,9 +27,14 @@ import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { WornItem } from 'src/app/classes/WornItem';
 import { ItemsService } from 'src/app/services/items.service';
 
+type FormulaObject = {
+    effects: EffectGain[],
+    get_Name?: () => string,
+    name?: string,
+}
 type FormulaContext = {
     readonly creature: Creature,
-    readonly object?: any,
+    readonly object?: FormulaObject,
     readonly parentConditionGain?: ConditionGain,
     readonly parentItem?: Item | Material
 }
@@ -39,7 +44,7 @@ type FormulaOptions = {
 }
 //Create a class that contains a condition gain's data and the original condition's effects, so we can extract effects from this object.
 class ConditionEffectsObject extends ConditionGain {
-    constructor(public effects: EffectGain[]) { super() }
+    constructor(public effects: EffectGain[]) { super(); }
 }
 export type HintEffectsObject = {
     readonly hint: Hint,
@@ -53,7 +58,7 @@ export type HintEffectsObject = {
 })
 export class EffectsGenerationService {
 
-    private checkingActive: boolean = false;
+    private checkingActive = false;
 
     constructor(
         private evaluationService: EvaluationService,
@@ -64,15 +69,15 @@ export class EffectsGenerationService {
         private itemsService: ItemsService
     ) { }
 
-    public get_EffectsFromObject(object: any, services: { readonly characterService: CharacterService }, context: FormulaContext, options: FormulaOptions = {}): Effect[] {
+    public get_EffectsFromObject(object: FormulaObject, services: { readonly characterService: CharacterService }, context: FormulaContext, options: FormulaOptions = {}): Effect[] {
         context = Object.assign({
-            creature: context.creature,
+            creature: null,
             object: object,
             parentConditionGain: null,
             parentItem: null
         }, context);
         options = Object.assign({
-            name: "",
+            name: '',
             pretendCharacterLevel: 0
         }, options);
         //If an object has a simple instruction in effects, such as "affected":"Athletics" and "value":"+2", turn it into an Effect here,
@@ -80,7 +85,7 @@ export class EffectsGenerationService {
         //Formulas are allowed, such as "Character.level / 2".
         //Try to get the type, too - if no type is given, set it to untyped.
         //Return an array of Effect objects
-        let objectEffects: Effect[] = [];
+        const objectEffects: Effect[] = [];
         //Get the object name unless a name is enforced.
         let source: string = options.name ? options.name : (object.get_Name ? object.get_Name() : object.name);
         const Character: Character = services.characterService.get_Character();
@@ -96,45 +101,42 @@ export class EffectsGenerationService {
                 return evaluationService.get_ValueFromFormula(value, { characterService: services.characterService, effectsService: effectsService }, Object.assign({ effect: effect }, context), options);
             }
             let show: boolean = effect.show;
-            let type: string = "untyped";
-            let penalty: boolean = false;
-            let value: string = "0";
-            let valueNumber: number = 0;
-            let setValue: string = "";
+            let type = 'untyped';
+            let penalty = false;
+            let value = '0';
+            let valueNumber = 0;
+            let setValue = '';
             let toggle: boolean = effect.toggle;
-            let sourceId = "";
+            let sourceId = '';
             if (object === context.creature) {
-                source = effect.source || "Custom Effect"
+                source = effect.source || 'Custom Effect';
             }
             try {
                 valueNumber = get_ValueFromFormula(effect.value) as number;
-                function validNumber() {
-                    return !isNaN(Number(valueNumber)) && Number(valueNumber) != Infinity;
-                }
-                if (validNumber()) {
+                if (!isNaN(Number(valueNumber)) && Number(valueNumber) != Infinity) {
                     valueNumber = Number(valueNumber);
                     value = valueNumber.toString();
                 }
             } catch (error) {
                 valueNumber = 0;
-                value = "0";
-            };
+                value = '0';
+            }
             if (effect.setValue) {
                 try {
                     setValue = get_ValueFromFormula(effect.setValue).toString();
                 } catch (error) {
-                    setValue = "";
-                };
+                    setValue = '';
+                }
             }
             if (effect.type) {
                 type = effect.type;
             }
             if (setValue) {
                 penalty = false;
-                value = "0";
+                value = '0';
             } else {
                 //Negative values are penalties unless Bulk is affected.
-                penalty = (valueNumber < 0) == (effect.affected != "Bulk");
+                penalty = (valueNumber < 0) == (effect.affected != 'Bulk');
             }
             if (effect.conditionalToggle) {
                 try {
@@ -143,15 +145,15 @@ export class EffectsGenerationService {
                     toggle = false;
                 }
             }
-            let title = "";
+            let title = '';
             if (effect.title) {
                 try {
                     //We insert value and setValue here (if needed) because they will not be available in the evaluation.
-                    const testTitle = effect.title.replace(/(^|[^\w])value($|[^\w])/g, "$1" + value + "$2").replace(/(^|[^\w])setValue($|[^\w])/g, "$1" + setValue + "$2");
+                    const testTitle = effect.title.replace(/(^|[^\w])value($|[^\w])/g, `$1${ value }$2`).replace(/(^|[^\w])setValue($|[^\w])/g, `$1${ setValue }$2`);
                     title = get_ValueFromFormula(testTitle).toString();
                 } catch (error) {
-                    title = "";
-                };
+                    title = '';
+                }
             }
             //Hide all relative effects that come from feats, so we don't see green effects permanently after taking a feat.
             function shouldHide() {
@@ -160,23 +162,23 @@ export class EffectsGenerationService {
             if (shouldHide()) {
                 show = false;
             }
-            if (source == "Custom Effect") {
+            if (source == 'Custom Effect') {
                 show = true;
             }
             //Effects can affect another creature. In that case, remove the notation and change the target.
             let target: string = context.creature.id;
             let affected: string = effect.affected;
-            if (effect.affected.includes("Character:")) {
-                target = Character?.id || "";
-                affected = effect.affected.replace("Character:", "");
+            if (effect.affected.includes('Character:')) {
+                target = Character?.id || '';
+                affected = effect.affected.replace('Character:', '');
             }
-            if (effect.affected.includes("Companion:")) {
-                target = Companion?.id || "";
-                affected = effect.affected.replace("Companion:", "");
+            if (effect.affected.includes('Companion:')) {
+                target = Companion?.id || '';
+                affected = effect.affected.replace('Companion:', '');
             }
-            if (effect.affected.includes("Familiar:")) {
-                target = Familiar?.id || "";
-                affected = effect.affected.replace("Familiar:", "");
+            if (effect.affected.includes('Familiar:')) {
+                target = Familiar?.id || '';
+                affected = effect.affected.replace('Familiar:', '');
             }
             if (context.parentConditionGain) {
                 sourceId = context.parentConditionGain.id;
@@ -198,7 +200,7 @@ export class EffectsGenerationService {
 
     private get_ForeignEffects(creature: Creature): Effect[] {
         let foreignEffects: Effect[] = [];
-        ["Character", "Companion", "Familiar"].filter(otherCreatureType => otherCreatureType != creature.type).forEach(otherCreatureType => {
+        ['Character', 'Companion', 'Familiar'].filter(otherCreatureType => otherCreatureType != creature.type).forEach(otherCreatureType => {
             foreignEffects = foreignEffects.concat(this.effectsService.get_Effects(otherCreatureType).all.filter(effect => effect.creature == creature.id));
         });
         return foreignEffects;
@@ -213,7 +215,7 @@ export class EffectsGenerationService {
         function ItemEffectsApply(item: Equipment) {
             return item.investedOrEquipped() &&
                 item.amount &&
-                !item.broken
+                !item.broken;
         }
 
         creature.inventories.forEach(inventory => {
@@ -229,23 +231,23 @@ export class EffectsGenerationService {
         if (this.itemsService.get_TooManySlottedAeonStones(creature)) {
             objects = objects.filter(object => !(object instanceof WornItem && object.isSlottedAeonStone));
             hintSets = hintSets.filter(set => !(set.parentItem && set.parentItem instanceof WornItem && set.parentItem.isSlottedAeonStone));
-        };
+        }
         return { objects: objects, hintSets: hintSets };
     }
 
     private collect_TraitEffectHints(creature: Creature, services: { readonly characterService: CharacterService }): HintEffectsObject[] {
-        let hintSets: HintEffectsObject[] = [];
+        const hintSets: HintEffectsObject[] = [];
         services.characterService.traitsService.get_Traits().filter(trait => trait.hints.length && trait.haveOn(creature).length).forEach(trait => {
             trait.hints.forEach(hint => {
                 hintSets.push({ hint: hint, objectName: trait.name });
-            })
-        })
+            });
+        });
         return hintSets;
     }
 
     private collect_EffectConditions(creature: Creature, services: { readonly characterService: CharacterService }): { conditions: ConditionEffectsObject[], hintSets: HintEffectsObject[] } {
-        let hintSets: HintEffectsObject[] = [];
-        let conditions: (ConditionEffectsObject)[] = [];
+        const hintSets: HintEffectsObject[] = [];
+        const conditions: (ConditionEffectsObject)[] = [];
         const appliedConditions = services.characterService.get_AppliedConditions(creature).filter(condition => condition.apply);
         appliedConditions.forEach(gain => {
             const originalCondition = services.characterService.get_Conditions(gain.name)[0];
@@ -253,20 +255,20 @@ export class EffectsGenerationService {
                 const conditionEffectsObject: ConditionEffectsObject = Object.assign(new ConditionEffectsObject(originalCondition.effects), gain);
                 conditions.push(conditionEffectsObject);
                 originalCondition?.hints?.filter(hint => (!hint.conditionChoiceFilter.length || hint.conditionChoiceFilter.includes(gain.choice))).forEach(hint => {
-                    hintSets.push({ hint: hint, parentConditionGain: gain, objectName: originalCondition.name })
-                })
+                    hintSets.push({ hint: hint, parentConditionGain: gain, objectName: originalCondition.name });
+                });
             }
         });
         return { conditions: conditions, hintSets: hintSets };
     }
 
     private collect_ActivityEffectHints(creature: Creature, services: { readonly characterService: CharacterService }): HintEffectsObject[] {
-        let hintSets: HintEffectsObject[] = [];
+        const hintSets: HintEffectsObject[] = [];
         services.characterService.get_OwnedActivities(creature, creature.level, true).filter(activity => activity.active).forEach(activity => {
             activity.get_OriginalActivity(this.activitiesService)?.hints?.forEach(hint => {
-                hintSets.push({ hint: hint, objectName: activity.name })
-            })
-        })
+                hintSets.push({ hint: hint, objectName: activity.name });
+            });
+        });
         return hintSets;
     }
 
@@ -302,52 +304,52 @@ export class EffectsGenerationService {
         let objectEffects: Effect[] = [];
         objects.filter(object => object.effects.length).forEach(object => {
             objectEffects = objectEffects.concat(this.get_EffectsFromObject(object, services, { creature: creature }));
-        })
+        });
         conditions.filter(object => object.effects.length).forEach(conditionEffectsObject => {
             objectEffects = objectEffects.concat(this.get_EffectsFromObject(conditionEffectsObject, services, { creature: creature, parentConditionGain: conditionEffectsObject }));
-        })
+        });
 
         //Create object effects the creature. All effects from the creature should be SHOWN, after which they are moved into objectEffects.
         let creatureEffects: Effect[] = [];
         creatureEffects = creatureEffects.concat(this.get_EffectsFromObject(creature, services, { creature: creature }));
         creatureEffects.forEach(effect => {
             effect.show = true;
-        })
+        });
 
         //Create object effects from creature feats/abilities and store them in a separate list. All effects from feats should be HIDDEN, after which they are moved into objectEffects.
         let featEffects: Effect[] = [];
         feats.filter(object => object.effects?.length).forEach(object => {
             featEffects = featEffects.concat(this.get_EffectsFromObject(object, services, { creature: creature }));
-        })
+        });
         featEffects.forEach(effect => {
             effect.show = false;
-        })
+        });
 
         //Create object effects from active hints and store them in a separate list. All effects from hints should be SHOWN, after which they are moved into objectEffects.
         let hintEffects: Effect[] = [];
         hintSets.filter(hintSet => (hintSet.hint.active || hintSet.hint.active2 || hintSet.hint.active3 || hintSet.hint.active4 || hintSet.hint.active5) && hintSet.hint.effects?.length).forEach(hintSet => {
-            hintEffects = hintEffects.concat(this.get_EffectsFromObject(hintSet.hint, services, { creature: creature, parentItem: hintSet.parentItem, parentConditionGain: hintSet.parentConditionGain }, { name: "conditional, " + hintSet.objectName }));
-        })
+            hintEffects = hintEffects.concat(this.get_EffectsFromObject(hintSet.hint, services, { creature: creature, parentItem: hintSet.parentItem, parentConditionGain: hintSet.parentConditionGain }, { name: `conditional, ${ hintSet.objectName }` }));
+        });
         hintEffects.forEach(effect => {
             effect.show = true;
-        })
+        });
 
         return objectEffects.concat(creatureEffects).concat(featEffects).concat(hintEffects);
     }
 
     private generate_ArmorEffects(armor: Armor, services: { readonly characterService: CharacterService }, context: { readonly creature: Creature }, options: { readonly ignoreArmorPenalties: boolean, readonly ignoreArmorSpeedPenalties: boolean }): Effect[] {
-        let itemEffects: Effect[] = [];
+        const itemEffects: Effect[] = [];
         const armorTraits = armor.get_Traits();
-        function add_Effect(options: { type: "item" | "untyped", target: string, value: string, source: string, penalty: boolean, apply: boolean }): void {
+        function add_Effect(options: { type: 'item' | 'untyped', target: string, value: string, source: string, penalty: boolean, apply: boolean }): void {
             itemEffects.push(Object.assign(new Effect,
                 {
                     creature: context.creature.id,
                     type: options.type,
                     target: options.target,
                     value: options.value,
-                    setValue: "",
+                    setValue: '',
                     toggle: false,
-                    title: "",
+                    title: '',
                     source: options.source,
                     penalty: options.penalty,
                     apply: options.apply
@@ -360,84 +362,78 @@ export class EffectsGenerationService {
             return resilient > 0 && !armor.broken;
         }
         if (applyResilientRune()) {
-            add_Effect({ type: "item", target: "Saving Throws", value: "+" + resilient, source: armor.get_Resilient(resilient), penalty: false, apply: undefined });
+            add_Effect({ type: 'item', target: 'Saving Throws', value: `+${ resilient }`, source: armor.get_Resilient(resilient), penalty: false, apply: undefined });
         }
         //Add broken penalty if the armor is broken.
         if (armor.broken) {
-            let brokenPenalty: string = "";
+            let brokenPenalty = '';
             switch (armor.get_Proficiency()) {
-                case "Light Armor":
-                    brokenPenalty = "-1";
+                case 'Light Armor':
+                    brokenPenalty = '-1';
                     break;
-                case "Medium Armor":
-                    brokenPenalty = "-2";
+                case 'Medium Armor':
+                    brokenPenalty = '-2';
                     break;
-                case "Heavy Armor":
-                    brokenPenalty = "-3";
+                case 'Heavy Armor':
+                    brokenPenalty = '-3';
                     break;
             }
             if (brokenPenalty) {
-                add_Effect({ type: "untyped", target: "AC", value: brokenPenalty, source: "Broken Armor", penalty: true, apply: undefined });
+                add_Effect({ type: 'untyped', target: 'AC', value: brokenPenalty, source: 'Broken Armor', penalty: true, apply: undefined });
             }
         }
         //Add skill and speed penalties from armor strength requirements and certain traits.
         if (!options.ignoreArmorPenalties) {
             //If an armor has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement.
-            const strength = (context.creature instanceof Familiar) ? 0 : services.characterService.get_Abilities("Strength")[0].value(context.creature as Character | AnimalCompanion, services.characterService, this.effectsService).result;
+            const strength = (context.creature instanceof Familiar) ? 0 : services.characterService.get_Abilities('Strength')[0].value(context.creature as Character | AnimalCompanion, services.characterService, this.effectsService).result;
             const name = armor.get_Name();
             const skillPenalty = armor.get_SkillPenalty();
             const skillPenaltyString = skillPenalty.toString();
             const speedPenalty = armor.get_SpeedPenalty();
             const speedPenaltyString = speedPenalty.toString();
-            function strengthRequirementMatched() {
-                return strength >= armor.get_Strength();
-            }
-            if (!strengthRequirementMatched()) {
+            if (!(strength >= armor.get_Strength())) {
                 if (skillPenalty) {
                     //You are not strong enough to act freely in this armor.
                     //If the item has the Flexible trait, its penalty doesn't apply to Acrobatics and Athletics.
                     //We push this as an apply:false effect to each so you can see that (and why) you were spared from it.
                     //We also add a note to the source for clarity.
-                    if (armorTraits.includes("Flexible")) {
-                        add_Effect({ type: "item", target: "Acrobatics", value: skillPenaltyString, source: name + "(cancelled by Flexible)", penalty: true, apply: false });
-                        add_Effect({ type: "item", target: "Athletics", value: skillPenaltyString, source: name + "(cancelled by Flexible)", penalty: true, apply: false });
+                    if (armorTraits.includes('Flexible')) {
+                        add_Effect({ type: 'item', target: 'Acrobatics', value: skillPenaltyString, source: `${ name }(cancelled by Flexible)`, penalty: true, apply: false });
+                        add_Effect({ type: 'item', target: 'Athletics', value: skillPenaltyString, source: `${ name }(cancelled by Flexible)`, penalty: true, apply: false });
                     } else {
-                        add_Effect({ type: "item", target: "Acrobatics", value: skillPenaltyString, source: name, penalty: true, apply: undefined });
-                        add_Effect({ type: "item", target: "Athletics", value: skillPenaltyString, source: name, penalty: true, apply: undefined });
+                        add_Effect({ type: 'item', target: 'Acrobatics', value: skillPenaltyString, source: name, penalty: true, apply: undefined });
+                        add_Effect({ type: 'item', target: 'Athletics', value: skillPenaltyString, source: name, penalty: true, apply: undefined });
                     }
                     //These two always apply unless you are strong enough.
-                    add_Effect({ type: "item", target: "Stealth", value: skillPenaltyString, source: name, penalty: true, apply: undefined });
-                    add_Effect({ type: "item", target: "Thievery", value: skillPenaltyString, source: name, penalty: true, apply: undefined });
+                    add_Effect({ type: 'item', target: 'Stealth', value: skillPenaltyString, source: name, penalty: true, apply: undefined });
+                    add_Effect({ type: 'item', target: 'Thievery', value: skillPenaltyString, source: name, penalty: true, apply: undefined });
                 }
                 if (speedPenalty && !options.ignoreArmorSpeedPenalties) {
                     //You are not strong enough to move unhindered in this armor. You get a speed penalty.
-                    add_Effect({ type: "untyped", target: "Speed", value: speedPenaltyString, source: name, penalty: true, apply: undefined });
+                    add_Effect({ type: 'untyped', target: 'Speed', value: speedPenaltyString, source: name, penalty: true, apply: undefined });
                 }
             } else {
                 if (skillPenalty) {
                     //If you ARE strong enough, we push some not applying effects so you can feel good about that
-                    add_Effect({ type: "item", target: "Acrobatics", value: skillPenaltyString, source: name + " (cancelled by Strength)", penalty: true, apply: false });
-                    add_Effect({ type: "item", target: "Athletics", value: skillPenaltyString, source: name + " (cancelled by Strength)", penalty: true, apply: false });
-                    add_Effect({ type: "item", target: "Thievery", value: skillPenaltyString, source: name + " (cancelled by Strength)", penalty: true, apply: false });
+                    add_Effect({ type: 'item', target: 'Acrobatics', value: skillPenaltyString, source: `${ name } (cancelled by Strength)`, penalty: true, apply: false });
+                    add_Effect({ type: 'item', target: 'Athletics', value: skillPenaltyString, source: `${ name } (cancelled by Strength)`, penalty: true, apply: false });
+                    add_Effect({ type: 'item', target: 'Thievery', value: skillPenaltyString, source: `${ name } (cancelled by Strength)`, penalty: true, apply: false });
                     //UNLESS the item is also Noisy, in which case you do get the stealth penalty because you are dummy thicc and the clap of your ass cheeks keeps alerting the guards.
-                    if (armorTraits.includes("Noisy")) {
-                        add_Effect({ type: "item", target: "Stealth", value: skillPenaltyString, source: name + " (Noisy)", penalty: true, apply: undefined });
+                    if (armorTraits.includes('Noisy')) {
+                        add_Effect({ type: 'item', target: 'Stealth', value: skillPenaltyString, source: `${ name } (Noisy)`, penalty: true, apply: undefined });
                     } else {
-                        add_Effect({ type: "item", target: "Stealth", value: skillPenaltyString, source: name + " (cancelled by Strength)", penalty: true, apply: false });
+                        add_Effect({ type: 'item', target: 'Stealth', value: skillPenaltyString, source: `${ name } (cancelled by Strength)`, penalty: true, apply: false });
                     }
                 }
-                function speedPenaltyApplies() {
-                    return speedPenalty && !options.ignoreArmorSpeedPenalties;
-                }
-                if (speedPenaltyApplies()) {
+                if (speedPenalty && !options.ignoreArmorSpeedPenalties) {
                     //You are strong enough to ignore the speed penalty, but if the armor is particularly heavy, your penalty is only lessened.
                     if (speedPenalty < -5) {
                         //In this case we push both the avoided and the actual effect so you can feel at least a little good about yourself.
-                        add_Effect({ type: "untyped", target: "Speed", value: (speedPenalty + 5).toString(), source: name, penalty: true, apply: true });
-                        add_Effect({ type: "untyped", target: "Speed", value: speedPenaltyString, source: name + " (cancelled by Strength)", penalty: true, apply: false });
+                        add_Effect({ type: 'untyped', target: 'Speed', value: (speedPenalty + 5).toString(), source: name, penalty: true, apply: true });
+                        add_Effect({ type: 'untyped', target: 'Speed', value: speedPenaltyString, source: `${ name } (cancelled by Strength)`, penalty: true, apply: false });
                     } else {
                         //If you are strong enough and the armor only gave -5ft penalty, you get a fully avoided effect to gaze at.
-                        add_Effect({ type: "untyped", target: "Speed", value: speedPenaltyString, source: name + " (cancelled by Strength)", penalty: true, apply: false });
+                        add_Effect({ type: 'untyped', target: 'Speed', value: speedPenaltyString, source: `${ name } (cancelled by Strength)`, penalty: true, apply: false });
                     }
                 }
             }
@@ -448,8 +444,8 @@ export class EffectsGenerationService {
     private generate_ShieldEffects(shield: Shield, services: { readonly characterService: CharacterService }, context: { readonly creature: Creature }): Effect[] {
         //Get shield bonuses from raised shields
         //If a shield is raised, add its circumstance bonus to AC with a + in front, but subtract 2 if it's shoddy.
-        let itemEffects: Effect[] = [];
-        function add_Effect(options: { type: "circumstance" | "untyped" | "item", target: string, value: string, source: string, penalty: boolean, apply: boolean }): void {
+        const itemEffects: Effect[] = [];
+        function add_Effect(options: { type: 'circumstance' | 'untyped' | 'item', target: string, value: string, source: string, penalty: boolean, apply: boolean }): void {
             itemEffects.push(Object.assign(new Effect(options.value), { creature: context.creature.id, type: options.type, target: options.target, source: options.source, penalty: options.penalty, apply: options.apply }));
         }
         const name = shield.get_Name();
@@ -459,22 +455,19 @@ export class EffectsGenerationService {
         if (shieldBonusApplies()) {
             const shieldBonus = shield.get_ACBonus();
             if (shieldBonus) {
-                add_Effect({ type: "circumstance", target: "AC", value: "+" + shieldBonus, source: name, penalty: false, apply: undefined })
+                add_Effect({ type: 'circumstance', target: 'AC', value: `+${ shieldBonus }`, source: name, penalty: false, apply: undefined });
                 if (shield._shoddy) {
-                    add_Effect({ type: "item", target: "AC", value: "-2", source: "Shoddy Shield", penalty: true, apply: undefined })
+                    add_Effect({ type: 'item', target: 'AC', value: '-2', source: 'Shoddy Shield', penalty: true, apply: undefined });
                 }
             }
-            function reflexiveShieldApplies() {
-                return context.creature instanceof Character && context.creature.has_Feat("Reflexive Shield", services);
-            }
             //Reflexive Shield adds the same bonus to your reflex save. Only a Character can have it.
-            if (reflexiveShieldApplies()) {
-                add_Effect({ type: "circumstance", target: "Reflex", value: "+" + shieldBonus, source: "Reflexive Shield", penalty: false, apply: undefined })
+            if (context.creature instanceof Character && context.creature.has_Feat('Reflexive Shield', services)) {
+                add_Effect({ type: 'circumstance', target: 'Reflex', value: `+${ shieldBonus }`, source: 'Reflexive Shield', penalty: false, apply: undefined });
             }
         }
         if (shield.speedpenalty) {
             //Shields don't have a strength requirement for speed penalties. In this case, the penalty just always applies.
-            add_Effect({ type: "untyped", target: "Speed", value: shield.speedpenalty.toString(), source: name, penalty: true, apply: undefined })
+            add_Effect({ type: 'untyped', target: 'Speed', value: shield.speedpenalty.toString(), source: name, penalty: true, apply: undefined });
         }
         return itemEffects;
     }
@@ -485,7 +478,7 @@ export class EffectsGenerationService {
         const items = creature.inventories[0];
         items.armors.filter(armor => armor.equipped).forEach(armor => {
             itemEffects = itemEffects.concat(this.generate_ArmorEffects(armor, services, { creature: creature }, options));
-        })
+        });
 
         items.shields.filter(shield => shield.equipped).forEach(shield => {
             itemEffects = itemEffects.concat(this.generate_ShieldEffects(shield, services, { creature: creature }));
@@ -496,31 +489,35 @@ export class EffectsGenerationService {
 
     private apply_UnburdenedIron(effects: Effect[], services: { readonly characterService: CharacterService }, context: { readonly character: Character }): Effect[] {
         //If you have the Unburdened Iron feat and are taking speed penalties, reduce the first of them by 5.
-        if (context.character.has_Feat("Unburdened Iron", services)) {
-            let done: boolean = false;
-            //Try global speed penalties first (this is more beneficial to the character).
-            function lessen_SpeedPenaltyEffect(effect: Effect) {
-                effect.value = (parseInt(effect.value) + 5).toString();
-                if (effect.value == "0" || effect.value == "") {
-                    effect.apply = false;
-                    effect.source = effect.source + " (Cancelled by Unburdened Iron)";
-                } else {
-                    effect.source = effect.source + " (Lessened by Unburdened Iron)";
-                }
-                return effect;
+        function lessen_SpeedPenaltyEffect(effect: Effect) {
+            effect.value = (parseInt(effect.value) + 5).toString();
+            if (effect.value == '0' || effect.value == '') {
+                effect.apply = false;
+                effect.source = `${ effect.source } (Cancelled by Unburdened Iron)`;
+            } else {
+                effect.source = `${ effect.source } (Lessened by Unburdened Iron)`;
             }
-            effects.filter(effect => effect.target == "Speed" && effect.penalty && !effect.toggle).forEach(effect => {
-                if (!done) {
-                    effect = lessen_SpeedPenaltyEffect(effect);
+            return effect;
+        }
+        if (context.character.has_Feat('Unburdened Iron', services)) {
+            let done = false;
+            //Try global speed penalties first (this is more beneficial to the character).
+            effects = effects.map(effect => {
+                if (!done && effect.target == 'Speed' && effect.penalty && !effect.toggle) {
                     done = true;
+                    return lessen_SpeedPenaltyEffect(effect);
+                } else {
+                    return effect;
                 }
-            })
-            effects.filter(effect => effect.target == "Land Speed" && effect.penalty && !effect.toggle).forEach(effect => {
-                if (!done) {
-                    effect = lessen_SpeedPenaltyEffect(effect);
+            });
+            effects = effects.map(effect => {
+                if (!done && effect.target == 'Land Speed' && effect.penalty && !effect.toggle) {
                     done = true;
+                    return lessen_SpeedPenaltyEffect(effect);
+                } else {
+                    return effect;
                 }
-            })
+            });
         }
         return effects;
     }
@@ -529,18 +526,18 @@ export class EffectsGenerationService {
         //Reset ignoring all effects before processing ignored effects.
         effects.forEach(effect => {
             effect.ignored = false;
-        })
+        });
         function get_EffectIgnored(effect: Effect): boolean {
             return context.creature.ignoredEffects.some(ignoredEffect =>
                 ignoredEffect.creature == effect.creature &&
                 ignoredEffect.target == effect.target &&
                 ignoredEffect.source == effect.source
-            )
+            );
         }
         //Ignore all effects that match the creature's ignoredEffects.
         effects.filter(effect => get_EffectIgnored(effect)).forEach(effect => {
             effect.ignored = true;
-        })
+        });
         //Cleanup the creature's ignoredEffects and delete each that doesn't match an existing effect.
         context.creature.ignoredEffects = context.creature.ignoredEffects.filter(ignoredEffect =>
             effects.some(effect =>
@@ -548,7 +545,7 @@ export class EffectsGenerationService {
                 ignoredEffect.target == effect.target &&
                 ignoredEffect.source == effect.source
             )
-        )
+        );
         return effects;
     }
 
@@ -556,20 +553,20 @@ export class EffectsGenerationService {
         //Toggle effects are always applied.
         effects.filter(effect => effect.toggle).forEach(effect => {
             effect.apply = true;
-        })
+        });
 
         //On Familiars, item bonuses never apply.
         if (context.creature instanceof Familiar) {
-            effects.filter(effect => !effect.penalty && effect.type == "item").forEach(effect => {
+            effects.filter(effect => !effect.penalty && effect.type == 'item').forEach(effect => {
                 effect.apply = false;
-            })
+            });
         }
 
         //Now we need to go over all the effects.
         // If one target is affected by two bonuses of the same type, only the bigger one is applied.
         // The same goes for penalties, unless they are untyped.
 
-        let targets: string[] = [];
+        const targets: string[] = [];
         //Collect all targets of effects, but each only once
         effects.forEach(effect => {
             if (!targets.includes(effect.target)) {
@@ -585,7 +582,7 @@ export class EffectsGenerationService {
                 ))
                 .forEach(effect => {
                     effect.apply = true;
-                })
+                });
             //Apply only the highest absolute effect for each type for this target.
             // (There aren't any absolute penalties, and absolute effects are usually untyped.)
             this.effectsService.get_TypeFilteredEffects(effects
@@ -594,164 +591,164 @@ export class EffectsGenerationService {
                 ), { absolutes: true })
                 .forEach(effect => {
                     effect.apply = true;
-                })
-        })
+                });
+        });
 
         //Disable all effects that are not applied so far.
         effects.filter(effect => effect.apply == undefined).forEach(effect => {
             effect.apply = false;
-        })
+        });
 
         //If an effect with the target "Ignore <type> bonuses and penalties" exists, all effects of that type are disabled.
         function ignoreEffectExists(type: string, effectType: string): boolean {
-            return effects.some(effect => !effect.ignored && effect.target.toLowerCase() == "ignore " + type.toLowerCase() + " " + effectType.toLowerCase());
+            return effects.some(effect => !effect.ignored && effect.target.toLowerCase() == `ignore ${ type.toLowerCase() } ${ effectType.toLowerCase() }`);
         }
         this.effectsService.bonusTypes.forEach(type => {
-            if (ignoreEffectExists(type, "bonuses and penalties")) {
+            if (ignoreEffectExists(type, 'bonuses and penalties')) {
                 effects.filter(effect => effect.type == type).forEach(effect => {
                     effect.apply = false;
-                })
+                });
             }
-        })
+        });
         function specificIgnoreEffectExists(type: string, effectType: string): boolean {
-            return effects.some(effect => !effect.ignored && effect.target.toLowerCase().includes("ignore " + type.toLowerCase() + " " + effectType.toLowerCase()));
+            return effects.some(effect => !effect.ignored && effect.target.toLowerCase().includes(`ignore ${ type.toLowerCase() } ${ effectType.toLowerCase() }`));
         }
         //If there is an effect that says to ignore all <type> effects, bonuses or penalties [to a target],
         // all effects (or bonuses or penalties) to that target (or all targets) with that type are disabled.
         this.effectsService.bonusTypes.forEach(type => {
             effects
-                .filter(effect => !effect.ignored && specificIgnoreEffectExists(type, "effects") || specificIgnoreEffectExists(type, "bonuses and penalties"))
+                .filter(effect => !effect.ignored && specificIgnoreEffectExists(type, 'effects') || specificIgnoreEffectExists(type, 'bonuses and penalties'))
                 .forEach(ignoreeffect => {
-                    let target = "all";
-                    if (ignoreeffect.target.toLowerCase().includes(" to ")) {
-                        target = ignoreeffect.target.toLowerCase().split(" to ")[1];
+                    let target = 'all';
+                    if (ignoreeffect.target.toLowerCase().includes(' to ')) {
+                        target = ignoreeffect.target.toLowerCase().split(' to ')[1];
                     }
                     effects
-                        .filter(effect => (target == "all" || effect.target.toLowerCase() == target) && effect.type.toLowerCase() == type.toLowerCase())
+                        .filter(effect => (target == 'all' || effect.target.toLowerCase() == target) && effect.type.toLowerCase() == type.toLowerCase())
                         .forEach(effect => {
                             effect.apply = false;
-                        })
-                })
+                        });
+                });
             effects
-                .filter(effect => !effect.ignored && specificIgnoreEffectExists(type, "bonuses"))
+                .filter(effect => !effect.ignored && specificIgnoreEffectExists(type, 'bonuses'))
                 .forEach(ignoreeffect => {
-                    let target = "all";
-                    if (ignoreeffect.target.toLowerCase().includes(" to ")) {
-                        target = ignoreeffect.target.toLowerCase().split(" to ")[1];
+                    let target = 'all';
+                    if (ignoreeffect.target.toLowerCase().includes(' to ')) {
+                        target = ignoreeffect.target.toLowerCase().split(' to ')[1];
                     }
                     effects
-                        .filter(effect => (target == "all" || effect.target.toLowerCase() == target) && effect.type == type && !effect.penalty)
+                        .filter(effect => (target == 'all' || effect.target.toLowerCase() == target) && effect.type == type && !effect.penalty)
                         .forEach(effect => {
                             effect.apply = false;
-                        })
-                })
+                        });
+                });
             effects
-                .filter(effect => !effect.ignored && specificIgnoreEffectExists(type, "penalties"))
+                .filter(effect => !effect.ignored && specificIgnoreEffectExists(type, 'penalties'))
                 .forEach(ignoreeffect => {
-                    let target = "all";
-                    if (ignoreeffect.target.toLowerCase().includes(" to ")) {
-                        target = ignoreeffect.target.toLowerCase().split(" to ")[1];
+                    let target = 'all';
+                    if (ignoreeffect.target.toLowerCase().includes(' to ')) {
+                        target = ignoreeffect.target.toLowerCase().split(' to ')[1];
                     }
                     effects
-                        .filter(effect => (target == "all" || effect.target.toLowerCase() == target) && effect.type == type && effect.penalty)
+                        .filter(effect => (target == 'all' || effect.target.toLowerCase() == target) && effect.type == type && effect.penalty)
                         .forEach(effect => {
                             effect.apply = false;
-                        })
-                })
-        })
+                        });
+                });
+        });
         //If an effect with the target "Ignore <name>" exists without a type, all effects of that name are disabled.
-        effects.filter(effect => !effect.ignored && effect.target.toLowerCase().includes("ignore ") && !this.effectsService.bonusTypes.some(type => effect.target.toLowerCase().includes(type.toLowerCase()))).forEach(ignoreEffect => {
-            const target = ignoreEffect.target.toLowerCase().replace("ignore ", "");
+        effects.filter(effect => !effect.ignored && effect.target.toLowerCase().includes('ignore ') && !this.effectsService.bonusTypes.some(type => effect.target.toLowerCase().includes(type.toLowerCase()))).forEach(ignoreEffect => {
+            const target = ignoreEffect.target.toLowerCase().replace('ignore ', '');
             effects.filter(effect => effect.target.toLowerCase() == target).forEach(effect => {
                 effect.apply = false;
-            })
-        })
+            });
+        });
         //If an effect with the target "Ignore absolute effects [on <name>]" exists without a type, all absolute effects [on that target] are disabled.
         effects
-            .filter(effect => !effect.ignored && effect.target.toLowerCase().includes("ignore absolute effects"))
+            .filter(effect => !effect.ignored && effect.target.toLowerCase().includes('ignore absolute effects'))
             .forEach(ignoreeffect => {
-                let target = "all";
-                if (ignoreeffect.target.toLowerCase().includes(" on ")) {
-                    target = ignoreeffect.target.toLowerCase().split(" on ")[1];
-                } else if (ignoreeffect.target.toLowerCase().includes(" to ")) {
-                    target = ignoreeffect.target.toLowerCase().split(" to ")[1];
+                let target = 'all';
+                if (ignoreeffect.target.toLowerCase().includes(' on ')) {
+                    target = ignoreeffect.target.toLowerCase().split(' on ')[1];
+                } else if (ignoreeffect.target.toLowerCase().includes(' to ')) {
+                    target = ignoreeffect.target.toLowerCase().split(' to ')[1];
                 }
                 effects
-                    .filter(effect => (target == "all" || effect.target.toLowerCase() == target) && effect.setValue)
+                    .filter(effect => (target == 'all' || effect.target.toLowerCase() == target) && effect.setValue)
                     .forEach(effect => {
                         effect.apply = false;
-                    })
-            })
+                    });
+            });
         return effects;
     }
 
     private set_EffectsShown(effects: Effect[]): Effect[] {
         //Figure out whether to show or hide an effect if it isn't set already.
         const alwaysShow: string[] = [
-            "AC",
-            "Acrobatics",
-            "Actions per Turn",
-            "Agile Attack Rolls",
-            "All Checks and DCs",
-            "Arcana",
-            "Athletics",
-            "Attack Rolls",
-            "Bulk",
-            "Class DC",
-            "Crafting",
-            "Damage",
-            "Damage Rolls",
-            "Deception",
-            "Diplomacy",
-            "Expert Skill Checks",
-            "Fortitude",
-            "Hardness",
-            "Intimidation",
-            "Legendary Skill Checks",
-            "Lore",
-            "Master Skill Checks",
-            "Max Dying",
-            "Max HP",
-            "Medicine",
-            "Melee Attack Rolls",
-            "Melee Damage",
-            "Nature",
-            "Non-Agile Attack Rolls",
-            "Occultism",
-            "Perception",
-            "Performance",
-            "Ranged Attack Rolls",
-            "Ranged Damage",
-            "Reach",
-            "Reflex",
-            "Religion",
-            "Saving Throws",
-            "Size",
-            "Skill Checks",
-            "Society",
-            "Spell Attack Rolls",
-            "Spell DCs",
-            "Stealth",
-            "Survival",
-            "Thievery",
-            "Trained Skill Checks",
-            "Unarmed Attack Rolls",
-            "Unarmed Damage",
-            "Unarmed Damage per Die",
-            "Untrained Skill Checks",
-            "Weapon Damage per Die",
-            "Will"
-        ].map(name => name.toLowerCase())
+            'AC',
+            'Acrobatics',
+            'Actions per Turn',
+            'Agile Attack Rolls',
+            'All Checks and DCs',
+            'Arcana',
+            'Athletics',
+            'Attack Rolls',
+            'Bulk',
+            'Class DC',
+            'Crafting',
+            'Damage',
+            'Damage Rolls',
+            'Deception',
+            'Diplomacy',
+            'Expert Skill Checks',
+            'Fortitude',
+            'Hardness',
+            'Intimidation',
+            'Legendary Skill Checks',
+            'Lore',
+            'Master Skill Checks',
+            'Max Dying',
+            'Max HP',
+            'Medicine',
+            'Melee Attack Rolls',
+            'Melee Damage',
+            'Nature',
+            'Non-Agile Attack Rolls',
+            'Occultism',
+            'Perception',
+            'Performance',
+            'Ranged Attack Rolls',
+            'Ranged Damage',
+            'Reach',
+            'Reflex',
+            'Religion',
+            'Saving Throws',
+            'Size',
+            'Skill Checks',
+            'Society',
+            'Spell Attack Rolls',
+            'Spell DCs',
+            'Stealth',
+            'Survival',
+            'Thievery',
+            'Trained Skill Checks',
+            'Unarmed Attack Rolls',
+            'Unarmed Damage',
+            'Unarmed Damage per Die',
+            'Untrained Skill Checks',
+            'Weapon Damage per Die',
+            'Will'
+        ].map(name => name.toLowerCase());
         const alwaysShowWildcard: string[] = [
-            "Extra Damage",
-            "Resistance",
-            "Immunity",
-            "Ignore",
-            "Speed",
-            "-based Checks and DCs",
-            "-based Skill Checks",
-            "Lore: "
-        ].map(name => name.toLowerCase())
+            'Extra Damage',
+            'Resistance',
+            'Immunity',
+            'Ignore',
+            'Speed',
+            '-based Checks and DCs',
+            '-based Skill Checks',
+            'Lore: '
+        ].map(name => name.toLowerCase());
 
         effects.filter(effect => effect.show == undefined).forEach(effect => {
             if (alwaysShow.includes(effect.target.toLowerCase())) {
@@ -761,7 +758,7 @@ export class EffectsGenerationService {
             } else {
                 effect.show = false;
             }
-        })
+        });
 
         return effects;
     }
@@ -773,7 +770,7 @@ export class EffectsGenerationService {
 
         options = Object.assign({
             secondRun: false
-        }, options)
+        }, options);
 
         const creature: Creature = services.characterService.get_Creature(creatureType);
 
@@ -789,9 +786,9 @@ export class EffectsGenerationService {
         //We need to take into account whether any previously generated effects could state that armor penalties or armor speed penalties are ignored.
 
         //Skip all armor penalties if there is an "Ignore Armor Penalty" effect.
-        const ignoreArmorPenalties = effects.some(effect => effect.creature == creature.id && effect.target == "Ignore Armor Penalty" && effect.toggle);
+        const ignoreArmorPenalties = effects.some(effect => effect.creature == creature.id && effect.target == 'Ignore Armor Penalty' && effect.toggle);
         //Skip speed penalties if there is an "Ignore Armor Speed Penalty" effect.
-        const ignoreArmorSpeedPenalties = effects.some(effect => effect.creature == creature.id && effect.target == "Ignore Armor Speed Penalty" && effect.toggle);
+        const ignoreArmorSpeedPenalties = effects.some(effect => effect.creature == creature.id && effect.target == 'Ignore Armor Speed Penalty' && effect.toggle);
         effects = effects.concat(this.generate_CalculatedItemEffects(creature, services, { ignoreArmorPenalties: ignoreArmorPenalties, ignoreArmorSpeedPenalties: ignoreArmorSpeedPenalties }));
 
         //Apply any lessening of speed penalties that stems from a character's Unburdened Iron feat.
@@ -800,7 +797,7 @@ export class EffectsGenerationService {
         }
 
         //Split off effects that affect another creature for later. We don't want these to influence or be influenced by the next steps.
-        let effectsForOthers = effects.filter(effect => effect.creature != creature.id);
+        const effectsForOthers = effects.filter(effect => effect.creature != creature.id);
         effects = effects.filter(effect => effect.creature == creature.id);
 
         //Enable ignored on all effects that match the creature's ignored effects list.
@@ -858,15 +855,15 @@ export class EffectsGenerationService {
         //We update weapons even though they don't generate effects with these modifiers, because this is a good spot to keep them up to date.
         creature.inventories.forEach(inv => {
             inv.shields.forEach(shield => {
-                shield.update_Modifiers(creature, { characterService: services.characterService, refreshService: this.refreshService })
-            })
+                shield.update_Modifiers(creature, { characterService: services.characterService, refreshService: this.refreshService });
+            });
             inv.weapons.forEach(weapon => {
-                weapon.update_Modifiers(creature, { characterService: services.characterService, refreshService: this.refreshService })
-            })
+                weapon.update_Modifiers(creature, { characterService: services.characterService, refreshService: this.refreshService });
+            });
             inv.armors.forEach(armor => {
-                armor.update_Modifiers(creature, { characterService: services.characterService, refreshService: this.refreshService })
-            })
-        })
+                armor.update_Modifiers(creature, { characterService: services.characterService, refreshService: this.refreshService });
+            });
+        });
     }
 
     private update_EffectsAndConditions(creatureType: string, services: { readonly characterService: CharacterService }): void {
@@ -887,23 +884,23 @@ export class EffectsGenerationService {
     initialize(characterService: CharacterService): void {
         //Only start subscribing to effects refreshing commands after the character has finished loading.
         if (characterService.still_loading()) {
-            setTimeout(() => this.initialize(characterService), 500)
+            setTimeout(() => this.initialize(characterService), 500);
         } else {
             //Subscribe to updates only once.
             if (!this.checkingActive) {
                 this.checkingActive = true;
                 this.refreshService.get_Changed
                     .subscribe((target) => {
-                        if (["effects", "all", "Character", "Companion", "Familiar"].includes(target)) {
-                            if (["Character", "Companion", "Familiar"].includes(target)) {
+                        if (['effects', 'all', 'Character', 'Companion', 'Familiar'].includes(target)) {
+                            if (['Character', 'Companion', 'Familiar'].includes(target)) {
                                 this.update_EffectsAndConditions(target, { characterService: characterService });
                             } else {
-                                this.update_EffectsAndConditions("Character", { characterService: characterService });
+                                this.update_EffectsAndConditions('Character', { characterService: characterService });
                                 if (characterService.get_CompanionAvailable()) {
-                                    this.update_EffectsAndConditions("Companion", { characterService: characterService });
+                                    this.update_EffectsAndConditions('Companion', { characterService: characterService });
                                 }
                                 if (characterService.get_FamiliarAvailable()) {
-                                    this.update_EffectsAndConditions("Familiar", { characterService: characterService });
+                                    this.update_EffectsAndConditions('Familiar', { characterService: characterService });
                                 }
                             }
 
@@ -911,7 +908,7 @@ export class EffectsGenerationService {
                     });
                 this.refreshService.get_ViewChanged
                     .subscribe((target) => {
-                        if (["effects", "all"].includes(target.target)) {
+                        if (['effects', 'all'].includes(target.target)) {
                             this.update_EffectsAndConditions(target.creature, { characterService: characterService });
                         }
                     });

@@ -8,15 +8,15 @@ import { ExtensionsService } from 'src/app/services/extensions.service';
 })
 export class AbilitiesService {
     private abilities: Ability[] = [];
-    private loading: Boolean = false;
+    private loading = false;
 
     constructor(
         private extensionsService: ExtensionsService
     ) { }
 
-    get_Abilities(name: string = "") {
+    get_Abilities(name = '') {
         if (!this.still_loading()) {
-            return this.abilities.filter(ability => ability.name == name || name == "");
+            return this.abilities.filter(ability => ability.name == name || name == '');
         } else {
             return [new Ability];
         }
@@ -37,10 +37,10 @@ export class AbilitiesService {
 
     load_Abilities() {
         this.abilities = [];
-        let data = this.extensionsService.extend(json_abilities, "abilities");
+        const data = this.extensionsService.extend(json_abilities, 'abilities');
         Object.keys(data).forEach(key => {
             this.abilities.push(...data[key].map((obj: Ability) => Object.assign(new Ability(), obj)));
         });
-        this.abilities = this.extensionsService.cleanup_Duplicates(this.abilities, "name", "abilities");
+        this.abilities = this.extensionsService.cleanup_Duplicates(this.abilities, 'name', 'abilities');
     }
 }

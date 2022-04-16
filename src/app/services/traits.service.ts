@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Trait } from 'src/app/classes/Trait';
-import { CharacterService } from 'src/app/services/character.service';
 import * as json_traits from 'src/assets/json/traits';
 import { Creature } from 'src/app/classes/Creature';
 import { ExtensionsService } from 'src/app/services/extensions.service';
@@ -11,7 +10,7 @@ import { ExtensionsService } from 'src/app/services/extensions.service';
 export class TraitsService {
 
     private traits: Trait[] = [];
-    private loading: boolean = false;
+    private loading = false;
     private traitsMap = new Map<string, Trait>();
 
     constructor(
@@ -19,7 +18,7 @@ export class TraitsService {
     ) { }
 
     get_ReplacementTrait(name?: string): Trait {
-        return Object.assign(new Trait(), { name: "Trait not found", "desc": (name ? name : "The requested trait") + " does not exist in the traits list." });
+        return Object.assign(new Trait(), { name: 'Trait not found', 'desc': `${ name ? name : 'The requested trait' } does not exist in the traits list.` });
     }
 
     get_TraitFromName(name: string): Trait {
@@ -27,7 +26,7 @@ export class TraitsService {
         return this.traitsMap.get(name.toLowerCase()) || this.get_ReplacementTrait(name);
     }
 
-    get_Traits(traitName: string = ""): Trait[] {
+    get_Traits(traitName = ''): Trait[] {
         if (!this.still_loading()) {
             //If only a name is given, try to find a feat by that name in the index map. This should be much quicker.
             //If no trait is found with that exact name, continue the search, considering composite trait names.
@@ -44,9 +43,9 @@ export class TraitsService {
                     trait.name == traitName ||
                     (
                         trait.dynamic &&
-                        traitName.includes(trait.name + " ")
+                        traitName.includes(`${ trait.name } `)
                     )
-                )
+                );
             if (traits.length) {
                 return traits;
             }
@@ -60,19 +59,19 @@ export class TraitsService {
             //uses the haveOn() method of Trait that returns any equipment that has this trait
             return this.traits.filter(trait =>
                 trait.hints.some(hint =>
-                    hint.showon.split(",").some(showon =>
+                    hint.showon.split(',').some(showon =>
                         showon.trim().toLowerCase() == name.toLowerCase() ||
-                        showon.trim().toLowerCase() == (creature.type + ":" + name).toLowerCase() ||
+                        showon.trim().toLowerCase() == (`${ creature.type }:${ name }`).toLowerCase() ||
                         (
-                            name.toLowerCase().includes("lore") &&
-                            showon.trim().toLowerCase() == "lore"
+                            name.toLowerCase().includes('lore') &&
+                            showon.trim().toLowerCase() == 'lore'
                         )
                     )
                 )
                 && !!trait.haveOn(creature).length
-            )
+            );
         } else {
-            return []
+            return [];
         }
     }
 
@@ -87,24 +86,24 @@ export class TraitsService {
             this.load_Traits();
             this.traits.forEach(trait => {
                 this.traitsMap.set(trait.name.toLowerCase(), trait);
-            })
+            });
             this.loading = false;
         } else {
             this.traits.forEach(trait => {
                 trait.hints?.forEach(hint => {
                     hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-                })
-            })
+                });
+            });
         }
     }
 
     load_Traits(): void {
         this.traits = [];
-        let data = this.extensionsService.extend(json_traits, "traits");
+        const data = this.extensionsService.extend(json_traits, 'traits');
         Object.keys(data).forEach(key => {
             this.traits.push(...data[key].map((obj: Trait) => Object.assign(new Trait(), obj).recast()));
         });
-        this.traits = this.extensionsService.cleanup_Duplicates(this.traits, "name", "traits");
+        this.traits = this.extensionsService.cleanup_Duplicates(this.traits, 'name', 'traits') as Trait[];
     }
 
 }

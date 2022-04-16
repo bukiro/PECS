@@ -1,6 +1,6 @@
 export class HeritageGain {
-    public ancestry: string = "";
-    public source: string = "";
+    public ancestry = '';
+    public source = '';
     recast() {
         return this;
     }

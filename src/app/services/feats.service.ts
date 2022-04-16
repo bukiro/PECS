@@ -28,8 +28,8 @@ import { RefreshService } from 'src/app/services/refresh.service';
 export class FeatsService {
     private feats: Feat[] = [];
     private features: Feat[] = [];
-    private loading_feats: boolean = false;
-    private loading_features: boolean = false;
+    private loading_feats = false;
+    private loading_features = false;
     private featsMap = new Map<string, Feat>();
     private featuresMap = new Map<string, Feat>();
     //Load all feats that you have into $characterFeats, so they are faster to retrieve.
@@ -42,7 +42,7 @@ export class FeatsService {
     ) { }
 
     get_ReplacementFeat(name?: string): Feat {
-        return Object.assign(new Feat(), { name: "Feat not found", "desc": (name ? name : "The requested feat or feature") + " does not exist in the feat and features lists." });
+        return Object.assign(new Feat(), { name: 'Feat not found', 'desc': `${ name ? name : 'The requested feat or feature' } does not exist in the feat and features lists.` });
     }
 
     get_FeatFromName(customFeats: Feat[], name: string): Feat {
@@ -60,7 +60,7 @@ export class FeatsService {
         return customFeats.find(feat => feat.name.toLowerCase() == name.toLowerCase()) || this.featuresMap.get(name.toLowerCase()) || this.featsMap.get(name.toLowerCase()) || this.get_ReplacementFeat(name);
     }
 
-    get_Feats(customFeats: Feat[], name: string = "", type: string = ""): Feat[] {
+    get_Feats(customFeats: Feat[], name = '', type = ''): Feat[] {
         if (!this.still_loading()) {
             //If only a name is given, try to find a feat by that name in the index map. This should be much quicker.
             if (name && !type) {
@@ -80,7 +80,7 @@ export class FeatsService {
         return [this.get_ReplacementFeat()];
     }
 
-    get_Features(name: string = ""): Feat[] {
+    get_Features(name = ''): Feat[] {
         if (!this.still_loading()) {
             //If a name is given, try to find a feat by that name in the index map. This should be much quicker.
             if (name) {
@@ -98,14 +98,14 @@ export class FeatsService {
             level.featChoices.forEach(choice => {
                 choice.feats.forEach(takenFeat => {
                     this.add_CharacterFeat(character, this.get_AllFromName([], takenFeat.name), takenFeat, level.number);
-                })
-            })
-        })
+                });
+            });
+        });
     }
 
     add_CharacterFeat(character: Character, feat: Feat, gain: FeatTaken, level: number): void {
         //Add the feat to $characterFeats, unless it is among the custom feats.
-        let customFeats = character.customFeats;
+        const customFeats = character.customFeats;
         if (!customFeats.some(takenFeat => takenFeat.name.toLowerCase() == feat.name.toLowerCase())) {
             if (feat?.name && !this.$characterFeats.has(feat.name)) {
                 this.$characterFeats.set(feat.name, feat);
@@ -122,7 +122,7 @@ export class FeatsService {
             takenFeat = this.$characterFeatsTaken.find(taken => taken.level == level && taken.gain.name == gain.name);
         }
         if (takenFeat) {
-            let a = this.$characterFeatsTaken;
+            const a = this.$characterFeatsTaken;
             a.splice(a.indexOf(takenFeat), 1);
             //Remove a feat from the character feats only if it is no longer taken by the character on any level.
             if (!this.get_CharacterFeatsTaken(0, 0, feat.name).length) {
@@ -133,11 +133,11 @@ export class FeatsService {
         }
     }
 
-    filter_Feats(feats: Feat[], name: string = "", type: string = "", includeSubTypes: boolean = false, includeCountAs: boolean = false): Feat[] {
+    filter_Feats(feats: Feat[], name = '', type = '', includeSubTypes = false, includeCountAs = false): Feat[] {
         return feats.filter(feat =>
-            name == "" ||
+            name == '' ||
             //For names like "Aggressive Block or Brutish Shove", split the string into the two feat names and return both.
-            name.toLowerCase().split(" or ").some(alternative =>
+            name.toLowerCase().split(' or ').some(alternative =>
                 !alternative ||
                 feat.name.toLowerCase() == alternative ||
                 (
@@ -153,18 +153,18 @@ export class FeatsService {
                 !type ||
                 feat.traits.map(trait => trait.toLowerCase()).includes(type.toLowerCase())
             )
-        )
+        );
     }
 
-    get_CharacterFeats(customFeats: Feat[], name: string = "", type: string = "", includeSubTypes: boolean = false, includeCountAs: boolean = false): Feat[] {
+    get_CharacterFeats(customFeats: Feat[], name = '', type = '', includeSubTypes = false, includeCountAs = false): Feat[] {
         if (!this.still_loading()) {
             //If a name is given and includeSubTypes and includeCountAs are false, we can get the feat or feature from the customFeats or the map more quickly.
             if (name && !includeSubTypes && !includeCountAs) {
-                let customFeat = customFeats.find(feat => feat.name.toLowerCase() == name.toLowerCase());
+                const customFeat = customFeats.find(feat => feat.name.toLowerCase() == name.toLowerCase());
                 if (customFeat) {
                     return [customFeat];
                 } else {
-                    let feat = this.$characterFeats.get(name.toLowerCase())
+                    const feat = this.$characterFeats.get(name.toLowerCase());
                     if (feat) {
                         return [feat];
                     } else {
@@ -177,7 +177,7 @@ export class FeatsService {
         return [this.get_ReplacementFeat()];
     }
 
-    get_CharacterFeatsTakenWithLevel(minLevel: number = 0, maxLevel: number = 0, name: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, includeCountAs: boolean = false, automatic: boolean = undefined): { level: number, gain: FeatTaken }[] {
+    get_CharacterFeatsTakenWithLevel(minLevel = 0, maxLevel = 0, name = '', source = '', sourceId = '', locked: boolean = undefined, includeCountAs = false, automatic: boolean = undefined): { level: number, gain: FeatTaken }[] {
         return this.$characterFeatsTaken.filter(taken =>
             (!minLevel || (taken.level >= minLevel)) &&
             (!maxLevel || (taken.level <= maxLevel)) &&
@@ -189,14 +189,14 @@ export class FeatsService {
             (!source || (taken.gain.source.toLowerCase() == source.toLowerCase())) &&
             (!sourceId || (taken.gain.sourceId == sourceId)) &&
             ((locked == undefined && automatic == undefined) || (taken.gain.locked == locked) || (taken.gain.automatic == automatic))
-        )
+        );
     }
 
-    get_CharacterFeatsTaken(minLevel: number = 0, maxLevel: number = 0, name: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, includeCountAs: boolean = false, automatic: boolean = undefined): FeatTaken[] {
+    get_CharacterFeatsTaken(minLevel = 0, maxLevel = 0, name = '', source = '', sourceId = '', locked: boolean = undefined, includeCountAs = false, automatic: boolean = undefined): FeatTaken[] {
         return this.get_CharacterFeatsTakenWithLevel(minLevel, maxLevel, name, source, sourceId, locked, includeCountAs, automatic).map(taken => taken.gain);
     }
 
-    get_All(customFeats: Feat[], name: string = "", type: string = "", includeSubTypes: boolean = false, includeCountAs: boolean = false): Feat[] {
+    get_All(customFeats: Feat[], name = '', type = '', includeSubTypes = false, includeCountAs = false): Feat[] {
         //ATTENTION: Use this function sparingly!
         //There are thousands of feats. Particularly if you need to find out if you have a feat with an attribute, use get_CharacterFeats instead:
         // DON'T: iterate through all taken feats, do get_All([], name)[0] and check the attribute
@@ -205,7 +205,7 @@ export class FeatsService {
         if (!this.still_loading()) {
             //If a name is the only given parameter, we can get the feat or feature from the customFeats or the map more quickly.
             if (name && !type && !includeSubTypes && !includeCountAs) {
-                return name.toLowerCase().split(" or ").map(alternative => this.get_AllFromName(customFeats, alternative)).filter(feat => feat);
+                return name.toLowerCase().split(' or ').map(alternative => this.get_AllFromName(customFeats, alternative)).filter(feat => feat);
             }
             return this.filter_Feats(this.feats.concat(customFeats).concat(this.features), name, type, includeSubTypes, includeCountAs);
         }
@@ -214,7 +214,7 @@ export class FeatsService {
 
     process_Feat(creature: Character | Familiar, characterService: CharacterService, feat: Feat, gain: FeatTaken, choice: FeatChoice, level: Level, taken: boolean): void {
         const character = characterService.get_Character();
-        const featName = gain?.name || feat?.name || "";
+        const featName = gain?.name || feat?.name || '';
         if (!feat && featName) {
             if (creature instanceof Familiar) {
                 feat = characterService.familiarsService.get_FamiliarAbilities(featName)[0];
@@ -238,7 +238,7 @@ export class FeatsService {
 
             this.refreshService.set_HintsToChange(creature, feat.hints, { characterService: characterService });
             if (feat.effects.length) {
-                this.refreshService.set_ToChange(creature.type, "effects");
+                this.refreshService.set_ToChange(creature.type, 'effects');
             }
 
             //Gain another feat
@@ -251,17 +251,17 @@ export class FeatsService {
                             //Check if the feat choice gets applied on a certain level and do that, or apply it on the current level.
                             let insertLevel: Level;
                             if (newFeatChoice.insertLevel && character.class.levels[newFeatChoice.insertLevel]) {
-                                insertLevel = character.class.levels[newFeatChoice.insertLevel]
-                                insertedFeatChoice = character.add_FeatChoice(character.class.levels[newFeatChoice.insertLevel], newFeatChoice)
+                                insertLevel = character.class.levels[newFeatChoice.insertLevel];
+                                insertedFeatChoice = character.add_FeatChoice(character.class.levels[newFeatChoice.insertLevel], newFeatChoice);
                             } else {
                                 insertLevel = level;
                                 insertedFeatChoice = character.add_FeatChoice(level, newFeatChoice);
                             }
                             insertedFeatChoice.feats.forEach(gain => {
                                 this.process_Feat(creature, characterService, undefined, gain, insertedFeatChoice, insertLevel, true);
-                            })
+                            });
                             if (insertedFeatChoice.showOnSheet) {
-                                this.refreshService.set_ToChange(creature.type, "activities");
+                                this.refreshService.set_ToChange(creature.type, 'activities');
                             }
                         }
                     });
@@ -270,7 +270,7 @@ export class FeatsService {
                         //Skip if you don't have the required Class for this granted feat choice, since you didn't get the choice in the first place.
                         if (oldFeatChoice.insertClass ? (character.class.name == oldFeatChoice.insertClass) : true) {
                             if (oldFeatChoice.showOnSheet) {
-                                this.refreshService.set_ToChange(creature.type, "activities");
+                                this.refreshService.set_ToChange(creature.type, 'activities');
                             }
                             const levelChoices: FeatChoice[] =
                                 //If the feat choice got applied on a certain level, it needs to be removed from that level.
@@ -305,14 +305,14 @@ export class FeatsService {
                         if (oldChoice) {
                             character.remove_AbilityChoice(oldChoice);
                         }
-                    })
+                    });
                 }
-                this.refreshService.set_ToChange(creature.type, "abilities");
+                this.refreshService.set_ToChange(creature.type, 'abilities');
                 feat.gainAbilityChoice.forEach(abilityChoice => {
                     abilityChoice.boosts.forEach(boost => {
                         this.refreshService.set_AbilityToChange(creature.type, boost.name, { characterService: characterService });
-                    })
-                })
+                    });
+                });
 
             }
 
@@ -329,19 +329,19 @@ export class FeatsService {
                             //  - we need to check if you are already trained in it. If so, unlock this skill choice and set one
                             //  available so that you can pick another skill.
                             //  We can keep it if this is the first level and the other increase is not locked - the other increase will be freed up automatically.
-                            if (insertSkillChoice.type == "Skill") {
+                            if (insertSkillChoice.type == 'Skill') {
                                 insertSkillChoice.increases.filter(increase => increase.locked && increase.maxRank == 2).forEach(increase => {
-                                    let existingIncreases = character.get_SkillIncreases(characterService, 1, level.number, increase.name);
+                                    const existingIncreases = character.get_SkillIncreases(characterService, 1, level.number, increase.name);
                                     if (existingIncreases.filter(existingIncrease => existingIncrease.maxRank == 2).length &&
                                         (
                                             level.number > 1 ||
                                             !existingIncreases.some(existingIncrease => existingIncrease.maxRank == 2 && !existingIncrease.locked))
                                     ) {
-                                        increase.name = "DELETE";
+                                        increase.name = 'DELETE';
                                         insertSkillChoice.available += 1;
                                     }
-                                })
-                                insertSkillChoice.increases = insertSkillChoice.increases.filter(increase => increase.name != "DELETE");
+                                });
+                                insertSkillChoice.increases = insertSkillChoice.increases.filter(increase => increase.name != 'DELETE');
                                 //Add the still locked increases to the available value so they don't take away from it.
                                 if (insertSkillChoice.available) {
                                     insertSkillChoice.available += insertSkillChoice.increases.length;
@@ -349,17 +349,17 @@ export class FeatsService {
                             }
                             //Check if the skill choice gets applied on a certain level and do that, or apply it on the current level.
                             if (insertSkillChoice.insertLevel && character.class.levels[insertSkillChoice.insertLevel]) {
-                                newChoice = character.add_SkillChoice(character.class.levels[insertSkillChoice.insertLevel], insertSkillChoice)
+                                newChoice = character.add_SkillChoice(character.class.levels[insertSkillChoice.insertLevel], insertSkillChoice);
                             } else {
                                 newChoice = character.add_SkillChoice(level, insertSkillChoice);
                             }
                             //Apply any included Skill increases
                             newChoice.increases.forEach(increase => {
                                 increase.sourceId = newChoice.id;
-                                character.process_Skill(characterService, increase.name, true, newChoice, true);
-                            })
+                                character.process_Skill(characterService, increase.name, true, newChoice);
+                            });
                             if (newChoice.showOnSheet) {
-                                this.refreshService.set_ToChange(creature.type, "skills");
+                                this.refreshService.set_ToChange(creature.type, 'skills');
                             }
                         }
                     });
@@ -377,11 +377,11 @@ export class FeatsService {
                             //Process and undo included Skill increases
                             oldChoice?.increases.forEach(increase => {
                                 character.increase_Skill(characterService, increase.name, false, oldChoice, increase.locked);
-                            })
+                            });
                             if (oldChoice) {
                                 character.remove_SkillChoice(oldChoice);
                                 if (oldChoice.showOnSheet) {
-                                    this.refreshService.set_ToChange(creature.type, "skills");
+                                    this.refreshService.set_ToChange(creature.type, 'skills');
                                 }
                             }
                         }
@@ -407,7 +407,7 @@ export class FeatsService {
                         }
                     });
                 }
-                this.refreshService.set_ToChange("Character", "top-bar");
+                this.refreshService.set_ToChange('Character', 'top-bar');
             }
 
             //Gain spell or spell choice
@@ -428,8 +428,8 @@ export class FeatsService {
                             }
                             //Wellspring Gnome changes:
                             //"Whenever you gain a primal innate spell from a gnome ancestry feat, change its tradition from primal to your chosen tradition."
-                            if (character.class.heritage.name.includes("Wellspring Gnome")) {
-                                if (insertSpellChoice.tradition && insertSpellChoice.castingType == "Innate" && insertSpellChoice.tradition == "Primal" && feat.traits.includes("Gnome")) {
+                            if (character.class.heritage.name.includes('Wellspring Gnome')) {
+                                if (insertSpellChoice.tradition && insertSpellChoice.castingType == 'Innate' && insertSpellChoice.tradition == 'Primal' && feat.traits.includes('Gnome')) {
                                     insertSpellChoice.tradition = character.class.heritage.subType;
                                 }
                             }
@@ -444,7 +444,7 @@ export class FeatsService {
                         }
                     });
                 }
-                this.refreshService.set_ToChange("Character", "top-bar");
+                this.refreshService.set_ToChange('Character', 'top-bar');
             }
 
             //Gain lore
@@ -454,20 +454,20 @@ export class FeatsService {
                         const newChoice = character.add_LoreChoice(level, choice);
                         if (choice.loreName) {
                             //If this feat gives you a specific lore, and you previously got the same lore from a free choice, that choice gets undone.
-                            if (character.customSkills.find(skill => skill.name == "Lore: " + choice.loreName)) {
+                            if (character.customSkills.find(skill => skill.name == `Lore: ${ choice.loreName }`)) {
                                 character.class.levels.forEach(searchLevel => {
                                     searchLevel.loreChoices.filter(searchChoice => searchChoice.loreName == choice.loreName && searchChoice.available).forEach(searchChoice => {
                                         character.remove_Lore(characterService, searchChoice);
-                                        searchChoice.loreName == "";
-                                    })
-                                })
+                                        searchChoice.loreName == '';
+                                    });
+                                });
                             }
                             character.add_Lore(characterService, newChoice);
                         }
-                    })
+                    });
                 } else {
                     const levelChoices = level.loreChoices;
-                    const oldChoice = levelChoices.find(choice => choice.source == 'Feat: ' + featName);
+                    const oldChoice = levelChoices.find(choice => choice.source == `Feat: ${ featName }`);
                     if (oldChoice) {
                         if (oldChoice.loreName) {
                             character.remove_Lore(characterService, oldChoice);
@@ -481,8 +481,8 @@ export class FeatsService {
             if (feat.gainActivities.length) {
                 if (taken) {
                     feat.gainActivities.forEach((gainActivity: string) => {
-                        if (feat.name == "Trickster's Ace") {
-                            character.gain_Activity(characterService, Object.assign(new ActivityGain(), { name: gainActivity, source: feat.name, data: [{ name: "Trigger", value: "" }] }), level.number);
+                        if (feat.name == 'Trickster\'s Ace') {
+                            character.gain_Activity(characterService, Object.assign(new ActivityGain(), { name: gainActivity, source: feat.name, data: [{ name: 'Trigger', value: '' }] }), level.number);
                         } else {
                             character.gain_Activity(characterService, Object.assign(new ActivityGain(), { name: gainActivity, source: feat.name }), level.number);
                         }
@@ -511,19 +511,19 @@ export class FeatsService {
                         if (conditionGains.length) {
                             characterService.remove_Condition(character, conditionGains[0], false);
                         }
-                    })
+                    });
                 }
             }
 
             //Gain items. Only items with on == "grant" are given at the moment the feat is taken.
             if (feat.gainItems.length) {
                 if (taken) {
-                    feat.gainItems.filter(freeItem => freeItem.on == "grant").forEach(freeItem => {
-                        freeItem.grant_GrantedItem(character, {}, { characterService: characterService, itemsService: characterService.itemsService })
-                        freeItem.grantedItemID = "";
+                    feat.gainItems.filter(freeItem => freeItem.on == 'grant').forEach(freeItem => {
+                        freeItem.grant_GrantedItem(character, {}, { characterService: characterService, itemsService: characterService.itemsService });
+                        freeItem.grantedItemID = '';
                     });
                 } else {
-                    feat.gainItems.filter(freeItem => freeItem.on == "grant").forEach(freeItem => {
+                    feat.gainItems.filter(freeItem => freeItem.on == 'grant').forEach(freeItem => {
                         freeItem.drop_GrantedItem(character, { requireGrantedItemID: false }, { characterService: characterService });
                     });
                 }
@@ -533,12 +533,12 @@ export class FeatsService {
             if (feat.gainSpellListSpells.length) {
                 if (taken) {
                     feat.gainSpellListSpells.forEach(spellName => {
-                        character.add_SpellListSpell(spellName, "Feat: " + feat.name, level.number)
-                    })
+                        character.add_SpellListSpell(spellName, `Feat: ${ feat.name }`, level.number);
+                    });
                 } else {
                     feat.gainSpellListSpells.forEach(spellName => {
-                        character.remove_SpellListSpell(spellName, "Feat: " + feat.name, level.number)
-                    })
+                        character.remove_SpellListSpell(spellName, `Feat: ${ feat.name }`, level.number);
+                    });
                 }
             }
 
@@ -548,11 +548,11 @@ export class FeatsService {
                     character.class.ancestry.ancestries.push(...feat.gainAncestry);
                 } else {
                     feat.gainAncestry.forEach(ancestryGain => {
-                        let ancestries = character.class.ancestry.ancestries;
+                        const ancestries = character.class.ancestry.ancestries;
                         ancestries.splice(ancestries.indexOf(ancestryGain), 1);
-                    })
+                    });
                 }
-                this.refreshService.set_ToChange("Character", "general");
+                this.refreshService.set_ToChange('Character', 'general');
             }
 
             //Custom data feats need to be copied to custom feats, and their data initialized.
@@ -564,22 +564,22 @@ export class FeatsService {
                     const newData = character.class.featData[newLength - 1];
                     feat.customData.forEach(customData => {
                         switch (customData.type) {
-                            case "string":
-                                newData.setValue(customData.name, "");
+                            case 'string':
+                                newData.setValue(customData.name, '');
                                 break;
-                            case "number":
+                            case 'number':
                                 newData.setValue(customData.name, 0);
                                 break;
-                            case "stringArray":
+                            case 'stringArray':
                                 newData.setValue(customData.name, [] as string[]);
                                 break;
-                            case "numberArray":
+                            case 'numberArray':
                                 newData.setValue(customData.name, [] as number[]);
                                 break;
                             default:
                                 newData.setValue(customData.name, null);
                         }
-                    })
+                    });
                 } else {
                     const oldData = character.class.featData.find(data => data.level == level.number && data.featName == feat.name && data.sourceId == choice.id);
                     if (oldData) {
@@ -595,14 +595,14 @@ export class FeatsService {
                     feat.gainHeritage.forEach(heritageGain => {
                         const newLength = character.class.additionalHeritages.push(new Heritage());
                         character.class.additionalHeritages[newLength - 1].source = heritageGain.source;
-                    })
+                    });
                 } else {
                     feat.gainHeritage.forEach(heritageGain => {
                         const oldHeritage = character.class.additionalHeritages.find(heritage => heritage.source == heritageGain.source);
                         const heritageIndex = character.class.additionalHeritages.indexOf(oldHeritage);
                         character.class.on_ChangeHeritage(characterService, heritageIndex);
                         character.class.additionalHeritages.splice(heritageIndex, 1);
-                    })
+                    });
                 }
             }
 
@@ -612,7 +612,7 @@ export class FeatsService {
                 if (taken) {
                     feat.onceEffects.forEach(effect => {
                         characterService.prepare_OnceEffect(character, effect);
-                    })
+                    });
                 }
             }
 
@@ -621,7 +621,7 @@ export class FeatsService {
                 if (taken) {
                     //Set the originClass to be the same as the feat choice type.
                     //If the type is not a class name, set your main class name.
-                    if (["", "General", "Skill", "Ancestry", "Class", "Feat"].includes(choice.type)) {
+                    if (['', 'General', 'Skill', 'Ancestry', 'Class', 'Feat'].includes(choice.type)) {
                         character.class.familiar.originClass = character.class.name;
                     } else {
                         character.class.familiar.originClass = choice.type;
@@ -631,31 +631,31 @@ export class FeatsService {
                     characterService.cleanup_Familiar();
                     character.class.familiar = new Familiar();
                 }
-                this.refreshService.set_ToChange("Familiar", "all");
-                this.refreshService.set_ToChange("Character", "top-bar");
+                this.refreshService.set_ToChange('Familiar', 'all');
+                this.refreshService.set_ToChange('Character', 'top-bar');
             }
 
             //Feats that grant an animal companion.
-            if (feat.gainAnimalCompanion == "Young") {
+            if (feat.gainAnimalCompanion == 'Young') {
                 //Reset the animal companion
                 character.class.animalCompanion = new AnimalCompanion();
                 character.class.animalCompanion.class = new AnimalCompanionClass();
                 if (taken) {
                     characterService.initialize_AnimalCompanion();
                 }
-                this.refreshService.set_ToChange("Companion", "all");
-                this.refreshService.set_ToChange("Character", "top-bar");
+                this.refreshService.set_ToChange('Companion', 'all');
+                this.refreshService.set_ToChange('Character', 'top-bar');
             }
 
             //Feats that level up the animal companion to Mature or an advanced option (like Nimble or Savage).
-            if (feat.gainAnimalCompanion && !["Young", "Specialized"].includes(feat.gainAnimalCompanion) && characterService.get_Companion()) {
+            if (feat.gainAnimalCompanion && !['Young', 'Specialized'].includes(feat.gainAnimalCompanion) && characterService.get_Companion()) {
                 const companion = characterService.get_Companion();
                 companion.set_Level(characterService);
-                this.refreshService.set_ToChange("Companion", "all");
+                this.refreshService.set_ToChange('Companion', 'all');
             }
 
             //Feats that grant an animal companion specialization.
-            if (feat.gainAnimalCompanion == "Specialized") {
+            if (feat.gainAnimalCompanion == 'Specialized') {
                 const companion = characterService.get_Companion();
                 if (!taken) {
                     //Remove the latest specialization chosen on this level, only if all choices are taken.
@@ -663,30 +663,30 @@ export class FeatsService {
                     if (specializations.length) {
                         if (specializations.length >= characterService.get_CharacterFeatsTaken(level.number, level.number)
                             .map(taken => characterService.get_CharacterFeatsAndFeatures(taken.name)[0])
-                            .filter(feat => feat.gainAnimalCompanion == "Specialized").length
+                            .filter(feat => feat.gainAnimalCompanion == 'Specialized').length
                         ) {
-                            companion.class.specializations = companion.class.specializations.filter(spec => spec.name != specializations[specializations.length - 1].name)
+                            companion.class.specializations = companion.class.specializations.filter(spec => spec.name != specializations[specializations.length - 1].name);
                         }
                     }
-                    this.refreshService.set_ToChange("Companion", "all");
+                    this.refreshService.set_ToChange('Companion', 'all');
                 }
             }
 
             //Feats that add Speeds should add them to the Speeds list as well. This can be applied for both Familiars and Characters, so we use Creature.
-            feat.effects.filter(effect => effect.affected.includes("Speed") && effect.affected != "Speed").forEach(effect => {
+            feat.effects.filter(effect => effect.affected.includes('Speed') && effect.affected != 'Speed').forEach(effect => {
                 if (taken) {
                     const newLength = creature.speeds.push(new Speed(effect.affected));
-                    creature.speeds[newLength - 1].source = "Feat: " + feat.name;
+                    creature.speeds[newLength - 1].source = `Feat: ${ feat.name }`;
                 } else {
-                    creature.speeds = creature.speeds.filter(speed => !(speed.name == effect.affected && speed.source == "Feat: " + feat.name));
+                    creature.speeds = creature.speeds.filter(speed => !(speed.name == effect.affected && speed.source == `Feat: ${ feat.name }`));
                 }
-            })
+            });
 
             //Feats that let you learn more spells.
             if (feat.gainSpellBookSlots.length) {
                 if (taken) {
                     feat.gainSpellBookSlots.forEach(slots => {
-                        const spellCasting = character.class.spellCasting.find(casting => casting.className == slots.className && casting.castingType == "Prepared");
+                        const spellCasting = character.class.spellCasting.find(casting => casting.className == slots.className && casting.castingType == 'Prepared');
                         if (spellCasting) {
                             for (let index = 0; index < spellCasting.spellBookSlots.length; index++) {
                                 spellCasting.spellBookSlots[index] += slots.spellBookSlots[index];
@@ -695,7 +695,7 @@ export class FeatsService {
                     });
                 } else {
                     feat.gainSpellBookSlots.forEach(slots => {
-                        const spellCasting = character.class.spellCasting.find(casting => casting.className == slots.className && casting.castingType == "Prepared");
+                        const spellCasting = character.class.spellCasting.find(casting => casting.className == slots.className && casting.castingType == 'Prepared');
                         if (spellCasting) {
                             for (let index = 0; index < spellCasting.spellBookSlots.length; index++) {
                                 spellCasting.spellBookSlots[index] -= slots.spellBookSlots[index];
@@ -712,7 +712,7 @@ export class FeatsService {
                         const newLanguageGain = Object.assign<LanguageGain, LanguageGain>(new LanguageGain(), JSON.parse(JSON.stringify(languageGain))).recast();
                         newLanguageGain.level = level.number;
                         character.class.languages.push(newLanguageGain);
-                    })
+                    });
                 } else {
                     feat.gainLanguages.forEach(languageGain => {
                         const langIndex = character.class.languages.indexOf(
@@ -721,31 +721,31 @@ export class FeatsService {
                                 lang.source == languageGain.source &&
                                 lang.level == level.number
                             )
-                        )
+                        );
                         if (langIndex != -1) {
                             character.class.languages.splice(langIndex, 1);
                         }
-                    })
+                    });
                 }
                 characterService.update_LanguageList();
-                this.refreshService.set_ToChange("Character", "general");
+                this.refreshService.set_ToChange('Character', 'general');
             }
 
             //Bargain Hunter adds to your starting cash at level 1
-            if (feat.name == "Bargain Hunter") {
+            if (feat.name == 'Bargain Hunter') {
                 if (taken && level.number == 1) {
                     character.cash[1] += 2;
                 } else if (level.number == 1) {
                     character.cash[1] -= 2;
                 }
-                this.refreshService.set_ToChange("Character", "inventory");
+                this.refreshService.set_ToChange('Character', 'inventory');
             }
 
             //Different Worlds
             //Remove the lore choice that was customized when processing Different Worlds.
-            if (feat.name == "Different Worlds") {
+            if (feat.name == 'Different Worlds') {
                 if (!taken) {
-                    const oldChoices: LoreChoice[] = level.loreChoices.filter(choice => choice.source == "Different Worlds");
+                    const oldChoices: LoreChoice[] = level.loreChoices.filter(choice => choice.source == 'Different Worlds');
                     const oldChoice = oldChoices[oldChoices.length - 1];
                     if (oldChoice?.increases.length) {
                         character.remove_Lore(characterService, oldChoice);
@@ -754,18 +754,18 @@ export class FeatsService {
             }
 
             //Remove spells that were granted by Blessed Blood.
-            if (feat.name == "Blessed Blood") {
+            if (feat.name == 'Blessed Blood') {
                 if (!taken) {
-                    const removeList: { name: string, levelNumber: number }[] = character.class.spellList.filter(listSpell => listSpell.source == "Feat: Blessed Blood").map(listSpell => { return { name: listSpell.name, levelNumber: listSpell.level } });
+                    const removeList: { name: string, levelNumber: number }[] = character.class.spellList.filter(listSpell => listSpell.source == 'Feat: Blessed Blood').map(listSpell => { return { name: listSpell.name, levelNumber: listSpell.level }; });
                     removeList.forEach(spell => {
-                        character.remove_SpellListSpell(spell.name, "Feat: " + feat.name, spell.levelNumber)
-                    })
+                        character.remove_SpellListSpell(spell.name, `Feat: ${ feat.name }`, spell.levelNumber);
+                    });
                 }
             }
 
             //Cantrip Connection
-            if (feat.name == "Cantrip Connection") {
-                let spellCasting = character.class.spellCasting.find(casting => casting.className == characterService.get_Familiar().originClass && casting.castingType != "Focus");
+            if (feat.name == 'Cantrip Connection') {
+                const spellCasting = character.class.spellCasting.find(casting => casting.className == characterService.get_Familiar().originClass && casting.castingType != 'Focus');
                 if (taken) {
                     if (spellCasting) {
                         const newSpellChoice = new SpellChoice();
@@ -773,7 +773,7 @@ export class FeatsService {
                         newSpellChoice.level = 0;
                         newSpellChoice.className = spellCasting.className;
                         newSpellChoice.castingType = spellCasting.castingType;
-                        newSpellChoice.source = "Feat: " + feat.name;
+                        newSpellChoice.source = `Feat: ${ feat.name }`;
 
                         const familiarLevel = characterService.get_CharacterFeatsAndFeatures()
                             .filter(feat => feat.gainFamiliar && feat.have(character, characterService, character.level))
@@ -782,10 +782,10 @@ export class FeatsService {
                                     .find(featTaken => featTaken.name == feat.name)
                                 )
                             ))[0];
-                        character.add_SpellChoice(characterService, familiarLevel.number, newSpellChoice)
+                        character.add_SpellChoice(characterService, familiarLevel.number, newSpellChoice);
                     }
                 } else {
-                    const oldSpellChoice = spellCasting.spellChoices.find(choice => choice.source == "Feat: " + feat.name);
+                    const oldSpellChoice = spellCasting.spellChoices.find(choice => choice.source == `Feat: ${ feat.name }`);
                     if (oldSpellChoice) {
                         character.remove_SpellChoice(characterService, oldSpellChoice);
                     }
@@ -793,16 +793,16 @@ export class FeatsService {
             }
 
             //Spell Battery
-            if (feat.name == "Spell Battery") {
-                const spellCasting = character.class.spellCasting.find(casting => casting.className == characterService.get_Familiar().originClass && casting.castingType != "Focus");
+            if (feat.name == 'Spell Battery') {
+                const spellCasting = character.class.spellCasting.find(casting => casting.className == characterService.get_Familiar().originClass && casting.castingType != 'Focus');
                 if (taken) {
                     if (spellCasting) {
                         const newSpellChoice = new SpellChoice();
                         newSpellChoice.available = 1;
-                        newSpellChoice.dynamicLevel = "highestSpellLevel - 3"
+                        newSpellChoice.dynamicLevel = 'highestSpellLevel - 3';
                         newSpellChoice.className = spellCasting.className;
                         newSpellChoice.castingType = spellCasting.castingType;
-                        newSpellChoice.source = "Feat: " + feat.name;
+                        newSpellChoice.source = `Feat: ${ feat.name }`;
                         const familiarLevel = characterService.get_CharacterFeatsAndFeatures()
                             .filter(feat => feat.gainFamiliar && feat.have(character, characterService, character.level))
                             .map(feat => character.class.levels.find(level => level.featChoices
@@ -810,10 +810,10 @@ export class FeatsService {
                                     .find(featTaken => featTaken.name == feat.name)
                                 )
                             ))[0];
-                        character.add_SpellChoice(characterService, familiarLevel.number, newSpellChoice)
+                        character.add_SpellChoice(characterService, familiarLevel.number, newSpellChoice);
                     }
                 } else {
-                    const oldSpellChoice = spellCasting.spellChoices.find(choice => choice.source == "Feat: " + feat.name);
+                    const oldSpellChoice = spellCasting.spellChoices.find(choice => choice.source == `Feat: ${ feat.name }`);
                     if (oldSpellChoice) {
                         character.remove_SpellChoice(characterService, oldSpellChoice);
                     }
@@ -821,171 +821,171 @@ export class FeatsService {
             }
 
             //Reset bonded item charges when selecting or deselecting Wizard schools.
-            if (["Abjuration School", "Conjuration School", "Divination School", "Enchantment School", "Evocation School",
-                "Illusion School", "Necromancy School", "Transmutation School", "Universalist Wizard"].includes(feat.name)) {
+            if (['Abjuration School', 'Conjuration School', 'Divination School', 'Enchantment School', 'Evocation School',
+                'Illusion School', 'Necromancy School', 'Transmutation School', 'Universalist Wizard'].includes(feat.name)) {
                 if (taken) {
-                    character.class.spellCasting.filter(casting => casting.castingType == "Prepared" && casting.className == "Wizard").forEach(casting => {
-                        const superiorBond = characterService.get_CharacterFeatsTaken(1, character.level, "Superior Bond").length;
-                        if (feat.name == "Universalist Wizard") {
+                    character.class.spellCasting.filter(casting => casting.castingType == 'Prepared' && casting.className == 'Wizard').forEach(casting => {
+                        const superiorBond = characterService.get_CharacterFeatsTaken(1, character.level, 'Superior Bond').length;
+                        if (feat.name == 'Universalist Wizard') {
                             casting.bondedItemCharges = [superiorBond, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
                         } else {
                             casting.bondedItemCharges = [1 + superiorBond, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                         }
                     });
                 } else {
-                    character.class.spellCasting.filter(casting => casting.castingType == "Prepared" && casting.className == "Wizard").forEach(casting => {
+                    character.class.spellCasting.filter(casting => casting.castingType == 'Prepared' && casting.className == 'Wizard').forEach(casting => {
                         casting.bondedItemCharges = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                     });
-                    character.class.spellBook = character.class.spellBook.filter(learned => learned.source != "school")
+                    character.class.spellBook = character.class.spellBook.filter(learned => learned.source != 'school');
                 }
             }
 
             //Reset changes made with Spell Blending.
-            if (feat.name == "Spell Blending") {
+            if (feat.name == 'Spell Blending') {
                 character.class.spellCasting.forEach(casting => {
                     casting.spellChoices.forEach(choice => {
                         choice.spellBlending = [0, 0, 0];
-                    })
-                })
-                this.refreshService.set_ToChange(creature.type, "spells");
-                this.refreshService.set_ToChange(creature.type, "spellbook");
+                    });
+                });
+                this.refreshService.set_ToChange(creature.type, 'spells');
+                this.refreshService.set_ToChange(creature.type, 'spellbook');
             }
 
             //Reset changes made with Infinite Possibilities.
-            if (feat.name == "Infinite Possibilities") {
+            if (feat.name == 'Infinite Possibilities') {
                 character.class.spellCasting.forEach(casting => {
                     casting.spellChoices.forEach(choice => {
                         choice.infinitePossibilities = false;
-                    })
-                })
-                this.refreshService.set_ToChange(creature.type, "spells");
-                this.refreshService.set_ToChange(creature.type, "spellbook");
+                    });
+                });
+                this.refreshService.set_ToChange(creature.type, 'spells');
+                this.refreshService.set_ToChange(creature.type, 'spellbook');
             }
 
             //Reset changes made with Adapted Cantrip.
-            if (feat.name == "Adapted Cantrip") {
+            if (feat.name == 'Adapted Cantrip') {
                 character.class.spellCasting.forEach(casting => {
                     casting.spellChoices.forEach(choice => {
                         choice.adaptedCantrip = false;
-                    })
-                })
-                character.class.spellBook = character.class.spellBook.filter(learned => learned.source != "adaptedcantrip")
-                this.refreshService.set_ToChange(creature.type, "spells");
-                this.refreshService.set_ToChange(creature.type, "spellbook");
+                    });
+                });
+                character.class.spellBook = character.class.spellBook.filter(learned => learned.source != 'adaptedcantrip');
+                this.refreshService.set_ToChange(creature.type, 'spells');
+                this.refreshService.set_ToChange(creature.type, 'spellbook');
             }
 
             //Reset changes made with Adaptive Adept.
-            if (feat.name.includes("Adaptive Adept")) {
+            if (feat.name.includes('Adaptive Adept')) {
                 character.class.spellCasting.forEach(casting => {
                     casting.spellChoices.forEach(choice => {
                         choice.adaptiveAdept = false;
-                    })
-                })
-                character.class.spellBook = character.class.spellBook.filter(learned => learned.source != "adaptiveadept")
-                this.refreshService.set_ToChange(creature.type, "spells");
-                this.refreshService.set_ToChange(creature.type, "spellbook");
+                    });
+                });
+                character.class.spellBook = character.class.spellBook.filter(learned => learned.source != 'adaptiveadept');
+                this.refreshService.set_ToChange(creature.type, 'spells');
+                this.refreshService.set_ToChange(creature.type, 'spellbook');
             }
 
             //Reset changes made with Giant Instinct.
-            if (feat.name == "Giant Instinct") {
+            if (feat.name == 'Giant Instinct') {
                 character.inventories.forEach(inv => {
                     inv.weapons.forEach(weapon => {
                         weapon.large = false;
-                    })
-                })
-                this.refreshService.set_ToChange(creature.type, "inventory");
-                this.refreshService.set_ToChange(creature.type, "attacks");
+                    });
+                });
+                this.refreshService.set_ToChange(creature.type, 'inventory');
+                this.refreshService.set_ToChange(creature.type, 'attacks');
             }
 
             //Reset changes made with Blade Ally.
-            if (feat.name == "Divine Ally: Blade Ally") {
+            if (feat.name == 'Divine Ally: Blade Ally') {
                 character.inventories.forEach(inv => {
                     inv.weapons.forEach(weapon => {
                         weapon.bladeAlly = false;
                         weapon.bladeAllyRunes = [];
-                    })
+                    });
                     inv.wornitems.forEach(wornItem => {
                         wornItem.bladeAlly = false;
                         wornItem.bladeAllyRunes = [];
-                    })
-                    this.refreshService.set_ToChange(creature.type, "inventory");
-                    this.refreshService.set_ToChange(creature.type, "attacks");
-                })
+                    });
+                    this.refreshService.set_ToChange(creature.type, 'inventory');
+                    this.refreshService.set_ToChange(creature.type, 'attacks');
+                });
             }
 
             //Spell Combination changes certain spell choices permanently.
-            if (feat.name == "Spell Combination") {
+            if (feat.name == 'Spell Combination') {
                 if (taken) {
-                    character.class.spellCasting.filter(casting => casting.className == "Wizard" && casting.castingType == "Prepared").forEach(casting => {
+                    character.class.spellCasting.filter(casting => casting.className == 'Wizard' && casting.castingType == 'Prepared').forEach(casting => {
                         [3, 4, 5, 6, 7, 8, 9, 10].forEach(spellLevel => {
                             casting.spellChoices.find(choice => choice.level == spellLevel && choice.available == 1).spellCombinationAllowed = true;
                         });
                     });
-                    this.refreshService.set_ToChange(creature.type, "spells");
-                    this.refreshService.set_ToChange(creature.type, "spellchoices");
-                    this.refreshService.set_ToChange(creature.type, "spellbook");
+                    this.refreshService.set_ToChange(creature.type, 'spells');
+                    this.refreshService.set_ToChange(creature.type, 'spellchoices');
+                    this.refreshService.set_ToChange(creature.type, 'spellbook');
                 } else {
-                    character.class.spellCasting.filter(casting => casting.className == "Wizard" && casting.castingType == "Prepared").forEach(casting => {
+                    character.class.spellCasting.filter(casting => casting.className == 'Wizard' && casting.castingType == 'Prepared').forEach(casting => {
                         casting.spellChoices.filter(choice => choice.spellCombinationAllowed).forEach(choice => {
                             choice.spellCombinationAllowed = false;
                             choice.spellCombination = false;
-                            choice.spells.forEach(gain => gain.combinationSpellName = "");
+                            choice.spells.forEach(gain => gain.combinationSpellName = '');
                         });
                     });
-                    this.refreshService.set_ToChange(creature.type, "spells");
-                    this.refreshService.set_ToChange(creature.type, "spellchoices");
-                    this.refreshService.set_ToChange(creature.type, "spellbook");
+                    this.refreshService.set_ToChange(creature.type, 'spells');
+                    this.refreshService.set_ToChange(creature.type, 'spellchoices');
+                    this.refreshService.set_ToChange(creature.type, 'spellbook');
                 }
             }
 
             //Reset changes made with Arcane Evolution.
-            if (feat.name.includes("Arcane Evolution")) {
-                character.class.spellBook = character.class.spellBook.filter(learned => learned.source != "arcaneevolution")
-                this.refreshService.set_ToChange(creature.type, "spells");
-                this.refreshService.set_ToChange(creature.type, "spellchoices");
-                this.refreshService.set_ToChange(creature.type, "spellbook");
+            if (feat.name.includes('Arcane Evolution')) {
+                character.class.spellBook = character.class.spellBook.filter(learned => learned.source != 'arcaneevolution');
+                this.refreshService.set_ToChange(creature.type, 'spells');
+                this.refreshService.set_ToChange(creature.type, 'spellchoices');
+                this.refreshService.set_ToChange(creature.type, 'spellbook');
             }
 
             //Reset changes made with Spell Mastery
-            if (feat.name == "Spell Mastery") {
+            if (feat.name == 'Spell Mastery') {
                 character.class.spellCasting.forEach(casting => {
-                    casting.spellChoices = casting.spellChoices.filter(choice => choice.source != "Feat: Spell Mastery");
-                })
-                this.refreshService.set_ToChange(creature.type, "spells");
-                this.refreshService.set_ToChange(creature.type, "spellbook");
+                    casting.spellChoices = casting.spellChoices.filter(choice => choice.source != 'Feat: Spell Mastery');
+                });
+                this.refreshService.set_ToChange(creature.type, 'spells');
+                this.refreshService.set_ToChange(creature.type, 'spellbook');
             }
 
             //Disable any hints when losing a feat
             feat.hints.forEach(hint => {
                 hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-            })
+            });
 
             //Splinter Faith changes your domains and needs to clear out the runtime variables and update general.
-            if (feat.name == "Splinter Faith") {
+            if (feat.name == 'Splinter Faith') {
                 characterService.get_CharacterDeities(character).forEach(deity => {
                     deity.clear_TemporaryDomains();
-                })
-                this.refreshService.set_ToChange(creature.type, "general");
+                });
+                this.refreshService.set_ToChange(creature.type, 'general');
             }
 
             //Syncretism changes your deities and needs to clear out the runtime variables and update general.
-            if (feat.name == "Syncretism") {
+            if (feat.name == 'Syncretism') {
                 characterService.deitiesService.clear_CharacterDeities();
-                this.refreshService.set_ToChange(creature.type, "general");
+                this.refreshService.set_ToChange(creature.type, 'general');
             }
 
             //Feats that grant language effects should update the language list.
-            if (feat.effects.some(effect => effect.affected == "Max Languages")) {
+            if (feat.effects.some(effect => effect.affected == 'Max Languages')) {
                 characterService.update_LanguageList();
-                this.refreshService.set_ToChange(creature.type, "charactersheet");
+                this.refreshService.set_ToChange(creature.type, 'charactersheet');
             }
 
             //Losing a stance needs to update Fuse Stance.
-            if (feat.traits.includes("Stance")) {
-                character.class.get_FeatData(0, 0, "Fuse Stance").forEach(featData => {
+            if (feat.traits.includes('Stance')) {
+                character.class.get_FeatData(0, 0, 'Fuse Stance').forEach(featData => {
                     const stances = featData.valueAsStringArray('stances');
                     if (stances) {
-                        featData.setValue('stances', stances.filter((stance: string) => !feat.gainActivities.includes(stance)))
+                        featData.setValue('stances', stances.filter((stance: string) => !feat.gainActivities.includes(stance)));
                     }
                 });
             }
@@ -996,34 +996,34 @@ export class FeatsService {
 
             //Familiar abilities should update the familiar's general information.
             if (creature instanceof Familiar) {
-                this.refreshService.set_ToChange(creature.type, "general");
+                this.refreshService.set_ToChange(creature.type, 'general');
             }
 
             //Snare Specialists and following feats change inventory aspects.
-            if (feat.name == "Snare Specialist" || feat.featreq.includes("Snare Specialist")) {
-                this.refreshService.set_ToChange(creature.type, "inventory");
+            if (feat.name == 'Snare Specialist' || feat.featreq.includes('Snare Specialist')) {
+                this.refreshService.set_ToChange(creature.type, 'inventory');
             }
 
             //Arcane Breadth gives hardcoded spell slots and needs to update the spellbook menu.
-            if (feat.name == "Arcane Breadth") {
-                this.refreshService.set_ToChange(creature.type, "spells");
+            if (feat.name == 'Arcane Breadth') {
+                this.refreshService.set_ToChange(creature.type, 'spells');
             }
 
             //Versatile Font gives hardcoded spells and needs to update the spells menu and any currently open spell choices.
-            if (feat.name == "Versatile Font") {
-                this.refreshService.set_ToChange(creature.type, "spellchoices");
-                this.refreshService.set_ToChange(creature.type, "spells");
+            if (feat.name == 'Versatile Font') {
+                this.refreshService.set_ToChange(creature.type, 'spellchoices');
+                this.refreshService.set_ToChange(creature.type, 'spells');
             }
 
             //Verdant Metamorphosis changes your traits and needs to update general.
-            if (feat.name == "Verdant Metamorphosis") {
-                this.refreshService.set_ToChange(creature.type, "general");
+            if (feat.name == 'Verdant Metamorphosis') {
+                this.refreshService.set_ToChange(creature.type, 'general');
             }
 
             //Feats that grant specializations or change proficiencies need to update defense and attacks.
             if (feat.gainSpecialization || feat.copyProficiency.length || feat.changeProficiency.length) {
-                this.refreshService.set_ToChange(creature.type, "defense");
-                this.refreshService.set_ToChange(creature.type, "attacks");
+                this.refreshService.set_ToChange(creature.type, 'defense');
+                this.refreshService.set_ToChange(creature.type, 'attacks');
                 if (feat.changeProficiency.length) {
                     characterService.cacheService.set_ProficiencyChangesChanged({ creatureTypeId: creature.typeId, minLevel: level.number, maxLevel: 20 });
                 }
@@ -1031,54 +1031,54 @@ export class FeatsService {
                     characterService.cacheService.set_ProficiencyCopiesChanged({ creatureTypeId: creature.typeId, minLevel: level.number, maxLevel: 20 });
                 }
                 feat.changeProficiency.forEach(change => {
-                    if (change.name) { this.refreshService.set_ToChange(creature.type, "individualskills", change.name); }
-                    if (change.group) { this.refreshService.set_ToChange(creature.type, "individualskills", change.group); }
-                    if (change.trait) { this.refreshService.set_ToChange(creature.type, "individualskills", change.name); }
-                })
+                    if (change.name) { this.refreshService.set_ToChange(creature.type, 'individualskills', change.name); }
+                    if (change.group) { this.refreshService.set_ToChange(creature.type, 'individualskills', change.group); }
+                    if (change.trait) { this.refreshService.set_ToChange(creature.type, 'individualskills', change.name); }
+                });
                 feat.copyProficiency.forEach(change => {
-                    if (change.name) { this.refreshService.set_ToChange(creature.type, "individualskills", change.name); }
-                })
+                    if (change.name) { this.refreshService.set_ToChange(creature.type, 'individualskills', change.name); }
+                });
             }
 
             //Feats that grant tenets and anathema need to update general.
             if (feat.tenets.length || feat.anathema.length) {
-                this.refreshService.set_ToChange(creature.type, "general");
+                this.refreshService.set_ToChange(creature.type, 'general');
             }
 
             //Feats that grant senses need to update skills.
             if (feat.senses.length) {
-                this.refreshService.set_ToChange(creature.type, "skills");
+                this.refreshService.set_ToChange(creature.type, 'skills');
             }
 
             //Archetype " Breadth" spells need to update spells.
-            if (feat.name.includes(" Breadth")) {
-                this.refreshService.set_ToChange(creature.type, "spells");
+            if (feat.name.includes(' Breadth')) {
+                this.refreshService.set_ToChange(creature.type, 'spells');
             }
 
             //Class choices update general.
             if (level.number == 1 && choice.specialChoice) {
-                this.refreshService.set_ToChange(creature.type, "general");
+                this.refreshService.set_ToChange(creature.type, 'general');
             }
 
             //Feats that add domains update general.
             if (feat.gainDomains.length) {
-                this.refreshService.set_ToChange(creature.type, "general");
+                this.refreshService.set_ToChange(creature.type, 'general');
             }
 
             //Update the areas where feat choices can be made.
             if (creature instanceof Familiar) {
-                this.refreshService.set_ToChange("Familiar", "familiarabilities");
+                this.refreshService.set_ToChange('Familiar', 'familiarabilities');
             } else {
-                this.refreshService.set_ToChange("Character", "charactersheet");
-                this.refreshService.set_ToChange("Character", "activities");
+                this.refreshService.set_ToChange('Character', 'charactersheet');
+                this.refreshService.set_ToChange('Character', 'activities');
             }
 
             //Some hardcoded effects change depending on feats. There is no good way to resolve this, so we calculate the effects whenever we take a feat.
-            this.refreshService.set_ToChange(creature.type, "effects");
+            this.refreshService.set_ToChange(creature.type, 'effects');
 
             //Condition choices can be dependent on feats, so we need to update spellbook and activities.
-            this.refreshService.set_ToChange(creature.type, "spellbook");
-            this.refreshService.set_ToChange(creature.type, "activities");
+            this.refreshService.set_ToChange(creature.type, 'spellbook');
+            this.refreshService.set_ToChange(creature.type, 'activities');
 
         }
     }
@@ -1094,45 +1094,45 @@ export class FeatsService {
         //Initialize feats only once, but cleanup their active hints everytime thereafter.
         if (!this.feats.length) {
             this.loading_feats = true;
-            this.load(json_feats, "feats");
+            this.load(json_feats, 'feats');
             this.featsMap.clear();
             this.feats.forEach(feat => {
                 this.featsMap.set(feat.name.toLowerCase(), feat);
-            })
+            });
             this.loading_feats = false;
         } else {
             //Disable any active hint effects when loading a character.
             this.feats.forEach(feat => {
                 feat.hints.forEach(hint => {
                     hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-                })
-            })
+                });
+            });
         }
         if (!this.features.length) {
             this.loading_features = true;
-            this.load(json_features, "features");
+            this.load(json_features, 'features');
             this.featuresMap.clear();
             this.features.forEach(feature => {
                 this.featuresMap.set(feature.name.toLowerCase(), feature);
-            })
+            });
             this.loading_features = false;
         } else {
             //Disable any active hint effects when loading a character.
             this.features.forEach(feat => {
                 feat.hints.forEach(hint => {
                     hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-                })
-            })
+                });
+            });
         }
     }
 
     load(source, target: string) {
         this[target] = [];
-        let data = this.extensionsService.extend(source, target);
+        const data = this.extensionsService.extend(source, target);
         Object.keys(data).forEach(key => {
             this[target].push(...data[key].map((obj: Feat) => Object.assign(new Feat(), obj).recast()));
         });
-        this[target] = this.extensionsService.cleanup_Duplicates(this[target], "name", target);
+        this[target] = this.extensionsService.cleanup_Duplicates(this[target], 'name', target);
     }
 
 }

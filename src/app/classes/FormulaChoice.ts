@@ -1,5 +1,5 @@
 export class FormulaChoice {
-        recast() {
+    recast() {
         return this;
     }
 }

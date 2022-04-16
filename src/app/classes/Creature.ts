@@ -13,23 +13,24 @@ import { EffectsService } from 'src/app/services/effects.service';
 import { Feat } from 'src/app/classes/Feat';
 import { Hint } from 'src/app/classes/Hint';
 import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
+import { CharacterService } from '../services/character.service';
 
 export class Creature {
-    public name: string = "";
-    public alignment: string = "Neutral";
+    public name = '';
+    public alignment = 'Neutral';
     public id = uuidv4();
-    public type: "Character" | "Companion" | "Familiar" = "Character";
-    public typeId: number = 0;
-    public level: number = 1;
+    public type: 'Character' | 'Companion' | 'Familiar' = 'Character';
+    public typeId = 0;
+    public level = 1;
     public customSkills: Skill[] = [];
     public health: Health = new Health();
     public conditions: ConditionGain[] = [];
     public effects: EffectGain[] = [];
     public ignoredEffects: Effect[] = [];
     public inventories: ItemCollection[] = [new ItemCollection()];
-    public speeds: Speed[] = [new Speed("Speed"), new Speed("Land Speed")];
+    public speeds: Speed[] = [new Speed('Speed'), new Speed('Land Speed')];
     public bulk: Bulk = new Bulk();
-    public notes: string = "";
+    public notes = '';
     public skillNotes: { name: string, showNotes: boolean, notes: string }[] = [];
     recast(typeService: TypeService, itemsService: ItemsService) {
         this.customSkills = this.customSkills.map(obj => Object.assign(new Skill(), obj).recast());
@@ -48,42 +49,48 @@ export class Creature {
     get_Size(effectsService: EffectsService, options: { asNumber?: boolean } = {}): string | number {
         let size: number = this.get_BaseSize();
 
-        let setSizeEffects = effectsService.get_AbsolutesOnThis(this, "Size");
+        const setSizeEffects = effectsService.get_AbsolutesOnThis(this, 'Size');
         if (setSizeEffects.length) {
             size = Math.max(...setSizeEffects.map(effect => parseInt(effect.setValue)));
         }
 
-        let sizeEffects = effectsService.get_RelativesOnThis(this, "Size");
+        const sizeEffects = effectsService.get_RelativesOnThis(this, 'Size');
         sizeEffects.forEach(effect => {
-            size += parseInt(effect.value)
-        })
+            size += parseInt(effect.value);
+        });
 
         if (options.asNumber) {
-            return size
+            return size;
         } else {
             switch (size) {
                 case -2:
-                    return "Tiny";
+                    return 'Tiny';
                 case -1:
-                    return "Small";
+                    return 'Small';
                 case 1:
-                    return "Large"
+                    return 'Large';
                 case 2:
-                    return "Huge"
+                    return 'Huge';
                 case 3:
-                    return "Gargantuan"
+                    return 'Gargantuan';
                 default:
-                    return "Medium"
+                    return 'Medium';
             }
         }
     }
-    get_BaseHP(services: {characterService?}): { result: number, explain: string } {
-        return { result: 0, explain: "" };
+    //Other implementations require characterService.
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    get_BaseHP(services: { characterService?: CharacterService }): { result: number, explain: string } {
+        return { result: 0, explain: '' };
     }
+    //Other implementations require speedName.
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     get_BaseSpeed(speedName: string): { result: number, explain: string } {
-        return { result: 0, explain: "" };
+        return { result: 0, explain: '' };
     }
-    get_EffectsGenerationObjects(characterService?): { feats: (Feat|AnimalCompanionSpecialization)[], hintSets: { hint: Hint, objectName: string }[] } {
+    //Other implementations require characterService.
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    get_EffectsGenerationObjects(characterService?: CharacterService): { feats: (Feat | AnimalCompanionSpecialization)[], hintSets: { hint: Hint, objectName: string }[] } {
         //Each kind of creature provides its own version of this.
         return { feats: [], hintSets: [] };
     }

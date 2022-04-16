@@ -4,7 +4,6 @@ import * as json_classes from 'src/assets/json/classes';
 import { ExtensionsService } from 'src/app/services/extensions.service';
 import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
-import { RefreshService } from 'src/app/services/refresh.service';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +11,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
 export class ClassesService {
 
     classes: Class[] = [];
-    private loading: boolean = false;
+    private loading = false;
     private classesMap = new Map<string, Class>();
 
     constructor(
@@ -22,7 +21,7 @@ export class ClassesService {
     ) { }
 
     private get_ReplacementClass(name?: string): Class {
-        return Object.assign(new Class(), { name: "Class not found", "desc": (name ? name : "The requested class") + " does not exist in the class list." });
+        return Object.assign(new Class(), { name: 'Class not found', 'desc': `${ name ? name : 'The requested class' } does not exist in the class list.` });
     }
 
     get_ClassFromName(name: string): Class {
@@ -30,14 +29,14 @@ export class ClassesService {
         return this.classesMap.get(name.toLowerCase()) || this.get_ReplacementClass(name);
     }
 
-    get_Classes(name: string = "") {
+    get_Classes(name = '') {
         if (!this.still_loading()) {
             if (name) {
                 return [this.get_ClassFromName(name)];
             } else {
-                return this.classes.filter($class => $class.name == name || name == "")
+                return this.classes.filter($class => $class.name == name || name == '');
             }
-        } else { return [new Class()] }
+        } else { return [new Class()]; }
     }
 
     still_loading() {
@@ -46,14 +45,14 @@ export class ClassesService {
 
     restore_ClassFromSave($class: Class) {
         if ($class.name) {
-            let libraryObject = this.get_Classes($class.name)[0];
+            const libraryObject = this.get_Classes($class.name)[0];
             if (libraryObject) {
                 //Make a safe copy of the library object.
                 //Then map the restored object onto the copy and keep that.
                 try {
-                    $class = this.typeService.merge(libraryObject, $class)
+                    $class = this.typeService.merge(libraryObject, $class);
                 } catch (e) {
-                    console.log("Failed reassigning: " + e)
+                    console.log(`Failed reassigning: ${ e }`);
                 }
             }
         }
@@ -62,27 +61,27 @@ export class ClassesService {
 
     clean_ClassForSave($class: Class) {
         if ($class.name) {
-            let libraryObject = this.get_Classes($class.name)[0];
+            const libraryObject = this.get_Classes($class.name)[0];
             if (libraryObject) {
                 Object.keys($class).forEach(key => {
-                    if (key != "name") {
+                    if (key != 'name') {
                         //If the Object has a name, and a library item can be found with that name, compare the property with the library item
                         //If they have the same value, delete the property from the item - it can be recovered during loading via the name.
                         if (JSON.stringify($class[key]) == JSON.stringify(libraryObject[key])) {
                             delete $class[key];
                         }
                     }
-                })
+                });
                 //Perform the same step for each level.
                 if ($class.levels) {
                     for (let index = 0; index < $class.levels.length; index++) {
                         Object.keys($class.levels[index]).forEach(key => {
-                            if (key != "number") {
+                            if (key != 'number') {
                                 if (JSON.stringify($class.levels[index][key]) == JSON.stringify(libraryObject.levels[index][key])) {
                                     delete $class.levels[index][key];
                                 }
                             }
-                        })
+                        });
                     }
                 }
             }
@@ -98,18 +97,18 @@ export class ClassesService {
             this.classesMap.clear();
             this.classes.forEach($class => {
                 this.classesMap.set($class.name.toLowerCase(), $class);
-            })
+            });
             this.loading = false;
         }
     }
 
     load_Classes() {
         this.classes = [];
-        let data = this.extensionsService.extend(json_classes, "classes");
+        const data = this.extensionsService.extend(json_classes, 'classes');
         Object.keys(data).forEach(key => {
             this.classes.push(...data[key].map((obj: Class) => Object.assign(new Class(), obj).recast(this.typeService, this.itemsService)));
         });
-        this.classes = this.extensionsService.cleanup_Duplicates(this.classes, "name", "classes");
+        this.classes = this.extensionsService.cleanup_Duplicates(this.classes, 'name', 'classes') as Class[];
     }
 
 }

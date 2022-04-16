@@ -16,9 +16,9 @@ import { TypeService } from 'src/app/services/type.service';
 export class MessageService {
 
     private newMessages: PlayerMessage[] = [];
-    private checkingActive: boolean = false;
-    private checkingMessages: boolean = false;
-    private cleaningUpIgnoredMessages: boolean = false;
+    private checkingActive = false;
+    private checkingMessages = false;
+    private cleaningUpIgnoredMessages = false;
 
     constructor(
         private http: HttpClient,
@@ -46,23 +46,23 @@ export class MessageService {
     }
 
     load_Messages(recipientId: string): Observable<string[]> {
-        return this.http.get<string[]>(this.configService.get_DBConnectionURL() + '/loadMessages/' + recipientId, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.get<string[]>(`${ this.configService.get_DBConnectionURL() }/loadMessages/${ recipientId }`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     cleanup_OldMessages() {
-        return this.http.get<string[]>(this.configService.get_DBConnectionURL() + '/cleanupMessages', { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.get<string[]>(`${ this.configService.get_DBConnectionURL() }/cleanupMessages`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     load_TimeFromConnector(): Observable<string[]> {
-        return this.http.get<string[]>(this.configService.get_DBConnectionURL() + '/time', { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.get<string[]>(`${ this.configService.get_DBConnectionURL() }/time`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     delete_MessageFromDB(message: PlayerMessage): Observable<string[]> {
-        return this.http.post<string[]>(this.configService.get_DBConnectionURL() + '/deleteMessage', { id: message.id }, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.post<string[]>(`${ this.configService.get_DBConnectionURL() }/deleteMessage`, { id: message.id }, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     save_MessagesToDB(messages: PlayerMessage[]): Observable<string[]> {
-        return this.http.post<string[]>(this.configService.get_DBConnectionURL() + '/saveMessages/', messages, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.post<string[]>(`${ this.configService.get_DBConnectionURL() }/saveMessages/`, messages, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     finish_loading(loader: string[]) {
@@ -71,10 +71,10 @@ export class MessageService {
             messages = loader.map(message => Object.assign(new PlayerMessage(), message).recast(this.typeService, this.itemsService));
             messages.forEach(message => {
                 //Cut off the time zone.
-                message.time = message.time.split("(")[0].trim();
+                message.time = message.time.split('(')[0].trim();
                 //Reassign gainCondition.
                 message.gainCondition = message.gainCondition.map(gain => Object.assign(new ConditionGain(), gain).recast());
-            })
+            });
         }
         return messages;
     }
@@ -87,39 +87,39 @@ export class MessageService {
         this.checkingMessages = true;
         const messagesSubscription = this.load_Messages(characterService.get_Character().id)
             .subscribe((results: string[]) => {
-                let newMessages = this.process_Messages(characterService, results)
+                const newMessages = this.process_Messages(characterService, results);
                 //If the check was automatic, and any messages are left, apply them automatically if applyMessagesAutomatically is set,
                 // otherwise only announce that new messages are available, then update the component to show the number on the button.
                 if (newMessages.length && characterService.get_Character().settings.applyMessagesAutomatically) {
                     this.on_ApplyMessagesAutomatically(characterService, newMessages);
-                    this.refreshService.set_Changed("top-bar");
+                    this.refreshService.set_Changed('top-bar');
                 } else if (newMessages.length) {
                     this.add_NewMessages(newMessages);
-                    this.toastService.show("<strong>" + newMessages.length + "</strong> new message" + (newMessages.length != 1 ? "s are" : " is") + " available.",
-                        { onClickCreature: "character", onClickAction: "check-messages-manually" })
-                    this.refreshService.set_Changed("top-bar");
+                    this.toastService.show(`<strong>${ newMessages.length }</strong> new message${ newMessages.length != 1 ? 's are' : ' is' } available.`,
+                        { onClickCreature: 'character', onClickAction: 'check-messages-manually' });
+                    this.refreshService.set_Changed('top-bar');
                 }
                 this.checkingMessages = false;
             }, (error) => {
                 this.checkingMessages = false;
                 if (error.status == 401) {
-                    this.configService.on_LoggedOut("Your login is no longer valid; Messages have not been loaded.");
+                    this.configService.on_LoggedOut('Your login is no longer valid; Messages have not been loaded.');
                 } else {
-                    let text = "An error occurred while searching for new messages. See console for more information.";
+                    let text = 'An error occurred while searching for new messages. See console for more information.';
                     if (characterService.get_Character().settings.checkMessagesAutomatically) {
-                        text += " Automatic checks have been disabled.";
+                        text += ' Automatic checks have been disabled.';
                         characterService.get_Character().settings.checkMessagesAutomatically = false;
                     }
-                    this.toastService.show(text)
-                    console.log('Error loading messages from database: ' + error.message);
+                    this.toastService.show(text);
+                    console.log(`Error loading messages from database: ${ error.message }`);
                 }
             }, () => {
-                messagesSubscription.unsubscribe()
+                messagesSubscription.unsubscribe();
             });
     }
 
     process_Messages(characterService: CharacterService, results: string[]) {
-        let loader = results;
+        const loader = results;
         let newMessages = this.finish_loading(loader).sort((a, b) => {
             if (!a.activated && b.activated) {
                 return 1;
@@ -136,17 +136,17 @@ export class MessageService {
                     this.mark_MessageAsIgnored(characterService, message);
                 }
             }
-        })
+        });
         //Remove all ignored messages that don't match a new message, as you don't need them anymore.
         characterService.get_Character().ignoredMessages = this.get_IgnoredMessages(characterService).filter(message =>
             newMessages.some(newMessage => newMessage.id == message.id) ||
             this.newMessages.some(newMessage => newMessage.id == message.id)
-        )
+        );
         //Remove ignored messages and messages that are already in the list.
         newMessages = newMessages.filter(message =>
             !this.get_IgnoredMessages(characterService).some(ignoredMessage => ignoredMessage.id == message.id) &&
             !this.newMessages.some(ignoredMessage => ignoredMessage.id == message.id)
-        )
+        );
         //Apply turn change messages automatically, then invalidate these messages and return the rest.
         if (newMessages.length) {
             characterService.apply_TurnChangeMessage(newMessages.filter(message => message.turnChange));
@@ -154,7 +154,7 @@ export class MessageService {
             this.refreshService.process_ToChange();
             newMessages.filter(message => message.turnChange).forEach(message => {
                 this.mark_MessageAsIgnored(characterService, message);
-            })
+            });
             newMessages = newMessages.filter(message => !message.turnChange && !message.acceptedItem && !message.rejectedItem);
         }
         return newMessages;
@@ -167,13 +167,13 @@ export class MessageService {
     on_ApplyMessagesAutomatically(characterService: CharacterService, messages: PlayerMessage[]) {
         messages.forEach(message => {
             message.selected = true;
-        })
+        });
         characterService.apply_MessageConditions(messages.filter(message => message.gainCondition.length));
         characterService.apply_MessageItems(messages.filter(message => message.offeredItem.length));
         messages.forEach(message => {
             this.mark_MessageAsIgnored(characterService, message);
-        })
-        this.refreshService.set_ToChange("Character", "top-bar");
+        });
+        this.refreshService.set_ToChange('Character', 'top-bar');
         this.refreshService.process_ToChange();
     }
 
@@ -205,18 +205,18 @@ export class MessageService {
                             this.cleaningUpIgnoredMessages = false;
                         }
                         if (error.status == 401) {
-                            this.configService.on_LoggedOut("Your login is no longer valid.");
+                            this.configService.on_LoggedOut('Your login is no longer valid.');
                         } else if (!errorMessage) {
                             errorMessage = true;
-                            let text = "An error occurred while deleting messages. See console for more information.";
-                            this.toastService.show(text)
-                            console.log('Error deleting messages: ' + error.message);
+                            const text = 'An error occurred while deleting messages. See console for more information.';
+                            this.toastService.show(text);
+                            console.log(`Error deleting messages: ${ error.message }`);
                         }
                     }, () => {
-                        deleteSubscription.unsubscribe()
-                    })
+                        deleteSubscription.unsubscribe();
+                    });
                 }
-            })
+            });
         }
     }
 
@@ -227,8 +227,8 @@ export class MessageService {
             if (message.ttl <= 0) {
                 this.mark_MessageAsIgnored(characterService, message);
             }
-        })
-        this.newMessages = this.newMessages.filter(message => message.ttl > 0)
+        });
+        this.newMessages = this.newMessages.filter(message => message.ttl > 0);
     }
 
     get_MessageCreature(characterService: CharacterService, message: PlayerMessage) {
@@ -245,18 +245,18 @@ export class MessageService {
         setInterval(() => {
 
             if (characterService.get_Character().settings.checkMessagesAutomatically && !characterService.get_ManualMode() && characterService.get_LoggedIn()) {
-                minuteTimer--
+                minuteTimer--;
                 if (minuteTimer <= 0) {
                     //Every minute, let the database connector clean up messages that are older than 10 minutes.
                     //The timer starts at 0 so this happens immediately upon activating automatic checking (or loading a character with it.)
                     const cleanupSubscription = this.cleanup_OldMessages().subscribe(() => {
                         //No need to process anything if the connector does its work properly.
                     }, error => {
-                        this.toastService.show("An error occurred while cleaning up messages. See console for more information.")
-                        console.log('Error cleaning up messages: ' + error.message);
+                        this.toastService.show('An error occurred while cleaning up messages. See console for more information.');
+                        console.log(`Error cleaning up messages: ${ error.message }`);
                     }, () => {
                         cleanupSubscription.unsubscribe();
-                    })
+                    });
                     minuteTimer = 60;
                 }
 
@@ -269,7 +269,7 @@ export class MessageService {
                 this.cleanup_NewMessages(characterService);
             }
 
-        }, 1000)
+        }, 1000);
     }
 
     initialize(characterService: CharacterService) {
@@ -278,6 +278,6 @@ export class MessageService {
         if (!this.checkingActive) {
             this.start_MessageInterval(characterService);
         }
-    };
+    }
 
 }

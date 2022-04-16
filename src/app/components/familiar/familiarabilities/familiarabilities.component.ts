@@ -12,7 +12,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
 export class FamiliarabilitiesComponent implements OnInit, OnDestroy {
 
     @Input()
-    public sheetSide: string = "left";
+    public sheetSide = 'left';
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -24,10 +24,10 @@ export class FamiliarabilitiesComponent implements OnInit, OnDestroy {
         return (this.characterService.still_loading());
     }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
-    
+
     get_Character() {
         return this.characterService.get_Character();
     }
@@ -42,20 +42,20 @@ export class FamiliarabilitiesComponent implements OnInit, OnDestroy {
 
     finish_Loading() {
         if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
+            setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
-                if (["familiarabilities", "all", "Familiar"].includes(target)) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (['familiarabilities', 'all', 'Familiar'].includes(target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
-                if (view.creature == "Familiar" && ["familiarabilities", "all"].includes(view.target)) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature == 'Familiar' && ['familiarabilities', 'all'].includes(view.target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             return true;
         }
     }

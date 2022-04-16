@@ -21,7 +21,8 @@ import { SpellGain } from 'src/app/classes/SpellGain';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { RingOfWizardrySlot } from 'src/app/classes/WornItem';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { InputValidationService } from 'src/app/services/inputValidation.service';
+import { Equipment } from 'src/app/classes/Equipment';
+import { Consumable } from 'src/app/classes/Consumable';
 
 @Component({
     selector: 'app-newItemProperty',
@@ -39,10 +40,10 @@ export class NewItemPropertyComponent {
     @Input()
     propertyData: ItemProperty;
     @Input()
-    noTitle: boolean = false;
+    noTitle = false;
 
-    public validationError: string = "";
-    public validationResult: string = "";
+    public validationError = '';
+    public validationResult = '';
 
     constructor(
         private itemsService: ItemsService,
@@ -58,7 +59,7 @@ export class NewItemPropertyComponent {
         let item = this.newItem;
         this.parents.forEach(parent => {
             item = item[parent];
-        })
+        });
         return item;
     }
 
@@ -79,100 +80,100 @@ export class NewItemPropertyComponent {
     }
 
     validate() {
-        this.validationError = "";
-        this.validationResult = "";
-        let value = this.get_Parent()[this.propertyKey];
-        if (this.propertyKey == "name" && !this.propertyData.parent) {
+        this.validationError = '';
+        this.validationResult = '';
+        const value = this.get_Parent()[this.propertyKey];
+        if (this.propertyKey == 'name' && !this.propertyData.parent) {
             if (!value) {
-                this.get_Parent()[this.propertyKey] = "New Item"
+                this.get_Parent()[this.propertyKey] = 'New Item';
             }
-            let existingItems = this.get_Inventories()[0][this.newItem.type].filter((existing: Item) => existing.name == value);
-            let existingCleanItems = this.itemsService.get_CleanItems()[this.newItem.type].filter((existing: Item) => existing.name == value);
+            const existingItems = this.get_Inventories()[0][this.newItem.type].filter((existing: Item) => existing.name == value);
+            const existingCleanItems = this.itemsService.get_CleanItems()[this.newItem.type].filter((existing: Item) => existing.name == value);
             if (existingItems.length && existingItems.some((existing: Item) => existing.can_Stack())) {
-                this.validationError = "If you use this name, this item will be added to the " + existingItems[0].name + " stack in your inventory. All changes you make here will be lost.";
+                this.validationError = `If you use this name, this item will be added to the ${ existingItems[0].name } stack in your inventory. All changes you make here will be lost.`;
             } else if (existingItems.length) {
-                this.validationError = "You already own an item with this name and type.";
+                this.validationError = 'You already own an item with this name and type.';
             } else if (existingCleanItems.length) {
-                this.validationError = "An item with this name and type already exists, but you don't own it.";
+                this.validationError = 'An item with this name and type already exists, but you don\'t own it.';
             }
         }
-        if (this.propertyKey == "value" && this.propertyData.parent == "effects") {
-            if (value && value != "0") {
-                let validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || "0";
-                if (validationResult && validationResult != "0" && (parseInt(validationResult) || parseFloat(validationResult))) {
+        if (this.propertyKey == 'value' && this.propertyData.parent == 'effects') {
+            if (value && value != '0') {
+                const validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || '0';
+                if (validationResult && validationResult != '0' && (parseInt(validationResult) || parseFloat(validationResult))) {
                     if (parseFloat(validationResult) == parseInt(validationResult)) {
-                        this.validationError = "";
+                        this.validationError = '';
                         this.validationResult = parseInt(validationResult).toString();
                     } else {
-                        this.validationError = "This may result in a decimal value and be turned into a whole number."
+                        this.validationError = 'This may result in a decimal value and be turned into a whole number.';
                         this.validationResult = parseInt(validationResult).toString();
                     }
                 } else {
-                    this.validationError = "This may result in an invalid value or 0. Invalid values will default to 0, and relative effects with value 0 will not be applied."
+                    this.validationError = 'This may result in an invalid value or 0. Invalid values will default to 0, and relative effects with value 0 will not be applied.';
                     this.validationResult = parseInt(validationResult).toString();
                 }
             }
-        } else if (this.propertyKey == "setValue" && this.propertyData.parent == "effects") {
-            if (value && value != "0") {
-                let validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || null;
-                if (validationResult && validationResult != "0" && (parseInt(validationResult) || parseFloat(validationResult))) {
+        } else if (this.propertyKey == 'setValue' && this.propertyData.parent == 'effects') {
+            if (value && value != '0') {
+                const validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || null;
+                if (validationResult && validationResult != '0' && (parseInt(validationResult) || parseFloat(validationResult))) {
                     if (parseFloat(validationResult) == parseInt(validationResult)) {
-                        this.validationError = "";
+                        this.validationError = '';
                         this.validationResult = parseInt(validationResult).toString();
                     } else {
-                        this.validationError = "This may result in a decimal value and be turned into a whole number."
+                        this.validationError = 'This may result in a decimal value and be turned into a whole number.';
                         this.validationResult = parseInt(validationResult).toString();
                     }
                 } else {
-                    this.validationError = "This may result in an invalid value. Absolute effects with an invalid value will not be applied."
+                    this.validationError = 'This may result in an invalid value. Absolute effects with an invalid value will not be applied.';
                     this.validationResult = parseInt(validationResult).toString();
                 }
             }
-        } else if (this.propertyKey == "value" && this.propertyData.parent == "onceEffects") {
-            if (value && value != "0") {
-                let validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || "0";
-                if (validationResult && validationResult != "0" && (parseInt(validationResult) || parseFloat(validationResult))) {
+        } else if (this.propertyKey == 'value' && this.propertyData.parent == 'onceEffects') {
+            if (value && value != '0') {
+                const validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || '0';
+                if (validationResult && validationResult != '0' && (parseInt(validationResult) || parseFloat(validationResult))) {
                     if (parseFloat(validationResult) == parseInt(validationResult)) {
-                        this.validationError = "";
+                        this.validationError = '';
                         this.validationResult = parseInt(validationResult).toString();
                     } else {
-                        this.validationError = "This may result in a decimal value and be turned into a whole number."
+                        this.validationError = 'This may result in a decimal value and be turned into a whole number.';
                         this.validationResult = parseInt(validationResult).toString();
                     }
                 } else {
-                    this.validationError = "This may result in an invalid value or 0. This is allowed for languages; for all other targets, invalid values will default to 0, and untyped effects without a value will not be displayed."
+                    this.validationError = 'This may result in an invalid value or 0. This is allowed for languages; for all other targets, invalid values will default to 0, and untyped effects without a value will not be displayed.';
                     this.validationResult = parseInt(validationResult).toString();
                 }
             }
-        } else if (this.propertyKey == "bulk" || this.propertyKey == "carryingBulk") {
-            if (parseInt(value) || parseInt(value) == 0 || value == "L" || value == "") {
-
+        } else if (this.propertyKey == 'bulk' || this.propertyKey == 'carryingBulk') {
+            if (parseInt(value) || parseInt(value) == 0 || value == 'L' || value == '') {
+                //Do nothing if the validation is successful.
             } else {
-                this.get_Parent()[this.propertyKey] = ""
+                this.get_Parent()[this.propertyKey] = '';
             }
-        } else if (this.propertyData.validation == "1plus") {
+        } else if (this.propertyData.validation == '1plus') {
             if (parseInt(value) >= 1) {
-
+                //Do nothing if the validation is successful.
             } else {
-                this.get_Parent()[this.propertyKey] = 1
+                this.get_Parent()[this.propertyKey] = 1;
             }
-        } else if (this.propertyData.validation == "0plus") {
+        } else if (this.propertyData.validation == '0plus') {
             if (parseInt(value) >= 0) {
-
+                //Do nothing if the validation is successful.
             } else {
-                this.get_Parent()[this.propertyKey] = 0
+                this.get_Parent()[this.propertyKey] = 0;
             }
-        } else if (this.propertyData.validation == "=1plus") {
+        } else if (this.propertyData.validation == '=1plus') {
             if (parseInt(value) >= -1) {
-
+                //Do nothing if the validation is successful.
             } else {
-                this.get_Parent()[this.propertyKey] = -1
+                this.get_Parent()[this.propertyKey] = -1;
             }
-        } else if (this.propertyData.validation == "0minus") {
+        } else if (this.propertyData.validation == '0minus') {
             if (parseInt(value) <= 0) {
-
+                //Do nothing if the validation is successful.
             } else {
-                this.get_Parent()[this.propertyKey] = 0
+                this.get_Parent()[this.propertyKey] = 0;
             }
         }
     }
@@ -184,63 +185,63 @@ export class NewItemPropertyComponent {
     add_NewItemObject() {
         let index = null;
         switch (this.propertyKey) {
-            case "activities":
-                index = this.get_Parent()[this.propertyKey].push(new ItemActivity())
-                this.get_Parent()[this.propertyKey][index - 1].source = this.get_Parent()["id"];
+            case 'activities':
+                index = this.get_Parent()[this.propertyKey].push(new ItemActivity());
+                this.get_Parent()[this.propertyKey][index - 1].source = this.get_Parent()['id'];
                 break;
-            case "gainActivities":
-                index = this.get_Parent()[this.propertyKey].push(new ActivityGain())
-                this.get_Parent()[this.propertyKey][index - 1].source = this.get_Parent()["id"];
+            case 'gainActivities':
+                index = this.get_Parent()[this.propertyKey].push(new ActivityGain());
+                this.get_Parent()[this.propertyKey][index - 1].source = this.get_Parent()['id'];
                 break;
-            case "gainItems":
-                this.get_Parent()[this.propertyKey].push(new ItemGain())
+            case 'gainItems':
+                this.get_Parent()[this.propertyKey].push(new ItemGain());
                 break;
-            case "castSpells":
-                this.get_Parent()[this.propertyKey].push(new SpellCast())
+            case 'castSpells':
+                this.get_Parent()[this.propertyKey].push(new SpellCast());
                 break;
-            case "hints":
-                this.get_Parent()[this.propertyKey].push(new Hint())
+            case 'hints':
+                this.get_Parent()[this.propertyKey].push(new Hint());
                 break;
-            case "effects":
-                this.get_Parent()[this.propertyKey].push(new EffectGain())
+            case 'effects':
+                this.get_Parent()[this.propertyKey].push(new EffectGain());
                 break;
-            case "onceEffects":
-                this.get_Parent()[this.propertyKey].push(new EffectGain())
+            case 'onceEffects':
+                this.get_Parent()[this.propertyKey].push(new EffectGain());
                 break;
-            case "propertyRunes":
-                this.get_Parent()[this.propertyKey].push("" as string)
+            case 'propertyRunes':
+                this.get_Parent()[this.propertyKey].push('' as string);
                 break;
-            case "storedSpells":
-                index = this.get_Parent()[this.propertyKey].push(new SpellChoice())
-                this.get_Parent()[this.propertyKey][index - 1].source = this.get_Parent()["id"];
+            case 'storedSpells':
+                index = this.get_Parent()[this.propertyKey].push(new SpellChoice());
+                this.get_Parent()[this.propertyKey][index - 1].source = this.get_Parent()['id'];
                 break;
-            case "gainSpells":
-                index = this.get_Parent()[this.propertyKey].push(new SpellChoice())
-                this.get_Parent()[this.propertyKey][index - 1].source = this.get_Parent()["id"];
+            case 'gainSpells':
+                index = this.get_Parent()[this.propertyKey].push(new SpellChoice());
+                this.get_Parent()[this.propertyKey][index - 1].source = this.get_Parent()['id'];
                 break;
-            case "spells":
-                index = this.get_Parent()[this.propertyKey].push(new SpellGain())
+            case 'spells':
+                index = this.get_Parent()[this.propertyKey].push(new SpellGain());
                 break;
-            case "traits":
-                this.get_Parent()[this.propertyKey].push("" as string)
+            case 'traits':
+                this.get_Parent()[this.propertyKey].push('' as string);
                 break;
-            case "gainConditions":
-                this.get_Parent()[this.propertyKey].push(new ConditionGain())
+            case 'gainConditions':
+                this.get_Parent()[this.propertyKey].push(new ConditionGain());
                 break;
-            case "gainInventory":
-                this.get_Parent()[this.propertyKey].push(new InventoryGain())
+            case 'gainInventory':
+                this.get_Parent()[this.propertyKey].push(new InventoryGain());
                 break;
-            case "gainLanguages":
-                this.get_Parent()[this.propertyKey].push(new LanguageGain())
+            case 'gainLanguages':
+                this.get_Parent()[this.propertyKey].push(new LanguageGain());
                 break;
-            case "isRingOfWizardry":
-                this.get_Parent()[this.propertyKey].push({ tradition: "", level: 1 } as RingOfWizardrySlot);
+            case 'isRingOfWizardry':
+                this.get_Parent()[this.propertyKey].push({ tradition: '', level: 1 } as RingOfWizardrySlot);
                 break;
-            case "gainSenses":
-                this.get_Parent()[this.propertyKey].push("" as string)
+            case 'gainSenses':
+                this.get_Parent()[this.propertyKey].push('' as string);
                 break;
-            case "choices":
-                this.get_Parent()[this.propertyKey].push("" as string)
+            case 'choices':
+                this.get_Parent()[this.propertyKey].push('' as string);
                 break;
         }
     }
@@ -259,30 +260,28 @@ export class NewItemPropertyComponent {
     }
 
     get_Examples() {
-        let examples: (string | number)[] = [""];
+        let examples: (string | number)[] = [''];
 
-        const component = this;
+        const get_AllItems = () => {
+            return this.get_Items().allItems().concat(...this.get_Inventories().map(inventory => inventory.allItems()));
+        };
 
-        function get_AllItems() {
-            return component.get_Items().allItems().concat(...component.get_Inventories().map(inventory => inventory.allItems()))
-        }
+        const get_AllEquipment = () => {
+            return this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment()));
+        };
 
-        function get_AllEquipment() {
-            return component.get_Items().allEquipment().concat(...component.get_Inventories().map(inventory => inventory.allEquipment()))
-        }
+        const get_AllConsumables = () => {
+            return this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables()));
+        };
 
-        function get_AllConsumables() {
-            return component.get_Items().allConsumables().concat(...component.get_Inventories().map(inventory => inventory.allConsumables()))
-        }
-
-        function extract_Example(element) {
-            const key = component.propertyData.key;
-            const parent = component.propertyData.parent;
+        const extract_Example = (element: Equipment | Consumable) => {
+            const key = this.propertyData.key;
+            const parent = this.propertyData.parent;
             if (parent) {
                 if (element[parent]) {
                     element[parent].forEach(parent => {
                         if (parent[key]) {
-                            if (!component.get_IsObject(parent[key])) {
+                            if (!this.get_IsObject(parent[key])) {
                                 examples.push(parent[key]);
                             } else {
                                 examples.push(...parent[key]);
@@ -291,54 +290,54 @@ export class NewItemPropertyComponent {
                     });
                 }
             } else if (element[key]) {
-                if (!component.get_IsObject(element[key])) {
+                if (!this.get_IsObject(element[key])) {
                     examples.push(element[key]);
                 } else {
                     examples.push(...element[key]);
                 }
             }
-        }
+        };
 
         switch (this.propertyData.examples) {
-            case "prof":
-                switch (this.get_Parent()["type"]) {
-                    case "weapons":
-                        examples = this.characterService.get_Skills(this.get_Character(), "", { type: "Weapon Proficiency" }).map(item => item.name)
-                        examples.push("Advanced Weapons");
+            case 'prof':
+                switch (this.get_Parent()['type']) {
+                    case 'weapons':
+                        examples = this.characterService.get_Skills(this.get_Character(), '', { type: 'Weapon Proficiency' }).map(item => item.name);
+                        examples.push('Advanced Weapons');
                         break;
-                    case "armors":
-                        examples = this.characterService.get_Skills(this.get_Character(), "", { type: "Armor Proficiency" }).map(item => item.name);
-                        examples.push("Light Barding");
-                        examples.push("Heavy Barding");
-                        break;
-                }
-                break;
-            case "group":
-                switch (this.get_Parent()["type"]) {
-                    case "weapons":
-                        examples.push(...this.get_Items().weapons.map(item => item.group))
-                        break;
-                    case "armors":
-                        examples.push(...this.get_Items().armors.map(item => item.group))
+                    case 'armors':
+                        examples = this.characterService.get_Skills(this.get_Character(), '', { type: 'Armor Proficiency' }).map(item => item.name);
+                        examples.push('Light Barding');
+                        examples.push('Heavy Barding');
                         break;
                 }
                 break;
-            case "weaponbase":
-                examples.push(...this.get_Items().weapons.map(item => item.weaponBase))
+            case 'group':
+                switch (this.get_Parent()['type']) {
+                    case 'weapons':
+                        examples.push(...this.get_Items().weapons.map(item => item.group));
+                        break;
+                    case 'armors':
+                        examples.push(...this.get_Items().armors.map(item => item.group));
+                        break;
+                }
                 break;
-            case "traits":
-                examples = this.traitsService.get_Traits().map(trait => trait.name)
+            case 'weaponbase':
+                examples.push(...this.get_Items().weapons.map(item => item.weaponBase));
                 break;
-            case "isdoublingrings":
-                examples = ["", "Doubling Rings", "Doubling Rings (Greater)"];
+            case 'traits':
+                examples = this.traitsService.get_Traits().map(trait => trait.name);
                 break;
-            case "iswayfinder":
+            case 'isdoublingrings':
+                examples = ['', 'Doubling Rings', 'Doubling Rings (Greater)'];
+                break;
+            case 'iswayfinder':
                 examples = [0, 1, 2];
                 break;
-            case "istalismancord":
+            case 'istalismancord':
                 examples = [0, 1, 2, 3];
                 break;
-            case "activity":
+            case 'activity':
                 examples.push(...get_AllConsumables()
                     .filter(item => item[this.propertyData.key] && item[this.propertyData.key].length)
                     .map(item => {
@@ -349,41 +348,41 @@ export class NewItemPropertyComponent {
                     .forEach(item => {
                         examples.push(...item.activities.filter(activity => activity[this.propertyData.key].length)
                             .map(activity => activity[this.propertyData.key]
-                            ))
+                            ));
                     });
                 examples.push(...this.activitiesService.get_Activities()
                     .filter(activity => activity[this.propertyData.key].length).map(activity =>
                         activity[this.propertyData.key]
                     ));
                 break;
-            case "spellname":
+            case 'spellname':
                 examples.push(...this.spellsService.get_Spells().map(spell => spell.name));
                 break;
-            case "spelllevels":
+            case 'spelllevels':
                 examples = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
                 break;
-            case "spelltraditions":
-                examples = ["", "Arcane", "Divine", "Occult", "Primal"];
+            case 'spelltraditions':
+                examples = ['', 'Arcane', 'Divine', 'Occult', 'Primal'];
                 break;
-            case "spelltargets":
-                examples = ["", "Enemies", "Others", "Caster"];
+            case 'spelltargets':
+                examples = ['', 'Enemies', 'Others', 'Caster'];
                 break;
-            case "onceEffects affected":
-                examples.push(...["Focus", "HP", "Temporary HP"])
+            case 'onceEffects affected':
+                examples.push(...['Focus', 'HP', 'Temporary HP']);
                 this.characterService.get_FeatsAndFeatures()
                     .filter(feat => feat.onceEffects.length)
                     .forEach(feat => {
-                        examples.push(...feat.onceEffects.map(effect => effect.affected))
+                        examples.push(...feat.onceEffects.map(effect => effect.affected));
                     });
                 this.characterService.get_Conditions()
                     .filter(condition => condition.onceEffects.length)
                     .forEach(condition => {
-                        examples.push(...condition.onceEffects.map(effect => effect.affected))
+                        examples.push(...condition.onceEffects.map(effect => effect.affected));
                     });
                 this.activitiesService.get_Activities()
                     .filter(activity => activity.onceEffects.length)
                     .forEach(activity => {
-                        examples.push(...activity.onceEffects.map(effect => effect.affected))
+                        examples.push(...activity.onceEffects.map(effect => effect.affected));
                     });
                 get_AllEquipment()
                     .filter(item => item.activities.length)
@@ -391,30 +390,30 @@ export class NewItemPropertyComponent {
                         item.activities
                             .filter(activity => activity.onceEffects.length)
                             .forEach(activity => {
-                                examples.push(...activity.onceEffects.map(effect => effect.affected))
+                                examples.push(...activity.onceEffects.map(effect => effect.affected));
                             });
                     });
                 get_AllConsumables()
                     .filter(item => item.onceEffects.length)
                     .forEach(item => {
-                        examples.push(...item.onceEffects.map(effect => effect.affected))
+                        examples.push(...item.onceEffects.map(effect => effect.affected));
                     });
                 break;
-            case "onceEffects value":
+            case 'onceEffects value':
                 this.characterService.get_FeatsAndFeatures()
                     .filter(feat => feat.onceEffects.length)
                     .forEach(feat => {
-                        examples.push(...feat.onceEffects.map(effect => effect.value))
+                        examples.push(...feat.onceEffects.map(effect => effect.value));
                     });
                 this.characterService.get_Conditions()
                     .filter(condition => condition.onceEffects.length)
                     .forEach(condition => {
-                        examples.push(...condition.onceEffects.map(effect => effect.value))
+                        examples.push(...condition.onceEffects.map(effect => effect.value));
                     });
                 this.activitiesService.get_Activities()
                     .filter(activity => activity.onceEffects.length)
                     .forEach(activity => {
-                        examples.push(...activity.onceEffects.map(effect => effect.value))
+                        examples.push(...activity.onceEffects.map(effect => effect.value));
                     });
                 get_AllEquipment()
                     .filter(item => item.activities.length)
@@ -422,54 +421,54 @@ export class NewItemPropertyComponent {
                         item.activities
                             .filter(activity => activity.onceEffects.length)
                             .forEach(activity => {
-                                examples.push(...activity.onceEffects.map(effect => effect.value))
+                                examples.push(...activity.onceEffects.map(effect => effect.value));
                             });
                     });
                 get_AllConsumables()
                     .filter(item => item.onceEffects.length)
                     .forEach(item => {
-                        examples.push(...item.onceEffects.map(effect => effect.value))
+                        examples.push(...item.onceEffects.map(effect => effect.value));
                     });
                 break;
-            case "effects affected":
+            case 'effects affected':
                 examples.push(...this.characterService.get_Skills(this.get_Character()).map(skill => skill.name));
-                examples.push(...this.characterService.get_Abilities().map(ability => { return ability.name }));
+                examples.push(...this.characterService.get_Abilities().map(ability => { return ability.name; }));
                 this.characterService.get_FeatsAndFeatures()
                     .filter(feat => feat.effects.length)
                     .forEach(feat => {
-                        examples.push(...feat.effects.map(effect => effect.affected))
+                        examples.push(...feat.effects.map(effect => effect.affected));
                     });
                 this.characterService.get_Conditions()
                     .filter(condition => condition.effects.length)
                     .forEach(condition => {
-                        examples.push(...condition.effects.map(effect => effect.affected))
+                        examples.push(...condition.effects.map(effect => effect.affected));
                     });
                 break;
-            case "effects value":
+            case 'effects value':
                 this.characterService.get_FeatsAndFeatures()
                     .filter(feat => feat.onceEffects.length)
                     .forEach(feat => {
-                        examples.push(...feat.onceEffects.map(effect => effect.value))
+                        examples.push(...feat.onceEffects.map(effect => effect.value));
                     });
                 this.characterService.get_FeatsAndFeatures()
                     .filter(feat => feat.effects.length)
                     .forEach(feat => {
-                        examples.push(...feat.effects.map(effect => effect.value))
+                        examples.push(...feat.effects.map(effect => effect.value));
                     });
                 this.characterService.get_Conditions()
                     .filter(condition => condition.onceEffects.length)
                     .forEach(condition => {
-                        examples.push(...condition.onceEffects.map(effect => effect.value))
+                        examples.push(...condition.onceEffects.map(effect => effect.value));
                     });
                 this.characterService.get_Conditions()
                     .filter(condition => condition.effects.length)
                     .forEach(condition => {
-                        examples.push(...condition.effects.map(effect => effect.value))
+                        examples.push(...condition.effects.map(effect => effect.value));
                     });
                 this.activitiesService.get_Activities()
                     .filter(activity => activity.onceEffects.length)
                     .forEach(activity => {
-                        examples.push(...activity.onceEffects.map(effect => effect.value))
+                        examples.push(...activity.onceEffects.map(effect => effect.value));
                     });
                 get_AllEquipment()
                     .filter(item => item.activities.length)
@@ -477,41 +476,41 @@ export class NewItemPropertyComponent {
                         item.activities
                             .filter(activity => activity.onceEffects.length)
                             .forEach(activity => {
-                                examples.push(...activity.onceEffects.map(effect => effect.value))
+                                examples.push(...activity.onceEffects.map(effect => effect.value));
                             });
                     });
                 get_AllConsumables()
                     .filter(item => item.onceEffects.length)
                     .forEach(item => {
-                        examples.push(...item.onceEffects.map(effect => effect.value))
+                        examples.push(...item.onceEffects.map(effect => effect.value));
                     });
-                examples = examples.filter(example => typeof example == "string" && !example.toLowerCase().includes("object") && !example.toLowerCase().includes("heightened") && !example.toLowerCase().includes("value"));
+                examples = examples.filter(example => typeof example == 'string' && !example.toLowerCase().includes('object') && !example.toLowerCase().includes('heightened') && !example.toLowerCase().includes('value'));
                 break;
-            case "effects setvalue":
+            case 'effects setvalue':
                 this.characterService.get_FeatsAndFeatures()
                     .filter(feat => feat.onceEffects.length)
                     .forEach(feat => {
-                        examples.push(...feat.onceEffects.map(effect => effect.setValue))
+                        examples.push(...feat.onceEffects.map(effect => effect.setValue));
                     });
                 this.characterService.get_FeatsAndFeatures()
                     .filter(feat => feat.effects.length)
                     .forEach(feat => {
-                        examples.push(...feat.effects.map(effect => effect.setValue))
+                        examples.push(...feat.effects.map(effect => effect.setValue));
                     });
                 this.characterService.get_Conditions()
                     .filter(condition => condition.onceEffects.length)
                     .forEach(condition => {
-                        examples.push(...condition.onceEffects.map(effect => effect.setValue))
+                        examples.push(...condition.onceEffects.map(effect => effect.setValue));
                     });
                 this.characterService.get_Conditions()
                     .filter(condition => condition.effects.length)
                     .forEach(condition => {
-                        examples.push(...condition.effects.map(effect => effect.setValue))
+                        examples.push(...condition.effects.map(effect => effect.setValue));
                     });
                 this.activitiesService.get_Activities()
                     .filter(activity => activity.onceEffects.length)
                     .forEach(activity => {
-                        examples.push(...activity.onceEffects.map(effect => effect.setValue))
+                        examples.push(...activity.onceEffects.map(effect => effect.setValue));
                     });
                 get_AllEquipment()
                     .filter(item => item.activities.length)
@@ -519,48 +518,48 @@ export class NewItemPropertyComponent {
                         item.activities
                             .filter(activity => activity.onceEffects.length)
                             .forEach(activity => {
-                                examples.push(...activity.onceEffects.map(effect => effect.setValue))
+                                examples.push(...activity.onceEffects.map(effect => effect.setValue));
                             });
                     });
                 get_AllConsumables()
                     .filter(item => item.onceEffects.length)
                     .forEach(item => {
-                        examples.push(...item.onceEffects.map(effect => effect.setValue))
+                        examples.push(...item.onceEffects.map(effect => effect.setValue));
                     });
                 examples = examples
                     .filter(example =>
-                        typeof example == "string" &&
-                        !example.toLowerCase().includes("object") &&
-                        !example.toLowerCase().includes("heightened") &&
-                        !example.toLowerCase().includes("value")
+                        typeof example == 'string' &&
+                        !example.toLowerCase().includes('object') &&
+                        !example.toLowerCase().includes('heightened') &&
+                        !example.toLowerCase().includes('value')
                     );
                 break;
-            case "effects title":
+            case 'effects title':
                 this.characterService.get_FeatsAndFeatures()
                     .filter(feat => feat.effects.length)
                     .forEach(feat => {
-                        examples.push(...feat.effects.map(effect => effect.title))
+                        examples.push(...feat.effects.map(effect => effect.title));
                     });
                 this.characterService.get_Conditions()
                     .filter(condition => condition.effects.length)
                     .forEach(condition => {
-                        examples.push(...condition.effects.map(effect => effect.title))
+                        examples.push(...condition.effects.map(effect => effect.title));
                     });
                 examples = examples
                     .filter(example =>
-                        typeof example == "string" &&
-                        !example.toLowerCase().includes("object") &&
-                        !example.toLowerCase().includes("heightened")
+                        typeof example == 'string' &&
+                        !example.toLowerCase().includes('object') &&
+                        !example.toLowerCase().includes('heightened')
                     );
                 break;
-            case "inputRequired":
+            case 'inputRequired':
                 get_AllEquipment()
                     .filter(item => item.activities.length)
                     .forEach(item => {
                         examples.push(...item.activities
                             .filter(activity => activity.inputRequired.length)
                             .map(activity => activity.inputRequired)
-                        )
+                        );
                     });
                 examples.push(...this.activitiesService.get_Activities()
                     .filter(activity => activity.inputRequired.length).map(activity => {
@@ -571,29 +570,29 @@ export class NewItemPropertyComponent {
                         return condition.inputRequired;
                     }));
                 break;
-            case "gainactivity name":
+            case 'gainactivity name':
                 examples.push(...this.activitiesService.get_Activities().map(activity => {
                     return activity.name;
                 }));
                 break;
-            case "showon":
+            case 'showon':
                 examples.push(...this.characterService.get_Skills(this.get_Character()).map(skill => skill.name));
                 examples.push(...this.characterService.get_Abilities().map(ability => ability.name));
                 this.characterService.get_FeatsAndFeatures()
                     .filter(feat => feat.hints.length)
                     .forEach(feat => {
                         examples.push(...feat.hints.filter(hint => hint.showon.length).map(hint => hint.showon));
-                    })
+                    });
                 this.characterService.get_Conditions()
                     .filter(condition => condition.hints.length)
                     .forEach(condition => {
                         examples.push(...condition.hints.filter(hint => hint.showon.length).map(hint => hint.showon));
-                    })
+                    });
                 this.activitiesService.get_Activities()
                     .filter(activity => activity.hints.length)
                     .forEach(activity => {
                         examples.push(...activity.hints.filter(hint => hint.showon.length).map(hint => hint.showon));
-                    })
+                    });
                 get_AllEquipment()
                     .filter(item => item.activities.length)
                     .forEach(item => {
@@ -601,7 +600,7 @@ export class NewItemPropertyComponent {
                             .filter(activity => activity.hints.length)
                             .forEach(activity => {
                                 examples.push(...activity.hints.filter(hint => hint.showon.length).map(hint => hint.showon));
-                            })
+                            });
                     });
                 get_AllEquipment()
                     .filter(item => item.hints.length)
@@ -609,10 +608,10 @@ export class NewItemPropertyComponent {
                         examples.push(...item.hints.filter(hint => hint.showon.length).map(hint => hint.showon));
                     });
                 break;
-            case "hints desc":
+            case 'hints desc':
                 this.activitiesService.get_Activities().filter(activity => activity.hints.length).forEach(activity => {
                     examples.push(...activity.hints.filter(hint => hint.desc.length).map(hint => hint.desc));
-                })
+                });
                 get_AllEquipment()
                     .filter(item => item.activities.length)
                     .forEach(item => {
@@ -620,53 +619,53 @@ export class NewItemPropertyComponent {
                             .filter(activity => activity.hints.length)
                             .forEach(activity => {
                                 examples.push(...activity.hints.filter(hint => hint.desc.length).map(hint => hint.desc));
-                            })
+                            });
                     });
                 break;
-            case "choices":
+            case 'choices':
                 get_AllEquipment()
                     .filter(item => item.choices.length)
                     .forEach(item => {
                         examples.push(...item.choices);
                     });
                 break;
-            case "icontitleoverride":
+            case 'icontitleoverride':
                 get_AllItems()
                     .filter(item => item.iconTitleOverride)
                     .forEach(item => {
                         examples.push(item.iconTitleOverride);
                     });
                 break;
-            case "iconvalueoverride":
+            case 'iconvalueoverride':
                 get_AllItems()
                     .filter(item => item.iconTitleOverride)
                     .forEach(item => {
                         examples.push(item.iconValueOverride);
                     });
                 break;
-            case "effects type":
-                examples = ["", "item", "circumstance", "status", "proficiency"];
+            case 'effects type':
+                examples = ['', 'item', 'circumstance', 'status', 'proficiency'];
                 break;
-            case "gaincondition name":
+            case 'gaincondition name':
                 examples.push(...this.characterService.get_Conditions().map(condition => condition.name));
                 break;
-            case "gaincondition alignmentfilter":
-                examples.push("Chaotic", "Chaotic Evil", "Chaotic Good", "Evil", "Good", "Lawful", "Lawful Evil", "Lawful Good", "Neutral", "Neutral Evil", "Neutral Good", "!Chaotic", "!Chaotic Evil", "!Chaotic Good", "!Evil", "!Good", "!Lawful", "!Lawful Evil", "!Lawful Good", "!Neutral", "!Neutral Evil", "!Neutral Good");
+            case 'gaincondition alignmentfilter':
+                examples.push('Chaotic', 'Chaotic Evil', 'Chaotic Good', 'Evil', 'Good', 'Lawful', 'Lawful Evil', 'Lawful Good', 'Neutral', 'Neutral Evil', 'Neutral Good', '!Chaotic', '!Chaotic Evil', '!Chaotic Good', '!Evil', '!Good', '!Lawful', '!Lawful Evil', '!Lawful Good', '!Neutral', '!Neutral Evil', '!Neutral Good');
                 break;
-            case "gainitems name":
-                examples = this.itemsService.get_Items()[this.get_Parent()["type"]].map((item: Item) => item.name);
+            case 'gainitems name':
+                examples = this.itemsService.get_Items()[this.get_Parent()['type']].map((item: Item) => item.name);
                 break;
-            case "gainitems on":
-                examples = ["", "equip", "grant", "use"];
+            case 'gainitems on':
+                examples = ['', 'equip', 'grant', 'use'];
                 break;
-            case "gainitems expirationcondition":
-                examples = ["", "equipped", "unequipped"];
+            case 'gainitems expirationcondition':
+                examples = ['', 'equipped', 'unequipped'];
                 break;
-            case "dicesize":
+            case 'dicesize':
                 examples = [1, 2, 3, 4, 6, 8, 10, 12];
                 break;
-            case "senses":
-                examples = ["", "Low-Light Vision", "Darkvision", "Greater Darkvision", "Scent 30 feet (imprecise)", "Tremorsense 30 feet (imprecise)"]
+            case 'senses':
+                examples = ['', 'Low-Light Vision', 'Darkvision', 'Greater Darkvision', 'Scent 30 feet (imprecise)', 'Tremorsense 30 feet (imprecise)'];
                 break;
             default:
                 get_AllEquipment()
@@ -681,7 +680,7 @@ export class NewItemPropertyComponent {
 
         }
 
-        let uniqueExamples = Array.from(new Set(examples.filter(example => example.toString().length <= 90)))
+        const uniqueExamples = Array.from(new Set(examples.filter(example => example.toString().length <= 90)));
         return uniqueExamples.sort();
     }
 
@@ -690,7 +689,7 @@ export class NewItemPropertyComponent {
     }
 
     set_ItemType() {
-        this.get_Parent()["name"] = this.itemsService.get_Items()[this.get_Parent()["type"]][0]["name"];
+        this.get_Parent()['name'] = this.itemsService.get_Items()[this.get_Parent()['type']][0]['name'];
     }
 
 }

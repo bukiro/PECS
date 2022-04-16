@@ -1,6 +1,6 @@
 export class ConditionDuration {
     public duration: number = null;
-    public minLevel: number = 0;
+    public minLevel = 0;
     recast() {
         return this;
     }

@@ -4,24 +4,24 @@ import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { FeatChoice } from 'src/app/classes/FeatChoice';
 
 export class Background {
-    public desc: string = "";
+    public desc = '';
     public abilityChoices: AbilityChoice[] = [];
-    public feat: string = "";
+    public feat = '';
     public featChoices: FeatChoice[] = [];
     public loreChoices: LoreChoice[] = [];
-    public loreName: string = "";
-    public name: string = "";
-    public skill: string = "";
+    public loreName = '';
+    public name = '';
+    public skill = '';
     public skillChoices: SkillChoice[] = [];
-    public specialLore: string = "";
-    public subType: string = "";
-    public subTypes: boolean = false;
-    public superType: string = "";
-    public sourceBook: string = "";
-    public region: string = "";
-    public adventurePath: string = "";
-    public prerequisites: string = "";
-    public inputRequired: string = "";
+    public specialLore = '';
+    public subType = '';
+    public subTypes = false;
+    public superType = '';
+    public sourceBook = '';
+    public region = '';
+    public adventurePath = '';
+    public prerequisites = '';
+    public inputRequired = '';
     public traits: string[] = [];
     recast() {
         this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());

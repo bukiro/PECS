@@ -14,21 +14,21 @@ import { Subscription } from 'rxjs';
 export class SkillchoiceComponent implements OnInit, OnDestroy {
 
     @Input()
-    choice: SkillChoice
+    choice: SkillChoice;
     @Input()
-    showChoice: string = "";
+    showChoice = '';
     @Output()
     showSkillChoiceMessage = new EventEmitter<{ name: string, levelNumber: number, choice: SkillChoice }>();
     @Input()
-    levelNumber: number = 0;
+    levelNumber = 0;
     @Input()
-    excludeTemporary: boolean = false;
+    excludeTemporary = false;
     @Input()
-    showTitle: boolean = true;
+    showTitle = true;
     @Input()
-    showContent: boolean = true;
+    showContent = true;
     @Input()
-    tileMode: boolean = false;
+    tileMode = false;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -36,9 +36,9 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         private refreshService: RefreshService
     ) { }
 
-    toggle_List(name: string = "") {
-        if (this.showChoice == name || name == "") {
-            this.showChoice = "";
+    toggle_List(name = '') {
+        if (this.showChoice == name || name == '') {
+            this.showChoice = '';
             this.showSkillChoiceMessage.emit({ name: this.showChoice, levelNumber: 0, choice: null });
         } else {
             this.showChoice = name;
@@ -50,7 +50,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         return this.showChoice;
     }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
@@ -63,40 +63,40 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
     }
 
     get_ButtonTitle(maxAvailable: number) {
-        let title: string = "Skill ";
+        let title = 'Skill ';
         if (this.choice.maxRank == 2) {
-            title += "Training";
+            title += 'Training';
         } else {
-            title += "Increase";
+            title += 'Increase';
         }
-        title += " (" + this.choice.source + ")";
+        title += ` (${ this.choice.source })`;
         if (maxAvailable > 1) {
-            title += ": " + this.choice.increases.length + "/" + (maxAvailable);
+            title += `: ${ this.choice.increases.length }/${ maxAvailable }`;
         } else {
             if (this.choice.increases.length) {
-                title += ": " + this.choice.increases[0].name;
+                title += `: ${ this.choice.increases[0].name }`;
             }
         }
         return title;
     }
 
-    get_Abilities(name: string = "") {
-        return this.characterService.get_Abilities(name)
+    get_Abilities(name = '') {
+        return this.characterService.get_Abilities(name);
     }
 
-    get_Skills(name: string = "", filter: { type?: string, locked?: boolean } = {}) {
+    get_Skills(name = '', filter: { type?: string, locked?: boolean } = {}) {
         filter = Object.assign({
-            type: "",
+            type: '',
             locked: undefined
-        }, filter)
-        return this.characterService.get_Skills(this.get_Character(), name, filter)
+        }, filter);
+        return this.characterService.get_Skills(this.get_Character(), name, filter);
     }
 
     get_SkillLevel(skill: Skill) {
         return skill.level(this.get_Character(), this.characterService, this.levelNumber, true);
     }
 
-    get_SkillLevelName(skillLevel: number, short: boolean = false) {
+    get_SkillLevelName(skillLevel: number, short = false) {
         return this.characterService.get_SkillLevelName(skillLevel, short);
     }
 
@@ -105,15 +105,15 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
             return 0;
         }
         //We have to calculate the modifier instead of getting .mod() because we don't want any effects in the character building interface.
-        let intelligence: number = this.get_Abilities("Intelligence")[0].baseValue(this.get_Character(), this.characterService, levelNumber).result;
-        let INT: number = Math.floor((intelligence - 10) / 2);
+        const intelligence: number = this.get_Abilities('Intelligence')[0].baseValue(this.get_Character(), this.characterService, levelNumber).result;
+        const INT: number = Math.floor((intelligence - 10) / 2);
         return INT;
     }
 
     get_SkillINTBonus() {
         //Allow INT more skills if INT has been raised since the last level.
-        let levelNumber = parseInt(this.choice.id.split("-")[0]);
-        if (this.choice.source == "Intelligence") {
+        const levelNumber = parseInt(this.choice.id.split('-')[0]);
+        if (this.choice.source == 'Intelligence') {
             return this.get_INT(levelNumber) - this.get_INT(levelNumber - 1);
         } else {
             return 0;
@@ -129,15 +129,15 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         if (choice.filter.length) {
             //Only filter the choice if enough of the filtered skills can be raised.
             if (choice.filter.map(skillName => this.get_Skills(skillName)[0]).filter(skill => skill && !this.cannotIncrease(skill, levelNumber, choice).length).length >= maxAvailable) {
-                skills = skills.filter(skill => choice.filter.includes(skill.name))
+                skills = skills.filter(skill => choice.filter.includes(skill.name));
             }
         }
         if (choice.minRank) {
-            let character = this.get_Character();
+            const character = this.get_Character();
             skills = skills.filter(skill => skill.level(character, this.characterService, levelNumber) >= choice.minRank);
         }
         if (skills.length) {
-            let showOtherOptions = this.get_Character().settings.showOtherOptions;
+            const showOtherOptions = this.get_Character().settings.showOtherOptions;
             return skills
                 .filter(skill => (
                     this.skillIncreasedByThis(skill, choice) ||
@@ -157,7 +157,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
     someIllegal(choice: SkillChoice) {
         let anytrue = 0;
         choice.increases.forEach(increase => {
-            let levelNumber = parseInt(choice.id.split("-")[0]);
+            let levelNumber = parseInt(choice.id.split('-')[0]);
             //Temporary choices are compared to the character level, not their own.
             if (choice.showOnSheet) {
                 levelNumber = this.get_Character().level;
@@ -176,25 +176,25 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
 
     cannotIncrease(skill: Skill, levelNumber: number, choice: SkillChoice) {
         //Returns a string of reasons why the skill cannot be increased, or []. Test the length of the return if you need a boolean.
-        let maxRank: number = choice.maxRank;
-        let reasons: string[] = [];
+        const maxRank: number = choice.maxRank;
+        const reasons: string[] = [];
         //The skill may have been increased by the same source, but as a fixed rule.
         if (choice.increases.some(increase => increase.name == skill.name && increase.locked)) {
-            let locked = "Fixed increase.";
+            const locked = 'Fixed increase.';
             reasons.push(locked);
         }
         //If this skill was trained by a feat on a higher level, it can't be raised on this level.
         //This prevents losing the feat bonus or raising the skill too high.
         //An exception is made for Additional Lore and Gnome Obsession, which can be raised on Level 2/3, 7 and 15 no matter when you learned them.
-        let allIncreases = this.get_SkillIncreases(levelNumber + 1, 20, skill.name, "", "", undefined, true);
-        if (!!allIncreases.length) {
-            if (allIncreases[0].locked && allIncreases[0].source.includes("Feat: ") && !["Feat: Additional Lore", "Feat: Gnome Obsession"].includes(allIncreases[0].source)) {
-                let trainedOnHigherLevelByFeat = "Trained on a higher level by " + allIncreases[0].source + ".";
+        const allIncreases = this.get_SkillIncreases(levelNumber + 1, 20, skill.name, '', '', undefined, true);
+        if (allIncreases.length) {
+            if (allIncreases[0].locked && allIncreases[0].source.includes('Feat: ') && !['Feat: Additional Lore', 'Feat: Gnome Obsession'].includes(allIncreases[0].source)) {
+                const trainedOnHigherLevelByFeat = `Trained on a higher level by ${ allIncreases[0].source }.`;
                 reasons.push(trainedOnHigherLevelByFeat);
             }
             //If this is a temporary choice, and the character has raised the skill higher than the temporary choice allows, the choice is illegal.
             if (choice.showOnSheet && allIncreases.length * 2 > choice.maxRank) {
-                let trainedOnHigherLevel = "Trained on a higher level.";
+                const trainedOnHigherLevel = 'Trained on a higher level.';
                 reasons.push(trainedOnHigherLevel);
             }
         }
@@ -202,45 +202,45 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         // (e.g. for Feats that TRAIN a skill)
         //This is only relevant if you haven't raised the skill on this level yet.
         //If you have, we don't want to hear that it couldn't be raised again right away
-        let cannotIncreaseHigher = "";
+        let cannotIncreaseHigher = '';
         //You can never raise a skill higher than Legendary (8)
         if (skill.level(this.get_Character(), this.characterService, levelNumber, true) == 8 && !this.skillIncreasedByThis(skill, choice)) {
-            cannotIncreaseHigher = "Cannot increase any higher.";
+            cannotIncreaseHigher = 'Cannot increase any higher.';
             reasons.push(cannotIncreaseHigher);
         } else if (!skill.canIncrease(this.get_Character(), this.characterService, levelNumber, maxRank) && !this.skillIncreasedByThis(skill, choice)) {
             if (!skill.canIncrease(this.get_Character(), this.characterService, levelNumber)) {
-                cannotIncreaseHigher = "Highest rank at this level.";
+                cannotIncreaseHigher = 'Highest rank at this level.';
             } else {
                 if (choice.maxRank == 2) {
-                    cannotIncreaseHigher = "Already trained.";
+                    cannotIncreaseHigher = 'Already trained.';
                 } else {
-                    cannotIncreaseHigher = "Highest rank for this increase.";
+                    cannotIncreaseHigher = 'Highest rank for this increase.';
                 }
             }
             reasons.push(cannotIncreaseHigher);
         }
         //You can never raise Bardic Lore
-        if (skill.name == "Lore: Bardic") {
-            reasons.push("Cannot increase with skill training.")
+        if (skill.name == 'Lore: Bardic') {
+            reasons.push('Cannot increase with skill training.');
         }
         return reasons;
     }
 
     skillIncreasedByThis(skill: Skill, choice: SkillChoice) {
-        return choice.increases.filter(increase => increase.name == skill.name).length
+        return choice.increases.filter(increase => increase.name == skill.name).length;
     }
 
     skillLockedByThis(skill: Skill, choice: SkillChoice) {
-        return choice.increases.filter(increase => increase.name == skill.name && increase.locked).length
+        return choice.increases.filter(increase => increase.name == skill.name && increase.locked).length;
     }
 
-    get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string, source: string = "", sourceId: string = "", locked: boolean = undefined, excludeTemporary: boolean = false) {
+    get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string, source = '', sourceId = '', locked: boolean = undefined, excludeTemporary = false) {
         return this.get_Character().get_SkillIncreases(this.characterService, minLevelNumber, maxLevelNumber, skillName, source, sourceId, locked, excludeTemporary);
     }
 
-    on_SkillIncrease(skillName: string, event: Event, choice: SkillChoice, locked: boolean = false, maxAvailable: number) {
+    on_SkillIncrease(skillName: string, event: Event, choice: SkillChoice, locked = false, maxAvailable: number) {
         const boost = (event.target as HTMLInputElement).checked;
-        if (boost && this.get_Character().settings.autoCloseChoices && (choice.increases.length == maxAvailable - 1)) { this.toggle_List(""); }
+        if (boost && this.get_Character().settings.autoCloseChoices && (choice.increases.length == maxAvailable - 1)) { this.toggle_List(''); }
         this.get_Character().increase_Skill(this.characterService, skillName, boost, choice, locked);
         this.refreshService.process_ToChange();
     }
@@ -248,9 +248,9 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
     remove_BonusSkillChoice(choice: SkillChoice) {
         choice.increases.forEach(increase => {
             this.get_Character().increase_Skill(this.characterService, increase.name, false, choice, false);
-        })
+        });
         this.get_Character().remove_SkillChoice(choice);
-        this.toggle_List("");
+        this.toggle_List('');
         this.refreshService.process_ToChange();
     }
 
@@ -260,17 +260,17 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
 
     finish_Loading() {
         if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
+            setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
-                    if (["skillchoices", "all", "character"].includes(target.toLowerCase())) {
+                    if (['skillchoices', 'all', 'character'].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
-                    if (view.creature.toLowerCase() == "character" && ["skillchoices", "all"].includes(view.target.toLowerCase())) {
+                    if (view.creature.toLowerCase() == 'character' && ['skillchoices', 'all'].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });

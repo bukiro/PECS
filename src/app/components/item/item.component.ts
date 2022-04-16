@@ -33,17 +33,17 @@ import { EffectsService } from 'src/app/services/effects.service';
 export class ItemComponent implements OnInit, OnDestroy {
 
     @Input()
-    creature: string = "Character";
+    creature = 'Character';
     @Input()
     item;
     @Input()
-    allowActivate: boolean = false;
+    allowActivate = false;
     @Input()
     armoredSkirt: AdventuringGear;
     @Input()
-    itemStore: boolean = false;
+    itemStore = false;
     @Input()
-    isSubItem: boolean = false;
+    isSubItem = false;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -57,7 +57,7 @@ export class ItemComponent implements OnInit, OnDestroy {
         private effectsService: EffectsService
     ) { }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
@@ -69,15 +69,15 @@ export class ItemComponent implements OnInit, OnDestroy {
         return this.characterService.get_Character();
     }
 
-    get_Traits(name: string = "") {
+    get_Traits(name = '') {
         return this.traitsService.get_Traits(name);
     }
 
-    get_Activities(name: string = "") {
+    get_Activities(name = '') {
         return this.activitiesService.get_Activities(name);
     }
 
-    get_Spells(name: string = "", type: string = "", tradition: string = "") {
+    get_Spells(name = '', type = '', tradition = '') {
         return this.spellsService.get_Spells(name, type, tradition);
     }
 
@@ -91,16 +91,16 @@ export class ItemComponent implements OnInit, OnDestroy {
         }
     }
 
-    on_TalismanUse(talisman: Talisman, index: number, preserve: boolean = false) {
+    on_TalismanUse(talisman: Talisman, index: number, preserve = false) {
         this.characterService.on_ConsumableUse(this.get_Creature(), talisman, preserve);
         if (!preserve) {
-            this.item.talismans.splice(index, 1)
+            this.item.talismans.splice(index, 1);
         }
         if (this.item instanceof Armor || this.item instanceof Shield) {
-            this.refreshService.set_ToChange(this.creature, "defense");
+            this.refreshService.set_ToChange(this.creature, 'defense');
         }
         if (this.item instanceof Weapon) {
-            this.refreshService.set_ToChange(this.creature, "attacks");
+            this.refreshService.set_ToChange(this.creature, 'attacks');
         }
         this.refreshService.process_ToChange();
     }
@@ -109,23 +109,23 @@ export class ItemComponent implements OnInit, OnDestroy {
         this.characterService.on_ConsumableUse(this.get_Creature(), poison);
         if (this.item instanceof Weapon) {
             this.item.poisonsApplied.length = 0;
-            this.refreshService.set_ToChange(this.creature, "attacks");
+            this.refreshService.set_ToChange(this.creature, 'attacks');
         }
         this.refreshService.process_ToChange();
     }
 
     get_DoublingRingsOptions(ring: string) {
         switch (ring) {
-            case "gold":
+            case 'gold':
                 return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.melee && weapon.potencyRune);
-            case "iron":
+            case 'iron':
                 return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.melee);
         }
     }
 
     on_DoublingRingsChange() {
-        this.refreshService.set_ToChange(this.creature, "inventory");
-        let ironItem = this.get_DoublingRingsOptions("iron").find(weapon => weapon.id == this.item.data[0].value);
+        this.refreshService.set_ToChange(this.creature, 'inventory');
+        const ironItem = this.get_DoublingRingsOptions('iron').find(weapon => weapon.id == this.item.data[0].value);
         if (ironItem && this.item.invested) {
             this.refreshService.set_ItemViewChanges(this.get_Creature(), ironItem, { characterService: this.characterService, activitiesService: this.activitiesService });
         }
@@ -134,30 +134,30 @@ export class ItemComponent implements OnInit, OnDestroy {
 
     get_RingOfWizardrySlotName(wizardrySlot: RingOfWizardrySlot) {
         const spellLevels = [
-            "cantrip",
-            "1st-level spell",
-            "2nd-level spell",
-            "3rd-level spell",
-            "4th-level spell",
-            "5th-level spell",
-            "6th-level spell",
-            "7th-level spell",
-            "8th-level spell",
-            "9th-level spell",
-            "10th-level spell",
-        ]
-        return (wizardrySlot.tradition ? wizardrySlot.tradition + " " : "") + spellLevels[wizardrySlot.level] + " slot";
+            'cantrip',
+            '1st-level spell',
+            '2nd-level spell',
+            '3rd-level spell',
+            '4th-level spell',
+            '5th-level spell',
+            '6th-level spell',
+            '7th-level spell',
+            '8th-level spell',
+            '9th-level spell',
+            '10th-level spell',
+        ];
+        return `${ (wizardrySlot.tradition ? `${ wizardrySlot.tradition } ` : '') + spellLevels[wizardrySlot.level] } slot`;
     }
 
     get_RingOfWizardryOptions(wizardrySlot: RingOfWizardrySlot): string[] {
         if (this.get_Character().class) {
-            return ["no spellcasting selected"]
+            return ['no spellcasting selected']
                 .concat(this.get_Character().class?.spellCasting
                     .filter(casting =>
-                        !["focus", "innate"].includes(casting.castingType.toLowerCase()) &&
+                        !['focus', 'innate'].includes(casting.castingType.toLowerCase()) &&
                         (wizardrySlot.tradition ? casting.tradition.toLowerCase() == wizardrySlot.tradition.toLowerCase() : true)
                     )
-                    .map(casting => casting.className + " " + casting.tradition + " " + casting.castingType + " Spells"));
+                    .map(casting => `${ casting.className } ${ casting.tradition } ${ casting.castingType } Spells`));
         }
     }
 
@@ -174,61 +174,61 @@ export class ItemComponent implements OnInit, OnDestroy {
         }
         let effectFound = false;
         for (let index = 0; index < item.effects.length; index++) {
-            if (!effectFound && item.effects[index].source == "Ring of Wizardry Slot " + (wizardrySlotIndex + 1)) {
+            if (!effectFound && item.effects[index].source == `Ring of Wizardry Slot ${ wizardrySlotIndex + 1 }`) {
                 effectFound = true;
                 item.effects.splice(index, 1);
                 break;
             }
         }
         //If a new spellcasting has been selected, either add a new spellgain or effectgain.
-        if (item.data[wizardrySlotIndex].value != "no spellcasting selected") {
-            const dataValue = (item.data[wizardrySlotIndex].value as string)
-            const className = dataValue.split(" ")[0];
-            const tradition = dataValue.split(" ")[1];
-            const castingType = dataValue.split(" ")[2];
-            if (castingType.toLowerCase() == "prepared") {
-                let newSpellGain = new SpellChoice();
+        if (item.data[wizardrySlotIndex].value != 'no spellcasting selected') {
+            const dataValue = (item.data[wizardrySlotIndex].value as string);
+            const className = dataValue.split(' ')[0];
+            const tradition = dataValue.split(' ')[1];
+            const castingType = dataValue.split(' ')[2];
+            if (castingType.toLowerCase() == 'prepared') {
+                const newSpellGain = new SpellChoice();
                 newSpellGain.available = 1;
                 newSpellGain.className = className;
-                newSpellGain.castingType = "Prepared";
+                newSpellGain.castingType = 'Prepared';
                 newSpellGain.tradition = tradition;
                 newSpellGain.level = wizardrySlot.level;
                 newSpellGain.ringOfWizardry = (wizardrySlotIndex + 1);
                 newSpellGain.source = item.name;
-                item.gainSpells.push(newSpellGain)
-                this.refreshService.set_ToChange("Character", "Spells");
-            } else if (castingType.toLowerCase() == "spontaneous") {
-                let newEffectGain = new EffectGain();
-                newEffectGain.affected = className + " " + castingType + " Level " + wizardrySlot.level + " Spell Slots";
-                newEffectGain.value = "1"
-                newEffectGain.source = "Ring of Wizardry Slot " + (wizardrySlotIndex + 1);
+                item.gainSpells.push(newSpellGain);
+                this.refreshService.set_ToChange('Character', 'Spells');
+            } else if (castingType.toLowerCase() == 'spontaneous') {
+                const newEffectGain = new EffectGain();
+                newEffectGain.affected = `${ className } ${ castingType } Level ${ wizardrySlot.level } Spell Slots`;
+                newEffectGain.value = '1';
+                newEffectGain.source = `Ring of Wizardry Slot ${ wizardrySlotIndex + 1 }`;
                 item.effects.push(newEffectGain);
-                this.refreshService.set_ToChange("Character", "effects");
+                this.refreshService.set_ToChange('Character', 'effects');
             }
         }
         //Close any open spell choices.
-        this.refreshService.set_ToChange("Character", "spells", "clear");
-        this.refreshService.set_ToChange("Character", "spellbook");
+        this.refreshService.set_ToChange('Character', 'spells', 'clear');
+        this.refreshService.set_ToChange('Character', 'spellbook');
         this.refreshService.process_ToChange();
     }
 
     get_TalismanCordOptions(item: WornItem, index: number) {
         return [
-            "no school attuned",
-            "Abjuration",
-            "Conjuration",
-            "Divination",
-            "Enchantment",
-            "Evocation",
-            "Illusion",
-            "Necromancy",
-            "Transmutation"
-        ].filter(school => school == "no school attuned" || item.data[index].value == school || !item.data.some((data, dataIndex) => dataIndex <= item.isTalismanCord && data.value == school));
+            'no school attuned',
+            'Abjuration',
+            'Conjuration',
+            'Divination',
+            'Enchantment',
+            'Evocation',
+            'Illusion',
+            'Necromancy',
+            'Transmutation'
+        ].filter(school => school == 'no school attuned' || item.data[index].value == school || !item.data.some((data, dataIndex) => dataIndex <= item.isTalismanCord && data.value == school));
     }
 
     get_ItemSpell(item: Item) {
         if (item.storedSpells.length && item.storedSpells[0].spells.length) {
-            let spell = this.get_Spells(item.storedSpells[0].spells[0].name)[0];
+            const spell = this.get_Spells(item.storedSpells[0].spells[0].name)[0];
             if (spell) {
                 return [spell];
             } else {
@@ -249,9 +249,9 @@ export class ItemComponent implements OnInit, OnDestroy {
 
     get_SpellConditions(spell: Spell, spellLevel: number, gain: SpellGain) {
         //For all conditions that are included with this spell on this level, create an effectChoice on the gain and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
-        let conditionSets: { gain: ConditionGain, condition: Condition }[] = [];
+        const conditionSets: { gain: ConditionGain, condition: Condition }[] = [];
         spell.get_HeightenedConditions(spellLevel)
-            .map(conditionGain => { return { gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] } })
+            .map(conditionGain => { return { gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] }; })
             .forEach((conditionSet, index) => {
                 //Create the temporary list of currently available choices.
                 conditionSet.condition?.get_Choices(this.characterService, true, (conditionSet.gain.heightened ? conditionSet.gain.heightened : spellLevel));
@@ -264,30 +264,30 @@ export class ItemComponent implements OnInit, OnDestroy {
                 if (!conditionSet.condition._choices.includes(gain.effectChoices?.[index]?.choice)) {
                     gain.effectChoices[index] = { condition: conditionSet.condition.name, choice: conditionSet.condition.choice };
                 }
-            })
+            });
         return conditionSets;
     }
 
     on_SpellItemUse(item: Item) {
-        let spellName = item.storedSpells[0]?.spells[0]?.name || "";
-        let spellChoice = item.storedSpells[0];
+        const spellName = item.storedSpells[0]?.spells[0]?.name || '';
+        const spellChoice = item.storedSpells[0];
         if (spellChoice && spellName) {
-            let spell = this.get_Spells(item.storedSpells[0]?.spells[0]?.name)[0];
-            let target = "";
-            if (spell.target == "self") {
-                target = "Character";
+            const spell = this.get_Spells(item.storedSpells[0]?.spells[0]?.name)[0];
+            let target = '';
+            if (spell.target == 'self') {
+                target = 'Character';
             }
             if (spell) {
-                let tempGain: SpellGain = new SpellGain();
+                const tempGain: SpellGain = new SpellGain();
                 this.spellsService.process_Spell(spell, true,
                     { characterService: this.characterService, itemsService: this.itemsService, conditionsService: this.conditionsService },
-                    { creature: this.get_Creature("Character"), target: target, choice: spellChoice, gain: tempGain, level: spellChoice.level },
+                    { creature: this.get_Creature('Character'), target: target, choice: spellChoice, gain: tempGain, level: spellChoice.level },
                     { manual: true }
-                )
+                );
             }
             spellChoice.spells.shift();
         }
-        this.refreshService.set_ToChange("Character", "spellchoices")
+        this.refreshService.set_ToChange('Character', 'spellchoices');
         this.refreshService.process_ToChange();
     }
 
@@ -320,7 +320,7 @@ export class ItemComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        if (["weaponrunes", "armorrunes", "oils"].includes(this.item.type) && !this.isSubItem) {
+        if (['weaponrunes', 'armorrunes', 'oils'].includes(this.item.type) && !this.isSubItem) {
             this.allowActivate = false;
         }
         this.finish_Loading();

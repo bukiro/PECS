@@ -1,11 +1,11 @@
-import { Armor } from "./Armor";
-import { Consumable } from "./Consumable";
-import { Equipment } from "./Equipment";
-import { Item } from "./Item";
-import { Shield } from "./Shield";
-import { Wand } from "./Wand";
-import { Weapon } from "./Weapon";
-import { WornItem } from "./WornItem";
+import { Armor } from './Armor';
+import { Consumable } from './Consumable';
+import { Equipment } from './Equipment';
+import { Item } from './Item';
+import { Shield } from './Shield';
+import { Wand } from './Wand';
+import { Weapon } from './Weapon';
+import { WornItem } from './WornItem';
 
 export interface ItemRoles {
     item: Item,

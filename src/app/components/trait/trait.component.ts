@@ -1,23 +1,24 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Trait } from 'src/app/classes/Trait';
+import { Item } from 'src/app/classes/Item';
 
 @Component({
     selector: 'app-trait',
     templateUrl: './trait.component.html',
     styleUrls: ['./trait.component.css']
 })
-export class TraitComponent implements OnInit {
+export class TraitComponent {
 
     @Input()
-    creature: string = "Character";
+    creature = 'Character';
     @Input()
     trait: Trait;
     @Input()
     name: string;
     @Input()
-    object: any = null;
+    item: Item = null;
     @Input()
     extraDescription: string;
 
@@ -26,7 +27,7 @@ export class TraitComponent implements OnInit {
         private refreshService: RefreshService
     ) { }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
@@ -35,21 +36,16 @@ export class TraitComponent implements OnInit {
     }
 
     on_ActivateEffect() {
-        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.set_ToChange(this.creature, 'effects');
         this.refreshService.process_ToChange();
     }
 
     get_ObjectTraitActivations() {
-        if (this.object && Object.keys(this.object).includes("traitActivations")) {
-            if (this.object.cleanup_TraitActivations) {
-                this.object.cleanup_TraitActivations();
-            }
-            return this.object.traitActivations.filter(activation => activation.trait == this.trait.name || (this.trait.dynamic && activation.trait.includes(this.trait.name)));
+        if (this.item) {
+            this.item.cleanup_TraitActivations();
+            return this.item.traitActivations.filter(activation => activation.trait == this.trait.name || (this.trait.dynamic && activation.trait.includes(this.trait.name)));
         }
         return [];
-    }
-
-    ngOnInit() {
     }
 
 }

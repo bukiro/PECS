@@ -9,15 +9,13 @@ import { SpellCasting } from 'src/app/classes/SpellCasting';
 export class DescriptionComponent {
 
     @Input()
-    text: string = "";
+    text = '';
     @Input()
     casting: SpellCasting = null;
     @Input()
-    oneLiner: boolean = false;
+    oneLiner = false;
 
-    constructor() { }
-
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 

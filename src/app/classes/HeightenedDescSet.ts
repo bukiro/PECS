@@ -1,7 +1,7 @@
-import { HeightenedDesc } from "./HeightenedDesc";
+import { HeightenedDesc } from './HeightenedDesc';
 
 export class HeightenedDescSet {
-    public level: number = 0;
+    public level = 0;
     public descs: HeightenedDesc[] = [];
     recast() {
         return this;

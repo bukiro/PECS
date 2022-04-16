@@ -1,6 +1,6 @@
 export class SenseGain {
-    public name: string = "";
-    public excluding: boolean = false;
+    public name = '';
+    public excluding = false;
     public conditionChoiceFilter: string[] = [];
     recast() {
         return this;

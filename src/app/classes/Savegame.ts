@@ -1,5 +1,5 @@
 export class Savegame {
-        name: string = "Unnamed";
+    name = 'Unnamed';
     id: string;
     dbId: string;
     class: string;

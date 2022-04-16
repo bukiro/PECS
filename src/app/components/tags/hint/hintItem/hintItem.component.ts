@@ -17,9 +17,9 @@ import { EffectsService } from 'src/app/services/effects.service';
 export class HintItemComponent implements OnInit {
 
     @Input()
-    creature: string = "Character";
+    creature = 'Character';
     @Input()
-    item: Item | any;
+    item: Item;
 
     constructor(
         public characterService: CharacterService,
@@ -30,7 +30,7 @@ export class HintItemComponent implements OnInit {
         private refreshService: RefreshService
     ) { }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
@@ -38,11 +38,11 @@ export class HintItemComponent implements OnInit {
         return this.characterService.get_Creature(creature) as Creature;
     }
 
-    get_Traits(name: string = "") {
+    get_Traits(name = '') {
         return this.traitsService.get_Traits(name);
     }
 
-    get_Activities(name: string = "") {
+    get_Activities(name = '') {
         return this.activitiesService.get_Activities(name);
     }
 

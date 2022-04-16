@@ -20,7 +20,6 @@ import { EvaluationService } from 'src/app/services/evaluation.service';
 import { CustomEffectsService } from 'src/app/services/customEffects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
-import { InputValidationService } from 'src/app/services/inputValidation.service';
 
 @Component({
     selector: 'app-conditions',
@@ -30,26 +29,26 @@ import { InputValidationService } from 'src/app/services/inputValidation.service
 })
 export class ConditionsComponent implements OnInit, OnDestroy {
 
-    public endOn: number = 5;
-    public value: number = 1;
-    public heightened: number = 1;
-    public showList: string = "";
-    public showItem: string = "";
-    public showCreature: "Character" | "Companion" | "Familiar" = "Character";
-    public wordFilter: string = "";
-    public permanent: boolean = true;
-    public untilRest: boolean = false;
-    public untilRefocus: boolean = false;
-    public days: number = 0;
-    public hours: number = 0;
-    public minutes: number = 0;
-    public turns: number = 0;
-    private purpose: "conditions" | "customeffects" = "conditions";
+    public endOn = 5;
+    public value = 1;
+    public heightened = 1;
+    public showList = '';
+    public showItem = '';
+    public showCreature: 'Character' | 'Companion' | 'Familiar' = 'Character';
+    public wordFilter = '';
+    public permanent = true;
+    public untilRest = false;
+    public untilRefocus = false;
+    public days = 0;
+    public hours = 0;
+    public minutes = 0;
+    public turns = 0;
+    private purpose: 'conditions' | 'customeffects' = 'conditions';
     public newEffect: EffectGain = new EffectGain();
     public validationError: string[] = [];
     public validationResult: string[] = [];
     public parseInt = parseInt;
-    public range: number = 0;
+    public range = 0;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -71,7 +70,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
 
     toggle_List(type) {
         if (this.showList == type) {
-            this.showList = "";
+            this.showList = '';
         } else {
             this.showList = type;
         }
@@ -84,7 +83,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
 
     toggle_Item(name) {
         if (this.showItem == name) {
-            this.showItem = "";
+            this.showItem = '';
         } else {
             this.showItem = name;
         }
@@ -94,7 +93,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         return this.showItem;
     }
 
-    toggle_Purpose(purpose: "conditions" | "customeffects") {
+    toggle_Purpose(purpose: 'conditions' | 'customeffects') {
         this.purpose = purpose;
     }
 
@@ -112,7 +111,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
 
     toggle_TileMode() {
         this.get_Character().settings.conditionsTileMode = !this.get_Character().settings.conditionsTileMode;
-        this.refreshService.set_ToChange("Character", "conditions");
+        this.refreshService.set_ToChange('Character', 'conditions');
         this.refreshService.process_ToChange();
     }
 
@@ -121,29 +120,25 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     validate_DurationNumbers() {
-        this.hours = Math.max(0, Math.min(23, this.hours))
-        this.minutes = Math.max(0, Math.min(59, this.minutes))
-        this.turns = Math.max(0, Math.min(9, this.turns))
+        this.hours = Math.max(0, Math.min(23, this.hours));
+        this.minutes = Math.max(0, Math.min(59, this.minutes));
+        this.turns = Math.max(0, Math.min(9, this.turns));
         this.set_NonPermanent();
     }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
-    }
-
-    trackByName(index: number, obj: any): any {
-        return obj.name;
     }
 
     check_Filter() {
         if (this.wordFilter.length < 5 && this.showList) {
-            this.showList = "";
+            this.showList = '';
         }
     }
 
     set_Filter() {
         if (this.wordFilter) {
-            this.showList = "All";
+            this.showList = 'All';
         }
     }
 
@@ -156,7 +151,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     toggleConditionsMenu() {
-        this.characterService.toggle_Menu("conditions");
+        this.characterService.toggle_Menu('conditions');
     }
 
     get_ConditionsMenuState() {
@@ -188,57 +183,57 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     get_VisibleConditionsSet(type: string) {
-        let typeKey = "";
+        let typeKey = '';
         switch (type) {
-            case "Generic":
-                typeKey = "generic";
+            case 'Generic':
+                typeKey = 'generic';
                 break;
-            case "Activities":
-                typeKey = "activities";
+            case 'Activities':
+                typeKey = 'activities';
                 break;
-            case "Afflictions":
-                typeKey = "afflictions";
+            case 'Afflictions':
+                typeKey = 'afflictions';
                 break;
-            case "Alchemical Elixirs":
-                typeKey = "alchemicalelixirs";
+            case 'Alchemical Elixirs':
+                typeKey = 'alchemicalelixirs';
                 break;
-            case "Alchemical Tools":
-                typeKey = "alchemicaltools";
+            case 'Alchemical Tools':
+                typeKey = 'alchemicaltools';
                 break;
-            case "Ammunition":
-                typeKey = "ammunition";
+            case 'Ammunition':
+                typeKey = 'ammunition';
                 break;
-            case "Blood Magic":
-                typeKey = "bloodmagic";
+            case 'Blood Magic':
+                typeKey = 'bloodmagic';
                 break;
-            case "Feats":
-                typeKey = "feats";
+            case 'Feats':
+                typeKey = 'feats';
                 break;
-            case "Other Consumables":
-                typeKey = "otherconsumables";
+            case 'Other Consumables':
+                typeKey = 'otherconsumables';
                 break;
-            case "Potions":
-                typeKey = "potions";
+            case 'Potions':
+                typeKey = 'potions';
                 break;
-            case "Spells":
-                typeKey = "spells";
+            case 'Spells':
+                typeKey = 'spells';
                 break;
-            case "Talismans":
-                typeKey = "talismans";
+            case 'Talismans':
+                typeKey = 'talismans';
                 break;
-            case "Weapons":
-                typeKey = "weapons";
+            case 'Weapons':
+                typeKey = 'weapons';
                 break;
-            case "Worn Items":
-                typeKey = "wornitems";
+            case 'Worn Items':
+                typeKey = 'wornitems';
                 break;
-            case "Held Items":
-                typeKey = "helditems";
+            case 'Held Items':
+                typeKey = 'helditems';
                 break;
         }
 
         if (typeKey) {
-            return this.get_Conditions("", typeKey)
+            return this.get_Conditions('', typeKey)
                 .filter(condition =>
                     !condition.hide &&
                     (
@@ -254,11 +249,11 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         }
     }
 
-    get_Traits(traitName: string = "") {
+    get_Traits(traitName = '') {
         return this.traitsService.get_Traits(traitName);
     }
 
-    get_Conditions(name: string = "", type: string = "") {
+    get_Conditions(name = '', type = '') {
         return this.conditionsService.get_Conditions(name, type);
     }
 
@@ -289,7 +284,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         this.permanent = this.untilRest = this.untilRefocus = false;
     }
 
-    get_ConditionDuration(includeTurn: boolean = true) {
+    get_ConditionDuration(includeTurn = true) {
         if (this.permanent) {
             return -1;
         }
@@ -305,19 +300,19 @@ export class ConditionsComponent implements OnInit, OnDestroy {
             this.minutes * 100 +
             this.turns * 10 +
             (includeTurn ? (this.endOn == this.timeService.get_YourTurn() ? 0 : 5) : 0)
-        )
+        );
     }
 
     get_ConditionChoices(condition: Condition) {
         return condition.get_Choices(this.characterService, false);
     }
 
-    get_Duration(duration: number = this.get_ConditionDuration(), inASentence: boolean = false) {
+    get_Duration(duration: number = this.get_ConditionDuration(), inASentence = false) {
         return this.timeService.get_Duration(duration, true, inASentence);
     }
 
-    add_Condition(creature: Creature, condition: Condition, duration: number = this.get_ConditionDuration(false), includeTurnState: boolean = true) {
-        let newGain = new ConditionGain();
+    add_Condition(creature: Creature, condition: Condition, duration: number = this.get_ConditionDuration(false), includeTurnState = true) {
+        const newGain = new ConditionGain();
         newGain.name = condition.name;
         if (duration < 0 || duration == 1 || !includeTurnState) {
             newGain.duration = duration;
@@ -328,28 +323,28 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         if (condition.hasValue) {
             newGain.value = this.value;
         }
-        if (condition.type == "spells") {
+        if (condition.type == 'spells') {
             newGain.heightened = this.heightened;
         }
-        newGain.source = "Manual";
+        newGain.source = 'Manual';
         this.characterService.add_Condition(creature, newGain);
     }
 
     get_EffectsProperty() {
-        return this.customEffectsService.get_EffectProperties.find(property => !property.parent && property.key == "effects");
+        return this.customEffectsService.get_EffectProperties.find(property => !property.parent && property.key == 'effects');
     }
 
     get_EffectValue(creature: Creature, effect: EffectGain) {
         //Send the effect's setValue or value to the EvaluationService to get its result.
-        let result: any = null;
-        let penalty: boolean = false;
+        let result: string | number = null;
+        let penalty = false;
         if (effect.setValue) {
             result = this.evaluationService.get_ValueFromFormula(effect.setValue, { characterService: this.characterService, effectsService: this.effectsService }, { creature: creature, effect: effect });
             penalty = false;
         } else if (effect.value) {
             result = this.evaluationService.get_ValueFromFormula(effect.value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: creature, effect: effect });
-            if (!isNaN(result)) {
-                penalty = (result < 0) == (effect.affected != "Bulk");
+            if (!isNaN(result as number)) {
+                penalty = (result < 0) == (effect.affected != 'Bulk');
             } else {
                 result = null;
             }
@@ -367,7 +362,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
 
     get_IsFormula(value: string) {
         if (value && isNaN(parseInt(value))) {
-            if (!value.match("^[0-9-]*$")) {
+            if (!value.match('^[0-9-]*$')) {
                 return true;
             }
         }
@@ -375,9 +370,9 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     get_EffectInvalid() {
-        if (!this.newEffect.affected || (!this.newEffect.toggle && !this.newEffect.setValue && this.newEffect.value == "0")) {
-            return "This effect will not do anything."
-        };
+        if (!this.newEffect.affected || (!this.newEffect.toggle && !this.newEffect.setValue && this.newEffect.value == '0')) {
+            return 'This effect will not do anything.';
+        }
     }
 
     add_Effect(creature: Creature) {
@@ -389,8 +384,8 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         } else {
             newEffect.maxDuration = newEffect.duration = duration + (this.endOn == this.timeService.get_YourTurn() ? 0 : 5);
         }
-        this.refreshService.set_ToChange(creature.type, "effects");
-        this.refreshService.set_ToChange(creature.type, "conditions");
+        this.refreshService.set_ToChange(creature.type, 'effects');
+        this.refreshService.set_ToChange(creature.type, 'conditions');
         this.refreshService.process_ToChange();
     }
 
@@ -400,89 +395,89 @@ export class ConditionsComponent implements OnInit, OnDestroy {
 
     remove_Effect(creature: Creature, effect: EffectGain) {
         creature.effects.splice(creature.effects.indexOf(effect), 1);
-        this.refreshService.set_ToChange(creature.type, "effects");
-        this.refreshService.set_ToChange(creature.type, "conditions");
+        this.refreshService.set_ToChange(creature.type, 'effects');
+        this.refreshService.set_ToChange(creature.type, 'conditions');
         this.refreshService.process_ToChange();
     }
 
     update_Effects(creature: Creature) {
-        this.refreshService.set_ToChange(creature.type, "effects");
-        this.refreshService.set_ToChange(creature.type, "conditions");
+        this.refreshService.set_ToChange(creature.type, 'effects');
+        this.refreshService.set_ToChange(creature.type, 'conditions');
         this.refreshService.process_ToChange();
     }
 
     validate(creature: Creature, effect: EffectGain) {
         if (this.get_IsFormula(effect.value)) {
-            effect.value = "0";
+            effect.value = '0';
         }
         this.update_Effects(creature);
     }
 
     validate_AdvancedEffect(propertyData: ItemProperty, index: number) {
-        this.validationError[index] = "";
-        this.validationResult[index] = "";
-        let value = this.newEffect[propertyData.key]
-        if (propertyData.key == "value" && propertyData.parent == "effects") {
-            if (value && value != "0") {
-                let validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || "0";
-                if (validationResult && validationResult != "0" && (parseInt(validationResult) || parseFloat(validationResult))) {
+        this.validationError[index] = '';
+        this.validationResult[index] = '';
+        const value = this.newEffect[propertyData.key];
+        if (propertyData.key == 'value' && propertyData.parent == 'effects') {
+            if (value && value != '0') {
+                const validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || '0';
+                if (validationResult && validationResult != '0' && (parseInt(validationResult) || parseFloat(validationResult))) {
                     if (parseFloat(validationResult) == parseInt(validationResult)) {
-                        this.validationError[index] = "";
+                        this.validationError[index] = '';
                         this.validationResult[index] = parseInt(validationResult).toString();
                     } else {
-                        this.validationError[index] = "This may result in a decimal value and be turned into a whole number."
+                        this.validationError[index] = 'This may result in a decimal value and be turned into a whole number.';
                         this.validationResult[index] = parseInt(validationResult).toString();
                     }
                 } else {
-                    this.validationError[index] = "This may result in an invalid value or 0. Invalid values will default to 0, and untyped effects without a value will not be displayed."
+                    this.validationError[index] = 'This may result in an invalid value or 0. Invalid values will default to 0, and untyped effects without a value will not be displayed.';
                     this.validationResult[index] = parseInt(validationResult).toString();
                 }
             }
-        } else if (propertyData.key == "setValue" && propertyData.parent == "effects") {
-            if (value && value != "0") {
-                let validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || null;
+        } else if (propertyData.key == 'setValue' && propertyData.parent == 'effects') {
+            if (value && value != '0') {
+                const validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || null;
                 if (validationResult && (parseInt(validationResult) || parseFloat(validationResult)) || parseInt(validationResult) == 0) {
                     if (parseFloat(validationResult) == parseInt(validationResult)) {
-                        this.validationError[index] = "";
+                        this.validationError[index] = '';
                         this.validationResult[index] = parseInt(validationResult).toString();
                     } else {
-                        this.validationError[index] = "This may result in a decimal value and be turned into a whole number."
+                        this.validationError[index] = 'This may result in a decimal value and be turned into a whole number.';
                         this.validationResult[index] = parseInt(validationResult).toString();
                     }
                 } else {
-                    this.validationError[index] = "This may result in an invalid value. Absolute effects with an invalid value will not be applied."
+                    this.validationError[index] = 'This may result in an invalid value. Absolute effects with an invalid value will not be applied.';
                     this.validationResult[index] = parseInt(validationResult).toString();
                 }
             }
-        } else if (propertyData.validation == "1plus") {
+        } else if (propertyData.validation == '1plus') {
             if (parseInt(value) >= 1) {
-
+                //Do nothing if the validation is successful.
             } else {
-                this.newEffect[propertyData.key] = 1
+                this.newEffect[propertyData.key] = 1;
             }
-        } else if (propertyData.validation == "0plus") {
+        } else if (propertyData.validation == '0plus') {
             if (parseInt(value) >= 0) {
-
+                //Do nothing if the validation is successful.
             } else {
-                this.newEffect[propertyData.key] = 0
+                this.newEffect[propertyData.key] = 0;
             }
-        } else if (propertyData.validation == "=1plus") {
+        } else if (propertyData.validation == '=1plus') {
             if (parseInt(value) >= -1) {
-
+                //Do nothing if the validation is successful.
             } else {
-                this.newEffect[propertyData.key] = -1
+                this.newEffect[propertyData.key] = -1;
             }
-        } else if (propertyData.validation == "0minus") {
+        } else if (propertyData.validation == '0minus') {
             if (parseInt(value) <= 0) {
-
+                //Do nothing if the validation is successful.
             } else {
-                this.newEffect[propertyData.key] = 0
+                this.newEffect[propertyData.key] = 0;
             }
         }
     }
 
     get_CustomEffectProperties() {
-        let customEffectsService = this.customEffectsService;
+        const customEffectsService = this.customEffectsService;
         function get_PropertyData(key: string) {
             return customEffectsService.get_EffectProperties.find(property => property.key == key);
         }
@@ -493,106 +488,106 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     get_Examples(propertyData: ItemProperty) {
-        let examples: string[] = [""];
+        let examples: string[] = [''];
 
         switch (propertyData.examples) {
-            case "effects affected":
+            case 'effects affected':
                 examples.push(...this.characterService.get_Skills(this.get_Character()).map((skill: Skill) => skill.name));
-                examples.push(...this.characterService.get_Abilities().map((ability: Ability) => { return ability.name }));
+                examples.push(...this.characterService.get_Abilities().map((ability: Ability) => { return ability.name; }));
                 this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length).forEach(feat => {
-                    examples.push(...feat.effects.map(effect => effect.affected))
+                    examples.push(...feat.effects.map(effect => effect.affected));
                 });
                 this.characterService.get_Conditions().filter(condition => condition.effects.length).forEach((condition: Condition) => {
-                    examples.push(...condition.effects.map(effect => effect.affected))
+                    examples.push(...condition.effects.map(effect => effect.affected));
                 });
                 break;
-            case "effects value":
+            case 'effects value':
                 this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length).forEach(feat => {
-                    examples.push(...feat.onceEffects.map(effect => effect.value))
+                    examples.push(...feat.onceEffects.map(effect => effect.value));
                 });
                 this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length).forEach(feat => {
-                    examples.push(...feat.effects.map(effect => effect.value))
+                    examples.push(...feat.effects.map(effect => effect.value));
                 });
                 this.characterService.get_Conditions().filter(condition => condition.onceEffects.length).forEach((condition: Condition) => {
-                    examples.push(...condition.onceEffects.map(effect => effect.value))
+                    examples.push(...condition.onceEffects.map(effect => effect.value));
                 });
                 this.characterService.get_Conditions().filter(condition => condition.effects.length).forEach((condition: Condition) => {
-                    examples.push(...condition.effects.map(effect => effect.value))
+                    examples.push(...condition.effects.map(effect => effect.value));
                 });
                 this.activitiesService.get_Activities().filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
-                    examples.push(...activity.onceEffects.map(effect => effect.value))
+                    examples.push(...activity.onceEffects.map(effect => effect.value));
                 });
                 this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
                     item.activities.filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
-                        examples.push(...activity.onceEffects.map(effect => effect.value))
+                        examples.push(...activity.onceEffects.map(effect => effect.value));
                     });
                 });
                 this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables())).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
-                    examples.push(...item.onceEffects.map(effect => effect.value))
+                    examples.push(...item.onceEffects.map(effect => effect.value));
                 });
-                examples = examples.filter(example => typeof example == "string" && !example.toLowerCase().includes("object") && !example.toLowerCase().includes("heightened") && !example.toLowerCase().includes("value"));
+                examples = examples.filter(example => typeof example == 'string' && !example.toLowerCase().includes('object') && !example.toLowerCase().includes('heightened') && !example.toLowerCase().includes('value'));
                 break;
-            case "effects setvalue":
+            case 'effects setvalue':
                 this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length).forEach(feat => {
-                    examples.push(...feat.onceEffects.map(effect => effect.setValue))
+                    examples.push(...feat.onceEffects.map(effect => effect.setValue));
                 });
                 this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length).forEach(feat => {
-                    examples.push(...feat.effects.map(effect => effect.setValue))
+                    examples.push(...feat.effects.map(effect => effect.setValue));
                 });
                 this.characterService.get_Conditions().filter(condition => condition.onceEffects.length).forEach((condition: Condition) => {
-                    examples.push(...condition.onceEffects.map(effect => effect.setValue))
+                    examples.push(...condition.onceEffects.map(effect => effect.setValue));
                 });
                 this.characterService.get_Conditions().filter(condition => condition.effects.length).forEach((condition: Condition) => {
-                    examples.push(...condition.effects.map(effect => effect.setValue))
+                    examples.push(...condition.effects.map(effect => effect.setValue));
                 });
                 this.activitiesService.get_Activities().filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
-                    examples.push(...activity.onceEffects.map(effect => effect.setValue))
+                    examples.push(...activity.onceEffects.map(effect => effect.setValue));
                 });
                 this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
                     item.activities.filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
-                        examples.push(...activity.onceEffects.map(effect => effect.setValue))
+                        examples.push(...activity.onceEffects.map(effect => effect.setValue));
                     });
                 });
                 this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables())).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
-                    examples.push(...item.onceEffects.map(effect => effect.setValue))
+                    examples.push(...item.onceEffects.map(effect => effect.setValue));
                 });
-                examples = examples.filter(example => typeof example == "string" && !example.toLowerCase().includes("object") && !example.toLowerCase().includes("heightened") && !example.toLowerCase().includes("value"));
+                examples = examples.filter(example => typeof example == 'string' && !example.toLowerCase().includes('object') && !example.toLowerCase().includes('heightened') && !example.toLowerCase().includes('value'));
                 break;
-            case "effects title":
+            case 'effects title':
                 this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length).forEach(feat => {
-                    examples.push(...feat.effects.map(effect => effect.title))
+                    examples.push(...feat.effects.map(effect => effect.title));
                 });
                 this.characterService.get_Conditions().filter(condition => condition.effects.length).forEach((condition: Condition) => {
-                    examples.push(...condition.effects.map(effect => effect.title))
+                    examples.push(...condition.effects.map(effect => effect.title));
                 });
-                examples = examples.filter(example => typeof example == "string" && !example.toLowerCase().includes("object") && !example.toLowerCase().includes("heightened"));
+                examples = examples.filter(example => typeof example == 'string' && !example.toLowerCase().includes('object') && !example.toLowerCase().includes('heightened'));
                 break;
-            case "effects type":
+            case 'effects type':
                 examples = this.get_BonusTypes();
                 break;
         }
 
-        let uniqueExamples = Array.from(new Set(examples.filter(example => example.length <= 90)))
+        const uniqueExamples = Array.from(new Set(examples.filter(example => example.length <= 90)));
         return uniqueExamples.sort();
     }
 
     get_BonusTypes() {
-        return this.effectsService.bonusTypes.map(type => type == "untyped" ? "" : type);
+        return this.effectsService.bonusTypes.map(type => type == 'untyped' ? '' : type);
     }
 
     finish_Loading() {
         if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
+            setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
-                    if (["conditions", "all"].includes(target.toLowerCase())) {
+                    if (['conditions', 'all'].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
-                    if (view.creature.toLowerCase() == "character" && ["conditions", "all"].includes(view.target.toLowerCase())) {
+                    if (view.creature.toLowerCase() == 'character' && ['conditions', 'all'].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });

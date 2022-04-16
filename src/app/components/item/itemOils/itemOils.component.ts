@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { Item } from 'src/app/classes/Item';
@@ -15,15 +15,15 @@ import { ActivitiesService } from 'src/app/services/activities.service';
     templateUrl: './itemOils.component.html',
     styleUrls: ['./itemOils.component.css']
 })
-export class ItemOilsComponent implements OnInit {
+export class ItemOilsComponent {
 
     @Input()
     item: Item;
     @Input()
-    itemStore: boolean = false;
+    itemStore = false;
     newOil: { oil: Oil, inv: ItemCollection } = { oil: new Oil(), inv: null };
 
-    public newPropertyRuneName: string[] = ["", "", ""];
+    public newPropertyRuneName: string[] = ['', '', ''];
 
     constructor(
         private characterService: CharacterService,
@@ -34,7 +34,7 @@ export class ItemOilsComponent implements OnInit {
         private typeService: TypeService
     ) { }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
@@ -47,13 +47,13 @@ export class ItemOilsComponent implements OnInit {
     }
 
     get_Duration(turns: number) {
-        return this.timeService.get_Duration(turns)
+        return this.timeService.get_Duration(turns);
     }
 
     get_Oils() {
-        let item = this.item;
-        let allOils: { oil: Oil, inv: ItemCollection }[] = [{ oil: new Oil(), inv: null }];
-        allOils[0].oil.name = "";
+        const item = this.item;
+        const allOils: { oil: Oil, inv: ItemCollection }[] = [{ oil: new Oil(), inv: null }];
+        allOils[0].oil.name = '';
         if (this.itemStore) {
             allOils.push(...this.get_CleanItems().oils.filter(oil => oil.targets.length).map(oil => ({ oil: oil, inv: null })));
         } else {
@@ -67,7 +67,7 @@ export class ItemOilsComponent implements OnInit {
                 (
                     oil.oil.targets.length && (
                         oil.oil.targets.includes(item.type) ||
-                        oil.oil.targets.includes("items")
+                        oil.oil.targets.includes('items')
                     ) && (
                         oil.oil.weightLimit ?
                             (
@@ -89,9 +89,9 @@ export class ItemOilsComponent implements OnInit {
                                 item instanceof Weapon &&
                                 item.dmgType &&
                                 (
-                                    oil.oil.damagereq.split("")
+                                    oil.oil.damagereq.split('')
                                         .filter(req => item instanceof Weapon && item.dmgType.includes(req)).length ||
-                                    item.dmgType == "modular"
+                                    item.dmgType == 'modular'
                                 )
                             )
                             : true
@@ -102,8 +102,8 @@ export class ItemOilsComponent implements OnInit {
 
     add_Oil() {
         if (this.newOil.oil.name) {
-            let item = this.item;
-            let newLength = item.oilsApplied.push(Object.assign<Oil, Oil>(new Oil(), JSON.parse(JSON.stringify(this.newOil.oil))).recast(this.typeService, this.itemsService));
+            const item = this.item;
+            const newLength = item.oilsApplied.push(Object.assign<Oil, Oil>(new Oil(), JSON.parse(JSON.stringify(this.newOil.oil))).recast(this.typeService, this.itemsService));
             if (this.newOil.inv) {
                 this.characterService.drop_InventoryItem(this.get_Character(), this.newOil.inv, this.newOil.oil, false, false, false, 1);
             }
@@ -112,8 +112,8 @@ export class ItemOilsComponent implements OnInit {
                 this.characterService.add_RuneLore(item.oilsApplied[newLength - 1].runeEffect);
             }
             this.newOil = { oil: new Oil(), inv: null };
-            this.newOil.oil.name = "";
-            this.refreshService.set_ToChange("Character", "inventory");
+            this.newOil.oil.name = '';
+            this.refreshService.set_ToChange('Character', 'inventory');
             this.refreshService.set_ItemViewChanges(this.get_Character(), this.item, { characterService: this.characterService, activitiesService: this.activitiesService });
             this.refreshService.process_ToChange();
         }
@@ -125,12 +125,9 @@ export class ItemOilsComponent implements OnInit {
             this.characterService.remove_RuneLore(this.item.oilsApplied[index].runeEffect);
         }
         this.item.oilsApplied.splice(index, 1);
-        this.refreshService.set_ToChange("Character", "inventory");
+        this.refreshService.set_ToChange('Character', 'inventory');
         this.refreshService.set_ItemViewChanges(this.get_Character(), this.item, { characterService: this.characterService, activitiesService: this.activitiesService });
         this.refreshService.process_ToChange();
-    }
-
-    ngOnInit() {
     }
 
 }

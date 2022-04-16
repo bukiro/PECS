@@ -11,7 +11,7 @@ import { ConfigService } from 'src/app/services/config.service';
 })
 export class AboutComponent implements OnInit {
 
-    public version: string = "";
+    public version = '';
 
     welcome: { header: string, desc: string }[] = welcome;
     hints: { header: string, desc: string, images: { file: string, title: string }[] }[] = hints;
@@ -21,7 +21,7 @@ export class AboutComponent implements OnInit {
         private configService: ConfigService
     ) { }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
@@ -30,18 +30,18 @@ export class AboutComponent implements OnInit {
     }
 
     get_UpdateAvailable() {
-        let updateAvailable = this.configService.get_UpdateAvailable();
-        if (updateAvailable == "n/a") {
-            return [{ available: false, desc: "PECS was unable to check for new versions." }];
+        const updateAvailable = this.configService.get_UpdateAvailable();
+        if (updateAvailable == 'n/a') {
+            return [{ available: false, desc: 'PECS was unable to check for new versions.' }];
         } else if (updateAvailable) {
-            return [{ available: true, desc: "Version " + updateAvailable + " is available for download!" }];
+            return [{ available: true, desc: `Version ${ updateAvailable } is available for download!` }];
         } else {
-            return [{ available: false, desc: "" }];
+            return [{ available: false, desc: '' }];
         }
     }
 
     ngOnInit() {
-        this.version = changelog[0]?.version || "";
+        this.version = changelog[0]?.version || '';
     }
 
 }

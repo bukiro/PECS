@@ -22,64 +22,64 @@ export class WornItem extends Equipment {
     //Worn Items cannot be equipped or unequipped, but can be invested.
     readonly equippable = false;
     //Worn Items should be type "wornitems" to be found in the database.
-    readonly type = "wornitems";
+    readonly type = 'wornitems';
     //List any Aeon Stones equipped in this item (only for Wayfinders).
     public aeonStones: WornItem[] = [];
     //Does this item use the Doubling Rings functionality, and on which level?
-    public isDoublingRings: "" | "Doubling Rings" | "Doubling Rings (Greater)" = "";
+    public isDoublingRings: '' | 'Doubling Rings' | 'Doubling Rings (Greater)' = '';
     //Does this item count for the "Handwraps of Mighty Blows" functionality? This will make it able to store runes.
-    public isHandwrapsOfMightyBlows: boolean = false;
+    public isHandwrapsOfMightyBlows = false;
     //A Champion with the Divine Ally: Blade Ally Feat can designate one weapon or handwraps as his blade ally.
-    public bladeAlly: boolean = false;
+    public bladeAlly = false;
     //Does this item use the Wayfinder functionality to store Aeon Stones, and how many?
-    public isWayfinder: number = 0;
+    public isWayfinder = 0;
     //Is this an Aeon Stone and can be stored in a Wayfinder?
-    public isAeonStone: boolean = false;
+    public isAeonStone = false;
     //Is this Aeon Stone slotted in a Wayfinder?
-    public isSlottedAeonStone: boolean = false;
+    public isSlottedAeonStone = false;
     //Is this a Talisman Cord and can be affixed to weapons, shields or armor, and how many schools is it attuned to?
-    public isTalismanCord: number = 0;
+    public isTalismanCord = 0;
     //How is this item worn? Example: "worn belt"
-    public usage: string = "";
+    public usage = '';
     //A Dwarf with the Battleforger feat can sharpen a weapon to grant the effect of a +1 potency rune. This applies to Handwraps of Mighty Blows only.
-    public battleforged: boolean = false;
+    public battleforged = false;
     //A worn item can grant you languages while invested, which can be listed here. If the language is not locked, a text box will be available on the item to enter one.
     public gainLanguages: LanguageGain[] = [];
     //Is this a Ring of Wizardry and lets you pick a spellcasting to add one or more spells?
     public isRingOfWizardry: RingOfWizardrySlot[] = [];
     //Is this a pair of Bracers of Armor and lets you attach talismans like a light armor?
-    public isBracersOfArmor: boolean = false;
+    public isBracersOfArmor = false;
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
         this.aeonStones = this.aeonStones.map(obj => Object.assign<WornItem, Item>(new WornItem(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         this.propertyRunes = this.propertyRunes.map(obj => Object.assign<WeaponRune, Item>(new WeaponRune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         if (this.isDoublingRings) {
             if (!this.data[0]) {
-                this.data.push({ name: "gold", show: false, type: "string", value: "" });
+                this.data.push({ name: 'gold', show: false, type: 'string', value: '' });
             }
             if (!this.data[1]) {
-                this.data.push({ name: "iron", show: false, type: "string", value: "" });
+                this.data.push({ name: 'iron', show: false, type: 'string', value: '' });
             }
             if (!this.data[2]) {
-                this.data.push({ name: "propertyRunes", show: false, type: "string", value: "" });
+                this.data.push({ name: 'propertyRunes', show: false, type: 'string', value: '' });
             }
         } else if (this.isTalismanCord) {
             if (!this.data[0]) {
-                this.data.push({ name: "Attuned magic school", show: false, type: "string", value: "no school attuned" });
+                this.data.push({ name: 'Attuned magic school', show: false, type: 'string', value: 'no school attuned' });
             }
             if (!this.data[1]) {
-                this.data.push({ name: "Second attuned magic school", show: false, type: "string", value: "no school attuned" });
+                this.data.push({ name: 'Second attuned magic school', show: false, type: 'string', value: 'no school attuned' });
             }
             if (!this.data[2]) {
-                this.data.push({ name: "Third attuned magic school", show: false, type: "string", value: "no school attuned" });
+                this.data.push({ name: 'Third attuned magic school', show: false, type: 'string', value: 'no school attuned' });
             }
         } else if (this.isRingOfWizardry.length) {
             this.isRingOfWizardry.forEach((wizardrySlot, index) => {
                 wizardrySlot.level = Math.max(Math.min(10, wizardrySlot.level), 0);
                 if (!this.data[index]) {
-                    this.data.push({ name: "wizardrySlot", show: false, type: "string", value: "no spellcasting selected" });
+                    this.data.push({ name: 'wizardrySlot', show: false, type: 'string', value: 'no spellcasting selected' });
                 }
-            })
+            });
         }
         return this;
     }

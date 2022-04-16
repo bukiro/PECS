@@ -14,9 +14,9 @@ import { RefreshService } from 'src/app/services/refresh.service';
 export class AbilitiesComponent implements OnInit, OnDestroy {
 
     @Input()
-    public creature: string = "Character";
+    public creature = 'Character';
     @Input()
-    public sheetSide: string = "left";
+    public sheetSide = 'left';
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -32,14 +32,14 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
 
     get_Minimized() {
         switch (this.creature) {
-            case "Character":
+            case 'Character':
                 return this.characterService.get_Character().settings.abilitiesMinimized;
-            case "Companion":
+            case 'Companion':
                 return this.characterService.get_Character().settings.companionMinimized;
         }
     }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
@@ -53,14 +53,14 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
 
     get_CalculatedIndex() {
         switch (this.creature) {
-            case "Character":
+            case 'Character':
                 return 0;
-            case "Companion":
+            case 'Companion':
                 return 1;
         }
     }
 
-    get_Abilities(subset: number = 0) {
+    get_Abilities(subset = 0) {
         switch (subset) {
             case 0:
                 return this.abilitiesService.get_Abilities();
@@ -80,17 +80,17 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
 
     finish_Loading() {
         if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
+            setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
-                    if (["abilities", "all", this.creature.toLowerCase()].includes(target)) {
+                    if (['abilities', 'all', this.creature.toLowerCase()].includes(target)) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
-                    if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["abilities", "all"].includes(view.target.toLowerCase())) {
+                    if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['abilities', 'all'].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CharacterService } from 'src/app/services/character.service';
 import { Equipment } from 'src/app/classes/Equipment';
@@ -26,7 +26,7 @@ export class ItemTargetComponent implements OnInit {
     moveMessage = new EventEmitter<{ target: ItemCollection | SpellTarget, amount: number, including: boolean }>();
     public selectedTarget: ItemCollection | SpellTarget = null;
     public selectedAmount: number;
-    public excluding: boolean = false;
+    public excluding = false;
 
     constructor(
         private characterService: CharacterService,
@@ -36,7 +36,7 @@ export class ItemTargetComponent implements OnInit {
         public modal: NgbActiveModal
     ) { }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
@@ -59,31 +59,29 @@ export class ItemTargetComponent implements OnInit {
     open_ItemTargetModal(content) {
         this.updateSelectedAmount();
         this.modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then((result) => {
-            if (result == "Move click") {
-                this.on_Move()
+            if (result == 'Move click') {
+                this.on_Move();
             }
-        }, (reason) => {
-            //Do nothing if cancelled.
         });
     }
 
     get_ItemTargets() {
         //Collect all possible targets for the item.
         //This includes your own inventories, your companions or your allies.
-        let targets: (ItemCollection | SpellTarget)[] = [];
-        let creature = this.get_Creature();
-        let character = this.get_Character();
+        const targets: (ItemCollection | SpellTarget)[] = [];
+        const creature = this.get_Creature();
+        const character = this.get_Character();
         targets.push(...creature.inventories.filter(inv => inv.itemId != this.item.id));
         if (!this.excluding) {
             this.characterService.get_Creatures().filter(otherCreature => otherCreature != creature).forEach(otherCreature => {
                 targets.push(Object.assign(new SpellTarget(), { name: otherCreature.name || otherCreature.type, id: otherCreature.id, playerId: character.id, type: otherCreature.type, selected: false }));
-            })
+            });
         }
         if (character.partyName && !this.excluding && !this.characterService.get_GMMode() && !this.characterService.get_ManualMode()) {
             //Only allow selecting other players if you are in a party.
             this.savegameService.get_Savegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id).forEach(savegame => {
-                targets.push(Object.assign(new SpellTarget(), { name: savegame.name || "Unnamed", id: savegame.id, playerId: savegame.id, type: "Character", selected: false }));
-            })
+                targets.push(Object.assign(new SpellTarget(), { name: savegame.name || 'Unnamed', id: savegame.id, playerId: savegame.id, type: 'Character', selected: false }));
+            });
         }
         return targets;
     }
@@ -117,7 +115,7 @@ export class ItemTargetComponent implements OnInit {
                     .reduce((a, b) => a + b, 0)
                 ).reduce((a, b) => a + b, 0);
         } else {
-            return 0
+            return 0;
         }
     }
 
@@ -147,8 +145,8 @@ export class ItemTargetComponent implements OnInit {
                 return inv.allEquipment().some(invItem => invItem.id == inventory.itemId) ||
                     inv.allEquipment().filter(invItem => invItem.gainInventory.length).some(invItem => {
                         return this.get_ItemContainsInventory(invItem, inventory);
-                    })
-            })
+                    });
+            });
         }
         return found;
     }
@@ -156,13 +154,13 @@ export class ItemTargetComponent implements OnInit {
     get_CannotMove(target: ItemCollection | SpellTarget) {
         if (target instanceof ItemCollection) {
             if (this.get_CannotFit(target)) {
-                return "That container does not have enough room for the item."
+                return 'That container does not have enough room for the item.';
             }
             if (this.get_IsCircularContainer(target)) {
-                return "That container is part of this item's content."
+                return 'That container is part of this item\'s content.';
             }
         }
-        return "";
+        return '';
     }
 
     get_CannotFit(target: ItemCollection | SpellTarget) {
@@ -173,13 +171,13 @@ export class ItemTargetComponent implements OnInit {
     }
 
     get_ContainedBulkString(item: Item) {
-        let containedBulk = this.itemsService.get_ContainedBulk(this.get_Creature(), item, null, true);
-        let fullBulk = Math.floor(containedBulk);
-        let lightBulk = (containedBulk * 10 - fullBulk * 10);
+        const containedBulk = this.itemsService.get_ContainedBulk(this.get_Creature(), item, null, true);
+        const fullBulk = Math.floor(containedBulk);
+        const lightBulk = (containedBulk * 10 - fullBulk * 10);
         if (fullBulk) {
-            return fullBulk + (lightBulk ? " + " + lightBulk + "L" : "");
+            return fullBulk + (lightBulk ? ` + ${ lightBulk }L` : '');
         } else {
-            return lightBulk + "L";
+            return `${ lightBulk }L`;
         }
     }
 
@@ -189,18 +187,18 @@ export class ItemTargetComponent implements OnInit {
 
     get_ContainerBulk(target: ItemCollection | SpellTarget) {
         if (target instanceof ItemCollection && target.bulkLimit) {
-            return "(" + target.get_Bulk() + " / " + target.bulkLimit + " Bulk)";
+            return `(${ target.get_Bulk() } / ${ target.bulkLimit } Bulk)`;
         } else {
-            return "";
+            return '';
         }
     }
 
     get_TargetType(target: ItemCollection | SpellTarget) {
         if (target instanceof ItemCollection) {
-            return "Inventory";
+            return 'Inventory';
         } else {
-            if (target.type == "Character" && target.id != this.get_Character().id) {
-                return "Player";
+            if (target.type == 'Character' && target.id != this.get_Character().id) {
+                return 'Player';
             } else {
                 return target.type;
             }

@@ -9,21 +9,21 @@ import { TimeService } from 'src/app/services/time.service';
 
 export class ActivityGain {
     public readonly isActivity: boolean = false;
-    public active: boolean = false;
-    public activeCooldown: number = 0;
-    public chargesUsed: number = 0;
+    public active = false;
+    public activeCooldown = 0;
+    public chargesUsed = 0;
     //If you use a charge of an activity on an item, and it has a sharedChargesID, all activities on the same item with the same sharedChargesID will also use a charge.
-    public sharedChargesID: number = 0;
+    public sharedChargesID = 0;
     //If you activate an activity, and it has an exclusiveActivityID, all activities on the same item with the same sharedChargesID are automatically deactivated.
-    public exclusiveActivityID: number = 0;
+    public exclusiveActivityID = 0;
     //The duration is copied from the activity when activated.
-    public duration: number = 0;
+    public duration = 0;
     //The character level where this activity becomes available
-    public level: number = 0;
+    public level = 0;
     //The heightened value can be set by a condition that grants this activity gain.
-    public heightened: number = 0;
-    public name: string = "";
-    public source: string = "";
+    public heightened = 0;
+    public name = '';
+    public source = '';
     //Some activities come with notes to make, like a custom trigger for Trickster's Ace. These can be filled out on the activities app, with name as the title and value as the note.
     public data: { name: string, value: string }[] = [];
     //We copy the activities ItemGains here whenever we activate it, so we can store the item ID.
@@ -35,7 +35,7 @@ export class ActivityGain {
     //If the activity casts a spell, in order to select a choice from the spell before casting it, the choice is saved here for each condition for each spell, recursively.
     public spellEffectChoices: ({ condition: string, choice: string }[])[] = [];
     //The target word ("self", "Character", "Companion", "Familiar" or "Selected") is saved here for processing in the activity service.
-    public selectedTarget: string = "";
+    public selectedTarget = '';
     //The selected targets are saved here for applying conditions.
     public targets: SpellTarget[] = [];
     //Condition gains save this id so they can be found and removed when the activity ends, or end the activity when the condition ends.
@@ -51,19 +51,19 @@ export class ActivityGain {
     }
     disabled(context: { creature: Creature, maxCharges: number }, services: { effectsService: EffectsService, timeService: TimeService }) {
         if (this.active) {
-            return "";
+            return '';
         }
         if (this.chargesUsed >= context.maxCharges) {
             if (this.activeCooldown) {
                 return (context.maxCharges ? 'Recharged in: ' : 'Cooldown: ') + services.timeService.get_Duration(this.activeCooldown, true, false);
             } else if (context.maxCharges) {
-                return "No activations left.";
+                return 'No activations left.';
             }
         }
-        const disablingEffects = services.effectsService.get_EffectsOnThis(context.creature, this.name + " Disabled");
+        const disablingEffects = services.effectsService.get_EffectsOnThis(context.creature, `${ this.name } Disabled`);
         if (disablingEffects.length) {
-            return "Disabled by: " + disablingEffects.map(effect => effect.source).join(", ");
+            return `Disabled by: ${ disablingEffects.map(effect => effect.source).join(', ') }`;
         }
-        return "";
+        return '';
     }
 }

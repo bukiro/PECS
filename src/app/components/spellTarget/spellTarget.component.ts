@@ -49,23 +49,23 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     @Input()
     casting: SpellCasting = null;
     @Input()
-    cannotCast: string = "";
+    cannotCast = '';
     @Input()
-    cannotExpend: string = "";
+    cannotExpend = '';
     @Input()
-    showExpend: boolean = false;
+    showExpend = false;
     @Input()
-    effectiveSpellLevel: number = 0;
+    effectiveSpellLevel = 0;
     @Input()
     bloodMagicFeats: Feat[] = [];
     @Input()
-    phrase: string = "Cast";
+    phrase = 'Cast';
     @Input()
-    showActions: boolean = false;
+    showActions = false;
     @Input()
-    showDismiss: boolean = false;
+    showDismiss = false;
     @Input()
-    dismissPhrase: string = "";
+    dismissPhrase = '';
     @Output()
     castMessage = new EventEmitter<{ target: string, activated: boolean, options: { expend?: boolean } }>();
 
@@ -93,10 +93,10 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     }
 
     private get target(): string {
-        return (this.spellCast?.target || "") || (this.parentActivityGain instanceof ItemActivity ? this.parentActivityGain.target : "") || this.action.target || "self";
+        return (this.spellCast?.target || '') || (this.parentActivityGain instanceof ItemActivity ? this.parentActivityGain.target : '') || this.action.target || 'self';
     }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
@@ -134,35 +134,35 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         const canActivateWithoutTarget = this.can_Activate(true);
         const targetNumber = this.action.get_TargetNumber(this.effectiveSpellLevel, this.characterService);
         const target = this.target;
-        return { bloodMagicTrigger: bloodMagicTrigger, canActivate: canActivate, canActivateWithoutTarget: canActivateWithoutTarget, targetNumber: targetNumber, target: target }
+        return { bloodMagicTrigger: bloodMagicTrigger, canActivate: canActivate, canActivateWithoutTarget: canActivateWithoutTarget, targetNumber: targetNumber, target: target };
     }
 
     private get_BloodMagicTrigger(): string {
         if (this.spell) {
-            let bloodMagicTrigger = "";
+            let bloodMagicTrigger = '';
             this.bloodMagicFeats.forEach(feat => {
                 feat.bloodMagic.forEach(bloodMagic => {
                     if (
                         bloodMagic.trigger.includes(this.spell.name) ||
                         bloodMagic.sourceTrigger.some(sourceTrigger =>
                             [
-                                this.casting?.source.toLowerCase() || "",
-                                this.parentActivityGain?.source.toLowerCase() || "",
-                                this.gain?.source.toLowerCase() || ""
+                                this.casting?.source.toLowerCase() || '',
+                                this.parentActivityGain?.source.toLowerCase() || '',
+                                this.gain?.source.toLowerCase() || ''
                             ].includes(sourceTrigger.toLowerCase())
                         )
                     ) {
                         if (bloodMagic.neutralPhrase && !bloodMagicTrigger) {
-                            bloodMagicTrigger = "additional effects";
+                            bloodMagicTrigger = 'additional effects';
                         } else if (!bloodMagic.neutralPhrase) {
-                            bloodMagicTrigger = "your blood magic power";
+                            bloodMagicTrigger = 'your blood magic power';
                         }
                     }
-                })
+                });
             });
             return bloodMagicTrigger;
         } else {
-            return "";
+            return '';
         }
     }
 
@@ -170,7 +170,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         return this.gain instanceof SpellGain ? this.gain : null;
     }
 
-    private can_Activate(noTarget: boolean = false): boolean {
+    private can_Activate(noTarget = false): boolean {
         //Return whether this spell or activity
         // - causes any blood magic effect or
         // - causes any target conditions and has a target or
@@ -186,18 +186,18 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
             !!this.get_BloodMagicTrigger().length ||
             (
                 !noTarget &&
-                gainConditions.some(gain => gain.targetFilter != "caster")
+                gainConditions.some(gain => gain.targetFilter != 'caster')
             ) ||
             (
                 this.activity &&
                 (
-                    this.activity.traits.includes("Stance") ||
+                    this.activity.traits.includes('Stance') ||
                     !!this.activity.gainItems.length ||
                     !!this.activity.onceEffects.length
                 )
             ) ||
             (
-                gainConditions.some(gain => gain.targetFilter == "caster") &&
+                gainConditions.some(gain => gain.targetFilter == 'caster') &&
                 (
                     (
                         this.action.get_IsHostile() ?
@@ -206,7 +206,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
                     ) ||
                     (
                         this.conditionsService.get_Conditions()
-                            .filter(condition => gainConditions.some(gain => gain.name == condition.name && gain.targetFilter == "caster"))
+                            .filter(condition => gainConditions.some(gain => gain.name == condition.name && gain.targetFilter == 'caster'))
                             .some(condition =>
                                 condition.get_HasEffects() ||
                                 condition.get_IsChangeable()
@@ -214,7 +214,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
                     )
                 )
             )
-        )
+        );
     }
 
     private get gainActive(): boolean {
@@ -231,68 +231,66 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         );
     }
 
-    private isHostile(ignoreOverride: boolean = false): boolean {
+    private isHostile(ignoreOverride = false): boolean {
         return this.action.get_IsHostile(ignoreOverride);
     }
 
     private canTarget(list: string[]): boolean {
-        return list.includes(this.target)
+        return list.includes(this.target);
     }
 
     public can_TargetSelf(): boolean {
         return (
             !this.gainActive &&
             !this.cannotTargetCaster() &&
-            this.canTarget(["self", "ally"]) &&
+            this.canTarget(['self', 'ally']) &&
             !this.isHostile(true)
-        )
+        );
     }
 
     public can_TargetCharacter(): boolean {
         return (
             !this.gainActive &&
             this.creature != 'Character' &&
-            this.canTarget(["ally"]) &&
+            this.canTarget(['ally']) &&
             !this.isHostile(true)
-        )
+        );
     }
 
     public can_TargetCompanion(): boolean {
         return (
             !this.gainActive &&
             this.creature != 'Companion' &&
-            this.canTarget(["companion"]) &&
+            this.canTarget(['companion']) &&
             this.get_CompanionAvailable() &&
             !this.isHostile(true)
-        )
+        );
     }
 
     public can_TargetFamiliar(): boolean {
         return (
             !this.gainActive &&
             this.creature != 'Familiar' &&
-            this.canTarget(["familiar"]) &&
+            this.canTarget(['familiar']) &&
             this.get_FamiliarAvailable() &&
             !this.isHostile(true)
-        )
+        );
     }
 
     public can_TargetAlly(targetNumber: number): boolean {
         return (
             !this.gainActive &&
             targetNumber != 0 &&
-            this.canTarget(["ally", "area", "familiar", "companion"]) &&
+            this.canTarget(['ally', 'area', 'familiar', 'companion']) &&
             !this.isHostile(true)
-        )
+        );
     }
 
     open_SpellTargetModal(content) {
         this.modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then((result) => {
-            if (result == "Cast click") {
-                this.on_Cast("Selected", true)
+            if (result == 'Cast click') {
+                this.on_Cast('Selected', true);
             }
-        }, (reason) => {
-            //Do nothing if cancelled.
         });
     }
 
@@ -302,22 +300,22 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         if (this.action.get_IsHostile(true)) {
             return [];
         }
-        let newTargets: SpellTarget[] = [];
-        let character = this.get_Character();
+        const newTargets: SpellTarget[] = [];
+        const character = this.get_Character();
         this.characterService.get_Creatures().forEach(creature => {
             newTargets.push(Object.assign(new SpellTarget(), { name: creature.name || creature.type, id: creature.id, playerId: character.id, type: creature.type, selected: (this.gain.targets.find(target => target.id == creature.id)?.selected || false), isPlayer: creature === character }));
-        })
+        });
         if (character.partyName) {
             //Only allow selecting other players if you are in a party.
             this.savegameService.get_Savegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id).forEach(savegame => {
-                newTargets.push(Object.assign(new SpellTarget(), { name: savegame.name || "Unnamed", id: savegame.id, playerId: savegame.id, type: "Character", selected: (this.gain.targets.find(target => target.id == savegame.id)?.selected || false) }));
+                newTargets.push(Object.assign(new SpellTarget(), { name: savegame.name || 'Unnamed', id: savegame.id, playerId: savegame.id, type: 'Character', selected: (this.gain.targets.find(target => target.id == savegame.id)?.selected || false) }));
                 if (savegame.companionId) {
-                    newTargets.push(Object.assign(new SpellTarget(), { name: savegame.companionName || "Companion", id: savegame.companionId, playerId: savegame.id, type: "Companion", selected: (this.gain.targets.find(target => target.id == savegame.companionId)?.selected || false) }));
+                    newTargets.push(Object.assign(new SpellTarget(), { name: savegame.companionName || 'Companion', id: savegame.companionId, playerId: savegame.id, type: 'Companion', selected: (this.gain.targets.find(target => target.id == savegame.companionId)?.selected || false) }));
                 }
                 if (savegame.familiarId) {
-                    newTargets.push(Object.assign(new SpellTarget(), { name: savegame.familiarName || "Familiar", id: savegame.familiarId, playerId: savegame.id, type: "Familiar", selected: (this.gain.targets.find(target => target.id == savegame.familiarId)?.selected || false) }));
+                    newTargets.push(Object.assign(new SpellTarget(), { name: savegame.familiarName || 'Familiar', id: savegame.familiarId, playerId: savegame.id, type: 'Familiar', selected: (this.gain.targets.find(target => target.id == savegame.familiarId)?.selected || false) }));
                 }
-            })
+            });
         }
         this.gain.targets = newTargets;
         return this.gain.targets;
@@ -330,46 +328,46 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
                 if (!target.isPlayer || !this.action.cannotTargetCaster) {
                     target.selected = true;
                 }
-            })
+            });
         } else {
             this.gain.targets.forEach(target => {
                 target.selected = false;
-            })
+            });
         }
     }
 
     get_AllTargetsSelected(targetNumber) {
         if (targetNumber == -1) {
-            return (this.gain.targets.filter(target => target.selected).length >= this.gain.targets.length - (this.action.cannotTargetCaster ? 1 : 0))
+            return (this.gain.targets.filter(target => target.selected).length >= this.gain.targets.length - (this.action.cannotTargetCaster ? 1 : 0));
         } else {
             return (this.gain.targets.filter(target => target.selected).length >= Math.min(this.gain.targets.length - (this.action.cannotTargetCaster ? 1 : 0), targetNumber));
         }
     }
 
     get_DeactivatePhrase() {
-        let phrase = this.dismissPhrase || "Dismiss <span class='actionIcon action1A'></span> or Stop Sustaining";
+        let phrase = this.dismissPhrase || 'Dismiss <span class=\'actionIcon action1A\'></span> or Stop Sustaining';
         if (this.parentActivityGain?.duration) {
-            phrase += " (Duration: " + this.get_Duration(this.parentActivityGain?.duration) + ")"
+            phrase += ` (Duration: ${ this.get_Duration(this.parentActivityGain?.duration) })`;
         } else if (this.gain.duration) {
-            phrase += " (Duration: " + this.get_Duration(this.gain?.duration) + ")"
+            phrase += ` (Duration: ${ this.get_Duration(this.gain?.duration) })`;
         }
         return phrase;
     }
 
-    get_Duration(turns: number, includeTurnState: boolean = true, inASentence: boolean = false) {
+    get_Duration(turns: number, includeTurnState = true, inASentence = false) {
         return this.timeService.get_Duration(turns, includeTurnState, inASentence);
     }
 
     finish_Loading() {
         this.changeSubscription = this.refreshService.get_Changed
             .subscribe((target) => {
-                if (target == "activities" || target == "spellbook" || target == "all" || target.toLowerCase() == this.creature.toLowerCase()) {
+                if (target == 'activities' || target == 'spellbook' || target == 'all' || target.toLowerCase() == this.creature.toLowerCase()) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
             .subscribe((view) => {
-                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["activities", "spellbook", "all"].includes(view.target.toLowerCase())) {
+                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['activities', 'spellbook', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });

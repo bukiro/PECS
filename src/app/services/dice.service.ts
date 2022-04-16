@@ -18,26 +18,26 @@ export class DiceService {
         return this.diceResults;
     }
 
-    roll(amount: number, size: number, bonus: number, characterService: CharacterService, newChain: boolean = true, type: string = "") {
+    roll(amount: number, size: number, bonus: number, characterService: CharacterService, newChain = true, type = '') {
         if (newChain) {
             this.unselectAll();
         }
-        let diceResult = new DiceResult();
+        const diceResult = new DiceResult();
         diceResult.diceNum = amount;
         diceResult.diceSize = size;
-        diceResult.desc = "";
+        diceResult.desc = '';
         if (amount && size) {
-            diceResult.desc += amount + "d" + size;
+            diceResult.desc += `${ amount }d${ size }`;
         }
         if (bonus > 0) {
             if (diceResult.desc) {
-                diceResult.desc += " + " + bonus;
+                diceResult.desc += ` + ${ bonus }`;
             } else {
                 diceResult.desc += bonus;
             }
         } else if (bonus < 0) {
             if (diceResult.desc) {
-                diceResult.desc += " - " + (bonus * -1);
+                diceResult.desc += ` - ${ bonus * -1 }`;
             } else {
                 diceResult.desc += bonus;
             }
@@ -49,12 +49,12 @@ export class DiceService {
             diceResult.rolls.push(Math.ceil(Math.random() * size));
         }
         this.diceResults.unshift(diceResult);
-        if (characterService.get_DiceMenuState() == "out") {
-            characterService.toggle_Menu("dice");
+        if (characterService.get_DiceMenuState() == 'out') {
+            characterService.toggle_Menu('dice');
         }
-        this.refreshService.set_ToChange("character", "dice");
-        this.refreshService.set_ToChange("character", "character-sheet");
-        this.refreshService.set_ToChange("character", "top-bar");
+        this.refreshService.set_ToChange('character', 'dice');
+        this.refreshService.set_ToChange('character', 'character-sheet');
+        this.refreshService.set_ToChange('character', 'top-bar');
     }
 
     unselectAll() {

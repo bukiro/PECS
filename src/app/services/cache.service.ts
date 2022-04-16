@@ -28,24 +28,22 @@ export class CacheService {
 
     private changed: ChangeTracker[] = [new ChangeTracker(), new ChangeTracker(), new ChangeTracker()];
 
-    constructor() { }
-
     private set_ListChanged(list: Map<string, number>, name: string, context: { minLevel: number, maxLevel?: number }) {
         for (let level = context.minLevel; level <= (context.maxLevel == undefined ? 20 : context.maxLevel); level++) {
-            list.set(name + "-" + level, Date.now());
+            list.set(`${ name }-${ level }`, Date.now());
         }
     }
 
     public set_FeatChanged(name: string, context: { creatureTypeId: number, minLevel: number, maxLevel?: number }): void {
-        this.set_ListChanged(this.changed[context.creatureTypeId].feats, name, {minLevel: context.minLevel, maxLevel: context.maxLevel});
+        this.set_ListChanged(this.changed[context.creatureTypeId].feats, name, { minLevel: context.minLevel, maxLevel: context.maxLevel });
     }
 
     public set_AbilityChanged(name: string, context: { creatureTypeId: number, minLevel: number, maxLevel?: number }): void {
-        this.set_ListChanged(this.changed[context.creatureTypeId].abilities, name, {minLevel: context.minLevel, maxLevel: context.maxLevel});
+        this.set_ListChanged(this.changed[context.creatureTypeId].abilities, name, { minLevel: context.minLevel, maxLevel: context.maxLevel });
     }
 
     public set_SkillChanged(name: string, context: { creatureTypeId: number, minLevel: number, maxLevel?: number }): void {
-        this.set_ListChanged(this.changed[context.creatureTypeId].skills, name, {minLevel: context.minLevel, maxLevel: context.maxLevel});
+        this.set_ListChanged(this.changed[context.creatureTypeId].skills, name, { minLevel: context.minLevel, maxLevel: context.maxLevel });
     }
 
     public set_EffectChanged(name: string, context: { creatureTypeId: number }): void {
@@ -53,22 +51,22 @@ export class CacheService {
     }
 
     public set_LevelChanged(context: { creatureTypeId: number, minLevel: number, maxLevel?: number }): void {
-        this.set_ListChanged(this.changed[context.creatureTypeId].level, "", { minLevel: 0, maxLevel: 0 });
+        this.set_ListChanged(this.changed[context.creatureTypeId].level, '', { minLevel: 0, maxLevel: 0 });
     }
 
     public set_LanguagesChanged(context: { creatureTypeId: number, minLevel: number, maxLevel?: number }): void {
-        this.set_ListChanged(this.changed[context.creatureTypeId].languages, "", {minLevel: context.minLevel, maxLevel: context.maxLevel});
+        this.set_ListChanged(this.changed[context.creatureTypeId].languages, '', { minLevel: context.minLevel, maxLevel: context.maxLevel });
     }
 
     public set_ProficiencyCopiesChanged(context: { creatureTypeId: number, minLevel: number, maxLevel?: number }): void {
-        this.set_ListChanged(this.changed[context.creatureTypeId].proficiencyCopies, "", {minLevel: context.minLevel, maxLevel: context.maxLevel});
+        this.set_ListChanged(this.changed[context.creatureTypeId].proficiencyCopies, '', { minLevel: context.minLevel, maxLevel: context.maxLevel });
     }
 
     public set_ProficiencyChangesChanged(context: { creatureTypeId: number, minLevel: number, maxLevel?: number }): void {
-        this.set_ListChanged(this.changed[context.creatureTypeId].proficiencyChanges, "", {minLevel: context.minLevel, maxLevel: context.maxLevel});
+        this.set_ListChanged(this.changed[context.creatureTypeId].proficiencyChanges, '', { minLevel: context.minLevel, maxLevel: context.maxLevel });
     }
 
-    public get_HasChanged(checkList: ChangeCheckList, context: {creatureTypeId: number, level: number, name?: string} = {creatureTypeId: 0, level: 0}): boolean {
+    public get_HasChanged(checkList: ChangeCheckList, context: { creatureTypeId: number, level: number, name?: string } = { creatureTypeId: 0, level: 0 }): boolean {
         checkList = Object.assign(
             {
                 feats: [],
@@ -80,16 +78,16 @@ export class CacheService {
                 proficiencyCopies: 0,
                 proficiencyChanges: 0
             }, checkList
-        )
+        );
         let checkStrings: string[] = [];
         if (context.level) {
             checkStrings = [
-                "0", context.level.toString()
-            ].map(number => "-" + number);
+                '0', context.level.toString()
+            ].map(number => `-${ number }`);
         } else {
             checkStrings = [
-                "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"
-            ].map(number => "-" + number);
+                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'
+            ].map(number => `-${ number }`);
         }
         const now = Date.now();
         const changed = this.changed[context.creatureTypeId];
@@ -98,13 +96,13 @@ export class CacheService {
         //If a factor has never been cached, that's a good sign the other factors haven's been cached either. We mark the function for re-calculation,
         // but keep iterating through the other factors so that each of them gets a recent timestamp.
         //This method should prevent re-calculating everything multiple times at the beginnung, but still save checking performance later.
-        let noLastChange: boolean = false;
+        let noLastChange = false;
         function subListHasChanged(key: string): boolean {
             const subList: { name: string, cached: number }[] = checkList[key];
             const changedList: Map<string, number> = changed[key];
             return subList.some(checkListItem => {
                 return checkStrings.some((checkString, index) => {
-                    if (index == 0 || !["effects", "level"].includes(key)) {
+                    if (index == 0 || !['effects', 'level'].includes(key)) {
                         let lastChange = changedList.get(checkListItem.name + checkString);
                         if (!lastChange) {
                             noLastChange = true;
@@ -115,8 +113,8 @@ export class CacheService {
                             return true;
                         }
                     }
-                })
-            })
+                });
+            });
         }
         function valueHasChanged(key: string): boolean {
             const changedList: Map<string, number> = changed[key];
@@ -130,7 +128,7 @@ export class CacheService {
                 if (!noLastChange && lastChange > checkList[key]) {
                     return true;
                 }
-            })
+            });
         }
         const result = Object.keys(checkList).some(key => {
             if (checkList[key]) {
@@ -144,22 +142,22 @@ export class CacheService {
                     }
                 }
             }
-        })
+        });
         if (result || noLastChange) {
             if (context.name) {
-                let creatureType: string = "";
+                let creatureType = '';
                 switch (context.creatureTypeId) {
-                    case 1: creatureType = "Companion"; break;
-                    case 2: creatureType = "Familiar"; break;
-                    default: creatureType = "Character";
+                    case 1: creatureType = 'Companion'; break;
+                    case 2: creatureType = 'Familiar'; break;
+                    default: creatureType = 'Character';
                 }
-                console.log("Re-calculating " + context.name + " (" + creatureType + ")")
+                console.log(`Re-calculating ${ context.name } (${ creatureType })`);
             }
             return true;
         }
     }
 
-    public reset_CreatureCache(creatureTypeId: 0|1|2) {
+    public reset_CreatureCache(creatureTypeId: 0 | 1 | 2) {
         this.changed[creatureTypeId] = new ChangeTracker();
     }
 

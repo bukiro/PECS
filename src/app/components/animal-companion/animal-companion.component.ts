@@ -12,9 +12,9 @@ import { Subscription } from 'rxjs';
 })
 export class AnimalCompanionComponent implements OnInit, OnDestroy {
 
-    public hover: string = '';
-    private showMode: string = "";
-    public mobile: boolean = false;
+    public hover = '';
+    private showMode = '';
+    public mobile = false;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -25,8 +25,8 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
 
     minimize() {
         this.characterService.get_Character().settings.companionMinimized = !this.characterService.get_Character().settings.companionMinimized;
-        this.refreshService.set_ToChange("Companion", "companion");
-        this.refreshService.set_ToChange("Companion", "abilities");
+        this.refreshService.set_ToChange('Companion', 'companion');
+        this.refreshService.set_ToChange('Companion', 'abilities');
         this.refreshService.process_ToChange();
     }
 
@@ -39,7 +39,7 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
     }
 
     toggleCompanionMenu() {
-        this.characterService.toggle_Menu("companion");
+        this.characterService.toggle_Menu('companion');
     }
 
     get_Character() {
@@ -55,17 +55,17 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
     }
 
     //If you don't use trackByIndex on certain inputs, you lose focus everytime the value changes. I don't get that, but I'm using it now.
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
     get_CompanionAvailable() {
         return this.characterService.get_CompanionAvailable();
     }
-    
+
     toggle_Mode(type: string) {
         if (this.showMode == type) {
-            this.showMode = "";
+            this.showMode = '';
         } else {
             this.showMode = type;
         }
@@ -77,17 +77,17 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
 
     finish_Loading() {
         if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
+            setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
-                    if (["companion", "all"].includes(target.toLowerCase())) {
+                    if (['companion', 'all'].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
-                    if (view.creature.toLowerCase() == "companion" && ["companion", "all"].includes(view.target.toLowerCase())) {
+                    if (view.creature.toLowerCase() == 'companion' && ['companion', 'all'].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
@@ -113,12 +113,12 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
     }
 
     @HostListener('window:resize', ['$event'])
-    onResize(event) {
+    onResize() {
         this.set_Mobile();
     }
 
     @HostListener('window:orientationchange', ['$event'])
-    onRotate(event) {
+    onRotate() {
         this.set_Mobile();
     }
 

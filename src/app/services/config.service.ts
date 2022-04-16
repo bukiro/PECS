@@ -11,16 +11,16 @@ import { RefreshService } from 'src/app/services/refresh.service';
 })
 export class ConfigService {
 
-    private dataServiceURL: string = "";
-    private localDataService: boolean = false;
+    private dataServiceURL: string;
+    private localDataService = false;
     private loading = false;
-    private xAccessToken: string = "testtoken";
-    private loggingIn: boolean = false;
-    private loggedIn: boolean = false;
-    private cannotLogin: boolean = false;
-    private loggedOutMessage: string = "";
-    private updateAvailable: string = "";
-    private updateURL: string = "http://api.github.com/repos/bukiro/PECS/releases/latest";
+    private xAccessToken = 'testtoken';
+    private loggingIn = false;
+    private loggedIn = false;
+    private cannotLogin = false;
+    private loggedOutMessage = '';
+    private updateAvailable = '';
+    private updateURL = 'http://api.github.com/repos/bukiro/PECS/releases/latest';
 
     constructor(
         private httpClient: HttpClient,
@@ -59,7 +59,7 @@ export class ConfigService {
         if (this.dataServiceURL) {
             return this.dataServiceURL;
         } else {
-            return "";
+            return '';
         }
     }
 
@@ -67,60 +67,60 @@ export class ConfigService {
         return this.updateAvailable;
     }
 
-    login(password: string = "") {
-        return this.httpClient.post<{ token: string | false }>(this.get_DBConnectionURL() + '/login', { password: Md5.hashStr(password) });
+    login(password = '') {
+        return this.httpClient.post<{ token: string | false }>(`${ this.get_DBConnectionURL() }/login`, { password: Md5.hashStr(password) });
     }
 
-    get_Login(password: string = "", characterService: CharacterService, savegameService: SavegameService) {
+    get_Login(password = '', characterService: CharacterService, savegameService: SavegameService) {
         //We set loggingIn to true, which changes buttons in the character builder and the top-bar, so we need to update those.
         this.loggingIn = true;
-        characterService.set_LoadingStatus("Connecting");
-        this.refreshService.set_ToChange("Character", "charactersheet");
+        characterService.set_LoadingStatus('Connecting');
+        this.refreshService.set_ToChange('Character', 'charactersheet');
         this.refreshService.process_ToChange();
-        //Try logging in. You will receive false if the password was wrong, a random token if it was correct, or a token of "no-login-required" if no password is needed. 
+        //Try logging in. You will receive false if the password was wrong, a random token if it was correct, or a token of "no-login-required" if no password is needed.
         const loginSubscription = this.login(password).subscribe((result: { token: string | false }) => {
             this.cannotLogin = false;
             if (result.token != false) {
                 this.xAccessToken = result.token;
                 this.loggedIn = true;
                 this.loggingIn = false;
-                this.loggedOutMessage = "";
-                this.refreshService.set_ToChange("Character", "charactersheet");
-                this.refreshService.set_ToChange("Character", "top-bar");
+                this.loggedOutMessage = '';
+                this.refreshService.set_ToChange('Character', 'charactersheet');
+                this.refreshService.set_ToChange('Character', 'top-bar');
                 this.refreshService.process_ToChange();
-                savegameService.initialize(characterService);
+                savegameService.initialize();
             } else {
                 this.loggedIn = false;
                 if (password) {
-                    this.refreshService.set_ToChange("Character", "password-failed");
+                    this.refreshService.set_ToChange('Character', 'password-failed');
                 } else {
-                    this.refreshService.set_ToChange("Character", "logged-out");
+                    this.refreshService.set_ToChange('Character', 'logged-out');
                 }
                 this.refreshService.process_ToChange();
             }
             this.loading = false;
         }, (error) => {
-            console.log('Error logging in: ' + error.message);
+            console.log(`Error logging in: ${ error.message }`);
             if (error.status == 0) {
-                characterService.toastService.show("The configured database is not available. Characters can't be saved or loaded.")
+                characterService.toastService.show('The configured database is not available. Characters can\'t be saved or loaded.');
             }
             this.cannotLogin = true;
             this.loggingIn = false;
             this.loading = false;
-            this.refreshService.set_ToChange("Character", "charactersheet");
-            this.refreshService.set_ToChange("Character", "top-bar");
+            this.refreshService.set_ToChange('Character', 'charactersheet');
+            this.refreshService.set_ToChange('Character', 'top-bar');
             this.refreshService.process_ToChange();
         }, () => {
             loginSubscription.unsubscribe();
         });
     }
 
-    on_LoggedOut(notification: string = "") {
+    on_LoggedOut(notification = '') {
         this.loggedIn = false;
         this.loggedOutMessage = notification;
-        this.refreshService.set_ToChange("Character", "character-sheet");
-        this.refreshService.set_ToChange("Character", "top-bar");
-        this.refreshService.set_ToChange("Character", "logged-out");
+        this.refreshService.set_ToChange('Character', 'character-sheet');
+        this.refreshService.set_ToChange('Character', 'top-bar');
+        this.refreshService.set_ToChange('Character', 'logged-out');
         this.refreshService.process_ToChange();
     }
 
@@ -129,54 +129,61 @@ export class ConfigService {
         if (!this.dataServiceURL && !this.localDataService) {
             this.loading = true;
 
-            let headers = new HttpHeaders().set('Cache-Control', 'no-cache').set('Pragma', 'no-cache');
+            const headers = new HttpHeaders().set('Cache-Control', 'no-cache').set('Pragma', 'no-cache');
 
-            this.httpClient.request(new HttpRequest("HEAD", 'assets/config.json', headers))
-                .toPromise()
-                .then((response: HttpResponse<unknown>) => {
-                    if (response.status == 200) {
-                        this.httpClient.get('assets/config.json', { headers })
-                            .toPromise()
-                            .then(data => {
-                                let config = JSON.parse(JSON.stringify(data));
-                                this.dataServiceURL = config.dataServiceURL || config.dbConnectionURL || "";
-                                this.localDataService = config.localDataService || config.localDBConnector;
-                            }).catch(err => {
-                                throw err;
-                            }).finally(() => {
-                                //Establish a connection to the data service and check whether login is required.
-                                this.get_Login("", characterService, savegameService);
-                            })
-                    } else {
-                        //If there is any result other than 200, assume that we are working with a local data service.
-                        //Run Login to check whether login is required.
-                        this.get_Login("", characterService, savegameService);
-                    }
-                }).catch(err => {
-                    if (err.status == 404) {
-                        console.log("No config file was found. See assets/config.json.example for more information.")
-                    } else {
-                        throw err;
-                    }
-                    this.loading = false;
-                })
+            this.httpClient.request(new HttpRequest('HEAD', 'assets/config.json', headers))
+                .subscribe({
+                    next: (response: HttpResponse<unknown>) => {
+                        if (response.status == 200) {
+                            this.httpClient.get('assets/config.json', { headers })
+                                .subscribe({
+                                    next: data => {
+                                        const config = JSON.parse(JSON.stringify(data));
+                                        this.dataServiceURL = config.dataServiceURL || config.dbConnectionURL || '';
+                                        this.localDataService = config.localDataService || config.localDBConnector;
+                                    },
+                                    error: error => {
+                                        throw error;
+                                    },
+                                    complete: () => {
+                                        //Establish a connection to the data service and check whether login is required.
+                                        this.get_Login('', characterService, savegameService);
+                                    }
+                                });
+                        } else {
+                            //If there is any result other than 200, assume that we are working with a local data service.
+                            //Run Login to check whether login is required.
+                            this.get_Login('', characterService, savegameService);
+                        }
+                    },
+                    error: error => {
+                        if (error.status == 404) {
+                            console.log('No config file was found. See assets/config.json.example for more information.');
+                        } else {
+                            throw error;
+                        }
+                        this.loading = false;
+                    },
+                });
             this.httpClient.get(this.updateURL)
-                .toPromise()
-                .then((response) => {
-                    let cvs = package_json.version.split(".").map(version => parseInt(version));
-                    let availableVersion = JSON.parse(JSON.stringify(response)).tag_name?.replace("v", "") || "n/a";
-                    if (availableVersion != "n/a") {
-                        let avs = availableVersion.split(".").map(version => parseInt(version));
-                        if (avs[0] > cvs[0] || (avs[0] == cvs[0] && avs[1] > cvs[1]) || (avs[0] == cvs[0] && avs[1] == cvs[1] && avs[2] > cvs[2])) {
+                .subscribe({
+                    next: (response) => {
+                        const cvs = package_json.version.split('.').map(version => parseInt(version));
+                        const availableVersion = JSON.parse(JSON.stringify(response)).tag_name?.replace('v', '') || 'n/a';
+                        if (availableVersion != 'n/a') {
+                            const avs = availableVersion.split('.').map(version => parseInt(version));
+                            if (avs[0] > cvs[0] || (avs[0] == cvs[0] && avs[1] > cvs[1]) || (avs[0] == cvs[0] && avs[1] == cvs[1] && avs[2] > cvs[2])) {
+                                this.updateAvailable = availableVersion;
+                            }
+                        } else {
                             this.updateAvailable = availableVersion;
                         }
-                    } else {
-                        this.updateAvailable = availableVersion;
+                    },
+                    error: () => {
+                        console.log('Could not contact github to check for new version.');
+                        this.updateAvailable = 'n/a';
                     }
-                }).catch(err => {
-                    console.log("Could not contact github to check for new version.")
-                    this.updateAvailable = "n/a";
-                })
+                });
         }
     }
 

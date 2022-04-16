@@ -15,11 +15,11 @@ import { Subscription } from 'rxjs';
 export class SpellComponent implements OnInit, OnDestroy {
 
     @Input()
-    spell: Spell
+    spell: Spell;
     @Input()
     spellLevel: number;
     @Input()
-    source: string = "";
+    source = '';
     @Input()
     casting: SpellCasting = null;
 
@@ -30,11 +30,11 @@ export class SpellComponent implements OnInit, OnDestroy {
         private traitsService: TraitsService
     ) { }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
-    get_Traits(name: string = "") {
+    get_Traits(name = '') {
         return this.traitsService.get_Traits(name);
     }
 
@@ -44,20 +44,20 @@ export class SpellComponent implements OnInit, OnDestroy {
 
     finish_Loading() {
         if (this.characterService.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
+            setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
-                    if (["individualspells", "all", "character"].includes(target.toLowerCase())) {
+                    if (['individualspells', 'all', 'character'].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
-                    if (view.creature.toLowerCase() == "character" &&
+                    if (view.creature.toLowerCase() == 'character' &&
                         (
-                            view.target.toLowerCase() == "all" ||
-                            (view.target.toLowerCase() == "individualspells" && [this.spell.name.toLowerCase(), "all"].includes(view.subtarget.toLowerCase()))
+                            view.target.toLowerCase() == 'all' ||
+                            (view.target.toLowerCase() == 'individualspells' && [this.spell.name.toLowerCase(), 'all'].includes(view.subtarget.toLowerCase()))
                         )) {
                         this.changeDetector.detectChanges();
                     }

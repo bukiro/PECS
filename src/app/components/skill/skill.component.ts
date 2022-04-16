@@ -21,19 +21,19 @@ import { Subscription } from 'rxjs';
 export class SkillComponent implements OnInit, OnDestroy {
 
     @Input()
-    creature: string = "Character";
+    creature = 'Character';
     @Input()
     skill: Skill;
     @Input()
-    showValue: boolean = true;
+    showValue = true;
     @Input()
-    isDC: boolean = false;
+    isDC = false;
     @Input()
     relatedActivityGains: (ActivityGain | ItemActivity)[] = [];
     @Input()
-    showAction: string = "";
+    showAction = '';
     @Input()
-    minimized: boolean = false;
+    minimized = false;
     @Output()
     showActionMessage = new EventEmitter<string>();
 
@@ -49,13 +49,13 @@ export class SkillComponent implements OnInit, OnDestroy {
         private activitiesService: ActivitiesService
     ) { }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
     toggle_Action(id: string) {
         if (this.showAction == id) {
-            this.showAction = "";
+            this.showAction = '';
         } else {
             this.showAction = id;
         }
@@ -79,8 +79,8 @@ export class SkillComponent implements OnInit, OnDestroy {
     }
 
     get_Name(skill: Skill) {
-        if (!this.isDC && skill.name.includes("Spell DC")) {
-            return skill.name.replace("Spell DC", "Spell Attack");
+        if (!this.isDC && skill.name.includes('Spell DC')) {
+            return skill.name.replace('Spell DC', 'Spell Attack');
         } else {
             return skill.name;
         }
@@ -93,7 +93,7 @@ export class SkillComponent implements OnInit, OnDestroy {
             if (this.get_Creature().skillNotes.some(note => note.name == skill.name)) {
                 return this.get_Creature().skillNotes.find(note => note.name == skill.name);
             } else {
-                this.get_Creature().skillNotes.push({ name: skill.name, showNotes: false, notes: "" });
+                this.get_Creature().skillNotes.push({ name: skill.name, showNotes: false, notes: '' });
                 return this.get_Creature().skillNotes.find(note => note.name == skill.name);
             }
         }
@@ -104,11 +104,11 @@ export class SkillComponent implements OnInit, OnDestroy {
     }
 
     public get_FuseStanceName(): string {
-        let data = this.get_Character().class.get_FeatData(0, 0, "Fuse Stance")[0];
+        const data = this.get_Character().class.get_FeatData(0, 0, 'Fuse Stance')[0];
         if (data) {
-            return data.valueAsString("name") || "Fused Stance";
+            return data.valueAsString('name') || 'Fused Stance';
         } else {
-            return "Fused Stance";
+            return 'Fused Stance';
         }
     }
 
@@ -118,11 +118,11 @@ export class SkillComponent implements OnInit, OnDestroy {
 
     finish_Loading() {
         if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
+            setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
-                    if (["individualskills", "all", this.creature.toLowerCase(), this.skill.name.toLowerCase()].includes(target.toLowerCase())) {
+                    if (['individualskills', 'all', this.creature.toLowerCase(), this.skill.name.toLowerCase()].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
@@ -130,25 +130,25 @@ export class SkillComponent implements OnInit, OnDestroy {
                 .subscribe((view) => {
                     if (view.creature == this.creature &&
                         (
-                            view.target == "all" ||
-                            (view.target == "individualskills" &&
+                            view.target == 'all' ||
+                            (view.target == 'individualskills' &&
                                 (
-                                    [this.skill.name.toLowerCase(), this.skill.ability.toLowerCase(), "all"].includes(view.subtarget.toLowerCase()) ||
+                                    [this.skill.name.toLowerCase(), this.skill.ability.toLowerCase(), 'all'].includes(view.subtarget.toLowerCase()) ||
                                     (
-                                        this.get_Name(this.skill).toLowerCase().includes("attack") &&
-                                        view.subtarget.toLowerCase() == "attacks"
+                                        this.get_Name(this.skill).toLowerCase().includes('attack') &&
+                                        view.subtarget.toLowerCase() == 'attacks'
                                     ) ||
                                     (
-                                        this.get_Name(this.skill).toLowerCase().includes("spell attack") &&
-                                        view.subtarget.toLowerCase().includes("spell attack")
+                                        this.get_Name(this.skill).toLowerCase().includes('spell attack') &&
+                                        view.subtarget.toLowerCase().includes('spell attack')
                                     ) ||
                                     (
-                                        this.get_Name(this.skill).toLowerCase().includes("spell dc") &&
-                                        view.subtarget.toLowerCase().includes("spell dc")
+                                        this.get_Name(this.skill).toLowerCase().includes('spell dc') &&
+                                        view.subtarget.toLowerCase().includes('spell dc')
                                     ) ||
                                     (
-                                        this.get_Name(this.skill).toLowerCase().includes("class dc") &&
-                                        view.subtarget.toLowerCase().includes("class dc")
+                                        this.get_Name(this.skill).toLowerCase().includes('class dc') &&
+                                        view.subtarget.toLowerCase().includes('class dc')
                                     )
                                 )
                             )

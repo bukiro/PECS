@@ -22,11 +22,11 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDest
     // If absolutely necessary, use ignorePopoverKeepalive=true to ignore the keepalive and only respect open modals.
 
     @Input()
-    private stickyPopover: TemplateRef<any>;
+    private stickyPopover: TemplateRef<unknown>;
     @Input()
-    private ignorePopoverKeepalive: boolean = false;
+    private ignorePopoverKeepalive = false;
 
-    ngpPopover: TemplateRef<any>;
+    ngpPopover: TemplateRef<unknown>;
 
     constructor(
         private refreshService: RefreshService,
@@ -38,21 +38,21 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDest
         ngZone: NgZone,
         changeRef: ChangeDetectorRef,
         applicationRef: ApplicationRef,
-        @Inject(DOCUMENT) _document: any) {
+        @Inject(DOCUMENT) _document: unknown) {
         super(_elRef, _render, injector, viewContainerRef, config, ngZone, _document, changeRef, applicationRef);
     }
 
     private finish_Loading(): void {
         this.changeSubscription = this.refreshService.get_Changed
             .subscribe((target) => {
-                if (target == "close-popovers" && super.isOpen()) {
-                    super.close()
+                if (target == 'close-popovers' && super.isOpen()) {
+                    super.close();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
             .subscribe((view) => {
-                if (view.target == "close-popovers" && super.isOpen()) {
-                    super.close()
+                if (view.target == 'close-popovers' && super.isOpen()) {
+                    super.close();
                 }
             });
     }
@@ -60,12 +60,13 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDest
     public ngOnInit(): void {
         super.ngOnInit();
         this.ngbPopover = this.stickyPopover;
-        this.finish_Loading()
+        this.finish_Loading();
     }
 
     public close(): void {
-        //Only close if no modal is open or popover-keepalive element exists.
-        if (document.getElementsByTagName("ngb-modal-window").length || (!this.ignorePopoverKeepalive && document.getElementsByClassName("popover-keepalive").length)) {
+        if (document.getElementsByTagName('ngb-modal-window').length || (!this.ignorePopoverKeepalive && document.getElementsByClassName('popover-keepalive').length)) {
+            //Only close if no modal is open or popover-keepalive element exists.
+            return;
         } else {
             super.close();
         }

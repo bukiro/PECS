@@ -11,14 +11,12 @@ const positiveNumbersOnly = new Set([
     '8',
     '9',
     '0',
-])
+]);
 
 @Injectable({
     providedIn: 'root'
 })
 export class InputValidationService {
-
-    constructor() { }
 
     public static positiveNumbersOnly(event: KeyboardEvent) {
         return positiveNumbersOnly.has(event.key);

@@ -12,8 +12,6 @@ export class DefenseService {
 
     AC: AC = new AC();
 
-    constructor() { }
-
     get_AC() {
         return this.AC;
     }

@@ -27,11 +27,11 @@ export class ConditionComponent implements OnInit, OnDestroy {
     @Input()
     condition: Condition;
     @Input()
-    showItem: string = "";
+    showItem = '';
     @Input()
-    creature: string = "Character"
+    creature = 'Character';
     @Input()
-    fullDisplay: boolean = false;
+    fullDisplay = false;
     @Output()
     showItemMessage = new EventEmitter<string>();
 
@@ -49,7 +49,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
 
     toggle_Item(name: string) {
         if (this.showItem == name) {
-            this.showItem = "";
+            this.showItem = '';
         } else {
             this.showItem = name;
         }
@@ -64,11 +64,11 @@ export class ConditionComponent implements OnInit, OnDestroy {
         return this.characterService.get_Creature(this.creature) as Creature;
     }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
-    get_Traits(traitName: string = "") {
+    get_Traits(traitName = '') {
         return this.traitsService.get_Traits(traitName);
     }
 
@@ -83,7 +83,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
     set_ConditionDuration(gain: ConditionGain, turns: number) {
         gain.duration = turns;
         gain.maxDuration = gain.duration;
-        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.set_ToChange(this.creature, 'effects');
         this.refreshService.process_ToChange();
         this.update_Condition();
     }
@@ -91,25 +91,25 @@ export class ConditionComponent implements OnInit, OnDestroy {
     change_ConditionDuration(gain: ConditionGain, turns: number) {
         gain.duration += turns;
         gain.maxDuration = gain.duration;
-        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.set_ToChange(this.creature, 'effects');
         this.refreshService.process_ToChange();
         this.update_Condition();
     }
 
-    change_ConditionValue(gain: ConditionGain, oldValue: number, change: number = 0) {
+    change_ConditionValue(gain: ConditionGain, oldValue: number, change = 0) {
         if (change) {
             gain.value += change;
         } else {
             change = gain.value - oldValue;
         }
-        if (gain.name == "Drained" && change < 0) {
+        if (gain.name == 'Drained' && change < 0) {
             //When you lower your drained value, you regain Max HP, but not the lost HP.
             //Because HP is Max HP - Damage, we increase damage to represent not regaining the HP.
             //We subtract level*change from damage because change is negative.
             this.get_Creature().health.damage == Math.max(0, (this.get_Creature().health.damage - (this.get_Creature().level * change)));
         }
         gain.showValue = false;
-        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.set_ToChange(this.creature, 'effects');
         this.refreshService.process_ToChange();
         this.update_Condition();
     }
@@ -119,11 +119,11 @@ export class ConditionComponent implements OnInit, OnDestroy {
     }
 
     get_ConditionChoices(gain: ConditionGain, condition: Condition) {
-        return condition.get_Choices(this.characterService, gain.source != "Manual", gain.heightened);
+        return condition.get_Choices(this.characterService, gain.source != 'Manual', gain.heightened);
     }
 
     change_ConditionChoice(gain: ConditionGain, condition: Condition, oldChoice: string) {
-        this.conditionsService.change_ConditionChoice(this.get_Creature(), gain, condition, oldChoice, this.characterService, this.itemsService)
+        this.conditionsService.change_ConditionChoice(this.get_Creature(), gain, condition, oldChoice, this.characterService, this.itemsService);
         this.refreshService.process_ToChange();
         this.update_Condition();
     }
@@ -132,9 +132,9 @@ export class ConditionComponent implements OnInit, OnDestroy {
         condition.selectOtherConditions.forEach((selection, index) => {
             //Ensure that the condition gain has a place for each selection in its array.
             if (gain.selectedOtherConditions.length <= index) {
-                gain.selectedOtherConditions.push("");
+                gain.selectedOtherConditions.push('');
             }
-        })
+        });
         return condition.selectOtherConditions;
     }
 
@@ -154,18 +154,18 @@ export class ConditionComponent implements OnInit, OnDestroy {
                     (
                         (typeFilter.length || nameFilter.length) ? filteredConditions.includes(conditionName.toLowerCase()) : true
                     )
-                ).concat("", gain.selectedOtherConditions[index])
-        )).sort()
+                ).concat('', gain.selectedOtherConditions[index])
+        )).sort();
     }
 
     change_ConditionStage(gain: ConditionGain, condition: Condition, choices: string[], change: number) {
-        this.conditionsService.change_ConditionStage(this.get_Creature(), gain, condition, choices, change, this.characterService, this.itemsService)
+        this.conditionsService.change_ConditionStage(this.get_Creature(), gain, condition, choices, change, this.characterService, this.itemsService);
         this.refreshService.process_ToChange();
         this.update_Condition();
     }
 
     change_OtherConditionSelection() {
-        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.set_ToChange(this.creature, 'effects');
         this.refreshService.process_ToChange();
         this.update_Condition();
     }
@@ -180,10 +180,10 @@ export class ConditionComponent implements OnInit, OnDestroy {
 
     remove_Condition(conditionGain: ConditionGain) {
         this.characterService.remove_Condition(this.get_Creature(), conditionGain, true);
-        this.refreshService.set_Changed("close-popovers");
+        this.refreshService.set_Changed('close-popovers');
     }
 
-    public get_Activities(name: string = ""): Activity[] {
+    public get_Activities(name = ''): Activity[] {
         //Don't show all existing activities if a name is missing.
         if (!name) {
             return [];
@@ -195,8 +195,8 @@ export class ConditionComponent implements OnInit, OnDestroy {
         if (this.conditionGain) {
             this.conditionGain.gainActivities.forEach(activityGain => {
                 activityGain.heightened = this.conditionGain.heightened;
-                activityGain.get_OriginalActivity(this.activitiesService)?.get_Cooldown({creature: this.get_Creature()}, {characterService: this.characterService, effectsService: this.effectsService});
-            })
+                activityGain.get_OriginalActivity(this.activitiesService)?.get_Cooldown({ creature: this.get_Creature() }, { characterService: this.characterService, effectsService: this.effectsService });
+            });
             return this.conditionGain.gainActivities;
         } else {
             return [];
@@ -216,17 +216,17 @@ export class ConditionComponent implements OnInit, OnDestroy {
 
     finish_Loading() {
         if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
+            setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
-                    if (target == "effects" || target == "all" || target == this.creature) {
+                    if (target == 'effects' || target == 'all' || target == this.creature) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
-                    if (view.creature == this.creature && ["effects", "all"].includes(view.target)) {
+                    if (view.creature == this.creature && ['effects', 'all'].includes(view.target)) {
                         this.changeDetector.detectChanges();
                     }
                 });

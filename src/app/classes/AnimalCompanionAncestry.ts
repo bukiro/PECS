@@ -7,18 +7,18 @@ import { Hint } from 'src/app/classes/Hint';
 export class AnimalCompanionAncestry {
     public abilityChoices: AbilityChoice[] = [];
     public activities: ActivityGain[] = [];
-    public desc: string = "";
+    public desc = '';
     public gainItems: ItemGain[] = [];
-    public hitPoints: number = 0;
-    public name: string = "";
+    public hitPoints = 0;
+    public name = '';
     public senses: string[] = [];
     public hints: Hint[] = [];
-    public size: number = 0;
+    public size = 0;
     public skillChoices: SkillChoice[] = [];
-    public sourceBook: string = "";
-    public specialdesc: string = "";
+    public sourceBook = '';
+    public specialdesc = '';
     public speeds: { name: string, value: number }[] = [];
-    public supportBenefit: string = "";
+    public supportBenefit = '';
     public traits: string[] = [];
     recast() {
         this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());

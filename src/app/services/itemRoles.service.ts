@@ -22,8 +22,6 @@ import { WornItem } from '../classes/WornItem';
 })
 export class ItemRolesService {
 
-    constructor() { }
-
     public getItemRoles(item: Item): ItemRoles {
         const asArmor = this.itemAsArmor(item);
         const asWeapon = this.itemAsWeapon(item);
@@ -49,7 +47,7 @@ export class ItemRolesService {
             hasEmblazonAntimagic: this.itemHasEmblazonAntimagic(item),
             emblazonEnergyChoice: this.itemEmblazonEnergyChoice(item),
             stack: this.itemStack(item),
-        }
+        };
     }
 
     private itemAsConsumable(item: Item): Consumable {
@@ -105,7 +103,7 @@ export class ItemRolesService {
     }
 
     private itemAsStatusChangeable(item: Item): Equipment {
-        return (item instanceof Equipment && !["Fist", "Unarmored"].includes(item.name)) ? item : null;
+        return (item instanceof Equipment && !['Fist', 'Unarmored'].includes(item.name)) ? item : null;
     }
 
     private itemAsStackable(item: Item): Item {
@@ -117,19 +115,19 @@ export class ItemRolesService {
     }
 
     private itemHasEmblazonArmament(item: Item): boolean {
-        return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.some(ea => ea.type == "emblazonArmament");
+        return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.some(ea => ea.type == 'emblazonArmament');
     }
 
     private itemEmblazonEnergyChoice(item: Item): string {
-        return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.find(ea => ea.type == "emblazonEnergy")?.choice;
+        return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.find(ea => ea.type == 'emblazonEnergy')?.choice;
     }
 
     private itemHasEmblazonAntimagic(item: Item): boolean {
-        return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.some(ea => ea.type == "emblazonAntimagic");
+        return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.some(ea => ea.type == 'emblazonAntimagic');
     }
 
     private itemStack(item: Item): number {
-        return (item instanceof Consumable || item instanceof AdventuringGear) ? item.stack : 1
+        return (item instanceof Consumable || item instanceof AdventuringGear) ? item.stack : 1;
     }
 
 }

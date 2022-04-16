@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Feat } from 'src/app/classes/Feat';
 import { CharacterService } from 'src/app/services/character.service';
 import { FeatChoice } from 'src/app/classes/FeatChoice';
@@ -11,7 +11,7 @@ import { TraitsService } from 'src/app/services/traits.service';
     templateUrl: './feat.component.html',
     styleUrls: ['./feat.component.css']
 })
-export class FeatComponent implements OnInit {
+export class FeatComponent {
 
     @Input()
     feat: Feat;
@@ -29,40 +29,42 @@ export class FeatComponent implements OnInit {
         private traitsService: TraitsService
     ) { }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
-    get_Traits(traitName: string = "") {
+    get_Traits(traitName = '') {
         return this.traitsService.get_Traits(traitName);
     }
 
     create_IgnoreRequirementList(feat: Feat, choice: FeatChoice) {
         //Prepare character and characterService for eval.
-        let character = this.characterService.get_Character();
-        let characterService = this.characterService;
+        /* eslint-disable @typescript-eslint/no-unused-vars */
+        const character = this.characterService.get_Character();
+        const characterService = this.characterService;
+        /* eslint-enable @typescript-eslint/no-unused-vars */
         //Build the ignoreRequirements list from both the feat and the choice.
-        let ignoreRequirementsList: string[] = [];
+        const ignoreRequirementsList: string[] = [];
         feat.ignoreRequirements.concat((choice?.ignoreRequirements || [])).forEach(ignoreReq => {
             try {
                 ignoreRequirementsList.push(eval(ignoreReq));
             } catch (error) {
-                console.log("Failed evaluating feat requirement ignore list item (" + ignoreReq + "): " + error)
+                console.log(`Failed evaluating feat requirement ignore list item (${ ignoreReq }): ${ error }`);
             }
-        })
+        });
         return ignoreRequirementsList;
     }
 
     get_FeatRequirements(choice: FeatChoice, feat: Feat) {
-        let ignoreRequirementsList: string[] = this.create_IgnoreRequirementList(feat, choice);
-        let result: Array<{ met?: boolean, ignored?: boolean, desc?: string }> = [];
+        const ignoreRequirementsList: string[] = this.create_IgnoreRequirementList(feat, choice);
+        const result: Array<{ met?: boolean, ignored?: boolean, desc?: string }> = [];
         if (feat.levelreq) {
             result.push(feat.meetsLevelReq(this.characterService, this.featLevel));
             result[result.length - 1].ignored = ignoreRequirementsList.includes('levelreq');
         }
         if (feat.abilityreq.length) {
             feat.meetsAbilityReq(this.characterService, this.levelNumber).forEach(req => {
-                result.push({ met: true, desc: ", " });
+                result.push({ met: true, desc: ', ' });
                 result.push(req);
                 result[result.length - 1].ignored = ignoreRequirementsList.includes('abilityreq');
             });
@@ -70,9 +72,9 @@ export class FeatComponent implements OnInit {
         if (feat.skillreq.length) {
             feat.meetsSkillReq(this.characterService, this.levelNumber).forEach((req, index) => {
                 if (index == 0) {
-                    result.push({ met: true, desc: ", " });
+                    result.push({ met: true, desc: ', ' });
                 } else {
-                    result.push({ met: true, desc: " or " });
+                    result.push({ met: true, desc: ' or ' });
                 }
                 result.push(req);
                 result[result.length - 1].ignored = ignoreRequirementsList.includes('skillreq');
@@ -80,48 +82,45 @@ export class FeatComponent implements OnInit {
         }
         if (feat.featreq.length) {
             feat.meetsFeatReq(this.characterService, this.levelNumber).forEach(req => {
-                result.push({ met: true, desc: ", " });
+                result.push({ met: true, desc: ', ' });
                 result.push(req);
                 result[result.length - 1].ignored = ignoreRequirementsList.includes('featreq');
             });
         }
         if (feat.heritagereq) {
             feat.meetsHeritageReq(this.characterService, this.levelNumber).forEach(req => {
-                result.push({ met: true, desc: ", " });
+                result.push({ met: true, desc: ', ' });
                 result.push(req);
                 result[result.length - 1].ignored = ignoreRequirementsList.includes('heritagereq');
             });
         }
         if (feat.specialreqdesc) {
-            result.push({ met: true, desc: ", " });
+            result.push({ met: true, desc: ', ' });
             result.push(feat.meetsSpecialReq(this.characterService, this.levelNumber));
         }
         if (result.length > 1) {
-            if (result[0].desc == ", ") {
+            if (result[0].desc == ', ') {
                 result.shift();
             }
-            if (result[0].desc == "requires " && result[1].desc == ", ") {
+            if (result[0].desc == 'requires ' && result[1].desc == ', ') {
                 result.splice(1, 1);
             }
-        } else if (result.length == 1 && result[0].desc == "requires ") {
+        } else if (result.length == 1 && result[0].desc == 'requires ') {
             result.length = 0;
         }
         return result;
     }
 
-    get_Activities(name: string = "") {
+    get_Activities(name = '') {
         return this.activitiesService.get_Activities(name);
     }
 
-    get_Spells(name: string = "") {
+    get_Spells(name = '') {
         return this.spellsService.get_Spells(name);
     }
 
     get_SpellLevel(levelNumber: number) {
         return Math.ceil(levelNumber / 2);
-    }
-
-    ngOnInit() {
     }
 
 }

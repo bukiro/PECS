@@ -5,12 +5,12 @@ export class FeatData {
         if (data) {
             this.data = data;
         }
-    };
+    }
     private data: { [key: string]: FeatDataValue } = {};
     recast() {
         return this;
     }
-    public setValue(key: string, value: FeatDataValue|Event) {
+    public setValue(key: string, value: FeatDataValue | Event) {
         value = value instanceof Event ? (<HTMLInputElement>value.target).value : value;
         this.data[key] = value;
     }

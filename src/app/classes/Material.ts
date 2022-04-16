@@ -1,19 +1,19 @@
-import { Hint } from "./Hint";
+import { Hint } from './Hint';
 
 export class Material {
-    public bulkPrice: number = 0;
-    public bulkModifier: number = 0;
-    public craftRequirement: string = "";
+    public bulkPrice = 0;
+    public bulkModifier = 0;
+    public craftRequirement = '';
     //This is how high your crafting level needs to be to craft with this material.
-    public craftingRequirement: number = 4;
-    public desc: string = "";
-    public level: number = 0;
-    public name: string = "";
-    public price: number = 0;
-    public runeLimit: number = 0;
+    public craftingRequirement = 4;
+    public desc = '';
+    public level = 0;
+    public name = '';
+    public price = 0;
+    public runeLimit = 0;
     public traits: string[] = [];
-    public extraRune: number = 0;
-    public sourceBook: string = "";
+    public extraRune = 0;
+    public sourceBook = '';
     public hints: Hint[] = [];
     public removeTraits: string[] = [];
     public itemFilter: string[] = [];
@@ -22,6 +22,6 @@ export class Material {
         return this;
     }
     get_Name() {
-        return this.name.split("(")[0].trim();
+        return this.name.split('(')[0].trim();
     }
 }

@@ -7,7 +7,7 @@ import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSp
 
 export class AnimalCompanionClass {
     public ancestry: AnimalCompanionAncestry = new AnimalCompanionAncestry();
-    public hitPoints: number = 6;
+    public hitPoints = 6;
     public levels: AnimalCompanionLevel[] = [];
     public specializations: AnimalCompanionSpecialization[] = [];
     recast() {
@@ -20,10 +20,10 @@ export class AnimalCompanionClass {
         if (this.ancestry.name) {
             if (this.ancestry.gainItems.length) {
                 this.ancestry.gainItems.forEach(freeItem => {
-                    let items: Equipment[] = characterService.get_Companion().inventories[0][freeItem.type].filter((item: Equipment) => item.id == freeItem.grantedItemID);
+                    const items: Equipment[] = characterService.get_Companion().inventories[0][freeItem.type].filter((item: Equipment) => item.id == freeItem.grantedItemID);
                     items.forEach(item => {
                         characterService.drop_InventoryItem(characterService.get_Companion(), characterService.get_Companion().inventories[0], item, false, true, true, freeItem.amount);
-                    })
+                    });
                 });
             }
         }
@@ -32,7 +32,7 @@ export class AnimalCompanionClass {
         if (this.ancestry.name) {
             if (this.ancestry.gainItems.length) {
                 this.ancestry.gainItems.forEach(freeItem => {
-                    freeItem.grant_GrantedItem(characterService.get_Companion(), {}, {characterService: characterService, itemsService: itemsService})
+                    freeItem.grant_GrantedItem(characterService.get_Companion(), {}, { characterService: characterService, itemsService: itemsService });
                 });
             }
         }

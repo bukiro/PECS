@@ -2214,7 +2214,7 @@
             </ng-container>
             <!--Level content-->
             <!--Ability Choice Content-->
-            <ng-container *ngFor="let abilityContent of get_ActiveChoiceContent('AbilityChoice'); trackBy:trackByID">
+            <ng-container *ngFor="let abilityContent of get_ActiveAbilityChoiceContent(); trackBy:trackByID">
                 <div class="newrow list-item padding-8 center-aligned">
                     <header class="box-header sectionHeader">
                         {{get_AbilityChoiceTitle(abilityContent.choice)}}
@@ -2268,14 +2268,14 @@
                 </div>
             </ng-container>
             <!--Skill Choice Content-->
-            <ng-container *ngFor="let skillContent of get_ActiveChoiceContent('SkillChoice'); trackBy:trackByID;">
+            <ng-container *ngFor="let skillContent of get_ActiveSkillChoiceContent(); trackBy:trackByID;">
                 <app-skillchoice (showSkillChoiceMessage)="receive_ChoiceMessage($event)" [choice]="skillContent.choice"
                     [levelNumber]="skillContent.levelNumber" [showTitle]="false" [showChoice]="skillContent.name"
                     [excludeTemporary]="true">
                 </app-skillchoice>
             </ng-container>
             <!--Feat Choice Content-->
-            <ng-container *ngFor="let featContent of get_ActiveChoiceContent('FeatChoice'); trackBy:trackByID;">
+            <ng-container *ngFor="let featContent of get_ActiveFeatChoiceContent(); trackBy:trackByID;">
                 <app-featchoice (showFeatChoiceMessage)="receive_ChoiceMessage($event)"
                     (showFeatMessage)="receive_FeatMessage($event)" [choice]="featContent.choice"
                     [levelNumber]="featContent.levelNumber" [showTitle]="false" [showFeat]="get_ShowItem()"
@@ -2286,7 +2286,7 @@
                 </app-featchoice>
             </ng-container>
             <!--Lore Training content-->
-            <ng-container *ngFor="let loreContent of get_ActiveChoiceContent('LoreChoice'); trackBy:trackByID">
+            <ng-container *ngFor="let loreContent of get_ActiveLoreChoiceContent(); trackBy:trackByID">
                 <div class="newrow list-item padding-8 center-aligned">
                     <header class="box-header sectionHeader">
                         Lore Training ({{loreContent.choice.source}}){{(loreContent.choice.increases.length) ? ": "+

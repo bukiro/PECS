@@ -1,10 +1,10 @@
 export class SpellTarget {
-    name: string = "";
-    id: string = "";
-    playerId: string = "";
-    type: "Character" | "Companion" | "Familiar" = "Character";
-    selected: boolean = false;
-    isPlayer: boolean = false;
+    name = '';
+    id = '';
+    playerId = '';
+    type: 'Character' | 'Companion' | 'Familiar' = 'Character';
+    selected = false;
+    isPlayer = false;
     recast() {
         return this;
     }

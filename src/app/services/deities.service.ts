@@ -14,7 +14,7 @@ export class DeitiesService {
 
     private deities: Deity[] = [];
     private domains: Domain[] = [];
-    private loading: boolean = false;
+    private loading = false;
     //The character's deity or deities get loaded into $characterDeities whenever it is queried and empty.
     private $characterDeities: { deity: Deity, source: string, level: number }[] = [];
     private deitiesMap = new Map<string, Deity>();
@@ -24,7 +24,7 @@ export class DeitiesService {
     ) { }
 
     private get_ReplacementDeity(name?: string): Deity {
-        return Object.assign(new Deity(), { name: "Deity not found", "desc": (name ? name : "The requested deity") + " does not exist in the deities list." });
+        return Object.assign(new Deity(), { name: 'Deity not found', 'desc': `${ name ? name : 'The requested deity' } does not exist in the deities list.` });
     }
 
     get_DeityFromName(name: string): Deity {
@@ -32,21 +32,21 @@ export class DeitiesService {
         return this.deitiesMap.get(name.toLowerCase()) || this.get_ReplacementDeity(name);
     }
 
-    get_CharacterDeities(characterService: CharacterService, character: Character, source: string = "", level: number = character.level): Deity[] {
+    get_CharacterDeities(characterService: CharacterService, character: Character, source = '', level: number = character.level): Deity[] {
         if (!this.$characterDeities.length && character.class.deity) {
             //Recreate the character deities list from the main deity and the Syncretism feat data.
-            let mainDeity = this.get_Deities(character.class.deity)[0];
+            const mainDeity = this.get_Deities(character.class.deity)[0];
             if (mainDeity) {
-                this.$characterDeities.push({ deity: mainDeity, source: "main", level: 1 });
-                let syncretismFeat = characterService.get_CharacterFeatsTaken(0, level, "Syncretism").length;
+                this.$characterDeities.push({ deity: mainDeity, source: 'main', level: 1 });
+                const syncretismFeat = characterService.get_CharacterFeatsTaken(0, level, 'Syncretism').length;
                 if (syncretismFeat) {
-                    let data = character.class.get_FeatData(0, 0, "Syncretism")[0];
+                    const data = character.class.get_FeatData(0, 0, 'Syncretism')[0];
                     const syncretismDeity = data.valueAsString('deity');
                     if (syncretismDeity) {
-                        let levelNumber = data.level;
-                        let secondDeity = this.get_Deities(syncretismDeity)[0];
+                        const levelNumber = data.level;
+                        const secondDeity = this.get_Deities(syncretismDeity)[0];
                         if (secondDeity) {
-                            this.$characterDeities.push({ deity: secondDeity, source: "syncretism", level: levelNumber });
+                            this.$characterDeities.push({ deity: secondDeity, source: 'syncretism', level: levelNumber });
                         }
                     }
                 }
@@ -59,21 +59,21 @@ export class DeitiesService {
         this.$characterDeities.length = 0;
     }
 
-    get_Deities(name: string = ""): Deity[] {
+    get_Deities(name = ''): Deity[] {
         if (!this.still_loading()) {
             //If a name is given, try to find a deity by that name in the index map. This should be much quicker.
             if (name) {
                 return [this.get_DeityFromName(name)];
             } else {
-                return this.deities.filter(deity => deity.name.toLowerCase() == name.toLowerCase() || name == "")
+                return this.deities.filter(deity => deity.name.toLowerCase() == name.toLowerCase() || name == '');
             }
-        } else { return [this.get_ReplacementDeity()] }
+        } else { return [this.get_ReplacementDeity()]; }
     }
 
-    get_Domains(name: string = ""): Domain[] {
+    get_Domains(name = ''): Domain[] {
         if (!this.still_loading()) {
-            return this.domains.filter(domain => domain.name.toLowerCase() == name.toLowerCase() || name == "")
-        } else { return [new Domain()] }
+            return this.domains.filter(domain => domain.name.toLowerCase() == name.toLowerCase() || name == '');
+        } else { return [new Domain()]; }
     }
 
     still_loading() {
@@ -90,27 +90,27 @@ export class DeitiesService {
             this.deitiesMap.clear();
             this.deities.forEach(deity => {
                 this.deitiesMap.set(deity.name.toLowerCase(), deity);
-            })
+            });
             this.loading = false;
         }
     }
 
     load_Deities() {
         this.deities = [];
-        let data = this.extensionsService.extend(json_deities, "deities");
+        const data = this.extensionsService.extend(json_deities, 'deities');
         Object.keys(data).forEach(key => {
             this.deities.push(...data[key].map((obj: Deity) => Object.assign(new Deity(), obj).recast()));
         });
-        this.deities = this.extensionsService.cleanup_Duplicates(this.deities, "name", "deities");
+        this.deities = this.extensionsService.cleanup_Duplicates(this.deities, 'name', 'deities') as Deity[];
     }
 
     load_Domains() {
         this.domains = [];
-        let data = this.extensionsService.extend(json_domains, "domains");
+        const data = this.extensionsService.extend(json_domains, 'domains');
         Object.keys(data).forEach(key => {
             this.domains.push(...data[key].map((obj: Domain) => Object.assign(new Domain(), obj).recast()));
         });
-        this.domains = this.extensionsService.cleanup_Duplicates(this.domains, "name", "domains");
+        this.domains = this.extensionsService.cleanup_Duplicates(this.domains, 'name', 'domains') as Domain[];
     }
 
 }

@@ -9,7 +9,7 @@ import { ExtensionsService } from 'src/app/services/extensions.service';
 export class FamiliarsService {
 
     private familiarAbilities: Feat[] = [];
-    private loading_familiarAbilities: boolean = false;
+    private loading_familiarAbilities = false;
 
     constructor(
         private extensionsService: ExtensionsService
@@ -19,10 +19,10 @@ export class FamiliarsService {
         return (this.loading_familiarAbilities);
     }
 
-    get_FamiliarAbilities(name: string = "") {
+    get_FamiliarAbilities(name = '') {
         if (!this.still_loading()) {
-            return this.familiarAbilities.filter(ability => ability.name.toLowerCase() == name.toLowerCase() || name == "")
-        } else { return [new Feat()] }
+            return this.familiarAbilities.filter(ability => ability.name.toLowerCase() == name.toLowerCase() || name == '');
+        } else { return [new Feat()]; }
     }
 
     initialize() {
@@ -36,18 +36,18 @@ export class FamiliarsService {
             this.familiarAbilities.forEach(ability => {
                 ability.hints?.forEach(hint => {
                     hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-                })
-            })
+                });
+            });
         }
     }
 
     load_Abilities() {
         this.familiarAbilities = [];
-        let data = this.extensionsService.extend(json_abilities, "familiarAbilities");
+        const data = this.extensionsService.extend(json_abilities, 'familiarAbilities');
         Object.keys(data).forEach(key => {
             this.familiarAbilities.push(...data[key].map((obj: Feat) => Object.assign(new Feat(), obj).recast()));
         });
-        this.familiarAbilities = this.extensionsService.cleanup_Duplicates(this.familiarAbilities, "name", "familiar abilities");
+        this.familiarAbilities = this.extensionsService.cleanup_Duplicates(this.familiarAbilities, 'name', 'familiar abilities') as Feat[];
     }
 
 }

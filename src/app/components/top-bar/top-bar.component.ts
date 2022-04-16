@@ -21,10 +21,10 @@ import { Subscription } from 'rxjs';
 export class TopBarComponent implements OnInit, OnDestroy {
 
     public newMessages: PlayerMessage[] = [];
-    public modalOpen: boolean = false;
-    public loginModalOpen: boolean = false;
-    public password: string = "";
-    public passwordFailed: boolean = false;
+    public modalOpen = false;
+    public loginModalOpen = false;
+    public password = '';
+    public passwordFailed = false;
     @ViewChild('NewMessagesModal', { static: false })
     private newMessagesModal;
     @ViewChild('LoginModal', { static: false })
@@ -45,7 +45,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
         public modal: NgbActiveModal
     ) { }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
@@ -71,7 +71,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
 
     get_Savegames() {
         if (this.savegameService.get_LoadingError() || this.get_SavegamesInitializing()) {
-            return null
+            return null;
         } else {
             return this.savegameService.get_Savegames();
         }
@@ -99,7 +99,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
 
     toggle_Menu(menu: string) {
         this.characterService.toggle_Menu(menu);
-        this.refreshService.set_ToChange("Character", "character-sheet");
+        this.refreshService.set_ToChange('Character', 'character-sheet');
         this.refreshService.process_ToChange();
     }
 
@@ -176,7 +176,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     get_HasSpells() {
-        let character = this.get_Character();
+        const character = this.get_Character();
         return character.class?.spellCasting.some(casting => casting.spellChoices.some(choice => choice.charLevelAvailable <= character.level));
     }
 
@@ -192,13 +192,13 @@ export class TopBarComponent implements OnInit, OnDestroy {
         if (this.modalOpen) {
             //Don't check for messages if you are currently selecting messages from a previous check.
             return;
-        };
+        }
         if (this.get_Character().settings.checkMessagesAutomatically) {
             //If the app checks for messages automatically, you don't need to check again manually. Just open the Dialog if messages exist, or let us know if not.
             if (this.messageService.get_NewMessages(this.characterService).length) {
                 this.open_NewMessagesModal();
             } else {
-                this.toastService.show("No new effects are available.");
+                this.toastService.show('No new effects are available.');
             }
         } else {
             //Clean up old messages, then check for new messages, then open the dialog if any are found.
@@ -206,29 +206,29 @@ export class TopBarComponent implements OnInit, OnDestroy {
                 this.messageService.load_Messages(this.characterService.get_Character().id)
                     .subscribe((results: string[]) => {
                         //Get any new messages.
-                        let newMessages = this.messageService.process_Messages(this.characterService, results)
+                        const newMessages = this.messageService.process_Messages(this.characterService, results);
                         //Add them to the list of new messages.
                         this.messageService.add_NewMessages(newMessages);
                         //If any exist, start the dialog. Otherwise give an appropriate response.
                         if (this.messageService.get_NewMessages(this.characterService).length) {
                             this.open_NewMessagesModal();
                         } else {
-                            this.toastService.show("No new effects are available.");
+                            this.toastService.show('No new effects are available.');
                         }
                     }, (error) => {
-                        this.toastService.show("An error occurred while searching for new effects. See console for more information.")
-                        console.log('Error loading messages from database: ' + error.message);
+                        this.toastService.show('An error occurred while searching for new effects. See console for more information.');
+                        console.log(`Error loading messages from database: ${ error.message }`);
                     });
             }, error => {
                 if (error.status == 401) {
-                    this.configService.on_LoggedOut("Your login is no longer valid. New effects could not be checked. Please try again after logging in.");
+                    this.configService.on_LoggedOut('Your login is no longer valid. New effects could not be checked. Please try again after logging in.');
                 } else {
-                    this.toastService.show("An error occurred while cleaning up messages. See console for more information.")
-                    console.log('Error cleaning up messages: ' + error.message);
+                    this.toastService.show('An error occurred while cleaning up messages. See console for more information.');
+                    console.log(`Error cleaning up messages: ${ error.message }`);
                 }
             }, () => {
-                cleanupSubscription.unsubscribe()
-            })
+                cleanupSubscription.unsubscribe();
+            });
         }
     }
 
@@ -241,17 +241,17 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     get_ItemMessageIncluded(message: PlayerMessage) {
-        let included: string[] = [];
+        const included: string[] = [];
         if (message.includedItems.length) {
-            included.push(message.includedItems.length + " extra items");
+            included.push(`${ message.includedItems.length } extra items`);
         }
         if (message.includedInventories.length) {
-            included.push(message.includedInventories.length + " containers");
+            included.push(`${ message.includedInventories.length } containers`);
         }
         if (included.length) {
-            return "Includes " + included.join(" and ");
+            return `Includes ${ included.join(' and ') }`;
         }
-        return "";
+        return '';
     }
 
     open_NewMessagesModal() {
@@ -259,22 +259,22 @@ export class TopBarComponent implements OnInit, OnDestroy {
         //Freeze the new messages by cloning them so that the modal doesn't change while it's open.
         this.newMessages = this.get_NewConditionMessages().map(message => Object.assign<PlayerMessage, PlayerMessage>(new PlayerMessage(), JSON.parse(JSON.stringify(message))).recast(this.typeService, this.itemsService));
         this.modalService.open(this.newMessagesModal, { centered: true, ariaLabelledBy: 'modal-title' }).result.then((result) => {
-            if (result == "Apply click") {
+            if (result == 'Apply click') {
                 //Prepare to refresh the effects of all affected creatures;
                 this.characterService.get_Creatures().forEach(creature => {
                     if (this.newMessages.some(message => message.id == creature.id)) {
-                        this.refreshService.set_ToChange(creature.type, "effects");
+                        this.refreshService.set_ToChange(creature.type, 'effects');
                     }
-                })
+                });
                 this.characterService.apply_MessageConditions(this.newMessages.filter(message => message.gainCondition.length));
                 this.characterService.apply_MessageItems(this.newMessages.filter(message => message.offeredItem.length));
                 this.newMessages.length = 0;
-                this.refreshService.set_ToChange("Character", "top-bar");
+                this.refreshService.set_ToChange('Character', 'top-bar');
                 this.refreshService.process_ToChange();
                 this.modalOpen = false;
             }
-        }, (reason) => {
-            //Do nothing if cancelled.
+        }, () => {
+            //Do nothing if cancelled, just mark that the modal is not open.
             this.modalOpen = false;
         });
     }
@@ -283,7 +283,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
         const checked = (<HTMLInputElement>event.target).checked;
         this.newMessages.forEach(message => {
             message.selected = checked;
-        })
+        });
     }
 
     get_AllMessagesSelected() {
@@ -292,27 +292,27 @@ export class TopBarComponent implements OnInit, OnDestroy {
 
     get_Duration(duration: number) {
         if (duration == -5) {
-            return "(Default duration)";
+            return '(Default duration)';
         } else {
             return this.timeService.get_Duration(duration, false, true);
         }
     }
 
-    open_LoginModal(passwordFailed: boolean = false) {
+    open_LoginModal(passwordFailed = false) {
         if (!this.modalOpen) {
             this.modalOpen = true;
-            this.password = "";
+            this.password = '';
             if (passwordFailed) {
                 this.passwordFailed = true;
             }
             this.modalService.open(this.loginModal, { centered: true, ariaLabelledBy: 'modal-title' }).result.then((result) => {
-                if (result == "OK click") {
+                if (result == 'OK click') {
                     this.passwordFailed = false;
                     this.modalOpen = false;
                     this.configService.get_Login(this.password, this.characterService, this.savegameService);
-                    this.password = "";
+                    this.password = '';
                 }
-            }, (reason) => {
+            }, () => {
                 //If the login modal is cancelled in any way, it can go ahead and open right back up.
                 this.modalOpen = false;
                 this.open_LoginModal();
@@ -322,26 +322,26 @@ export class TopBarComponent implements OnInit, OnDestroy {
 
     finish_Loading() {
         if (!this.get_Database() && !this.configService.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
+            setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
-                    if (["top-bar", "all", "character"].includes(target.toLowerCase())) {
+                    if (['top-bar', 'all', 'character'].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
-                    if (view.creature.toLowerCase() == "character" && ["top-bar", "all"].includes(view.target.toLowerCase())) {
+                    if (view.creature.toLowerCase() == 'character' && ['top-bar', 'all'].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
-                    if (view.creature.toLowerCase() == "character" && view.target.toLowerCase() == "check-messages-manually") {
+                    if (view.creature.toLowerCase() == 'character' && view.target.toLowerCase() == 'check-messages-manually') {
                         this.get_Messages();
                     }
-                    if (view.creature.toLowerCase() == "character" && view.target.toLowerCase() == "logged-out") {
+                    if (view.creature.toLowerCase() == 'character' && view.target.toLowerCase() == 'logged-out') {
                         this.open_LoginModal();
                     }
-                    if (view.creature.toLowerCase() == "character" && view.target.toLowerCase() == "password-failed") {
+                    if (view.creature.toLowerCase() == 'character' && view.target.toLowerCase() == 'password-failed') {
                         this.open_LoginModal(true);
                     }
                 });
@@ -350,7 +350,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.characterService.initialize("");
+        this.characterService.initialize('');
         this.finish_Loading();
     }
 

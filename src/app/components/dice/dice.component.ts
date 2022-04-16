@@ -15,8 +15,8 @@ import { Subscription } from 'rxjs';
 })
 export class DiceComponent implements OnInit {
 
-    public diceNum: number = 5;
-    public bonus: number = 0;
+    public diceNum = 5;
+    public bonus = 0;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -27,19 +27,19 @@ export class DiceComponent implements OnInit {
     ) { }
 
     toggleDiceMenu() {
-        this.characterService.toggle_Menu("dice");
+        this.characterService.toggle_Menu('dice');
     }
 
     get_DiceMenuState() {
         return this.characterService.get_DiceMenuState();
     }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
     still_loading() {
-        return this.characterService.still_loading()
+        return this.characterService.still_loading();
     }
 
     get_FoundryVTTSendRolls() {
@@ -57,40 +57,40 @@ export class DiceComponent implements OnInit {
     }
 
     get_Creature(creatureType: string) {
-        if (creatureType == "Companion") {
+        if (creatureType == 'Companion') {
             return this.characterService.get_CompanionAvailable() ? [this.characterService.get_Creature(creatureType)] : [];
         }
-        if (creatureType == "Familiar") {
+        if (creatureType == 'Familiar') {
             return this.characterService.get_FamiliarAvailable() ? [this.characterService.get_Creature(creatureType)] : [];
         }
         return [this.characterService.get_Creature(creatureType)];
     }
 
     on_Heal(creature: Creature) {
-        let amount = this.get_TotalSum();
-        let dying = creature.health.dying(creature, this.characterService);
+        const amount = this.get_TotalSum();
+        const dying = creature.health.dying(creature, this.characterService);
         creature.health.heal(creature, this.characterService, this.characterService.effectsService, amount, true, true, dying);
-        this.refreshService.set_ToChange(creature.type, "health");
-        this.refreshService.set_ToChange(creature.type, "effects");
+        this.refreshService.set_ToChange(creature.type, 'health');
+        this.refreshService.set_ToChange(creature.type, 'effects');
         this.refreshService.process_ToChange();
     }
 
     on_TakeDamage(creature: Creature) {
-        let amount = this.get_TotalSum();
-        let wounded = creature.health.wounded(creature, this.characterService);
-        let dying = creature.health.dying(creature, this.characterService);
+        const amount = this.get_TotalSum();
+        const wounded = creature.health.wounded(creature, this.characterService);
+        const dying = creature.health.dying(creature, this.characterService);
         creature.health.takeDamage(creature, this.characterService, this.characterService.effectsService, amount, false, wounded, dying);
-        this.refreshService.set_ToChange(creature.type, "health");
-        this.refreshService.set_ToChange(creature.type, "effects");
+        this.refreshService.set_ToChange(creature.type, 'health');
+        this.refreshService.set_ToChange(creature.type, 'effects');
         this.refreshService.process_ToChange();
     }
 
     set_TempHP(creature: Creature) {
-        let amount = this.get_TotalSum();
-        creature.health.temporaryHP[0] = { amount: amount, source: "Manual", sourceId: "" };
+        const amount = this.get_TotalSum();
+        creature.health.temporaryHP[0] = { amount: amount, source: 'Manual', sourceId: '' };
         creature.health.temporaryHP.length = 1;
-        this.refreshService.set_ToChange(creature.type, "health");
-        this.refreshService.set_ToChange(creature.type, "effects");
+        this.refreshService.set_ToChange(creature.type, 'health');
+        this.refreshService.set_ToChange(creature.type, 'effects');
         this.refreshService.process_ToChange();
     }
 
@@ -103,7 +103,7 @@ export class DiceComponent implements OnInit {
     }
 
     on_SendToFoundry(creature: string) {
-        this.integrationsService.send_RollToFoundry(creature, "", this.get_DiceResults(), this.characterService);
+        this.integrationsService.send_RollToFoundry(creature, '', this.get_DiceResults(), this.characterService);
     }
 
     unselectAll() {
@@ -116,17 +116,17 @@ export class DiceComponent implements OnInit {
 
     finish_Loading() {
         if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
+            setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
-                    if (["dice", "all"].includes(target.toLowerCase())) {
+                    if (['dice', 'all'].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
-                    if (["dice", "all"].includes(view.target.toLowerCase())) {
+                    if (['dice', 'all'].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });

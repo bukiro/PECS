@@ -1,40 +1,40 @@
 export class Effect {
-    public ignored: boolean = false;
-    public creature: string = "";
-    public type: string = "";
-    public target: string = "";
-    public setValue: string = "";
-    public toggle: boolean = false;
-    public title: string = "";
-    public source: string = "";
-    public penalty: boolean = false;
+    public ignored = false;
+    public creature = '';
+    public type = '';
+    public target = '';
+    public setValue = '';
+    public toggle = false;
+    public title = '';
+    public source = '';
+    public penalty = false;
     public apply: boolean = undefined;
     public show: boolean = undefined;
-    public duration: number = 0;
-    public maxDuration: number = 0;
+    public duration = 0;
+    public maxDuration = 0;
     //If the effect is typed, cumulative lists all effect sources (of the same type) that it is cumulative with.
     public cumulative: string[] = [];
-    public sourceId: string = ""
+    public sourceId = '';
     constructor(
-        public value: string = ""
+        public value: string = ''
     ) {
         if (value && !isNaN(parseInt(value))) {
-            this.value = (parseInt(value) >= 0 ? "+" : "") + parseInt(value);
+            this.value = (parseInt(value) >= 0 ? '+' : '') + parseInt(value);
         }
     }
     recast() {
         return this;
     }
-    get_DisplayTitle(signed: boolean = false) {
+    get_DisplayTitle(signed = false) {
         if (this.title) {
-            return (signed ? "= " : "") + this.title;
+            return (signed ? '= ' : '') + this.title;
         } else {
             if (parseInt(this.value)) {
                 return this.value;
             } else if (this.setValue) {
-                return (signed ? "= " : "") + this.setValue;
+                return (signed ? '= ' : '') + this.setValue;
             } else {
-                return "";
+                return '';
             }
         }
     }

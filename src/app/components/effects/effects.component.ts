@@ -19,15 +19,15 @@ import { Subscription } from 'rxjs';
 export class EffectsComponent implements OnInit, OnDestroy {
 
     @Input()
-    creature: string = "Character";
+    creature = 'Character';
     @Input()
-    public fullDisplay: boolean = false;
+    public fullDisplay = false;
     @Input()
-    public sheetSide: string = "left";
-    public showApplied: boolean = true;
-    public showNotApplied: boolean = false;
-    public showHidden: boolean = false;
-    public showItem: string = "";
+    public sheetSide = 'left';
+    public showApplied = true;
+    public showNotApplied = false;
+    public showHidden = false;
+    public showItem = '';
     public Math = Math;
     public parseInt = parseInt;
 
@@ -47,18 +47,18 @@ export class EffectsComponent implements OnInit, OnDestroy {
 
     get_Minimized() {
         switch (this.creature) {
-            case "Character":
+            case 'Character':
                 return this.characterService.get_Character().settings.effectsMinimized;
-            case "Companion":
+            case 'Companion':
                 return this.characterService.get_Character().settings.companionMinimized;
-            case "Familiar":
+            case 'Familiar':
                 return this.characterService.get_Character().settings.familiarMinimized;
         }
     }
 
     toggle_Item(name: string) {
         if (this.showItem == name) {
-            this.showItem = "";
+            this.showItem = '';
         } else {
             this.showItem = name;
         }
@@ -76,7 +76,7 @@ export class EffectsComponent implements OnInit, OnDestroy {
         this.toggle_Item(name);
     }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
@@ -85,7 +85,7 @@ export class EffectsComponent implements OnInit, OnDestroy {
     }
 
     trackByUniqueEffect(index: number, obj: Effect): string {
-        return obj.target + obj.setValue + obj.value + (obj.toggle ? "true" : "false") + (obj.penalty ? "true" : "false") + index.toString();
+        return obj.target + obj.setValue + obj.value + (obj.toggle ? 'true' : 'false') + (obj.penalty ? 'true' : 'false') + index.toString();
     }
 
     get_ManualMode() {
@@ -112,7 +112,7 @@ export class EffectsComponent implements OnInit, OnDestroy {
         return ((this.showApplied && 1) + (this.showNotApplied && 1) + (this.showHidden && 1));
     }
 
-    get_Traits(traitName: string = "") {
+    get_Traits(traitName = '') {
         return this.traitsService.get_Traits(traitName);
     }
 
@@ -120,13 +120,13 @@ export class EffectsComponent implements OnInit, OnDestroy {
         return this.effectsService.get_Effects(this.creature);
     }
 
-    get_Conditions(name: string = "") {
+    get_Conditions(name = '') {
         return this.conditionsService.get_Conditions(name);
     }
 
     get_AppliedEffects() {
         return this.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.apply && effect.show)
-            .sort((a, b) => (a.target + "-" + a.setValue + "-" + a.value == b.target + "-" + b.setValue + "-" + b.value) ? 0 : ((a.target + "-" + a.setValue + "-" + a.value > b.target + "-" + b.setValue + "-" + b.value) ? 1 : -1));
+            .sort((a, b) => (`${ a.target }-${ a.setValue }-${ a.value }` == `${ b.target }-${ b.setValue }-${ b.value }`) ? 0 : ((`${ a.target }-${ a.setValue }-${ a.value }` > `${ b.target }-${ b.setValue }-${ b.value }`) ? 1 : -1));
     }
 
     get_NotAppliedEffects() {
@@ -137,9 +137,9 @@ export class EffectsComponent implements OnInit, OnDestroy {
         return this.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.apply && !effect.show);
     }
 
-    get_AppliedConditions(apply: boolean, instant: boolean = false) {
+    get_AppliedConditions(apply: boolean, instant = false) {
         return this.characterService.get_AppliedConditions(this.get_Creature())
-            .filter(gain => gain.apply == apply || (instant && gain.durationIsInstant) || (instant && gain.nextStage == -1))
+            .filter(gain => gain.apply == apply || (instant && gain.durationIsInstant) || (instant && gain.nextStage == -1));
     }
 
     get_Duration(duration: number) {
@@ -152,15 +152,15 @@ export class EffectsComponent implements OnInit, OnDestroy {
 
     get_ConditionSuperTitle(conditionGain: ConditionGain, condition: Condition) {
         if (condition.get_IsStoppingTime(conditionGain)) {
-            return "icon-ra ra-hourglass";
+            return 'icon-ra ra-hourglass';
         }
         if (conditionGain.paused) {
-            return "icon-bi-pause-circle";
+            return 'icon-bi-pause-circle';
         }
         if (condition.get_IsInformationalCondition(this.get_Creature(), this.characterService, conditionGain)) {
-            return "icon-bi-info-circle";
+            return 'icon-bi-info-circle';
         }
-        return "";
+        return '';
     }
 
     get_TimeStopped() {
@@ -177,25 +177,25 @@ export class EffectsComponent implements OnInit, OnDestroy {
                     ignoredEffect.target == effect.target &&
                     ignoredEffect.source == effect.source
                 )
-            )
+            );
         }
-        this.refreshService.set_ToChange(this.creature, "effects");
+        this.refreshService.set_ToChange(this.creature, 'effects');
         this.refreshService.process_ToChange();
     }
 
     finish_Loading() {
         if (this.characterService.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
+            setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
-                    if (["effects", "all", "effects-component", this.creature.toLowerCase()].includes(target.toLowerCase())) {
+                    if (['effects', 'all', 'effects-component', this.creature.toLowerCase()].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
-                    if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["effects", "all", "effects-component"].includes(view.target.toLowerCase())) {
+                    if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['effects', 'all', 'effects-component'].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });

@@ -4,33 +4,33 @@ import { SpellTarget } from 'src/app/classes/SpellTarget';
 
 export class SpellGain {
     //Set if sustained spell is activated
-    public active: boolean = false;
-    public activeCooldown: number = 0;
-    public chargesUsed: number = 0;
-    public prepared: boolean = false;
-    public borrowed: boolean = false;
+    public active = false;
+    public activeCooldown = 0;
+    public chargesUsed = 0;
+    public prepared = false;
+    public borrowed = false;
     //Copied from SpellCast, these choices can override the spell condition choices. This applies only if the choice exists on the condition.
     public overrideChoices: { condition: string, choice: string }[] = [];
     //In order to select a choice from the spell before casting it, the choice is saved here for each condition.
     public effectChoices: { condition: string, choice: string }[] = [];
     //Set to spell's duration when activated, and automatically deactivate if it runs out by ticking time
-    public duration: number = 0;
+    public duration = 0;
     //Any items granted by this spell are stored here with their id so they can be removed when the spell ends.
     public gainItems: ItemGain[] = [];
-    public locked: boolean = false;
-    public name: string = "";
-    public combinationSpellName: string = "";
+    public locked = false;
+    public name = '';
+    public combinationSpellName = '';
     //Signature Spells are automatically available as heightened spells on every lower and higher level (down to its minimum).
-    public signatureSpell: boolean = false;
-    public source: string = "";
+    public signatureSpell = false;
+    public source = '';
     //The target word ("self", "Character", "Companion", "Familiar" or "Selected") is saved here for processing in the spell service.
-    public selectedTarget: string = "";
+    public selectedTarget = '';
     //The selected targets are saved here for applying conditions.
     public targets: SpellTarget[] = [];
     //Don't trigger blood magic poweres when the spell is cast. Is set by the player.
     public ignoreBloodMagicTrigger = false;
     //If dynamic effective spell level is set, its formula gets evaluated when calculating effective spell level (before effects).
-    public dynamicEffectiveSpellLevel = "";
+    public dynamicEffectiveSpellLevel = '';
     //Condition gains save this id so they can be found and removed when the spell ends, or end the spell when the condition ends.
     public id = uuidv4();
     recast() {

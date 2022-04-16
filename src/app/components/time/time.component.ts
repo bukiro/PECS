@@ -17,11 +17,11 @@ import { Subscription } from 'rxjs';
 export class TimeComponent implements OnInit, OnDestroy {
 
     @Input()
-    public showTurn: boolean = true;
+    public showTurn = true;
     @Input()
-    public showTime: boolean = true;
+    public showTime = true;
     @Input()
-    public sheetSide: string = "center";
+    public sheetSide = 'center';
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -42,20 +42,20 @@ export class TimeComponent implements OnInit, OnDestroy {
         return this.characterService.get_Character().settings.timeMinimized;
     }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
-    get_Duration(duration: number, includeTurnState: boolean = true, short: boolean = false) {
+    get_Duration(duration: number, includeTurnState = true, short = false) {
         return this.timeService.get_Duration(duration, includeTurnState, false, short);
     }
 
     get_Waiting(duration: number) {
-        return this.timeService.get_Waiting(duration, {characterService: this.characterService, conditionsService: this.conditionsService}, {includeResting: false});
+        return this.timeService.get_Waiting(duration, { characterService: this.characterService, conditionsService: this.conditionsService }, { includeResting: false });
     }
 
     still_loading() {
-        return this.characterService.still_loading()
+        return this.characterService.still_loading();
     }
 
     get_YourTurn() {
@@ -76,17 +76,17 @@ export class TimeComponent implements OnInit, OnDestroy {
 
     finish_Loading() {
         if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
+            setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
-                    if (["time", "all", "character"].includes(target.toLowerCase())) {
+                    if (['time', 'all', 'character'].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
-                    if (view.creature.toLowerCase() == "character" && ["time", "all"].includes(view.target.toLowerCase())) {
+                    if (view.creature.toLowerCase() == 'character' && ['time', 'all'].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });

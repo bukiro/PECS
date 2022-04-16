@@ -4,6 +4,12 @@ import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ToastService } from 'src/app/services/toast.service';
 
+interface Toast {
+    textOrTpl: string | TemplateRef<unknown>;
+    onClickCreature?: string;
+    onClickAction?: string;
+}
+
 @Component({
     selector: 'app-toast-container',
     templateUrl: './toast-container.component.html',
@@ -19,15 +25,15 @@ export class ToastContainerComponent {
         public toastService: ToastService
     ) { }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
-    isTemplate(toast) { return toast.textOrTpl instanceof TemplateRef; }
+    isTemplate(toast: Toast) { return toast.textOrTpl instanceof TemplateRef; }
 
-    on_Click(toast) {
+    on_Click(toast: Toast) {
         if (toast.onClickAction) {
-            this.refreshService.set_ToChange(toast.onClickCreature || "Character", toast.onClickAction);
+            this.refreshService.set_ToChange(toast.onClickCreature || 'Character', toast.onClickAction);
             this.refreshService.process_ToChange();
         }
         this.toastService.remove(toast);
@@ -35,17 +41,17 @@ export class ToastContainerComponent {
 
     finish_Loading() {
         if (this.characterService.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
+            setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
-                    if (["toasts", "all"].includes(target.toLowerCase())) {
+                    if (['toasts', 'all'].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
-                    if (["toasts", "all"].includes(view.target.toLowerCase())) {
+                    if (['toasts', 'all'].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });

@@ -4,7 +4,7 @@ import { TypeService } from 'src/app/services/type.service';
 
 export class OtherConsumable extends Consumable {
     //Other Consumables should be type "otherconsumables" to be found in the database
-    readonly type = "otherconsumables";
+    readonly type = 'otherconsumables';
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
         return this;

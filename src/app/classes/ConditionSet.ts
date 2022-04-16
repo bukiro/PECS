@@ -1,5 +1,5 @@
-import { Condition } from "./Condition";
-import { ConditionGain } from "./ConditionGain";
+import { Condition } from './Condition';
+import { ConditionGain } from './ConditionGain';
 
 export class ConditionSet {
     public condition: Condition;

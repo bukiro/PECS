@@ -1,14 +1,14 @@
-import { Effect } from 'src/app/classes/Effect';
 import { Hint } from 'src/app/classes/Hint';
+import { EffectGain } from './EffectGain';
 
 export class Specialization {
-    public desc: string = "";
-    public effects: Effect[] = [];
+    public desc = '';
+    public effects: EffectGain[] = [];
     public hints: Hint[] = [];
-    public name: string = "";
-    public type: string = "";
+    public name = '';
+    public type = '';
     recast() {
-        this.effects = this.effects.map(obj => Object.assign(new Effect(), obj).recast());
+        this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         return this;
     }

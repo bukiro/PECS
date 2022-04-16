@@ -32,10 +32,10 @@ import { MaterialItem } from './MaterialItem';
 
 export class ItemCollection {
     //This is the amount of bulk that can be ignored when weighing this inventory.
-    public bulkReduction: number = 0;
+    public bulkReduction = 0;
     public id = uuidv4();
     //If an item grants an inventory, this is the item's ID.
-    public itemId: string = "";
+    public itemId = '';
     public adventuringgear: AdventuringGear[] = [];
     public alchemicalbombs: AlchemicalBomb[] = [];
     public alchemicalelixirs: AlchemicalElixir[] = [];
@@ -60,35 +60,35 @@ export class ItemCollection {
     public weapons: Weapon[] = [];
     public wornitems: WornItem[] = [];
     //You cannot add any items to an inventory that would break its bulk limit.
-    constructor(public bulkLimit: number = 0) { };
+    constructor(public bulkLimit: number = 0) { }
     public readonly names: { name: string, key: string }[] = [
-        { name: "Weapons", key: "weapons" },
-        { name: "Armors", key: "armors" },
-        { name: "Shields", key: "shields" },
-        { name: "Alchemical Bombs", key: "alchemicalbombs" },
-        { name: "Worn Items", key: "wornitems" },
-        { name: "Held Items", key: "helditems" },
-        { name: "Adventuring Gear", key: "adventuringgear" },
-        { name: "Alchemical Tools", key: "alchemicaltools" },
-        { name: "Weapon Runes", key: "weaponrunes" },
-        { name: "Armor Runes", key: "armorrunes" },
-        { name: "Scrolls", key: "scrolls" },
-        { name: "Alchemical Elixirs", key: "alchemicalelixirs" },
-        { name: "Potions", key: "potions" },
-        { name: "Alchemical Poisons", key: "alchemicalpoisons" },
-        { name: "Oils", key: "oils" },
-        { name: "Talismans", key: "talismans" },
-        { name: "Snares", key: "snares" },
-        { name: "Ammunition", key: "ammunition" },
-        { name: "Other Consumables", key: "otherconsumables" },
-        { name: "Other Consumables (Bombs)", key: "otherconsumablesbombs" },
-        { name: "Wands", key: "wands" },
-        { name: "Materials", key: "materialitems" }
-    ]
+        { name: 'Weapons', key: 'weapons' },
+        { name: 'Armors', key: 'armors' },
+        { name: 'Shields', key: 'shields' },
+        { name: 'Alchemical Bombs', key: 'alchemicalbombs' },
+        { name: 'Worn Items', key: 'wornitems' },
+        { name: 'Held Items', key: 'helditems' },
+        { name: 'Adventuring Gear', key: 'adventuringgear' },
+        { name: 'Alchemical Tools', key: 'alchemicaltools' },
+        { name: 'Weapon Runes', key: 'weaponrunes' },
+        { name: 'Armor Runes', key: 'armorrunes' },
+        { name: 'Scrolls', key: 'scrolls' },
+        { name: 'Alchemical Elixirs', key: 'alchemicalelixirs' },
+        { name: 'Potions', key: 'potions' },
+        { name: 'Alchemical Poisons', key: 'alchemicalpoisons' },
+        { name: 'Oils', key: 'oils' },
+        { name: 'Talismans', key: 'talismans' },
+        { name: 'Snares', key: 'snares' },
+        { name: 'Ammunition', key: 'ammunition' },
+        { name: 'Other Consumables', key: 'otherconsumables' },
+        { name: 'Other Consumables (Bombs)', key: 'otherconsumablesbombs' },
+        { name: 'Wands', key: 'wands' },
+        { name: 'Materials', key: 'materialitems' }
+    ];
     recast(typeService: TypeService, itemsService: ItemsService) {
         this.adventuringgear = this.adventuringgear.map(obj => Object.assign<AdventuringGear, Item>(new AdventuringGear(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         //Alchemical Bombs need to be cast blindly to avoid circular dependency warnings.
-        this.alchemicalbombs = this.alchemicalbombs.map(obj => (typeService.classCast(typeService.restore_Item(obj, itemsService), "AlchemicalBomb") as AlchemicalBomb).recast(typeService, itemsService));
+        this.alchemicalbombs = this.alchemicalbombs.map(obj => (typeService.classCast(typeService.restore_Item(obj, itemsService), 'AlchemicalBomb') as AlchemicalBomb).recast(typeService, itemsService));
         this.alchemicalelixirs = this.alchemicalelixirs.map(obj => Object.assign<AlchemicalElixir, Item>(new AlchemicalElixir(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         this.alchemicalpoisons = this.alchemicalpoisons.map(obj => Object.assign<AlchemicalPoison, Item>(new AlchemicalPoison(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         this.alchemicaltools = this.alchemicaltools.map(obj => Object.assign<AlchemicalTool, Item>(new AlchemicalTool(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
@@ -100,18 +100,18 @@ export class ItemCollection {
         this.oils = this.oils.map(obj => Object.assign<Oil, Item>(new Oil(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         this.otherconsumables = this.otherconsumables.map(obj => Object.assign<OtherConsumable, Item>(new OtherConsumable(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         //Consumable Bombs need to be cast blindly to avoid circular dependency warnings.
-        this.otherconsumablesbombs = this.otherconsumablesbombs.map(obj => (typeService.classCast(typeService.restore_Item(obj, itemsService), "OtherConsumableBomb") as OtherConsumableBomb).recast(typeService, itemsService));
+        this.otherconsumablesbombs = this.otherconsumablesbombs.map(obj => (typeService.classCast(typeService.restore_Item(obj, itemsService), 'OtherConsumableBomb') as OtherConsumableBomb).recast(typeService, itemsService));
         this.otheritems = this.otheritems.map(obj => Object.assign<OtherItem, OtherItem>(new OtherItem(), obj).recast());
         this.potions = this.potions.map(obj => Object.assign<Potion, Item>(new Potion(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         this.scrolls = this.scrolls.map(obj => Object.assign<Scroll, Item>(new Scroll(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         //Shields need to be cast blindly to avoid circular dependency warnings.
-        this.shields = this.shields.map(obj => (typeService.classCast(typeService.restore_Item(obj, itemsService), "Shield") as Shield).recast(typeService, itemsService));
+        this.shields = this.shields.map(obj => (typeService.classCast(typeService.restore_Item(obj, itemsService), 'Shield') as Shield).recast(typeService, itemsService));
         this.snares = this.snares.map(obj => Object.assign<Snare, Item>(new Snare(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         this.talismans = this.talismans.map(obj => Object.assign<Talisman, Item>(new Talisman(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         this.wands = this.wands.map(obj => Object.assign<Wand, Item>(new Wand(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         this.weaponrunes = this.weaponrunes.map(obj => Object.assign<WeaponRune, Item>(new WeaponRune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         //Weapons need to be cast blindly to avoid circular dependency warnings.
-        this.weapons = this.weapons.map(obj => (typeService.classCast(typeService.restore_Item(obj, itemsService), "Weapon") as Weapon).recast(typeService, itemsService));
+        this.weapons = this.weapons.map(obj => (typeService.classCast(typeService.restore_Item(obj, itemsService), 'Weapon') as Weapon).recast(typeService, itemsService));
         this.wornitems = this.wornitems.map(obj => Object.assign<WornItem, Item>(new WornItem(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
         return this;
     }
@@ -151,7 +151,7 @@ export class ItemCollection {
     allOther(): Item[] {
         return [].concat(
             this.materialitems
-        )
+        );
     }
     allItems(): Item[] {
         return [].concat(
@@ -161,21 +161,21 @@ export class ItemCollection {
             this.allOther()
         );
     }
-    get_Bulk(rounded: boolean = true, reduced: boolean = false) {
+    get_Bulk(rounded = true, reduced = false) {
         //All bulk gets calculated at *10 to avoid rounding issues with decimals,
         //Then returned at /10
-        let sum: number = 0;
+        let sum = 0;
         function addup(item: Item | OtherItem) {
             let bulk = item instanceof OtherItem ? item.bulk : (item as Item).get_Bulk();
             if ((item as Equipment).carryingBulk && !(item as Equipment).equipped) {
                 bulk = (item as Equipment).carryingBulk;
             }
             switch (bulk) {
-                case "":
+                case '':
                     break;
-                case "-":
+                case '-':
                     break;
-                case "L":
+                case 'L':
                     if (item.amount) {
                         sum += Math.floor(item.amount / ((item as Consumable).stack ? (item as Consumable).stack : 1));
                     } else {
@@ -193,10 +193,10 @@ export class ItemCollection {
         }
         this.allItems().forEach(item => {
             addup(item);
-        })
+        });
         this.otheritems.forEach(item => {
             addup(item);
-        })
+        });
         sum = Math.max(0, sum);
         //Either round to int, or else to 1 decimal
         if (rounded) {
@@ -210,27 +210,27 @@ export class ItemCollection {
         return sum;
     }
     get_Name(characterService: CharacterService) {
-        let name: string = ""
+        let name = '';
         if (!this.itemId) {
             characterService.get_Creatures().forEach(creature => {
                 if (creature.inventories[0] === this) {
                     name = creature.name || creature.type;
                 }
                 if (creature.inventories[1] === this) {
-                    name = "Worn Tools";
+                    name = 'Worn Tools';
                 }
-            })
+            });
         } else {
             characterService.get_Creatures().forEach(creature => {
                 if (creature.inventories.some(inventory => inventory === this)) {
                     creature.inventories.forEach(creatureInventory => {
-                        let items = creatureInventory.allEquipment().filter(item => item.id == this.itemId);
+                        const items = creatureInventory.allEquipment().filter(item => item.id == this.itemId);
                         if (items.length) {
                             name = items[0].get_Name();
                         }
                     });
                 }
-            })
+            });
         }
         return name;
     }

@@ -5,13 +5,13 @@ import { Hint } from 'src/app/classes/Hint';
 
 export class AnimalCompanionSpecialization {
     public abilityChoices: AbilityChoice[] = [];
-    public desc: string = "";
+    public desc = '';
     public effects: EffectGain[] = [];
     public hints: Hint[] = [];
-    public level: number = 0;
-    public name: string = "";
+    public level = 0;
+    public name = '';
     public skillChoices: SkillChoice[] = [];
-    public sourceBook: string = "";
+    public sourceBook = '';
     recast() {
         this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());
         this.skillChoices = this.skillChoices.map(obj => Object.assign(new SkillChoice(), obj).recast());

@@ -37,21 +37,21 @@ interface ItemParameters extends ItemRoles {
 })
 export class ItemsComponent implements OnInit, OnDestroy {
 
-    private showList: string = "";
-    private showItem: string = "";
-    public id: number = 0;
-    public hover: number = 0;
-    public wordFilter: string = "";
-    public sorting: "level" | "name" = "level";
-    public creature: string = "Character";
-    public newItemType: string = "";
+    private showList = '';
+    private showItem = '';
+    public id = 0;
+    public hover = 0;
+    public wordFilter = '';
+    public sorting: 'level' | 'name' = 'level';
+    public creature = 'Character';
+    public newItemType = '';
     public newItem: Equipment | Consumable = null;
-    public cashP: number = 0;
-    public cashG: number = 0;
-    public cashS: number = 0;
-    public cashC: number = 0;
-    public purpose: "items" | "formulas" | "scrollsavant" | "createcustomitem" = "items";
-    public range: number = 0;
+    public cashP = 0;
+    public cashG = 0;
+    public cashS = 0;
+    public cashC = 0;
+    public purpose: 'items' | 'formulas' | 'scrollsavant' | 'createcustomitem' = 'items';
+    public range = 0;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -67,7 +67,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
     toggle_List(type: string) {
         if (this.showList == type) {
-            this.showList = "";
+            this.showList = '';
         } else {
             this.showList = type;
         }
@@ -82,7 +82,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         return this.characterService.get_Character().settings.inventoryMinimized;
     }
 
-    trackByIndex(index: number, obj: any): any {
+    trackByIndex(index: number): number {
         return index;
     }
 
@@ -90,9 +90,9 @@ export class ItemsComponent implements OnInit, OnDestroy {
         return this.characterService.get_Character();
     }
 
-    toggle_Item(id: string = "") {
+    toggle_Item(id = '') {
         if (this.showItem == id) {
-            this.showItem = "";
+            this.showItem = '';
         } else {
             this.showItem = id;
         }
@@ -102,7 +102,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         return this.showItem;
     }
 
-    toggle_Purpose(purpose: "items" | "formulas" | "scrollsavant" | "createcustomitem") {
+    toggle_Purpose(purpose: 'items' | 'formulas' | 'scrollsavant' | 'createcustomitem') {
         this.purpose = purpose;
     }
 
@@ -121,7 +121,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
     toggle_TileMode() {
         this.get_Character().settings.itemsTileMode = !this.get_Character().settings.itemsTileMode;
-        this.refreshService.set_ToChange("Character", "items");
+        this.refreshService.set_ToChange('Character', 'items');
         this.refreshService.process_ToChange();
     }
 
@@ -156,25 +156,25 @@ export class ItemsComponent implements OnInit, OnDestroy {
     get_ItemsMenuTarget() {
         this.creature = this.characterService.get_ItemsMenuTarget();
         const companionAvailable = this.get_CompanionAvailable();
-        if (this.creature == "Companion" && !companionAvailable) {
-            this.characterService.set_ItemsMenuTarget("Character");
+        if (this.creature == 'Companion' && !companionAvailable) {
+            this.characterService.set_ItemsMenuTarget('Character');
         }
         const familiarAvailable = this.get_FamiliarAvailable();
-        if (this.creature == "Familiar" && !familiarAvailable) {
-            this.characterService.set_ItemsMenuTarget("Character");
+        if (this.creature == 'Familiar' && !familiarAvailable) {
+            this.characterService.set_ItemsMenuTarget('Character');
         }
         return companionAvailable || familiarAvailable;
     }
 
     check_Filter() {
         if (this.wordFilter.length < 5 && this.showList) {
-            this.showList = "";
+            this.showList = '';
         }
     }
 
     set_Filter() {
         if (this.wordFilter) {
-            this.showList = "All";
+            this.showList = 'All';
         }
     }
 
@@ -184,7 +184,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     toggleItemsMenu() {
-        this.characterService.toggle_Menu("items");
+        this.characterService.toggle_Menu('items');
     }
 
     positiveNumbersOnly(event: KeyboardEvent): boolean {
@@ -200,11 +200,11 @@ export class ItemsComponent implements OnInit, OnDestroy {
         const character = this.get_Character();
         return itemList.map(item => {
             const itemRoles = this.itemRolesService.getItemRoles(item);
-            const proficiency = (itemRoles.asArmor || itemRoles.asWeapon)?.get_Proficiency(character, this.characterService) || "";
+            const proficiency = (itemRoles.asArmor || itemRoles.asWeapon)?.get_Proficiency(character, this.characterService) || '';
             return {
                 ...itemRoles,
                 canUse: this.get_CanUse(itemRoles, proficiency),
-            }
+            };
         });
     }
 
@@ -231,12 +231,12 @@ export class ItemsComponent implements OnInit, OnDestroy {
         return item.get_Price(this.itemsService);
     }
 
-    have_Funds(sum: number = 0) {
-        let character = this.characterService.get_Character();
+    have_Funds(sum = 0) {
+        const character = this.characterService.get_Character();
         if (!sum) {
             sum = (this.cashP * 1000) + (this.cashG * 100) + (this.cashS * 10) + (this.cashC);
         }
-        let funds = (character.cash[0] * 1000) + (character.cash[1] * 100) + (character.cash[2] * 10) + (character.cash[3]);
+        const funds = (character.cash[0] * 1000) + (character.cash[1] * 100) + (character.cash[2] * 10) + (character.cash[3]);
         if (sum <= funds) {
             return true;
         } else {
@@ -244,18 +244,18 @@ export class ItemsComponent implements OnInit, OnDestroy {
         }
     }
 
-    change_Cash(multiplier: number = 1, sum: number = 0, changeafter: boolean = false) {
+    change_Cash(multiplier = 1, sum = 0, changeafter = false) {
         this.characterService.change_Cash(multiplier, sum, this.cashP, this.cashG, this.cashS, this.cashC);
         if (changeafter) {
-            this.refreshService.set_Changed("inventory");
+            this.refreshService.set_Changed('inventory');
         }
     }
 
-    get_Items(newIDs: boolean = false) {
+    get_Items(newIDs = false) {
         if (newIDs) {
             this.id = 0;
         }
-        if (this.get_ShowPurpose() == "formulas") {
+        if (this.get_ShowPurpose() == 'formulas') {
             return this.itemsService.get_CraftingItems();
         } else {
             return this.itemsService.get_Items();
@@ -270,26 +270,26 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     get_InventoryItems(type: string) {
-        let items = [];
+        const items = [];
         this.characterService.get_Character().inventories.map(inventory => inventory[type]).forEach(itemSet => {
             items.push(...itemSet);
-        })
+        });
         return items
             .filter(item => !item.hide)
             .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
-    get_VisibleItems(items: Item[], creatureType: string = "") {
+    get_VisibleItems(items: Item[], creatureType = '') {
         let casting: SpellCasting;
-        let character = this.get_Character();
-        if (this.purpose == "scrollsavant") {
+        const character = this.get_Character();
+        if (this.purpose == 'scrollsavant') {
             casting = this.get_ScrollSavantCasting();
         }
         return items
             .filter((item: Item) =>
                 (
                     //Show companion items in the companion list and not in the character list.
-                    ((creatureType == "Character") == !item.traits.includes("Companion"))
+                    ((creatureType == 'Character') == !item.traits.includes('Companion'))
                 ) &&
                 !item.hide &&
                 (
@@ -302,12 +302,12 @@ export class ItemsComponent implements OnInit, OnDestroy {
                         item.traits.filter(trait => trait.toLowerCase().includes(this.wordFilter.toLowerCase())).length
                     )
                 ) &&
-                (this.purpose == "formulas" ? item.craftable : true) &&
+                (this.purpose == 'formulas' ? item.craftable : true) &&
                 (
-                    this.purpose == "scrollsavant" ?
+                    this.purpose == 'scrollsavant' ?
                         (
-                            creatureType == "Character" &&
-                            item.type == "scrolls" &&
+                            creatureType == 'Character' &&
+                            item.type == 'scrolls' &&
                             (item as Scroll).storedSpells[0]?.level <= character.get_SpellLevel(character.level) - 2 &&
                             casting && !casting.scrollSavant.find(scroll => scroll.refId == item.id)
                         )
@@ -317,7 +317,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
             .sort((a, b) => (a[this.sorting] == b[this.sorting]) ? 0 : (a[this.sorting] < b[this.sorting]) ? -1 : 1);
     }
 
-    grant_Item(creature: string = "Character", item: Item, pay: boolean = false) {
+    grant_Item(creature = 'Character', item: Item, pay = false) {
         const price = item.get_Price(this.itemsService);
         if (pay && price) {
             this.change_Cash(-1, price);
@@ -333,52 +333,52 @@ export class ItemsComponent implements OnInit, OnDestroy {
     get_NewItemFilter() {
         return [{ name: '', key: '' }].concat(this.get_Items().names.filter(name =>
             ![
-                "weaponrunes",
-                "alchemicalbombs",
-                "armorrunes",
-                "alchemicaltools",
-                "scrolls",
-                "alchemicalpoisons",
-                "oils",
-                "talismans",
-                "snares",
-                "wands"
+                'weaponrunes',
+                'alchemicalbombs',
+                'armorrunes',
+                'alchemicaltools',
+                'scrolls',
+                'alchemicalpoisons',
+                'oils',
+                'talismans',
+                'snares',
+                'wands'
             ].includes(name.key)));
     }
 
     initialize_NewItem() {
         switch (this.newItemType) {
-            case "weapons":
+            case 'weapons':
                 this.newItem = new Weapon();
                 break;
-            case "armors":
+            case 'armors':
                 this.newItem = new Armor();
                 break;
-            case "shields":
+            case 'shields':
                 this.newItem = new Shield();
                 break;
-            case "wornitems":
+            case 'wornitems':
                 this.newItem = new WornItem();
                 break;
-            case "helditems":
+            case 'helditems':
                 this.newItem = new HeldItem();
                 break;
-            case "alchemicalelixirs":
+            case 'alchemicalelixirs':
                 this.newItem = new AlchemicalElixir();
                 break;
-            case "potions":
+            case 'potions':
                 this.newItem = new Potion();
                 break;
-            case "otherconsumables":
+            case 'otherconsumables':
                 this.newItem = new OtherConsumable();
                 break;
-            case "otherconsumablesbombs":
+            case 'otherconsumablesbombs':
                 this.newItem = new OtherConsumableBomb();
                 break;
-            case "adventuringgear":
+            case 'adventuringgear':
                 this.newItem = new AdventuringGear();
                 break;
-            case "ammunition":
+            case 'ammunition':
                 this.newItem = new Ammunition();
                 break;
             default:
@@ -404,19 +404,19 @@ export class ItemsComponent implements OnInit, OnDestroy {
         this.toggle_Item();
     }
 
-    grant_CustomItem(creature: string = "Character") {
+    grant_CustomItem(creature = 'Character') {
         if (this.newItem != null) {
-            this.newItem.id = "";
-            if (Object.keys(this.newItem).includes("equipped")) {
-                this.newItem["equipped"] = false;
+            this.newItem.id = '';
+            if (Object.keys(this.newItem).includes('equipped')) {
+                this.newItem['equipped'] = false;
             }
-            if (Object.keys(this.newItem).includes("invested")) {
-                this.newItem["invested"] = false;
+            if (Object.keys(this.newItem).includes('invested')) {
+                this.newItem['invested'] = false;
             }
-            if (Object.keys(this.newItem).includes("choice")) {
-                if (this.newItem["choices"]?.length) {
-                    this.newItem["choice"] = this.newItem["choices"][0] || "";
-                    this.newItem["showChoicesInInventory"] = true;
+            if (Object.keys(this.newItem).includes('choice')) {
+                if (this.newItem['choices']?.length) {
+                    this.newItem['choice'] = this.newItem['choices'][0] || '';
+                    this.newItem['showChoicesInInventory'] = true;
                 }
 
             }
@@ -424,7 +424,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         }
     }
 
-    get_FormulasLearned(id: string = "", source: string = "") {
+    get_FormulasLearned(id = '', source = '') {
         return this.get_Character().get_FormulasLearned(id, source);
     }
 
@@ -438,16 +438,16 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
     get_LearnedFormulaSource(source: string) {
         switch (source) {
-            case "alchemicalcrafting":
-                return "(learned via Alchemical Crafting)";
-            case "magicalcrafting":
-                return "(learned via Magical Crafting)";
-            case "snarecrafting":
-                return "(learned via Snare Crafting)";
-            case "snarespecialist":
-                return "(learned via Snare Specialist)";
-            case "other":
-                return "(bought, copied, invented or reverse engineered)";
+            case 'alchemicalcrafting':
+                return '(learned via Alchemical Crafting)';
+            case 'magicalcrafting':
+                return '(learned via Magical Crafting)';
+            case 'snarecrafting':
+                return '(learned via Snare Crafting)';
+            case 'snarespecialist':
+                return '(learned via Snare Specialist)';
+            case 'other':
+                return '(bought, copied, invented or reverse engineered)';
         }
     }
 
@@ -456,27 +456,27 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     get_LearningAvailable() {
-        let result: string = "";
-        if (this.have_Feat("Alchemical Crafting")) {
-            let learned: number = this.get_FormulasLearned("", 'alchemicalcrafting').length;
-            let available = 4;
-            result += "\n" + (available - learned) + " of " + available + " common 1st-level alchemical items via Alchemical Crafting";
+        let result = '';
+        if (this.have_Feat('Alchemical Crafting')) {
+            const learned: number = this.get_FormulasLearned('', 'alchemicalcrafting').length;
+            const available = 4;
+            result += `\n${ available - learned } of ${ available } common 1st-level alchemical items via Alchemical Crafting`;
         }
-        if (this.have_Feat("Magical Crafting")) {
-            let learned: number = this.get_FormulasLearned("", 'magicalcrafting').length;
-            let available = 4;
-            result += "\n" + (available - learned) + " of " + available + " common magic items of 2nd level or lower via Magical Crafting";
+        if (this.have_Feat('Magical Crafting')) {
+            const learned: number = this.get_FormulasLearned('', 'magicalcrafting').length;
+            const available = 4;
+            result += `\n${ available - learned } of ${ available } common magic items of 2nd level or lower via Magical Crafting`;
         }
-        if (this.have_Feat("Snare Crafting")) {
-            let learned: number = this.get_FormulasLearned("", 'snarecrafting').length;
-            let available = 4;
-            result += "\n" + (available - learned) + " of " + available + " common snares via Snare Crafting";
+        if (this.have_Feat('Snare Crafting')) {
+            const learned: number = this.get_FormulasLearned('', 'snarecrafting').length;
+            const available = 4;
+            result += `\n${ available - learned } of ${ available } common snares via Snare Crafting`;
         }
-        if (this.have_Feat("Snare Specialist")) {
-            let learned: number = this.get_FormulasLearned("", 'snarespecialist').length;
+        if (this.have_Feat('Snare Specialist')) {
+            const learned: number = this.get_FormulasLearned('', 'snarespecialist').length;
             let available = 0;
-            let character = this.get_Character();
-            let crafting = this.characterService.get_Skills(character, "Crafting")[0]?.level(character, this.characterService, character.level) || 0;
+            const character = this.get_Character();
+            const crafting = this.characterService.get_Skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0;
             if (crafting >= 4) {
                 available += 3;
             }
@@ -486,45 +486,45 @@ export class ItemsComponent implements OnInit, OnDestroy {
             if (crafting >= 8) {
                 available += 3;
             }
-            result += "\n" + (available - learned) + " of " + available + " common or uncommon snares via Snare Specialist";
+            result += `\n${ available - learned } of ${ available } common or uncommon snares via Snare Specialist`;
         }
         if (result) {
-            result = "You can currently learn the following number of formulas through feats:\n" + result;
+            result = `You can currently learn the following number of formulas through feats:\n${ result }`;
         }
         return result;
     }
 
     can_Learn(item: Item, source: string) {
-        if (source == "alchemicalcrafting") {
-            let learned: number = this.get_FormulasLearned("", 'alchemicalcrafting').length;
+        if (source == 'alchemicalcrafting') {
+            const learned: number = this.get_FormulasLearned('', 'alchemicalcrafting').length;
             let available = 0;
-            if (this.have_Feat("Alchemical Crafting")) {
+            if (this.have_Feat('Alchemical Crafting')) {
                 available += 4;
             }
-            return item.level == 1 && available > learned && !item.traits.includes("Uncommon") && !item.traits.includes("Rare") && !item.traits.includes("Unique");
+            return item.level == 1 && available > learned && !item.traits.includes('Uncommon') && !item.traits.includes('Rare') && !item.traits.includes('Unique');
         }
-        if (source == "magicalcrafting") {
-            let learned: number = this.get_FormulasLearned("", 'magicalcrafting').length;
+        if (source == 'magicalcrafting') {
+            const learned: number = this.get_FormulasLearned('', 'magicalcrafting').length;
             let available = 0;
-            if (this.have_Feat("Magical Crafting")) {
+            if (this.have_Feat('Magical Crafting')) {
                 available += 4;
             }
-            return item.level <= 2 && available > learned && !item.traits.includes("Uncommon") && !item.traits.includes("Rare") && !item.traits.includes("Unique");
+            return item.level <= 2 && available > learned && !item.traits.includes('Uncommon') && !item.traits.includes('Rare') && !item.traits.includes('Unique');
         }
-        if (source == "snarecrafting") {
-            let learned: number = this.get_FormulasLearned("", 'snarecrafting').length;
+        if (source == 'snarecrafting') {
+            const learned: number = this.get_FormulasLearned('', 'snarecrafting').length;
             let available = 0;
-            if (this.have_Feat("Snare Crafting")) {
+            if (this.have_Feat('Snare Crafting')) {
                 available += 4;
             }
-            return available > learned && !item.traits.includes("Uncommon") && !item.traits.includes("Rare") && !item.traits.includes("Unique");
+            return available > learned && !item.traits.includes('Uncommon') && !item.traits.includes('Rare') && !item.traits.includes('Unique');
         }
-        if (source == "snarespecialist") {
-            let learned: number = this.get_FormulasLearned("", 'snarespecialist').length;
+        if (source == 'snarespecialist') {
+            const learned: number = this.get_FormulasLearned('', 'snarespecialist').length;
             let available = 0;
-            if (this.have_Feat("Snare Specialist")) {
-                let character = this.get_Character();
-                let crafting = this.characterService.get_Skills(character, "Crafting")[0]?.level(character, this.characterService, character.level) || 0;
+            if (this.have_Feat('Snare Specialist')) {
+                const character = this.get_Character();
+                const crafting = this.characterService.get_Skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0;
                 if (crafting >= 4) {
                     available += 3;
                 }
@@ -535,28 +535,28 @@ export class ItemsComponent implements OnInit, OnDestroy {
                     available += 3;
                 }
             }
-            return available > learned && !item.traits.includes("Rare") && !item.traits.includes("Unique");
+            return available > learned && !item.traits.includes('Rare') && !item.traits.includes('Unique');
         }
     }
 
     get_ScrollSavantCasting() {
         return this.get_Character().class.spellCasting
-            .find(casting => casting.castingType == "Prepared" && casting.className == "Wizard" && casting.tradition == "Arcane");
+            .find(casting => casting.castingType == 'Prepared' && casting.className == 'Wizard' && casting.tradition == 'Arcane');
     }
 
     get_ScrollSavantDCLevel() {
-        let character = this.get_Character();
+        const character = this.get_Character();
         return Math.max(...this.characterService.get_Skills(character)
-            .filter(skill => skill.name.includes("Arcane Spell DC"))
-            .map(skill => skill.level(character, this.characterService, character.level)), 0)
+            .filter(skill => skill.name.includes('Arcane Spell DC'))
+            .map(skill => skill.level(character, this.characterService, character.level)), 0);
     }
 
     get_ScrollSavantAvailable() {
-        let casting = this.get_ScrollSavantCasting();
+        const casting = this.get_ScrollSavantCasting();
         if (casting) {
-            let result: string = "";
-            if (this.have_Feat("Scroll Savant")) {
-                let available = this.get_ScrollSavantDCLevel() / 2;
+            let result = '';
+            if (this.have_Feat('Scroll Savant')) {
+                const available = this.get_ScrollSavantDCLevel() / 2;
                 //Remove all prepared scrolls that are of a higher level than allowed.
                 casting.scrollSavant
                     .filter(scroll => scroll.storedSpells[0].level > this.get_Character().get_SpellLevel(this.get_Character().level))
@@ -567,9 +567,9 @@ export class ItemsComponent implements OnInit, OnDestroy {
                 while (casting.scrollSavant.length > available) {
                     casting.scrollSavant.pop();
                 }
-                let prepared: number = casting.scrollSavant.length;
+                const prepared: number = casting.scrollSavant.length;
                 if (available) {
-                    result = "You can currently prepare " + (available - prepared) + " of " + available + " temporary scrolls of different spell levels up to level " + (this.get_Character().get_SpellLevel(this.get_Character().level) - 2) + ".";
+                    result = `You can currently prepare ${ available - prepared } of ${ available } temporary scrolls of different spell levels up to level ${ this.get_Character().get_SpellLevel(this.get_Character().level) - 2 }.`;
                 }
             }
             return result;
@@ -577,9 +577,9 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     prepare_Scroll(scroll: Item) {
-        let casting = this.get_ScrollSavantCasting();
-        let tempInv = new ItemCollection();
-        let newScroll = this.characterService.grant_InventoryItem(scroll, { creature: this.characterService.get_Character(), inventory: tempInv, amount: 1 }, { resetRunes: false, changeAfter: false, equipAfter: false }) as Scroll;
+        const casting = this.get_ScrollSavantCasting();
+        const tempInv = new ItemCollection();
+        const newScroll = this.characterService.grant_InventoryItem(scroll, { creature: this.characterService.get_Character(), inventory: tempInv, amount: 1 }, { resetRunes: false, changeAfter: false, equipAfter: false }) as Scroll;
         newScroll.expiration = -2;
         newScroll.price = 0;
         newScroll.storedSpells.forEach(spell => {
@@ -599,17 +599,17 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
     finish_Loading() {
         if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
+            setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
                 .subscribe((target) => {
-                    if (["items", "all"].includes(target.toLowerCase())) {
+                    if (['items', 'all'].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
                 .subscribe((view) => {
-                    if (["items", "all"].includes(view.target.toLowerCase())) {
+                    if (['items', 'all'].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
