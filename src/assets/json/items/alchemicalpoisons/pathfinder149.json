@@ -77,6 +77,7 @@
         "savingThrow": "DC 32 Fortitude",
         "usage": "held in 2 hands",
         "stages": [
+            "",
             "2d6 mental damage and stupefied 2 (1 round)",
             "3d6 mental damage and stupefied 3 (1 round)",
             "4d6 mental damage and stupefied 4 (1 round)"
@@ -133,6 +134,7 @@
         "savingThrow": "DC 36 Fortitude",
         "usage": "held in 2 hands",
         "stages": [
+            "",
             "6d6 poison damage and dazzled (1 round)",
             "7d6 poison damage, dazzled, and sickened 1 (1 round)",
             "8d6 poison damage and blinded (1 round)"
@@ -188,6 +190,7 @@
         "savingThrow": "DC 42 Fortitude",
         "usage": "held in 2 hands",
         "stages": [
+            "",
             "8d6 poison damage and slowed 1 (1 round)",
             "10d6 poison damage, enfeebled 2, and slowed 1 (1 round)",
             "12d6 poison damage, enfeebled 3, slowed 1 (1 round)"

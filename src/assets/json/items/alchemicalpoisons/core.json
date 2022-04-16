@@ -67,6 +67,7 @@
         "savingThrow": "DC 17 Fortitude",
         "usage": "held in 2 hands",
         "stages": [
+            "",
             "1d6 poison damage (1 round)",
             "1d8 poison damage and flat-footed (1 round)",
             "1d12 poison damage, clumsy 1, and flat-footed (1 round)"
@@ -120,6 +121,7 @@
         "savingThrow": "DC 18 Fortitude",
         "usage": "held in 2 hands",
         "stages": [
+            "",
             "1d8 poison damage (1 round)",
             "1d10 poison damage (1 round)",
             "2d6 poison damage (1 round)"
@@ -149,6 +151,7 @@
         "savingThrow": "DC 18 Fortitude",
         "usage": "held in 2 hands",
         "stages": [
+            "",
             "slowed 1 (1 round)",
             "slowed 1 (1 minute)",
             "unconscious with no Perception check to wake up (1 round)",
@@ -176,6 +179,7 @@
         "savingThrow": "DC 19 Fortitude",
         "usage": "held in 2 hands",
         "stages": [
+            "",
             "1d10 poison damage (1 round)",
             "1d12 poison damage (1 round)",
             "2d10 poison damage (1 round)"
@@ -202,6 +206,7 @@
         "savingThrow": "DC 19 Fortitude",
         "usage": "held in 2 hands",
         "stages": [
+            "",
             "1d10 poison damage (1 round)",
             "1d12 poison damage and stupefied 1 (1 round)",
             "2d6 poison damage and stupefied 2 (1 round)"
@@ -228,6 +233,7 @@
         "savingThrow": "DC 21 Fortitude",
         "usage": "held in 2 hands",
         "stages": [
+            "",
             "1d10 poison damage and flat-footed (1 round)",
             "1d12 poison damage, clumsy 1, and flat-footed (1 round)",
             "2d6 poison damage, clumsy 2, and flat-footed (1 round)"
@@ -254,6 +260,7 @@
         "savingThrow": "DC 22 Fortitude",
         "usage": "held in 2 hands",
         "stages": [
+            "",
             "1d10 poison damage and enfeebled 1 (1 round)",
             "2d10 poison damage and enfeebled 1 (1 round)",
             "2d10 poison damage and enfeebled 2 (1 round)"
@@ -280,6 +287,7 @@
         "savingThrow": "DC 25 Fortitude",
         "usage": "held in 2 hands",
         "stages": [
+            "",
             "2d6 poison damage and clumsy 1 (1 round)",
             "3d6 poison damage and clumsy 2 (1 round)",
             "4d6 poison and clumsy 2 (1 round)"
@@ -360,6 +368,7 @@
         "savingThrow": "DC 26 Fortitude",
         "usage": "held in 2 hands",
         "stages": [
+            "",
             "5d6 poison damage (1 round)",
             "6d6 poison damage (1 round)",
             "8d6 poison damage (1 round)"
@@ -468,6 +477,7 @@
         "savingThrow": "DC 29 Fortitude",
         "usage": "held in 2 hands",
         "stages": [
+            "",
             "3d6 negative damage and 2d6 poison damage (1 round)",
             "3d6 negative damage, 2d6 poison damage, and enfeebled 1 (1 round)",
             "3d6 negative damage, 2d6 poison damage, and enfeebled 2 (1 round)"
@@ -576,6 +586,7 @@
         "savingThrow": "DC 32 Fortitude",
         "usage": "held in 2 hands",
         "stages": [
+            "",
             "5d6 poison damage and enfeebled 2 (1 round)",
             "6d6 poison damage and enfeebled 2 (1 round)",
             "8d6 poison and enfeebled 2 (1 round)"

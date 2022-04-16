@@ -21,6 +21,7 @@
         "savingThrow": "DC 16 Fortitude",
         "usage": "held in 2 hands",
         "stages": [
+            "",
             "1d6 poison and enfeebled 1 (1 round)",
             "As stage 1",
             "1d6 poison, and enfeebled 2 (1 round)"
