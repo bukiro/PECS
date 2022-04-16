@@ -41,6 +41,6 @@ export class AbilitiesService {
         Object.keys(data).forEach(key => {
             this.abilities.push(...data[key].map((obj: Ability) => Object.assign(new Ability(), obj)));
         });
-        this.abilities = this.extensionsService.cleanup_Duplicates(this.abilities, 'name', 'abilities');
+        this.abilities = this.extensionsService.cleanup_Duplicates(this.abilities, 'name', 'abilities') as Ability[];
     }
 }

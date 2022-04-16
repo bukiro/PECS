@@ -1,8 +1,4 @@
-<ngb-toast *ngFor="let toast of toastService.toasts; trackBy:trackByIndex;" class="toast" [class]="toast.classname" [autohide]="true"
-    [delay]="toast.delay || 5000" (hidden)="toastService.remove(toast)" (click)="on_Click(toast)">
-    <ng-template [ngIf]="isTemplate(toast)" [ngIfElse]="text">
-        <ng-template [ngTemplateOutlet]="toast.textOrTpl"></ng-template>
-    </ng-template>
-
-    <ng-template #text><div class="left-aligned" [innerHtml]="toast.textOrTpl"></div></ng-template>
+<ngb-toast *ngFor="let toast of toastService.toasts; trackBy:trackByIndex;" class="toast" [autohide]="true"
+    [delay]="5000" (hidden)="toastService.remove(toast)" (click)="on_Click(toast)">
+    <div class="left-aligned" [innerHtml]="toast.text"></div>
 </ngb-toast>

@@ -53,7 +53,8 @@
                             *ngIf="showContent && get_ShowChoice()==listID">
                             <div class="list-item lower">
                                 <!-- Heightened -->
-                                <div class="list-item gridicon-fullsizebox" *ngIf="spellbook && choice.level != 0 && !choice.alwaysShowHeightened">
+                                <div class="list-item gridicon-fullsizebox"
+                                    *ngIf="spellbook && choice.level != 0 && !choice.alwaysShowHeightened">
                                     <input class="character-choice" id="{{choice.id}}showHeightened" type="checkbox"
                                         [(ngModel)]="showHeightened">
                                     <label for="{{choice.id}}showHeightened">
@@ -340,7 +341,7 @@
                                         More spells may be found if you show heightened spells.
                                     </span>
                                 </div>
-                                <ng-container *ngFor="let spellSet of availableSpells; trackBy:trackBySpellID;">
+                                <ng-container *ngFor="let spellSet of availableSpells; trackBy:trackBySpellSetID;">
                                     <ng-container *ngFor="let spell of [spellSet.spell]; trackBy:trackBySpellID;">
                                         <ng-container
                                             *ngFor="let taken of [get_SpellTakenByThis(spell.name)]; trackBy:trackByIndex">
@@ -500,8 +501,10 @@
                                                                         ? " " + taken + " " : ""}}{{spell.name}}
                                                                     </span>
                                                                     <cite>Level {{spell.levelreq}}</cite>
-                                                                    <ng-container *ngFor="let trait of ['Rare', 'Uncommon']">
-                                                                        <app-trait *ngIf="spell.traits.includes(trait)" [name]="trait"
+                                                                    <ng-container
+                                                                        *ngFor="let trait of ['Rare', 'Uncommon']">
+                                                                        <app-trait *ngIf="spell.traits.includes(trait)"
+                                                                            [name]="trait"
                                                                             [trait]="get_Traits(trait)[0]">
                                                                         </app-trait>
                                                                     </ng-container>

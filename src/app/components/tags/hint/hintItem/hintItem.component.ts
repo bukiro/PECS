@@ -19,7 +19,7 @@ export class HintItemComponent implements OnInit {
     @Input()
     creature = 'Character';
     @Input()
-    item: Item;
+    item: Item | any;
 
     constructor(
         public characterService: CharacterService,

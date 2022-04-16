@@ -94,7 +94,11 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         return index;
     }
 
-    trackBySpellID(index: number, obj: { id: string }): string {
+    trackBySpellSetID(index: number, obj: { spell: Spell }): string {
+        return obj.spell.id;
+    }
+
+    trackBySpellID(index: number, obj: Spell): string {
         return obj.id;
     }
 

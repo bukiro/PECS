@@ -595,7 +595,7 @@ export class ActivitiesService {
         Object.keys(data).forEach(key => {
             this.activities.push(...data[key].map((obj: Activity) => Object.assign(new Activity(), obj).recast()));
         });
-        this.activities = this.extensionsService.cleanup_Duplicates(this.activities, 'name', 'activities');
+        this.activities = this.extensionsService.cleanup_Duplicates(this.activities, 'name', 'activities') as Activity[];
     }
 
 }

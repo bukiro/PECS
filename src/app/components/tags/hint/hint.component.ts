@@ -16,6 +16,9 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { Material } from 'src/app/classes/Material';
 import { Oil } from 'src/app/classes/Oil';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
+import { Condition } from 'src/app/classes/Condition';
+
+type HintObject = Feat | Activity | ConditionSet | Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material | { desc?: string, hints: Hint[]; }
 
 @Component({
     selector: 'app-hint',
@@ -27,7 +30,7 @@ export class HintComponent {
     @Input()
     creature = 'Character';
     @Input()
-    object: Feat | Activity | ConditionSet | Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material | { desc?: string, hints: Hint[]; } = null;
+    object: HintObject = null;
     @Input()
     objectName = '';
     @Input()
@@ -164,23 +167,54 @@ export class HintComponent {
         return this.object;
     }
 
-    get_ObjectType(object: Feat | Activity | ConditionSet | Item | { desc?: string }) {
-        if (object instanceof Feat) {
-            return 'Feat';
+    public objectHasType(object: HintObject): boolean {
+        return (
+            object instanceof Feat ||
+            object instanceof Activity ||
+            object instanceof ConditionSet ||
+            object instanceof Item ||
+            !!object.desc
+        );
+    }
+
+    public objectAsNamedObject(object: HintObject): Feat | Activity | Item | Condition {
+        if (
+            object instanceof Feat ||
+            object instanceof Activity ||
+            object instanceof Item
+        ) {
+            return object;
         }
-        if (object instanceof Activity) {
-            return 'Activity';
+        if (
+            object instanceof ConditionSet
+        ) {
+            return object.condition;
         }
-        if (object instanceof ConditionSet) {
-            return 'ConditionSet';
+        return null;
+    }
+
+    public objectAsFeat(object: HintObject): Feat {
+        return object instanceof Feat ? object : null;
+    }
+
+    public objectAsActivity(object: HintObject): Activity {
+        return object instanceof Activity ? object : null;
+    }
+
+    public objectAsConditionSet(object: HintObject): ConditionSet {
+        return object instanceof ConditionSet ? object : null;
+    }
+
+    public objectAsItem(object: HintObject): Item {
+        return object instanceof Item ? object : null;
+    }
+
+    public objectAsDescOnly(object: HintObject): { desc: string } {
+        if (!(this.objectAsFeat(object) || this.objectAsActivity(object) || this.objectAsConditionSet(object) || this.objectAsItem(object))) {
+            return Object.prototype.hasOwnProperty.call(object, 'desc') ? object as { desc: string } : null;
+        } else {
+            return null;
         }
-        if (object instanceof Item) {
-            return 'Item';
-        }
-        if (object?.desc) {
-            return 'DescOnly';
-        }
-        return '';
     }
 
 }

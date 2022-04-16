@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ToastService } from 'src/app/services/toast.service';
 
 interface Toast {
-    textOrTpl: string | TemplateRef<unknown>;
+    text: string;
     onClickCreature?: string;
     onClickAction?: string;
 }
@@ -28,8 +28,6 @@ export class ToastContainerComponent {
     trackByIndex(index: number): number {
         return index;
     }
-
-    isTemplate(toast: Toast) { return toast.textOrTpl instanceof TemplateRef; }
 
     on_Click(toast: Toast) {
         if (toast.onClickAction) {
