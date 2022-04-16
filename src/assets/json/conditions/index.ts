@@ -17,7 +17,7 @@
 export { default as core } from './core.json';
 export { default as advancedPlayersGuide } from './advancedPlayersGuide.json';
 export { default as ancestryGuide } from './ancestryGuide.json';
-export { default as characterGuide } from './characterGuide.json'
+export { default as characterGuide } from './characterGuide.json';
 export { default as fallOfPlaguestone } from './fallOfPlaguestone.json';
 export { default as GMToolkit_SecretKeepersMask } from './GMToolkit_SecretKeepersMask.json';
 export { default as godsAndMagic } from './godsAndMagic.json';

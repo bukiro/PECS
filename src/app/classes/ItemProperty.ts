@@ -6,7 +6,7 @@ export class ItemProperty {
     public locked = false;
     public name = '';
     public parent = '';
-    public priority = 0;
+    public priority = '00';
     public type = '';
     public validation = '';
     recast() {
