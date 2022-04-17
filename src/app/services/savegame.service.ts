@@ -717,6 +717,11 @@ export class SavegameService {
                 });
             }
 
+            //A speed named "Ignore Armor Speed Penalty" has inadvertently been added to characters before 1.0.15 who have the Unburdened Iron feat.
+            // It is removed here.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 15) {
+                character.speeds = character.speeds.filter(speed => speed.name !== 'Ignore Armor Speed Penalty');
+            }
         }
 
         return character;

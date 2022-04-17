@@ -673,7 +673,12 @@ export class FeatsService {
             }
 
             //Feats that add Speeds should add them to the Speeds list as well. This can be applied for both Familiars and Characters, so we use Creature.
-            feat.effects.filter(effect => effect.affected.includes('Speed') && effect.affected != 'Speed').forEach(effect => {
+            feat.effects.filter(effect =>
+                !effect.toggle &&
+                effect.affected.toLowerCase().includes('speed') &&
+                effect.affected.toLowerCase() != 'speed' &&
+                !effect.affected.toLowerCase().includes('ignore')
+            ).forEach(effect => {
                 if (taken) {
                     const newLength = creature.speeds.push(new Speed(effect.affected));
                     creature.speeds[newLength - 1].source = `Feat: ${ feat.name }`;
