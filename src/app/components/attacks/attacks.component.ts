@@ -209,10 +209,6 @@ export class AttacksComponent implements OnInit, OnDestroy {
         return poison.desc;
     }
 
-    get_TwoHandedAllowed(weapon: Weapon) {
-        return weapon._traits.some(trait => trait.toLowerCase().includes('two-handed'));
-    }
-
     on_EquipmentChange(item: Equipment) {
         this.refreshService.set_ItemViewChanges(this.get_Creature(), item, { characterService: this.characterService, activitiesService: this.activitiesService });
         this.refreshService.process_ToChange();

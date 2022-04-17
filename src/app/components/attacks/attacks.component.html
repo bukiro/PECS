@@ -178,14 +178,6 @@
                         </ng-container>
                     </div>
                 </ng-container>
-                <div class="list-item newrow" *ngIf="get_TwoHandedAllowed(weaponParameters.weapon)">
-                    <span>
-                        <input id="{{weaponParameters.weapon.id}}twohanded" type="checkbox"
-                            [(ngModel)]="weaponParameters.weapon.twohanded"
-                            (ngModelChange)="on_EquipmentChange(weaponParameters.weapon)">
-                        <label for="{{weaponParameters.weapon.id}}twohanded">&nbsp;Wield two-handed</label>
-                    </span>
-                </div>
                 <div class="fullsize-only newrow left-aligned"
                     *ngFor="let hintRunes of [get_HintRunes(weaponParameters.weapon, attack.range)]; trackBy:trackByIndex;"
                     style="margin-top:initial">

@@ -84,8 +84,6 @@ export class Weapon extends Equipment {
     public weaponBase = '';
     //Giant Instinct Barbarians can wield larger weapons.
     public large = false;
-    //Weapons with the Two-Hand trait can be wielded with two hands to increase their damage.
-    public twohanded = false;
     //A Champion with the Divine Ally: Blade Ally Feat can designate one weapon or handwraps as his blade ally.
     public bladeAlly = false;
     //A Dwarf with the Battleforger feat can sharpen a weapon to grant the effect of a +1 potency rune.
@@ -833,17 +831,6 @@ export class Weapon extends Equipment {
                         calculatedEffects.push(Object.assign(new Effect(), { creature: creature.type, type: 'untyped', target: `${ this.name } Dice Size`, setValue: newDicesize.toString(), source: 'Deadly Simplicity', apply: true, show: false }));
                     }
                 }
-            }
-            //Weapons with the Two-Hand trait get to change their dice size if they are wielded with two hands.
-            if (this.twohanded) {
-                traits.filter(trait => trait.includes('Two-Hand')).forEach(trait => {
-                    const twoHandedDiceSize = parseInt(trait.substr(10));
-                    if (twoHandedDiceSize) {
-                        if (twoHandedDiceSize > dicesize) {
-                            calculatedEffects.push(Object.assign(new Effect(), { creature: creature.type, type: 'untyped', target: `${ this.name } Dice Size`, setValue: twoHandedDiceSize.toString(), source: 'Two-Hand', apply: true, show: false }));
-                        }
-                    }
-                });
             }
             //For any activated traits of this weapon, check if any effects on Dice Size apply. These need to be calculated in the effects service.
             const traitEffects = [];
