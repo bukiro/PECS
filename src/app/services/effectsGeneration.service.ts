@@ -98,7 +98,7 @@ export class EffectsGenerationService {
         //This statement is evaluated by the EvaluationService and then validated here in order to build a working Effect.
         (object.effects as EffectGain[]).filter(effect => effect.resonant ? (object instanceof WornItem && object.isSlottedAeonStone) : true).forEach((effect: EffectGain) => {
             function get_ValueFromFormula(value: string) {
-                return evaluationService.get_ValueFromFormula(value, { characterService: services.characterService, effectsService: effectsService }, Object.assign({ effect: effect }, context), options);
+                return evaluationService.get_ValueFromFormula(value, { characterService: services.characterService, effectsService: effectsService }, { ...context, effect: effect, effectSourceName: source }, options);
             }
             let show: boolean = effect.show;
             let type = 'untyped';
