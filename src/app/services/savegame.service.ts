@@ -738,7 +738,7 @@ export class SavegameService {
                 }
                 if (!blank) {
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    blank = new (<any>object.constructor());
+                    blank = new (<any>object.constructor);
                 }
                 Object.keys(object).forEach(key => {
                     //Delete attributes that are in the "neversave" list, if it exists.
