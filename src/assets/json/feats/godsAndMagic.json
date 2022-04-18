@@ -24,14 +24,14 @@
     {
         "name": "Battle Prayer: Chaos",
         "desc": "Calling out to your deity, you recite scripture to harm a foe. This action has the chaotic trait and deals Chaotic damage.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
         "hints": [
             {
                 "desc": "Battle Prayer deals Chaotic damage.",
                 "showon": "Battle Prayer"
             }
         ],
-        "sourceBook": "Gods & Magic",
-        "_extensionFileName": "godsAndMagic",
         "subType": "Chaos",
         "superType": "Battle Prayer",
         "shortdesc": "Calling out to your deity, you recite scripture to harm a foe.",
@@ -57,14 +57,14 @@
     {
         "name": "Battle Prayer: Evil",
         "desc": "Calling out to your deity, you recite scripture to harm a foe. This action has the evil trait and deals Evil damage.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
         "hints": [
             {
                 "desc": "Battle Prayer deals Evil damage.",
                 "showon": "Battle Prayer"
             }
         ],
-        "sourceBook": "Gods & Magic",
-        "_extensionFileName": "godsAndMagic",
         "subType": "Evil",
         "superType": "Battle Prayer",
         "shortdesc": "Calling out to your deity, you recite scripture to harm a foe.",
@@ -90,14 +90,14 @@
     {
         "name": "Battle Prayer: Good",
         "desc": "Calling out to your deity, you recite scripture to harm a foe. This action has the good trait and deals Good damage.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
         "hints": [
             {
                 "desc": "Battle Prayer deals Good damage.",
                 "showon": "Battle Prayer"
             }
         ],
-        "sourceBook": "Gods & Magic",
-        "_extensionFileName": "godsAndMagic",
         "subType": "Good",
         "superType": "Battle Prayer",
         "shortdesc": "Calling out to your deity, you recite scripture to harm a foe.",
@@ -123,14 +123,14 @@
     {
         "name": "Battle Prayer: Law",
         "desc": "Calling out to your deity, you recite scripture to harm a foe. This action has the lawful trait and deals Lawful damage.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
         "hints": [
             {
                 "desc": "Battle Prayer deals Lawful damage.",
                 "showon": "Battle Prayer"
             }
         ],
-        "sourceBook": "Gods & Magic",
-        "_extensionFileName": "godsAndMagic",
         "subType": "Lawful",
         "superType": "Battle Prayer",
         "shortdesc": "Calling out to your deity, you recite scripture to harm a foe.",
@@ -156,14 +156,14 @@
     {
         "name": "Bless Tonic",
         "desc": "You channel positive energy into restoratives that ward against harm. When you Craft an alchemical item that restores Hit Points (rather than create it with advanced alchemy, Quick Alchemy, or another means), it becomes a blessed alchemical item and gains the positive trait. For example, an elixir of life would become a blessed elixir of life. When a creature regains Hit Points using a blessed alchemical item, the overflowing energy grants them negative resistance 5 for 1 round, or negative resistance 10 if you are legendary in Crafting.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
         "hints": [
             {
                 "desc": "When you Craft an alchemical item that restores Hit Points (rather than create it with advanced alchemy, Quick Alchemy, or another means), it becomes a blessed alchemical item and gains the positive trait. For example, an elixir of life would become a blessed elixir of life. When a creature regains Hit Points using a blessed alchemical item, the overflowing energy grants them negative resistance 5 for 1 round, or negative resistance 10 if you are legendary in Crafting.",
                 "showon": "Crafting"
             }
         ],
-        "sourceBook": "Gods & Magic",
-        "_extensionFileName": "godsAndMagic",
         "internalNote": "There is no automatic implementation.",
         "shortdesc": "You channel positive energy into restoratives that ward against harm.",
         "traits": [
@@ -184,14 +184,14 @@
     {
         "name": "Bless Toxin",
         "desc": "You pour negative energy into toxins you create to further debilitate your targets. When you Craft an alchemical poison (rather than create it with advanced alchemy, Quick Alchemy, or another means), it becomes a blessed alchemical poison and gains the negative trait. When a creature is afflicted with a blessed alchemical poison, for 1 round, any Hit Points it would regain from a positive effect are reduced by 5, or by 10 if you are legendary in Crafting.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
         "hints": [
             {
                 "desc": "When you Craft an alchemical poison (rather than create it with advanced alchemy, Quick Alchemy, or another means), it becomes a blessed alchemical poison and gains the negative trait. When a creature is afflicted with a blessed alchemical poison, for 1 round, any Hit Points it would regain from a positive effect are reduced by 5, or by 10 if you are legendary in Crafting.",
                 "showon": "Crafting"
             }
         ],
-        "sourceBook": "Gods & Magic",
-        "_extensionFileName": "godsAndMagic",
         "internalNote": "There is no automatic implementation.",
         "shortdesc": "You pour negative energy into toxins you create to further debilitate your targets.",
         "traits": [
@@ -212,14 +212,14 @@
     {
         "name": "Charlatan",
         "desc": "You've learned to mimic the abilities of spellcasters by studying their flourishes and words. When you activate a magic item to generate a spell effect, attempt a Deception check. If you succeed against an onlooker's Perception DC, to that onlooker, you appear to Cast that Spell instead. Onlookers who successfully Recognize the Spell realize you used a magic item, though those who later successfully Identify the Magic still can't determine that the source of the effect was a magic item.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
         "hints": [
             {
                 "desc": "When you activate a magic item to generate a spell effect, attempt a Deception check. If you succeed against an onlooker's Perception DC, to that onlooker, you appear to Cast that Spell instead. Onlookers who successfully Recognize the Spell realize you used a magic item, though those who later successfully Identify the Magic still can't determine that the source of the effect was a magic item.",
                 "showon": "Deception"
             }
         ],
-        "sourceBook": "Gods & Magic",
-        "_extensionFileName": "godsAndMagic",
         "shortdesc": "You've learned to mimic the abilities of spellcasters by studying their flourishes and words.",
         "traits": [
             "General",
@@ -236,14 +236,14 @@
     {
         "name": "Environmental Grace",
         "desc": "You rapidly adapt to environments through a combination of skill, meditation, and divine grace. After spending an hour in an environment of severe cold or colder, you are protected from the effects of severe cold until you leave that environment. After spending an hour in an environment of severe heat or hotter, you are protected from the effects of severe heat until you leave that environment.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
         "hints": [
             {
                 "desc": "After spending an hour in an environment of severe cold or colder, you are protected from the effects of severe cold until you leave that environment. After spending an hour in an environment of severe heat or hotter, you are protected from the effects of severe heat until you leave that environment.",
                 "showon": "Resistances"
             }
         ],
-        "sourceBook": "Gods & Magic",
-        "_extensionFileName": "godsAndMagic",
         "shortdesc": "You rapidly adapt to environments through a combination of skill, meditation, and divine grace.",
         "traits": [
             "General",
@@ -256,7 +256,7 @@
                 "value": 6
             }
         ],
-        "specialreq": "deity && (deity.get_Domains(character, characterService).includes('Cold') || deity.get_Domains(character, characterService).includes('Fire') || deity.get_Domains(character, characterService).includes('Nature') || deity.get_Domains(character, characterService).includes('Travel'))",
+        "specialreq": "Deity_Has_Domain(deity, ['Cold', 'Fire', 'Nature', 'Travel']) || Deity_Has_Domain(secondDeity, ['Cold', 'Fire', 'Nature', 'Travel'])",
         "specialreqdesc": "deity with the cold, fire, nature, or travel domain"
     },
     {
@@ -287,14 +287,14 @@
     {
         "name": "Mortal Healing",
         "desc": "You grant greater healing when the gods don't interfere. When you roll a success to Treat Wounds for a creature that hasn't regained Hit Points from divine magic in the past 24 hours, you get a critical success on your check instead and restore the corresponding amount of Hit Points. This does not apply when used with other actions related to medicine or healing, such as Battle Medicine.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
         "hints": [
             {
                 "desc": "When you roll a success to Treat Wounds for a creature that hasn't regained Hit Points from divine magic in the past 24 hours, you get a critical success on your check instead and restore the corresponding amount of Hit Points. This does not apply when used with other actions related to medicine or healing, such as Battle Medicine.",
                 "showon": "Medicine"
             }
         ],
-        "sourceBook": "Gods & Magic",
-        "_extensionFileName": "godsAndMagic",
         "shortdesc": "You grant greater healing when the gods don't interfere",
         "traits": [
             "General",
@@ -310,14 +310,14 @@
     {
         "name": "Numb to Death",
         "desc": "Your past has left you numb to death's call. The first time each day that you regain Hit Points while you are dying, you regain additional Hit Points equal to your level, and you neither gain the wounded condition nor increase the value of this condition.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
         "hints": [
             {
                 "desc": "The first time each day that you regain Hit Points while you are dying, you regain additional Hit Points equal to your level, and you neither gain the wounded condition nor increase the value of this condition. You can apply this effect with a button in the health area, and should use it before the triggering Healing.",
                 "showon": "Max Dying"
             }
         ],
-        "sourceBook": "Gods & Magic",
-        "_extensionFileName": "godsAndMagic",
         "internalNote": "A button to use this is hardcoded.",
         "shortdesc": "Your past has left you numb to death's call.",
         "traits": [
@@ -374,13 +374,13 @@
     {
         "name": "Sacred Ki: Chaos",
         "desc": "When you cast the ki strike focus spell and damage a creature whose alignment is Lawful, you can choose for the ki strike damage to be Chaotic. Additionally, you can substitute the damage from ki blast (or other ki spells that deal force damage, at the GM's discretion) with damage of your chosen alignment.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
         "hints": [
             {
                 "showon": "Ki Strike, Ki Blast"
             }
         ],
-        "sourceBook": "Gods & Magic",
-        "_extensionFileName": "godsAndMagic",
         "subType": "Chaos",
         "superType": "Sacred Ki",
         "shortdesc": "The power of your faith suffuses your ki",
@@ -397,13 +397,13 @@
     {
         "name": "Sacred Ki: Evil",
         "desc": "When you cast the ki strike focus spell and damage a creature whose alignment is Good, you can choose for the ki strike damage to be Evil. Additionally, you can substitute the damage from ki blast (or other ki spells that deal force damage, at the GM's discretion) with damage of your chosen alignment.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
         "hints": [
             {
                 "showon": "Ki Strike, Ki Blast"
             }
         ],
-        "sourceBook": "Gods & Magic",
-        "_extensionFileName": "godsAndMagic",
         "subType": "Evil",
         "superType": "Sacred Ki",
         "shortdesc": "The power of your faith suffuses your ki",
@@ -420,13 +420,13 @@
     {
         "name": "Sacred Ki: Good",
         "desc": "When you cast the ki strike focus spell and damage a creature whose alignment is Evil, you can choose for the ki strike damage to be Good. Additionally, you can substitute the damage from ki blast (or other ki spells that deal force damage, at the GM's discretion) with damage of your chosen alignment.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
         "hints": [
             {
                 "showon": "Ki Strike, Ki Blast"
             }
         ],
-        "sourceBook": "Gods & Magic",
-        "_extensionFileName": "godsAndMagic",
         "subType": "Good",
         "superType": "Sacred Ki",
         "shortdesc": "The power of your faith suffuses your ki",
@@ -443,13 +443,13 @@
     {
         "name": "Sacred Ki: Law",
         "desc": "When you cast the ki strike focus spell and damage a creature whose alignment is Chaotic, you can choose for the ki strike damage to be Lawful. Additionally, you can substitute the damage from ki blast (or other ki spells that deal force damage, at the GM's discretion) with damage of your chosen alignment.",
+        "sourceBook": "Gods & Magic",
+        "_extensionFileName": "godsAndMagic",
         "hints": [
             {
                 "showon": "Ki Strike, Ki Blast"
             }
         ],
-        "sourceBook": "Gods & Magic",
-        "_extensionFileName": "godsAndMagic",
         "subType": "Law",
         "superType": "Sacred Ki",
         "shortdesc": "The power of your faith suffuses your ki",
@@ -2643,7 +2643,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the abomination domain as an alternate domain",
         "effects": [
             {
@@ -2685,7 +2685,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the air domain as an alternate domain",
         "effects": [
             {
@@ -2727,7 +2727,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the ambition domain as an alternate domain",
         "effects": [
             {
@@ -2769,7 +2769,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the change domain as an alternate domain",
         "effects": [
             {
@@ -2811,7 +2811,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the cities domain as an alternate domain",
         "effects": [
             {
@@ -2853,7 +2853,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the cold domain as an alternate domain",
         "effects": [
             {
@@ -2895,7 +2895,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the confidence domain as an alternate domain",
         "effects": [
             {
@@ -2937,7 +2937,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the creation domain as an alternate domain",
         "effects": [
             {
@@ -2979,7 +2979,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the darkness domain as an alternate domain",
         "effects": [
             {
@@ -3021,7 +3021,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the death domain as an alternate domain",
         "effects": [
             {
@@ -3063,7 +3063,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the decay domain as an alternate domain",
         "effects": [
             {
@@ -3105,7 +3105,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the delirium domain as an alternate domain",
         "effects": [
             {
@@ -3147,7 +3147,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the destruction domain as an alternate domain",
         "effects": [
             {
@@ -3189,7 +3189,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the dreams domain as an alternate domain",
         "effects": [
             {
@@ -3231,7 +3231,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the dust domain as an alternate domain",
         "effects": [
             {
@@ -3273,7 +3273,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the duty domain as an alternate domain",
         "effects": [
             {
@@ -3315,7 +3315,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the earth domain as an alternate domain",
         "effects": [
             {
@@ -3357,7 +3357,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the family domain as an alternate domain",
         "effects": [
             {
@@ -3399,7 +3399,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the fate domain as an alternate domain",
         "effects": [
             {
@@ -3441,7 +3441,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the fire domain as an alternate domain",
         "effects": [
             {
@@ -3483,7 +3483,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the freedom domain as an alternate domain",
         "effects": [
             {
@@ -3525,7 +3525,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the glyph domain as an alternate domain",
         "effects": [
             {
@@ -3567,7 +3567,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the healing domain as an alternate domain",
         "effects": [
             {
@@ -3609,7 +3609,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the indulgence domain as an alternate domain",
         "effects": [
             {
@@ -3651,7 +3651,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the knowledge domain as an alternate domain",
         "effects": [
             {
@@ -3693,7 +3693,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the lightning domain as an alternate domain",
         "effects": [
             {
@@ -3735,7 +3735,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the luck domain as an alternate domain",
         "effects": [
             {
@@ -3777,7 +3777,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the magic domain as an alternate domain",
         "effects": [
             {
@@ -3819,7 +3819,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the might domain as an alternate domain",
         "effects": [
             {
@@ -3861,7 +3861,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the moon domain as an alternate domain",
         "effects": [
             {
@@ -3903,7 +3903,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the naga domain as an alternate domain",
         "effects": [
             {
@@ -3945,7 +3945,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the nature domain as an alternate domain",
         "effects": [
             {
@@ -3987,7 +3987,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the nightmares domain as an alternate domain",
         "effects": [
             {
@@ -4029,7 +4029,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the pain domain as an alternate domain",
         "effects": [
             {
@@ -4071,7 +4071,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the passion domain as an alternate domain",
         "effects": [
             {
@@ -4113,7 +4113,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the perfection domain as an alternate domain",
         "effects": [
             {
@@ -4155,7 +4155,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the plague domain as an alternate domain",
         "effects": [
             {
@@ -4197,7 +4197,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the protection domain as an alternate domain",
         "effects": [
             {
@@ -4239,7 +4239,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the repose domain as an alternate domain",
         "effects": [
             {
@@ -4281,7 +4281,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the secrecy domain as an alternate domain",
         "effects": [
             {
@@ -4323,7 +4323,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the sorrow domain as an alternate domain",
         "effects": [
             {
@@ -4365,7 +4365,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the soul domain as an alternate domain",
         "effects": [
             {
@@ -4407,7 +4407,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the star domain as an alternate domain",
         "effects": [
             {
@@ -4449,7 +4449,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the sun domain as an alternate domain",
         "effects": [
             {
@@ -4491,7 +4491,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the swarm domain as an alternate domain",
         "effects": [
             {
@@ -4533,7 +4533,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the time domain as an alternate domain",
         "effects": [
             {
@@ -4575,7 +4575,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the toil domain as an alternate domain",
         "effects": [
             {
@@ -4617,7 +4617,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the travel domain as an alternate domain",
         "effects": [
             {
@@ -4659,7 +4659,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the trickery domain as an alternate domain",
         "effects": [
             {
@@ -4701,7 +4701,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the truth domain as an alternate domain",
         "effects": [
             {
@@ -4743,7 +4743,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the tyranny domain as an alternate domain",
         "effects": [
             {
@@ -4785,7 +4785,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the undeath domain as an alternate domain",
         "effects": [
             {
@@ -4827,7 +4827,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the vigil domain as an alternate domain",
         "effects": [
             {
@@ -4869,7 +4869,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the void domain as an alternate domain",
         "effects": [
             {
@@ -4911,7 +4911,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the water domain as an alternate domain",
         "effects": [
             {
@@ -4953,7 +4953,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the wealth domain as an alternate domain",
         "effects": [
             {
@@ -4995,7 +4995,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the wyrmkin domain as an alternate domain",
         "effects": [
             {
@@ -5037,7 +5037,7 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "deity && deity.get_AlternateDomains(character, characterService).includes(this.subType)",
+        "specialreq": "Deity_Has_Alternate_Domain(deity, [this.subType])",
         "specialreqdesc": "deity with the zeal domain as an alternate domain",
         "effects": [
             {

@@ -1,12 +1,3 @@
-interface AbilityReq {
-    ability: string;
-    value: number;
-}
-interface SkillReq {
-    skill: string;
-    value: number;
-}
-
 import { CharacterService } from 'src/app/services/character.service';
 import { Skill } from 'src/app/classes/Skill';
 import { Ability } from 'src/app/classes/Ability';
@@ -17,7 +8,6 @@ import { FormulaChoice } from 'src/app/classes/FormulaChoice';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { Character } from 'src/app/classes/Character';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
 import { Deity } from 'src/app/classes/Deity';
 import { Speed } from 'src/app/classes/Speed';
@@ -34,6 +24,16 @@ import { ProficiencyCopy } from 'src/app/classes/ProficiencyCopy';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { SignatureSpellGain } from 'src/app/classes/SignatureSpellGain';
 import { EffectGain } from 'src/app/classes/EffectGain';
+import { Weapon } from './Weapon';
+
+interface AbilityReq {
+    ability: string;
+    value: number;
+}
+interface SkillReq {
+    skill: string;
+    value: number;
+}
 
 export class Feat {
     public abilityreq: AbilityReq[] = [];
@@ -282,7 +282,7 @@ export class Feat {
         }
         return result;
     }
-    meetsSpecialReq(characterService: CharacterService, _charLevel: number = characterService.get_Character().level) {
+    meetsSpecialReq(characterService: CharacterService, _charLevel?: number) {
         //If the feat has a specialreq, it comes as a string that contains a condition. Evaluate the condition to find out if the requirement is met.
         //When writing the condition, take care that it only uses variables known in this method,
         //and that it must remain true even after you take the feat (or the feat will be automatically removed.)
@@ -295,48 +295,93 @@ export class Feat {
         const character: Character = characterService.get_Character();
         //charLevel is usually the level on which you take the feat. If none is given, the current character level is used for calculations.
         //The variable is recast here so it can be used in eval().
-        const charLevel = _charLevel;
+        const charLevel = _charLevel || character.level;
         const familiar: Familiar = characterService.get_Familiar();
         const deities: Deity[] = characterService.deitiesService.get_CharacterDeities(characterService, character, '', charLevel);
         /* eslint-disable @typescript-eslint/no-unused-vars */
         const deity = deities[0];
         const secondDeity = deities[1];
-        function Skill_Level(creature: string, name: string) {
-            if (creature == 'Familiar') {
+        function Skill_Level(creatureType: string, name: string) {
+            if (creatureType == 'Familiar') {
                 return 0;
             } else {
-                return characterService.get_Skills(characterService.get_Creature(creature), name)[0].level(characterService.get_Creature(creature) as Character | AnimalCompanion, characterService, charLevel);
+                const creature = characterService.get_Creature(creatureType);
+                return characterService.get_Skills(creature, name)[0]?.level(creature, characterService, charLevel) || 0;
             }
         }
-        function Speed(creature: string, name: string) {
-            const speeds: Speed[] = characterService.get_Speeds(characterService.get_Creature(creature)).filter(speed => speed.name == name);
+        function Skills_Of_Type(type: string, creatureType = 'Character'): Skill[] {
+            const creature = characterService.get_Creature(creatureType);
+            return characterService.get_Skills(creature, '', { type: type });
+        }
+        function Has_Skill_Of_Level_By_Type(type: string, levels: number[], options: { mustHaveAll?: boolean }, creatureType = 'Character') {
+            const creature = characterService.get_Creature(creatureType);
+            const skills = Skills_Of_Type(type, creatureType);
+            const skillLevels = new Set(skills.map(skill => skill.level(creature, characterService, charLevel)));
+            return options.mustHaveAll ? !levels.some(level => !skillLevels.has(level)) : levels.some(level => skillLevels.has(level));
+        }
+        function Speed(creatureType: string, name: string) {
+            const creature = characterService.get_Creature(creatureType);
+            const speeds: Speed[] = characterService.get_Speeds(creature).filter(speed => speed.name == name);
             if (speeds.length) {
-                return speeds[0].value(characterService.get_Creature(creature), characterService, characterService.effectsService).result;
+                return speeds[0].value(creature, characterService, characterService.effectsService).result;
             } else {
                 return 0;
             }
         }
-        function Feats_Taken(creature: string) {
-            if (creature == 'Familiar') {
+        function Feats_Taken(creatureType: string) {
+            if (creatureType == 'Familiar') {
                 return characterService.familiarsService.get_FamiliarAbilities().filter(feat => feat.have(familiar, characterService, charLevel));
-            } else if (creature == 'Character') {
+            } else if (creatureType == 'Character') {
                 return characterService.get_CharacterFeatsTaken(0, charLevel);
             } else {
                 return null;
             }
         }
-        function Has_Feat(creature: string, name: string, includeCountAs = true) {
+        function Has_Feat(creatureType: string, name: string, includeCountAs = true) {
             //Return whether the feat has been taken up to the current level. A number is not necessary.
-            if (creature == 'Familiar') {
+            if (creatureType == 'Familiar') {
                 return characterService.familiarsService.get_FamiliarAbilities().some(feat => feat.have(familiar, characterService, charLevel));
-            } else if (creature == 'Character') {
+            } else if (creatureType == 'Character') {
                 return !!characterService.get_CharacterFeatsTaken(0, charLevel, name, '', '', undefined, false, includeCountAs).length;
             } else {
                 return null;
             }
         }
-        function Has_Sense(creature: string, name: string) {
-            return characterService.get_Senses(characterService.get_Creature(creature), charLevel, false).includes(name);
+        function Owned_Stances() {
+            return characterService.get_CharacterFeatsAndFeatures('', 'Stance').filter(feat => feat.have(character, characterService, charLevel));
+        }
+        const Has_This_Feat = (creatureType = 'Character') => {
+            return this.have(characterService.get_Creature(creatureType), characterService, charLevel);
+        };
+        function Has_Sense(creatureType: string, name: string) {
+            return characterService.get_Senses(characterService.get_Creature(creatureType), charLevel, false).includes(name);
+        }
+        function Has_Any_Lore(): boolean {
+            return character.get_SkillIncreases(characterService, 1, charLevel).some(increase => increase.name.toLowerCase().includes('lore'));
+        }
+        function Has_AnimalCompanion(): boolean {
+            return characterService.get_CompanionAvailable();
+        }
+        function Has_Familiar(): boolean {
+            return characterService.get_FamiliarAvailable();
+        }
+        function Deity_Has_Domain(deityObject: Deity, domainNames: string[]) {
+            domainNames = domainNames.map(name => name.toLowerCase());
+            return !!deityObject && deityObject.get_Domains(character, characterService).some(domain => domainNames.includes(domain.toLowerCase()));
+        }
+        function Deity_Has_Alternate_Domain(deityObject: Deity, domainNames: string[]) {
+            domainNames = domainNames.map(name => name.toLowerCase());
+            return !!deityObject && deityObject.get_AlternateDomains(character, characterService).some(domain => domainNames.includes(domain.toLowerCase()));
+        }
+        function Has_Spell(spellName: string, className = '', castingType = ''): boolean {
+            return !!character.get_SpellsTaken(characterService, 1, charLevel, -1, spellName, undefined, className, '', castingType).length;
+        }
+        function Favored_Weapons(deityObject: Deity): Weapon[] {
+            return deityObject && deityObject.favoredWeapon
+                .map(favoredWeaponName =>
+                    characterService.itemsService.get_CleanItems().weapons
+                        .find(weapon => weapon.name.toLowerCase() === favoredWeaponName.toLowerCase())
+                );
         }
         /* eslint-enable @typescript-eslint/no-unused-vars */
         let result: { met: boolean, desc: string };

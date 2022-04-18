@@ -2246,7 +2246,7 @@ export class CharacterService {
             );
     }
 
-    get_OwnedActivities(creature: Creature, levelNumber: number = creature.level, all = false) {
+    get_OwnedActivities(creature: Creature, levelNumber: number = creature.level, all = false): ActivityGain[] {
         const activities: (ActivityGain | ItemActivity)[] = [];
         if (!this.still_loading()) {
             if (creature instanceof Character) {

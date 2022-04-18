@@ -3,6 +3,8 @@
         "name": "Different Worlds",
         "desc": "Your separate experiences in different societies have evolved into entirely separate lives. Create a second identity for yourself with a different name, history, and background. This identity must correspond to one of the ancestries whose ancestry feats you can select. You gain the trained proficiency rank in the Lore skill from the second background you chose (but you don't gain any of the background's other benefits), and you gain a +4 circumstance bonus to Deception checks when making a statement that would be true of your second identity or when disguising yourself as your second identity.",
         "specialdesc": "At the GM's discretion, this feat can be used against non-humanoids if they have regular contact with humanoids or you are able to disguise yourself as a member of the target's ancestry or type of creature.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
         "hints": [
             {
                 "desc": "You gain a +4 circumstance bonus to Deception checks when making a statement that would be true of your second identity or when disguising yourself as your second identity.\n\nAt the GM's discretion, this feat can be used against non-humanoids if they have regular contact with humanoids or you are able to disguise yourself as a member of the target's ancestry or type of creature.",
@@ -16,8 +18,6 @@
                 ]
             }
         ],
-        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
-        "_extensionFileName": "pathfinder147",
         "internalNote": "The effects are hardcoded. The feat is designed to be removed if you remove your background, to prevent having the same background twice.",
         "shortdesc": "Create a second identity for yourself with a different name, history, and background.",
         "traits": [
@@ -64,14 +64,14 @@
         "name": "Secret Speech",
         "desc": "Choose a secret society (such as the Lacunafex or the Bellflower Network). You've learned that society's secret cant or jargon, enabling you to share hidden messages when signing or speaking with others who've also learned it. If an observer succeeds at a Perception check against your Deception DC when you do this, they realize you are passing a message but fail to discern its content, unless they subsequently succeed at a Society check against your Deception DC. On a critical success, they learn not only the message, but also who you're passing the message to.",
         "specialdesc": "You can take this feat multiple times. You learn the secret speech of a different society each time, adding it to your language list.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
         "hints": [
             {
                 "desc": "You've learned the secret cant or jargon of a secret society, enabling you to share hidden messages when signing or speaking with others who've also learned it. If an observer succeeds at a Perception check against your Deception DC when you do this, they realize you are passing a message but fail to discern its content, unless they subsequently succeed at a Society check against your Deception DC. On a critical success, they learn not only the message, but also who you're passing the message to.",
                 "showon": "Deception"
             }
         ],
-        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
-        "_extensionFileName": "pathfinder147",
         "shortdesc": "Learn the secret language of a Society.",
         "traits": [
             "General",
@@ -96,14 +96,14 @@
     {
         "name": "Tweak Appearances",
         "desc": "You spend 1 minute making quick adjustments to someone's clothing and appearance, causing their words to carry more weight with an audience of your choice. While speaking to that audience, the target gains a +1 item bonus to Diplomacy and Performance checks. If you have master proficiency in Crafting, the bonus increases to +2; if you have legendary proficiency in Crafting, the bonus increases to +3. This bonus lasts until this ability is used on the target again, the situation they were prepared for ends, or they next change their outfit.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "_extensionFileName": "pathfinder147",
         "hints": [
             {
                 "desc": "You can spend 1 minute making quick adjustments to someone's clothing and appearance, causing their words to carry more weight with an audience of your choice. While speaking to that audience, the target gains a +1 item bonus to Diplomacy and Performance checks. If you have master proficiency in Crafting, the bonus increases to +2; if you have legendary proficiency in Crafting, the bonus increases to +3. This bonus lasts until this ability is used on the target again, the situation they were prepared for ends, or they next change their outfit.",
                 "showon": "Crafting"
             }
         ],
-        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
-        "_extensionFileName": "pathfinder147",
         "shortdesc": "You can alter a creature's clothing to improve their social impact.",
         "traits": [
             "General",

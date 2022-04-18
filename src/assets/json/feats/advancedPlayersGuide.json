@@ -2,6 +2,8 @@
     {
         "name": "Badlands Orc",
         "desc": "You come from sun-scorched badlands, where long legs and an ability to withstand the elements helped you thrive. You can Hustle twice as long while exploring before you have to stop, and you treat environmental heat effects as if they were one step less extreme (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
+        "sourceBook": "Advanced Player's Guide",
+        "_extensionFileName": "advancedPlayersGuide",
         "hints": [
             {
                 "desc": "You treat environmental heat effects as if they were one step less extreme (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
@@ -12,8 +14,6 @@
                 "showon": "Movement"
             }
         ],
-        "sourceBook": "Advanced Player's Guide",
-        "_extensionFileName": "advancedPlayersGuide",
         "shortdesc": "You come from sun-scorched badlands, where long legs and an ability to withstand the elements helped you thrive."
     },
     {
@@ -28,7 +28,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Orc",
         "gainAncestry": [
             "Orc"
@@ -46,7 +46,7 @@
             "Halfling"
         ],
         "levelreq": 5,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Orc",
         "gainFeatChoice": [
             {
@@ -93,14 +93,14 @@
     {
         "name": "Sheltering Slab",
         "desc": "The stone around you is your ally, and you have learned to use it to shore up your weaknesses. As long as you remain on the ground and are adjacent to a vertical stone wall that rises to your height or taller, you aren't flat-footed against attacks as a result of being flanked. This works even if you are at the outside corner of the wall.",
+        "sourceBook": "Advanced Player's Guide",
+        "_extensionFileName": "advancedPlayersGuide",
         "hints": [
             {
                 "desc": "As long as you remain on the ground and are adjacent to a vertical stone wall that rises to your height or taller, you aren't flat-footed against attacks as a result of being flanked. This works even if you are at the outside corner of the wall.",
                 "showon": "Defense"
             }
         ],
-        "sourceBook": "Advanced Player's Guide",
-        "_extensionFileName": "advancedPlayersGuide",
         "shortdesc": "The stone around you is your ally, and you have learned to use it to shore up your weaknesses.",
         "traits": [
             "Dwarf"

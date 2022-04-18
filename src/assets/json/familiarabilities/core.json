@@ -386,7 +386,7 @@
         ],
         "internalNote": "Hardcoded in feat processing",
         "shortdesc": "You gain one additional spell slot at least 3 levels lower than your highest-level spell slot; you must be able to cast 4th-level spells using spell slots to select this master ability.",
-        "specialreq": "character.class.spellCasting.find(casting => ['Spontaneous','Prepared'].includes(casting.castingType) && casting.className == characterService.get_Familiar().originClass && casting.charLevelAvailable <= character.level && casting.spellChoices.find(choice => choice.charLevelAvailable <= character.level && choice.level >= 4))",
+        "specialreq": "character.class.spellCasting.find(casting => ['Spontaneous','Prepared'].includes(casting.castingType) && casting.className == familiar.originClass && casting.charLevelAvailable <= character.level && casting.spellChoices.find(choice => choice.charLevelAvailable <= character.level && choice.level >= 4))",
         "specialreqdesc": "ability to cast 4th-level spells using spell slots"
     },
     {

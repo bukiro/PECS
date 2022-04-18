@@ -29,14 +29,14 @@
         "name": "Godless Healing",
         "desc": "You recover an additional 5 Hit Points from a successful attempt to Treat your Wounds or use Battle Medicine on you. After you or an ally use Battle Medicine on you, you become temporarily immune to that Battle Medicine for only 1 hour, instead of 1 day.",
         "specialdesc": "With limited access to divine healing magic, Rahadoumi often become adept at using ordinary medicine for when dangerous situations arise.",
+        "sourceBook": "World Guide",
+        "_extensionFileName": "worldGuide",
         "hints": [
             {
                 "desc": "You recover an additional 5 Hit Points from a successful attempt to Treat your Wounds or use Battle Medicine on you. After you or an ally use Battle Medicine on you, you become temporarily immune to that Battle Medicine for only 1 hour, instead of 1 day.",
                 "showon": "Medicine, Health"
             }
         ],
-        "sourceBook": "World Guide",
-        "_extensionFileName": "worldGuide",
         "shortdesc": "With limited access to divine healing magic, Rahadoumi often become adept at using ordinary medicine for when dangerous situations arise.",
         "traits": [
             "General",
