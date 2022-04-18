@@ -469,7 +469,7 @@
                 "affected": "Untrained Attack Rolls",
                 "show": true,
                 "type": "circumstance",
-                "value": "characterService.get_Skills(Creature, '', {type: 'Weapon Proficiency'}).concat(characterService.get_Skills(Creature, '', {type: 'Specific Weapon Proficiency'})).some(skill => Skill_Level(skill.name) >= 4) ? 4 : 2"
+                "value": "Skills_Of_Type('Weapon Proficiency').concat(Skills_Of_Type('Specific Weapon Proficiency')).some(skill => Skill_Level(skill.name) >= 4) ? 4 : 2"
             }
         ]
     }

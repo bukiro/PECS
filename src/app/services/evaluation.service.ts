@@ -13,6 +13,8 @@ import { Speed } from 'src/app/classes/Speed';
 import { FamiliarsService } from 'src/app/services/familiars.service';
 import { EffectGain } from '../classes/EffectGain';
 import { Equipment } from '../classes/Equipment';
+import { ActivityGain } from '../classes/ActivityGain';
+import { Skill } from '../classes/Skill';
 
 type FormulaObject = {
     effects: EffectGain[],
@@ -148,6 +150,9 @@ export class EvaluationService {
                 return characterService.get_Skills(Creature, name)[0]?.level((Creature as AnimalCompanion | Character), characterService, Level);
             }
         }
+        function Skills_Of_Type(name: string): Skill[] {
+            return characterService.get_Skills(Creature, '', { type: name });
+        }
         function Has_Speed(name: string): boolean {
             //This tests if you have a certain speed, either from your ancestry or from absolute effects.
             // Bonuses and penalties are ignored, since you shouldn't get a bonus to a speed you don't have.
@@ -157,8 +162,14 @@ export class EvaluationService {
         const Speed = (name: string): number => {
             return (this.get_TestSpeed(name))?.value(Creature, characterService, effectsService).result || 0;
         };
-        function Has_Condition(name: string) {
-            return characterService.get_AppliedConditions(Creature, name, '', true).length;
+        function Has_Condition(name: string): boolean {
+            return !!characterService.get_AppliedConditions(Creature, name, '', true).length;
+        }
+        function Owned_Conditions(name: string): ConditionGain[] {
+            return characterService.get_AppliedConditions(Creature, name, '', true);
+        }
+        function Owned_Activities(name: string): ActivityGain[] {
+            return characterService.get_OwnedActivities(Creature).filter(gain => gain.name === name);
         }
         function Armor() {
             if (Creature === Familiar) {

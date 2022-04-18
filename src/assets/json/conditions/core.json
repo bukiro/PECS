@@ -2392,7 +2392,7 @@
             {
                 "affected": "Damage Rolls",
                 "type": "circumstance",
-                "value": "Math.floor((characterService.get_OwnedActivities(Creature)?.find(gain => gain.name == 'Rage')?.duration || 0) / 10)"
+                "value": "Math.floor((Owned_Activities('Rage')?.[0]?.duration || 0) / 10)"
             }
         ],
         "gainConditions": [
@@ -5304,7 +5304,7 @@
         ],
         "gainConditions": [
             {
-                "activationPrerequisite": "!characterService.get_AppliedConditions(creature, 'Drained', '', true).some(conditionGain => conditionGain.parentID == parentConditionGain.id) ? 1 : 0",
+                "activationPrerequisite": "!Owned_Conditions('Drained').some(conditionGain => conditionGain.parentID == parentConditionGain.id) ? 1 : 0",
                 "conditionChoiceFilter": [
                     "Stage 1"
                 ],
