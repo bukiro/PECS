@@ -586,7 +586,22 @@ export class Character extends Creature {
             choiceFeats.splice(choiceFeats.indexOf(gain, 1));
         }
     }
-    get_SpellsTaken(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, spellLevel = -1, spellName = '', spellCasting: SpellCasting = undefined, className = '', tradition = '', castingType = '', source = '', sourceId = '', locked: boolean = undefined, signatureAllowed = false, cantripAllowed = true): { choice: SpellChoice, gain: SpellGain }[] {
+    get_SpellsTaken(minLevelNumber: number, maxLevelNumber: number, services: { characterService: CharacterService }, filter: { spellLevel?: number, spellName?: string, spellCasting?: SpellCasting, classNames?: string[], traditions?: string[], castingTypes?: string[], source?: string, sourceId?: string, locked?: boolean, signatureAllowed?: boolean, cantripAllowed?: boolean} = {}): { choice: SpellChoice, gain: SpellGain }[] {
+        filter = {
+            spellLevel: -1,
+            classNames: [],
+            traditions: [],
+            castingTypes: [],
+            locked: undefined,
+            signatureAllowed: false,
+            cantripAllowed: true,
+            ...filter,
+        };
+        filter.classNames = filter.classNames.map(name => name.toLowerCase());
+        filter.castingTypes = filter.castingTypes.map(name => name.toLowerCase());
+        filter.traditions = filter.traditions.map(name => name.toLowerCase());
+        filter.spellName = filter.spellName?.toLowerCase();
+        filter.source = filter.source?.toLowerCase();
         function get_DynamicLevel(choice: SpellChoice, casting: SpellCasting, characterService: CharacterService) {
             return characterService.spellsService.get_DynamicSpellLevel(casting, choice, characterService);
         }
@@ -595,39 +610,42 @@ export class Character extends Creature {
         }
         function spellLevelMatches(casting: SpellCasting, choice: SpellChoice) {
             return (
-                spellLevel == -1 ||
-                (choice.dynamicLevel ? get_DynamicLevel(choice, casting, characterService) : choice.level) == spellLevel
+                filter.spellLevel === -1 ||
+                (choice.dynamicLevel ? get_DynamicLevel(choice, casting, services.characterService) : choice.level) == filter.spellLevel
             );
         }
         function signatureSpellLevelMatches(choice: SpellChoice) {
             return (
-                signatureAllowed &&
+                filter.signatureAllowed &&
                 choice.spells.some(spell => spell.signatureSpell) &&
-                ![0, -1].includes(spellLevel)
+                ![0, -1].includes(filter.spellLevel)
             );
         }
-        function spellMatches(casting: SpellCasting, choice: SpellChoice, gain: SpellGain) {
+        function spellMatches(choice: SpellChoice, gain: SpellGain) {
             return (
-                (spellName ? gain.name == spellName : true) &&
-                (className ? casting.className == className : true) &&
-                (tradition ? casting.tradition == tradition : true) &&
-                (source ? choice.source == source : true) &&
-                (sourceId ? choice.id == sourceId : true) &&
-                ((locked != undefined) ? gain.locked == locked : true) &&
-                ((signatureAllowed && gain.signatureSpell) ? (spellLevel >= characterService.spellsService.get_Spells(gain.name)[0]?.levelreq) : true) &&
-                (cantripAllowed || (!characterService.spellsService.get_Spells(gain.name)[0]?.traits.includes('Cantrip')))
+                (filter.spellName ? gain.name.toLowerCase() === filter.spellName : true) &&
+                (filter.source ? choice.source.toLowerCase() === filter.source : true) &&
+                (filter.sourceId ? choice.id === filter.sourceId : true) &&
+                ((filter.locked != undefined) ? gain.locked === filter.locked : true) &&
+                ((filter.signatureAllowed && gain.signatureSpell) ? (filter.spellLevel >= services.characterService.spellsService.get_Spells(gain.name)[0]?.levelreq) : true) &&
+                (filter.cantripAllowed || (!services.characterService.spellsService.get_Spells(gain.name)[0]?.traits.includes('Cantrip')))
             );
         }
         if (this.class) {
             const spellsTaken: { choice: SpellChoice, gain: SpellGain }[] = [];
             this.class.spellCasting
-                .filter(casting => (spellCasting == undefined || casting === spellCasting) &&
-                    casting.charLevelAvailable >= minLevelNumber && casting.charLevelAvailable <= maxLevelNumber &&
-                    (casting.castingType == castingType || castingType == ''))
-                .forEach(casting => {
+                .filter(casting => 
+                    (filter.spellCasting ? casting === filter.spellCasting : true) &&
+                    //Castings that have become available on a previous level can still gain spells on this level.
+                    //(casting.charLevelAvailable >= minLevelNumber) &&
+                    (casting.charLevelAvailable <= maxLevelNumber) &&
+                    (filter.classNames.length ? filter.classNames.includes(casting.className.toLowerCase()) : true) &&
+                    (filter.traditions.length ? filter.traditions.includes(casting.tradition.toLowerCase()) : true) &&
+                    (filter.castingTypes.length ? filter.castingTypes.includes(casting.castingType.toLowerCase()) : true)
+                ).forEach(casting => {
                     casting.spellChoices.filter(choice => choiceLevelMatches(choice) && (signatureSpellLevelMatches(choice) || spellLevelMatches(casting, choice))).forEach(choice => {
                         choice.spells.filter(gain =>
-                            spellMatches(casting, choice, gain)
+                            spellMatches(choice, gain)
                         ).forEach(gain => {
                             spellsTaken.push({ choice: choice, gain: gain });
                         });

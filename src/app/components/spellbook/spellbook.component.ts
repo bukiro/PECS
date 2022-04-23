@@ -333,13 +333,13 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         const character = this.get_Character();
         if (levelNumber == -1) {
             if (spellCastingParameters.casting.castingType == 'Focus') {
-                return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, '', spellCastingParameters.casting, '', '', '', '', '', undefined, this.get_SignatureSpellsAllowed(spellCastingParameters.casting), false)
+                return character.get_SpellsTaken(1, character.level, { characterService: this.characterService }, { spellLevel: levelNumber, spellCasting: spellCastingParameters.casting, signatureAllowed: this.get_SignatureSpellsAllowed(spellCastingParameters.casting), cantripAllowed: false })
                     .sort((a, b) => (a.gain.name == b.gain.name) ? 0 : ((a.gain.name > b.gain.name) ? 1 : -1));
             } else {
                 return [];
             }
         } else {
-            return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, '', spellCastingParameters.casting, '', '', '', '', '', undefined, this.get_SignatureSpellsAllowed(spellCastingParameters.casting), true)
+            return character.get_SpellsTaken(1, character.level, { characterService: this.characterService }, { spellLevel: levelNumber, spellCasting: spellCastingParameters.casting, signatureAllowed: this.get_SignatureSpellsAllowed(spellCastingParameters.casting), cantripAllowed: true })
                 .concat(...spellCastingParameters.equipmentSpells.filter(spellSet => (spellSet.choice.dynamicLevel ? this.get_DynamicLevel(spellSet.choice, spellCastingParameters.casting) : spellSet.choice.level) == levelNumber))
                 .sort((a, b) => (a.gain.name == b.gain.name) ? 0 : ((a.gain.name > b.gain.name) ? 1 : -1));
         }
@@ -581,7 +581,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         });
         if (context.spellParameters.choice.source == 'Feat: Channeled Succor') {
             //When you use a Channeled Succor spell, you instead expend a heal spell from your divine font.
-            const divineFontSpell = character.get_SpellsTaken(this.characterService, 1, character.level, -1, 'Heal', null, '', '', '', 'Divine Font').find(taken => taken.gain.prepared);
+            const divineFontSpell = character.get_SpellsTaken(1, character.level, { characterService: this.characterService }, { spellName: 'Heal', source: 'Divine Font' }).find(taken => taken.gain.prepared);
             if (divineFontSpell) {
                 divineFontSpell.gain.prepared = false;
             }

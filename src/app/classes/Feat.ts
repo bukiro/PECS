@@ -374,7 +374,7 @@ export class Feat {
             return !!deityObject && deityObject.get_AlternateDomains(character, characterService).some(domain => domainNames.includes(domain.toLowerCase()));
         }
         function Has_Spell(spellName: string, className = '', castingType = ''): boolean {
-            return !!character.get_SpellsTaken(characterService, 1, charLevel, -1, spellName, undefined, className, '', castingType).length;
+            return !!character.get_SpellsTaken(1, charLevel, { characterService: characterService }, { spellName: spellName, classNames: [className], castingTypes: [castingType] }).length;
         }
         function Favored_Weapons(deityObject: Deity): Weapon[] {
             return deityObject && deityObject.favoredWeapon

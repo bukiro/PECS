@@ -572,10 +572,10 @@ export class CharacterComponent implements OnInit, OnDestroy {
         if (character.get_SpellsLearned().some(learned => learned.level >= lowerLevel && learned.level <= higherLevel)) {
             this.refreshService.set_ToChange('Character', 'spellbook');
             //if spells were taken between the levels,
-        } else if (character.get_SpellsTaken(this.characterService, lowerLevel, higherLevel).length) {
+        } else if (character.get_SpellsTaken(lowerLevel, higherLevel, { characterService: this.characterService }).length) {
             this.refreshService.set_ToChange('Character', 'spellbook');
             //if any spells have a dynamic level dependent on the character level,
-        } else if (character.get_SpellsTaken(this.characterService, 0, 20)
+        } else if (character.get_SpellsTaken(0, 20, { characterService: this.characterService })
             .concat(character.get_AllEquipmentSpellsGranted())
             .some(taken => taken.choice.dynamicLevel.toLowerCase().includes('level'))
         ) {

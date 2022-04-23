@@ -217,13 +217,13 @@ export class SpellsComponent implements OnInit, OnDestroy {
         const character = this.get_Character();
         if (levelNumber == -1) {
             if (spellCastingParameters.casting.castingType == 'Focus') {
-                return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, '', spellCastingParameters.casting, '', '', '', '', '', true, false, false)
+                return character.get_SpellsTaken(1, character.level, { characterService: this.characterService }, { spellLevel: levelNumber, spellCasting: spellCastingParameters.casting, locked: true, signatureAllowed: false, cantripAllowed: false })
                     .sort((a, b) => (a.gain.name == b.gain.name) ? 0 : ((a.gain.name > b.gain.name) ? 1 : -1));
             } else {
                 return [];
             }
         } else {
-            return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, '', spellCastingParameters.casting, '', '', '', '', '', true, false, true)
+            return character.get_SpellsTaken(1, character.level, { characterService: this.characterService }, { spellLevel: levelNumber, spellCasting: spellCastingParameters.casting, locked: true, signatureAllowed: false, cantripAllowed: true })
                 .concat(...spellCastingParameters.equipmentSpells
                     .filter(spellSet =>
                         spellSet.gain &&

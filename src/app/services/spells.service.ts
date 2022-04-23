@@ -366,7 +366,7 @@ export class SpellsService {
     rest(character: Character, characterService: CharacterService) {
         //Get all owned spell gains that have a cooldown active.
         //If its cooldown is exactly one day or until rest (-2), the spell gain's cooldown is reset.
-        character.get_SpellsTaken(characterService, 0, 20)
+        character.get_SpellsTaken(0, 20, { characterService: characterService })
             .concat(character.get_AllEquipmentSpellsGranted())
             .filter(taken => taken.gain.activeCooldown)
             .forEach(taken => {
@@ -397,7 +397,7 @@ export class SpellsService {
     refocus(character: Character, characterService: CharacterService) {
         //Get all owned spell gains that have a cooldown active.
         //If its cooldown is until refocus (-3), the spell gain's cooldown is reset.
-        character.get_SpellsTaken(characterService, 0, 20)
+        character.get_SpellsTaken(0, 20, { characterService: characterService })
             .concat(character.get_AllEquipmentSpellsGranted())
             .filter(taken => taken.gain.activeCooldown)
             .forEach(taken => {
@@ -410,7 +410,7 @@ export class SpellsService {
     }
 
     tick_Spells(character: Character, characterService: CharacterService, itemsService: ItemsService, conditionsService: ConditionsService, turns = 10) {
-        character.get_SpellsTaken(characterService, 0, 20)
+        character.get_SpellsTaken(0, 20, { characterService: characterService })
             .concat(character.get_AllEquipmentSpellsGranted())
             .filter(taken => taken.gain.activeCooldown || taken.gain.duration)
             .forEach(taken => {
