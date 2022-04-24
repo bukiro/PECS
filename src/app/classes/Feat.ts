@@ -25,6 +25,7 @@ import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { SignatureSpellGain } from 'src/app/classes/SignatureSpellGain';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { Weapon } from './Weapon';
+import { AnimalCompanion } from './AnimalCompanion';
 
 interface AbilityReq {
     ability: string;
@@ -33,6 +34,95 @@ interface AbilityReq {
 interface SkillReq {
     skill: string;
     value: number;
+}
+
+interface ComplexRequirement {
+    alwaysTrue: boolean;
+    creatureToTest?: string;
+    hasThisFeat?: boolean;
+    isOnLevel?: RequirementExpectation;
+    countLores?: { query: RequirementBasicQuery, expected?: RequirementExpectation }[];
+    countAncestries?: { query: RequirementBasicQuery, expected?: RequirementExpectation }[];
+    countBackgrounds?: { query: RequirementBasicQuery, expected?: RequirementExpectation }[];
+    countHeritages?: { query: RequirementBasicQuery, expected?: RequirementExpectation }[];
+    countSpells?: { query: RequirementQueryCountSpells, expected?: RequirementExpectation }[];
+    skillLevels?: { query: RequirementQuerySkillLevel, expected?: RequirementExpectation }[];
+    countDeities?: { query: RequirementQueryCountDeities, expected?: RequirementExpectation }[];
+    hasAnimalCompanion: RequirementExpectation;
+    hasFamiliar: RequirementExpectation;
+    countFeats?: { query: RequirementQueryCountFeats, expected?: RequirementExpectation }[];
+    matchesAnyOfAligments?: { query: string, expected?: RequirementExpectation }[];
+    countClasses?: { query: RequirementQueryClass, expected?: RequirementExpectation }[];
+    countSenses?: { query: RequirementBasicQuery, expected?: RequirementExpectation }[];
+    countClassSpellcastings?: { query: RequirementQueryClassSpellCasting, expected?: RequirementExpectation }[];
+    countLearnedSpells?: { query: RequirementBasicQuery, expected: RequirementExpectation }[];
+    countSpeeds?: { query: RequirementBasicQuery, expected: RequirementExpectation }[];
+    countFavoredWeapons?: { query: RequirementQueryFavoredWeapon, expected: RequirementExpectation }[];
+}
+
+interface RequirementBasicQuery {
+    allOfNames?: string;
+    anyOfNames?: string;
+    any?: boolean;
+}
+
+interface RequirementQueryCountSpells extends RequirementBasicQuery {
+    ofSpellCasting?: RequirementQuerySpellCasting;
+}
+
+interface RequirementQuerySkillLevel extends RequirementBasicQuery {
+    anyOfTypes?: string;
+    matchingDivineSkill?: boolean;
+}
+
+interface RequirementQueryCountFeats extends RequirementBasicQuery {
+    havingAnyOfTraits?: string;
+    havingAllOfTraits?: string;
+    excludeCountAs?: boolean;
+}
+
+interface RequirementQueryCountDeities extends RequirementBasicQuery {
+    firstOnly?: boolean;
+    secondOnly?: boolean;
+    allowPhilosophies?: boolean;
+    matchingAlignment?: string;
+    havingAllOfFonts?: string;
+    havingAnyOfSkills?: string;
+    havingAnyOfPrimaryDomains?: string;
+    havingAnyOfAlternateDomains?: string;
+    havingAnyOfDomains?: string;
+}
+
+interface RequirementQuerySpellCasting {
+    havingAnyOfClassNames?: string;
+    havingAnyOfCastingTypes?: string;
+    havingAnyOfTraditions?: string;
+    havingSpellsOfLevelGreaterOrEqual?: number;
+}
+
+interface RequirementQueryClassSpellCasting extends RequirementQuerySpellCasting {
+    any?: boolean;
+    beingOfPrimaryClass?: boolean;
+    beingOfFamiliarsClass?: boolean;
+}
+
+interface RequirementQueryClass extends RequirementBasicQuery {
+    havingLessHitpointsThan?: number;
+    havingMoreHitpointsThan?: number;
+}
+
+interface RequirementQueryFavoredWeapon extends RequirementBasicQuery {
+    havingAnyOfProficiencies?: string;
+}
+
+interface RequirementExpectation {
+    isTrue?: boolean;
+    isFalse?: boolean;
+    isEqual?: number;
+    isGreaterThan?: number;
+    isGreaterOrEqual?: number;
+    isLesserThan?: number;
+    isLesserOrEqual?: number;
 }
 
 export class Feat {
@@ -59,7 +149,7 @@ export class Feat {
     public effects: EffectGain[] = [];
     public featreq: string[] = [];
     public heritagereq = '';
-    //You can add requirements to the ignore list. These get evaluated and must result in "levelreq", "abilityreq", "featreq", "skillreq", "heritagereq" or "dedicationlimit" to do anything.
+    //You can add requirements to the ignore list. These get evaluated and must result in "levelreq", "abilityreq", "featreq", "skillreq", "heritagereq", "specialreq", "complexreq" or "dedicationlimit" to do anything.
     public ignoreRequirements: string[] = [];
     public gainAbilityChoice: AbilityChoice[] = [];
     public gainActivities: string[] = [];
@@ -94,6 +184,8 @@ export class Feat {
     public specialdesc = '';
     public specialreq = '';
     public specialreqdesc = '';
+    public complexreq: ComplexRequirement[] = [];
+    public complexreqdesc = '';
     public subType = '';
     public subTypes = false;
     public superType = '';
@@ -282,14 +374,14 @@ export class Feat {
         }
         return result;
     }
-    meetsSpecialReq(characterService: CharacterService, _charLevel?: number) {
+    meetsSpecialReq(characterService: CharacterService, _charLevel?: number): { met: boolean, desc: string } {
         //If the feat has a specialreq, it comes as a string that contains a condition. Evaluate the condition to find out if the requirement is met.
         //When writing the condition, take care that it only uses variables known in this method,
         //and that it must remain true even after you take the feat (or the feat will be automatically removed.)
         //As an example, if the requirement is:
         //  (Skill_Level('Character', 'Athletics') < 2)
-        //also include:
-        //  (Skill_Level('Character', 'Athletics') < 4 && this.have(character, characterService, charLevel))
+        //instead use:
+        //  (Skill_Level('Character', 'Athletics') < 2) || Has_This_Feat()
         //
         //Here we prepare variables and functions to use in specialreq evaluations.
         const character: Character = characterService.get_Character();
@@ -357,7 +449,7 @@ export class Feat {
             return characterService.get_Senses(characterService.get_Creature(creatureType), charLevel, false).includes(name);
         }
         function Has_Any_Lore(): boolean {
-            return character.get_SkillIncreases(characterService, 1, charLevel).some(increase => increase.name.toLowerCase().includes('lore'));
+            return character.get_SkillIncreases(characterService, 1, charLevel).some(increase => increase.name.toLowerCase().includes('lore:'));
         }
         function Has_AnimalCompanion(): boolean {
             return characterService.get_CompanionAvailable();
@@ -374,7 +466,7 @@ export class Feat {
             return !!deityObject && deityObject.get_AlternateDomains(character, characterService).some(domain => domainNames.includes(domain.toLowerCase()));
         }
         function Has_Spell(spellName: string, className = '', castingType = ''): boolean {
-            return !!character.get_SpellsTaken(1, charLevel, { characterService: characterService }, { spellName: spellName, classNames: [className], castingTypes: [castingType] }).length;
+            return !!character.get_SpellsTaken(1, charLevel, { characterService: characterService }, { spellName, classNames: [className], castingTypes: [castingType] });
         }
         function Favored_Weapons(deityObject: Deity): Weapon[] {
             return deityObject && deityObject.favoredWeapon
@@ -400,6 +492,447 @@ export class Feat {
             result = { met: true, desc: '' };
         }
         return result;
+    }
+    meetsComplexReq(characterService: CharacterService, _charLevel?: number): { met: boolean, desc: string } {
+        if (!this.complexreq.length) {
+            return { met: true, desc: '' };
+        }
+        const character: Character = characterService.get_Character();
+        //charLevel is usually the level on which you want to take the feat. If none is given, the current character level is used for calculations.
+        const charLevel = _charLevel || character.level;
+        //Split comma lists into lowercase names and replace certain codewords.
+        const subType = this.subType.toLowerCase();
+        function SplitNames(list: string): string[] {
+            return Array.from(new Set(list.toLowerCase().split(',').map(name => {
+                switch (name) {
+                    case 'subtype':
+                        return subType;
+                    default:
+                        return name;
+                }
+            })));
+        }
+        function ApplyDefaultQuery(query: RequirementBasicQuery, list: string[]) {
+            list = list.map(name => name.toLowerCase());
+            if (query.any) {
+                return list.length;
+            } else if (query.allOfNames) {
+                const names = SplitNames(query.allOfNames);
+                return !names.some(name => !list.includes(name)) && list.length;
+            } else if (query.anyOfNames) {
+                const names = SplitNames(query.anyOfNames);
+                return names.filter(name => list.includes(name)).length;
+            } else {
+                return list.length;
+            }
+        }
+        function DoesNumberMatchExpectation(number: number, expectation: RequirementExpectation): boolean {
+            if (!expectation) {
+                return !!number;
+            }
+            return (
+                (expectation.isTrue ? !!number : true) &&
+                (expectation.isFalse ? !number : true) &&
+                (expectation.isEqual ? (number === expectation.isEqual) : true) &&
+                (expectation.isGreaterThan ? (number > expectation.isGreaterThan) : true) &&
+                (expectation.isGreaterOrEqual ? (number >= expectation.isGreaterOrEqual) : true) &&
+                (expectation.isLesserThan ? (number < expectation.isLesserThan) : true) &&
+                (expectation.isLesserOrEqual ? (number <= expectation.isLesserOrEqual) : true)
+            );
+        }
+        function DoesNumberListMatchExpectation(numberList: number[], query: RequirementBasicQuery, expectation?: RequirementExpectation): boolean {
+            if (query.allOfNames) {
+                if (!expectation) {
+                    return !numberList.some(number => !number);
+                }
+                return (
+                    (expectation.isTrue ? !numberList.some(number => !number) : true) &&
+                    (expectation.isFalse ? !numberList.some(number => !!number) : true) &&
+                    (expectation.isEqual ? !numberList.some(number => number !== expectation.isEqual) : true) &&
+                    (expectation.isGreaterThan ? !numberList.some(number => number <= expectation.isGreaterThan) : true) &&
+                    (expectation.isGreaterOrEqual ? !numberList.some(number => number < expectation.isGreaterOrEqual) : true) &&
+                    (expectation.isLesserThan ? !numberList.some(number => number >= expectation.isLesserThan) : true) &&
+                    (expectation.isLesserOrEqual ? !numberList.some(number => number > expectation.isLesserOrEqual) : true)
+                );
+            } else {
+                if (!expectation) {
+                    return !!numberList.length;
+                }
+                return (
+                    (expectation.isTrue ? !!numberList.length : true) &&
+                    (expectation.isFalse ? !numberList.length : true) &&
+                    (expectation.isEqual ? numberList.some(number => number === expectation.isEqual) : true) &&
+                    (expectation.isGreaterThan ? numberList.some(number => number > expectation.isGreaterThan) : true) &&
+                    (expectation.isGreaterOrEqual ? numberList.some(number => number >= expectation.isGreaterOrEqual) : true) &&
+                    (expectation.isLesserThan ? numberList.some(number => number < expectation.isLesserThan) : true) &&
+                    (expectation.isLesserOrEqual ? numberList.some(number => number <= expectation.isLesserOrEqual) : true)
+                );
+            }
+
+        }
+        let success = false;
+        this.complexreq.forEach(complexreq => {
+            //You can choose a creature to check this requirement on. Most checks only run on the character.
+            const creatureType = complexreq.creatureToTest || 'Character';
+            const creature = characterService.get_Creature(creatureType);
+            //Each requirement set is treated as an OR; The first time that any set succeeds, the complex requirements are fulfilled.
+            if (!success) {
+                let requirementFailure = false;
+                //Each singular requirement is treated as AND; The first time that any of them fails, the set fails and the remaining requirements in the set are skipped.
+                if (complexreq.hasThisFeat && !requirementFailure) {
+                    if (!this.have(creature, characterService, charLevel)) {
+                        requirementFailure = true;
+                    }
+                }
+                if (complexreq.isOnLevel && !requirementFailure) {
+                    const queryResult = charLevel;
+                    if (!DoesNumberMatchExpectation(queryResult, complexreq.isOnLevel)) {
+                        requirementFailure = true;
+                    }
+                }
+                complexreq.matchesAnyOfAligments.forEach(alignmentreq => {
+                    if (!requirementFailure) {
+                        const alignments = SplitNames(alignmentreq.query)
+                            .filter(alignment => character.alignment?.toLowerCase().includes(alignment));
+                        const queryResult = alignments.length;
+                        if (!DoesNumberMatchExpectation(queryResult, alignmentreq.expected)) {
+                            requirementFailure = true;
+                        }
+                    }
+                });
+                complexreq.countFeats?.forEach(featreq => {
+                    if (!requirementFailure) {
+                        let feats: Feat[] = characterService.get_CharacterFeatsAndFeatures();
+                        if (featreq.query.havingAllOfTraits) {
+                            const traits = SplitNames(featreq.query.havingAnyOfTraits);
+                            feats = feats.filter(feat => {
+                                const featTraits = feat.traits.map(trait => trait.toLowerCase());
+                                return !traits.some(trait => !featTraits.includes(trait));
+                            });
+                        }
+                        if (featreq.query.havingAnyOfTraits) {
+                            const traits = SplitNames(featreq.query.havingAnyOfTraits);
+                            feats = feats.filter(feat => {
+                                const featTraits = feat.traits.map(trait => trait.toLowerCase());
+                                return traits.some(trait => featTraits.includes(trait));
+                            });
+                        }
+                        //For performance reasons, names are filtered before have() is run for each feat.
+                        if (featreq.query.allOfNames) {
+                            const names = SplitNames(featreq.query.allOfNames);
+                            feats = feats.filter(feat => {
+                                if (featreq.query.excludeCountAs) {
+                                    return names.includes(feat.name.toLowerCase());
+                                } else {
+                                    return names.some(name =>
+                                        [
+                                            feat.name.toLowerCase(),
+                                            feat.subType.toLowerCase(),
+                                            feat.countAsFeat.toLowerCase(),
+                                        ].includes(name)
+                                    );
+                                }
+                            });
+                        }
+                        if (featreq.query.anyOfNames) {
+                            const names = SplitNames(featreq.query.anyOfNames);
+                            feats = feats.filter(feat => {
+                                if (featreq.query.excludeCountAs) {
+                                    return names.includes(feat.name.toLowerCase());
+                                } else {
+                                    return names.some(name =>
+                                        [
+                                            feat.name.toLowerCase(),
+                                            feat.superType.toLowerCase(),
+                                            feat.countAsFeat.toLowerCase(),
+                                        ].includes(name)
+                                    );
+                                }
+                            });
+                        }
+                        feats = feats.filter(feat => feat.have(creature, characterService, charLevel, true));
+                        const featNames = feats.map(feat => feat.name);
+                        if (!featreq.query.excludeCountAs) {
+                            featNames.push(...feats.map(feat => feat.superType).filter(name => name));
+                            featNames.push(...feats.map(feat => feat.countAsFeat).filter(name => name));
+                        }
+                        const queryResult = ApplyDefaultQuery(featreq.query, featNames);
+                        if (!DoesNumberMatchExpectation(queryResult, featreq.expected)) {
+                            requirementFailure = true;
+                        }
+                    }
+                });
+                complexreq.countLores?.forEach(lorereq => {
+                    if (!requirementFailure) {
+                        const allLores = Array.from(new Set(character.get_SkillIncreases(characterService, 1, charLevel).filter(increase => increase.name.toLowerCase().includes('lore:')).map(increase => increase.name)));
+                        const queryResult = ApplyDefaultQuery(lorereq.query, allLores);
+                        if (!DoesNumberMatchExpectation(queryResult, lorereq.expected)) {
+                            requirementFailure = true;
+                        }
+                    }
+                });
+                complexreq.countAncestries?.forEach(lorereq => {
+                    if (!requirementFailure) {
+                        const allAncestries = character.class?.ancestry?.ancestries || [];
+                        const queryResult = ApplyDefaultQuery(lorereq.query, allAncestries);
+                        if (!DoesNumberMatchExpectation(queryResult, lorereq.expected)) {
+                            requirementFailure = true;
+                        }
+                    }
+                });
+                complexreq.countBackgrounds?.forEach(backgroundreq => {
+                    if (!requirementFailure) {
+                        //You can only have one background.
+                        const allBackgrounds = character.class?.background ? [character.class?.background.name.toLowerCase()] : [];
+                        const queryResult = ApplyDefaultQuery(backgroundreq.query, allBackgrounds);
+                        if (!DoesNumberMatchExpectation(queryResult, backgroundreq.expected)) {
+                            requirementFailure = true;
+                        }
+                    }
+                });
+                complexreq.countHeritages?.forEach(heritagereq => {
+                    if (!requirementFailure) {
+                        const allHeritages = character.class?.heritage ?
+                            [character.class?.heritage.name.toLowerCase()]
+                                .concat(character.class.additionalHeritages.map(heritage => heritage.name.toLowerCase())) :
+                            [];
+                        const queryResult = ApplyDefaultQuery(heritagereq.query, allHeritages);
+                        if (!DoesNumberMatchExpectation(queryResult, heritagereq.expected)) {
+                            requirementFailure = true;
+                        }
+                    }
+                });
+                complexreq.countSenses?.forEach(sensereq => {
+                    if (!requirementFailure) {
+                        const allSenses = characterService.get_Senses(creature, charLevel, false);
+                        const queryResult = ApplyDefaultQuery(sensereq.query, allSenses);
+                        if (!DoesNumberMatchExpectation(queryResult, sensereq.expected)) {
+                            requirementFailure = true;
+                        }
+                    }
+                });
+                complexreq.countSpeeds?.forEach(speedreq => {
+                    if (!requirementFailure) {
+                        const allSpeeds = characterService.get_Speeds(creature).map(speed => speed.name);
+                        const queryResult = ApplyDefaultQuery(speedreq.query, allSpeeds);
+                        if (!DoesNumberMatchExpectation(queryResult, speedreq.expected)) {
+                            requirementFailure = true;
+                        }
+                    }
+                });
+                complexreq.countClasses?.forEach(classreq => {
+                    if (!requirementFailure) {
+                        //You can only have one class.
+                        let classes = character.class ? [character.class] : [];
+                        if (classreq.query.havingLessHitpointsThan) {
+                            classes = classes.filter(_class => _class.hitPoints < classreq.query.havingLessHitpointsThan);
+                        }
+                        if (classreq.query.havingMoreHitpointsThan) {
+                            classes = classes.filter(_class => _class.hitPoints > classreq.query.havingMoreHitpointsThan);
+                        }
+                        const queryResult = ApplyDefaultQuery(classreq.query, classes.map(_class => _class.name.toLowerCase()));
+                        if (!DoesNumberMatchExpectation(queryResult, classreq.expected)) {
+                            requirementFailure = true;
+                        }
+                    }
+                });
+                complexreq.countClassSpellcastings?.forEach(spellcastingreq => {
+                    if (!requirementFailure) {
+
+                        let spellCastings = character.class?.spellCasting.filter(casting => !['Innate', 'Focus'].includes(casting.castingType) && casting.charLevelAvailable <= charLevel);
+                        if (spellcastingreq.query.beingOfPrimaryClass) {
+                            spellCastings = spellCastings.filter(casting => casting.className.toLowerCase() === character.class.name.toLowerCase());
+                        }
+                        if (spellcastingreq.query.beingOfFamiliarsClass) {
+                            const familiar = characterService.get_FamiliarAvailable() ? characterService.get_Familiar() : null;
+                            if (familiar) {
+                                spellCastings = spellCastings.filter(casting => casting.className.toLowerCase() === familiar.originClass.toLowerCase());
+                            } else {
+                                spellCastings.length = 0;
+                            }
+                        }
+                        if (spellcastingreq.query.havingAnyOfClassNames) {
+                            const classNames = SplitNames(spellcastingreq.query.havingAnyOfClassNames);
+                            spellCastings = spellCastings.filter(casting => classNames.includes(casting.className.toLowerCase()));
+                        }
+                        if (spellcastingreq.query.havingAnyOfCastingTypes) {
+                            const castingTypes = SplitNames(spellcastingreq.query.havingAnyOfCastingTypes);
+                            spellCastings = spellCastings.filter(casting => castingTypes.includes(casting.castingType.toLowerCase()));
+                        }
+                        if (spellcastingreq.query.havingAnyOfTraditions) {
+                            const traditions = SplitNames(spellcastingreq.query.havingAnyOfTraditions);
+                            spellCastings = spellCastings.filter(casting => traditions.includes(casting.tradition.toLowerCase()));
+                        }
+                        if (spellcastingreq.query.havingSpellsOfLevelGreaterOrEqual) {
+                            spellCastings = spellCastings.filter(casting => casting.spellChoices.some(choice => choice.charLevelAvailable <= charLevel && choice.level >= spellcastingreq.query.havingSpellsOfLevelGreaterOrEqual));
+                        }
+                        const queryResult = spellCastings.length;
+                        if (!DoesNumberMatchExpectation(queryResult, spellcastingreq.expected)) {
+                            requirementFailure = true;
+                        }
+                    }
+                });
+                complexreq.countSpells?.forEach(spellreq => {
+                    if (!requirementFailure) {
+                        const classNames = spellreq.query.ofSpellCasting?.havingAnyOfClassNames ? SplitNames(spellreq.query.ofSpellCasting.havingAnyOfClassNames) : [];
+                        const castingTypes = spellreq.query.ofSpellCasting?.havingAnyOfCastingTypes ? SplitNames(spellreq.query.ofSpellCasting.havingAnyOfCastingTypes) : [];
+                        const traditions = spellreq.query.ofSpellCasting?.havingAnyOfTraditions ? SplitNames(spellreq.query.ofSpellCasting.havingAnyOfTraditions) : [];
+                        const allSpells = character.get_SpellsTaken(1, charLevel, { characterService: characterService }, { classNames: classNames, traditions: traditions, castingTypes: castingTypes })
+                            .map(spellSet => spellSet.gain.name);
+                        //TODO: add ofMinLevel
+                        const queryResult = ApplyDefaultQuery(spellreq.query, allSpells);
+                        if (!DoesNumberMatchExpectation(queryResult, spellreq.expected)) {
+                            requirementFailure = true;
+                        }
+                    }
+                });
+                complexreq.countLearnedSpells?.forEach(learnedspellreq => {
+                    if (!requirementFailure) {
+                        const allLearnedSpells = character.get_SpellsLearned().map(learned => learned.name);
+                        const queryResult = ApplyDefaultQuery(learnedspellreq.query, allLearnedSpells);
+                        if (!DoesNumberMatchExpectation(queryResult, learnedspellreq.expected)) {
+                            requirementFailure = true;
+                        }
+                    }
+                });
+                complexreq.countDeities?.forEach(deityreq => {
+                    if (!requirementFailure) {
+                        const allDeities: Deity[] = characterService.deitiesService.get_CharacterDeities(characterService, character, '', charLevel);
+                        let deities: Deity[] = (!deityreq.query.secondOnly ? [allDeities[0]] : [])
+                            .concat(!deityreq.query.firstOnly ? [allDeities[1]] : [])
+                            .filter(deity => !!deity);
+                        if (!deityreq.query.allowPhilosophies) {
+                            deities = deities.filter(deity => deity.category !== 'Philosophies');
+                        }
+                        if (deityreq.query.matchingAlignment) {
+                            deities = deities.filter(deity => deity.alignment.toLowerCase().includes(deityreq.query.matchingAlignment.toLowerCase()));
+                        }
+                        if (deityreq.query.havingAllOfFonts) {
+                            const fonts = SplitNames(deityreq.query.havingAllOfFonts);
+                            deities = deities.filter(deity => {
+                                const deityFonts = deity.divineFont.map(deityFont => deityFont.toLowerCase());
+                                return !fonts.some(font => !deityFonts.includes(font));
+
+                            });
+                        }
+                        if (deityreq.query.havingAnyOfSkills) {
+                            const skills = SplitNames(deityreq.query.havingAnyOfSkills);
+                            deities = deities.filter(deity => {
+                                const deitySkills = deity.divineSkill.map(deitySkill => deitySkill.toLowerCase());
+                                return skills.some(skill => deitySkills.includes(skill));
+                            });
+                        }
+                        if (deityreq.query.havingAnyOfDomains) {
+                            const domains = SplitNames(deityreq.query.havingAnyOfDomains);
+                            deities = deities
+                                .filter(deity => {
+                                    const deityDomains = deity.get_Domains(character, characterService)
+                                        .concat(deity.get_AlternateDomains(character, characterService))
+                                        .map(domain => domain.toLowerCase());
+                                    return domains.some(domain => deityDomains.includes(domain));
+                                });
+                        }
+                        if (deityreq.query.havingAnyOfPrimaryDomains) {
+                            const domains = SplitNames(deityreq.query.havingAnyOfPrimaryDomains);
+                            deities = deities
+                                .filter(deity => {
+                                    const deityDomains = deity.get_Domains(character, characterService)
+                                        .map(domain => domain.toLowerCase());
+                                    return domains.some(domain => deityDomains.includes(domain));
+                                });
+                        }
+                        if (deityreq.query.havingAnyOfAlternateDomains) {
+                            const domains = SplitNames(deityreq.query.havingAnyOfAlternateDomains);
+                            deities = deities
+                                .filter(deity => {
+                                    const deityDomains = deity.get_AlternateDomains(character, characterService)
+                                        .map(domain => domain.toLowerCase());
+                                    return domains.some(domain => deityDomains.includes(domain));
+                                });
+                        }
+                        const queryResult = ApplyDefaultQuery(deityreq.query, deities.map(deity => deity.name));
+                        if (!DoesNumberMatchExpectation(queryResult, deityreq.expected)) {
+                            requirementFailure = true;
+                        }
+                    }
+                });
+                complexreq.countFavoredWeapons?.forEach(favoredweaponreq => {
+                    if (!requirementFailure) {
+                        const allDeities: Deity[] = characterService.deitiesService.get_CharacterDeities(characterService, character, '', charLevel);
+                        let favoredWeapons: string[] = [].concat(...allDeities.map(deity => deity.favoredWeapon));
+                        if (favoredweaponreq.query.havingAnyOfProficiencies) {
+                            const proficiencies = SplitNames(favoredweaponreq.query.havingAnyOfProficiencies);
+                            favoredWeapons = favoredWeapons.filter(weaponName => {
+                                const weapon = characterService.itemsService.get_CleanItems().weapons.find(weapon => weapon.name.toLowerCase() === weaponName.toLowerCase());
+                                return proficiencies.includes(weapon.prof.toLowerCase());
+                            });
+                        }
+                        const queryResult = ApplyDefaultQuery(favoredweaponreq.query, favoredWeapons);
+                        if (!DoesNumberMatchExpectation(queryResult, favoredweaponreq.expected)) {
+                            requirementFailure = true;
+                        }
+                    }
+                });
+                complexreq.skillLevels?.forEach(skillreq => {
+                    if (!requirementFailure) {
+                        const types = skillreq.query.anyOfTypes ? SplitNames(skillreq.query.anyOfTypes) : [];
+                        let allSkills: Skill[] = [];
+                        if (types.length) {
+                            types.forEach(type => {
+                                allSkills.push(...characterService.get_Skills(creature, '', { type }));
+                            });
+                        } else if (skillreq.query.allOfNames) {
+                            SplitNames(skillreq.query.allOfNames).forEach(name => {
+                                allSkills.push(...characterService.get_Skills(creature, name));
+                            });
+                        } else if (skillreq.query.anyOfNames) {
+                            SplitNames(skillreq.query.anyOfNames).forEach(name => {
+                                allSkills.push(...characterService.get_Skills(creature, name));
+                            });
+                        } else {
+                            //The default is 'any'.
+                            allSkills.push(...characterService.get_Skills(creature, ''));
+                        }
+                        if (skillreq.query.matchingDivineSkill) {
+                            const deity = characterService.get_CharacterDeities(character, '', charLevel)[0];
+                            if (!deity) {
+                                allSkills = [];
+                            } else {
+                                const deitySkills = deity.divineSkill.map(skill => skill.toLowerCase());
+                                allSkills = allSkills.filter(skill => deitySkills.includes(skill.name.toLowerCase()));
+                            }
+                        }
+                        allSkills = allSkills.filter(skill => !!skill);
+                        const allSkillLevels = allSkills.map(skill => skill.level(creature, characterService, charLevel));
+                        if (!DoesNumberListMatchExpectation(allSkillLevels, skillreq.query, skillreq.expected)) {
+                            requirementFailure = true;
+                        }
+                    }
+                });
+                if (complexreq.hasAnimalCompanion && !requirementFailure) {
+                    const companions: AnimalCompanion[] = characterService.get_CompanionAvailable() ? [characterService.get_Companion()] : [];
+                    const queryResult = companions.length;
+                    if (!DoesNumberMatchExpectation(queryResult, complexreq.hasAnimalCompanion)) {
+                        requirementFailure = true;
+                    }
+                }
+                if (complexreq.hasFamiliar && !requirementFailure) {
+                    const familiars: Familiar[] = characterService.get_FamiliarAvailable() ? [characterService.get_Familiar()] : [];
+                    const queryResult = familiars.length;
+                    if (!DoesNumberMatchExpectation(queryResult, complexreq.hasFamiliar)) {
+                        requirementFailure = true;
+                    }
+                }
+                if (!requirementFailure) {
+                    success = true;
+                }
+            }
+        });
+        if (success) {
+            return { met: true, desc: this.specialreqdesc };
+        } else {
+            return { met: false, desc: this.specialreqdesc };
+        }
     }
     canChoose(characterService: CharacterService, choiceLevel: number = characterService.get_Character().level, charLevel: number = characterService.get_Character().level, skipLevel = false, ignoreRequirementsList: string[] = []) {
         //This function evaluates ALL the possible requirements for taking a feat
@@ -428,8 +961,10 @@ export class Feat {
         if (levelreq && levelreq && abilityreq && skillreq && featreq && heritagereq) {
             //Check the special req. True if returns true.
             const specialreq: boolean = ignoreRequirementsList.includes('specialreq') || this.meetsSpecialReq(characterService, charLevel).met;
-            //Return true if all are true
-            return specialreq;
+            //Check the complex req. True if returns true.
+            const complexreq: boolean = ignoreRequirementsList.includes('complexreq') || this.meetsComplexReq(characterService, charLevel).met;
+            //Return true if all are true. During the migration from eval, both specialreq and complexreq are evaluated.
+            return specialreq && complexreq;
         } else {
             return false;
         }

@@ -11,6 +11,21 @@
         "levelreq": 1,
         "specialreq": "deity && deity.name == 'Droskar'",
         "specialreqdesc": "worshipper of Droskar",
+        "complexreqdesc": "worshipper of Droskar",
+        "complexreq": [
+            {
+                "countDeities": [
+                    {
+                        "query": {
+                            "anyOfNames": "Droskar"
+                        },
+                        "expected": {
+                            "isTrue": true
+                        }
+                    }
+                ]
+            }
+        ],
         "gainActivities": [
             "False Faith"
         ]

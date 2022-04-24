@@ -98,6 +98,10 @@ export class FeatComponent {
             result.push({ met: true, desc: ', ' });
             result.push(feat.meetsSpecialReq(this.characterService, this.levelNumber));
         }
+        if (feat.complexreqdesc) {
+            result.push({ met: true, desc: ', ' });
+            result.push(feat.meetsComplexReq(this.characterService, this.levelNumber));
+        }
         if (result.length > 1) {
             if (result[0].desc == ', ') {
                 result.shift();

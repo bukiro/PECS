@@ -30,6 +30,29 @@
         "levelreq": 1,
         "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Orc",
+        "complexreqdesc": "Any Ancestry except Orc",
+        "complexreq": [
+            {
+                "hasThisFeat": true
+            },
+            {
+                "countAncestries": [
+                    {
+                        "query": {
+                            "any": true
+                        }
+                    },
+                    {
+                        "query": {
+                            "anyOfNames": "subType"
+                        },
+                        "expected": {
+                            "isFalse": true
+                        }
+                    }
+                ]
+            }
+        ],
         "gainAncestry": [
             "Orc"
         ]
@@ -48,6 +71,29 @@
         "levelreq": 5,
         "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Orc",
+        "complexreqdesc": "Any Ancestry except Orc",
+        "complexreq": [
+            {
+                "hasThisFeat": true
+            },
+            {
+                "countAncestries": [
+                    {
+                        "query": {
+                            "any": true
+                        }
+                    },
+                    {
+                        "query": {
+                            "anyOfNames": "subType"
+                        },
+                        "expected": {
+                            "isFalse": true
+                        }
+                    }
+                ]
+            }
+        ],
         "gainFeatChoice": [
             {
                 "feats": [
@@ -82,6 +128,14 @@
         "levelreq": 1,
         "specialreq": "charLevel == 1",
         "specialreqdesc": "1st level only",
+        "complexreqdesc": "1st level only",
+        "complexreq": [
+            {
+                "isOnLevel": {
+                    "isEqual": 1
+                }
+            }
+        ],
         "gainItems": [
             {
                 "id": "3ceccceb-31f3-42ef-b6c5-a37b1b8fdc2a",

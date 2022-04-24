@@ -107,6 +107,24 @@
         "levelreq": 20,
         "specialreq": "!Has_Sense('Character', 'Low-Light Vision') || Has_This_Feat()",
         "specialreqdesc": "no low-light vision",
+        "complexreqdesc": "no low-light vision",
+        "complexreq": [
+            {
+                "hasThisFeat": true
+            },
+            {
+                "countSenses": [
+                    {
+                        "query": {
+                            "anyOfNames": "Low-Light Vision"
+                        },
+                        "expected": {
+                            "isFalse": true
+                        }
+                    }
+                ]
+            }
+        ],
         "effects": [
             {
                 "affected": "Perception",
@@ -140,6 +158,21 @@
         "levelreq": 20,
         "specialreq": "Has_Sense('Character', 'Low-Light Vision')",
         "specialreqdesc": "low-light vision",
+        "complexreqdesc": "low-light vision",
+        "complexreq": [
+            {
+                "countSenses": [
+                    {
+                        "query": {
+                            "anyOfNames": "Low-Light Vision"
+                        },
+                        "expected": {
+                            "isTrue": true
+                        }
+                    }
+                ]
+            }
+        ],
         "effects": [
             {
                 "affected": "Perception",

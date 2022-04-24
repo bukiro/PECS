@@ -15,7 +15,7 @@ export class Deity {
     public pantheonMembers: string[] = [];
     public followerAlignments: string[] = [];
     public divineAbility: string[] = [];
-    public divineFont: string[] = [];
+    public divineFont: ('Heal' | 'Harm')[] = [];
     public divineSkill: string[] = [];
     public favoredWeapon: string[] = [];
     public domains: string[] = [];

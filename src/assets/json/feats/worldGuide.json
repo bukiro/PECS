@@ -47,6 +47,21 @@
             "Battle Medicine"
         ],
         "specialreq": "!deity || (deity.category == 'Philosophies')",
-        "specialreqdesc": "you can't have a patron deity"
+        "specialreqdesc": "you can't have a patron deity",
+        "complexreqdesc": "you can't have a patron deity",
+        "complexreq": [
+            {
+                "countDeities": [
+                    {
+                        "query": {
+                            "any": true
+                        },
+                        "expected": {
+                            "isFalse": true
+                        }
+                    }
+                ]
+            }
+        ]
     }
 ]

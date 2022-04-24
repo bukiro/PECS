@@ -27,6 +27,31 @@
         "levelreq": 1,
         "specialreq": "character.class.ancestry?.ancestries?.length > 1 && character.class.background.name",
         "specialreqdesc": "ability to select ancestry feats from multiple ancestries, a background",
+        "complexreqdesc": "ability to select ancestry feats from multiple ancestries, a background",
+        "complexreq": [
+            {
+                "countAncestries": [
+                    {
+                        "query": {
+                            "any": true
+                        },
+                        "expected": {
+                            "isGreaterThan": 1
+                        }
+                    }
+                ],
+                "countBackgrounds": [
+                    {
+                        "query": {
+                            "any": true
+                        },
+                        "expected": {
+                            "isTrue": true
+                        }
+                    }
+                ]
+            }
+        ],
         "customData": [
             {
                 "name": "background",

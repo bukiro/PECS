@@ -631,6 +631,33 @@
         "levelreq": 5,
         "specialreq": "character.class.heritage.name == 'Razortooth Goblin' || Has_Feat('Character', 'Fang Sharpener: Irongut Goblin')",
         "specialreqdesc": "Fang Sharpener or razortooth goblin heritage",
+        "complexreqdesc": "Fang Sharpener or razortooth goblin heritage",
+        "complexreq": [
+            {
+                "countFeats": [
+                    {
+                        "query": {
+                            "anyOfNames": "Fang Sharpener"
+                        },
+                        "expected": {
+                            "isTrue": true
+                        }
+                    }
+                ]
+            },
+            {
+                "countHeritages": [
+                    {
+                        "query": {
+                            "anyOfNames": "Razortooth Goblin"
+                        },
+                        "expected": {
+                            "isTrue": true
+                        }
+                    }
+                ]
+            }
+        ],
         "gainActivities": [
             "Ankle Bite"
         ]
@@ -647,6 +674,31 @@
         "levelreq": 5,
         "specialreq": "deity?.name == 'Lamashtu' && character.class.heritage.name",
         "specialreqdesc": "worshipper of Lamashtu, a heritage",
+        "complexreqdesc": "worshipper of Lamashtu, a heritage",
+        "complexreq": [
+            {
+                "countDeities": [
+                    {
+                        "query": {
+                            "anyOfNames": "Lamashtu"
+                        },
+                        "expected": {
+                            "isTrue": true
+                        }
+                    }
+                ],
+                "countHeritages": [
+                    {
+                        "query": {
+                            "any": true
+                        },
+                        "expected": {
+                            "isTrue": true
+                        }
+                    }
+                ]
+            }
+        ],
         "gainHeritage": [
             {
                 "ancestry": "Goblin",
@@ -1464,7 +1516,13 @@
         ],
         "levelreq": 1,
         "specialreq": "true",
-        "specialreqdesc": "Tian-Dan ethnicity"
+        "specialreqdesc": "Tian-Dan ethnicity",
+        "complexreqdesc": "Tian-Dan ethnicity",
+        "complexreq": [
+            {
+                "alwaysTrue": true
+            }
+        ]
     },
     {
         "name": "Dragon Spit: Acid Splash",
@@ -1623,6 +1681,12 @@
         "levelreq": 1,
         "specialreq": "true",
         "specialreqdesc": "Nidalese ethnicity",
+        "complexreqdesc": "Nidalese ethnicity",
+        "complexreq": [
+            {
+                "alwaysTrue": true
+            }
+        ],
         "senses": [
             "Low-Light Vision"
         ]
@@ -2026,6 +2090,23 @@
         "levelreq": 1,
         "specialreq": "character.get_DefaultSpellcasting() && ['Divine', 'Primal'].includes(character.get_DefaultSpellcasting().tradition)",
         "specialreqdesc": "You have a spellcasting class feature with the divine or primal tradition",
+        "complexreqdesc": "You have a spellcasting class feature with the divine or primal tradition",
+        "complexreq": [
+            {
+                "countClassSpellcastings": [
+                    {
+                        "query": {
+                            "any": true,
+                            "beingOfPrimaryClass": true,
+                            "havingAnyOfTraditions": "Divine, Primal"
+                        },
+                        "expected": {
+                            "isTrue": true
+                        }
+                    }
+                ]
+            }
+        ],
         "gainActivities": [
             "Tupilaq Carver"
         ],
@@ -2408,6 +2489,12 @@
         "levelreq": 5,
         "specialreq": "true",
         "specialreqdesc": "Bonuwat ethnicity",
+        "complexreqdesc": "Bonuwat ethnicity",
+        "complexreq": [
+            {
+                "alwaysTrue": true
+            }
+        ],
         "ignoreRequirements": [
             "(character.class.background.name == 'Bonuwat Wavetouched') ? 'levelreq' : ''"
         ],
@@ -2494,6 +2581,12 @@
         "levelreq": 9,
         "specialreq": "true",
         "specialreqdesc": "Garundi, Mauxi, or Tian-Yae ethnicity",
+        "complexreqdesc": "Garundi, Mauxi, or Tian-Yae ethnicity",
+        "complexreq": [
+            {
+                "alwaysTrue": true
+            }
+        ],
         "gainSpellChoice": [
             {
                 "castingType": "Innate",
@@ -2765,6 +2858,12 @@
         "heritagereq": "wintertouched human",
         "specialreq": "true",
         "specialreqdesc": "Jadwiga ethnicity",
+        "complexreqdesc": "Jadwiga ethnicity",
+        "complexreq": [
+            {
+                "alwaysTrue": true
+            }
+        ],
         "effects": [
             {
                 "affected": "Cold Resistance",
@@ -2802,6 +2901,12 @@
         "levelreq": 13,
         "specialreq": "true",
         "specialreqdesc": "Nidalese ethnicity",
+        "complexreqdesc": "Nidalese ethnicity",
+        "complexreq": [
+            {
+                "alwaysTrue": true
+            }
+        ],
         "gainActivities": [
             "Shadow Pact"
         ]
@@ -2841,7 +2946,46 @@
         ],
         "levelreq": 13,
         "specialreq": "Has_Feat('Character', 'Shory Aeromancer') || character.get_SpellsTaken(this, 1, charLevel, -1, 'Fly').length || character.get_SpellsLearned('Fly').length",
-        "specialreqdesc": "Garundi, Mauxi, or Tian-Yae ethnicity; Shory Aeromancer or ability to cast fly"
+        "specialreqdesc": "Garundi, Mauxi, or Tian-Yae ethnicity; Shory Aeromancer or ability to cast fly",
+        "complexreqdesc": "Garundi, Mauxi, or Tian-Yae ethnicity; Shory Aeromancer or ability to cast fly",
+        "complexreq": [
+            {
+                "countFeats": [
+                    {
+                        "query": {
+                            "anyOfNames": "Shory Aeromancer"
+                        },
+                        "expected": {
+                            "isTrue": true
+                        }
+                    }
+                ]
+            },
+            {
+                "countSpells": [
+                    {
+                        "query": {
+                            "anyOfNames": "Fly"
+                        },
+                        "expected": {
+                            "isTrue": true
+                        }
+                    }
+                ]
+            },
+            {
+                "countLearnedSpells": [
+                    {
+                        "query": {
+                            "anyOfNames": "Fly"
+                        },
+                        "expected": {
+                            "isTrue": true
+                        }
+                    }
+                ]
+            }
+        ]
     },
     {
         "name": "Elemental Wrath",
@@ -3033,6 +3177,12 @@
         "levelreq": 1,
         "specialreq": "true",
         "specialreqdesc": "Mualijae, Ilverani, or Vourinoi ethnicity",
+        "complexreqdesc": "Mualijae, Ilverani, or Vourinoi ethnicity",
+        "complexreq": [
+            {
+                "alwaysTrue": true
+            }
+        ],
         "gainSpellChoice": [
             {
                 "castingType": "Innate",
@@ -3259,7 +3409,34 @@
         ],
         "levelreq": 13,
         "specialreq": "character.class.ancestry.name == 'Elf' || Has_Feat('Character', 'Elf Atavism')",
-        "specialreqdesc": "arctic elf, cavern elf, desert elf, woodland elf, or any other elf heritage based on adapting to an environment"
+        "specialreqdesc": "arctic elf, cavern elf, desert elf, woodland elf, or any other elf heritage based on adapting to an environment",
+        "complexreqdesc": "arctic elf, cavern elf, desert elf, woodland elf, or any other elf heritage based on adapting to an environment",
+        "complexreq": [
+            {
+                "countAncestries": [
+                    {
+                        "query": {
+                            "anyOfNames": "Elf"
+                        },
+                        "expected": {
+                            "isTrue": true
+                        }
+                    }
+                ]
+            },
+            {
+                "countFeats": [
+                    {
+                        "query": {
+                            "anyOfNames": "Elf Atavism"
+                        },
+                        "expected": {
+                            "isTrue": true
+                        }
+                    }
+                ]
+            }
+        ]
     },
     {
         "name": "Lizardfolk Lore",
@@ -3325,7 +3502,22 @@
         ],
         "levelreq": 1,
         "specialreq": "Speed('Character', 'Swim Speed')",
-        "specialreqdesc": "You have a swim Speed."
+        "specialreqdesc": "You have a swim Speed.",
+        "complexreqdesc": "You have a swim Speed.",
+        "complexreq": [
+            {
+                "countSpeeds": [
+                    {
+                        "query": {
+                            "anyOfNames": "Swim Speed"
+                        },
+                        "expected": {
+                            "isTrue": true
+                        }
+                    }
+                ]
+            }
+        ]
     },
     {
         "name": "Parthenogenic Hatchling",
@@ -3360,7 +3552,15 @@
         ],
         "levelreq": 1,
         "specialreq": "charLevel == 1",
-        "specialreqdesc": "1st level only"
+        "specialreqdesc": "1st level only",
+        "complexreqdesc": "1st level only",
+        "complexreq": [
+            {
+                "isOnLevel": {
+                    "isEqual": 1
+                }
+            }
+        ]
     },
     {
         "name": "Razor Claws",
@@ -3610,6 +3810,14 @@
         "levelreq": 1,
         "specialreq": "charLevel == 1",
         "specialreqdesc": "1st level only",
+        "complexreqdesc": "1st level only",
+        "complexreq": [
+            {
+                "isOnLevel": {
+                    "isEqual": 1
+                }
+            }
+        ],
         "gainSkillChoice": [
             {
                 "filter": [
@@ -3725,6 +3933,14 @@
         "levelreq": 1,
         "specialreq": "charLevel == 1",
         "specialreqdesc": "1st level only",
+        "complexreqdesc": "1st level only",
+        "complexreq": [
+            {
+                "isOnLevel": {
+                    "isEqual": 1
+                }
+            }
+        ],
         "gainItems": [
             {
                 "id": "3ceccceb-31f3-42ef-b6c5-a37b1b8fdc2a",
@@ -3760,6 +3976,21 @@
         "levelreq": 1,
         "specialreq": "Skill_Level('Character', 'Simple Weapons') >= 2 || Skill_Level('Character', 'Clan Dagger') >= 2",
         "specialreqdesc": "trained in clan daggers",
+        "complexreqdesc": "trained in clan daggers",
+        "complexreq": [
+            {
+                "skillLevels": [
+                    {
+                        "query": {
+                            "anyOfNames": "Simple Weapons, Clan Dagger"
+                        },
+                        "expected": {
+                            "isTrue": true
+                        }
+                    }
+                ]
+            }
+        ],
         "gainActivities": [
             "Clan's Edge"
         ]
