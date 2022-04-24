@@ -866,6 +866,7 @@
             "Skill"
         ],
         "levelreq": 1,
+        "specialreq": "true",
         "specialreqdesc": "Trained in any skill",
         "complexreqdesc": "Trained in any skill",
         "complexreq": [

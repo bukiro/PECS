@@ -744,9 +744,24 @@ export class CharacterService {
     }
 
     verify_Feats() {
+        console.time('Verifying old specialreq for every feat');
         //run meetsSpecialReq for every feat once, so that we can see in the console if a specialReq isn't working.
-        this.featsService.get_Feats(this.me.customFeats).filter(feat => feat.specialreq).forEach(feat => {
-            feat.meetsSpecialReq(this);
+        this.featsService.get_Feats(this.me.customFeats).filter(feat => feat.specialreq).forEach(feat => feat.meetsSpecialReq(this));
+        this.familiarsService.get_FamiliarAbilities().filter(feat => feat.specialreq).forEach(feat => feat.meetsSpecialReq(this));
+        console.timeEnd('Verifying old specialreq for every feat');
+        console.time('Verifying new complexreq for every feat');
+        this.featsService.get_Feats(this.me.customFeats).filter(feat => feat.complexreq).forEach(feat => feat.meetsComplexReq(this));
+        this.familiarsService.get_FamiliarAbilities().filter(feat => feat.complexreq).forEach(feat => feat.meetsComplexReq(this));
+        console.timeEnd('Verifying new complexreq for every feat');
+        this.featsService.get_Feats(this.me.customFeats).filter(feat => feat.specialreq || feat.complexreq).forEach(feat => {
+            if (!!feat.specialreq != !!feat.complexreq.length) {
+                console.warn(`${ feat.name } has one of specialreq or complexreq, but not both.`);
+            }
+        });
+        this.familiarsService.get_FamiliarAbilities().filter(feat => feat.specialreq || feat.complexreq).forEach(feat => {
+            if (!!feat.specialreq != !!feat.complexreq.length) {
+                console.warn(`${ feat.name } has one of specialreq or complexreq, but not both.`);
+            }
         });
     }
 
