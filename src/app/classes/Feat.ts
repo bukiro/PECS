@@ -405,11 +405,11 @@ export class Feat {
             const creature = characterService.get_Creature(creatureType);
             return characterService.get_Skills(creature, '', { type: type });
         }
-        function Has_Skill_Of_Level_By_Type(type: string, levels: number[], options: { mustHaveAll?: boolean }, creatureType = 'Character') {
+        function Has_Skill_Of_Level_By_Type(type: string, levels: number[], options: { mustHaveAll?: boolean } = {}, creatureType = 'Character') {
             const creature = characterService.get_Creature(creatureType);
             const skills = Skills_Of_Type(type, creatureType);
             const skillLevels = new Set(skills.map(skill => skill.level(creature, characterService, charLevel)));
-            return options.mustHaveAll ? !levels.some(level => !skillLevels.has(level)) : levels.some(level => skillLevels.has(level));
+            return options.mustHaveAll ? levels.every(level => skillLevels.has(level)) : levels.some(level => skillLevels.has(level));
         }
         function Speed(creatureType: string, name: string) {
             const creature = characterService.get_Creature(creatureType);
@@ -469,11 +469,10 @@ export class Feat {
             return !!character.get_SpellsTaken(1, charLevel, { characterService: characterService }, { spellName, classNames: [className], castingTypes: [castingType] });
         }
         function Favored_Weapons(deityObject: Deity): Weapon[] {
-            return deityObject && deityObject.favoredWeapon
-                .map(favoredWeaponName =>
-                    characterService.itemsService.get_CleanItems().weapons
-                        .find(weapon => weapon.name.toLowerCase() === favoredWeaponName.toLowerCase())
-                );
+            return deityObject && deityObject.favoredWeapon?.map(favoredWeaponName =>
+                characterService.itemsService.get_CleanItems().weapons
+                    .find(weapon => weapon.name.toLowerCase() === favoredWeaponName.toLowerCase())
+            ) || [];
         }
         /* eslint-enable @typescript-eslint/no-unused-vars */
         let result: { met: boolean, desc: string };
@@ -485,7 +484,7 @@ export class Feat {
                     result = { met: false, desc: this.specialreqdesc };
                 }
             } catch (error) {
-                console.log(`Failed evaluating feat requirement (${ this.specialreq }): ${ error }`);
+                console.warn(`Failed evaluating feat requirement of ${ this.name } (${ this.specialreq }): ${ error }`);
                 result = { met: false, desc: this.specialreqdesc };
             }
         } else {
@@ -518,7 +517,7 @@ export class Feat {
                 return list.length;
             } else if (query.allOfNames) {
                 const names = SplitNames(query.allOfNames);
-                return !names.some(name => !list.includes(name)) && list.length;
+                return names.every(name => list.includes(name)) && list.length;
             } else if (query.anyOfNames) {
                 const names = SplitNames(query.anyOfNames);
                 return names.filter(name => list.includes(name)).length;
@@ -543,24 +542,24 @@ export class Feat {
         function DoesNumberListMatchExpectation(numberList: number[], query: RequirementBasicQuery, expectation?: RequirementExpectation): boolean {
             if (query.allOfNames) {
                 if (!expectation) {
-                    return !numberList.some(number => !number);
+                    return numberList.every(number => !!number);
                 }
                 return (
-                    (expectation.isTrue ? !numberList.some(number => !number) : true) &&
-                    (expectation.isFalse ? !numberList.some(number => !!number) : true) &&
-                    (expectation.isEqual ? !numberList.some(number => number !== expectation.isEqual) : true) &&
-                    (expectation.isGreaterThan ? !numberList.some(number => number <= expectation.isGreaterThan) : true) &&
-                    (expectation.isGreaterOrEqual ? !numberList.some(number => number < expectation.isGreaterOrEqual) : true) &&
-                    (expectation.isLesserThan ? !numberList.some(number => number >= expectation.isLesserThan) : true) &&
-                    (expectation.isLesserOrEqual ? !numberList.some(number => number > expectation.isLesserOrEqual) : true)
+                    (expectation.isTrue ? numberList.every(number => !!number) : true) &&
+                    (expectation.isFalse ? numberList.every(number => !number) : true) &&
+                    (expectation.isEqual ? numberList.every(number => number === expectation.isEqual) : true) &&
+                    (expectation.isGreaterThan ? numberList.every(number => number > expectation.isGreaterThan) : true) &&
+                    (expectation.isGreaterOrEqual ? numberList.every(number => number >= expectation.isGreaterOrEqual) : true) &&
+                    (expectation.isLesserThan ? numberList.every(number => number < expectation.isLesserThan) : true) &&
+                    (expectation.isLesserOrEqual ? numberList.every(number => number <= expectation.isLesserOrEqual) : true)
                 );
             } else {
                 if (!expectation) {
-                    return !!numberList.length;
+                    return numberList.some(number => !!number);
                 }
                 return (
-                    (expectation.isTrue ? !!numberList.length : true) &&
-                    (expectation.isFalse ? !numberList.length : true) &&
+                    (expectation.isTrue ? numberList.some(number => !!number) : true) &&
+                    (expectation.isFalse ? numberList.some(number => !number) : true) &&
                     (expectation.isEqual ? numberList.some(number => number === expectation.isEqual) : true) &&
                     (expectation.isGreaterThan ? numberList.some(number => number > expectation.isGreaterThan) : true) &&
                     (expectation.isGreaterOrEqual ? numberList.some(number => number >= expectation.isGreaterOrEqual) : true) &&
@@ -590,7 +589,7 @@ export class Feat {
                         requirementFailure = true;
                     }
                 }
-                complexreq.matchesAnyOfAligments.forEach(alignmentreq => {
+                complexreq.matchesAnyOfAligments?.forEach(alignmentreq => {
                     if (!requirementFailure) {
                         const alignments = SplitNames(alignmentreq.query)
                             .filter(alignment => character.alignment?.toLowerCase().includes(alignment));
@@ -604,10 +603,10 @@ export class Feat {
                     if (!requirementFailure) {
                         let feats: Feat[] = characterService.get_CharacterFeatsAndFeatures();
                         if (featreq.query.havingAllOfTraits) {
-                            const traits = SplitNames(featreq.query.havingAnyOfTraits);
+                            const traits = SplitNames(featreq.query.havingAllOfTraits);
                             feats = feats.filter(feat => {
                                 const featTraits = feat.traits.map(trait => trait.toLowerCase());
-                                return !traits.some(trait => !featTraits.includes(trait));
+                                return traits.every(trait => featTraits.includes(trait));
                             });
                         }
                         if (featreq.query.havingAnyOfTraits) {
