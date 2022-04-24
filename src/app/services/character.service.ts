@@ -324,12 +324,12 @@ export class CharacterService {
     }
 
     get_Creature(type: string): Character | AnimalCompanion | Familiar {
-        switch (type) {
-            case 'Character':
+        switch (type.toLowerCase()) {
+            case 'character':
                 return this.get_Character();
-            case 'Companion':
+            case 'companion':
                 return this.get_Companion();
-            case 'Familiar':
+            case 'familiar':
                 return this.get_Familiar();
             default:
                 return new Character();
