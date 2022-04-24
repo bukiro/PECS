@@ -734,10 +734,9 @@ export class CharacterService {
                     let featString = JSON.stringify(feat);
                     featString = featString.replace(regex, weapon.name);
                     const replacedFeat = Object.assign<Feat, Feat>(new Feat(), JSON.parse(featString)).recast();
-                    const newLength = this.add_CustomFeat(replacedFeat);
-                    const newFeat = this.get_Character().customFeats[newLength - 1];
-                    newFeat.hide = false;
-                    newFeat.weaponfeatbase = false;
+                    replacedFeat.hide = false;
+                    replacedFeat.weaponfeatbase = false;
+                    this.add_CustomFeat(replacedFeat);
                 });
             });
         }
