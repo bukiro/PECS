@@ -151,7 +151,7 @@ export class CacheService {
                     case 2: creatureType = 'Familiar'; break;
                     default: creatureType = 'Character';
                 }
-                console.log(`Re-calculating ${ context.name } (${ creatureType })`);
+                console.debug(`Re-calculating ${ context.name } (${ creatureType })`);
             }
             return true;
         }
