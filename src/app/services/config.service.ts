@@ -134,31 +134,33 @@ export class ConfigService {
             this.httpClient.request(new HttpRequest('HEAD', 'assets/config.json', headers))
                 .subscribe({
                     next: (response: HttpResponse<unknown>) => {
-                        if (response.status == 200) {
-                            this.httpClient.get('assets/config.json', { headers })
-                                .subscribe({
-                                    next: data => {
-                                        const config = JSON.parse(JSON.stringify(data));
-                                        this.dataServiceURL = config.dataServiceURL || config.dbConnectionURL || '';
-                                        this.localDataService = config.localDataService || config.localDBConnector;
-                                    },
-                                    error: error => {
-                                        throw error;
-                                    },
-                                    complete: () => {
-                                        //Establish a connection to the data service and check whether login is required.
-                                        this.get_Login('', characterService, savegameService);
-                                    }
-                                });
-                        } else {
-                            //If there is any result other than 200, assume that we are working with a local data service.
-                            //Run Login to check whether login is required.
-                            this.get_Login('', characterService, savegameService);
+                        if (response.status) {
+                            if (response.status == 200) {
+                                this.httpClient.get('assets/config.json', { headers })
+                                    .subscribe({
+                                        next: data => {
+                                            const config = JSON.parse(JSON.stringify(data));
+                                            this.dataServiceURL = config.dataServiceURL || config.dbConnectionURL || '';
+                                            this.localDataService = config.localDataService || config.localDBConnector;
+                                        },
+                                        error: error => {
+                                            throw error;
+                                        },
+                                        complete: () => {
+                                            //Establish a connection to the data service and check whether login is required.
+                                            this.get_Login('', characterService, savegameService);
+                                        }
+                                    });
+                            } else {
+                                //If there is any result other than 200, assume that we are working with a local data service.
+                                //Run Login to check whether login is required.
+                                this.get_Login('', characterService, savegameService);
+                            }
                         }
                     },
                     error: error => {
                         if (error.status == 404) {
-                            console.log('No config file was found. See assets/config.json.example for more information.');
+                            console.error('No config file was found. See assets/config.json.example for more information.');
                         } else {
                             throw error;
                         }
@@ -180,7 +182,7 @@ export class ConfigService {
                         }
                     },
                     error: () => {
-                        console.log('Could not contact github to check for new version.');
+                        console.warn('Could not contact github to check for new version.');
                         this.updateAvailable = 'n/a';
                     }
                 });
