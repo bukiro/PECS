@@ -1,4 +1,4 @@
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
 import { Skill } from 'src/app/classes/Skill';
 import { Observable } from 'rxjs';
@@ -742,27 +742,7 @@ export class CharacterService {
         }
     }
 
-    verify_Feats() {
-        console.time('Verifying old specialreq for every feat');
-        //run meetsSpecialReq for every feat once, so that we can see in the console if a specialReq isn't working.
-        this.featsService.get_Feats(this.me.customFeats).filter(feat => feat.specialreq).forEach(feat => feat.meetsSpecialReq(this));
-        this.familiarsService.get_FamiliarAbilities().filter(feat => feat.specialreq).forEach(feat => feat.meetsSpecialReq(this));
-        console.timeEnd('Verifying old specialreq for every feat');
-        console.time('Verifying new complexreq for every feat');
-        this.featsService.get_Feats(this.me.customFeats).filter(feat => feat.complexreq).forEach(feat => feat.meetsComplexReq(this));
-        this.familiarsService.get_FamiliarAbilities().filter(feat => feat.complexreq).forEach(feat => feat.meetsComplexReq(this));
-        console.timeEnd('Verifying new complexreq for every feat');
-        this.featsService.get_Feats(this.me.customFeats).filter(feat => feat.specialreq || feat.complexreq).forEach(feat => {
-            if (!!feat.specialreq != !!feat.complexreq.length) {
-                console.warn(`${ feat.name } has one of specialreq or complexreq, but not both.`);
-            }
-        });
-        this.familiarsService.get_FamiliarAbilities().filter(feat => feat.specialreq || feat.complexreq).forEach(feat => {
-            if (!!feat.specialreq != !!feat.complexreq.length) {
-                console.warn(`${ feat.name } has one of specialreq or complexreq, but not both.`);
-            }
-        });
-    }
+
 
     grant_InventoryItem(item: Item, context: { creature: Creature, inventory: ItemCollection, amount?: number, }, options: { resetRunes?: boolean, changeAfter?: boolean, equipAfter?: boolean, newId?: boolean, expiration?: number, newPropertyRunes?: Partial<Rune>[] } = {}) {
         context = {
@@ -2551,7 +2531,7 @@ export class CharacterService {
         }
     }
 
-    initialize(id: string, loadAsGM = false) {
+    initialize(id?: string, loadAsGM?: boolean) {
         this.loading = true;
         this.cacheService.initialize();
         this.refreshService.initialize();
@@ -2561,7 +2541,7 @@ export class CharacterService {
         this.continue_Initialize(id, loadAsGM);
     }
 
-    continue_Initialize(id: string, loadAsGM: boolean) {
+    continue_Initialize(id?: string, loadAsGM?: boolean) {
         if (this.extensionsService.still_loading() || this.configService.still_loading()) {
             setTimeout(() => {
                 this.continue_Initialize(id, loadAsGM);
@@ -2671,11 +2651,6 @@ export class CharacterService {
             //Create feats that are based on all weapons in the store and in your inventory.
             this.create_WeaponFeats();
             //Check that every feat's specialreq and complexreq makes sense. This is a debugging thing and should only run in development.
-            if (isDevMode()) {
-                this.verify_Feats();
-                //Deity's temporary domains may have changed during the testing.
-                this.deitiesService.get_CharacterDeities(this, this.get_Character()).forEach(deity => deity.clear_TemporaryDomains());
-            }
             //Set your turn state according to the saved state.
             this.timeService.set_YourTurn(this.get_Character().yourTurn);
             //Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.

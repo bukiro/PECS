@@ -10,6 +10,7 @@ import { TraitsService } from 'src/app/services/traits.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { FeatRequirementsService } from 'src/app/character-creation/services/feat-requirement/featRequirements.service';
 
 @Component({
     selector: 'app-featchoice',
@@ -60,7 +61,8 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         private featsService: FeatsService,
         private familiarsService: FamiliarsService,
         private traitsService: TraitsService,
-        private effectsService: EffectsService
+        private effectsService: EffectsService,
+        private featRequirementService: FeatRequirementsService
     ) { }
 
     toggle_Feat(name: string) {
@@ -553,7 +555,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
             }
             //Only if no other reason is given, check if the the basic requirements (level, ability, feat etc) are not met for this feat or all of its subfeats.
             //This is the most performance-intensive step, so we skip it if the feat can't be taken anyway.
-            if (!feat.canChoose(this.characterService, this.featLevel, levelNumber, skipLevel, ignoreRequirementsList)) {
+            if (!this.featRequirementService.canChoose(feat, { choiceLevel: this.featLevel, charLevel: levelNumber }, { skipLevel, ignoreRequirementsList })) {
                 reasons.push({ reason: 'Requirements unmet', explain: 'Not all requirements are met.' });
             }
             //If this feat has any subtypes, check if any of them can be taken. If not, this cannot be taken either.

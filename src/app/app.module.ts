@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -78,6 +78,7 @@ import { SpellContentComponent } from 'src/app/components/spell/spellContent/spe
 import { ItemEmblazonArmamentComponent } from 'src/app/components/item/itemEmblazonArmament/itemEmblazonArmament.component';
 import { TraitComponent } from 'src/app/components/trait/trait.component';
 import { AboutComponent } from 'src/app/components/character/about/about.component';
+import { AppInitService } from './core/services/app-init/app-init.service';
 
 @NgModule({
     declarations: [
@@ -162,7 +163,8 @@ import { AboutComponent } from 'src/app/components/character/about/about.compone
         DragDropModule
     ],
     providers: [
-        NgbActiveModal
+        NgbActiveModal,
+        { provide: APP_INITIALIZER, useFactory: (service: AppInitService) => () => { return service; }, deps: [AppInitService], multi: true }
     ],
     bootstrap: [
         AppComponent

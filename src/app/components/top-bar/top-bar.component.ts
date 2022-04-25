@@ -11,6 +11,7 @@ import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { AppInitService } from 'src/app/core/services/app-init/app-init.service';
 
 @Component({
     selector: 'app-top-bar',
@@ -321,37 +322,37 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     finish_Loading() {
-        if (!this.get_Database() && !this.configService.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500);
-        } else {
-            this.changeSubscription = this.refreshService.get_Changed
-                .subscribe((target) => {
-                    if (['top-bar', 'all', 'character'].includes(target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            this.viewChangeSubscription = this.refreshService.get_ViewChanged
-                .subscribe((view) => {
-                    if (view.creature.toLowerCase() == 'character' && ['top-bar', 'all'].includes(view.target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
-                    }
-                    if (view.creature.toLowerCase() == 'character' && view.target.toLowerCase() == 'check-messages-manually') {
-                        this.get_Messages();
-                    }
-                    if (view.creature.toLowerCase() == 'character' && view.target.toLowerCase() == 'logged-out') {
-                        this.open_LoginModal();
-                    }
-                    if (view.creature.toLowerCase() == 'character' && view.target.toLowerCase() == 'password-failed') {
-                        this.open_LoginModal(true);
-                    }
-                });
-            return true;
-        }
+        this.changeSubscription = this.refreshService.get_Changed
+            .subscribe((target) => {
+                if (['top-bar', 'all', 'character'].includes(target.toLowerCase())) {
+                    this.changeDetector.detectChanges();
+                }
+            });
+        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+            .subscribe((view) => {
+                if (view.creature.toLowerCase() == 'character' && ['top-bar', 'all'].includes(view.target.toLowerCase())) {
+                    this.changeDetector.detectChanges();
+                }
+                if (view.creature.toLowerCase() == 'character' && view.target.toLowerCase() == 'check-messages-manually') {
+                    this.get_Messages();
+                }
+                if (view.creature.toLowerCase() == 'character' && view.target.toLowerCase() == 'logged-out') {
+                    this.open_LoginModal();
+                }
+                if (view.creature.toLowerCase() == 'character' && view.target.toLowerCase() == 'password-failed') {
+                    this.open_LoginModal(true);
+                }
+            });
+        return true;
     }
 
     ngOnInit() {
-        this.characterService.initialize('');
-        this.finish_Loading();
+        const waitUntilReady = setInterval(() => {
+            if (this.get_Database() || this.configService.still_loading()) {
+                clearInterval(waitUntilReady);
+                this.finish_Loading();
+            }
+        }, 500);
     }
 
     private changeSubscription: Subscription;

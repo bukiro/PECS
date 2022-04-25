@@ -136,7 +136,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Dwarf",
         "complexreqdesc": "Any Ancestry except Dwarf",
         "complexreq": [
@@ -180,7 +180,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Elf",
         "complexreqdesc": "Any Ancestry except Elf",
         "complexreq": [
@@ -224,7 +224,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Gnome",
         "complexreqdesc": "Any Ancestry except Gnome",
         "complexreq": [
@@ -268,7 +268,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Goblin",
         "complexreqdesc": "Any Ancestry except Goblin",
         "complexreq": [
@@ -312,7 +312,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Halfling",
         "complexreqdesc": "Any Ancestry except Halfling",
         "complexreq": [
@@ -356,7 +356,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Human",
         "complexreqdesc": "Any Ancestry except Human",
         "complexreq": [
@@ -400,7 +400,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Hobgoblin",
         "complexreqdesc": "Any Ancestry except Hobgoblin",
         "complexreq": [
@@ -444,7 +444,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Leshy",
         "complexreqdesc": "Any Ancestry except Leshy",
         "complexreq": [
@@ -488,7 +488,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Lizardfolk",
         "complexreqdesc": "Any Ancestry except Lizardfolk",
         "complexreq": [
@@ -532,7 +532,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Shoony",
         "complexreqdesc": "Any Ancestry except Shoony",
         "complexreq": [
@@ -693,7 +693,7 @@
                 "value": 2
             }
         ],
-        "specialreq": "Has_This_Feat() || Skill_Level('Character', this.subType) < 2",
+        "specialreq": "Has_This_Feat() || Skill_Level('Character', subType) < 2",
         "specialreqdesc": "Untrained in Heavy Armor",
         "complexreqdesc": "Untrained in Heavy Armor",
         "complexreq": [
@@ -741,7 +741,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "Has_This_Feat() || Skill_Level('Character', this.subType) < 2",
+        "specialreq": "Has_This_Feat() || Skill_Level('Character', subType) < 2",
         "specialreqdesc": "Untrained in Light Armor",
         "complexreqdesc": "Untrained in Light Armor",
         "complexreq": [
@@ -795,7 +795,7 @@
                 "value": 2
             }
         ],
-        "specialreq": "Has_This_Feat() || Skill_Level('Character', this.subType) < 2",
+        "specialreq": "Has_This_Feat() || Skill_Level('Character', subType) < 2",
         "specialreqdesc": "Untrained in Medium Armor",
         "complexreqdesc": "Untrained in Medium Armor",
         "complexreq": [
@@ -1895,7 +1895,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "Has_This_Feat() || Skill_Level('Character', this.subType) < 4",
+        "specialreq": "Has_This_Feat() || Skill_Level('Character', subType) < 4",
         "specialreqdesc": "not expert in Fortitude",
         "complexreqdesc": "not expert in Fortitude",
         "complexreq": [
@@ -1943,7 +1943,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "Has_This_Feat() || Skill_Level('Character', this.subType) < 4",
+        "specialreq": "Has_This_Feat() || Skill_Level('Character', subType) < 4",
         "specialreqdesc": "not expert in Perception",
         "complexreqdesc": "not expert in Perception",
         "complexreq": [
@@ -1991,7 +1991,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "Has_This_Feat() || Skill_Level('Character', this.subType) < 4",
+        "specialreq": "Has_This_Feat() || Skill_Level('Character', subType) < 4",
         "specialreqdesc": "not expert in Reflex",
         "complexreqdesc": "not expert in Reflex",
         "complexreq": [
@@ -2039,7 +2039,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "Has_This_Feat() || Skill_Level('Character', this.subType) < 4",
+        "specialreq": "Has_This_Feat() || Skill_Level('Character', subType) < 4",
         "specialreqdesc": "not expert in Will",
         "complexreqdesc": "not expert in Will",
         "complexreq": [
@@ -7331,7 +7331,7 @@
                 "value": 2
             }
         ],
-        "specialreq": "Skill_Level('Character', this.subType) < (Has_This_Feat() ? 4 : 2)",
+        "specialreq": "Skill_Level('Character', subType) < (Has_This_Feat() ? 4 : 2)",
         "specialreqdesc": "Untrained in Advanced Weapon",
         "complexreqdesc": "Untrained in Advanced Weapon",
         "complexreq": [
@@ -7385,7 +7385,7 @@
                 "value": 2
             }
         ],
-        "specialreq": "Skill_Level('Character', this.subType) < (Has_This_Feat() ? 4 : 2)",
+        "specialreq": "Skill_Level('Character', subType) < (Has_This_Feat() ? 4 : 2)",
         "specialreqdesc": "Untrained in Martial Weapons",
         "complexreqdesc": "Untrained in Martial Weapons",
         "complexreq": [
@@ -7433,7 +7433,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "Skill_Level('Character', this.subType) < (Has_This_Feat() ? 4 : 2)",
+        "specialreq": "Skill_Level('Character', subType) < (Has_This_Feat() ? 4 : 2)",
         "specialreqdesc": "Untrained in Simple Weapons",
         "complexreqdesc": "Untrained in Simple Weapons",
         "complexreq": [
@@ -9949,7 +9949,7 @@
         "_extensionFileName": "core",
         "subType": "Acrobatics",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (Has_This_Feat() ? 2 : 0))",
+        "specialreq": "deity && deity.divineSkill.includes(subType) && (Skill_Level('Character', subType) == (Has_This_Feat() ? 2 : 0))",
         "specialreqdesc": "your deity's divine skill is Acrobatics, you are untrained in Acrobatics",
         "complexreqdesc": "your deity's divine skill is Acrobatics, you are untrained in Acrobatics",
         "complexreq": [
@@ -10014,7 +10014,7 @@
         "_extensionFileName": "core",
         "subType": "Arcana",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (Has_This_Feat() ? 2 : 0))",
+        "specialreq": "deity && deity.divineSkill.includes(subType) && (Skill_Level('Character', subType) == (Has_This_Feat() ? 2 : 0))",
         "specialreqdesc": "your deity's divine skill is Arcana, you are untrained in Arcana",
         "complexreqdesc": "your deity's divine skill is Arcana, you are untrained in Arcana",
         "complexreq": [
@@ -10079,7 +10079,7 @@
         "_extensionFileName": "core",
         "subType": "Athletics",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (Has_This_Feat() ? 2 : 0))",
+        "specialreq": "deity && deity.divineSkill.includes(subType) && (Skill_Level('Character', subType) == (Has_This_Feat() ? 2 : 0))",
         "specialreqdesc": "your deity's divine skill is Athletics, you are untrained in Athletics",
         "complexreqdesc": "your deity's divine skill is Athletics, you are untrained in Athletics",
         "complexreq": [
@@ -10144,7 +10144,7 @@
         "_extensionFileName": "core",
         "subType": "Crafting",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (Has_This_Feat() ? 2 : 0))",
+        "specialreq": "deity && deity.divineSkill.includes(subType) && (Skill_Level('Character', subType) == (Has_This_Feat() ? 2 : 0))",
         "specialreqdesc": "your deity's divine skill is Crafting, you are untrained in Crafting",
         "complexreqdesc": "your deity's divine skill is Crafting, you are untrained in Crafting",
         "complexreq": [
@@ -10209,7 +10209,7 @@
         "_extensionFileName": "core",
         "subType": "Deception",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (Has_This_Feat() ? 2 : 0))",
+        "specialreq": "deity && deity.divineSkill.includes(subType) && (Skill_Level('Character', subType) == (Has_This_Feat() ? 2 : 0))",
         "specialreqdesc": "your deity's divine skill is Deception, you are untrained in Deception",
         "complexreqdesc": "your deity's divine skill is Deception, you are untrained in Deception",
         "complexreq": [
@@ -10274,7 +10274,7 @@
         "_extensionFileName": "core",
         "subType": "Diplomacy",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (Has_This_Feat() ? 2 : 0))",
+        "specialreq": "deity && deity.divineSkill.includes(subType) && (Skill_Level('Character', subType) == (Has_This_Feat() ? 2 : 0))",
         "specialreqdesc": "your deity's divine skill is Diplomacy, you are untrained in Diplomacy",
         "complexreqdesc": "your deity's divine skill is Diplomacy, you are untrained in Diplomacy",
         "complexreq": [
@@ -10339,7 +10339,7 @@
         "_extensionFileName": "core",
         "subType": "Intimidation",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (Has_This_Feat() ? 2 : 0))",
+        "specialreq": "deity && deity.divineSkill.includes(subType) && (Skill_Level('Character', subType) == (Has_This_Feat() ? 2 : 0))",
         "specialreqdesc": "your deity's divine skill is Intimidation, you are untrained in Intimidation",
         "complexreqdesc": "your deity's divine skill is Intimidation, you are untrained in Intimidation",
         "complexreq": [
@@ -10404,7 +10404,7 @@
         "_extensionFileName": "core",
         "subType": "Medicine",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (Has_This_Feat() ? 2 : 0))",
+        "specialreq": "deity && deity.divineSkill.includes(subType) && (Skill_Level('Character', subType) == (Has_This_Feat() ? 2 : 0))",
         "specialreqdesc": "your deity's divine skill is Medicine, you are untrained in Medicine",
         "complexreqdesc": "your deity's divine skill is Medicine, you are untrained in Medicine",
         "complexreq": [
@@ -10469,7 +10469,7 @@
         "_extensionFileName": "core",
         "subType": "Nature",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (Has_This_Feat() ? 2 : 0))",
+        "specialreq": "deity && deity.divineSkill.includes(subType) && (Skill_Level('Character', subType) == (Has_This_Feat() ? 2 : 0))",
         "specialreqdesc": "your deity's divine skill is Nature, you are untrained in Nature",
         "complexreqdesc": "your deity's divine skill is Nature, you are untrained in Nature",
         "complexreq": [
@@ -10534,7 +10534,7 @@
         "_extensionFileName": "core",
         "subType": "Occultism",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (Has_This_Feat() ? 2 : 0))",
+        "specialreq": "deity && deity.divineSkill.includes(subType) && (Skill_Level('Character', subType) == (Has_This_Feat() ? 2 : 0))",
         "specialreqdesc": "your deity's divine skill is Occultism, you are untrained in Occultism",
         "complexreqdesc": "your deity's divine skill is Occultism, you are untrained in Occultism",
         "complexreq": [
@@ -10599,7 +10599,7 @@
         "_extensionFileName": "core",
         "subType": "Performance",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (Has_This_Feat() ? 2 : 0))",
+        "specialreq": "deity && deity.divineSkill.includes(subType) && (Skill_Level('Character', subType) == (Has_This_Feat() ? 2 : 0))",
         "specialreqdesc": "your deity's divine skill is Performance, you are untrained in Performance",
         "complexreqdesc": "your deity's divine skill is Performance, you are untrained in Performance",
         "complexreq": [
@@ -10664,7 +10664,7 @@
         "_extensionFileName": "core",
         "subType": "Religion",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (Has_This_Feat() ? 2 : 0))",
+        "specialreq": "deity && deity.divineSkill.includes(subType) && (Skill_Level('Character', subType) == (Has_This_Feat() ? 2 : 0))",
         "specialreqdesc": "your deity's divine skill is Religion, you are untrained in Religion",
         "complexreqdesc": "your deity's divine skill is Religion, you are untrained in Religion",
         "complexreq": [
@@ -10729,7 +10729,7 @@
         "_extensionFileName": "core",
         "subType": "Society",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (Has_This_Feat() ? 2 : 0))",
+        "specialreq": "deity && deity.divineSkill.includes(subType) && (Skill_Level('Character', subType) == (Has_This_Feat() ? 2 : 0))",
         "specialreqdesc": "your deity's divine skill is Society, you are untrained in Society",
         "complexreqdesc": "your deity's divine skill is Society, you are untrained in Society",
         "complexreq": [
@@ -10794,7 +10794,7 @@
         "_extensionFileName": "core",
         "subType": "Stealth",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (Has_This_Feat() ? 2 : 0))",
+        "specialreq": "deity && deity.divineSkill.includes(subType) && (Skill_Level('Character', subType) == (Has_This_Feat() ? 2 : 0))",
         "specialreqdesc": "your deity's divine skill is Stealth, you are untrained in Stealth",
         "complexreqdesc": "your deity's divine skill is Stealth, you are untrained in Stealth",
         "complexreq": [
@@ -10859,7 +10859,7 @@
         "_extensionFileName": "core",
         "subType": "Survival",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (Has_This_Feat() ? 2 : 0))",
+        "specialreq": "deity && deity.divineSkill.includes(subType) && (Skill_Level('Character', subType) == (Has_This_Feat() ? 2 : 0))",
         "specialreqdesc": "your deity's divine skill is Survival, you are untrained in Survival",
         "complexreqdesc": "your deity's divine skill is Survival, you are untrained in Survival",
         "complexreq": [
@@ -10924,7 +10924,7 @@
         "_extensionFileName": "core",
         "subType": "Thievery",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes(this.subType) && (Skill_Level('Character', this.subType) == (Has_This_Feat() ? 2 : 0))",
+        "specialreq": "deity && deity.divineSkill.includes(subType) && (Skill_Level('Character', subType) == (Has_This_Feat() ? 2 : 0))",
         "specialreqdesc": "your deity's divine skill is Thievery, you are untrained in Thievery",
         "complexreqdesc": "your deity's divine skill is Thievery, you are untrained in Thievery",
         "complexreq": [
@@ -10996,7 +10996,7 @@
         "_extensionFileName": "core",
         "subType": "Heal",
         "superType": "Divine Font",
-        "specialreq": "deity && deity.divineFont.includes(this.subType)",
+        "specialreq": "deity && deity.divineFont.includes(subType)",
         "specialreqdesc": "deity that grants the healing divine font",
         "complexreqdesc": "deity that grants the healing divine font",
         "complexreq": [
@@ -11038,7 +11038,7 @@
         "_extensionFileName": "core",
         "subType": "Harm",
         "superType": "Divine Font",
-        "specialreq": "deity && deity.divineFont.includes(this.subType)",
+        "specialreq": "deity && deity.divineFont.includes(subType)",
         "specialreqdesc": "deity that grants the harmful divine font",
         "complexreqdesc": "deity that grants the harmful divine font",
         "complexreq": [
@@ -32757,7 +32757,7 @@
             "Halfling"
         ],
         "levelreq": 5,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Dwarf",
         "complexreqdesc": "Any Ancestry except Dwarf",
         "complexreq": [
@@ -32816,7 +32816,7 @@
             "Halfling"
         ],
         "levelreq": 5,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Elf",
         "complexreqdesc": "Any Ancestry except Elf",
         "complexreq": [
@@ -32875,7 +32875,7 @@
             "Halfling"
         ],
         "levelreq": 5,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Gnome",
         "complexreqdesc": "Any Ancestry except Gnome",
         "complexreq": [
@@ -32934,7 +32934,7 @@
             "Halfling"
         ],
         "levelreq": 5,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Goblin",
         "complexreqdesc": "Any Ancestry except Goblin",
         "complexreq": [
@@ -32993,7 +32993,7 @@
             "Halfling"
         ],
         "levelreq": 5,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Human",
         "complexreqdesc": "Any Ancestry except Human",
         "complexreq": [
@@ -33052,7 +33052,7 @@
             "Halfling"
         ],
         "levelreq": 5,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Hobgoblin",
         "complexreqdesc": "Any Ancestry except Hobgoblin",
         "complexreq": [
@@ -33111,7 +33111,7 @@
             "Halfling"
         ],
         "levelreq": 5,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Leshy",
         "complexreqdesc": "Any Ancestry except Leshy",
         "complexreq": [
@@ -33170,7 +33170,7 @@
             "Halfling"
         ],
         "levelreq": 5,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Lizardfolk",
         "complexreqdesc": "Any Ancestry except Lizardfolk",
         "complexreq": [
@@ -33229,7 +33229,7 @@
             "Halfling"
         ],
         "levelreq": 5,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || Has_This_Feat()",
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(subType) || Has_This_Feat()",
         "specialreqdesc": "Any Ancestry except Shoony",
         "complexreqdesc": "Any Ancestry except Shoony",
         "complexreq": [
@@ -33897,7 +33897,7 @@
         "featreq": [
             "Unconventional Weaponry: Uncommon Ancestry Simple Weapon"
         ],
-        "specialreq": "Skill_Level('Character', 'Simple Weapons') >= 2 || Skill_Level('Character', this.subType) >= 2",
+        "specialreq": "Skill_Level('Character', 'Simple Weapons') >= 2 || Skill_Level('Character', subType) >= 2",
         "specialreqdesc": "trained in the Uncommon Ancestry Simple Weapon",
         "complexreqdesc": "trained in the Uncommon Ancestry Simple Weapon",
         "complexreq": [
@@ -33954,7 +33954,7 @@
         "featreq": [
             "Unconventional Weaponry: Uncommon Ancestry Martial Weapon"
         ],
-        "specialreq": "Skill_Level('Character', 'Martial Weapons') >= 2 || Skill_Level('Character', this.subType) >= 2",
+        "specialreq": "Skill_Level('Character', 'Martial Weapons') >= 2 || Skill_Level('Character', subType) >= 2",
         "specialreqdesc": "trained in the Uncommon Ancestry Martial Weapon",
         "complexreqdesc": "trained in the Uncommon Ancestry Martial Weapon",
         "complexreq": [
@@ -34011,7 +34011,7 @@
         "featreq": [
             "Unconventional Weaponry: Uncommon Ancestry Advanced Weapon"
         ],
-        "specialreq": "Skill_Level('Character', 'Advanced Weapons') >= 2 || Skill_Level('Character', this.subType) >= 2",
+        "specialreq": "Skill_Level('Character', 'Advanced Weapons') >= 2 || Skill_Level('Character', subType) >= 2",
         "specialreqdesc": "trained in the Uncommon Ancestry Advanced Weapon",
         "complexreqdesc": "trained in the Uncommon Ancestry Advanced Weapon",
         "complexreq": [
@@ -34845,7 +34845,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the abomination domain",
         "complexreqdesc": "deity with the abomination domain",
         "complexreq": [
@@ -34891,7 +34891,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the air domain",
         "complexreqdesc": "deity with the air domain",
         "complexreq": [
@@ -34937,7 +34937,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the ambition domain",
         "complexreqdesc": "deity with the ambition domain",
         "complexreq": [
@@ -34983,7 +34983,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the change domain",
         "complexreqdesc": "deity with the change domain",
         "complexreq": [
@@ -35029,7 +35029,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the cities domain",
         "complexreqdesc": "deity with the cities domain",
         "complexreq": [
@@ -35075,7 +35075,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the cold domain",
         "complexreqdesc": "deity with the cold domain",
         "complexreq": [
@@ -35121,7 +35121,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the confidence domain",
         "complexreqdesc": "deity with the confidence domain",
         "complexreq": [
@@ -35167,7 +35167,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the creation domain",
         "complexreqdesc": "deity with the creation domain",
         "complexreq": [
@@ -35213,7 +35213,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the darkness domain",
         "complexreqdesc": "deity with the darkness domain",
         "complexreq": [
@@ -35259,7 +35259,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the death domain",
         "complexreqdesc": "deity with the death domain",
         "complexreq": [
@@ -35305,7 +35305,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the decay domain",
         "complexreqdesc": "deity with the decay domain",
         "complexreq": [
@@ -35351,7 +35351,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the delirium domain",
         "complexreqdesc": "deity with the delirium domain",
         "complexreq": [
@@ -35397,7 +35397,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the destruction domain",
         "complexreqdesc": "deity with the destruction domain",
         "complexreq": [
@@ -35443,7 +35443,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the dreams domain",
         "complexreqdesc": "deity with the dreams domain",
         "complexreq": [
@@ -35489,7 +35489,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the dust domain",
         "complexreqdesc": "deity with the dust domain",
         "complexreq": [
@@ -35535,7 +35535,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the duty domain",
         "complexreqdesc": "deity with the duty domain",
         "complexreq": [
@@ -35581,7 +35581,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the earth domain",
         "complexreqdesc": "deity with the earth domain",
         "complexreq": [
@@ -35627,7 +35627,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the family domain",
         "complexreqdesc": "deity with the family domain",
         "complexreq": [
@@ -35673,7 +35673,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the fate domain",
         "complexreqdesc": "deity with the fate domain",
         "complexreq": [
@@ -35719,7 +35719,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the fire domain",
         "complexreqdesc": "deity with the fire domain",
         "complexreq": [
@@ -35765,7 +35765,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the freedom domain",
         "complexreqdesc": "deity with the freedom domain",
         "complexreq": [
@@ -35811,7 +35811,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the glyph domain",
         "complexreqdesc": "deity with the glyph domain",
         "complexreq": [
@@ -35857,7 +35857,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the healing domain",
         "complexreqdesc": "deity with the healing domain",
         "complexreq": [
@@ -35903,7 +35903,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the indulgence domain",
         "complexreqdesc": "deity with the indulgence domain",
         "complexreq": [
@@ -35949,7 +35949,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the knowledge domain",
         "complexreqdesc": "deity with the knowledge domain",
         "complexreq": [
@@ -35995,7 +35995,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the lightning domain",
         "complexreqdesc": "deity with the lightning domain",
         "complexreq": [
@@ -36041,7 +36041,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the luck domain",
         "complexreqdesc": "deity with the luck domain",
         "complexreq": [
@@ -36087,7 +36087,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the magic domain",
         "complexreqdesc": "deity with the magic domain",
         "complexreq": [
@@ -36133,7 +36133,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the might domain",
         "complexreqdesc": "deity with the might domain",
         "complexreq": [
@@ -36179,7 +36179,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the moon domain",
         "complexreqdesc": "deity with the moon domain",
         "complexreq": [
@@ -36225,7 +36225,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the naga domain",
         "complexreqdesc": "deity with the naga domain",
         "complexreq": [
@@ -36271,7 +36271,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the nature domain",
         "complexreqdesc": "deity with the nature domain",
         "complexreq": [
@@ -36317,7 +36317,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the nightmares domain",
         "complexreqdesc": "deity with the nightmares domain",
         "complexreq": [
@@ -36363,7 +36363,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the pain domain",
         "complexreqdesc": "deity with the pain domain",
         "complexreq": [
@@ -36409,7 +36409,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the passion domain",
         "complexreqdesc": "deity with the passion domain",
         "complexreq": [
@@ -36455,7 +36455,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the perfection domain",
         "complexreqdesc": "deity with the perfection domain",
         "complexreq": [
@@ -36501,7 +36501,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the plague domain",
         "complexreqdesc": "deity with the plague domain",
         "complexreq": [
@@ -36547,7 +36547,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the protection domain",
         "complexreqdesc": "deity with the protection domain",
         "complexreq": [
@@ -36593,7 +36593,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the repose domain",
         "complexreqdesc": "deity with the repose domain",
         "complexreq": [
@@ -36639,7 +36639,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the secrecy domain",
         "complexreqdesc": "deity with the secrecy domain",
         "complexreq": [
@@ -36685,7 +36685,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the sorrow domain",
         "complexreqdesc": "deity with the sorrow domain",
         "complexreq": [
@@ -36731,7 +36731,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the soul domain",
         "complexreqdesc": "deity with the soul domain",
         "complexreq": [
@@ -36777,7 +36777,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the star domain",
         "complexreqdesc": "deity with the star domain",
         "complexreq": [
@@ -36823,7 +36823,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the sun domain",
         "complexreqdesc": "deity with the sun domain",
         "complexreq": [
@@ -36869,7 +36869,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the swarm domain",
         "complexreqdesc": "deity with the swarm domain",
         "complexreq": [
@@ -36915,7 +36915,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the time domain",
         "complexreqdesc": "deity with the time domain",
         "complexreq": [
@@ -36961,7 +36961,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the toil domain",
         "complexreqdesc": "deity with the toil domain",
         "complexreq": [
@@ -37007,7 +37007,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the travel domain",
         "complexreqdesc": "deity with the travel domain",
         "complexreq": [
@@ -37053,7 +37053,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the trickery domain",
         "complexreqdesc": "deity with the trickery domain",
         "complexreq": [
@@ -37099,7 +37099,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the truth domain",
         "complexreqdesc": "deity with the truth domain",
         "complexreq": [
@@ -37145,7 +37145,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the tyranny domain",
         "complexreqdesc": "deity with the tyranny domain",
         "complexreq": [
@@ -37191,7 +37191,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the undeath domain",
         "complexreqdesc": "deity with the undeath domain",
         "complexreq": [
@@ -37237,7 +37237,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the vigil domain",
         "complexreqdesc": "deity with the vigil domain",
         "complexreq": [
@@ -37283,7 +37283,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the void domain",
         "complexreqdesc": "deity with the void domain",
         "complexreq": [
@@ -37329,7 +37329,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the water domain",
         "complexreqdesc": "deity with the water domain",
         "complexreq": [
@@ -37375,7 +37375,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the wealth domain",
         "complexreqdesc": "deity with the wealth domain",
         "complexreq": [
@@ -37421,7 +37421,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the wyrmkin domain",
         "complexreqdesc": "deity with the wyrmkin domain",
         "complexreq": [
@@ -37467,7 +37467,7 @@
             "Champion"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the zeal domain",
         "complexreqdesc": "deity with the zeal domain",
         "complexreq": [
@@ -44207,7 +44207,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the abomination domain",
         "complexreqdesc": "deity with the abomination domain",
         "complexreq": [
@@ -44280,7 +44280,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the air domain",
         "complexreqdesc": "deity with the air domain",
         "complexreq": [
@@ -44353,7 +44353,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the ambition domain",
         "complexreqdesc": "deity with the ambition domain",
         "complexreq": [
@@ -44426,7 +44426,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the change domain",
         "complexreqdesc": "deity with the change domain",
         "complexreq": [
@@ -44499,7 +44499,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the cities domain",
         "complexreqdesc": "deity with the cities domain",
         "complexreq": [
@@ -44572,7 +44572,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the cold domain",
         "complexreqdesc": "deity with the cold domain",
         "complexreq": [
@@ -44645,7 +44645,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the confidence domain",
         "complexreqdesc": "deity with the confidence domain",
         "complexreq": [
@@ -44718,7 +44718,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the creation domain",
         "complexreqdesc": "deity with the creation domain",
         "complexreq": [
@@ -44791,7 +44791,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the darkness domain",
         "complexreqdesc": "deity with the darkness domain",
         "complexreq": [
@@ -44864,7 +44864,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the death domain",
         "complexreqdesc": "deity with the death domain",
         "complexreq": [
@@ -44937,7 +44937,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the decay domain",
         "complexreqdesc": "deity with the decay domain",
         "complexreq": [
@@ -45010,7 +45010,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the delirium domain",
         "complexreqdesc": "deity with the delirium domain",
         "complexreq": [
@@ -45083,7 +45083,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the destruction domain",
         "complexreqdesc": "deity with the destruction domain",
         "complexreq": [
@@ -45156,7 +45156,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the dreams domain",
         "complexreqdesc": "deity with the dreams domain",
         "complexreq": [
@@ -45229,7 +45229,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the dust domain",
         "complexreqdesc": "deity with the dust domain",
         "complexreq": [
@@ -45302,7 +45302,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the duty domain",
         "complexreqdesc": "deity with the duty domain",
         "complexreq": [
@@ -45375,7 +45375,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the earth domain",
         "complexreqdesc": "deity with the earth domain",
         "complexreq": [
@@ -45448,7 +45448,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the family domain",
         "complexreqdesc": "deity with the family domain",
         "complexreq": [
@@ -45521,7 +45521,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the fate domain",
         "complexreqdesc": "deity with the fate domain",
         "complexreq": [
@@ -45594,7 +45594,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the fire domain",
         "complexreqdesc": "deity with the fire domain",
         "complexreq": [
@@ -45667,7 +45667,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the freedom domain",
         "complexreqdesc": "deity with the freedom domain",
         "complexreq": [
@@ -45740,7 +45740,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the glyph domain",
         "complexreqdesc": "deity with the glyph domain",
         "complexreq": [
@@ -45813,7 +45813,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the healing domain",
         "complexreqdesc": "deity with the healing domain",
         "complexreq": [
@@ -45886,7 +45886,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the indulgence domain",
         "complexreqdesc": "deity with the indulgence domain",
         "complexreq": [
@@ -45959,7 +45959,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the knowledge domain",
         "complexreqdesc": "deity with the knowledge domain",
         "complexreq": [
@@ -46032,7 +46032,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the lightning domain",
         "complexreqdesc": "deity with the lightning domain",
         "complexreq": [
@@ -46105,7 +46105,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the luck domain",
         "complexreqdesc": "deity with the luck domain",
         "complexreq": [
@@ -46178,7 +46178,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the magic domain",
         "complexreqdesc": "deity with the magic domain",
         "complexreq": [
@@ -46251,7 +46251,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the might domain",
         "complexreqdesc": "deity with the might domain",
         "complexreq": [
@@ -46324,7 +46324,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the moon domain",
         "complexreqdesc": "deity with the moon domain",
         "complexreq": [
@@ -46397,7 +46397,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the naga domain",
         "complexreqdesc": "deity with the naga domain",
         "complexreq": [
@@ -46470,7 +46470,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the nature domain",
         "complexreqdesc": "deity with the nature domain",
         "complexreq": [
@@ -46543,7 +46543,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the nightmares domain",
         "complexreqdesc": "deity with the nightmares domain",
         "complexreq": [
@@ -46616,7 +46616,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the pain domain",
         "complexreqdesc": "deity with the pain domain",
         "complexreq": [
@@ -46689,7 +46689,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the passion domain",
         "complexreqdesc": "deity with the passion domain",
         "complexreq": [
@@ -46762,7 +46762,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the perfection domain",
         "complexreqdesc": "deity with the perfection domain",
         "complexreq": [
@@ -46835,7 +46835,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the plague domain",
         "complexreqdesc": "deity with the plague domain",
         "complexreq": [
@@ -46908,7 +46908,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the protection domain",
         "complexreqdesc": "deity with the protection domain",
         "complexreq": [
@@ -46981,7 +46981,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the repose domain",
         "complexreqdesc": "deity with the repose domain",
         "complexreq": [
@@ -47054,7 +47054,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the secrecy domain",
         "complexreqdesc": "deity with the secrecy domain",
         "complexreq": [
@@ -47127,7 +47127,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the sorrow domain",
         "complexreqdesc": "deity with the sorrow domain",
         "complexreq": [
@@ -47200,7 +47200,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the soul domain",
         "complexreqdesc": "deity with the soul domain",
         "complexreq": [
@@ -47273,7 +47273,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the star domain",
         "complexreqdesc": "deity with the star domain",
         "complexreq": [
@@ -47346,7 +47346,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the sun domain",
         "complexreqdesc": "deity with the sun domain",
         "complexreq": [
@@ -47419,7 +47419,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the swarm domain",
         "complexreqdesc": "deity with the swarm domain",
         "complexreq": [
@@ -47492,7 +47492,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the time domain",
         "complexreqdesc": "deity with the time domain",
         "complexreq": [
@@ -47565,7 +47565,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the toil domain",
         "complexreqdesc": "deity with the toil domain",
         "complexreq": [
@@ -47638,7 +47638,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the travel domain",
         "complexreqdesc": "deity with the travel domain",
         "complexreq": [
@@ -47711,7 +47711,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the trickery domain",
         "complexreqdesc": "deity with the trickery domain",
         "complexreq": [
@@ -47784,7 +47784,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the truth domain",
         "complexreqdesc": "deity with the truth domain",
         "complexreq": [
@@ -47857,7 +47857,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the tyranny domain",
         "complexreqdesc": "deity with the tyranny domain",
         "complexreq": [
@@ -47930,7 +47930,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the undeath domain",
         "complexreqdesc": "deity with the undeath domain",
         "complexreq": [
@@ -48003,7 +48003,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the vigil domain",
         "complexreqdesc": "deity with the vigil domain",
         "complexreq": [
@@ -48076,7 +48076,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the void domain",
         "complexreqdesc": "deity with the void domain",
         "complexreq": [
@@ -48149,7 +48149,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the water domain",
         "complexreqdesc": "deity with the water domain",
         "complexreq": [
@@ -48222,7 +48222,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the wealth domain",
         "complexreqdesc": "deity with the wealth domain",
         "complexreq": [
@@ -48295,7 +48295,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the wyrmkin domain",
         "complexreqdesc": "deity with the wyrmkin domain",
         "complexreq": [
@@ -48368,7 +48368,7 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "Deity_Has_Domain(deity, [this.subType])",
+        "specialreq": "Deity_Has_Domain(deity, [subType])",
         "specialreqdesc": "deity with the zeal domain",
         "complexreqdesc": "deity with the zeal domain",
         "complexreq": [
@@ -51552,7 +51552,7 @@
             "Evocation"
         ],
         "levelreq": 8,
-        "specialreq": "deity && deity.alignment.includes(this.subType)",
+        "specialreq": "deity && deity.alignment.includes(subType)",
         "specialreqdesc": "chaotic deity",
         "complexreqdesc": "chaotic deity",
         "complexreq": [
@@ -51588,7 +51588,7 @@
             "Evocation"
         ],
         "levelreq": 8,
-        "specialreq": "deity && deity.alignment.includes(this.subType)",
+        "specialreq": "deity && deity.alignment.includes(subType)",
         "specialreqdesc": "evil deity",
         "complexreqdesc": "evil deity",
         "complexreq": [
@@ -51624,7 +51624,7 @@
             "Good"
         ],
         "levelreq": 8,
-        "specialreq": "deity && deity.alignment.includes(this.subType)",
+        "specialreq": "deity && deity.alignment.includes(subType)",
         "specialreqdesc": "good deity",
         "complexreqdesc": "good deity",
         "complexreq": [
@@ -51660,7 +51660,7 @@
             "Lawful"
         ],
         "levelreq": 8,
-        "specialreq": "deity && deity.alignment.includes(this.subType)",
+        "specialreq": "deity && deity.alignment.includes(subType)",
         "specialreqdesc": "lawful deity",
         "complexreqdesc": "lawful deity",
         "complexreq": [
