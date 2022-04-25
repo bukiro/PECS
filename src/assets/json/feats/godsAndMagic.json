@@ -258,8 +258,8 @@
             }
         ],
         "specialreq": "deity && deity.divineFont.includes('Heal')",
-        "specialreqdesc": "deity who grants heal divine font",
-        "complexreqdesc": "deity who grants heal divine font",
+        "specialreqdesc": "deity that grants the healing divine font",
+        "complexreqdesc": "deity that grants the healing divine font",
         "complexreq": [
             {
                 "countDeities": [
@@ -302,8 +302,8 @@
             }
         ],
         "specialreq": "deity && deity.divineFont.includes('Harm')",
-        "specialreqdesc": "deity who grants harm divine font",
-        "complexreqdesc": "deity who grants harm divine font",
+        "specialreqdesc": "deity that grants the harmful divine font",
+        "complexreqdesc": "deity that grants the harmful divine font",
         "complexreq": [
             {
                 "countDeities": [

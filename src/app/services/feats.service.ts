@@ -1025,6 +1025,11 @@ export class FeatsService {
                 this.refreshService.set_ToChange(creature.type, 'general');
             }
 
+            //Numb to Death changes needs to update health.
+            if (feat.name == 'Numb to Death') {
+                this.refreshService.set_ToChange(creature.type, 'health');
+            }
+
             //Feats that grant specializations or change proficiencies need to update defense and attacks.
             if (feat.gainSpecialization || feat.copyProficiency.length || feat.changeProficiency.length) {
                 this.refreshService.set_ToChange(creature.type, 'defense');

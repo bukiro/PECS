@@ -302,14 +302,19 @@ export class FeatRequirementsService {
         //Split comma lists into lowercase names and replace certain codewords.
         const subType = feat.subType.toLowerCase();
         function SplitNames(list: string): string[] {
-            return Array.from(new Set(list.toLowerCase().split(',').map(name => {
-                switch (name) {
-                    case 'subtype':
-                        return subType;
-                    default:
-                        return name;
-                }
-            })));
+            return Array.from(new Set(
+                list.toLowerCase()
+                    .split(',')
+                    .map(name => name.trim())
+                    .map(name => {
+                        switch (name) {
+                            case 'subtype':
+                                return subType;
+                            default:
+                                return name;
+                        }
+                    })
+            ));
         }
         function ApplyDefaultQuery(query: FeatRequirements.RequirementBasicQuery, list: string[]) {
             list = list.map(name => name.toLowerCase());

@@ -11202,11 +11202,6 @@
         "gainFeatChoice": [
             {
                 "available": 1,
-                "feats": [
-                    {
-                        "name": "Deadly Simplicity"
-                    }
-                ],
                 "filter": [
                     "Deadly Simplicity"
                 ],
@@ -23188,7 +23183,7 @@
                 "skillLevels": [
                     {
                         "query": {
-                            "anyOfTypes": "Weapon Profiency, Specific Weapon Proficiency"
+                            "anyOfTypes": "Weapon Proficiency, Specific Weapon Proficiency"
                         },
                         "expected": {
                             "isGreaterThan": 2

@@ -633,6 +633,7 @@ export class CharacterService {
         character.class.on_ChangeClass(this);
         character.class = Object.assign<Class, Class>(new Class(), JSON.parse(JSON.stringify($class))).recast(this.typeService, this.itemsService);
         character.class.on_NewClass(this, this.itemsService);
+        this.deitiesService.clear_CharacterDeities();
         this.cacheService.reset_CreatureCache(character.typeId);
         this.refreshService.set_Changed();
     }

@@ -3089,7 +3089,8 @@
                             </span>
                         </div>
                         <div id="choiceArea" class="list-item">
-                            <ng-container *ngFor="let deity of get_AvailableDeities('', true); trackBy:trackByIndex;">
+                            <ng-container
+                                *ngFor="let deity of get_AvailableDeities('', true, syncretismContent.levelNumber); trackBy:trackByIndex;">
                                 <ng-container
                                     *ngFor="let checked of [[finishedDeity, get_Character().class.deity].includes(deity.name)]; trackBy:trackByIndex">
                                     <ng-container
