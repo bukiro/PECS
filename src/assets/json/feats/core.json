@@ -3085,7 +3085,7 @@
                             "havingAnyOfTraits": "Stance"
                         },
                         "expected": {
-                            "isGreaterOrEqual": 2
+                            "isGreaterThan": 1
                         }
                     }
                 ]

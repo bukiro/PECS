@@ -120,9 +120,7 @@ interface RequirementExpectation {
     isFalse?: boolean;
     isEqual?: number;
     isGreaterThan?: number;
-    isGreaterOrEqual?: number;
     isLesserThan?: number;
-    isLesserOrEqual?: number;
 }
 
 export class Feat {
@@ -534,9 +532,7 @@ export class Feat {
                 (expectation.isFalse ? !number : true) &&
                 (expectation.isEqual ? (number === expectation.isEqual) : true) &&
                 (expectation.isGreaterThan ? (number > expectation.isGreaterThan) : true) &&
-                (expectation.isGreaterOrEqual ? (number >= expectation.isGreaterOrEqual) : true) &&
-                (expectation.isLesserThan ? (number < expectation.isLesserThan) : true) &&
-                (expectation.isLesserOrEqual ? (number <= expectation.isLesserOrEqual) : true)
+                (expectation.isLesserThan ? (number < expectation.isLesserThan) : true)
             );
         }
         function DoesNumberListMatchExpectation(numberList: number[], query: RequirementBasicQuery, expectation?: RequirementExpectation): boolean {
@@ -549,9 +545,7 @@ export class Feat {
                     (expectation.isFalse ? numberList.every(number => !number) : true) &&
                     (expectation.isEqual ? numberList.every(number => number === expectation.isEqual) : true) &&
                     (expectation.isGreaterThan ? numberList.every(number => number > expectation.isGreaterThan) : true) &&
-                    (expectation.isGreaterOrEqual ? numberList.every(number => number >= expectation.isGreaterOrEqual) : true) &&
-                    (expectation.isLesserThan ? numberList.every(number => number < expectation.isLesserThan) : true) &&
-                    (expectation.isLesserOrEqual ? numberList.every(number => number <= expectation.isLesserOrEqual) : true)
+                    (expectation.isLesserThan ? numberList.every(number => number < expectation.isLesserThan) : true)
                 );
             } else {
                 if (!expectation) {
@@ -562,9 +556,7 @@ export class Feat {
                     (expectation.isFalse ? numberList.some(number => !number) : true) &&
                     (expectation.isEqual ? numberList.some(number => number === expectation.isEqual) : true) &&
                     (expectation.isGreaterThan ? numberList.some(number => number > expectation.isGreaterThan) : true) &&
-                    (expectation.isGreaterOrEqual ? numberList.some(number => number >= expectation.isGreaterOrEqual) : true) &&
-                    (expectation.isLesserThan ? numberList.some(number => number < expectation.isLesserThan) : true) &&
-                    (expectation.isLesserOrEqual ? numberList.some(number => number <= expectation.isLesserOrEqual) : true)
+                    (expectation.isLesserThan ? numberList.some(number => number < expectation.isLesserThan) : true)
                 );
             }
 
@@ -737,7 +729,6 @@ export class Feat {
                 });
                 complexreq.countClassSpellcastings?.forEach(spellcastingreq => {
                     if (!requirementFailure) {
-
                         let spellCastings = character.class?.spellCasting.filter(casting => !['Innate', 'Focus'].includes(casting.castingType) && casting.charLevelAvailable <= charLevel);
                         if (spellcastingreq.query.beingOfPrimaryClass) {
                             spellCastings = spellCastings.filter(casting => casting.className.toLowerCase() === character.class.name.toLowerCase());
@@ -778,7 +769,6 @@ export class Feat {
                         const traditions = spellreq.query.ofSpellCasting?.havingAnyOfTraditions ? SplitNames(spellreq.query.ofSpellCasting.havingAnyOfTraditions) : [];
                         const allSpells = character.get_SpellsTaken(1, charLevel, { characterService: characterService }, { classNames: classNames, traditions: traditions, castingTypes: castingTypes })
                             .map(spellSet => spellSet.gain.name);
-                        //TODO: add ofMinLevel
                         const queryResult = ApplyDefaultQuery(spellreq.query, allSpells);
                         if (!DoesNumberMatchExpectation(queryResult, spellreq.expected)) {
                             requirementFailure = true;
@@ -934,7 +924,7 @@ export class Feat {
         }
     }
     canChoose(characterService: CharacterService, choiceLevel: number = characterService.get_Character().level, charLevel: number = characterService.get_Character().level, skipLevel = false, ignoreRequirementsList: string[] = []) {
-        //This function evaluates ALL the possible requirements for taking a feat
+        //This function evaluates ALL the possible requirements for taking a feat.
         //Returns true only if all the requirements are true. If the feat doesn't have a requirement, it is always true.
         //CharLevel is the level the character is at when the feat is taken (so the level extracted from choice.id).
         //ChoiceLevel is choice.level and may differ, for example when you take a 1st-level general feat at 8th level via General Training. It is only used for the level requirement.

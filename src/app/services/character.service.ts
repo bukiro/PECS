@@ -2670,9 +2670,10 @@ export class CharacterService {
             this.grant_BasicItems();
             //Create feats that are based on all weapons in the store and in your inventory.
             this.create_WeaponFeats();
-            //Check that every feat's specialreq makes sense. This is a debugging thing and should only run in development.
+            //Check that every feat's specialreq and complexreq makes sense. This is a debugging thing and should only run in development.
             if (isDevMode()) {
                 this.verify_Feats();
+                //Deity's temporary domains may have changed during the testing.
                 this.deitiesService.get_CharacterDeities(this, this.get_Character()).forEach(deity => deity.clear_TemporaryDomains());
             }
             //Set your turn state according to the saved state.
