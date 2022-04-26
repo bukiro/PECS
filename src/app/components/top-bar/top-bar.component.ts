@@ -11,7 +11,6 @@ import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
-import { AppInitService } from 'src/app/core/services/app-init/app-init.service';
 
 @Component({
     selector: 'app-top-bar',
