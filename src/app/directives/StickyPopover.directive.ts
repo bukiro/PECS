@@ -7,7 +7,6 @@ import { NgbPopover, NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 @Directive({
-    // tslint:disable-next-line:directive-selector
     selector: '[stickyPopover]',
     exportAs: 'stickyPopover'
 })
